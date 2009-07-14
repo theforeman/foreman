@@ -1,0 +1,3 @@
+--- 
+:modulepath: /etc/puppet/modules/
+:logfile: /var/log/gini
