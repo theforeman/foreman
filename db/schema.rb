@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090714132448) do
+ActiveRecord::Schema.define(:version => 20090715143858) do
+
+  create_table "architectures", :force => true do |t|
+    t.string   "name",       :limit => 10, :default => "x86_64", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "hosts", :force => true do |t|
     t.string   "mac",             :limit => 17,   :default => "",   :null => false

@@ -1,3 +1,6 @@
 class HostsController < ApplicationController
-  active_scaffold  :hosts
+  active_scaffold  :hosts do |config|
+    config.columns[:architecture].form_ui  = :select
+    columns[:architecture].label = "Arch"
+  end
 end

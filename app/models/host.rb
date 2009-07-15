@@ -1,5 +1,6 @@
 class Host < ActiveRecord::Base
 #class Host < Puppet::Rails::Host
+  belongs_to :architecture
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
