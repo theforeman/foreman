@@ -1,4 +1,5 @@
-class Host < Puppet::Rails::Host
+class Host < ActiveRecord::Base
+#class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
