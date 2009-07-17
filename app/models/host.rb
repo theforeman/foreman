@@ -1,6 +1,8 @@
 class Host < ActiveRecord::Base
 #class Host < Puppet::Rails::Host
   belongs_to :architecture
+  belongs_to :media
+
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
@@ -10,7 +12,7 @@ class Host < ActiveRecord::Base
   validates_length_of      :hostname, :within => 8..16
   validates_format_of      :hostname, :with => /^\w\w\w\w\w..*/
   validates_format_of      :sp_hostname, :with => /^\w\w\w\w\w..*-sp/, :allow_nil => true, :allow_blank => true
-  validates_presence_of    :subnet,:hostname, :hostmode, :deployment, :puppetmaster, :media, :model, :puppetclass, :domain, :gi, :user, :architecture, :last_report
+  validates_presence_of    :hostname, :puppetmaster, :architecture
   validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
   validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
   validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/

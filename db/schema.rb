@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090715143858) do
+ActiveRecord::Schema.define(:version => 20090717025820) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -51,6 +51,12 @@ ActiveRecord::Schema.define(:version => 20090715143858) do
     t.datetime "installed_at"
     t.integer  "puppet_status",                   :default => 0,    :null => false
     t.boolean  "unconfigured",                    :default => true, :null => false
+  end
+
+  create_table "medias", :force => true do |t|
+    t.string   "name",       :limit => 10, :default => "nfs", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

@@ -7,6 +7,7 @@ class Architecture < ActiveRecord::Base
     name
   end 
 
+  private
   def ensure_not_used
     self.hosts.length == 0
   end
