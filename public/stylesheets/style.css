@@ -1,0 +1,172 @@
+body {
+  font-family: Verdana, sans-serif;
+  font-size: medium;
+  color:#484848;
+  margin: 0;
+  padding: 0;
+  min-width: 900px;
+  background-color: #E6DFCF;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+}
+
+h1 {margin:0; padding:0; font-size: 24px;}
+h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
+h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
+h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
+
+th.underlined { 
+  text-decoration: underline 
+}
+a:link, a:visited {
+  color: #507EA1;
+}
+a:active {
+  color: #3082BF;
+}
+
+input { 
+  margin-bottom: 1px;
+}
+p { 
+  line-height: 150%;
+}
+#header {height:4.3em;margin:0;background-color:#406480;color:#E6DFCF;padding: 4px 8px 0px 6px; position:relative;}
+
+#header a {
+  float:right;
+  margin-right: 0.5em;
+  color: #CFDCE6;
+  height:1.8em;
+  font-size: 0.8em;
+}
+
+#header .title {
+  background-color:#406480;
+  color:#E6DFCF;
+  padding-left: 10px;
+  font-variant:small-caps;
+  font-weight: bold;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 115%;
+}
+#header .bigheadletter {color:#E6C373; font-size:130%; font-family: "Trebuchet MS", Verdana, sans-serif; }
+
+#menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px;}
+#menu ul {margin: 0;  padding: 0;}
+#menu li {
+  float:left;
+  list-style-type:none;
+  margin: 0px 2px 0px 0px;
+  white-space:nowrap;
+}
+#menu li a {
+  display: block;
+  float:left;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0;
+  padding: 4px 10px 4px 10px;
+}
+#menu li a:hover {background:#759FCF; color:#fff;}
+#menu li a.selectedmenu, #menu li a.selected:hover {background:#fff; color:#555;}
+
+div#content {
+  float: center;
+  padding: 10px;
+}
+div#content h3 {
+  margin-top: 15px;
+}
+
+div#footer {
+  clear: both;
+  border-top: 1px solid #bbb;
+  font-size: 0.9em;
+  padding: 5px;
+  text-align:center;
+  background: #E6C373;
+  color: #806C40;
+  margin-top: 1em;
+}
+
+#login-form {text-align: center;}
+#login-form table {margin-top:2em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
+#login-form table td {padding: 6px;text-align: center;}
+#login-form label {font-weight: bold;}
+
+
+/***** Flash & error messages ****/
+#errorExplanation, div.flash, .nodata, .warning {
+  padding: 4px 4px 4px 30px;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  border: 2px solid;
+}
+
+div.flash {margin-top: 8px;}
+
+div.flash.error, #errorExplanation {
+  background: url(../images/false.png) 8px 5px no-repeat;
+  background-color: #ffe3e3;
+  border-color: #dd0000;
+  color: #550000;
+}
+
+div.flash.notice {
+  background: url(../images/true.png) 8px 5px no-repeat;
+  background-color: #dfffdf;
+  border-color: #9fcf9f;
+  color: #005f00;
+}
+
+.nodata, .warning {
+  text-align: center;
+  background-color: #FFEBC1;
+  border-color: #FDBF3B;
+  color: #A6750C;
+}
+
+#errorExplanation ul { font-size: 0.9em;}
+
+/* rails error message */
+.error-messages {
+  background: #BC1C3D;
+  border: 1px solid #900024;
+  padding: 15px 30px;
+  color: white;
+  margin-bottom: 20px;
+}
+.error-messages h2 {
+  color: white; margin-top: 0; padding-bottom: 0; font-size: 16px;
+}
+.error-messages li {margin-left: 20px; list-style: square;}
+
+.field-with-errors input, .field-with-errors textarea, .field-with-errors select {border: 2px solid #BC1C3D;}
+
+
+/* Tables */
+#tables table { border-collapse: collapse; border: 1px solid #839E99; 
+  background: #f1f8ee; font: .9em/1.2em Georgia, "Times New Roman", Times, serif; color: #033; }
+#tables caption { font-size: 1.3em; font-weight: bold; text-align: left; padding: 1em 4px; }
+td, th { padding: 3px 3px .75em 3px; line-height: 1.3em; }
+#tables th { background: #839E99; color: #fff; font-weight: bold; text-align: left; padding-right: .5em; vertical-align: top; }
+#tables thead th { background: #2C5755; text-align: center; }
+#tables .odd td { background: #DBE6DD; }
+#tables.odd th { background: #6E8D88; }
+#tables td a, td a:link { color: #325C91; }
+#tables td a:visited { color: #466C8E; }
+#tables td a:hover, td a:focus { color: #1E4C94; }
+#tables th a, td a:active { color: #fff; }
+#tables tfoot th, tfoot td { background: #2C5755; color: #fff; }
+#tables th + td { padding-left: .5em; }
+td.puppet_status-column {width: 80px;}
+
+.fieldWithErrors input.text-input,
+.fieldWithErrors select,
+.fieldWithErrors {
+border: solid 1px #f00;
+}
