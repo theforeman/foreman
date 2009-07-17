@@ -3,16 +3,19 @@ class Host < ActiveRecord::Base
   belongs_to :architecture
   belongs_to :media
 
+  # we originally used name, puppet uses name in its host table
+  # TODO, rename all name to name, this is a workaround for now
+  alias_attribute :hostname, :name 
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
   validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
-  validates_uniqueness_of  :sp_hostname, :sp_ip, :allow_blank => true, :allow_nil => true
-  validates_uniqueness_of  :hostname#, :if => :check_hostname?
-  validates_length_of      :hostname, :within => 8..16
-  validates_format_of      :hostname, :with => /^\w\w\w\w\w..*/
-  validates_format_of      :sp_hostname, :with => /^\w\w\w\w\w..*-sp/, :allow_nil => true, :allow_blank => true
-  validates_presence_of    :hostname, :puppetmaster, :architecture
+  validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
+  validates_uniqueness_of  :name#, :if => :check_name?
+  validates_length_of      :name, :within => 8..16
+  validates_format_of      :name, :with => /^\w\w\w\w\w..*/
+  validates_format_of      :sp_name, :with => /^\w\w\w\w\w..*-sp/, :allow_nil => true, :allow_blank => true
+  validates_presence_of    :name, :puppetmaster, :architecture
   validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
   validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
   validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
@@ -26,7 +29,7 @@ class Host < ActiveRecord::Base
   # Returns the name of this host as a string
   # String: the host's name
   def to_label
-    self.hostname
+    self.name
   end
 
   # Returns the name of this host as a string
@@ -56,7 +59,7 @@ class Host < ActiveRecord::Base
     save
     site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.fullname.downcase}/built.sh"
       if File.executable? site_post_built
-        %x{#{site_post_built} #{self.hostname} >> #{$settings[:logfile]} 2>&1 &}
+        %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
       end
     # This can generate exceptions, so place it at the end of the sequence of operations
     setAutosign
