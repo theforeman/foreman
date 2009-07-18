@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090717031233) do
+ActiveRecord::Schema.define(:version => 20090718013153) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -78,6 +78,18 @@ ActiveRecord::Schema.define(:version => 20090717031233) do
 
   create_table "medias", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "nfs", :null => false
+    t.string   "path"
+    t.integer  "os_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "os", :force => true do |t|
+    t.string   "major",           :limit => 5,  :default => "", :null => false
+    t.string   "name",            :limit => 64
+    t.string   "minor",           :limit => 16
+    t.string   "nameindicator",   :limit => 3
+    t.integer  "architecture_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

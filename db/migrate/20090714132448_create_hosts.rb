@@ -7,8 +7,8 @@ class CreateHosts < ActiveRecord::Migration
       t.integer  "domain_id",                                               :null => false
       t.integer  "architecture_id",                                         :null => false
       t.integer  "user_id",                                                 :null => false
-      t.integer  "edit_by_id",                                              :null => false
-      t.integer  "gi_id",                                                   :null => false
+      t.integer  "last_updated_by_id",                                      :null => false
+      t.integer  "os_id",                                                   :null => false
       t.integer  "media_id",                                                :null => false
       t.datetime "created_at"
       t.datetime "updated_at"
