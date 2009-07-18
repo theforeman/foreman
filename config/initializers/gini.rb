@@ -10,3 +10,15 @@ class NilClass
   end
 end
 
+class ActiveRecord::Base
+  private
+  def ensure_not_used
+    self.hosts.each do |host|
+      errors.add_to_base number + " is used by " + host.hostname
+    end
+    raise ApplicationController::InvalidDeleteError.new, errors.full_messages.join("<br>") unless errors.empty?
+    true
+  end
+end
+
+

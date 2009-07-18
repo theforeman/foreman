@@ -2,6 +2,7 @@ class Host < ActiveRecord::Base
 #class Host < Puppet::Rails::Host
   belongs_to :architecture
   belongs_to :media
+  belongs_to :domain
 
   # we originally used name, puppet uses name in its host table
   # TODO, rename all name to name, this is a workaround for now

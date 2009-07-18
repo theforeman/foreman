@@ -9,10 +9,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090718013153) do
+ActiveRecord::Schema.define(:version => 20090718060746) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "domains", :force => true do |t|
+    t.string   "name",                     :default => "", :null => false
+    t.string   "dnsserver"
+    t.string   "gateway",    :limit => 40
+    t.string   "fullname",   :limit => 32
     t.datetime "created_at"
     t.datetime "updated_at"
   end

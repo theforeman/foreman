@@ -20,16 +20,4 @@ class Os < ActiveRecord::Base
       to_label
     end
 
-    private
-    # This is a before_destroy callback that ensures that the operatingsystem is
-    # not removed if any host is currently using it.
-    # It will populate self.errors with a list of hosts using this operatingsystem
-    # Returns: True if no host uses this goldimage
-    def ensure_not_used
-      self.hosts.each do |host|
-        errors.add_to_base number + " is used by " + host.name
-      end
-      raise ApplicationController::InvalidDeleteError.new, errors.full_messages.join("<br>") unless errors.empty?
-      true
-    end
 end
