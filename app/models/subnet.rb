@@ -2,12 +2,12 @@ class Subnet < ActiveRecord::Base
   has_many :hosts, :foreign_key => "subnet_id"
   has_many :sps, :class_name => "Hosts", :foreign_key => "sp_subnet_id"
   belongs_to :domain
-  validates_presence_of   :number, :mask, :domain
+  validates_presence_of   :number, :mask
   validates_uniqueness_of :number
   validates_format_of     :number,     :with => /(\d{1,3}\.){3}\d{1,3}/, :message => "self.number is invalid"
   validates_format_of     :mask,       :with => /(\d{1,3}\.){3}\d{1,3}/
-  validate_on_create      :must_be_unique_per_site
   validates_uniqueness_of :name, :scope => :domain_id
+  validates_associated :domain
 
   before_destroy :ensure_not_used
 

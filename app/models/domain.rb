@@ -5,11 +5,12 @@ class Domain < ActiveRecord::Base
   validates_presence_of :dnsserver, :message => "Must specificy a DNS Server for your Site"
   validates_format_of   :dnsserver, :with => /^\S+$/, :message => "Name cannot contain spaces"
   validates_format_of   :gateway,   :with => /^\S+$/, :message => "Name cannot contain spaces"
+  validates_presence_of :name, :fullname
 
   before_destroy :ensure_not_used
 
   def to_label
-    name.upcase
+    name
   end
 
   def to_s

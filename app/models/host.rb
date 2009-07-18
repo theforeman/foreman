@@ -3,27 +3,27 @@ class Host < ActiveRecord::Base
   belongs_to :architecture
   belongs_to :media
   belongs_to :domain
+  belongs_to :os
+  belongs_to :subnet, :foreign_key => "subnet_id"
 
-  # we originally used name, puppet uses name in its host table
-  # TODO, rename all name to name, this is a workaround for now
+  # we originally used hostname, puppet uses name in its host table
+  # TODO, rename all hostname to name, this is a workaround for now
   alias_attribute :hostname, :name 
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
   validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
   validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
-  validates_uniqueness_of  :name#, :if => :check_name?
-  validates_length_of      :name, :within => 8..16
-  validates_format_of      :name, :with => /^\w\w\w\w\w..*/
-  validates_format_of      :sp_name, :with => /^\w\w\w\w\w..*-sp/, :allow_nil => true, :allow_blank => true
-  validates_presence_of    :name, :puppetmaster, :architecture
+  validates_uniqueness_of  :name
+  validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
+  validates_presence_of    :name, :architecture
   validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
   validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
   validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
   validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
   validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
   validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
-#  validates_associated     :domain, :gi,  :architecture, :model, :subnet,:media, :user, :deployment
+  validates_associated     :domain, :os,  :architecture, :subnet,:media#, :user, :deployment, :model
 
   before_validation :normalize_addresses
 
@@ -67,8 +67,19 @@ class Host < ActiveRecord::Base
   end
 
 
+
+  # sets basic default values
+  def after_initialize
+    self.architecture ||= Architecture.first
+    self.os ||= Os.first
+    self.media ||= Media.first
+    self.domain ||= Domain.first
+    self.build ||= true
+    self.user_id = self.last_updated_by_id = 0
+    self.root_pass = "mysecret"
+  end
+
   private
-  
   # align common mac and ip address input
   def normalize_addresses
     [mac,sp_mac].each do |m|
