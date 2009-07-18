@@ -28,9 +28,9 @@ class UnattendedController < ApplicationController
     @host = Host.find(:first, :include => [:architecture, :media, :os, :domain], :conditions => conditions)
     if @host.nil?
       logger.info "#{controller_name}: unable to find #{ip}#{(" "+mac) unless mac.nil?}"
-      head(:not_found) if @host.nil?
+      head(:not_found) if @host.nil? and return
     else
-      logger.info "#{controller_name}: sent kickstart to #{ip}"
+      logger.info "#{controller_name}: Kickstart host #{@host.name}"
     end
   end
 

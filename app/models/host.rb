@@ -25,7 +25,7 @@ class Host < ActiveRecord::Base
   validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
   validates_associated     :domain, :os,  :architecture, :subnet,:media#, :user, :deployment, :model
 
-  before_validation :normalize_addresses
+  before_validation :normalize_macaddresses
 
   # Returns the name of this host as a string
   # String: the host's name
@@ -54,7 +54,6 @@ class Host < ActiveRecord::Base
   def built
     self.build = false
     self.installed_at = Time.now.utc
-    setBootLink
     clearReports
     clearFacts
     save
@@ -66,7 +65,15 @@ class Host < ActiveRecord::Base
     setAutosign
   end
 
+  # no need to store anything in the db if the entry is plain "puppet"
+  def puppetmaster
+    self.read_attribute(:puppetmaster) || "puppet"
+  end
 
+  # no need to store anything in the db if the password is our default
+  def root_pass
+    self.read_attribute(:root_pass) || "my default password"
+  end
 
   # sets basic default values
   def after_initialize
@@ -76,12 +83,11 @@ class Host < ActiveRecord::Base
     self.domain ||= Domain.first
     self.build ||= true
     self.user_id = self.last_updated_by_id = 0
-    self.root_pass = "mysecret"
   end
 
   private
   # align common mac and ip address input
-  def normalize_addresses
+  def normalize_macaddresses
     [mac,sp_mac].each do |m|
       unless m.empty?
         m.downcase!
