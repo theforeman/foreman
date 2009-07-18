@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090718060746) do
+ActiveRecord::Schema.define(:version => 20090718064254) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -99,6 +99,19 @@ ActiveRecord::Schema.define(:version => 20090718060746) do
     t.string   "minor",           :limit => 16
     t.string   "nameindicator",   :limit => 3
     t.integer  "architecture_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subnets", :force => true do |t|
+    t.string   "number",     :limit => 15
+    t.string   "mask",       :limit => 15
+    t.integer  "domain_id"
+    t.integer  "priority"
+    t.string   "ranges",     :limit => 512
+    t.text     "name"
+    t.integer  "dhcp_id"
+    t.string   "vlanid",     :limit => 10
     t.datetime "created_at"
     t.datetime "updated_at"
   end
