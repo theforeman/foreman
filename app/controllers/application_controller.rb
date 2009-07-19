@@ -9,4 +9,11 @@ class ApplicationController < ActionController::Base
   
   # standard layout to all controllers
   layout 'standard'
+
+  def self.active_scaffold_controller_for(klass)
+    return FactNamesController if klass == Puppet::Rails::FactName
+    return FactValuesController if klass == Puppet::Rails::FactValue
+    return HostsController if klass == Puppet::Rails::Host
+    return "#{klass}ScaffoldController".constantize rescue super
+  end
 end

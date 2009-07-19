@@ -1,0 +1,2 @@
+module FactNamesHelper
+end
