@@ -1,6 +1,7 @@
-require 'puppet'
+require 'puppet/rails'
 require "#{RAILS_ROOT}/vendor/gateway/gateway.rb"
 
+$GINIHOST = Facter.fqdn
 # import settings file
 $settings = YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?

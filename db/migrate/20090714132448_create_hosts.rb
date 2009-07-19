@@ -1,9 +1,10 @@
 class CreateHosts < ActiveRecord::Migration
   def self.up
+    #TODO: create a migration if puppets database already exists!
     create_table :hosts do |t|
       t.string   "mac",             :limit => 17,   :default => ""
       t.string   "ip",              :limit => 15,   :default => ""
-      t.string   "root_pass",       :limit => 64,   :default => ""
+      t.string   "root_pass",       :limit => 64
       t.integer  "domain_id"
       t.integer  "architecture_id"
       t.integer  "user_id"
@@ -12,11 +13,11 @@ class CreateHosts < ActiveRecord::Migration
       t.integer  "media_id"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.boolean  "build",                           :default => true
-      t.string   "serial",          :limit => 12,   :default => ""
+      t.boolean  "build",           :default => true
+      t.string   "serial",          :limit => 12
       t.integer  "model_id"
-      t.integer  "subnet_id",                       :default => 0
-      t.integer  "environment_id",                  :default => 3
+      t.integer  "subnet_id"
+      t.integer  "environment_id"
       t.text     "comment"
       t.text     "disk"
       t.string   "puppetmaster"                         
@@ -29,8 +30,8 @@ class CreateHosts < ActiveRecord::Migration
       t.integer  "deployment_id"
       t.integer  "ptable_id"
       t.datetime "installed_at"
-      t.integer  "puppet_status",                   :default => 0
-      t.boolean  "unconfigured",                    :default => true
+      t.integer  "puppet_status"
+      t.boolean  "unconfigured",    :default => true
 
       #compatibility to existing puppet schema
       t.string :name, :null => false

@@ -1,14 +1,19 @@
 class UnattendedController < ApplicationController
+  layout nil
   before_filter :get_host_details
 
   def kickstart
-    render :text => "Kickstart" if @host
   end
 
   def jumpstart
   end
 
   def preseed
+  end
+
+  def built
+    @host.built
+    head(:created) and return
   end
 
   private

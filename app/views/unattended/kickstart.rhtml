@@ -1,0 +1,215 @@
+install
+<%= @host.media.path %>
+lang en_US.UTF-8
+<%= "langsupport --default en_US.UTF-8 en_GB.UTF-8 en_US.UTF-8" if @host.os.major != "5" -%>
+<%= "mouse generic3usb --device input/mice" if @host.os.major == "2" -%>
+<%= "selinux --disabled" if @host.os.major != "2" -%>
+keyboard us
+skipx
+network --device eth0 --bootproto dhcp
+rootpw --iscrypted <%= @host.root_pass %>
+firewall --disabled
+authconfig --useshadow --enablemd5 <%= @host.os.major != "2" and @host.os.major != "4" ? '--disablenis' : '' %>
+timezone <%= @host.os.major == "5" ? 'Europe/London' : 'UTC' %>
+<% if @port -%>
+bootloader --location=mbr --append="nofb quiet splash=quiet console=ttyS<%=@port%>,<%=@baud%>" --md5pass=<%= @grub_pass %>
+<% else -%>
+bootloader --location=mbr --append="nofb quiet rhgb splash=quiet" --md5pass=<%= @grub_pass %>
+<% end -%>
+<% if @dynamic -%>
+%include /tmp/diskpart.cfg
+<% else -%>
+zerombr yes
+clearpart --all --initlabel
+<%#= @host.diskLayout -%>
+<% end -%>
+skipx
+text
+reboot
+
+%packages <% if @host.os.major != "5" %> --resolvedeps <% end %>
+ntp
+<% if @host.os.major == "5" -%>
+@core
+@base
+@ruby
+<% elsif @host.os.major == "4" -%>
+device-mapper-multipath
+<% elsif @host.os.major == "2" and @arch == "i386" -%>
+ethereal
+<% end -%>
+curl
+<% if @dynamic -%>
+%pre
+<%#= @diskLayout %>
+<% end -%>
+
+%post
+#changing to VT 3 that we can see whats going on....
+/usr/bin/chvt 3
+#update local time
+echo "updating system time"
+/usr/sbin/ntpdate -sub ntp
+/usr/sbin/hwclock --systohc
+
+logger "Starting anaconda <%= @host.name -%> postinstall"
+
+# update all the base packages from the updates repository
+yum -t -y -e 0 --enablerepo addons upgrade
+
+# and add the puppet and ruby-shadow package
+yum -t -y -e 0 --enablerepo addons install puppet
+
+# Activate some desirable puppet features
+echo "Configuring puppet"
+cat > /etc/puppet/puppet.conf << EOF
+[main]
+    vardir = /var/lib/puppet
+    logdir = /var/log/puppet
+    rundir = /var/run/puppet
+    ssldir = \$vardir/ssl
+    pluginsource = puppet://\$server/plugins
+    environments = <%= @host.environment %>
+
+[puppetd]
+    factsync = true
+    report = true
+    ignoreschedules = true
+    daemon = false
+    certname = <%= @host.fqdn %>
+    environment = <%= @host.environment %>
+    server = <%= @host.puppetmaster %>
+EOF
+
+# The puppet service will not start without this file unless it is in test/debug mode. Its contents are updated later in the build process.
+/bin/touch /etc/puppet/namespaceauth.conf
+
+# Setup puppet to run on system reboot
+/sbin/chkconfig --level 345 puppet on
+
+# replaces puppet default init script, from some reason it ignores the -o (one time) and the no
+# daemon option in the config file, an updated file will be replaced during the puppet run
+
+cat > /etc/init.d/puppet << EOF
+#!/bin/bash
+# chkconfig: - 98 02
+#
+# description: puppet client bootstrap
+# processname: puppet
+# config: /etc/puppet/puppet.conf
+
+
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --ignoreschedules true --server=<%= @host.puppetmaster %> > /tmp/puppet.log 2>&1
+EOF
+chmod +x /etc/init.d/puppet
+
+
+# Disable autofs. Puppet starts it after reconfiguring it correctly
+echo "Disabling various system services"
+/sbin/chkconfig --level 345 autofs off
+
+# Disable most things. Puppet will activate these if required.
+<% %w{gpm sendmail cups iptables ip6tables auditd arptables_jf xfs pcmcia isdn rawdevices hpoj bluetooth openibd avahi-daemon avahi-dnsconfd hidd hplip pcscd restorecond mcstrans rhnsd yum-updatesd}.each do |service| -%>
+  /sbin/chkconfig --level 345 <%= service %> off 2>/dev/null
+<% end -%>
+
+echo "Obtaining the puppet certificates"
+
+# This first puppet run creates the client's ssl datastructures.
+# It cannot connect until it has its rootCA bundle applied
+
+# OK. Lets clarify, for non-puppetmasters this is the sequence
+# 1) puppetmaster MUST have autosign or pre-created certificates
+# 2) puppet negotiates its own key via raw tcp
+# 3) receives its own signed certificate + the CA certificate
+# 4) opens an SSL connection but this fails.
+# 5) Updates its CA bundle with the rootCA pem
+# 6) further attempts, after the reboot, will succeed
+# Note that puppetmasters will succeed at step 4 so we add
+# a --tags no_such_tag to make it skip the run
+
+# A client's master can be configured in its txt record but falls back to "puppet" if
+# an entry 'puppetmaster=string' is not present
+
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
+sync
+# We need a mechanism for propagating the CA root certificate.
+# We use kickstart because this needs to be in place before
+# puppet will work.
+
+# This is the CA for vihla005. It is self signed.
+echo "<%= $settings[:CAPubKey] %>" >> /var/lib/puppet/ssl/certs/ca.pem
+sync
+count=`grep -- "--END" /var/lib/puppet/ssl/certs/ca.pem|wc -l`
+echo "Updated the certificate chain. There are now $count certificates"
+
+# We now have valid puppet certificates so we can communicate securely
+
+# Deal with vmware install here as it cannot be done under puppet
+# The vmware configuration disconnects the puppetmaster and kernel modules need updating
+if dmidecode | grep -qi VMware
+then
+	echo "Installing vmware support services"
+	# This arranges for vmware-config-tools.pl to be run on first bootup,
+	# after any new kernel but before the network has been initialised
+	yum -t -y -e 0 --enablerepo addons install VMwareTools <%= @host.os.major == "5" ? "kernel-devel gcc" : "" %>
+	cat <<-\EOF >/etc/init.d/vmware-config-tools
+	#!/bin/sh
+	# Author:       Paul Kelly - Paul.Kelly@Infineon.com
+	#
+	# chkconfig: 2345 01 99
+	# description:  Checks and configures vmware tools
+
+	# Source function library.
+	. /etc/init.d/functions
+
+	# If the module exists then it must have been compiled aginst this kernel and should therefore load
+	start() {
+	    if [ ! -e /lib/modules/`uname -r`/misc/vmhgfs.<%= @host.os.major == "2" ? "o" : "ko" -%> ]
+	    then
+	        action $"Configuring vmware tools: " /usr/bin/vmware-config-tools.pl -d
+	    fi
+	    touch /var/lock/subsys/vmware-config-tools
+	}
+
+	stop() {
+	    rm -f /var/lock/subsys/vmware-config-tools
+	}
+	# See how we were called.
+	case "$1" in
+	start)
+	    start
+	    ;;
+	stop)
+	    stop
+	    ;;
+	status)
+	    if [ -e /var/lock/subsys/vmware-config-tools ]; then
+	        echo $"Vmware configuration has been checked."
+			exit 1
+	    else
+	        echo $"Vmware configuration has not been checked."
+	    fi
+	    ;;
+	restart|reload)
+	    stop
+	    start
+	    ;;
+	*)
+	    # do not advertise unreasonable commands that there is no reason
+	    # to use with this device
+	    echo $"Usage: $0 {start|stop|status|restart|reload}"
+	    exit 1
+	esac
+
+	exit 0
+	EOF
+	chmod 755 /etc/init.d/vmware-config-tools
+	chkconfig --add vmware-config-tools
+fi
+
+# Inform the build system that we are done.
+echo "Informing Gini that we are built"
+curl -q -s -o /dev/null https://<%= $GINIHOST %>/unattended/built
+curl -q -s -o /dev/null http://<%= $GINIHOST %>:3000/unattended/built
+exit 0

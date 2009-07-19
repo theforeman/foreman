@@ -1,5 +1,4 @@
-class Host < ActiveRecord::Base
-#class Host < Puppet::Rails::Host
+class Host < Puppet::Rails::Host
   belongs_to :architecture
   belongs_to :media
   belongs_to :domain
@@ -39,9 +38,9 @@ class Host < ActiveRecord::Base
     self.to_label
   end
 
-  def cleanReports
+  def clearReports
     # Remove any reports that may be held against this host
-    self.reports.each{|report| report.destroy}
+    # self.reports.each{|report| report.destroy}
   end
 
   def clearFacts
@@ -62,7 +61,7 @@ class Host < ActiveRecord::Base
         %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
       end
     # This can generate exceptions, so place it at the end of the sequence of operations
-    setAutosign
+    #setAutosign
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
@@ -83,6 +82,10 @@ class Host < ActiveRecord::Base
     self.domain ||= Domain.first
     self.build ||= true
     self.user_id = self.last_updated_by_id = 0
+  end
+
+  def fqdn
+    "#{self.name}.#{self.domain.name}"
   end
 
   private
