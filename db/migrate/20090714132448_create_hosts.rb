@@ -1,22 +1,22 @@
 class CreateHosts < ActiveRecord::Migration
   def self.up
     create_table :hosts do |t|
-      t.string   "mac",             :limit => 17,   :default => "",         :null => false
-      t.string   "ip",              :limit => 15,   :default => "",         :null => false
-      t.string   "root_pass",       :limit => 64,   :default => "",         :null => false
-      t.integer  "domain_id",                                               :null => false
-      t.integer  "architecture_id",                                         :null => false
-      t.integer  "user_id",                                                 :null => false
-      t.integer  "last_updated_by_id",                                      :null => false
-      t.integer  "os_id",                                                   :null => false
-      t.integer  "media_id",                                                :null => false
+      t.string   "mac",             :limit => 17,   :default => ""
+      t.string   "ip",              :limit => 15,   :default => ""
+      t.string   "root_pass",       :limit => 64,   :default => ""
+      t.integer  "domain_id"
+      t.integer  "architecture_id"
+      t.integer  "user_id"
+      t.integer  "last_updated_by_id"
+      t.integer  "os_id"
+      t.integer  "media_id"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.boolean  "build",                           :default => true,       :null => false
-      t.string   "serial",          :limit => 12,   :default => "",         :null => false
+      t.boolean  "build",                           :default => true
+      t.string   "serial",          :limit => 12,   :default => ""
       t.integer  "model_id"
-      t.integer  "subnet_id",                       :default => 0,          :null => false
-      t.integer  "environment_id",                  :default => 3,          :null => false
+      t.integer  "subnet_id",                       :default => 0
+      t.integer  "environment_id",                  :default => 3
       t.text     "comment"
       t.text     "disk"
       t.string   "puppetmaster"                         
@@ -29,8 +29,8 @@ class CreateHosts < ActiveRecord::Migration
       t.integer  "deployment_id"
       t.integer  "ptable_id"
       t.datetime "installed_at"
-      t.integer  "puppet_status",                   :default => 0,          :null => false
-      t.boolean  "unconfigured",                    :default => true,       :null => false
+      t.integer  "puppet_status",                   :default => 0
+      t.boolean  "unconfigured",                    :default => true
 
       #compatibility to existing puppet schema
       t.string :name, :null => false
