@@ -2,7 +2,7 @@ class Host < Puppet::Rails::Host
   belongs_to :architecture
   belongs_to :media
   belongs_to :domain
-  belongs_to :os
+  belongs_to :operatingsystem
   belongs_to :subnet, :foreign_key => "subnet_id"
 
   # we originally used hostname, puppet uses name in its host table
@@ -22,7 +22,7 @@ class Host < Puppet::Rails::Host
   validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
   validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
   validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
-  validates_associated     :domain, :os,  :architecture, :subnet,:media#, :user, :deployment, :model
+  validates_associated     :domain, :operatingsystem,  :architecture, :subnet,:media#, :user, :deployment, :model
 
   before_validation :normalize_macaddresses
 
@@ -77,15 +77,20 @@ class Host < Puppet::Rails::Host
   # sets basic default values
   def after_initialize
     self.architecture ||= Architecture.first
-    self.os ||= Os.first
+    self.operatingsystem ||= Operatingsystem.first
     self.media ||= Media.first
     self.domain ||= Domain.first
     self.build ||= true
-    self.user_id = self.last_updated_by_id = 0
   end
 
   def fqdn
     "#{self.name}.#{self.domain.name}"
+  end
+
+  # returns the host correct disk layout, custom or common
+  def diskLayout
+    @host.disk
+    #@host.disk.empty? ? @host.ptable.body : @host.disk
   end
 
   private

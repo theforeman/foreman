@@ -1,4 +1,4 @@
-require 'puppet/rails'
+require 'puppet'
 require "#{RAILS_ROOT}/vendor/gateway/gateway.rb"
 
 $GINIHOST = Facter.fqdn
