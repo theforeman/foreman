@@ -17,7 +17,6 @@ class CreateHosts < ActiveRecord::Migration
     add_column :hosts, :domain_id, :integer
     add_column :hosts, :architecture_id, :integer
     add_column :hosts, :operatingsystem_id, :integer
-    add_column :hosts, :media_id, :integer
     add_column :hosts, :subnet_id, :integer
     add_column :hosts, :sp_subnet_id, :integer
     add_column :hosts, :ptable_id, :integer

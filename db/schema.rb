@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(:version => 20090720134126) do
     t.integer  "domain_id"
     t.integer  "architecture_id"
     t.integer  "operatingsystem_id"
-    t.integer  "media_id"
     t.integer  "subnet_id"
     t.integer  "sp_subnet_id"
     t.integer  "ptable_id"
@@ -80,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20090720134126) do
   add_index "hosts", ["source_file_id"], :name => "index_hosts_on_source_file_id"
 
   create_table "medias", :force => true do |t|
-    t.string   "name",               :limit => 10, :default => "nfs", :null => false
+    t.string   "name",               :limit => 10, :default => "", :null => false
     t.string   "path"
     t.integer  "operatingsystem_id"
     t.datetime "created_at"

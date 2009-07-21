@@ -3,8 +3,8 @@ class UnattendedController < ApplicationController
   before_filter :get_host_details
 
   def kickstart
+    logger.info "#{controller_name}: Kickstart host #{@host.name}"
     @osver = @host.operatingsystem.major
-    @mediapath = @host.media.path
     @arch = @host.architecture.name
     @diskLayout = @host.disk
   end
@@ -16,6 +16,7 @@ class UnattendedController < ApplicationController
   end
 
   def built
+    logger.info "#{controller_name}: #{@host.name} is Built!"
     @host.built
     head(:created) and return
   end
@@ -38,8 +39,6 @@ class UnattendedController < ApplicationController
     if @host.nil?
       logger.info "#{controller_name}: unable to find #{ip}#{"/"+mac unless mac.nil?}"
       head(:not_found) and return
-    else
-      logger.info "#{controller_name}: Kickstart host #{@host.name}"
     end
   end
 
