@@ -17,6 +17,11 @@ ActiveRecord::Schema.define(:version => 20090720134126) do
     t.datetime "updated_at"
   end
 
+  create_table "architectures_operatingsystems", :id => false, :force => true do |t|
+    t.integer "architecture_id",    :null => false
+    t.integer "operatingsystem_id", :null => false
+  end
+
   create_table "domains", :force => true do |t|
     t.string   "name",                     :default => "", :null => false
     t.string   "dnsserver"
