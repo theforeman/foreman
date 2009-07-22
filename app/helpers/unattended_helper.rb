@@ -1,6 +1,6 @@
 module UnattendedHelper
   def mediapath
-    helper =  @host.media.path.split(":")
+    helper =  @host.media.path+"/#{@host.architecture}".split(":")
     return helper[0] =~ /^(h|f)t*p$/ ? "url --url #{@host.media.path}" : "nfs --server #{helper[0]} --dir #{helper[1]}"
   end
 

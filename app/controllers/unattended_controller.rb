@@ -22,6 +22,10 @@ class UnattendedController < ApplicationController
   end
 
   private
+  # lookup for a host based on the ip address and if possible by a mac address(as sent by anaconda)
+  # if the host was found than its record will be in @host
+  # if the host doesn't exists, it will return 404 and the requested method will not be reached.
+
   def get_host_details
     # find out ip info
     if params.has_key? "spoof"
