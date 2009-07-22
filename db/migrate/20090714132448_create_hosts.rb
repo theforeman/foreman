@@ -1,6 +1,12 @@
 class CreateHosts < ActiveRecord::Migration
   def self.up
     #TODO: create a migration if puppets database already exists!
+    unless Host.table_exists?
+      require 'puppet/rails/database/schema'
+      Puppet::Rails::Schema.init
+      Puppet::Rails.migrate()
+    end
+
     require 'puppet/rails/database/schema'
     Puppet::Rails::Schema.init
     Puppet::Rails.migrate()
