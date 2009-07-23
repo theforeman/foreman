@@ -1,8 +1,7 @@
 class HostsController < ApplicationController
   active_scaffold  :host do |config|
-    config.list.columns = [:name, :operatingsystem, :architecture, :last_compile ]
+    config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
     config.columns = %w{ name ip mac hosttype operatingsystem environment architecture media domain model subnet root_pass serial puppetmaster disk comment}
-#    config.columns.exclude :fact_names, :fact_values, :resources, :source_file
     config.columns[:architecture].form_ui  = :select
     config.columns[:media].form_ui  = :select
     config.columns[:model].form_ui  = :select
@@ -11,7 +10,7 @@ class HostsController < ApplicationController
     config.columns[:hosttype].form_ui  = :select
     config.columns[:environment].form_ui  = :select
     config.columns[:operatingsystem].form_ui  = :select
-    columns[:architecture].label = "Arch"
+    config.columns[:fact_values].association.reverse = :host
   end
 
   def externalNodes
@@ -24,9 +23,9 @@ class HostsController < ApplicationController
     param = {}
     param[:puppetmaster] = host.puppetmaster
     param[:longsitename] = host.domain.fullname
-    param[:hostmode] = host.environment
+    param[:hostmode] = host.environment.name
     puppetclasses = []
-    puppetclasses << "common"
+    puppetclasses << host.hosttype.name
     render :text => Hash['classes' => puppetclasses, 'parameters' => param].to_yaml and return
   end
 end
