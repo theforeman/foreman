@@ -4,3 +4,6 @@
 [submodule "vendor/plugins/render_component"]
 	path = vendor/plugins/render_component
 	url = git://github.com/lackac/render_component.git
+[submodule "vendor/plugins/nested_has_many_through"]
+	path = vendor/plugins/nested_has_many_through
+	url = git://github.com/ianwhite/nested_has_many_through.git

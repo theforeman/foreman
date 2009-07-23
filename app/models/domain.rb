@@ -1,6 +1,7 @@
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
   has_many :hosts
+  has_many :subnets
   validates_uniqueness_of  :name, :fullname
   validates_presence_of :dnsserver, :message => "Must specificy a DNS Server for your Site"
   validates_format_of   :dnsserver, :with => /^\S+$/, :message => "Name cannot contain spaces"

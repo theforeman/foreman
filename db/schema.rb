@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090720134126) do
+ActiveRecord::Schema.define(:version => 20090722141246) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -29,6 +29,18 @@ ActiveRecord::Schema.define(:version => 20090720134126) do
     t.string   "fullname",   :limit => 32
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "environments", :force => true do |t|
+    t.string   "name",        :null => false
+    t.integer  "hosttype_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "environments_hosttypes", :id => false, :force => true do |t|
+    t.integer "hosttype_id",    :null => false
+    t.integer "environment_id", :null => false
   end
 
   create_table "fact_names", :force => true do |t|
@@ -71,22 +83,45 @@ ActiveRecord::Schema.define(:version => 20090720134126) do
     t.integer  "domain_id"
     t.integer  "architecture_id"
     t.integer  "operatingsystem_id"
+    t.integer  "environment_id"
     t.integer  "subnet_id"
     t.integer  "sp_subnet_id"
     t.integer  "ptable_id"
+    t.integer  "hosttype_id"
+    t.integer  "media_id"
     t.boolean  "build",                            :default => true
     t.text     "comment"
     t.text     "disk"
     t.datetime "installed_at"
+    t.integer  "model_id"
   end
 
   add_index "hosts", ["name"], :name => "index_hosts_on_name"
   add_index "hosts", ["source_file_id"], :name => "index_hosts_on_source_file_id"
 
+  create_table "hosttypes", :force => true do |t|
+    t.string   "name",          :limit => 32, :null => false
+    t.string   "nameindicator", :limit => 3
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "hosttypes_operatingsystems", :id => false, :force => true do |t|
+    t.integer "hosttype_id",        :null => false
+    t.integer "operatingsystem_id", :null => false
+  end
+
   create_table "medias", :force => true do |t|
     t.string   "name",               :limit => 10, :default => "", :null => false
     t.string   "path"
     t.integer  "operatingsystem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "models", :force => true do |t|
+    t.string   "name",       :limit => 64, :null => false
+    t.text     "info"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

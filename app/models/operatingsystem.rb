@@ -1,7 +1,8 @@
 class Operatingsystem < ActiveRecord::Base
-  has_many :hosts
+  has_many :hosts, :through => :hosttypes
   has_many :medias
   has_and_belongs_to_many :architectures
+  has_and_belongs_to_many :hosttypes
   validates_presence_of :major, :message => "Operating System version is required"
   validates_presence_of :name
 

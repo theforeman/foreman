@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :hosttypes
+
+  map.resources :environments
+
   map.connect "/hosts/externalNodes", :controller => 'hosts', :action => 'externalNodes'
   map.resources :hosts
 

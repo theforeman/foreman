@@ -1,6 +1,6 @@
 class Subnet < ActiveRecord::Base
-  has_many :hosts, :foreign_key => "subnet_id"
-  has_many :sps, :class_name => "Hosts", :foreign_key => "sp_subnet_id"
+  has_many :hosts, :through => :domain
+  has_many :sps, :through => :hosts
   belongs_to :domain
   validates_presence_of   :number, :mask
   validates_uniqueness_of :number

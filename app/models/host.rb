@@ -1,9 +1,12 @@
 class Host < Puppet::Rails::Host
   belongs_to :architecture
   belongs_to :media
+  belongs_to :model
   belongs_to :domain
   belongs_to :operatingsystem
-  belongs_to :subnet, :foreign_key => "subnet_id"
+  belongs_to :hosttype
+  belongs_to :environment
+  belongs_to :subnet
 
   # we originally used hostname, puppet uses name in its host table
   # TODO, rename all hostname to name, this is a workaround for now
