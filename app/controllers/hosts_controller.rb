@@ -11,6 +11,7 @@ class HostsController < ApplicationController
     config.columns[:environment].form_ui  = :select
     config.columns[:operatingsystem].form_ui  = :select
     config.columns[:fact_values].association.reverse = :host
+    config.nested.add_link("Inventory", [:fact_values])
   end
 
   def externalNodes
