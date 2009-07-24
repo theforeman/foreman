@@ -11,11 +11,11 @@ rake db:migrate
 ./script/server -e production
 
 the following URLs might be intersting:
-http://localhost:3000/hosts for really basic webgui
+http://localhost:3000/ for really basic webgui
 http://localhost:3000/unattended/kickstart will return a kickstart file for the relevant machine
 http://localhost:3000/hosts/externalNodes?fqdn=<host fqdn> will retun a yaml output for puppet to use.
 
-for more info, contact me at ohadlevy@gmail.com
+for more info, contact us at ohadlevy@gmail.com, or pikelly@blueyonder.co.uk
 
 License
 
