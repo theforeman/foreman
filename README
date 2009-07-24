@@ -3,11 +3,17 @@ Generally, you need the following things installed:
 * Puppet
 * rake >= 0.84
 
+to get latest working branch (which is the only one really valid at this point of time do:
+
+git clone git://github.com/ohadlevy/gni.git gni
+cd gni
+git checkout -b origin/ohad
+git submodule update --init
 
 if you want to share the database with Puppets (storeconfig) edit config/database.yml and configure the production database to point to the same database, if not, you can use any other database rails support.
 
 type:
-rake db:migrate
+RAILS_ENV=production rake db:migrate
 ./script/server -e production
 
 the following URLs might be intersting:
