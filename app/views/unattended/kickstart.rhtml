@@ -2,14 +2,14 @@ install
 <%= mediapath %>
 lang en_US.UTF-8
 <%= "langsupport --default en_US.UTF-8 en_GB.UTF-8 en_US.UTF-8\n" if @osver.to_i < 5 -%>
-<%= "mouse generic3usb --device input/mice\n" if @osver == "2" -%>
-<%= "selinux --disabled\n" if @osver != "2" -%>
+<%= "mouse generic3usb --device input/mice\n" if @osver == "3" -%>
+<%= "selinux --disabled\n" if @osver != "3" -%>
 keyboard us
 skipx
 network --device eth0 --bootproto dhcp
 rootpw --iscrypted <%= @host.root_pass %>
 firewall --disabled
-authconfig --useshadow --enablemd5 <%= @osver != "2" and @osver != "4" ? '--disablenis' : '' %>
+authconfig --useshadow --enablemd5 <%= @osver != "3" and @osver != "4" ? '--disablenis' : '' %>
 timezone <%= @osver.to_i > 5 ? 'Europe/London' : 'UTC' %>
 <% if @port -%>
 bootloader --location=mbr --append="nofb quiet splash=quiet console=ttyS<%=@port%>,<%=@baud%>" --md5pass=<%= @grub_pass %>
@@ -35,7 +35,7 @@ ntp
 @ruby
 <% elsif @osver == "4" -%>
 device-mapper-multipath
-<% elsif @osver == "2" and @arch == "i386" -%>
+<% elsif @osver == "3" and @arch == "i386" -%>
 ethereal
 <% end -%>
 curl
@@ -154,7 +154,7 @@ then
 
 	# If the module exists then it must have been compiled aginst this kernel and should therefore load
 	start() {
-	    if [ ! -e /lib/modules/`uname -r`/misc/vmhgfs.<%= @osver == "2" ? "o" : "ko" -%> ]
+	    if [ ! -e /lib/modules/`uname -r`/misc/vmhgfs.<%= @osver == "3" ? "o" : "ko" -%> ]
 	    then
 	        action $"Configuring vmware tools: " /usr/bin/vmware-config-tools.pl -d
 	    fi
