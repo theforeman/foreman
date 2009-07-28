@@ -4,11 +4,12 @@ require 'fileutils'
 module GW
   class Tftp
     # creates TFTP link to a predefine syslinux config file
-    # parameter is a array ["00:11:22:33:44:55:66:77",'gi2','i386'...]
-    def self.create params 
+    # parameter is a array ["mac",'osname','arch'...]
+    # e.g. ["00:11:22:33:44:55:66:77",'centos','i386'...]
+    def self.create params
       mac, os, arch, serial = params
       return nil if mac.nil? or os.nil? or arch.nil?
-      
+
       serial = setserial serial
       dst = "#{os}-#{arch}#{serial}"
       link=link(mac)
@@ -18,16 +19,16 @@ module GW
     end
 
     # removes links created by create method
-    # parmater is a mac address 
+    # parmater is a mac address
     def self.remove mac
       FileUtils.rm_f link(mac.to_s)
     end
 
     private
     def self.link mac
-        @@tftpdir+"01-"+mac.gsub(/:/,"-").downcase
+        $settings[:tftppath]+"/01-"+mac.gsub(/:/,"-").downcase
     end
-    
+
     def self.setserial serial
       serial =~ /^(\d),(\d+)/ ? "-#{$1}-#{$2}" : nil
     end
@@ -39,7 +40,7 @@ module GW
     def self.clean fqdn
       command = "/usr/bin/sudo -S /usr/sbin/puppetca --clean #{fqdn}< /dev/null"
       system "#{command} >> /tmp/puppetca.log 2>&1"
-      
+
       #remove fqdn from autosign if exists
       entries =  open("/etc/puppet/autosign.conf", File::RDONLY).readlines.collect do |l| 
         l if l.chomp != fqdn
