@@ -17,4 +17,25 @@ class Operatingsystem < ActiveRecord::Base
     to_label
   end
 
+  # a simple methods that reads data from store config and populate the operating systems table
+  # TODO, make this more SQL friendly
+  def self.importFacts
+    helper = Array.new
+    Host.all.each do |h|
+     if name = h.fact(:operatingsystem)[0]
+       name = name.value
+     end
+     if major = h.fact(:operatingsystemrelease)[0]
+       major = major.value
+     end
+     if name and major
+       helper << {name => major}
+     end
+    end
+    helper.uniq!.each do |os|
+      os.each_pair do |n,m|
+        Operatingsystem.create :name => n, :major => m
+      end
+    end
+  end
 end
