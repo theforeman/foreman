@@ -5,6 +5,7 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :hosttypes
   validates_presence_of :major, :message => "Operating System version is required"
   validates_presence_of :name
+  #TODO: add validation for name and major uniqueness
 
   before_destroy :ensure_not_used
 
@@ -34,7 +35,7 @@ class Operatingsystem < ActiveRecord::Base
     end
     helper.uniq!.each do |os|
       os.each_pair do |n,m|
-        Operatingsystem.create :name => n, :major => m
+        Operatingsystem.find_or_create_by_name_and_major n, m
       end
     end
   end
