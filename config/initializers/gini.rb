@@ -1,5 +1,8 @@
 require 'puppet'
 
+Puppet[:config] = "/etc/puppet/puppet.conf"
+Puppet.parse_config
+
 $GINIHOST = Facter.fqdn
 # import settings file
 $settings = YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
@@ -20,5 +23,3 @@ class ActiveRecord::Base
     true
   end
 end
-
-
