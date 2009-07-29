@@ -7,6 +7,7 @@ class Host < Puppet::Rails::Host
   belongs_to :hosttype
   belongs_to :environment
   belongs_to :subnet
+  has_many :reports, :dependent => :destroy
 
   # we originally used hostname, puppet uses name in its host table
   # TODO, rename all hostname to name, this is a workaround for now
@@ -94,6 +95,29 @@ class Host < Puppet::Rails::Host
   def diskLayout
     @host.disk
     #@host.disk.empty? ? @host.ptable.body : @host.disk
+  end
+
+
+  # reports methods
+
+  def error_count
+    failed + skipped + failed_restarts
+  end
+
+  def failed
+    (self.puppet_status & 0x00000fff)
+  end
+
+  def skipped
+    (self.puppet_status & 0x00fff000) >> 12
+  end
+
+  def failed_restarts
+    (self.puppet_status & 0x3f000000) >> 24
+  end
+
+  def no_report
+    (self.puppet_status & 0x40000000) >> 30
   end
 
   private

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090722141246) do
+ActiveRecord::Schema.define(:version => 20090729132209) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -162,6 +162,14 @@ ActiveRecord::Schema.define(:version => 20090722141246) do
   end
 
   add_index "puppet_tags", ["id"], :name => "index_puppet_tags_on_id"
+
+  create_table "reports", :force => true do |t|
+    t.integer  "host_id",                      :null => false
+    t.text     "log",         :limit => 51200, :null => false
+    t.datetime "reported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "resource_tags", :force => true do |t|
     t.integer  "resource_id"
