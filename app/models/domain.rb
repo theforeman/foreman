@@ -2,9 +2,12 @@
 class Domain < ActiveRecord::Base
   has_many :hosts
   has_many :subnets
-  validates_uniqueness_of  :name, :fullname
-  validates_format_of   :dnsserver, :with => /^\S+$/, :message => "Name cannot contain spaces", :allow_blank => true
-  validates_format_of   :gateway,   :with => /^\S+$/, :message => "Name cannot contain spaces", :allow_blank => true
+  validates_uniqueness_of :name
+  validates_uniqueness_of :fullname, :allow_blank => true, :allow_nil => true
+  validates_format_of   :dnsserver, :with => /^\S+$/, :message => "Name cannot contain spaces",
+    :allow_blank => true, :allow_nil => true
+  validates_format_of   :gateway,   :with => /^\S+$/, :message => "Name cannot contain spaces",
+    :allow_blank => true, :allow_nil => true
   validates_presence_of :name
 
   before_destroy :ensure_not_used
