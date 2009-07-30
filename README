@@ -16,6 +16,17 @@ type:
 RAILS_ENV=production rake db:migrate
 ./script/server -e production
 
+If you are currently using Store Configs with Puppet and would like your Operating Systems and Environment populated from your puppet DB you can use the following Rake Tasks:
+
+rake puppet:migrate:all                       # Migrate your puppet based hosts information to GNI (Operating Systems and Environment)
+rake puppet:migrate:assign_environment        # Assign the correct environment_id to the hosts based on StoredConfig
+rake puppet:migrate:assign_operatingsystem    # Assign the correct operatingsystem_id to the hosts based on StoredConfig
+rake puppet:migrate:populate_environment      # Populates the Environments in GNI based on your StoredConfig DB
+rake puppet:migrate:populate_operatingsystem  # Populates the Operating Systems in GNI based on your StoredConfig DB
+
+Both populate_environment and populate_operatingsystem will also populate your MAC field if its empty.
+
+
 the following URLs might be intersting:
 http://localhost:3000/ for really basic webgui
 http://localhost:3000/unattended/kickstart will return a kickstart file for the relevant machine

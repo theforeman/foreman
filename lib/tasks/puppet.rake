@@ -5,7 +5,7 @@
 
 namespace :puppet do
     namespace :migrate do
-	desc "Populates the Operating Systems in GNI based on your StoragedConfig DB"
+	desc "Populates the Operating Systems in GNI based on your StoredConfig DB"
 	task :populate_operatingsystem => :environment do
 		helper = Array.new
 		Host.all.each do |hosts|
@@ -22,7 +22,7 @@ namespace :puppet do
 		end
 	end
 
-	desc "Assign the correct operatingsystem_id to the hosts based on StoragedConfig"
+	desc "Assign the correct operatingsystem_id to the hosts based on StoredConfig"
 	task :assign_operatingsystem => :environment do
 		Host.all.each do |hosts|
 			# Saving the host will fail if Host.mac is empty... so lets make sure its not.
@@ -41,7 +41,7 @@ namespace :puppet do
 		end
 	end
 
-	desc "Populates the Environments in GNI based on your StoragedConfig DB"
+	desc "Populates the Environments in GNI based on your StoredConfig DB"
 	task :populate_environment => :environment do
 		if FactName.find_by_name("environment")
 			helper = Array.new
@@ -58,7 +58,7 @@ namespace :puppet do
 		end
 	end
 
-	desc "Assign the correct environment_id to the hosts based on StoragedConfig"
+	desc "Assign the correct environment_id to the hosts based on StoredConfig"
 	task :assign_environment => :environment do
 		Host.all.each do |hosts|
 			# Saving the host will fail if Host.mac is empty... so lets make sure its not.
