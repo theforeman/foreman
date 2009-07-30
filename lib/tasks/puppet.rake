@@ -4,82 +4,25 @@
 #		StoragedConfig.
 
 namespace :puppet do
-    namespace :migrate do
-	desc "Populates the Operating Systems in GNI based on your StoredConfig DB"
-	task :populate_operatingsystem => :environment do
-		helper = Array.new
-		Host.all.each do |hosts|
-			name = hosts.fact(:operatingsystem)[0].value 
-			major = hosts.fact(:operatingsystemrelease)[0].value
-			if name and major
-			 helper << { name => major }
-			end
-		end
-		helper.uniq!.each do |os|
-			os.each_pair do |n, m|
-				Operatingsystem.find_or_create_by_name_and_major n, m
-			end
-		end
-	end
+  namespace :migrate do
+    desc "Populates the host fields in GNI based on your StoredConfig DB"
+    task :populate_hosts => :environment do
+      helper = Array.new
+      Host.all.each do |host|
+        begin
+          host.mac = host.fact(:macaddress)[0].value
+          host.domain = Domain.find_or_create_by_name host.fact(:domain)[0].value
+          host.architecture = Architecture.find_or_create_by_name host.fact(:architecture)[0].value
+          host.environment = Environment.find_or_create_by_name host.fact(:environment)[0].value
 
-	desc "Assign the correct operatingsystem_id to the hosts based on StoredConfig"
-	task :assign_operatingsystem => :environment do
-		Host.all.each do |hosts|
-			# Saving the host will fail if Host.mac is empty... so lets make sure its not.
-			if not hosts.mac or hosts.mac == ""
-				hosts.mac = hosts.fact(:macaddress)[0].value
-			end
-
-			if not hosts.operatingsystem_id
-			os = hosts.fact(:operatingsystem)[0].value
-				if os
-					od_id = Operatingsystem.find_by_name(os).id
-					hosts.operatingsystem_id = os_id
-					hosts.save
-				end
-			end
-		end
-	end
-
-	desc "Populates the Environments in GNI based on your StoredConfig DB"
-	task :populate_environment => :environment do
-		if FactName.find_by_name("environment")
-			helper = Array.new
-			Host.all.each do |hosts|
-				environment = hosts.fact(:environment)[0].value
-				if environment
-					helper << environment
-				end
-			end
-
-			helper.uniq!.each do |env|
-				Environment.find_or_create_by_name env
-			end
-		end
-	end
-
-	desc "Assign the correct environment_id to the hosts based on StoredConfig"
-	task :assign_environment => :environment do
-		Host.all.each do |hosts|
-			# Saving the host will fail if Host.mac is empty... so lets make sure its not.
-			if not hosts.mac or hosts.mac == ""
-				hosts.mac = hosts.fact(:macaddress)[0].value
-			end
-
-			if not hosts.environment_id
-			env = hosts.fact(:environment)[0].value
-				if env
-					env_id = Environment.find_by_name(env).id
-					hosts.environment_id = env_id
-					hosts.save!
-				end
-			end
-		end
-	end
-
-	desc "Migrate your puppet based hosts information to GNI"
-	task :all => [ :populate_operatingsystem, :populate_environment, :assign_operatingsystem, :assign_environment ] do
-		# Empty tasks
-	end
+          os = host.fact(:operatingsystem)[0].value
+          os_rel = host.fact(:operatingsystemrelease)[0].value
+          host.operatingsystem = Operatingsystem.find_or_create_by_name_and_major os, os_rel
+          puts "#{host.hostname}: #{host.errors.full_messages}" unless host.save
+        rescue
+          $stderr.puts $!
+        end
+      end
     end
+  end
 end
