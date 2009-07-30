@@ -6,7 +6,6 @@ class UnattendedController < ApplicationController
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
     @osver = @host.operatingsystem.major
     @arch = @host.architecture.name
-    @diskLayout = @host.disk
   end
 
   def jumpstart

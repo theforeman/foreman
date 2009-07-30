@@ -1,13 +1,14 @@
 class HostsController < ApplicationController
   active_scaffold :host do |config|
     config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
-    config.columns = %w{ name ip mac hosttype operatingsystem environment architecture media domain model root_pass serial puppetmaster disk comment}
+    config.columns = %w{ name ip mac hosttype operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment}
     config.columns[:architecture].form_ui  = :select
     config.columns[:media].form_ui  = :select
     config.columns[:model].form_ui  = :select
     config.columns[:domain].form_ui  = :select
     config.columns[:hosttype].form_ui  = :select
     config.columns[:environment].form_ui  = :select
+    config.columns[:ptable].form_ui  = :select
     config.columns[:operatingsystem].form_ui  = :select
     config.columns[:fact_values].association.reverse = :host
     config.nested.add_link("Inventory", [:fact_values])

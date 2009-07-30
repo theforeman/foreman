@@ -7,6 +7,7 @@ class Host < Puppet::Rails::Host
   belongs_to :hosttype
   belongs_to :environment
   belongs_to :subnet
+  belongs_to :ptable
   has_many :reports, :dependent => :destroy
 
   # we originally used hostname, puppet uses name in its host table
@@ -93,8 +94,7 @@ class Host < Puppet::Rails::Host
 
   # returns the host correct disk layout, custom or common
   def diskLayout
-    @host.disk
-    #@host.disk.empty? ? @host.ptable.body : @host.disk
+    disk.empty? ? ptable.layout : disk
   end
 
 

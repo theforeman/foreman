@@ -21,7 +21,7 @@ bootloader --location=mbr --append="nofb quiet rhgb splash=quiet" --md5pass=<%= 
 <% else -%>
 zerombr yes
 clearpart --all --initlabel
-<%#= @host.diskLayout -%>
+<%= @host.diskLayout %>
 <% end -%>
 skipx
 text
