@@ -10,7 +10,7 @@ network --device eth0 --bootproto dhcp
 rootpw --iscrypted <%= @host.root_pass %>
 firewall --disabled
 authconfig --useshadow --enablemd5 <%= @osver != "3" and @osver != "4" ? '--disablenis' : '' %>
-timezone <%= @osver.to_i > 5 ? 'Europe/London' : 'UTC' %>
+timezone <%= @osver.to_i >= 5 ? 'Europe/London' : 'UTC' %>
 <% if @port -%>
 bootloader --location=mbr --append="nofb quiet splash=quiet console=ttyS<%=@port%>,<%=@baud%>" --md5pass=<%= @grub_pass %>
 <% else -%>
