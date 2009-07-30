@@ -1,5 +1,5 @@
 class HostsController < ApplicationController
-  active_scaffold  :host do |config|
+  active_scaffold :host do |config|
     config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
     config.columns = %w{ name ip mac hosttype operatingsystem environment architecture media domain model root_pass serial puppetmaster disk comment}
     config.columns[:architecture].form_ui  = :select

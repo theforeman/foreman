@@ -1,4 +1,4 @@
-class DomainController < ApplicationController
+class DomainsController < ApplicationController
   active_scaffold :domain do |config|
     config.columns = [:fullname, :dnsserver, :gateway]
     config.create.columns = [:name, :fullname, :dnsserver, :gateway]

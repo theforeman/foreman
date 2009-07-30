@@ -1,4 +1,4 @@
-class OperatingsystemController < ApplicationController
+class OperatingsystemsController < ApplicationController
   active_scaffold :operatingsystem do |config|
     config.columns = [:name, :major, :architectures, :medias, :minor, :nameindicator, :hosttypes]
     config.columns[:architectures].form_ui  = :select
