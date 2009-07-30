@@ -15,8 +15,8 @@
       </div>
       <%= render :partial => "home/menu" -%>
     </div>
-    <%= content_tag('div', flash[:gini_error],  :class => 'flash error')  if flash[:gini_error] -%>
-    <%= content_tag('div', flash[:gini_notice], :class => 'flash notice') if flash[:gini_notice] -%>
+    <%= content_tag('div', flash[:gni_error],  :class => 'flash error')  if flash[:gni_error] -%>
+    <%= content_tag('div', flash[:gni_notice], :class => 'flash notice') if flash[:gni_notice] -%>
     <div id="content">
       <%= yield -%>
     </div>

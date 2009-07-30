@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20090729132209) do
     t.string   "root_pass",          :limit => 64
     t.string   "serial",             :limit => 12
     t.string   "puppetmaster"
-    t.string   "services"
+    t.integer  "puppet_status",                    :default => 0,    :null => false
     t.integer  "domain_id"
     t.integer  "architecture_id"
     t.integer  "operatingsystem_id"
