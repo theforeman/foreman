@@ -8,7 +8,10 @@ class UnattendedController < ApplicationController
     @arch = @host.architecture.name
   end
 
-  def jumpstart
+  def jumpstart_profile
+  end
+
+  def jumpstart_finish
   end
 
   def preseed

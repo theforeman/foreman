@@ -1,0 +1,9 @@
+system_locale=C
+network_interface=primary{ dhcp protocol_ipv6=no }
+security_policy=none
+timezone=GMT
+terminal=vt100
+timeserver=localhost
+name_service=none
+nfs4_domain=default
+root_password=BeyKOhxKk6A/6
