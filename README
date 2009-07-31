@@ -23,9 +23,11 @@ http://localhost:3000/hosts/externalNodes?fqdn=<host fqdn> will retun a yaml out
 
 If you are currently using Store Configs with Puppet and would like your Operating Systems and Environment populated from your puppet DB you can use the following Rake Tasks:
 
-rake puppet:migrate:populate_hosts                       # Migrate your puppet based hosts information to GNI
+RAILS_ENV=production rake puppet:migrate:populate_hosts # Migrate your puppet based hosts information to GNI
 
 
+Some screenshots and other info can be found at:
+http://ohadlevy.github.com/gni/
 for more info, contact us at ohadlevy@gmail.com (ohadlevy at #puppet), or pikelly@blueyonder.co.uk
 
 License
