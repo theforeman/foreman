@@ -13,6 +13,10 @@ class Host < Puppet::Rails::Host
   # we originally used hostname, puppet uses name in its host table
   # TODO, rename all hostname to name, this is a workaround for now
   alias_attribute :hostname, :name 
+  
+  # some shortcuts
+  alias_attribute :os, :operatingsystem
+  alias_attribute :arch, :architecture
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
@@ -127,7 +131,9 @@ class Host < Puppet::Rails::Host
   private
   # align common mac and ip address input
   def normalize_macaddresses
-    [mac,sp_mac].each do |m|
+    # a helper for variable scoping
+    helper = []
+    [self.mac,self.sp_mac].each do |m|
       unless m.empty?
         m.downcase!
         if m=~/[a-f0-9]{12}/
@@ -136,13 +142,18 @@ class Host < Puppet::Rails::Host
           m = m.split(":").map{|nibble| "%02x" % ("0x" + nibble)}.join(":")
         end
       end
+      helper << m
     end
+    self.mac, self.sp_mac = helper
 
-    [ip,sp_ip].each do |i|
-      unless ip.empty?
-        i = self.ip.split(".").map{|nibble| nibble.to_i}.join(".") if i=~/(\d{1,3}\.){3}\d{1,3}/
+    helper = []
+    [self.ip,self.sp_ip].each do |i|
+      unless i.empty?
+        i = i.split(".").map{|nibble| nibble.to_i}.join(".") if i=~/(\d{1,3}\.){3}\d{1,3}/
       end
+      helper << i
     end
+    self.ip, self.sp_ip = helper
   end
 
 end
