@@ -858,7 +858,7 @@ var handleHistoryChange = function(pageId, pageData) {
   var info = pageId.split(':');
   var id = info[0];
   pageData += '&_method=get';
-  new Ajax.Updater(id+'-content', pageData, {asynchronous:true, evalScripts:true, onLoading:function(request){Element.show(id+'-pagination-loading-indicator');}});
+  new Ajax.Updater(id+'-content', pageData, {asynchronous:true, evalScripts:true, method: 'get', onLoading:function(request){Element.show(id+'-pagination-loading-indicator');}});
 }
 
 window.onload = function() {
