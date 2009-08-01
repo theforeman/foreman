@@ -74,6 +74,10 @@ class Host < Puppet::Rails::Host
     self.read_attribute(:puppetmaster) || "puppet"
   end
 
+  def puppetmaster=(pm)
+    write_attribute(:puppetmaster, pm == "puppet" ? nil : pm)
+  end
+
   # no need to store anything in the db if the password is our default
   def root_pass
     self.read_attribute(:root_pass) || "my default password"
