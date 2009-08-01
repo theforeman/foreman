@@ -45,7 +45,7 @@ class Host < Puppet::Rails::Host
 
   def clearReports
     # Remove any reports that may be held against this host
-    # self.reports.each{|report| report.destroy}
+    self.reports.each{|report| report.destroy}
   end
 
   def clearFacts
