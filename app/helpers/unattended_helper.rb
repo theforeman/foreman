@@ -10,6 +10,15 @@ module UnattendedHelper
     return server =~ /^(h|f)t*p$/ ? "url --url #{server+":"+dir}" : "nfs --server #{server} --dir #{dir}"
   end
 
+  def preseed_server
+    @host.media.path.match('^(\w+):\/\/((\w|\.)+)((\w|\/)+)$')[2]
+  end
+
+  #TODO: rethink of a more generic way
+  def preseed_path
+    @host.media.path.match('^(\w+):\/\/((\w|\.)+)((\w|\/)+)$')[4]
+  end
+
   def yumrepo
     if @repo
       "--enablerepo #{repo}"
