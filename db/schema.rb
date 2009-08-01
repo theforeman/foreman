@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
   end
 
   create_table "medias", :force => true do |t|
-    t.string   "name",               :limit => 10, :default => "", :null => false
-    t.string   "path"
+    t.string   "name",               :limit => 50,  :default => "", :null => false
+    t.string   "path",               :limit => 100, :default => "", :null => false
     t.integer  "operatingsystem_id"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -1,7 +1,13 @@
 module UnattendedHelper
+  # outputs kickstart installation media based on the media type (NFS or URL)
+  # it also convert the $arch string to the current host architecture
+  #
+  
   def mediapath
-    helper =  "#{@host.media.path}/#{@host.architecture}".split(":")
-    return helper[0] =~ /^(h|f)t*p$/ ? "url --url #{@host.media.path}/#{@host.architecture}" : "nfs --server #{helper[0]} --dir #{helper[1]}"
+    server, dir  = @host.media.path.split(":")
+    dir.gsub!('$arch',@host.architecture.name)
+
+    return server =~ /^(h|f)t*p$/ ? "url --url #{server+":"+dir}" : "nfs --server #{server} --dir #{dir}"
   end
 
   def yumrepo
