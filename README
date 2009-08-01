@@ -18,7 +18,12 @@ RAILS_ENV=production rake db:migrate
 
 the following URLs might be intersting:
 http://localhost:3000/ for really basic webgui
-http://localhost:3000/unattended/kickstart will return a kickstart file for the relevant machine
+http://localhost:3000/unattended/kickstart will return a kickstart for RHE3-5 / Fedora (and CentOS etc)
+http://localhost:3000/unattended/preseed will return a preseed file for usage with Debian/Ubuntu
+
+For jumpstart support, see the files in the extras/jumpstart directory
+http://localhost:3000/unattended/jumpstart_profile returns a dynamic profile
+http://localhost:3000/unattended/jumpstart_finish returns the finish script
 http://localhost:3000/hosts/externalNodes?fqdn=<host fqdn> will retun a yaml output for puppet to use.
 
 If you are currently using Store Configs with Puppet and would like your Operating Systems and Environment populated from your puppet DB you can use the following Rake Tasks:
