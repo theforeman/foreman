@@ -1,0 +1,23 @@
+logger "Starting finish script"
+
+# Do not turn the machine off after 30 minutes. Very annoying!
+/bin/touch /noautoshutdown
+
+# Install the root password
+/usr/bin/perl -p -i -e 's/^root:[^:]+/root:<%= @host.root_pass.gsub("/", '\/')-%>/' /etc/shadow
+
+# Root can ssh into this box. This is very useful while we rebuild this
+/usr/bin/perl -p -i -e "s/PermitRootLogin no/PermitRootLogin yes/" /etc/ssh/sshd_config
+
+# Now ensure that we have the newest puppet and facter installed
+/usr/bin/cp /var/pkg-get/admin-fullauto /var/pkg-get/admin > /dev/null
+/usr/sbin/pkgrm -n -a /var/pkg-get/admin CSWpuppet > /dev/null
+
+/usr/sbin/pkgrm -n -a /var/pkg-get/admin CSWfacter > /dev/null
+
+/opt/csw/bin/pkg-get -i CSWfacter CSWpuppet > /dev/null
+
+echo "Informing Gini that we are built"
+/opt/csw/bin/wget --no-check-certificate -O /dev/null https://<%= $GINIHOST %>/unattended/built
+/opt/csw/bin/wget -O /dev/null http://<%= $GINIHOST %>:3000/unattended/built
+exit 0
