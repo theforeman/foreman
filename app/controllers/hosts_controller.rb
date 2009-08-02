@@ -19,18 +19,23 @@ class HostsController < ApplicationController
   end
 
   def externalNodes
-    if params.has_key? "fqdn"
-      fqdn = params.delete "fqdn"
-    else
+    unless params.has_key? "fqdn" and (host = Host.find_by_name params.delete "fqdn")
       head(:bad_request) and return
+    else
+      begin
+        param = {}
+        param[:puppetmaster] = host.puppetmaster
+        param[:longsitename] = host.domain.fullname
+        param[:hostmode] = host.environment.name
+        puppetclasses = []
+        puppetclasses << host.hosttype.name
+        render :text => Hash['classes' => puppetclasses, 'parameters' => param].to_yaml and return
+      rescue
+        # failed 
+        logger.warn "Failed to generate external nodes for #{host.name} with #{$!}"
+
+        head(:precondition_failed) and return
+      end
     end
-    host = Host.find_by_name fqdn.split(".")[0]
-    param = {}
-    param[:puppetmaster] = host.puppetmaster
-    param[:longsitename] = host.domain.fullname
-    param[:hostmode] = host.environment.name
-    puppetclasses = []
-    puppetclasses << host.hosttype.name
-    render :text => Hash['classes' => puppetclasses, 'parameters' => param].to_yaml and return
   end
 end
