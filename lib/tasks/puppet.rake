@@ -13,10 +13,9 @@ namespace :puppet do
           host.mac = host.fact(:macaddress)[0].value
           host.domain = Domain.find_or_create_by_name host.fact(:domain)[0].value
           host.architecture = Architecture.find_or_create_by_name host.fact(:architecture)[0].value
-          unless env=host.fact(:environment)[0]
-            # by default, puppet doesnt store an env name in the database
-            host.environment = Environment.find_or_create_by_name env.value
-          end
+          # by default, puppet doesnt store an env name in the database
+          env=host.fact(:environment)[0] || "production"
+          host.environment = Environment.find_or_create_by_name env.value
 
           os = host.fact(:operatingsystem)[0].value
           os_rel = host.fact(:operatingsystemrelease)[0].value
