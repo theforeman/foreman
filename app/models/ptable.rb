@@ -4,6 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   has_many :hosts
+  has_and_belongs_to_many :operatingsystems
   before_destroy :ensure_not_used
   validates_uniqueness_of :name
   validates_uniqueness_of :layout

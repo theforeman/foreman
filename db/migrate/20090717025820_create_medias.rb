@@ -3,7 +3,7 @@ class CreateMedias < ActiveRecord::Migration
     create_table :medias do |t|
       t.string :name, :limit => 50, :default => "", :null => false
       t.string :path, :limit => 100, :default => "", :null => false
-      t.integer :operatingsystem_id
+      t.references :operatingsystem
       t.timestamps
     end
     Media.create :name => "CentOS 5 mirror", :path => "http://mirror.averse.net/centos/5.3/os/$arch"

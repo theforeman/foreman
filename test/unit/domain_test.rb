@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class DomainTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  test "should not save without a name" do
+    domain = Domain.new
+    assert !domain.save
   end
+
 end

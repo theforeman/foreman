@@ -1,8 +1,9 @@
 class Operatingsystem < ActiveRecord::Base
   has_many :hosts
   has_many :medias
+  has_and_belongs_to_many :ptables
   has_and_belongs_to_many :architectures
-  has_and_belongs_to_many :hosttypes
+  has_and_belongs_to_many :puppetclasses
   validates_presence_of :major, :message => "Operating System version is required"
   validates_presence_of :name
   #TODO: add validation for name and major uniqueness

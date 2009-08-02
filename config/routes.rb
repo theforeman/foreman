@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :medias, :active_scaffold => true
   map.resources :models, :active_scaffold => true
   map.resources :architectures, :active_scaffold => true
-  map.resources :hosttypes, :active_scaffold => true
+  map.resources :puppetclasses, :active_scaffold => true
   map.resources :environments, :active_scaffold => true
   map.connect "/hosts/externalNodes", :controller => 'hosts', :action => 'externalNodes'
   map.resources :hosts, :active_scaffold => true

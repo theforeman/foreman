@@ -1,12 +1,12 @@
 class HostsController < ApplicationController
   active_scaffold :host do |config|
     config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
-    config.columns = %w{ name ip mac hosttype operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment}
+    config.columns = %w{ name ip mac puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment}
     config.columns[:architecture].form_ui  = :select
     config.columns[:media].form_ui  = :select
     config.columns[:model].form_ui  = :select
     config.columns[:domain].form_ui  = :select
-    config.columns[:hosttype].form_ui  = :select
+    config.columns[:puppetclasses].form_ui  = :select
     config.columns[:environment].form_ui  = :select
     config.columns[:ptable].form_ui  = :select
     config.columns[:operatingsystem].form_ui  = :select
@@ -19,21 +19,15 @@ class HostsController < ApplicationController
   end
 
   def externalNodes
-    unless params.has_key? "fqdn" and (host = Host.find_by_name params.delete "fqdn")
+    unless params.has_key? "fqdn" and (host = Host.find_by_name params.delete("fqdn"))
       head(:bad_request) and return
     else
       begin
-        param = {}
-        param[:puppetmaster] = host.puppetmaster
-        param[:longsitename] = host.domain.fullname
-        param[:hostmode] = host.environment.name
-        puppetclasses = []
-        puppetclasses << host.hosttype.name
-        render :text => Hash['classes' => puppetclasses, 'parameters' => param].to_yaml and return
+        #TODO: benchmark if its slower using a controller method instead of calling the model
+        render :text => host.info.to_yaml and return
       rescue
         # failed 
         logger.warn "Failed to generate external nodes for #{host.name} with #{$!}"
-
         head(:precondition_failed) and return
       end
     end

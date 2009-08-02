@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090730152224) do
+ActiveRecord::Schema.define(:version => 20090802062223) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -32,14 +32,13 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
   end
 
   create_table "environments", :force => true do |t|
-    t.string   "name",        :null => false
-    t.integer  "hosttype_id"
+    t.string   "name",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "environments_hosttypes", :id => false, :force => true do |t|
-    t.integer "hosttype_id",    :null => false
+  create_table "environments_puppetclasses", :id => false, :force => true do |t|
+    t.integer "puppetclass_id", :null => false
     t.integer "environment_id", :null => false
   end
 
@@ -87,7 +86,6 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
     t.integer  "subnet_id"
     t.integer  "sp_subnet_id"
     t.integer  "ptable_id"
-    t.integer  "hosttype_id"
     t.integer  "media_id"
     t.boolean  "build",                            :default => true
     t.text     "comment"
@@ -99,16 +97,9 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
   add_index "hosts", ["name"], :name => "index_hosts_on_name"
   add_index "hosts", ["source_file_id"], :name => "index_hosts_on_source_file_id"
 
-  create_table "hosttypes", :force => true do |t|
-    t.string   "name",          :limit => 32, :null => false
-    t.string   "nameindicator", :limit => 3
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "hosttypes_operatingsystems", :id => false, :force => true do |t|
-    t.integer "hosttype_id",        :null => false
-    t.integer "operatingsystem_id", :null => false
+  create_table "hosts_puppetclasses", :id => false, :force => true do |t|
+    t.integer "puppetclass_id", :null => false
+    t.integer "host_id",        :null => false
   end
 
   create_table "medias", :force => true do |t|
@@ -135,6 +126,16 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
     t.datetime "updated_at"
   end
 
+  create_table "operatingsystems_ptables", :id => false, :force => true do |t|
+    t.integer "ptable_id",          :null => false
+    t.integer "operatingsystem_id", :null => false
+  end
+
+  create_table "operatingsystems_puppetclasses", :id => false, :force => true do |t|
+    t.integer "puppetclass_id",     :null => false
+    t.integer "operatingsystem_id", :null => false
+  end
+
   create_table "param_names", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "updated_at"
@@ -156,8 +157,9 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
   add_index "param_values", ["resource_id"], :name => "index_param_values_on_resource_id"
 
   create_table "ptables", :force => true do |t|
-    t.string   "name",       :limit => 64,   :null => false
-    t.string   "layout",     :limit => 4096, :null => false
+    t.string   "name",               :limit => 64,   :null => false
+    t.string   "layout",             :limit => 4096, :null => false
+    t.integer  "operatingsystem_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -169,6 +171,14 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
   end
 
   add_index "puppet_tags", ["id"], :name => "index_puppet_tags_on_id"
+
+  create_table "puppetclasses", :force => true do |t|
+    t.string   "name"
+    t.string   "nameindicator"
+    t.integer  "operatingsystem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "reports", :force => true do |t|
     t.integer  "host_id",                      :null => false
@@ -219,7 +229,6 @@ ActiveRecord::Schema.define(:version => 20090730152224) do
     t.integer  "priority"
     t.string   "ranges",     :limit => 512
     t.text     "name"
-    t.integer  "dhcp_id"
     t.string   "vlanid",     :limit => 10
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -2,6 +2,8 @@
 
 one:
   name: MyString
+  nameindicator: MyString
 
 two:
   name: MyString
+  nameindicator: MyString

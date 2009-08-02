@@ -4,7 +4,7 @@ class Host < Puppet::Rails::Host
   belongs_to :model
   belongs_to :domain
   belongs_to :operatingsystem
-  belongs_to :hosttype
+  has_and_belongs_to_many :puppetclasses
   belongs_to :environment
   belongs_to :subnet
   belongs_to :ptable
@@ -24,7 +24,7 @@ class Host < Puppet::Rails::Host
   validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
   validates_uniqueness_of  :name
   validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
-  validates_presence_of    :name, :architecture
+  validates_presence_of    :name, :architecture, :domain_id, :mac, :environment_id
   validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
   validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
   validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
@@ -126,6 +126,21 @@ class Host < Puppet::Rails::Host
 
   def no_report
     (self.puppet_status & 0x40000000) >> 30
+  end
+
+  def puppetclasses_names
+    self.puppetclasses.collect {|c| c.name}
+  end
+
+  def info
+    #TODO: add dynamic parameters support
+    param = {}
+    param[:puppetmaster] = self.puppetmaster
+    param[:longsitename] = self.domain.fullname
+    param[:hostmode] = self.environment.name
+    puppetklasses = []
+    puppetklasses << self.puppetclasses_names
+    return Hash['classes' => puppetklasses, 'parameters' => param]
   end
 
   private
