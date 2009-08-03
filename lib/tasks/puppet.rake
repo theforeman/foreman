@@ -12,7 +12,9 @@ namespace :puppet do
         begin
           host.mac = host.fact(:macaddress)[0].value
           host.domain = Domain.find_or_create_by_name host.fact(:domain)[0].value
-          host.architecture = Architecture.find_or_create_by_name host.fact(:architecture)[0].value
+          # On solaris architecture fact is harwareisa
+          arch=host.fact(:architecture)[0] || host.fact(:hardwareisa)[0]
+          host.architecture=Architecture.find_or_create_by_name arch.value
           # by default, puppet doesnt store an env name in the database
           env=host.fact(:environment)[0] || "production"
           host.environment = Environment.find_or_create_by_name env.value
