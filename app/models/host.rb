@@ -34,7 +34,7 @@ class Host < Puppet::Rails::Host
   validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
   validates_associated     :domain, :operatingsystem,  :architecture, :subnet,:media#, :user, :deployment, :model
 
-  before_validation :normalize_macaddresses
+  before_validation :normalize_macaddresses, :normalize_hostname
 
   # Returns the name of this host as a string
   # String: the host's name
@@ -88,8 +88,10 @@ class Host < Puppet::Rails::Host
     self.read_attribute(:root_pass) || "my default password"
   end
 
-  def fqdn
-    "#{self.name}.#{self.domain.name}"
+  # make sure we store an encrypted copy of the password in the database
+  # this password can be use as is in a unix system
+  def root_pass=(pass)
+    write_attribute(:root_pass, pass.crypt("$1$gni$"))
   end
 
   # returns the host correct disk layout, custom or common
@@ -171,6 +173,18 @@ class Host < Puppet::Rails::Host
       helper << i
     end
     self.ip, self.sp_ip = helper
+  end
+
+  # ensure that host name is fqdn
+  # if they user inputed short name, the domain name will be appended
+  # this is done to ensure compatability with puppet storeconfigs
+  # if the user added a domain, and the domain doesnt exist, we add it dynamiclly.
+  def normalize_hostname
+    if self.name.count(".") == 0
+      self.name = self.name + "." + self.domain.name
+    else
+      self.domain = Domain.find_or_create_by_name self.name.split(".")[1..-1].join(".") if self.domain.nil?
+    end
   end
 
 end
