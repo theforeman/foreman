@@ -1,7 +1,7 @@
 class HostsController < ApplicationController
   active_scaffold :host do |config|
     config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
-    config.columns = %w{ name ip mac puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment}
+    config.columns = %w{ name ip mac puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment parameters}
     config.columns[:architecture].form_ui  = :select
     config.columns[:media].form_ui  = :select
     config.columns[:model].form_ui  = :select
@@ -15,10 +15,10 @@ class HostsController < ApplicationController
     config.columns[:serial].description = "unsed for now"
     config.columns[:puppetmaster].description = "leave empty if its just puppet"
     config.columns[:disk].description = "the disk layout to use"
-
   end
 
   def externalNodes
+    # check our parameters and look for a host
     unless params.has_key? "fqdn" and (host = Host.find_by_name params.delete("fqdn"))
       head(:bad_request) and return
     else
