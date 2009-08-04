@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090802062223) do
+ActiveRecord::Schema.define(:version => 20090804130144) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -155,6 +155,14 @@ ActiveRecord::Schema.define(:version => 20090802062223) do
 
   add_index "param_values", ["param_name_id"], :name => "index_param_values_on_param_name_id"
   add_index "param_values", ["resource_id"], :name => "index_param_values_on_resource_id"
+
+  create_table "parameters", :force => true do |t|
+    t.string   "name"
+    t.string   "value"
+    t.integer  "host_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "ptables", :force => true do |t|
     t.string   "name",               :limit => 64,   :null => false

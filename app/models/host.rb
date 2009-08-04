@@ -9,6 +9,7 @@ class Host < Puppet::Rails::Host
   belongs_to :subnet
   belongs_to :ptable
   has_many :reports, :dependent => :destroy
+  has_many :parameters, :dependent => :destroy
 
   # we originally used hostname, puppet uses name in its host table
   # TODO, rename all hostname to name, this is a workaround for now
@@ -87,15 +88,6 @@ class Host < Puppet::Rails::Host
     self.read_attribute(:root_pass) || "my default password"
   end
 
-  # sets basic default values
-  def after_initialize
-    self.architecture ||= Architecture.first
-    self.operatingsystem ||= Operatingsystem.first
-    self.media ||= Media.first
-    self.domain ||= Domain.first
-    self.build ||= true
-  end
-
   def fqdn
     "#{self.name}.#{self.domain.name}"
   end
@@ -132,12 +124,22 @@ class Host < Puppet::Rails::Host
     self.puppetclasses.collect {|c| c.name}
   end
 
+  def params
+    parameters = {}
+    self.parameters.each do |p|
+      parameters.update Hash[p.name => p.value]
+    end
+    return parameters
+  end
+
+
   def info
-    #TODO: add dynamic parameters support
+    # Static parameters
     param = {}
-    param[:puppetmaster] = self.puppetmaster
-    param[:longsitename] = self.domain.fullname
-    param[:hostmode] = self.environment.name
+    param["puppetmaster"] = self.puppetmaster
+    param["longsitename"] = self.domain.fullname
+    param["hostmode"] = self.environment.name
+    param.update self.params
     puppetklasses = []
     puppetklasses << self.puppetclasses_names
     return Hash['classes' => puppetklasses, 'parameters' => param]
