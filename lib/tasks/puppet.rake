@@ -11,6 +11,7 @@ namespace :puppet do
       Host.all.each do |host|
         begin
           host.mac = host.fact(:macaddress)[0].value
+          host.ip = host.fact(:ipaddress)[0].value if host.ip.nil?
           host.domain = Domain.find_or_create_by_name host.fact(:domain)[0].value
           # On solaris architecture fact is harwareisa
           arch=host.fact(:architecture)[0] || host.fact(:hardwareisa)[0]
