@@ -11,13 +11,10 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :parameters, :dependent => :destroy
 
-  # we originally used hostname, puppet uses name in its host table
-  # TODO, rename all hostname to name, this is a workaround for now
-  alias_attribute :hostname, :name 
-  
   # some shortcuts
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
+  alias_attribute :hostname, :name
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
@@ -180,10 +177,13 @@ class Host < Puppet::Rails::Host
   # this is done to ensure compatability with puppet storeconfigs
   # if the user added a domain, and the domain doesnt exist, we add it dynamiclly.
   def normalize_hostname
-    if self.name.count(".") == 0
-      self.name = self.name + "." + self.domain.name
-    else
-      self.domain = Domain.find_or_create_by_name self.name.split(".")[1..-1].join(".") if self.domain.nil?
+    # no hostname was given, since this is before validation we need to ignore it and let the validations to produce an error
+    unless self.name.empty?
+      if  self.name.count(".") == 0
+        self.name = self.name + "." + self.domain.name unless self.domain.nil?
+      else
+        self.domain = Domain.find_or_create_by_name self.name.split(".")[1..-1].join(".") if self.domain.nil?
+      end
     end
   end
 
