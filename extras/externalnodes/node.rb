@@ -5,4 +5,4 @@
 require 'net/http'
 
 gni_host="localhost:3000"
-Net::HTTP.get_print URI.parse "http://#{gni_host}/hosts/externalNodes?fqdn=#{ARGV[0]}"
+Net::HTTP.get_print URI.parse("http://#{gni_host}/hosts/externalNodes?fqdn=#{ARGV[0]}")
