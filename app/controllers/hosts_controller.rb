@@ -17,16 +17,21 @@ class HostsController < ApplicationController
     config.columns[:disk].description = "the disk layout to use"
   end
 
+  #returns a yaml file ready to use for puppet external nodes script
+  #expected a fqdn parameter to provide hostname to lookup
+  #see example script in extras directory
+  #will return HTML error codes upon failure
+
   def externalNodes
     # check our parameters and look for a host
-    unless params.has_key? "fqdn" and (host = Host.find_by_name params.delete("fqdn"))
+    unless params.has_key? "fqdn" and (host = Host.find(:first,:conditions => ["name = ?",params.delete("fqdn")]))
       head(:bad_request) and return
     else
       begin
         #TODO: benchmark if its slower using a controller method instead of calling the model
         render :text => host.info.to_yaml and return
       rescue
-        # failed 
+        # failed
         logger.warn "Failed to generate external nodes for #{host.name} with #{$!}"
         head(:precondition_failed) and return
       end

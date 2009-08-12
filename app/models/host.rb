@@ -22,7 +22,7 @@ class Host < Puppet::Rails::Host
   validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
   validates_uniqueness_of  :name
   validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
-  validates_presence_of    :name, :architecture, :domain_id, :mac, :environment_id
+  validates_presence_of    :name, :architecture, :domain_id, :mac, :environment_id, :operatingsystem_id
   validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
   validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
   validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
@@ -31,7 +31,7 @@ class Host < Puppet::Rails::Host
   validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
   validates_associated     :domain, :operatingsystem,  :architecture, :subnet,:media#, :user, :deployment, :model
 
-  before_validation :normalize_macaddresses, :normalize_hostname
+  before_validation :normalize_addresses, :normalize_hostname
 
   # Returns the name of this host as a string
   # String: the host's name
@@ -88,14 +88,14 @@ class Host < Puppet::Rails::Host
   # make sure we store an encrypted copy of the password in the database
   # this password can be use as is in a unix system
   def root_pass=(pass)
-    write_attribute(:root_pass, pass.crypt("$1$gni$"))
+    p = pass =~ /^$1$gni$.*/ ? pass : pass.crypt("$1$gni$")
+    write_attribute(:root_pass, p)
   end
 
   # returns the host correct disk layout, custom or common
   def diskLayout
     disk.empty? ? ptable.layout : disk
   end
-
 
   # reports methods
 
@@ -123,14 +123,6 @@ class Host < Puppet::Rails::Host
     self.puppetclasses.collect {|c| c.name}
   end
 
-  def params
-    parameters = {}
-    self.parameters.each do |p|
-      parameters.update Hash[p.name => p.value]
-    end
-    return parameters
-  end
-
 
   def info
     # Static parameters
@@ -146,7 +138,7 @@ class Host < Puppet::Rails::Host
 
   private
   # align common mac and ip address input
-  def normalize_macaddresses
+  def normalize_addresses
     # a helper for variable scoping
     helper = []
     [self.mac,self.sp_mac].each do |m|
@@ -185,6 +177,14 @@ class Host < Puppet::Rails::Host
         self.domain = Domain.find_or_create_by_name self.name.split(".")[1..-1].join(".") if self.domain.nil?
       end
     end
+  end
+
+  def params
+    parameters = {}
+    self.parameters.each do |p|
+      parameters.update Hash[p.name => p.value]
+    end
+    return parameters
   end
 
 end
