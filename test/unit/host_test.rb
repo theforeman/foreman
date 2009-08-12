@@ -17,4 +17,11 @@ class HostTest < ActiveSupport::TestCase
     assert !host.save
     assert_equal "123.1.2.3", host.ip
   end
+
+  test "should add domain name to hostname" do
+    host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03",
+      :domain => Domain.find_or_create_by_name("company.com")
+    assert !host.save
+    assert_equal "myhost.company.com", host.name
+  end
 end
