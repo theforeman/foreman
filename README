@@ -34,7 +34,7 @@ However, if you are NOT using store configs and you still want the puppet node i
 RAILS_ENV=production rake puppet:import:hosts_and_facts
 
 this by default will use the puppet vardir (as defined in puppet.conf) if you wish to use another directory, use dir=/dirname.
-
+Please note that its probably a good idea to clean up the files in the yaml/facts directory before you run this command.
 
 Some screenshots and other info can be found at:
 http://ohadlevy.github.com/gni/
