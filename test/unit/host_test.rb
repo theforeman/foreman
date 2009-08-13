@@ -29,4 +29,9 @@ class HostTest < ActiveSupport::TestCase
     assert host.valid?
   end
 
+  test "should import facts from yaml" do
+    h=Host.new(:name => "sinn1636.lan")
+     h.importFacts File.read("/tmp/sinn1636.lan.yaml")
+    assert h.valid?
+  end
 end

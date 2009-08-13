@@ -24,11 +24,16 @@ http://localhost:3000/unattended/preseed will return a preseed file for usage wi
 For jumpstart support, see the files in the extras/jumpstart directory
 http://localhost:3000/unattended/jumpstart_profile returns a dynamic profile
 http://localhost:3000/unattended/jumpstart_finish returns the finish script
-http://localhost:3000/hosts/externalNodes?fqdn=<host fqdn> will retun a yaml output for puppet to use.
+http://localhost:3000/hosts/externalNodes?fqdn=<host fqdn> will return a yaml output for puppet to use.
 
 If you are currently using Store Configs with Puppet and would like your Operating Systems and Environment populated from your puppet DB you can use the following Rake Tasks:
 
 RAILS_ENV=production rake puppet:migrate:populate_hosts # Migrate your puppet based hosts information to GNI
+
+However, if you are NOT using store configs and you still want the puppet node information in the database you can import it by:
+RAILS_ENV=production rake puppet:import:hosts_and_facts
+
+this by default will use the puppet vardir (as defined in puppet.conf) if you wish to use another directory, use dir=/dirname.
 
 
 Some screenshots and other info can be found at:

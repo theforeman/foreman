@@ -124,6 +124,8 @@ class Host < Puppet::Rails::Host
   end
 
 
+  # provide information about each node, mainly used for puppet external nodes
+  # TODO: remove hard coded default parameters into some selectable values in the database.
   def info
     # Static parameters
     param = {}
@@ -134,6 +136,53 @@ class Host < Puppet::Rails::Host
     puppetklasses = []
     puppetklasses << self.puppetclasses_names
     return Hash['classes' => puppetklasses, 'parameters' => param]
+  end
+
+  # import host facts, required when running without storeconfigs.
+  # expect a yaml stream
+  def importFacts yaml
+    facts = YAML::load yaml
+    if self.last_compile.nil? or facts.values[:_timestamp].to_date > self.last_compile.to_date
+      self.last_compile = facts.values[:_timestamp]
+      # save all other facts
+      if self.respond_to?("merge_facts")
+        self.merge_facts(facts.values)
+        # pre 0.24 it was called setfacts
+      else
+        self.setfacts(facts.values)
+      end
+      # we are saving here with no validations, as we really don't have most of the info required
+      # but it should be fixed when parsing the facts
+      begin
+        self.save_with_validation(perform_validation = false)
+        self.populateFieldsFromFacts
+      rescue
+        logger.warn "Failed to save #{self.name}: #{self.errors.full_messages}"
+        $stderr.puts $!
+      end
+    end
+  end
+
+  def populateFieldsFromFacts
+    begin
+    self.mac = self.fact(:macaddress)[0].value
+    self.ip = self.fact(:ipaddress)[0].value if self.ip.nil?
+    self.domain = Domain.find_or_create_by_name self.fact(:domain)[0].value
+    # On solaris architecture fact is harwareisa
+    arch=fact(:architecture)[0] || fact(:hardwareisa)[0]
+    self.arch=Architecture.find_or_create_by_name arch.value
+    # by default, puppet doesnt store an env name in the database
+    env=fact(:environment)[0] || "production"
+    self.environment = Environment.find_or_create_by_name env.value
+
+    os_name = fact(:operatingsystem)[0].value
+    os_rel = fact(:operatingsystemrelease)[0].value
+    self.os = Operatingsystem.find_or_create_by_name_and_major os_name, os_rel
+    self.save
+    rescue
+      logger.warn "failed to save #{self.name}: #{self.errors.full_messages}"
+      $stderr.puts $!
+    end
   end
 
   private

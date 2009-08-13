@@ -7,26 +7,27 @@ namespace :puppet do
   namespace :migrate do
     desc "Populates the host fields in GNI based on your StoredConfig DB"
     task :populate_hosts => :environment do
-      helper = Array.new
-      Host.all.each do |host|
-        begin
-          host.mac = host.fact(:macaddress)[0].value
-          host.ip = host.fact(:ipaddress)[0].value if host.ip.nil?
-          host.domain = Domain.find_or_create_by_name host.fact(:domain)[0].value
-          # On solaris architecture fact is harwareisa
-          arch=host.fact(:architecture)[0] || host.fact(:hardwareisa)[0]
-          host.architecture=Architecture.find_or_create_by_name arch.value
-          # by default, puppet doesnt store an env name in the database
-          env=host.fact(:environment)[0] || "production"
-          host.environment = Environment.find_or_create_by_name env.value
-
-          os = host.fact(:operatingsystem)[0].value
-          os_rel = host.fact(:operatingsystemrelease)[0].value
-          host.operatingsystem = Operatingsystem.find_or_create_by_name_and_major os, os_rel
-          puts "#{host.hostname}: #{host.errors.full_messages}" unless host.save
-        rescue
-          $stderr.puts $!
+      counter = 0
+      Host.find_each do |host|
+        if host.populateFieldsFromFacts
+          counter += 1
+        else
+          $stderr.puts "#{host.hostname}: #{host.errors.full_messages}"
         end
+      end
+      puts "Imported #{counter} hosts out of #{Host.count} Hosts" unless counter == 0
+    end
+  end
+  namespace :import do
+    desc "Imports hosts and facts from existings YAML files, use dir= to override default directory"
+    task :hosts_and_facts => :environment do
+      dir = ENV['dir'] || "#{Puppet[:vardir]}/facts/yaml"
+      puts "Importing from #{dir}"
+      Dir["#{dir}/*.yaml"].each do |yaml|
+        name = yaml.match(/.*\/(.*).yaml/)[1]
+        puts "importing #{name}"
+        h=Host.find_or_create_by_name name
+        h.importFacts File.read(yaml)
       end
     end
   end
