@@ -1,5 +1,8 @@
 class HostsController < ApplicationController
   active_scaffold :host do |config|
+    list.empty_field_text ='N/A'
+    list.per_page = 15
+    list.sorting = {:name => 'ASC' }
     config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
     config.columns = %w{ name ip mac puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment parameters}
     config.columns[:architecture].form_ui  = :select
@@ -15,6 +18,9 @@ class HostsController < ApplicationController
     config.columns[:serial].description = "unsed for now"
     config.columns[:puppetmaster].description = "leave empty if its just puppet"
     config.columns[:disk].description = "the disk layout to use"
+    config.columns[:build].form_ui  = :checkbox
+    config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
+      :type => :record
   end
 
   #returns a yaml file ready to use for puppet external nodes script
@@ -24,17 +30,21 @@ class HostsController < ApplicationController
 
   def externalNodes
     # check our parameters and look for a host
-    unless params.has_key? "fqdn" and (host = Host.find(:first,:conditions => ["name = ?",params.delete("fqdn")]))
-      head(:bad_request) and return
+    unless (params.has_key? "fqdn" and (host = Host.find(:first,:conditions => ["name = ?",params.delete("fqdn")]))) or (params.has_key? "id" and (host = Host.find(params[:id])))
+      render :text => '404 Not Found', :status => 404 and return
     else
       begin
         #TODO: benchmark if its slower using a controller method instead of calling the model
-        render :text => host.info.to_yaml and return
+        yaml = host.info.to_yaml
+        # if we were via the YAML host link, we reformat the output to look nicer.
+        yaml.gsub!("\n","<br>") if params.has_key? "id"
+        render :text => yaml
       rescue
         # failed
         logger.warn "Failed to generate external nodes for #{host.name} with #{$!}"
-        head(:precondition_failed) and return
+        render :text => 'Unable to generate output, Check log files', :status => 412 and return
       end
     end
   end
+
 end
