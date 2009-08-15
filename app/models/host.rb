@@ -138,6 +138,16 @@ class Host < Puppet::Rails::Host
     return Hash['classes' => puppetklasses, 'parameters' => param]
   end
 
+  def params
+    parameters = {}
+    self.parameters.each do |p|
+      parameters.update Hash[p.name => p.value]
+    end
+    return parameters
+  end
+
+
+
   # import host facts, required when running without storeconfigs.
   # expect a yaml stream
   def importFacts yaml
@@ -176,7 +186,7 @@ class Host < Puppet::Rails::Host
     self.environment = Environment.find_or_create_by_name env.value
 
     os_name = fact(:operatingsystem)[0].value
-    os_rel = fact(:operatingsystemrelease)[0].value
+    os_rel = fact(:lsbdistrelease)[0].value || fact(:operatingsystemrelease)[0].value
     self.os = Operatingsystem.find_or_create_by_name_and_major os_name, os_rel
     self.save
     rescue
@@ -226,14 +236,6 @@ class Host < Puppet::Rails::Host
         self.domain = Domain.find_or_create_by_name self.name.split(".")[1..-1].join(".") if self.domain.nil?
       end
     end
-  end
-
-  def params
-    parameters = {}
-    self.parameters.each do |p|
-      parameters.update Hash[p.name => p.value]
-    end
-    return parameters
   end
 
 end
