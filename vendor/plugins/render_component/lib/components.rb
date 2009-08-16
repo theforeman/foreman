@@ -12,7 +12,7 @@ module Components
       alias_method_chain :process_cleanup, :render_component
       alias_method_chain :session=, :render_component
       alias_method_chain :flash, :render_component
-      alias_method_chain :assign_shortcuts, :render_component
+      #alias_method_chain :assign_shortcuts, :render_component
       alias_method_chain :send_response, :render_component
 
       alias_method :component_request?, :parent_controller
@@ -40,7 +40,7 @@ module Components
       flash.discard if component_request?
       process_without_components(request, response, method, *arguments)
     end
-    
+
     def send_response_with_render_component
       response.prepare! unless component_request?
       response
@@ -132,7 +132,7 @@ module Components
       def process_cleanup_with_render_component
         process_cleanup_without_render_component unless component_request?
       end
-      
+
       def assign_shortcuts_with_render_component(request, response)
         assign_shortcuts_without_render_component(request, response)
         flash(:refresh)
