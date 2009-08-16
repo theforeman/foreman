@@ -21,6 +21,10 @@ class HostsController < ApplicationController
     config.columns[:build].form_ui  = :checkbox
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
       :type => :record
+    config.action_links.add 'setBuild', :label => 'Build', :inline => false,
+      :type => :record, :confirm => "This actions recreates all needed settings for host installation, if the host is
+         already running, it will disable certain functions.\n
+         Are you sure you want to reinstall this host?"
   end
 
   #returns a yaml file ready to use for puppet external nodes script
@@ -47,4 +51,13 @@ class HostsController < ApplicationController
     end
   end
 
+  def setBuild
+    host = Host.find params[:id]
+    if host.setBuild != false
+      flash[:gni_notice] = "Enabled #{host.name} for installation boot away"
+    else
+      flash[:gni_error] = "Failed to enable #{host.name} for installation"
+    end
+    redirect_to :back
+  end
 end

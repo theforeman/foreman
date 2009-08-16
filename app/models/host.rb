@@ -67,8 +67,8 @@ class Host < Puppet::Rails::Host
       if File.executable? site_post_built
         %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
       end
-    # This can generate exceptions, so place it at the end of the sequence of operations
-    #setAutosign
+    # disallow any auto signing for our host.
+    GW::Puppetca.disable
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
@@ -146,8 +146,6 @@ class Host < Puppet::Rails::Host
     return parameters
   end
 
-
-
   # import host facts, required when running without storeconfigs.
   # expect a yaml stream
   def importFacts yaml
@@ -195,6 +193,23 @@ class Host < Puppet::Rails::Host
     end
   end
 
+  # Called by build link in the list
+  # Build is set
+  # The boot link and autosign entry are created
+  # Any existing puppet certificates are deleted
+  # Any facts are discarded
+  def setBuild
+    begin
+      self.build = true
+      self.clearFacts
+      self.clearReports
+      GW::Puppetca.clean self.name
+      GW::Tftp.create([self.mac, self.os.to_s, self.arch.name, self.serial])
+    rescue
+      return false
+    end
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
@@ -225,8 +240,8 @@ class Host < Puppet::Rails::Host
 
   # ensure that host name is fqdn
   # if they user inputed short name, the domain name will be appended
-  # this is done to ensure compatability with puppet storeconfigs
-  # if the user added a domain, and the domain doesnt exist, we add it dynamiclly.
+  # this is done to ensure compatibility with puppet storeconfigs
+  # if the user added a domain, and the domain doesn't exist, we add it dynamically.
   def normalize_hostname
     # no hostname was given, since this is before validation we need to ignore it and let the validations to produce an error
     unless self.name.empty?

@@ -17,6 +17,7 @@ class UnattendedController < ApplicationController
   def preseed
   end
 
+# this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
     @host.built
@@ -32,6 +33,7 @@ class UnattendedController < ApplicationController
     # find out ip info
     if params.has_key? "spoof"
       ip = params.delete("spoof")
+      spoof = true
     elsif (ip = request.env['REMOTE_ADDR']) =~ /127.0.0/
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
@@ -45,6 +47,13 @@ class UnattendedController < ApplicationController
     if @host.nil?
       logger.info "#{controller_name}: unable to find #{ip}#{"/"+mac unless mac.nil?}"
       head(:not_found) and return
+    else
+      #enable autosign for Puppet provision
+      #the reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
+      #through puppet.
+      #TODO: add the whole part that checks if on a different server.
+      #currently we assume the CA is on the same server as us.
+      GW::Puppetca.sign unless spoof
     end
   end
 
