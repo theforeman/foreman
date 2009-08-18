@@ -184,7 +184,7 @@ class Host < Puppet::Rails::Host
     self.environment = Environment.find_or_create_by_name env.value
 
     os_name = fact(:operatingsystem)[0].value
-    os_rel = fact(:lsbdistrelease)[0].value || fact(:operatingsystemrelease)[0].value
+    os_rel = fact(:operatingsystemrelease)[0].value
     self.os = Operatingsystem.find_or_create_by_name_and_major os_name, os_rel
     self.save
     rescue
