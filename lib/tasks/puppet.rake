@@ -31,4 +31,14 @@ namespace :puppet do
       end
     end
   end
+  #TODO: remove old classes
+  namespace :import do
+    desc "Update puppet environments and classes"
+    task :puppet_classes => :environment do
+      ec, pc = Environment.count, Puppetclass.count
+      Environment.importClasses
+      puts "Environment   old:#{ec}\tcurrent:#{Environment.count}"
+      puts "PuppetClasses old:#{pc}\tcurrent:#{Puppetclass.count}"
+    end
+  end
 end
