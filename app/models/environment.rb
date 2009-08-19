@@ -18,7 +18,12 @@ class Environment < ActiveRecord::Base
     env = Hash.new
     # read puppet configuration
     conf = Puppet.settings.instance_variable_get(:@values)
-    conf[:main][:environments].split(",").each {|e| env[e.to_sym] = conf[e.to_sym][:modulepath]} unless conf[:main][:environments].nil?
+    unless conf[:main][:environments].nil?
+      conf[:main][:environments].split(",").each {|e| env[e.to_sym] = conf[e.to_sym][:modulepath]}
+    else
+      # we dont use environments
+      env[:production] = conf[:main][:modulepath]
+    end
     return env
   end
 
