@@ -1,51 +1,16 @@
-Generally, you need the following things installed:
 
-* Puppet
-* rake >= 0.84
-
-to get latest "stable" version do:
-
-git clone git://github.com/ohadlevy/gni.git gni
-cd gni
-git checkout -b origin/master
-git submodule update --init
-
-if you want to share the database with Puppets (storeconfig) edit config/database.yml and configure the production database to point to the same database, if not, you can use any other database rails support.
-
-type:
-RAILS_ENV=production rake db:migrate
-./script/server -e production
-
-the following URLs might be intersting:
-http://localhost:3000/ for really basic webgui
-http://localhost:3000/unattended/kickstart will return a kickstart for RHE3-5 / Fedora (and CentOS etc)
-http://localhost:3000/unattended/preseed will return a preseed file for usage with Debian/Ubuntu
-
-For jumpstart support, see the files in the extras/jumpstart directory
-http://localhost:3000/unattended/jumpstart_profile returns a dynamic profile
-http://localhost:3000/unattended/jumpstart_finish returns the finish script
-http://localhost:3000/hosts/externalNodes?fqdn=<host fqdn> will return a yaml output for puppet to use.
-
-If you are currently using Store Configs with Puppet and would like your Operating Systems and Environment populated from your puppet DB you can use the following Rake Tasks:
-
-RAILS_ENV=production rake puppet:migrate:populate_hosts # Migrate your puppet based hosts information to GNI
-
-However, if you are NOT using store configs and you still want the puppet node information in the database you can import it by:
-RAILS_ENV=production rake puppet:import:hosts_and_facts
-
-this by default will use the puppet vardir (as defined in puppet.conf) if you wish to use another directory, use dir=/dirname.
-Please note that its probably a good idea to clean up the files in the yaml/facts directory before you run this command.
+See wiki for instructions http://wiki.github.com/ohadlevy/gni
 
 Some screenshots and other info can be found at:
 http://ohadlevy.github.com/gni/
 for more info, contact us at ohadlevy@gmail.com (ohadlevy at #puppet), or pikelly@blueyonder.co.uk
 
-License
+Copyright (c) 2009 Ohad Levy and Paul Kelly
 
-This program and entire repository is free software; you can
-redistribute it and/or modify it under the terms of the GNU 
-General Public License as published by the Free Software 
-Foundation; either version 2 of the License, or any later version.
+This program and entire repository is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -53,5 +18,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
