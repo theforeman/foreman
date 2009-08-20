@@ -198,7 +198,7 @@ then
 fi
 
 # Inform the build system that we are done.
-echo "Informing Gini that we are built"
-curl -q -s -o /dev/null https://<%= $GINIHOST %>/unattended/built
-curl -q -s -o /dev/null http://<%= $GINIHOST %>:3000/unattended/built
+echo "Informing GNI that we are built"
+curl -q -s -o /dev/null https://<%= $GNIHOST %>/unattended/built
+curl -q -s -o /dev/null http://<%= $GNIHOST %>:3000/unattended/built
 exit 0

@@ -17,7 +17,7 @@ logger "Starting finish script"
 
 /opt/csw/bin/pkg-get -i CSWfacter CSWpuppet > /dev/null
 
-echo "Informing Gini that we are built"
-/opt/csw/bin/wget --no-check-certificate -O /dev/null https://<%= $GINIHOST %>/unattended/built
-/opt/csw/bin/wget -O /dev/null http://<%= $GINIHOST %>:3000/unattended/built
+echo "Informing GNI that we are built"
+/opt/csw/bin/wget --no-check-certificate -O /dev/null https://<%= $GNIHOST %>/unattended/built
+/opt/csw/bin/wget -O /dev/null http://<%= $GNIHOST %>:3000/unattended/built
 exit 0
