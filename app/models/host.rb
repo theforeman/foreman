@@ -130,12 +130,9 @@ class Host < Puppet::Rails::Host
     # Static parameters
     param = {}
     param["puppetmaster"] = self.puppetmaster
-    param["longsitename"] = self.domain.fullname
-    param["hostmode"] = self.environment.name
+    param["domainname"] = self.domain.fullname unless self.domain.fullname.empty?
     param.update self.params
-    puppetklasses = []
-    puppetklasses << self.puppetclasses_names
-    return Hash['classes' => puppetklasses, 'parameters' => param]
+    return Hash['classes' => self.puppetclasses_names, 'parameters' => param]
   end
 
   def params
