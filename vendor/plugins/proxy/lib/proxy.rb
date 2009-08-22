@@ -39,14 +39,12 @@ module GW
   class Puppetca
     # removes old certificate if it exists and removes autosign entry
     # parameter is the fqdn to use
-    def initialize(sbin = "/usr/sbin", puppetdir = "/etc/puppet")
-      @sbin = sbin
-      @puppetdir = puppetdir
-    end
+    @sbin = "/usr/sbin"
+    @puppetdir = "/etc/puppet"
 
     def self.clean fqdn
       begin
-        if File.exists "#{@sbin}/puppetca"
+        if File.exists? "#{@sbin}/puppetca"
           command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null"
           system "#{command} >> /tmp/puppetca.log 2>&1"
         end
@@ -57,19 +55,23 @@ module GW
 
     #remove fqdn from autosign if exists
     def self.disable
-      entries =  open("#{@puppetdir}/autosign.conf", File::RDONLY).readlines.collect do |l|
-        l if l.chomp != fqdn
+      if File.exists? "#{@puppetdir}/autosign.conf"
+        entries =  open("#{@puppetdir}/autosign.conf", File::RDONLY).readlines.collect do |l|
+          l if l.chomp != fqdn
+        end
+        entries.uniq!
+        entries.delete(nil)
+        autosign = open("/#{@puppetdir}/autosign.conf", File::TRUNC|File::RDWR)
+        autosign.write entries
+        autosign.close
       end
-      entries.uniq!
-      entries.delete(nil)
-      autosign = open("/#{@puppetdir}/autosign.conf", File::TRUNC|File::RDWR)
-      autosign.write entries
-      autosign.close
     end
 
     # add fqdn to puppet autosign file
     # parameter is fqdn to use
     def self.sign fqdn
+      FileUtils.touch("#{@puppetdir}/autosign.conf") unless File.exist?("#{@puppetdir}/autosign.conf")
+
       autosign = open("#{@puppetdir}/autosign.conf", File::RDWR)
       # Check that we don't have that host already
       found = false
