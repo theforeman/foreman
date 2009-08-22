@@ -19,4 +19,7 @@ class Operatingsystem < ActiveRecord::Base
     to_label
   end
 
+  def to_version
+    "#{major}#{('-' + minor) unless minor.empty?}"
+  end
 end
