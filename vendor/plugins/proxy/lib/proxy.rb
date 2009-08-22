@@ -54,7 +54,7 @@ module GW
     end
 
     #remove fqdn from autosign if exists
-    def self.disable
+    def self.disable fqdn
       if File.exists? "#{@puppetdir}/autosign.conf"
         entries =  open("#{@puppetdir}/autosign.conf", File::RDONLY).readlines.collect do |l|
           l if l.chomp != fqdn

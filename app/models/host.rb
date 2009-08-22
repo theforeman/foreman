@@ -64,12 +64,12 @@ class Host < Puppet::Rails::Host
     clearReports
     clearFacts
     save
-    site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.fullname.downcase}/built.sh"
+    site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
       if File.executable? site_post_built
         %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
       end
     # disallow any auto signing for our host.
-    GW::Puppetca.disable
+    GW::Puppetca.disable self.name
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
