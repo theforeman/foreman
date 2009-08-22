@@ -53,7 +53,7 @@ class UnattendedController < ApplicationController
       #through puppet.
       #TODO: add the whole part that checks if on a different server.
       #currently we assume the CA is on the same server as us.
-      GW::Puppetca.sign unless spoof
+      GW::Puppetca.sign(@host.name) unless spoof
     end
   end
 
