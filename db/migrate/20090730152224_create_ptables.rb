@@ -6,7 +6,7 @@ class CreatePtables < ActiveRecord::Migration
       t.references :operatingsystem
       t.timestamps
     end
-    Ptable.create :name => "default", :layout =>"part /boot --fstype ext3 --size=100 --asprimary\npart /     --fstype ext3 --size=1024 --grow\npart swap  --recommended" 
+    Ptable.create :name => "default", :layout =>"zerombr yes\nclearpart --all --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --fstype ext3 --size=1024 --grow\npart swap  --recommended"
 
     create_table :operatingsystems_ptables, :id => false do |t|
       t.references :ptable, :null => false

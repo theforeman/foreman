@@ -3,9 +3,11 @@ require 'puppet'
 Puppet[:config] = "/etc/puppet/puppet.conf"
 Puppet.parse_config
 
-$GNIHOST = Facter.fqdn
 # import settings file
 $settings = YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
+
+$GNIHOST = $settings[:gnihost].nil? ? Facter.fqdn : $settings[:gnihost]
+
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?
 class NilClass
   def empty?
