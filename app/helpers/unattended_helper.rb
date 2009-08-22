@@ -24,6 +24,14 @@ module UnattendedHelper
     end
   end
 
+  def epel
+    if @osver == "5" or "4"
+      "su -c 'rpm -Uvh http://download.fedora.redhat.com/pub/epel/#{@osver}/#{@arch}/epel-release-#{@host.os.to_version}.noarch.rpm'"
+    else
+      ""
+    end
+  end
+
   def ca_pubkey
     unless $settings[:CAPubKey].nil?
       "echo \"#{$settings[:CAPubKey]}\" >> /var/lib/puppet/ssl/certs/ca.pem
@@ -73,7 +81,7 @@ echo \"Updated the certificate chain. There are now $count certificates\""
 # config: /etc/puppet/puppet.conf
 
 
-/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --ignoreschedules true --server=<%= @host.puppetmaster %> > /tmp/puppet.log 2>&1"
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --ignoreschedules true --server=#{@host.puppetmaster} > /tmp/puppet.log 2>&1"
   end
 
   def handle_vmware

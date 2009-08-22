@@ -48,6 +48,9 @@ echo "updating system time"
 
 logger "Starting anaconda <%= @host.name -%> postinstall"
 
+# install epel if we can
+<%= epel -%>
+
 # update all the base packages from the updates repository
 yum -t -y -e 0 <% yumrepo -%> upgrade
 
@@ -85,6 +88,6 @@ sync
 <%= handle_vmware %>
 # Inform the build system that we are done.
 echo "Informing GNI that we are built"
-curl -q -s -o /dev/null https://<%= $GNIHOST %>/unattended/built
+curl -q -s -o /dev/null http://<%= $GNIHOST %>/unattended/built
 curl -q -s -o /dev/null http://<%= $GNIHOST %>:3000/unattended/built
 exit 0
