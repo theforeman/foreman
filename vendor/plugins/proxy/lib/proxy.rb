@@ -9,15 +9,19 @@ module GW
     # FIXME: this whole pxeboot needs a design decision, does the pxelinux files managed by puppet or us?
     def self.create params
       mac, os, arch, serial = params
-      return nil if mac.nil? or os.nil? or arch.nil?
+      return false if mac.nil? or os.nil? or arch.nil?
 
-      serial = setserial serial
-      dst = "#{os}-#{arch}#{serial}"
-      link=link(mac)
+      begin
+        serial = setserial serial
+        dst = "#{os}-#{arch}#{serial}"
+        link=link(mac)
 
-      FileUtils.rm_f link if File.exist? link
-      FileUtils.mkdir_p $settings[:tftppath] unless File.exist? $settings[:tftppath]
-      FileUtils.ln_s dst, link
+        FileUtils.mkdir_p $settings[:tftppath] unless File.exist? $settings[:tftppath]
+        FileUtils.ln_s dst, link ,:force => true
+        true
+      rescue
+        false
+      end
     end
 
     # removes links created by create method
