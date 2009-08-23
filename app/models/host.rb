@@ -63,6 +63,7 @@ class Host < Puppet::Rails::Host
     self.installed_at = Time.now.utc
     # disallow any auto signing for our host.
     GW::Puppetca.disable self.name
+    GW::Tftp.remove self.mac
     save
     site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
       if File.executable? site_post_built
