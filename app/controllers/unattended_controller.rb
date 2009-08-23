@@ -51,7 +51,7 @@ class UnattendedController < ApplicationController
   end
 
   def allowed_to_install?
-    @host.build ? true : head(:method_not_allowed)
+    @host.build or @spoof ? true : head(:method_not_allowed)
   end
 
   def handle_ca
