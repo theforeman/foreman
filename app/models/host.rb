@@ -66,9 +66,9 @@ class Host < Puppet::Rails::Host
     GW::Tftp.remove self.mac
     save
     site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
-      if File.executable? site_post_built
-        %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
-      end
+    if File.executable? site_post_built
+      %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
+    end
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
