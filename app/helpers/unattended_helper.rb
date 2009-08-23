@@ -25,7 +25,7 @@ module UnattendedHelper
   end
 
   def epel
-    if @osver == "5" or "4"
+    if @osver.to_i == 5 or 4
       "su -c 'rpm -Uvh http://download.fedora.redhat.com/pub/epel/#{@osver}/#{@arch}/epel-release-#{@host.os.to_version}.noarch.rpm'"
     else
       ""
