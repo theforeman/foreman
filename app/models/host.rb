@@ -61,15 +61,13 @@ class Host < Puppet::Rails::Host
   def built
     self.build = false
     self.installed_at = Time.now.utc
-    clearReports
-    clearFacts
+    # disallow any auto signing for our host.
+    GW::Puppetca.disable self.name
     save
     site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
       if File.executable? site_post_built
         %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
       end
-    # disallow any auto signing for our host.
-    GW::Puppetca.disable self.name
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
@@ -201,10 +199,10 @@ class Host < Puppet::Rails::Host
       self.build = true
       self.clearFacts
       self.clearReports
+      #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
       GW::Puppetca.clean self.name
-      GW::Tftp.create([self.mac, self.os.to_s, self.arch.name, self.serial])
-    rescue
-      return false
+      GW::Tftp.create([self.mac, self.os.to_s.gsub(" ","-"), self.arch.name, self.serial])
+      self.save
     end
   end
 
