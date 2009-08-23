@@ -58,8 +58,8 @@ echo \"Updated the certificate chain. There are now $count certificates\""
     vardir = /var/lib/puppet
     logdir = /var/log/puppet
     rundir = /var/run/puppet
-    ssldir = \$vardir/ssl
-    pluginsource = puppet://\$server/plugins
+    ssldir = \\$vardir/ssl
+    pluginsource = puppet://\\$server/plugins
     environments = #{@host.environment}
 
 [puppetd]
