@@ -1,5 +1,6 @@
 class UnattendedController < ApplicationController
   layout nil
+  helper :all
   before_filter :get_host_details, :allowed_to_install?, :handle_ca
 
   def kickstart
