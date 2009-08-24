@@ -25,13 +25,37 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => Architecture.first, :environment => Environment.first
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
+    puts host.errors.full_messages
     assert host.valid?
   end
 
   test "should import facts from yaml" do
     h=Host.new(:name => "sinn1636.lan")
-     h.importFacts File.read("/tmp/sinn1636.lan.yaml")
+    h.disk = "!" # workaround for now
+    h.importFacts File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))
     assert h.valid?
   end
+
+  test "should not save if both ptable and disk are not defined" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+      :architecture => Architecture.first, :environment => Environment.first
+    assert !host.valid?
+  end
+
+  test "should save if ptable is defined" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+      :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+    assert host.valid?
+  end
+
+  test "should save if disk is defined" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
+    assert host.valid?
+  end
+
 end

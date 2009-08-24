@@ -22,10 +22,11 @@ class Host < Puppet::Rails::Host
   validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
   validates_uniqueness_of  :name
   validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
-  validates_presence_of    :name, :architecture, :domain_id, :mac, :environment_id, :operatingsystem_id
+  validates_presence_of    :name, :architecture_id, :domain_id, :mac, :environment_id, :operatingsystem_id
   validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
   validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
   validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
+  validates_presence_of    :ptable, :message => "Cant be blank unless a custom partition has been defined", :if => Proc.new { |host| host.disk.empty? and not defined?(Rake) }
   validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
   validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
   validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
@@ -36,13 +37,17 @@ class Host < Puppet::Rails::Host
   # Returns the name of this host as a string
   # String: the host's name
   def to_label
-    self.name
+    name
   end
 
   # Returns the name of this host as a string
   # String: the host's name
   def to_s
-    self.to_label
+    to_label
+  end
+
+  def shortname
+    domain.nil? ? name : name.chomp("." + domain.name)
   end
 
   def clearReports
@@ -60,20 +65,19 @@ class Host < Puppet::Rails::Host
   def built
     self.build = false
     self.installed_at = Time.now.utc
-    clearReports
-    clearFacts
+    # disallow any auto signing for our host.
+    GW::Puppetca.disable self.name
+    GW::Tftp.remove self.mac
     save
-    site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.fullname.downcase}/built.sh"
-      if File.executable? site_post_built
-        %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
-      end
-    # This can generate exceptions, so place it at the end of the sequence of operations
-    #setAutosign
+    site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
+    if File.executable? site_post_built
+      %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
+    end
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
   def puppetmaster
-    self.read_attribute(:puppetmaster) || "puppet"
+    read_attribute(:puppetmaster) || "puppet"
   end
 
   def puppetmaster=(pm)
@@ -82,7 +86,7 @@ class Host < Puppet::Rails::Host
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    self.read_attribute(:root_pass) || "my default password"
+    read_attribute(:root_pass) || $settings[:root_pass] || "!*!*!*!*!"
   end
 
   # make sure we store an encrypted copy of the password in the database
@@ -104,23 +108,23 @@ class Host < Puppet::Rails::Host
   end
 
   def failed
-    (self.puppet_status & 0x00000fff)
+    (puppet_status & 0x00000fff)
   end
 
   def skipped
-    (self.puppet_status & 0x00fff000) >> 12
+    (puppet_status & 0x00fff000) >> 12
   end
 
   def failed_restarts
-    (self.puppet_status & 0x3f000000) >> 24
+    (puppet_status & 0x3f000000) >> 24
   end
 
   def no_report
-    (self.puppet_status & 0x40000000) >> 30
+    (puppet_status & 0x40000000) >> 30
   end
 
   def puppetclasses_names
-    self.puppetclasses.collect {|c| c.name}
+    puppetclasses.collect {|c| c.name}
   end
 
 
@@ -129,8 +133,8 @@ class Host < Puppet::Rails::Host
   def info
     # Static parameters
     param = {}
-    param["puppetmaster"] = self.puppetmaster
-    param["domainname"] = self.domain.fullname unless self.domain.fullname.empty?
+    param["puppetmaster"] = puppetmaster
+    param["domainname"] = domain.fullname unless domain.fullname.empty?
     param.update self.params
     return Hash['classes' => self.puppetclasses_names, 'parameters' => param]
   end
@@ -143,13 +147,11 @@ class Host < Puppet::Rails::Host
     return parameters
   end
 
-
-
   # import host facts, required when running without storeconfigs.
   # expect a yaml stream
   def importFacts yaml
     facts = YAML::load yaml
-    if self.last_compile.nil? or facts.values[:_timestamp].to_date > self.last_compile.to_date
+    if last_compile.nil? or facts.values[:_timestamp].to_date > last_compile.to_date
       self.last_compile = facts.values[:_timestamp]
       # save all other facts
       if self.respond_to?("merge_facts")
@@ -164,31 +166,53 @@ class Host < Puppet::Rails::Host
         self.save_with_validation(perform_validation = false)
         self.populateFieldsFromFacts
       rescue
-        logger.warn "Failed to save #{self.name}: #{self.errors.full_messages}"
+        logger.warn "Failed to save #{name}: #{errors.full_messages.join(", ")}"
         $stderr.puts $!
       end
     end
   end
 
-  def populateFieldsFromFacts
-    begin
-    self.mac = self.fact(:macaddress)[0].value
-    self.ip = self.fact(:ipaddress)[0].value if self.ip.nil?
-    self.domain = Domain.find_or_create_by_name self.fact(:domain)[0].value
-    # On solaris architecture fact is harwareisa
-    arch=fact(:architecture)[0] || fact(:hardwareisa)[0]
-    self.arch=Architecture.find_or_create_by_name arch.value
-    # by default, puppet doesnt store an env name in the database
-    env=fact(:environment)[0] || "production"
-    self.environment = Environment.find_or_create_by_name env.value
+  def fv name
+    unless fact(name).is_a?(Array) and not fact(name)[0].nil?
+      logger.warn "found an empty fact value for #{name}!"
+      nil
+    else
+      self.fact(name)[0].value
+    end
+  end
 
-    os_name = fact(:operatingsystem)[0].value
-    os_rel = fact(:operatingsystemrelease)[0].value
-    self.os = Operatingsystem.find_or_create_by_name_and_major os_name, os_rel
+  def populateFieldsFromFacts
+    self.mac = fv(:macaddress)
+    self.ip = fv(:ipaddress) if ip.nil?
+    self.domain = Domain.find_or_create_by_name fv(:domain)
+    # On solaris architecture fact is harwareisa
+    myarch=fv(:architecture) || fv(:hardwareisa)
+    self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
+    # by default, puppet doesnt store an env name in the database
+    env=fv(:environment) || "production"
+    self.environment = Environment.find_or_create_by_name env
+
+    os_name = fv(:operatingsystem)
+    orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
+    major, minor = orel.split(".")
+    self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
     self.save
-    rescue
-      logger.warn "failed to save #{self.name}: #{self.errors.full_messages}"
-      $stderr.puts $!
+  end
+
+  # Called by build link in the list
+  # Build is set
+  # The boot link and autosign entry are created
+  # Any existing puppet certificates are deleted
+  # Any facts are discarded
+  def setBuild
+    begin
+      self.build = true
+      clearFacts
+      clearReports
+      #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
+      GW::Puppetca.clean name
+      GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
+      self.save
     end
   end
 
@@ -222,15 +246,15 @@ class Host < Puppet::Rails::Host
 
   # ensure that host name is fqdn
   # if they user inputed short name, the domain name will be appended
-  # this is done to ensure compatability with puppet storeconfigs
-  # if the user added a domain, and the domain doesnt exist, we add it dynamiclly.
+  # this is done to ensure compatibility with puppet storeconfigs
+  # if the user added a domain, and the domain doesn't exist, we add it dynamically.
   def normalize_hostname
     # no hostname was given, since this is before validation we need to ignore it and let the validations to produce an error
-    unless self.name.empty?
-      if  self.name.count(".") == 0
-        self.name = self.name + "." + self.domain.name unless self.domain.nil?
+    unless name.empty?
+      if name.count(".") == 0
+        self.name = name + "." + domain.name unless domain.nil?
       else
-        self.domain = Domain.find_or_create_by_name self.name.split(".")[1..-1].join(".") if self.domain.nil?
+        self.domain = Domain.find_or_create_by_name name.split(".")[1..-1].join(".") if domain.nil?
       end
     end
   end

@@ -1,6 +1,7 @@
 class UnattendedController < ApplicationController
   layout nil
-  before_filter :get_host_details
+  helper :all
+  before_filter :get_host_details, :allowed_to_install?, :handle_ca
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
@@ -17,6 +18,7 @@ class UnattendedController < ApplicationController
   def preseed
   end
 
+# this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
     @host.built
@@ -32,6 +34,7 @@ class UnattendedController < ApplicationController
     # find out ip info
     if params.has_key? "spoof"
       ip = params.delete("spoof")
+      @spoof = true
     elsif (ip = request.env['REMOTE_ADDR']) =~ /127.0.0/
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
@@ -48,4 +51,16 @@ class UnattendedController < ApplicationController
     end
   end
 
+  def allowed_to_install?
+    @host.build or @spoof ? true : head(:method_not_allowed)
+  end
+
+  def handle_ca
+    #enable autosign for Puppet provision
+    #the reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
+    #through puppet.
+    #TODO: add the whole part that checks if on a different server.
+    #currently we assume the CA is on the same server as us.
+    GW::Puppetca.sign(@host.name) unless @spoof
+  end
 end

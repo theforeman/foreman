@@ -1,0 +1,62 @@
+--- !ruby/object:Puppet::Node::Facts 
+expiration: 2009-08-20 21:07:46.053586 +08:00
+name: sinn1636.lan
+values: 
+  netmask: 255.255.255.0
+  processorcount: "2"
+  swapfree: 956.99 MB
+  kernel: Linux
+  physicalprocessorcount: "1"
+  fqdn: sinn1636.lan
+  lsbmajdistrelease: "9"
+  operatingsystemrelease: "9.04"
+  uniqueid: 007f0100
+  ipaddress: 192.168.40.1
+  memorysize: 1.91 GB
+  virtual: vmware_server
+  clientversion: 0.25.0
+  rubysitedir: /usr/local/lib/site_ruby/1.8
+  hardwaremodel: x86_64
+  netmask_vmnet8: 255.255.255.0
+  macaddress_vmnet8: 00:50:56:c0:00:08
+  kernelrelease: 2.6.28-14-generic
+  ps: ps -ef
+  macaddress_eth0: 00:1c:25:14:26:ab
+  domain: lan
+  netmask_wlan0: 255.255.255.0
+  id: root
+  network_vmnet8: 192.168.40.0
+  timezone: SGT
+  uptime_days: "0"
+  processor0: Intel(R) Core(TM)2 Duo CPU     T7300  @ 2.00GHz
+  memoryfree: 1.41 GB
+  hardwareisa: unknown
+  uptime_hours: "0"
+  manufacturer: LENOVO
+  interfaces: eth0,vmnet8,wlan0,wmaster0
+  lsbdistrelease: "9.04"
+  ipaddress_vmnet8: 192.168.40.1
+  type: Notebook
+  :_timestamp: Thu Aug 20 20:37:46 +0800 2009
+  lsbdistdescription: Ubuntu 9.04
+  kernelversion: 2.6.28
+  lsbdistcodename: jaunty
+  processor1: Intel(R) Core(TM)2 Duo CPU     T7300  @ 2.00GHz
+  uptime: 14 min
+  ipaddress_wlan0: 192.168.2.103
+  puppetversion: 0.25.0
+  hostname: sinn1636
+  environment: production
+  serialnumber: L3A8632
+  network_wlan0: 192.168.2.0
+  facterversion: 1.5.4
+  macaddress: 00:1c:25:14:26:ab
+  operatingsystem: Ubuntu
+  acpi_available: present
+  swapsize: 956.99 MB
+  macaddress_wlan0: 00:13:e8:a3:a1:c5
+  lsbdistid: Ubuntu
+  productname: 6458B43
+  architecture: x86_64
+  uptime_seconds: "862"
+  rubyversion: 1.8.7
