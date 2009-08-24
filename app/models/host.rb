@@ -47,7 +47,7 @@ class Host < Puppet::Rails::Host
   end
 
   def shortname
-   name.chomp("." + domain.name)
+    domain.nil? ? name : name.chomp("." + domain.name)
   end
 
   def clearReports
@@ -174,7 +174,8 @@ class Host < Puppet::Rails::Host
 
   def fv name
     unless fact(name).is_a?(Array) and not fact(name)[0].nil?
-      warn "found an empty fact value for #{name}!"
+      logger.warn "found an empty fact value for #{name}!"
+      nil
     else
       self.fact(name)[0].value
     end
@@ -192,8 +193,9 @@ class Host < Puppet::Rails::Host
     self.environment = Environment.find_or_create_by_name env
 
     os_name = fv(:operatingsystem)
-    os_rel = fv(:operatingsystemrelease)
-    self.os = Operatingsystem.find_or_create_by_name_and_major os_name, os_rel
+    orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
+    major, minor = orel.split(".")
+    self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
     self.save
   end
 
