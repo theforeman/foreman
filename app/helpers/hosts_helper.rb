@@ -8,15 +8,17 @@ module HostsHelper
 
 # method that reformats the hostname column by adding the status icons
   def name_column(record)
-    return image_tag("hosts/attention_required.png", :size => "18x18",
-                     :title => "Pending Installation") + " " + record.name  if record.build
-
-    os_fact=record.fact('kernel')[0]
-    os=os_fact.value unless os_fact.nil?
-    return image_tag("hosts/warning.png", :size => "18x18",
-                     :title => "No Inventory Data") + " " + record.name if os.nil?
-
-    return image_tag("hosts/#{os}.jpg", :size => "18x18", :title => os) + " " + record.name
+    if record.build and not record.installed_at.nil?
+      image ="attention_required.png"
+      title = "Pending Installation"
+    elsif (os=record.fv(:kernel)).nil?
+      image = "warning.png"
+      title = "No Inventory Data"
+    else
+      image = "#{os}.jpg"
+      title = os
+    end
+    return image_tag("hosts/#{image}", :size => "18x18", :title => title) + " #{record.shortname}"
   end
 
 end
