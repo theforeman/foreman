@@ -33,6 +33,7 @@ module UnattendedHelper
   end
 
   def ca_pubkey
+    #TODO: replcae hardcoded dirs into puppet variables
     unless $settings[:CAPubKey].nil?
       "echo \"#{$settings[:CAPubKey]}\" >> /var/lib/puppet/ssl/certs/ca.pem
 count=`grep -- \"--END\" /var/lib/puppet/ssl/certs/ca.pem|wc -l`
@@ -86,7 +87,7 @@ echo \"Updated the certificate chain. There are now $count certificates\""
 
   def handle_vmware
     "# Deal with vmware install here as it cannot be done under puppet
-# The vmware configuration disconnects the puppetmaster and kernel modules need updating
+# The vmware configuration uses VMWare kernel modules for network, so unload the network while puppet is running is not a good idea usually.
 if dmidecode | grep -qi VMware
 then
 	echo \"Installing vmware support services\"
@@ -149,4 +150,10 @@ then
 fi
   "
   end
+
+  #returns the URL for GNI Built status (when a host has finished the OS instlalation)
+  def gni_url
+    url_for :only_path => false, :controller => "unattended", :action => "built"
+  end
+
 end

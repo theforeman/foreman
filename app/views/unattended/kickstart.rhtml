@@ -88,6 +88,5 @@ sync
 <%= handle_vmware %>
 # Inform the build system that we are done.
 echo "Informing GNI that we are built"
-curl -q -s -o /dev/null http://<%= $GNIHOST %>/unattended/built
-curl -q -s -o /dev/null http://<%= $GNIHOST %>:3000/unattended/built
+wget -q -O /dev/null --no-check-certificate <%= gni_url %>
 exit 0

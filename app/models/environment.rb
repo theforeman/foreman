@@ -28,6 +28,7 @@ class Environment < ActiveRecord::Base
   end
 
   # Imports all Environments and classes from Puppet modules.
+  # TODO: compare between current and imported state, so old-unused ones will be deleted
   def self.importClasses
     self.puppetEnvs.each_pair do |e,p|
       env = Environment.find_or_create_by_name e.to_s
