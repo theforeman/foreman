@@ -1,7 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+one:
+  name: default
+  layout: zerombr yes\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+
