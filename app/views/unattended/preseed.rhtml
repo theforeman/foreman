@@ -2,9 +2,9 @@ d-i debian-installer/locale string en_US
 d-i console-tools/archs select at
 d-i console-keymaps-at/keymap select American English
 d-i debian-installer/keymap string us
+d-i netcfg/choose_interface select eth0
+d-i clock-setup/utc boolean true
 d-i netcfg/dhcp_timeout string 60
-d-i clock-setup/utc boolean false
-d-i netcfg/dhcp_options select Retry network autoconfiguration
 d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname string <%= @host.name %>
 d-i netcfg/get_domain string <%= @host.domain.name %>
@@ -20,7 +20,7 @@ d-i time/zone string US/Central
 d-i apt-setup/security_host string
 
 d-i passwd/make-user boolean false
-d-i passwd/root-password-crypted <%= @host.root_password %> 
+d-i passwd/root-password-crypted <%= root_pass %>
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
 tasksel tasksel/first multiselect standard
@@ -29,30 +29,7 @@ d-i finish-install/reboot_in_progress note
 
 popularity-contest popularity-contest/participate boolean false
 
-### Less generic settings
+<%= @host.diskLayout %>
 
-# Partitioning:
-# sda1: 40-100MB for /boot
-# sda2: majority of remaining space for /
-# sda3: 64MB-(2*RAM) for swap
-d-i partman-auto/disk string /dev/sda
-d-i partman-auto/method string regular
-d-i partman-auto/expert_recipe string
-  boot-root ::
-    40 50 100 ext3
-      { } { }
-      method{ format } format{ }
-      use_filesystem{ } filesystem{ ext3 }
-      mountpoint{ /boot }
-    .
-    500 10000 1000000000 ext3
-      method{ format } format{ }
-      use_filesystem{ } filesystem{ ext3 }
-      mountpoint{ / }
-    .
-    64 512 200% linux-swap
-      method{ swap } format{ }
-    .
-d-i partman/confirm_write_new_label boolean true
-d-i partman/choose_partition select Finish partitioning and write changes to disk
-d-i partman/confirm boolean true
+d-i preseed/late_command string wget http://<%= gni_url("preseed_finish") %> -O - | /bin/sh
+

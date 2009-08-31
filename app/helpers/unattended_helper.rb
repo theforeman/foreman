@@ -152,8 +152,8 @@ fi
   end
 
   #returns the URL for GNI Built status (when a host has finished the OS instlalation)
-  def gni_url
-    url_for :only_path => false, :controller => "unattended", :action => "built"
+  def gni_url(action = "built")
+    url_for :only_path => false, :controller => "unattended", :action => action
   end
 
 end

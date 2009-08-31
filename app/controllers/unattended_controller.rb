@@ -18,6 +18,9 @@ class UnattendedController < ApplicationController
   def preseed
   end
 
+  def preseed_finish
+  end
+
 # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
