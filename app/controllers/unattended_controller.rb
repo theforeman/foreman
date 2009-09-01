@@ -1,7 +1,8 @@
 class UnattendedController < ApplicationController
   layout nil
   helper :all
-  before_filter :get_host_details, :allowed_to_install?, :handle_ca
+  before_filter :get_host_details, :allowed_to_install?
+  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish]
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
