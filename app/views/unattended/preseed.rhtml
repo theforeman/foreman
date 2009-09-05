@@ -1,4 +1,5 @@
 d-i debian-installer/locale string en_US
+d-i console-setup/layoutcode string en_US
 d-i console-tools/archs select at
 d-i console-keymaps-at/keymap select American English
 d-i debian-installer/keymap string us
@@ -15,12 +16,18 @@ d-i mirror/http/countries select enter information manually
 d-i mirror/http/directory string <%= preseed_path %>
 d-i mirror/http/hostname string <%= preseed_server %>
 d-i mirror/http/proxy string
+
+<%= @host.diskLayout %>
+
 d-i clock-setup/utc boolean false
 d-i time/zone string US/Central
 d-i apt-setup/security_host string
 
-d-i passwd/make-user boolean false
-d-i passwd/root-password-crypted <%= root_pass %>
+d-i passwd/root-password-crypted password <%= root_pass %>
+user-setup-udeb passwd/root-login boolean true
+d-i passwd passwd/make-user boolean false
+user-setup-udeb passwd/make-user boolean false
+
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
 tasksel tasksel/first multiselect standard
@@ -28,8 +35,4 @@ d-i pkgsel/include string puppet lsb-release openssh-server
 d-i finish-install/reboot_in_progress note
 
 popularity-contest popularity-contest/participate boolean false
-
-<%= @host.diskLayout %>
-
-d-i preseed/late_command string wget http://<%= gni_url("preseed_finish") %> -O - | /bin/sh
-
+d-i preseed/late_command string wget <%= gni_url("preseed_finish") %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh
