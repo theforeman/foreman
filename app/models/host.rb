@@ -8,8 +8,9 @@ class Host < Puppet::Rails::Host
   belongs_to :environment
   belongs_to :subnet
   belongs_to :ptable
+  belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
-  has_many :parameters, :dependent => :destroy
+  has_many :host_parameters, :dependent => :destroy
 
   # some shortcuts
   alias_attribute :os, :operatingsystem
@@ -124,7 +125,7 @@ class Host < Puppet::Rails::Host
   end
 
   def puppetclasses_names
-    puppetclasses.collect {|c| c.name}
+    (hostgroup.puppetclasses.collect {|c| c.name} + puppetclasses.collect {|c| c.name}).uniq
   end
 
 
@@ -141,9 +142,10 @@ class Host < Puppet::Rails::Host
 
   def params
     parameters = {}
-    self.parameters.each do |p|
-      parameters.update Hash[p.name => p.value]
-    end
+    # read group parameters
+    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] }
+    # and now read host parameters, override if required
+    host_parameters.each {|p| parameters.update Hash[p.name => p.value] }
     return parameters
   end
 
