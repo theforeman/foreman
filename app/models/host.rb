@@ -147,9 +147,7 @@ class Host < Puppet::Rails::Host
   def params
     parameters = {}
     # read group parameters only if  group exist
-    unless hostgroup.nil?
-    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] }
-    end
+    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
     # and now read host parameters, override if required
     host_parameters.each {|p| parameters.update Hash[p.name => p.value] }
     return parameters
