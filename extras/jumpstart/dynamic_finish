@@ -1,11 +1,11 @@
 #!/bin/sh
 cd $SI_CONFIG_DIR
 hostname=`hostname`
-# the servers that runs GNI
-gni="gni"
+# the servers that runs torque
+torque="torque"
 
 # We load the finish script into the logs directory so as to leave a record
-$SI_CONFIG_DIR/curl http://$gni/unattended/jumpstart_finish > /a/var/sadm/system/logs/puppet.postinstall
+$SI_CONFIG_DIR/curl http://$torque/unattended/jumpstart_finish > /a/var/sadm/system/logs/puppet.postinstall
 # Copy the working nsswitch and resolv.conf into the new server's etc directory
 cp /etc/nsswitch.conf /a/etc
 cp /etc/resolv.conf /a/etc
