@@ -125,7 +125,11 @@ class Host < Puppet::Rails::Host
   end
 
   def puppetclasses_names
-    (hostgroup.puppetclasses.collect {|c| c.name} + puppetclasses.collect {|c| c.name}).uniq
+    if hostgroup.nil?
+      return puppetclasses.collect {|c| c.name}
+    else
+      return (hostgroup.puppetclasses.collect {|c| c.name} + puppetclasses.collect {|c| c.name}).uniq
+    end
   end
 
 
