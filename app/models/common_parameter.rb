@@ -1,0 +1,2 @@
+class CommonParameter < Parameter
+end

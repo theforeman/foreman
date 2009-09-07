@@ -16,6 +16,7 @@ class Host < Puppet::Rails::Host
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
+  alias to_s to_label
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
@@ -39,12 +40,6 @@ class Host < Puppet::Rails::Host
   # String: the host's name
   def to_label
     name
-  end
-
-  # Returns the name of this host as a string
-  # String: the host's name
-  def to_s
-    to_label
   end
 
   def shortname
@@ -138,6 +133,7 @@ class Host < Puppet::Rails::Host
   def info
     # Static parameters
     param = {}
+    # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
     param["domainname"] = domain.fullname unless domain.fullname.empty?
     param.update self.params
@@ -146,7 +142,11 @@ class Host < Puppet::Rails::Host
 
   def params
     parameters = {}
-    # read group parameters only if  group exist
+    # read common parameters
+    CommonParameter.find_each {|p| parameters.update Hash[p.name => p.value] }
+    # read domain parameters
+    domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] }
+    # read group parameters only if a host belongs to a group
     hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
     # and now read host parameters, override if required
     host_parameters.each {|p| parameters.update Hash[p.name => p.value] }
