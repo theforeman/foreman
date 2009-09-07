@@ -1,11 +1,11 @@
 # Author: Roberto Moral Denche (Telmo : telmox@gmail.com)
 # Description: The tasks defined in this Rakefile will help you populate some of the
-#		fiels in GNI with what is already present in your database from
+#		fiels in Torque with what is already present in your database from
 #		StoragedConfig.
 
 namespace :puppet do
   namespace :migrate do
-    desc "Populates the host fields in GNI based on your StoredConfig DB"
+    desc "Populates the host fields in Torque based on your StoredConfig DB"
     task :populate_hosts => :environment do
       counter = 0
       Host.find_each do |host|

@@ -1,2 +1,2 @@
 # this is the static installation directory for jumpstart
-# the idea is to provide the minimum static scripts that contact GNI for actual installation instructions
+# the idea is to provide the minimum static scripts that contact torque for actual installation instructions

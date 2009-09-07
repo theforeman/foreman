@@ -56,9 +56,9 @@ class HostsController < ApplicationController
   def setBuild
     host = Host.find params[:id]
     if host.setBuild != false
-      flash[:gni_notice] = "Enabled #{host.name} for installation boot away"
+      flash[:torque_notice] = "Enabled #{host.name} for installation boot away"
     else
-      flash[:gni_error] = "Failed to enable #{host.name} for installation"
+      flash[:torque_error] = "Failed to enable #{host.name} for installation"
     end
     redirect_to :back
   end

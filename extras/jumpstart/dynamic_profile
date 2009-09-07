@@ -10,7 +10,7 @@ do
 	echo "nameserver $i" >> /etc/resolv.conf
 done
 perl -p -i -e "s/hosts:.*/hosts: files dns/" /tmp/root/etc/nsswitch.conf
-# and then download our configuration from GNI
-gni="gni"
-./curl http://$gni/unattended/jumpstart_profile > ${SI_PROFILE}
+# and then download our configuration from torque
+torque="torque"
+./curl http://$torque/unattended/jumpstart_profile > ${SI_PROFILE}
 exit 0

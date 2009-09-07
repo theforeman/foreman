@@ -17,6 +17,6 @@ logger "Starting finish script"
 
 /opt/csw/bin/pkg-get -i CSWfacter CSWpuppet > /dev/null
 
-echo "Informing GNI that we are built"
-/opt/csw/bin/wget --no-check-certificate -O /dev/null <%= gni_url %>
+echo "Informing Torque that we are built"
+/opt/csw/bin/wget --no-check-certificate -O /dev/null <%= torque_url %>
 exit 0
