@@ -211,15 +211,13 @@ class Host < Puppet::Rails::Host
   # Any existing puppet certificates are deleted
   # Any facts are discarded
   def setBuild
-    begin
-      self.build = true
-      clearFacts
-      clearReports
-      #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
-      GW::Puppetca.clean name
-      GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
-      self.save
-    end
+    clearFacts
+    clearReports
+    #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
+    GW::Puppetca.clean name
+    GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
+    self.build = true
+    self.save
   end
 
   private
