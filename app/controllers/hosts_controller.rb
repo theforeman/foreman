@@ -56,9 +56,9 @@ class HostsController < ApplicationController
   def setBuild
     host = Host.find params[:id]
     if host.setBuild != false
-      flash[:torque_notice] = "Enabled #{host.name} for installation boot away"
+      flash[:foreman_notice] = "Enabled #{host.name} for installation boot away"
     else
-      flash[:torque_error] = "Failed to enable #{host.name} for installation"
+      flash[:foreman_error] = "Failed to enable #{host.name} for installation"
     end
     redirect_to :back
   end

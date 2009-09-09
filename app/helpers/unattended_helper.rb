@@ -151,8 +151,8 @@ fi
   "
   end
 
-  #returns the URL for Torque Built status (when a host has finished the OS instlalation)
-  def torque_url(action = "built")
+  #returns the URL for Foreman Built status (when a host has finished the OS instlalation)
+  def foreman_url(action = "built")
     url_for :only_path => false, :controller => "unattended", :action => action
   end
 

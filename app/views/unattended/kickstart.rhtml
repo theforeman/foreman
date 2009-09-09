@@ -79,6 +79,6 @@ echo "Disabling various system services"
 sync
 <%= handle_vmware %>
 # Inform the build system that we are done.
-echo "Informing Torque that we are built"
-wget -q -O /dev/null --no-check-certificate <%= torque_url %>
+echo "Informing Foreman that we are built"
+wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 exit 0

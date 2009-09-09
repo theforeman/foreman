@@ -35,4 +35,4 @@ d-i pkgsel/include string puppet lsb-release openssh-server
 d-i finish-install/reboot_in_progress note
 
 popularity-contest popularity-contest/participate boolean false
-d-i preseed/late_command string wget <%= torque_url("preseed_finish") %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh
+d-i preseed/late_command string wget <%= foreman_url("preseed_finish") %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh
