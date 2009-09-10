@@ -45,12 +45,11 @@ p {
 
 #header .title {
   background-color:#406480;
-  color:#E6DFCF;
-  padding-left: 10px;
+  color:#FFFAFA;
   font-variant:small-caps;
   font-weight: bold;
   font-family: "Trebuchet MS", Verdana, sans-serif;
-  font-size: 115%;
+  font-size: 130%;
 }
 #header .bigheadletter {color:#E6C373; font-size:130%; font-family: "Trebuchet MS", Verdana, sans-serif; }
 
