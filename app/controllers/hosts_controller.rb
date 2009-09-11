@@ -1,5 +1,5 @@
 class HostsController < ApplicationController
-  helper :all
+  helper :hosts
   active_scaffold :host do |config|
     list.empty_field_text ='N/A'
     list.per_page = 15
