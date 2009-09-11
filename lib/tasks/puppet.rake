@@ -30,7 +30,7 @@ namespace :puppet do
       puts "Importing from #{dir}"
       Dir["#{dir}/*.yaml"].each do |yaml|
         name = yaml.match(/.*\/(.*).yaml/)[1]
-        puts "importing #{name}"
+        puts "Importing #{name}"
         h=Host.find_or_create_by_name name
         h.importFacts File.read(yaml)
       end
