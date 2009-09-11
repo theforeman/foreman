@@ -26,13 +26,11 @@ ntp
 <% if @osver == "5" -%>
 @core
 @base
-@ruby
 <% elsif @osver == "4" -%>
 device-mapper-multipath
 <% elsif @osver == "3" and @arch == "i386" -%>
 ethereal
 <% end -%>
-curl
 <% if @dynamic -%>
 %pre
 <%= @host.diskLayout %>
