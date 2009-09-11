@@ -16,7 +16,7 @@ module GW
         dst = "#{os}-#{arch}#{serial}"
         link=link(mac)
 
-        FileUtils.mkdir_p $settings[:tftppath] unless File.exist? $settings[:tftppath]
+        FileUtils.mkdir_p(path) unless File.exist?(path)
         FileUtils.ln_s dst, link ,:force => true
         true
       rescue
@@ -31,8 +31,15 @@ module GW
     end
 
     private
+    # returns the absolute path
+    def self.path( p = $settings[:tftppath] )
+      # are we running in RAILS or as a standalone CGI?
+      dir = RAILS_ROOT ? RAILS_ROOT : File.dirname(__FILE__)
+      return (p =~ /^\//) ? p : "#{dir}/#{p}"
+    end
+
     def self.link mac
-        $settings[:tftppath]+"/01-"+mac.gsub(/:/,"-").downcase
+        path+"/01-"+mac.gsub(/:/,"-").downcase
     end
 
     def self.setserial serial

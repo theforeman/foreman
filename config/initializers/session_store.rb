@@ -5,7 +5,7 @@
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key         => '_GNI_session',
+  :key         => '_Foreman_session',
   :secret      => '4fe1a103699cf36976181cb4d343e6cb27d7904113c9a2113862c53b51f12357f413c996e820e6e544464242915d643d32b698a9679bbfe63f6eedfd9bf67961'
 }
 

@@ -8,13 +8,15 @@ class Host < Puppet::Rails::Host
   belongs_to :environment
   belongs_to :subnet
   belongs_to :ptable
+  belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
-  has_many :parameters, :dependent => :destroy
+  has_many :host_parameters, :dependent => :destroy
 
   # some shortcuts
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
+  alias to_s to_label
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
@@ -38,12 +40,6 @@ class Host < Puppet::Rails::Host
   # String: the host's name
   def to_label
     name
-  end
-
-  # Returns the name of this host as a string
-  # String: the host's name
-  def to_s
-    to_label
   end
 
   def shortname
@@ -92,7 +88,7 @@ class Host < Puppet::Rails::Host
   # make sure we store an encrypted copy of the password in the database
   # this password can be use as is in a unix system
   def root_pass=(pass)
-    p = pass =~ /^$1$gni$.*/ ? pass : pass.crypt("$1$gni$")
+    p = pass =~ /^$1$foreman$.*/ ? pass : pass.crypt("$1$foreman$")
     write_attribute(:root_pass, p)
   end
 
@@ -124,7 +120,11 @@ class Host < Puppet::Rails::Host
   end
 
   def puppetclasses_names
-    puppetclasses.collect {|c| c.name}
+    if hostgroup.nil?
+      return puppetclasses.collect {|c| c.name}
+    else
+      return (hostgroup.puppetclasses.collect {|c| c.name} + puppetclasses.collect {|c| c.name}).uniq
+    end
   end
 
 
@@ -133,6 +133,7 @@ class Host < Puppet::Rails::Host
   def info
     # Static parameters
     param = {}
+    # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
     param["domainname"] = domain.fullname unless domain.fullname.empty?
     param.update self.params
@@ -141,9 +142,14 @@ class Host < Puppet::Rails::Host
 
   def params
     parameters = {}
-    self.parameters.each do |p|
-      parameters.update Hash[p.name => p.value]
-    end
+    # read common parameters
+    CommonParameter.find_each {|p| parameters.update Hash[p.name => p.value] }
+    # read domain parameters
+    domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] }
+    # read group parameters only if a host belongs to a group
+    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
+    # and now read host parameters, override if required
+    host_parameters.each {|p| parameters.update Hash[p.name => p.value] }
     return parameters
   end
 
@@ -205,15 +211,13 @@ class Host < Puppet::Rails::Host
   # Any existing puppet certificates are deleted
   # Any facts are discarded
   def setBuild
-    begin
-      self.build = true
-      clearFacts
-      clearReports
-      #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
-      GW::Puppetca.clean name
-      GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
-      self.save
-    end
+    clearFacts
+    clearReports
+    #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
+    GW::Puppetca.clean name
+    GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
+    self.build = true
+    self.save
   end
 
   private

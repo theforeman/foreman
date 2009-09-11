@@ -1,11 +1,11 @@
 # Author: Roberto Moral Denche (Telmo : telmox@gmail.com)
 # Description: The tasks defined in this Rakefile will help you populate some of the
-#		fiels in GNI with what is already present in your database from
+#		fiels in Foreman with what is already present in your database from
 #		StoragedConfig.
 
 namespace :puppet do
   namespace :migrate do
-    desc "Populates the host fields in GNI based on your StoredConfig DB"
+    desc "Populates the host fields in Foreman based on your StoredConfig DB"
     task :populate_hosts => :environment do
       counter = 0
       Host.find_each do |host|
@@ -30,7 +30,7 @@ namespace :puppet do
       puts "Importing from #{dir}"
       Dir["#{dir}/*.yaml"].each do |yaml|
         name = yaml.match(/.*\/(.*).yaml/)[1]
-        puts "importing #{name}"
+        puts "Importing #{name}"
         h=Host.find_or_create_by_name name
         h.importFacts File.read(yaml)
       end

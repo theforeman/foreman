@@ -5,9 +5,10 @@ class HostsController < ApplicationController
     list.per_page = 15
     list.sorting = {:name => 'ASC' }
     config.list.columns = [:name, :operatingsystem, :environment, :last_compile ]
-    config.columns = %w{ name ip mac puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment parameters}
+    config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
     config.columns[:architecture].form_ui  = :select
     config.columns[:media].form_ui  = :select
+    config.columns[:hostgroup].form_ui  = :select
     config.columns[:model].form_ui  = :select
     config.columns[:domain].form_ui  = :select
     config.columns[:puppetclasses].form_ui  = :select
@@ -55,9 +56,9 @@ class HostsController < ApplicationController
   def setBuild
     host = Host.find params[:id]
     if host.setBuild != false
-      flash[:gni_notice] = "Enabled #{host.name} for installation boot away"
+      flash[:foreman_notice] = "Enabled #{host.name} for installation boot away"
     else
-      flash[:gni_error] = "Failed to enable #{host.name} for installation"
+      flash[:foreman_error] = "Failed to enable #{host.name} for installation"
     end
     redirect_to :back
   end

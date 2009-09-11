@@ -3,4 +3,4 @@ cat > /etc/puppet/puppet.conf << EOF
 EOF
 /bin/touch /etc/puppet/namespaceauth.conf 
 /usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
-wget -q -O /dev/null --no-check-certificate <%= gni_url %>
+wget -q -O /dev/null --no-check-certificate <%= foreman_url %>

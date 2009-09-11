@@ -1,4 +1,3 @@
 --- 
 :modulepath: /etc/puppet/modules/
-:logfile: /var/log/gni.log
-:tftppath: /var/tftp/
+:tftppath: tftp/

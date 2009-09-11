@@ -1,0 +1,2 @@
+module HostGroupsHelper
+end

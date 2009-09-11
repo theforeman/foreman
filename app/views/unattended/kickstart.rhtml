@@ -68,14 +68,6 @@ EOF
 # Setup puppet to run on system reboot
 /sbin/chkconfig --level 345 puppet on
 
-# replaces puppet default init script, from some reason it ignores the -o (one time) and the no
-# daemon option in the config file, an updated file will be replaced during the puppet run
-
-cat > /etc/init.d/puppet << EOF
-<%= puppet_init %>
-EOF
-chmod +x /etc/init.d/puppet
-
 # Disable most things. Puppet will activate these if required.
 echo "Disabling various system services"
 <% %w{autofs gpm sendmail cups iptables ip6tables auditd arptables_jf xfs pcmcia isdn rawdevices hpoj bluetooth openibd avahi-daemon avahi-dnsconfd hidd hplip pcscd restorecond mcstrans rhnsd yum-updatesd}.each do |service| -%>
@@ -87,6 +79,6 @@ echo "Disabling various system services"
 sync
 <%= handle_vmware %>
 # Inform the build system that we are done.
-echo "Informing GNI that we are built"
-wget -q -O /dev/null --no-check-certificate <%= gni_url %>
+echo "Informing Foreman that we are built"
+wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 exit 0
