@@ -1,8 +1,8 @@
 class Report < ActiveRecord::Base
   belongs_to :host
   serialize :log, Puppet::Transaction::Report
-  validates_presence_of :log
-  validates_associated :host
+  validates_presence_of :log, :host_id, :reported_at
+  validates_uniqueness_of :reported_at
 
   def failed
     log.metrics["resources"][:failed]
@@ -19,24 +19,39 @@ class Report < ActiveRecord::Base
   #imports a yaml report into database
   def self.import(yaml)
     report = YAML.load(yaml)
-    resources = report.metrics["resources"]
+    raise "invalid report" unless report.is_a?(Puppet::Transaction::Report)
 
-    # check if the report actually contain anything interesting
-    if resources[:failed] + resources[:skipped] + resources[:failed_restarts] + report.metrics["changes"][:total] > 0
+    logger.info "processing report for #{report.name}"
+    begin
+      if (host = Host.find_by_name report.host)
+        host.last_report = report.time if host.last_report.nil? or host.last_report < report.time
 
-      hostname = report.host.split(".")[0] #drop the domainname
-      if (host = Host.find_by_name hostname)
-        host.puppet_status  = 0
-        host.puppet_status  = resources[:failed] if resources[:failed] > 0
-        # We only capture skipped errors when there are associated log entries.
-        # Sometimes there are skipped entries but no errors in the messages file.
-        # I do not know what this means.
-        host.puppet_status |= resources[:skipped] << 12 if resources[:skipped] > 0 and report.logs.size > 0
-        host.puppet_status |= resources[:failed_restarts] << 24 if resources[:failed_restarts] > 0
-        Report.create! :log => report, :host => host, :reported_at => report.time
+        resources = report.metrics["resources"]
+        # check if the report actually contain anything interesting
+        if resources[:failed] + resources[:skipped] + resources[:failed_restarts] + report.metrics["changes"][:total] > 0
+          host.puppet_status  = 0
+          host.puppet_status  = resources[:failed] if resources[:failed] > 0
+          # We only capture skipped errors when there are associated log entries.
+          # Sometimes there are skipped entries but no errors in the messages file.
+          # I do not know what this means.
+          host.puppet_status |= resources[:skipped] << 12 if resources[:skipped] > 0 and report.logs.size > 0
+          host.puppet_status |= resources[:failed_restarts] << 24 if resources[:failed_restarts] > 0
+
+          Report.create :log => report, :host => host, :reported_at => report.time
+        end
+        # we save the host without validation for two reasons:
+        # 1. it might be auto imported, therefore might not be valid (e.g. missing partition table etc)
+        # 2. we want this to be fast and light on the db.
+        # at this point, the report is important, not as much of the host
+        host.save_with_validation(perform_validation = false)
+      else
+        logger.info "Found report for #{report.name} which is not in out DB, interesting...."
+        return false
       end
-    end
 
+    rescue Exception => e
+      logger.warn "failed to process report for #{report.name} due to:#{e}"
+    end
   end
 
   def self.summarise(message, type, hosts)
@@ -55,7 +70,7 @@ class Report < ActiveRecord::Base
 
   # We do not keep more than 24 hours of history in the database
   def self.expire_reports
-    expired = Report.all.map {|report| report.reported_at < (Time.now.utc - 24.hours)}
+    expired = Report.find(:all, :conditions => ["reported_at < ?",(Time.now.utc - 24.hours)])
     # We only expire reports if there is at least one newer report.
     # This way, there is always a report to look at if the host shows an error. Even if there have been no reports for more than a day
     expired = expired.sort.map{|report| report.host.reports.size > 1}
