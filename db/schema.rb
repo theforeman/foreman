@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090804130144) do
+ActiveRecord::Schema.define(:version => 20090907045751) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -61,6 +61,17 @@ ActiveRecord::Schema.define(:version => 20090804130144) do
   add_index "fact_values", ["fact_name_id"], :name => "index_fact_values_on_fact_name_id"
   add_index "fact_values", ["host_id"], :name => "index_fact_values_on_host_id"
 
+  create_table "hostgroups", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "hostgroups_puppetclasses", :id => false, :force => true do |t|
+    t.integer "hostgroup_id",   :null => false
+    t.integer "puppetclass_id", :null => false
+  end
+
   create_table "hosts", :force => true do |t|
     t.string   "name",                                               :null => false
     t.string   "ip"
@@ -92,6 +103,8 @@ ActiveRecord::Schema.define(:version => 20090804130144) do
     t.text     "disk"
     t.datetime "installed_at"
     t.integer  "model_id"
+    t.integer  "host_group_id"
+    t.integer  "hostgroup_id"
   end
 
   add_index "hosts", ["name"], :name => "index_hosts_on_name"
@@ -162,6 +175,11 @@ ActiveRecord::Schema.define(:version => 20090804130144) do
     t.integer  "host_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
+    t.integer  "host_group_id"
+    t.integer  "hostgroup_id"
+    t.string   "type"
+    t.integer  "domain_id"
   end
 
   create_table "ptables", :force => true do |t|
