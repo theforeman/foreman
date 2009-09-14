@@ -9,17 +9,20 @@ class Operatingsystem < ActiveRecord::Base
   #TODO: add validation for name and major uniqueness
 
   before_destroy :ensure_not_used
+  alias to_s to_label
 
   # The OS is usually represented as the catenation of the OS and the revision. E.G. "Solaris 10"
   def to_label
     "#{name} #{major}#{('.' + minor) unless minor.empty?}"
   end
 
-  def to_s
-    to_label
-  end
-
   def to_version
     "#{major}#{('-' + minor) unless minor.empty?}"
   end
+
+  def fullname
+    "#{name}_#{to_version}"
+  end
+
+
 end

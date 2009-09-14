@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hostgroups, :active_scaffold => true
   map.resources :commonParameters, :active_scaffold => true
   map.resources :environments, :active_scaffold => true
+  map.resources :reports, :active_scaffold => true
   map.connect "/hosts/externalNodes", :controller => 'hosts', :action => 'externalNodes'
   map.resources :hosts, :active_scaffold => true
 
