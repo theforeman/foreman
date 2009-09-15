@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090907045751) do
+ActiveRecord::Schema.define(:version => 20090915030726) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -103,7 +103,6 @@ ActiveRecord::Schema.define(:version => 20090907045751) do
     t.text     "disk"
     t.datetime "installed_at"
     t.integer  "model_id"
-    t.integer  "host_group_id"
     t.integer  "hostgroup_id"
   end
 
@@ -175,8 +174,6 @@ ActiveRecord::Schema.define(:version => 20090907045751) do
     t.integer  "host_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_id"
-    t.integer  "host_group_id"
     t.integer  "hostgroup_id"
     t.string   "type"
     t.integer  "domain_id"
@@ -207,8 +204,8 @@ ActiveRecord::Schema.define(:version => 20090907045751) do
   end
 
   create_table "reports", :force => true do |t|
-    t.integer  "host_id",                      :null => false
-    t.text     "log",         :limit => 51200, :null => false
+    t.integer  "host_id",     :null => false
+    t.text     "log"
     t.datetime "reported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
