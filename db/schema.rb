@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090915030726) do
+ActiveRecord::Schema.define(:version => 20090916053824) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20090915030726) do
   end
 
   create_table "hosts", :force => true do |t|
-    t.string   "name",                                               :null => false
+    t.string   "name",                                                :null => false
     t.string   "ip"
     t.string   "environment"
     t.datetime "last_compile"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(:version => 20090915030726) do
     t.string   "root_pass",          :limit => 64
     t.string   "serial",             :limit => 12
     t.string   "puppetmaster"
-    t.integer  "puppet_status",                    :default => 0,    :null => false
+    t.integer  "puppet_status",                    :default => 0,     :null => false
     t.integer  "domain_id"
     t.integer  "architecture_id"
     t.integer  "operatingsystem_id"
@@ -98,11 +98,12 @@ ActiveRecord::Schema.define(:version => 20090915030726) do
     t.integer  "sp_subnet_id"
     t.integer  "ptable_id"
     t.integer  "media_id"
-    t.boolean  "build",                            :default => true
+    t.boolean  "build",                            :default => false
     t.text     "comment"
     t.text     "disk"
     t.datetime "installed_at"
     t.integer  "model_id"
+    t.integer  "host_group_id"
     t.integer  "hostgroup_id"
   end
 
@@ -174,6 +175,8 @@ ActiveRecord::Schema.define(:version => 20090915030726) do
     t.integer  "host_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
+    t.integer  "host_group_id"
     t.integer  "hostgroup_id"
     t.string   "type"
     t.integer  "domain_id"
@@ -204,8 +207,8 @@ ActiveRecord::Schema.define(:version => 20090915030726) do
   end
 
   create_table "reports", :force => true do |t|
-    t.integer  "host_id",     :null => false
-    t.text     "log"
+    t.integer  "host_id",                      :null => false
+    t.text     "log",         :limit => 51200, :null => false
     t.datetime "reported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
