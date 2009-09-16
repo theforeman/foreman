@@ -30,12 +30,17 @@ class HostTest < ActiveSupport::TestCase
     assert host.valid?
   end
 
-  test "should import facts from yaml" do
+  test "should import facts from yaml stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    h.importFacts File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))
+    h.importFacts YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
     assert h.valid?
   end
+
+  test "should import facts from yaml of a new host" do
+    assert Host.importHostAndFacts File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))
+  end
+
 
   test "should not save if both ptable and disk are not defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",

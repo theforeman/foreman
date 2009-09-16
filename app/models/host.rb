@@ -153,24 +153,41 @@ class Host < Puppet::Rails::Host
     return parameters
   end
 
-  # import host facts, required when running without storeconfigs.
-  # expect a yaml stream
-  def importFacts yaml
+  def self.importHostAndFacts yaml
     facts = YAML::load yaml
-    if last_compile.nil? or facts.values[:_timestamp].to_date > last_compile.to_date
+    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+
+    h=Host.find_or_create_by_name facts.name
+    return h.importFacts(facts)
+  end
+
+  # import host facts, required when running without storeconfigs.
+  # expect a Puppet::Node::Facts
+  def importFacts facts
+    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+
+    # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
+    raise "Host is pending for Build" if build
+
+    if last_compile.nil? or (last_compile + 1.minute < facts.values[:_timestamp])
       self.last_compile = facts.values[:_timestamp]
+      begin
       # save all other facts
       if self.respond_to?("merge_facts")
         self.merge_facts(facts.values)
-        # pre 0.24 it was called setfacts
+        # pre 0.25 it was called setfacts
       else
         self.setfacts(facts.values)
       end
-      # we are saving here with no validations, as we really don't have most of the info required
-      # but it should be fixed when parsing the facts
-      begin
+        # we are saving here with no validations, as we want this process to be as fast
+        # as possible, assuming we already have all the right settings in Foreman.
+        # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
+        # TODO: if it was installed by Foreman and there is a mismatch,
+        # we should probably send out an alert.
         self.save_with_validation(perform_validation = false)
-        self.populateFieldsFromFacts
+
+        # we want to import other information only if this host was never installed via Foreman
+        installed_at.nil? ? self.populateFieldsFromFacts : true
       rescue
         logger.warn "Failed to save #{name}: #{errors.full_messages.join(", ")}"
         $stderr.puts $!
@@ -192,17 +209,20 @@ class Host < Puppet::Rails::Host
     self.ip = fv(:ipaddress) if ip.nil?
     self.domain = Domain.find_or_create_by_name fv(:domain)
     # On solaris architecture fact is harwareisa
-    myarch=fv(:architecture) || fv(:hardwareisa)
-    self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
+    if myarch=fv(:architecture) || fv(:hardwareisa)
+      self.arch=Architecture.find_or_create_by_name myarch
+    end
     # by default, puppet doesnt store an env name in the database
     env=fv(:environment) || "production"
     self.environment = Environment.find_or_create_by_name env
 
     os_name = fv(:operatingsystem)
-    orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
-    major, minor = orel.split(".")
-    self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
-    self.save
+    if orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
+      major, minor = orel.split(".")
+      self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
+    end
+    # again we are saving without validations as input is required (e.g. partition tables)
+    self.save_with_validation(perform_validation = false)
   end
 
   # Called by build link in the list
@@ -213,7 +233,7 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
-    #TODO move this stuff to be in the observor, as if the host changes after its being built this might invalidate the current settings
+    #TODO move this stuff to be in the observer, as if the host changes after its being built this might invalidate the current settings
     GW::Puppetca.clean name
     GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
     self.build = true
