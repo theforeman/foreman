@@ -63,4 +63,17 @@ class HostTest < ActiveSupport::TestCase
     assert host.valid?
   end
 
+  test "should import from external nodes output" do
+    # create a dummy node
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
+
+    # dummy external node info
+    nodeinfo = {"parameters"=>{"puppetmaster"=>"puppet", "MYVAR"=>"value"}, "classes"=>["base","apache"]}
+
+    host.importNode nodeinfo
+
+    assert host.info == nodeinfo
+  end
 end
