@@ -45,4 +45,36 @@ namespace :puppet do
       puts "PuppetClasses old:#{pc}\tcurrent:#{Puppetclass.count}"
     end
   end
+  namespace :import do
+    desc "
+    Import your hosts classes and parameters classifications from another external node source.
+    define script=/dir/node as the script which provides the external nodes information.
+    This will only scan for hosts that already exists in our database, if you want to
+    import hosts, use one of the other importers.
+    YOU Must import your classes first!"
+
+    task :external_nodes => :environment do
+      if Puppetclass.count == 0
+        $stdout.puts "You dont have any classes defined.. aborting!"
+        exit(1)
+      end
+
+      if (script = ENV['script']).nil?
+        $stdout.puts "You must define the old external nodes script to use. script=/path/node"
+        exit(1)
+      end
+
+      Host.find_each do |host|
+        $stdout.print "processing #{host.name} "
+        nodeinfo = YAML::load %x{#{script} #{host.name}}
+        if nodeinfo.is_a?(Hash)
+          $stdout.puts "DONE" if host.importNode nodeinfo
+        else
+          $stdout.puts "ERROR: invalid output from external nodes"
+        end
+      end
+
+    end
+  end
+
 end

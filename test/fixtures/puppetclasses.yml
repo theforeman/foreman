@@ -1,9 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  nameindicator: MyString
+  name: base
 
 two:
-  name: MyString
+  name: apache
   nameindicator: MyString

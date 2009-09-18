@@ -240,6 +240,40 @@ class Host < Puppet::Rails::Host
     self.save
   end
 
+  # this method accepts a puppets external node yaml output and generate a node in our setup
+  # it is assumed that you already have the node (e.g. imported by one of the rack tasks)
+  def importNode nodeinfo
+    # puppet classes
+    nodeinfo["classes"].each do |klass|
+      if pc = Puppetclass.find_by_name(klass)
+        self.puppetclasses << pc unless puppetclasses.exists?(pc)
+      else
+        logger.warn "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoreing"
+        $stderr.puts $!
+      end
+    end
+
+    # parameters are a bit more tricky, as some classifiers provide the facts as parameters as well
+    # not sure what is puppet priority about it, but we ignore it if has a fact with the same name.
+    # additionally, we don't import any non strings values, as puppet don't know what to do with those as well.
+
+    myparams = self.info["parameters"]
+    nodeinfo["parameters"].each_pair do |param,value|
+      next if fact_names.exists? :name => param
+      next unless value.is_a?(String)
+
+      # we already have this parameter
+      next if myparams.has_key?(param) and myparams[param] == value
+
+      unless (hp = self.host_parameters.create(:name => param, :value => value))
+        logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(", ")}"
+        $stderr.puts $!
+      end
+    end
+
+    self.save
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
