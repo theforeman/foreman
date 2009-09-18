@@ -19,7 +19,7 @@ module HostsHelper
       title = os
     end
     image_tag("hosts/#{image}", :size => "18x18", :title => title) +
-      link_to(record.shortname, :action => "edit", :id => record)
+      link_to(record.shortname, :controller => "hosts", :action => "edit", :id => record)
   end
 
 end
