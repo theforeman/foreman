@@ -1,7 +1,17 @@
 module ReportsHelper
-  def entries_column record
-    entry = record.log.logs.map{|entry| "%s %s" % [entry.source, entry.message]}.join("<br>")
-    entry << "<br>See logfile for more details" if record.log.logs.size > 99
-    entry
+
+  def reported_at_column(record)
+    time_ago_in_words record.reported_at.getlocal
+  end
+
+  def host_column(record)
+    if record.error?
+      img = "hosts/warning"
+    elsif record.changes?
+      img = "hosts/attention_required"
+    else
+      img = "true"
+    end
+    image_tag("#{img}.png") + " " + record.host.name
   end
 end

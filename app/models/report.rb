@@ -16,6 +16,22 @@ class Report < ActiveRecord::Base
     log.metrics["resources"][:skipped]
   end
 
+  def error?
+    failed + failed_restarts + skipped > 0
+  end
+
+  def changes?
+    log.metrics["changes"][:total] > 0
+  end
+
+  def config_retrival
+    log.metrics["time"][:config_retrieval].round_with_precision(2)
+  end
+
+  def runtime
+    log.metrics["time"][:total].round_with_precision(2)
+  end
+
   #imports a yaml report into database
   def self.import(yaml)
     report = YAML.load(yaml)
