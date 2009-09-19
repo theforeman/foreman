@@ -22,7 +22,7 @@ class Environment < ActiveRecord::Base
       conf[:main][:environments].split(",").each {|e| env[e.to_sym] = conf[e.to_sym][:modulepath]}
     else
       # we dont use environments
-      env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || Puppet[:modulepath]
+      env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || $settings[:modulepath] || "/etc/puppet/modules"
     end
     return env
   end
