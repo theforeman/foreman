@@ -21,6 +21,8 @@ class HostsController < ApplicationController
     config.columns[:puppetmaster].description = "leave empty if its just puppet"
     config.columns[:disk].description = "the disk layout to use"
     config.columns[:build].form_ui  = :checkbox
+    config.action_links.add 'rrdreport', :label => 'RRDReport', :inline => true,
+        :type => :record if $settings[:rrd_report_url]
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
       :type => :record
     config.action_links.add 'setBuild', :label => 'Build', :inline => false,
@@ -62,4 +64,14 @@ class HostsController < ApplicationController
     end
     redirect_to :back
   end
+
+  # generates a link to Puppetmaster RD graphs
+  def rrdreport
+    if $settings[:rrd_report_url].nil? or (host=Host.find(params[:id])).last_report.nil?
+      render :text => "Sorry, no graphs for this host"
+    else
+      render :partial => "rrdreport", :locals => { :host => host}
+    end
+  end
+
 end
