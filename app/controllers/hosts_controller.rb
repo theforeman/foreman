@@ -4,6 +4,7 @@ class HostsController < ApplicationController
     list.empty_field_text ='N/A'
     list.per_page = 15
     list.sorting = {:name => 'ASC' }
+    config.actions.exclude :show
     config.list.columns = [:name, :operatingsystem, :environment, :last_report ]
     config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
     config.columns[:architecture].form_ui  = :select
