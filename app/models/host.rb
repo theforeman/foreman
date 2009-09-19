@@ -80,6 +80,11 @@ class Host < Puppet::Rails::Host
     write_attribute(:puppetmaster, pm == "puppet" ? nil : pm)
   end
 
+  #retuns fqdn of host puppetmaster
+  def pm_fqdn
+    puppetmaster == "puppet" ? "puppet.#{domain.name}" : "#{puppetmaster}"
+  end
+
   # no need to store anything in the db if the password is our default
   def root_pass
     read_attribute(:root_pass) || $settings[:root_pass] || "!*!*!*!*!"
