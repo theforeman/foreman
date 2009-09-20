@@ -75,4 +75,15 @@ class HostsController < ApplicationController
     end
   end
 
+  # shows the last report for a host
+  def report
+    # is it safe to assume that the biggest ID is the last report?
+    redirect_to :controller => "reports", :action => "show", :id => Host.find(params[:id]).reports.last
+  end
+
+  # shows all reports for a certian host
+  def reports
+    @host = Host.find(params[:id])
+  end
+
 end

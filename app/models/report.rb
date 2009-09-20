@@ -79,7 +79,7 @@ class Report < ActiveRecord::Base
       type[:failed]          +=1 if failed          > 0
       type[:failed_restarts] +=1 if failed_restarts > 0
       type[:skipped]         +=1 if skipped         > 0
-      type[:no_report]       +=1 if no_report       > 0
+      type[:no_report]       +=1 if no_report
     end
   end
 
@@ -91,9 +91,6 @@ class Report < ActiveRecord::Base
   # We do not keep more than 24 hours of history in the database
   def self.expire_reports
     expired = Report.find(:all, :conditions => ["reported_at < ?",(Time.now.utc - 24.hours)])
-    # We only expire reports if there is at least one newer report.
-    # This way, there is always a report to look at if the host shows an error. Even if there have been no reports for more than a day
-    expired = expired.sort.map{|report| report.host.reports.size > 1}
     logger.info Time.now.to_s + ": Expiring #{expired.size} reports"
     expired.each{|report| report.destroy}
   end
