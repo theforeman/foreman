@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090916053824) do
+ActiveRecord::Schema.define(:version => 20090920065522) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name",       :limit => 10, :default => "x86_64", :null => false
@@ -103,11 +103,19 @@ ActiveRecord::Schema.define(:version => 20090916053824) do
     t.text     "disk"
     t.datetime "installed_at"
     t.integer  "model_id"
-    t.integer  "host_group_id"
     t.integer  "hostgroup_id"
   end
 
+  add_index "hosts", ["architecture_id"], :name => "host_arch_id_ix"
+  add_index "hosts", ["domain_id"], :name => "host_domain_id_ix"
+  add_index "hosts", ["environment_id"], :name => "host_env_id_ix"
+  add_index "hosts", ["hostgroup_id"], :name => "host_group_id_ix"
+  add_index "hosts", ["installed_at"], :name => "index_hosts_on_installed_at"
+  add_index "hosts", ["last_report"], :name => "index_hosts_on_last_report"
+  add_index "hosts", ["media_id"], :name => "host_media_id_ix"
   add_index "hosts", ["name"], :name => "index_hosts_on_name"
+  add_index "hosts", ["operatingsystem_id"], :name => "host_os_id_ix"
+  add_index "hosts", ["puppet_status"], :name => "index_hosts_on_puppet_status"
   add_index "hosts", ["source_file_id"], :name => "index_hosts_on_source_file_id"
 
   create_table "hosts_puppetclasses", :id => false, :force => true do |t|
@@ -175,12 +183,15 @@ ActiveRecord::Schema.define(:version => 20090916053824) do
     t.integer  "host_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_id"
-    t.integer  "host_group_id"
     t.integer  "hostgroup_id"
     t.string   "type"
     t.integer  "domain_id"
   end
+
+  add_index "parameters", ["domain_id", "type"], :name => "index_parameters_on_domain_id_and_type"
+  add_index "parameters", ["host_id", "type"], :name => "index_parameters_on_host_id_and_type"
+  add_index "parameters", ["hostgroup_id", "type"], :name => "index_parameters_on_hostgroup_id_and_type"
+  add_index "parameters", ["type"], :name => "index_parameters_on_type"
 
   create_table "ptables", :force => true do |t|
     t.string   "name",               :limit => 64,   :null => false
@@ -207,12 +218,14 @@ ActiveRecord::Schema.define(:version => 20090916053824) do
   end
 
   create_table "reports", :force => true do |t|
-    t.integer  "host_id",                      :null => false
-    t.text     "log",         :limit => 51200, :null => false
+    t.integer  "host_id",     :null => false
+    t.text     "log"
     t.datetime "reported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "reports", ["reported_at", "host_id"], :name => "index_reports_on_reported_at_and_host_id"
 
   create_table "resource_tags", :force => true do |t|
     t.integer  "resource_id"
