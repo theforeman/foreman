@@ -121,7 +121,7 @@ class Host < Puppet::Rails::Host
   end
 
   def no_report
-    (puppet_status & 0x40000000) >> 30
+    last_report.nil? or last_report < Time.now - 33.minutes
   end
 
   def puppetclasses_names

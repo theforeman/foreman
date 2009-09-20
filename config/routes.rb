@@ -1,6 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => "hosts"
 
+  map.connect "/hosts/externalNodes", :controller => 'hosts', :action => 'externalNodes'
+  map.resources :hosts, :member => {:report => :get, :reports => :get}, :collection => {:show_search => :get}, :active_scaffold => true
+  map.connect   "/reports/expire_reports", :controller => "reports", :action => "expire_reports"
+  map.resources :reports, :active_scaffold => true
   map.resources :domains, :active_scaffold => true
   map.resources :operatingsystems, :active_scaffold => true
   map.resources :medias, :active_scaffold => true
@@ -10,9 +14,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hostgroups, :active_scaffold => true
   map.resources :common_parameters, :active_scaffold => true
   map.resources :environments, :active_scaffold => true
-  map.resources :reports, :active_scaffold => true
-  map.connect "/hosts/externalNodes", :controller => 'hosts', :action => 'externalNodes'
-  map.resources :hosts, :active_scaffold => true
 
   #default
   map.connect ':controller/:action/:id'
