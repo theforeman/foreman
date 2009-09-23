@@ -153,7 +153,7 @@ display: block;
 background-color: #555;
 }
 
-.active-scaffold th a {
+.active-scaffold th a, .active-scaffold th a:visited {
 color: #fff;
 padding: 2px 15px 2px 5px;
 }
@@ -314,7 +314,8 @@ font: bold 11px verdana, sans-serif;
 padding: 0 2px 1px 17px;
 }
 
-.blue-theme .active-scaffold .active-scaffold-header div.actions a {
+.blue-theme .active-scaffold .active-scaffold-header div.actions a,
+.blue-theme .active-scaffold .active-scaffold-header div.actions a:visited {
 color: #06c;
 }
 
@@ -377,7 +378,8 @@ margin: 0 -2px;
 font: bold 12px arial, sans-serif;
 }
 
-.blue-theme .active-scaffold-footer a {
+.blue-theme .active-scaffold-footer a,
+.blue-theme .active-scaffold-footer a:visited {
 color: #fff;
 }
 
@@ -642,7 +644,8 @@ border: solid 1px #1F7F00;
 padding: 2px;
 }
 
-.active-scaffold .fieldWithErrors input.text-input,
+.active-scaffold .fieldWithErrors input,
+.active-scaffold .fieldWithErrors textarea,
 .active-scaffold .fieldWithErrors select {
 border: solid 1px #f00;
 }
