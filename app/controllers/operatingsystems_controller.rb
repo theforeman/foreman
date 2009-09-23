@@ -2,8 +2,8 @@ class OperatingsystemsController < ApplicationController
   helper :operatingsystem
   active_scaffold :operatingsystem do |config|
     config.label = "Operating systems"
-    config.columns = [:name, :architectures, :medias, :ptables ]
-    config.create.columns  << [:major, :minor]
+    config.columns = [:name, :major, :minor, :architectures, :medias, :ptables ]
+    config.list.columns.exclude [:major, :minor]
     config.columns[:architectures].form_ui  = :select
     config.columns[:ptables].form_ui  = :select
     config.columns[:ptables].label = "Partition tables"
