@@ -16,7 +16,6 @@ class Host < Puppet::Rails::Host
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
-  alias to_s to_label
 
   validates_uniqueness_of  :ip
   validates_uniqueness_of  :mac
@@ -40,6 +39,10 @@ class Host < Puppet::Rails::Host
   # String: the host's name
   def to_label
     name
+  end
+
+  def to_s
+    to_label
   end
 
   def shortname

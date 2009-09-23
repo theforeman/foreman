@@ -12,9 +12,13 @@ class Domain < ActiveRecord::Base
   validates_presence_of :name
 
   before_destroy :ensure_not_used
-  alias_method :to_s, :to_label
+
   def to_label
     name
+  end
+
+  def to_s
+    to_label
   end
 
   # counts how many times a certian fact value exists in this domain
