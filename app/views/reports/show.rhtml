@@ -2,23 +2,6 @@
   <h2 style="border-bottom-style:none;" ><%= h @report.host.name %> </h2>
   Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 </div>
-<div class="flash">
-  <table width="100%" border="0">
-    <tr>
-      <td> <b>Meterics</b></td>
-      <td>
-        <table width="100%">
-          <% @report.log.metrics["time"].values.each do |name, label, value|-%>
-            <tr>
-              <td> <%= h label %> </td>
-              <td> <%= h value %> </td>
-            </tr>
-          <% end %>
-        </table>
-      </td>
-    </tr>
-  </table>
-</div>
 
 <% if @report.log.logs.size > 0 -%> 
   <div id="tables">
@@ -33,6 +16,24 @@
     </table>
   </div>
 <% end -%>
+
+<div class="flash">
+  <table width="100%" border="0">
+    <tr>
+      <td> <b>Metrics</b></td>
+      <td>
+        <table width="100%">
+          <% @report.log.metrics["time"].values.each do |name, label, value|-%>
+            <tr>
+              <td> <%= h label %> </td>
+              <td> <%= h value %> </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
 
 <%= link_to 'Back', :back %> or
 <%= link_to "Other reports for this hosts", { :controller => "hosts", :action => "reports", :id => @report.host } %>
