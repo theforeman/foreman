@@ -1,0 +1,15 @@
+#! /bin/sh
+# a simple script to create a Foreman Official relase.
+
+cd /tmp
+git clone git://github.com/ohadlevy/foreman.git foreman
+cd foreman
+git submodule init
+git submodule update
+
+rm -rf .git*
+rm -rf vendor/plugins/*/.git
+cd /tmp
+
+tar cjvf /tmp/foreman-$1.tar.bz2 foreman
+

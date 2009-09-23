@@ -1,0 +1,9 @@
+#! /bin/sh
+# a simple script to create a Foreman nightly snapshot release.
+
+GIT_DIR="~/git"
+WWW_DIR="~/thetorque.org/public"
+
+cd $GIT_DIR
+rm -rf $WWW_DIR/foreman-nightly.tar.bz2
+tar cjvf $WWW_DIR/foreman-nightly.tar.bz2 foreman/ --exclude=".git*" --exclude "*.log" --exclude "*.sqlite3"
