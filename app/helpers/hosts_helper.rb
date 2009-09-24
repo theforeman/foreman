@@ -29,4 +29,13 @@ module HostsHelper
       link_to(record.shortname, edit_host_url(record))
   end
 
+  def disk_form_column(record, field_name)
+    text_area_tag :record, :disk, :cols => 120, :rows => 10
+  end
+
+  def comment_form_column(record, field_name)
+    text_area_tag :record, :comment, :cols => 120, :rows => 10
+  end
+
+
 end
