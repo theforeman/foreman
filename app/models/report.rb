@@ -90,9 +90,9 @@ class Report < ActiveRecord::Base
 
   # We do not keep more than 24 hours of history in the database
   def self.expire_reports
-    expired = Report.find(:all, :conditions => ["reported_at < ?",(Time.now.utc - 24.hours)])
-    logger.info Time.now.to_s + ": Expiring #{expired.size} reports"
-    expired.each{|report| report.destroy}
+    cond = ["reported_at < ?",(Time.now.utc - 24.hours)]
+    logger.info Time.now.to_s + ": Expiring #{Report.count(:conditions => cond)} reports"
+    Report.delete_all(cond)
   end
 
 end
