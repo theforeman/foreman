@@ -176,9 +176,10 @@ class Host < Puppet::Rails::Host
 
     # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
     raise "Host is pending for Build" if build
-
-    if last_compile.nil? or (last_compile + 1.minute < facts.values[:_timestamp])
-      self.last_compile = facts.values[:_timestamp]
+    time = facts.values[:_timestamp]
+    time = time.to_time if time.is_a?(String)
+    if last_compile.nil? or (last_compile + 1.minute < time)
+      self.last_compile = time
       begin
       # save all other facts
       if self.respond_to?("merge_facts")
