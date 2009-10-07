@@ -243,8 +243,8 @@ class Host < Puppet::Rails::Host
     clearFacts
     clearReports
     #TODO move this stuff to be in the observer, as if the host changes after its being built this might invalidate the current settings
-    GW::Puppetca.clean name
-    GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
+    return false unless GW::Puppetca.clean name
+    return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
     self.build = true
     self.save
   end
