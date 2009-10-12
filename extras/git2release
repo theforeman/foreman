@@ -13,3 +13,4 @@ cd /tmp
 
 tar cjvf /tmp/foreman-$1.tar.bz2 foreman
 
+echo "Don't forget to tag the release"

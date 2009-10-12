@@ -7,11 +7,11 @@
 # sleep rand(10) # that not all PM hammers the DB at once.
 # ohadlevy@gmail.com
 
-# where puppet reports are stored
+# puppet config dir
 puppetdir="/var/lib/puppet"
 
 # URL where Foreman lives
-url="http://foreman/fact_values/create?format=yml"
+url="http://foreman"
 
 # Temp file keeping the last run time
 stat_file = "/tmp/foreman_fact_importer"
@@ -29,7 +29,7 @@ Dir["#{puppetdir}/yaml/facts/*.yaml"].each do |filename|
     fact = File.read(filename)
     puts "Importing #{filename}"
     begin
-      Net::HTTP.post_form(URI.parse(url), {'facts'=> fact})
+      Net::HTTP.post_form(URI.parse("#{url}/fact_values/create?format=yml"), {'facts'=> fact})
     rescue Exception => e
       raise "Could not send facts to Foreman: #{e}"
     end
