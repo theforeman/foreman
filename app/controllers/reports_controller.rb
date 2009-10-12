@@ -11,6 +11,7 @@ class ReportsController < ApplicationController
   end
 
   skip_before_filter :verify_authenticity_token
+  include ExemptedFromLogging
 
   def create
     respond_to do |format|

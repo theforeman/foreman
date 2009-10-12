@@ -24,3 +24,8 @@ class ActiveRecord::Base
     true
   end
 end
+module ExemptedFromLogging
+  def process(request, *args)
+    logger.silence { super }
+  end
+end
