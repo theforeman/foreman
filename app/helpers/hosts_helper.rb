@@ -4,7 +4,7 @@ module HostsHelper
       return "N/A"
     else
       time = time_ago_in_words(record.last_report.getlocal)
-      image_tag((record.error_count > 0 or record.no_report ? "false.png" : "true.png"), :size => "18x18") +
+      image_tag("#{record.error_count > 0 or record.no_report}.png", :size => "18x18") +
         link_to(time, report_host_path(record))
     end
   end
