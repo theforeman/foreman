@@ -1,5 +1,8 @@
 class HostsController < ApplicationController
+  before_filter :find_hosts, :only => :query
+
   helper :hosts
+
   active_scaffold :host do |config|
     list.empty_field_text ='N/A'
     list.per_page = 15
@@ -85,5 +88,27 @@ class HostsController < ApplicationController
   def reports
     @host = Host.find(params[:id])
   end
+
+  def query
+    respond_to do |format|
+        format.html
+        format.yml { render :text => @hosts.to_yaml }
+    end
+  end
+
+  private
+  def find_hosts
+    if (klass=params[:class]).empty? and (fact=params[:fact]).empty?
+      render :text => '404 Not Found', :status => 404 and return
+    end
+    @hosts = (
+      Host.find(:all, :select => "hosts.name", :joins => :puppetclasses,
+                :conditions => ["puppetclasses.name = ?", klass]).map(&:name) +
+      Host.find(:all, :select => :name, :joins => :fact_values,
+                :conditions => ["fact_values.value = ?", fact]).map(&:name)
+    ).uniq
+    render :text => '404 Not Found', :status => 404 and return if @hosts.count == 0
+  end
+
 
 end
