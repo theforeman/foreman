@@ -6,4 +6,4 @@
 url="http://foreman:3000"
 
 require 'net/http'
-Net::HTTP.get_print URI.parse("{url}/hosts/externalNodes?fqdn=#{ARGV[0]}")
+Net::HTTP.get_print URI.parse("#{url}/hosts/externalNodes?fqdn=#{ARGV[0]}")
