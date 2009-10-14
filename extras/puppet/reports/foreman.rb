@@ -3,7 +3,7 @@
 # reports=log, foreman # (or any other reports you want)
 
 # URL of your Foreman installation
-url="http://foreman:3000"
+$foreman_url="http://foreman:3000"
 
 require 'puppet'
 require 'net/http'
@@ -15,7 +15,7 @@ Puppet::Reports.register_report(:foreman) do
 
     def process
       begin
-        Net::HTTP.post_form(URI.parse("#{url}/reports/create?format=yml"), {'report'=> to_yaml})
+        Net::HTTP.post_form(URI.parse("#{$foreman_url}/reports/create?format=yml"), {'report'=> to_yaml})
       rescue Exception => e
         raise Puppet::Error, "Could not send report to Foreman: #{e}"
       end
