@@ -18,6 +18,7 @@ class foreman {
   include foreman::puppetca
   include foreman::tftp
   include foreman::reports
+  include foreman::externalnodes
 
   file{$railspath: ensure => directory}
   file{$foreman_dir: 
