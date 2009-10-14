@@ -42,20 +42,21 @@ class HostsController < ApplicationController
 
   def externalNodes
     # check our parameters and look for a host
-    unless (params.has_key? "fqdn" and (host = Host.find(:first,:conditions => ["name = ?",params.delete("fqdn")]))) or (params.has_key? "id" and (host = Host.find(params[:id])))
-      render :text => '404 Not Found', :status => 404 and return
+    if params[:id] and @host = Host.find(params[:id])
+    elsif params["name"] and @host = Host.find(:first,:conditions => ["name = ?",params["name"]])
     else
-      begin
-        #TODO: benchmark if its slower using a controller method instead of calling the model
-        yaml = host.info.to_yaml
-        # if we were via the YAML host link, we reformat the output to look nicer.
-        yaml.gsub!("\n","<br>") if params.has_key? "id"
-        render :text => yaml
-      rescue
-        # failed
-        logger.warn "Failed to generate external nodes for #{host.name} with #{$!}"
-        render :text => 'Unable to generate output, Check log files', :status => 412 and return
+      render :text => '404 Not Found', :status => 404 and return
+    end
+
+    begin
+      respond_to do |format|
+        format.html { render :text => @host.info.to_yaml.gsub("\n","<br>") }
+        format.yml { render :text => @host.info.to_yaml }
       end
+    rescue
+      # failed
+      logger.warn "Failed to generate external nodes for #{@host.name} with #{$!}"
+      render :text => 'Unable to generate output, Check log files', :status => 412 and return
     end
   end
 
