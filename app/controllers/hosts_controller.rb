@@ -26,9 +26,9 @@ class HostsController < ApplicationController
     config.columns[:disk].description = "the disk layout to use"
     config.columns[:build].form_ui  = :checkbox
     config.action_links.add 'rrdreport', :label => 'RRDReport', :inline => true,
-        :type => :record if $settings[:rrd_report_url]
+      :type => :record,  :position => :after if $settings[:rrd_report_url]
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
-      :type => :record
+      :type => :record, :position => :after
     config.action_links.add 'setBuild', :label => 'Build', :inline => false,
       :type => :record, :confirm => "This actions recreates all needed settings for host installation, if the host is
          already running, it will disable certain functions.\n
