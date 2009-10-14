@@ -30,11 +30,11 @@ module HostsHelper
   end
 
   def disk_form_column(record, field_name)
-    text_area_tag :record, :disk, :cols => 120, :rows => 10
+    text_area_tag field_name, record.disk, :cols => 120, :rows => 10
   end
 
   def comment_form_column(record, field_name)
-    text_area_tag :record, :comment, :cols => 120, :rows => 10
+    text_area_tag field_name, record.comment, :cols => 120, :rows => 10
   end
 
 
