@@ -5,7 +5,7 @@ module Puppet::Parser::Functions
  newfunction(:foreman, :type => :rvalue) do |args|
 	#URL to query
 	host = "foreman"
-  url = "/query?"
+  url = "/hosts/query?"
   query = []
   args.each do |arg|
     name, value = arg.split("=")
@@ -20,13 +20,13 @@ module Puppet::Parser::Functions
   end
 
   begin
-    response = Net::HTTP.get host,url+query.join("&")
+    response = Net::HTTP.get host,url+query.join("&")+"&format=yml"
   rescue Exception => e
     raise Puppet::ParseError, "Failed to contact Foreman #{e}"
   end
 
   begin
-    hostlist = YAML::Load response
+    hostlist = YAML::load response
   rescue Exception => e
     raise Puppet::ParseError, "Failed to parse response from Foreman #{e}"
   end
