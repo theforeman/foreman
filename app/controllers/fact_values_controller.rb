@@ -1,4 +1,6 @@
 class FactValuesController < ApplicationController
+  before_filter :require_login, :except => :create
+
   active_scaffold :fact_value do |config|
     config.list.columns = [:fact_name, :value]
     config.actions = [:list]

@@ -1,0 +1,20 @@
+<div id="login-form">
+  <% form_tag({:action=> "login"}) do %>
+    <table>
+      <tr>
+        <td align="right"><label for="login">Username:</label></td>
+        <td align="left"><p><%= text_field 'login','login' %></p></td>
+      </tr>
+      <tr>
+        <td align="right"><label for="password">Password:</label></td>
+        <td align="left"><%= password_field 'login','password' %></td>
+      </tr>
+    <tr>
+      <td align="left">
+        <input type="submit" value="Login &#187;" id="login"/>
+      </td>
+    </tr>
+  </table>
+<% end %>
+<%= javascript_tag "Form.Element.focus('login_login');" %>
+</div>

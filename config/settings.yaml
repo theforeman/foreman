@@ -2,3 +2,4 @@
 #:modulepath: /etc/puppet/modules/
 :tftppath: tftp/
 #:rrd_report_url: report/
+#:ldap: true

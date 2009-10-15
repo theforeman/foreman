@@ -1,4 +1,5 @@
 class HostsController < ApplicationController
+  before_filter :require_login, :except => :externalNodes
   before_filter :find_hosts, :only => :query
 
   helper :hosts

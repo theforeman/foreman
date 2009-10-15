@@ -127,6 +127,7 @@ class Host < Puppet::Rails::Host
     last_report.nil? or last_report < Time.now - 33.minutes
   end
 
+  # returns the list of puppetclasses a host is in.
   def puppetclasses_names
     if hostgroup.nil?
       return puppetclasses.collect {|c| c.name}

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :auth_sources
+
   map.root :controller => "hosts"
 
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',

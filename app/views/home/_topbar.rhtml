@@ -1,2 +1,5 @@
+<% if @user -%>
+  <%= link_to "Sign Out #{@user.login}",  {:controller => 'users',  :action => 'logout' } %>
+<% end -%>
 <%= link_to           'Wiki',      "http://theforeman.org/wiki/foreman" %>
 <%= link_to           'Support',   "http://theforeman.org/projects/foreman/boards" %>

@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: MyString
+  name: MyString
+  host: MyString
+  port: 1
+  account: MyString
+  account_password: MyString
+  base_dn: MyString
+  attr_login: MyString
+  attr_firstname: MyString
+  attr_lastname: MyString
+  attr_mail: MyString
+  onthefly_register: MyString
+  tls: MyString
+
+two:
+  type: MyString
+  name: MyString
+  host: MyString
+  port: 1
+  account: MyString
+  account_password: MyString
+  base_dn: MyString
+  attr_login: MyString
+  attr_firstname: MyString
+  attr_lastname: MyString
+  attr_mail: MyString
+  onthefly_register: MyString
+  tls: MyString

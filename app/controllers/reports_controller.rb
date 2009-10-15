@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  before_filter :require_login, :except => :create
   helper :reports
 
   active_scaffold :reports do |config|
