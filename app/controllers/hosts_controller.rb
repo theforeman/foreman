@@ -3,6 +3,7 @@ class HostsController < ApplicationController
   before_filter :find_hosts, :only => :query
 
   helper :hosts
+  cache_sweeper :audit_sweeper
 
   active_scaffold :host do |config|
     list.empty_field_text ='N/A'
