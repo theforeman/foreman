@@ -1,5 +1,5 @@
 class HostsController < ApplicationController
-  before_filter :require_login, :except => :externalNodes
+  before_filter :require_login, :except => [ :query, :externalNodes ]
   before_filter :find_hosts, :only => :query
 
   helper :hosts
@@ -109,7 +109,7 @@ class HostsController < ApplicationController
       Host.find(:all, :select => :name, :joins => :fact_values,
                 :conditions => ["fact_values.value = ?", fact]).map(&:name)
     ).uniq
-    render :text => '404 Not Found', :status => 404 and return if @hosts.count == 0
+    render :text => '404 Not Found', :status => 404 and return if @hosts.size == 0
   end
 
 
