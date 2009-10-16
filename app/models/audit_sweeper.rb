@@ -13,7 +13,10 @@ class AuditSweeper < ActionController::Caching::Sweeper
     log(record, "CREATE")
   end
 
-  def log(record, event, user = controller.session[:user])
+  def log(record, event)
+    # if we are using one of the importers, uid is -1
+    user = (controller.nil? or u =controller.session[:user].nil?) ? -1 : u
+
     AuditTrail.create(:record_id => record.id,
                       :record_type => record.type.name,
                       :event => event,
