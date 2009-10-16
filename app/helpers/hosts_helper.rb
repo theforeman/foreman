@@ -1,12 +1,9 @@
 module HostsHelper
   def last_report_column(record)
-    if record.last_report.nil? or record.reports.count == 0
-      return "N/A"
-    else
-      time = time_ago_in_words(record.last_report.getlocal)
-      image_tag("#{not (record.error_count > 0 or record.no_report)}.png", :size => "18x18") +
-        link_to(time, report_host_path(record))
-    end
+    return nil if record.last_report.nil?
+    time = time_ago_in_words(record.last_report.getlocal)
+    image_tag("#{not (record.error_count > 0 or record.no_report)}.png", :size => "18x18") +
+      link_to(time, report_host_path(record))
   end
 
   def root_pass_form_column(record, field_name)
