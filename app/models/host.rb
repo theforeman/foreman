@@ -206,12 +206,9 @@ class Host < Puppet::Rails::Host
   end
 
   def fv name
-    unless fact(name).is_a?(Array) and not fact(name)[0].nil?
-      logger.warn "found an empty fact value for #{name}!"
-      nil
-    else
-      self.fact(name)[0].value
-    end
+    v=fact_values.find(:first, :select => "fact_values.value", :joins => :fact_name,
+                     :conditions => "fact_names.name = '#{name}'")
+    v.value unless v.nil?
   end
 
   def populateFieldsFromFacts
