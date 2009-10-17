@@ -43,7 +43,7 @@ class Report < ActiveRecord::Base
       host.last_report = report.time.utc if host.last_report.nil? or host.last_report.utc < report.time.utc
 
       # we reset the status indicator on each report, if the host had anything to interesting report, it will be added below
-      host.puppet_status  = 0
+      host.puppet_status = 0
 
       resources = report.metrics["resources"]
       # check if the report actually contain anything interesting

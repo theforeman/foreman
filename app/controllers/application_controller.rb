@@ -27,4 +27,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  protected
+  def current_user
+    @user ||= User.find(session[:user])
+  end
+
 end
