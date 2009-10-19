@@ -51,8 +51,11 @@ class Report < ActiveRecord::Base
         host.puppet_status  = resources[:failed] if resources[:failed] > 0
         # We only capture skipped errors when there are associated log entries.
         # Sometimes there are skipped entries but no errors in the messages file.
-        # I do not know what this means.
-        host.puppet_status |= resources[:skipped] << 12 if resources[:skipped] > 0 and report.logs.size > 0
+        # This can happen when having notice, alias messages etc
+        if resources[:skipped] > 0 and report.logs.size > 0
+          host.puppet_status |= resources[:skipped]
+          report.metrics["resources"][:skipped] == 0 if report.logs.size == 0
+        end
         host.puppet_status |= resources[:failed_restarts] << 24 if resources[:failed_restarts] > 0
 
       end
