@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   belongs_to :auth_source
+  has_many :changes, :class_name => 'Audit', :as => :user
+
   has_many :hosts
 
   validates_uniqueness_of :login, :message => "already exists"
