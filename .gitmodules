@@ -4,3 +4,6 @@
 [submodule "vendor/plugins/ruby-net-ldap"]
 	path = vendor/plugins/ruby-net-ldap
 	url = git://github.com/innovationfactory/ruby-net-ldap.git
+[submodule "vendor/plugins/acts_as_audited"]
+	path = vendor/plugins/acts_as_audited
+	url = git://github.com/collectiveidea/acts_as_audited.git

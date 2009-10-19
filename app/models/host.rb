@@ -12,6 +12,9 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
 
+  # audit the changes to this model
+  acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
+
   # some shortcuts
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
