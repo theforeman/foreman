@@ -35,8 +35,7 @@ class Report < ActiveRecord::Base
   #imports a yaml report into database
   def self.import(yaml)
     report = YAML.load(yaml)
-    raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
-
+    raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report) or report.metrics
     logger.info "processing report for #{report.name}"
     begin
       host = Host.find_or_create_by_name report.host
@@ -52,12 +51,11 @@ class Report < ActiveRecord::Base
         # We only capture skipped errors when there are associated log entries.
         # Sometimes there are skipped entries but no errors in the messages file.
         # This can happen when having notice, alias messages etc
-        if resources[:skipped] > 0 and report.logs.size > 0
+        if resources[:skipped] > 0
+          resources[:skipped] = 0 if report.logs.size == 0
           host.puppet_status |= resources[:skipped]
-          report.metrics["resources"][:skipped] == 0 if report.logs.size == 0
         end
         host.puppet_status |= resources[:failed_restarts] << 24 if resources[:failed_restarts] > 0
-
       end
 
       # we save the host without validation for two reasons:

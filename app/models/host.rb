@@ -54,11 +54,11 @@ class Host < Puppet::Rails::Host
 
   def clearReports
     # Remove any reports that may be held against this host
-    self.reports.each{|report| report.destroy}
+    Report.delete_all("host_id = #{self.id}")
   end
 
   def clearFacts
-    self.fact_values.each {|fv| fv.destroy}
+    FactValue.delete_all("host_id = #{self.id}")
   end
 
   # Called from the host build post install process to indicate that the base build has completed

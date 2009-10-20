@@ -32,7 +32,7 @@ class ReportsController < ApplicationController
 
   def expire_reports
     redirect_to :back
-    Report.expire_reports
+    flash[:foreman_notice] = "Deleted #{Report.expire_reports} reports"
   end
 
 end
