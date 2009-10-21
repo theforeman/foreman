@@ -17,7 +17,7 @@ class Report < ActiveRecord::Base
   end
 
   def error?
-    failed + failed_restarts + skipped > 0
+    host.puppet_status > 0
   end
 
   def changes?
@@ -51,10 +51,8 @@ class Report < ActiveRecord::Base
         # We only capture skipped errors when there are associated log entries.
         # Sometimes there are skipped entries but no errors in the messages file.
         # This can happen when having notice, alias messages etc
-        if resources[:skipped] > 0
-          resources[:skipped] = 0 if report.logs.size == 0
-          host.puppet_status |= resources[:skipped]
-        end
+        host.puppet_status |= resources[:skipped] if resources[:skipped] > 0 and report.logs.size >0
+
         host.puppet_status |= resources[:failed_restarts] << 24 if resources[:failed_restarts] > 0
       end
 
