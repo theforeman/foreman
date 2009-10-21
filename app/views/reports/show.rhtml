@@ -36,4 +36,4 @@
 </div>
 
 <%= link_to 'Back', :back %> or
-<%= link_to "Other reports for this hosts", { :controller => "hosts", :action => "reports", :id => @report.host } %>
+<%= link_to "Other reports for this hosts", reports_host_path(@report.host) %>
