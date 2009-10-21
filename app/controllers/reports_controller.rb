@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   before_filter :require_login, :except => :create
+  before_filter :verify_authenticity_token, :except => :create
   helper :reports
 
   active_scaffold :reports do |config|
@@ -11,7 +12,6 @@ class ReportsController < ApplicationController
     config.action_links.add 'expire_reports', :label => 'Expire Reports Older than 24Hours', :inline => false, :type => :table
   end
 
-  skip_before_filter :verify_authenticity_token
   include ExemptedFromLogging
 
   def create

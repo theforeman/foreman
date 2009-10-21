@@ -1,5 +1,6 @@
 class FactValuesController < ApplicationController
   before_filter :require_login, :except => :create
+  before_filter :verify_authenticity_token, :except => :create
 
   active_scaffold :fact_value do |config|
     config.list.columns = [:fact_name, :value]
@@ -7,7 +8,6 @@ class FactValuesController < ApplicationController
     config.columns[:fact_name].clear_link
   end
 
-  skip_before_filter :verify_authenticity_token
   include ExemptedFromLogging
 
   def create
