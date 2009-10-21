@@ -68,4 +68,16 @@ class foreman {
     refreshonly => true
   }
 
+  # cleans up the session entries in the database
+  # if you are using fact or report importers, this creates a session per request
+  # which can easily result with a lot of old and unrequired in your database
+  # eventually slowing it down.
+  cron{"clear_session_table":
+    command  => "(cd ${foreman_dir}; rake db:sessions:clear)",
+    environment => "RAILS_ENV=production",
+    user  => $foreman_user,
+    minute => "15",
+    hour => "23",
+  }
+
 }
