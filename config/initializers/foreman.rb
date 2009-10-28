@@ -1,6 +1,5 @@
 require 'puppet'
 
-
 # import settings file
 $settings = YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 
@@ -15,6 +14,15 @@ class NilClass
 end
 
 class ActiveRecord::Base
+
+  def update_single_attribute(attribute, value)
+    connection.update(
+      "UPDATE #{self.class.table_name} " +
+      "SET #{attribute.to_s} = #{value} " +
+      "WHERE #{self.class.primary_key} = #{id}",
+      "#{self.class.name} Attribute Update"
+    )
+  end
   private
   def ensure_not_used
     self.hosts.each do |host|
@@ -24,6 +32,7 @@ class ActiveRecord::Base
     true
   end
 end
+
 module ExemptedFromLogging
   def process(request, *args)
     logger.silence { super }
