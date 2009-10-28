@@ -3,6 +3,9 @@ class ReportsController < ApplicationController
   before_filter :verify_authenticity_token, :except => :create
   helper :reports
 
+  # avoids storing the report data in the log files
+  filter_parameter_logging :report
+
   active_scaffold :reports do |config|
     config.label   = "Puppet reports"
     config.actions = [:list, :search, :delete]
@@ -11,8 +14,6 @@ class ReportsController < ApplicationController
     config.action_links.add 'show', :label => 'Details', :inline => false, :type => :record
     config.action_links.add 'expire_reports', :label => 'Expire Reports Older than 24Hours', :inline => false, :type => :table
   end
-
-  include ExemptedFromLogging
 
   def create
     respond_to do |format|
