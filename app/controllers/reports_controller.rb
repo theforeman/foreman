@@ -13,6 +13,7 @@ class ReportsController < ApplicationController
     config.list.sorting   = { :reported_at => :desc }
     config.action_links.add 'show', :label => 'Details', :inline => false, :type => :record
     config.action_links.add 'expire_reports', :label => 'Expire Reports Older than 24Hours', :inline => false, :type => :table
+    config.action_links.add 'expire_good_reports', :label => 'Expire Reports without errors', :inline => false, :type => :table
   end
 
   def create
@@ -36,4 +37,8 @@ class ReportsController < ApplicationController
     flash[:foreman_notice] = "Deleted #{Report.expire_reports} reports"
   end
 
+  def expire_good_reports
+    redirect_to :back
+    flash[:foreman_notice] = "Deleted #{Report.expire_reports(:status => 0)} reports"
+  end
 end

@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts, :member => {:report => :get, :reports => :get}, :collection => { :show_search => :get}, :active_scaffold => true
   map.connect   "/reports/expire_reports", :controller => "reports", :action => "expire_reports"
+  map.connect   "/reports/expire_good_reports", :controller => "reports", :action => "expire_good_reports"
   map.resources :reports, :active_scaffold => true
   map.resources :domains, :active_scaffold => true
   map.resources :operatingsystems, :active_scaffold => true

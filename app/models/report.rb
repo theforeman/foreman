@@ -73,9 +73,14 @@ class Report < ActiveRecord::Base
     self.created_at <=> other.created_at
   end
 
-  # We do not keep more than 24 hours of history in the database
-  def self.expire_reports
-    cond = ["reported_at < ?",(Time.now.utc - 24.hours)]
+  # We do not keep more than *timerange* of history in the database
+  # Or we want to delete based on report status
+  def self.expire_reports(conditions = {:status => nil, :timerange => 24.hours})
+    if conditions[:status].nil?
+      cond = ["reported_at < ?",(Time.now.utc - conditions[:timerange])]
+    else
+      cond = "status = #{conditions[:status]}"
+    end
     logger.info Time.now.to_s + ": Expiring #{Report.count(:conditions => cond)} reports"
     Report.delete_all(cond)
   end
