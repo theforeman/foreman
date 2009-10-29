@@ -18,7 +18,7 @@
           <% end -%>
         <% else -%>
           <% change = id_to_label(name,change) if record -%>
-          <td>N/A</td><td><%= h change %></td>
+          <%= change_order(@audit.action, change).map {|v| "<td>#{h v}</td>"} -%>
         <% end -%>
       </tr>
     <% end -%>

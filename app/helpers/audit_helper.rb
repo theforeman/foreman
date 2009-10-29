@@ -24,5 +24,11 @@ module AuditHelper
     (eval name.humanize).find(change).to_label
   end
 
+  def change_order action, value
+    output = ["N/A", value]
+    output.reverse! if action == "destroy"
+    output
+  end
+
 
 end
