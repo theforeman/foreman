@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
     return "#{klass}ScaffoldController".constantize rescue super
   end
 
+  protected
   #Force a user to login if ldap authentication is enabled
   def require_login
     return true unless $settings[:ldap]
@@ -27,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  protected
+  # returns current user
   def current_user
     @user ||= User.find(session[:user])
   end
