@@ -57,7 +57,7 @@ yum -t -y -e 0 <% yumrepo -%> install puppet
 
 echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
-<%= puppet_conf %>
+<%= snippets "puppet.conf" -%>
 EOF
 
 # The puppet service will not start without this file unless it is in test/debug mode. Its contents are updated later in the build process.
@@ -75,7 +75,8 @@ echo "Disabling various system services"
 /usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
 
 sync
-<%= handle_vmware %>
+<%= snippets "vmware" -%>
+
 # Inform the build system that we are done.
 echo "Informing Foreman that we are built"
 wget -q -O /dev/null --no-check-certificate <%= foreman_url %>

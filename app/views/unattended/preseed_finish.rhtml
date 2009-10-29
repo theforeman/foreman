@@ -1,5 +1,5 @@
 cat > /etc/puppet/puppet.conf << EOF
-<%= puppet_conf %> 
+<%= snippets "puppet.conf" -%>
 EOF
 /bin/touch /etc/puppet/namespaceauth.conf 
 /usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize

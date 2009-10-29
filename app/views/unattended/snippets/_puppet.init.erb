@@ -1,0 +1,8 @@
+#!/bin/bash
+# chkconfig: - 98 02
+#
+# description: puppet client bootstrap
+# processname: puppet
+# config: /etc/puppet/puppet.conf
+
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --ignoreschedules true --server=<%= @host.puppetmaster %> > /tmp/puppet.log 2>&1

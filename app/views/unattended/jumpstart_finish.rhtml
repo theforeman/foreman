@@ -11,12 +11,19 @@ logger "Starting finish script"
 
 # Now ensure that we have the newest puppet and facter installed
 /usr/bin/cp /var/pkg-get/admin-fullauto /var/pkg-get/admin > /dev/null
-/usr/sbin/pkgrm -n -a /var/pkg-get/admin CSWpuppet > /dev/null
+/opt/csw/bin/pkg-get -U  
+/opt/csw/bin/pkg-get -u -f CSWfacter CSWpuppet
 
-/usr/sbin/pkgrm -n -a /var/pkg-get/admin CSWfacter > /dev/null
-
-/opt/csw/bin/pkg-get -i CSWfacter CSWpuppet > /dev/null
-
+echo "Configuring puppet"
+cat > /etc/puppet/puppet.conf << EOF
+<%= snippets "puppet.conf" -%>
+EOF
+# The x86 version of the puppet package ignores the --config parameter. This should fix that and not hurt other installations
+if [ -f /etc/opt/csw/puppet/puppetd.conf ]
+then
+    rm -f /etc/opt/csw/puppet/puppetd.conf
+	ln -s /etc/puppet/puppet.conf /etc/opt/csw/puppet/puppetd.conf
+fi
 echo "Informing Foreman that we are built"
 /opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url %>
 exit 0
