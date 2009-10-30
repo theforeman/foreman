@@ -5,15 +5,15 @@ class Report < ActiveRecord::Base
   validates_uniqueness_of :reported_at, :scope => :host_id
 
   def failed
-    log.metrics["resources"][:failed]
+    validate_meteric("resources",:failed)
   end
 
   def failed_restarts
-    log.metrics["resources"][:failed_restarts]
+    validate_meteric("resources", :failed_restarts)
   end
 
   def skipped
-    log.metrics["resources"][:skipped]
+    validate_meteric("resources", :skipped)
   end
 
   def error?
@@ -21,15 +21,18 @@ class Report < ActiveRecord::Base
   end
 
   def changes?
-    log.metrics["changes"][:total] > 0
+    t = validate_meteric("changes", :total)
+    t > 0 if t
   end
 
   def config_retrival
-    log.metrics["time"][:config_retrieval].round_with_precision(2)
+    t = validate_meteric("time", :config_retrieval)
+    t.round_with_precision(2) if t
   end
 
   def runtime
-    log.metrics["time"][:total].round_with_precision(2)
+    t = validate_meteric("time", :total)
+    t.round_with_precision(2) if t
   end
 
   #imports a yaml report into database
@@ -105,6 +108,16 @@ class Report < ActiveRecord::Base
       end
 
       return status
+  end
+
+  protected
+
+  def validate_meteric (type, name)
+    begin
+      log.metrics[type][name]
+    rescue
+      nil
+    end
   end
 
 end
