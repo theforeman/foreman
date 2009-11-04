@@ -7,6 +7,7 @@ module GW
     # parameter is a array ["mac",'osname','arch'...]
     # e.g. ["00:11:22:33:44:55:66:77",'centos','i386'...]
     # FIXME: this whole pxeboot needs a design decision, does the pxelinux files managed by puppet or us?
+    # a third option is to move to gpxelinux and generate the config files dynamicilly.
     def self.create params
       mac, os, arch, serial = params
       return false if mac.nil? or os.nil? or arch.nil?
@@ -19,7 +20,8 @@ module GW
         FileUtils.mkdir_p(path) unless File.exist?(path)
         FileUtils.ln_s dst, link ,:force => true
         true
-      rescue
+      rescue StandardError => e
+        logger.warn "TFTP Failed: #{e}"
         false
       end
     end
@@ -59,7 +61,8 @@ module GW
           command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null"
           system "#{command} >> /tmp/puppetca.log 2>&1"
         end
-      rescue
+      rescue StandardError => e
+        logger.warn "PuppetCA: clean failed: #{e}"
         false
       end
     end
