@@ -15,4 +15,12 @@ class foreman::reports {
     source => "puppet:///foreman/foreman-report.rb",
   }
 
+  cron{"expire_old_reports":
+    command  => "(cd ${foreman_dir}; rake reports:expire",
+    environment => "RAILS_ENV=production",
+    user  => $foreman_user,
+    minute => "30",
+    hour => "7",
+  }
+
 }
