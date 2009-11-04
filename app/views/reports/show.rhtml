@@ -35,5 +35,6 @@
   </table>
 </div>
 
-<%= link_to 'Back', :back %> or
+<%= link_to 'Back', :back %>
+<%= link_to 'Delete', delete_report_path(@report) -%> or
 <%= link_to "Other reports for this hosts", reports_host_path(@report.host) %>
