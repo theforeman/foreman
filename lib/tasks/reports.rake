@@ -1,13 +1,13 @@
 desc <<-END_DESC
-Expire Reports automaticilly
+Expire Reports automatically
 
 Available conditions:
   * days     => number of days to keep reports (defaults to 7)
   * status   => status of the report (defaults to 0 --> "reports with no errors")
 
   Example:
-    rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardsless of their status
-    rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non intersting reports after one day
+    rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
+    rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non interesting reports after one day
 
 END_DESC
 
