@@ -4,6 +4,10 @@ class Report < ActiveRecord::Base
   validates_presence_of :log, :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
 
+  def to_label
+    "#{host.name} / #{reported_at.to_s}"
+  end
+
   def failed
     validate_meteric("resources",:failed)
   end
