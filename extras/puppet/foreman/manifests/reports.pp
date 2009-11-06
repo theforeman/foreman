@@ -16,8 +16,9 @@ class foreman::reports {
   }
 
   cron{"expire_old_reports":
-    command  => "(cd ${foreman_dir}; rake reports:expire",
+    command  => "rake reports:expire",
     environment => "RAILS_ENV=production",
+    cwd => $foreman_dir,
     user  => $foreman_user,
     minute => "30",
     hour => "7",
