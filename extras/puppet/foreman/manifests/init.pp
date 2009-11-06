@@ -73,10 +73,9 @@ class foreman {
   # which can easily result with a lot of old and unrequired in your database
   # eventually slowing it down.
   cron{"clear_session_table":
-    command  => "rake db:sessions:clear",
+    command  => "(cd $foreman_dir && rake db:sessions:clear)",
     environment => "RAILS_ENV=production",
     user => $foreman_user,
-    cwd => $foreman_dir,
     minute => "15",
     hour => "23",
   }
