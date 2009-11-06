@@ -79,11 +79,11 @@ class Host < Puppet::Rails::Host
 
   # no need to store anything in the db if the entry is plain "puppet"
   def puppetmaster
-    read_attribute(:puppetmaster) || "puppet"
+    read_attribute(:puppetmaster) || $settings[:puppet_server] || "puppet"
   end
 
   def puppetmaster=(pm)
-    write_attribute(:puppetmaster, pm == "puppet" ? nil : pm)
+    write_attribute(:puppetmaster, pm == ($settings[:puppet_server] || "puppet") ? nil : pm)
   end
 
   #retuns fqdn of host puppetmaster
