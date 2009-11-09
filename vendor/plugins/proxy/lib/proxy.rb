@@ -21,7 +21,7 @@ module GW
         FileUtils.ln_s dst, link ,:force => true
         true
       rescue StandardError => e
-        logger.warn "TFTP Failed: #{e}"
+        logger.info "TFTP Failed: #{e}"
         false
       end
     end
@@ -62,7 +62,7 @@ module GW
           system "#{command} >> /tmp/puppetca.log 2>&1"
         end
       rescue StandardError => e
-        logger.warn "PuppetCA: clean failed: #{e}"
+        logger.info "PuppetCA: clean failed: #{e}"
         false
       end
     end
