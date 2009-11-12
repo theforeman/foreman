@@ -46,6 +46,7 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first
+    assert true unless $settings[:attended]
     assert !host.valid?
   end
 

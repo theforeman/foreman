@@ -10,30 +10,34 @@ class HostsController < ApplicationController
     list.sorting = {:name => 'ASC' }
     config.actions.exclude :show
     config.list.columns = [:name, :operatingsystem, :environment, :last_report ]
-    config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
-    config.columns[:architecture].form_ui  = :select
-    config.columns[:media].form_ui  = :select
+    config.columns = %w{ name hostgroup puppetclasses environment domain puppetmaster comment host_parameters}
     config.columns[:hostgroup].form_ui  = :select
-    config.columns[:model].form_ui  = :select
     config.columns[:domain].form_ui  = :select
-    config.columns[:puppetclasses].form_ui  = :select
     config.columns[:environment].form_ui  = :select
-    config.columns[:ptable].form_ui  = :select
-    config.columns[:operatingsystem].form_ui  = :select
+    config.columns[:puppetclasses].form_ui  = :select
     config.columns[:fact_values].association.reverse = :host
     config.nested.add_link("Inventory", [:fact_values])
-    config.columns[:serial].description = "unsed for now"
     config.columns[:puppetmaster].description = "leave empty if its just puppet"
-    config.columns[:disk].description = "the disk layout to use"
-    config.columns[:build].form_ui  = :checkbox
+    # do not show these fields if unattended mode is disabled
+    unless $settings[:unattended]
+      config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
+      config.columns[:architecture].form_ui  = :select
+      config.columns[:media].form_ui  = :select
+      config.columns[:model].form_ui  = :select
+      config.columns[:ptable].form_ui  = :select
+      config.columns[:operatingsystem].form_ui  = :select
+      config.columns[:serial].description = "unsed for now"
+      config.columns[:disk].description = "the disk layout to use"
+      config.columns[:build].form_ui  = :checkbox
+      config.action_links.add 'setBuild', :label => 'Build', :inline => false,
+        :type => :record, :confirm => "This actions recreates all needed settings for host installation, if the host is
+         already running, it will disable certain functions.\n
+         Are you sure you want to reinstall this host?"
+    end
     config.action_links.add 'rrdreport', :label => 'RRDReport', :inline => true,
       :type => :record,  :position => :after if $settings[:rrd_report_url]
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
       :type => :record, :position => :after
-    config.action_links.add 'setBuild', :label => 'Build', :inline => false,
-      :type => :record, :confirm => "This actions recreates all needed settings for host installation, if the host is
-         already running, it will disable certain functions.\n
-         Are you sure you want to reinstall this host?"
   end
 
   #returns a yaml file ready to use for puppet external nodes script
