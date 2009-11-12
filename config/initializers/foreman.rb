@@ -1,4 +1,5 @@
 require 'puppet'
+require 'gchart'
 
 # import settings file
 $settings = YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")

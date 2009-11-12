@@ -43,7 +43,7 @@ class Report < ActiveRecord::Base
   def self.import(yaml)
     report = YAML.load(yaml)
     raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
-    logger.info "processing report for #{report.name}"
+    logger.info "processing report for #{report.host}"
     begin
       host = Host.find_or_create_by_name report.host
       report_status = host.puppet_status = report_status(report)
@@ -57,7 +57,7 @@ class Report < ActiveRecord::Base
 
       self.create! :host => host, :reported_at => report.time.utc, :log => report, :status => report_status
     rescue Exception => e
-      logger.warn "failed to process report for #{report.name} due to:#{e}"
+      logger.warn "failed to process report for #{report.host} due to:#{e}"
     end
   end
 
@@ -92,6 +92,20 @@ class Report < ActiveRecord::Base
     logger.info Time.now.to_s + ": Expired #{count} Reports"
     return count
   end
+
+  def self.count_puppet_runs(interval = 5)
+    counter = []
+    now=Time.now.utc
+    (1..6).each do |i|
+      ago = now - interval.minutes
+      counter << Report.count(:all, :conditions => ["reported_at > ? and reported_at <= ?", ago, now])
+      now = ago
+    end
+    counter
+  end
+
+
+
 
   protected
 

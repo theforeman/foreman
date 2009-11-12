@@ -1,0 +1,106 @@
+--- !ruby/object:Gem::Specification 
+name: googlecharts
+version: !ruby/object:Gem::Version 
+  version: 1.3.6
+platform: ruby
+authors: 
+- Matt Aimonetti
+autorequire: 
+bindir: bin
+cert_chain: 
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIDPDCCAiSgAwIBAgIBADANBgkqhkiG9w0BAQUFADBEMRYwFAYDVQQDDA1tYXR0
+  YWltb25ldHRpMRUwEwYKCZImiZPyLGQBGRYFZ21haWwxEzARBgoJkiaJk/IsZAEZ
+  FgNjb20wHhcNMDcxMjEwMDU1NTQwWhcNMDgxMjA5MDU1NTQwWjBEMRYwFAYDVQQD
+  DA1tYXR0YWltb25ldHRpMRUwEwYKCZImiZPyLGQBGRYFZ21haWwxEzARBgoJkiaJ
+  k/IsZAEZFgNjb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDrzYPM
+  doxLebjfYu7t8xTkI1ky05AMdQJvNpy4jeBQjm1kdxzeXbjaoBZqmhjPNvk7cYIQ
+  0ntmWB7NCMwnf80BLY28dY38PAz5ZTiyWvL6JmSU/AOqxUUzu1cax9EShblpUe3X
+  +N+gQSwfV6wzGjMNCZ8wsoOHF/PZVuYzoLJ4qU4NZk/Kr/FfKCCrNyb8fO9ahW7G
+  mp2qX9urLrwYsWpRDyaNPrf4kIgHs4l/pxaNHzIvw3n5SCaA8/5kUVhWAgsHl3D6
+  lmoOno3d1d9PnlPnvBqZqeo5vhshQW68X07OB7k4I3O+psDaYk+BsFwBpR4hDr5M
+  cRJKBLKlpoVgxSFrAgMBAAGjOTA3MAkGA1UdEwQCMAAwCwYDVR0PBAQDAgSwMB0G
+  A1UdDgQWBBThJ8tbLdgfmrAjhco5krcMmSdG2DANBgkqhkiG9w0BAQUFAAOCAQEA
+  r+8f9jajTRdn/Vz8hBsCZh7bOv2OImvKd09q9ssUuOHLk9r23zYJwFIAW7SEoPc3
+  jMJ8JEH2W5rRhJZ0C43H1B/vFJaFroyUz5r1py9j5mB4zbMavlhmVqAzjM3YyQ6p
+  /Gk4gzsUuFtrJuY+B5qCUm5AAaPrlSyXnMDQivRBdEam+uK+Kz3NO6tYAPQgU/8U
+  edt7YlpTSaEGVR/XFDuNo9wlsF8eqZMBKFBSdRjGRXkDIk2Q4XNmbS/zSXhSHS/6
+  jGD5EvWaSR74ZNBEFG7iDSFME19ZSLVw0J0a/+vrTpwriD7RByEiziW2e3vQf2N9
+  ZR7qHIpykzr3ezcNiWtBWw==
+  -----END CERTIFICATE-----
+
+date: 2008-10-04 00:00:00 +08:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: hoe
+  type: :development
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 1.7.0
+    version: 
+description: description of gem
+email: mattaimonetti@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- History.txt
+- License.txt
+- Manifest.txt
+- README.txt
+files: 
+- History.txt
+- License.txt
+- Manifest.txt
+- README.txt
+- Rakefile
+- config/hoe.rb
+- config/requirements.rb
+- lib/gchart.rb
+- lib/gchart/aliases.rb
+- lib/gchart/theme.rb
+- lib/gchart/version.rb
+- setup.rb
+- spec/gchart_spec.rb
+- spec/theme_spec.rb
+- spec/spec.opts
+- spec/spec_helper.rb
+- tasks/environment.rake
+- tasks/rspec.rake
+has_rdoc: true
+homepage: http://googlecharts.rubyforge.org
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --main
+- README.txt
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: googlecharts
+rubygems_version: 1.3.5
+signing_key: 
+specification_version: 2
+summary: description of gem
+test_files: []
+

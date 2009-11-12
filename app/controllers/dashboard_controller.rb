@@ -7,6 +7,7 @@ class DashboardController < ApplicationController
     @bad_hosts = Host.count(:all, :conditions => @host_conditions)
     @out_of_sync_hosts = Host.count(:all, :conditions => @sync_conditions)
     @intersting_reports = Report.count(:all, :conditions => @report_conditions)
+    @puppet_runs = Report.count_puppet_runs
   end
 
   private

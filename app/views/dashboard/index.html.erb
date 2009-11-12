@@ -1,9 +1,21 @@
 <center>
+  <h2>Overview</h2>
   <p>Good Host Reports in the last 30 minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts</p>
 
-  <h3>Errors</h3>
+  <%= graph("pie_3d" ,{:title => "Overview", :data => [@out_of_sync_hosts, @bad_hosts, @good_hosts], 
+    :labels =>["Sync #{@out_of_sync_hosts}","Error - #{@bad_hosts}","OK - #{@good_hosts}"]}) 
+  -%>
+
+  <%= graph("bar",:title => "Run Distribution in the last 30 minutes", :data =>  @puppet_runs, 
+            :line_colors => '0077CC', :bar_width_and_spacing => 25,:axis_with_labels => ["x","y"], 
+            :axis_labels => [["5|10|15|20|25|30|minutes"], @puppet_runs.sort.uniq], :legend => "Clients")
+          -%>
+
+  <h2>Errors</h2>
   <p>Out Of Sync Hosts <%= link_to @out_of_sync_hosts, :action => "OutOfSync" %></p>
   <p>Hosts in Error State <%= link_to @bad_hosts, :action => "errors" %></p>
   <p>Reports to Review <%= link_to @intersting_reports, :action => "reports" %></p>
 </center>
+
+
 <p>Total hosts <%= @total_hosts %></p>
