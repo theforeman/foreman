@@ -151,6 +151,7 @@ class Host < Puppet::Rails::Host
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
     param["domainname"] = domain.fullname unless domain.fullname.empty?
+    param["environment"] = environment.to_s
     param.update self.params
     return Hash['classes' => self.puppetclasses_names, 'parameters' => param]
   end
