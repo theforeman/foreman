@@ -19,7 +19,7 @@ class HostsController < ApplicationController
     config.nested.add_link("Inventory", [:fact_values])
     config.columns[:puppetmaster].description = "leave empty if its just puppet"
     # do not show these fields if unattended mode is disabled
-    unless $settings[:unattended]
+    if $settings[:unattended]
       config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
       config.columns[:architecture].form_ui  = :select
       config.columns[:media].form_ui  = :select

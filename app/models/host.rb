@@ -22,7 +22,7 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
-  unless $settings[:unattended]
+  if $settings[:unattended]
     validates_uniqueness_of  :ip
     validates_uniqueness_of  :mac
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
