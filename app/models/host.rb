@@ -22,7 +22,7 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
-  if $settings[:unattended]
+  if $settings[:unattended].nil? or $settings[:unattended]
     validates_uniqueness_of  :ip
     validates_uniqueness_of  :mac
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
@@ -31,8 +31,9 @@ class Host < Puppet::Rails::Host
     validates_presence_of    :architecture_id, :domain_id, :mac, :operatingsystem_id
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
     validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
-      validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
-      validates_presence_of    :ptable, :message => "Cant be blank unless a custom partition has been defined", :if => Proc.new { |host| host.disk.empty? and not defined?(Rake) }
+    validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
+    validates_presence_of    :ptable, :message => "Cant be blank unless a custom partition has been defined",
+                             :if => Proc.new { |host| host.disk.empty? and not defined?(Rake) }
     validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
@@ -189,13 +190,13 @@ class Host < Puppet::Rails::Host
     if last_compile.nil? or (last_compile + 1.minute < time)
       self.last_compile = time
       begin
-      # save all other facts
-      if self.respond_to?("merge_facts")
-        self.merge_facts(facts.values)
-        # pre 0.25 it was called setfacts
-      else
-        self.setfacts(facts.values)
-      end
+        # save all other facts
+        if self.respond_to?("merge_facts")
+          self.merge_facts(facts.values)
+          # pre 0.25 it was called setfacts
+        else
+          self.setfacts(facts.values)
+        end
         # we are saving here with no validations, as we want this process to be as fast
         # as possible, assuming we already have all the right settings in Foreman.
         # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
@@ -214,7 +215,7 @@ class Host < Puppet::Rails::Host
 
   def fv name
     v=fact_values.find(:first, :select => "fact_values.value", :joins => :fact_name,
-                     :conditions => "fact_names.name = '#{name}'")
+                       :conditions => "fact_names.name = '#{name}'")
     v.value unless v.nil?
   end
 
