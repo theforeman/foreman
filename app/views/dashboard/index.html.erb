@@ -3,12 +3,13 @@
   <p>Good Host Reports in the last 30 minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts</p>
 
   <%= graph("pie_3d" ,{:title => "Overview", :data => [@out_of_sync_hosts, @bad_hosts, @good_hosts], 
-    :labels =>["Sync #{@out_of_sync_hosts}","Error - #{@bad_hosts}","OK - #{@good_hosts}"]}) 
+            :labels =>["Sync #{@out_of_sync_hosts}","Error - #{@bad_hosts}","OK - #{@good_hosts}"],
+              :line_colors => "0000FF,FF0000,00FF00" })
   -%>
 
   <%= graph("bar",:title => "Run Distribution in the last 30 minutes", :data =>  @puppet_runs, 
             :line_colors => '0077CC', :bar_width_and_spacing => 25,:axis_with_labels => ["x","y"], 
-            :axis_labels => [["5|10|15|20|25|30|minutes"], @puppet_runs.sort.uniq], :legend => "Clients")
+            :axis_labels => [(1..(30/@interval)).map{|t| t*@interval}, @puppet_runs.sort.uniq], :legend => "Clients")
           -%>
 
   <h2>Errors</h2>

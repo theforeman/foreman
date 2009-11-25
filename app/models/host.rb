@@ -288,6 +288,30 @@ class Host < Puppet::Rails::Host
     self.save
   end
 
+  # counts each association of a given host
+  # e.g. how many hosts belongs to each os
+  # returns sorted hash
+  def self.count_distribution assocication
+    output = {}
+    count(:group => assocication).each {|k,v| output[k.to_label] = v unless v == 0 }
+    output
+  end
+
+  # counts each association of a given host for HABTM relationships
+  # TODO: Merge these two into one method
+  # e.g. how many hosts belongs to each os
+  # returns sorted hash
+  def self.count_habtm assocication
+    output = {}
+    Host.count(:include => assocication.pluralize, :group => "#{assocication}_id").to_a.each do |a|
+      #Ugly Ugly Ugly - I guess I'm missing something basic here
+      label = eval(assocication.camelize).send("find",a[0].to_i).to_label if a[0]
+      output[label] = a[1]
+    end
+    output
+  end
+
+
   private
   # align common mac and ip address input
   def normalize_addresses

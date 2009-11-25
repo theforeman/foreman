@@ -21,4 +21,8 @@ class Puppetclass < ActiveRecord::Base
     end
     return klasses
   end
+
+  def to_label
+    name
+  end
 end
