@@ -33,13 +33,6 @@ class ActiveRecord::Base
     true
   end
 
-  # returns an hash with the host count per AR Model which has many hosts
-  def self.host_distribution(conditions = nil)
-    output = {}
-    find_each { |m| output[m.to_label] = m.hosts.count unless m.hosts.count == 0 }
-    output
-  end
-
 end
 
 module ExemptedFromLogging
