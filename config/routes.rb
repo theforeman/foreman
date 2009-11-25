@@ -6,7 +6,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
     :requirements => { :name => /(.+\.)+\w+/ }
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
-  map.resources :hosts, :member => {:report => :get, :reports => :get}, :collection => { :show_search => :get}, :active_scaffold => true
+  map.resources :hosts,
+                :member => {:report => :get, :reports => :get, :facts => :get},
+                :collection => { :show_search => :get},
+                :active_scaffold => true
   map.connect   "/reports/expire_reports", :controller => "reports", :action => "expire_reports"
   map.connect   "/reports/expire_good_reports", :controller => "reports", :action => "expire_good_reports"
   map.resources :reports, :active_scaffold => true

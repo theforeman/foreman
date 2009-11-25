@@ -103,6 +103,10 @@ class HostsController < ApplicationController
     end
   end
 
+  def facts
+    @host = Host.find(params[:id])
+  end
+
   private
   def find_hosts
     if (klass=params[:class]).empty? and (fact=params[:fact]).empty?

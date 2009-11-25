@@ -9,6 +9,8 @@ class FactValuesController < ApplicationController
     config.list.columns = [:fact_name, :value]
     config.actions = [:list]
     config.columns[:fact_name].clear_link
+    config.actions.add :list_filter
+    config.list_filter.add(:association, :fact_name)
   end
 
   def create

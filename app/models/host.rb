@@ -11,6 +11,8 @@ class Host < Puppet::Rails::Host
   belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
+  #has_many :fact_values, :include => :fact_names
+  #has_many :fact_names, :through => :fact_values, :order => :name
 
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
