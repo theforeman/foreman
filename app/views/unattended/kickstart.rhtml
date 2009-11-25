@@ -1,16 +1,16 @@
 install
 <%= mediapath %>
 lang en_US.UTF-8
-<%= "langsupport --default en_US.UTF-8 en_GB.UTF-8 en_US.UTF-8\n" if @osver.to_i < 5 -%>
-<%= "mouse generic3usb --device input/mice\n" if @osver == "3" -%>
-<%= "selinux --disabled\n" if @osver != "3" -%>
+<%= "langsupport --default en_US.UTF-8 en_GB.UTF-8 en_US.UTF-8\n" if @osver < 5 -%>
+<%= "mouse generic3usb --device input/mice\n" if @osver == 3 -%>
+<%= "selinux --disabled\n" if @osver != 3 -%>
 keyboard us
 skipx
 network --device eth0 --bootproto dhcp
 rootpw --iscrypted <%= root_pass %>
 firewall --disabled
-authconfig --useshadow --enablemd5 <%= @osver != "3" and @osver != "4" ? '--disablenis' : '' %>
-timezone <%= @osver.to_i >= 5 ? 'Europe/London' : 'UTC' %>
+authconfig --useshadow --enablemd5 <%= @osver != 3 and @osver != 4 ? '--disablenis' : '' %>
+timezone <%= @osver >= 5 ? 'Europe/London' : 'UTC' %>
 bootloader --location=mbr --append="nofb quiet splash=quiet <%=ks_console%>" <%= grub_pass %>
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
@@ -21,14 +21,14 @@ skipx
 text
 reboot
 
-%packages <% if @osver.to_i < 5 %> --resolvedeps <% end %>
+%packages <% if @osver < 5 %> --resolvedeps <% end %>
 ntp
-<% if @osver == "5" -%>
+<% if @osver == 5 -%>
 @core
 @base
-<% elsif @osver == "4" -%>
+<% elsif @osver == 4 -%>
 device-mapper-multipath
-<% elsif @osver == "3" and @arch == "i386" -%>
+<% elsif @osver == 3 and @arch == "i386" -%>
 ethereal
 <% end -%>
 <% if @dynamic -%>

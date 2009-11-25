@@ -6,7 +6,7 @@ class UnattendedController < ApplicationController
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
-    @osver = @host.operatingsystem.major
+    @osver = @host.operatingsystem.major.to_i
     @arch = @host.architecture.name
   end
 

@@ -25,7 +25,7 @@ module UnattendedHelper
   end
 
   def epel
-    if @osver.to_i == 5 or 4
+    if @osver == 5 or 4
       "su -c 'rpm -Uvh http://download.fedora.redhat.com/pub/epel/#{@osver}/#{@arch}/epel-release-#{@host.os.to_version}.noarch.rpm'"
     else
       ""
@@ -33,10 +33,10 @@ module UnattendedHelper
   end
 
   def ca_pubkey
-    #TODO: replcae hardcoded dirs into puppet variables
+    #TODO: replace hardcoded dirs into puppet variables
     unless $settings[:CAPubKey].nil?
       "echo \"#{$settings[:CAPubKey]}\" >> /var/lib/puppet/ssl/certs/ca.pem
-count=`grep -- \"--END\" /var/lib/puppet/ssl/certs/ca.pem|wc -l`
+count=`grep -c -- \"--END\" /var/lib/puppet/ssl/certs/ca.pem`
 echo \"Updated the certificate chain. There are now $count certificates\""
     end
     return ""
@@ -54,12 +54,12 @@ echo \"Updated the certificate chain. There are now $count certificates\""
     @host.root_pass
   end
 
-  #returns the URL for Foreman Built status (when a host has finished the OS instlalation)
+  #returns the URL for Foreman Built status (when a host has finished the OS installation)
   def foreman_url(action = "built")
     url_for :only_path => false, :controller => "unattended", :action => action
   end
 
-  # provide embeded snippets support as simple erb templates
+  # provide embedded snippets support as simple erb templates
   def snippets(file)
     render :partial => "unattended/snippets/#{file}"
   end

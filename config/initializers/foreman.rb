@@ -27,11 +27,19 @@ class ActiveRecord::Base
   private
   def ensure_not_used
     self.hosts.each do |host|
-      errors.add_to_base to_label + " is used by " + host.hostname
+      errors.add_to_base to_label + " is used by " + host.to_label
     end
     raise ApplicationController::InvalidDeleteError.new, errors.full_messages.join("<br>") unless errors.empty?
     true
   end
+
+  # returns an hash with the host count per AR Model which has many hosts
+  def self.host_distribution(conditions = nil)
+    output = {}
+    find_each { |m| output[m.to_label] = m.hosts.count unless m.hosts.count == 0 }
+    output
+  end
+
 end
 
 module ExemptedFromLogging
