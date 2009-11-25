@@ -15,6 +15,7 @@ class HostsController < ApplicationController
     config.columns[:domain].form_ui  = :select
     config.columns[:environment].form_ui  = :select
     config.columns[:puppetclasses].form_ui  = :select
+    config.columns[:puppetclasses].options = { :draggable_lists => {}}
     config.columns[:fact_values].association.reverse = :host
     config.nested.add_link("Inventory", [:fact_values])
     config.columns[:puppetmaster].description = "leave empty if its just puppet"
