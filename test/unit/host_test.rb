@@ -71,7 +71,7 @@ class HostTest < ActiveSupport::TestCase
       :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
 
     # dummy external node info
-    nodeinfo = {"parameters"=>{"environment" => "production", "puppetmaster"=>"puppet", "MYVAR"=>"value"}, "classes"=>["base","apache"]}
+    nodeinfo = {"environment" => "production", "parameters"=>{"puppetmaster"=>"puppet", "MYVAR"=>"value"}, "classes"=>["base","apache"]}
 
     host.importNode nodeinfo
 
