@@ -28,4 +28,8 @@ class FactValue < Puppet::Rails::FactValue
     hash
   end
 
+  # proxy accessor for fact name
+  def name
+    fact_name.name
+  end
 end

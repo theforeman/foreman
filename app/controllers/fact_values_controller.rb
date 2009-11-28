@@ -6,9 +6,11 @@ class FactValuesController < ApplicationController
   filter_parameter_logging :facts
 
   active_scaffold :fact_value do |config|
-    config.list.columns = [:fact_name, :value]
+    config.list.columns = [:name, :value]
     config.actions = [:list]
-    config.columns[:fact_name].clear_link
+    config.columns = [:name, :value]
+    config.columns[:name].sort = true
+    config.columns[:name].sort_by :method => 'name'
     config.actions.add :list_filter
     config.list_filter.add(:association, :fact_name)
   end
