@@ -3,3 +3,4 @@ db/schema.rb
 log/*
 nbproject/*
 tmp/*
+tftp
