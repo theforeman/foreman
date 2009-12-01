@@ -3,7 +3,7 @@ class HostObserver < ActiveRecord::Observer
     # get net free ip address from subnet
     # get hostname
     # ...
-    # e.g. send out an email that a new host was created 
+    # e.g. send out an email that a new host was created
     RAILS_DEFAULT_LOGGER.info "trying to create new host #{host.name}"
   end
 
@@ -19,6 +19,8 @@ class HostObserver < ActiveRecord::Observer
   end
 
   def after_destroy(host)
+    # cleans out the puppet certificate once a host has been deleted
+    GW::Puppetca.clean host.name
     #clean up our netDb
   end
 end
