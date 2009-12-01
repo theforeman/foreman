@@ -18,7 +18,7 @@ class HostsController < ApplicationController
     config.columns[:puppetclasses].options = { :draggable_lists => {}}
     config.columns[:fact_values].association.reverse = :host
     config.nested.add_link("Inventory", [:fact_values])
-    config.columns[:puppetmaster].description = "leave empty if it is #{$settings[:puppet_server]}"
+    config.columns[:puppetmaster].description = "leave empty if it is #{$settings[:puppet_server] || "puppet"}"
     # do not show these fields if unattended mode is disabled
     if $settings[:unattended].nil? or $settings[:unattended]
       config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
