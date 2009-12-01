@@ -7,3 +7,6 @@
 [submodule "vendor/plugins/acts_as_audited"]
 	path = vendor/plugins/acts_as_audited
 	url = git://github.com/collectiveidea/acts_as_audited.git
+[submodule "vendor/plugins/active_scaffold_list_filter"]
+	path = vendor/plugins/active_scaffold_list_filter
+	url = git://github.com/tvongaza/active_scaffold_list_filters.git
