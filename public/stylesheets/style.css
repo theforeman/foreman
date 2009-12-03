@@ -163,6 +163,7 @@ td, th { padding: 3px 3px .75em 3px; line-height: 1.3em; }
 #tables tfoot th, tfoot td { background: #2C5755; color: #fff; }
 #tables th + td { padding-left: .5em; }
 td.puppet_status-column {width: 80px;}
+td.last_row { font-weight: bold; }
 
 .fieldWithErrors input.text-input,
 .fieldWithErrors select,
