@@ -134,19 +134,24 @@ class Host < Puppet::Rails::Host
   # reports methods
 
   def error_count
-    failed + skipped + failed_restarts
+    %w[failed failed_restarts skipped].sum {|f| status f}
   end
 
-  def failed
-    (puppet_status & 0x00000fff)
+  def status(type = nil)
+    raise "invalid type #{type}" if type and not Report::METRIC.include?(type)
+    h = {}
+    (type || Report::METRIC).each do |m|
+      h[m] = (read_attribute(:puppet_status) || 0) >> (Report::BIT_NUM*Report::METRIC.index(m)) & Report::MAX
+    end
+    return type.nil? ? h : h[type]
   end
 
-  def skipped
-    (puppet_status & 0x00fff000) >> 12
-  end
-
-  def failed_restarts
-    (puppet_status & 0x3f000000) >> 24
+  # generate dynamically methods for all metrics
+  # e.g. Report.last.applied
+  Report::METRIC.each do |method|
+    define_method method do
+      status method
+    end
   end
 
   def no_report

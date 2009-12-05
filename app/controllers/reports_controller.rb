@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
   active_scaffold :reports do |config|
     config.label   = "Puppet reports"
     config.actions = [:list, :search, :delete]
-    config.columns = [:host, :reported_at, :failed, :failed_restarts, :skipped, :config_retrival, :runtime]
+    config.columns = [:host, :reported_at, :applied, :restarted, :failed, :failed_restarts, :skipped, :config_retrival, :runtime]
     config.list.sorting   = { :reported_at => :desc }
     config.action_links.add 'show', :label => 'Details', :inline => false, :type => :record
   end

@@ -4,29 +4,61 @@ class Report < ActiveRecord::Base
   validates_presence_of :log, :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
 
+  METRIC = %w[applied restarted failed failed_restarts skipped]
+  BIT_NUM = 6
+  MAX = (1 << BIT_NUM) -1 # maximum value per metric
+
+  # search for a metric - e.g.:
+  # Report.with("failed") --> all reports which have a failed counter > 0
+  # Report.with("failed",20) --> all reports which have a failed counter > 20
+  named_scope :with, lambda { |*arg| { :conditions =>
+    "(status >> #{BIT_NUM*METRIC.index(arg[0])} & #{MAX}) > #{arg[1] || 0}"}
+  }
+
+  # returns recent reports
+  named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
+
+
+  # a method that save the report values (e.g. values from METRIC)
+  # it is not supported to edit status values after it has been written once.
+  def status=(st)
+    s = st if st.is_a?(Integer)
+    s = Report.calc_status st if st.is_a?(Hash)
+    write_attribute(:status,s) unless s.nil?
+  end
+
+  #returns metrics
+  #when no metric type is specific returns hash with all values
+  #passing a METRIC member will return its value
+  def status(type = nil)
+    raise "invalid type #{type}" if type and not METRIC.include?(type)
+    h = {}
+    (type || METRIC).each do |m|
+      h[m] = (read_attribute(:status) || 0) >> (BIT_NUM*METRIC.index(m)) & MAX
+    end
+    return type.nil? ? h : h[type]
+  end
+
+  # generate dynamically methods for all metrics
+  # e.g. Report.last.applied
+  METRIC.each do |method|
+    define_method method do
+      status method
+    end
+  end
+
+  # returns true if total error metrics are > 0
+  def error?
+    %w[failed failed_restarts skipped].sum {|f| status f} > 0
+  end
+
+  # returns true if total action metrics are > 0
+  def changes?
+    %w[applied restarted].sum {|f| status f} > 0
+  end
+
   def to_label
     "#{host.name} / #{reported_at.to_s}"
-  end
-
-  def failed
-    validate_meteric("resources",:failed)
-  end
-
-  def failed_restarts
-    validate_meteric("resources", :failed_restarts)
-  end
-
-  def skipped
-    validate_meteric("resources", :skipped)
-  end
-
-  def error?
-    status > 0
-  end
-
-  def changes?
-    t = validate_meteric("changes", :total)
-    t > 0 if t
   end
 
   def config_retrival
@@ -39,40 +71,67 @@ class Report < ActiveRecord::Base
     t.round_with_precision(2) if t
   end
 
-  #imports a yaml report into database
+  #imports a YAML report into database
   def self.import(yaml)
     report = YAML.load(yaml)
     raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
     logger.info "processing report for #{report.host}"
     begin
       host = Host.find_or_create_by_name report.host
-      report_status = host.puppet_status = report_status(report)
+
+      # parse report metrics
+      raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
+      resources = report.metrics["resources"]
+      # temp holder for metric values
+      report_status = {}
+      # find our metric values
+      METRIC.each { |m| report_status[m] = resources[m.to_sym] }
+
+      # special fix for false warning about skips
+      # sometimes there are skip values, but there are no error messages, we ignore them.
+      if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
+        report_status["skipped"] = 0
+      end
+
+      # convert report status to bit field
+      st = calc_status(report_status)
+
+      # update host record
+      # we update our host record, so we wont need to lookup the report information just to display the host list / info
+      # save our report time
       host.last_report = report.time.utc if host.last_report.nil? or host.last_report.utc < report.time.utc
 
+      # we save the raw bit status value in our host too.
+      host.puppet_status = st
+
       # we save the host without validation for two reasons:
-      # 1. it might be auto imported, therefore might not be valid (e.g. missing partition table etc)
-      # 2. we want this to be fast and light on the db.
+      # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
+      # 2. We want this to be fast and light on the db.
       # at this point, the report is important, not as much of the host
       host.save_with_validation(perform_validation = false)
 
-      self.create! :host => host, :reported_at => report.time.utc, :log => report, :status => report_status
+      # and save our report
+      self.create! :host => host, :reported_at => report.time.utc, :log => report, :status => st
+
     rescue Exception => e
       logger.warn "failed to process report for #{report.host} due to:#{e}"
     end
   end
 
-  def self.summarise(message, type, hosts)
-    hosts.each do |host|
-      failed          = (host.puppet_status & 0x00000fff)
-      skipped         = (host.puppet_status & 0x00fff000) >> 12
-      failed_restarts = (host.puppet_status & 0x3f000000) >> 24
-      no_report       = (host.puppet_status & 0x40000000) >> 30
-      message << "%-30s %9d %9d %9d %9d" % [host.name, failed, failed_restarts, skipped, no_report]
-      type[:failed]          +=1 if failed          > 0
-      type[:failed_restarts] +=1 if failed_restarts > 0
-      type[:skipped]         +=1 if skipped         > 0
-      type[:no_report]       +=1 if no_report
+  # returns a hash of hosts and their recent reports metric counts
+  def self.summarise(*hosts)
+    metrics = {}
+    list = {}
+    hosts.flatten.each do |host|
+      METRIC.each {|m| metrics[m] = 0 }
+      host.reports.recent.each do |r|
+        metrics.each_key do |m|
+          metrics[m] += r.send(m)
+        end
+      end
+      list[host.name] = metrics
     end
+    return list
   end
 
   # add sort by report time
@@ -104,32 +163,17 @@ class Report < ActiveRecord::Base
     counter
   end
 
-
-
-
   protected
 
-  # process the metrics
-  # 0 is a good report, anything else requires attention
-  def self.report_status report
-      status = 0
-      raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
-      resources = report.metrics["resources"]
-      # check if the report actually contain anything interesting
-      if resources[:failed] + resources[:skipped] + resources[:failed_restarts] + report.metrics["changes"][:total] > 0
-        status  = resources[:failed] if resources[:failed] > 0
-        # We only capture skipped errors when there are associated log entries.
-        # Sometimes there are skipped entries but no errors in the messages file,
-        # This can happen when having notice, alias messages etc
-        status |= resources[:skipped] if resources[:skipped] > 0 and report.logs.size >0
-
-        status |= resources[:failed_restarts] << 24 if resources[:failed_restarts] > 0
-      end
-
-      return status
+  def self.calc_status (hash = {})
+    st = 0
+    hash.each do |type, value|
+      value = MAX if value > MAX # we store up to 2^BIT_NUM -1 values as we want to use only BIT_NUM bits.
+      st |= value << (BIT_NUM*METRIC.index(type))
+    end
+    return st
   end
 
-  protected
 
   def validate_meteric (type, name)
     begin
