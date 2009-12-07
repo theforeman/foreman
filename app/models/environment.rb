@@ -18,11 +18,20 @@ class Environment < ActiveRecord::Base
     env = Hash.new
     # read puppet configuration
     conf = Puppet.settings.instance_variable_get(:@values)
+
+    # query for the environments variable
     unless conf[:main][:environments].nil?
       conf[:main][:environments].split(",").each {|e| env[e.to_sym] = conf[e.to_sym][:modulepath]}
     else
-      # we dont use environments
-      env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || $settings[:modulepath] || "/etc/puppet/modules"
+      # 0.25 doesn't require the environments variable anymore, scanning for modulepath
+      conf.keys.each {|p| env[p] = conf[p][:modulepath] unless conf[p][:modulepath].nil?}
+      # puppetmaster section "might" also returns the modulepath
+      env.delete :puppetmasterd if env.size > 1
+
+      if env.size == 0
+        # fall back to defaults - we probably don't use environments
+        env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || $settings[:modulepath] || Puppet[:modulepath] || "/etc/puppet/modules"
+      end
     end
     return env
   end
