@@ -26,6 +26,7 @@ class Environment < ActiveRecord::Base
       # 0.25 doesn't require the environments variable anymore, scanning for modulepath
       conf.keys.each {|p| env[p] = conf[p][:modulepath] unless conf[p][:modulepath].nil?}
       # puppetmaster section "might" also returns the modulepath
+      env.delete :main
       env.delete :puppetmasterd if env.size > 1
 
       if env.size == 0
