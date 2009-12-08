@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => "hosts"
 
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
-    :requirements => { :name => /(.+\.)+\w+/ }
+    :requirements => { :name => /[^\.][\w\.-]+/ }
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts,
                 :member => {:report => :get, :reports => :get, :facts => :get},
