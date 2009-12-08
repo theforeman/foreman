@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'fileutils'
+require 'pathname'
 
 module GW
   module Logger
@@ -67,16 +68,26 @@ module GW
 
   class Puppetca
     extend GW::Logger
-    # removes old certificate if it exists and removes autosign entry
+    # removes old certificate if it exists
     # parameter is the fqdn to use
-    @sbin = "/usr/sbin"
+    @sbin      = "/usr/sbin"
     @puppetdir = "/etc/puppet"
+    @ssldir    = "/var/lib/puppet/ssl"
 
     def self.clean fqdn
+      ssldir = Pathname.new @ssldir
+      unless (ssldir + "ca").directory? and File.exists? "#{@sbin}/puppetca"
+        logger.error "PuppetCA: SSL/CA or puppetca unavailable on this machine"
+        return false
+      end
       begin
-        if File.exists? "#{@sbin}/puppetca"
+        if (ssldir + "ca/signed/#{fqdn}.pem").file?
           command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null"
-          system "#{command} >> /tmp/puppetca.log 2>&1"
+          logger.info system(command)
+          return true
+        else
+          logger.warn ssldir + "PuppetCA: ca/signed/#{fqdn}.pem does not exists - skipping"
+          return true
         end
       rescue StandardError => e
         logger.info "PuppetCA: clean failed: #{e}"
