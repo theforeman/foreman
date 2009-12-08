@@ -2,7 +2,23 @@ require 'rubygems'
 require 'fileutils'
 
 module GW
+  module Logger
+    def logger
+      if defined? RAILS_DEFAULT_LOGGER
+        # If we are running as a library in a rails app then use the provided logger
+        RAILS_DEFAULT_LOGGER
+      else
+        # We must make our own ruby based logger if we are a standalone proxy server
+        require 'logger'
+        # We keep the last 6 10MB log files
+        l = Logger.new("/var/log/proxy", 6, 10*1024)
+        l.severity = Logger::DEBUG
+        l
+      end
+    end
+  end
   class Tftp
+    extend GW::Logger
     # creates TFTP link to a predefine syslinux config file
     # parameter is a array ["mac",'osname','arch'...]
     # e.g. ["00:11:22:33:44:55:66:77",'centos','i386'...]
@@ -50,6 +66,7 @@ module GW
   end
 
   class Puppetca
+    extend GW::Logger
     # removes old certificate if it exists and removes autosign entry
     # parameter is the fqdn to use
     @sbin = "/usr/sbin"
