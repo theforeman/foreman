@@ -10,5 +10,5 @@
   <li><%= link_to 'Partition Tables',   { :controller => 'ptables' } %></li>
   <li><%= link_to 'Global Parameters',  { :controller => 'common_parameters' } %></li>
   <li><%= link_to 'LDAP Authentication',{ :controller => 'auth_sources' } %></li>
-  <li><%= link_to_if $settings[:ldap], 'Users',              { :controller => 'users' } %></li>
+  <li><%= link_to_if SETTINGS[:ldap], 'Users',              { :controller => 'users' } %></li>
 </ul>

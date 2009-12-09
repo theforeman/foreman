@@ -2,9 +2,9 @@ require 'puppet'
 require 'gchart'
 
 # import settings file
-$settings = YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
+SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 
-Puppet[:config] = $settings[:puppetconfdir] || "/etc/puppet/puppet.conf"
+Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
 Puppet.parse_config
 
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?

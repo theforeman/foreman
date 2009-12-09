@@ -51,7 +51,7 @@ module GW
 
     private
     # returns the absolute path
-    def self.path( p = $settings[:tftppath] )
+    def self.path( p = SETTINGS[:tftppath] )
       # are we running in RAILS or as a standalone CGI?
       dir = RAILS_ROOT ? RAILS_ROOT : File.dirname(__FILE__)
       return (p =~ /^\//) ? p : "#{dir}/#{p}"

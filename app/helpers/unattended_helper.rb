@@ -34,8 +34,8 @@ module UnattendedHelper
 
   def ca_pubkey
     #TODO: replace hardcoded dirs into puppet variables
-    unless $settings[:CAPubKey].nil?
-      "echo \"#{$settings[:CAPubKey]}\" >> /var/lib/puppet/ssl/certs/ca.pem
+    unless SETTINGS[:CAPubKey].nil?
+      "echo \"#{SETTINGS[:CAPubKey]}\" >> /var/lib/puppet/ssl/certs/ca.pem
 count=`grep -c -- \"--END\" /var/lib/puppet/ssl/certs/ca.pem`
 echo \"Updated the certificate chain. There are now $count certificates\""
     end

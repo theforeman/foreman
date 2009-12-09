@@ -31,7 +31,7 @@ class Environment < ActiveRecord::Base
 
       if env.size == 0
         # fall back to defaults - we probably don't use environments
-        env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || $settings[:modulepath] || Puppet[:modulepath] || "/etc/puppet/modules"
+        env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || SETTINGS[:modulepath] || Puppet[:modulepath] || "/etc/puppet/modules"
       end
     end
     return env

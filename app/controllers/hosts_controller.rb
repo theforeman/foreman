@@ -19,9 +19,9 @@ class HostsController < ApplicationController
     config.columns[:puppetclasses].options = { :draggable_lists => {}}
     config.columns[:fact_values].association.reverse = :host
     config.nested.add_link("Inventory", [:fact_values])
-    config.columns[:puppetmaster].description = "leave empty if it is #{$settings[:puppet_server] || "puppet"}"
+    config.columns[:puppetmaster].description = "leave empty if it is #{SETTINGS[:puppet_server] || "puppet"}"
     # do not show these fields if unattended mode is disabled
-    if $settings[:unattended].nil? or $settings[:unattended]
+    if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
       config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
       config.columns[:architecture].form_ui  = :select
       config.columns[:media].form_ui  = :select
@@ -37,7 +37,7 @@ class HostsController < ApplicationController
          Are you sure you want to reinstall this host?"
     end
     config.action_links.add 'rrdreport', :label => 'RRDReport', :inline => true,
-      :type => :record,  :position => :after if $settings[:rrd_report_url]
+      :type => :record,  :position => :after if SETTINGS[:rrd_report_url]
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
       :type => :record, :position => :after
   end
@@ -79,7 +79,7 @@ class HostsController < ApplicationController
 
   # generates a link to Puppetmaster RD graphs
   def rrdreport
-    if $settings[:rrd_report_url].nil? or (host=Host.find(params[:id])).last_report.nil?
+    if SETTINGS[:rrd_report_url].nil? or (host=Host.find(params[:id])).last_report.nil?
       render :text => "Sorry, no graphs for this host"
     else
       render :partial => "rrdreport", :locals => { :host => host}

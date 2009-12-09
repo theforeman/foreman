@@ -41,7 +41,7 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
-  if $settings[:unattended].nil? or $settings[:unattended]
+  if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
     validates_uniqueness_of  :ip
     validates_uniqueness_of  :mac
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
@@ -94,19 +94,19 @@ class Host < Puppet::Rails::Host
     GW::Puppetca.disable self.name
     GW::Tftp.remove self.mac
     save
-    site_post_built = "#{$settings[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
+    site_post_built = "#{SETTINGS[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
     if File.executable? site_post_built
-      %x{#{site_post_built} #{self.name} >> #{$settings[:logfile]} 2>&1 &}
+      %x{#{site_post_built} #{self.name} >> #{SETTINGS[:logfile]} 2>&1 &}
     end
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
   def puppetmaster
-    read_attribute(:puppetmaster) || $settings[:puppet_server] || "puppet"
+    read_attribute(:puppetmaster) || SETTINGS[:puppet_server] || "puppet"
   end
 
   def puppetmaster=(pm)
-    write_attribute(:puppetmaster, pm == ($settings[:puppet_server] || "puppet") ? nil : pm)
+    write_attribute(:puppetmaster, pm == (SETTINGS[:puppet_server] || "puppet") ? nil : pm)
   end
 
   #retuns fqdn of host puppetmaster
@@ -116,7 +116,7 @@ class Host < Puppet::Rails::Host
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    read_attribute(:root_pass) || $settings[:root_pass] || "!*!*!*!*!"
+    read_attribute(:root_pass) || SETTINGS[:root_pass] || "!*!*!*!*!"
   end
 
   # make sure we store an encrypted copy of the password in the database

@@ -1,6 +1,6 @@
 <h3><%= host.name %> Last puppet report on <%= host.last_report.getlocal %>, which is <%= time_ago_in_words(host.last_report) %> ago</h3>
 <center>
-  <% url = "http://#{host.pm_fqdn}/#{$settings[:rrd_report_url]}/#{host.name}" -%>
+  <% url = "http://#{host.pm_fqdn}/#{SETTINGS[:rrd_report_url]}/#{host.name}" -%>
   <h4>Daily</h4>
   <img src = <%= "#{url}/time-daily.png"%>>
   <img src = <%= "#{url}/changes-daily.png"%>>
