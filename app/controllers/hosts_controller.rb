@@ -109,17 +109,32 @@ class HostsController < ApplicationController
 
   private
   def find_hosts
-    if (klass=params[:class]).empty? and (fact=params[:fact]).empty?
+    fact, klass = params[:fact], params[:class]
+    if fact.empty? and klass.empty?
       render :text => '404 Not Found', :status => 404 and return
     end
-    @hosts = (
-      Host.find(:all, :select => "hosts.name", :joins => :puppetclasses,
-                :conditions => ["puppetclasses.name = ?", klass]).map(&:name) +
-      Host.find(:all, :select => :name, :joins => :fact_values,
-                :conditions => ["fact_values.value = ?", fact]).map(&:name)
-    ).uniq
-    render :text => '404 Not Found', :status => 404 and return if @hosts.size == 0
+    @hosts = []
+
+    # TODO: rewrite this part, my brain stopped working
+    # it should be possible for a one join
+    fact.each do |f|
+      # split facts based on name => value pairs
+      q = f.split("-")
+      invalid_request unless q.size == 2
+      list = Host.recent.with_fact(*q).map(&:name)
+      @hosts = @hosts.empty? ? list : @hosts & list
+    end unless fact.nil?
+
+    klass.each do |k|
+      list = Host.recent.with_class(k).map(&:name)
+      @hosts = @hosts.empty? ? list : @hosts & list
+    end unless klass.nil?
+
+    render :text => '404 Not Found', :status => 404 and return if @hosts.empty?
   end
 
+  def invalid_request
+      render :text => 'Invalid query', :status => 400 and return
+  end
 
 end

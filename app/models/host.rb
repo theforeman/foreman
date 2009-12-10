@@ -12,6 +12,25 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
 
+  named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || 1.hour.ago)]} }
+
+  named_scope :with_fact, lambda { |fact,value|
+    unless fact.nil? or value.nil?
+      { :joins => [:fact_values, :fact_names], :select => "hosts.name", :conditions =>
+      ["fact_values.value = ? and fact_names.name = ? and fact_values.fact_name_id = fact_names.id",value, fact ] }
+    else
+      raise "invalid fact"
+    end
+  }
+
+  named_scope :with_class, lambda { |klass|
+    unless klass.nil?
+      { :joins => :puppetclasses, :select => "hosts.name", :conditions => {:puppetclasses => {:name => klass }} }
+    else
+      rais "invalid class"
+    end
+  }
+
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
 
