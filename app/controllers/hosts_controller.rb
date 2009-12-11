@@ -114,6 +114,7 @@ class HostsController < ApplicationController
       render :text => '404 Not Found', :status => 404 and return
     end
     @hosts = []
+    counter = 0
 
     # TODO: rewrite this part, my brain stopped working
     # it should be possible for a one join
@@ -122,12 +123,14 @@ class HostsController < ApplicationController
       q = f.split("-")
       invalid_request unless q.size == 2
       list = Host.recent.with_fact(*q).map(&:name)
-      @hosts = @hosts.empty? ? list : @hosts & list
+      @hosts = counter == 0 ? list : @hosts & list
+      counter +=1
     end unless fact.nil?
 
     klass.each do |k|
       list = Host.recent.with_class(k).map(&:name)
-      @hosts = @hosts.empty? ? list : @hosts & list
+      @hosts = counter == 0 ? list : @hosts & list
+      counter +=1
     end unless klass.nil?
 
     render :text => '404 Not Found', :status => 404 and return if @hosts.empty?
