@@ -25,13 +25,13 @@ optparse = OptionParser.new do |opts|
     options[:command] = cmd
   end
   options[:user] = "root"
-  opts.on( '-u', '--user USER', 'User to use - defaults to #{options[:user]}' ) do |user|
+  opts.on( '-u', '--user USER', "User to use - defaults to #{options[:user]}" ) do |user|
     options[:user] = user
   end
 
   options[:facts] = {}
   opts.on( '-f', '--facts fact=x,fact=y..', 'one or more facts to filter the host list' ) do |facts|
-    facts.gsub(" ","").split(",").each do |f|
+    facts.split(",").each do |f|
       name, value = f.split("=")
       options[:facts].merge!({ name => value })
     end
@@ -39,11 +39,11 @@ optparse = OptionParser.new do |opts|
 
   options[:klass] = []
   opts.on( '-p', '--puppetclass CLASSA,CLASSB', 'one or more classes to filter the host list') do |k|
-    options[:klass] = k.gsub(" ","").split(",")
+    options[:klass] = k.split(",")
   end
 
   opts.on( '-h', '--help', 'Display this screen' ) do
-    puts opts
+    puts opt
     exit
   end
 end
@@ -55,11 +55,15 @@ if options[:command].empty? or (options[:facts].empty? and options[:class].empty
   exit 1
 end
 
+unless ARGV.empty?
+  warn "unkonwn parameter #{ARGV.join(" ")}"
+  exit 1
+end
+
 puts "About to execute: #{options[:command]}"
 query = {}
 query.merge!({"fact" => options[:facts]}) unless options[:facts].empty?
 query.merge!({"class" => options[:klass]}) unless options[:klass].empty?
-p query
 
 hosts = gethosts query
 
