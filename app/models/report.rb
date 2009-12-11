@@ -118,18 +118,23 @@ class Report < ActiveRecord::Base
     end
   end
 
-  # returns a hash of hosts and their recent reports metric counts
-  def self.summarise(*hosts)
-    metrics = {}
+  # returns a hash of hosts and their recent reports metric counts which have values
+  # e.g. non zero metrics.
+  # first argument is time range, everything afterwards is a host list.
+  # TODO: improve SQL query (so its not N+1 queries)
+  def self.summarise(time = 1.day.ago, *hosts)
     list = {}
+    raise "invalid host list" unless hosts
     hosts.flatten.each do |host|
+      # set default of 0 per metric
+      metrics = {}
       METRIC.each {|m| metrics[m] = 0 }
-      host.reports.recent.each do |r|
+      host.reports.recent(time).find_each(:select => "status") do |r|
         metrics.each_key do |m|
-          metrics[m] += r.send(m)
+          metrics[m] += r.status(m)
         end
       end
-      list[host.name] = metrics
+        list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
     end
     return list
   end

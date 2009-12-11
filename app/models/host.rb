@@ -13,6 +13,7 @@ class Host < Puppet::Rails::Host
   has_many :host_parameters, :dependent => :destroy
 
   named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || 1.hour.ago)]} }
+  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || 35.minutes.ago)]} }
 
   named_scope :with_fact, lambda { |fact,value|
     unless fact.nil? or value.nil?

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />  
+  </head> 
+  <body> 
+    <h1>Summary from <%= distance_of_time_in_words (Time.now - @timerange) %> ago to now</h1>
+    <h2>Hosts with interesting values (changed, failures etc)</h2>
+    <% if @hosts.size > 0 -%>
+      <table>
+        <tr>
+          <th>Hostname</th>
+          <% @hosts.first.last[:metrics].keys.each do |header| -%>
+            <th><%= header %></th>
+          <% end -%>
+        </tr>
+        <% @hosts.each do |host,params| -%>
+          <tr>
+            <td> <%= link_to host, reports_host_path(:id => params[:id], :host => @url, :only_path => false) %></td>
+            <% params[:metrics].values.each do |m| -%>
+              <td> <%= m %> </td>
+            <% end -%>
+          </tr>
+        <% end -%>
+      </table>
+      <p>Total of <%= pluralize(@hosts.size, 'host') -%></p>
+    <% else -%>
+      <b>None!</b>
+    <% end -%>
+    <h2>Hosts which are currently not running puppet</h2>
+    <% if @out_of_sync.size > 0 -%>
+      <table>
+        <tr>
+          <th>Hostname</th>
+          <th>Last Report</th>
+        </tr>
+        <% @out_of_sync.each do |host| -%>
+          <tr>
+            <td> <%= link_to host.name, host_path(:id => host.id, :host => @url, :only_path => false) %> </td>
+            <td> <%= time_ago_in_words host.last_report -%> </td>
+          </tr>
+        <% end -%>
+      </table>
+      <p>Total of <%= pluralize(@out_of_sync.size, 'host') -%></p>
+    <% else -%>
+      <b>None!</b>
+    <% end -%>
+  </body>
+</html>
