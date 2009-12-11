@@ -3,6 +3,8 @@ db/schema.rb
 log/*
 nbproject/*
 tmp/*
+config/settings.yaml
+config/email.yaml
 tftp
 public/images/active_scaffold
 public/javascripts/active_scaffold
