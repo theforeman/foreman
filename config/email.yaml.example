@@ -1,0 +1,8 @@
+config.action_mailer.smtp_settings = {
+  :address        => 'smtp.example.com',
+  :port           => 25,
+  :domain         => 'www.example.com',
+  :authentication => :login,
+  :user_name      => 'www',
+  :password       => 'secret'
+}
