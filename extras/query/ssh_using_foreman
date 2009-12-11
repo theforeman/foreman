@@ -6,7 +6,7 @@ begin
   require 'rubygems'
   require 'net/ssh/multi'
 rescue LoadError => detail
-  warn "failed to load ssh_multi libraray - try: gem install net-ssh-multi"
+  warn "failed to load ssh_multi library - try: gem install net-ssh-multi"
   exit 1
 end
 
@@ -14,8 +14,8 @@ options = {}
 optparse = OptionParser.new do |opts|
   # Set a banner, displayed at the top
   # of the help screen.
-  opts.define_head "execute commands on mulitple hosts
-  Query Foreman to provide host list based on collection of facts and classes"
+  opts.define_head "execute commands on multiple hosts
+  Query Foreman to provide host list based on collections of facts and classes"
   opts.banner = "Usage: #{$0}"
   opts.separator ""
 
