@@ -24,16 +24,16 @@
       <td>
         <table width="100%">
           <% @report.log.metrics["time"].values.each do |name, label, value|-%>
-	  <% if label == 'Total' then -%>
-	  <%   @totaltime = value -%>
-	  <%   next -%>
-	  <% end -%>
+            <% if label == 'Total' then -%>
+              <%   @totaltime = value -%>
+              <%   next -%>
+            <% end -%>
             <tr>
               <td> <%= h label %> </td>
               <td> <%= h value.round_with_precision(4) %> </td>
             </tr>
           <% end %>
-	  <tr><td class="last_row">Total</td><td class="last_row"><%= h @totaltime.round_with_precision(4) %></td></tr>
+          <tr><td class="last_row">Total</td><td class="last_row"><%= h @totaltime.round_with_precision(4) %></td></tr>
         </table>
       </td>
     </tr>
