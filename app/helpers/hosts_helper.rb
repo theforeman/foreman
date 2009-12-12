@@ -23,7 +23,7 @@ module HostsHelper
       title = os
     end
     image_tag("hosts/#{image}", :size => "18x18", :title => title) +
-      link_to(record.shortname, edit_host_url(record))
+      link_to(record.shortname, edit_host_path(record))
   end
 
   def disk_form_column(record, field_name)
