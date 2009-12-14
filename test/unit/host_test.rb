@@ -38,7 +38,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should import facts from yaml of a new host" do
-    assert Host.importHostAndFacts File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
   end
 
 
