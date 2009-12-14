@@ -21,19 +21,19 @@ namespace :reports do
   end
 end
 desc <<-END_DESC
-Send an email summarizing hosts reports (and lack of it).
+Send an email summarising hosts reports (and lack of it).
 
 Available conditions:
   * days     => number of days to scan backwards (defaults to 1)
   * hours    => number of hours to scan backwards (defaults to disabled)
 
   Example:
-    rake reports:summarise days=3 RAILS_ENV="production" # Sends out a summary email for the last 3 days.
-    rake reports:summarise hours=12 RAILS_ENV="production" # Sends out a summary email for the last 12 hours.
+    rake reports:summarize days=3 RAILS_ENV="production" # Sends out a summary email for the last 3 days.
+    rake reports:summarize hours=12 RAILS_ENV="production" # Sends out a summary email for the last 12 hours.
 
 END_DESC
 namespace :reports do
-  task :summarise => :environment do
+  task :summarize => :environment do
     
     time = ENV['hours'].to_i.hours.ago if ENV['hours'] 
     time = ENV['days'].to_i.days.ago if ENV['days'] 
