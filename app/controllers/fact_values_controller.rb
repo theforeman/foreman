@@ -2,6 +2,7 @@ class FactValuesController < ApplicationController
   before_filter :require_ssl, :except => :create
   before_filter :require_login, :except => :create
   before_filter :verify_authenticity_token, :except => :create
+  session :off, :only => :create
 
   # avoids storing the facts data in the log files
   filter_parameter_logging :facts
