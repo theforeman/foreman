@@ -6,8 +6,8 @@ class CalcExistingReports < ActiveRecord::Migration
         Report.find_each do |r|
           begin
             r.update_single_attribute(:status, Report.calc_status(Report.metrics_to_hash(r.log)))
-#          rescue Exception => e
-            #say "#{r.id}: #{e} - ignoring this report"
+          rescue Exception => e
+            say "#{r.id}: #{e} - ignoring this report"
           end
         end
       end
