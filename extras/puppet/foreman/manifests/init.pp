@@ -55,7 +55,7 @@ class foreman {
   }
 # Initial Foreman Install
   exec{"install_foreman":
-    command => "wget -q http://theforeman.org/attachments/download/27/foreman-0.1-2.tar.bz2 -O - | tar xjf -",
+    command => "wget -q http://theforeman.org/attachments/download/53/foreman-0.1-3.tar.bz2 -O - | tar xjf -",
     cwd => $railspath,
     creates => "$foreman_dir/public",
     notify => Exec["db_migrate"],
@@ -80,4 +80,11 @@ class foreman {
     hour => "23",
   }
 
+  cron{"daily summary":
+    command  => "(cd $foreman_dir && rake reports:summarize)",
+    environment => "RAILS_ENV=production",
+    user => $foreman_user,
+    minute => "30",
+    hour => "07",
+  }
 }
