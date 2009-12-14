@@ -18,6 +18,8 @@ class Report < ActiveRecord::Base
   # returns recent reports
   named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
 
+  # with_changes
+  named_scope :with_changes, {:conditions => "reported_at != 0"}
 
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
@@ -81,20 +83,8 @@ class Report < ActiveRecord::Base
 
       # parse report metrics
       raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
-      resources = report.metrics["resources"]
-      # temp holder for metric values
-      report_status = {}
-      # find our metric values
-      METRIC.each { |m| report_status[m] = resources[m.to_sym] }
-
-      # special fix for false warning about skips
-      # sometimes there are skip values, but there are no error messages, we ignore them.
-      if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
-        report_status["skipped"] = 0
-      end
-
       # convert report status to bit field
-      st = calc_status(report_status)
+      st = calc_status(metrics_to_hash(report))
 
       # update host record
       # we update our host record, so we wont need to lookup the report information just to display the host list / info
@@ -170,6 +160,24 @@ class Report < ActiveRecord::Base
 
   protected
 
+  # Converts metrics form Puppet report into a hash
+  # this hash is required by the calc_status method
+  def self.metrics_to_hash(report)
+    resources = report.metrics["resources"]
+    report_status = {}
+
+    # find our metric values
+    METRIC.each { |m| report_status[m] = resources[m.to_sym] }
+    # special fix for false warning about skips
+    # sometimes there are skip values, but there are no error messages, we ignore them.
+    if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
+      report_status["skipped"] = 0
+    end
+    return report_status
+  end
+
+  # converts a hash into a bit field
+  # expects a metrics_to_hash kind of hash
   def self.calc_status (hash = {})
     st = 0
     hash.each do |type, value|
@@ -178,7 +186,6 @@ class Report < ActiveRecord::Base
     end
     return st
   end
-
 
   def validate_meteric (type, name)
     begin

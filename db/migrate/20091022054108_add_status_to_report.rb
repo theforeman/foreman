@@ -4,17 +4,6 @@ class AddStatusToReport < ActiveRecord::Migration
     add_index :reports, :status
     add_index :reports, :host_id
     add_index :reports, :reported_at
-
-    Report.reset_column_information
-    say_with_time "updating Reports records - this may take a long time.. we have #{Report.count} reports to process hold on" do
-      Report.find_each(:conditions => ["status is ?", nil]) do |r|
-        begin
-          r.update_single_attribute(:status, Report.report_status(r.log))
-        rescue Exception => e
-          say "#{r.id}: #{e} - ignoring this report"
-        end
-      end
-    end
   end
 
   def self.down

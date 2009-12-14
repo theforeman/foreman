@@ -12,7 +12,7 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
 
-  named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || 1.hour.ago)]} }
+  named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || 35.minutes.ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || 35.minutes.ago)]} }
 
   named_scope :with_fact, lambda { |fact,value|
@@ -31,6 +31,23 @@ class Host < Puppet::Rails::Host
       rais "invalid class"
     end
   }
+
+  named_scope :with, lambda { |*arg| { :conditions =>
+    "(puppet_status >> #{Report::BIT_NUM*Report::METRIC.index(arg[0])} & #{Report::MAX}) > #{arg[1] || 0}"}
+  }
+  named_scope :with_error, { :conditions => "(puppet_status > 0) and
+    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed")} & #{Report::MAX}) or
+    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed_restarts")} & #{Report::MAX}) or
+    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("skipped")} & #{Report::MAX})"
+  }
+
+
+  named_scope :with_changes, { :conditions => "(puppet_status > 0) and
+    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("applied")} & #{Report::MAX}) or
+    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("restarted")} & #{Report::MAX})"
+  }
+
+  named_scope :successful, {:conditions => "puppet_status = 0"}
 
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]

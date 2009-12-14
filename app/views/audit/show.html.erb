@@ -2,8 +2,8 @@
   <h2 style="border-bottom-style:none;" ><%= auditable_type_column(@audit) %> </h2>
 </div>
 
-<div id="tables">
-  <table width="100%">
+<div>
+  <table class="list" width="100%">
     <caption><%= "#{@audit.action.camelize} #{auditable(@audit)}" %></caption>
     <th>What</th><th>Old</th><th>New</th>
     <% @audit.changes.each do |name,change| -%>

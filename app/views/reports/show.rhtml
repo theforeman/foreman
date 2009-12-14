@@ -4,13 +4,13 @@
 </div>
 
 <% if @report.log.logs.size > 0 -%> 
-  <div id="tables">
-    <table width="100%">
+  <div>
+    <table class="list">
       <caption>Puppet Output</caption>
       <% @report.log.logs.each do |log| -%>
         <tr class="<%= cycle("even", "odd") -%>">
           <td><%= h log.source %></td>
-          <td><b><%= h log.message %></b></td>
+          <td><%= h log.message %></td>
         </tr>
       <% end -%>
     </table>

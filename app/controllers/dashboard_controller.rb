@@ -1,24 +1,42 @@
 class DashboardController < ApplicationController
   before_filter :conditions
+  helper :hosts
 
   def index
     @total_hosts = Host.count
-    @good_hosts = Host.count(:all, :conditions => @good_reports)
-    @bad_hosts = Host.count(:all, :conditions => @host_conditions)
-    @out_of_sync_hosts = Host.count(:all, :conditions => @sync_conditions)
-    @intersting_reports = Report.count(:all, :conditions => @report_conditions)
-    @interval = 3  # the run interval to show in the dashboard graph
-    @puppet_runs = Report.count_puppet_runs(@interval)
+    # hosts with errors in the last puppet run
+    @bad_hosts = Host.recent.with_error.count
+    # hosts with changes in the last puppet run
+    @active_hosts = Host.recent.with_changes.count
+    @good_hosts = Host.recent.successful.count
+    # all hosts with didn't run puppet in the <time interval> - regardless of their status
+    @out_of_sync_hosts = Host.out_of_sync.count
+    @intersting_reports = Report.with_changes.count
+    # the run interval to show in the dashboard graph
+    @puppet_runs = Report.count_puppet_runs(@interval = 3)
+  end
+
+  def errors
+    render :partial => "hosts/minilist", :layout => true, :locals => {
+      :hosts => Host.recent.with_error,
+      :header => "Hosts with errors" }
+  end
+
+  def active
+    render :partial => "hosts/minilist", :layout => true, :locals => {
+      :hosts => Host.recent.with_changes,
+      :header => "Active Hosts" }
+  end
+
+  def OutOfSync
+    render :partial => "hosts/minilist", :layout => true, :locals => {
+      :hosts => Host.out_of_sync,
+      :header => "Hosts which didnt run puppet in the last 30 minutes" }
   end
 
   private
   def conditions
-    time = Time.now.utc - 35.minutes
-    @sync_conditions = ["last_report < ? or last_report is ?", time, nil]
-    @report_conditions = "status > 0"
-    @good_reports = ["last_report > ? and puppet_status = ?", time, 0]
-    @host_conditions = ["puppet_status > ?", 0]
+    @report_conditions = "status != 0"
   end
 
 end
-
