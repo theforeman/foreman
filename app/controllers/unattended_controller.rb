@@ -3,6 +3,7 @@ class UnattendedController < ApplicationController
   helper :all
   before_filter :get_host_details, :allowed_to_install?
   before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish]
+  skip_before_filter :require_ssl, :require_login
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"

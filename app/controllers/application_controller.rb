@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   # standard layout to all controllers
   layout 'standard'
 
-  before_filter :require_login
+  before_filter :require_ssl, :require_login
 
   def self.active_scaffold_controller_for(klass)
     return FactNamesController if klass == Puppet::Rails::FactName
@@ -19,6 +19,17 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def require_ssl
+    # if SSL is not configured, don't bother forcing it.
+    return true unless SETTINGS[:require_ssl]
+    # don't force SSL on localhost
+    return true if request.host=~/localhost|127.0.0.1/
+    # finally - redirect
+    redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
+  end
+
+
   #Force a user to login if ldap authentication is enabled
   def require_login
     return true unless $settings[:ldap]
