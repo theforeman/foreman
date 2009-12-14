@@ -1,7 +1,7 @@
 <center>
   <h2>Overview</h2>
   <p>Generated at <%= Time.now %></p>
-  <p>Good Host Reports in the last 30 minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@good_hosts *100 / @total_hosts%>%) </p>
+  <p>Good Host Reports in the last 30 minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@percentage%>%) </p>
 
   <%= graph("pie_3d" ,{:title => "Overview", :data => [@out_of_sync_hosts, @bad_hosts, @good_hosts, @active_hosts],
             :labels =>["Sync #{@out_of_sync_hosts}","Error - #{@bad_hosts}","OK - #{@good_hosts}","Active - #{@active_hosts}"],

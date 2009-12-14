@@ -9,6 +9,11 @@ class DashboardController < ApplicationController
     # hosts with changes in the last puppet run
     @active_hosts = Host.recent.with_changes.count
     @good_hosts = Host.recent.successful.count
+    if @good_hosts == 0 or @total_hosts == 0
+      @percentage = 0
+    else
+      @percentage = @good_hosts *100 / @total_hosts
+    end
     # all hosts with didn't run puppet in the <time interval> - regardless of their status
     @out_of_sync_hosts = Host.out_of_sync.count
     @intersting_reports = Report.with_changes.count
