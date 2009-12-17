@@ -17,8 +17,12 @@
         <% @hosts.each do |host,params| -%>
           <tr>
             <td> <%= link_to host, reports_host_path(:id => params[:id], :host => @url, :only_path => false) %></td>
-            <% params[:metrics].values.each do |m| -%>
-              <td> <%= m %> </td>
+            <% params[:metrics].each do |m,v| -%>
+              <% if m =~ /failed|skipped|failed_restart/ and v > 0 -%>
+                <td style="color: red; font-weight: bold;"><%= v %> </td>
+              <% else -%>
+                <td> <%= v %> </td>
+              <% end -%>
             <% end -%>
           </tr>
         <% end -%>
