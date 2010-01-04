@@ -1,8 +1,25 @@
 require 'test_helper'
 
 class MediaTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  test "name can't be blank" do
+    media = Media.new :name => "   ", :path => "http://www.google.com"
+    assert media.name.strip.empty?
+    assert !media.save
+  end
+
+  test "name can't contain whitespaces" do
+    media = Media.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
+    assert !media.name.strip.empty?
+    assert !media.save
+
+    media = Media.new :name => "Archlinux mirror   thing", :path => "http://www.google.com"
+    assert !media.name.strip.empty?
+    assert !media.save
+  end
+
+  test "path can't be blank" do
+    media = Media.new :name => "Archlinux mirror", :path => "  "
+    assert media.path.strip.empty?
+    assert !media.save
   end
 end
