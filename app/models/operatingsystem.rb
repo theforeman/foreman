@@ -7,9 +7,8 @@ class Operatingsystem < ActiveRecord::Base
   validates_presence_of :major, :message => "Operating System version is required"
   validates_presence_of :name
   validates_numericality_of :major
-  validates_numericality_of :minor
-  validates_format_of :name, :with => /[^\s]+/
-  validates_uniqueness_of :name, :major
+  validates_numericality_of :minor, :allow_nil => true
+  validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   #TODO: add validation for name and major uniqueness
 
   before_destroy :ensure_not_used
