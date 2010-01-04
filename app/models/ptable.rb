@@ -8,5 +8,5 @@ class Ptable < ActiveRecord::Base
   before_destroy :ensure_not_used
   validates_uniqueness_of :name
   validates_uniqueness_of :layout
-
+  validates_format_of :name, :layout, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
 end
