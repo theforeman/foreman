@@ -41,7 +41,6 @@ class HostTest < ActiveSupport::TestCase
     assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
   end
 
-
   test "should not save if both ptable and disk are not defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
