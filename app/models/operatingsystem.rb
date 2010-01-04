@@ -29,5 +29,4 @@ class Operatingsystem < ActiveRecord::Base
   def fullname
     "#{name}_#{to_version}"
   end
-
 end
