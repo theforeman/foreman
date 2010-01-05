@@ -50,6 +50,6 @@ class MediaTest < ActiveSupport::TestCase
 
     media.hosts << host
 
-    assert !operating_system.destroy
+    assert !media.destroy
   end
 end
