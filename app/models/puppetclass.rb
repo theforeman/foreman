@@ -7,6 +7,7 @@ class Puppetclass < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
   validates_associated :environments
+  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
 
   # scans for puppet classes
   # parameter is the module path
