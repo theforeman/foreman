@@ -6,14 +6,19 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert !operating_system.save
   end
 
+  test "name shouldn't be blank" do
+    operating_system = Operatingsystem.new :name => "   ", :major => "9"
+    assert operating_system.name.strip.tr(' ', '').empty?
+    assert !operating_system.save
+  end
+
   test "name shouldn't contain white spaces" do
     operating_system = Operatingsystem.new :name => " U bun tu ", :major => "9"
     assert !operating_system.name.strip.tr(' ', '').empty?
     assert !operating_system.save
 
-    operating_system = Operatingsystem.new :name => "   ", :major => "9"
-    assert operating_system.name.strip.tr(' ', '').empty?
-    assert !operating_system.save
+    operating_system.name.strip!.tr!(' ', '')
+    assert operating_system.save
   end
 
   test "major should be numeric" do

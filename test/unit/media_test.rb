@@ -7,14 +7,13 @@ class MediaTest < ActiveSupport::TestCase
     assert !media.save
   end
 
-  test "name can't contain whitespaces" do
+  test "name can't contain white spaces" do
     media = Media.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
     assert !media.name.strip.empty?
     assert !media.save
 
-    media = Media.new :name => "Archlinux mirror   thing", :path => "http://www.google.com"
-    assert !media.name.strip.empty?
-    assert !media.save
+    media.name.strip!.tr!(' ', '')
+    assert media.save
   end
 
   test "path can't be blank" do
