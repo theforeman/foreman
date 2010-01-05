@@ -21,6 +21,14 @@ class ArchitectureTest < ActiveSupport::TestCase
     assert architecture.save
   end
 
+  test "name should be unique" do
+    architecture = Architecture.new :name => "i386"
+    assert architecture.save
+
+    other_architecture = Architecture.new :name => "i386"
+    assert !other_architecture.save
+  end
+
   test "to_s retrives name" do
     architecture = Architecture.new :name => "i386"
     assert architecture.to_s == architecture.name
