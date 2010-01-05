@@ -41,6 +41,30 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert !operating_system.save
   end
 
+  test "name and major should be unique" do
+    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
+    assert operating_system.save
+
+    other_operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
+    assert !other_operating_system.save
+  end
+
+  test "should not destroy while using" do
+    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
+    assert operating_system.save
+
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => operating_system,
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",
+      :ptable => Ptable.first
+    assert host.save!
+
+    operating_system.hosts << host
+
+    assert !operating_system.destroy
+  end
+
+  # Methods tests
   test "to_label should print correctly" do
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10"
     assert operating_system.to_label == "Ubuntu 9.10"
