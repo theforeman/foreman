@@ -14,4 +14,12 @@ class PuppetclassTest < ActiveSupport::TestCase
     puppet_class.name.strip!
     assert puppet_class.save
   end
+
+  test "name must be unique" do
+    puppet_class = Puppetclass.new :name => "test class"
+    assert puppet_class.save!
+
+    other_puppet_class = Puppetclass.new :name => "test class"
+    assert !other_puppet_class.save
+  end
 end
