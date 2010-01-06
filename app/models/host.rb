@@ -36,15 +36,15 @@ class Host < Puppet::Rails::Host
     "(puppet_status >> #{Report::BIT_NUM*Report::METRIC.index(arg[0])} & #{Report::MAX}) > #{arg[1] || 0}"}
   }
   named_scope :with_error, { :conditions => "(puppet_status > 0) and
-    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed")} & #{Report::MAX}) or
-    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed_restarts")} & #{Report::MAX}) or
-    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("skipped")} & #{Report::MAX})"
+    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed")} & #{Report::MAX}) != 0) or
+    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed_restarts")} & #{Report::MAX}) != 0) or
+    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("skipped")} & #{Report::MAX}) != 0)"
   }
 
 
   named_scope :with_changes, { :conditions => "(puppet_status > 0) and
-    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("applied")} & #{Report::MAX}) or
-    (puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("restarted")} & #{Report::MAX})"
+    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("applied")} & #{Report::MAX}) != 0) or
+    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("restarted")} & #{Report::MAX}) !=0)"
   }
 
   named_scope :successful, {:conditions => "puppet_status = 0"}
