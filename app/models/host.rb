@@ -12,8 +12,8 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
 
-  named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || 35.minutes.ago)]} }
-  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || 35.minutes.ago)]} }
+  named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
+  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
 
   named_scope :with_fact, lambda { |fact,value|
     unless fact.nil? or value.nil?
@@ -173,7 +173,7 @@ class Host < Puppet::Rails::Host
   end
 
   def no_report
-    last_report.nil? or last_report < Time.now - 33.minutes
+    last_report.nil? or last_report < Time.now - (SETTINGS[:run_interval] + 3.minutes)
   end
 
   # returns the list of puppetclasses a host is in.

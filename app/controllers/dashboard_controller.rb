@@ -36,7 +36,7 @@ class DashboardController < ApplicationController
   def OutOfSync
     render :partial => "hosts/minilist", :layout => true, :locals => {
       :hosts => Host.out_of_sync,
-      :header => "Hosts which didnt run puppet in the last 30 minutes" }
+      :header => "Hosts which didnt run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }
   end
 
   private
