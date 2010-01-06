@@ -1,51 +1,102 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />  
-  </head> 
-  <body> 
-    <h1>Summary from <%= distance_of_time_in_words (Time.now - @timerange) %> ago to now</h1>
-    <h2>Hosts with interesting values (changed, failures etc)</h2>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <title> Summary report for Puppet activity from Foreman </title>
+  </head>
+  <body style="background-color: #ffffff;">
+    <h1 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Summary from <%= distance_of_time_in_words (Time.now - @timerange) %> ago to now</h1>
+    <% unless @filter.empty? -%>
+      <h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Filtering resulted based on <%= @filter.join(" and ") -%></h2>
+    <% end -%>
+    <h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Hosts with interesting values (changed, failures etc)</h2>
     <% if @hosts.size > 0 -%>
-      <table>
+      <table style='border: 1px solid #FF9933;
+        border-collapse:collapse;
+        padding: 5px;
+        text-align:justify;
+        font-family: Arial,"Times new roman";'>
         <tr>
-          <th>Hostname</th>
+          <th style="border: 1px solid #FF9933;
+            border-collapse: collapse;
+            padding: 4px;
+            text-align:center;
+            background-color: #FF9933;">Hostname
+          </th>
           <% @hosts.first.last[:metrics].keys.each do |header| -%>
-            <th><%= header %></th>
+            <th style="border: 1px solid #FF9933;
+              border-collapse: collapse;
+              padding: 4px;
+              text-align:center;
+              background-color: #FF9933;"><%= header %>
+            </th>
           <% end -%>
         </tr>
         <% @hosts.each do |host,params| -%>
           <tr>
-            <td> <%= link_to host, reports_host_path(:id => params[:id], :host => @url, :only_path => false) %></td>
+            <td style="border: 1px solid #FF9933;
+              border-collapse: collapse;
+              padding: 4px;
+              background-color: #FFFFFF;"><%= link_to host, reports_host_path(:id => params[:id], :host => @url, :only_path => false) %>
+            </td>
             <% params[:metrics].each do |m,v| -%>
               <% if m =~ /failed|skipped|failed_restart/ and v > 0 -%>
-                <td style="color: red; font-weight: bold;"><%= v %> </td>
-              <% else -%>
-                <td> <%= v %> </td>
-              <% end -%>
+                <td style="color:red;font-weight:bold;border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
+                <% else -%>
+                  <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
+                <% end -%>
+                <%= v %>
+              </td>
             <% end -%>
           </tr>
         <% end -%>
       </table>
-      <p>Total of <%= pluralize(@hosts.size, 'host') -%></p>
+      <p style='font-family: Arial,"Times new roman"; font-size: 90%;'>Total of <%= pluralize(@hosts.size, 'host') %></p>
     <% else -%>
       <b>None!</b>
     <% end -%>
-    <h2>Hosts which are currently not running puppet</h2>
+    <h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Hosts which are currently not running puppet</h2>
     <% if @out_of_sync.size > 0 -%>
-      <table>
+      <table style='border: 1px solid #FF9933;
+        border-collapse:collapse;
+        padding: 5px;
+        text-align:justify;
+        font-family: Arial,"Times new roman";'>
         <tr>
-          <th>Hostname</th>
-          <th>Last Report</th>
+          <th style="border: 1px solid #FF9933;
+            border-collapse: collapse;
+            text-align:center;
+            padding: 4px;
+            background-color: #FF0000;">Hostname
+          </th>
+          <th style="border: 1px solid #FF9933;
+            border-collapse: collapse;
+            text-align:center;
+            padding: 4px;
+            background-color: #FF0000;">Last Report
+          </th>
         </tr>
         <% @out_of_sync.each do |host| -%>
           <tr>
-            <td> <%= link_to host.name, host_path(:id => host.id, :host => @url, :only_path => false) %> </td>
-            <td> <%= time_ago_in_words host.last_report -%> </td>
+            <td style="border: 1px solid #FF9933;
+              border-collapse: collapse;
+              padding: 4px;
+              background-color: #FFFFFF;"><%= link_to host.name, host_path(:id => host.id, :host => @url, :only_path => false) %>
+            </td>
+            <td style="border: 1px solid #FF9933;
+              border-collapse: collapse;
+              padding: 4px;
+              background-color: #FFFFFF;">
+              <% if host.last_report -%>
+                <%= time_ago_in_words(host.last_report) %>
+              <% else -%>
+                Unknown
+              <% end -%>
+            </td>
           </tr>
         <% end -%>
       </table>
-      <p>Total of <%= pluralize(@out_of_sync.size, 'host') -%></p>
+      <p style='font-family: Arial,"Times new roman"; font-size: 90%;'>Total of <%= pluralize(@out_of_sync.size, 'host') %></p>
     <% else -%>
       <b>None!</b>
     <% end -%>
