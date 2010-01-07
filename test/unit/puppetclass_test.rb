@@ -6,12 +6,12 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert !puppet_class.save
   end
 
-  test "name can't contain trailing whitespaces" do
-    puppet_class = Puppetclass.new :name => "   test class   "
-    assert !puppet_class.name.strip.empty?
+  test "name can't contain trailing white spaces" do
+    puppet_class = Puppetclass.new :name => "   test     class   "
+    assert !puppet_class.name.strip.squeeze(" ").tr(' ', '').empty?
     assert !puppet_class.save
 
-    puppet_class.name.strip!
+    puppet_class.name.strip!.squeeze!(" ").tr!(' ', '')
     assert puppet_class.save
   end
 

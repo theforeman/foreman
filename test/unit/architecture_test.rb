@@ -8,16 +8,16 @@ class ArchitectureTest < ActiveSupport::TestCase
 
   test "name should not be blank" do
     architecture = Architecture.new :name => "   "
-    assert architecture.name.strip.tr(' ', '').empty?
+    assert architecture.name.strip.empty?
     assert !architecture.save
   end
 
   test "name should not contain white spaces" do
     architecture = Architecture.new :name => " i38  6 "
-    assert !architecture.name.strip.tr(' ', '').empty?
+    assert !architecture.name.strip.squeeze(" ").tr(' ', '').empty?
     assert !architecture.save
 
-    architecture.name.strip!.tr!(' ', '')
+    architecture.name.strip!.squeeze!(" ").tr!(' ', '')
     assert architecture.save
   end
 
