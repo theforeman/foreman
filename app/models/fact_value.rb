@@ -11,7 +11,7 @@ class FactValue < Puppet::Rails::FactValue
   # normal  facts could be used via the sum and AR average
   def self.mem_average(fact)
     values=all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}})
-    return (values.map{|fv| fv.value.to_gb}.sum / values.size).round_with_precision(1)
+    return values.size > 0 ? (values.map{|fv| fv.value.to_gb}.sum / values.size).round_with_precision(1) : 0
   end
 
   # returns the sum of each value, e.g. how many machines with 2,4...n cpu's
