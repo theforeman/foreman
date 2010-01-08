@@ -8,7 +8,7 @@ class HostMailer < ActionMailer::Base
     filter = []
     conditions = {:select => "hosts.name, hosts.id, hosts.last_report", :order => "name asc"}
     if options[:env]
-      envhosts = options[:env].hosts(conditions)
+      hosts = envhosts = options[:env].hosts(conditions)
       raise "unable to find any hosts for puppet environment=#{env}" if envhosts.size == 0
       filter << "Environment=#{options[:env].name}"
     end
