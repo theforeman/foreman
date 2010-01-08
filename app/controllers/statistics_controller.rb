@@ -12,7 +12,8 @@ class StatisticsController < ApplicationController
       @mem_free = FactValue.mem_average "memoryfree"
       @swap_size = FactValue.mem_average "swapsize"
       @swap_free = FactValue.mem_average "swapfree"
-    rescue
+    rescue Exception => e
+      logger.error e
       render :text => "No Inventory data has been found - add some hosts and facts and try again", :layout => true
     end
   end
