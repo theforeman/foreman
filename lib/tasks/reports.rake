@@ -57,7 +57,7 @@ namespace :reports do
     env = ENV['environment']
     unless env.empty?
       unless (e=Environment.find_by_name(env))
-        $stdout.puts "Unable to find puppet environment=#{env}" unless (e=Environment.find_by_name(env))
+        $stdout.puts "Unable to find puppet environment=#{env}"
         exit 1
       end
       options[:env] = e if e
