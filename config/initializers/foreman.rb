@@ -9,6 +9,7 @@ SETTINGS[:run_interval] = SETTINGS[:puppet_interval].minutes
 
 Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
 Puppet.parse_config
+$puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?
 class NilClass
@@ -27,15 +28,26 @@ class ActiveRecord::Base
       "#{self.class.name} Attribute Update"
     )
   end
-  private
-  def ensure_not_used
-    self.hosts.each do |host|
-      errors.add_to_base to_label + " is used by " + host.to_label
+  class Ensure_not_used_by
+    def initialize(*attribute)
+      @klasses = attribute
+      @logger  = RAILS_DEFAULT_LOGGER
     end
-    raise ApplicationController::InvalidDeleteError.new, errors.full_messages.join("<br>") unless errors.empty?
-    true
-  end
 
+    def before_destroy(record)
+      for klass in @klasses
+        for what in eval "record.#{klass.to_s}"
+          record.errors.add_to_base(record.to_label + " is used by " + what.to_s)
+        end
+      end
+      unless record.errors.empty?
+        @logger.error "You may not destroy #{record.to_label} as it is in use!"
+        false
+      else
+        true
+      end
+    end
+  end
 end
 
 module ExemptedFromLogging

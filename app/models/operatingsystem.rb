@@ -11,7 +11,7 @@ class Operatingsystem < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   #TODO: add validation for name and major uniqueness
 
-  before_destroy :ensure_not_used
+  before_destroy Ensure_not_used_by.new(:hosts)
 
   # The OS is usually represented as the catenation of the OS and the revision. E.G. "Solaris 10"
   def to_label

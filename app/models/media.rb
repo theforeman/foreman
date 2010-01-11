@@ -9,5 +9,5 @@ class Media < ActiveRecord::Base
     :message => "Url (http:// or ftp://) or a NFS share area allowed (e.g. server:/vol/dir)"
 
   alias_attribute :os, :operatingsystem
-  before_destroy :ensure_not_used
+  before_destroy Ensure_not_used_by.new(:hosts)
 end
