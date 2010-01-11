@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
 
   # returns current user
   def current_user
-    @user ||= User.find(session[:user])
+    @user
   end
 
 end
