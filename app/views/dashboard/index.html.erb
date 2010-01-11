@@ -1,14 +1,14 @@
 <center>
   <h2>Overview</h2>
   <p>Generated at <%= Time.now.to_s(:short) %></p>
-  <p>Good Host Reports in the last 30 minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@percentage%>%) </p>
+  <p>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@percentage%>%) </p>
 
   <%= graph("pie_3d" ,{:title => "Overview", :data => [@out_of_sync_hosts, @bad_hosts, @good_hosts, @active_hosts],
             :labels =>["Sync #{@out_of_sync_hosts}","Error - #{@bad_hosts}","OK - #{@good_hosts}","Active - #{@active_hosts}"],
               :line_colors => "0000FF,FF0000,00FF00,41A317" })
   -%>
 
-  <%= graph("bar",:title => "Run Distribution in the last 30 minutes", :data =>  @puppet_runs, 
+  <%= graph("bar",:title => "Run Distribution in the last #{SETTINGS[:puppet_interval]} minutes", :data =>  @puppet_runs,
             :line_colors => '0077CC', :bar_width_and_spacing => 25,:axis_with_labels => ["x","y"], 
             :axis_labels => [(1..(30/@interval)).map{|t| t*@interval}, @puppet_runs.sort.uniq], :legend => "Clients")
           -%>
