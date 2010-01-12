@@ -11,7 +11,7 @@ class Domain < ActiveRecord::Base
     :allow_blank => true, :allow_nil => true
   validates_presence_of :name
 
-  before_destroy :ensure_not_used
+  before_destroy Ensure_not_used_by.new(:hosts, :subnets)
 
   def to_label
     name
@@ -29,3 +29,4 @@ class Domain < ActiveRecord::Base
   end
 
 end
+

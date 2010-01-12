@@ -59,19 +59,19 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   test "the account_password should not exceed the 60 characters" do
-    set_all
+    set_all_required_attributes
     @auth_source_ldap.account_password = "this_is_10this_is_20this_is_30this_is_40this_is_50this_is_60_and_something_else"
     assert !@auth_source_ldap.save
   end
 
   test "the account should not exceed the 255 characters" do
-    set_all
+    set_all_required_attributes
     @auth_source_ldap.account = "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
     assert !@auth_source_ldap.save
   end
 
   test "the base_dn should not exceed the 255 characters" do
-    set_all
+    set_all_required_attributes
     @auth_source_ldap.base_dn = "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
     assert !@auth_source_ldap.save
   end
@@ -83,19 +83,19 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   test "the attr_firstname should not exceed the 30 characters" do
-    set_all
+    set_all_required_attributes
     @auth_source_ldap.attr_firstname = "this_is_10this_is_20this_is_30_and_something_else"
     assert !@auth_source_ldap.save
   end
 
   test "the attr_lastname should not exceed the 30 characters" do
-    set_all
+    set_all_required_attributes
     @auth_source_ldap.attr_lastname = "this_is_10this_is_20this_is_30_and_something_else"
     assert !@auth_source_ldap.save
   end
 
   test "the attr_mail should not exceed the 30 characters" do
-    set_all
+    set_all_required_attributes
     @auth_source_ldap.attr_mail = "this_is_10this_is_20this_is_30_and_something_else"
     assert !@auth_source_ldap.save
   end
@@ -109,9 +109,32 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert @auth_source_ldap.save
   end
 
+  test "should strip the ldap attributes before validate" do
+    @auth_source_ldap.attr_login = "following spaces    "
+    @auth_source_ldap.attr_firstname = "following spaces    "
+    @auth_source_ldap.attr_lastname = "following spaces    "
+    @auth_source_ldap.attr_mail = "following spaces    "
+    @auth_source_ldap.save
+
+    assert_equal "following spaces", @auth_source_ldap.attr_login
+    assert_equal "following spaces", @auth_source_ldap.attr_firstname
+    assert_equal "following spaces", @auth_source_ldap.attr_lastname
+    assert_equal "following spaces", @auth_source_ldap.attr_mail
+  end
+
   test "return nil if login is blank or password is blank" do
     assert_equal nil, @auth_source_ldap.authenticate("", "")
   end
+
+#I must find out how to connect to a Ldap server to test the authenticate
+
+#  test "if the account is not nil and contain $login then must be changed when try to authenticate" do
+#    set_all_required_attributes
+#    @auth_source_ldap.account = "$login"
+#    @auth_source_ldap.authenticate("value", "pass")
+
+#    assert_equal "value", @auth_source_ldap.account
+#  end
 
   def missing(attr)
     @attributes.each { |k, v| @auth_source_ldap.send k, v unless k == attr }
@@ -121,7 +144,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     @auth_source_ldap.send attr, @attributes[attr]
   end
 
-  def set_all
+  def set_all_required_attributes
     @attributes.each { |k, v| @auth_source_ldap.send k, v }
   end
 end
