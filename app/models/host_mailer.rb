@@ -17,8 +17,8 @@ class HostMailer < ActionMailer::Base
       facthosts = Host.with_fact(name,value).all(conditions)
       raise "unable to find any hosts with the fact name=#{name} and value=#{value}" if facthosts.empty?
       filter << "Fact #{name}=#{value}"
-    # if environment and facts are defined together, we use a merge of both
-    hosts = envhosts.empty? ? facthosts : envhosts & facthosts
+      # if environment and facts are defined together, we use a merge of both
+      hosts = envhosts.empty? ? facthosts : envhosts & facthosts
     end
 
     if hosts.empty?
