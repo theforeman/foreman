@@ -14,11 +14,20 @@ class HostMailerTest < ActionMailer::TestCase
     @options = {}
   end
 
-  test "mail should have recepients" do
+  test "mail should have the specified recipient" do
     @options[:env] = @env
+    @options[:email] = "ltolchinsky@vurbiatechnologies.com"
     SETTINGS[:foreman_url] = "http://localhost:3000/hosts/:id"
-    puts HostMailer.deliver_summary(@options).to
+    assert HostMailer.deliver_summary(@options).to.include?("ltolchinsky@vurbiatechnologies.com")
   end
+
+  # test "mail should have admin as recipient" do
+    # <++>
+  # end
+
+  # test "mail should have any recipient" do
+    # <++>
+  # end
 
   # test "mail should have a subject" do
     # <++>
