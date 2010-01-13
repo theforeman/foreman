@@ -49,9 +49,9 @@ END_DESC
 namespace :reports do
   task :summarize => :environment do
     options = {}
-    
-    time = ENV['hours'].to_i.hours.ago if ENV['hours'] 
-    time = ENV['days'].to_i.days.ago if ENV['days'] 
+
+    time = ENV['hours'].to_i.hours.ago if ENV['hours']
+    time = ENV['days'].to_i.days.ago if ENV['days']
     options[:time] = time if time
 
     env = ENV['environment']
@@ -62,7 +62,6 @@ namespace :reports do
       end
       options[:env] = e if e
     end
-
 
     unless ENV['fact'].empty?
       name,value = ENV['fact'].split(":")
