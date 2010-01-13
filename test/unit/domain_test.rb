@@ -39,22 +39,33 @@ class DomainTest < ActiveSupport::TestCase
     assert_equal @domain.name, s
   end
 
-  test "if destroy not leave orphan childrens" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-                        :domain => Domain.find_or_create_by_name("domain"),
-                        :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
-                        :architecture => Architecture.find_or_create_by_name("i386"),
-                        :environment => Environment.find_or_create_by_name("envy"),
-                        :disk => "empty partition"
+  test "should not destroy if have childrens" do
+    host = create_a_host
 
     d = host.domain
     assert !d.destroy
 
     subnet = Subnet.create  :number => "123.123.123.1", :mask => "321.321.321.1",
-                             :domain => Domain.find_or_create_by_name("domain")
+                             :domain => @domain
 
     d = subnet.domain
     assert !d.destroy
+  end
+
+#I must find out how to create a fact_name inside of fact_value
+
+#  test "should counts how many times a fact value exists in this domain" do
+#    host = create_a_host
+#    host.fact_values = FactValue.create(:fact_name)
+#  end
+
+  def create_a_host
+    Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+                 :domain => @domain,
+                 :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
+                 :architecture => Architecture.find_or_create_by_name("i386"),
+                 :environment => Environment.find_or_create_by_name("envy"),
+                 :disk => "empty partition"
   end
 end
 

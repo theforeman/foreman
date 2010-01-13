@@ -9,7 +9,7 @@ class Subnet < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :domain_id
   validates_associated :domain
 
-  before_destroy :ensure_not_used
+  before_destroy Ensure_not_used_by.new(:hosts, :sps)
 
   # Subnets are displayed in the form of their network number/network mask
   def to_label
@@ -51,3 +51,4 @@ class Subnet < ActiveRecord::Base
   end
 
 end
+
