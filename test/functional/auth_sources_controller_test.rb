@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AuthSourcesControllerTest < ActionController::TestCase
-=begin
   test "should get index" do
     get :index
     assert_response :success
@@ -43,5 +42,4 @@ class AuthSourcesControllerTest < ActionController::TestCase
 
     assert_redirected_to auth_sources_path
   end
-=end
 end
