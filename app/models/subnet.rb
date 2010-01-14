@@ -33,22 +33,5 @@ class Subnet < ActiveRecord::Base
   def detailedName
     return "#{self.name}@#{self.number}/#{self.mask}"
   end
-
-  private
-  # This is a before_destroy callback that ensures that the subnet is
-  # not removed if any host or service processor is currently using it.
-  # It will populate self.errors with a list of hosts using this subnet
-  # Returns: True if no host uses this subnet
-  def ensure_not_used
-    self.hosts.each do |host|
-      errors.add_to_base number + " is used by " + host.hostname
-    end
-    self.sps.each do |host|
-      errors.add_to_base number + " is used by " + host.sp_hostname
-    end
-    raise ApplicationController::InvalidDeleteError.new, errors.full_messages.join("<br>") unless errors.empty?
-    true
-  end
-
 end
 
