@@ -4,7 +4,7 @@ require 'gchart'
 # import settings file
 SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 # fallback to a 30 minutes run interval if its not defined
-SETTINGS[:puppet_interval] = 30 if SETTINGS[:puppet_interval].nil?
+SETTINGS[:puppet_interval] ||= 30
 SETTINGS[:run_interval] = SETTINGS[:puppet_interval].minutes
 
 Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
