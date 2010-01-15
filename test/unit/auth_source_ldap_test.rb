@@ -48,55 +48,55 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   test "the name should not exceed the 60 characters" do
     missing(:name=)
-    @auth_source_ldap.name = "this_is_10this_is_20this_is_30this_is_40this_is_50this_is_60_and_something_else"
+    assigns_a_string_of_length_greater_than(60, :name=)
     assert !@auth_source_ldap.save
   end
 
   test "the host should not exceed the 60 characters" do
     missing(:host=)
-    @auth_source_ldap.host = "this_is_10this_is_20this_is_30this_is_40this_is_50this_is_60_and_something_else"
+    assigns_a_string_of_length_greater_than(60, :host=)
     assert !@auth_source_ldap.save
   end
 
   test "the account_password should not exceed the 60 characters" do
     set_all_required_attributes
-    @auth_source_ldap.account_password = "this_is_10this_is_20this_is_30this_is_40this_is_50this_is_60_and_something_else"
+    assigns_a_string_of_length_greater_than(60, :account_password=)
     assert !@auth_source_ldap.save
   end
 
   test "the account should not exceed the 255 characters" do
     set_all_required_attributes
-    @auth_source_ldap.account = "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
+    assigns_a_string_of_length_greater_than(255, :account=)
     assert !@auth_source_ldap.save
   end
 
   test "the base_dn should not exceed the 255 characters" do
     set_all_required_attributes
-    @auth_source_ldap.base_dn = "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
+    assigns_a_string_of_length_greater_than(255, :base_dn=)
     assert !@auth_source_ldap.save
   end
 
   test "the attr_login should not exceed the 30 characters" do
     missing(:attr_login=)
-    @auth_source_ldap.attr_login = "this_is_10this_is_20this_is_30_and_something_else"
+    assigns_a_string_of_length_greater_than(30, :attr_login=)
     assert !@auth_source_ldap.save
   end
 
   test "the attr_firstname should not exceed the 30 characters" do
     set_all_required_attributes
-    @auth_source_ldap.attr_firstname = "this_is_10this_is_20this_is_30_and_something_else"
+    assigns_a_string_of_length_greater_than(30, :attr_firstname=)
     assert !@auth_source_ldap.save
   end
 
   test "the attr_lastname should not exceed the 30 characters" do
     set_all_required_attributes
-    @auth_source_ldap.attr_lastname = "this_is_10this_is_20this_is_30_and_something_else"
+    assigns_a_string_of_length_greater_than(30, :attr_lastname=)
     assert !@auth_source_ldap.save
   end
 
   test "the attr_mail should not exceed the 30 characters" do
     set_all_required_attributes
-    @auth_source_ldap.attr_mail = "this_is_10this_is_20this_is_30_and_something_else"
+    assigns_a_string_of_length_greater_than(30, :attr_mail=)
     assert !@auth_source_ldap.save
   end
 
@@ -126,6 +126,13 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal nil, @auth_source_ldap.authenticate("", "")
   end
 
+  test "when auth_method_name is applied should return 'LDAP'" do
+    set_all_required_attributes
+    @auth_source_ldap.save
+
+    assert_equal 'LDAP', @auth_source_ldap.auth_method_name
+  end
+
 #I must find out how to connect to a Ldap server to test the authenticate
 
 #  test "if the account is not nil and contain $login then must be changed when try to authenticate" do
@@ -146,6 +153,10 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   def set_all_required_attributes
     @attributes.each { |k, v| @auth_source_ldap.send k, v }
+  end
+
+  def assigns_a_string_of_length_greater_than(length, method)
+    @auth_source_ldap.send method, "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
   end
 end
 
