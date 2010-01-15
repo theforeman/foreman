@@ -21,7 +21,12 @@ module AuditHelper
 
   # lookups the Model repesenting the numerical id and return its label
   def id_to_label name, change
-    (eval name.humanize).find(change).to_label
+    begin
+      model = (eval name.humanize)
+      model.find(change).to_label
+    rescue
+      "N/A"
+    end
   end
 
   def change_order action, value
