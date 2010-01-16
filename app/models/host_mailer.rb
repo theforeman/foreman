@@ -40,4 +40,16 @@ class HostMailer < ActionMailer::Base
     body[:out_of_sync] = hosts.collect{|h| h if h.no_report}.compact
     body[:filter] = filter
   end
+
+  def error_state(report)
+    host = report.host
+    email = SETTINGS[:administrator]
+    raise "unable to find recipients" if email.empty?
+    recipients email
+    from "Foreman-noreply"
+    subject "Puppet error on #{host.to_label}"
+    sent_on Time.now
+    body[:report] = report
+    body[:host] = host
+  end
 end

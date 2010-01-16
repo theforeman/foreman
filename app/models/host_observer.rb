@@ -4,7 +4,7 @@ class HostObserver < ActiveRecord::Observer
     # get hostname
     # ...
     # e.g. send out an email that a new host was created
-    RAILS_DEFAULT_LOGGER.info "trying to create new host #{host.name}"
+    host.logger.info "trying to create new host #{host.name}" if host.logger
   end
 
   def after_save(host)

@@ -5,15 +5,7 @@
 
 <% if @report.log.logs.size > 0 -%> 
   <div>
-    <table class="list">
-      <caption>Puppet Output</caption>
-      <% @report.log.logs.each do |log| -%>
-        <tr class="<%= cycle("even", "odd") -%>">
-          <td><%= h log.source %></td>
-          <td><%= h log.message %></td>
-        </tr>
-      <% end -%>
-    </table>
+    <%= render :partial => 'output', :locals => { :logs => @report.log.logs} %>
   </div>
 <% end -%>
 
