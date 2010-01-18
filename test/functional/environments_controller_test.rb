@@ -19,7 +19,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should create new environment" do
     assert_difference 'Environment.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_arch"} }
+      post :create, { :commit => "Create", :record => {:name => "some_environment"} }
     end
 
     assert_redirected_to environments_path
