@@ -37,9 +37,9 @@ class ArchitecturesControllerTest < ActionController::TestCase
     architecture = Architecture.new :name => "i386"
     assert architecture.save!
 
-    put :update, { :commit => "Update", :id => architecture.id, :record => {:name => "x86_64"} }
+    put :update, { :commit => "Update", :id => architecture.id, :record => {:name => "other_architecture"} }
     architecture = Architecture.find_by_id(architecture.id)
-    assert architecture.name == "x86_64"
+    assert architecture.name == "other_architecture"
 
     assert_redirected_to architectures_path
   end
