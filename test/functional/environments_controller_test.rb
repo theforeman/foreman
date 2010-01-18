@@ -26,7 +26,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    environment = Environment.new :name => "i386"
+    environment = Environment.new :name => "some_environment"
     assert environment.save!
 
     get :edit, :id => environment.id
@@ -34,7 +34,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should update environment" do
-    environment = Environment.new :name => "i386"
+    environment = Environment.new :name => "some_environment"
     assert environment.save!
 
     put :update, { :commit => "Update", :id => environment.id, :record => {:name => "other_environment"} }
@@ -45,7 +45,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should destroy environment" do
-    environment = Environment.new :name => "i386"
+    environment = Environment.new :name => "some_environment"
     assert environment.save!
 
     assert_difference('Environment.count', -1) do

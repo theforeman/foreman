@@ -19,14 +19,14 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   test "should create new architecture" do
     assert_difference 'Architecture.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_arch"} }
+      post :create, { :commit => "Create", :record => {:name => "some_architecture"} }
     end
 
     assert_redirected_to architectures_path
   end
 
   test "should get edit" do
-    architecture = Architecture.new :name => "i386"
+    architecture = Architecture.new :name => "some_architecture"
     assert architecture.save!
 
     get :edit, :id => architecture.id
@@ -34,7 +34,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
   end
 
   test "should update architecture" do
-    architecture = Architecture.new :name => "i386"
+    architecture = Architecture.new :name => "some_architecture"
     assert architecture.save!
 
     put :update, { :commit => "Update", :id => architecture.id, :record => {:name => "other_architecture"} }
@@ -45,7 +45,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
   end
 
   test "should destroy architecture" do
-    architecture = Architecture.new :name => "i386"
+    architecture = Architecture.new :name => "some_architecture"
     assert architecture.save!
 
     assert_difference('Architecture.count', -1) do

@@ -26,7 +26,7 @@ class MediasControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    media = Media.new :name => "i386", :path => "http://www.google.com"
+    media = Media.new :name => "some_media", :path => "http://www.google.com"
     assert media.save!
 
     get :edit, :id => media.id
@@ -34,7 +34,7 @@ class MediasControllerTest < ActionController::TestCase
   end
 
   test "should update media" do
-    media = Media.new :name => "i386", :path => "http://www.google.com"
+    media = Media.new :name => "some_media", :path => "http://www.google.com"
     assert media.save!
 
     put :update, { :commit => "Update", :id => media.id, :record => {:name => "other_media", :path => "http://www.vurbia.com"} }
@@ -46,7 +46,7 @@ class MediasControllerTest < ActionController::TestCase
   end
 
   test "should destroy media" do
-    media = Media.new :name => "i386", :path => "http://www.google.com"
+    media = Media.new :name => "some_media", :path => "http://www.google.com"
     assert media.save!
 
     assert_difference('Media.count', -1) do
