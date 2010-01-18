@@ -40,7 +40,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     put :update, { :commit => "Update", :id => operating_system.id, :record => {:name => "other_operating_system", :major => "10"} }
     operating_system = Operatingsystem.find_by_id(operating_system.id)
     assert operating_system.name == "other_operating_system"
-    assert operating_system.major == "9"
+    assert operating_system.major == "10"
 
     assert_redirected_to operatingsystems_path
   end
