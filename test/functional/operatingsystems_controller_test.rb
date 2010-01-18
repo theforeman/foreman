@@ -19,14 +19,14 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   test "should create new operating system" do
     assert_difference 'Operatingsystem.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_arch"} }
+      post :create, { :commit => "Create", :record => {:name => "some_operating_system", :major => "9"} }
     end
 
     assert_redirected_to operatingsystems_path
   end
 
   test "should get edit" do
-    operating_system = Operatingsystem.new :name => "i386"
+    operating_system = Operatingsystem.new :name => "some_operating_system", :major => "9"
     assert operating_system.save!
 
     get :edit, :id => operating_system.id
@@ -34,18 +34,18 @@ class OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should update operating system" do
-    operating_system = Operatingsystem.new :name => "i386"
+    operating_system = Operatingsystem.new :name => "some_operating_system", :major => "9"
     assert operating_system.save!
 
-    put :update, { :commit => "Update", :id => operating_system.id, :record => {:name => "other_operating_system"} }
+    put :update, { :commit => "Update", :id => operating_system.id, :record => {:name => "other_operating_system", :major => "9"} }
     operating_system = Operatingsystem.find_by_id(operating_system.id)
-    assert operating_system.name == "other_operating_system"
+    assert operating_system.name == "other_operating_system", :major => "9"
 
     assert_redirected_to operatingsystems_path
   end
 
   test "should destroy operating system" do
-    operating_system = Operatingsystem.new :name => "i386"
+    operating_system = Operatingsystem.new :name => "some_operating_system", :major => "9"
     assert operating_system.save!
 
     assert_difference('Operatingsystem.count', -1) do
