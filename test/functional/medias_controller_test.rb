@@ -40,6 +40,7 @@ class MediasControllerTest < ActionController::TestCase
     put :update, { :commit => "Update", :id => media.id, :record => {:name => "other_media", :path => "http://www.vurbia.com"} }
     media = Media.find_by_id(media.id)
     assert media.name == "other_media"
+    assert media.path == "http://www.vurbia.com"
 
     assert_redirected_to medias_path
   end
