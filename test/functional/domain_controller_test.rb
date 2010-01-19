@@ -20,13 +20,13 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to domains_path
   end
 
-   test "should show domain" do
+  test "should show domain" do
     domain = Domain.create :name => "my_domain"
     assert domain.save!
 
     get :show, :id => domain.id
     assert_response :success
-   end
+  end
 
   test "should get edit" do
     domain = Domain.create :name => "my_domain"
@@ -56,4 +56,3 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to domains_path
   end
 end
-
