@@ -8,8 +8,8 @@
       <% hosts.each do |host| -%>
         <tr class="<%= cycle("even", "odd") -%>">
           <td><%=name_column(host) %></td>
-          <td><%=h host.os.to_label %></td>
-          <td><%=h host.environment.to_label %></td>
+          <td><%=h host.try(:os) %></td>
+          <td><%=h host.try(:environment) %></td>
           <td><%=last_report_column(host) %></td>
           <td><%= link_to  'Edit', edit_host_url(host)  %></td>
         <% end -%>
