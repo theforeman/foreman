@@ -42,6 +42,11 @@ optparse = OptionParser.new do |opts|
     options[:klass] = k.split(",")
   end
 
+  options[:state] = "active"
+  opts.on( '-s', '--state STATE', "Filter base of host state - active,out_of_sync all defaults to active hosts" ) do |state|
+    options[:state] = state
+  end
+
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opt
     exit
@@ -61,7 +66,7 @@ unless ARGV.empty?
 end
 
 puts "About to execute: #{options[:command]}"
-query = {}
+query = {"state" => options[:state]}
 query.merge!({"fact" => options[:facts]}) unless options[:facts].empty?
 query.merge!({"class" => options[:klass]}) unless options[:klass].empty?
 

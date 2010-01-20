@@ -19,17 +19,20 @@ class Hash
   def to_url
     fact=[]
     klass=[]
+    state = ""
     self.each do |type,name|
       case type.to_s
       when "fact"
         name.each { |k,v| fact << "fact[]=#{k}-#{v}" }
       when "class"
         name.each { |c| klass << "class[]=#{c}" }
+      when "state"
+        state = "state=#{name}"
       else
         raise "unknown query type #{type}"
       end
     end
-    return (fact + klass).join("&")
+    return (fact + klass).join("&")+"&#{state}"
   end
 end
 

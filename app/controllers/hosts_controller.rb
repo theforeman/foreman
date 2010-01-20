@@ -117,13 +117,24 @@ class HostsController < ApplicationController
     @hosts = []
     counter = 0
 
+    case params[:state]
+    when "out_of_sync"
+      state = "out_of_sync"
+    when "all"
+      state = "all"
+    when "active", nil
+      state = "recent"
+    else
+      raise invalid_request and return
+    end
+
     # TODO: rewrite this part, my brain stopped working
     # it should be possible for a one join
     fact.each do |f|
       # split facts based on name => value pairs
       q = f.split("-")
       invalid_request unless q.size == 2
-      list = Host.recent.with_fact(*q).map(&:name)
+      list = Host.with_fact(*q).send(state).map(&:name)
       @hosts = counter == 0 ? list : @hosts & list
       counter +=1
     end unless fact.nil?
