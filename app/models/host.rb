@@ -335,7 +335,13 @@ class Host < Puppet::Rails::Host
   # returns sorted hash
   def self.count_distribution assocication
     output = {}
-    count(:group => assocication).each {|k,v| output[k.to_label] = v unless v == 0 }
+    count(:group => assocication).each do |k,v|
+      begin
+        output[k.to_label] = v unless v == 0
+      rescue
+        logger.info "skipped #{k} as it has has no label"
+      end
+    end
     output
   end
 
