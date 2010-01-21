@@ -22,7 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hostgroups, :active_scaffold => true
   map.resources :common_parameters, :active_scaffold => true
   map.resources :environments, :active_scaffold => true
-
+  map.resources :users
   #default
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
