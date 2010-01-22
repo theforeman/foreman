@@ -18,7 +18,6 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   test "should create report" do
-    debugger
     h = Host.create  :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
                       :domain => Domain.find_or_create_by_name("company.com"),
                       :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
@@ -33,7 +32,7 @@ class ReportsControllerTest < ActionController::TestCase
     d = Date.today
 
     assert_difference('Report.count') do
-      post :create, :report => { :host => h, :log => p, :reported_at => d }
+      post :create, :report => { :commit => "Create", :record => { :host => h, :log => p, :reported_at => d } }
     end
 
     assert_redirected_to reports_path
