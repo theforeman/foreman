@@ -37,9 +37,7 @@ class HostsControllerTest < ActionController::TestCase
     put :update, { :commit => "Update", :id => host.id, :record => {:disk => "ntfs"} }
     host2 = Host.find_by_id(host.id)
     
-    puts host2.name
     assert host2.disk == "ntfs"
-
   end
 
 
