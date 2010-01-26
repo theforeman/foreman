@@ -1,8 +1,5 @@
 require 'test_helper'
 
 class FactNamesControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
+  # FactNamesController is empty, so there's nothing to test.
 end
