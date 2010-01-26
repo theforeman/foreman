@@ -10,3 +10,6 @@
 [submodule "vendor/plugins/active_scaffold_list_filter"]
 	path = vendor/plugins/active_scaffold_list_filter
 	url = git://github.com/tvongaza/active_scaffold_list_filters.git
+[submodule "vendor/plugins/will_paginate"]
+	path = vendor/plugins/will_paginate
+	url = git://github.com/mislav/will_paginate.git

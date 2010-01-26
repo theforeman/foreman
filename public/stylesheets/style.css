@@ -33,7 +33,7 @@ input {
 p { 
   line-height: 150%;
 }
-#header {height:4.3em;margin:0;background-color:#406480;color:#E6DFCF;padding: 4px 8px 0px 6px; position:relative;}
+#header {height:3.7em;margin:0;background-color:#406480;color:#E6DFCF;padding: 4px 8px 0px 6px; position:relative;}
 
 #header a {
   float:right;
@@ -176,3 +176,23 @@ td.last_row {
 .fieldWithErrors {
   border: solid 1px #f00;
 }
+
+/* host show page */ 
+#title, td.last_row { font-weight: bold; }
+
+#host_overview {
+  float:right;
+  width:30%
+}
+#host_overview table { border: 1px solid #ccc; }
+
+#host_overview table th{ text-align: left; }
+
+.pagination { float: right }
+
+#host_report {
+  border-bottom: 1px solid #ccc; 
+  float: left;
+  width:70%
+}
+#border-it { border: 2px solid #ddd; }

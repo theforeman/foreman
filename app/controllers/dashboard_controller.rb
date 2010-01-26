@@ -22,20 +22,23 @@ class DashboardController < ApplicationController
   end
 
   def errors
+    hosts = Host.recent.with_error.paginate(:page => params[:page], :order => 'last_report DESC')
     render :partial => "hosts/minilist", :layout => true, :locals => {
-      :hosts => Host.recent.with_error,
+      :hosts => hosts,
       :header => "Hosts with errors" }
   end
 
   def active
+    hosts = Host.recent.with_changes.paginate(:page => params[:page], :order => 'last_report DESC')
     render :partial => "hosts/minilist", :layout => true, :locals => {
-      :hosts => Host.recent.with_changes,
+      :hosts => hosts,
       :header => "Active Hosts" }
   end
 
   def OutOfSync
+    hosts = Host.out_of_sync.paginate(:page => params[:page], :order => 'last_report DESC')
     render :partial => "hosts/minilist", :layout => true, :locals => {
-      :hosts => Host.out_of_sync,
+      :hosts => hosts,
       :header => "Hosts which didnt run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }
   end
 
