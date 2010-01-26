@@ -1,0 +1,9 @@
+<table>
+  <tr>
+    <% report_summary.each do |th,td| -%>
+      <th> <%= th %> </th>
+      <% style = (th =~ /failed|skipped|failed_restart/ and td > 0) ? "color:red;font-weight:bold" : ""-%>
+      <td style="<%= style %>"> <%= td %> </td>
+    </tr>
+  <% end -%>
+</table>

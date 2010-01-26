@@ -23,7 +23,7 @@ module HostsHelper
       title = os
     end
     image_tag("hosts/#{image}", :size => "18x18", :title => title) +
-      link_to(record.shortname, edit_host_path(record))
+      link_to(record.shortname, host_path(record))
   end
 
   def disk_form_column(record, field_name)
@@ -34,5 +34,19 @@ module HostsHelper
     text_area_tag field_name, record.comment, :cols => 120, :rows => 10
   end
 
+  def options_for_association_conditions(association)
+    case association.name
+    when :media
+      {'medias.operatingsystem_id' => @record.operatingsystem_id}
+    when :ptable
+      {'ptables.operatingsystem_id' => @record.operatingsystem_id}
+    else
+      super
+    end
+  end
+
+  def days_ago time
+    ((Time.now - time) / 1.day).round.to_i
+  end
 
 end

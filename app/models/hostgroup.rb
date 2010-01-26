@@ -6,7 +6,8 @@ class Hostgroup < ActiveRecord::Base
 
 
 #TODO: add a method that returns the valid os for a hostgroup
-  def operatingsystems
-  end
 
+ def to_s
+   name
+ end
 end

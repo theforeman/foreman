@@ -1,0 +1,38 @@
+<div id="title"><%= @host.to_label %>
+  <%= link_to "Edit", edit_host_path(@host) %>
+  <%= link_to "Reports", reports_host_path(@host) %>
+  <%= link_to "Delete", host_path(@host), :confirm => 'Are you sure?', :method => :delete%>
+</div>
+
+<div id="host_overview">
+  <%= render :partial => "hosts/overview", :locals => {:host => @host} %>
+  <% if @report_summary.size == 0 -%>
+    <p>No puppet activity for this host in the last <%= time_ago_in_words(@range.days.ago) %></p>
+  <% else -%>
+    <%= render :partial => "hosts/metrics", :locals => {:report_summary => @report_summary[@host.name][:metrics]} %>
+  <% end -%>
+</div>
+
+<div id="host_report">
+    <div id="host_graphs">
+    <%= graph("line",:title => "Runtime", :data =>  @graph[:runtime], :size => "800x200",
+              :line_colors => ['0077CC','7700CC'], :bar_width_and_spacing => 25,:axis_with_labels => ["x","y"], 
+              :custom => "chg=10,50,1,5&chm=o,0066FF,1,-1,6|o,80C65A,0,-1,6",
+              :axis_labels => [@graph[:timerange],@graph[:runtime_y_range]], :legend => @graph[:runtime_legend])
+    %>
+
+    <%= graph("line", :title => "Resources", :data => @graph[:resources], :size => "800x200",
+              :bar_colors => ['80C65A','FF0000','C0770C','AAA4FB','F0FF00'], :axis_with_labels => ["x","y"], 
+              :stacked => false,:bar_width_and_spacing => {:width => 5, :spacing => 0, :group_spacing => 3},
+              :custom => "chg=5,50",
+              :axis_labels => [@graph[:timerange],@graph[:resource_y_range]], :legend => @graph[:resource_legend])
+    %>
+
+    <% if @host.reports.size > 0 -%>
+      <%= form_tag @host, :method => :get %>
+      <p><%= select(nil, 'range', 1..days_ago(@host.reports.first.reported_at), {:selected => @range} )%>
+      <%= submit_tag "filter", :disable_with => "Updating..." %>
+      <%= @host.reports.recent(@range.days.ago).count %> reports in the last <%= time_ago_in_words(@range.days.ago) %></p>
+    <% end -%>
+  </div>
+</div>

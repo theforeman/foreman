@@ -5,6 +5,8 @@ class HostgroupsController < ApplicationController
     config.columns[:name].description = "The name of the group"
     config.columns[:puppetclasses].form_ui  = :select
     config.columns[:puppetclasses].options = { :draggable_lists => {}}
+    
+    config.nested.add_link "Hosts", [:hosts]
   end
 
 end

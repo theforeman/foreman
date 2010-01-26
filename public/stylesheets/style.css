@@ -12,11 +12,6 @@ h1, h2, h3, h4 {
   font-family: "Trebuchet MS", Verdana, sans-serif;
 }
 
-h1 {margin:0; padding:0; font-size: 24px;}
-h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
-h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
-h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
-
 th.underlined { 
   text-decoration: underline 
 }
@@ -44,22 +39,23 @@ p {
 }
 
 #header .title {
-  background-color:#406480;
   color:#FFFAFA;
   font-variant:small-caps;
   font-weight: bold;
-  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-family: Helvetica, Arial, Verdana, sans-serif;
   font-size: 130%;
 }
-#header .bigheadletter {color:#E6C373; font-size:130%; font-family: "Trebuchet MS", Verdana, sans-serif; }
 
-#menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px;}
-#menu ul {margin: 0;  padding: 0;}
+#menu ul {
+	margin: 0; padding: 0;
+	list-style: none;
+	float: left;
+	width: 960px;
+}
+
 #menu li {
   float:left;
   list-style-type:none;
-  margin: 0px 2px 0px 0px;
-  white-space:nowrap;
 }
 #menu li a {
   display: block;
@@ -71,7 +67,7 @@ p {
   padding: 4px 10px 4px 10px;
 }
 #menu li a:hover {background:#759FCF; color:#fff;}
-#menu li a.selectedmenu, #menu li a.selected:hover {background:#fff; color:#555;}
+#menu li a.active, li a.selected:hover {background:#fff; color:#555;}
 
 div#content {
   float: center;
@@ -165,11 +161,6 @@ table td {padding:2px;}
 table p {margin:0;}
 .odd {background-color:#f6f7f8;}
 .even {background-color: #fff;}
-
-
-td.last_row {
-  font-weight: bold;
-}
 
 .fieldWithErrors input.text-input,
 .fieldWithErrors select,

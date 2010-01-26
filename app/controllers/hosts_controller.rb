@@ -24,10 +24,11 @@ class HostsController < ApplicationController
     if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
       config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
       config.columns[:architecture].form_ui  = :select
+      config.columns[:operatingsystem].form_ui  = :select
+      config.columns[:operatingsystem].options = { :update_column => :media }
       config.columns[:media].form_ui  = :select
       config.columns[:model].form_ui  = :select
       config.columns[:ptable].form_ui  = :select
-      config.columns[:operatingsystem].form_ui  = :select
       config.columns[:serial].description = "unsed for now"
       config.columns[:disk].description = "the disk layout to use"
       config.columns[:build].form_ui  = :checkbox
@@ -40,6 +41,16 @@ class HostsController < ApplicationController
       :type => :record,  :position => :after if SETTINGS[:rrd_report_url]
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
       :type => :record, :position => :after
+  end
+
+  def show
+    # filter graph time range
+    @range = (params["range"].empty? ? 1 : params["range"].to_i)
+    range = @range.days.ago
+
+    @host = Host.find params[:id]
+    @report_summary = Report.summarise(range, @host)
+    @graph = @host.graph(range)
   end
 
   #returns a yaml file ready to use for puppet external nodes script

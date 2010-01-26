@@ -1,0 +1,9 @@
+<table>
+  <% [["Domain", host.domain], ["IP Address", host.ip], ["Puppet Environment", host.environment], ["Host Architecture", host.arch],
+    ["Host Operating System", host.os], ["Host Group", host.hostgroup]].each do |th,td| %>
+    <tr>
+      <th><%= th %></th>
+      <td><%= td %></td>
+    </tr>
+  <% end -%>
+</table>

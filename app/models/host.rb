@@ -359,6 +359,40 @@ class Host < Puppet::Rails::Host
     output
   end
 
+  def graph(timerange = 1.day.ago)
+    values = {}
+    runtime_helper = []
+    resource_helper = []
+    runtime_max = 0
+    resource_max = 0
+    first = Time.now
+    last = Time.at(0)
+    reports.recent(timerange).find_each do |r|
+      first = r.reported_at if r.reported_at < first
+      last  = r.reported_at if r.reported_at > last
+
+      # runtime graph
+      # as long as the data is serialized, we can't use database functions.
+      next if r.runtime.nil? # broken report
+      runtime_max = r.runtime if r.runtime > runtime_max
+      runtime_helper << [r.config_retrival, r.runtime]
+
+      # resource graph
+      helper = r.status.sort
+      # max resource for this report
+      max = helper.collect(&:last).sort.last
+      resource_max = max if max > resource_max
+      resource_helper << helper.collect(&:last)
+      values[:resource_legend] = helper.collect(&:first) if values[:resource_labels].nil?
+    end
+    values[:runtime]=runtime_helper.transpose
+    values[:runtime_y_range] = [0,runtime_max]
+    values[:runtime_legend] = ["Config Retrival", "Total"]
+    values[:timerange] = [first.to_s(:short), (last-((last-first)/2)).to_s(:short),last.to_s(:short)]
+    values[:resources] = resource_helper.transpose
+    values[:resource_y_range] = [0,resource_max == 0 ? nil : resource_max]
+    return values
+  end
 
   private
   # align common mac and ip address input
