@@ -21,7 +21,7 @@ class ReportsControllerTest < ActionController::TestCase
                       :disk => "empty partition"
 
     p = Puppet::Transaction::Report.new
-    p.logs << Logger.new("willWork")
+    # p.logs << Logger.new("willWork")
     p.save
 
     d = Date.today
@@ -61,7 +61,7 @@ class ReportsControllerTest < ActionController::TestCase
                       :disk => "empty partition"
 
     p = Puppet::Transaction::Report.new
-    p.logs << Logger.new("lalala")
+    # p.logs << Logger.new("lalala")
     p.save
 
     @report = Report.create :host => h, :log => p, :reported_at => Date.new
