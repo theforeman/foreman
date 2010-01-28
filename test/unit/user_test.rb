@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
   test "should have login" do
     u = User.new :mail => "foo@bar.com"
     assert !u.save
