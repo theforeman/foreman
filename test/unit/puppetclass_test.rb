@@ -22,4 +22,18 @@ class PuppetclassTest < ActiveSupport::TestCase
     other_puppet_class = Puppetclass.new :name => "test class"
     assert !other_puppet_class.save
   end
+
+  test "scanForClasses should retrieve puppetclasses from .pp files" do
+    path = "/some/path"
+    puppet_classes = ["class some_puppet_class {","class other_puppet_class{","class yet_another_puppet_class{"]
+    mock(Dir).glob("#{path}/*/manifests/**/*.pp") { puppet_classes }
+    puppet_classes.each do |puppet_class|
+      mock(File).read(anything) { StringIO.new(puppet_class) }
+    end
+
+    klasses = Puppetclass.scanForClasses path
+    assert klasses[0].name == "some_puppet_class"
+    assert klasses[1].name == "other_puppet_class"
+    assert klasses[2].name == "yet_another_puppet_class"
+  end
 end
