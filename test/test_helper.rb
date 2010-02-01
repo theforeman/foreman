@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
+require 'rr'
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -36,5 +37,9 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   def logger
     RAILS_DEFAULT_LOGGER
+  end
+
+  class Test::Unit::TestCase
+    include RR::Adapters::TestUnit
   end
 end
