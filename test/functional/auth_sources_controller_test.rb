@@ -25,14 +25,6 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert_redirected_to auth_sources_path
   end
 
-  # TODO: check why there's no show action.
-  # test "should show auth_source" do
-    # auth_source = AuthSourceLdap.new :name => "some_auth_source", :port => "3890", :attr_login => "Chuck_Norris", :host => "vurbia"
-    # assert auth_source.save!
-    # get :show, :id => auth_source.id
-    # assert_response :success
-  # end
-
   test "should get edit" do
     auth_source = AuthSourceLdap.new :name => "some_auth_source", :port => "3890", :attr_login => "Chuck_Norris", :host => "vurbia"
     assert auth_source.save!
