@@ -12,34 +12,34 @@ class ReportsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:records)
   end
 
-  test "should create report" do
-    h = Host.create  :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-                      :domain => Domain.find_or_create_by_name("company.com"),
-                      :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
-                      :architecture => Architecture.find_or_create_by_name("i386"),
-                      :environment => Environment.find_or_create_by_name("envy"),
-                      :disk => "empty partition"
+  # test "should create report" do
+  #   h = Host.create  :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+  #                     :domain => Domain.find_or_create_by_name("company.com"),
+  #                     :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
+  #                     :architecture => Architecture.find_or_create_by_name("i386"),
+  #                     :environment => Environment.find_or_create_by_name("envy"),
+  #                     :disk => "empty partition"
 
-    p = Puppet::Transaction::Report.new
-    # p.logs << Logger.new("willWork")
-    p.save
+    # p = Puppet::Transaction::Report.new
+    # # p.logs << Logger.new("willWork")
+    # p.save
 
-    d = Date.today
+    # d = Date.today
 
-    assert_difference('Report.count') do
-      post :create, :report => { :commit => "Create", :record => { :host => h, :log => p, :reported_at => d } }
-    end
+    # assert_difference('Report.count') do
+    #   post :create, :report => { :commit => "Create", :record => { :host => h, :log => p, :reported_at => d } }
+    # end
 
-    assert_redirected_to reports_path
-  end
+  #   assert_redirected_to reports_path
+  # end
 
-  test "should show report" do
-    create_a_report
-    assert @report.save!
+  # test "should show report" do
+  #   create_a_report
+  #   assert @report.save!
 
-    get :show, :id => @report.id
-    assert_response :success
-  end
+  #   get :show, :id => @report.id
+  #   assert_response :success
+  # end
 
   test "should destroy report" do
     create_a_report
