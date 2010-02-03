@@ -61,5 +61,19 @@ class UserTest < ActiveSupport::TestCase
     u = User.create :login => "foo", :mail => "foo" * 20 + "@bar.com"
     assert !u.save
   end
+
+  test "to_label method should return a firstname and the lastname" do
+    @user.firstname = "Ali Al"
+    @user.lastname = "Salame"
+    assert @user.save!
+
+    assert_equal "Ali Al Salame", @user.to_label
+  end
+
+  test "when try to login if password is empty should return nil" do
+    assert_equal nil, User.try_to_login("anything", "")
+  end
+
+#the rest of this method can't be tested, cause use auth source authentication which is not implemented yet...
 end
 

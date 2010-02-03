@@ -18,7 +18,7 @@ class AuthSourceTest < ActiveSupport::TestCase
   end
 
   test "name should not exceed 60 characters" do
-    @auth_source.name = "this_is_10this_is_20this_is_30this_is_40this_is_50this_is_60_"
+    @auth_source.name = "a" * 61
     assert !@auth_source.save
   end
 
@@ -28,5 +28,7 @@ class AuthSourceTest < ActiveSupport::TestCase
 
     assert_equal "Abstract", @auth_source.auth_method_name
   end
+
+# the self.authenticate method can't be tested yet, cause use the authenticate method which it isn't implemented yet
 end
 
