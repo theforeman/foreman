@@ -133,16 +133,6 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal 'LDAP', @auth_source_ldap.auth_method_name
   end
 
-#I must find out how to connect to a Ldap server to test the authenticate
-
-#  test "if the account is not nil and contain $login then must be changed when try to authenticate" do
-#    set_all_required_attributes
-#    @auth_source_ldap.account = "$login"
-#    @auth_source_ldap.authenticate("value", "pass")
-
-#    assert_equal "value", @auth_source_ldap.account
-#  end
-
   def missing(attr)
     @attributes.each { |k, v| @auth_source_ldap.send k, v unless k == attr }
   end
@@ -159,4 +149,3 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     @auth_source_ldap.send method, "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
   end
 end
-
