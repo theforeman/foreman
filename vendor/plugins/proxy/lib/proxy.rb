@@ -75,6 +75,7 @@ module GW
     @ssldir    = "/var/lib/puppet/ssl"
 
     def self.clean fqdn
+      fqdn.downcase!
       ssldir = Pathname.new @ssldir
       unless (ssldir + "ca").directory? and File.exists? "#{@sbin}/puppetca"
         logger.error "PuppetCA: SSL/CA or puppetca unavailable on this machine"

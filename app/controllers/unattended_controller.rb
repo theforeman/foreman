@@ -60,12 +60,15 @@ class UnattendedController < ApplicationController
     @host.build or @spoof ? true : head(:method_not_allowed)
   end
 
+  # Cleans Certificate and enable autosign
   def handle_ca
-    #enable autosign for Puppet provision
     #the reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
     #through puppet.
-    #TODO: add the whole part that checks if on a different server.
-    #currently we assume the CA is on the same server as us.
-    GW::Puppetca.sign(@host.name) unless @spoof
+
+    # we don't do anything if we are in spoof mode.
+    return if @spoof
+
+    return false unless GW::Puppetca.clean name
+    return false unless GW::Puppetca.sign @host.name
   end
 end
