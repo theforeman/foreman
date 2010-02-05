@@ -151,7 +151,7 @@ class HostsController < ApplicationController
     end unless fact.nil?
 
     klass.each do |k|
-      list = Host.recent.with_class(k).map(&:name)
+      list = Host.recent.with_class(k).send(state).map(&:name)
       @hosts = counter == 0 ? list : @hosts & list
       counter +=1
     end unless klass.nil?
