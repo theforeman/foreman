@@ -6,6 +6,11 @@ class AuthSourcesControllerTest < ActionController::TestCase
     assert AuthSourcesController.active_scaffold_config.model == AuthSourceLdap
   end
 
+  test "should get list" do
+    get :list
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success
