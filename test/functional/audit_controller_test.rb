@@ -7,6 +7,11 @@ class AuditControllerTest < ActionController::TestCase
     assert_not_nil assigns(:records)
   end
 
+  test "should get search" do
+    get :show_search
+    assert_response :success
+  end
+
   test "should get show" do
     parameter = Parameter.new :name => "some_parameter", :value => "some_value"
     assert parameter.save!
