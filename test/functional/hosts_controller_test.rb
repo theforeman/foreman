@@ -88,13 +88,28 @@ class HostsControllerTest < ActionController::TestCase
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
-    stub(host).setBuild {true}
+    mock(host).setBuild {true}
+    mock(Host).find(host.id.to_s) {host}
+    @request.env['HTTP_REFERER'] = hosts_path
+
+    get :setBuild, {:id => host.id}
+    assert_response :found
+    assert_redirected_to hosts_path
+    assert_not_nil flash[:foreman_notice]
+    assert flash[:foreman_notice] == "Enabled myfullhost.company.com for installation boot away"
+  end
+
+  test "when host is not saved after setBuild, the flash should informe it" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
     @request.env['HTTP_REFERER'] = hosts_path
 
     get :setBuild, :id => host.id
     assert_response :found
     assert_redirected_to hosts_path
-    # TODO: test flash content according to host.setBuild
+    assert_not_nil flash[:foreman_error]
+    assert flash[:foreman_error] == "Failed to enable myfullhost.company.com for installation"
   end
 
   test "rrdreport should print error message if host has no last_report" do
