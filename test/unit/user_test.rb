@@ -73,7 +73,6 @@ class UserTest < ActiveSupport::TestCase
   test "when try to login if password is empty should return nil" do
     assert_equal nil, User.try_to_login("anything", "")
   end
-
-#the rest of this method can't be tested, cause use auth source authentication which is not implemented yet...
+  # couldn't continue testing the rest of login method cause use auth_source.authenticate, which is not implemented yet
 end
 
