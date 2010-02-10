@@ -140,7 +140,7 @@ class Host < Puppet::Rails::Host
   # make sure we store an encrypted copy of the password in the database
   # this password can be use as is in a unix system
   def root_pass=(pass)
-    p = pass =~ /^$1$foreman$.*/ ? pass : pass.crypt("$1$foreman$")
+    p = pass =~ /^\$1\$foreman\$.*/ ? pass : pass.crypt("$1$foreman$")
     write_attribute(:root_pass, p)
   end
 
