@@ -84,6 +84,8 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "when host is not saved after setBuild, the flash should informe it" do
+    mock(@host).setBuild {false}
+    mock(Host).find(@host.id.to_s) {@host}
     @request.env['HTTP_REFERER'] = hosts_path
 
     get :setBuild, :id => @host.id

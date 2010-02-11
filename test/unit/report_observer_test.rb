@@ -3,7 +3,7 @@ require 'test_helper'
 class ReportObserverTest < ActiveSupport::TestCase
   def setup
     # Email recepient
-    SETTINGS[:administrator] = "ltolchinsky@vurbiatechnologies.com"
+    SETTINGS[:administrator] = "admin@example.com"
 
     # Host and Report creation
     h = Host.create  :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
@@ -19,8 +19,17 @@ class ReportObserverTest < ActiveSupport::TestCase
     @report = Report.new :host => h, :log => p, :reported_at => Date.today
   end
 
-  test "if report has an error a mail to admin should be sent" do
+  test "when notification fails, if report has an error a mail to admin should be sent" do
+    SETTINGS[:failed_report_email_notification] = true
     assert_difference 'ActionMailer::Base.deliveries.size' do
+      @report.status = 16781381 # Error status.
+      @report.save!
+    end
+  end
+
+  test "when notification doesn't fails, if report has an error, no mail should be sent" do
+    SETTINGS[:failed_report_email_notification] = false
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
       @report.status = 16781381 # Error status.
       @report.save!
     end
