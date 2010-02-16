@@ -55,7 +55,7 @@ class ReportsControllerTest < ActionController::TestCase
   def create_a_report
     create_a_puppet_transaction_report
 
-    @report = Report.create :host => h, :log => p, :reported_at => Date.new
+    @report = Report.create :host => @host, :log => @log, :reported_at => Date.new
   end
 
   def create_a_puppet_transaction_report
