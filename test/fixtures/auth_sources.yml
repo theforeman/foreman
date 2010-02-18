@@ -1,7 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  type: MyString
   name: MyString
   host: MyString
   port: 1
@@ -16,7 +15,6 @@ one:
   tls: MyString
 
 two:
-  type: MyString
   name: MyString
   host: MyString
   port: 1
