@@ -68,7 +68,7 @@ class UnattendedController < ApplicationController
     # we don't do anything if we are in spoof mode.
     return if @spoof
 
-    return false unless GW::Puppetca.clean name
+    return false unless GW::Puppetca.clean @host.name
     return false unless GW::Puppetca.sign @host.name
   end
 end
