@@ -1,7 +1,7 @@
 <VirtualHost <%= ipaddress %>:80>
   ServerName <%= fqdn %>
   ServerAlias foreman
-  DocumentRoot <%= foreman_dir %>/public
+  DocumentRoot <%= scope.lookupvar 'foreman::foreman_dir' %>/public
 
   RailsAutoDetect On
   AddDefaultCharset UTF-8
@@ -14,13 +14,14 @@
     Order deny,allow
     Allow from all
   </Directory>
+</VirtualHost>
 
 <VirtualHost <%= ipaddress %>:443>
   ServerName <%= fqdn %>
   ServerAlias foreman
 
   RailsAutoDetect On
-  DocumentRoot <%= foreman_dir %>/public
+  DocumentRoot <%= scope.lookupvar 'foreman::foreman_dir' %>/public
 
   # Use puppet certificates for SSL
 
