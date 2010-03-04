@@ -7,7 +7,7 @@ class FactValuesController < ApplicationController
   filter_parameter_logging :facts
 
   active_scaffold :fact_value do |config|
-    config.list.columns = [:name, :value]
+    config.list.columns = [:name, :value, :host]
     config.actions = [:list]
     config.columns = [:name, :value]
     config.columns[:name].sort = true
