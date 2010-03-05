@@ -9,7 +9,7 @@ class ReportsControllerTest < ActionController::TestCase
                           :environment => Environment.find_or_create_by_name("envy"),
                           :disk => "empty partition"
   end
-  
+
   test "ActiveScaffold should look for Report model" do
     assert_not_nil ReportsController.active_scaffold_config
     assert ReportsController.active_scaffold_config.model == Report
@@ -22,7 +22,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   # couldn't test create, cause uses Report.import which needs yaml, but create passes it hash
-  
+
   # test "should create report" do
   #   create_a_puppet_transaction_report
 
@@ -55,7 +55,7 @@ class ReportsControllerTest < ActionController::TestCase
   def create_a_report
     create_a_puppet_transaction_report
 
-    @report = Report.create :host => @host, :log => @log, :reported_at => Date.new
+    @report = Report.create :host => @host, :log => @log, :reported_at => Time.new
   end
 
   def create_a_puppet_transaction_report
@@ -65,6 +65,6 @@ class ReportsControllerTest < ActionController::TestCase
     l = Puppet::Util::Log.new(:level => "notice", :message => :foo, :tags => %w{foo bar})
     @log.logs << l
     @log.save
-  end  
+  end
 end
 

@@ -22,7 +22,7 @@ class FactValueTest < ActiveSupport::TestCase
     assert_equal h, FactValue.count_each("my_facting_name")
 
     #Now creating a new fact value
-    other_host = Host.create :name => "myfullhost2", :mac => "aabbccddeeff", :ip => "123.05.02.03",
+    other_host = Host.create :name => "myfullhost2", :mac => "aabbccddeeef", :ip => "123.05.04.03",
                               :domain => Domain.find_or_create_by_name("company.com"),
                               :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
                               :architecture => Architecture.find_or_create_by_name("i386"),
