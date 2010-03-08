@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
         flash[:foreman_error] = "Incorrect username or password"
-        redirect_to :action => :login
+        redirect_to login_path
       else
         #valid user
         session[:user] = user.id
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     else
       flash[:foreman_notice] = "Logged out - See you soon"
     end
-    redirect_to :action => "login"
+    redirect_to login_path
   end
 
 end

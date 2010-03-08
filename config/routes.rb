@@ -22,6 +22,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hostgroups, :active_scaffold => true
   map.resources :common_parameters, :active_scaffold => true
   map.resources :environments, :active_scaffold => true
+  map.resources :subnets,          :active_scaffold => true
+  map.login '/login', :controller => 'users', :action => 'login'
+  map.logout '/logout', :controller => 'users', :action => 'logout'
   map.resources :users
   #default
   map.connect ':controller/:action/:id'

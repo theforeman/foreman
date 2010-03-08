@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     return true unless SETTINGS[:ldap]
     unless (session[:user] and (@user = User.find(session[:user])))
       session[:original_uri] = request.request_uri
-      redirect_to :controller => "users", :action => "login"
+      redirect_to login_path
     end
   end
 
