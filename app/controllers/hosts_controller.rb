@@ -41,6 +41,8 @@ class HostsController < ApplicationController
       :type => :record,  :position => :after if SETTINGS[:rrd_report_url]
     config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
       :type => :record, :position => :after
+    config.action_links.add 'puppetrun', :label => 'Run', :inline => true,
+      :type => :record, :position => :after if SETTINGS[:puppetrun]
   end
 
   def show
@@ -75,6 +77,15 @@ class HostsController < ApplicationController
       # failed
       logger.warn "Failed to generate external nodes for #{@host.name} with #{$!}"
       render :text => 'Unable to generate output, Check log files', :status => 412 and return
+    end
+  end
+
+  def puppetrun
+    host = Host.find params[:id]
+    if GW::Puppet.run host
+      render :text => "Successfully executed, check log files for more details"
+    else
+      render :text => "Failed, check log files"
     end
   end
 

@@ -123,4 +123,21 @@ module GW
       autosign.close
     end
   end
+
+  # Generic class for various puppet actions
+  class Puppet
+    extend GW::Logger
+
+    def self.run *hosts
+      puppetrun = "/usr/bin/puppetrun"
+
+      if File.exists? puppetrun
+       logger.info system("sudo puppetrun --host #{hosts.join(" --host ")}")
+       return true
+      else
+        logger.warn "#{puppetrun} was not found - aborting"
+        return false
+      end
+    end
+  end
 end
