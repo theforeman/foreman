@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :auth_sources
 
   map.root :controller => "hosts"
@@ -13,6 +14,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect   "/reports/expire_reports", :controller => "reports", :action => "expire_reports"
   map.connect   "/reports/expire_good_reports", :controller => "reports", :action => "expire_good_reports"
   map.resources :reports, :active_scaffold => true
+  map.resources :lookup_keys
+  map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
   map.resources :domains, :active_scaffold => true
   map.resources :operatingsystems, :active_scaffold => true
   map.resources :medias, :active_scaffold => true

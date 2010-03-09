@@ -44,4 +44,8 @@ class ApplicationController < ActionController::Base
     @user
   end
 
+  def invalid_request
+      render :text => 'Invalid query', :status => 400 and return
+  end
+
 end

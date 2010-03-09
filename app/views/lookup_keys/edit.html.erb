@@ -1,0 +1,7 @@
+<% form_for(@lookup_key) do |f| %>
+  <%= render :partial => 'fields',:locals => {:f => f} %>
+  <p> <%= f.submit 'Update' %> </p>
+<% end %>
+
+<%= link_to 'Show', @lookup_key %> |
+<%= link_to 'Back', lookup_key_path %>

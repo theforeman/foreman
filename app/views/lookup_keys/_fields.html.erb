@@ -1,0 +1,8 @@
+<%= error_messages_for :lookup_key %>
+<p>
+Key <%= f.text_field :key %>
+</p>
+<div id="values">
+  <%= render :partial => 'value', :collection => @lookup_key.lookup_values %>
+</div>
+<%= add_value_link "Add a value" %>

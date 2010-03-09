@@ -1,6 +1,6 @@
 class HostsController < ApplicationController
-  before_filter :require_login, :except => [ :query, :externalNodes ]
-  before_filter :require_ssl, :except => [ :query, :externalNodes ]
+  before_filter :require_login, :except => [ :query, :externalNodes, :lookup ]
+  before_filter :require_ssl, :except => [ :query, :externalNodes, :lookup ]
   before_filter :find_hosts, :only => :query
 
   helper :hosts
@@ -168,10 +168,6 @@ class HostsController < ApplicationController
     end unless klass.nil?
 
     render :text => '404 Not Found', :status => 404 and return if @hosts.empty?
-  end
-
-  def invalid_request
-      render :text => 'Invalid query', :status => 400 and return
   end
 
 end

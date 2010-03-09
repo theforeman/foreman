@@ -1,0 +1,20 @@
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Number of Values</th>
+  </tr>
+
+<% @lookup_key.each do |lookup_key| %>
+  <tr>
+    <td><%=h lookup_key.key %></td>
+    <td><%=h lookup_key.lookup_values.count %></td>
+    <td><%= link_to 'Show', lookup_key %></td>
+    <td><%= link_to 'Edit', edit_lookup_key_path(lookup_key) %></td>
+    <td><%= link_to 'Destroy', lookup_key, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Variable', new_lookup_key_path %>
