@@ -82,7 +82,7 @@ class HostsController < ApplicationController
 
   def puppetrun
     host = Host.find params[:id]
-    if GW::Puppet.run host
+    if GW::Puppet.run host.name
       render :text => "Successfully executed, check log files for more details"
     else
       render :text => "Failed, check log files"

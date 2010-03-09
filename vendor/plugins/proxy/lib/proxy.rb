@@ -3,6 +3,21 @@ require 'fileutils'
 require 'pathname'
 
 module GW
+  # searches for binaries in predinfed directories and user PATH
+  # accepts a binary name and an array of paths to search first
+  # if path is ommited will search only in user PATH
+  def self.which(bin, *path)
+    path += ENV['PATH'].split(File::PATH_SEPARATOR)
+    path.uniq.each do |dir|
+      dest = File.join(dir, bin)
+      return dest if FileTest.file? dest and FileTest.executable? dest
+    end
+    return nil
+  rescue StandardError => e
+    logger.warn e
+    return false
+  end
+
   module Logger
     def logger
       if defined? RAILS_DEFAULT_LOGGER
@@ -129,13 +144,19 @@ module GW
     extend GW::Logger
 
     def self.run *hosts
-      puppetrun = "/usr/bin/puppetrun"
+      puppetrun = GW::which("puppetrun", ["/usr/sbin", "/usr/bin"])
+      sudo = GW::which("sudo", "/usr/bin")
 
-      if File.exists? puppetrun
-       logger.info system("sudo puppetrun --host #{hosts.join(" --host ")}")
-       return true
+      if puppetrun and sudo
+        command = %x[#{sudo} #{puppetrun} --host #{hosts.join(" --host ")}]
+        if command =~ /finished with exit code 0/
+          return true
+        else
+          logger.warn command
+          return false
+        end
       else
-        logger.warn "#{puppetrun} was not found - aborting"
+        logger.warn "sudo or puppetrun binary was not found - aborting"
         return false
       end
     end
