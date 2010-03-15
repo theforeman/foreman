@@ -8,6 +8,8 @@ class PuppetclassesController < ApplicationController
     config.columns[:operatingsystems].description = "The operating system this host type can run on"
     config.columns[:environments].description = "The environments which are enabled for this host type"
     
+    config.action_links.add 'import_classes_and_environments', :label => 'Import classes and environments', :inline => false,
+        :page => :true , :type => :table
     config.nested.add_link "Hosts", [:hosts]
   end
 end

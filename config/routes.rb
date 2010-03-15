@@ -21,10 +21,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :medias, :active_scaffold => true
   map.resources :models, :active_scaffold => true
   map.resources :architectures, :active_scaffold => true
-  map.resources :puppetclasses, :active_scaffold => true
+  map.resources :puppetclasses, :active_scaffold => true, :collection => {:import_classes_and_environments => :get}
   map.resources :hostgroups, :active_scaffold => true
   map.resources :common_parameters, :active_scaffold => true
-  map.resources :environments, :active_scaffold => true
+  map.resources :environments, :active_scaffold => true,  :collection => {:import_classes_and_environments => :get}
   map.resources :subnets,          :active_scaffold => true
   map.login '/login', :controller => 'users', :action => 'login'
   map.logout '/logout', :controller => 'users', :action => 'logout'
