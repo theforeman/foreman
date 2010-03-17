@@ -11,7 +11,7 @@ logger "Starting finish script"
 
 # Now ensure that we have the newest puppet and facter installed
 /usr/bin/cp /var/pkg-get/admin-fullauto /var/pkg-get/admin > /dev/null
-/opt/csw/bin/pkg-get -U  
+/opt/csw/bin/pkg-get -U
 /opt/csw/bin/pkg-get -u -f CSWfacter CSWpuppet
 
 echo "Configuring puppet"

@@ -1,9 +1,27 @@
 # Author: Roberto Moral Denche (Telmo : telmox@gmail.com)
 # Description: The tasks defined in this Rakefile will help you populate some of the
-#		fiels in Foreman with what is already present in your database from
-#		StoragedConfig.
+#    fields in Foreman with what is already present in your database from
+#    StoragedConfig.
+require 'rake/clean'
 
 namespace :puppet do
+  root    = "/"
+  # Author: Paul Kelly (paul.ian.kelly@gogglemail.com)
+  # Description: The tasks defined in this namespace populate a directory structure with rdocs for the
+  # clases defined in puppet.
+  namespace :rdoc do
+    desc "
+    Populates the rdoc tree with information about all the classes in your modules."
+    task :generate => [:environment, :prepare] do
+      Puppetclass.rdoc root
+    end
+    desc "
+    Optionally creates a copy of the current puppet modules and sanitizes it.
+    It should return the directory into which it has copied the cleaned modules"
+    task :prepare => :environment do
+      root = Puppetclass.prepare_rdoc root
+    end
+  end
   namespace :migrate do
     desc "Populates the host fields in Foreman based on your StoredConfig DB"
     task :populate_hosts => :environment do

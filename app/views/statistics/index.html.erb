@@ -1,5 +1,5 @@
 <center>
-  <%= 
+  <%=
     graph("pie_3d" ,{:title => "OS Distribution", :data => @os_count.values,
           :labels =>@os_count.keys})
   -%>
@@ -26,7 +26,7 @@
   -%>
 
 
-  <%= 
+  <%=
     graph("bar", {:title => "Average memory usage", :data => [[@mem_free,@swap_free],[@mem_size,@swap_size]],
           :axis_with_labels => ["x","x"],:bar_colors => ['FF0000', '00FF00'],:stacked => false,
           :legend => ["Avg Free", "Avg Size"], :bar_width_and_spacing => 40,

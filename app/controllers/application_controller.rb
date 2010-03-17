@@ -4,6 +4,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
+  rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
+
   filter_parameter_logging :root_pass
 
   # standard layout to all controllers
@@ -32,6 +34,18 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+   def no_puppetclass_documentation_handler(exception)
+    if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
+      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}
+    else
+      if local_request?
+        rescue_action_locally exception
+      else
+        rescue_action_in_public exception
+      end
+    end
+  end
 
   def require_ssl
     # if SSL is not configured, don't bother forcing it.

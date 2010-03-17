@@ -9,3 +9,4 @@
 #:unattended: false
 #use the following setting to override the default 30 minutes puppet run interval - value must be in minutes
 #:puppet_interval: 60
+#:document_root: /var/www
