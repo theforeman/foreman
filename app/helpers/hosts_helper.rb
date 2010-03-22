@@ -3,7 +3,7 @@ module HostsHelper
     return nil if record.last_report.nil?
     time = time_ago_in_words(record.last_report.getlocal)
     image_tag("#{not (record.error_count > 0 or record.no_report)}.png", :size => "18x18") +
-      link_to_if(record.reports.last, time, report_host_path(record))
+      link_to_if(Report.find(Report.maximum('id', :conditions => {:host_id => record.id})), time, report_host_path(record))
   end
 
   def root_pass_form_column(record, field_name)
