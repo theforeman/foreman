@@ -303,10 +303,9 @@ class Host < Puppet::Rails::Host
       if pc = Puppetclass.find_by_name(klass)
         self.puppetclasses << pc unless puppetclasses.exists?(pc)
       else
-        error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoreing"
+        error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoring"
         logger.warn error
         $stderr.puts error
-        $stderr.flush
       end
     end
 

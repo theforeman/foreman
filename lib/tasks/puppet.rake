@@ -70,8 +70,10 @@ namespace :puppet do
         if nodeinfo.is_a?(Hash)
           $stdout.puts "DONE" if host.importNode nodeinfo
         else
-          $stdout.puts "ERROR: invalid output from external nodes"
+          $stderr.puts "ERROR: invalid output from external nodes"
         end
+        $stdout.flush
+        $stderr.flush
       end
 
     end
