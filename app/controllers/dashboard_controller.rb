@@ -18,7 +18,8 @@ class DashboardController < ApplicationController
     @out_of_sync_hosts = Host.out_of_sync.count
     @intersting_reports = Report.with_changes.count
     # the run interval to show in the dashboard graph
-    @puppet_runs = Report.count_puppet_runs(@interval = 3)
+    @interval = (SETTINGS[:puppet_interval] / 10)
+    @puppet_runs = Report.count_puppet_runs(@interval)
   end
 
   def errors

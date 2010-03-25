@@ -10,7 +10,7 @@
 
   <%= graph("bar",:title => "Run Distribution in the last #{SETTINGS[:puppet_interval]} minutes", :data =>  @puppet_runs,
             :line_colors => '0077CC', :bar_width_and_spacing => 25,:axis_with_labels => ["x","y"], 
-            :axis_labels => [(1..(30/@interval)).map{|t| t*@interval}, @puppet_runs.sort.uniq], :legend => "Clients")
+            :axis_labels => [(1..(SETTINGS[:puppet_interval]/@interval)).map{|t| t*@interval}, @puppet_runs.sort.uniq], :legend => "Clients")
           -%>
 
   <h2>Summary</h2>

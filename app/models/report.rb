@@ -147,10 +147,10 @@ class Report < ActiveRecord::Base
     return count
   end
 
-  def self.count_puppet_runs(interval = 5)
+  def self.count_puppet_runs(interval)
     counter = []
     now=Time.now.utc
-    (1..(30 / interval)).each do |i|
+    (1..(SETTINGS[:puppet_interval] / interval)).each do |i|
       ago = now - interval.minutes
       counter << Report.count(:all, :conditions => {:reported_at => ago..(now-1.second)})
       now = ago
