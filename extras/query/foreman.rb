@@ -23,7 +23,7 @@ class Hash
     self.each do |type,name|
       case type.to_s
       when "fact"
-        name.each { |k,v| fact << "fact[]=#{k}-#{v}" }
+        name.each { |k,v| fact << "fact[]=#{k}-seperator-#{URI.escape(v)}" }
       when "class"
         name.each { |c| klass << "class[]=#{c}" }
       when "state"

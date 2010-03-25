@@ -154,7 +154,7 @@ class HostsController < ApplicationController
     # it should be possible for a one join
     fact.each do |f|
       # split facts based on name => value pairs
-      q = f.split("-")
+      q = f.split("-seperator-")
       invalid_request unless q.size == 2
       list = Host.with_fact(*q).send(state).map(&:name)
       @hosts = counter == 0 ? list : @hosts & list
