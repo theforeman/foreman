@@ -34,6 +34,7 @@ class HostMailer < ActionMailer::Base
     subject "Summary Puppet report from Foreman"
     sent_on Time.now
     time = options[:time] || 1.day.ago
+    content_type "text/html"
     body[:hosts] = Report.summarise(time, hosts).sort
     body[:url] = SETTINGS[:foreman_url]
     body[:timerange] = time
@@ -49,6 +50,7 @@ class HostMailer < ActionMailer::Base
     from "Foreman-noreply"
     subject "Puppet error on #{host.to_label}"
     sent_on Time.now
+    content_type "text/html"
     body[:report] = report
     body[:host] = host
   end
