@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
-  map.resources :auth_sources
-
   map.root :controller => "hosts"
 
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
@@ -26,6 +23,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :common_parameters, :active_scaffold => true
   map.resources :environments, :active_scaffold => true,  :collection => {:import_classes_and_environments => :get}
   map.resources :subnets,          :active_scaffold => true
+  map.resources :ptables
+  map.resources :auth_sources
   map.login '/login', :controller => 'users', :action => 'login'
   map.logout '/logout', :controller => 'users', :action => 'logout'
   map.resources :users

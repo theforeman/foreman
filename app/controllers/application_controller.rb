@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   # standard layout to all controllers
   layout 'standard'
+  helper 'layout'
 
   before_filter :require_ssl, :require_login
 

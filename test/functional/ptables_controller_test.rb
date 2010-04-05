@@ -1,58 +1,54 @@
 require 'test_helper'
 
 class PtablesControllerTest < ActionController::TestCase
-  test "ActiveScaffold should look for Ptable model" do
-    assert_not_nil PtablesController.active_scaffold_config
-    assert PtablesController.active_scaffold_config.model == Ptable
-  end
-
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
 
-  test "shuold get new" do
+  def test_show
+    get :show, :id => Ptable.first
+    assert_template 'show'
+  end
+
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create new partition table" do
-    assert_difference 'Ptable.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_partition_table", :layout => "some_layout"} }
-    end
-
-    assert_redirected_to '/ptables'
+  def test_create_invalid
+    Ptable.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-  test "should get edit" do
-    partition_table = Ptable.new :name => "some_partition_table", :layout => "some_layout"
-    assert partition_table.save!
-
-    get :edit, :id => partition_table.id
-    assert_response :success
+  def test_create_valid
+    Ptable.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to ptable_url(assigns(:ptable))
   end
 
-  test "should update partition table" do
-    partition_table = Ptable.new :name => "some_partition_table", :layout => "some_layout"
-    assert partition_table.save!
-
-    put :update, { :commit => "Update", :id => partition_table.id, :record => {:name => "other_partition_table", :layout => "some_other_layout"} }
-    partition_table = Ptable.find_by_id(partition_table.id)
-    assert partition_table.name == "other_partition_table"
-    assert partition_table.layout == "some_other_layout"
-
-    assert_redirected_to '/ptables'
+  def test_edit
+    get :edit, :id => Ptable.first
+    assert_template 'edit'
   end
 
-  test "should destroy partition table" do
-    partition_table = Ptable.new :name => "some_partition_table", :layout => "some_layout"
-    assert partition_table.save!
+  def test_update_invalid
+    Ptable.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Ptable.first
+    assert_template 'edit'
+  end
 
-    assert_difference('Ptable.count', -1) do
-      delete :destroy, :id => partition_table.id
-    end
+  def test_update_valid
+    Ptable.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Ptable.first
+    assert_redirected_to ptable_url(assigns(:ptable))
+  end
 
-    assert_redirected_to '/ptables'
+  def test_destroy
+    ptable = Ptable.first
+    delete :destroy, :id => ptable
+    assert_redirected_to ptables_url
+    assert !Ptable.exists?(ptable.id)
   end
 end

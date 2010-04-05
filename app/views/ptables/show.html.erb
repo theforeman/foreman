@@ -1,0 +1,19 @@
+<% title "Partition tables - #{h @ptable.name}" %>
+
+<% field_set_tag("Layout") do %>
+  <%= text_area_tag @ptable, @ptable.layout, :size => "80x10", :disabled => true %>
+<% end -%>
+<p>
+  <strong>Operatingsystem:</strong>
+  <%= show_habtm @ptable.operatingsystems %>
+</p>
+
+<p>
+Currently used by <%= @ptable.hosts.count %> hosts
+</p>
+
+<p>
+  <%= link_to "Edit", edit_ptable_path(@ptable) %> |
+  <%= link_to "Destroy", @ptable, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", ptables_path %>
+</p>
