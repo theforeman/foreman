@@ -1,6 +1,6 @@
 class Architecture < ActiveRecord::Base
   has_many :hosts
-  has_and_belongs_to_many :operatingsystem
+  has_and_belongs_to_many :operatingsystems
   validates_uniqueness_of :name
   before_destroy Ensure_not_used_by.new(:hosts)
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."

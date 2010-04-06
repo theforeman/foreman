@@ -1,57 +1,54 @@
 require 'test_helper'
 
 class ArchitecturesControllerTest < ActionController::TestCase
-  test "ActiveScaffold should look for Architecture model" do
-    assert_not_nil ArchitecturesController.active_scaffold_config
-    assert ArchitecturesController.active_scaffold_config.model == Architecture
-  end
-
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
-
-  test "shuold get new" do
+  
+  def test_show
+    get :show, :id => Architecture.first
+    assert_template 'show'
+  end
+  
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
-
-  test "should create new architecture" do
-    assert_difference 'Architecture.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_architecture"} }
-    end
-
-    assert_redirected_to architectures_path
+  
+  def test_create_invalid
+    Architecture.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
-
-  test "should get edit" do
-    architecture = Architecture.new :name => "some_architecture"
-    assert architecture.save!
-
-    get :edit, :id => architecture.id
-    assert_response :success
+  
+  def test_create_valid
+    Architecture.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to architecture_url(assigns(:architecture))
   end
-
-  test "should update architecture" do
-    architecture = Architecture.new :name => "some_architecture"
-    assert architecture.save!
-
-    put :update, { :commit => "Update", :id => architecture.id, :record => {:name => "other_architecture"} }
-    architecture = Architecture.find_by_id(architecture.id)
-    assert architecture.name == "other_architecture"
-
-    assert_redirected_to architectures_path
+  
+  def test_edit
+    get :edit, :id => Architecture.first
+    assert_template 'edit'
   end
-
-  test "should destroy architecture" do
-    architecture = Architecture.new :name => "some_architecture"
-    assert architecture.save!
-
-    assert_difference('Architecture.count', -1) do
-      delete :destroy, :id => architecture.id
-    end
-
-    assert_redirected_to architectures_path
+  
+  def test_update_invalid
+    Architecture.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Architecture.first
+    assert_template 'edit'
+  end
+  
+  def test_update_valid
+    Architecture.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Architecture.first
+    assert_redirected_to architecture_url(assigns(:architecture))
+  end
+  
+  def test_destroy
+    architecture = Architecture.first
+    delete :destroy, :id => architecture
+    assert_redirected_to architectures_url
+    assert !Architecture.exists?(architecture.id)
   end
 end

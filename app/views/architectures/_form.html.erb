@@ -1,0 +1,12 @@
+<% form_for @architecture do |f| %>
+  <%= f.error_messages %>
+  <p>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+  </p>
+  <p>
+  <%= edit_habtm @architecture, Operatingsystem %>
+  </p>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>

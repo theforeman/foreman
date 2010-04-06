@@ -1,0 +1,20 @@
+<% title "Architectures" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Operatingsystems</th>
+    <th></th><th></th><th></th>
+  </tr>
+  <% for architecture in @architectures %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%=h architecture.name %></td>
+      <td><%=h architecture.operatingsystems.to_sentence %></td>
+      <td><%= link_to "Show", architecture %></td>
+      <td><%= link_to "Edit", edit_architecture_path(architecture) %></td>
+      <td><%= link_to "Destroy", architecture, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Architecture", new_architecture_path %></p>
