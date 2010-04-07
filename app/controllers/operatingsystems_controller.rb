@@ -1,22 +1,47 @@
 class OperatingsystemsController < ApplicationController
-  helper :operatingsystem
-  active_scaffold :operatingsystem do |config|
-    config.label = "Operating systems"
-    config.columns = [:name, :major, :minor, :architectures, :medias, :ptables ]
-    config.list.columns.exclude [:major, :minor]
-    config.columns[:architectures].form_ui  = :select
-    config.columns[:ptables].form_ui  = :select
-    config.columns[:ptables].label = "Partition tables"
-    config.columns[:puppetclasses].form_ui  = :select
-    config.columns[:medias].form_ui  = :select
-    config.columns[:name].description = "Operating System name, e.g. CentOS"
-    config.columns[:major].description = "The OS major version e.g. 5"
-    config.columns[:minor].description = "The OS minor version e.g. 3, leave blank if empty"
-    config.columns[:architectures].description = "The allowed architectures for this host"
-    config.columns[:medias].description = "Valid medias for this host"
-    config.columns[:medias].label = "Installation medias"
-    config.columns[:puppetclasses].description = "which puppet classes are allowed on this operatingsystem"
-    config.nested.add_link("Hosts", [:hosts])
-    config.nested.add_link("Puppetclasses", [:puppetclasses])
+  def index
+    @operatingsystems = Operatingsystem.all
+  end
+
+  def show
+    @operatingsystem = Operatingsystem.find(params[:id])
+  end
+
+  def new
+    @operatingsystem = Operatingsystem.new
+  end
+
+  def create
+    @operatingsystem = Operatingsystem.new(params[:operatingsystem])
+    if @operatingsystem.save
+      flash[:foreman_notice] = "Successfully created operatingsystem."
+      redirect_to @operatingsystem
+    else
+      render :action => 'new'
+    end
+  end
+
+  def edit
+    @operatingsystem = Operatingsystem.find(params[:id])
+  end
+
+  def update
+    @operatingsystem = Operatingsystem.find(params[:id])
+    if @operatingsystem.update_attributes(params[:operatingsystem])
+      flash[:foreman_notice] = "Successfully updated operatingsystem."
+      redirect_to @operatingsystem
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    @operatingsystem = Operatingsystem.find(params[:id])
+    if @operatingsystem.destroy
+      flash[:foreman_notice] = "Successfully destroyed operatingsystem."
+    else
+      flash[:foreman_error] = @operatingsystem.errors.full_messages.join("<br>")
+    end
+    redirect_to operatingsystems_url
   end
 end

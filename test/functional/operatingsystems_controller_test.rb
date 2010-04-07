@@ -1,58 +1,54 @@
 require 'test_helper'
 
 class OperatingsystemsControllerTest < ActionController::TestCase
-  test "ActiveScaffold should look for Operatingsystem model" do
-    assert_not_nil OperatingsystemsController.active_scaffold_config
-    assert OperatingsystemsController.active_scaffold_config.model == Operatingsystem
-  end
-
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
-
-  test "shuold get new" do
+  
+  def test_show
+    get :show, :id => Operatingsystem.first
+    assert_template 'show'
+  end
+  
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
-
-  test "should create new operating system" do
-    assert_difference 'Operatingsystem.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_operating_system", :major => "9"} }
-    end
-
-    assert_redirected_to operatingsystems_path
+  
+  def test_create_invalid
+    Operatingsystem.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
-
-  test "should get edit" do
-    operating_system = Operatingsystem.new :name => "some_operating_system", :major => "9"
-    assert operating_system.save!
-
-    get :edit, :id => operating_system.id
-    assert_response :success
+  
+  def test_create_valid
+    Operatingsystem.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to operatingsystem_url(assigns(:operatingsystem))
   end
-
-  test "should update operating system" do
-    operating_system = Operatingsystem.new :name => "some_operating_system", :major => "9"
-    assert operating_system.save!
-
-    put :update, { :commit => "Update", :id => operating_system.id, :record => {:name => "other_operating_system", :major => "10"} }
-    operating_system = Operatingsystem.find_by_id(operating_system.id)
-    assert operating_system.name == "other_operating_system"
-    assert operating_system.major == "10"
-
-    assert_redirected_to operatingsystems_path
+  
+  def test_edit
+    get :edit, :id => Operatingsystem.first
+    assert_template 'edit'
   end
-
-  test "should destroy operating system" do
-    operating_system = Operatingsystem.new :name => "some_operating_system", :major => "9"
-    assert operating_system.save!
-
-    assert_difference('Operatingsystem.count', -1) do
-      delete :destroy, :id => operating_system.id
-    end
-
-    assert_redirected_to operatingsystems_path
+  
+  def test_update_invalid
+    Operatingsystem.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Operatingsystem.first
+    assert_template 'edit'
+  end
+  
+  def test_update_valid
+    Operatingsystem.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Operatingsystem.first
+    assert_redirected_to operatingsystem_url(assigns(:operatingsystem))
+  end
+  
+  def test_destroy
+    operatingsystem = Operatingsystem.first
+    delete :destroy, :id => operatingsystem
+    assert_redirected_to operatingsystems_url
+    assert !Operatingsystem.exists?(operatingsystem.id)
   end
 end

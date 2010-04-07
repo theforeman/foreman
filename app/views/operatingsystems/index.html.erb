@@ -1,0 +1,22 @@
+<% title "Operating systems" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Architecures</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% for operatingsystem in @operatingsystems %>
+    <tr>
+      <td><%=h operatingsystem.to_label %></td>
+      <td><%=h operatingsystem.architectures.to_sentence %>
+      <td><%= link_to "Show", operatingsystem %></td>
+      <td><%= link_to "Edit", edit_operatingsystem_path(operatingsystem) %></td>
+      <td><%= link_to "Destroy", operatingsystem, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Operating system", new_operatingsystem_path %></p>

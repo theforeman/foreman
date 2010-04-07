@@ -1,0 +1,28 @@
+<% form_for @operatingsystem do |f| %>
+  <%= f.error_messages %>
+  <p>
+  <%= f.label :name %>
+  <%= f.text_field :name, :size => "12" %>
+  <%= f.label :major %>
+  <%= f.text_field :major, :size => 8 %>
+  <%= f.label :minor %>
+  <%= f.text_field :minor, :size => 8 %>
+  </p>
+  <p>
+  <% field_set_tag("Architectures") do %> 
+    <%= edit_habtm @operatingsystem, Architecture %>
+  <% end -%>
+  </p>
+  <p>
+  <% field_set_tag("Partition tables") do %> 
+    <%= edit_habtm @operatingsystem, Ptable %>
+  <% end -%>
+  </p>
+  <p>
+  <% field_set_tag("Installation Medias") do %> 
+    <%= edit_habtm @operatingsystem, Media %>
+  <% end -%>
+  </p>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>

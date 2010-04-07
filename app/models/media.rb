@@ -10,4 +10,9 @@ class Media < ActiveRecord::Base
 
   alias_attribute :os, :operatingsystem
   before_destroy Ensure_not_used_by.new(:hosts)
+
+  def to_s
+    name
+  end
+
 end
