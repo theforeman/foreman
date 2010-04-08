@@ -5,6 +5,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :group_parameters, :dependent => :destroy
   has_many :hosts
 
+  acts_as_audited
 
 #TODO: add a method that returns the valid os for a hostgroup
 

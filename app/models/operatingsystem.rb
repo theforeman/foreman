@@ -12,6 +12,7 @@ class Operatingsystem < ActiveRecord::Base
   #TODO: add validation for name and major uniqueness
 
   before_destroy Ensure_not_used_by.new(:hosts)
+  acts_as_audited
 
   # The OS is usually represented as the catenation of the OS and the revision. E.G. "Solaris 10"
   def to_label
