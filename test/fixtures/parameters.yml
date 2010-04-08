@@ -1,7 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
+one:
+  name: test
+  value: myvalue
+  type: CommonParameter
 #
 # two:
 #   column: value

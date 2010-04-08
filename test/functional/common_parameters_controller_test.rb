@@ -1,58 +1,54 @@
 require 'test_helper'
 
 class CommonParametersControllerTest < ActionController::TestCase
-  test "ActiveScaffold should look for CommonParameter model" do
-    assert_not_nil CommonParametersController.active_scaffold_config
-    assert CommonParametersController.active_scaffold_config.model == CommonParameter
-  end
-
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
 
-  test "should get new" do
+  def test_show
+    get :show, :id => CommonParameter.first
+    assert_template 'show'
+  end
+
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create new common_parameter" do
-    assert_difference 'CommonParameter.count' do
-      post :create, { :commit => "Create", :record => {:name => "my_common_parameter", :value => "valuable"} }
-    end
-
-    assert_redirected_to common_parameters_path
+  def test_create_invalid
+    CommonParameter.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-  test "should get edit" do
-    common_parameter = CommonParameter.new :name => "my_common_parameter", :value => "valuable"
-    assert common_parameter.save!
-
-    get :edit, :id => common_parameter.id
-    assert_response :success
+  def test_create_valid
+    CommonParameter.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to common_parameter_url(assigns(:common_parameter))
   end
 
-  test "should update common_parameter" do
-    common_parameter = CommonParameter.new :name => "my_common_parameter", :value => "valuable"
-    assert common_parameter.save!
-
-    put :update, { :commit => "Update", :id => common_parameter.id, :record => {:name => "our_common_parameter"} }
-    common_parameter = CommonParameter.find_by_id(common_parameter.id)
-    assert common_parameter.name == "our_common_parameter"
-
-    assert_redirected_to common_parameters_path
+  def test_edit
+    get :edit, :id => CommonParameter.first
+    assert_template 'edit'
   end
 
-  test "should destroy common_parameter" do
-    common_parameter = CommonParameter.new :name => "my_common_parameter", :value => "valuable"
-    assert common_parameter.save!
+  def test_update_invalid
+    CommonParameter.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => CommonParameter.first
+    assert_template 'edit'
+  end
 
-    assert_difference('CommonParameter.count', -1) do
-      delete :destroy, :id => common_parameter.id
-    end
+  def test_update_valid
+    CommonParameter.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => CommonParameter.first
+    assert_redirected_to common_parameter_url(assigns(:common_parameter))
+  end
 
-    assert_redirected_to common_parameters_path
+  def test_destroy
+    common_parameter = CommonParameter.first
+    delete :destroy, :id => common_parameter
+    assert_redirected_to common_parameters_url
+    assert !CommonParameter.exists?(common_parameter.id)
   end
 end
-

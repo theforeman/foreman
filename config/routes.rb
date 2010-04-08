@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :architectures
   map.resources :puppetclasses, :active_scaffold => true, :collection => {:import_classes_and_environments => :get}
   map.resources :hostgroups, :active_scaffold => true
-  map.resources :common_parameters, :active_scaffold => true
+  map.resources :common_parameters
   map.resources :environments, :active_scaffold => true,  :collection => {:import_classes_and_environments => :get}
   map.resources :subnets,          :active_scaffold => true
   map.resources :ptables
