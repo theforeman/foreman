@@ -1,0 +1,15 @@
+<% form_for @domain do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :fullname %><br />
+    <%= f.text_field :fullname %>
+  </p>
+
+  <%= render :partial => "common_parameters/parameters", :locals => { :f => f, :type => :domain_parameters } %>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>

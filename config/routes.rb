@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :reports, :active_scaffold => true
   map.resources :lookup_keys
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
-  map.resources :domains, :active_scaffold => true
+  map.resources :domains
   map.resources :operatingsystems
   map.resources :medias, :active_scaffold => true
   map.resources :models, :active_scaffold => true
