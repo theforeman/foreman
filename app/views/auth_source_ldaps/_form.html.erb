@@ -1,0 +1,61 @@
+<% form_for @auth_source_ldap do |f| %>
+  <%= f.error_messages %>
+  <p>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+  </p>
+  <p>
+  <%= f.label :host %><br />
+  <%= f.text_field :host %>
+  </p>
+  <p>
+  <%= f.label :port %><br />
+  <%= f.text_field :port, :size => 6 %>
+  <%= f.check_box :tls %>
+  <%= f.label :tls, "LDAPS" %>
+  </p>
+  <p>
+  <%= f.label :account %><br />
+  <%= f.text_field :account %>
+  <small> Use this account to authenticate, optional </small>
+  </p>
+  <p>
+  <%= f.label :account_password %><br />
+  <%= f.password_field :account_password,
+    :value => ((@auth_source_ldap.new_record? || @auth_source_ldap.account_password.blank?) ? '' : ('x'*15)),
+    :onfocus => "this.value='';"
+  %>
+  <small> Use this account to authenticate, optional </small>
+  </p>
+  <p>
+  <%= f.label :base_dn %><br />
+  <%= f.text_field :base_dn, :size => 60 %>
+  </p>
+  <p>
+  <%= f.label :onthefly_register, "On-the-fly user creation" %>
+  <%= f.check_box :onthefly_register %>
+  </p>
+  <% field_set_tag("Attributes") do %>
+    <p>
+    <%= f.label :attr_login %><br />
+    <%= f.text_field :attr_login %>
+    <small>e.g. uid</small>
+    </p>
+    <p>
+    <%= f.label :attr_firstname %><br />
+    <%= f.text_field :attr_firstname %>
+    <small>e.g. givenName</small>
+    </p>
+    <p>
+    <%= f.label :attr_lastname %><br />
+    <%= f.text_field :attr_lastname %>
+    <small>e.g. sn</small>
+    </p>
+    <p>
+    <%= f.label :attr_mail %><br />
+    <%= f.text_field :attr_mail %>
+    <small>e.g. mail</small>
+    </p>
+  <% end -%>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

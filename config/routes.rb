@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :environments, :active_scaffold => true,  :collection => {:import_classes_and_environments => :get}
   map.resources :subnets,          :active_scaffold => true
   map.resources :ptables
-  map.resources :auth_sources
+  map.resources :auth_source_ldaps
   map.login '/login', :controller => 'users', :action => 'login'
   map.logout '/logout', :controller => 'users', :action => 'logout'
   map.resources :users

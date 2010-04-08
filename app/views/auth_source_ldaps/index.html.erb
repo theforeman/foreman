@@ -1,0 +1,22 @@
+<% title "Ldap Authentication" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Host</th>
+    <th>On the fly Register</th>
+    <th>LDAPS</th>
+    <th></th>
+  </tr>
+  <% for auth_source_ldap in @auth_source_ldaps %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%=link_to h(auth_source_ldap.name), edit_auth_source_ldap_path(auth_source_ldap) %></td>
+      <td><%=h auth_source_ldap.host %></td>
+      <td><%=h auth_source_ldap.onthefly_register %></td>
+      <td><%=h auth_source_ldap.tls %></td>
+      <td><%= link_to "Destroy", auth_source_ldap, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Ldap Source", new_auth_source_ldap_path %></p>
