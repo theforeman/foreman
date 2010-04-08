@@ -1,58 +1,54 @@
 require 'test_helper'
 
 class MediasControllerTest < ActionController::TestCase
-  test "ActiveScaffold should look for Media model" do
-    assert_not_nil MediasController.active_scaffold_config
-    assert MediasController.active_scaffold_config.model == Media
-  end
-
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
 
-  test "shuold get new" do
+  def test_show
+    get :show, :id => Media.first
+    assert_template 'show'
+  end
+
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create new media" do
-    assert_difference 'Media.count' do
-      post :create, { :commit => "Create", :record => {:name => "some_arch", :path => "http://www.google.com"} }
-    end
-
-    assert_redirected_to medias_path
+  def test_create_invalid
+    Media.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-  test "should get edit" do
-    media = Media.new :name => "some_media", :path => "http://www.google.com"
-    assert media.save!
-
-    get :edit, :id => media.id
-    assert_response :success
+  def test_create_valid
+    Media.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to media_url(assigns(:media))
   end
 
-  test "should update media" do
-    media = Media.new :name => "some_media", :path => "http://www.google.com"
-    assert media.save!
-
-    put :update, { :commit => "Update", :id => media.id, :record => {:name => "other_media", :path => "http://www.vurbia.com"} }
-    media = Media.find_by_id(media.id)
-    assert media.name == "other_media"
-    assert media.path == "http://www.vurbia.com"
-
-    assert_redirected_to medias_path
+  def test_edit
+    get :edit, :id => Media.first
+    assert_template 'edit'
   end
 
-  test "should destroy media" do
-    media = Media.new :name => "some_media", :path => "http://www.google.com"
-    assert media.save!
+  def test_update_invalid
+    Media.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Media.first
+    assert_template 'edit'
+  end
 
-    assert_difference('Media.count', -1) do
-      delete :destroy, :id => media.id
-    end
+  def test_update_valid
+    Media.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Media.first
+    assert_redirected_to media_url(assigns(:media))
+  end
 
-    assert_redirected_to medias_path
+  def test_destroy
+    media = Media.first
+    delete :destroy, :id => media
+    assert_redirected_to medias_url
+    assert !Media.exists?(media.id)
   end
 end

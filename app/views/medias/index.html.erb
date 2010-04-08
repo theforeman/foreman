@@ -1,0 +1,21 @@
+<% title "Medias" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Path</th>
+    <th>Operatingsystem</th>
+  </tr>
+  <% for media in @medias %>
+    <tr>
+      <td><%=h media.name %></td>
+      <td><%=h media.path %></td>
+      <td><%=h media.operatingsystem %></td>
+      <td><%= link_to "Show", media %></td>
+      <td><%= link_to "Edit", edit_media_path(media) %></td>
+      <td><%= link_to "Destroy", media, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Media", new_media_path %></p>

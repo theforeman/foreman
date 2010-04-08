@@ -1,0 +1,19 @@
+<% title "Media #{h @media.name}" %>
+<p>
+  <strong>Path:</strong>
+  <%=h @media.path %>
+</p>
+<p>
+  <strong>Operatingsystem:</strong>
+  <%=h @media.operatingsystem %>
+</p>
+
+<p>
+Currently used by <%= @media.hosts.count %> hosts
+</p>
+
+<p>
+  <%= link_to "Edit", edit_media_path(@media) %> |
+  <%= link_to "Destroy", @media, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", medias_path %>
+</p>
