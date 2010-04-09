@@ -1,6 +1,6 @@
 class PtablesController < ApplicationController
   def index
-    @ptables = Ptable.all
+    @ptables = Ptable.all(:include => [:operatingsystems])
   end
 
   def show

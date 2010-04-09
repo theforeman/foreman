@@ -6,11 +6,6 @@ class CommonParametersControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_show
-    get :show, :id => CommonParameter.first
-    assert_template 'show'
-  end
-
   def test_new
     get :new
     assert_template 'new'
@@ -25,7 +20,7 @@ class CommonParametersControllerTest < ActionController::TestCase
   def test_create_valid
     CommonParameter.any_instance.stubs(:valid?).returns(true)
     post :create
-    assert_redirected_to common_parameter_url(assigns(:common_parameter))
+    assert_redirected_to common_parameters_url
   end
 
   def test_edit
@@ -42,7 +37,7 @@ class CommonParametersControllerTest < ActionController::TestCase
   def test_update_valid
     CommonParameter.any_instance.stubs(:valid?).returns(true)
     put :update, :id => CommonParameter.first
-    assert_redirected_to common_parameter_url(assigns(:common_parameter))
+    assert_redirected_to common_parameters_url
   end
 
   def test_destroy

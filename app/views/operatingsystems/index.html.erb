@@ -3,17 +3,15 @@
 <table class="list">
   <tr>
     <th>Name</th>
-    <th>Architecures</th>
-    <th></th>
-    <th></th>
+    <th>Architectures</th>
+    <th>Hosts</th>
     <th></th>
   </tr>
   <% for operatingsystem in @operatingsystems %>
-    <tr>
-      <td><%=h operatingsystem.to_label %></td>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to h(operatingsystem.to_label), edit_operatingsystem_path(operatingsystem) %></td>
       <td><%=h operatingsystem.architectures.to_sentence %>
-      <td><%= link_to "Show", operatingsystem %></td>
-      <td><%= link_to "Edit", edit_operatingsystem_path(operatingsystem) %></td>
+      <td><%=h operatingsystem.hosts.count %>
       <td><%= link_to "Destroy", operatingsystem, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

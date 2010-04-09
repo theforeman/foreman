@@ -6,11 +6,6 @@ class MediasControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_show
-    get :show, :id => Media.first
-    assert_template 'show'
-  end
-
   def test_new
     get :new
     assert_template 'new'
@@ -25,7 +20,7 @@ class MediasControllerTest < ActionController::TestCase
   def test_create_valid
     Media.any_instance.stubs(:valid?).returns(true)
     post :create
-    assert_redirected_to media_url(assigns(:media))
+    assert_redirected_to medias_url
   end
 
   def test_edit
@@ -42,7 +37,7 @@ class MediasControllerTest < ActionController::TestCase
   def test_update_valid
     Media.any_instance.stubs(:valid?).returns(true)
     put :update, :id => Media.first
-    assert_redirected_to media_url(assigns(:media))
+    assert_redirected_to medias_url
   end
 
   def test_destroy

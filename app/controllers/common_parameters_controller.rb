@@ -3,10 +3,6 @@ class CommonParametersController < ApplicationController
     @common_parameters = CommonParameter.all
   end
 
-  def show
-    @common_parameter = CommonParameter.find(params[:id])
-  end
-
   def new
     @common_parameter = CommonParameter.new
   end
@@ -15,7 +11,7 @@ class CommonParametersController < ApplicationController
     @common_parameter = CommonParameter.new(params[:common_parameter])
     if @common_parameter.save
       flash[:foreman_notice] = "Successfully created common parameter."
-      redirect_to @common_parameter
+      redirect_to common_parameters_url
     else
       render :action => 'new'
     end
@@ -29,7 +25,7 @@ class CommonParametersController < ApplicationController
     @common_parameter = CommonParameter.find(params[:id])
     if @common_parameter.update_attributes(params[:common_parameter])
       flash[:foreman_notice] = "Successfully updated common parameter."
-      redirect_to @common_parameter
+      redirect_to common_parameters_url
     else
       render :action => 'edit'
     end

@@ -1,10 +1,6 @@
 class OperatingsystemsController < ApplicationController
   def index
-    @operatingsystems = Operatingsystem.all
-  end
-
-  def show
-    @operatingsystem = Operatingsystem.find(params[:id])
+    @operatingsystems = Operatingsystem.all(:include => [:architectures], :order => :name)
   end
 
   def new
@@ -15,7 +11,7 @@ class OperatingsystemsController < ApplicationController
     @operatingsystem = Operatingsystem.new(params[:operatingsystem])
     if @operatingsystem.save
       flash[:foreman_notice] = "Successfully created operatingsystem."
-      redirect_to @operatingsystem
+      redirect_to operatingsystems_url
     else
       render :action => 'new'
     end
@@ -29,7 +25,7 @@ class OperatingsystemsController < ApplicationController
     @operatingsystem = Operatingsystem.find(params[:id])
     if @operatingsystem.update_attributes(params[:operatingsystem])
       flash[:foreman_notice] = "Successfully updated operatingsystem."
-      redirect_to @operatingsystem
+      redirect_to operatingsystems_url
     else
       render :action => 'edit'
     end
