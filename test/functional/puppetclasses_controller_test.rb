@@ -1,58 +1,49 @@
 require 'test_helper'
 
 class PuppetclassesControllerTest < ActionController::TestCase
-  test "ActiveScaffold should look for Puppetclass model" do
-    assert_not_nil PuppetclassesController.active_scaffold_config
-    assert PuppetclassesController.active_scaffold_config.model == Puppetclass
-  end
-
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
 
-  test "should get new" do
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create new puppetclass" do
-    assert_difference 'Puppetclass.count' do
-      post :create, { :commit => "Create", :record => {:name => "my_puppetclass"} }
-    end
-
-    assert_redirected_to puppetclasses_path
+  def test_create_invalid
+    Puppetclass.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-  test "should get edit" do
-    puppetclass = Puppetclass.new :name => "my_puppetclass"
-    assert puppetclass.save!
-
-    get :edit, :id => puppetclass.id
-    assert_response :success
+  def test_create_valid
+    Puppetclass.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to puppetclasses_url
   end
 
-  test "should update puppetclass" do
-    puppetclass = Puppetclass.new :name => "my_puppetclass"
-    assert puppetclass.save!
-
-    put :update, { :commit => "Update", :id => puppetclass.id, :record => {:name => "my_other_puppetclass"} }
-    puppetclass = Puppetclass.find_by_id(puppetclass.id)
-    assert puppetclass.name == "my_other_puppetclass"
-
-    assert_redirected_to puppetclasses_path
+  def test_edit
+    get :edit, :id => Puppetclass.first
+    assert_template 'edit'
   end
 
-  test "should destroy puppetclass" do
-    puppetclass = Puppetclass.new :name => "my_puppetclass"
-    assert puppetclass.save!
+  def test_update_invalid
+    Puppetclass.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Puppetclass.first
+    assert_template 'edit'
+  end
 
-    assert_difference('Puppetclass.count', -1) do
-      delete :destroy, :id => puppetclass.id
-    end
+  def test_update_valid
+    Puppetclass.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Puppetclass.first
+    assert_redirected_to puppetclasses_url
+  end
 
-    assert_redirected_to puppetclasses_path
+  def test_destroy
+    puppetclass = Puppetclass.first
+    delete :destroy, :id => puppetclass
+    assert_redirected_to puppetclasses_url
+    assert !Puppetclass.exists?(puppetclass.id)
   end
 end
-

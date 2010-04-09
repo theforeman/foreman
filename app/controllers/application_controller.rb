@@ -19,13 +19,6 @@ class ApplicationController < ActionController::Base
     return "#{klass}ScaffoldController".constantize rescue super
   end
 
-  def import_classes_and_environments
-    ec, pc = Environment.count, Puppetclass.count
-    Environment.importClasses
-    flash[:foreman_notice] = "Environments   old:#{ec}\tcurrent:#{Environment.count}<br>PuppetClasses old:#{pc}\tcurrent:#{Puppetclass.count}"
-    redirect_to :back
-  end
-
   protected
 
   def require_ssl

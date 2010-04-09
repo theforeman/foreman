@@ -19,10 +19,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :medias
   map.resources :models
   map.resources :architectures
-  map.resources :puppetclasses, :active_scaffold => true, :collection => {:import_classes_and_environments => :get}
+  map.resources :puppetclasses
+  map.import_classes '/puppetclass/import', :controller => 'puppetclasses', :action => 'import'
   map.resources :hostgroups, :active_scaffold => true
   map.resources :common_parameters
-  map.resources :environments, :active_scaffold => true,  :collection => {:import_classes_and_environments => :get}
+  map.resources :environments, :active_scaffold => true
   map.resources :subnets,          :active_scaffold => true
   map.resources :ptables
   map.resources :auth_source_ldaps

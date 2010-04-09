@@ -1,0 +1,28 @@
+<% form_for @puppetclass do |f| %>
+  <%= f.error_messages %>
+  <p>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+  </p>
+  <p>
+  <% field_set_tag("Operating Systems") do %> 
+    <%= edit_habtm @puppetclass, Operatingsystem %>
+  <% end -%>
+  </p>
+  <p>
+  <% field_set_tag("Puppet Environments") do %> 
+    <%= edit_habtm @puppetclass, Environment %>
+  <% end -%>
+  </p>
+  <% field_set_tag("Class Groups") do %> 
+    <p>
+    <%= edit_habtm @puppetclass, Hostgroup %>
+    </p>
+  <% end -%>
+  <% unless @puppetclass.new_record? -%>
+    <p>
+    Currently used by <%= @puppetclass.hosts.count %> hosts
+    </p>
+  <% end -%>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

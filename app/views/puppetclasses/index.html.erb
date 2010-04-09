@@ -1,0 +1,24 @@
+<% title "Puppet classes" %>
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Operatingsystems</th>
+    <th>Environments</th>
+    <th>Host Groups</th>
+  </tr>
+  <% for puppetclass in @puppetclasses %>
+    <tr>
+      <td><%=link_to h(puppetclass.name), edit_puppetclass_path(puppetclass) %></td>
+      <td><%=h puppetclass.operatingsystems.to_sentence %></td>
+      <td><%=h puppetclass.environments.to_sentence %></td>
+      <td><%=h puppetclass.hostgroups.to_sentence %></td>
+      <td><%= link_to "Destroy", puppetclass, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= @puppetclasses.total_entries %> Found
+<%= will_paginate @puppetclasses %>
+<p><%= link_to "New Puppetclass", new_puppetclass_path %> |
+<%= link_to "Import new puppet classes and environments", import_classes_path %>
+</p>

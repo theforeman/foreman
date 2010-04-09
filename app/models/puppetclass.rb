@@ -10,6 +10,9 @@ class Puppetclass < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
   acts_as_audited
 
+  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy Ensure_not_used_by.new(:hostgroups)
+
   # scans for puppet classes
   # parameter is the module path
   # returns an array of puppetclasses objects
@@ -24,7 +27,7 @@ class Puppetclass < ActiveRecord::Base
     return klasses
   end
 
-  def to_label
+  def to_s
     name
   end
 end
