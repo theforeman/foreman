@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :domains
   map.resources :operatingsystems
   map.resources :medias
-  map.resources :models, :active_scaffold => true
+  map.resources :models
   map.resources :architectures
   map.resources :puppetclasses, :active_scaffold => true, :collection => {:import_classes_and_environments => :get}
   map.resources :hostgroups, :active_scaffold => true
