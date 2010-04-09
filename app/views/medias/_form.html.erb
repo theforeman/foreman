@@ -9,12 +9,16 @@
   <%= f.text_field :path %>
   </p >
   <small>
-    The path to the media, can be a URL or a valid NFS server(exclusive of the architecture).<br />
+    The path to the media, can be a URL or a valid NFS server (exclusive of the architecture).<br />
     for example http://mirror.averse.net/centos/6.0/os/$arch where <b>$arch</b> will be substituted for the host actual OS architecture.
   </small>
   <p>
   <%= f.label :operatingsystem_id %><br />
   <%= f.collection_select :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
   </p>
+  <% unless @media.new_record? -%>
+    <p>Currently used by <%= @media.hosts.count %> hosts</p>
+  <% end -%>
+
   <p><%= f.submit "Submit" %></p>
 <% end %>

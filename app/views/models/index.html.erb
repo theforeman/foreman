@@ -1,0 +1,20 @@
+<% title "Models" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Hosts</th>
+    <th></th>
+  </tr>
+  <% for model in @models %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%=link_to h(model.name), edit_model_path(model)%></td>
+      <td><%= model.hosts.count %></td>
+      <td><%= link_to "Destroy", model, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+Found <%= @models.count %> models
+
+<p><%= link_to "New Model", new_model_path %></p>

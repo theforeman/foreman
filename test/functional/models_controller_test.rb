@@ -1,45 +1,49 @@
 require 'test_helper'
 
 class ModelsControllerTest < ActionController::TestCase
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
+    assert_template 'index'
   end
 
-  test "should get new" do
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create new model" do
-    assert_difference 'Model.count' do
-      post :create, { :commit => "create", :record => {:name => "generic"} }
-    end
+  def test_create_invalid
+    Model.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-  test "should get edit" do
-    model = Model.new :name => "generic"
-    assert model.save!
-
-    get :edit, :id => model.id
-    assert_response :success
+  def test_create_valid
+    Model.any_instance.stubs(:valid?).returns(true)
+    post :create
+    assert_redirected_to models_url
   end
 
-  test "should update model" do
-    model = Model.new :name => "generic"
-    assert model.save!
-
-    put :update, { :commit => "Update", :id => model.id, :record => {:name => "not_generic"} }
-    up_model = Model.find_by_id(model.id)
-    assert up_model.name == "not_generic"
+  def test_edit
+    get :edit, :id => Model.first
+    assert_template 'edit'
   end
 
-  test "should destroy model" do
-    model = Model.new :name => "generic"
-    assert model.save!
+  def test_update_invalid
+    Model.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Model.first
+    assert_template 'edit'
+  end
 
-    assert_difference('Model.count', -1) do
-      delete :destroy, :id => model.id
-    end
+  def test_update_valid
+    Model.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Model.first
+    assert_redirected_to models_url
+  end
+
+  def test_destroy
+    model = Model.first
+    delete :destroy, :id => model
+    assert_redirected_to models_url
+    assert !Model.exists?(model.id)
   end
 end

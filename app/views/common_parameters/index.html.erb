@@ -1,16 +1,14 @@
 <% title "Common Parameters" %>
 
-<table>
+<table class="list">
   <tr>
     <th>Name</th>
     <th>Value</th>
   </tr>
   <% for common_parameter in @common_parameters %>
     <tr>
-      <td><%=h common_parameter.name %></td>
+      <td><%= link_to h(common_parameter), edit_common_parameter_path(common_parameter)%></td>
       <td><%=h common_parameter.value %></td>
-      <td><%= link_to "Show", common_parameter %></td>
-      <td><%= link_to "Edit", edit_common_parameter_path(common_parameter) %></td>
       <td><%= link_to "Destroy", common_parameter, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

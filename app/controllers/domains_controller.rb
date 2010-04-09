@@ -3,10 +3,6 @@ class DomainsController < ApplicationController
     @domains = Domain.all
   end
 
-  def show
-    @domain = Domain.find(params[:id])
-  end
-
   def new
     @domain = Domain.new
   end
@@ -15,7 +11,7 @@ class DomainsController < ApplicationController
     @domain = Domain.new(params[:domain])
     if @domain.save
       flash[:foreman_notice] = "Successfully created domain."
-      redirect_to @domain
+      redirect_to domains_url
     else
       render :action => 'new'
     end
@@ -29,7 +25,7 @@ class DomainsController < ApplicationController
     @domain = Domain.find(params[:id])
     if @domain.update_attributes(params[:domain])
       flash[:foreman_notice] = "Successfully updated domain."
-      redirect_to @domain
+      redirect_to domains_url
     else
       render :action => 'edit'
     end

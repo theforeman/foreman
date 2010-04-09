@@ -1,0 +1,17 @@
+<% form_for @model do |f| %>
+  <%= f.error_messages %>
+  <p>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+  </p>
+  <p>
+  <%= f.label :info %><br />
+  <%= f.text_area :info %><br />
+  <small>general useful text, for example this kind of hardware needs a special bios setup</small>
+  </p>
+  <p><%= f.submit "Submit" %></p>
+
+  <% unless @model.new_record? -%>
+    Used by <%= @model.hosts.count %> hosts
+  <% end -%>
+<% end %>

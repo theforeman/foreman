@@ -6,11 +6,6 @@ class DomainsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_show
-    get :show, :id => Domain.first
-    assert_template 'show'
-  end
-
   def test_new
     get :new
     assert_template 'new'
@@ -25,7 +20,7 @@ class DomainsControllerTest < ActionController::TestCase
   def test_create_valid
     Domain.any_instance.stubs(:valid?).returns(true)
     post :create
-    assert_redirected_to domain_url(assigns(:domain))
+    assert_redirected_to domains_url
   end
 
   def test_edit
@@ -42,7 +37,7 @@ class DomainsControllerTest < ActionController::TestCase
   def test_update_valid
     Domain.any_instance.stubs(:valid?).returns(true)
     put :update, :id => Domain.first
-    assert_redirected_to domain_url(assigns(:domain))
+    assert_redirected_to domains_url
   end
 
   def test_destroy

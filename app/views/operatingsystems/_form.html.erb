@@ -24,5 +24,9 @@
   <% end -%>
   </p>
 
+  <% unless @operatingsystem.new_record? -%>
+    <p>Currently used by <%= @operatingsystem.hosts.count %> hosts</p>
+  <% end -%>
+
   <p><%= f.submit "Submit" %></p>
 <% end %>

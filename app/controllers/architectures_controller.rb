@@ -3,10 +3,6 @@ class ArchitecturesController < ApplicationController
     @architectures = Architecture.all(:include => :operatingsystems)
   end
 
-  def show
-    @architecture = Architecture.find(params[:id])
-  end
-
   def new
     @architecture = Architecture.new
   end
@@ -15,7 +11,7 @@ class ArchitecturesController < ApplicationController
     @architecture = Architecture.new(params[:architecture])
     if @architecture.save
       flash[:notice] = "Successfully created architecture."
-      redirect_to @architecture
+      redirect_to architectures_url
     else
       render :action => 'new'
     end
@@ -29,7 +25,7 @@ class ArchitecturesController < ApplicationController
     @architecture = Architecture.find(params[:id])
     if @architecture.update_attributes(params[:architecture])
       flash[:notice] = "Successfully updated architecture."
-      redirect_to @architecture
+      redirect_to architectures_url
     else
       render :action => 'edit'
     end

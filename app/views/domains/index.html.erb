@@ -3,13 +3,13 @@
 <table class="list">
   <tr>
     <th>Name</th>
-    <th></th><th></th><th></th>
+    <th>Hosts</th>
+    <th></th>
   </tr>
   <% for domain in @domains %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=h(domain.fullname.empty? ? domain.name : domain.fullname)%></td>
-      <td><%= link_to "Show", domain %></td>
-      <td><%= link_to "Edit", edit_domain_path(domain) %></td>
+      <td><%= link_to h(domain.fullname.empty? ? domain.name : domain.fullname), edit_domain_path(domain)%></td>
+      <td><%= domain.hosts.size %>
       <td><%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
