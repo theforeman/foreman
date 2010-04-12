@@ -10,14 +10,14 @@ namespace :puppet do
       counter = 0
       Host.find_each do |host|
         if host.fact_values.size == 0
-          $stderr.puts "#{host.hostname} has no facts, skipping"
+          $stdout.puts "#{host.hostname} has no facts, skipping"
           next
         end
 
         if host.populateFieldsFromFacts
           counter += 1
         else
-          $stderr.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
+          $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
         end
       end
       puts "Imported #{counter} hosts out of #{Host.count} Hosts" unless counter == 0
@@ -70,10 +70,9 @@ namespace :puppet do
         if nodeinfo.is_a?(Hash)
           $stdout.puts "DONE" if host.importNode nodeinfo
         else
-          $stderr.puts "ERROR: invalid output from external nodes"
+          $stdout.puts "ERROR: invalid output from external nodes"
         end
         $stdout.flush
-        $stderr.flush
       end
 
     end
