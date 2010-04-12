@@ -1,6 +1,6 @@
 class PuppetclassesController < ApplicationController
   def index
-    @puppetclasses = Puppetclass.all.paginate :page => params[:page], :limit => 15
+    @puppetclasses = Puppetclass.search(params[:search]).paginate :page => params[:page], :limit => 15
   end
 
   def new
