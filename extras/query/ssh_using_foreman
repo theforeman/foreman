@@ -2,6 +2,7 @@
 
 require "foreman.rb"
 require 'optparse'
+class NilClass; def empty?; true; end; end
 begin
   require 'rubygems'
   require 'net/ssh/multi'
@@ -48,7 +49,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on( '-h', '--help', 'Display this screen' ) do
-    puts opt
+    puts opts
     exit
   end
 end
