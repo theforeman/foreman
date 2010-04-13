@@ -1,4 +1,9 @@
 <% title "Puppet classes" %>
+<% form_tag puppetclasses_path, :method => 'get', :class => 'simple_search' do %>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag "Search", :name => nil %>
+  <%= link_to_unless params[:search].empty?, "Clear", puppetclasses_path %>
+<% end %>
 <table class="list">
   <tr>
     <th>Name</th>

@@ -249,7 +249,7 @@ class Host < Puppet::Rails::Host
         installed_at.nil? ? self.populateFieldsFromFacts : true
       rescue
         logger.warn "Failed to save #{name}: #{errors.full_messages.join(", ")}"
-        $stderr.puts $!
+        $stdout.puts $!
       end
     end
   end
@@ -305,7 +305,7 @@ class Host < Puppet::Rails::Host
       else
         error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoring"
         logger.warn error
-        $stderr.puts error
+        $stdout.puts error
       end
     end
 
@@ -323,7 +323,7 @@ class Host < Puppet::Rails::Host
 
       unless (hp = self.host_parameters.create(:name => param, :value => value))
         logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(", ")}"
-        $stderr.puts $!
+        $stdout.puts $!
       end
     end
 

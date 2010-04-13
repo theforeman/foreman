@@ -70,6 +70,7 @@ p {
 #menu li a.active, li a.selected:hover {background:#fff; color:#555;}
 
 div#content {
+  position:relative;
   float: center;
   padding: 10px;
 }
@@ -187,3 +188,9 @@ table p {margin:0;}
   width:70%
 }
 #border-it { border: 2px solid #ddd; }
+
+.simple_search {
+  position: absolute;
+  top:40px;
+  right:20px;
+}
