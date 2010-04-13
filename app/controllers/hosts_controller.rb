@@ -3,6 +3,8 @@ class HostsController < ApplicationController
   before_filter :require_ssl, :except => [ :query, :externalNodes, :lookup ]
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
+  before_filter :load_tabs, :manage_tabs, :only => :index
+
   helper :hosts
 
   def index
@@ -92,14 +94,6 @@ class HostsController < ApplicationController
     assign_parameter "operatingsystem"
   end
 
- # list AJAX methods
-  def fact_selected
-    @fact_name_id = params[:search_fact_values_fact_name_id_eq].to_i
-    @fact_values = FactValue.find(:all, :select => 'DISTINCT value', :conditions => {
-      :fact_name_id => @fact_name_id }, :order => 'value ASC') if @fact_name_id > 0
-    render :partial => 'fact_selected', :layout => false
-  end
-
   #returns a yaml file ready to use for puppet external nodes script
   #expected a fqdn parameter to provide hostname to lookup
   #see example script in extras directory
@@ -159,7 +153,7 @@ class HostsController < ApplicationController
     redirect_to :controller => "reports", :action => "show", :id => Report.maximum('id', :conditions => {:host_id => params[:id]})
   end
 
-  # shows all reports for a certian host
+  # shows all reports for a certain host
   def reports
     @host = Host.find(params[:id])
   end

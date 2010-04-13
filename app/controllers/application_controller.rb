@@ -18,6 +18,15 @@ class ApplicationController < ActionController::Base
     return "#{klass}ScaffoldController".constantize rescue super
   end
 
+  # host list AJAX methods
+  # its located here, as it might be requested from the dashboard controller or via the hosts controller
+  def fact_selected
+    @fact_name_id = params[:search_fact_values_fact_name_id_eq].to_i
+    @fact_values = FactValue.find(:all, :select => 'DISTINCT value', :conditions => {
+      :fact_name_id => @fact_name_id }, :order => 'value ASC') if @fact_name_id > 0
+    render :partial => 'common/fact_selected', :layout => false
+  end
+
   protected
 
   def require_ssl
@@ -45,7 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-      render :text => 'Invalid query', :status => 400 and return
+    render :text => 'Invalid query', :status => 400 and return
   end
 
   def setgraph chart, data, options = {}
@@ -56,6 +65,24 @@ class ApplicationController < ActionController::Base
 
     defaults.merge(options).each {|k,v| chart.send "#{k}=",v if chart.respond_to? k}
     return chart
+  end
+
+  private
+  def load_tabs
+    @tabs = session[:tabs] ||= {}
+    @active_tab = session[:active_tab]
+  end
+
+  def manage_tabs
+    return if params[:tab_name].empty? or params[:tab_name] == "Reset"
+
+    if params[:remove_me] and @tabs.has_key? params[:tab_name]
+      @tabs.delete params[:tab_name]
+      @active_tab        = session[:active_tab] = @tabs.keys.sort.first
+    else
+      @active_tab        = session[:active_tab] = params[:tab_name]
+      @tabs[@active_tab] = params[:search]
+    end
   end
 
 end

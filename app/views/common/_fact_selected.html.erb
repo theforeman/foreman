@@ -2,16 +2,15 @@
   <%= label_tag "Fact Name" %>
   <%= collection_select :search, :fact_values_fact_name_id_eq,
     Puppet::Rails::FactName.find(:all, :order => "name ASC"),
-    :id, :name, :selected => @fact_name_id, :include_blank => true
+    :id, :name, :selected => @fact_name_id, :include_blank => "Select a fact"
   %>
-  <% if @fact_values %>
+  <% if @fact_values -%>
     <%= label :fact_values_value_eq, "Value" %>
     <%= collection_select :search, :fact_values_value_eq, @fact_values, :value, :value %>
-  <% end %>
+  <% end -%>
 </span>
 
 <%= observe_field(:search_fact_values_fact_name_id_eq,
                   :url => { :action => :fact_selected },
                   :update => :fact_search,
                   :with => :search_fact_values_fact_name_id_eq) %>
-

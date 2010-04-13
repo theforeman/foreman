@@ -230,3 +230,43 @@ div#run_distribution {
   position: relative;
   float: right;
 }
+#searchbar ul {
+	margin: 0; padding: 0;
+	list-style: none;
+	float: left;
+	width: 100%;
+	background-color: #ffffff;
+}
+
+#searchbar li {
+  float:left;
+  padding-right: 4px;
+  list-style-type:none;
+}
+#searchbar li .selectedtab {
+  padding-right: 4px;
+	background-color:#e4e4e4;
+}
+
+#searchbar li a.close{
+	color: red;
+	padding-left: 1px;
+	padding-top: 1px;
+	padding-bottom: 7px;
+  text-decoration: none;
+}
+#searchbar li a {
+  display: block;
+  float:left;
+  color: #484848;
+  font-weight: bold;
+  margin: 0;
+  padding: 4px 4px 4px 10px;
+}
+/* Maybe someone else can ge ths hovering to work esthetically
+#searchbar li a:hover {background:#759FCF; color:#fff;}
+#searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
+
+#searchbar li a.close:hover {background:#e4e4e4; color:red;}
+#searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
+*/

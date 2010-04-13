@@ -48,4 +48,20 @@ module ApplicationHelper
       :position => {:after => {:success => "selected_classes" }}
   end
 
+  def searchtab title, search, options
+    opts = {:action => params[:action], :tab_name => title, :search => search}
+    selected_class = options[:selected] ? "selectedtab" : ""
+    content_tag(:li) do
+      link_to opts, :class => selected_class do
+        title + (options[:no_close_button] ? "": (link_to "x", opts.merge(:remove_me => true), :class => "#{selected_class} close"))
+      end
+    end
+  end
+
+  def toggle_searchbar
+    update_page do |page|
+      page['search'].toggle
+      page['tabs'].toggle
+    end
+  end
 end

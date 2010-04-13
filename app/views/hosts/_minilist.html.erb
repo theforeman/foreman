@@ -1,23 +1,8 @@
 <div id="hostlist">
-<%= link_to_function "Search", toggle_div(:search) %>
-
-<div id="search" style="display:none;">
-  <% form_for @search do |f|-%>
-    <%= f.label :name_like, "Name" %>
-    <%= f.text_field :name_like, :size => 15 %>
-    <%= f.label :environment_id_equals, "Environment" %>
-    <%= f.collection_select :environment_id_equals, Environment.all, :id, :name, :include_blank => true %>
-    <%= f.label :hostgroup, "Role" %>
-    <%= f.collection_select :hostgroup_id_eq, Hostgroup.all, :id, :name, :include_blank => true %>
-    <%= render :partial => 'hosts/fact_selected' %>
-    <p>
-    <%= f.submit "Search" %>
-  <% end %>
-</div>
-
   <% if hosts.size > 0 -%>
+    <strong><center><%= header ||= "" -%></center></strong><br/>
     <table class="list">
-      <caption> <%= header ||= "" -%> </caption>
+      <th colspan="8"><%= render "common/searchbar" %></th>
       <tr>
         <th><%= order @search, :by => :name %></th>
         <th>Operating system</th>
@@ -41,8 +26,6 @@
         <% end -%>
       </tr>
     </table>
-  <% else -%>
-    <p>No Hosts found</p>
   <% end -%>
 </div>
 <%= page_entries_info hosts %>
