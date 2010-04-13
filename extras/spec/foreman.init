@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# Init script for foreman
+#
+# chkconfig: - 85 15
+# description: Init script for foreman
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+if [ -f /etc/sysconfig/foreman ]; then
+    . /etc/sysconfig/foreman
+fi
+
+prog=foreman
+RETVAL=0
+FOREMAN_PORT=${FOREMAN_PORT:-3000}
+FOREMAN_USER=${FOREMAN_USER:-foreman}
+FOREMAN_HOME=${FOREMAN_HOME:-/usr/share/foreman}
+FOREMAN_ENV=${FOREMAN_ENV:-production}
+FOREMAN_PID=${FOREMAN_PID:-${FOREMAN_HOME}/tmp/pids/server.pid}
+
+start() {
+        echo -n $"Starting $prog: "
+        daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/server -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d > /dev/null
+        RETVAL=$?
+        if [ $RETVAL = 0 ]
+        then
+            echo_success
+        else
+            echo_failure
+        fi 
+
+        echo
+
+        return $RETVAL
+}
+stop() {
+        echo -n $"Stopping $prog: "
+	if [ -f ${FOREMAN_PID} ]; then
+		killproc -p ${FOREMAN_PID}
+		RETVAL=$?
+	else 
+		echo -n $"Foreman was not running.";
+		failure $"Foreman was not running.";
+		echo
+		return 1
+	fi
+	echo
+
+        return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo $"Usage: $prog {start|stop|restart}"
+        exit 1
+esac
+
+exit $RETVAL

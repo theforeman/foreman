@@ -1,0 +1,12 @@
+# the location where foreman is installed
+#FOREMAN_HOME=/usr/share/foreman
+
+# the port which foreman web server is running at
+# note that if the foreman user is not root, it has to be a > 1024
+#FOREMAN_PORT=3000
+
+# the user which runs the web interface
+#FOREMAN_USER=foreman
+
+# the rails environment in which foreman runs
+#FOREMAN_ENV=production
