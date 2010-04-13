@@ -5,7 +5,7 @@ then
   echo "Installing vmware support services"
   # This arranges for vmware-config-tools.pl to be run on first bootup,
   # after any new kernel but before the network has been initialised
-  yum -t -y -e 0 <%= yumrepo -%> install VMwareTools <%= @osver == "5" ? "kernel-devel gcc" : "" %>
+  yum -t -y -e 0 <%= @yumrepo -%> install VMwareTools <%= @osver == "5" ? "kernel-devel gcc" : "" %>
   cat <<-\EOF >/etc/init.d/vmware-config-tools
   #!/bin/sh
   # Author:       Paul Kelly

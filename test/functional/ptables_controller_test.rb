@@ -24,7 +24,7 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_create_valid
     Ptable.any_instance.stubs(:valid?).returns(true)
-    post :create
+    post :create, :ptable => {:name => "dummy", :layout => "dummy"}
     assert_redirected_to ptable_url(assigns(:ptable))
   end
 

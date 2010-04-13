@@ -7,9 +7,13 @@ class UnattendedController < ApplicationController
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
-    @osver   = @host.operatingsystem.major.to_i
-    @arch    = @host.architecture.name
     @dynamic = @host.diskLayout=~/^#Dynamic/
+    @arch      = @host.architecture.name
+    os         = @host.operatingsystem
+    @osver     = os.major.to_i
+    @mediapath = os.mediapath @host
+    @epel      = os.epel      @arch
+    @yumrepo   = os.yumrepo   @host
   end
 
   def jumpstart_profile
@@ -19,6 +23,8 @@ class UnattendedController < ApplicationController
   end
 
   def preseed
+    @preseed_path   = @host.os.preseed_path   @host.media
+    @preseed_server = @host.os.preseed_server @host.media
   end
 
   def preseed_finish

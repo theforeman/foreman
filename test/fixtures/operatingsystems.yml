@@ -4,6 +4,7 @@
    name: centos
    major: 5
    minor: 3
+   family_id: 1
 
 #
 # two:

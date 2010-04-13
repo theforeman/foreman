@@ -9,7 +9,8 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should have a number" do
-    set_attr(:mask=)
+    create_a_domain_with_the_subnet
+    @subnet.number = nil
     assert !@subnet.save
 
     set_attr(:number=)
@@ -17,7 +18,8 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should have a mask" do
-    set_attr(:number=)
+    create_a_domain_with_the_subnet
+    @subnet.mask = nil
     assert !@subnet.save
 
     set_attr(:mask=)

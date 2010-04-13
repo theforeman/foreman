@@ -1,36 +1,4 @@
 module UnattendedHelper
-  # outputs kickstart installation media based on the media type (NFS or URL)
-  # it also convert the $arch string to the current host architecture
-
-  def mediapath
-    server, dir  = @host.media.path.split(":")
-    dir.gsub!('$arch',@host.architecture.name)
-
-    return server =~ /^(h|f)t*p$/ ? "url --url #{server+":"+dir}" : "nfs --server #{server} --dir #{dir}"
-  end
-
-  def preseed_server
-    @host.media.path.match('^(\w+):\/\/((\w|\.)+)((\w|\/)+)$')[2]
-  end
-
-  #TODO: rethink of a more generic way
-  def preseed_path
-    @host.media.path.match('^(\w+):\/\/((\w|\.)+)((\w|\/)+)$')[4]
-  end
-
-  def yumrepo
-    if @repo
-      "--enablerepo #{repo}"
-    end
-  end
-
-  def epel
-    if @osver == 5 or 4
-      "su -c 'rpm -Uvh http://download.fedora.redhat.com/pub/epel/#{@osver}/#{@arch}/epel-release-#{@host.os.to_version}.noarch.rpm'"
-    else
-      ""
-    end
-  end
 
   def ca_pubkey
     #TODO: replace hardcoded dirs into puppet variables

@@ -13,8 +13,8 @@ d-i netcfg/dhcp_options select Retry network autoconfiguration
 d-i mirror/codename string jaunty
 d-i mirror/country string enter information manually
 d-i mirror/http/countries select enter information manually
-d-i mirror/http/directory string <%= preseed_path %>
-d-i mirror/http/hostname string <%= preseed_server %>
+d-i mirror/http/directory string <%= @preseed_path %>
+d-i mirror/http/hostname string <%= @preseed_server %>
 d-i mirror/http/proxy string
 
 <%= @host.diskLayout %>

@@ -19,7 +19,7 @@ class ModelsControllerTest < ActionController::TestCase
 
   def test_create_valid
     Model.any_instance.stubs(:valid?).returns(true)
-    post :create
+    post :create, :model => {:name => "test"}
     assert_redirected_to models_url
   end
 

@@ -1,6 +1,7 @@
 class OperatingsystemsController < ApplicationController
   def index
-    @operatingsystems = Operatingsystem.all(:include => [:architectures], :order => :name)
+    @search           = Operatingsystem.search(params[:search])
+    @operatingsystems = @search.all.paginate(:page => params[:page], :per_page => 10, :include => [:architectures], :order => :name)
   end
 
   def new

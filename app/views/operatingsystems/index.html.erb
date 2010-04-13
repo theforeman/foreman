@@ -3,18 +3,19 @@
 <table class="list">
   <tr>
     <th>Name</th>
-    <th>Architectures</th>
-    <th>Hosts</th>
+    <th>Family</th>
     <th></th>
   </tr>
   <% for operatingsystem in @operatingsystems %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to h(operatingsystem.to_label), edit_operatingsystem_path(operatingsystem) %></td>
-      <td><%=h operatingsystem.architectures.to_sentence %>
-      <td><%=h operatingsystem.hosts.count %>
+      <td><%=h operatingsystem.family %></td>
       <td><%= link_to "Destroy", operatingsystem, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
 </table>
 
-<p><%= link_to "New Operating system", new_operatingsystem_path %></p>
+<%= page_entries_info @operatingsystems %>
+<%= will_paginate @operatingsystems %>
+
+<p><%= link_to "New Operatingsystem", new_operatingsystem_path %></p>

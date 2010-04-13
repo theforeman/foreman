@@ -9,10 +9,11 @@
   <%= f.text_field :minor, :size => 8 %>
   </p>
   <p>
-  <% field_set_tag("Architectures") do %> 
-    <%= edit_habtm @operatingsystem, Architecture %>
-  <% end -%>
+    <% field_set_tag("OS Family") do %>
+	<%= f.collection_select :family_id, Family.families_as_collection, :value, :name %>
+    <% end -%>
   </p>
+
   <p>
   <% field_set_tag("Partition tables") do %> 
     <%= edit_habtm @operatingsystem, Ptable %>

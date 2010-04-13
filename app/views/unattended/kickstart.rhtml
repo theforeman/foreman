@@ -1,5 +1,5 @@
 install
-<%= mediapath %>
+<%= @mediapath %>
 lang en_US.UTF-8
 <%= "langsupport --default en_US.UTF-8 en_GB.UTF-8 en_US.UTF-8\n" if @osver < 5 -%>
 <%= "mouse generic3usb --device input/mice\n" if @osver == 3 -%>
@@ -47,13 +47,13 @@ echo "updating system time"
 logger "Starting anaconda <%= @host.name -%> postinstall"
 
 # install epel if we can
-<%= epel -%>
+<%= @epel -%>
 
 # update all the base packages from the updates repository
-yum -t -y -e 0 <% yumrepo -%> upgrade
+yum -t -y -e 0 <% @yumrepo -%> upgrade
 
 # and add the puppet and ruby-shadow package
-yum -t -y -e 0 <% yumrepo -%> install puppet
+yum -t -y -e 0 <% @yumrepo -%> install puppet
 
 echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF

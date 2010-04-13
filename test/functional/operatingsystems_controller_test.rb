@@ -27,7 +27,6 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     get :edit, :id => Operatingsystem.first
     assert_template 'edit'
   end
-
   def test_update_invalid
     Operatingsystem.any_instance.stubs(:valid?).returns(false)
     put :update, :id => Operatingsystem.first
