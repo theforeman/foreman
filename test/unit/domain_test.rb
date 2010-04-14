@@ -62,7 +62,7 @@ class DomainTest < ActiveSupport::TestCase
   def create_a_host
     Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
                  :domain => @domain,
-                 :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
+                 :operatingsystem => Operatingsystem.first,
                  :architecture => Architecture.find_or_create_by_name("i386"),
                  :environment => Environment.find_or_create_by_name("envy"),
                  :disk => "empty partition"

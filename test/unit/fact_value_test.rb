@@ -4,7 +4,7 @@ class FactValueTest < ActiveSupport::TestCase
   def setup
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
                         :domain => Domain.find_or_create_by_name("company.com"),
-                        :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
+                        :operatingsystem => Operatingsystem.first,
                         :architecture => Architecture.find_or_create_by_name("i386"),
                         :environment => Environment.find_or_create_by_name("envy"),
                         :disk => "empty partition"
@@ -24,7 +24,7 @@ class FactValueTest < ActiveSupport::TestCase
     #Now creating a new fact value
     other_host = Host.create :name => "myfullhost2", :mac => "aabbccddeefa", :ip => "123.05.02.04",
                               :domain => Domain.find_or_create_by_name("company.com"),
-                              :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
+                              :operatingsystem => Operatingsystem.first,
                               :architecture => Architecture.find_or_create_by_name("i386"),
                               :environment => Environment.find_or_create_by_name("envy"),
                               :disk => "empty partition"

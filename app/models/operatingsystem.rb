@@ -5,7 +5,7 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :architectures
   has_and_belongs_to_many :puppetclasses
   validates_presence_of :major, :message => "Operating System version is required"
-  validates_presence_of :name, :family_id
+  validates_presence_of :name
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."

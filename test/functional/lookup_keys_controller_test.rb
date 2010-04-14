@@ -14,15 +14,10 @@ class LookupKeysControllerTest < ActionController::TestCase
 
   test "should create lookup_keys" do
     assert_difference('LookupKey.count') do
-      post :create, :lookup_key=>{"value_attributes"=>[{"priority"=>"x", "value"=>"v1"}, {"priority"=>"y", "value"=>"v2"}], "key"=>"test it"}
+      post :create, :lookup_key=>{"lookup_values_attributes"=>{"0"=>{"priority"=>"1", "value"=>"x", "_destroy"=>""}, "1"=>{"priority"=>"2", "value"=>"y", "_destroy"=>""}}, "key"=>"tests"}
     end
 
     assert_redirected_to lookup_keys_path(assigns(:lookup_keys))
-  end
-
-  test "should show lookup_keys" do
-    get :show, :id => lookup_keys(:one).to_param
-    assert_response :success
   end
 
   test "should get edit" do
