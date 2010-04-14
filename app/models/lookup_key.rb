@@ -1,8 +1,8 @@
 class LookupKey < ActiveRecord::Base
   has_many :lookup_values
+  accepts_nested_attributes_for :lookup_values, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :key
   validates_presence_of :key
-  after_update :save_values
   validates_associated :lookup_values
 
   def self.search(key,order = [])
@@ -15,26 +15,4 @@ class LookupKey < ActiveRecord::Base
     return false
   end
 
-  def value_attributes=(value_attributes)
-    value_attributes.each do |attributes|
-      if attributes[:id].blank?
-        lookup_values.build(attributes)
-      else
-        value = lookup_values.detect {|v| v.id == attributes[:id].to_i }
-        value.id = attributes[:id]
-        attributes.delete("id")
-        value.attributes = attributes
-      end
-    end
-  end
-
-  def save_values
-    lookup_values.each do |v|
-      if v.should_destroy?
-        v.destroy
-      else
-        v.save(false)
-      end
-    end
-  end
 end

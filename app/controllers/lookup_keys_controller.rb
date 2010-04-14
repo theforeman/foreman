@@ -6,10 +6,6 @@ class LookupKeysController < ApplicationController
     @lookup_key = LookupKey.all
   end
 
-  def show
-    @lookup_key = LookupKey.find(params[:id])
-  end
-
   def new
     @lookup_key = LookupKey.new
     2.times { @lookup_key.lookup_values.build }
@@ -55,8 +51,8 @@ class LookupKeysController < ApplicationController
     output = LookupKey.search(key, order)
     render :text => '404 Not Found', :status => 404 and return unless output
     respond_to do |format|
-        format.html { render :text => output }
-        format.yml { render :text => output.to_yaml }
+      format.html { render :text => output }
+      format.yml { render :text => output.to_yaml }
     end
   end
 

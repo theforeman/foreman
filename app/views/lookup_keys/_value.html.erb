@@ -1,15 +1,8 @@
-<div class="lookup_value">
-<% fields_for "lookup_key[value_attributes][]", value do |f| %>
-  <p>
-    Value <%= f.text_field :value, :index => nil %>
-  Priority <%= f.text_field :priority, :index => nil%>
-    <% if value.new_record? %>
-      <%= link_to_function "remove", "$(this).up('.lookup_value').remove()" %>
-    <% else -%>
-      <%= link_to_function "remove", "mark_for_destroy(this)" %>
-      <%= f.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
-      <%= f.hidden_field :id, :index => nil %>
-    <% end %>
-  </p>
-<% end %> 
-</div>
+<p class="fields">
+<%= f.label :value, "Value" %>
+<%= f.text_field :value %>
+<%= f.label :priority, "Priority" %>
+<%= f.text_field :priority %>
+<%= link_to_remove_fields("remove", f) %>
+</p>
+

@@ -9,6 +9,7 @@
   <li><%= link_to 'Architectures',      architectures_path %></li>
   <li><%= link_to 'Partition Tables',   ptables_path %></li>
   <li><%= link_to 'Global Parameters',  common_parameters_path %></li>
+  <li> <%= link_to "External Variables", lookup_keys_path %> </li>
   <li><%= link_to 'LDAP Authentication', auth_source_ldaps_path %></li>
   <li><%= link_to_if SETTINGS[:ldap], 'Users', users_path %></li>
 </ul>
