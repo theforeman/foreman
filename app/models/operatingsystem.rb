@@ -9,6 +9,7 @@ class Operatingsystem < ActiveRecord::Base
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
+  before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
   before_destroy Ensure_not_used_by.new(:hosts)
@@ -45,6 +46,11 @@ class Operatingsystem < ActiveRecord::Base
 
   def fullname
     "#{name}_#{to_version}"
+  end
+
+  private
+  def downcase_release_name
+    self.release_name.downcase! unless release_name.nil? or release_name.empty?
   end
 
 end

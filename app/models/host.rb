@@ -28,7 +28,7 @@ class Host < Puppet::Rails::Host
     unless klass.nil?
       { :joins => :puppetclasses, :select => "hosts.name", :conditions => {:puppetclasses => {:name => klass }} }
     else
-      rais "invalid class"
+      raise "invalid class"
     end
   }
 

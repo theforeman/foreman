@@ -7,13 +7,14 @@
   <%= f.text_field :major, :size => 8 %>
   <%= f.label :minor %>
   <%= f.text_field :minor, :size => 8 %>
+  <%= f.label :family_id, "OS Family" %>
+  <%= f.collection_select :family_id, Family.families_as_collection, :value, :name %>
+  <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == :Debian -%> >
+    <%= f.label :release_name, "Release name" %>
+    <%= f.text_field :release_name, :size => 12%>
+    <small>e.g. karmic, lucid, etch, woody</small>
+  </span>
   </p>
-  <p>
-    <% field_set_tag("OS Family") do %>
-	<%= f.collection_select :family_id, Family.families_as_collection, :value, :name %>
-    <% end -%>
-  </p>
-
   <p>
   <% field_set_tag("Partition tables") do %> 
     <%= edit_habtm @operatingsystem, Ptable %>
@@ -31,3 +32,4 @@
 
   <p><%= f.submit "Submit" %></p>
 <% end %>
+<%= observe_field "operatingsystem_family_id", :function => show_release %>
