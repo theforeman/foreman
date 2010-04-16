@@ -25,3 +25,6 @@
 [submodule "extras/puppet"]
 	path = extras/puppet
 	url = git://github.com/ohadlevy/puppet-foreman.git
+[submodule "vendor/plugins/has_many_polymorphs"]
+	path = vendor/plugins/has_many_polymorphs
+	url = git://github.com/fauna/has_many_polymorphs.git

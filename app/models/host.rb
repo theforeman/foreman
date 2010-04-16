@@ -12,6 +12,7 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  belongs_to :owner, :polymorphic => true
 
   named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
@@ -80,6 +81,10 @@ class Host < Puppet::Rails::Host
 
   before_validation :normalize_addresses, :normalize_hostname
 
+  def <=>(other)
+    self.name <=> other.name
+  end
+
   # Returns the name of this host as a string
   # String: the host's name
   def to_label
@@ -97,6 +102,20 @@ class Host < Puppet::Rails::Host
   # defines how many hosts will be shown in the hostlist
   def self.per_page
     20
+  end
+
+  # method to return the correct owner list for host edit owner select dropbox
+  def is_owned_by
+    owner.id_and_type if owner
+  end
+
+  # virtual attributes which sets the owner based on the user selection
+  # supports a simple user, or a usergroup
+  # selection parameter is expected to be an ActiveRecord id_and_type method (see Foreman's AR extentions).
+  def is_owned_by=(selection)
+    oid = User.find(selection.to_i) if selection =~ /-Users$/
+    oid = Usergroup.find(selection.to_i) if selection =~ /-Usergroups$/
+    self.owner = oid
   end
 
   def clearReports

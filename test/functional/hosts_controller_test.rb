@@ -3,76 +3,102 @@ require 'test_helper'
 class HostsControllerTest < ActionController::TestCase
   setup :initialize_host
 
-  def test_index
-    get :index
-    assert_template 'index'
-  end
-
   def test_show
-    get :show, :id => Host.first
+    get :show, {:id => Host.first}, set_session_user
     assert_template 'show'
-  end
-
-  def test_new
-    get :new
-    assert_template 'new'
   end
 
   def test_create_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    post :create
+    post :create, {}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Host.any_instance.stubs(:valid?).returns(true)
-    post :create, :host => {:name => "test"}
-    assert_redirected_to host_url(assigns(:host))
+    post :create, {:host => {:name => "test"}}, set_session_user
+    assert_redirected_to host_url(assigns('host'))
   end
 
-  def test_edit
-    get :edit, :id => Host.first
+  test "should get index" do
+    get :index, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+  end
+
+  test "should get new" do
+    get :new, {}, set_session_user
+    assert_response :success
+    assert_template 'new'
+  end
+
+  test "should create new host" do
+    assert_difference 'Host.count' do
+      post :create, { :commit => "Create",
+        :host => {:name => "myotherfullhost",
+          :mac => "aabbecddee00",
+          :ip => "123.05.02.25",
+          :domain => Domain.find_or_create_by_name("othercompany.com"),
+          :operatingsystem => Operatingsystem.first,
+          :architecture => Architecture.first,
+          :environment => Environment.first,
+          :disk => "empty partition"
+      }
+      }, set_session_user
+    end
+  end
+
+  test "should get edit" do
+    get :edit, {:id => @host.id}, set_session_user
+    assert_response :success
     assert_template 'edit'
+  end
+
+  test "should update host" do
+    put :update, { :commit => "Update", :id => @host.id, :host => {:disk => "ntfs"} }, set_session_user
+    @host = Host.find_by_id(@host.id)
+    assert_equal @host.disk, "ntfs"
   end
 
   def test_update_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    put :update, :id => Host.first
+    put :update, {:id => Host.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Host.any_instance.stubs(:valid?).returns(true)
-    put :update, :id => Host.first
+    put :update, {:id => Host.first}, set_session_user
     assert_redirected_to host_url(assigns(:host))
   end
 
   def test_destroy
     host = Host.first
-    delete :destroy, :id => host
+    delete :destroy, {:id => host}, set_session_user
     assert_redirected_to hosts_url
     assert !Host.exists?(host.id)
   end
-test "externalNodes should render 404 when no params are given" do
-    get :externalNodes
+
+  test "externalNodes should render 404 when no params are given" do
+    get :externalNodes, {}, set_session_user
     assert_response :missing
     assert_template :text => '404 Not Found'
   end
 
   test "externalNodes should render correctly when id is given" do
-    get :externalNodes, :id => @host.id
+    get :externalNodes, {:id => @host.id}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br>")
   end
 
   test "externalNodes should render correctly when name is given" do
-    get :externalNodes, :name => @host.name
+    get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br>")
   end
 
   test "externalNodes should render yml request correctly" do
-    get :externalNodes, :id => @host.id, :format => "yml"
+    get :externalNodes, {:id => @host.id, :format => "yml"}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml
   end
@@ -82,7 +108,7 @@ test "externalNodes should render 404 when no params are given" do
     mock(Host).find(@host.id.to_s) {@host}
     @request.env['HTTP_REFERER'] = hosts_path
 
-    get :setBuild, {:id => @host.id}
+    get :setBuild, {:id => @host.id}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:foreman_notice]
@@ -94,7 +120,7 @@ test "externalNodes should render 404 when no params are given" do
     mock(Host).find(@host.id.to_s) {@host}
     @request.env['HTTP_REFERER'] = hosts_path
 
-    get :setBuild, :id => @host.id
+    get :setBuild, {:id => @host.id}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:foreman_error]
@@ -102,7 +128,7 @@ test "externalNodes should render 404 when no params are given" do
   end
 
   test "rrdreport should print error message if host has no last_report" do
-    get :rrdreport, :id => @host.id
+    get :rrdreport, {:id => @host.id}, set_session_user
     assert_response :success
     assert_template :text => "Sorry, no graphs for this host"
   end
@@ -112,19 +138,19 @@ test "externalNodes should render 404 when no params are given" do
     assert @host.save!
     SETTINGS[:rrd_report_url] = "/some/url"
 
-    get :rrdreport, :id => @host.id
+    get :rrdreport, {:id => @host.id}, set_session_user
     assert_response :success
     assert_template :partial => "_rrdreport"
   end
 
   test "report should redirect to host's last report" do
-    get :report, :id => @host.id
+    get :report, {:id => @host.id}, set_session_user
     assert_response :found
     assert_redirected_to :controller => "reports", :action => "show", :id => @host.id
   end
 
   test "query in .yml format should return host.to_yml" do
-    get :query, :format => "yml"
+    get :query, {:format => "yml"}, set_session_user
     assert_template :text => @host.to_yaml
   end
 

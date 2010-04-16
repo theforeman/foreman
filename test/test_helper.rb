@@ -43,4 +43,12 @@ class ActiveSupport::TestCase
   class Test::Unit::TestCase
     include RR::Adapters::TestUnit
   end
+
+  def set_session_user
+    if SETTINGS[:ldap] or SETTINGS[:ldaps]
+      {:user => User.first}
+    else
+      {}
+    end
+  end
 end

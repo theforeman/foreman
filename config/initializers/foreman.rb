@@ -48,6 +48,11 @@ class ActiveRecord::Base
       end
     end
   end
+
+  def id_and_type
+    "#{id}-#{self.class.table_name.humanize}"
+  end
+
 end
 
 module ExemptedFromLogging

@@ -10,9 +10,11 @@ class UsersController < ApplicationController
     columns[:firstname].label = "First name"
     columns[:lastname].label = "Surname"
     columns[:admin].label = "Admin"
-    config.columns = [:firstname, :lastname, :login, :mail, :admin, :auth_source, :last_login_on]
+    config.columns = [:firstname, :lastname, :login, :mail, :admin, :auth_source, :usergroups, :last_login_on]
+    config.update.columns = [:firstname, :lastname, :login, :mail, :admin, :auth_source, :last_login_on]
     config.columns[:auth_source].form_ui  = :select
     config.columns[:admin].form_ui  = :checkbox
+    config.columns[:usergroups].clear_link
     list.sorting = {:last_login_on => 'DESC' }
     config.update.columns.exclude :last_login_on
   end

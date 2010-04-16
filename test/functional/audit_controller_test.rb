@@ -2,13 +2,13 @@ require 'test_helper'
 
 class AuditControllerTest < ActionController::TestCase
   test "should get index" do
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns(:records)
   end
 
   test "should get search" do
-    get :show_search
+    get :show_search, {}, set_session_user
     assert_response :success
   end
 
@@ -19,7 +19,7 @@ class AuditControllerTest < ActionController::TestCase
     audited_record = Audit.find_by_auditable_id(parameter.id)
     assert_not_nil audited_record
 
-    get :show, :id => audited_record.id
+    get :show, {:id => audited_record.id}, set_session_user
     assert_response :success
   end
 end

@@ -1,18 +1,18 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  login: MyString
-  firstname: MyString
-  lastname: MyString
+  login: one
+  firstname: One
+  lastname: User
   mail: MyString
   admin: false
   last_login_on: 2009-10-12 21:50:04
   auth_source_id: 1
 
 two:
-  login: MyString
-  firstname: MyString
-  lastname: MyString
+  login: two
+  firstname: Two
+  lastname: User
   mail: MyString
   admin: false
   last_login_on: 2009-10-12 21:50:04

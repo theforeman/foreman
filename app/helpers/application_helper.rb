@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def edit_habtm klass, association
-    render :partial => 'common/edit_habtm', :locals =>{ :klass => klass, :associations => association.all}
+    render :partial => 'common/edit_habtm', :locals =>{ :klass => klass, :associations => association.all.delete_if{|e| e == klass}}
   end
 
   def link_to_remove_fields(name, f)

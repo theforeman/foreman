@@ -1,0 +1,22 @@
+<% title "Usergroups" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Users</th>
+    <th>User Groups</th>
+    <th></th>
+  </tr>
+  <% for usergroup in @usergroups %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to h(usergroup.name), edit_usergroup_path(usergroup) %></td>
+      <td><%= usergroup.users.map(&:login).to_sentence %></td>
+      <td><%= usergroup.usergroups.map(&:name).to_sentence %></td>
+      <td align="right">
+        <%= link_to "Destroy", usergroup, :confirm => 'Are you sure?', :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Usergroup", new_usergroup_path %></p>

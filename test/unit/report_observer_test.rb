@@ -12,6 +12,7 @@ class ReportObserverTest < ActiveSupport::TestCase
                       :architecture => Architecture.find_or_create_by_name("i386"),
                       :environment => Environment.find_or_create_by_name("envy"),
                       :disk => "empty partition"
+    h.update_attribute :owner, User.first if SETTINGS[:ldap]
 
     p = Puppet::Transaction::Report.new
     p.save
@@ -24,6 +25,7 @@ class ReportObserverTest < ActiveSupport::TestCase
     assert_difference 'ActionMailer::Base.deliveries.size' do
       @report.status = 16781381 # Error status.
       @report.save!
+      @report
     end
   end
 

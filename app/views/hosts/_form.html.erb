@@ -13,6 +13,14 @@
         <td>Puppetmaster</td>
         <td><%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %></td>
         <td><%= link_to_function "Additional Classes", toggle_div(:classlist) %></td>
+        <% if SETTINGS[:ldap] -%>
+          <td>Owned by</td>
+          <td>
+          <%= f.select :is_owned_by,
+            option_groups_from_collection_for_select( [ User, Usergroup], :all, :table_name, :id_and_type, :select_title, @host.is_owned_by),
+            :include_blank => "select an owner" %>
+          </td>
+        <% end -%>
       </tr>
     </table>
 

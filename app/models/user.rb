@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   belongs_to :auth_source
   has_many :changes, :class_name => 'Audit', :as => :user
-
-  has_many :hosts
+  has_many :usergroups, :through => :usergroup_member
+  has_many :direct_hosts, :as => :owner, :class_name => "Host"
 
   validates_uniqueness_of :login, :message => "already exists"
   validates_presence_of :login, :mail
@@ -13,8 +13,21 @@ class User < ActiveRecord::Base
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
 
+  before_destroy Ensure_not_used_by.new(:hosts)
+
   def to_label
     "#{firstname} #{lastname}"
+  end
+  alias_method :to_s, :to_label
+  alias_method :name, :to_label
+
+  def <=>(other)
+    self.name <=> other.name
+  end
+
+  # The text item to see in a select dropdown menu
+  def select_title
+    name + " (#{login})"
   end
 
   def self.try_to_login(login, password)
@@ -47,6 +60,30 @@ class User < ActiveRecord::Base
     user
   rescue => text
     raise text
+  end
+
+  def indirect_hosts
+    all_groups = []
+    for usergroup in usergroups
+      all_groups += usergroup.all_usergroups
+    end
+    all_groups.uniq.map{|g| g.hosts}.flatten.uniq
+  end
+
+  def hosts
+    direct_hosts + indirect_hosts
+  end
+
+  def recipients
+    [mail]
+  end
+
+  protected
+
+  def validate
+    if Usergroup.all.map(&:name).include?(self.login)
+      errors.add_to_base "A usergroup already exists with this name"
+    end
   end
 
 end

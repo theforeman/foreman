@@ -16,7 +16,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns(:records)
   end
@@ -37,7 +37,7 @@ class ReportsControllerTest < ActionController::TestCase
     create_a_report
     assert @report.save!
 
-    get :show, :id => @report.id
+    get :show, {:id => @report.id}, set_session_user
     assert_response :success
   end
 
@@ -46,7 +46,7 @@ class ReportsControllerTest < ActionController::TestCase
     assert @report.save!
 
     assert_difference('Report.count', -1) do
-      delete :destroy, :id => @report.id
+      delete :destroy, {:id => @report.id}, set_session_user
     end
 
     assert_redirected_to reports_path

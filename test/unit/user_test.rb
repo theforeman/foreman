@@ -21,6 +21,13 @@ class UserTest < ActiveSupport::TestCase
     assert !u.valid?
   end
 
+  test "login should also be unique across usergroups" do
+    ug = Usergroup.create :name => "foo"
+    u  = User.create :login => "foo", :mail => "foo@bar.com"
+
+    assert !u.valid?
+  end
+
   test "mail should have format" do
     u = User.create :login => "foo", :mail => "bar"
     assert !u.valid?
