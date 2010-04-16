@@ -4,16 +4,16 @@ one:
   login: one
   firstname: One
   lastname: User
-  mail: MyString
+  mail: userone@someware.com
   admin: false
   last_login_on: 2009-10-12 21:50:04
-  auth_source_id: 1
+  auth_source: auth_sources(:one)
 
 two:
   login: two
   firstname: Two
   lastname: User
-  mail: MyString
+  mail: usertwo@someware.com
   admin: false
   last_login_on: 2009-10-12 21:50:04
-  auth_source_id: 1
+  auth_source: auth_sources(:one)

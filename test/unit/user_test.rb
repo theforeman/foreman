@@ -2,39 +2,39 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.create :login => "foo", :mail => "foo@bar.com"
+    @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
   end
 
   test "should have login" do
-    u = User.new :mail => "foo@bar.com"
+    u = User.new :auth_source => auth_sources(:one), :mail => "foo@bar.com"
     assert !u.save
   end
 
   test "should have mail" do
-    u = User.new :login => "foo"
+    u = User.new :auth_source => auth_sources(:one), :login => "foo"
     assert !u.save
   end
 
   test "login should be unique" do
-    u = User.create :login => "foo", :mail => "foo@bar.com"
+    u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
 
     assert !u.valid?
   end
 
   test "login should also be unique across usergroups" do
     ug = Usergroup.create :name => "foo"
-    u  = User.create :login => "foo", :mail => "foo@bar.com"
+    u  = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
 
     assert !u.valid?
   end
 
   test "mail should have format" do
-    u = User.create :login => "foo", :mail => "bar"
+    u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail => "bar"
     assert !u.valid?
   end
 
   test "login size should not exceed the 30 characters" do
-    u = User.new :login => "a" * 31, :mail => "foo@bar.com"
+    u = User.new :auth_source => auth_sources(:one), :login => "a" * 31, :mail => "foo@bar.com"
     assert !u.save
   end
 
@@ -43,7 +43,7 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.save
 
     @user.firstname = " _''. - nah"
-    assert @user.save!
+    assert @user.save
   end
 
   test "lastname should have the correct format" do
@@ -51,7 +51,7 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.save
 
    @user.lastname = " _''. - nah"
-    assert @user.save!
+    assert @user.save
   end
 
   test "firstname should not exceed the 30 characters" do
@@ -65,14 +65,15 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "mail should not exceed the 60 characters" do
-    u = User.create :login => "foo", :mail => "foo" * 20 + "@bar.com"
+    u = User.create :auth_source => auth_sources(:one), :login => "foo"
+    u.mail = "foo" * 20 + "@bar.com"
     assert !u.save
   end
 
   test "to_label method should return a firstname and the lastname" do
     @user.firstname = "Ali Al"
     @user.lastname = "Salame"
-    assert @user.save!
+    assert @user.save
 
     assert_equal "Ali Al Salame", @user.to_label
   end

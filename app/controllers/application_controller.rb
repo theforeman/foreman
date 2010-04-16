@@ -60,8 +60,8 @@ class ApplicationController < ActionController::Base
 
   #Force a user to login if ldap authentication is enabled
   def require_login
-    return true unless SETTINGS[:ldap]
-    unless (session[:user] and (@user = User.find(session[:user])))
+    return true unless SETTINGS[:login]
+    unless session[:user] and @username = User.find(session[:user])
       session[:original_uri] = request.request_uri
       redirect_to login_users_path
     end
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
 
   # returns current user
   def current_user
-    @user
+    @username
   end
 
   def invalid_request

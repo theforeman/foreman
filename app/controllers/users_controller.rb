@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  filter_parameter_logging :password
+  filter_parameter_logging :password, :password_confirmation
   before_filter :require_login, :except => [:login, :logout]
 
   def index
@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    @user.admin = params[:admin]
     if @user.save
       flash[:foreman_notice] = "Successfully created user."
       redirect_to users_url
@@ -33,7 +34,9 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    admin = params[:user].delete :admin
     if @user.update_attributes(params[:user])
+      @user.update_attribute :admin, admin
       flash[:foreman_notice] = "Successfully updated user."
       redirect_to users_url
     else
@@ -42,15 +45,21 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
-    if @user.destroy
+    user = User.find(params[:id])
+    if user == current_user
+      flash[:foreman_notice] = "You are currently logged in, suicidal?"
+      redirect_to :back and return
+    end
+    if user.destroy
       flash[:foreman_notice] = "Successfully destroyed user."
     else
-      flash[:foreman_error] = @user.errors.full_messages.join("<br>")
+      flash[:foreman_error] = user.errors.full_messages.join("<br>")
     end
     redirect_to users_url
   end
 
+  # Called from the login form.
+  # Stores the username in the session and redirects required URL or default homepage
   def login
     session[:user] = nil
     if request.post?
@@ -78,6 +87,16 @@ class UsersController < ApplicationController
       flash[:foreman_notice] = "Logged out - See you soon"
     end
     redirect_to login_users_path
+  end
+
+  def auth_source_selected
+    render :update do |page|
+      if params[:auth_source_id] and AuthSource.find(params[:auth_source_id]).can_set_password?
+        page.show 'password', 'verification'
+      else
+        page.hide 'password', 'verification'
+      end
+    end
   end
 
 end

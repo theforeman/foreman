@@ -12,7 +12,7 @@ class ReportObserverTest < ActiveSupport::TestCase
                       :architecture => Architecture.find_or_create_by_name("i386"),
                       :environment => Environment.find_or_create_by_name("envy"),
                       :disk => "empty partition"
-    h.update_attribute :owner, User.first if SETTINGS[:ldap]
+    h.update_attribute :owner, User.first if SETTINGS[:login]
 
     p = Puppet::Transaction::Report.new
     p.save

@@ -32,8 +32,8 @@ class HostMailerTest < ActionMailer::TestCase
   end
 
   test "mail should have any recipient if email or admin are not defined" do
-    user = User.new :mail => "chuck.norris@vurbia.com", :login => "Chuck_Norris"
-    assert user.save!
+    user = User.create :mail => "chuck.norris@vurbia.com", :login => "Chuck_Norris", :auth_source => auth_sources(:one)
+    assert user.valid?
     @options[:email] = nil
     SETTINGS[:administrator] = nil
     assert HostMailer.deliver_summary(@options).to.include?("chuck.norris@vurbia.com")

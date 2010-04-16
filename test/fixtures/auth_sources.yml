@@ -14,3 +14,7 @@ one:
   onthefly_register: true
   type: AuthSourceLdap
   tls: true
+
+internal:
+  name: Internal
+  type: AuthSourceInternal

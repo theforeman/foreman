@@ -45,7 +45,7 @@ class ActiveSupport::TestCase
   end
 
   def set_session_user
-    if SETTINGS[:ldap] or SETTINGS[:ldaps]
+    if SETTINGS[:login]
       {:user => User.first}
     else
       {}

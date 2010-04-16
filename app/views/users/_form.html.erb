@@ -1,36 +1,40 @@
 <% form_for @user do |f| %>
   <%= f.error_messages %>
-  <table>
+  <table border="0">
     <tr>
-      <td> Login<br /> <%= f.text_field :login %> </td>
+      <td width="1%"> Login</td> <td> <%= f.text_field :login %> </td>
     </tr>
     <tr>
-      <td> First name<br /> <%= f.text_field :firstname %> </td>
+      <td> First name</td> <td> <%= f.text_field :firstname %> </td>
     </tr>
     <tr>
-      <td> Last name<br /> <%= f.text_field :lastname %> </td>
+      <td> Last name</td> <td> <%= f.text_field :lastname %> </td>
     </tr>
     <tr>
-      <td> Mail<br /> <%= f.text_field :mail %> </td>
+      <td> Mail</td> <td> <%= f.text_field :mail %> </td>
     </tr>
-    <% if @user.auth_source and @user.auth_source.can_set_password? -%>
-      <tr>
-        <td> Password<br /> <%= f.password_field :password %> </td>
-      </tr>
-      <tr>
-        <td> Verification<br /> <%= password_field_tag :verification, nil, :size => 30 %> </td>
-      </tr>
-    <% end -%>
     <tr>
-      <td> Authorized by<br />
-        <%= f.collection_select :auth_source_id, AuthSource.all.delete_if{|a| a.to_label.nil?}, :id, :to_label %>
+      <td nowrap> Authorized by</td>
+      <td>
+        <%= f.collection_select :auth_source_id, AuthSource.all.delete_if{|a| a.to_label.nil?}, :id, :to_label, {:include_blank => true}  %>
       </td>
     </tr>
-    <tr>
-      <td> Administrator <%= f.check_box :admin %> </td>
+    <tr id="password" <%= 'style="display:none"' unless @user.manage_password? -%>>
+      <td> Password </td>
+      <td> <%= password_field :user, :password %>	</td>
+		</tr>
+		<tr id="verification" <%= 'style="display:none"' unless @user.manage_password? -%>>
+      <td>  Verification </td>
+      <td>  <%= password_field :user, :password_confirmation %> 	</td>
     </tr>
     <tr>
-      <td> <%= f.submit "Submit" %> </td>
+      <td colspan="2"> Administrator <%= f.check_box :admin %> </td>
+    </tr>
+    <tr>
+      <td colspan="2"> <%= f.submit "Submit" %> </td>
     </tr>
   </table>
 <% end %>
+<%= observe_field(:user_auth_source_id,
+                  :url    => { :action => :auth_source_selected},
+                  :with   => 'auth_source_id') %>

@@ -44,7 +44,7 @@ class HostMailer < ActionMailer::Base
 
   def error_state(report)
     host = report.host
-    email = host.owner.recipients if SETTINGS[:ldap] and not host.owner.nil?
+    email = host.owner.recipients if SETTINGS[:login] and not host.owner.nil?
     email = SETTINGS[:administrator] if email.empty?
     raise "unable to find recipients" if email.empty?
     recipients email

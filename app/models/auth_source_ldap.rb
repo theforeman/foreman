@@ -36,10 +36,10 @@ class AuthSourceLdap < AuthSource
     attrs = []
     # get user's DN
     if not account.nil? and self.account.include? "$login" then
-    	logger.debug "LDAP-Auth with User login"
-   	ldap_con = initialize_ldap_con(self.account.sub("$login", login), password)
+      logger.debug "LDAP-Auth with User login"
+      ldap_con = initialize_ldap_con(self.account.sub("$login", login), password)
     else
-        ldap_con = initialize_ldap_con(self.account, self.account_password)
+      ldap_con = initialize_ldap_con(self.account, self.account_password)
     end
     login_filter = Net::LDAP::Filter.eq( self.attr_login, login )
     object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
