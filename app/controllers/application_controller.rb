@@ -49,4 +49,14 @@ class ApplicationController < ActionController::Base
       render :text => 'Invalid query', :status => 400 and return
   end
 
+  def setgraph chart, data, options = {}
+    data[:labels].each {|l| chart.add_column *l }
+    chart.add_rows data[:values]
+    defaults = { :width => 400, :height => 240, :is3D => true,
+      :backgroundColor => "#E6DFCF", :legendBackgroundColor => "#E6DFCF" }
+
+    defaults.merge(options).each {|k,v| chart.send "#{k}=",v if chart.respond_to? k}
+    return chart
+  end
+
 end

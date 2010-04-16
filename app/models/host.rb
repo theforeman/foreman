@@ -360,38 +360,16 @@ class Host < Puppet::Rails::Host
   end
 
   def graph(timerange = 1.day.ago)
-    values = {}
-    runtime_helper = []
-    resource_helper = []
-    runtime_max = 0
-    resource_max = 0
-    first = Time.now
-    last = Time.at(0)
+    data = {}
+    data[:runtime] = []
+    data[:resources] = []
+    data[:runtime_labels] = [ ['datetime', "Time" ],['number', "Config Retrival"], ['number', 'Total']]
+    data[:resources_labels] = [ ['datetime','Time']] + Report::METRIC.map{|metric| ['number', metric] }
     reports.recent(timerange).find_each do |r|
-      first = r.reported_at if r.reported_at < first
-      last  = r.reported_at if r.reported_at > last
-
-      # runtime graph
-      # as long as the data is serialized, we can't use database functions.
-      next if r.runtime.nil? # broken report
-      runtime_max = r.runtime if r.runtime > runtime_max
-      runtime_helper << [r.config_retrival, r.runtime]
-
-      # resource graph
-      helper = r.status.sort
-      # max resource for this report
-      max = helper.collect(&:last).sort.last
-      resource_max = max if max > resource_max
-      resource_helper << helper.collect(&:last)
-      values[:resource_legend] = helper.collect(&:first) if values[:resource_labels].nil?
+      data[:runtime] << [r.reported_at.getlocal, r.config_retrival, r.runtime ]
+      data[:resources] << [r.reported_at.getlocal, r.status.sort.map(&:last)].flatten
     end
-    values[:runtime]=runtime_helper.transpose
-    values[:runtime_y_range] = [0,runtime_max]
-    values[:runtime_legend] = ["Config Retrival", "Total"]
-    values[:timerange] = [first.to_s(:short), (last-((last-first)/2)).to_s(:short),last.to_s(:short)]
-    values[:resources] = resource_helper.transpose
-    values[:resource_y_range] = [0,resource_max == 0 ? nil : resource_max]
-    return values
+    return data
   end
 
   private

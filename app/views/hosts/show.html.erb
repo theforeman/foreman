@@ -14,25 +14,16 @@
 </div>
 
 <div id="host_report">
-    <div id="host_graphs">
-    <%= graph("line",:title => "Runtime", :data =>  @graph[:runtime], :size => "800x200",
-              :line_colors => ['0077CC','7700CC'], :bar_width_and_spacing => 25,:axis_with_labels => ["x","y"], 
-              :custom => "chg=10,50,1,5&chm=o,0066FF,1,-1,6|o,80C65A,0,-1,6",
-              :axis_labels => [@graph[:timerange],@graph[:runtime_y_range]], :legend => @graph[:runtime_legend])
-    %>
+  <div id="runtime_graph" style='width: 800px; height: 240px;'></div>
+  <%= @runtime_graph.render('runtime_graph') %>
 
-    <%= graph("line", :title => "Resources", :data => @graph[:resources], :size => "800x200",
-              :bar_colors => ['80C65A','FF0000','C0770C','AAA4FB','F0FF00'], :axis_with_labels => ["x","y"], 
-              :stacked => false,:bar_width_and_spacing => {:width => 5, :spacing => 0, :group_spacing => 3},
-              :custom => "chg=5,50",
-              :axis_labels => [@graph[:timerange],@graph[:resource_y_range]], :legend => @graph[:resource_legend])
-    %>
+  <div id="resource_graph"></div>
+  <%= @resource_graph.render('resource_graph') %>
 
-    <% if @host.reports.size > 0 -%>
-      <%= form_tag @host, :method => :get %>
-      <p><%= select(nil, 'range', 1..days_ago(@host.reports.first.reported_at), {:selected => @range} )%>
-      <%= submit_tag "filter", :disable_with => "Updating..." %>
-      <%= @host.reports.recent(@range.days.ago).count %> reports in the last <%= time_ago_in_words(@range.days.ago) %></p>
-    <% end -%>
-  </div>
+  <% if @host.reports.size > 0 -%>
+    <%= form_tag @host, :method => :get %>
+    <p><%= select(nil, 'range', 1..days_ago(@host.reports.first.reported_at), {:selected => @range} )%>
+    <%= submit_tag "filter", :disable_with => "Updating..." %>
+    <%= @host.reports.recent(@range.days.ago).count %> reports in the last <%= time_ago_in_words(@range.days.ago) %></p>
+  <% end -%>
 </div>

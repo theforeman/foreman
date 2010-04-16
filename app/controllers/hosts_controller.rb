@@ -51,8 +51,20 @@ class HostsController < ApplicationController
     range = @range.days.ago
 
     @host = Host.find params[:id]
+    graphs = @host.graph(range)
+
+    # runtime graph
+    data = { :labels => graphs[:runtime_labels], :values => graphs[:runtime] }
+    options = { :title => "Runtime"}
+    @runtime_graph = setgraph(GoogleVisualr::AnnotatedTimeLine.new, data, options)
+
+    # resource graph
+    data = { :labels => graphs[:resources_labels], :values => graphs[:resources] }
+    options = { :title => "Resource", :width => 800, :height => 300, :legend => 'bottom'}
+    @resource_graph = setgraph(GoogleVisualr::LineChart.new, data, options)
+
+    # summary report text
     @report_summary = Report.summarise(range, @host)
-    @graph = @host.graph(range)
   end
 
   #returns a yaml file ready to use for puppet external nodes script
