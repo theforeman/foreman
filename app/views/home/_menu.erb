@@ -1,10 +1,11 @@
 <div id="menu">
   <ul>
-    <li> <%= link_to "Dashboard", :controller => :dashboard %> </li>
-    <li> <%= link_to "Hosts", :controller => :hosts %> </li>
-    <li> <%= link_to "Reports", :controller => :reports %> </li>
-    <li> <%= link_to "Audit Log", :controller => :audit %> </li>
-    <li> <%= link_to "Statistics", :controller => :statistics %> </li>
-    <li> <%= link_to "Settings", :controller => :home, :action => :settings %> </li>
+    <li> <%= link_to "Dashboard",  dashboard_path   %> </li>
+    <li> <%= link_to "Hosts",      hosts_path       %> </li>
+    <li> <%= link_to "Reports",    reports_path     %> </li>
+    <li> <%= link_to "Facts",      fact_values_path %> </li>
+    <li> <%= link_to "Audit Log",  audit_path       %> </li>
+    <li> <%= link_to "Statistics", statistics_path  %> </li>
+    <li> <%= link_to "Settings",   settings_path    %> </li>
   </ul>
 </div>
