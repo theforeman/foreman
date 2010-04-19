@@ -93,6 +93,11 @@ class Host < Puppet::Rails::Host
     domain.nil? ? name : name.chomp("." + domain.name)
   end
 
+  # defines how many hosts will be shown in the hostlist
+  def self.per_page
+    20
+  end
+
   def clearReports
     # Remove any reports that may be held against this host
     Report.delete_all("host_id = #{self.id}")

@@ -1,6 +1,9 @@
 <div id="title"><%= @host.to_label %>
   <%= link_to "Edit", edit_host_path(@host) %>
   <%= link_to "Reports", reports_host_path(@host) %>
+  <%= link_to "YAML", :action=>"externalNodes", :id => @host %>
+  <%= link_to_if @host.build == false, "Build", {:action=>"setBuild", :id => @host} %>
+  <%= link_to_if SETTINGS[:puppetrun], "Puppet Run", {:action=>"puppetrun", :id => @host} %>
   <%= link_to "Delete", host_path(@host), :confirm => 'Are you sure?', :method => :delete%>
 </div>
 
