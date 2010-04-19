@@ -59,6 +59,11 @@ case "$1" in
     stop)
         stop
         ;;
+    status)
+	echo -n "Foreman"
+	status -p $FOREMAN_PID
+	RETVAL=$?
+	;;
     restart)
         stop
         start
