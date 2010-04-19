@@ -21,53 +21,51 @@ FOREMAN_ENV=${FOREMAN_ENV:-production}
 FOREMAN_PID=${FOREMAN_PID:-${FOREMAN_HOME}/tmp/pids/server.pid}
 
 start() {
-        echo -n $"Starting $prog: "
-        daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/server -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d > /dev/null
-        RETVAL=$?
-        if [ $RETVAL = 0 ]
-        then
-            echo_success
-        else
-            echo_failure
-        fi 
+    echo -n $"Starting $prog: "
+    daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/server -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d > /dev/null
+    RETVAL=$?
+    if [ $RETVAL = 0 ]
+    then
+        echo_success
+    else
+        echo_failure
+    fi
 
-        echo
-
-        return $RETVAL
+    echo
+    return $RETVAL
 }
 stop() {
-        echo -n $"Stopping $prog: "
-	if [ -f ${FOREMAN_PID} ]; then
-		killproc -p ${FOREMAN_PID}
-		RETVAL=$?
-	else 
-		echo -n $"Foreman was not running.";
-		failure $"Foreman was not running.";
-		echo
-		return 1
-	fi
-	echo
-
-        return $RETVAL
+    echo -n $"Stopping $prog: "
+    if [ -f ${FOREMAN_PID} ]; then
+        killproc -p ${FOREMAN_PID}
+        RETVAL=$?
+    else
+        echo -n $"Foreman was not running.";
+        failure $"Foreman was not running.";
+        echo
+        return 1
+    fi
+    echo
+    return $RETVAL
 }
 
 # See how we were called.
 case "$1" in
     start)
         start
-        ;;
+    ;;
     stop)
         stop
-        ;;
+    ;;
     status)
-	echo -n "Foreman"
-	status -p $FOREMAN_PID
-	RETVAL=$?
-	;;
+        echo -n "Foreman"
+        status -p $FOREMAN_PID
+        RETVAL=$?
+    ;;
     restart)
         stop
         start
-        ;;
+    ;;
     *)
         echo $"Usage: $prog {start|stop|restart}"
         exit 1
