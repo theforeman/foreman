@@ -8,7 +8,7 @@
   <%= f.label :minor %>
   <%= f.text_field :minor, :size => 8 %>
   <%= f.label :family_id, "OS Family" %>
-  <%= f.collection_select :family_id, Family.families_as_collection, :value, :name %>
+  <%= f.collection_select :family_id, Family.families_as_collection, :value, :name,{ :include_blank => "Choose a family" }%>
   <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == :Debian -%> >
     <%= f.label :release_name, "Release name" %>
     <%= f.text_field :release_name, :size => 12%>
