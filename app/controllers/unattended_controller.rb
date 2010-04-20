@@ -14,20 +14,25 @@ class UnattendedController < ApplicationController
     @mediapath = os.mediapath @host
     @epel      = os.epel      @arch
     @yumrepo   = os.yumrepo   @host
+    unattended_local "kickstart"
   end
 
   def jumpstart_profile
+    unattended_local "jumpstart_profile"
   end
 
   def jumpstart_finish
+    unattended_local "jumpstart_finish"
   end
 
   def preseed
     @preseed_path   = @host.os.preseed_path   @host.media
     @preseed_server = @host.os.preseed_server @host.media
+    unattended_local "preseed"
   end
 
   def preseed_finish
+    unattended_local "preseed_finish"
   end
 
 # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
@@ -78,4 +83,9 @@ class UnattendedController < ApplicationController
     return false unless GW::Puppetca.clean @host.name
     return false unless GW::Puppetca.sign @host.name
   end
+
+  def unattended_local type
+    render :template => "unattended/#{type}.local" if File.exists?("#{RAILS_ROOT}/app/views/unattended/#{type}.local.rhtml")
+  end
+
 end
