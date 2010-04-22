@@ -4,6 +4,7 @@ class Hostgroup < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   has_many :group_parameters, :dependent => :destroy
   has_many :hosts
+  before_destroy Ensure_not_used_by.new(:hosts)
 
   acts_as_audited
 
