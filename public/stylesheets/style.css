@@ -210,3 +210,13 @@ div#run_distribution {
   left: 0;
   width: 30%
 }
+
+#hostclasses, #classes li {
+  list-style-type:none;
+  margin-right: 0.5em;
+}
+
+#classes .puppetclass a {
+  font-size: 75%;
+  color: #333;
+}

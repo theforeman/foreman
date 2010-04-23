@@ -1,59 +1,50 @@
 require 'test_helper'
 
 class HostgroupsControllerTest < ActionController::TestCase
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
-    assert_not_nil assigns(:records)
+    assert_template 'index'
   end
 
-  test "should get new" do
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create hostgroup" do
-    assert_difference('Hostgroup.count') do
-      post :create, { :commit => "Create", :record => { :name => "my_hostgroup" } }
-    end
-
-    assert_redirected_to hostgroups_path
+  def test_create_invalid
+    Hostgroup.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-   test "should show hostgroup" do
-    hostgroup = Hostgroup.create :name => "my_hostgroup"
-    assert hostgroup.save!
-
-    get :show, :id => hostgroup.id
-    assert_response :success
-   end
-
-  test "should get edit" do
-    hostgroup = Hostgroup.create :name => "my_hostgroup"
-    assert hostgroup.save!
-    get :edit, :id => hostgroup.id
-    assert_response :success
+  def test_create_valid
+    Hostgroup.any_instance.stubs(:valid?).returns(true)
+    pc = Puppetclass.first
+    post :create, "hostgroup" => {"name"=>"test_it", "group_parameters_attributes"=>{"1272344174448"=>{"name"=>"x", "value"=>"y", "_destroy"=>""}}, "puppetclass_ids"=>["", pc.id.to_s]}
+    assert_redirected_to hostgroups_url
   end
 
-  test "should update hostgroup" do
-    hostgroup = Hostgroup.create :name => "my_hostgroup"
-    assert hostgroup.save!
-
-    put :update, { :commit => "Update", :id => hostgroup.id, :record => {:name => "our_hostgroup"} }
-    hostgroup = Hostgroup.find_by_id(hostgroup.id)
-    assert hostgroup.name == "our_hostgroup"
-
-    assert_redirected_to hostgroups_path
+  def test_edit
+    get :edit, :id => Hostgroup.first
+    assert_template 'edit'
   end
 
-  test "should destroy hostgroup" do
-    hostgroup = Hostgroup.create :name => "my_hostgroup"
-    assert hostgroup.save!
-    assert_difference('Hostgroup.count', -1) do
-      delete :destroy, :id => hostgroup.id
-    end
+  def test_update_invalid
+    Hostgroup.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Hostgroup.first
+    assert_template 'edit'
+  end
 
-    assert_redirected_to hostgroups_path
+  def test_update_valid
+    Hostgroup.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Hostgroup.first
+    assert_redirected_to hostgroups_url
+  end
+
+  def test_destroy
+    hostgroup = Hostgroup.first
+    delete :destroy, :id => hostgroup
+    assert_redirected_to hostgroups_url
+    assert !Hostgroup.exists?(hostgroup.id)
   end
 end
-

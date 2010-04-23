@@ -27,11 +27,25 @@ module ApplicationHelper
 
   def toggle_div div
     update_page do |page|
-      page[div].toggle
-      page[div].visual_effect :highlight
+      page << "if ($('#{div}').visible()) {"
+      page[div].visual_effect :BlindUp
+      page << "} else {"
+      page[div].visual_effect :BlindDown
+      page << "}"
     end
   end
 
+  def link_to_remove_puppetclass klass
+    link_to_function klass.name do |page|
+      page["selected_puppetclass_#{klass.id}"].remove
+    end
+  end
 
+  def link_to_add_puppetclass klass, type
+    # link to remote is faster than inline js when having many classes
+    link_to_remote klass.klass,
+      :url => assign_puppetclass_path(klass, :type => type),
+      :position => {:after => {:success => "selected_classes" }}
+  end
 
 end

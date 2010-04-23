@@ -38,4 +38,32 @@ class Puppetclass < ActiveRecord::Base
       find(:all)
     end
   end
+
+  # returns a hash containing modules and associated classes
+  def self.classes2hash classes
+    hash = {}
+    for klass in classes
+      if mod = klass.module_name
+        hash[mod] ||= []
+        hash[mod] << klass
+      else
+        next
+      end
+    end
+    return hash
+  end
+
+  # returns module name (excluding of the class name)
+  def module_name
+    if i = name.index("::")
+      return name[0..i-1] if i = name.index("::")
+    end
+  end
+
+  # returns class name (excluding of the module name)
+  def klass
+    mod = module_name
+    return name.gsub(mod+"::","") if mod
+  end
+
 end

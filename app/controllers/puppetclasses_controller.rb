@@ -48,4 +48,22 @@ class PuppetclassesController < ApplicationController
     redirect_to :back
   end
 
+  # AJAX methods
+
+  # adds a puppetclass to an existing host or hostgroup
+  #
+  # We assign the new puppetclasses (e.g. in the context of a Host or a Host Group)
+  # via ajax and not java script as rendering javascript for each and every class
+  # seems to be much longer than the average roundtrip time to the server
+  def assign
+    return unless request.xhr?
+
+    klass = Puppetclass.find(params[:id])
+    type = params[:type]
+    render :update do |page|
+      page.insert_html :after, :selected_classes, :partial => 'selectedClasses', :locals => {:klass => klass, :type => type}
+      page["puppetclass_#{klass.id}"].hide
+    end
+  end
+
 end

@@ -1,0 +1,15 @@
+<% Puppetclass.classes2hash(puppetclasses).sort.in_groups(3,nil) do |group| -%>
+  <td id="classes">
+    <% group.each do |list| -%>
+      <% next if list.nil? %>
+      <li><%= link_to_function list.first, toggle_div(list.first) %></li>
+      <div id=<%= list.first %> style="display: none;">
+        <% for klass in list.last -%>
+          <% content_tag_for :div, klass do %>
+            <%= link_to_add_puppetclass(klass, type) %>
+          <% end -%>
+        <% end -%>
+      </div>
+    <% end -%>
+  </td>
+<% end -%>

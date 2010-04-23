@@ -1,0 +1,15 @@
+<% title "Hostgroups" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for hostgroup in @hostgroups %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%=link_to h(hostgroup.name), edit_hostgroup_path(hostgroup) %></td>
+      <td><%= link_to "Destroy", hostgroup, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Hostgroup", new_hostgroup_path %></p>

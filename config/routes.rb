@@ -22,9 +22,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :medias
   map.resources :models
   map.resources :architectures
-  map.resources :puppetclasses
+  map.resources :puppetclasses, :member => { :assign => :post }
   map.import_classes '/puppetclass/import', :controller => 'puppetclasses', :action => 'import'
-  map.resources :hostgroups, :active_scaffold => true
+  map.resources :hostgroups
   map.resources :common_parameters
   map.resources :environments, :active_scaffold => true
   map.resources :subnets, :active_scaffold => true
