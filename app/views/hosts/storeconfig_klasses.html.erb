@@ -1,0 +1,6 @@
+<ul>
+  <% for klass in @host.classes_from_storeconfigs -%>
+    <li><%= h klass %></li>
+  <% end -%>
+</ul>
+<%= link_to 'back', host_path(@host) %>

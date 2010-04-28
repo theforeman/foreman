@@ -175,6 +175,10 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
   end
 
+  def storeconfig_klasses
+    @host = Host.find(params[:id])
+  end
+
   private
   def find_hosts
     fact, klass = params[:fact], params[:class]

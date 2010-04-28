@@ -6,7 +6,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts,
                 :member => {:report => :get, :reports => :get, :facts => :get,
-                  :environment_selected => :post, :architecture_selected => :post, :os_selected => :post},
+                  :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
+                  :storeconfig_klasses => :get},
                 :collection => { :show_search => :get}
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.audit '/audit', :controller => 'audit'

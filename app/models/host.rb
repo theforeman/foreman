@@ -377,6 +377,12 @@ class Host < Puppet::Rails::Host
     return data
   end
 
+  def classes_from_storeconfigs
+   klasses = resources.find(:all, :conditions => {:restype => "Class"}, :select => :title)
+   klasses.map!(&:title).delete(:main)
+   return klasses
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
