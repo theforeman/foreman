@@ -4,7 +4,7 @@
 
 Name:           %{name}
 Version:        0.1.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Systems Management web application
 Group:          Administration Tools
 License:        GPLv2+
@@ -22,16 +22,6 @@ Packager:       Ohad Levy <ohadlevy@gmail.com>
 
 %description
 Foreman is aimed to be a Single Address For All Machines Life Cycle Management.
-    * Foreman integrates with Puppet (and acts as web front end to it).
-    * Foreman takes care of bare bone provisioning until the point puppet is running, allowing Puppet to do what it does best.
-    * Foreman shows you Systems Inventory (based on Facter) and provides real time information about hosts status based on Puppet reports.
-    * Foreman creates everything you need when adding a new machine to your network,It's goal being automatically managing 
-      everything you would normally manage manually - that would eventually include DNS, DHCP, TFTP, PuppetCA, CMDB and 
-      everything else you might consider useful.
-    * With Foreman You Can Always Rebuild Your Machines From Scratch!
-    * Foreman is designed to work in a large enterprise, where multiple domains, subnets and puppetmasters are required.
-      In many cases, Foreman could help remote provisions where no experienced technicians are available.
-
 Foreman is based on Ruby on Rails, and this package bundle all Rails and plugins required for Foreman to work
 
 %prep
@@ -47,7 +37,7 @@ Foreman is based on Ruby on Rails, and this package bundle all Rails and plugins
 %{__install} -Dp -m0755 %{confdir}/%{name}.init %{buildroot}%{_initrddir}/%{name}
 %{__cp} -p -r app config db extras lib public Rakefile script vendor %{buildroot}%{_datadir}/%{name}
 %{__chmod} a+x %{buildroot}%{_datadir}/%{name}/script/{console,dbconsole,runner}
-%{__rm} -rf %{buildroot}%{_datadir}/%{name}/extras/{jumpstart,spec}
+%{__rm} -rf %{buildroot}%{_datadir}/%{name}/extras/{jumpstart,spec,puppet}
 %{__rm} -rf %{buildroot}%{_datadir}/%{name}/VERSION
 %{__mkdir} %{buildroot}%{_datadir}/%{name}/{tmp,log}
 
@@ -82,6 +72,9 @@ done
 su - foreman -s /bin/bash -c 'cd ; /usr/bin/rake db:migrate RAILS_ENV=production > /dev/null'
 
 %changelog
+* Thu Apr 19 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1-4-3
+- added status to startup script
+- removed puppet module from the RPM
 * Thu Apr 12 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1-4-2
 - Added startup script for built in webrick server
 - Changed foreman user default shell to /sbin/nologin and is now part of the puppet group
