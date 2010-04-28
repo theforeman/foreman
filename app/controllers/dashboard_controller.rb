@@ -1,26 +1,29 @@
 class DashboardController < ApplicationController
-  before_filter :prefetch_data, :graphs, :only_on => :index
+  before_filter :prefetch_data, :graphs, :only => :index
   helper :hosts
 
   def index
   end
 
   def errors
-    hosts = Host.recent.with_error.paginate(:page => params[:page], :order => 'last_report DESC')
+    @search = Host.recent.with_error.search(params[:search])
+    hosts = @search.paginate :page => params[:page]
     render :partial => "hosts/minilist", :layout => true, :locals => {
       :hosts => hosts,
       :header => "Hosts with errors" }
   end
 
   def active
-    hosts = Host.recent.with_changes.paginate(:page => params[:page], :order => 'last_report DESC')
+    @search = Host.recent.with_changes.search(params[:search])
+    hosts = @search.paginate :page => params[:page]
     render :partial => "hosts/minilist", :layout => true, :locals => {
       :hosts => hosts,
       :header => "Active Hosts" }
   end
 
   def OutOfSync
-    hosts = Host.out_of_sync.paginate(:page => params[:page], :order => 'last_report DESC')
+    @search = Host.out_of_sync.search(params[:search])
+    hosts = @search.paginate :page => params[:page]
     render :partial => "hosts/minilist", :layout => true, :locals => {
       :hosts => hosts,
       :header => "Hosts which didnt run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }

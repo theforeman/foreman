@@ -220,3 +220,8 @@ div#run_distribution {
   font-size: 75%;
   color: #333;
 }
+
+#host_index_links {
+  position: relative;
+  float: right;
+}
