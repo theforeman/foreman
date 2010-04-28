@@ -22,3 +22,6 @@
 [submodule "vendor/plugins/google_visualr"]
 	path = vendor/plugins/google_visualr
 	url = git://github.com/ohadlevy/google_visualr.git
+[submodule "extras/puppet"]
+	path = extras/puppet
+	url = git://github.com/ohadlevy/puppet-foreman.git
