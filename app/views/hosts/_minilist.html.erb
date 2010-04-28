@@ -1,17 +1,27 @@
-<div>
+<div id="hostlist">
   <% if hosts.size > 0 -%>
     <table class="list">
-      <caption> <%= header -%> </caption>
+      <caption> <%= header ||= "" -%> </caption>
       <tr>
-        <th>Name</th><th>Operatingsystem</th><th>Environment</th><th>Last Report</th><th>Edit</th>
+        <th><%= order @search, :by => :name %></th>
+        <th>Operating system</th>
+        <th>Environment</th>
+        <th>Model</th>
+        <th>Host Group</th>
+        <th><%= order @search, :by => :last_report %></th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
       <% hosts.each do |host| -%>
         <tr class="<%= cycle("even", "odd") -%>">
           <td><%=name_column(host) %></td>
           <td><%=h host.try(:os) %></td>
           <td><%=h host.try(:environment) %></td>
+          <td><%=h host.try(:model) %></td>
+          <td><%=h host.try(:hostgroup) %></td>
           <td><%=last_report_column(host) %></td>
           <td><%= link_to  'Edit', edit_host_url(host)  %></td>
+          <td><%= link_to "Destroy", host, :confirm => 'Are you sure?', :method => :delete %></td>
         <% end -%>
       </tr>
     </table>

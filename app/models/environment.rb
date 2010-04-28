@@ -4,6 +4,7 @@ class Environment < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_format_of   :name, :with => /^\S+$/, :message => "Name cannot contain spaces"
+  default_scope :order => 'name'
 
   def to_label
     name

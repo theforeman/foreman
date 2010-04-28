@@ -3,51 +3,57 @@ require 'test_helper'
 class HostsControllerTest < ActionController::TestCase
   setup :initialize_host
 
-  test "should get index" do
+  def test_index
     get :index
-    assert_response :success
+    assert_template 'index'
   end
 
-  test "should get new" do
+  def test_show
+    get :show, :id => Host.first
+    assert_template 'show'
+  end
+
+  def test_new
     get :new
-    assert_response :success
+    assert_template 'new'
   end
 
-  test "should create new host" do
-    assert_difference 'Host.count' do
-      post :create, { :commit => "Create",
-        :record => {:name => "myotherfullhost",
-          :mac => "aabbecddee00",
-          :ip => "123.05.02.25",
-          :domain => {:id => Domain.find_or_create_by_name("othercompany.com").id.to_s},
-          :operatingsystem => {:id => Operatingsystem.first.id.to_s},
-          :architecture => {:id => Architecture.first.id.to_s},
-          :environment => {:id => Environment.first.id.to_s},
-          :disk => "empty partition"
-        }
-      }
-    end
+  def test_create_invalid
+    Host.any_instance.stubs(:valid?).returns(false)
+    post :create
+    assert_template 'new'
   end
 
-  test "should get edit" do
-    get :edit, :id => @host.id
-    assert_response :success
+  def test_create_valid
+    Host.any_instance.stubs(:valid?).returns(true)
+    post :create, :host => {:name => "test"}
+    assert_redirected_to host_url(assigns(:host))
   end
 
-  test "should update host" do
-    put :update, { :commit => "Update", :id => @host.id, :record => {:disk => "ntfs"} }
-    @host = Host.find_by_id(@host.id)
-
-    assert @host.disk == "ntfs"
+  def test_edit
+    get :edit, :id => Host.first
+    assert_template 'edit'
   end
 
-  test "should destroy host" do
-    assert_difference('Host.count', -1) do
-      delete :destroy, :id => @host.id
-    end
+  def test_update_invalid
+    Host.any_instance.stubs(:valid?).returns(false)
+    put :update, :id => Host.first
+    assert_template 'edit'
   end
 
-  test "externalNodes should render 404 when no params are given" do
+  def test_update_valid
+    Host.any_instance.stubs(:valid?).returns(true)
+    put :update, :id => Host.first
+    assert_redirected_to host_url(assigns(:host))
+  end
+
+  def test_destroy
+    host = Host.first
+    delete :destroy, :id => host
+    assert_redirected_to hosts_url
+    assert !Host.exists?(host.id)
+  end
+test "externalNodes should render 404 when no params are given" do
     get :externalNodes
     assert_response :missing
     assert_template :text => '404 Not Found'

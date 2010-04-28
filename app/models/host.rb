@@ -11,6 +11,7 @@ class Host < Puppet::Rails::Host
   belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy
+  accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
 
   named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
@@ -183,13 +184,12 @@ class Host < Puppet::Rails::Host
 
   # returns the list of puppetclasses a host is in.
   def puppetclasses_names
-    if hostgroup.nil?
-      return puppetclasses.collect {|c| c.name}
-    else
-      return (hostgroup.puppetclasses.collect {|c| c.name} + puppetclasses.collect {|c| c.name}).uniq
-    end
+      return all_puppetclasses.collect {|c| c.name}
   end
 
+  def all_puppetclasses
+     return hostgroup.nil? ? puppetclasses : (hostgroup.puppetclasses + puppetclasses).uniq
+  end
 
   # provide information about each node, mainly used for puppet external nodes
   # TODO: remove hard coded default parameters into some selectable values in the database.
@@ -198,7 +198,7 @@ class Host < Puppet::Rails::Host
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
-    param["domainname"] = domain.fullname unless domain.fullname.empty?
+    param["domainname"] = domain.fullname unless domain.nil? or domain.fullname.nil?
     param.update self.params
     return Hash['classes' => self.puppetclasses_names, 'parameters' => param, 'environment' => environment.to_s]
   end
@@ -208,7 +208,7 @@ class Host < Puppet::Rails::Host
     # read common parameters
     CommonParameter.find_each {|p| parameters.update Hash[p.name => p.value] }
     # read domain parameters
-    domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] }
+    domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless domain.nil?
     # read group parameters only if a host belongs to a group
     hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
     # and now read host parameters, override if required

@@ -6,6 +6,7 @@ class Hostgroup < ActiveRecord::Base
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :hosts
   before_destroy Ensure_not_used_by.new(:hosts)
+  default_scope :order => 'name'
 
   acts_as_audited
 
@@ -14,4 +15,13 @@ class Hostgroup < ActiveRecord::Base
  def to_s
    name
  end
+
+ def all_puppetclasses
+   puppetclasses
+ end
+
+ def hostgroup
+   self
+ end
+
 end

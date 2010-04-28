@@ -1,0 +1,18 @@
+<%= link_to_function "Search", toggle_div(:search) %>
+<%= link_to "New Host", new_host_path %>
+
+<div id="search" style="display: <%= searching? ? 'none':'inline' %>;">
+  <% form_for @search do |f|-%>
+    <%= f.label :name_like, "Name" %>
+    <%= f.text_field :name_like, :size => 15 %>
+    <%= f.label :environment_id_equals, "Environment" %>
+    <%= f.collection_select :environment_id_equals, Environment.all, :id, :name, :include_blank => true %>
+    <%= f.label :hostgroup, "Role" %>
+    <%= f.collection_select :hostgroup_id_eq, Hostgroup.all, :id, :name, :include_blank => true %>
+    <%= render :partial => 'fact_selected' %>
+    <p>
+    <%= f.submit "Search" %>
+  <% end %>
+</div>
+
+<%= render 'minilist', :hosts => @hosts, :header => "Hosts" %>

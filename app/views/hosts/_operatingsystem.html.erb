@@ -1,0 +1,4 @@
+<%= label :host, :media %>
+<%= collection_select :host, :media_id, @operatingsystem.medias, :id, :to_label %>
+<%= label :host, :ptable, "Partition Table" %>
+<%= collection_select :host, :ptable_id, @operatingsystem.ptables, :id, :to_label %>

@@ -2,52 +2,17 @@ class HostsController < ApplicationController
   before_filter :require_login, :except => [ :query, :externalNodes, :lookup ]
   before_filter :require_ssl, :except => [ :query, :externalNodes, :lookup ]
   before_filter :find_hosts, :only => :query
-
+  before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
   helper :hosts
 
-  active_scaffold :host do |config|
-    list.empty_field_text ='N/A'
-    list.per_page = 15
-    list.sorting = {:name => 'ASC' }
-    config.actions.exclude :show
-    config.list.columns = [:name, :operatingsystem, :environment, :last_report ]
-    config.columns = %w{ name hostgroup puppetclasses environment domain puppetmaster comment host_parameters}
-    config.columns[:hostgroup].form_ui  = :select
-    config.columns[:domain].form_ui  = :select
-    config.columns[:environment].form_ui  = :select
-    config.columns[:puppetclasses].form_ui  = :select
-    config.columns[:puppetclasses].options = { :draggable_lists => {}}
-    config.columns[:fact_values].association.reverse = :host
-    config.nested.add_link("Inventory", [:fact_values])
-    config.columns[:puppetmaster].description = "leave empty if it is #{SETTINGS[:puppet_server] || "puppet"}"
-    # do not show these fields if unattended mode is disabled
-    if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
-      config.columns = %w{ name ip mac hostgroup puppetclasses operatingsystem environment architecture media domain model root_pass serial puppetmaster ptable disk comment host_parameters}
-      config.columns[:architecture].form_ui  = :select
-      config.columns[:operatingsystem].form_ui  = :select
-      config.columns[:operatingsystem].options = { :update_column => :media }
-      config.columns[:media].form_ui  = :select
-      config.columns[:model].form_ui  = :select
-      config.columns[:ptable].form_ui  = :select
-      config.columns[:serial].description = "unsed for now"
-      config.columns[:disk].description = "the disk layout to use"
-      config.columns[:build].form_ui  = :checkbox
-      config.action_links.add 'setBuild', :label => 'Build', :inline => false,
-        :type => :record, :confirm => "This actions recreates all needed settings for host installation, if the host is
-         already running, it will disable certain functions.\n
-         Are you sure you want to reinstall this host?"
-    end
-    config.action_links.add 'rrdreport', :label => 'RRDReport', :inline => true,
-      :type => :record,  :position => :after if SETTINGS[:rrd_report_url]
-    config.action_links.add 'externalNodes', :label => 'YAML', :inline => true,
-      :type => :record, :position => :after
-    config.action_links.add 'puppetrun', :label => 'Run', :inline => true,
-      :type => :record, :position => :after if SETTINGS[:puppetrun]
+  def index
+    @search = Host.search(params[:search])
+    @hosts = @search.paginate :page => params[:page]
   end
 
   def show
     # filter graph time range
-    @range = (params["range"].empty? ? 1 : params["range"].to_i)
+    @range = (params["range"].empty? ? 7 : params["range"].to_i)
     range = @range.days.ago
 
     @host = Host.find params[:id]
@@ -65,6 +30,74 @@ class HostsController < ApplicationController
 
     # summary report text
     @report_summary = Report.summarise(range, @host)
+  end
+
+  def new
+    @host = Host.new
+    @host.host_parameters.build
+  end
+
+  def create
+    @host = Host.new(params[:host])
+    if @host.save
+      flash[:foreman_notice] = "Successfully created host."
+      redirect_to @host
+    else
+      render :action => 'new'
+    end
+  end
+
+  def edit
+    @host = Host.find(params[:id])
+    @environment = @host.environment
+    @architecture = @host.architecture
+    @operatingsystem = @host.operatingsystem
+  end
+
+  def update
+    @host = Host.find(params[:id])
+    if @host.update_attributes(params[:host])
+      flash[:foreman_notice] = "Successfully updated host."
+      redirect_to @host
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    @host = Host.find(params[:id])
+    if @host.destroy
+      flash[:foreman_notice] = "Successfully destroyed host."
+    else
+      flash[:foreman_error] = @host.errors.full_messages.join("<br>")
+    end
+    redirect_to hosts_url
+  end
+
+  # form AJAX methods
+
+  def environment_selected
+    if params[:environment_id].to_i > 0 and @environment = Environment.find(params[:environment_id])
+      render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host ||= Host.new)}
+    else
+      return head(:not_found)
+    end
+  end
+
+  def architecture_selected
+    assign_parameter "architecture"
+  end
+
+  def os_selected
+    assign_parameter "operatingsystem"
+  end
+
+ # list AJAX methods
+  def fact_selected
+    @fact_name_id = params[:search_fact_values_fact_name_id_eq].to_i
+    @fact_values = FactValue.find(:all, :select => 'DISTINCT value', :conditions => {
+      :fact_name_id => @fact_name_id }, :order => 'value ASC') if @fact_name_id > 0
+    render :partial => 'fact_selected', :layout => false
   end
 
   #returns a yaml file ready to use for puppet external nodes script
@@ -133,8 +166,8 @@ class HostsController < ApplicationController
 
   def query
     respond_to do |format|
-        format.html
-        format.yml { render :text => @hosts.to_yaml }
+      format.html
+      format.yml { render :text => @hosts.to_yaml }
     end
   end
 
@@ -148,6 +181,7 @@ class HostsController < ApplicationController
     if fact.empty? and klass.empty?
       render :text => '404 Not Found', :status => 404 and return
     end
+
     @hosts = []
     counter = 0
 
@@ -180,6 +214,19 @@ class HostsController < ApplicationController
     end unless klass.nil?
 
     render :text => '404 Not Found', :status => 404 and return if @hosts.empty?
+  end
+
+  def ajax_methods
+    return head(:method_not_allowed) unless request.xhr?
+    @host = Host.find(params[:id]) unless params[:id].empty?
+  end
+
+  def assign_parameter name
+    if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
+      render :partial => name, :locals => {:host => (@host ||= Host.new)}
+    else
+      return head(:not_found)
+    end
   end
 
 end

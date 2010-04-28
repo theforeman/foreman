@@ -1,0 +1,11 @@
+<%= label :host, :operatingsystem, "Operating system" %>
+<%= collection_select :host, :operatingsystem_id, @architecture.operatingsystems, :id, :to_label, :include_blank => true %>
+<span id=os_sub_select>
+  <% if @operatingsystem -%>
+    <%= render :partial => 'operatingsystem' %>
+  <% end -%>
+</span>
+<%= observe_field :host_operatingsystem_id,
+    :url => { :action => :os_selected, :id => @host.id },
+    :update => :os_sub_select,
+    :with => :operatingsystem_id %>

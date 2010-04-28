@@ -5,9 +5,9 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :name => /[^\.][\w\.-]+/ }
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts,
-                :member => {:report => :get, :reports => :get, :facts => :get},
-                :collection => { :show_search => :get},
-                :active_scaffold => true
+                :member => {:report => :get, :reports => :get, :facts => :get,
+                  :environment_selected => :post, :architecture_selected => :post, :os_selected => :post},
+                :collection => { :show_search => :get}
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.audit '/audit', :controller => 'audit'
   map.statistics '/statistics', :controller => 'statistics'
