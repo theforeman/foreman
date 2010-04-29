@@ -139,7 +139,7 @@ class Report < ActiveRecord::Base
   def self.expire(conditions = {})
     timerange = conditions[:timerange] || 1.week
     status = conditions[:status]
-    cond = "reported_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
+    cond = "created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and status = #{status}" unless status.nil?
     # delete the reports
     count = Report.delete_all(cond)
