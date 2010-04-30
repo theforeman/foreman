@@ -54,16 +54,19 @@ class Puppetclass < ActiveRecord::Base
   end
 
   # returns module name (excluding of the class name)
+  # if class seperator does not exists (the "::" chars), then returns the whole class name
   def module_name
-    if i = name.index("::")
-      return name[0..i-1] if i = name.index("::")
-    end
+    return (i = name.index("::")) ? name[0..i-1] : name
   end
 
   # returns class name (excluding of the module name)
   def klass
-    mod = module_name
-    return name.gsub(mod+"::","") if mod
+    return name.gsub(module_name+"::","")
+  end
+
+  # add sort by class name
+  def <=>(other)
+    klass <=> other.klass
   end
 
 end
