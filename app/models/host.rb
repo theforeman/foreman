@@ -206,7 +206,7 @@ class Host < Puppet::Rails::Host
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.find_each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
     # read domain parameters
     domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless domain.nil?
     # read group parameters only if a host belongs to a group
@@ -370,7 +370,7 @@ class Host < Puppet::Rails::Host
     data[:resources] = []
     data[:runtime_labels] = [ ['datetime', "Time" ],['number', "Config Retrival"], ['number', 'Total']]
     data[:resources_labels] = [ ['datetime','Time']] + Report::METRIC.map{|metric| ['number', metric] }
-    reports.recent(timerange).find_each do |r|
+    reports.recent(timerange).each do |r|
       data[:runtime] << [r.reported_at.getlocal, r.config_retrival, r.runtime ]
       data[:resources] << [r.reported_at.getlocal, r.status.sort.map(&:last)].flatten
     end

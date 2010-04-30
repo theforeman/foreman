@@ -17,7 +17,7 @@ class FactValue < Puppet::Rails::FactValue
   # returns the sum of each value, e.g. how many machines with 2,4...n cpu's
   def self.count_each(fact)
     hash = {}
-    find_each(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}) do |fv|
+    all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}).each do |fv|
       value = fv.value.strip.humanize
       if hash[value].nil?
         hash[value] = 1
