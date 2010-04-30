@@ -172,6 +172,11 @@ table p {margin:0;}
 /* host show page */ 
 #title, td.last_row { font-weight: bold; }
 
+#host_actions {
+  float: right;
+  font-size: 70%;
+}
+
 #host_overview {
   float:right;
   width:30%

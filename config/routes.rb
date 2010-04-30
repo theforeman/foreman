@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hosts,
                 :member => {:report => :get, :reports => :get, :facts => :get,
                   :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
-                  :storeconfig_klasses => :get},
+                  :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :puppetrun => :get},
                 :collection => { :show_search => :get}
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.audit '/audit', :controller => 'audit'
