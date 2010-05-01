@@ -1,5 +1,5 @@
 <% if @user -%>
-  <%= link_to "Sign Out #{@user.login}", logout_path %>
+  <%= link_to "Sign Out #{@user.login}", logout_users_path %>
 <% end -%>
 <%= link_to           'Wiki',      "http://theforeman.org/wiki/foreman" %>
 <%= link_to           'Support',   "http://theforeman.org/projects/foreman/boards" %>

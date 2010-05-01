@@ -3,24 +3,49 @@ class UsersController < ApplicationController
   filter_parameter_logging :password
   before_filter :require_login, :except => [:login, :logout]
 
-
-  active_scaffold :users do |config|
-    config.label = "Users"
-    config.actions.exclude :create
-    columns[:firstname].label = "First name"
-    columns[:lastname].label = "Surname"
-    columns[:admin].label = "Admin"
-    config.columns = [:firstname, :lastname, :login, :mail, :admin, :auth_source, :usergroups, :last_login_on]
-    config.update.columns = [:firstname, :lastname, :login, :mail, :admin, :auth_source, :last_login_on]
-    config.columns[:auth_source].form_ui  = :select
-    config.columns[:admin].form_ui  = :checkbox
-    config.columns[:usergroups].clear_link
-    list.sorting = {:last_login_on => 'DESC' }
-    config.update.columns.exclude :last_login_on
+  def index
+    @search = User.search(params[:search])
+    @users = @search.paginate(:page => params[:page], :include => [:auth_source], :per_page => 10, :order => "firstname")
   end
 
-  # Called from the login form.
-  # Stores the username in the session and redirects required URL or default homepage
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(params[:user])
+    if @user.save
+      flash[:foreman_notice] = "Successfully created user."
+      redirect_to users_url
+    else
+      render :action => 'new'
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+      flash[:foreman_notice] = "Successfully updated user."
+      redirect_to users_url
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    if @user.destroy
+      flash[:foreman_notice] = "Successfully destroyed user."
+    else
+      flash[:foreman_error] = @user.errors.full_messages.join("<br>")
+    end
+    redirect_to users_url
+  end
+
   def login
     session[:user] = nil
     if request.post?
@@ -28,7 +53,7 @@ class UsersController < ApplicationController
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
         flash[:foreman_error] = "Incorrect username or password"
-        redirect_to login_path
+        redirect_to login_users_path
       else
         #valid user
         session[:user] = user.id
@@ -38,7 +63,6 @@ class UsersController < ApplicationController
       end
     end
   end
-
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout
@@ -48,7 +72,7 @@ class UsersController < ApplicationController
     else
       flash[:foreman_notice] = "Logged out - See you soon"
     end
-    redirect_to login_path
+    redirect_to login_users_path
   end
 
 end

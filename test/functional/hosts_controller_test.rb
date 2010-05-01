@@ -36,16 +36,17 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference 'Host.count' do
       post :create, { :commit => "Create",
         :host => {:name => "myotherfullhost",
-          :mac => "aabbecddee00",
-          :ip => "123.05.02.25",
+          :mac => "aabbecddee06",
+          :ip => "123.05.04.25",
           :domain => Domain.find_or_create_by_name("othercompany.com"),
-          :operatingsystem => Operatingsystem.first,
+          :operatingsystem =>  Operatingsystem.first,
           :architecture => Architecture.first,
           :environment => Environment.first,
           :disk => "empty partition"
-      }
+        }
       }, set_session_user
     end
+    assert_redirected_to host_url(assigns['host'])
   end
 
   test "should get edit" do
@@ -72,11 +73,11 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns(:host))
   end
 
-  def test_destroy
-    host = Host.first
-    delete :destroy, {:id => host}, set_session_user
+  test "should destroy host" do
+    assert_difference('Host.count', -1) do
+      delete :destroy, {:id => @host.id}, set_session_user
+    end
     assert_redirected_to hosts_url
-    assert !Host.exists?(host.id)
   end
 
   test "externalNodes should render 404 when no params are given" do
@@ -103,7 +104,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_template :text => @host.info.to_yaml
   end
 
-  test "when host is saved after setBuild, the flash should informe it" do
+  test "when host is saved after setBuild, the flash should inform it" do
     mock(@host).setBuild {true}
     mock(Host).find(@host.id.to_s) {@host}
     @request.env['HTTP_REFERER'] = hosts_path
@@ -112,10 +113,10 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:foreman_notice]
-    assert flash[:foreman_notice] == "Enabled myfullhost.company.com for installation boot away"
+    assert flash[:foreman_notice] == "Enabled myfullhost.company.com for rebuild on next boot"
   end
 
-  test "when host is not saved after setBuild, the flash should informe it" do
+  test "when host is not saved after setBuild, the flash should inform it" do
     mock(@host).setBuild {false}
     mock(Host).find(@host.id.to_s) {@host}
     @request.env['HTTP_REFERER'] = hosts_path

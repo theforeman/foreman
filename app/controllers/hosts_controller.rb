@@ -146,7 +146,7 @@ class HostsController < ApplicationController
   def setBuild
     host = Host.find params[:id]
     if host.setBuild != false
-      flash[:foreman_notice] = "Enabled #{host.name} for installation boot away"
+      flash[:foreman_notice] = "Enabled #{host.name} for rebuild on next boot"
     else
       flash[:foreman_error] = "Failed to enable #{host.name} for installation"
     end

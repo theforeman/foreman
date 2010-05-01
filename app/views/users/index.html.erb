@@ -1,0 +1,31 @@
+<% title "Users" %>
+
+<table class="list">
+  <tr>
+    <th>Login</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Mail</th>
+    <th>Administrator</th>
+    <th>Last Logged in</th>
+    <th>Authorized by</th>
+    <th></th>
+  </tr>
+  <% for user in @users %>
+    <tr class="<%= cycle("even", "odd")-%>" >
+      <td><%=link_to h(user.login), edit_user_path(user) %></td>
+      <td><%=h user.firstname %></td>
+      <td><%=h user.lastname %></td>
+      <td><%=h user.mail %></td>
+      <td><%=admin_column user %></td>
+      <td><%=h last_login_on_column user %></td>
+      <td><%=h auth_source_column user %></td>
+      <td><%= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= page_entries_info @users %>
+<%= will_paginate @users %>
+
+<p><%= link_to "New User", new_user_path %></p>

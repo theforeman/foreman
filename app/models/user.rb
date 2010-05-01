@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   has_many :changes, :class_name => 'Audit', :as => :user
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
+  has_many :hosts
+
+  default_scope :order => "firstname"
 
   validates_uniqueness_of :login, :message => "already exists"
   validates_presence_of :login, :mail
@@ -27,7 +30,7 @@ class User < ActiveRecord::Base
 
   # The text item to see in a select dropdown menu
   def select_title
-    name + " (#{login})"
+    to_label + " (#{login})"
   end
 
   def self.try_to_login(login, password)

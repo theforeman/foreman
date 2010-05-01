@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
   def setup
     @user = User.create :login => "foo", :mail => "foo@bar.com"
   end
-  
+
   test "should have login" do
     u = User.new :mail => "foo@bar.com"
     assert !u.save

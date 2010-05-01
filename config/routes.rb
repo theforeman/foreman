@@ -36,9 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :fact_values, :active_scaffold => true
   map.resources :ptables
   map.resources :auth_source_ldaps
-  map.login '/login', :controller => 'users', :action => 'login'
-  map.logout '/logout', :controller => 'users', :action => 'logout'
-  map.resources :users
+  map.resources :users, :collection => {:login => [:get, :post], :logout => :get}
   #default
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

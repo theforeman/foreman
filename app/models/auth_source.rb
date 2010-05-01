@@ -32,6 +32,22 @@ class AuthSource < ActiveRecord::Base
     "Abstract"
   end
 
+  def to_label
+    if type_before_type_cast.empty?
+      logger.warn "Corrupt AuthSource! Record id:#{id} name:#{name} does not have an associated type. This may be due to importing a production database."
+      return nil
+    end
+
+    kind = type_before_type_cast.sub("AuthSource","")
+    "#{kind.upcase}-#{name}" if name
+  end
+
+  # By default a user may not set their password via Foreman
+  # An internal AuthSource should override this and provide a password mechanism
+  def can_set_password?
+    false
+  end
+
   # Try to authenticate a user not yet registered against available sources
   def self.authenticate(login, password)
     AuthSource.find(:all).each do |source|

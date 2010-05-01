@@ -3,7 +3,7 @@
   Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 </div>
 
-<% if @report.log.logs.size > 0 -%> 
+<% if @report.log.logs.size > 0 -%>
   <div>
     <%= render :partial => 'output', :locals => { :logs => @report.log.logs} %>
   </div>

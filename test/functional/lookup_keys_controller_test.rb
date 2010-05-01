@@ -15,10 +15,7 @@ class LookupKeysControllerTest < ActionController::TestCase
   test "should create lookup_keys" do
     assert_difference('LookupKey.count') do
       post :create, {:lookup_key=>{"lookup_values_attributes"=>{"0"=>{"priority"=>"1", "value"=>"x", "_destroy"=>""},
-        "1"=>{"priority"=>"2", "value"=>"y", "_destroy"=>""}},
-        "key"=>"tests"}
-      },
-        set_session_user
+        "1"=>{"priority"=>"2", "value"=>"y", "_destroy"=>""} }, "key" =>"tests" } }, set_session_user
     end
 
     assert_redirected_to lookup_keys_path(assigns(:lookup_keys))
