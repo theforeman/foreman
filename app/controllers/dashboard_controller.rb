@@ -7,26 +7,42 @@ class DashboardController < ApplicationController
 
   def errors
     @search = Host.recent.with_error.search(params[:search])
-    hosts = @search.paginate :page => params[:page]
-    render :partial => "hosts/minilist", :layout => true, :locals => {
-      :hosts => hosts,
-      :header => "Hosts with errors" }
+    respond_to do |format|
+      format.html {
+      hosts = @search.paginate :page => params[:page]
+         render :partial => "hosts/minilist", :layout => true, :locals => {
+                :hosts => hosts,
+                :header => "Hosts with errors" }
+      }
+      format.yml { render :text => @search.map(&:name).to_yaml }
+    end
   end
 
   def active
     @search = Host.recent.with_changes.search(params[:search])
-    hosts = @search.paginate :page => params[:page]
-    render :partial => "hosts/minilist", :layout => true, :locals => {
-      :hosts => hosts,
-      :header => "Active Hosts" }
+    respond_to do |format|
+      format.html {
+      hosts = @search.paginate :page => params[:page]
+         render :partial => "hosts/minilist", :layout => true, :locals => {
+                :hosts => hosts,
+                :header => "Active Hosts" }
+      }
+      format.yml { render :text => @search.map(&:name).to_yaml }
+    end
+
   end
 
   def OutOfSync
     @search = Host.out_of_sync.search(params[:search])
-    hosts = @search.paginate :page => params[:page]
-    render :partial => "hosts/minilist", :layout => true, :locals => {
-      :hosts => hosts,
-      :header => "Hosts which didnt run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }
+    respond_to do |format|
+      format.html {
+      hosts = @search.paginate :page => params[:page]
+         render :partial => "hosts/minilist", :layout => true, :locals => {
+                :hosts => hosts,
+                :header => "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }
+      }
+      format.yml { render :text => @search.map(&:name).to_yaml }
+    end
   end
 
   private
