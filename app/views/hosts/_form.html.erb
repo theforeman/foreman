@@ -2,31 +2,34 @@
   <%= f.error_messages %>
 
   <% field_set_tag 'Primary settings' do -%>
-    <%= f.label :name %>
-    <%= f.text_field :name, :size => 16, :value => @host.shortname %>
-    <%= f.label :hostgroup %>
-    <%= f.collection_select :hostgroup_id, Hostgroup.all, :id, :name, :include_blank => true %>
-    <%= f.label :environment %>
-    <%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %>
-    <%= f.label :puppetmaster %>
-    <%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %>
+    <table>
+      <tr>
+        <td><%= f.label :name %></td>
+        <td><%= f.text_field :name, :size => 16, :value => @host.shortname %></td>
+        <td><%= f.label :hostgroup, "Host group" %></td>
+        <td><%= f.collection_select :hostgroup_id, Hostgroup.all, :id, :name, :include_blank => true %></td>
+        <td><%= f.label :environment %></td>
+        <td><%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
+        <td><%= f.label :puppetmaster %></td>
+        <td><%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %></td>
+        <td><%= link_to_function "Additional Classes", toggle_div(:classlist) %></td>
+      </tr>
+    </table>
 
-   <%= link_to_function "Additional Classes", toggle_div(:classlist) %>
-
-   <div id="classlist", style=display:none;>
-     <% if @environment -%>
-       <%= render 'puppetclasses/class_selection', :obj => @host %>
-     <% else -%>
-       <b>Please select an Environment first</b>
-     <% end -%>
-   </div>
-
+    <div id="classlist", style=display:none;>
+      <% if @environment -%>
+        <%= render 'puppetclasses/class_selection', :obj => @host %>
+      <% else -%>
+        <b>Please select an Environment first</b>
+      <% end -%>
+    </div>
   <% end -%>
 
-  <%= observe_field :host_environment_id,
+  <%= observe_field(:host_environment_id,
                     :url => { :action => :environment_selected, :id => @host.id },
                     :update => :classlist,
-                    :with => :environment_id %>
+                    :with => :environment_id)
+  %>
 
   <% if SETTINGS[:unattended].nil? or SETTINGS[:unattended] -%>
     <%= render 'unattended', :f => f %>

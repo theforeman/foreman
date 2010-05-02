@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :name => /[^\.][\w\.-]+/ }
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts,
-                :member => {:report => :get, :reports => :get, :facts => :get,
+                :member => {:report => :get, :reports => :get, :facts => :get, :clone => :get,
                   :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
                   :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :puppetrun => :get},
                 :collection => { :show_search => :get}

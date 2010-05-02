@@ -10,8 +10,7 @@
         <th>Model</th>
         <th>Host Group</th>
         <th><%= order @search, :by => :last_report %></th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th></th>
       </tr>
       <% hosts.each do |host| -%>
         <tr class="<%= cycle("even", "odd") -%>">
@@ -21,8 +20,10 @@
           <td><%=h host.try(:model) %></td>
           <td><%=h host.try(:hostgroup) %></td>
           <td><%=last_report_column(host) %></td>
-          <td><%= link_to  'Edit', edit_host_url(host)  %></td>
-          <td><%= link_to "Destroy", host, :confirm => 'Are you sure?', :method => :delete %></td>
+          <td><%= link_to 'Edit',    edit_host_url(host)  %>
+              <%= link_to 'Clone',   clone_host_url(host)  %>
+              <%= link_to 'Destroy', host, :confirm => 'Are you sure?', :method => :delete %>
+          </td>
         <% end -%>
       </tr>
     </table>

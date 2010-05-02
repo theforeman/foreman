@@ -1,40 +1,56 @@
 <% field_set_tag 'Unattended settings', :id => "unattended" do -%>
   <% field_set_tag 'Network settings', :id => "network" do -%>
-    <%= f.label :domain %>
-    <%= f.collection_select :domain_id, Domain.all, :id, :to_label %>
-    <%= f.label :ip %>
-    <%= f.text_field :ip, :size => 16 %>
-    <%= f.label :mac %>
-    <%= f.text_field :mac, :size => 17 %>
+    <table>
+      <tr>
+        <td><%= f.label :domain %></td>
+        <td><%= f.collection_select :domain_id, Domain.all, :id, :to_label %></td>
+        <td><%= f.label :ip %></td>
+        <td><%= f.text_field :ip, :size => 16 %></td>
+        <td><%= f.label :mac, "MAC" %></td>
+        <td><%= f.text_field :mac, :size => 17 %></td>
+      </tr>
+    </table>
   <% end -%>
 
   <% field_set_tag 'Operating system settings', :id => "operatingsystem" do -%>
-    <p><span id="architecture">
-      <%= f.label :architecture %>
-      <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
-      <span id="host_os">
-        <% if @architecture -%>
-          <%= render "architecture" -%>
-        <% end -%>
-      </span>
-    </span></p>
-    <%= f.label :root_pass %>
-    <%= f.password_field :root_pass %>
-    <%= f.label :model %>
-    <%= f.collection_select :model_id, Model.all, :id, :to_label, :include_blank => true %>
-    <%= f.label :serial %>
-    <%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"] %>
-    <p>
-    <%= link_to_function "Switch to custom disk layout", toggle_div("custom_disk") %>
-    <div id="custom_disk", style=display:none;>
-      <%= f.label :disk, "Custom Disk layout" %>
-      <%= f.text_area :disk, :size => "50x10", :disabled => true %>
-    </div>
+    <table>
+      <tr>
+        <td colspan="6">
+          <span id="architecture">
+            <%= f.label :architecture %>
+            <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
+            <span id="host_os">
+              <% if @architecture -%>
+                <%= render "architecture" -%>
+              <% end -%>
+            </span>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :root_pass, "Root password" %></td>
+        <td><%= f.password_field :root_pass %></td>
+        <td><%= f.label :model %></td>
+        <td><%= f.collection_select :model_id, Model.all, :id, :to_label, :include_blank => true %></td>
+        <td><%= f.label :serial %></td>
+        <td><%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"] %></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <%= link_to_function "Switch to custom disk layout", toggle_div("custom_disk") %>
+          <div id="custom_disk", style=display:none;>
+            <%= f.label :disk, "Custom Disk layout" %>
+            <%= f.text_area :disk, :size => "50x10", :disabled => true %>
+          </div>
+        </td>
+      </tr>
+    </table>
   <% end -%>
 
 <% end -%>
 
-<%= observe_field :host_architecture_id,
-    :url => { :action => :architecture_selected, :id => @host.id },
-    :update => :host_os,
-    :with => :architecture_id %>
+<%= observe_field(:host_architecture_id,
+                  :url => { :action => :architecture_selected, :id => @host.id },
+                  :update => :host_os,
+                  :with => :architecture_id)
+%>

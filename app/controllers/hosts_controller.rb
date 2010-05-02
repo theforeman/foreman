@@ -39,6 +39,19 @@ class HostsController < ApplicationController
     @host.host_parameters.build
   end
 
+  # Clone the host
+  def clone
+    @original = Host.find(params[:id])
+    @host = @original.clone
+    load_vars_for_ajax
+    # Clone any parameters as well
+    @original.host_parameters.each{|param| @host.host_parameters << param.clone}
+    flash[:error_customisation] = {:header_message => nil, :class => "flash notice", :id => nil,
+      :message => "The following fields will need modification:" }
+    @host.valid?
+    render :action => :new
+  end
+
   def create
     @host = Host.new(params[:host])
     if @host.save
@@ -51,9 +64,7 @@ class HostsController < ApplicationController
 
   def edit
     @host = Host.find(params[:id])
-    @environment = @host.environment
-    @architecture = @host.architecture
-    @operatingsystem = @host.operatingsystem
+    load_vars_for_ajax
   end
 
   def update
@@ -225,6 +236,13 @@ class HostsController < ApplicationController
     else
       return head(:not_found)
     end
+  end
+
+  def load_vars_for_ajax
+    return unless @host
+    @environment = @host.environment
+    @architecture = @host.architecture
+    @operatingsystem = @host.operatingsystem
   end
 
 end
