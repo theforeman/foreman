@@ -40,12 +40,8 @@ class Operatingsystem < ActiveRecord::Base
     to_label
   end
 
-  def to_version
-    "#{major}#{('-' + minor) unless minor.empty?}"
-  end
-
   def fullname
-    "#{name}_#{to_version}"
+    to_label
   end
 
   private

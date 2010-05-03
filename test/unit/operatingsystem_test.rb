@@ -72,16 +72,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert operating_system.to_label == "Ubuntu 9.10"
   end
 
-  test "to_version should print correctly" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10"
-    assert operating_system.to_version == "9-10"
-  end
-
-  test "fullname should print correctly" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10"
-    assert operating_system.fullname == "Ubuntu_9-10"
-  end
-
   test "to_s retrives label" do
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10"
     assert operating_system.to_s == operating_system.to_label

@@ -12,7 +12,7 @@ class UnattendedController < ApplicationController
     os         = @host.operatingsystem
     @osver     = os.major.to_i
     @mediapath = os.mediapath @host
-    @epel      = os.epel      @arch
+    @epel      = os.epel      @host
     @yumrepo   = os.yumrepo   @host
     unattended_local "kickstart"
   end
