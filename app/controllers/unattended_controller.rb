@@ -26,8 +26,8 @@ class UnattendedController < ApplicationController
   end
 
   def preseed
-    @preseed_path   = @host.os.preseed_path   @host.media
-    @preseed_server = @host.os.preseed_server @host.media
+    @preseed_path   = @host.os.preseed_path   @host
+    @preseed_server = @host.os.preseed_server @host
     unattended_local "preseed"
   end
 

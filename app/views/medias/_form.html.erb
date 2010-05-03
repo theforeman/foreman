@@ -10,7 +10,8 @@
   </p >
   <small>
     The path to the media, can be a URL or a valid NFS server (exclusive of the architecture).<br />
-    for example http://mirror.averse.net/centos/6.0/os/$arch where <b>$arch</b> will be substituted for the host actual OS architecture.
+    for example http://mirror.averse.net/centos/$version/os/$arch where <strong>$arch</strong> will be substituted for the host's actual OS architecture<br />
+    and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system.
   </small>
   <p>
   <%= f.label :operatingsystem_id %><br />
