@@ -172,6 +172,17 @@ class HostsController < ApplicationController
   end
 
   def query
+    if @verbose
+      @hosts.map! do |host|
+        hash = {}
+        h = Host.find_by_name host
+        hash[host] = h.info
+        facts = {}
+        h.fact_values.each {|fv| facts[fv.fact_name.name] = fv.value}
+        hash[host]["facts"]= facts
+        hash
+      end
+    end
     respond_to do |format|
       format.html
       format.yml { render :text => @hosts.to_yaml }
@@ -195,6 +206,8 @@ class HostsController < ApplicationController
 
     @hosts = []
     counter = 0
+
+    @verbose = params[:verbose] == "yes"
 
     case params[:state]
     when "out_of_sync"
