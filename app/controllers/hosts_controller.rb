@@ -58,6 +58,7 @@ class HostsController < ApplicationController
       flash[:foreman_notice] = "Successfully created host."
       redirect_to @host
     else
+      load_vars_for_ajax
       render :action => 'new'
     end
   end
@@ -73,6 +74,7 @@ class HostsController < ApplicationController
       flash[:foreman_notice] = "Successfully updated host."
       redirect_to @host
     else
+      load_vars_for_ajax
       render :action => 'edit'
     end
   end
