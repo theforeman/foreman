@@ -20,6 +20,7 @@ class Hash
     fact=[]
     klass=[]
     state = ""
+    verbose = ""
     self.each do |type,name|
       case type.to_s
       when "fact"
@@ -28,11 +29,13 @@ class Hash
         name.each { |c| klass << "class[]=#{c}" }
       when "state"
         state = "state=#{name}"
+      when "verbose"
+        verbose = "verbose=#{name}"
       else
         raise "unknown query type #{type}"
       end
     end
-    return (fact + klass).join("&")+"&#{state}"
+    return (fact + klass).join("&")+"&#{state}&#{verbose}"
   end
 end
 
