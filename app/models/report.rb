@@ -51,7 +51,7 @@ class Report < ActiveRecord::Base
 
   # returns true if total error metrics are > 0
   def error?
-    %w[failed failed_restarts skipped].sum {|f| status f} > 0
+    %w[failed failed_restarts].sum {|f| status f} > 0
   end
 
   # returns true if total action metrics are > 0
