@@ -2,11 +2,11 @@
   <% field_set_tag 'Network settings', :id => "network" do -%>
     <table>
       <tr>
-        <td><%= f.label :domain %></td>
+        <td>Domain</td>
         <td><%= f.collection_select :domain_id, Domain.all, :id, :to_label %></td>
-        <td><%= f.label :ip %></td>
+        <td>IP</td>
         <td><%= f.text_field :ip, :size => 16 %></td>
-        <td><%= f.label :mac, "MAC" %></td>
+        <td>MAC</td>
         <td><%= f.text_field :mac, :size => 17 %></td>
       </tr>
     </table>
@@ -17,7 +17,7 @@
       <tr>
         <td colspan="6">
           <span id="architecture">
-            <%= f.label :architecture %>
+            Architecture
             <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
             <span id="host_os">
               <% if @architecture -%>
@@ -28,18 +28,18 @@
         </td>
       </tr>
       <tr>
-        <td><%= f.label :root_pass, "Root password" %></td>
+        <td>Root password</td>
         <td><%= f.password_field :root_pass %></td>
-        <td><%= f.label :model %></td>
+        <td>Model</td>
         <td><%= f.collection_select :model_id, Model.all, :id, :to_label, :include_blank => true %></td>
-        <td><%= f.label :serial %></td>
+        <td>Serial</td>
         <td><%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"] %></td>
       </tr>
       <tr>
         <td colspan="6">
           <%= link_to_function "Switch to custom disk layout", toggle_div("custom_disk") %>
           <div id="custom_disk", style=display:none;>
-            <%= f.label :disk, "Custom Disk layout" %>
+            Custom Disk layout
             <%= f.text_area :disk, :size => "50x10", :disabled => true %>
           </div>
         </td>

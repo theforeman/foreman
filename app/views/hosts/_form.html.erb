@@ -4,13 +4,13 @@
   <% field_set_tag 'Primary settings' do -%>
     <table>
       <tr>
-        <td><%= f.label :name %></td>
+        <td>Name</td>
         <td><%= f.text_field :name, :size => 16, :value => @host.shortname %></td>
-        <td><%= f.label :hostgroup, "Host group" %></td>
+        <td>Host group</td>
         <td><%= f.collection_select :hostgroup_id, Hostgroup.all, :id, :name, :include_blank => true %></td>
-        <td><%= f.label :environment %></td>
+        <td>Environment</td>
         <td><%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
-        <td><%= f.label :puppetmaster %></td>
+        <td>Puppetmaster</td>
         <td><%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %></td>
         <td><%= link_to_function "Additional Classes", toggle_div(:classlist) %></td>
       </tr>

@@ -49,7 +49,7 @@ class HostsController < ApplicationController
     # Clone any parameters as well
     @original.host_parameters.each{|param| @host.host_parameters << param.clone}
     flash[:error_customisation] = {:header_message => nil, :class => "flash notice", :id => nil,
-      :message => "The following fields will need modification:" }
+      :message => "The following fields will need reviewing:" }
     @host.valid?
     render :action => :new
   end

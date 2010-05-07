@@ -72,3 +72,16 @@ class String
     end
   end
 end
+module ActionView::Helpers::ActiveRecordHelper
+  def error_messages_for_with_customisation(*params)
+    if flash[:error_customisation]
+      if params[-1].is_a? Hash
+        params[-1].update flash[:error_customisation]
+      else
+        params << flash[:error_customisation]
+      end
+    end
+    error_messages_for_without_customisation(*params)
+  end
+  alias_method_chain :error_messages_for, :customisation
+end

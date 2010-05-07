@@ -70,7 +70,7 @@ class Host < Puppet::Rails::Host
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
     validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
     validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
-    validates_presence_of    :ptable, :message => "Cant be blank unless a custom partition has been defined",
+    validates_presence_of    :ptable, :message => "cant be blank unless a custom partition has been defined",
                              :if => Proc.new { |host| host.disk.empty? and not defined?(Rake) }
     validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
