@@ -3,7 +3,7 @@ class Environment < ActiveRecord::Base
   has_many :hosts
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of   :name, :with => /^\S+$/, :message => "Name cannot contain spaces"
+  validates_format_of   :name, :with => /^\S+$/, :message => "cannot contain spaces"
   default_scope :order => 'name'
 
   def to_label
@@ -12,6 +12,10 @@ class Environment < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  def self.per_page
+    10
   end
 
   # returns an hash of all puppet environments and their relative paths

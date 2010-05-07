@@ -41,13 +41,6 @@ class PuppetclassesController < ApplicationController
     redirect_to puppetclasses_url
   end
 
-  def import
-    ec, pc = Environment.count, Puppetclass.count
-    Environment.importClasses
-    flash[:foreman_notice] = "Environments   old:#{ec}\tcurrent:#{Environment.count}<br>PuppetClasses old:#{pc}\tcurrent:#{Puppetclass.count}"
-    redirect_to :back
-  end
-
   # AJAX methods
 
   # adds a puppetclass to an existing host or hostgroup

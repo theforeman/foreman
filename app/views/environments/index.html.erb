@@ -1,0 +1,27 @@
+<% title "Environments" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th><th></th>
+  </tr>
+
+  <% for environment in @environments %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td>
+        <%= link_to h(environment.name), edit_environment_path(environment) %>
+      </td>
+      <td style="float:right;">
+        <%= link_to "Hosts",   hosts_path         + "?search[environment_id_equals]=#{environment.id}"%>
+        <%= link_to "classes", puppetclasses_path + "?search[environments_id_equals]=#{environment.id}"%>
+        <%= link_to "Destroy", environment, :confirm => "Delete environment '#{environment.name}'?", :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= page_entries_info @environments %>
+<%= will_paginate @environmentsS %>
+
+<p><%= link_to "New Environment", new_environment_path %>
+   <%= link_to "Import all classes and environments",  import_environments_environments_path %>
+</p>

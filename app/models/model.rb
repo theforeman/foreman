@@ -8,5 +8,5 @@ class Model < ActiveRecord::Base
   def to_label
     name
   end
-
+  alias_method :to_s, :to_label
 end

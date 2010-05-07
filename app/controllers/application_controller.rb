@@ -27,6 +27,14 @@ class ApplicationController < ActionController::Base
     render :partial => 'common/fact_selected', :layout => false
   end
 
+  def import_environments
+    ec, pc = Environment.count, Puppetclass.count
+    Environment.importClasses
+
+    flash[:foreman_notice] = "Environments old:#{ec} current:#{Environment.count}<br>PuppetClasses old:#{pc} current:#{Puppetclass.count}"
+    redirect_to :back
+  end
+
   protected
 
   def require_ssl
