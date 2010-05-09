@@ -1,33 +1,40 @@
 <div id="hostlist">
   <% if hosts.size > 0 -%>
-    <strong><center><%= header ||= "" -%></center></strong><br/>
-    <table class="list">
-      <th colspan="8"><%= render "common/searchbar" %></th>
-      <tr>
-        <th><%= order @search, :by => :name %></th>
-        <th>Operating system</th>
-        <th>Environment</th>
-        <th>Model</th>
-        <th>Host Group</th>
-        <th><%= order @search, :by => :last_report %></th>
-        <th></th>
-      </tr>
-      <% hosts.each do |host| -%>
-        <tr class="<%= cycle("even", "odd") -%>">
-          <td><%=name_column(host) %></td>
-          <td><%=h host.try(:os) %></td>
-          <td><%=h host.try(:environment) %></td>
-          <td><%=h host.try(:model) %></td>
-          <td><%=h host.try(:hostgroup) %></td>
-          <td><%=last_report_column(host) %></td>
-          <td><%= link_to 'Edit',    edit_host_url(host)  %>
-              <%= link_to 'Clone',   clone_host_url(host)  %>
+    <%= render "common/searchbar" %>
+    <% form_tag(multiple_actions_hosts_path,:method => "get", :id => "host_select_form") do %>
+      <strong><center><%= header ||= "" -%></center></strong><br/>
+      <table class="list">
+        <tr>
+          <td><%= order @search, :by => :name %></th>
+          <th>Operating system</th>
+          <th>Environment</th>
+          <th>Model</th>
+          <th>Host Group</th>
+          <th><%= order @search, :by => :last_report %></th>
+          <th></th>
+        </tr>
+        <% hosts.each do |host| -%>
+          <tr class="<%= cycle("even", "odd") -%>">
+            <td>
+              <%= check_box_tag "host_ids[]", host.id, selected?(host), :class => 'host_select_boxes', :onClick => 'insertHostVal(this)' if hosts_controller? -%>
+              <%=name_column(host) %>
+            </td>
+            <td><%=h host.try(:os) %></td>
+            <td><%=h host.try(:environment) %></td>
+            <td><%=h host.try(:model) %></td>
+            <td><%=h host.try(:hostgroup) %></td>
+            <td><%=last_report_column(host) %></td>
+            <td>
+              <%= link_to 'Edit', edit_host_url(host)  %>
+              <%= link_to 'Clone', clone_host_url(host)  %>
               <%= link_to 'Destroy', host, :confirm => 'Are you sure?', :method => :delete %>
-          </td>
-        <% end -%>
-      </tr>
-    </table>
+            </td>
+          <% end -%>
+        </tr>
+      </table>
+      <%= submit_tag("Edit Multiple Hosts", :title => "Mass assign values to many hosts") if hosts_controller? %><br />
+    <% end -%>
   <% end -%>
+  <%= page_entries_info hosts %>
+  <%= will_paginate hosts %>
 </div>
-<%= page_entries_info hosts %>
-<%= will_paginate hosts %>

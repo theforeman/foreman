@@ -1,0 +1,14 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<% if @parameters.empty? -%>
+  Sorry, these hosts do not have parameters assigned to them, you must add them first.
+  <p><%= link_to "Back to host list", hosts_path %></p>
+<% else -%>
+  <% form_tag update_multiple_parameters_hosts_path do %>
+    <% for param in @parameters %>
+      <%= text_field :name, param.name, :size=>'50' %>
+      <%= param.name %><br/>
+    <% end %>
+    <p><%= submit_tag "Submit", :title => pluralize(@parameters.size, 'parameter') %></p>
+  <% end %>
+<% end %>

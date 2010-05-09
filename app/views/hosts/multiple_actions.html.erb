@@ -1,0 +1,5 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+<h2>Choose the action you want to apply to the selected Hosts:</h2>
+
+<%= link_to 'Change Group', select_multiple_hostgroup_hosts_path %> |
+<%= link_to 'Edit Parameters', multiple_parameters_hosts_path %>

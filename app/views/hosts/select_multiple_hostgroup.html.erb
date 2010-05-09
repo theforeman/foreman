@@ -1,0 +1,6 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<% form_for :hostgroup, :url => update_multiple_hostgroup_hosts_path do |f| %>
+  <%= f.collection_select :id, Hostgroup.all, :id, :name, :include_blank => "Select Host Group" %>
+  <%= f.submit "Change Hostgroup!" %></p>
+<% end %>

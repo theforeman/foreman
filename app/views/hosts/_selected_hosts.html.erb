@@ -1,0 +1,14 @@
+<h4>The following hosts are about to be changed:</h4>
+<table>
+  <% for host in hosts %>
+    <tr>
+      <td>
+      <%= hidden_field_tag "host_ids[]", host.id %>
+      <%= host.name %>
+      </td>
+      <td><%=h host.try(:hostgroup) %></td>
+    </tr>
+  <% end %>
+</table>
+<h5>Click this button to clear all selected hosts and return to Hosts list:</h5>
+<%= button_to 'Clear Selected Hosts', reset_multiple_hosts_path %>

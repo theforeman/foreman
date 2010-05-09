@@ -4,6 +4,8 @@ class HostsController < ApplicationController
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
   before_filter :load_tabs, :manage_tabs, :only => :index
+  before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
+    :select_multiple_hostgroup, :multiple_parameters]
 
   helper :hosts
 
@@ -197,6 +199,90 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
   end
 
+  # multiple host selection methods
+
+  # present the available actions to the user
+  def multiple_actions
+  end
+
+  def multiple_parameters
+    @parameters = Parameter.find(:all, :select => "DISTINCT name", :conditions => {:host_id => @hosts })
+  end
+
+  def reset_multiple
+    session[:selected] = []
+    flash[:foreman_notice] = 'Selection cleared.'
+    redirect_to hosts_path and return
+  end
+
+  def update_multiple_parameters
+    if params[:name].empty?
+      flash[:foreman_notice] = "No parameters were allocted to the selected hosts, can't mass assign."
+      redirect_to hosts_path and return
+    end
+
+    @skipped_parameters = {}
+    counter = 0
+    @hosts.each do |host|
+      skipped = []
+      params[:name].each do |name, value|
+        next if value.empty?
+        if host_param = host.host_parameters.find_by_name(name)
+          counter += 1 if host_param.update_attribute(:value, value)
+        else
+          skipped << name
+        end
+        @skipped_parameters[host.name] = skipped unless skipped.empty?
+      end
+    end
+    session[:selected] = []
+    if @skipped_parameters.empty?
+      flash[:foreman_notice] = 'Updated all hosts!'
+      redirect_to(hosts_path) and return
+    else
+      flash[:foreman_notice] = "#{counter} Parameters updated, see below for more information"
+    end
+  end
+
+  def select_multiple_hostgroup
+  end
+
+  def update_multiple_hostgroup
+    # simple validations
+    if (id=params["hostgroup"]["id"]).empty?
+      flash[:foreman_error] = 'No Hostgroup selected!'
+      redirect_to(select_hostgroup_hosts_path) and return
+    end
+    if (hg = Hostgroup.find id).nil?
+      flash[:foreman_error] = 'Empty Hostgroup selected!'
+      redirect_to(select_hostgroup_hosts_path) and return
+    end
+
+    #update the hosts
+    Host.find(session[:selected]).each do |host|
+      host.hostgroup=hg
+      host.save(perform_validation = false)
+    end
+
+    session[:selected] = []
+    flash[:foreman_notice] = 'Updated hosts: Changed Hostgroup'
+    redirect_to(hosts_path)
+  end
+
+  # AJAX method to update our session each time a host has been selected
+  # we are using AJAX and JS as the user might select multiple hosts across different pages (or requests).
+  def save_checkbox
+    return unless request.xhr?
+    session[:selected] ||= []
+    case params[:is_checked]
+    when "true"
+      session[:selected] << params[:box]
+    when "false"
+      session[:selected].delete params[:box]
+    end
+    render :nothing => true
+  end
+
   private
   def find_hosts
     fact, klass = params[:fact], params[:class]
@@ -258,6 +344,15 @@ class HostsController < ApplicationController
     @environment = @host.environment
     @architecture = @host.architecture
     @operatingsystem = @host.operatingsystem
+  end
+
+  def find_multiple
+    if session[:selected].empty?
+      flash[:foreman_error] = 'No Hosts selected'
+      redirect_to(hosts_path)
+    else
+      @hosts = Host.find(session[:selected], :order => "hostgroup_id ASC")
+    end
   end
 
 end

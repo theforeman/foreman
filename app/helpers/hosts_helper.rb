@@ -30,4 +30,13 @@ module HostsHelper
     params[:search].empty?
   end
 
+  def selected? host
+    return false if host.nil? or not host.is_a?(Host) or session[:selected].nil?
+    session[:selected].include?(host.id.to_s)
+  end
+
+  def hosts_controller?
+    controller.controller_name == "hosts"
+  end
+
 end
