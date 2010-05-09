@@ -383,6 +383,10 @@ class Host < Puppet::Rails::Host
    return klasses
   end
 
+  def can_be_build?
+    return (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) ? build == false : false
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses

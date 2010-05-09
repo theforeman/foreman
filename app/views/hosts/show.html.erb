@@ -5,7 +5,7 @@
     <%= link_to "Facts", facts_host_path(@host), :title => "Browse host facts" %> |
     <%= link_to "Reports", reports_host_path(@host), :title => "Browse host reports" %> |
     <%= link_to "YAML", externalNodes_host_path(@host), :title => "Puppet external nodes YAML dump" %> |
-    <%= link_to_if @host.build == false, "Build", setBuild_host_path(@host), :title => "prepare this host for build" %> |
+    <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host), :title => "prepare this host for build" %> |
     <span title="trigger a puppetrun on a node; requires that Puppet run is enabled">
       <%= link_to_if SETTINGS[:puppetrun], "Run Puppet", puppetrun_host_path(@host) %>
     </span> |
