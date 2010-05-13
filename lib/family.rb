@@ -42,7 +42,7 @@ module Family
     def mediapath host
       uri = media_uri(host)
       server = uri.select(:host, :port).compact.join(':')
-      dir = uri.select(:path, :query).compact.join('?')
+      dir = uri.select(:path, :query).compact.join('?') unless uri.scheme == 'ftp'
 
       case uri.scheme
         when 'http', 'https', 'ftp'
@@ -61,10 +61,13 @@ module Family
         epel_url.gsub!("$os","4-9")
       when "5"
         epel_url.gsub!("$os","5-3")
+      when "6"
+         epel_url.gsub!("$os","6-1").
+           gsub!("/pub/epel/","/pub/epel/beta/") # workaround for hardcoded beta in url, should be remove once RH6 is released
       else
         return ""
       end
-      return "su -c 'rpm -Uvh #{media_uri(host, epel_url)}"
+      return "su -c 'rpm -Uvh #{media_uri(host, epel_url)}'"
     end
 
     def yumrepo host
