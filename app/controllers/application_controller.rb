@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :load_tabs, :manage_tabs
 
   def self.active_scaffold_controller_for(klass)
     return FactNamesController if klass == Puppet::Rails::FactName
@@ -76,19 +77,36 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def active_tab=(value); @active_tab = session[:controller_active_tabs][controller_name] = value; end
+
   def load_tabs
-    @tabs = session[:tabs] ||= {}
-    @active_tab = session[:active_tab]
+    controller_tabs        = session[:controller_tabs]               ||= {}
+    @tabs                  = controller_tabs[controller_name]        ||= {}
+    controller_active_tabs = session[:controller_active_tabs]        ||= {}
+    @active_tab            = controller_active_tabs[controller_name] ||= ""
   end
 
   def manage_tabs
-    return if params[:tab_name].empty? or params[:tab_name] == "Reset"
+    # Clear the active tab if jumping between different controller's
+    @controller_changed       = session[:last_controller] != controller_name
+    session[:last_controller] = controller_name
+    self.active_tab           = "" if @controller_changed
 
-    if params[:remove_me] and @tabs.has_key? params[:tab_name]
+    return if params[:tab_name].empty? or params[:action] != "index"
+
+    if    params[:tab_name] == "Reset"
+      self.active_tab    = ""
+    elsif params[:remove_me] and @tabs.has_key? params[:tab_name]
       @tabs.delete params[:tab_name]
-      @active_tab        = session[:active_tab] = @tabs.keys.sort.first
+      # If we delete the active tab then clear the active tab selection
+      if @active_tab == params[:tab_name]
+        self.active_tab    = ""
+      else
+        # And redirect back as we do  not want to perform the deleted tab's search
+        redirect_to :back
+      end
     else
-      @active_tab        = session[:active_tab] = params[:tab_name]
+      self.active_tab    = params[:tab_name]
       @tabs[@active_tab] = params[:search]
     end
   end

@@ -1,7 +1,7 @@
 <span id=fact_search>
   <%= label_tag "Fact Name" %>
   <%= collection_select :search, :fact_values_fact_name_id_eq,
-    Puppet::Rails::FactName.find(:all, :order => "name ASC"),
+    Puppet::Rails::FactName.all(:select => "id, name", :order => "name ASC"),
     :id, :name, :selected => @fact_name_id, :include_blank => "Select a fact"
   %>
   <% if @fact_values -%>

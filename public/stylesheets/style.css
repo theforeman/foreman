@@ -28,7 +28,7 @@ input {
 p { 
   line-height: 130%;
 }
-#header {height:3.7em;margin:0;background-color:#406480;color:#E6DFCF;padding: 4px 8px 0px 6px; position:relative;}
+#header {height:3.7em;margin:0;background-color:#406480;color:#E6DFCF;padding: 4px 8px 4px 6px; position:relative;}
 
 #header a {
   float:right;
@@ -73,6 +73,7 @@ div#content {
   position:relative;
   float: center;
   padding: 10px;
+  clear: both;
 }
 div#content h3 {
   margin-top: 15px;
@@ -103,7 +104,7 @@ div#footer {
   border: 2px solid;
 }
 
-div.flash {margin-top: 8px;}
+div.flash {margin-top: 24px;}
 
 div.flash.error, #errorExplanation {
   background: url(../images/false.png) 8px 5px no-repeat;

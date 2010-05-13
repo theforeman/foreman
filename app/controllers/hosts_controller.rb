@@ -3,7 +3,6 @@ class HostsController < ApplicationController
   before_filter :require_ssl, :except => [ :query, :externalNodes, :lookup ]
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
-  before_filter :load_tabs, :manage_tabs, :only => :index
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters]
 

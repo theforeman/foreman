@@ -1,0 +1,10 @@
+<% form_for @search do |f|-%>
+  <span title="A substring match">
+    <%= f.label :name_like, "Name" %>
+    <%= f.text_field :name_like, :size => 10 %>
+  </span>
+  <%= f.label :hostgroup, "Role" %>
+  <%= f.collection_select :hostgroup_id_eq, Hostgroup.all, :id, :name, :include_blank => true %>
+  <%= render :partial => 'common/fact_selected' %>
+  <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
+<% end %>
