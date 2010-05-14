@@ -10,7 +10,9 @@
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to h(operatingsystem.to_label), edit_operatingsystem_path(operatingsystem) %></td>
       <td><%= h operatingsystem.family %></td>
-      <td><%= link_to "Destroy", operatingsystem, :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %></td>
+      <td align="right">
+        <%= link_to "Destroy", operatingsystem, :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>

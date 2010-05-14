@@ -9,4 +9,8 @@ class Architecture < ActiveRecord::Base
   def to_s
     name
   end
+
+  def self.per_page
+    25
+  end
 end

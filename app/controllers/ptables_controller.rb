@@ -1,6 +1,7 @@
 class PtablesController < ApplicationController
   def index
-    @ptables = Ptable.all(:include => [:operatingsystems])
+    @search  = Ptable.search params[:search]
+    @ptables = @search.paginate(:page => params[:page], :include => [:operatingsystems])
   end
 
   def show

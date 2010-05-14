@@ -10,9 +10,11 @@
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to h(domain.fullname.empty? ? domain.name : domain.fullname), edit_domain_path(domain)%></td>
       <td><%= domain.hosts.size %>
-      <td><%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align="right"> <%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
 </table>
+<%= page_entries_info @domains %>
+<%= will_paginate     @domains %>
 
 <p><%= link_to "New Domain", new_domain_path %></p>

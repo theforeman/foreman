@@ -9,9 +9,13 @@
     <tr>
       <td><%= link_to h(common_parameter), edit_common_parameter_path(common_parameter)%></td>
       <td><%=h common_parameter.value %></td>
-      <td><%= link_to "Destroy", common_parameter, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align=""right>
+        <%= link_to "Destroy", common_parameter, :confirm => "Delete #{common_parameter.name}?", :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>
+<%= page_entries_info @common_parameters %>
+<%= will_paginate     @common_parameters %>
 
 <p><%= link_to "New Common Parameter", new_common_parameter_path %></p>

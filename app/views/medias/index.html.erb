@@ -5,15 +5,19 @@
     <th>Name</th>
     <th>Path</th>
     <th>Operatingsystem</th>
+    <th></th>
   </tr>
   <% for media in @medias %>
     <tr>
       <td><%= link_to h(media), edit_media_path(media) %></td>
       <td><%=h media.path %></td>
       <td><%=h media.operatingsystem %></td>
-      <td><%= link_to "Destroy", media, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align="right">
+        <%= link_to "Destroy", media, :confirm => "Delete #{media.name}?", :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>
-
+<%= page_entries_info @medias %>
+<%= will_paginate     @medias %>
 <p><%= link_to "New Media", new_media_path %></p>

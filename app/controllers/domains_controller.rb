@@ -1,6 +1,7 @@
 class DomainsController < ApplicationController
   def index
-    @domains = Domain.all
+    @search  = Domain.search params[:search]
+    @domains = @search.paginate :page => params[:page], :include => 'hosts'
   end
 
   def new

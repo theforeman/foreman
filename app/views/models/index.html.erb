@@ -10,11 +10,13 @@
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=link_to h(model.name), edit_model_path(model)%></td>
       <td><%= model.hosts.count %></td>
-      <td><%= link_to "Destroy", model, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align="right">
+        <%= link_to "Destroy", model, :confirm => "Delete #{model.name}?", :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>
-
-Found <%= @models.size %> models
+<%= page_entries_info @models %>
+<%= will_paginate     @models %>
 
 <p><%= link_to "New Model", new_model_path %></p>

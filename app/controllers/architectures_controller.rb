@@ -1,6 +1,7 @@
 class ArchitecturesController < ApplicationController
   def index
-    @architectures = Architecture.all(:include => :operatingsystems)
+    @search        = Architecture.search(params[:search])
+    @architectures = @search.paginate(:page => params[:page], :include => :operatingsystems)
   end
 
   def new

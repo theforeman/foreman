@@ -1,6 +1,7 @@
 class ModelsController < ApplicationController
   def index
-    @models = Model.all
+    @search = Model.search params[:search]
+    @models = @search.paginate :page => params[:page]
   end
 
   def new

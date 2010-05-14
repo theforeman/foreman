@@ -4,17 +4,19 @@
   <tr>
     <th>Name</th>
     <th>Operatingsystems</th>
-    <th></th><th></th><th></th>
+    <th></th>
   </tr>
   <% for ptable in @ptables %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=h ptable.name %></td>
+      <td><%=link_to h(ptable.name), edit_ptable_path(ptable) %></td>
       <td><%=h ptable.operatingsystems.to_sentence %></td>
-      <td><%= link_to "Show", ptable %></td>
-      <td><%= link_to "Edit", edit_ptable_path(ptable) %></td>
-      <td><%= link_to "Destroy", ptable, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align="right">
+        <%= link_to "Destroy", ptable, :confirm => "Delete #{ptable.name}?", :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>
+<%= page_entries_info @ptables %>
+<%= will_paginate     @ptables %>
 
 <p><%= link_to "New Partition table layout", new_ptable_path %></p>

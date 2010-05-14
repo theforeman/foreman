@@ -1,6 +1,7 @@
 class HostgroupsController < ApplicationController
   def index
-    @hostgroups = Hostgroup.all
+    @search     = Hostgroup.search params[:search]
+    @hostgroups = @search.paginate :page => params[:page]
   end
 
   def new

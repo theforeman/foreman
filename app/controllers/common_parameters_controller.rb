@@ -1,6 +1,7 @@
 class CommonParametersController < ApplicationController
   def index
-    @common_parameters = CommonParameter.all
+    @search            = CommonParameter.search(params[:search])
+    @common_parameters = @search.paginate(:page => params[:page])
   end
 
   def new

@@ -10,6 +10,7 @@
     <th>Operatingsystems</th>
     <th>Environments</th>
     <th>Host Groups</th>
+    <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
     <tr class="<%= cycle("even", "odd") -%>">
@@ -17,7 +18,9 @@
       <td><%=h puppetclass.operatingsystems.to_sentence %></td>
       <td><%=h puppetclass.environments.to_sentence %></td>
       <td><%=h puppetclass.hostgroups.to_sentence %></td>
-      <td><%= link_to "Destroy", puppetclass, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align="right">
+        <%= link_to "Destroy", puppetclass, :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>
