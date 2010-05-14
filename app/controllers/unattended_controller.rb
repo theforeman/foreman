@@ -56,14 +56,23 @@ class UnattendedController < ApplicationController
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
+    maclist = []
+    maccond = "mac in ("
     unless request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].nil?
-      mac=request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].split[1].downcase.strip
+      request.env.keys.each { | header |
+        if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/ then
+          maccond << "?, "
+          maclist << request.env[header].split[1].downcase.strip
+        end
+      }
     end
+    maccond.sub!(/, $/, ')')
 
-    conditions = (mac and ip) ? ["mac = ? and ip = ?",mac, ip] : ["ip = ?",ip];
+    conditions = (ip and (!maclist.empty?)) ? ["ip = ? and " + maccond, ip, *maclist] : ["ip = ?",ip];
+    logger.info "#{controller_name}: conditions string: " + conditions.to_s
     @host = Host.find(:first, :include => [:architecture, :media, :operatingsystem, :domain], :conditions => conditions)
     if @host.nil?
-      logger.info "#{controller_name}: unable to find #{ip}#{"/"+mac unless mac.nil?}"
+      logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
       head(:not_found) and return
     end
   end

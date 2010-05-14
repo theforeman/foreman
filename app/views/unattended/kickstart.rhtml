@@ -6,7 +6,7 @@ lang en_US.UTF-8
 <%= "selinux --disabled\n" if @osver != 3 -%>
 keyboard us
 skipx
-network --device eth0 --bootproto dhcp
+network --bootproto dhcp
 rootpw --iscrypted <%= root_pass %>
 firewall --disabled
 authconfig --useshadow --enablemd5 <%= @osver != 3 and @osver != 4 ? '--disablenis' : '' %>
