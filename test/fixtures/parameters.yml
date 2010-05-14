@@ -4,6 +4,8 @@ one:
   name: test
   value: myvalue
   type: CommonParameter
-#
-# two:
-#   column: value
+
+two:
+  name: parameter
+  value: value1
+

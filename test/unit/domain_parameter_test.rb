@@ -9,5 +9,12 @@ class DomainParameterTest < ActiveSupport::TestCase
     parameter.domain_id = domain.id
     assert parameter.save
   end
+
+  test "should have a unique parameter name" do
+    p1 = DomainParameter.new(:name => "parameter", :value => "value1", :domain_id => Domain.first)
+    assert p1.save
+    p2 = DomainParameter.new(:name => "parameter", :value => "value2", :domain_id => Domain.first)
+    assert !p2.save
+  end
 end
 
