@@ -21,6 +21,9 @@ class Report < ActiveRecord::Base
   # with_changes
   named_scope :with_changes, {:conditions => "status != 0"}
 
+  def self.per_page
+    20
+  end
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
   def status=(st)
@@ -63,7 +66,7 @@ class Report < ActiveRecord::Base
     "#{host.name} / #{reported_at.to_s}"
   end
 
-  def config_retrival
+  def config_retrieval
     t = validate_meteric("time", :config_retrieval)
     t.round_with_precision(2) if t
   end
@@ -98,13 +101,14 @@ class Report < ActiveRecord::Base
       # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
       # 2. We want this to be fast and light on the db.
       # at this point, the report is important, not as much of the host
-      host.save_with_validation(perform_validation = false)
+      host.save_with_validation(false)
 
       # and save our report
       self.create! :host => host, :reported_at => report.time.utc, :log => report, :status => st
 
     rescue Exception => e
-      logger.warn "failed to process report for #{report.host} due to:#{e}"
+      logger.warn "Failed to process report for #{report.host} due to:#{e}"
+      false
     end
   end
 

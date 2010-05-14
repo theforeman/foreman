@@ -1,5 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
+report:
+  host: one
+  log: <%= Puppet::Transaction::Report.new %>
+  reported_at: <%= 1.week.ago %>
+
 # one:
 #   column: value
 #

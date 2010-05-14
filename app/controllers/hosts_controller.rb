@@ -6,7 +6,7 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters]
 
-  helper :hosts
+  helper :hosts, :reports
 
   def index
     @search = Host.search(params[:search])
@@ -170,6 +170,12 @@ class HostsController < ApplicationController
   # shows all reports for a certain host
   def reports
     @host = Host.find(params[:id])
+    # set defaults search order - cant use default scope due to bug in AR
+    # http://github.com/binarylogic/searchlogic/issues#issue/17
+    params[:search] ||= {}
+    params[:search][:order] ||=  "ascend_by_reported_at"
+    @search = Report.search(params[:search])
+    @reports = @search.paginate(:page => params[:page], :conditions => {:host_id => @host}, :include => :host)
   end
 
   def query

@@ -1,11 +1,18 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
+common:
   name: test
   value: myvalue
   type: CommonParameter
 
-two:
+domain:
   name: parameter
   value: value1
+  type: DomainParameter
+  domain: one
 
+host:
+  name: host1
+  value: host1
+  type: HostParameter
+  host: one

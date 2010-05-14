@@ -1,0 +1,37 @@
+<table class="list">
+  <tr>
+    <% unless defined? @host -%>
+      <th><%= order @search, :by => :host_name, :as => "Host" %></th>
+    <% end -%>
+    <th><%= order @search, :by => :reported_at %></th>
+    <th>Applied</th>
+    <th>Restarted</th>
+    <th>Failed</th>
+    <th>Failed restarts</th>
+    <th>Skipped</th>
+    <th>Config retrieval</th>
+    <th>Runtime</th>
+    <th></th>
+  </tr>
+  <% for report in @reports %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <% unless defined? @host -%>
+        <td><%= link_to h(report.host.shortname), reports_host_path(report.host) %></td>
+      <% end -%>
+      <td><%= reported_at_column(report) %></td>
+      <td><%= h report.applied %></td>
+      <td><%= h report.restarted %></td>
+      <td><%= h report.failed %></td>
+      <td><%= h report.failed_restarts %></td>
+      <td><%= h report.skipped %></td>
+      <td><%= h report.config_retrieval %></td>
+      <td><%= h report.runtime %></td>
+      <td align="right">
+        <%= link_to "Details", report %>
+        <%= link_to "Destroy", report, :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @reports %>
+<%= will_paginate @reports %>

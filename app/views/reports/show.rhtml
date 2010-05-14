@@ -1,12 +1,8 @@
-<div class="active-scaffold-header">
-  <h2 style="border-bottom-style:none;" ><%= link_to @report.host.name, host_path(@report.host)  %> </h2>
-  Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
-</div>
+<% title @report.host.name %>
+Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 
 <% if @report.log.logs.size > 0 -%>
-  <div>
-    <%= render :partial => 'output', :locals => { :logs => @report.log.logs} %>
-  </div>
+  <%= render :partial => 'output', :locals => { :logs => @report.log.logs} %>
 <% end -%>
 
 <div class="flash">
@@ -32,6 +28,7 @@
   </table>
 </div>
 
-<%= link_to 'Back', :back %>
-<%= link_to 'Delete', delete_report_path(@report) -%> or
+<%= link_to 'Back', :back %> |
+<%= link_to 'Delete', report_path(@report, :method => :delete) -%> |
+<%= link_to "Host details", @report.host %> |
 <%= link_to "Other reports for this hosts", reports_host_path(@report.host) %>

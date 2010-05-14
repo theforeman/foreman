@@ -5,16 +5,16 @@
   <%= f.text_field :name %>
   </p>
   <p>
-  <% field_set_tag("Operating Systems") do %> 
+  <% field_set_tag("Operating Systems") do %>
     <%= edit_habtm @puppetclass, Operatingsystem %>
   <% end -%>
   </p>
   <p>
-  <% field_set_tag("Puppet Environments") do %> 
+  <% field_set_tag("Puppet Environments") do %>
     <%= edit_habtm @puppetclass, Environment %>
   <% end -%>
   </p>
-  <% field_set_tag("Class Groups") do %> 
+  <% field_set_tag("Class Groups") do %>
     <p>
     <%= edit_habtm @puppetclass, Hostgroup %>
     </p>

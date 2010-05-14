@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :usergroups
   map.root :controller => "hosts"
 
+  map.resources :reports
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
     :requirements => { :name => /[^\.][\w\.-]+/ }
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
@@ -17,9 +18,6 @@ ActionController::Routing::Routes.draw do |map|
   map.audit '/audit', :controller => 'audit'
   map.statistics '/statistics', :controller => 'statistics'
   map.settings '/settings', :controller => 'home', :action => 'settings'
-  map.connect   "/reports/expire_reports", :controller => "reports", :action => "expire_reports"
-  map.connect   "/reports/expire_good_reports", :controller => "reports", :action => "expire_good_reports"
-  map.resources :reports, :active_scaffold => true
   map.resources :lookup_keys
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
   map.resources :domains

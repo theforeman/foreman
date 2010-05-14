@@ -17,7 +17,7 @@
       </div>
       <%= render :partial => "home/menu" -%>
     </div>
-    <%= render "common/searchbar" rescue "<!-- No searchbar facility available in this controller -->" %>
+    <%= render "common/searchbar" rescue "<!-- The search facility is not available in this controllers -->" unless params[:action] == 'show' %>
     <%= content_tag('div', flash[:foreman_error],  :class => 'flash error')  if flash[:foreman_error] -%>
     <%= content_tag('div', flash[:foreman_notice], :class => 'flash notice') if flash[:foreman_notice] -%>
     <div id="content">
