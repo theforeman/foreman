@@ -5,7 +5,7 @@ class HostsController < ApplicationController
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
   before_filter :load_tabs, :manage_tabs, :only => :index
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
-    :select_multiple_hostgroup, :multiple_parameters]
+    :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters]
 
   helper :hosts
 
@@ -266,6 +266,31 @@ class HostsController < ApplicationController
 
     session[:selected] = []
     flash[:foreman_notice] = 'Updated hosts: Changed Hostgroup'
+    redirect_to(hosts_path)
+  end
+
+  def select_multiple_environment
+  end
+
+  def update_multiple_environment
+    # simple validations
+    if (id=params["environment"]["id"]).empty?
+      flash[:foreman_error] = 'No Environment selected!'
+      redirect_to(select_multiple_environment_hosts_path) and return
+    end
+    if (ev = Environment.find id).nil?
+      flash[:foreman_error] = 'Empty Environment selected!'
+      redirect_to(select_multiple_environment_hosts_path) and return
+    end
+
+    #update the hosts
+    Host.find(session[:selected]).each do |host|
+      host.environment=ev
+      host.save(perform_validation = false)
+    end
+
+    session[:selected] = []
+    flash[:foreman_notice] = 'Updated hosts: Changed Environment'
     redirect_to(hosts_path)
   end
 

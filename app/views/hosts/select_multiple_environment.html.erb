@@ -1,0 +1,6 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<% form_for :environment, :url => update_multiple_environment_hosts_path do |f| %>
+  <%= f.collection_select :id, Environment.all, :id, :name, :include_blank => "Select Environment" %>
+  <%= f.submit "Change Environment!" %></p>
+<% end %>

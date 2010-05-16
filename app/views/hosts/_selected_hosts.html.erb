@@ -7,6 +7,7 @@
       <%= host.name %>
       </td>
       <td><%=h host.try(:hostgroup) %></td>
+      <td><%=h host.try(:environment) %></td>
     </tr>
   <% end %>
 </table>
