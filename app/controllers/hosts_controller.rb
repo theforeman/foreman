@@ -251,11 +251,11 @@ class HostsController < ApplicationController
     # simple validations
     if (id=params["hostgroup"]["id"]).empty?
       flash[:foreman_error] = 'No Hostgroup selected!'
-      redirect_to(select_hostgroup_hosts_path) and return
+      redirect_to(select_multiple_hostgroup_hosts) and return
     end
     if (hg = Hostgroup.find id).nil?
       flash[:foreman_error] = 'Empty Hostgroup selected!'
-      redirect_to(select_hostgroup_hosts_path) and return
+      redirect_to(select_multiple_hostgroup_hosts) and return
     end
 
     #update the hosts
