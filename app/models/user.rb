@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   has_many :changes, :class_name => 'Audit', :as => :user
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
-  has_many :hosts
 
   default_scope :order => "firstname"
 
