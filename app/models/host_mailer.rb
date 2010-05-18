@@ -30,7 +30,7 @@ class HostMailer < ActionMailer::Base
     email = options[:email] || SETTINGS[:administrator] || User.all(:select => :mail).map(&:mail)
     raise "unable to find recipients" if email.empty?
     recipients email
-    from "Foreman-noreply"
+    from "Foreman-noreply@" + Facter.domain
     subject "Summary Puppet report from Foreman"
     sent_on Time.now
     time = options[:time] || 1.day.ago
@@ -48,7 +48,7 @@ class HostMailer < ActionMailer::Base
     email = SETTINGS[:administrator] if email.empty?
     raise "unable to find recipients" if email.empty?
     recipients email
-    from "Foreman-noreply"
+    from "Foreman-noreply@" + Facter.domain
     subject "Puppet error on #{host.to_label}"
     sent_on Time.now
     content_type "text/html"
