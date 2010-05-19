@@ -236,11 +236,16 @@ class Host < Puppet::Rails::Host
   end
 
   def self.importHostAndFacts yaml
-    facts = YAML::load yaml
-    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+    begin
+      facts = YAML::load yaml
+      raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
 
-    h=Host.find_or_create_by_name facts.name
-    return h.importFacts(facts)
+      h=Host.find_or_create_by_name facts.name
+      return h.importFacts(facts)
+    rescue Exception => e
+      logger.error e.message
+      false
+    end
   end
 
   # import host facts, required when running without storeconfigs.

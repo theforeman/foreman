@@ -1,5 +1,6 @@
 class FactValue < Puppet::Rails::FactValue
   belongs_to :host #ensures we uses our Host model and not Puppets
+  delegate :name, :to => :fact_name
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
@@ -27,9 +28,8 @@ class FactValue < Puppet::Rails::FactValue
     end
     hash
   end
-
-  # proxy accessor for fact name
-  def name
-    fact_name.name
+  def self.per_page
+    15
   end
+
 end

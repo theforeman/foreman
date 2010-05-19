@@ -13,17 +13,12 @@ class ApplicationController < ActionController::Base
   before_filter :require_ssl, :require_login
   before_filter :load_tabs, :manage_tabs
 
-  def self.active_scaffold_controller_for(klass)
-    return FactNamesController if klass == Puppet::Rails::FactName
-    return FactValuesController if klass == Puppet::Rails::FactValue
-    return "#{klass}ScaffoldController".constantize rescue super
-  end
-
   # host list AJAX methods
   # its located here, as it might be requested from the dashboard controller or via the hosts controller
   def fact_selected
-    @fact_name_id = params[:search_fact_values_fact_name_id_eq].to_i
-    @fact_values = FactValue.find(:all, :select => 'DISTINCT value', :conditions => {
+    @fact_name_id = params[:search_fact_name_id].to_i
+    @via    = params[:via]
+    @values = FactValue.find(:all, :select => 'DISTINCT value', :conditions => {
       :fact_name_id => @fact_name_id }, :order => 'value ASC') if @fact_name_id > 0
     render :partial => 'common/fact_selected', :layout => false
   end

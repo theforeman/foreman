@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :name => /[^\.][\w\.-]+/ }
   map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts,
-                :member => { :report => :get, :reports => :get, :facts => :get, :clone => :get,
+                :member => { :report => :get, :reports => :get, :clone => :get,
                   :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
                   :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :puppetrun => :get},
                 :collection => { :show_search => :get, :multiple_actions => :get, :multiple_parameters => :get,
@@ -30,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :common_parameters
   map.resources :environments, :collection => {:import_environments => :get}
   map.resources :subnets, :active_scaffold => true
-  map.resources :fact_values, :active_scaffold => true
+  map.resources :fact_values
   map.resources :ptables
   map.resources :auth_source_ldaps
   map.resources :users, :collection => {:login => [:get, :post], :logout => :get}

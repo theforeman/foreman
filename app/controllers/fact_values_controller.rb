@@ -6,14 +6,10 @@ class FactValuesController < ApplicationController
   # avoids storing the facts data in the log files
   filter_parameter_logging :facts
 
-  active_scaffold :fact_value do |config|
-    config.list.columns = [:name, :value, :host]
-    config.actions = [:list]
-    config.columns = [:name, :value]
-    config.columns[:name].sort = true
-    config.columns[:name].sort_by :method => 'name'
-    config.actions.add :list_filter
-    config.list_filter.add(:association, :fact_name)
+  def index
+    @search      = FactValue.search(params[:search])
+    @fact_values = @search.paginate :page => params[:page], :include => [:fact_name, { :host => :domain }]
+    @via         = ""
   end
 
   def create

@@ -2,7 +2,7 @@
   <%= @host.to_label %>
   <span id="host_actions">
     <%= link_to "Edit", edit_host_path(@host), :title => "Edit your host" %> |
-    <%= link_to "Facts", facts_host_path(@host), :title => "Browse host facts" %> |
+    <%= link_to "Facts", fact_values_path("search[host_id_eq]" => @host.id), :title => "Browse host facts" %> |
     <%= link_to "Reports", reports_host_path(@host), :title => "Browse host reports" %> |
     <%= link_to "YAML", externalNodes_host_path(@host), :title => "Puppet external nodes YAML dump" %> |
     <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host), :title => "prepare this host for build" %> |

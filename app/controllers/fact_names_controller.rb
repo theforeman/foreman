@@ -1,2 +1,0 @@
-class FactNamesController < ApplicationController
-end

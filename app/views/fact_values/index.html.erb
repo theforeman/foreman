@@ -1,0 +1,27 @@
+<% title "Fact Values" %>
+
+<table class="list">
+  <tr>
+    <th><%= order @search, :by => :host_name, :as => :Host %></th>
+    <th><%= order @search, :by => :fact_name_name, :as => :Name %></th>
+    <th><%= order @search, :by => :value %></th>
+  </tr>
+  <% for fact_value in @fact_values %>
+    <% next if fact_value.name == "--- :_timestamp\n" -%>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to(h(fact_value.host.shortname), hosts_path("search[id_eq]"=> fact_value.host)) %></td>
+      <td>
+        <%= link_to h(fact_value.fact_name.name),
+          fact_values_path("search[fact_name_id_eq]" => fact_value.fact_name),
+          :title => "Show all #{fact_value.name} facts" %>
+      </td>
+      <td>
+        <%= link_to h(truncate fact_value.value, :length => 40),
+          fact_values_path("search[fact_name_id_eq]" => fact_value.fact_name, :"search[value_eq]" => fact_value.value),
+          :title => "Show all #{fact_value.name} facts where they are equal to #{fact_value.value}" %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @fact_values %>
+<%= will_paginate @fact_values %>

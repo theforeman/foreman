@@ -10,7 +10,8 @@ class HostsController < ApplicationController
 
   def index
     @search = Host.search(params[:search])
-    @hosts = @search.paginate :page => params[:page]
+    @hosts  = @search.paginate :page => params[:page]
+    @via    = "fact_values_"
   end
 
   def show
