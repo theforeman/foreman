@@ -1,4 +1,4 @@
-<% form_for @operatingsystem do |f| %>
+<% form_for :operatingsystem, :url => family_url(@operatingsystem), :html => {:method => family_html_method } do |f| %>
   <%= f.error_messages %>
   <p>
   <%= f.label :name %>
@@ -8,8 +8,8 @@
   <%= f.label :minor %>
   <%= f.text_field :minor, :size => 8 %>
   <%= f.label :family_id, "OS Family" %>
-  <%= f.collection_select :family_id, Family.families_as_collection, :value, :name,{ :include_blank => "Choose a family" }%>
-  <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == :Debian -%> >
+  <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}%>
+  <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == "Debian" -%> >
     <%= f.label :release_name, "Release name" %>
     <%= f.text_field :release_name, :size => 12%>
     <small>e.g. karmic, lucid, etch, woody</small>
@@ -37,4 +37,4 @@
 
   <p><%= f.submit "Submit" %></p>
 <% end %>
-<%= observe_field "operatingsystem_family_id", :function => show_release %>
+<%= observe_field "operatingsystem_family", :function => show_release %>

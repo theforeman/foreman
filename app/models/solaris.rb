@@ -1,0 +1,3 @@
+class Solaris < Operatingsystem
+
+end

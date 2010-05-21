@@ -11,13 +11,13 @@
       <td><%= link_to h(operatingsystem.to_label), edit_operatingsystem_path(operatingsystem) %></td>
       <td><%= h operatingsystem.family %></td>
       <td align="right">
-        <%= link_to "Destroy", operatingsystem, :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
+        <%= link_to "Destroy", operatingsystem_path(operatingsystem), :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
       </td>
     </tr>
   <% end %>
 </table>
 
-<%= page_entries_info @operatingsystems %>
+<%= page_entries_info @operatingsystems, :entry_name => "operating system" %>
 <%= will_paginate @operatingsystems %>
 
 <p><%= link_to "New Operatingsystem", new_operatingsystem_path %></p>

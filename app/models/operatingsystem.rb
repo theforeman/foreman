@@ -1,3 +1,6 @@
+require 'ostruct'
+require 'uri'
+
 class Operatingsystem < ActiveRecord::Base
   has_many :hosts
   has_and_belongs_to_many :medias
@@ -5,7 +8,6 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :architectures
   has_and_belongs_to_many :puppetclasses
   validates_presence_of :major, :message => "Operating System version is required"
-  validates_presence_of :name
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
@@ -13,22 +15,39 @@ class Operatingsystem < ActiveRecord::Base
   #TODO: add validation for name and major uniqueness
 
   before_destroy Ensure_not_used_by.new(:hosts)
+  before_save :deduce_family
   acts_as_audited
 
-  # Emulate multiple inheritance from a virtual Family class
-  def after_initialize
-    extend eval("Family::#{Family::FAMILIES[family_id]}") if defined? family_id and self.respond_to?(:family_id) and not family_id.nil?
-  end
+  FAMILIES = {'Debian'  => %r{Debian|Ubuntu}i,
+              'Redhat'  => %r{RedHat|Centos|Fedora}i,
+              'Solaris' => %r{Solaris}i}
 
+  # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
+  # family are the same thing then rails converts the record to a Debian or a solaris object as required.
+  # Manually managing the 'type' field allows us to control the inheritance chain and the available methods
   def family
+    type
   end
 
-  def family= value
-    if index = Family::FAMILIES.index(value.to_sym)
-      update_attribute(:family_id, index)
-    else
-      raise RuntimeError, "Unable to find family [#{value}]"
-    end
+  def family=(value)
+    self.type = value
+  end
+
+  def self.families
+    FAMILIES.keys.sort
+  end
+
+  def self.families_as_collection
+    families.map{|e| OpenStruct.new(:name => e, :value => e) }
+  end
+
+  def media_uri host, url = nil
+    url ||= host.media.path
+    URI.parse(url.gsub('$arch',    host.architecture.name).
+                  gsub('$major',   host.os.major).
+                  gsub('$minor',   host.os.minor).
+                  gsub('$version', [ host.os.major, host.os.minor ].compact.join('.'))
+             ).normalize
   end
 
   # The OS is usually represented as the catenation of the OS and the revision. E.G. "Solaris 10"
@@ -45,6 +64,18 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   private
+  def deduce_family
+    if self.family.blank?
+      found = nil
+      for f in self.class.families
+        if name =~ FAMILIES[f]
+          found = f
+        end
+      end
+      self.family = found
+    end
+  end
+
   def downcase_release_name
     self.release_name.downcase! unless defined?(Rake) or release_name.nil? or release_name.empty?
   end
