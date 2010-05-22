@@ -17,6 +17,11 @@ class EnvironmentTest < ActiveSupport::TestCase
     assert !env.valid?
   end
 
+  test "name should be alphanumeric" do
+    env = Environment.new :name => "test&fail"
+    assert !env.valid?
+  end
+
   test "to_label should print name" do
     env = Environment.new :name => "foo"
     assert env.to_label == env.name

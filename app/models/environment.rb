@@ -3,7 +3,7 @@ class Environment < ActiveRecord::Base
   has_many :hosts
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of   :name, :with => /^\S+$/, :message => "cannot contain spaces"
+  validates_format_of   :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
   default_scope :order => 'name'
 
   def to_label
