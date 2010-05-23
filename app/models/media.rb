@@ -1,8 +1,8 @@
 class Media < ActiveRecord::Base
-  belongs_to :operatingsystem
+  has_and_belongs_to_many :operatingsystems
   has_many :hosts
-  validates_uniqueness_of :name, :scope => :operatingsystem_id
-  validates_uniqueness_of :path, :scope => :operatingsystem_id
+  validates_uniqueness_of :name
+  validates_uniqueness_of :path
   validates_presence_of :name, :path
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   validates_format_of :path, :with => /^(http|https|ftp|nfs):\/\//,

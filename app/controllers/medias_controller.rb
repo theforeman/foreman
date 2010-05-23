@@ -1,7 +1,7 @@
 class MediasController < ApplicationController
   def index
     @search = Media.search params[:search]
-    @medias = @search.paginate(:page => params[:page], :include => [:operatingsystem])
+    @medias = @search.paginate(:page => params[:page], :include => [:operatingsystems])
   end
 
   def new

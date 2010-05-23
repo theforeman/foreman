@@ -11,7 +11,7 @@
     <tr>
       <td><%= link_to h(media), edit_media_path(media) %></td>
       <td><%=h media.path %></td>
-      <td><%=h media.operatingsystem %></td>
+      <td><%=h media.operatingsystems.to_sentence %></td>
       <td align="right">
         <%= link_to "Destroy", media, :confirm => "Delete #{media.name}?", :method => :delete %>
       </td>

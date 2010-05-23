@@ -3,4 +3,3 @@
 one:
   name: CentOS 5.4
   path: http://mirror.averse.net/centos/6.0/os/$arch
-  operatingsystem_id: 1

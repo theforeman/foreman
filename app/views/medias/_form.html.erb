@@ -6,7 +6,7 @@
   </p>
   <p>
   <%= f.label :path %><br />
-  <%= f.text_field :path %>
+  <%= f.text_field :path, :size => 70 %>
   </p >
   <small>
     The path to the media, can be a URL or a valid NFS server (exclusive of the architecture).<br />
@@ -14,8 +14,8 @@
     and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system.
   </small>
   <p>
-  <%= f.label :operatingsystem_id %><br />
-  <%= f.collection_select :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
+  <%= f.label :operatingsystems %><br />
+  <%= edit_habtm @media, Operatingsystem %>
   </p>
   <% unless @media.new_record? -%>
     <p>Currently used by <%= @media.hosts.count %> hosts</p>
