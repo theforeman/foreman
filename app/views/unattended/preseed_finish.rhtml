@@ -1,6 +1,7 @@
 cat > /etc/puppet/puppet.conf << EOF
 <%= snippets "puppet.conf" -%>
 EOF
+/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
 /bin/touch /etc/puppet/namespaceauth.conf 
-/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
-wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf --onetime --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
+/usr/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
