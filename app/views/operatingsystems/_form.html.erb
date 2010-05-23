@@ -16,6 +16,11 @@
   </span>
   </p>
   <p>
+  <% field_set_tag("Architecture") do %>
+    <%= edit_habtm @operatingsystem, Architecture %>
+  <% end -%>
+  </p>
+  <p>
   <% field_set_tag("Partition tables") do %>
     <%= edit_habtm @operatingsystem, Ptable %>
   <% end -%>
