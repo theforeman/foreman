@@ -397,7 +397,7 @@ class Host < Puppet::Rails::Host
   end
 
   def classes_from_storeconfigs
-   klasses = resources.find(:all, :conditions => {:restype => "Class"}, :select => :title)
+   klasses = resources.find(:all, :conditions => {:restype => "Class"}, :select => :title, :order => :title)
    klasses.map!(&:title).delete(:main)
    return klasses
   end
