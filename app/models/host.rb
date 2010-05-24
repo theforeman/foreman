@@ -10,11 +10,11 @@ class Host < Puppet::Rails::Host
   belongs_to :ptable
   belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
-  has_many :host_parameters, :dependent => :destroy
+  has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
 
-  named_scope :recent, lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
+  named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
 
   named_scope :with_fact, lambda { |fact,value|

@@ -1,5 +1,4 @@
 class GroupParameter < Parameter
-  belongs_to :hostgroup
-  validates_presence_of :hostgroup_id, :unless => :nested
-  validates_uniqueness_of :name, :scope => :hostgroup_id
+  belongs_to :hostgroup, :foreign_key => :reference_id
+  validates_uniqueness_of :name, :scope => :reference_id
 end

@@ -1,5 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
+mydomain:
   name: mydomain.net
-  fullname: somewhere
+  fullname: somewhere in mydomain
+
+yourdomain:
+  name: yourdomain.net
+  fullname: somewhere in yourdomain

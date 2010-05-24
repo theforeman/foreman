@@ -1,4 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
+common:
   name: Common
+
+unusual:
+  name: Unusual

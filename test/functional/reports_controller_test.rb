@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
   def test_index
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns('reports')
     assert_template 'index'
@@ -11,26 +11,26 @@ class ReportsControllerTest < ActionController::TestCase
   def test_show
     create_a_puppet_transaction_report
     Report.last.update_attribute :log, @log
-    get :show, :id => Report.last.id
+    get :show, {:id => Report.last.id}, set_session_user
     assert_template 'show'
   end
 
   def test_create_invalid
     create_a_puppet_transaction_report
     @log.host = nil
-    post :create, :report => @log.to_yaml
+    post :create, {:report => @log.to_yaml}, set_session_user
     assert_response :error
   end
 
   def test_create_valid
     create_a_puppet_transaction_report
-    post :create, :report => @log.to_yaml
+    post :create, {:report => @log.to_yaml}, set_session_user
     assert_response :success
   end
 
   def test_destroy
     report = Report.first
-    delete :destroy, :id => report
+    delete :destroy, {:id => report}, set_session_user
     assert_redirected_to reports_url
     assert !Report.exists?(report.id)
   end

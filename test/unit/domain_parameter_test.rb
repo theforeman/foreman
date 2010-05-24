@@ -1,20 +1,26 @@
 require 'test_helper'
 
 class DomainParameterTest < ActiveSupport::TestCase
-  test "should have a domain_id" do
+  test "should have a reference_id" do
     parameter = DomainParameter.create(:name => "value", :value => "value")
     assert !parameter.save
 
     domain = Domain.find_or_create_by_name("domain")
-    parameter.domain_id = domain.id
+    parameter.reference_id = domain.id
     assert parameter.save
   end
 
-  test "should have a unique parameter name" do
-    p1 = DomainParameter.new(:name => "parameter", :value => "value1", :domain_id => Domain.first)
-    assert p1.save
-    p2 = DomainParameter.new(:name => "parameter", :value => "value2", :domain_id => Domain.first)
-    assert !p2.save
+  test "duplicate names cannot exist in a domain" do
+    parameter1 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.first.id
+    parameter2 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.first.id
+    assert !parameter2.valid?
+    assert  parameter2.errors.full_messages[0] == "Name has already been taken"
+  end
+
+  test "duplicate names can exist in different domains" do
+    parameter1 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.first.id
+    parameter2 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.last.id
+    assert parameter2.valid?
   end
 end
 
