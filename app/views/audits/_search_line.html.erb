@@ -1,0 +1,11 @@
+<% form_for @search do |f|-%>
+  <span title="A substring match">
+    <%= f.label :auditable_type_eq, "Type" %>
+    <%= f.select :auditable_type, options_for_select(Audit.all(:select => "DISTINCT auditable_type").map{|a| auditable_type a}.sort), :include_blank => true %>
+    <%= f.label :action_eq, "Action" %>
+    <%= f.select :action_eq, options_for_select(Audit.all(:select => "DISTINCT action").map(&:action)), :include_blank => true %>
+    <%= f.label :user_id_eq, "User" %>
+    <%= f.collection_select :user_id_eq, Audit.all(:select => "DISTINCT user_id,username"), :user_id, :username, :include_blank => true %>
+  </span>
+  <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
+<% end %>

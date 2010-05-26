@@ -1,0 +1,29 @@
+<% title "#{@audit.action.camelize} #{auditable_type @audit} #{audit_title @audit}" %>
+
+<table class="list">
+  <tr>
+    <th>What</th>
+    <th>Old</th>
+    <th>New</th>
+  </tr>
+  <% @audit.changes.each do |name,change| -%>
+    <% next if change.nil? or change.to_s.empty? -%>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= h name.humanize %></td>
+      <%# TODO: Refactor this whole code away from here -%>
+      <% record = true if name =~ /.*_id$/ -%>
+      <% if change.is_a?(Array) %>
+        <% change.each do |v| -%>
+          <% v = id_to_label(name,v) if record -%>
+          <td><%= h v %></td>
+        <% end -%>
+      <% else -%>
+        <% change = id_to_label(name,change) if record -%>
+        <%= change_order(@audit.action, change).map {|v| "<td>#{h v}</td>"} -%>
+      <% end -%>
+    </tr>
+  <% end -%>
+</table>
+
+<%= link_to 'Back', :back %> or
+<%# link_to "Other change", reports_host_path(@report.host) %>

@@ -1,5 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :usergroups
   map.root :controller => "hosts"
 
   map.resources :reports
@@ -15,9 +14,10 @@ ActionController::Routing::Routes.draw do |map|
                   :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
                   :reset_multiple => :get}
   map.dashboard '/dashboard', :controller => 'dashboard'
-  map.audit '/audit', :controller => 'audit'
   map.statistics '/statistics', :controller => 'statistics'
   map.settings '/settings', :controller => 'home', :action => 'settings'
+  map.resources :audits
+  map.resources :usergroups
   map.resources :lookup_keys
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
   map.resources :domains

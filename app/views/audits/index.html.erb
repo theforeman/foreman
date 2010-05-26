@@ -1,0 +1,28 @@
+<% title "Audits" %>
+
+<table class="list">
+  <tr>
+    <th><%= order @search, :by => :auditable_type, :as => "Changed" %></th>
+    <th>Object</th>
+    <th><%= order @search, :by => :action %></th>
+    <th><%= order @search, :by => :created_at, :as => "Changed at" %></th>
+    <th>Changes</th>
+    <th><%= order @search, :by => :username, :as => "Changed by" %></th>
+    <th></th>
+  </tr>
+  <% for audit in @audits %>
+    <tr>
+      <td><%=h auditable_type audit %></td>
+      <td><%=h audit_title audit %></td>
+      <td><%=h audit.action %></td>
+      <td><%=h audit.created_at.to_s(:long) %></td>
+      <td><%=h audit.changes.keys.map(&:humanize).to_sentence %></td>
+      <td><%=h audit.username %></td>
+      <td><%= link_to "Details", audit %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= page_entries_info @audits %>
+<%= will_paginate @audits %>
+
