@@ -1,6 +1,7 @@
 class PuppetclassesController < ApplicationController
   def index
-    @puppetclasses = Puppetclass.search(params[:search]).paginate :page => params[:page], :per_page => 15
+    @search = Puppetclass.search params[:search]
+    @puppetclasses = @search.paginate :page => params[:page], :include => [:environments, :hostgroups, :operatingsystems]
   end
 
   def new

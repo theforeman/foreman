@@ -31,14 +31,6 @@ class Puppetclass < ActiveRecord::Base
     name
   end
 
-  def self.search(search)
-    if search
-      find(:all, :conditions => ['name LIKE ?', "%#{search}%"])
-    else
-      find(:all)
-    end
-  end
-
   # returns a hash containing modules and associated classes
   def self.classes2hash classes
     hash = {}
@@ -67,6 +59,10 @@ class Puppetclass < ActiveRecord::Base
   # add sort by class name
   def <=>(other)
     klass <=> other.klass
+  end
+
+  def self.per_page
+    20
   end
 
 end

@@ -1,0 +1,9 @@
+<% form_for @search do |f|-%>
+  <span title="A substring match">
+    <%= f.label      :name_like, "Class" %>
+    <%= f.text_field :name_like, :size => 10 %>
+    <%= f.label      :environments_id_eq, "Environment" %>
+    <%= f.collection_select :environments_id_eq, Environment.all, :id, :name, :include_blank => true %>
+  </span>
+  <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
+<% end %>
