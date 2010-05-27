@@ -1,8 +1,8 @@
-<% for association in associations -%>
+| <% for association in associations -%>
   <%= check_box_tag(
     "#{klass.class.to_s.downcase}[#{association.class.to_s.downcase}_ids][]",
       association.id, klass.send(association.class.table_name).to_a.include?(association))
     %>
-  <%= association %>
+  <%= association %> |
   <%= hidden_field_tag "#{klass.class.to_s.downcase}[#{association.class.to_s.downcase}_ids][]" %>
 <% end -%>
