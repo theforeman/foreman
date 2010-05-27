@@ -10,8 +10,9 @@ class HostsController < ApplicationController
 
   def index
     @search = Host.search(params[:search])
-    @hosts  = @search.paginate :page => params[:page]
+    @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment]
     @via    = "fact_values_"
+    @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
   end
 
   def show
