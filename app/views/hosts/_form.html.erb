@@ -13,14 +13,6 @@
         <td>Puppetmaster</td>
         <td><%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %></td>
         <td><%= link_to_function "Additional Classes", toggle_div(:classlist) %></td>
-        <% if SETTINGS[:ldap] -%>
-          <td>Owned by</td>
-          <td>
-          <%= f.select :is_owned_by,
-            option_groups_from_collection_for_select( [ User, Usergroup], :all, :table_name, :id_and_type, :select_title, @host.is_owned_by),
-            :include_blank => "select an owner" %>
-          </td>
-        <% end -%>
       </tr>
     </table>
 
@@ -44,7 +36,19 @@
   <% end -%>
 
   <% field_set_tag 'Additional Information' do -%>
-    <%= f.text_area :comment, :size => "120x5" %>
+    <table>
+      <tr>
+        <td> <%= f.text_area :comment, :size => "120x5" %></td>
+        <% if SETTINGS[:ldap] -%>
+          <td>Owned by</td>
+          <td>
+            <%= f.select :is_owned_by,
+              option_groups_from_collection_for_select([ User, Usergroup], :all, :table_name, :id_and_type, :select_title, @host.is_owned_by),
+              :include_blank => "select an owner" %>
+          </td>
+        <% end -%>
+      </tr>
+    </table>
   <% end -%>
 
   <%= render :partial => "common_parameters/parameters", :locals => {:f => f, :type => :host_parameters} %>
