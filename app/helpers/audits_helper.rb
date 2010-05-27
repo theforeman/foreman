@@ -9,7 +9,7 @@ module AuditsHelper
   end
 
   def audit_title audit
-    audit.try(:auditable).try(:to_label)
+    audit.try(:auditable).try(:name)
   end
 
   def auditable_type audit

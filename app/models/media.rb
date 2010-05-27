@@ -9,10 +9,8 @@ class Media < ActiveRecord::Base
     :message => "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)"
 
   alias_attribute :os, :operatingsystem
+  alias_attribute :to_s, :name
+  alias_attribute :to_label, :name
   before_destroy Ensure_not_used_by.new(:hosts)
-
-  def to_s
-    name
-  end
 
 end

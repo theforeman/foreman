@@ -58,6 +58,8 @@ class Host < Puppet::Rails::Host
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
+  alias_attribute :to_s, :name
+  alias_attribute :to_label, :name
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
@@ -83,16 +85,6 @@ class Host < Puppet::Rails::Host
 
   def <=>(other)
     self.name <=> other.name
-  end
-
-  # Returns the name of this host as a string
-  # String: the host's name
-  def to_label
-    name
-  end
-
-  def to_s
-    to_label
   end
 
   def shortname

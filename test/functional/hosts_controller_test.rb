@@ -147,7 +147,7 @@ class HostsControllerTest < ActionController::TestCase
   test "report should redirect to host's last report" do
     get :report, {:id => @host.id}, set_session_user
     assert_response :found
-    assert_redirected_to :controller => "reports", :action => "show", :id => @host.id
+    assert_redirected_to :controller => "reports", :action => "show", :id => Report.maximum(:id, :conditions => {:host_id => @host})
   end
 
   test "query in .yml format should return host.to_yml" do

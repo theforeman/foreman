@@ -5,10 +5,8 @@ class Usergroup < ActiveRecord::Base
   has_many :hosts, :as => :owner
   validates_uniqueness_of :name
   before_destroy Ensure_not_used_by.new(:hosts, :usergroups)
-
-  def to_s
-    name
-  end
+  alias_attribute :to_s, :name
+  alias_attribute :to_label, :name
 
   # The text item to see in a select dropdown menu
   alias_method :select_title, :to_s

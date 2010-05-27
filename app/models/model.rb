@@ -5,8 +5,6 @@ class Model < ActiveRecord::Base
   validates_presence_of :name
   default_scope :order => 'name'
 
-  def to_label
-    name
-  end
-  alias_method :to_s, :to_label
+  alias_attribute :to_s, :name
+  alias_attribute :to_label, :name
 end

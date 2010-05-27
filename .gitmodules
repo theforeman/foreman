@@ -1,15 +1,9 @@
-[submodule "vendor/plugins/active_scaffold"]
-	path = vendor/plugins/active_scaffold
-	url = git://github.com/activescaffold/active_scaffold.git
 [submodule "vendor/plugins/ruby-net-ldap"]
 	path = vendor/plugins/ruby-net-ldap
 	url = git://github.com/innovationfactory/ruby-net-ldap.git
 [submodule "vendor/plugins/acts_as_audited"]
 	path = vendor/plugins/acts_as_audited
 	url = git://github.com/collectiveidea/acts_as_audited.git
-[submodule "vendor/plugins/active_scaffold_list_filter"]
-	path = vendor/plugins/active_scaffold_list_filter
-	url = git://github.com/tvongaza/active_scaffold_list_filters.git
 [submodule "vendor/plugins/will_paginate"]
 	path = vendor/plugins/will_paginate
 	url = git://github.com/mislav/will_paginate.git

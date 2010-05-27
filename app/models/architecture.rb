@@ -6,9 +6,8 @@ class Architecture < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   acts_as_audited
 
-  def to_s
-    name
-  end
+  alias_attribute :to_s, :name
+  alias_attribute :to_label, :name
 
   def self.per_page
     25

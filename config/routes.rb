@@ -29,7 +29,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hostgroups
   map.resources :common_parameters
   map.resources :environments, :collection => {:import_environments => :get}
-  map.resources :subnets, :active_scaffold => true
   map.resources :fact_values
   map.resources :ptables
   map.resources :auth_source_ldaps
