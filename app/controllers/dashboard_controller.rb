@@ -11,6 +11,7 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.html {
       hosts = @search.paginate :page => params[:page]
+      @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
          render :partial => "hosts/minilist", :layout => true, :locals => {
                 :hosts => hosts,
                 :header => "Hosts with errors" }
@@ -24,6 +25,7 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.html {
       hosts = @search.paginate :page => params[:page]
+      @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
          render :partial => "hosts/minilist", :layout => true, :locals => {
                 :hosts => hosts,
                 :header => "Active Hosts" }
@@ -38,6 +40,7 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.html {
       hosts = @search.paginate :page => params[:page]
+      @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
          render :partial => "hosts/minilist", :layout => true, :locals => {
                 :hosts => hosts,
                 :header => "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }
