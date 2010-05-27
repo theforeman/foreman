@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
     # set defaults search order - cant use default scope due to bug in AR
     # http://github.com/binarylogic/searchlogic/issues#issue/17
     params[:search] ||=  {}
-    params[:search][:order] ||=  "ascend_by_reported_at"
+    params[:search][:order] ||= "descend_by_created_at"
 
     @search  = eval search_cmd
     @reports = @search.paginate :page => params[:page], :include => [{:host => :domain}]
@@ -24,6 +24,7 @@ class ReportsController < ApplicationController
 
   def show
     @report = Report.find(params[:id])
+    @offset = @report.reported_at - @report.created_at
   end
 
   def create

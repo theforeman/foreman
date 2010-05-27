@@ -1,5 +1,13 @@
 <% title @report.host.name %>
 Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
+<% if @offset > 100 -%>
+  <div class="flash error">
+    Host time seems to be a drift <br>
+    Host reported time is <%= @report.reported_at %> <br>
+    Foreman report creation time is <%= @report.created_at %> <br>
+    Which is an offset of <%= distance_of_time_in_words(@report.reported_at, @report.created_at, true) %>
+  </div>
+<% end -%>
 
 <% if @report.log.logs.size > 0 -%>
   <%= render :partial => 'output', :locals => { :logs => @report.log.logs} %>
