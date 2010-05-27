@@ -5,8 +5,7 @@
     <title><%= h(yield(:title) || "The Foreman") %></title>
     <%= stylesheet_link_tag 'style' %>
     <%= yield(:head) %>
-    <script src='http://www.google.com/jsapi'></script>
-    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag :defaults, :cache => true %>
     <%= active_scaffold_includes %>
   </head>
   <body>

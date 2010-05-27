@@ -8,7 +8,7 @@
     <th></th>
   </tr>
   <% for media in @medias %>
-    <tr>
+    <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to h(media), edit_media_path(media) %></td>
       <td><%=h media.path %></td>
       <td><%=h media.operatingsystems.to_sentence %></td>

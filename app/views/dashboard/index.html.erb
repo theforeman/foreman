@@ -1,8 +1,9 @@
+<% gcharts_script %>
 <div id="dashboard">
-  <h2>Overview</h2>
+  <h1>Overview</h1>
   <p>Generated at <%= Time.now.to_s(:short) %></p>
   <p>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@percentage%>%) </p>
-  <h2>Summary</h2>
+  <h1>Summary</h1>
   <p>Hosts that had performed modifications <%= link_to @active_hosts, :action => "active" %></p>
   <p>Out Of Sync Hosts <%= link_to @out_of_sync_hosts, :action => "OutOfSync" %></p>
   <p>Hosts in Error State <%= link_to @bad_hosts, :action => "errors" %></p>

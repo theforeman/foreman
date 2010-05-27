@@ -1,16 +1,27 @@
 body {
-  font-family: Verdana, sans-serif;
-  font-size: medium;
+  font-family: Verdana, Helvetica, Arial;
+  font-size: 14px;
   color:#484848;
   margin: 0;
   padding: 0;
-  min-width: 900px;
   background-color: #E6DFCF;
 }
 
-h1, h2, h3, h4 {
-  font-family: "Trebuchet MS", Verdana, sans-serif;
+h1 {
+  font-variant:small-caps;
+  font-size:18px;
+  padding:0;
+  margin:0;
 }
+
+a img {
+  border: none;
+}
+
+a {
+  color: #0000FF;
+}
+
 
 th.underlined { 
   text-decoration: underline 
@@ -28,7 +39,7 @@ input {
 p { 
   line-height: 130%;
 }
-#header {height:3.7em;margin:0;background-color:#406480;color:#E6DFCF;padding: 4px 8px 4px 6px; position:relative;}
+#header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative;}
 
 #header a {
   float:right;
@@ -58,28 +69,29 @@ p {
   list-style-type:none;
 }
 #menu li a {
-  display: block;
+  font-variant: small-caps;
   float:left;
   color: #fff;
   text-decoration: none;
-  font-weight: bold;
-  margin: 0;
   padding: 4px 10px 4px 10px;
+  height:1.2em;
+  font-size: 100%;
 }
 #menu li a:hover {background:#759FCF; color:#fff;}
-#menu li a.active, li a.selected:hover {background:#fff; color:#555;}
+#menu li a:active {background:#fff; color:#555;}
 
-div#content {
+#content {
   position:relative;
   float: center;
-  padding: 10px;
+  padding: 1%;
+  margin: 0 auto;
   clear: both;
 }
-div#content h3 {
+#content h3 {
   margin-top: 15px;
 }
 
-div#footer {
+#footer {
   clear: both;
   border-top: 1px solid #bbb;
   font-size: 0.9em;
@@ -146,8 +158,24 @@ div.flash.notice {
 
 
 /* Tables */
-table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
-table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; text-align:left; }
+
+table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin:1em auto;}
+table.list th { 
+  text-decoration:none;
+  text-align:left;
+  background:#555555;
+  color:#FFFFFF;
+}
+table.list th p {
+  display:block;
+  font:bold 11px arial,sans-serif;
+}
+table.list th a, th a:visited {
+  padding:2px 15px 2px 5px;
+  color:#FFFFFF;
+}
+
+table.list td, th { line-height:1.3em; }
 table.list td { vertical-align: top; border: 1px #eeeeee solid; padding: 4px }
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
@@ -195,11 +223,6 @@ table p {margin:0;}
 }
 #border-it { border: 2px solid #ddd; }
 
-.simple_search {
-  position: absolute;
-  top:40px;
-  right:20px;
-}
 div#dashboard {
   text-align: center;
   position: relative;
@@ -227,9 +250,10 @@ div#run_distribution {
   color: #333;
 }
 
-#host_index_links {
-  position: relative;
-  float: right;
+#content .title_action {
+  position: absolute;
+  top: 1em;
+  right: 1em;
 }
 #searchbar ul {
 	margin: 0; padding: 0;
@@ -271,3 +295,13 @@ div#run_distribution {
 #searchbar li a.close:hover {background:#e4e4e4; color:red;}
 #searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
 */
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+#settings li {
+  list-style-type:none;
+  padding:0 0 8px;
+}

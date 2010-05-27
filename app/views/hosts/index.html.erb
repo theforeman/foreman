@@ -1,7 +1,8 @@
 <%= javascript "host_checkbox" %>
-<span id=host_index_links>
-  <%= link_to "New Host", new_host_path %>
+<%= render 'minilist', :hosts => @hosts, :header => "Hosts" %>
+<span class=title_action>
+  <%= link_to "New Host", new_host_path %> |
   <%= link_to_function "Toggle All", "toggleCheck()" %>
 </span>
 
-<%= render 'minilist', :hosts => @hosts, :header => "Hosts" %>
+

@@ -1,11 +1,12 @@
-<table>
+<table class=list>
   <tr>
     <th>Variable</th>
     <th>Number of Values</th>
+    <th</th>
   </tr>
 
 <% @lookup_key.each do |lookup_key| %>
-  <tr>
+  <tr class="<%= cycle("even", "odd") -%>">
     <td><%= link_to h(lookup_key.key), edit_lookup_key_path(lookup_key) %></td>
     <td><%=h lookup_key.lookup_values.count %></td>
     <td><%= link_to 'Destroy', lookup_key, :confirm => 'Are you sure?', :method => :delete %></td>
