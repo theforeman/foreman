@@ -317,8 +317,8 @@ class HostsController < ApplicationController
 
   private
   def find_hosts
-    fact, klass = params[:fact], params[:class]
-    if fact.empty? and klass.empty?
+    fact, klass, group = params[:fact], params[:class], params[:hostgroup]
+    if fact.empty? and klass.empty? and group.empty?
       render :text => '404 Not Found', :status => 404 and return
     end
 
@@ -354,6 +354,12 @@ class HostsController < ApplicationController
       @hosts = counter == 0 ? list : @hosts & list
       counter +=1
     end unless klass.nil?
+
+    group.each do |k|
+      list = Host.hostgroup_name_eq(k).send(state).map(&:name)
+      @hosts = counter == 0 ? list : @hosts & list
+      counter +=1
+    end unless group.nil?
 
     render :text => '404 Not Found', :status => 404 and return if @hosts.empty?
   end
