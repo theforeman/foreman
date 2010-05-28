@@ -3,7 +3,7 @@
   <%= label_tag :search_fact_name_id, "Fact Name"  %>
   <%= collection_select :search, "#{@via}fact_name_id_eq".to_sym,
     Puppet::Rails::FactName.all(:select => "id, name", :order => "name ASC"),
-    :id, :name, {:selected => @fact_name_id, :include_blank => "Select a fact"},
+    :id, :name, {:selected => fact_name_select, :include_blank => "Select a fact"},
     {:id => :search_fact_name_id}
   %>
   <% if @values -%>
@@ -15,4 +15,5 @@
 <%= observe_field(:search_fact_name_id,
                   :url => { :action => :fact_selected },
                   :update => :fact_search,
-                  :with => "'search_fact_name_id=' + value + '&via=' + $F(\'via\')") %>
+                  :with => "'search_fact_name_id=' + value + '&via=' + $F(\'via\')")
+%>

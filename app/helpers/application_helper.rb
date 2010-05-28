@@ -76,4 +76,10 @@ module ApplicationHelper
     end
   end
 
+  def fact_name_select
+    param = params[:search]["#{@via}fact_name_id_eq"] if params[:search]
+    return param.to_i unless param.empty?
+    return @fact_name_id if @fact_name_id
+  end
+
 end
