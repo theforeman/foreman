@@ -1,7 +1,11 @@
 <% form_for @search do |f|-%>
-  <span title="A substring match">
+  <span title="Search all facts for a part or a full name of a host">
     <%= f.label      :host_name_like, "Host" %>
     <%= f.text_field :host_name_like, :size => 10 %>
+  </span>
+  <span title="Search all facts with name like">
+    <%= f.label      :fact_name_name_like, "Name" %>
+    <%= f.text_field :fact_name_name_like, :size => 10 %>
   </span>
   <%= render :partial => 'common/fact_selected' %>
   <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
