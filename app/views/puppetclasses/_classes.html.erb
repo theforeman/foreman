@@ -5,7 +5,7 @@
       <li title="Click to expand module class list"><%= link_to_function list.first, toggle_div(list.first) %></li>
       <div id=<%= list.first %> style="display: none;">
         <% for klass in list.last.sort -%>
-          <% content_tag_for :div, klass, :title => "Click to add this class" do %>
+          <% content_tag_for :div, klass, :title => "Click to add #{klass}" do %>
             <%= link_to_add_puppetclass(klass, type) %>
           <% end -%>
         <% end -%>
