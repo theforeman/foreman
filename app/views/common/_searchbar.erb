@@ -5,7 +5,7 @@
       <% for tab in @tabs.keys.sort -%>
         <%= searchtab tab, @tabs[tab], :selected => (@active_tab == tab) %>
       <% end -%>
-      <%= searchtab "Reset", "/", :selected => false, :no_close_button => true %>
+      <%= searchtab "Reset", {}, :selected => false, :no_close_button => true %>
     </ul>
   </div>
   <div id="search" style="display:none">
