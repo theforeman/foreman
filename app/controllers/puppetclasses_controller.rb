@@ -49,6 +49,7 @@ class PuppetclassesController < ApplicationController
   # We assign the new puppetclasses (e.g. in the context of a Host or a Host Group)
   # via ajax and not java script as rendering javascript for each and every class
   # seems to be much longer than the average roundtrip time to the server
+  # TODO: convert this to pure javascript then AJAX will not be required.
   def assign
     return unless request.xhr?
 

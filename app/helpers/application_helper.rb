@@ -38,6 +38,10 @@ module ApplicationHelper
   def link_to_remove_puppetclass klass
     link_to_function klass.name do |page|
       page["selected_puppetclass_#{klass.id}"].remove
+      #TODO if the class is already selected, removing it will not add it to the avail class list
+      page << "if ($('puppetclass_#{klass.id}')) {"
+      page["puppetclass_#{klass.id}"].show
+      page << "}"
     end
   end
 
