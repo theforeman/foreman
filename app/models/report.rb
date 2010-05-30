@@ -128,7 +128,7 @@ class Report < ActiveRecord::Base
           metrics[m] += r.status(m)
         end
       end
-        list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
+      list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
     end
     return list
   end

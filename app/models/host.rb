@@ -112,11 +112,11 @@ class Host < Puppet::Rails::Host
 
   def clearReports
     # Remove any reports that may be held against this host
-    Report.delete_all("host_id = #{self.id}")
+    Report.delete_all("host_id = #{id}")
   end
 
   def clearFacts
-    FactValue.delete_all("host_id = #{self.id}")
+    FactValue.delete_all("host_id = #{id}")
   end
 
   # Called from the host build post install process to indicate that the base build has completed
@@ -126,13 +126,9 @@ class Host < Puppet::Rails::Host
     self.build = false
     self.installed_at = Time.now.utc
     # disallow any auto signing for our host.
-    GW::Puppetca.disable self.name
-    GW::Tftp.remove self.mac
+    GW::Puppetca.disable name
+    GW::Tftp.remove mac
     save
-    site_post_built = "#{SETTINGS[:modulepath]}sites/#{self.domain.name.downcase}/built.sh"
-    if File.executable? site_post_built
-      %x{#{site_post_built} #{self.name} >> #{SETTINGS[:logfile]} 2>&1 &}
-    end
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
@@ -169,7 +165,7 @@ class Host < Puppet::Rails::Host
   # reports methods
 
   def error_count
-    %w[failed failed_restarts skipped].sum {|f| status f}
+    %w[failed failed_restarts].sum {|f| status f}
   end
 
   def status(type = nil)
@@ -228,16 +224,14 @@ class Host < Puppet::Rails::Host
   end
 
   def self.importHostAndFacts yaml
-    begin
-      facts = YAML::load yaml
-      raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+    facts = YAML::load yaml
+    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
 
-      h=Host.find_or_create_by_name facts.name
-      return h.importFacts(facts)
-    rescue Exception => e
-      logger.error e.message
-      false
-    end
+    h=Host.find_or_create_by_name facts.name
+    return h.importFacts(facts)
+  rescue Exception => e
+    logger.error e.message
+    return false
   end
 
   # import host facts, required when running without storeconfigs.
@@ -264,7 +258,7 @@ class Host < Puppet::Rails::Host
         # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
         # TODO: if it was installed by Foreman and there is a mismatch,
         # we should probably send out an alert.
-        self.save_with_validation(perform_validation = false)
+        self.save(false)
 
         # we want to import other information only if this host was never installed via Foreman
         installed_at.nil? ? self.populateFieldsFromFacts : true
@@ -276,7 +270,7 @@ class Host < Puppet::Rails::Host
   end
 
   def fv name
-    v=fact_values.find(:first, :select => "fact_values.value", :joins => :fact_name,
+    v=fact_values.first(:select => "fact_values.value", :joins => :fact_name,
                        :conditions => "fact_names.name = '#{name}'")
     v.value unless v.nil?
   end
@@ -298,8 +292,9 @@ class Host < Puppet::Rails::Host
       major, minor = orel.split(".")
       self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
     end
+
     # again we are saving without validations as input is required (e.g. partition tables)
-    self.save_with_validation(perform_validation = false)
+    self.save(false)
   end
 
   # Called by build link in the list
