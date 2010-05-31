@@ -155,6 +155,12 @@ class HostsControllerTest < ActionController::TestCase
     assert_template :text => @host.to_yaml
   end
 
+  def test_clone
+    get :clone, {:id => Host.first}, set_session_user
+    assert_template 'new'
+  end
+
+
   private
   def initialize_host
     @host = Host.create :name => "myfullhost",

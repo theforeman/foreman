@@ -47,6 +47,7 @@ class HostsController < ApplicationController
     @original = Host.find(params[:id])
     @host = @original.clone
     load_vars_for_ajax
+    @host.puppetclasses = @original.puppetclasses
     # Clone any parameters as well
     @original.host_parameters.each{|param| @host.host_parameters << param.clone}
     flash[:error_customisation] = {:header_message => nil, :class => "flash notice", :id => nil,
