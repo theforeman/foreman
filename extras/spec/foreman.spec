@@ -2,14 +2,14 @@
 %global confdir extras/spec
 
 Name:           foreman
-Version:        0.1.4
-Release:        4%{?dist}
+Version:        0.1.5
+Release:        1%{?dist}
 Summary:        Systems Management web application
 
 Group:          Applications/System
 License:        GPLv3+
 URL:            http://theforeman.org
-Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-4.tar.bz2
+Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-5.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -48,14 +48,17 @@ install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
 
 install -Dp -m0644 %{confdir}/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -Dp -m0755 %{confdir}/%{name}.init %{buildroot}%{_initrddir}/%{name}
+install -Dp -m0644 %{confdir}/logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 cp -p -r app config extras lib Rakefile script vendor %{buildroot}%{_datadir}/%{name}
 chmod a+x %{buildroot}%{_datadir}/%{name}/script/{console,dbconsole,runner}
 rm -rf %{buildroot}%{_datadir}/%{name}/extras/{jumpstart,spec}
 rm -rf %{buildroot}%{_datadir}/%{name}/VERSION
+# remove all test units from productive release
+find %{buildroot}%{_datadir}/%{name} -type d -name "test" |xargs rm -rf
 
 # Move config files to %{_sysconfdir}
 mv %{buildroot}%{_datadir}/%{name}/config/email.yaml.example %{buildroot}%{_datadir}/%{name}/config/email.yaml
-for i in database.yml environment.rb email.yaml settings.yaml; do
+for i in database.yml email.yaml settings.yaml; do
     mv %{buildroot}%{_datadir}/%{name}/config/$i %{buildroot}%{_sysconfdir}/%{name}
     ln -sv %{_sysconfdir}/%{name}/$i %{buildroot}%{_datadir}/%{name}/config/$i
 done
@@ -63,6 +66,7 @@ done
 # Put db in %{_localstatedir}/lib/%{name}/db
 cp -pr db/migrate %{buildroot}%{_datadir}/%{name}
 mkdir %{buildroot}%{_localstatedir}/lib/%{name}/db
+
 ln -sv %{_localstatedir}/lib/%{name}/db %{buildroot}%{_datadir}/%{name}/db
 ln -sv %{_datadir}/%{name}/migrate %{buildroot}%{_localstatedir}/lib/%{name}/db/migrate
 
@@ -93,6 +97,7 @@ rm -rf %{buildroot}
 %{_initrddir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/lib/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/log/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
@@ -104,11 +109,46 @@ getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -G puppet -d %{homedir} -s /sbin/nologin -c "Foreman" %{name}
 exit 0
 
+%pretrans
+# Try to handle upgrades from earlier packages. Replacing a directory with a
+# symlink is hampered in rpm by cpio limitations.
+datadir=%{_datadir}/%{name}
+varlibdir=%{_localstatedir}/lib/%{name}
+# remove all active_scaffold left overs
+find $datadir -type d -name "active_scaffold*" | xargs rm -rf
+
+if [ ! -d $varlibdir/db -a -d $datadir/db -a ! -L $datadir/db ]; then
+  [ -d $varlibdir ] || mkdir -p $varlibdir
+  mv $datadir/db $varlibdir/db && ln -s $varlibdir/db $datadir/db
+  if [ -d $varlibdir/db/migrate -a ! -L $varlibdir/db/migrate -a ! -d $datadir/migrate ]; then
+    mv $varlibdir/db/migrate $datadir/migrate && ln -s $datadir/migrate $varlibdir/db/migrate
+  fi
+fi
+
+if [ ! -d $varlibdir/public -a -d $datadir/public -a ! -L $datadir/public ]; then
+  [ -d $varlibdir ] || mkdir -p $varlibdir
+  mv $datadir/public $varlibdir/public && ln -s $varlibdir/public $datadir/public
+fi
+
+varlibdir=%{_localstatedir}/log # /var/log
+if [ ! -d $varlibdir/%{name} -a -d $datadir/log -a ! -L $datadir/log ]; then
+  [ -d $varlibdir ] || mkdir -p $varlibdir
+  mv $datadir/log $varlibdir/%{name} && ln -s $varlib/%{name} $datadir/log
+fi
+
+varlibdir=%{_localstatedir}/run # /var/run
+if [ ! -d $varlibdir/%{name} -a -d $datadir/tmp -a ! -L $datadir/tmp ]; then
+  [ -d $varlibdir ] || mkdir -p $varlibdir
+  mv $datadir/tmp $varlibdir/%{name} && ln -s $varlib/%{name} $datadir/tmp
+fi
+
 %post
 /sbin/chkconfig --add %{name} || ::
 
 # initialize/migrate the database (defaults to SQLITE3)
 su - foreman -s /bin/bash -c %{_datadir}/%{name}/extras/dbmigrate >/dev/null 2>&1 || :
+(/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
+exit 0
 
 %preun
 if [ $1 -eq 0 ] ; then
@@ -119,10 +159,15 @@ fi
 %postun
 if [ $1 -ge 1 ] ; then
     # Restart the service
-    /sbin/service %{name} condrestart >/dev/null 2>&1 || :
+    /sbin/service %{name} restart >/dev/null 2>&1 || :
 fi
 
 %changelog
+* Mon May 31 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.5-1
+- New upstream version
+- Added migration support between old directory layout to FHS compliancy, upgrades from 0.1-4.x should now work
+- Added support for logrotate
+- Cleanup old activescaffold plugin leftovers files
 * Fri Apr 30 2010 Todd Zullinger <tmz@pobox.com> - 0.1.4-4
 - Rework %%install for better FHS compliance
 - Misc. adjustments to match Fedora/EPEL packaging guidelines
