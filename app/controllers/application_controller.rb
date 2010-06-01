@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 
    def no_puppetclass_documentation_handler(exception)
     if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
-      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}
+      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
     else
       if local_request?
         rescue_action_locally exception

@@ -13,7 +13,7 @@
       <td><%=h puppetclass.operatingsystems.to_sentence %></td>
       <td>
         <% for environment in puppetclass.environments -%>
-          <%= link_to h(environment), rdoc_classes_path(environment, puppetclass.name) %>
+          <%= link_to h(environment), "#", :onclick => rdoc_classes_path(environment, puppetclass.name) %>
 				<% end %>
 			</td>
       <td><%=h puppetclass.hostgroups.to_sentence %></td>
