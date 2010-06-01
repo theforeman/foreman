@@ -2,12 +2,12 @@
 
 <table class="list">
   <tr>
-    <th>Login</th>
-    <th>First name</th>
-    <th>Last name</th>
+    <th><%= order @search, :by => :login %></th>
+    <th><%= order @search, :by => :firstname %></th>
+    <th><%= order @search, :by => :lastname %></th>
     <th>Mail</th>
     <th>Administrator</th>
-    <th>Last Logged in</th>
+    <th><%= order @search, :by => :last_logon_on %></th>
     <th>Authorized by</th>
     <th></th>
   </tr>
