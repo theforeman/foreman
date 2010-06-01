@@ -4,8 +4,13 @@ class UsersController < ApplicationController
   before_filter :require_login, :except => [:login, :logout]
 
   def index
+    # set defaults search order - cant use default scope due to bug in AR
+    # http://github.com/binarylogic/searchlogic/issues#issue/17
+    params[:search] ||=  {}
+    params[:search][:order] ||= "descend_by_firstname"
+
     @search = User.search(params[:search])
-    @users = @search.paginate(:page => params[:page], :include => [:auth_source], :per_page => 10, :order => "firstname")
+    @users = @search.paginate(:page => params[:page], :include => [:auth_source], :per_page => 15, :order => "firstname")
   end
 
   def new

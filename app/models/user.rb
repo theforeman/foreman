@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
 
-  default_scope :order => "firstname"
-
   validates_uniqueness_of :login, :message => "already exists"
   validates_presence_of :login, :mail
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
