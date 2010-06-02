@@ -17,7 +17,7 @@ class Operatingsystem < ActiveRecord::Base
 
   # Emulate multiple inheritance from a virtual Family class
   def after_initialize
-    extend eval("Family::#{Family::FAMILIES[family_id]}") if self.respond_to?(:family_id) and not family_id.nil?
+    extend eval("Family::#{Family::FAMILIES[family_id]}") if defined? family_id and self.respond_to?(:family_id) and not family_id.nil?
   end
 
   def family
