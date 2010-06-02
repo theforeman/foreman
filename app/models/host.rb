@@ -290,6 +290,7 @@ class Host < Puppet::Rails::Host
     os_name = fv(:operatingsystem)
     if orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
       major, minor = orel.split(".")
+      minor ||= ""
       self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
     end
 
