@@ -33,8 +33,7 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from yaml stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    h.importFacts YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
-    assert h.valid?
+    assert h.importFacts YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
   end
 
   test "should import facts from yaml of a new host" do

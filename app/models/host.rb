@@ -225,13 +225,11 @@ class Host < Puppet::Rails::Host
 
   def self.importHostAndFacts yaml
     facts = YAML::load yaml
-    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+    return false unless facts.is_a?(Puppet::Node::Facts)
 
-    h=Host.find_or_create_by_name facts.name
-    return h.importFacts(facts)
-  rescue Exception => e
-    logger.error e.message
-    return false
+    h=find_or_create_by_name(facts.name)
+    h.save(false) if h.new_record?
+    h.importFacts(facts)
   end
 
   # import host facts, required when running without storeconfigs.
@@ -243,30 +241,26 @@ class Host < Puppet::Rails::Host
     raise "Host is pending for Build" if build
     time = facts.values[:_timestamp]
     time = time.to_time if time.is_a?(String)
-    if last_compile.nil? or (last_compile + 1.minute < time)
-      self.last_compile = time
-      begin
-        # save all other facts
-        if self.respond_to?("merge_facts")
-          self.merge_facts(facts.values)
-          # pre 0.25 it was called setfacts
-        else
-          self.setfacts(facts.values)
-        end
-        # we are saving here with no validations, as we want this process to be as fast
-        # as possible, assuming we already have all the right settings in Foreman.
-        # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
-        # TODO: if it was installed by Foreman and there is a mismatch,
-        # we should probably send out an alert.
-        self.save(false)
 
-        # we want to import other information only if this host was never installed via Foreman
-        installed_at.nil? ? self.populateFieldsFromFacts : true
-      rescue
-        logger.warn "Failed to save #{name}: #{errors.full_messages.join(", ")}"
-        $stdout.puts $!
-      end
-    end
+    # we are not doing anything we already processed this fact (or a newer one)
+    return true unless last_compile.nil? or (last_compile + 1.minute < time)
+
+    self.last_compile = time
+    # save all other facts - pre 0.25 it was called setfacts
+    self.respond_to?("merge_facts") ? merge_facts(facts.values) : self.setfacts(facts.values)
+
+    # we want to import other information only if this host was never installed via Foreman
+    populateFieldsFromFacts if installed_at.nil?
+
+    # we are saving here with no validations, as we want this process to be as fast
+    # as possible, assuming we already have all the right settings in Foreman.
+    # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
+    # TODO: if it was installed by Foreman and there is a mismatch,
+    # we should probably send out an alert.
+    return self.save(false)
+
+  rescue Exception => e
+    logger.warn "Failed to save #{facts.name}: #{e}"
   end
 
   def fv name
@@ -278,10 +272,10 @@ class Host < Puppet::Rails::Host
   def populateFieldsFromFacts
     self.mac = fv(:macaddress)
     self.ip = fv(:ipaddress) if ip.nil?
-    self.domain = Domain.find_or_create_by_name fv(:domain)
+    self.domain = Domain.find_or_create_by_name fv(:domain) unless fv(:domain).empty?
     # On solaris architecture fact is harwareisa
     if myarch=fv(:architecture) || fv(:hardwareisa)
-      self.arch=Architecture.find_or_create_by_name myarch
+      self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
     end
     # by default, puppet doesnt store an env name in the database
     env=fv(:environment) || "production"

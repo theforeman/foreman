@@ -18,7 +18,7 @@ class FactValuesController < ApplicationController
         if Host.importHostAndFacts params.delete("facts")
           render :text => "Imported facts", :status => 200 and return
         else
-          render :text => "Failed to import facts", :status => 500
+          render :text => "Failed to import facts", :status => 400
         end
       }
     end
