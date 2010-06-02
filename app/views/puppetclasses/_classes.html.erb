@@ -2,7 +2,7 @@
   <td id="classes">
     <% group.each do |list| -%>
       <% next if list.nil? %>
-      <li title="Click to expand module class list"><%= link_to_function list.first, toggle_div(list.first) %></li>
+      <li title="Click to expand module class list"><%= link_to_function image_tag("application_cascade.png") + " " + list.first, toggle_div(list.first) %></li>
       <div id=<%= list.first %> style="display: none;">
         <% for klass in list.last.sort -%>
           <% content_tag_for :div, klass, :title => "Click to add #{klass}" do %>
