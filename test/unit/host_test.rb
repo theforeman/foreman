@@ -59,16 +59,20 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from yaml of a new host" do
     assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
   end
+  if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
+      test "should not save if neither ptable or disk are defined when the host is managed" do
+        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+          :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+          :architecture => Architecture.first, :environment => Environment.first, :managed => true
+        assert !host.valid?
+      end
 
-  test "should not save if both ptable and disk are not defined" do
-    if SETTINGS[:unattended].nil? or SETTINGS[:unattended] == "true"
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-        :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-        :architecture => Architecture.first, :environment => Environment.first
-      assert host.new_record?
-    else
-      true
-    end
+      test "should save if neither ptable or disk are defined when the host is not managed" do
+        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+          :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+          :architecture => Architecture.first, :environment => Environment.first, :managed => false
+        assert host.valid?
+      end
   end
 
   test "should save if ptable is defined" do

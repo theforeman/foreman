@@ -61,7 +61,7 @@ class HostsController < ApplicationController
   end
 
   def new
-    @host = Host.new
+    @host = Host.new :managed => true
     @host.host_parameters.build
   end
 
@@ -99,10 +99,12 @@ class HostsController < ApplicationController
   end
 
   def edit
+    @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
     load_vars_for_ajax
   end
 
   def update
+    @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
     if @host.update_attributes(params[:host])
       flash[:foreman_notice] = "Successfully updated host."
       redirect_to @host

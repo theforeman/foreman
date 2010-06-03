@@ -31,7 +31,7 @@
                     :with => :environment_id)
   %>
 
-  <% if SETTINGS[:unattended].nil? or SETTINGS[:unattended] -%>
+  <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) and @host.managed -%>
     <%= render 'unattended', :f => f %>
   <% end -%>
 
