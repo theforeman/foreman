@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+cmd=`git log --pretty='format:%ci::%an <%ae>::%s'`
+
+list = {}
+list_order = []
+contributors = []
+changelog_file = "CHANGELOG"
+contributors_file = "Contributors"
+
+cmd.each do |l|
+  date, author, subject = l.chomp.split("::")
+  date, time, zone = date.split(" ")
+
+  id = "#{date}\t#{author}"
+  if not list[id]
+    list[id] = []
+    list_order << {:id => id, :value => list[id]}
+  end
+  list[id] << subject
+  contributors << author
+end
+
+# list.each do |id, value|
+file = File.new(changelog_file,"w")
+list_order.each do |i|
+  id = i[:id]
+  value = i[:value]
+
+  file.puts "#{id}"
+  file.puts value.map { |e| "\t* #{e}" }.join("\n")
+  file.puts "\n"
+end
+file.close
+file = File.new(contributors_file,"w")
+file.puts "Contributors (sorted alphabetically)"
+file.puts "\n"
+file.puts contributors.sort.uniq.join("\n")
+file.close

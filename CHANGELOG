@@ -1,0 +1,964 @@
+2010-06-07	Ohad Levy <ohadlevy@gmail.com>
+	* update docs for 0.1-5 release
+	* fixes #270 - host show page looks bad on IE or old versions of firefox
+
+2010-06-07	Jochen Schalanda <jochen.schalanda@detasad.com.sa>
+	* fixes #299 - Debian package spec
+	* Fixes #308 - Added action to destroy multiple hosts at once.
+
+2010-06-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #305 - puppetclass importer should try harder
+	* welcome should be a protect method, refs #273
+
+2010-06-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #273 - Provide a "Getting started" front-page
+	* fixes #286 - dashboard page contains a link to active_scaffold
+	* fixes #301 - Disallow deletion of Environment when hosts are using it
+	* fixes #302 and all references to_label and to_s removed references to all per_page settings as they are common now
+
+2010-06-03	Frank Sweetser <fs@wpi.edu>
+	* fixes #300 - Add icon hints to class add/remove
+
+2010-06-02	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #292 - puppetdocs should be in a frame
+
+2010-06-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #295 -  This YAML generates a 500 error when trying to send over http
+
+2010-06-02	Frank Sweetser <fs@wpi.edu>
+	* fixes #297 - Prevent operatingsystem.minor from storing NULLs
+	* fixes #296 Check for existence of family_id before referencing it
+
+2010-06-01	Ohad Levy <ohadlevy@gmail.com>
+	* refs #293
+	* fixes #293 - add table sorting to users page
+	* fixes #293 - add table sorting to users page
+
+2010-05-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #291 - clone host does not clone assoicated classes
+	* fixes #214 - update RPM spec files
+
+2010-05-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #289 - Import host hardware model
+	* minor code smell cleanups
+	* fixes #290 - migration will fail if facter domain returns on value
+
+2010-05-28	Frank Sweetser <fs@wpi.edu>
+	* fixes #255 Search for MAC addresses from all X-RHN-Provisioning-MAC headers, not just eth0
+
+2010-05-28	Ohad Levy <ohadlevy@gmail.com>
+	* minor formating changes
+	* fixes #247 - Query for class to support HostGroups
+	* fixes #275 - facility to search for fact names
+	* fixes #276 - Fact searches should remember the previous search settings
+	* fixes #274 - The Reset link of the search bar does not work on the reports page
+	* fixes #243 - When adding classes for in individual hosts, Adding then immediately Removing the class does not work
+	* another try to fix 281, refs #281
+	* fixes #283 - facts of stale hosts break foreman
+	* fixes #282 - NoMethodError in Dashboard#OutOfSync
+	* minor formatting change to allow edit habtm to look a bit cleaner
+	* fixes #281 - missing attribute: family_id error on migration
+	* fixes #280 - sample data should include newer operating systems
+
+2010-05-28	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #101 - Generate rdoc files and html links on the puppetclasses page
+
+2010-05-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes 154 - audit log does not store user information
+	* fixes #271 - remove active scaffold plugin
+	* fixes #279 - when editing a host, user selection is of the screen
+	* CSS rework, aligned view on all pages removed google JS from pages which do not require it
+	* fixes #278 - operatingsystem minor field is mandatory
+	* fixes #277 - add search options to puppet classes page
+	* Minor SQL optimization to hosts page
+	* fixes #272 - add a warning if there is a clock drift between the client and foreman
+	* migration might fail if medium does not have an opeartingsystem - refs #236
+
+2010-05-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #269 - Remove activescaffold from audits page
+	* fixes #268 - 500 Error on "All Puppet Classes"
+
+2010-05-26	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #212 - Remove AS from facts
+
+2010-05-24	Jochen Schalanda <jochen.schalanda@detasad.com.sa>
+	* Fixes #266 - Migrate the (NFS-) paths of existing Installation Media to URI format.
+	* fixes #236 - Installation media are now usable with more than one operating system.
+	* Fixes #265 - improved preseed template and more complicated partitioning scheme for Debian-based distributions.
+	* Fixes #262 - Architecture selection on create/edit operating system form
+
+2010-05-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #264 - Overview of host's puppet classes should be sorted
+
+2010-05-24	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #256 - Environment names should be alphanumeric
+	* Fixes #249 - Remove AS from reports
+	* Ensure that all index views and controllers are consistent
+	* Fixes #248 - Generalise tab management and search facility
+
+2010-05-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #241 - email notifications don't work when mail relay requires domain name
+	* imported redundent line - refs #232
+
+2010-05-18	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #204 - Remove AS from environments page
+	* Fixes #232 - Removes AS from Users page
+
+2010-05-18	Ashay Humane <ashay.humane@gmail.com>
+	* Fixes #258: Change Environment for multiple hosts.
+
+2010-05-17	Ohad Levy <ohadlevy@gmail.com>
+	* fixes typo in migration, refs #170
+	* updated incorrect url path, refs #179
+
+2010-05-17	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #170 - implement usergroups
+
+2010-05-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #257 - When creating a new hostgroup, it fails if I add a parameter when creating
+
+2010-05-14	Ohad Levy <ohadlevy@gmail.com>
+	* yet another fix for #216
+	* fixes #216 - Validate uniqueness of a parameter name for Individual hosts
+	* fixes #246 - add kickstart compatibility with RHE6 and minor fixes for ftp based urls
+
+2010-05-10	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #240 - Clone operation highlights changes correctly
+
+2010-05-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #233 - In the "Show" page for a Host, Build link should not be visible when Unattended is false.
+	* Fixes #179 - allow mass assignment of parameters and host groups. Greatly inspired by Ashay Humane <ashay.humane@gmail.com> at 5c2e395c
+
+2010-05-06	Ohad Levy <ohadlevy@gmail.com>
+	* refs #180, updated query library to use verbose mode
+	* fixes #180 - Query to return more information
+	* fixes #223 - When a host update has errors then the render :edit loses required variables
+	* fixes #238 - Report wrong marked
+
+2010-05-06	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #132 - Added a clone operation
+	* Fixes #183 - Adds searchbar facility to hosts
+
+2010-05-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #237 - installing puppet from epel breaks if base image is not 5.3 or 4.9 release
+
+2010-05-03	Jochen Schalanda <jochen.schalanda@detasad.com.sa>
+	* fixes #235 - Small refactoring of the media handling for operating system families: * Use URI class for any URI related operations * Added substitution for $version, $major and $minor in media path * Force use of http(s)|ftp|nfs URI schema: NFS shares have now to be entered in URI form: nfs://server/path/.../ instead of server:/path/.../
+
+2010-05-02	Ashay Humane <ashay.humane@gmail.com>
+	* fixes #226 - Return OutofSync, Error Host list from Dashboard controller as YAML
+
+2010-05-02	Todd Zullinger <tmz@pobox.com>
+	* fixes #214packaging: Misc. improvements to rpm spec file
+
+2010-04-30	Ohad Levy <ohadlevy@gmail.com>
+	* updated SearchLogic plugin
+	* fixes #200 * added better module detection to properly show the module list * Add sorting to module class lists * Add description to each link
+	* fixes #231 - find_each LocalJumpError (no block given)
+	* added titles to hosts show page actions
+
+2010-04-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #160 - Last Report Date is client date, not date report was received
+	* fixes #227 - Host graphs are shown with one month offset
+	* fixes #225 - migration fails - undefined local variable or method release_name
+
+2010-04-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #224 - edit multiple fails on operating system
+	* fixes #222 - add search and sort functionality to dashboard host lists
+	* fixes #220 - show all used puppet classes when using storeconfigs
+	* update RPM spec file
+	* added puppet-foreman module as a submodule, this is required for people who are searching for the external nodes scripts, report,fact importer etc
+	* Fixes #193 - move hosts controller away from AS * Remove active scaffold from hosts controller. * changed default host graphs from one day for up to one week * added dynamic dropdown boxes for host creation / edit page (e.g. for puppet classes, operating systems etc). * converted puppet class selection to a template, using it in hostgroups and hosts edit page. * Renamed puppetgroups to hostgroups for consistency * Added search option to list, this include search by facts as well
+
+2010-04-27	Florian Ernst <fe@LF.net>
+	* fix closing tag in report template: s/capmion/caption/
+
+2010-04-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #200 - Remove activescaffold from the puppet groups page
+
+2010-04-22	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #217 -  Before deleting a Hostgroup, warn that the hostgroup is in use.
+
+2010-04-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #197 - Allow site local views of unattended installation
+	* fixes #219 - debian should not be the default operatingsystem family
+
+2010-04-20	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #13 - Manage Debian family release-name
+
+2010-04-19	Ohad Levy <ohadlevy@gmail.com>
+	* removing puppet module from Foreman repo, as it now has its own repo - http://github.com/ohadlevy/puppet-foreman
+	* fixed startup file identation
+	* added status to foreman init script
+	* added common links to host show page and pagination
+	* added links to all facts and switched to url helpers
+	* reduce puppet classses per page
+
+2010-04-16	Ohad Levy <ohadlevy@gmail.com>
+	* added google_visualr and converted dashboard and hosts graphs
+	* updated IRC channel name
+
+2010-04-14	Ohad Levy <ohadlevy@gmail.com>
+	* family id can not be forced at this time, as it breaks many fact import operatings, fixing broken tests
+	* fixes #208 - use nested_attributes for lookup parameters
+	* added searchlogic plugin
+
+2010-04-14	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #177 - Family concept
+
+2010-04-13	Ohad Levy <ohadlevy@gmail.com>
+	* removing show action from arch page too
+	* refs #203, error on zero size array
+	* fixes - #211 ssh_using_foreman script sometime barf
+	* Merge branch 'develop' of git@github.com:ohadlevy/foreman into develop
+	* fixes #209 - add startup script for foreman RPM
+
+2010-04-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #181 - External node import prints 'nil' instead of 'class foo missing'
+	* fixes #199 - adds a search functionality to puppetclass page
+
+2010-04-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #199 - Remove activescaffold from the puppetclasses page, search functionality will follow
+	* Merge branch 'feature-203' into develop
+	* removing show action in places it doesn't make sense, and minor visual changes
+
+2010-04-09	Ashay Humane <ashay.humane@gmail.com>
+	* fixes #203 Remove ActiveScaffold from Models
+
+2010-04-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #206 - Remove activescaffold from the authentication page
+	* fixes #202 - Remove activescaffold from the medias page
+	* added audting on architecture, hostgroup, operatingsystem and puppetclass
+	* fixes #201 - Remove activescaffold from the domains page
+	* fixes #207 - remove activescaffold from Parameters settings
+
+2010-04-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #198 - remove activescaffold from Operating systems setting page
+
+2010-04-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #196 -  create rpm spec file for foreman
+	* fixes #195 - remove activescaffold from Architectures setting page
+
+2010-04-05	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #194 - remove activescaffold from partitioning table setting page
+
+2010-03-25	Ohad Levy <ohadlevy@gmail.com>
+	* refs #181 - solves unordered output
+	* fixes #189 - Fact filter should be case sensitive
+	* fixes #190 - Email report should be mime-wrapped
+	* fixes #187 - Reserved chars in facts
+	* fixes #181 - External node import prints 'nil' instead of 'class foo missing'
+	* fixes #192 - Host Run Interval Chart Broken
+	* fixes #191 - Query should return all hosts, not just recent
+	* refs #186 - minor optimization and avoid a problem when there is no report in the DB while the host last report date exists
+
+2010-03-23	Roberto M <telmox@gmail.com>
+	* fixes #186 - When reports are kept in the database and not deleted/purged the Host.reports.last query starts slowing down and the hosts index page can take minutes to load depending on the number of hosts. By changing Host.reports.last to Host.find(host.id).reports.maximum('id') we make a more efficient query to the database cutting the lookup time.
+
+2010-03-17	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #176 - Dynamic disk layouts are supported
+	* Fixes #175 - A link is provided to import classes and environments
+
+2010-03-09	Ohad Levy <ohadlevy@gmail.com>
+	* updated manifest to point to latest version
+	* extras/
+	* updated release scripts
+	* fixes broken fixtures for lookup_keys
+	* fixes broken testfixtures/lookup_keys.yml
+	* fixes #141 - add support to extlookup kind of queries through foreman usage: wget -q  -O - "http://foreman/lookup?key=ntpserver&order[]=my.domain&order[]=common" if you want it in YAML, just add: wget -q  -O - "http://foreman/lookup?key=ntpserver&order[]=my.domain&order[]=common&format=yml"
+	* fixes #84 - add better support for binary path searching, and catch errors based on the output from puppetrun
+
+2010-03-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #174 - incorrect counter on host lists
+	* fixes #84 - Add puppetrun support to web interface
+	* fixes #173 - redirection loop on login
+
+2010-03-05	Ohad Levy <ohadlevy@gmail.com>
+	* fix broken tests
+	* added rails 2.3.5 as a submodule
+	* remove rails 2.3.2 from repo
+
+2010-03-04	Ohad Levy <ohadlevy@gmail.com>
+	* show host names when browsing all facts
+	* fixes #172 - unable to save NFS based medias
+
+2010-02-19	Ohad Levy <ohadlevy@gmail.com>
+	* minor fixes to foreman module, added basic support for Ubuntu with passenger
+
+2010-02-19	Frank Sweetser <fs@wpi.edu>
+	* fixes #169 - Fix typo in unattended controller
+
+2010-02-18	Ohad Levy <ohadlevy@gmail.com>
+	* db:migrate failed, commenting this test and implementation for now
+	* removed type field fixtures as its a reserved word in AR
+
+2010-02-18	Leandro Marcucci <leanucci@gmail.com>
+	* Commented failing test due to unimplemented validation in OperatingSystem.
+
+2010-02-18	José Luis Escalante <joeloui@ubuntuJoe.(none)>
+	* added some explanations in reports_controller_test, fact_values_test, users_controller_test, fact_value_controller_test, user_test, about why there is some missing tests. Refactored the auth_source_ldap_controller.
+	* added rr gem to testing. Commented a couple of lines of Report controller test, seems to be a bug in the controller, need to ask about this
+	* A couple modifications to AuthSourceTest and UserTest. See details.
+	* Several corrections and improvements. See full description for more detail.
+	* added the fact value test, seems to be a bug in the mem_average method from the model...
+	* reports controller test is stand-by. puppetclasses controller test finished.
+	* erased a debugger line... sorry
+	* unknown failure in the create test from reports controller... help!
+	* added the common parameter tests
+	* added the group_parameter_test and hostgroups controller
+	* added the domain_controller_test
+	* refactored the auth_source_ldap test
+	* added the host_parameter_test, modified the Ensure_not_use_by issue in the subnet model and almost finished the subnet_test
+	* added the domain_parameter_test and group_parameter_test, modified the ensure_not_used_by in subnet model, almost finished the domain test and started the subnet test.
+	* modified the Ensure_not_use_by in Domain model, started the Domain test, and corrected some minor issues in Auth_source_ldap test
+	* started the auth_source and auth_source_ldap tests
+
+2010-02-18	Lucas Tolchinsky <ltolchinsky@vurbiatechnologies.com>
+	* corrected tests in hosts_controller and report_observer
+	* refactored hosts_controller_test
+	* added setBuild test for hosts_controller_test
+	* added more tests to hosts_controller_test
+	* added test for list action in auth_sources_controller_test
+	* added test for show action in audit_controller_test
+	* removed the ldap connection test from auth_source_ldap_test
+	* added report_observer test
+	* finished tests for environment
+	* added test for pupetclass
+	* removed trailing spaces from hosts and users controller test
+	* removed trailing spaces in models_controller_test
+	* removed trailing spaces in home_controller_test and in user_test
+	* removed trailing spaces in user_test and the initial "Replace this with..." comment
+	* in model_test.rb I removed some trailing spaces and the initial "the_truth" test
+	* commented two Logger.new lines, they were creating log files.
+	* host_observer is not implemented, so I don't know what tests to write
+	* given that fact_names_controller is empty, I just leave a comment in fact_names_controller_test
+	* added first tests on fact_values_controller
+	* added dashboard_controller_tests on green
+	* ptables_controller_test on green
+	* fixed indentation and new line deleted at end of file in domain_controller_test
+	* one assert corrected on operatingsystem and audit controller with show test
+	* added assertion for updated major and some small corrections
+	* renamed some variables
+	* operatingsystems_test on green
+	* renamed operatingsystems_controller_test
+	* added assertion for updated path
+	* medias_controller_test on green and renamed correctly
+	* corrected typo
+	* environments_controller_test on green
+	* architectures_controller_test on green
+	* added some more tests, but update is not passing.
+	* a bit of refactoring
+	* fixed all tests, but it seems not to be a show action, that test is commented.
+	* fixed create and update tests
+	* reviewing auth_sources and architectures controller tests. They are both _very_ broken.
+	* removed old architecture_controller_test file
+	* modified the name of architectures_controller_test.rb
+	* added some more tests to HostMailer
+	* removed trailing spaces
+	* specified recipient tests
+	* first host_mailer tests to complete
+	* removed trailing spaces
+	* indentation fix
+	* added test for before_destroy on architecture
+	* before_destroy patch successfully applied, also, added require for ruby-debug
+	* added hostgroup test and fixed some assertions
+	* refactored the trailing spaces test and added parameter test
+	* fixed a variable name
+	* added before_destroy :ensure_not_used test on RED
+	* added name uniqueness test
+	* added test for unquiness on green
+	* refactoring tests
+	* Puppetclasses tests on green
+	* Media tests on green
+	* blank line removed
+	* ptables tests on green
+	* operatingsystem tests refactored on green
+	* removed blank line
+	* improved tests and corrected validation
+	* refactor
+	* Operatingsystem tests on green
+	* commented test (not working)
+	* architecture tests addded on green
+
+2010-02-18	Juan Manuel <jmperez@atlantis.(none)>
+	* Added ModelsController test. Also renamed it because it was in singular :)
+	* Removed an output.
+	* Test de UsersController. Problema con el atributo "type" de AuthSource
+	* Added hosts controller.
+	* Removed some tests...
+	* Audit Test...there is not much to do here really.
+	* Added test logging support
+	* Added User Test. It lacks auth test.
+	* Added an extra line on gitignore.
+	* Added first functional test.
+	* Added environment test. It's green, but it lacks some tests.
+	* Added model test (in red).
+
+2010-02-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #167 - password will be updated each time to host is being edited
+
+2010-02-05	Ohad Levy <ohadlevy@gmail.com>
+	* sessions are lazy loaded in rails 2.3, no need to declare them
+	* Merge branch 'master' of git@github.com:ohadlevy/foreman
+	* fixes #166 - query interface ignore state when using puppet classes instead of facts
+
+2010-01-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes 163 - clean certificate only when a new build request starts
+	* fixes 162 - Certificate will not be removed when FQDN has uppercase letters
+
+2010-01-26	Ohad Levy <ohadlevy@gmail.com>
+	* redundent line
+	* shorter form
+	* fixes #151 - add show host page Added a nested link to hosts to lots of controllers
+	* added basic pagination
+
+2010-01-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #159 - query interface should be able to limit host selection based on state
+	* fixes #159 - If facts are imported incorrectly or incompletely, the Statistics links does not work
+	* refs #153 - this will send email notifications only if its enabled in config/settings.yml
+
+2010-01-17	Ohad Levy <ohadlevy@gmail.com>
+	* updated to year 2010
+
+2010-01-16	Ohad Levy <ohadlevy@gmail.com>
+	* lates plugin update broke many things, reveting to a safe version for now
+	* Merge commit 'github/master'
+	* fixes #153 - EMail Notifications when hosts report failures
+
+2010-01-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes  #157: Audit show page might fail
+	* fixes #156 - reports will fail if its longer than 64kb
+
+2010-01-11	Ohad Levy <ohadlevy@gmail.com>
+	* refs #154 - it should return nil when we are not using authentcation
+	* Merge commit 'github/master'
+	* fixes #154 - audit log does not store user information
+
+2010-01-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #152 - add a script to scan out of sync hosts
+	* refs # 138 - add log error if unable to generate statistics git ci app/controllers/statistics_controller.rb -m refs
+	* fixes #150 - Summary email ignores environment selection
+
+2010-01-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #138 - Statistics page doesn't show any info if memory facts are unavailable
+
+2010-01-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #124 - Support run interval other than default 30 minutes
+	* ignoring swap files
+	* fixes #140 - dashboard fails when using postgresql backend
+	* fixes - #146 Adds a host environment and fact based filtering to Summarized emails
+	* minor time formatting change
+
+2009-12-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #131 - do not store sessions for facts/reports creation
+
+2009-12-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes - #136 - Foreman missing image for Darwin (Mac OS X) hosts
+
+2009-12-17	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'master' of git@github.com:ohadlevy/foreman
+	* shorter time output in dashboard view
+	* fixes #135 - highlight in red errors in summary email
+
+2009-12-17	Frank Sweetser <fs@wpi.edu>
+	* Fixes #133 - Report.with_changes looking at wrong column
+
+2009-12-15	Frank Sweetser <fs@wpi.edu>
+	* Fixes #133 - Report.with_changes looking at wrong column
+
+2009-12-14	Ohad Levy <ohadlevy@gmail.com>
+	* updated link to new version and added daily summary email cronjob
+	* uncommenting debug code
+	* fixed typo
+	* fixes #130 - divide by zero in dasbboard
+	* fixes #80, fixes #106 and fixes #128
+	* fixes #71 - send out daily email summary of puppet changes
+	* switches global setting var to be a constant var - refs #100
+	* fixes #106 - redid the status calcuation, this fixes #80 but not in an optimal way - db migration would be required for that.
+	* fix for pertnesses warning
+	* fixes #117 - Add SSL redirection
+
+2009-12-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #129 - Link from hostname on the hosts page is absolute instead of relative (breaking https)
+
+2009-12-11	Ohad Levy <ohadlevy@gmail.com>
+	* fixes typos
+	* fixes #118 - Add email support
+	* fixed formatting
+	* fixes #118 - Add email support
+	* fixes #127 - query interface ignores invalid facts
+	* minor fixes in the query example script
+
+2009-12-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #125 - allow query interface to specify multiple classes and facts and key value pairs for facts
+	* fixes #126 - provide example script that uses the query interface
+	* added the files generated by AS plugin to gitignore
+
+2009-12-10	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #111 - GW
+	* Fixes #74. Logger messaging works in the proxy module
+
+2009-12-09	Frank Sweetser <fs@wpi.edu>
+	* Fixes #122 - Only output yaml when node is found for puppetmasters host search function
+
+2009-12-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #121 - rake task might import a 'main' class
+
+2009-12-08	Frank Sweetser <fs@wpi.edu>
+	* fixes - #120 - Include timestamp of dashboard page generation
+	* fixes #119 - Recurse into module directories when looking for classes
+
+2009-12-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #112 - add a version file
+	* fixes #81 - Rake does not import classes from modules when not using the environment statement in puppet.conf
+
+2009-12-04	Frank Sweetser <fs@wpi.edu>
+	* fixes #108 - Move "Total" line to bottom of list and emphasize it
+
+2009-12-02	Frank Sweetser <fs@wpi.edu>
+	* Handle HTTPS report submissions
+
+2009-12-01	Ohad Levy <ohadlevy@gmail.com>
+	* removed commented lines
+	* added tftp subdir to git ignore file, fixes #95
+	* added active_scaffold_list_filter plugin
+	* Merge commit 'github/master'
+	* fixes #103 - Deleting a host should clean up the certificate too
+
+2009-12-01	Martin Englund <martin.englund@sun.com>
+	* bug #99
+	* First stab at fixing feature #87
+	* Feature #95
+
+2009-11-26	Ohad Levy <ohadlevy@gmail.com>
+	* fix for missing puppet server name
+
+2009-11-25	Martin Englund <martin.englund@sun.com>
+	* it should display the corrent puppet master name
+
+2009-11-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #82
+	* removed unused code
+	* removed unused code
+	* fixes #89 - this adds basic graphs and charts for your inventory, it also includes minor changes to the dashboard graphs
+	* fix spelling mistakes, comments etc - minor refactor
+	* fixes #83, envirionment is hash by it self, not a parameter
+
+2009-11-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #68 ; wrong condition was used again
+	* fix test for #83
+	* fixes #68 ; wrong condition was used
+
+2009-11-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #83 - add environment to external nodes parameter
+
+2009-11-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #68 - do not force to key in all unattended related info when using Foreman as a simple node
+	* fixes #76 - Foreman creates a link to a report even if the report is already deleted
+	* fixes #67 - no route to host error in external nodes
+	* first stab at #77 - add basic graphing engine and added a couple of graphs in the dashboard
+
+2009-11-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #74 - tftp and puppet ca errors are not shown in the log file
+	* fixes #70 - shows hosts in error state in the dashboard
+
+2009-11-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #72: allow to define the default puppet server hostname
+	* reverting and fixing minor example manifest fix
+	* minor example manifest fix
+
+2009-11-05	Ohad Levy <ohadlevy@gmail.com>
+	* update manifest to point to latest stable version
+
+2009-11-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #56, changed the migration order
+	* added puppet manifest to expire old reports
+	* fixes typo
+	* fixes #57 - add retention rules to expire old reports
+	* added a label for each report
+	* added some basic error handling
+	* added delete link from report show action
+
+2009-10-30	Ohad Levy <ohadlevy@gmail.com>
+	* ugly workaround for broken reports, I think I'll refactor the whole reporting database and import as serializing doesnt seem to work that reliably
+	* Destroyed objects did not show up correctly
+	* * created an audit show page * added auditing for external node parameters refs #43
+
+2009-10-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #28 and converts existing helpers to snippets
+
+2009-10-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #54
+	* added missing index page and added db indexs - ref #30
+	* fixes #44 this filters the content of the report/fact, but still shows the request in the log
+	* Fixes #30 - a very basic version for now - feature requests ARE WELCOMED
+
+2009-10-21	Ohad Levy <ohadlevy@gmail.com>
+	* added a daily db session cleanup cron entry
+	* switched to rest helpers
+	* fixes #53
+	* add a base report test for reports which have a skip value with no messages
+	* ensure that the authentcation filter runs on all other actions beside create
+
+2009-10-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #53, fixes #25 and general improvment to sql delete commands
+
+2009-10-19	Ohad Levy <ohadlevy@gmail.com>
+	* clean up remain original audit files
+	* Merge branch 'audits'
+	* fixes #53
+	* Adding Links to Audit Log Currently Facts Auditing is disable
+
+2009-10-17	Ohad Levy <ohadlevy@gmail.com>
+	* added act_as_audited plugin, seems to be a better implementation than our onws
+	* Support Audit logs when no user is logged in - fixes #51
+
+2009-10-16	Ohad Levy <ohadlevy@gmail.com>
+	* Basic infrastructure to Support Audit Logs - ref #43
+	* commented out original redmine tests, all of this will be replaced once moving away from AS
+	* improved SQL query a bit, querying only for the value in a join is a bit faster
+	* fixes #50, now reports time is shown as long as there was atleast one report
+	* removed unneeded file
+	* LDAP auth is not required when using the external query interface. fixed an issue that you couldnt use the ldap settings if ldap was turn off, but you couldnt login if ldap was turn on... you kinda get the idea..
+	* moving to DB based sessions, AR requires sometimes sessions bigger than 4k - until we'll move to memcache
+
+2009-10-15	Ohad Levy <ohadlevy@gmail.com>
+	* reverted to an older AS commit
+	* AS had a bad commit, reverting - see http://code.google.com/p/activescaffold/issues/detail?id=711&colspec=ID%20Type%20Status%20Summary
+	* Squashed commit of the following:
+	* minor fix - we want YAML not http ;)
+	* schema should not be under version control
+
+2009-10-14	Ohad Levy <ohadlevy@gmail.com>
+	* updated AR version
+	* fixes #38
+	* Added External node lookup script
+	* Foreman Puppet module, it covers: * foreman installation * custom reports * fact importers * tftp setup * puppetca setup * forman puppet function to query info * passenger setup
+	* fixes #48
+	* fixes #40
+	* Fixes #47, now hosts external node info can be found under: foreman_url/node/hostname
+	* updated git nightly build script
+	* fixes #46, This adds a basic query able interface to Foreman
+
+2009-10-13	Ohad Levy <ohadlevy@gmail.com>
+	* fix typo
+	* wrong condition - fixes #34
+
+2009-10-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #34
+	* minor cleanup - no functional change
+	* fixes #44, this however doesnt show any Report of Facts controllect activites, could not find a way to specify it per method
+
+2009-10-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #33
+
+2009-10-02	Ohad Levy <ohadlevy@gmail.com>
+	* Improve the way reports gets deleted, this should be way faster
+	* fixes #29
+
+2009-09-24	Ohad Levy <ohadlevy@gmail.com>
+	* Minor view changes: * Adds a link from host report to host edit * Resized edit text box size
+
+2009-09-23	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #31
+	* fixes #26
+	* fixed typo and changed order to puppet report output
+	* two simple scripts to create a release and a daily snapshot
+	* updated to latest version of AS
+
+2009-09-20	Ohad Levy <ohadlevy@gmail.com>
+	* latest schema
+	* Merge branch 'reports'
+	* Fixes #16, this adds the possibility to see the host report status out of the host list
+	* Merge branch 'reports'
+	* Fixes #14; this adds database index to make host, parameters and reports table perform better
+	* fixes #21: this adds support from module path under the setting file and provides a fallback to /etc/puppet/modules
+
+2009-09-19	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #23; This provides status indicators to the reports list. Additionally, this provides a detailed overview of each host.
+	* removed redundent show message in host list
+	* fixes #22
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* Fixes #20. This create links from the host list to the RRD graphs that puppet generates.
+
+2009-09-18	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* fixes #18: Incorrect link to host editing
+	* added test for External Node import, missed that in the last commit
+	* Fixes #17 This adds the possibility to import from a previous external node interface. letting Foreman reads the old setup and update its database accordingly
+	* Hopefully last trace of the old project name
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+
+2009-09-17	Ohad Levy <ohadlevy@gmail.com>
+	* hopefully fixing #5 for good
+
+2009-09-16	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* fixes #12
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* fixes #10
+
+2009-09-15	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* updated to latest correct schema
+	* #fixes #11
+	* * Ensures that reports are unique per host * We now create the host if it doesn't exists, after all, we want to store information in our database. * We store all reports for 24 hours (successful and with failures etc). * Fixed an issue when the host status didn't get updated (e.g. if you had good "bad" run and afterward a "good" run, the status could stay as "bad") * added sorting as required by the expre_reports method.
+
+2009-09-14	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* Merge branch 'master' into reports
+	* updated to latest schema
+	* a bit dryer
+	* Fixes #9 and introduce a basic reporting viewing over http
+	* fixes #8
+	* a bit dryer
+
+2009-09-11	Ohad Levy <ohadlevy@gmail.com>
+	* Firefox still looks for the file in its orginal place, so removing redundent lines and reverting the layout
+	* fixes #6
+	* Merge branch 'master' of git://github.com/ohadlevy/foreman
+	* fixes #7
+	* Oops busybox wget cant do https
+	* Oops busybox wget cant do https
+	* * Minor Formatting changes to unattended templates * Ensured that installation works also if preseed is served via https. * Removed unrequired default packages.
+	* Merge branch 'master' into puppetmodule
+	* minor formating and aliasing
+
+2009-09-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #5
+	* deleted unused file
+	* moved to images dir
+	* Added some more text to the settings menu, removed some fields which are not yet required.
+	* added links to redmine
+	* fixes #4
+
+2009-09-09	Ohad Levy <ohadlevy@gmail.com>
+	* We have a final project name -- The ForeMan
+
+2009-09-07	Ohad Levy <ohadlevy@gmail.com>
+	* Renamed projet to the Torque
+	* added domain and common specific parameters. this adds a similar functionality to extlookup. the order in which parameters are processed is: common => domain => hostgroup => host where the latest occurrence of a parameter takes priority.
+	* removed redundent begin end block
+
+2009-09-06	Ohad Levy <ohadlevy@gmail.com>
+	* minor formating
+	* renamed project to the torque
+	* fixed the issue when the method would not work correctly when the hostgroup would be empty
+	* Added Groups to puppet classes, now its possible to associate a host with a group of classes it also allowed to setup parameters per group and override them in the host level
+
+2009-09-06	motyla <motyla@gmail.com>
+	* Making sure group exist before reading it's parameters
+
+2009-09-05	Ohad Levy <ohadlevy@gmail.com>
+	* the hostname is now a link to the edit method
+	* Changed default TFTP dir to be a subdir of GNI.
+	* fixed issues with Ubuntu Preseed, currently tested only on Jaunty, added a default Ubuntu/Debian partition layout
+	* no need to remove the startup file, if required, change it through puppet itself.
+
+2009-09-01	Ohad Levy <ohadlevy@gmail.com>
+	* no need to enable autosign for the post install scripts
+
+2009-08-31	Ohad Levy <ohadlevy@gmail.com>
+	* Unattended Installation works again, fixed many small debian issues
+
+2009-08-24	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'ohad'
+	* moved hardcoded URLS into url_path
+	* added a minor OS version as well, as this is currently important for EPEL installation.
+	* removed helper from all controllers by default, this can conflict with AS when having multiple fields with the same name.. e.g. name
+	* fixed an useless error when trying to populate an host entry when there are no host facts
+	* * added a Partition table or disk layout validation and tests * removed "self" from places its not required. * added shortname method(for just hostname) * added support for setting the default password as part of the settings.yaml file * added fv method to return facts in a bit more DRY way.
+	* added some status icons, and a bit of DRY
+
+2009-08-23	Ohad Levy <ohadlevy@gmail.com>
+	* this was breaking non Linux distribution and wasnt useful anyway...
+	* Merge branch 'ohad' of git://github.com/ohadlevy/gni into origin/ohad
+	* a simple host status indicator
+	* Merge commit 'home/origin/ohad' into ohad
+	* typo - need to escapes now
+	* show installation file in spoof mode
+	* removed host tftp file to boot from default
+	* merged
+	* no need to remove the facts and reports twice, as they were already removed when the host was set on build,(the only exception is if the host is still running and the certificate has not been revoked(!?), moved the order a bit that it would be possible to return an error if tftp / puppet ca breaks
+	* added allowed_to_install and handle_ca before filters, breaks done the scope of each method
+	* avoid ruby warning about strings
+	* force file rewrite, avoids FileUtils exceptions
+	* added images for flash messages
+	* added support for epel and fixed a few typos
+	* built function and puppetca proxy now works
+	* added support for epel and fixed a few typos
+
+2009-08-22	Ohad Levy <ohadlevy@gmail.com>
+	* built function and puppetca proxy now works
+	* added a partition table validation or a custom disk layout
+	* added fqdn variable
+	* added some basic validations if the file exists
+	* started to simplify kickstart templates, moved a lot of generic stuff to helpers so we dont have to repeat ourselfs in each os
+	* started to simplify kickstart templates, moved a lot of generic stuff to helpers so we dont have to repeat ourselfs in each os
+	* added some basic validations if the file exists
+	* added fqdn variable
+	* added a partition table validation or a custom disk layout
+
+2009-08-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixed typos
+	* fixes a bug with nested array in external nodes
+	* fixes a bug with nested array in external nodes
+	* fixed typos
+
+2009-08-19	Ohad Levy <ohadlevy@gmail.com>
+	* cleaned up git submodules
+	* updated README to point to the wiki
+	* updated README to point to the wiki
+	* If no environments are used, we import the default production one
+	* rake job that imports puppet envs and classes
+	* added import of puppet classes
+
+2009-08-18	Ohad Levy <ohadlevy@gmail.com>
+	* this was breaking non Linux distribution and wasnt useful anyway...
+
+2009-08-16	Ohad Levy <ohadlevy@gmail.com>
+	* added a build action, this triggers all required actions (e.g. PuppetCA, DNS Tftp etc
+	* cleaned up git submodules
+	* Fixed an issue when flash messages were broken
+
+2009-08-15	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'ohad'
+	* Added an inline yaml output in the browser, this allows a user to see the YAML output for external nodes
+
+2009-08-14	Ohad Levy <ohadlevy@gmail.com>
+	* added some basic nested views
+	* added some basic nested views
+
+2009-08-13	Ohad Levy <ohadlevy@gmail.com>
+	* added a note about old yaml files
+	* added a note about old yaml files
+	* updated wrong yaml path
+	* Merge branch 'master' into ohad
+	* Added a rake task which imports facts (in yaml format) directly to the DB. this is useful for people who don't use store configs, but still want to import puppet node information to the database.
+	* Fix for broken index creation on MySQL servers. It is now possible to create GNI Database on a MySQL server when it was not originally initiated by store configs.
+	* Fix for broken index creation on MySQL servers. It is now possible to create GNI Database on a MySQL server when it was not originally initiated by store configs.
+	* added basic features and a basic host creation test
+
+2009-08-12	Ohad Levy <ohadlevy@gmail.com>
+	* added a test for normalize hostname method
+	* Added Operating System validations Detect if an encrypted password is saved or if we have to encrypt it (currently its limited to $1$gni$prefix moved/renamed some methods
+	* removed warning
+
+2009-08-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixed broken tests
+
+2009-08-09	Ohad Levy <ohadlevy@gmail.com>
+	* 0.25 doesnt store IP address(?)
+	* puppet doesnt store dates in UTC, redmine #2518
+
+2009-08-08	Ohad Levy <ohadlevy@gmail.com>
+	* updated Paul's email address
+
+2009-08-05	Ohad Levy <ohadlevy@gmail.com>
+	* basic external node script for usage with GNI, if you change your server URL make sure you also update this file
+
+2009-08-04	Ohad Levy <ohadlevy@gmail.com>
+	* * normalize host names (short or fqdn) * ensure root password are stored encrypted in the db
+	* Merge branch 'ohad'
+	* added external nodes parameters support
+	* updated instructions to use master branch
+	* added a nice favicon
+
+2009-08-03	Ohad Levy <ohadlevy@gmail.com>
+	* a prototype for dhcp communications
+	* fixes arch fact name on Solaris - thanks to motyla@gmail.com
+
+2009-08-02	Ohad Levy <ohadlevy@gmail.com>
+	* workaround for the fact that puppet default env is empty
+	* Add support for multiple puppet classes per host / operating system / environment etc this should enable a proper dropdowns when creating the gui part that shows possible puppet class / operating system / env combinations
+	* simplified and added error handling  for failed external nodes requests
+	* update README for kickstart, jumpstart and preseed support
+	* Added WIP jumpstart finish script
+	* Basic support for Debian / Ubuntu preseed installations.
+
+2009-08-01	Ohad Levy <ohadlevy@gmail.com>
+	* updated validation column name
+	* updated validations and error message for medias
+	* Added tests and fixes for mac and ip address normalizations
+	* ensures that we don't spam the database with "puppet" as the value.
+	* uncommented expired reports method
+	* updated active scaffold
+	* * Fixed an issue when the host arch is not the last part of the directory. ** introduced the $arch variable in the media path value * Added default media values for CentOS 5.3 and Fedora 11
+
+2009-07-31	Ohad Levy <ohadlevy@gmail.com>
+	* updated Storeconfig import, as by default facter doesnt report an env unless defined in puppet.conf
+	* updated README file
+	* basic work to get Solaris SPARC jumpstart support
+	* added a partition table controller
+
+2009-07-30	Ohad Levy <ohadlevy@gmail.com>
+	* added partition table model, this allows to have standard partition tables for new hosts, or a customized ones per host if required
+	* typo error, updated latest schema
+	* allow imported domain names to be empty
+	* updated readme file to reflect changes in rake
+	* added prod2dev rake tasks
+	* simplifed rake job,importing all in one go
+	* fixed an issue with wrong contoller names which lead to broken links, redid some model relationships (hopefuly simplified - hence removed the nested_has_many_through plugin
+
+2009-07-30	Telmo <telmox@gmail.com>
+	* Addind the rake tasks description to the README and fixing a couple of sentence in the tasks descriptions
+	* adding rake tasks for puppet migrations
+
+2009-07-29	Ohad Levy <ohadlevy@gmail.com>
+	* force read of puppet config files upon startup
+	* added basic reporting model and methods
+	* no need to recreate the OS many times
+
+2009-07-28	Ohad Levy <ohadlevy@gmail.com>
+	* added a OS fact import method
+	* created a proxy plugin, this plugin access the different gateways (e.g. dhcp/dns/puppetca/tftp etc)
+
+2009-07-27	Ohad Levy <ohadlevy@gmail.com>
+	* add minimal description to forms
+
+2009-07-25	Ohad Levy <ohadlevy@gmail.com>
+	* a bit more usage instructions
+	* fixed wrong env name variable, fixed wrong RHE version (2 instead of 3)
+	* removed default route, added pkelly email address
+	* removed default route, added pkelly email address
+	* updated simple readme instructions
+	* using machine localtime to calculate the time ago
+	* show last compile in time ago
+	* added links to host facts
+	* fixed wrong links in settings tab, also use the hosttypes as the class output of the external nodes method
+	* realigned models to use :though and habtm when it made sense, setup basic AS controllers to support that
+	* trigger the puppet migration only if its a new db, if its storeconfig already, no need to change anything
+	* added media path validaiton to be either NFS or url
+	* linked between arch and os, as each os might have multiple archs
+	* fix the relationship between a host and a media (must be though an OS), added some helpers to auto parse the install path (e.g. NFS or URL) etc
+	* added a basic external nodes support
+	* added a basic external nodes support
+	* updated migrations to use puppet Rails function of creating the db schema, adjusted what ever it took to get the first Fedora 11 client installed with our kickstart
+	* added another plugin needed for rails 2.3 and ActiveScaffold
+	* added facts controllers
+	* working kickstart integertaion, WIP
+	* fixed a problem with rails 2.3 - see https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/2283-unnecessary-exception-raised-in-asdependenciesload_missing_constant
+	* changed migration as this allows puppet storeconfig to use the same database
+	* added basic observers setup, added default values for hosts, minor cleanup
+	* added basic unattended controller
+	* fixed activerecord validations initiations etc WIP
+	* added subnet model
+	* added subnet model
+	* Added domain model. removed ensure_not_used from all models and add it to Activerecord:Base class as an initalizer
+	* added os model and fix active record relationship to media and host, hopefully supporting the kickstart integeration for path etc
+	* added default stylesheet
+	* added fact models, aligned db schema with puppet schema, removed unneeded columns
+	* added media model
+	* added arch module
+	* basic activescaffold is now working
+	* added active_scaffold as a git submodule
+	* yet another cleanup
+	* deleted empty file
+	* empty tests and controller for now
+	* initial host module
+	* Added support for a global settings file, added GW libs
+	* freeze rails 2.3.2 TODO: move rails to a submodule instead
+
+2009-07-13	Ohad Levy <ohadlevy@gmail.com>
+	* empty rails project
+
