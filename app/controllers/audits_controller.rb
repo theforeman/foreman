@@ -1,7 +1,7 @@
 class AuditsController < ApplicationController
   def index
     @search = Audit.search params[:search]
-    @audits = @search.paginate :page => params[:page], :per_page => 15
+    @audits = @search.paginate :page => params[:page]
   end
 
   def show

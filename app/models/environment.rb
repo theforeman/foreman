@@ -6,18 +6,6 @@ class Environment < ActiveRecord::Base
   validates_format_of   :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
   default_scope :order => 'name'
 
-  def to_label
-    name
-  end
-
-  def to_s
-    name
-  end
-
-  def self.per_page
-    10
-  end
-
   # returns an hash of all puppet environments and their relative paths
   def self.puppetEnvs
     env = Hash.new

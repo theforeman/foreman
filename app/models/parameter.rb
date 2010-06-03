@@ -4,8 +4,4 @@ class Parameter < ActiveRecord::Base
   validates_format_of   :name, :value, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white space"
 
   attr_accessor :nested
-
-  def to_s
-    name
-  end
 end

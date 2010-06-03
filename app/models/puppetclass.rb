@@ -28,10 +28,6 @@ class Puppetclass < ActiveRecord::Base
     return klasses
   end
 
-  def to_s
-    name
-  end
-
   # returns a hash containing modules and associated classes
   def self.classes2hash classes
     hash = {}
@@ -60,10 +56,6 @@ class Puppetclass < ActiveRecord::Base
   # add sort by class name
   def <=>(other)
     klass <=> other.klass
-  end
-
-  def self.per_page
-    20
   end
 
   # Retrieve the manifestdir from the puppet configuration

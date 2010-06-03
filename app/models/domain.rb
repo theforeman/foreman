@@ -16,14 +16,6 @@ class Domain < ActiveRecord::Base
 
   before_destroy Ensure_not_used_by.new(:hosts, :subnets)
 
-  def to_label
-    name
-  end
-
-  def to_s
-    to_label
-  end
-
   # counts how many times a certian fact value exists in this domain
   # used mostly for statistics
   def countFact fact, value

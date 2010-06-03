@@ -28,8 +28,5 @@ class FactValue < Puppet::Rails::FactValue
     end
     hash
   end
-  def self.per_page
-    15
-  end
 
 end

@@ -58,8 +58,6 @@ class Host < Puppet::Rails::Host
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
-  alias_attribute :to_s, :name
-  alias_attribute :to_label, :name
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
@@ -89,11 +87,6 @@ class Host < Puppet::Rails::Host
 
   def shortname
     domain.nil? ? name : name.chomp("." + domain.name)
-  end
-
-  # defines how many hosts will be shown in the hostlist
-  def self.per_page
-    20
   end
 
   # method to return the correct owner list for host edit owner select dropbox

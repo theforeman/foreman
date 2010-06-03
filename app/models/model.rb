@@ -4,7 +4,4 @@ class Model < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
   default_scope :order => 'name'
-
-  alias_attribute :to_s, :name
-  alias_attribute :to_label, :name
 end

@@ -21,9 +21,6 @@ class Report < ActiveRecord::Base
   # with_changes
   named_scope :with_changes, {:conditions => "status != 0"}
 
-  def self.per_page
-    20
-  end
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
   def status=(st)

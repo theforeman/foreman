@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     params[:search][:order] ||= "descend_by_firstname"
 
     @search = User.search(params[:search])
-    @users = @search.paginate(:page => params[:page], :include => [:auth_source], :per_page => 15)
+    @users = @search.paginate(:page => params[:page], :include => [:auth_source])
   end
 
   def new

@@ -52,6 +52,13 @@ class ActiveRecord::Base
   def id_and_type
     "#{id}-#{self.class.table_name.humanize}"
   end
+  alias_attribute :to_label, :name
+  alias_attribute :to_s, :to_label
+
+  def self.per_page
+    20
+  end
+
 
 end
 
