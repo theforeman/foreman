@@ -59,6 +59,9 @@ class ActiveRecord::Base
     20
   end
 
+  def self.unconfigured?
+    count == 0
+  end
 
 end
 

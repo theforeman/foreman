@@ -8,7 +8,7 @@ class FactValuesControllerTest < ActionController::TestCase
   def test_index
     get :index, {}, set_session_user
     assert_response :success
-    assert_template 'index'
+    assert_template FactValue.unconfigured? ? 'welcome' : 'index'
     assert_not_nil :fact_values
   end
 

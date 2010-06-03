@@ -7,12 +7,13 @@ body {
   background-color: #E6DFCF;
 }
 
-h1 {
+h1, h2 {
   font-variant:small-caps;
-  font-size:18px;
   padding:0;
   margin:0;
 }
+h1 { font-size:18px; }
+h2 { font-size:14px; }
 
 a img {
   border: none;
@@ -22,9 +23,8 @@ a {
   color: #0000FF;
 }
 
-
-th.underlined { 
-  text-decoration: underline 
+th.underlined {
+  text-decoration: underline
 }
 a:link, a:visited {
   color: #507EA1;
@@ -33,10 +33,10 @@ a:active {
   color: #3082BF;
 }
 
-input { 
+input {
   margin-bottom: 1px;
 }
-p { 
+p {
   line-height: 130%;
 }
 #header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative;}
@@ -107,7 +107,6 @@ p {
 #login-form table td {padding: 6px;text-align: center;}
 #login-form label {font-weight: bold;}
 
-
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
   padding: 4px 4px 4px 30px;
@@ -156,11 +155,10 @@ div.flash.notice {
 
 .field-with-errors input, .field-with-errors textarea, .field-with-errors select {border: 2px solid #BC1C3D;}
 
-
 /* Tables */
 
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin:1em auto;}
-table.list th { 
+table.list th {
   text-decoration:none;
   text-align:left;
   background:#555555;
@@ -198,7 +196,7 @@ table p {margin:0;}
   border: solid 1px #f00;
 }
 
-/* host show page */ 
+/* host show page */
 #title, td.last_row { font-weight: bold; }
 
 #host_actions {
@@ -217,7 +215,7 @@ table p {margin:0;}
 .pagination { float: right }
 
 #host_report {
-  border-bottom: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc;
   float: left;
   width:70%
 }
@@ -256,11 +254,11 @@ div#run_distribution {
   right: 1em;
 }
 #searchbar ul {
-	margin: 0; padding: 0;
-	list-style: none;
-	float: left;
-	width: 100%;
-	background-color: #ffffff;
+  margin: 0; padding: 0;
+  list-style: none;
+  float: left;
+  width: 100%;
+  background-color: #ffffff;
 }
 
 #searchbar li {
@@ -274,10 +272,10 @@ div#run_distribution {
 }
 
 #searchbar li a.close{
-	color: red;
-	padding-left: 1px;
-	padding-top: 1px;
-	padding-bottom: 7px;
+  color: red;
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-bottom: 7px;
   text-decoration: none;
 }
 #searchbar li a {
@@ -304,4 +302,12 @@ div#run_distribution {
 #settings li {
   list-style-type:none;
   padding:0 0 8px;
+}
+#welcome {
+  width: 85%;
+  margin: 0 auto;
+  background-color: #FFF;
+  padding: 20px 40px;
+  border: solid 1px black;
+  margin-top: 20px;
 }

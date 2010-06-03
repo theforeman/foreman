@@ -14,6 +14,15 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :load_tabs, :manage_tabs
+  before_filter :welcome, :only => :index
+
+  def welcome
+    klass = controller_name.camelize.singularize
+    eval "#{klass}" rescue nil # We must force an autoload of the model class
+    #logger.debug "defined?(#{klass}) is ->#{eval "defined?(#{klass})"}<-"
+    render :welcome and return if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?" rescue nil
+    false
+  end
 
   # host list AJAX methods
   # its located here, as it might be requested from the dashboard controller or via the hosts controller

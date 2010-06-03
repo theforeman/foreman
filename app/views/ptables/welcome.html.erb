@@ -1,0 +1,63 @@
+<div id="welcome">
+  <h2>Partition table configuration</h2>
+  <P>
+  As your configuration does not appear to have any partition tables declared then you might want to configure some at this point.
+  </p>
+  <p>
+  A partition table entry represents either
+  <ul>
+    <li>
+    An explicit layout for the partitions of your hard drive(s). E.G.
+    <pre>
+zerombr yes
+clearpart --all --initlabel
+part /boot --fstype ext3 --size=100 --asprimary
+part /     --fstype ext3 --size=1024 --grow
+part swap  --recommended
+   </pre>
+    </li>
+    <li>
+    A script to dynamically calculate the desired sizes. E.G.
+    <pre>
+#Dynamic - The below code is to manage the swap size
+
+#get the actual memory installed on the system and divide by 1024 to get it in MB
+usable_ram=$((`awk '$1 ~ /^MemTotal/ {printf "%d\n", $2 / 1024}' /proc/meminfo`))
+
+#check if the memory is less than 2GB then swap is double the memory else it is maximum 24 G for really inactive stuff.
+if [ "$usable_ram" -le 2048 ]; then
+  swap_size=$(($usable_ram * 2))
+else
+  swap_size=$(($usable_ram + 2048))
+fi
+if [ $swap_size -gt 24576 ] ; then
+  swap_size=24576
+fi
+
+#copy all the HDD partitions to the temp file for execution
+cat <<EOF > /tmp/diskpart.cfg
+zerombr yes
+clearpart --all --initlabel
+part swap --size 250 --maxsize "$swap_size" --grow
+part /boot --fstype ext3 --size 100 --asprimary
+part / --fstype ext3 --size 8192 --maxsize 12288 --grow
+part /tmp2 --size 250 --fstype ext3 --grow
+EOF
+    </pre>
+    </li>
+  </ul>
+  <p>
+  The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior
+  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process.
+  </p>
+  <p>
+  The dynamic partitioning style is currently only available for the Redhat family of operating systems, all others must provide an explicit list of partitions and sizes.
+  </p>
+  <p>
+  You may also associate one or more operating systems with this partition table or alternatively set this up later on the <%= link_to "Operating systems", operatingsystems_path -%> page.
+  </p>
+  </p>
+  <%= link_to "New partition table", new_ptable_path -%>.
+  </p>
+</div>
+

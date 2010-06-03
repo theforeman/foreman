@@ -1,0 +1,51 @@
+<div id=welcome>
+  <h2>Authentication source configuration</h2>
+  <p>
+  Foreman can use an LDAP based service for user information and authentication
+  <p>
+
+  <p>
+  The authentication process currently requires an LDAP provider, such as sldapd or Microsoft's Active Directory.
+  </p>
+
+  <p>
+  The required details are described here
+  <ul>
+    <li>
+    <b>Name:</b> an arbitrary identifier for this authentication provider.
+    </li>
+    <li>
+    <b>Host and port:</b> the host on which the service resides and the internet port on which communication should progress.
+    </li>
+    <li>
+    <b>LDAPS:</b> whether the communication should be encrypted.
+    </li>
+    <li>
+    <b>Account:</b> predefined account or a template, containing the keyword <b>$login</b>, <br>
+    which allows the login text to be preprocessed before passing to the provider.  <br>
+    For instance, if the provider is MS AD then the login name should be prepended with 'domain\'.<br>
+    A suitable entry in this case would be 'domain\$login'.
+    </li>
+    <li>
+    <b>Password:</b> password (only required if a predefined account is used)
+    </li>
+    <li>
+    <b>Basedn:</b> the starting location within the LDAP directory structure for search operations.
+    </li>
+    <li>
+    <b>On-the-fly creation:</b> indicates that a user's details should be downloaded from the LDAP provider <br>
+    and a new user created within the Foreman application. If this entry is not ticked then even if the <br>
+    authentication succeeds the user cannot be logged in as they will be no user entry for this person.
+    </li>
+    <li>
+    <b>Attributes:</b> are the names of the values that are downloaded from the LDAP provider to populate a Foreman user's information.<br>
+    E.G. a Foreman user's name can be derived from an Active Directory <b>sAMAccountName</b> attribute.
+    </li>
+  </ul>
+  More details and examples can be found <a href="http://theforeman.org/projects/foreman/wiki/LDAP_Authentication">here</a>
+  </p>
+  <p>
+  <%= link_to "New authentication source", new_auth_source_ldap_path %>
+  </p>
+</div>
+
