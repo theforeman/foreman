@@ -16,7 +16,7 @@ class Environment < ActiveRecord::Base
 
     # query for the environments variable
     unless conf[:main][:environments].nil?
-      conf[:main][:environments].split(",").each {|e| env[e.to_sym] = conf[e.to_sym][:modulepath]}
+      conf[:main][:environments].split(",").each {|e| env[e.to_sym] = conf[e.to_sym][:modulepath] unless conf[e.to_sym][:modulepath].nil?}
     else
       # 0.25 doesn't require the environments variable anymore, scanning for modulepath
       conf.keys.each {|p| env[p] = conf[p][:modulepath] unless conf[p][:modulepath].nil?}
@@ -24,10 +24,10 @@ class Environment < ActiveRecord::Base
       env.delete :main
       env.delete :puppetmasterd if env.size > 1
 
-      if env.size == 0
-        # fall back to defaults - we probably don't use environments
-        env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || SETTINGS[:modulepath] || Puppet[:modulepath] || "/etc/puppet/modules"
-      end
+    end
+    if env.values.compact.size == 0
+      # fall back to defaults - we probably don't use environments
+      env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || SETTINGS[:modulepath] || Puppet[:modulepath] || "/etc/puppet/modules"
     end
     return env
   end
