@@ -139,10 +139,11 @@ class HostsController < ApplicationController
   def puppetrun
     host = Host.find params[:id]
     if GW::Puppet.run host.name
-      render :text => "Successfully executed, check log files for more details"
+      flash[:foreman_notice] = "Successfully executed, check log files for more details"
     else
-      render :text => "Failed, check log files"
+      flash[:foreman_error] = "Failed, check log files"
     end
+    redirect_to :back
   end
 
   def setBuild
