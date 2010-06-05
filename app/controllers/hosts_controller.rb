@@ -4,7 +4,7 @@ class HostsController < ApplicationController
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
-    :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters]
+    :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy]
 
   helper :hosts, :reports
 
@@ -299,6 +299,20 @@ class HostsController < ApplicationController
 
     session[:selected] = []
     flash[:foreman_notice] = 'Updated hosts: Changed Environment'
+    redirect_to(hosts_path)
+  end
+
+  def multiple_destroy
+  end
+
+  def submit_multiple_destroy
+    # destroy the hosts
+    hosts = Host.find(session[:selected])
+    # keep all the ones that were not deleted for notification.
+    hosts.delete_if {|host| host.destroy}
+
+    session[:selected] = []
+    flash[:foreman_notice] = hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{hosts.map(&:name).join('<br>')}"
     redirect_to(hosts_path)
   end
 

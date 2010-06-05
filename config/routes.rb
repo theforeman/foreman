@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
                 :collection => { :show_search => :get, :multiple_actions => :get, :multiple_parameters => :get,
                   :update_multiple_parameters => :post, :save_checkbox => :post, :select_multiple_hostgroup => :get,
                   :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
+                  :multiple_destroy => :get, :submit_multiple_destroy => :post,
                   :reset_multiple => :get}
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.statistics '/statistics', :controller => 'statistics'
