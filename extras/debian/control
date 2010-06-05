@@ -1,0 +1,29 @@
+Source: foreman
+Maintainer: Jochen Schalanda <jochen@schalanda.name>
+Section: web
+Priority: extra
+Standards-Version: 3.8.4
+Build-Depends: debhelper (>= 7)
+Homepage: http://www.theforeman.org/
+
+Package: foreman
+Architecture: all
+Depends: ${misc:Depends}, ruby, ruby1.8 (>= 1.8.7), rake (>=0.8.3), puppet (>=0.24.4)
+Recommends: libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid | mongrel, libdbd-sqlite3-ruby, sqlite3
+Description: Systems management web interface
+ Foreman is aimed to be a single address for all machines life cycle management.
+ .
+  - Foreman integrates with Puppet and acts as web front end to it.
+  - Foreman takes care of bare bone provisioning until the point puppet is
+    running, allowing Puppet to do what it does best.
+  - Foreman shows you Systems Inventory (based on Facter) and provides real time
+    information about hosts status based on Puppet reports.
+  - Foreman creates everything you need when adding a new machine to your
+    network. Its goal being automatically managing everything you would
+    normally manage manually - that would eventually include DNS, DHCP,
+    TFTP, PuppetCA, CMDB and everything else you might consider useful.
+  - With Foreman you can always rebuild your machines from scratch.
+  - Foreman is designed to work in a large enterprise, where multiple domains,
+    subnets and puppetmasters are required.
+    In many cases, Foreman could help remote provisions where no experienced
+    technicians are available.

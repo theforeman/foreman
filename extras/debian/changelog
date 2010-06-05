@@ -1,0 +1,5 @@
+foreman (0.1.5-1) experimental; urgency=low
+
+  * Initial Debian version
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Mon, 07 Jun 2010 13:57:44 +0800

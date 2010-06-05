@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -e
+
+chown 'foreman:foreman' '/var/lib/foreman'
+chmod '755' '/var/lib/foreman'
+chown 'foreman:foreman' '/var/lib/foreman/db'
+chmod '755' '/var/lib/foreman/db'
+chown 'foreman:foreman' '/var/lib/foreman/public'
+chmod '755' '/var/lib/foreman/public'
+chown 'foreman:foreman' '/var/lib/foreman/public/404.html'
+chown 'foreman:foreman' '/var/lib/foreman/public/422.html'
+chown 'foreman:foreman' '/var/lib/foreman/public/500.html'
+chown 'foreman:foreman' '/var/lib/foreman/public/blank.html'
+chown 'foreman:foreman' '/var/lib/foreman/public/favicon.ico'
+chown 'foreman:foreman' '/var/lib/foreman/public/images'
+chmod '755' '/var/lib/foreman/public/images'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/false.png'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/hosts'
+chmod '755' '/var/lib/foreman/public/images/hosts'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/hosts/Darwin.jpg'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/hosts/Linux.jpg'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/hosts/SunOS.jpg'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/hosts/attention_required.png'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/hosts/warning.png'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/rails.png'
+chown 'foreman:foreman' '/var/lib/foreman/public/images/true.png'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts'
+chmod '755' '/var/lib/foreman/public/javascripts'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts/application.js'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts/controls.js'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts/dragdrop.js'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts/effects.js'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts/host_checkbox.js'
+chown 'foreman:foreman' '/var/lib/foreman/public/javascripts/prototype.js'
+chown 'foreman:foreman' '/var/lib/foreman/public/robots.txt'
+chown 'foreman:foreman' '/var/lib/foreman/public/stylesheets'
+chmod '755' '/var/lib/foreman/public/stylesheets'
+chown 'foreman:foreman' '/var/lib/foreman/public/stylesheets/style.css'
+chown 'foreman:foreman' '/var/log/foreman'
+chown 'foreman:foreman' '/var/cache/foreman'
+chmod '755' '/var/cache/foreman'
+
+# initialize/migrate the database (defaults to SQLITE3)
+su - foreman -s /bin/bash -c /usr/share/foreman/extras/dbmigrate >/dev/null 2>&1
+
+#DEBHELPER#
+
+exit 0

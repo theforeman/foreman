@@ -1,0 +1,16 @@
+# Install the basic application files
+app usr/share/foreman
+config usr/share/foreman
+config/database.yml etc/foreman
+config/email.yaml.example etc/foreman
+config/settings.yaml etc/foreman
+db var/lib/foreman
+extras usr/share/foreman
+lib usr/share/foreman
+public var/lib/foreman
+Rakefile usr/share/foreman
+script usr/share/foreman
+test usr/share/foreman
+vendor/plugins usr/share/foreman/vendor
+vendor/gems usr/share/foreman/vendor
+vendor/rails usr/share/foreman/vendor
