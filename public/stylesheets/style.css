@@ -199,12 +199,8 @@ table p {margin:0;}
 /* host show page */
 #title, td.last_row { font-weight: bold; }
 
-#host_actions {
-  float: right;
-  font-size: 70%;
-}
-
 #host_overview {
+  position: relative;
   float:right;
   width:30%
 }
@@ -215,7 +211,7 @@ table p {margin:0;}
 .pagination { float: right }
 
 #host_report {
-  border-bottom: 1px solid #ccc;
+  position: relative;
   float: left;
   width:70%
 }

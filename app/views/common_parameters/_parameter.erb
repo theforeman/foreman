@@ -1,9 +1,12 @@
-<p class="fields">
-<%= f.label :name, "name" %>
-<%= f.text_field :name, :size => 10 %>
-<%= f.label :value, "value" %>
-<%= f.text_field :value, :size => 75 %>
-<%= f.hidden_field :nested %>
-<%= link_to_remove_fields("remove", f) %>
-</p>
-
+<table class="fields">
+  <tr>
+    <td>Name</td>
+    <td> <%= f.text_field :name, :size => 10 %> </td>
+    <td>Value</td>
+    <td>
+      <%= f.text_field :value, :size => 75 %>
+      <%= f.hidden_field :nested %>
+      <%= link_to_remove_fields("remove", f) %>
+    </td>
+  </tr>
+</table>

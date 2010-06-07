@@ -1,21 +1,19 @@
 <% gcharts_script %>
-<div id="title">
-  <%= @host.to_label %>
-  <span id="host_actions">
-    <%= link_to "Edit", edit_host_path(@host), :title => "Edit your host" %> |
-    <%= link_to "Facts", fact_values_path("search[host_id_eq]" => @host.id), :title => "Browse host facts" %> |
-    <%= link_to "Reports", reports_host_path(@host), :title => "Browse host reports" %> |
-    <%= link_to "YAML", externalNodes_host_path(@host), :title => "Puppet external nodes YAML dump" %> |
-    <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host), :title => "prepare this host for build" %> |
-    <span title="trigger a puppetrun on a node; requires that Puppet run is enabled">
-      <%= link_to_if SETTINGS[:puppetrun], "Run Puppet", puppetrun_host_path(@host) %>
-    </span> |
-    <span title="Show all host puppet classes, requires storeconfigs">
-      <%= link_to_if @host.resources.count > 0, "All Puppet Classes", storeconfig_klasses_host_path(@host) %>
-    </span> |
-    <%= link_to "Delete", host_path(@host), :confirm => 'Are you sure?', :method => :delete%>
-  </span>
-</div>
+<% title @host.to_label %>
+<span class="title_action">
+  <%= link_to "Edit", edit_host_path(@host), :title => "Edit your host" %> |
+  <%= link_to "Facts", fact_values_path("search[host_id_eq]" => @host.id), :title => "Browse host facts" %> |
+  <%= link_to "Reports", reports_host_path(@host), :title => "Browse host reports" %> |
+  <%= link_to "YAML", externalNodes_host_path(@host), :title => "Puppet external nodes YAML dump" %> |
+  <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host), :title => "prepare this host for build" %> |
+  <span title="trigger a puppetrun on a node; requires that Puppet run is enabled">
+    <%= link_to_if SETTINGS[:puppetrun], "Run Puppet", puppetrun_host_path(@host) %>
+  </span> |
+  <span title="Show all host puppet classes, requires storeconfigs">
+    <%= link_to_if @host.resources.count > 0, "All Puppet Classes", storeconfig_klasses_host_path(@host) %>
+  </span> |
+  <%= link_to "Delete", host_path(@host), :confirm => 'Are you sure?', :method => :delete%>
+</span>
 
 <div id="host_overview">
   <%= render :partial => "hosts/overview", :locals => {:host => @host} %>
