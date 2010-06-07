@@ -51,27 +51,28 @@ do_stop()
     start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $FOREMAN_PID
     RETVAL="$?"
     [ "$RETVAL" = 2 ] && return 2
-
-    rm -f $FOREMAN_PID
+    [ "$RETVAL" = 0 ] && rm -f $FOREMAN_PID
     return "$RETVAL"
 }
 
 case "$1" in
     start)
-        [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+        [ "$VERBOSE" != no ] && log_daemon_msg "Starting" "$NAME"
         do_start
         case "$?" in
-            0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
-            2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+            0|1) RETVAL=0; [ "$VERBOSE" != no ] && log_end_msg "$RETVAL" ;;
+            2) RETVAL=1; [ "$VERBOSE" != no ] && log_end_msg "$RETVAL" ;;
         esac
+	exit "$RETVAL"
         ;;
     stop)
-        [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+        [ "$VERBOSE" != no ] && log_daemon_msg "Stopping" "$NAME"
         do_stop
         case "$?" in
-            0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
-            2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+            0|1) RETVAL=0; [ "$VERBOSE" != no ] && log_end_msg "$RETVAL" ;;
+            2) RETVAL=1; [ "$VERBOSE" != no ] && log_end_msg "$RETVAL" ;;
         esac
+	exit "$RETVAL"
         ;;
     status)
         status_of_proc -p "$FOREMAN_PID" "$DAEMON" "$NAME" && exit 0 || exit $?
@@ -81,7 +82,7 @@ case "$1" in
         # If the "reload" option is implemented then remove the
         # 'force-reload' alias
         #
-        log_daemon_msg "Restarting $DESC" "$NAME"
+        log_daemon_msg "Restarting " "$NAME"
         do_stop
         case "$?" in
             0|1)
@@ -99,7 +100,7 @@ case "$1" in
         esac
         ;;
     *)
-        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+        echo "Usage: ${SCRIPTNAME} {start|stop|status|restart|force-reload}" >&2
         exit 3
         ;;
 esac
