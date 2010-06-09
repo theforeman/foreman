@@ -152,7 +152,7 @@ class Host < Puppet::Rails::Host
 
   # returns the host correct disk layout, custom or common
   def diskLayout
-    disk.empty? ? ptable.layout : disk
+    disk.empty? ? ptable.layout : disk.gsub("\r","")
   end
 
   # reports methods
