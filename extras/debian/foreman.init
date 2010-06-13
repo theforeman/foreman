@@ -39,7 +39,8 @@ is_true() {
 do_start()
 {
     if is_true "$START" ; then
-        start-stop-daemon --start --quiet --chuid $FOREMAN_USER --pidfile $FOREMAN_PID --exec $DAEMON -- $DAEMON_OPTS
+        start-stop-daemon --start --quiet --chuid "${FOREMAN_USER}" --pidfile "${FOREMAN_PID}" \
+                          --chdir "${FOREMAN_HOME}" --exec "${DAEMON}" -- $DAEMON_OPTS
     else
         echo ""
         echo "${NAME} not configured to start. Please edit /etc/default/${NAME} to enable."
@@ -48,7 +49,7 @@ do_start()
 
 do_stop()
 {
-    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $FOREMAN_PID
+    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile "${FOREMAN_PID}"
     RETVAL="$?"
     [ "$RETVAL" = 2 ] && return 2
     [ "$RETVAL" = 0 ] && rm -f $FOREMAN_PID
