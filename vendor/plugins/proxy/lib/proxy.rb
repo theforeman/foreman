@@ -97,14 +97,9 @@ module GW
         return false
       end
       begin
-        if (ssldir + "ca/signed/#{fqdn}.pem").file?
-          command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null"
-          logger.info system(command)
-          return true
-        else
-          logger.warn ssldir + "PuppetCA: ca/signed/#{fqdn}.pem does not exists - skipping"
-          return true
-        end
+        command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null"
+        logger.info system(command)
+        return true
       rescue StandardError => e
         logger.info "PuppetCA: clean failed: #{e}"
         false
