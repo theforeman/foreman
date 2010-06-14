@@ -5,7 +5,13 @@
   <%= link_to "Facts", fact_values_path("search[host_id_eq]" => @host.id), :title => "Browse host facts" %> |
   <%= link_to "Reports", reports_host_path(@host), :title => "Browse host reports" %> |
   <%= link_to "YAML", externalNodes_host_path(@host), :title => "Puppet external nodes YAML dump" %> |
-  <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host), :title => "prepare this host for build" %> |
+  <% unless @host.build -%>
+    <span title="prepare this host for build; requires unattended mode">
+      <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host) %>
+    </span>
+  <% else -%>
+    <%= link_to "Cancel Build", cancelBuild_host_path(@host), :title => "cancel build request for this host" %>
+  <% end -%> |
   <span title="trigger a puppetrun on a node; requires that Puppet run is enabled">
     <%= link_to_if SETTINGS[:puppetrun], "Run Puppet", puppetrun_host_path(@host) %>
   </span> |

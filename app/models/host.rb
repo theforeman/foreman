@@ -115,9 +115,9 @@ class Host < Puppet::Rails::Host
   # Called from the host build post install process to indicate that the base build has completed
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
-  def built
+  def built(installed = true)
     self.build = false
-    self.installed_at = Time.now.utc
+    self.installed_at = Time.now.utc if installed
     # disallow any auto signing for our host.
     GW::Puppetca.disable name
     GW::Tftp.remove mac

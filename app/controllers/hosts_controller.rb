@@ -156,6 +156,16 @@ class HostsController < ApplicationController
     redirect_to :back
   end
 
+  def cancelBuild
+    host = Host.find params[:id]
+    if host.built(false)
+      flash[:foreman_notice] = "Canceled pending build for #{host.name}"
+    else
+      flash[:foreman_error] = "Failed to cancel pending build for #{host.name}"
+    end
+    redirect_to :back
+  end
+
   # generates a link to Puppetmaster RD graphs
   def rrdreport
     if SETTINGS[:rrd_report_url].nil? or (host=Host.find(params[:id])).last_report.nil?
