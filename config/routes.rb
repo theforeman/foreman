@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
       :multiple_enable => :get, :submit_multiple_enable => :post}
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.statistics '/statistics', :controller => 'statistics'
+  map.resources :notices, :only => :destroy
   map.resources :audits
   map.resources :usergroups
   map.resources :lookup_keys

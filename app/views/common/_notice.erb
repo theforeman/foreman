@@ -1,0 +1,20 @@
+<div id="notice" style="clear:both;">
+  <% field_set_tag "Notifications" do %>
+    <table width="100%">
+      <% for notice in  @notices-%>
+        <tr>
+          <td style="width:1%"><img src="images/<%= notice.level -%>.png"></td>
+          <td>
+            <%= truncate notice.content, 100 -%>
+          </td>
+          <td align="right" style="width:1%">
+            <% link_to notice, :method => :delete do -%>
+              <img src="images/close_hl.png">
+            <% end -%>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>
+<%= link_to_function "Toggle notifications section", toggle_div(:notice), :style => "float:right;color:red"%>

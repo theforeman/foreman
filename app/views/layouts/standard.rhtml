@@ -8,15 +8,16 @@
   </head>
   <body>
     <div id="header">
-      <%= render :partial => 'home/topbar' %>
+      <%= render 'home/topbar' %>
       <div class="title" style="text-align:center;">
         The Foreman
       </div>
-      <%= render :partial => "home/menu" -%>
+      <%= render "home/menu" -%>
     </div>
     <%= render "common/searchbar" rescue "<!-- The search facility is not available in this controllers -->" unless params[:action] == 'show' %>
     <%= content_tag('div', flash[:foreman_error],  :class => 'flash error')  if flash[:foreman_error] -%>
     <%= content_tag('div', flash[:foreman_notice], :class => 'flash notice') if flash[:foreman_notice] -%>
+    <%= render 'common/notice' unless @notices.empty? -%>
     <div id="content">
       <%- if show_title? -%>
         <h1><%=h yield(:title) %></h1>

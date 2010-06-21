@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :load_tabs, :manage_tabs, :unless => :request_json?
-  before_filter :welcome, :only => :index, :unless => :request_json?
+  before_filter :welcome, :detect_notices, :only => :index, :unless => :request_json?
 
   # host list AJAX methods
   # its located here, as it might be requested from the dashboard controller or via the hosts controller
@@ -137,6 +137,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def detect_notices
+    @notices = current_user.notices
+  end
+
   def active_tab=(value); @active_tab = session[:controller_active_tabs][controller_name] = value; end
 
   def load_tabs

@@ -46,7 +46,7 @@ class ActiveSupport::TestCase
 
   def set_session_user
     if SETTINGS[:login]
-      {:user => User.first}
+      {:user => User.first.id}
     else
       {}
     end

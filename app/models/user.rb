@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :changes, :class_name => 'Audit', :as => :user
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
+  has_and_belongs_to_many :notices, :join_table => 'user_notices'
 
   validates_uniqueness_of :login, :message => "already exists"
   validates_presence_of :login, :mail, :auth_source_id
