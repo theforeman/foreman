@@ -4,6 +4,7 @@ class UnattendedController < ApplicationController
   before_filter :get_host_details, :allowed_to_install?
   before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish]
   skip_before_filter :require_ssl, :require_login
+  after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish, :jumpstart_profile, :jumpstart_finish]
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
@@ -95,6 +96,10 @@ class UnattendedController < ApplicationController
 
   def unattended_local type
     render :template => "unattended/#{type}.local" if File.exists?("#{RAILS_ROOT}/app/views/unattended/#{type}.local.rhtml")
+  end
+
+  def set_content_type
+    response.headers['Content-Type'] = 'text/plain' if @spoof
   end
 
 end
