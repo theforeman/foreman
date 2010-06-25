@@ -305,15 +305,17 @@ class Host < Puppet::Rails::Host
   # this method accepts a puppets external node yaml output and generate a node in our setup
   # it is assumed that you already have the node (e.g. imported by one of the rack tasks)
   def importNode nodeinfo
+    myklasses= []
     # puppet classes
     nodeinfo["classes"].each do |klass|
       if pc = Puppetclass.find_by_name(klass)
-        self.puppetclasses << pc unless puppetclasses.exists?(pc)
+        myklasses << pc
       else
         error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoring"
         logger.warn error
         $stdout.puts error
       end
+      self.puppetclasses = myklasses
     end
 
     # parameters are a bit more tricky, as some classifiers provide the facts as parameters as well
