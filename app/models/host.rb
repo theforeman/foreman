@@ -371,7 +371,7 @@ class Host < Puppet::Rails::Host
     data[:runtime] = []
     data[:resources] = []
     data[:runtime_labels] = [ ['datetime', "Time" ],['number', "Config Retrieval"], ['number', 'Total']]
-    data[:resources_labels] = [ ['datetime','Time']] + Report::METRIC.map{|metric| ['number', metric] }
+    data[:resources_labels] = [ ['datetime','Time']] + Report::METRIC.sort.map{|metric| ['number', metric] }
     reports.recent(timerange).each do |r|
       data[:runtime] << [r.reported_at.getlocal, r.config_retrieval, r.runtime ]
       data[:resources] << [r.reported_at.getlocal, r.status.sort.map(&:last)].flatten
