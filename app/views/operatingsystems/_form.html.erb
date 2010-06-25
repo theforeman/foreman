@@ -1,19 +1,22 @@
 <% form_for :operatingsystem, :url => family_url(@operatingsystem), :html => {:method => family_html_method } do |f| %>
   <%= f.error_messages %>
-  <p>
-  <%= f.label :name %>
-  <%= f.text_field :name, :size => "12" %>
-  <%= f.label :major %>
-  <%= f.text_field :major, :size => 8 %>
-  <%= f.label :minor %>
-  <%= f.text_field :minor, :size => 8 %>
-  <%= f.label :family_id, "OS Family" %>
-  <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}%>
-  <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == "Debian" -%> >
-    <%= f.label :release_name, "Release name" %>
-    <%= f.text_field :release_name, :size => 12%>
-    <small>e.g. karmic, lucid, etch, woody</small>
-  </span>
+  <table>
+    <tr>
+      <td> Name</td>
+      <td> <%= f.text_field :name, :size => "12" %> </td>
+      <td> Major</td>
+      <td> <%= f.text_field :major, :size => 8 %> </td>
+      <td> Minor</td>
+      <td> <%= f.text_field :minor, :size => 8 %></td>
+      <td> OS Family</td>
+      <td> <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}%></td>
+      <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == "Debian" -%> >
+        <td> Release name </td>
+        <td><%= f.text_field :release_name, :size => 12%> </td>
+        <td><small>e.g. karmic, lucid, etch, woody</small></td>
+      </span>
+    </tr>
+  </table>
   </p>
   <p>
   <% field_set_tag("Architecture") do %>
