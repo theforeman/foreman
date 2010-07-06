@@ -2,7 +2,7 @@
 #:modulepath: /etc/puppet/modules/
 :tftppath: tftp/
 #:rrd_report_url: report/
-:login: true
+#:ldap: true
 #your default puppet server - can be overridden in the host level
 #if none specified, plain "puppet" will be used.
 #:puppet_server: puppet
