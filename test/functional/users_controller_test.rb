@@ -76,6 +76,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not delete same user" do
+    return unless SETTINGS[:login]
     @request.env['HTTP_REFERER'] = users_path
     user = users(:one)
     delete :destroy, {:id => user}, {:user => user}
