@@ -76,7 +76,7 @@ class UnattendedController < ApplicationController
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
       head(:not_found) and return
     end
-    if @host.operatingsystem.class == Operatingsystem
+    if @host.operatingsystem.type.nil?
       # Then, for some reason, the OS has not been specialized into a Redhat or Debian class
       logger.error "#{controller_name}: #{@host.name}'s operatingsytem [#{@host.operatingsystem.fullname}] has no OS family!"
       head(:conflict) and return

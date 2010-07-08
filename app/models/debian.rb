@@ -7,4 +7,9 @@ class Debian < Operatingsystem
     media_uri(host).select(:path, :query).compact.join('?')
   end
 
+  # Override the class representation, as this breaks many rails helpers
+  def class
+    Operatingsystem
+  end
+
 end
