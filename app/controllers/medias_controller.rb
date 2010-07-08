@@ -11,7 +11,7 @@ class MediasController < ApplicationController
   def create
     @media = Media.new(params[:media])
     if @media.save
-      flash[:notice] = "Successfully created media."
+      flash[:foreman_notice] = "Successfully created media."
       redirect_to medias_url
     else
       render :action => 'new'
@@ -25,7 +25,7 @@ class MediasController < ApplicationController
   def update
     @media = Media.find(params[:id])
     if @media.update_attributes(params[:media])
-      flash[:notice] = "Successfully updated media."
+      flash[:foreman_notice] = "Successfully updated media."
       redirect_to medias_url
     else
       render :action => 'edit'
@@ -35,7 +35,7 @@ class MediasController < ApplicationController
   def destroy
     @media = Media.find(params[:id])
     @media.destroy
-    flash[:notice] = "Successfully destroyed media."
+    flash[:foreman_notice] = "Successfully destroyed media."
     redirect_to medias_url
   end
 end
