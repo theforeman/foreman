@@ -1,3 +1,9 @@
+foreman (0.1.5-2) experimental; urgency=low
+
+  * Bugfixes, added support for dbconfig-common and split packages.
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Mon, 07 Jul 2010 17:25:04 +0800
+
 foreman (0.1.5-1) experimental; urgency=low
 
   * Initial Debian version

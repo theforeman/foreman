@@ -1,17 +1,104 @@
-Copyright (c) 2009-2010 Ohad Levy and Paul Kelly
+This package was debianized by Jochen Schalanda <jochen@schalanda.name>
+on Sun, 18 Jul 2010 10:09:29 +0302
 
-This program and entire repository is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-any later version.
+It was downloaded from: http://www.theforeman.org/
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Upstream Author(s):
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	Ohad Levy
+	Paul Kelly
 
-On any Debian system, you can find the complete text of the GNU GPL
-(GNU General Public License) in the file /usr/share/common-licenses/GPL-3
+Copyright:
+
+       Copyright (C) 2009-2010 by Ohad Levy and Paul Kelly
+
+License: GPL-3
+
+	On any Debian system, you can find the complete text of the GNU GPL
+	(GNU General Public License) in the file '/usr/share/common-licenses/GPL-3'.
+
+Packaging:
+
+	Copyright (C) 2010 by Jochen Schalanda <jochen@schalanda.name>
+	released under the GPL-3, see '/usr/share/common-licenses/GPL-3'.
+
+Files: vendor/gems/googlecharts-1.3.6
+Copyright: 2007 Matt Aimonetti
+License: MIT
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+Files: vendor/plugins/acts_as_audited
+Copyright: 2008 Brandon Keepers - Collective Idea
+License: MIT
+
+Files: vendor/plugins/google_visualr
+Copyright: 2010 Winston Teo Yong Wei
+License: MIT
+
+Files: vendor/plugins/has_many_polymorphs
+Copyright: Cloudburst, LLC
+License: AFL-3 (http://www.rosenlaw.com/AFL3.0.htm)
+
+Files: vendor/plugins/proxy
+Copyright: 2009 Ohad Levy
+License: MIT
+
+Files: vendor/plugins/ruby-net-ldap
+Copyright: Francis Cianfrocca
+License: GPL-2
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL-2'.
+
+Files: vendor/plugins/searchlogic
+Copyright: 2009 Ben Johnson of Binary Logic
+License: MIT
+
+Files: vendor/plugins/will_paginate
+Copyright: 2007 PJ Hyett and Mislav Marohnić
+License: MIT
+
+Files: vendor/rails/actionmailer
+Copyright: 2004-2010 David Heinemeier Hansson
+License: MIT
+
+Files: vendor/rails/actionmailer/lib/action_mailer/vendor/tmail-1.2.7/tmail/vendor/rchardet-1.3
+Copyright: Jeff Hodges
+License: LGPL-2.1
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License can be found in `/usr/share/common-licenses/LGPL-2.1'.
+
+Files: vendor/rails/actionpack
+Copyright: 2004-2010 David Heinemeier Hansson
+License: MIT
+
+Files: vendor/rails/activerecord
+Copyright: 2004-2010 David Heinemeier Hansson
+License: MIT
+
+Files: vendor/rails/activeresource
+Copyright: 2006-2010 David Heinemeier Hansson
+License: MIT
+
+Files: vendor/rails/activesupport
+Copyright: 2005-2010 David Heinemeier Hansson
+License: MIT
+
+Files: vendor/rails/railties
+Copyright: 2004-2010 David Heinemeier Hansson
+License: MIT

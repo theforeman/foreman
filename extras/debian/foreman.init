@@ -40,7 +40,7 @@ do_start()
 {
     if is_true "$START" ; then
         start-stop-daemon --start --quiet --chuid "${FOREMAN_USER}" --pidfile "${FOREMAN_PID}" \
-                          --chdir "${FOREMAN_HOME}" --exec "${DAEMON}" -- $DAEMON_OPTS
+                          --chdir "${FOREMAN_HOME}" --exec "${DAEMON}" -- $DAEMON_OPTS >/dev/null
     else
         echo ""
         echo "${NAME} not configured to start. Please edit /etc/default/${NAME} to enable."

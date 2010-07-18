@@ -3,13 +3,15 @@ Maintainer: Jochen Schalanda <jochen@schalanda.name>
 Section: web
 Priority: extra
 Standards-Version: 3.8.4
-Build-Depends: debhelper (>= 7)
+Build-Depends: debhelper (>= 7), cdbs
 Homepage: http://www.theforeman.org/
 
 Package: foreman
 Architecture: all
-Depends: ${misc:Depends}, ruby, ruby1.8 (>= 1.8.7), rake (>=0.8.3), puppet (>=0.24.4)
-Recommends: libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid | mongrel, libdbd-sqlite3-ruby, sqlite3
+Pre-Depends: debconf
+Depends: ruby, ruby1.8 (>= 1.8.7), rubygems, rubygems1.8, rake (>=0.8.3), libjs-prototype (>= 1.6.1), libjs-scriptaculous (>= 1.8.2), puppet (>=0.24.4), dbconfig-common, foreman-sqlite3 | foreman-mysql | foreman-pgsql, ${misc:Depends}
+Recommends: libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid
+Suggests: thin | mongrel | httpd-cgi
 Description: Systems management web interface
  Foreman is aimed to be a single address for all machines life cycle management.
  .
@@ -27,3 +29,35 @@ Description: Systems management web interface
     subnets and puppetmasters are required.
     In many cases, Foreman could help remote provisions where no experienced
     technicians are available.
+
+Package: foreman-mysql
+Architecture: all
+Depends: libdbd-mysql-ruby, mysql-client | virtual-mysql-client, ${misc:Depends}
+Suggests: mysql-server
+Description: metapackage providing MySQL dependencies for Foreman
+ This package only provides MySQL dependencies for Foreman, a
+ flexible systems management web application. Install this
+ one if you want to use a MySQL database with Foreman.
+ .
+ Foreman package should be installed along with this package.
+
+Package: foreman-pgsql
+Architecture: all
+Depends: libdbd-pg-ruby, postgresql-client, ${misc:Depends}
+Suggests: postgresql
+Description: metapackage providing PostgreSQL dependencies for Foreman
+ This package provides PostgreSQL dependencies for Foreman, a
+ flexible systems management web application. Install this
+ one if you want to use a PostgreSQL database with Foreman.
+ .
+ Foreman package should be installed along with this package.
+
+Package: foreman-sqlite3
+Architecture: all
+Depends: libdbd-sqlite3-ruby, sqlite3, ${misc:Depends}
+Description: metapackage providing sqlite dependencies for Foreman
+ This package provides sqlite dependencies for Foreman, a
+ flexible systems management web application. Install this
+ one if you want to use a SQLite database with Foreman.
+ .
+ Foreman package should be installed along with this package.

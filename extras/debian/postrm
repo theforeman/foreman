@@ -1,6 +1,40 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
+#set -x
+
+if [ -f /usr/share/debconf/confmodule ]; then
+        . /usr/share/debconf/confmodule
+fi
+
+case "$1" in
+	remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+	;;
+
+	purge)
+		if [ -f /usr/share/dbconfig-common/dpkg/postrm ]; then
+			. /usr/share/dbconfig-common/dpkg/postrm
+			db_purge
+		fi
+		if which ucf >/dev/null 2>&1; then
+			ucf --purge /etc/foreman/database.yml
+			ucf --purge /etc/foreman/email.yml
+			ucf --purge /etc/foreman/session.yml
+		fi
+		# package-generated or runtime files are removed
+		rm -f /usr/share/foreman/db/schema.db
+		rm -rf /var/run/foreman
+		rm -rf /var/log/foreman
+		rm -rf /usr/share/foreman/tmp
+		rm -rf /var/lib/foreman/*/sessions
+		rm -rf /var/cache/foreman
+		rm -rf /etc/foreman
+	;;
+	*)
+		echo "postrm called with unknown argument \`$1'" >&2
+		exit 1
+	;;
+esac
 
 #DEBHELPER#
 

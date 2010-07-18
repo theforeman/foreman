@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
+#set -x
 
 # Add the "foreman" user and group
 getent group foreman >/dev/null || groupadd -r foreman

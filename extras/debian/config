@@ -1,0 +1,17 @@
+#!/bin/sh
+# config maintainer script for foreman
+
+set -e
+#set -x
+
+# source debconf stuff
+. /usr/share/debconf/confmodule
+
+if [ -f /usr/share/dbconfig-common/dpkg/config ]; then
+	. /usr/share/dbconfig-common/dpkg/config
+
+	dbc_dbuser="foreman"
+	dbc_dbname="foreman"
+	dbc_dbtypes="mysql, pgsql, sqlite3"
+	dbc_go foreman $@
+fi

@@ -1,0 +1,8 @@
+production:
+  adapter: _DBC_DBTYPE_
+  database: _DBC_DBNAME_
+  host: _DBC_DBSERVER_
+  port: _DBC_DBPORT_
+  username: _DBC_DBUSER_
+  password: _DBC_DBPASS_
+  encoding: utf8

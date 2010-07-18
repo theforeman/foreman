@@ -1,6 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
+#set -x
+
+. /usr/share/debconf/confmodule
+. /usr/share/dbconfig-common/dpkg/prerm
+dbc_go foreman $@
 
 #DEBHELPER#
 

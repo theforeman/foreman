@@ -1,5 +1,5 @@
 # Start foreman on boot?
-START=yes
+START=no
 
 # the location where foreman is installed
 #FOREMAN_HOME=/usr/share/foreman
