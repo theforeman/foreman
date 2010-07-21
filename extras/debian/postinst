@@ -9,6 +9,11 @@ set -e
 . /usr/share/debconf/confmodule
 . /usr/share/dbconfig-common/dpkg/postinst
 
+# Add the "foreman" user and group
+getent group foreman >/dev/null || groupadd -r foreman
+getent passwd foreman >/dev/null || \
+    useradd -r -g foreman -G puppet -d /usr/share/foreman -s /usr/sbin/nologin -c "Foreman" foreman
+
 chown -Rf foreman:foreman '/var/log/foreman'
 chown -Rf foreman:foreman '/var/cache/foreman'
 chown -Rf foreman:foreman '/var/lib/foreman'

@@ -3,11 +3,6 @@
 set -e
 #set -x
 
-# Add the "foreman" user and group
-getent group foreman >/dev/null || groupadd -r foreman
-getent passwd foreman >/dev/null || \
-    useradd -r -g foreman -G puppet -d /usr/share/foreman -s /usr/sbin/nologin -c "Foreman" foreman
-
 #DEBHELPER#
 
 exit 0
