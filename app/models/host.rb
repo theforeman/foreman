@@ -200,7 +200,13 @@ class Host < Puppet::Rails::Host
     param["puppetmaster"] = puppetmaster
     param["domainname"] = domain.fullname unless domain.nil? or domain.fullname.nil?
     param.update self.params
-    return Hash['classes' => self.puppetclasses_names, 'parameters' => param, 'environment' => environment.to_s]
+
+    info_hash = {}
+    info_hash['classes'] = self.puppetclasses_names
+    info_hash['parameters'] = param
+    info_hash['environment'] = environment.to_s unless environment.nil? or environment.name.nil?
+
+    return info_hash
   end
 
   def params
