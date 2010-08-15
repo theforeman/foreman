@@ -344,12 +344,6 @@ class HostsController < ApplicationController
   private
   def find_hosts
     fact, klass, group = params[:fact], params[:class], params[:hostgroup]
-    if fact.empty? and klass.empty? and group.empty?
-      render :text => '404 Not Found', :status => 404 and return
-    end
-
-    @hosts = []
-    counter = 0
 
     @verbose = params[:verbose] == "yes"
 
@@ -363,6 +357,10 @@ class HostsController < ApplicationController
     else
       raise invalid_request and return
     end
+
+    @hosts = Host.send(state) if fact.empty? and klass.empty? and group.empty?
+    @hosts ||= []
+    counter = 0
 
     # TODO: rewrite this part, my brain stopped working
     # it should be possible for a one join
