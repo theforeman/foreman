@@ -12,8 +12,8 @@
   </tr>
   <% for audit in @audits %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=h auditable_type audit %></td>
-      <td><%=h audit_title audit %></td>
+      <td><%=h auditable_type(audit) %></td>
+      <td><%=h audit_title(audit) %></td>
       <td><%=h audit.action %></td>
       <td><%=h audit.created_at.to_s(:long) %></td>
       <td><%=h audit.changes.keys.map(&:humanize).to_sentence %></td>

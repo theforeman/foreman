@@ -18,8 +18,8 @@
       <td><%=h user.lastname %></td>
       <td><%=h user.mail %></td>
       <td><%=admin_column user %></td>
-      <td><%=h last_login_on_column user %></td>
-      <td><%=h auth_source_column user %></td>
+      <td><%=h last_login_on_column(user) %></td>
+      <td><%=h auth_source_column(user) %></td>
       <td><%= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

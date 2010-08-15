@@ -36,7 +36,7 @@ class UsersControllerTest < ActionController::TestCase
                  }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert mod_user.matching_password? "dummy"
+    assert mod_user.matching_password?("dummy")
     assert_redirected_to users_path
   end
 
@@ -52,7 +52,7 @@ class UsersControllerTest < ActionController::TestCase
                  }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert  mod_user.matching_password? "changeme"
+    assert  mod_user.matching_password?("changeme")
     assert_template :edit
   end
 
