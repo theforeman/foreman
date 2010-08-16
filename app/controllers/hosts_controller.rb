@@ -358,7 +358,7 @@ class HostsController < ApplicationController
       raise invalid_request and return
     end
 
-    @hosts = Host.send(state) if fact.empty? and klass.empty? and group.empty?
+    @hosts = Host.send(state).map(&:name) if fact.empty? and klass.empty? and group.empty?
     @hosts ||= []
     counter = 0
 
