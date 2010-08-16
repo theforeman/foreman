@@ -246,7 +246,8 @@ class Host < Puppet::Rails::Host
 
     self.last_compile = time
     # save all other facts - pre 0.25 it was called setfacts
-    self.respond_to?("merge_facts") ? merge_facts(facts.values) : self.setfacts(facts.values)
+    respond_to?("merge_facts") ? self.merge_facts(facts.values) : self.setfacts(facts.values)
+    save(false)
 
     # we want to import other information only if this host was never installed via Foreman
     populateFieldsFromFacts if installed_at.nil?
