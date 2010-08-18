@@ -22,3 +22,6 @@
 [submodule "vendor/plugins/has_many_polymorphs"]
 	path = vendor/plugins/has_many_polymorphs
 	url = git://github.com/fauna/has_many_polymorphs.git
+[submodule "vendor/gems/rack-1.0.1"]
+	path = vendor/gems/rack-1.0.1
+	url = git://github.com/rack/rack.git
