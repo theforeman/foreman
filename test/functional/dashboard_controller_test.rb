@@ -23,4 +23,11 @@ class DashboardControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :partial => "hosts/_minilist"
   end
+
+  test "should get disabled hosts" do
+    get :disabled, {}, set_session_user
+    assert_response :success
+    assert_template :partial => "hosts/_minilist"
+  end
+
 end

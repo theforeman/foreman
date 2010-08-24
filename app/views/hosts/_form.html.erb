@@ -39,6 +39,8 @@
     <table>
       <tr>
         <td> <%= f.text_area :comment, :size => "80x5", :title => "additional information about this host" %></td>
+        <td>Alerts Enabled</td>
+        <td><%= f.check_box :enabled %></td>
         <% if SETTINGS[:login] -%>
           <td>Owned by</td>
           <td>

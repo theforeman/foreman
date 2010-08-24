@@ -100,5 +100,50 @@
     <% else -%>
       <b>None!</b>
     <% end -%>
+    <h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Hosts which are currently in downtime</h2>
+    <% if @alerts_disabled.size > 0 -%>
+      <table style='border: 1px solid #FF9933;
+        border-collapse:collapse;
+        padding: 5px;
+        text-align:justify;
+        font-family: Arial,"Times new roman";'>
+        <tr>
+          <th style="border: 1px solid #FF9933;
+            border-collapse: collapse;
+            text-align:center;
+            padding: 4px;
+            background-color: #FF0000;">Hostname
+          </th>
+          <th style="border: 1px solid #FF9933;
+            border-collapse: collapse;
+            text-align:center;
+            padding: 4px;
+            background-color: #FF0000;">Last Report
+          </th>
+        </tr>
+        <% @alerts_disabled.each do |host| -%>
+          <tr>
+            <td style="border: 1px solid #FF9933;
+              border-collapse: collapse;
+              padding: 4px;
+              background-color: #FFFFFF;"><%= link_to host.name, host_path(:id => host.id, :host => @url, :only_path => false) %>
+            </td>
+            <td style="border: 1px solid #FF9933;
+              border-collapse: collapse;
+              padding: 4px;
+              background-color: #FFFFFF;">
+              <% if host.last_report -%>
+                <%= time_ago_in_words(host.last_report) %>
+              <% else -%>
+                Unknown
+              <% end -%>
+            </td>
+          </tr>
+        <% end -%>
+      </table>
+      <p style='font-family: Arial,"Times new roman"; font-size: 90%;'>Total of <%= pluralize(@alerts_disabled.size, 'host') %></p>
+    <% else -%>
+      <b>None!</b>
+    <% end -%>
   </body>
 </html>

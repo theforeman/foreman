@@ -39,6 +39,7 @@ class HostMailer < ActionMailer::Base
     body[:url] = SETTINGS[:foreman_url]
     body[:timerange] = time
     body[:out_of_sync] = hosts.collect{|h| h if h.no_report}.compact
+    body[:alerts_disabled] = hosts.collect{|h| h if h.disabled?}.compact
     body[:filter] = filter
   end
 

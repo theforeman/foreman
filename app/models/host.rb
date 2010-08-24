@@ -50,6 +50,7 @@ class Host < Puppet::Rails::Host
   }
 
   named_scope :successful, {:conditions => "puppet_status = 0"}
+  named_scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
 
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
@@ -180,6 +181,10 @@ class Host < Puppet::Rails::Host
 
   def no_report
     last_report.nil? or last_report < Time.now - (SETTINGS[:run_interval] + 3.minutes)
+  end
+
+  def disabled?
+    not enabled?
   end
 
   # returns the list of puppetclasses a host is in.

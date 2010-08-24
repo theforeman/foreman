@@ -1,52 +1,25 @@
 class DashboardController < ApplicationController
   before_filter :prefetch_data, :graphs, :only => :index
-  before_filter :load_tabs, :manage_tabs, :only => [:errors, :OutOfSync, :active]
+  before_filter :load_tabs, :manage_tabs,:only => [:errors, :OutOfSync, :active, :disabled]
   helper :hosts
 
   def index
   end
 
   def errors
-    @search = Host.recent.with_error.search(params[:search])
-    respond_to do |format|
-      format.html {
-      hosts = @search.paginate :page => params[:page]
-      @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
-         render :partial => "hosts/minilist", :layout => true, :locals => {
-                :hosts => hosts,
-                :header => "Hosts with errors" }
-      }
-      format.yml { render :text => @search.map(&:name).to_yaml }
-    end
+    show_hosts Host.recent.with_error, "Hosts with errors"
   end
 
   def active
-    @search = Host.recent.with_changes.search(params[:search])
-    respond_to do |format|
-      format.html {
-      hosts = @search.paginate :page => params[:page]
-      @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
-         render :partial => "hosts/minilist", :layout => true, :locals => {
-                :hosts => hosts,
-                :header => "Active Hosts" }
-      }
-      format.yml { render :text => @search.map(&:name).to_yaml }
-    end
-
+    show_hosts Host.recent.with_changes, "Active Hosts"
   end
 
   def OutOfSync
-    @search = Host.out_of_sync.search(params[:search])
-    respond_to do |format|
-      format.html {
-      hosts = @search.paginate :page => params[:page]
-      @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
-         render :partial => "hosts/minilist", :layout => true, :locals => {
-                :hosts => hosts,
-                :header => "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes" }
-      }
-      format.yml { render :text => @search.map(&:name).to_yaml }
-    end
+    show_hosts Host.out_of_sync, "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes"
+  end
+
+  def disabled
+    show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
   end
 
   private
@@ -83,7 +56,20 @@ class DashboardController < ApplicationController
     # all hosts with didn't run puppet in the <time interval> - regardless of their status
     @out_of_sync_hosts = Host.out_of_sync.count
     @intersting_reports = Report.with_changes.count
+    @disabled_hosts = Host.alerts_disabled.count
     # the run interval to show in the dashboard graph
+  end
+
+  def show_hosts list, title
+    @search = list.search(params[:search])
+    respond_to do |format|
+      format.html do
+        hosts = @search.paginate :page => params[:page]
+        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
+        render :partial => "hosts/minilist", :locals => { :hosts => hosts, :header => @title }
+      end
+      format.yml { render :text => @search.map(&:name).to_yaml }
+    end
   end
 
 end

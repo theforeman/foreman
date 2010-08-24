@@ -77,4 +77,17 @@ class HostTest < ActiveSupport::TestCase
 
     assert host.info == nodeinfo
   end
+
+  test "show be enabled by default" do
+    host = Host.create :name => "myhost", :mac => "aabbccddeeff"
+    assert host.enabled?
+  end
+
+  test "host can be disabled" do
+    host = Host.create :name => "myhost", :mac => "aabbccddeeff"
+    host.enabled = false
+    host.save
+    assert host.disabled?
+  end
+
 end
