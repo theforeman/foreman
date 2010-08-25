@@ -1,4 +1,5 @@
 require 'puppet'
+require 'puppet/rails'
 require 'gchart'
 
 # import settings file
