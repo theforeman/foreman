@@ -90,7 +90,7 @@ class Puppetclass < ActiveRecord::Base
       out.rmtree if out.directory?
 
       # Create the documentation
-      cmd = "puppetdoc -o #{out} --modulepath #{modulepaths} --manifestdir #{manifestdir} -m rdoc"
+      cmd = "puppetdoc --output #{out} --modulepath #{modulepaths} --manifestdir #{manifestdir} -m rdoc"
       sh %{#{cmd} #{verbose ? "" : "2>/dev/null"}} do |ok, res|
         if ok
           if relocated and (files = %x{find #{out} -exec grep -l '#{root}' {} \\;}.gsub(/\n/, " ")) != ""
