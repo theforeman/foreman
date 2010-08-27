@@ -1,8 +1,9 @@
 #!/usr/bin/ruby
+verbose = false
 require 'fileutils'
 # Takes a list of directories and copies them, ignoring version control directories, to a new location
 # It then sanitizes them by removing any circular symlinks
-# It must return the new root directory for the tree 
+# It must return the new root directory for the tree
 modules_root = "/tmp/puppet"
 FileUtils.mkpath modules_root unless File.exist? modules_root
 FileUtils.rm_rf Dir.glob("#{modules_root}/*")
@@ -16,9 +17,9 @@ exit -1 unless system "tar --create --file - --exclude-vcs #{modules[1..-1]} | t
 # This copies in the /etc/puppent/env directory symlink trees
 exit -1 unless system "tar --create --file - --exclude-vcs #{dirs.map{|d| d[1..-1]}.join(" ")} | tar --extract --file - --read-full-records --directory #{modules_root}"
 for dir in dirs
-  here = modules_root + dir 
-  # Scan each modulepath for symlinks and remove them if they point at ".". 
-  # If they are absolute, recreate them pointing at the copied tree location  
+  here = modules_root + dir
+  # Scan each modulepath for symlinks and remove them if they point at ".".
+  # If they are absolute, recreate them pointing at the copied tree location
   Dir.foreach(here) do |entry|
     linkfile = here + "/" + entry
     next unless File.ftype(linkfile) == "link"
@@ -30,16 +31,21 @@ for dir in dirs
     end
   end
 end
-# Look through the resulting tree ans remove broken and cyclic links
+# Look through the resulting tree and remove broken and cyclic links
 links =  `find #{modules_root} -type l`
 for link in links
   link.chomp!
   # Remove links pointing to missing files
   unless File.exist?(File.readlink(link))
-    File.unlink(link) 
+    File.unlink(link)
     next
   end
-  # Remove links pointing to "." 
-  File.unlink(link) if File.readlink(link) == "."
+  # Remove links pointing to "."
+  if File.readlink(link) =~ /\.|\,\//
+    File.unlink(link)
+    puts "Removing #{link}" if verbose
+  else
+    puts "link #{link} points to #{File.readlink(link)}" if verbose
+  end
 end
 puts modules_root

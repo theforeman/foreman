@@ -81,6 +81,7 @@ class Puppetclass < ActiveRecord::Base
       puts "Unable to write html to #{doc_root}"
       return false
     end
+    validator = '<div id="validator-badges">'
     # For each environment we write a puppetdoc tree
     for env, path in Environment.puppetEnvs
       # We may need to rewrite the modulepaths because they have been changed by the prepare step
@@ -90,20 +91,36 @@ class Puppetclass < ActiveRecord::Base
       out = doc_root + env.id2name
       out.rmtree if out.directory?
 
+      replacement = "<div id=\\\"validator-badges\\\"><small><a href=\\\"/puppet/rdoc/#{env}/\\\">[Browser]</a></small>"
+
       # Create the documentation
-      cmd = "puppetdoc --output #{out} --modulepath #{modulepaths} --manifestdir #{manifestdir} -m rdoc"
-      sh %{#{cmd} #{verbose ? "" : "2>/dev/null"}} do |ok, res|
-        if ok
-          if relocated and (files = %x{find #{out} -exec grep -l '#{root}' {} \\;}.gsub(/\n/, " ")) != ""
-            puts "Rewriting..." if verbose
-            cmd = "ruby -p -i -e 'rex=%r{#{root}};$_.gsub!(rex,\"\")' #{files}"
-            puts cmd if debug
-            %x{#{cmd}}
-            # Now relocate the files/* files to match the rewritten url
-            mv Dir.glob("#{out}/files/#{root}/*"), "#{out}/files", :verbose => verbose
-          end
+
+      cmd = "puppetdoc --output #{out} --modulepath #{modulepaths} -m rdoc"
+      puts cmd if defined?(Rake)
+      sh cmd do |ok, res|
+        unless ok
+          logger.warn "Failed to process puppetdocs for #{out} while executing #{cmd}"
+          warn "Failed to process puppetdocs for #{out} while executing #{cmd}"
+          return false
+        end
+
+        # Add a link to the class browser
+        files =  %x{find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null}.gsub(/\n/, " ")
+        if files.empty?
+          warn "No files to update with the browser link in #{out}. This is probably due to a previous error."
         else
-          puts "Failed to process puppetdocs for #{out}"
+          cmd = "ruby -p -i -e '$_.gsub!(/#{validator}/,\"#{replacement}\")' #{files}"
+          puts cmd if debug
+         sh cmd
+        end
+        # Relocate the paths for files and references if the manifests were relocated and sanitized
+        if relocated and (files = %x{find #{out} -exec grep -l '#{root}' {} \\;}.gsub(/\n/, " ")) != ""
+          puts "Rewriting..." if verbose
+          cmd = "ruby -p -i -e 'rex=%r{#{root}};$_.gsub!(rex,\"\")' #{files}"
+          puts cmd if debug
+          sh cmd
+          # Now relocate the files/* files to match the rewritten url
+          mv Dir.glob("#{out}/files/#{root}/*"), "#{out}/files", :verbose => verbose
         end
       end
     end
