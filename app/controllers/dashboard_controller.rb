@@ -66,7 +66,7 @@ class DashboardController < ApplicationController
       format.html do
         hosts = @search.paginate :page => params[:page]
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => hosts})
-        render :partial => "hosts/minilist", :locals => { :hosts => hosts, :header => @title }
+        render "hosts/_minilist", :locals => {:hosts => hosts, :header => title}
       end
       format.yml { render :text => @search.map(&:name).to_yaml }
     end
