@@ -6,15 +6,19 @@ class HostMailer < ActionMailer::Base
 
     # options our host list if required
     filter = []
-    conditions = {:select => "hosts.name, hosts.id, hosts.last_report", :order => "name asc"}
+
+    if (body[:url] = SETTINGS[:foreman_url]).empty?
+      raise ":foreman_url: entry in Foreman configuration file, see http://theforeman.org/projects/foreman/wiki/Mail_Notifications"
+    end
+
     if options[:env]
-      hosts = envhosts = options[:env].hosts(conditions)
+      hosts = envhosts = options[:env].hosts
       raise "unable to find any hosts for puppet environment=#{env}" if envhosts.size == 0
       filter << "Environment=#{options[:env].name}"
     end
     name,value = options[:factname],options[:factvalue]
     if name and value
-      facthosts = Host.with_fact(name,value).all(conditions)
+      facthosts = Host.with_fact(name,value)
       raise "unable to find any hosts with the fact name=#{name} and value=#{value}" if facthosts.empty?
       filter << "Fact #{name}=#{value}"
       # if environment and facts are defined together, we use a merge of both
@@ -25,7 +29,7 @@ class HostMailer < ActionMailer::Base
       # print out an error if we couldn't find any hosts that match our request
       raise "unable to find any hosts that match your request" if options[:env] or options[:factname]
       # we didnt define a filter, use all hosts instead
-      hosts=Host.all(conditions)
+      hosts=Host
     end
     email = options[:email] || SETTINGS[:administrator] || User.all(:select => :mail).map(&:mail)
     raise "unable to find recipients" if email.empty?
@@ -35,11 +39,10 @@ class HostMailer < ActionMailer::Base
     sent_on Time.now
     time = options[:time] || 1.day.ago
     content_type "text/html"
-    body[:hosts] = Report.summarise(time, hosts).sort
-    body[:url] = SETTINGS[:foreman_url]
+    body[:hosts] = Report.summarise(time, hosts.all).sort
     body[:timerange] = time
-    body[:out_of_sync] = hosts.collect{|h| h if h.no_report}.compact
-    body[:alerts_disabled] = hosts.collect{|h| h if h.disabled?}.compact
+    body[:out_of_sync] = hosts.out_of_sync
+    body[:disabled] = hosts.alerts_disabled
     body[:filter] = filter
   end
 

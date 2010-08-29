@@ -1,0 +1,13 @@
+<h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'><%= title %></h2>
+<% if list.size > 0 -%>
+  <table style='border: 1px solid #FF9933;
+    border-collapse:collapse;
+    padding: 5px;
+    text-align:justify;
+    font-family: Arial,"Times new roman";'>
+    <%= render :partial => "#{state}_hosts", :locals => {:list => list } %>
+  </table>
+  <p style='font-family: Arial,"Times new roman"; font-size: 90%;'>Total of <%= pluralize(list.size, 'host') %></p>
+<% else -%>
+  <b>None!</b>
+<% end -%>

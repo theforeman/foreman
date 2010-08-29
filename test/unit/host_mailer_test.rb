@@ -8,7 +8,7 @@ class HostMailerTest < ActionMailer::TestCase
     @host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => @env, :disk => "empty partition",
-      :ptable => Ptable.first, :last_report => nil
+      :ptable => Ptable.first, :last_report => Time.at(0)
     @host.save!
 
     @env.hosts << @host
@@ -62,4 +62,11 @@ class HostMailerTest < ActionMailer::TestCase
   test "mail should report at least one host" do
     assert HostMailer.deliver_summary(@options).body.include?(@host.name)
   end
+
+  test "mail should report disabled hosts" do
+    @host.enabled = false
+    @host.save
+    assert HostMailer.deliver_summary(@options).body.include?(@host.name)
+  end
+
 end

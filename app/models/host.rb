@@ -180,7 +180,7 @@ class Host < Puppet::Rails::Host
   end
 
   def no_report
-    last_report.nil? or last_report < Time.now - (SETTINGS[:run_interval] + 3.minutes)
+    last_report.nil? or last_report < Time.now - (SETTINGS[:run_interval] + 3.minutes) and enabled?
   end
 
   def disabled?

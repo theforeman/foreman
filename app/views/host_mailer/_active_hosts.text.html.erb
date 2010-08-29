@@ -1,0 +1,30 @@
+<tr>
+  <th style="border: 1px solid #FF9933;
+    border-collapse: collapse;
+    padding: 4px;
+    text-align:center;
+    background-color: #FF9933;">Hostname
+  </th>
+  <% list.first.last[:metrics].keys.each do |header| -%>
+    <th style="border: 1px solid #FF9933;
+      border-collapse: collapse;
+      padding: 4px;
+      text-align:center;
+      background-color: #FF9933;"><%= header %>
+    </th>
+  <% end -%>
+</tr>
+<% list.each do |host,params| -%>
+  <tr>
+    <%= render 'link_to_host', :host => host %>
+    <% params[:metrics].each do |m,v| -%>
+      <% if m =~ /failed|skipped|failed_restart/ and v > 0 -%>
+        <td style="color:red;font-weight:bold;border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
+      <% else -%>
+        <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
+      <% end -%>
+      <%= v %>
+    </td>
+  <% end -%>
+</tr>
+<% end -%>

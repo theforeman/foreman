@@ -1,0 +1,24 @@
+<tr>
+  <th style="border: 1px solid #FF9933;
+    border-collapse: collapse;
+    text-align:center;
+    padding: 4px;
+    background-color: #FF0000;">Hostname
+  </th>
+  <th style="border: 1px solid #FF9933;
+    border-collapse: collapse;
+    text-align:center;
+    padding: 4px;
+    background-color: #FF0000;">Last Report
+  </th>
+</tr>
+<% list.each do |host| -%>
+  <tr>
+    <%= render 'link_to_host', :host => host %>
+    <% if host.last_report -%>
+      <%= time_ago_in_words(host.last_report) %>
+    <% else -%>
+      <td>Unknown</td>
+    <% end -%>
+  </tr>
+<% end -%>
