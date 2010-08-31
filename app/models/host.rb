@@ -19,7 +19,7 @@ class Host < Puppet::Rails::Host
 
   named_scope :with_fact, lambda { |fact,value|
     unless fact.nil? or value.nil?
-      { :joins => [:fact_values, :fact_names], :select => "hosts.name", :conditions =>
+      { :joins => [:fact_values, :fact_names], :select => "hosts.name, hosts.id", :conditions =>
       ["fact_values.value = ? and fact_names.name = ? and fact_values.fact_name_id = fact_names.id",value, fact ] }
     else
       raise "invalid fact"

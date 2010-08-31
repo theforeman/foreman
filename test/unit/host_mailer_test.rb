@@ -53,10 +53,18 @@ class HostMailerTest < ActionMailer::TestCase
     assert HostMailer.deliver_summary(@options).body.include?(@env.name)
   end
 
-  # TODO: check presence of @host when a fact filter is passed.
   test "mail should have the host for the specific filter" do
     @options[:env] = @env
     assert HostMailer.deliver_summary(@options).body.include?(@host.name)
+  end
+
+  test "mail should display the filter for the specific fact" do
+    @options[:env] = nil
+    @options[:factname] = "Kernel"
+    @options[:factvalue] = "Linux"
+    fn = Puppet::Rails::FactName.create :name => @options[:factname]
+    FactValue.create :value => @options[:factvalue], :fact_name => fn, :host => @host
+    assert HostMailer.deliver_summary(@options).body.include?(@options[:factname])
   end
 
   test "mail should report at least one host" do
