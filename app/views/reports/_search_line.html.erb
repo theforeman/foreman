@@ -7,6 +7,10 @@
     <%= reports_since f  %>
   </div>
   <div> |
+    <span title="Reports that contain some activity">
+      <%= check_box_tag "interesting", "1", params[:interesting] %>
+      <small>Interesting</small>
+    </span>
     <% for status in Report::METRIC -%>
       <%= check_box_tag status, "1", params[status] %>
       <small><%= status.capitalize %></small> |

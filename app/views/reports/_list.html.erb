@@ -3,7 +3,7 @@
     <% unless defined? @host -%>
       <th><%= order @search, :by => :host_name, :as => "Host" %></th>
     <% end -%>
-    <th><%= order @search, :by => :reported_at %></th>
+    <th><%= order @search, :by => :reported_at, :as => "Last report" %></th>
     <th>Applied</th>
     <th>Restarted</th>
     <th>Failed</th>

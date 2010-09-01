@@ -9,7 +9,7 @@ module ReportsHelper
       img = "true"
     end
     image_tag("#{img}.png", :size => "18x18") + " " +
-      link_to(time_ago_in_words(record.reported_at.getlocal), report_path(record))
+      link_to(time_ago_in_words(record.reported_at.getlocal) + " ago", report_path(record))
   end
 
   def reports_since builder
