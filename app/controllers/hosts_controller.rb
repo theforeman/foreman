@@ -335,7 +335,11 @@ class HostsController < ApplicationController
     # disable the hosts
     hosts = Host.find(session[:selected])
     # keep all the ones that were not disabled for notification.
-    hosts.disable_if {|host| host.enabled = "0" }
+    hosts.delete_if { hosts.each do |host|
+          host.enabled = false
+          host.save(perform_validation = false)
+       end
+    }
 
     session[:selected] = []
     flash[:foreman_notice] = hosts.empty? ? "Disabled selected hosts" : "The following hosts were not disabled: #{hosts.map(&:name).join('<br>')}"
@@ -349,7 +353,11 @@ class HostsController < ApplicationController
     # enable the hosts
     hosts = Host.find(session[:selected])
     # keep all the ones that were not enabled for notification.
-    hosts.enable_if {|host| host.enabled = "1" }
+    hosts.delete_if { hosts.each do |host|
+          host.enabled = true
+          host.save(perform_validation = false)
+       end
+    }
 
     session[:selected] = []
     flash[:foreman_notice] = hosts.empty? ? "Enabled selected hosts" : "The following hosts were not enabled: #{hosts.map(&:name).join('<br>')}"
