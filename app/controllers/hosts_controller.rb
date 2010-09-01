@@ -327,6 +327,34 @@ class HostsController < ApplicationController
     redirect_to(hosts_path)
   end
 
+  def multiple_disable
+  end
+
+  def submit_multiple_disable
+    # disable the hosts
+    hosts = Host.find(session[:selected])
+    # keep all the ones that were not disabled for notification.
+    hosts.disable_if {|host| host.disable}
+
+    session[:selected] = []
+    flash[:foreman_notice] = hosts.empty? ? "Disabled selected hosts" : "The following hosts were not disabled: #{hosts.map(&:name).join('<br>')}"
+    redirect_to(hosts_path)
+  end
+
+  def multiple_enable
+  end
+
+  def submit_multiple_enable
+    # enable the hosts
+    hosts = Host.find(session[:selected])
+    # keep all the ones that were not enabled for notification.
+    hosts.enable_if {|host| host.enable}
+
+    session[:selected] = []
+    flash[:foreman_notice] = hosts.empty? ? "Enabled selected hosts" : "The following hosts were not enabled: #{hosts.map(&:name).join('<br>')}"
+    redirect_to(hosts_path)
+  end
+
   # AJAX method to update our session each time a host has been selected
   # we are using AJAX and JS as the user might select multiple hosts across different pages (or requests).
   def save_checkbox

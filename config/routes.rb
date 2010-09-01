@@ -13,7 +13,8 @@ ActionController::Routing::Routes.draw do |map|
                   :update_multiple_parameters => :post, :save_checkbox => :post, :select_multiple_hostgroup => :get,
                   :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
                   :multiple_destroy => :get, :submit_multiple_destroy => :post,
-                  :reset_multiple => :get}
+                  :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
+                  :multiple_enable => :get, :submit_multiple_enable => :post,}
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.statistics '/statistics', :controller => 'statistics'
   map.settings '/settings', :controller => 'home', :action => 'settings'
