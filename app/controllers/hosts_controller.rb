@@ -4,7 +4,8 @@ class HostsController < ApplicationController
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
-    :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy]
+    :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
+    :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
 
   helper :hosts, :reports
 
@@ -327,6 +328,20 @@ class HostsController < ApplicationController
     redirect_to(hosts_path)
   end
 
+  def multiple_disable
+  end
+
+  def submit_multiple_disable
+    toggle_hostmode false
+  end
+
+  def multiple_enable
+  end
+
+  def submit_multiple_enable
+    toggle_hostmode
+  end
+
   # AJAX method to update our session each time a host has been selected
   # we are using AJAX and JS as the user might select multiple hosts across different pages (or requests).
   def save_checkbox
@@ -415,6 +430,16 @@ class HostsController < ApplicationController
     else
       @hosts = Host.find(session[:selected], :order => "hostgroup_id ASC")
     end
+  end
+
+  def toggle_hostmode mode=true
+    # keep all the ones that were not disabled for notification.
+    @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
+    action = mode ? "enabled" : "disabled"
+
+    session[:selected] = []
+    flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{hosts.map(&:name).join('<br>')}"
+    redirect_to(hosts_path) and return
   end
 
 end
