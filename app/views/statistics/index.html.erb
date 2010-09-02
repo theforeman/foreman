@@ -1,36 +1,21 @@
-<center>
-  <%=
-    graph("pie_3d" ,{:title => "OS Distribution", :data => @os_count.values,
-          :labels =>@os_count.keys})
-  -%>
-  <%=
-    graph("pie_3d" ,{:title => "Architecture Distribution", :data => @arch_count.values,
-          :labels =>@arch_count.keys})
-  -%>
-  <%=
-    graph("pie" ,{:title => "Environments Distribution", :data => @env_count.values,
-          :labels => @env_count.to_a.map{|x| x.join(" ")}, })
-  -%>
-  <%=
-    graph("pie_3d" ,{:title => "Num of Cpu's", :data => @cpu_count.values,
-          :labels =>@cpu_count.keys})
-  -%>
-  <%=
-    graph("pie_3d" ,{:title => "Hardware", :data => @model_count.values,
-          :labels =>@model_count.keys})
-  -%>
-  <%=
+<% graphs = []
+	graphs << ["pie", @os_count, "OS Distribution", 100, 95]
+	graphs << ["pie", @arch_count, "Architecture Distribution", 460, 95]
+	graphs << ["pie", @env_count, "Environments Distribution", 820, 95]
+	graphs << ["pie", @cpu_count, "Num of Cpu's", 100, 275]
+	graphs << ["pie", @model_count, "Hardware", 460, 275]
+	graphs << ["pie", @klass_count, "Class Distribution", 820, 275]
+	graphs << ["bar", [[@mem_free,@swap_free],[@mem_size,@swap_size]], "Average Memory Usage in Gb", 330, 370, [["Avg Memory", "Avg Swap"]]]
+%>
 
-    graph("pie_3d" ,{:title => "Class Distribution", :data => @klass_count.values,
-          :labels =>@klass_count.keys})
-  -%>
+        <script type="text/javascript" charset="utf-8">
+            window.onload = function () {
+		<%= graph(graphs) -%>
+            };
+        </script>
 
+<div id="container" class="autoclear">
+	<div class="graph" id="os"> </div>
+	<div style="clear: both;"></div>
+</div>
 
-  <%=
-    graph("bar", {:title => "Average memory usage", :data => [[@mem_free,@swap_free],[@mem_size,@swap_size]],
-          :axis_with_labels => ["x","x"],:bar_colors => ['FF0000', '00FF00'],:stacked => false,
-          :legend => ["Avg Free", "Avg Size"], :bar_width_and_spacing => 40,
-          :axis_labels => [['Memory|Swap'], ["#{@mem_free} GB/#{@mem_size} GB","#{@swap_free} GB/#{@swap_size} GB"]] })
-  -%>
-
-</center>

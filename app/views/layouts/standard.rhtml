@@ -6,6 +6,7 @@
     <%= stylesheet_link_tag 'style' %>
     <%= yield(:head) %>
     <%= javascript_include_tag :defaults, :cache => true %>
+    <%= javascript_include_tag "raphael", "g.raphael", "g.pie", "g.line", "g.bar" %>
   </head>
   <body>
     <div id="header">

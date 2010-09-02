@@ -1,16 +1,44 @@
 <% gcharts_script %>
-<div id="dashboard">
-  <h1>Overview</h1>
-  <p>Generated at <%= Time.now.to_s(:short) %></p>
-  <p>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@percentage%>%) </p>
-  <h1>Summary</h1>
-  <p>Hosts that had performed modifications <%= link_to @active_hosts, :action => "active" %></p>
-  <p>Out Of Sync Hosts <%= link_to @out_of_sync_hosts, :action => "OutOfSync" %></p>
-  <p>Hosts in Error State <%= link_to @bad_hosts, :action => "errors" %></p>
 
-  <div id='overview'></div>
-  <%= @overview.render('overview') %>
-  <div id='run_distribution'></div>
-  <%= @run_distribution.render('run_distribution') %>
+<% data = @run_distribution["values"] %>
+<% labels = @run_distribution["legends"] %>
+<% start = Time.parse(labels.first).strftime("%m:%d:%Y") %>
+<% finish = Time.parse(labels.last).strftime("%m:%d:%Y") %>
+<% labels.map! { |lbl| lbl = Time.parse(lbl).strftime("%H:%M %p") } %>
+<% graphs = []
+        graphs << ["pie", @gdata, "Clients Activity Overview", 100, 95] 
+		# for a pie chart the array to pass has to be composed of:
+		# text = pie - this defines the graph as a pie
+		# hash = a has of 2 arrays of the same size, data and labels
+		# text = title of the graph
+		# int = X position in the div
+		# int = Y position in the div
+	graphs << ["bar", [data], @title, 460, 10]
+		# for a bar chart the array to pass has to be composed of:
+		# text = bar - this defines the chart as a bar chart
+		# array of arrays = 1 array per data to chart, even if its only 1 array you must make it an array of arrays
+		# text = title of the graph
+		# int = X position in the div
+		# int = Y position in the div
+	graphs << ["text", labels, 29, 460, 170, 315]
+		# this type of graphs just draws text in the div
+		# its being used for the labels on bar charts
+		# text = text - this defines 
+		# array = an array of labels to draw
+		# int = separation between the labels in X so the labels align bellow the bars
+		# int = X value for the first label
+		# int = Y value for the first label
+		# int = rotation in degrees for the labels
+%>
 
+
+        <script type="text/javascript" charset="utf-8">
+            window.onload = function () {
+                <%= graph(graphs) -%>
+            };
+        </script>
+
+<div id="container" class="autoclear">
+        <div class="dashboard" id="os"> </div>
+        <div style="clear: both;"></div>
 </div>

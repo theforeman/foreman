@@ -52,21 +52,25 @@ class DashboardController < ApplicationController
   private
   def graphs
 
-    data ={
-      :labels => [ ['string', "State"], ['number', "Number of Hosts"] ],
-      :values => [ ["Active", @active_hosts],["Error", @bad_hosts ],  ["Out Of Sync", @out_of_sync_hosts ],  ["OK", @good_hosts] ]
-    }
-    options = { :title => "Puppet Clients Activity Overview"}#,
-#      :colors =>['#0000FF','#FF0000','#00FF00','#41A317'] }
-    @overview = setgraph(GoogleVisualr::PieChart.new, data, options)
+	@gdata = {}
+	@gdata["OK"] = @good_hosts || 0
+	@gdata["Active"] = @active_hosts || 0
+	@gdata["Error"] = @bad_hosts || 0
+	@gdata["Out of Sync"] = @out_of_sync_hosts || 0
 
     data = {
       :labels => [ ['datetime', "Time Ago In Minutes" ],['number', "Number Of Clients"]],
       :values => Report.count_puppet_runs()
     }
-    options = { :title => "Run Distribution in the last #{SETTINGS[:puppet_interval]} minutes", :min => 0 }
-    @run_distribution = setgraph(GoogleVisualr::ColumnChart.new, data, options)
 
+    	@run_distribution = {}
+	@run_distribution["values"] = []
+	@run_distribution["legends"] = []
+	Report.count_puppet_runs.each { |run|
+	@run_distribution["legends"] << "\"#{run.first}\""
+	@run_distribution["values"] << run.last
+	}
+	@title = "Run Distribution in the last #{SETTINGS[:puppet_interval]} minutes"
   end
 
   def prefetch_data

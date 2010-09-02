@@ -307,3 +307,39 @@ div#run_distribution {
   border: solid 1px black;
   margin-top: 20px;
 }
+
+.graph {
+        position: relative;
+        float: left;
+        width: 1080px;
+        height: 540px; 
+}
+.dashboard {
+        position: relative;
+        float: left;
+        width: 800px;
+        height: 300px; 
+}
+#content {
+        position: relative;
+        width: 1100px;
+        padding: 38px 20px 0px 20px;
+        margin: 0 auto;
+}
+
+autoclear:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+}
+
+.autoclear {
+        display: inline-block;
+}
+
+.autoclear {
+        display: block;
+}
+

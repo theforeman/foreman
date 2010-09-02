@@ -1,9 +1,66 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
-  def graph(type,opts = {})
-    Gchart.send(type, {:size => '400x150', :bg => "E6DFCF", :format => "image_tag"}.merge(opts))
-  end
+#  def graph(type,opts = {})
+#    Gchart.send(type, {:size => '400x150', :bg => "E6DFCF", :format => "image_tag"}.merge(opts))
+#  end
+
+  def  graph(graphs) # data should be an array of arrays for individual graphs
+        div =  "var os = Raphael(\"os\");
+            os.g.txtattr.font = \"12px 'Fontin Sans', Fontin-Sans, sans-serif\";
+            grin = function () {
+                this.sector.stop();
+                this.sector.scale(1.1, 1.1, this.cx, this.cy);
+                if (this.label) {
+                    this.label[0].stop();
+                    this.label[0].scale(1.5);
+                    this.label[1].attr({\"font-weight\": 20});
+                }
+            },
+                grout = function () {
+                this.sector.animate({scale: [1, 1, this.cx, this.cy]}, 500, \"bounce\");
+                if (this.label) {
+                    this.label[0].animate({scale: 1}, 500, \"bounce\");
+                    this.label[1].attr({\"font-weight\": 400});
+                }
+		},
+		fin = function () {
+                        this.flag = os.g.popup(this.bar.x, this.bar.y, this.bar.value || \"0\").insertBefore(this);
+                    },
+                    fout = function () {
+                        this.flag.animate({opacity: 0}, 300, function () {this.remove();});
+                    };
+                "
+        graphs.each { |graph|
+        type, data, title, gx, gy, legend = graph
+	if type == "pie" then
+        labels = []
+        values = []
+        # for some reason I am getting nill values in some of the hash which in turn makes the graph not show.
+            data.each_pair { |l, d|
+                label = l || "unknown"
+                value = d || 0
+                labels << "#{label} - ( %% - ## )"
+                values << value
+            }
+            div += "os.g.text(#{gx}, #{gy - 85}, \"#{title}\").attr({\"font-size\": 14, \"font-weight\": 800});\n"
+            div += "os.g.piechart(#{gx}, #{gy}, 75, #{values.inspect}, {legend: #{labels.inspect}, legendpos: \"east\"}).hover(grin, grout);\n"
+	end
+	if type == "bar" then
+            div += "os.g.text(#{gx + 150 }, #{gy}, \"#{title}\").attr({\"font-size\": 14, \"font-weight\": 800});\n"
+	    div += "os.g.barchart(#{gx}, #{gy}, 300, 150, #{data.inspect}, {stacked: false, type: \"soft\"}).hover(fin, fout); \n"
+
+	end
+	if type == "text" then
+		# this is a total hack.. ugly.. and I am not happy with it..
+		data.each { |lbl|
+		div += "os.g.text(#{gx}, #{gy}, \"#{lbl.gsub('"', '')}\").attr({\"font-size\": 10}).rotate(#{legend});\n"
+		gx = gx + title
+		}
+	end
+        }
+        div
+    end
 
   def show_habtm associations
     render :partial => 'common/show_habtm', :collection => associations, :as => :association
