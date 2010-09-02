@@ -6,5 +6,7 @@
   <%= f.label :hostgroup, "Role" %>
   <%= f.collection_select :hostgroup_id_eq, Hostgroup.all, :id, :name, :include_blank => true %>
   <%= render :partial => 'common/fact_selected' %>
+  <%= f.label :alerts_disabled, "Alerts Disabled" %>
+  <%= f.check_box :alerts_disabled %>
   <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
 <% end %>
