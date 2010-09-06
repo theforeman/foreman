@@ -46,9 +46,17 @@ class ActiveSupport::TestCase
 
   def set_session_user
     if SETTINGS[:login]
-      {:user => User.first.id}
+      {:user => User.find_by_login("admin")}
     else
       {}
     end
+  end
+
+  def as_admin
+    saved_user   = User.current
+    User.current = users(:admin)
+    result = yield
+    User.current = saved_user
+    result
   end
 end

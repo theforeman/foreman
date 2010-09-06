@@ -1,4 +1,5 @@
 class Host < Puppet::Rails::Host
+  include Authorization
   belongs_to :architecture
   belongs_to :media
   belongs_to :model
@@ -52,6 +53,34 @@ class Host < Puppet::Rails::Host
   named_scope :successful, {:conditions => "puppet_status = 0"}
   named_scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
 
+  named_scope :my_hosts, lambda {
+    user                 = User.current
+    owner_conditions     = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
+    domain_conditions    = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domains).map(&:id)])
+    hostgroup_conditions = sanitize_sql_for_conditions([" (hosts.hostgroup_id in (?))",(hgs = user.hostgroups).map(&:id)])
+
+    fact_conditions = ""
+    for user_fact in (ufs = user.user_facts)
+      fact_conditions += sanitize_sql_for_conditions ["(hosts.id = fact_values.host_id and fact_values.fact_name_id = ? and fact_values.value #{user_fact.operator} ?)", user_fact.fact_name_id, user_fact.criteria]
+      fact_conditions = user_fact.andor == "and" ? "(#{fact_conditions}) and " : "#{fact_conditions} or  "
+    end
+    if match = fact_conditions.match(/^(.*).....$/)
+      fact_conditions = "(#{match[1]})"
+    end
+
+    conditions = ""
+    if user.filtering?
+      conditions  = "#{owner_conditions}"                                                                                                            if     user.filter_on_owner
+      (conditions = (user.domains_andor    == "and") ? "(#{conditions}) and #{domain_conditions} "    : "#{conditions} or #{domain_conditions} ")    unless dms.empty?
+      (conditions = (user.hostgroups_andor == "and") ? "(#{conditions}) and #{hostgroup_conditions} " : "#{conditions} or #{hostgroup_conditions} ") unless hgs.empty?
+      (conditions = (user.facts_andor      == "and") ? "(#{conditions}) and #{fact_conditions} "      : "#{conditions} or #{fact_conditions} ")      unless ufs.empty?
+      conditions.sub!(/\s*\(\)\s*/, "")
+      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+    end
+    {:conditions => conditions}
+  }
+
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
 
@@ -70,10 +99,10 @@ class Host < Puppet::Rails::Host
     validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
     validates_presence_of    :architecture_id, :domain_id, :mac, :operatingsystem_id
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
-    validates_format_of      :mac,       :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
-    validates_format_of      :ip,        :with => /(\d{1,3}\.){3}\d{1,3}/
+    validates_format_of      :mac,       :with => (/([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/)
+    validates_format_of      :ip,        :with => (/(\d{1,3}\.){3}\d{1,3}/)
     validates_presence_of    :ptable, :message => "cant be blank unless a custom partition has been defined",
-                             :if => Proc.new { |host| host.disk.empty? and not defined?(Rake) }
+      :if => Proc.new { |host| host.disk.empty? and not defined?(Rake) }
     validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
@@ -103,8 +132,8 @@ class Host < Puppet::Rails::Host
   # supports a simple user, or a usergroup
   # selection parameter is expected to be an ActiveRecord id_and_type method (see Foreman's AR extentions).
   def is_owned_by=(selection)
-    oid = User.find(selection.to_i) if selection =~ /-Users$/
-    oid = Usergroup.find(selection.to_i) if selection =~ /-Usergroups$/
+    oid = User.find(selection.to_i) if selection =~ (/-Users$/)
+    oid = Usergroup.find(selection.to_i) if selection =~ (/-Usergroups$/)
     self.owner = oid
   end
 
@@ -193,11 +222,11 @@ class Host < Puppet::Rails::Host
 
   # returns the list of puppetclasses a host is in.
   def puppetclasses_names
-      return all_puppetclasses.collect {|c| c.name}
+    return all_puppetclasses.collect {|c| c.name}
   end
 
   def all_puppetclasses
-     return hostgroup.nil? ? puppetclasses : (hostgroup.puppetclasses + puppetclasses).uniq
+    return hostgroup.nil? ? puppetclasses : (hostgroup.puppetclasses + puppetclasses).uniq
   end
 
   # provide information about each node, mainly used for puppet external nodes
@@ -278,7 +307,7 @@ class Host < Puppet::Rails::Host
 
   def fv name
     v=fact_values.first(:select => "fact_values.value", :joins => :fact_name,
-                       :conditions => "fact_names.name = '#{name}'")
+                        :conditions => "fact_names.name = '#{name}'")
     v.value unless v.nil?
   end
 
@@ -404,9 +433,9 @@ class Host < Puppet::Rails::Host
   end
 
   def classes_from_storeconfigs
-   klasses = resources.find(:all, :conditions => {:restype => "Class"}, :select => :title, :order => :title)
-   klasses.map!(&:title).delete(:main)
-   return klasses
+    klasses = resources.find(:all, :conditions => {:restype => "Class"}, :select => :title, :order => :title)
+    klasses.map!(&:title).delete(:main)
+    return klasses
   end
 
   def can_be_build?
@@ -420,6 +449,28 @@ class Host < Puppet::Rails::Host
       hash
     end
     return hash
+  end
+
+  def enforce_permissions operation
+    if operation == "edit" and new_record?
+      return true # We get called again with the operation being set to create
+    end
+    current = User.current
+    if (operation == "edit") or operation == "destroy"
+      if current.allowed_to?("#{operation}_hosts".to_sym)
+        return true if Host.my_hosts(current).include? self
+      end
+    else # create
+      if current.allowed_to?(:create_hosts)
+        # We are unconstrained
+        return true if current.domains.empty? and current.hostgroups.empty?
+        # We are contrained and the constraint is matched
+        return true if (!current.domains.empty?    and current.domains.include?(domain)) or
+        (!current.hostgroups.empty? and current.hostgroups.include?(hostgroup))
+      end
+    end
+    errors.add_to_base "You do not have permission to #{operation} this host"
+    false
   end
 
   private
@@ -459,5 +510,4 @@ class Host < Puppet::Rails::Host
     return if name.empty? or domain.nil?
     self.name += ".#{domain}" unless name =~ /.#{domain}$/
   end
-
 end

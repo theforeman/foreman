@@ -39,14 +39,13 @@ input {
 p {
   line-height: 130%;
 }
-#header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative; padding-bottom: 4px;}
+#header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative; padding-bottom: 8px;}
 
 #header a {
   float:right;
   margin-right: 0.5em;
   color: #CFDCE6;
   height:1.8em;
-  font-size: 0.8em;
 }
 
 #header .title {
@@ -66,25 +65,31 @@ p {
 #menu li {
   float:left;
   list-style-type:none;
-}
-#menu li a {
   font-variant: small-caps;
-  float:left;
-  color: #fff;
-  text-decoration: none;
   padding: 4px 10px 4px 10px;
   height:1.2em;
   font-size: 100%;
+}
+#menu li .entry{
+  padding: 4px 10px 4px 10px;
+}
+#menu li a {
+  margin-right: 0.0em;
+  float:left;
+  color: #fff;
+  text-decoration: none;
 }
 #menu li a:hover {background:#759FCF; color:#fff;}
 #menu li a:active {background:#fff; color:#555;}
 
 #content {
   position:relative;
-  float: center;
   padding: 1%;
   margin: 0 auto;
   clear: both;
+}
+#content br{
+  clear:both;
 }
 #content h3 {
   margin-top: 15px;
@@ -114,7 +119,7 @@ p {
   border: 2px solid;
 }
 
-div.flash {margin-top: 24px;}
+div.flash {margin-top: 28px;}
 
 div.flash.error, #errorExplanation {
   background: url(../images/false.png) 8px 5px no-repeat;
@@ -249,7 +254,7 @@ div#run_distribution {
   right: 1em;
 }
 #searchbar div {
-	display:inline;
+  display:inline;
 }
 #searchbar ul {
   margin: 0; padding: 0;
@@ -266,7 +271,7 @@ div#run_distribution {
 }
 #searchbar li .selectedtab {
   padding-right: 4px;
-	background-color:#e4e4e4;
+  background-color:#e4e4e4;
 }
 
 #searchbar li a.close{
@@ -290,11 +295,11 @@ div#run_distribution {
 
 #searchbar li a.close:hover {background:#e4e4e4; color:red;}
 #searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
-*/
-.clear {
-  clear: both;
-  height: 0;
-  overflow: hidden;
+ */
+  .clear {
+    clear: both;
+    height: 0;
+    overflow: hidden;
 }
 
 #settings li {
@@ -309,3 +314,53 @@ div#run_distribution {
   border: solid 1px black;
   margin-top: 20px;
 }
+/***** Tabular forms ******/
+.tabular p{
+  margin: 0;
+  padding: 5px 0 8px 0;
+  padding-left: 180px; /*width of left column containing the label elements*/
+  height: 1%;
+  clear:left;
+}
+
+html>body .tabular p {overflow:hidden;}
+
+.tabular label{
+  font-weight: bold;
+  float: left;
+  text-align: right;
+  margin-left: -180px; /*width of left column*/
+  width: 175px; /*width of labels. Should be smaller than left column to create some right
+  margin*/
+}
+
+.tabular label.floating{
+  font-weight: normal;
+  margin-left: 0px;
+  text-align: left;
+  width: 180px;
+}
+
+.tabular label.block{
+  font-weight: normal;
+  margin-left: 0px !important;
+  text-align: left;
+  float: none;
+  display: block;
+  width: auto;
+}
+
+.tabular fieldset { border: 1px solid #E9f1d1}
+
+.tabular.settings p{ padding-left: 300px; }
+.tabular.settings label{ margin-left: -300px; width: 295px; }
+.tabular.settings textarea { width: 99%; }
+
+fieldset.settings label { display: block; }
+
+.required {color: #bb0000;}
+.summary {font-style: italic;}
+
+tr span.expander {background-image: url(../images/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
+tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}
+

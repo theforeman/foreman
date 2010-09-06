@@ -28,7 +28,7 @@
       <td><%= h report.runtime %></td>
       <td align="right">
         <%= link_to "Details", report %>
-        <%= link_to "Destroy", report, :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
+        <%= display_link_if_authorized "Destroy", hash_for_report_path(:id => report.id, :auth_action => :destroy), :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>

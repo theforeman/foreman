@@ -35,6 +35,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post}
   map.resources :fact_values
   map.resources :ptables
+  map.resources :roles, :collection => {:report => [:get, :post]}
   map.resources :auth_source_ldaps
   map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get}
   #default

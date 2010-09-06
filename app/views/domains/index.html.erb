@@ -8,13 +8,13 @@
   </tr>
   <% for domain in @domains %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to h(domain.fullname.empty? ? domain.name : domain.fullname), edit_domain_path(domain)%></td>
+      <td><%= link_to_if_authorized h(domain.fullname.empty? ? domain.name : domain.fullname), hash_for_edit_domain_path(:id => domain.id)%></td>
       <td><%= domain.hosts.size %>
-      <td align="right"> <%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td align="right"> <%= display_link_if_authorized "Destroy", hash_for_domain_path(:id => domain, :auth_action => :destroy), :confirm => "Delete #{domain.name}?", :method => :delete %></td>
     </tr>
   <% end %>
 </table>
 <%= page_entries_info @domains %>
 <%= will_paginate     @domains %>
 
-<p><%= link_to "New Domain", new_domain_path %></p>
+<p><%= display_link_if_authorized "New Domain", hash_for_new_domain_path%></p>

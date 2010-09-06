@@ -9,14 +9,14 @@
   </tr>
   <% for usergroup in @usergroups %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to h(usergroup.name), edit_usergroup_path(usergroup) %></td>
+      <td><%= link_to_if_authorized h(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id) %></td>
       <td><%= usergroup.users.map(&:login).to_sentence %></td>
       <td><%= usergroup.usergroups.map(&:name).to_sentence %></td>
       <td align="right">
-        <%= link_to "Destroy", usergroup, :confirm => 'Are you sure?', :method => :delete %>
+        <%= display_link_if_authorized "Destroy", hash_for_usergroup_path(:id => usergroup, :auth_action => :destroy), :confirm => "Delete #{usergroup.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>
 </table>
 
-<p><%= link_to("New Usergroup", new_usergroup_path) %></p>
+<p><%= display_link_if_authorized "New Usergroup", hash_for_new_usergroup_path %></p>

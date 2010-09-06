@@ -138,35 +138,173 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  context "multiple assignments" do
-    setup do
+  def setup_user_and_host operation
+    as_admin do
+      @one             = users(:one)
+      @one.domains     = []
+      @one.hostgroups  = []
+      @one.user_facts  = []
+      @host1           = hosts(:one)
+      @host1.owner     = users(:admin)
+      @host1.save!
+      @host2           = hosts(:two)
+      @host2.owner     = users(:admin)
+      @host2.save!
+      @one.roles       = [Role.find_by_name('Anonymous'), Role.find_by_name("#{operation.capitalize} hosts")]
+    end
+    Host.per_page == 1000
+    @request.session[:user] = @one.id
+  end
+
+  test 'user with edit host rights and domain is set should succeed in viewing host1' do
+    setup_user_and_host "Edit"
+    as_admin do
+      @one.domains  = [domains(:mydomain)]
+      @host1.domain = domains(:mydomain)
+      @host2.domain = domains(:yourdomain)
+    end
+    get :index
+    assert_response :success
+    assert @response.body =~ /#{@host1.shortname}/
+  end
+
+  test 'user with edit host rights and domain is set should fail to view host2' do
+    setup_user_and_host "Edit"
+    as_admin do
+      @one.domains  = [domains(:mydomain)]
+      @host1.domain = domains(:mydomain)
+      @host2.domain = domains(:yourdomain)
+    end
+    get :index
+    assert_response :success
+    assert @response.body !~ /#{@host2.name}/
+  end
+
+  test 'user with edit host rights and ownership is set should succeed in viewing host1' do
+    setup_user_and_host "Edit"
+    as_admin do
+      @host1.owner = @one
+      @host2.owner = users(:two)
+      @one.filter_on_owner = true
+      @one.save!
+      @host1.save!
+      @host2.save!
+    end
+    get :index
+    assert_response :success
+    assert @response.body =~ /#{@host1.name}/
+  end
+
+  test 'user with edit host rights and ownership is set should fail to view host2' do
+    setup_user_and_host "Edit"
+    as_admin do
+      @host1.owner = @one
+      @host2.owner = users(:two)
+      @one.filter_on_owner = true
+      @one.save!
+      @host1.save!
+      @host2.save!
+    end
+    get :index
+    assert_response :success
+    assert @response.body !~ /#{@host2.name}/
+  end
+
+  test 'user with edit host rights and hostgroup is set should succeed in viewing host1' do
+    setup_user_and_host "Edit"
+    as_admin do
+      @host1.hostgroup = hostgroups(:common)
+      @host2.hostgroup = hostgroups(:unusual)
+      @one.hostgroups  = [hostgroups(:common)]
+      @host1.save!
+      @host2.save!
+    end
+    get :index
+    assert_response :success
+    assert @response.body =~ /#{@host1.name}/
+  end
+
+  test 'user with edit host rights and hostgroup is set should fail to view host2' do
+    setup_user_and_host "Edit"
+    as_admin do
+      @host1.hostgroup = hostgroups(:common)
+      @host2.hostgroup = hostgroups(:unusual)
+      @one.hostgroups  = [hostgroups(:common)]
+      @host1.save!
+      @host2.save!
+    end
+    get :index
+    assert_response :success
+    assert @response.body !~ /#{@host2.name}/
+  end
+
+  test 'user with edit host rights and facts are set should succeed in viewing host1' do
+    setup_user_and_host "Edit"
+    as_admin do
+      fn_id = Puppet::Rails::FactName.find_or_create_by_name("architecture").id
+      FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
+      FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
+      UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
+    end
+    get :index
+    assert_response :success
+    assert @response.body =~ /#{@host1.name}/
+  end
+
+  test 'user with edit host rights and facts are set should fail to view host2' do
+    setup_user_and_host "Edit"
+    as_admin do
+      fn_id = Puppet::Rails::FactName.find_or_create_by_name("architecture").id
+      FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
+      FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
+      UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
+    end
+    get :index
+    assert_response :success
+    assert @response.body !~ /#{@host2.name}/
+  end
+
+  test 'user with view host rights should fail to edit host' do
+    setup_user_and_host "View"
+    get :edit, {:id => @host1.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  test 'user with view host rights should should succeed in viewing hosts' do
+    setup_user_and_host "View"
+    get :index
+    assert_response :success
+  end
+
+
+  def setup_multiple_environments
+    setup_user_and_host "edit"
+    as_admin do
       @host1 = hosts(:otherfullhost)
       @host2 = hosts(:anotherfullhost)
     end
+  end
 
-    context "with update environments" do
-      should "change environments" do
-        assert @host1.environment == environments(:production)
-        assert @host2.environment == environments(:production)
-        post :update_multiple_environment,
-             {:environment => { :id => environments(:global_puppetmaster).id}},
-             {:selected => [@host1.id, @host2.id], :user => User.first.id}
-        assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
-        assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
-      end
-    end
-    context "with update parameters" do
-      should "change parameters" do
-        @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
-        @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
-        post :update_multiple_parameters,
-             {:name => { "p1" => "hello"}},
-             {:selected => [@host1.id, @host2.id], :user => User.first.id}
-        assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
-        assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
-      end
-    end
+  test "user with edit host rights with update environments should change environments" do
+    setup_multiple_environments
+    assert @host1.environment == environments(:production)
+    assert @host2.environment == environments(:production)
+    post :update_multiple_environment,
+      {:environment => { :id => environments(:global_puppetmaster).id}},
+      {:selected => [@host1.id, @host2.id], :user => User.first.id}
+    assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
+    assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
+  end
 
+  test "user with edit host rights with update parameters should change parameters" do
+    setup_multiple_environments
+    @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
+    @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
+    post :update_multiple_parameters,
+      {:name => { "p1" => "hello"}},
+      {:selected => [@host1.id, @host2.id], :user => User.first.id}
+    assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
+    assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
   test "should get errors" do
     get :errors, {}, set_session_user
@@ -195,6 +333,7 @@ class HostsControllerTest < ActionController::TestCase
 
   private
   def initialize_host
+    User.current = users(:admin)
     @host = Host.create :name => "myfullhost",
       :mac => "aabbecddeeff",
       :ip => "123.05.02.03",

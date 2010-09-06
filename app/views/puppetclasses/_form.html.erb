@@ -6,17 +6,17 @@
   </p>
   <p>
   <% field_set_tag("Operating Systems") do %>
-    <%= edit_habtm @puppetclass, Operatingsystem %>
+    <%= authorized_edit_habtm @puppetclass, Operatingsystem %>
   <% end -%>
   </p>
   <p>
   <% field_set_tag("Puppet Environments") do %>
-    <%= edit_habtm @puppetclass, Environment %>
+    <%= authorized_edit_habtm @puppetclass, Environment %>
   <% end -%>
   </p>
   <% field_set_tag("Class Groups") do %>
     <p>
-    <%= edit_habtm @puppetclass, Hostgroup %>
+    <%= authorized_edit_habtm @puppetclass, Hostgroup %>
     </p>
   <% end -%>
   <% unless @puppetclass.new_record? -%>

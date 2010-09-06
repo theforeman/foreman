@@ -1,0 +1,27 @@
+<% form_for @role do |f| %>
+  <%= error_messages_for 'role' %>
+
+  <% if @role.builtin? %>
+    <h2><b>Name</b> <i><%= @role.name -%></i></h2>
+  <% else %>
+    <%= f.text_field :name, :label => "Name", :style => "margin-left:1px;", :required => true %>
+  <% end %>
+
+  <h3>Permissions</h3>
+  <div class="box" id="permissions">
+    <% perms_by_block = @permissions.group_by {|p| p.security_block.to_s} %>
+    <% perms_by_block.keys.sort.each do |block| %>
+      <fieldset><legend><%=  block.humanize %></legend>
+        <% perms_by_block[block].each do |permission| %>
+          <label class="floating">
+            <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+            <%= permission.name.to_s.humanize %>
+          </label>
+        <% end %>
+      </fieldset>
+    <% end %>
+    <br /><%= check_all_links 'permissions' %>
+    <%= hidden_field_tag 'role[permissions][]', '' %>
+  </div>
+  <%= submit_tag "Submit" %>
+<% end %>

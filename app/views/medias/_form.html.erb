@@ -15,8 +15,9 @@
   </small>
   <p>
   <%= f.label :operatingsystems %><br />
-  <%= edit_habtm @media, Operatingsystem %>
+  <%= authorized_edit_habtm @media, Operatingsystem %>
   </p>
+   <br/>
   <% unless @media.new_record? -%>
     <p>Currently used by <%= @media.hosts.count %> hosts</p>
   <% end -%>

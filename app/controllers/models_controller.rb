@@ -34,7 +34,7 @@ class ModelsController < ApplicationController
 
   def destroy
     @model = Model.find(params[:id])
-    if  @model.destroy
+    if @model.destroy
       flash[:foreman_notice] = "Successfully destroyed model."
     else
       flash[:foreman_error] = @model.errors.full_messages.join("<br/>")

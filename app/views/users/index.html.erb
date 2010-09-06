@@ -13,14 +13,14 @@
   </tr>
   <% for user in @users %>
     <tr class="<%= cycle("even", "odd")-%>" >
-      <td><%=link_to h(user.login), edit_user_path(user) %></td>
+      <td><%=link_to_if_authorized h(user.login), hash_for_edit_user_path(:id => user) %></td>
       <td><%=h user.firstname %></td>
       <td><%=h user.lastname %></td>
       <td><%=h user.mail %></td>
       <td><%=admin_column user %></td>
-      <td><%=h last_login_on_column(user) %></td>
-      <td><%=h auth_source_column(user) %></td>
-      <td><%= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><%=h last_login_on_column(user)%></td>
+      <td><%=h auth_source_column(user)%></td>
+      <td><%= display_link_if_authorized "Destroy", hash_for_user_path(:id => user, :auth_action => :destroy), :confirm => "Delete #{user.name}?", :method => :delete %></td>
     </tr>
   <% end %>
 </table>
@@ -28,4 +28,4 @@
 <%= page_entries_info @users %>
 <%= will_paginate @users %>
 
-<p><%= link_to "New User", new_user_path %></p>
+<p><%= display_link_if_authorized "New User", hash_for_new_user_path %></p>

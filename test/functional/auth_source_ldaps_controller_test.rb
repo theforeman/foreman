@@ -46,4 +46,21 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     assert_redirected_to auth_source_ldaps_url
     assert !AuthSourceLdap.exists?(auth_source_ldap.id)
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  def user_with_viewer_rights_should_fail_to_an_edit_authentication_source
+    setup_user
+    get :edit, {:id => AuthSourceLdap.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  def user_with_viewer_rights_should_succeed_in_viewing_authentication_sources
+    setup_user
+    get :index
+    assert_response :success
+  end
 end

@@ -1,0 +1,32 @@
+<%= javascript "redmine-application" %>
+<h2>Roles</h2>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for role in @roles %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td>
+          <%= content_tag(role.builtin? ? 'em' : 'span', link_to_if_authorized(role.name, :action => 'edit', :id => role)) %>
+        </td>
+        <td class="buttons">
+          <%= display_link_if_authorized("Delete", hash_for_role_path(:id => role, :auth_action => :destroy),
+                                    :method => :delete,
+                                    :confirm => "Delete #{role.name}?",
+                                    :class => 'icon icon-del') unless role.builtin?
+          %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= page_entries_info @roles %>
+<%= will_paginate     @roles %>
+<p><%= link_to "New role", {:action => 'new'} %>
+
+<%= link_to_if_authorized "Permissions report", :action => 'report' %></p>

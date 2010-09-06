@@ -1,6 +1,6 @@
 class UsergroupsController < ApplicationController
   def index
-    @usergroups = Usergroup.all
+    @usergroups = Usergroup.all(:order => "name")
   end
 
   def new

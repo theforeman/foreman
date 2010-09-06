@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
+  setup do
+    User.current = User.find_by_login "admin"
+  end
   def test_index
     get :index, {}, set_session_user
     assert_response :success
@@ -61,5 +64,22 @@ class ReportsControllerTest < ActionController::TestCase
 
   def create_a_puppet_transaction_report
     @log = File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-skipped.yaml"))
+  end
+
+  def user_setup
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  test 'user with viewer rights should fail to edit a report' do
+    user_setup
+    get :edit, {:id => Report.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  test 'user with viewer rights should succeed in viewing reports' do
+    user_setup
+    get :index
+    assert_response :success
   end
 end

@@ -11,6 +11,18 @@ class ApplicationController < ActionController::Base
   before_filter :require_ssl, :require_login
   before_filter :load_tabs, :manage_tabs, :unless => :request_json?
   before_filter :welcome, :detect_notices, :only => :index, :unless => :request_json?
+  before_filter :authorize, :except => :login
+
+  # Authorize the user for the requested action
+  def authorize(ctrl = params[:controller], action = params[:action])
+    return true if request.xhr?
+    allowed = User.current.allowed_to?({:controller => ctrl, :action => action})
+    allowed ? true : deny_access
+  end
+
+  def deny_access
+    User.current.logged? ? render_403 : require_login
+  end
 
   protected
 
@@ -25,32 +37,32 @@ class ApplicationController < ActionController::Base
 
 
   # Force a user to login if authentication is enabled
-  # Sets @user to the logged in user, or to admin if logins are not used
+  # Sets User.current to the logged in user, or to admin if logins are not used
   def require_login
-    unless session[:user] and @user = User.find(session[:user])
+    unless session[:user] and User.current = User.find(session[:user])
       # User is not found or first login
       if SETTINGS[:login] and SETTINGS[:login] == true
         # authentication is enabled
         if request_json?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
-          @user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          return !@user.nil?
+          User.current = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
+          return !User.current.nil?
         end
         session[:original_uri] = request.request_uri # keep the old request uri that we can redirect later on
         redirect_to login_users_path and return
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        unless @user = User.find_by_login("admin")
+        unless User.current = User.find_by_login("admin")
           flash[:foreman_error] = "Unable to find internal system admin account - Recreating . . ."
-          @user = User.create_admin
+          User.current = User.current = User.create_admin
         end
-        session[:user] = @user.id unless request_json?
+        session[:user] = User.current.id unless request_json?
       end
     end
   end
 
   def current_user
-    @user
+    User.current
   end
 
   def invalid_request
@@ -103,7 +115,7 @@ class ApplicationController < ActionController::Base
     session[:last_controller] = controller_name
     self.active_tab           = "" if @controller_changed
 
-    return if params[:tab_name].empty? or params[:action] != "index"
+    return true if params[:tab_name].empty? or params[:action] != "index"
 
     if    params[:tab_name] == "Reset"
       self.active_tab    = ""
@@ -121,5 +133,26 @@ class ApplicationController < ActionController::Base
       @tabs[@active_tab] = params[:search]
     end
   end
+
+  def require_admin
+    unless User.current.admin?
+      render_403
+      return false
+    end
+    true
+  end
+
+  def render_403
+    respond_to do |format|
+      format.html { render :template => "common/403", :layout => (request.xhr? ? false : 'standard'), :status => 403 }
+      format.atom { head 403 }
+      format.yaml { head 403 }
+      format.yml  { head 403 }
+      format.xml  { head 403 }
+      format.json { head 403 }
+    end
+    return false
+  end
+
 
 end

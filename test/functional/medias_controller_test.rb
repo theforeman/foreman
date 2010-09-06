@@ -46,4 +46,21 @@ class MediasControllerTest < ActionController::TestCase
     assert_redirected_to medias_url
     assert !Media.exists?(media.id)
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  test 'user with viewer rights should fail to edit a media' do
+    setup_user
+    get :edit, {:id => Media.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  test 'user with viewer rights should succeed in viewing medias' do
+    setup_user
+    get :index
+    assert_response :success
+  end
 end

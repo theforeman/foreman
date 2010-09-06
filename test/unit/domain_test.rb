@@ -2,6 +2,7 @@ require 'test_helper'
 
 class DomainTest < ActiveSupport::TestCase
   def setup
+    User.current = users(:admin)
     @new_domain = Domain.new
     @domain = Domain.new(:name => "myDomain")
     @domain.save
@@ -39,17 +40,22 @@ class DomainTest < ActiveSupport::TestCase
     assert_equal @domain.name, s
   end
 
-  test "should not destroy if have childrens" do
-    host = create_a_host
+  test "should not destroy if it contains hosts" do
+    host   = create_a_host
 
-    d = host.domain
-    assert !d.destroy
+    domain = host.domain
+    assert !domain.destroy
+    assert_match /is used by/, domain.errors.full_messages.join("\n")
+  end
 
-    subnet = Subnet.create  :number => "123.123.123.1", :mask => "321.321.321.1",
-                             :domain => @domain
+  test "should not destroy if it contains subnets" do
 
-    d = subnet.domain
-    assert !d.destroy
+    as_admin do
+      Subnet.create!  :number => "123.123.123.1", :mask => "321.321.321.1",
+                      :domain => @domain
+    end
+    assert !@domain.destroy
+    assert_match /is used by/, @domain.errors.full_messages.join("\n")
   end
 
 #I must find out how to create a fact_name inside of fact_value
@@ -60,12 +66,89 @@ class DomainTest < ActiveSupport::TestCase
 #  end
 
   def create_a_host
-    Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-                 :domain => @domain,
-                 :operatingsystem => Operatingsystem.first,
-                 :architecture => Architecture.find_or_create_by_name("i386"),
-                 :environment => Environment.find_or_create_by_name("envy"),
-                 :disk => "empty partition"
+    as_admin do
+      Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+                   :domain => @domain,
+                   :operatingsystem => Operatingsystem.first,
+                   :architecture => Architecture.find_or_create_by_name("i386"),
+                   :environment => Environment.find_or_create_by_name("envy"),
+                   :disk => "empty partition"
+    end
   end
+
+  def setup_user operation
+    @one = users(:one)
+    as_admin do
+      role = Role.find_or_create_by_name :name => "#{operation}_domains"
+      role.permissions = ["#{operation}_domains".to_sym]
+      @one.roles = [role]
+      @one.domains = []
+      @one.save!
+    end
+    User.current = @one
+  end
+
+  test "user with edit permissions should be able to edit when permitted" do
+    setup_user "edit"
+    as_admin do
+      @one.domains = [domains(:mydomain)]
+    end
+    record =  Domain.find_by_name "mydomain.net"
+    assert record.update_attributes :name => "testing"
+    assert record.valid?
+  end
+
+  test "user with edit permissions should not be able to edit when not permitted" do
+    setup_user "edit"
+    as_admin do
+      @one.domains = [domains(:yourdomain)]
+    end
+    record =  Domain.find_by_name "mydomain.net"
+    assert !record.update_attributes(:name => "testing")
+    assert record.valid?
+  end
+
+  test "user with edit permissions should be able to edit when unconstrained" do
+    setup_user "edit"
+    record =  Domain.first
+    assert record.update_attributes :name => "testing"
+    assert record.valid?
+  end
+
+  test "user with view permissions should not be able to create when not permitted" do
+    setup_user "view"
+    record =  Domain.create :name => "dummy", :fullname => "dummy.com"
+    assert record.valid?
+    assert record.new_record?
+  end
+
+  test "user with destroy permissions should be able to destroy" do
+    setup_user "destroy"
+    record =  Domain.first
+    assert record.destroy
+    assert record.frozen?
+  end
+
+  test "user with edit permissions should not be able to destroy" do
+    setup_user "edit"
+    record =  Domain.first
+    assert !record.destroy
+    assert !record.frozen?
+  end
+
+  test "user with edit permissions should be able to edit" do
+    setup_user "edit"
+    record      =  Domain.first
+    record.name = "renamed"
+    assert record.save
+  end
+
+  test "user with destroy permissions should not be able to edit" do
+    setup_user "destroy"
+    record      =  Domain.first
+    record.name = "renamed"
+    assert !record.save
+  end
+
 end
 

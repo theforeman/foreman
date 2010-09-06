@@ -1,4 +1,7 @@
 class ParameterTest < ActiveSupport::TestCase
+  setup do
+    User.current = User.find_by_login "admin"
+  end
   test  "names may me reused in different parameter groups" do
     p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => Host.first
     assert p1.save

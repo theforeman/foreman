@@ -8,10 +8,10 @@
   </tr>
   <% for architecture in @architectures %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to h(architecture.name), edit_architecture_path(architecture) %></td>
+      <td><%= link_to_if_authorized(h(architecture.name), hash_for_edit_architecture_path(:id => architecture.id)) %></td>
       <td><%=h architecture.operatingsystems.to_sentence %></td>
-      <td anign="right">
-        <%= link_to "Destroy", architecture, :confirm => "Delete #{architecture.name}?", :method => :delete %>
+      <td align="right">
+        <%= display_link_if_authorized "Destroy", hash_for_architecture_path(:id => architecture.id, :auth_action => :destroy), :confirm => "Delete #{architecture.name}?", :method => :delete  %>
       </td>
     </tr>
   <% end %>
@@ -19,4 +19,4 @@
 <%= page_entries_info @architectures %>
 <%= will_paginate @architectures %>
 
-<p><%= link_to "New Architecture", new_architecture_path %></p>
+<p><%= display_link_if_authorized "New Architecture", hash_for_new_architecture_path%></p>

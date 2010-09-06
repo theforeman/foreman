@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   filter_parameter_logging :password, :password_confirmation
   skip_before_filter :require_login, :only => [:login, :logout]
+  skip_before_filter :authorize, :only => [:login, :logout]
 
   def index
     # set defaults search order - cant use default scope due to bug in AR
@@ -21,6 +22,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     @user.admin = params[:admin]
     if @user.save
+      @user.roles = Role.name_is("Anonymous")
       flash[:foreman_notice] = "Successfully created user."
       redirect_to users_url
     else
@@ -30,13 +32,26 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    if @user.user_facts.count == 0
+      user_fact = @user.user_facts.build :operator => "==", :andor => "or"
+      user_fact.fact_name_id = Puppet::Rails::FactName.first.id if Puppet::Rails::FactName.first
+      true
+    end
   end
 
   def update
     @user = User.find(params[:id])
     admin = params[:user].delete :admin
+    # Remove keys for resticted variables when the user is granted minimal access only to their own account
+    if @minimal_edit
+      for key in params[:user].keys
+        params[:user].delete key unless %w{password_confirmation password mail firstname lastname}.include? key
+      end
+    end
     if @user.update_attributes(params[:user])
-      @user.update_attribute :admin, admin
+      # Only an admin can update admin attribute of another use
+      # this is required, as the admin field is blacklisted above
+      @user.update_attribute(:admin, admin) if User.current.admin
       flash[:foreman_notice] = "Successfully updated user."
       redirect_to users_url
     else
@@ -46,7 +61,7 @@ class UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id])
-    if user == current_user
+    if user == User.current
       flash[:foreman_notice] = "You are currently logged in, suicidal?"
       redirect_to :back and return
     end
@@ -80,10 +95,11 @@ class UsersController < ApplicationController
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout
-    session[:user] = @user = nil
+    session[:user] = @user = User.current = nil
     if flash[:foreman_notice] or flash[:foreman_error]
       flash.keep
     else
+      session.clear
       flash[:foreman_notice] = "Logged out - See you soon"
     end
     redirect_to login_users_path
@@ -96,6 +112,20 @@ class UsersController < ApplicationController
       else
         page.hide 'password', 'verification'
       end
+    end
+  end
+
+  private
+
+  def authorize(ctrl = params[:controller], action = params[:action])
+    # Minimal edit is true when the user is granted access to just their
+    # own account details
+    @minimal_edit = false
+    return true if User.current.allowed_to?({:controller => ctrl, :action => action})
+    if action =~ /edit|update/ and params[:id] == User.current.id.to_s
+      return @minimal_edit=true
+    else
+      deny_access and return
     end
   end
 

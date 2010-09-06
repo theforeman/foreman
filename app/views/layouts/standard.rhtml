@@ -12,7 +12,7 @@
       <div class="title" style="text-align:center;">
         The Foreman
       </div>
-      <%= render "home/menu" -%>
+      <%= render("home/menu") unless session[:user].nil? -%>
     </div>
     <%= render "common/searchbar" rescue "<!-- The search facility is not available in this controllers -->" unless params[:action] == 'show' %>
     <%= content_tag('div', flash[:foreman_error],  :class => 'flash error')  if flash[:foreman_error] -%>

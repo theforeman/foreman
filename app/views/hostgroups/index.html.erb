@@ -7,13 +7,13 @@
   </tr>
   <% for hostgroup in @hostgroups %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=link_to h(hostgroup.name), edit_hostgroup_path(hostgroup) %></td>
+      <td><%=link_to_if_authorized h(hostgroup.name), hash_for_edit_hostgroup_path(:id => hostgroup) %></td>
       <td align="right">
-        <%= link_to "Destroy", hostgroup, :confirm => 'Are you sure?', :method => :delete %>
+        <%= display_link_if_authorized "Destroy", hash_for_hostgroup_path(:id => hostgroup, :auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
       </td>
     </tr>
   <% end %>
 </table>
 <%= page_entries_info @hostgroups %>
 <%= will_paginate     @hostgroups %>
-<p><%= link_to "New Hostgroup", new_hostgroup_path %></p>
+<p><%= display_link_if_authorized "New Hostgroup", hash_for_new_hostgroup_path %></p>

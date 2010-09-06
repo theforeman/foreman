@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
-  skip_before_filter :require_login, :only => :create
-  skip_before_filter :require_ssl, :only => :create
+  skip_before_filter :require_login,             :only => :create
+  skip_before_filter :require_ssl,               :only => :create
+  skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
   helper :reports
 

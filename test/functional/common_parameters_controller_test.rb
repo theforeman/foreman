@@ -46,4 +46,24 @@ class CommonParametersControllerTest < ActionController::TestCase
     assert_redirected_to common_parameters_url
     assert !CommonParameter.exists?(common_parameter.id)
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  context 'user with viewer rights' do
+
+    def user_with_viewer_rights_should_fail_to_edit_a_common_parameter
+      setup_user
+      get :edit, {:id => CommonParameter.first.id}
+      assert @response.status == '403 Forbidden'
+    end
+
+    def user_with_viewer_rights_should_succeed_in_viewing_common_parameters
+      setup_user
+      get :index
+      assert_response :success
+    end
+  end
 end

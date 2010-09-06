@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ReportObserverTest < ActiveSupport::TestCase
   def setup
+    User.current = User.find_by_login "admin"
+
     # Email recepient
     SETTINGS[:administrator] = "admin@example.com"
 

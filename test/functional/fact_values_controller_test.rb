@@ -22,4 +22,10 @@ class FactValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'user with viewer rights should succeed in viewing facts' do
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    get :index
+    assert_response :success
+  end
 end

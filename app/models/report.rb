@@ -1,4 +1,5 @@
 class Report < ActiveRecord::Base
+  include Authorization
   belongs_to :host
   has_many :messages, :through => :logs, :dependent => :destroy
   has_many :sources, :through => :logs, :dependent => :destroy
@@ -244,12 +245,11 @@ class Report < ActiveRecord::Base
     nil
   end
 
-
   # The metrics layout has changed in Puppet 2.6.x release,
   # this method attempts to align the bit value metrics and the new name scheme in 2.6.x
   # returns a hash of { :type => "metric type", :name => "metric_name"}
   def self.translate_metrics_to26 metric
-   case metric
+    case metric
     when "applied"
       { :type => "changes", :name => :total}
     else
@@ -257,4 +257,15 @@ class Report < ActiveRecord::Base
     end
   end
 
+  def enforce_permissions operation
+    # No one can edit a report
+    return false if operation == "edit"
+
+    # Anyone can create a report
+    return true if operation == "create"
+    return true if operation == "destroy" and User.current.allowed_to?(:destroy_reports)
+
+    errors.add_to_base "You do not have permission to #{operation} this report"
+    false
+  end
 end

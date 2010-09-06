@@ -46,4 +46,21 @@ class PuppetclassesControllerTest < ActionController::TestCase
     assert_redirected_to puppetclasses_url
     assert !Puppetclass.exists?(puppetclass.id)
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  test 'user with viewer rights should fail to edit a puppetclass' do
+    setup_user
+    get :edit, {:id => Puppetclass.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  test 'user with viewer rights should succeed in viewing puppetclasses' do
+    setup_user
+    get :index
+    assert_response :success
+  end
 end

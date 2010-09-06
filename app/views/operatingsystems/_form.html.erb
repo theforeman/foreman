@@ -20,17 +20,17 @@
   </p>
   <p>
   <% field_set_tag("Architecture") do %>
-    <%= edit_habtm @operatingsystem, Architecture %>
+    <%= authorized_edit_habtm @operatingsystem, Architecture %>
   <% end -%>
   </p>
   <p>
   <% field_set_tag("Partition tables") do %>
-    <%= edit_habtm @operatingsystem, Ptable %>
+    <%= authorized_edit_habtm @operatingsystem, Ptable %>
   <% end -%>
   </p>
   <p>
   <% field_set_tag("Installation Medias") do %>
-    <%= edit_habtm @operatingsystem, Media %>
+    <%= authorized_edit_habtm @operatingsystem, Media %>
   <% end -%>
   </p>
 

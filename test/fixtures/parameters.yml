@@ -16,3 +16,9 @@ host:
   value: host1
   type: HostParameter
   host: one
+
+group:
+  name: group1
+  value: group1
+  type: GroupParameter
+  hostgroup: common

@@ -46,4 +46,21 @@ class UsergroupsControllerTest < ActionController::TestCase
     assert_redirected_to usergroups_url
     assert !Usergroup.exists?(usergroup.id)
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  test 'user with viewer rights should fail to edit a usergroup' do
+    setup_user
+    get :edit, {:id => Usergroup.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  test 'user with viewer rights should succeed in viewing usergroups' do
+    setup_user
+    get :index
+    assert_response :success
+  end
 end

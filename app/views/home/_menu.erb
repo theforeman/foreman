@@ -1,18 +1,20 @@
 <div id="menu">
-  <table>
+  <table width="100%">
     <tr>
       <td style="width: 100%;">
         <ul>
-          <li> <%= link_to "Dashboard",  dashboard_path   %> </li>
-          <li> <%= link_to "Hosts",      hosts_path       %> </li>
-          <li> <%= link_to "Reports",    reports_path     %> </li>
-          <li> <%= link_to "Facts",      fact_values_path %> </li>
-          <li> <%= link_to "Audit Log",  audits_path      %> </li>
-          <li> <%= link_to "Statistics", statistics_path  %> </li>
-        </ul>
+          <li> <%= link_to_if_authorized "Dashboard",  hash_for_dashboard_path   %> </li>
+          <li> <%= link_to_if_authorized "Hosts",      hash_for_hosts_path       %> </li>
+          <li> <%= link_to_if_authorized "Reports",    hash_for_reports_path     %> </li>
+          <li> <%= link_to_if_authorized "Facts",      hash_for_fact_values_path %> </li>
+          <li> <%= link_to_if_authorized "Audit Log",  hash_for_audits_path      %> </li>
+          <li> <%= link_to_if_authorized "Statistics", hash_for_statistics_path  %> </li>
+          </ul>
       </td>
       <td>
+        <% if User.current.admin? or User.current.allowed_to?(:access_settings) -%>
         <%= render "home/settings" -%>
+        <% end -%>
       </td>
     </tr>
   </table>

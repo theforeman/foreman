@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class HostTest < ActiveSupport::TestCase
+  setup do
+    User.current = User.find_by_login "admin"
+  end
+
   test "should not save without a hostname" do
     host = Host.new
     assert !host.save
@@ -39,26 +43,31 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
-    puts host.errors.full_messages
+    if host.new_record?
+      puts host.errors.full_messages
+    end
     assert host.valid?
+    assert !host.new_record?
   end
 
   test "should import facts from yaml stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    assert h.importFacts(YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))))
+    assert true == h.importFacts(YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))))
   end
 
   test "should import facts from yaml of a new host" do
     assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
   end
-  if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
-    test "should not save if both ptable and disk are not defined" do
+
+  test "should not save if both ptable and disk are not defined" do
+    if SETTINGS[:unattended].nil? or SETTINGS[:unattended] == "true"
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
         :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
         :architecture => Architecture.first, :environment => Environment.first
-      assert true unless SETTINGS[:attended]
-      assert !host.valid?
+      assert host.new_record?
+    else
+      true
     end
   end
 
@@ -66,14 +75,14 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
-    assert host.valid?
+    assert !host.new_record?
   end
 
   test "should save if disk is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
-    assert host.valid?
+    assert !host.new_record?
   end
 
   test "should import from external nodes output" do
@@ -101,6 +110,150 @@ class HostTest < ActiveSupport::TestCase
     host.enabled = false
     host.save
     assert host.disabled?
+  end
+
+  def setup_user_and_host
+    @one            = users(:one)
+    @one.hostgroups = []
+    @one.domains    = []
+    @one.user_facts = []
+    @one.save!
+    @host           = hosts(:one)
+    @host.owner     = users(:two)
+    @host.save!
+    User.current    = @one
+  end
+
+  test "host cannot be edited without permission" do
+    setup_user_and_host
+    as_admin do
+      @one.roles = [Role.find_by_name("Viewer")]
+    end
+    assert !@host.update_attributes(:name => "blahblahblah")
+    assert_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "any host can be edited when permitted" do
+    setup_user_and_host
+    as_admin do
+      @one.roles      = [Role.find_by_name("Edit hosts")]
+    end
+    assert @host.update_attributes :name => "blahblahblah"
+    assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "hosts can be edited when domains permit" do
+    setup_user_and_host
+    as_admin do
+      @one.roles      = [Role.find_by_name("Edit hosts")]
+      @one.domains    = [Domain.find_by_name("mydomain.net")]
+    end
+    assert @host.update_attributes :name => "blahblahblah"
+    assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "hosts cannot be edited when domains deny" do
+    setup_user_and_host
+    as_admin do
+      @one.roles      = [Role.find_by_name("Edit hosts")]
+      @one.domains    = [Domain.find_by_name("yourdomain.net")]
+    end
+    assert !@host.update_attributes(:name => "blahblahblah")
+    assert_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "host cannot be created without permission" do
+    setup_user_and_host
+    as_admin do
+      @one.roles = [Role.find_by_name("Viewer")]
+    end
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
+                       :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :disk => "empty partition")
+    assert host.new_record?
+    assert_match /do not have permission/, host.errors.full_messages.join("\n")
+  end
+
+  test "any host can be created when permitted" do
+    setup_user_and_host
+    as_admin do
+      @one.roles = [Role.find_by_name("Create hosts")]
+    end
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
+                       :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :disk => "empty partition")
+    assert !host.new_record?
+    assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
+  end
+
+  test "hosts can be created when hostgroups permit" do
+    setup_user_and_host
+    as_admin do
+      @one.roles      = [Role.find_by_name("Create hosts")]
+      @one.hostgroups = [Hostgroup.find_by_name("Common")]
+    end
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
+                       :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
+    assert !host.new_record?
+    assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
+  end
+
+  test "hosts cannot be created when hostgroups deny" do
+    setup_user_and_host
+    as_admin do
+      @one.roles      = [Role.find_by_name("Create hosts")]
+      @one.hostgroups = [Hostgroup.find_by_name("Unusual")]
+    end
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
+                       :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
+    assert host.new_record?
+    assert_match /do not have permission/, host.errors.full_messages.join("\n")
+  end
+
+  test "host cannot be destroyed without permission" do
+    setup_user_and_host
+    as_admin do
+      @one.roles = [Role.find_by_name("Viewer")]
+    end
+    assert !@host.destroy
+    assert_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "any host can be destroyed when permitted" do
+    setup_user_and_host
+    as_admin do
+      @one.roles = [Role.find_by_name("Destroy hosts")]
+    end
+    assert @host.destroy
+    assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "hosts can be destroyed when ownership permits" do
+    setup_user_and_host
+    as_admin do
+      @one.roles = [Role.find_by_name("Destroy hosts")]
+      @host.update_attribute :owner,  users(:one)
+    end
+    assert @host.destroy
+    assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "hosts cannot be destroyed when ownership denies" do
+    setup_user_and_host
+    as_admin do
+      @one.roles   = [Role.find_by_name("Destroy hosts")]
+      @one.domains = [domains(:yourdomain)] # This does not grant access but does ensure that access is constrained
+      @host.owner  = users(:two)
+      @host.save!
+    end
+    assert !@host.destroy
+    assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
 end

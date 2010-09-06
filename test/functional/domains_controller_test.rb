@@ -47,4 +47,21 @@ class DomainsControllerTest < ActionController::TestCase
     assert_redirected_to domains_url
     assert !Domain.exists?(domain.id)
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  def user_with_viewer_rights_should_fail_to_edit_a_domain
+    setup_users
+    get :edit, {:id => Domain.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  def user_with_viewer_rights_should_succeed_in_viewing_domains
+    setup_users
+    get :index
+    assert_response :success
+  end
 end

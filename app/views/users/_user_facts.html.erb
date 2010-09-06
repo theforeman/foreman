@@ -1,0 +1,4 @@
+<% f.fields_for :user_facts do |builder| -%>
+  <%= render "user_fact", :f => builder %>
+<% end -%>
+<p><%= authorized_for(params[:controller], params[:action]) ? link_to_add_fields("Add a fact filter", f, :user_facts, "user_fact") : "Add a fact filter" %></p>

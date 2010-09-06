@@ -31,6 +31,9 @@ class AuthSourceLdap < AuthSource
     self.port = 389 if self.port == 0
   end
 
+  # Loads the LDAP info for a user and authenticates the user with their password
+  # Returns : Array of Strings.
+  #           Either the users's DN or the user's full details OR nil
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
     attrs = []

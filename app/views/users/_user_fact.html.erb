@@ -1,0 +1,12 @@
+<table class="fields">
+  <tr>
+    <td>Name</td>
+    <td> <%= f.collection_select :fact_name_id, Puppet::Rails::FactName.all.sort, :id, :name, :size => 10 %> </td>
+    <td> <%= f.select :operator, %w{= !=  > >= < <= } %></td>
+    <td>Value</td>
+    <td>
+      <%= f.text_field :criteria, :size => 75 %>
+      <%= authorized_for(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
+    </td>
+  </tr>
+</table>

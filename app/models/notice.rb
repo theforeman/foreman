@@ -12,6 +12,14 @@ class Notice < ActiveRecord::Base
     "#{global? ? "global" : "individual"} #{content}"
   end
 
+  def destroy_notice
+    if global
+      destroy
+    else
+      users.delete(User.current)
+      destroy unless users.any?
+    end
+  end
   private
 
   def add_to_all_users

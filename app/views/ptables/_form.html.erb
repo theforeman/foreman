@@ -9,7 +9,8 @@
   <%= f.text_area :layout, :size => "80x20" %>
   </p>
   <p>
-  <%= edit_habtm @ptable, Operatingsystem %>
+  <%= authorized_edit_habtm @ptable, Operatingsystem %>
   </p>
+  <br/>
   <p><%= f.submit "Submit" %></p>
 <% end %>

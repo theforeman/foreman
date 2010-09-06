@@ -18,6 +18,9 @@
     ['Users',               users_url],
     ['Usergroups',          usergroups_url]
   ] if  SETTINGS[:login]
+  choices += [
+    ['Roles',               roles_url]
+  ] if SETTINGS[:login] and User.current.admin?
 %>
 <%= select_tag "settings_dropdown", options_for_select(choices, @controller.request.url) %>
 

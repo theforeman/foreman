@@ -1,4 +1,5 @@
 <% if hosts.size > 0 -%>
+  <% allow_multiple = authorized_for(:hosts, :edit) or authorized_for(:hosts, :destroy) -%>
   <% form_tag(multiple_actions_hosts_path,:method => "get", :id => "host_select_form") do %>
     <% title header ||= "" %>
     <table class="list">
@@ -14,7 +15,9 @@
       <% hosts.each do |host| -%>
         <tr class="<%= cycle("even", "odd") -%>">
           <td>
-            <%= check_box_tag "host_ids[]", host.id, selected?(host), :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'insertHostVal(this)' -%>
+            <% if allow_multiple -%>
+              <%= check_box_tag "host_ids[]", host.id, selected?(host), :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'insertHostVal(this)' -%>
+            <% end -%>
             <%=name_column(host) %>
           </td>
           <td><%=h host.try(:os) %></td>
@@ -23,15 +26,15 @@
           <td><%=h host.try(:hostgroup) %></td>
           <td><%=last_report_column(host) %></td>
           <td>
-            <%= link_to 'Edit', edit_host_url(host)  %>
-            <%= link_to 'Clone', clone_host_url(host)  %>
-            <%= link_to 'Destroy', host, :confirm => "Delete #{host.name}?", :method => :delete %>
+            <%= display_link_if_authorized 'Edit',    hash_for_edit_host_path(:id => host) %>
+            <%= display_link_if_authorized 'Clone',   hash_for_clone_host_path(:id => host)  %>
+            <%= display_link_if_authorized 'Destroy', hash_for_host_path(:id => host, :auth_action => :destroy), :confirm => "Delete #{host.name}?", :method => :delete, :action => :destroy %>
           </td>
         </tr>
       <% end -%>
     </table>
     <div>
-      <%= submit_tag("Edit Multiple Hosts", :title => "Mass assign values to many hosts") %>
+      <%= submit_tag("Edit Multiple Hosts", :title => "Mass assign values to many hosts") if allow_multiple %><br />
     </div>
   <% end -%>
 <% end -%>

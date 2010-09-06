@@ -156,4 +156,21 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
     assert_redirected_to environments_url
   end
+
+  def setup_user
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  end
+
+  test 'user with viewer rights should fail to edit an environment' do
+    setup_user
+    get :edit, {:id => Environment.first.id}
+    assert @response.status == '403 Forbidden'
+  end
+
+  test 'user with viewer rights should succeed in viewing environments' do
+    setup_user
+    get :index
+    assert_response :success
+  end
 end

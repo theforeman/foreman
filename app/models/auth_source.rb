@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AuthSource < ActiveRecord::Base
+  include Authorization
   has_many :users
 
   validates_presence_of :name
@@ -49,6 +50,7 @@ class AuthSource < ActiveRecord::Base
   end
 
   # Try to authenticate a user not yet registered against available sources
+  # Returns : user's attributes OR nil
   def self.authenticate(login, password)
     AuthSource.find(:all).each do |source|
       begin

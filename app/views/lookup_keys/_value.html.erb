@@ -3,6 +3,6 @@
 <%= f.text_field :value %>
 <%= f.label :priority, "Priority" %>
 <%= f.text_field :priority %>
-<%= link_to_remove_fields("remove", f) %>
+<%= link_to_remove_fields("remove", f) if authorized_for(params[:controller], params[:action]) %>
 </p>
 

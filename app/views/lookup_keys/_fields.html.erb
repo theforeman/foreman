@@ -6,4 +6,4 @@
 <% f.fields_for :lookup_values do |builder| -%>
   <%= render 'value', :f => builder %>
 <% end -%>
-<p><%= link_to_add_fields "Add a value", f, :lookup_values, "value" %></p>
+<p><%= authorized_for(params[:controller], params[:action]) ? link_to_add_fields("Add a value", f, :lookup_values, "value") : "Add a value" %></p>

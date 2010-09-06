@@ -1,24 +1,20 @@
 <% gcharts_script %>
 <% title @host.to_label %>
 <span class="title_action">
-  <%= link_to "Edit", edit_host_path(@host), :title => "Edit your host" %> |
-  <%= link_to "Facts", facts_host_path, :title => "Browse host facts" %> |
-  <%= link_to "Reports", reports_host_path(@host), :title => "Browse host reports" %> |
-  <%= link_to "YAML", externalNodes_host_path(@host), :title => "Puppet external nodes YAML dump" %> |
+  <%= link_to_if_authorized "Edit",    hash_for_edit_host_path(:id => @host),                                        :title => "Edit your host" %> |
+  <%= link_to_if_authorized "Facts",   hash_for_fact_values_path(:id => @host, "search[host_id_eq]" => @host.id),    :title => "Browse host facts" %> |
+  <%= link_to_if_authorized "Reports", hash_for_reports_host_path(:id => @host),                                     :title => "Browse host reports" %> |
+  <%= link_to_if_authorized "YAML",    hash_for_externalNodes_host_path(:id => @host),                               :title => "Puppet external nodes YAML dump" %> |
   <% unless @host.build -%>
-    <span title="prepare this host for build; requires unattended mode">
-      <%= link_to_if @host.can_be_build?, "Build", setBuild_host_path(@host) %>
-    </span>
+    <%= link_to_if_authorized "Build",        hash_for_setBuild_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => @host.can_be_build?),      :title => "Enable rebuild on next host boot" %>
   <% else -%>
-    <%= link_to "Cancel Build", cancelBuild_host_path(@host), :title => "cancel build request for this host" %>
+    <%= link_to_if_authorized "Cancel Build", hash_for_cancelBuild_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => !@host.can_be_build?),  :title => "Cancel build request for this host" %>
   <% end -%> |
-  <span title="trigger a puppetrun on a node; requires that Puppet run is enabled">
-    <%= link_to_if SETTINGS[:puppetrun], "Run Puppet", puppetrun_host_path(@host) %>
-  </span> |
+    <%= link_to_if_authorized "Run puppet", hash_for_puppetrun_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => SETTINGS[:puppetrun]),  :title => "Trigger a puppetrun on a node; requires that puppet run is enabled" %> |
   <span title="Show all host puppet classes, requires storeconfigs">
     <%= link_to_if @host.resources.count > 0, "All Puppet Classes", storeconfig_klasses_host_path(@host) %>
   </span> |
-  <%= link_to "Delete", host_path(@host), :confirm => 'Are you sure?', :method => :delete%>
+  <%= link_to_if_authorized "Delete", hash_for_host_path(:id => @host, :auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete%>
 </span>
 
 <div id="host_overview">

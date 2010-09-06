@@ -2,34 +2,50 @@
   <%= f.error_messages %>
   <table border="0">
     <tr>
-      <td style="width:1%"> Login</td> <td> <%= f.text_field :login %> </td>
-    </tr>
-    <tr>
-      <td> First name</td> <td> <%= f.text_field :firstname %> </td>
-    </tr>
-    <tr>
-      <td> Last name</td> <td> <%= f.text_field :lastname %> </td>
-    </tr>
-    <tr>
-      <td> Mail</td> <td> <%= f.text_field :mail %> </td>
-    </tr>
-    <tr>
-      <td nowrap> Authorized by</td>
-      <td>
-        <%= f.collection_select :auth_source_id, AuthSource.all.delete_if{|a| a.to_label.nil?}, :id, :to_label, {:include_blank => true}  %>
+      <td colspan="2">
+        <table>
+          <tr>
+            <td style="width:1%"> Login</td> <td> <%= f.text_field :login %> </td>
+          </tr>
+          <tr>
+            <td> First name</td> <td> <%= f.text_field :firstname %> </td>
+          </tr>
+          <tr>
+            <td> Last name</td> <td> <%= f.text_field :lastname %> </td>
+          </tr>
+          <tr>
+            <td> Mail</td> <td> <%= f.text_field :mail %> </td>
+          </tr>
+          <tr>
+            <td nowrap> Authorized by</td>
+            <td>
+              <%= f.collection_select :auth_source_id, AuthSource.all.delete_if{|a| a.to_label.nil?}, :id, :to_label, {:include_blank => true}  %>
+            </td>
+          </tr>
+          <tr id="password" <%= 'style="display:none"' unless @user.manage_password? -%>>
+            <td> Password </td>
+            <td> <%= password_field :user, :password %>  </td>
+          </tr>
+          <tr id="verification" <%= 'style="display:none"' unless @user.manage_password? -%>>
+            <td>  Verification </td>
+            <td>  <%= password_field :user, :password_confirmation %>   </td>
+          </tr>
+          <% unless @minimal_edit -%>
+            <tr>
+              <td> Administrator</td><td><%= f.check_box :admin -%> </td>
+            </tr>
+          <% end -%>
+        </table>
       </td>
     </tr>
-    <tr id="password" <%= 'style="display:none"' unless @user.manage_password? -%>>
-      <td> Password </td>
-      <td> <%= password_field :user, :password %>	</td>
-		</tr>
-		<tr id="verification" <%= 'style="display:none"' unless @user.manage_password? -%>>
-      <td>  Verification </td>
-      <td>  <%= password_field :user, :password_confirmation %> 	</td>
-    </tr>
     <tr>
-      <td colspan="2"> Administrator <%= f.check_box :admin %> </td>
+      <td colspan="2">
+        <% field_set_tag "Roles" do %>
+          <%= edit_habtm @user, Role.givable %>
+        <% end %>
+      </td>
     </tr>
+    <%= render("filters", :f => f) unless @minimal_edit -%>
     <tr>
       <td colspan="2"> <%= f.submit "Submit" %> </td>
     </tr>

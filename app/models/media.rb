@@ -1,4 +1,5 @@
 class Media < ActiveRecord::Base
+  include Authorization
   has_and_belongs_to_many :operatingsystems
   has_many :hosts
   validates_uniqueness_of :name

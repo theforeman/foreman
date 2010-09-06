@@ -1,12 +1,9 @@
 class NoticesController < ApplicationController
+  skip_before_filter :authorize, :only => :destroy
+
   def destroy
     @notice = Notice.find(params[:id])
-    if @notice.global
-      @notice.destroy
-    else
-      @notice.users.delete(current_user)
-      @notice.destroy unless @notice.users.any?
-    end
+    @notice.destroy_notice
     redirect_to :back
   end
 end

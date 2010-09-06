@@ -1,3 +1,4 @@
+require 'access_permissions'
 require 'puppet'
 require 'puppet/rails'
 require 'gchart'
@@ -14,6 +15,9 @@ $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 
 SETTINGS[:login] ||= SETTINGS[:ldap]
 
+# We load the default settings for the roles if they are not already present
+Foreman::DefaultData::Loader.load(false)
+
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?
 class NilClass
   def empty?
@@ -22,6 +26,9 @@ class NilClass
 end
 
 class ActiveRecord::Base
+  def <=>(other)
+    self.name <=> other.name
+  end
 
   def update_single_attribute(attribute, value)
     connection.update(

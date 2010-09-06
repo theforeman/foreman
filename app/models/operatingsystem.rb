@@ -2,6 +2,7 @@ require 'ostruct'
 require 'uri'
 
 class Operatingsystem < ActiveRecord::Base
+  include Authorization
   has_many :hosts
   has_and_belongs_to_many :medias
   has_and_belongs_to_many :ptables

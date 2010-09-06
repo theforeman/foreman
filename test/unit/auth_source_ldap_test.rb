@@ -6,7 +6,8 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     @attributes = { :name= => "value",
                     :host= => "value",
                     :attr_login= => "value",
-                    :port= => 389  }
+                    :port= => 389 }
+    User.current = users(:admin)
   end
 
   test "should exists a name" do
@@ -147,5 +148,58 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   def assigns_a_string_of_length_greater_than(length, method)
     @auth_source_ldap.send method, "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
+  end
+
+  def setup_user operation
+    @one = users(:one)
+    as_admin do
+      role = Role.find_or_create_by_name :name => "#{operation}_authenticators"
+      role.permissions = ["#{operation}_authenticators".to_sym]
+      @one.roles = [role]
+      @one.save!
+    end
+    User.current = @one
+  end
+
+  test "user with create permissions should be able to create" do
+    setup_user "create"
+    record =  AuthSourceLdap.create :name => "dummy", :host => hosts(:one).name, :port => "1", :attr_login => "login"
+    assert record.valid?
+    assert !record.new_record?
+  end
+
+  test "user with view permissions should not be able to create" do
+    setup_user "view"
+    record =  AuthSourceLdap.create :name => "dummy", :host => hosts(:one).name, :port => "1", :attr_login => "login"
+    assert record.valid?
+    assert record.new_record?
+  end
+
+  test "user with destroy permissions should be able to destroy" do
+    setup_user "destroy"
+    record =  AuthSourceLdap.first
+    assert record.destroy
+    assert record.frozen?
+  end
+
+  test "user with edit permissions should not be able to destroy" do
+    setup_user "edit"
+    record =  AuthSourceLdap.first
+    assert !record.destroy
+    assert !record.frozen?
+  end
+
+  test "user with edit permissions should be able to edit" do
+    setup_user "edit"
+    record      =  AuthSourceLdap.first
+    record.name = "renamed"
+    assert record.save
+  end
+
+  test "user with destroy permissions should not be able to edit" do
+    setup_user "destroy"
+    record      =  AuthSourceLdap.first
+    record.name = "renamed"
+    assert !record.save
   end
 end

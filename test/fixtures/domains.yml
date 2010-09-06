@@ -7,3 +7,7 @@ mydomain:
 yourdomain:
   name: yourdomain.net
   fullname: somewhere in yourdomain
+
+unuseddomain:
+  name: unused.net
+  fullname: somewhare that is never used

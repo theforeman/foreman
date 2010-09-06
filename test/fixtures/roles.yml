@@ -1,0 +1,181 @@
+---
+manager:
+  name: Manager
+  id: "1"
+  builtin: "0"
+  permissions: |
+    ---
+    - :view_architectures
+    - :create_architectures
+    - :edit_architectures
+    - :destroy_architectures
+    - :view_authenticators
+    - :create_authenticators
+    - :edit_authenticators
+    - :destroy_authenticators
+    - :view_environments
+    - :create_environments
+    - :edit_environments
+    - :destroy_environments
+    - :import_environments
+    - :view_external_variables
+    - :create_external_variables
+    - :edit_external_variables
+    - :destroy_external_variables
+    - :view_domains
+    - :create_domain
+    - :edit_domains
+    - :destroy_domains
+    - :view_globals
+    - :create_globals
+    - :edit_globals
+    - :destroy_globals
+    - :view_hostgroups
+    - :create_hostgroups
+    - :edit_hostgroups
+    - :destroy_hostgroups
+    - :view_hosts
+    - :create_hosts
+    - :edit_hosts
+    - :destroy_hosts
+    - :view_medias
+    - :create_medias
+    - :edit_medias
+    - :destroy_medias
+    - :view_models
+    - :create_models
+    - :edit_models
+    - :destroy_models
+    - :view_operatingsystems
+    - :create_operatingsystems
+    - :edit_operatingsystems
+    - :destroy_operatingsystems
+    - :view_ptables
+    - :create_ptables
+    - :edit_ptables
+    - :destroy_ptables
+    - :view_puppetclasses
+    - :create_puppetclasses
+    - :edit_puppetclasses
+    - :destroy_puppetclasses
+    - :import_puppetclasses
+    - :view_usergroups
+    - :create_usergroups
+    - :edit_usergroups
+    - :destroy_usergroups
+    - :view_users
+    - :create_users
+    - :edit_users
+    - :destroy_users
+    - :access_settings
+    - :access_dashboard
+    - :view_reports
+    - :destroy_reports
+    - :view_facts
+    - :view_audit_logs
+    - :view_statistics
+
+edit_partition_tables:
+  name: Edit partition tables
+  id: "2"
+  builtin: "0"
+  permissions: |
+    ---
+    - :view_ptables
+    - :create_ptables
+    - :edit_ptables
+    - :destroy_ptables
+
+view_hosts:
+  name: View hosts
+  id: "3"
+  builtin: "0"
+  permissions: |
+    ---
+    - :view_hosts
+
+edit_hosts:
+  name: Edit hosts
+  id: "4"
+  builtin: "0"
+  permissions: |
+    ---
+    - :edit_hosts
+
+viewer:
+  name: Viewer
+  id: "5"
+  builtin: "0"
+  permissions: |
+    ---
+    - :view_architectures
+    - :view_audit_logs
+    - :view_authenticators
+    - :access_dashboard
+    - :view_domains
+    - :view_environments
+    - :view_external_variables
+    - :view_facts
+    - :view_globals
+    - :view_hostgroups
+    - :view_hosts
+    - :view_medias
+    - :view_models
+    - :view_operatingsystems
+    - :view_ptables
+    - :view_puppetclasses
+    - :view_reports
+    - :access_settings
+    - :view_statistics
+    - :view_usergroups
+    - :view_users
+
+default_user:
+  name: Default user
+  id: "6"
+  builtin: "1"
+  permissions: |
+    ---
+    - :view_hosts
+    - :view_puppetclasses
+    - :view_hostgroups
+    - :view_domains
+    - :view_oses
+    - :view_medias
+    - :view_models
+    - :view_environments
+    - :view_architectures
+    - :view_ptables
+    - :view_globals
+    - :view_external_variables
+    - :view_authenticators
+    - :access_settings
+    - :access_dashboard
+    - :view_reports
+    - :view_facts
+    - :view_statistics
+
+anonymous:
+  name: Anonymous
+  id: "7"
+  builtin: "2"
+  permissions: |
+    ---
+    - :view_hosts
+
+destroy_hosts:
+  name: Destroy hosts
+  id: "8"
+  builtin: "0"
+  permissions: |
+    ---
+    - :destroy_hosts
+
+create_hosts:
+  name: Create hosts
+  id: "9"
+  builtin: "0"
+  permissions: |
+    ---
+    - :create_hosts
+

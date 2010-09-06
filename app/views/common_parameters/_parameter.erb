@@ -6,7 +6,7 @@
     <td>
       <%= f.text_field :value, :size => 75 %>
       <%= f.hidden_field :nested %>
-      <%= link_to_remove_fields("remove", f) %>
+      <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
     </td>
   </tr>
 </table>

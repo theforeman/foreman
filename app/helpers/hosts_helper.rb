@@ -1,9 +1,10 @@
 module HostsHelper
+  include CommonParametersHelper
   def last_report_column(record)
     return nil if record.last_report.nil?
     time = time_ago_in_words(record.last_report.getlocal)
     image_tag("#{not (record.error_count > 0 or record.no_report)}.png", :size => "18x18") +
-      link_to_if(@last_reports[record.id], time, report_path(@last_reports[record.id].to_i))
+      link_to_if_authorized(time,  hash_for_report_path(:id => @last_reports[record.id], :enable_link => @last_reports[record.id]))
   end
 
 # method that reformats the hostname column by adding the status icons
@@ -11,7 +12,7 @@ module HostsHelper
     if record.build and not record.installed_at.nil?
       image ="attention_required.png"
       title = "Pending Installation"
-    elsif (os=record.fv(:kernel)).nil?
+    elsif (os = @fact_kernels.select{|h| h.host_id == record.id}.first.value rescue nil).nil?
       image = "warning.png"
       title = "No Inventory Data"
     else

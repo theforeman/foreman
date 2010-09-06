@@ -1,4 +1,5 @@
 class Usergroup < ActiveRecord::Base
+  include Authorization
   has_many_polymorphs :members, :from => [:usergroups, :users ], :as => :member,
     :through => :usergroup_member, :foreign_key => :usergroup_id, :dependent => :destroy
 
@@ -8,11 +9,6 @@ class Usergroup < ActiveRecord::Base
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
-
-  # Support for sorting the groups by name
-  def <=>(other)
-    self.name <=> other.name
-  end
 
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses
@@ -28,7 +24,7 @@ class Usergroup < ActiveRecord::Base
   end
 
   # This methods retrieves all usergroups in a usergroup
-  # Returns: Array of usergroups
+  # Returns: Array of unique usergroups
   def all_usergroups(group_list=[self], user_list=[])
     retrieve_users_and_groups group_list, user_list
     group_list.sort.uniq

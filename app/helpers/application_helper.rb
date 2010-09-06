@@ -1,6 +1,9 @@
-# Methods added to this helper will be available to all templates in the application.
+# Methods added to this helper will be available to all templates in the application
 module ApplicationHelper
 
+  def contract model
+    model.to_s
+  end
   def graph(type,opts = {})
     Gchart.send(type, {:size => '400x150', :bg => "E6DFCF", :format => "image_tag"}.merge(opts))
   end
@@ -10,13 +13,18 @@ module ApplicationHelper
   end
 
   def edit_habtm klass, association
-    render :partial => 'common/edit_habtm', :locals =>{ :klass => klass, :associations => association.all.delete_if{|e| e == klass}}
+    render :partial => 'common/edit_habtm', :locals =>{ :klass => klass, :associations => association.all.sort.delete_if{|e| e == klass}}
   end
 
   def link_to_remove_fields(name, f)
     f.hidden_field(:_destroy) + link_to_function(image_tag("false.png", :title => "remove"), "remove_fields(this)")
   end
 
+  # Creates a link to a javascript function that creates field entries for the association on the web page
+  # +name+       : String containing links's text
+  # +f+          : FormBuiler object
+  # +association : The field are created to allow entry into this association
+  # +partial+    : String containing an optional partial into which we render
   def link_to_add_fields(name, f, association, partial = nil)
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
@@ -52,6 +60,12 @@ module ApplicationHelper
       :position => {:after => {:success => "selected_classes" }}
   end
 
+  def check_all_links(form_name)
+    link_to_function("Check all", "checkAll('#{form_name}', true)") +
+    " | " +
+    link_to_function("Uncheck all", "checkAll('#{form_name}', false)")
+  end
+
   def searchtab title, search, options
     opts = {:action => params[:action], :tab_name => title, :search => search}
     selected_class = options[:selected] ? "selectedtab" : ""
@@ -81,4 +95,45 @@ module ApplicationHelper
     return param.to_i unless param.empty?
     return @fact_name_id if @fact_name_id
   end
+
+  # Return true if user is authorized for controller/action, otherwise false
+  # +controller+ : String or symbol for the controller
+  # +action+     : String or symbol for the action
+  def authorized_for(controller, action)
+    User.current.allowed_to?({:controller => controller, :action => action}) rescue false
+  end
+
+  # Display a link if user is authorized, otherwise a string
+  # +name+    : String to be displayed
+  # +options+ : Hash containing
+  #             :enable_link  : Boolean indicating whether the link is to be displayed
+  #             :controlller  : String or Symbol representing the controller
+  #             :auth_action  : String or Symbol representing the action to be used for authorization checks
+  # +html_options+ : Hash containing html options for the link or span
+  def link_to_if_authorized(name, options = {}, html_options = {})
+    enable_link = options.has_key?(:enable_link) ? options.delete(:enable_link) : true
+    auth_action = options.delete :auth_action
+    if enable_link
+      link_to_if authorized_for(options[:controller] || params[:controller], auth_action || options[:action]), name, options, html_options
+    else
+      content_tag(:span, name, {:class => "entry"}.merge(html_options))
+    end
+  end
+
+  # Display a link if user is authorized, otherwise nothing
+  # +name+    : String to be displayed
+  # +options+ : Hash containing
+  #             :controlller  : String or Symbol representing the controller
+  #             :auth_action  : String or Symbol representing the action to be used for authorization checks
+  # +html_options+ : Hash containing html options for the link or span
+  def display_link_if_authorized(name, options = {}, html_options = nil)
+    auth_action = options.delete :auth_action
+    link_to(name, options, html_options) if authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
+  end
+
+  def authorized_edit_habtm klass, association
+    return edit_habtm(klass, association) if authorized_for params[:controller], params[:action]
+    show_habtm klass.send(association.name.pluralize.downcase)
+  end
+
 end

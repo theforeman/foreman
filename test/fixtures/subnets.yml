@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+   name: one
+   number: 2.3.4.5
+   mask: 255.255.255.0
+#
+# two:
+#   column: value

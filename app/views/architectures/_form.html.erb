@@ -5,8 +5,8 @@
   <%= f.text_field :name %>
   </p>
   <p>
-  <%= edit_habtm @architecture, Operatingsystem %>
+  <%= authorized_edit_habtm @architecture, Operatingsystem %>
   </p>
-
-  <p><%= f.submit "Submit" %></p>
+  <br/>
+  <%= f.submit "Submit" %>
 <% end %>

@@ -8,17 +8,25 @@ class HostsController < ApplicationController
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
   before_filter :find_host, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config]
+  before_filter :authorize
 
   filter_parameter_logging :root_pass
   helper :hosts, :reports
 
   def index
+
+    # restrict allowed hosts list based on the user permissions
+    @search = User.current.admin? ? Host.search(params[:search]) : Host.my_hosts.search(params[:search])
+
     respond_to do |format|
-      @search = Host.search(params[:search])
       format.html do
-        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model]
+        # You can see a host if you can CRUD it
+        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model, :fact_values]
         @via    = "fact_values_"
+        # SQL optimizations queries
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+        @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
+                                     :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
       end
       format.json { render :json => @search.all(:select => "name").map(&:name) }
       format.yaml { render :text => @search.all(:select => "name").map(&:name).to_yaml }
@@ -343,7 +351,8 @@ class HostsController < ApplicationController
     hosts.delete_if {|host| host.destroy}
 
     session[:selected] = []
-    flash[:foreman_notice] = hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{hosts.map(&:name).join('<br/>')}"
+    missed_hosts       = hosts.map(&:name).join('<br/>')
+    flash[:foreman_notice] = hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{missed_hosts}"
     redirect_to(hosts_path)
   end
 
@@ -487,7 +496,8 @@ class HostsController < ApplicationController
     action = mode ? "enabled" : "disabled"
 
     session[:selected] = []
-    flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{hosts.map(&:name).join('<br/>')}"
+    missed_hosts       = hosts.map(&:name).join('<br/>')
+    flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
     redirect_to(hosts_path) and return
   end
 
@@ -503,9 +513,11 @@ class HostsController < ApplicationController
     @search = list.search(params[:search])
     respond_to do |format|
       format.html do
-        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model]
+        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model, :fact_values]
         @via    = "fact_values_"
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+        @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
+                                     :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
         @title = title
         render :index
       end
