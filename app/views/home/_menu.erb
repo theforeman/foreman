@@ -1,11 +1,19 @@
 <div id="menu">
-  <ul>
-    <li> <%= link_to "Dashboard",  dashboard_path   %> </li>
-    <li> <%= link_to "Hosts",      hosts_path       %> </li>
-    <li> <%= link_to "Reports",    reports_path     %> </li>
-    <li> <%= link_to "Facts",      fact_values_path %> </li>
-    <li> <%= link_to "Audit Log",  audits_path      %> </li>
-    <li> <%= link_to "Statistics", statistics_path  %> </li>
-    <li> <%= link_to "Settings",   settings_path    %> </li>
-  </ul>
+  <table>
+    <tr>
+      <td width="100%">
+        <ul>
+          <li> <%= link_to "Dashboard",  dashboard_path   %> </li>
+          <li> <%= link_to "Hosts",      hosts_path       %> </li>
+          <li> <%= link_to "Reports",    reports_path     %> </li>
+          <li> <%= link_to "Facts",      fact_values_path %> </li>
+          <li> <%= link_to "Audit Log",  audits_path      %> </li>
+          <li> <%= link_to "Statistics", statistics_path  %> </li>
+        </ul>
+      </td>
+      <td>
+        <span float="right"> <%  settings_dropdown  %> </span>
+      </td>
+    </tr>
+  </table>
 </div>

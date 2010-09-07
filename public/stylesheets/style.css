@@ -39,7 +39,7 @@ input {
 p {
   line-height: 130%;
 }
-#header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative;}
+#header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative; padding-bottom: 4px;}
 
 #header a {
   float:right;
