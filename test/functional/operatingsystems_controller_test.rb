@@ -44,6 +44,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   def test_destroy
     operatingsystem = Operatingsystem.first
+    operatingsystem.hosts = []
     delete :destroy, {:id => operatingsystem}, set_session_user
     assert_redirected_to operatingsystems_url
     assert !Operatingsystem.exists?(operatingsystem.id)

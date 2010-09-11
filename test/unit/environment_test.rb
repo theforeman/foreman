@@ -38,6 +38,8 @@ class EnvironmentTest < ActiveSupport::TestCase
     Puppet.settings.instance_variable_get(:@values)[:development][:modulepath] = "/development/some/path"
     Puppet.settings.instance_variable_get(:@values)[:production][:modulepath] = "/production/some/path"
 
+    Puppet.settings.expects(:parse) # puppetEnvs now reparses the file so we need to stub that function
+
     environments = Environment.puppetEnvs
 
     assert_not_nil environments[:test]
@@ -48,13 +50,15 @@ class EnvironmentTest < ActiveSupport::TestCase
     assert environments[:production] == "/production/some/path"
   end
 
-  test "with Puppet later to 0.25, self.puppetEnvs should import environments" do
+  test "with Puppet later than 0.25, self.puppetEnvs should import environments" do
     Puppet.settings.instance_variable_get(:@values)[:main] = {}
     Puppet.settings.instance_variable_get(:@values)[:puppetmasterd] = {}
 
     Puppet.settings.instance_variable_get(:@values)[:test] = {:modulepath => "/test/some/path"}
     Puppet.settings.instance_variable_get(:@values)[:development] = {:modulepath => "/development/some/path"}
     Puppet.settings.instance_variable_get(:@values)[:production] = {:modulepath => "/production/some/path"}
+
+    Puppet.settings.expects(:parse) # puppetEnvs now reparses the file so we need to stub that function
 
     environments = Environment.puppetEnvs
 
@@ -70,25 +74,9 @@ class EnvironmentTest < ActiveSupport::TestCase
 
   test "if no env is defined by Puppet, self.puppetEnvs should define production" do
     Puppet.settings.instance_variable_get(:@values).clear
+    Puppet.settings.expects(:parse) # puppetEnvs now reparses the file so we need to stub that function
     environments = Environment.puppetEnvs
     assert_not_nil environments[:production]
   end
 
-  test "self.importClasses should respect relationship between environments and puppet class" do
-    Puppet.settings.instance_variable_get(:@values)[:development] = {:modulepath => "/development/some/path"}
-
-    puppet_classes = ["class development_puppet_class {"]
-    mock(Dir).glob("/development/some/path/*/manifests/**/*.pp") { puppet_classes }
-    mock(File).read(anything) { StringIO.new(puppet_classes.first) }
-
-    Environment.importClasses
-
-    puppet_class = Puppetclass.find_by_name("development_puppet_class")
-    assert_not_nil puppet_class
-
-    environment = Environment.find_by_name("development")
-    assert_not_nil environment
-
-    assert puppet_class.environments.include?(environment)
-  end
 end

@@ -27,11 +27,27 @@ class ApplicationController < ActionController::Base
   end
 
   def import_environments
-    ec, pc = Environment.count, Puppetclass.count
-    Environment.importClasses
+    @changed = Environment.importClasses
+    if @changed[:obsolete][:environments].size > 0 or @changed[:obsolete][:puppetclasses].size > 0 or
+       @changed[:new][:environments].size > 0      or @changed[:new][:puppetclasses].size
+       @grouping = 3
+      render :partial => "common/puppetclasses_or_envs_changed", :layout => true
+    else
+      redirect_to :back
+    end
+  end
 
-    flash[:foreman_notice] = "Environments old:#{ec} current:#{Environment.count}<br>PuppetClasses old:#{pc} current:#{Puppetclass.count}"
-    redirect_to :back
+  def obsolete_and_new
+    if params[:commit] == "Cancel"
+      redirect_to environments_path
+    else
+      if (errors = Environment.obsolete_and_new(params[:changed])).empty?
+        flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+      else
+        flash[:foreman_error]  = "Failed to update the environments and puppetclasses from the on-disk puppet installation<br>" + errors
+      end
+      redirect_to :back
+    end
   end
 
   protected

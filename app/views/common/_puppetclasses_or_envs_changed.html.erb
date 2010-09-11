@@ -1,0 +1,42 @@
+<% title "Changed environments and puppet classes" %>
+
+<% form_tag '/environments/obsolete_and_new' do -%>
+  <% for kind in [:new, :obsolete ] do %>
+    <fieldset>
+      <legend><%= kind.to_s.capitalize -%> puppetclasses</legend>
+      <table>
+      <% @changed.send(:[], kind)[:puppetclasses].in_groups_of(@grouping) do |group| -%>
+        <tr>
+          <% for i in  0...@grouping do %>
+           <% if group[i] -%>
+              <td>
+                <%= check_box_tag "changed[#{kind.to_s}][puppetclasses][]", group[i], true %>
+                <%= group[i] -%>
+              </td>
+            <% end -%>
+          <% end -%>
+        </tr>
+      <% end %>
+      </table>
+    </fieldset>
+
+    <fieldset>
+      <legend><%= kind.to_s.capitalize -%>  environments</legend>
+      <table>
+      <% @changed.send(:[], kind)[:environments].in_groups_of(@grouping) do |group| -%>
+        <tr>
+          <% for i in 0...@grouping do %>
+           <% if group[i] -%>
+              <td>
+                <%= check_box_tag "changed[#{kind.to_s}][environments][]", group[i], true %>
+                <%= group[i] -%>
+              </td>
+            <% end -%>
+          <% end -%>
+        </tr>
+      <% end %>
+      </table>
+    </fieldset>
+  <% end -%>
+  <%= submit_tag "Update" -%> <%= submit_tag "Cancel" -%>
+<% end -%>

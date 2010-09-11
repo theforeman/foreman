@@ -97,7 +97,7 @@ module GW
         return false
       end
       begin
-        command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null"
+        command = "/usr/bin/sudo -S #{@sbin}/puppetca --clean #{fqdn}< /dev/null > /dev/null"
         logger.info system(command)
         return true
       rescue StandardError => e

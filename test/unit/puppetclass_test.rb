@@ -32,8 +32,8 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
 
     klasses = Puppetclass.scanForClasses path
-    assert klasses[0].name == "some_puppet_class"
-    assert klasses[1].name == "other_puppet_class"
-    assert klasses[2].name == "yet_another_puppet_class"
+    assert klasses[0] == "some_puppet_class"
+    assert klasses[1] == "other_puppet_class"
+    assert klasses[2] == "yet_another_puppet_class"
   end
 end
