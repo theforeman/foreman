@@ -42,6 +42,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   def test_destroy
     architecture = Architecture.first
+    architecture.hosts = []
     delete :destroy, {:id => architecture}, set_session_user
     assert_redirected_to architectures_url
     assert !Architecture.exists?(architecture.id)

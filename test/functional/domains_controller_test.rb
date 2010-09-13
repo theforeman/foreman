@@ -42,6 +42,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   def test_destroy
     domain = Domain.first
+    domain.hosts = []
     delete :destroy, {:id => domain}, set_session_user
     assert_redirected_to domains_url
     assert !Domain.exists?(domain.id)

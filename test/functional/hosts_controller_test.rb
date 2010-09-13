@@ -160,7 +160,36 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  context "multiple assignments" do
+    setup do
+      @host1 = hosts(:otherfullhost)
+      @host2 = hosts(:anotherfullhost)
+    end
 
+    context "with update environments" do
+      should "change environments" do
+        assert @host1.environment == environments(:production)
+        assert @host2.environment == environments(:production)
+        post :update_multiple_environment,
+             {:environment => { :id => environments(:global_puppetmaster).id}},
+             {:selected => [@host1.id, @host2.id], :user => User.first.id}
+        assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
+        assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
+      end
+    end
+    context "with update parameters" do
+      should "change parameters" do
+        @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
+        @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
+        post :update_multiple_parameters,
+             {:name => { "p1" => "hello"}},
+             {:selected => [@host1.id, @host2.id], :user => User.first.id}
+        assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
+        assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
+      end
+    end
+
+  end
   private
   def initialize_host
     @host = Host.create :name => "myfullhost",

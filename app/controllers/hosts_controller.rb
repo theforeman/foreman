@@ -226,7 +226,7 @@ class HostsController < ApplicationController
   end
 
   def multiple_parameters
-    @parameters = Parameter.find(:all, :select => "DISTINCT name", :conditions => {:host_id => @hosts })
+    @parameters = HostParameter.reference_id_is(@hosts).all(:select => "distinct name")
   end
 
   def reset_multiple
@@ -294,7 +294,7 @@ class HostsController < ApplicationController
 
   def update_multiple_environment
     # simple validations
-    if (id=params["environment"]["id"]).empty?
+    if (params[:environment].nil?) or (id=params["environment"]["id"]).nil?
       flash[:foreman_error] = 'No Environment selected!'
       redirect_to(select_multiple_environment_hosts_path) and return
     end
