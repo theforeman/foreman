@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
                   :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
                   :multiple_enable => :get, :submit_multiple_enable => :post,}
   map.dashboard '/dashboard', :controller => 'dashboard'
-  map.settings '/settings', :controller => 'home', :action => 'settings'
+  map.statistics '/statistics', :controller => 'statistics'
   map.resources :audits
   map.resources :usergroups
   map.resources :lookup_keys
