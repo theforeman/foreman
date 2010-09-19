@@ -35,6 +35,9 @@ class ApplicationController < ActionController::Base
     else
       redirect_to :back
     end
+  rescue Exception => e
+    flash[:foreman_error] = e
+    redirect_to :back
   end
 
   def obsolete_and_new
