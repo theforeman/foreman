@@ -20,11 +20,11 @@ class Redhat < Operatingsystem
 
     case host.operatingsystem.major
     when "4"
-      epel_url.gsub!("$os","4-9")
+      epel_url.gsub!("$os","4-10")
     when "5"
-      epel_url.gsub!("$os","5-3")
+      epel_url.gsub!("$os","5-4")
     when "6"
-       epel_url.gsub!("$os","6-1").
+       epel_url.gsub!("$os","6-4").
          gsub!("/pub/epel/","/pub/epel/beta/") # workaround for hardcoded beta in url, should be remove once RH6 is released
     else
       return ""
