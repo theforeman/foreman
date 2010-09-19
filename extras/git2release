@@ -10,6 +10,7 @@ git submodule update
 
 rm -rf `find -name ".git*"`
 rm -rf vendor/rails/railties/guides
+rake gems:refresh_specs
 cd /tmp
 
 tar cv foreman | bzip2 -9 > /tmp/foreman-$1.tar.bz2
