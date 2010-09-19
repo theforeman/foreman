@@ -2,21 +2,20 @@
 %global confdir extras/spec
 
 Name:           foreman
-Version:        0.1.5
-Release:        1%{?dist}
+Version:        0.1.6
+Release:        rc1%{?dist}
 Summary:        Systems Management web application
 
 Group:          Applications/System
 License:        GPLv3+
 URL:            http://theforeman.org
-Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-5.tar.bz2
+Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-6rc1.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
 Requires:       ruby(abi) = 1.8
 Requires:       rubygems
-Requires:       rubygem(rack) >= 1.0.1
 Requires:       rubygem(rake) >= 0.8.3
 Requires:       puppet >= 0.24.4
 Requires:       rubygem(sqlite3-ruby)
@@ -115,7 +114,7 @@ exit 0
 datadir=%{_datadir}/%{name}
 varlibdir=%{_localstatedir}/lib/%{name}
 # remove all active_scaffold left overs
-find $datadir -type d -name "active_scaffold*" | xargs rm -rf
+find $datadir -type d -name "active_scaffold*" 2>/dev/null | xargs rm -rf
 
 if [ ! -d $varlibdir/db -a -d $datadir/db -a ! -L $datadir/db ]; then
   [ -d $varlibdir ] || mkdir -p $varlibdir
@@ -163,6 +162,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Sun Sep 19 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc1
+- Removed the depenecy upon rack 1.0.1 as its now bundled within Foreman
 * Mon May 31 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.5-1
 - New upstream version
 - Added migration support between old directory layout to FHS compliancy, upgrades from 0.1-4.x should now work
