@@ -1,9 +1,11 @@
 <% form_for @search do |f|-%>
-  <span title="A substring match">
+  <div title="A substring match">
     <%= f.label :name_like, "Name" %>
     <%= f.text_field :name_like, :size => 10 %>
-  </span>
-  <%= f.label :family, "OS family" %>
-  <%= f.collection_select :family_id, Family.families_as_collection, :value, :name,{ :include_blank => "Choose a family" } %>
-  <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "" %>
+  </div>
+	<div>
+	  <%= f.label :family, "OS family" %>
+	  <%= f.collection_select :family_id, Family.families_as_collection, :value, :name,{ :include_blank => "Choose a family" } %>
+	  <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "" %>
+	</div>
 <% end %>

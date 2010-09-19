@@ -1,10 +1,12 @@
 <% field_set_tag 'Puppet classes' do -%>
   <table>
-    <th>Included classes</th>
-    <th colspan=3>Available classes</th>
     <tr>
-      <td id=hostclasses>
-        <div id=selected_classes>
+      <th>Included classes</th>
+      <th colspan="3">Available classes</th>
+    </tr>
+    <tr>
+      <td id="hostclasses">
+        <div id="selected_classes">
           <%# hidden field to ensure that classes gets removed if none are defined -%>
           <%= hidden_field_tag obj.class.to_s.downcase + "[puppetclass_ids][]" %>
           <%= render :partial => "puppetclasses/selectedClasses",
@@ -20,6 +22,6 @@
 
         <%= render :partial => "puppetclasses/classes", :locals =>
         {:puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all) - obj.all_puppetclasses, :type => obj.class.to_s.downcase } %>
-    </tr>
-  </table>
-<% end -%>
+      </tr>
+    </table>
+  <% end -%>

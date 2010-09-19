@@ -1,4 +1,4 @@
-<div id=welcome>
+<div id="welcome">
   <h2>Authentication source configuration</h2>
   <p>
   Foreman can use an LDAP based service for user information and authentication
@@ -21,9 +21,9 @@
     <b>LDAPS:</b> whether the communication should be encrypted.
     </li>
     <li>
-    <b>Account:</b> predefined account or a template, containing the keyword <b>$login</b>, <br>
-    which allows the login text to be preprocessed before passing to the provider.  <br>
-    For instance, if the provider is MS AD then the login name should be prepended with 'domain\'.<br>
+    <b>Account:</b> predefined account or a template, containing the keyword <b>$login</b>, <br/>
+    which allows the login text to be preprocessed before passing to the provider.  <br/>
+    For instance, if the provider is MS AD then the login name should be prepended with 'domain\'.<br/>
     A suitable entry in this case would be 'domain\$login'.
     </li>
     <li>
@@ -33,12 +33,12 @@
     <b>Basedn:</b> the starting location within the LDAP directory structure for search operations.
     </li>
     <li>
-    <b>On-the-fly creation:</b> indicates that a user's details should be downloaded from the LDAP provider <br>
-    and a new user created within the Foreman application. If this entry is not ticked then even if the <br>
+    <b>On-the-fly creation:</b> indicates that a user's details should be downloaded from the LDAP provider <br/>
+    and a new user created within the Foreman application. If this entry is not ticked then even if the <br/>
     authentication succeeds the user cannot be logged in as they will be no user entry for this person.
     </li>
     <li>
-    <b>Attributes:</b> are the names of the values that are downloaded from the LDAP provider to populate a Foreman user's information.<br>
+    <b>Attributes:</b> are the names of the values that are downloaded from the LDAP provider to populate a Foreman user's information.<br/>
     E.G. a Foreman user's name can be derived from an Active Directory <b>sAMAccountName</b> attribute.
     </li>
   </ul>

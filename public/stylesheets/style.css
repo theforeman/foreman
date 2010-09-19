@@ -249,6 +249,9 @@ div#run_distribution {
   top: 1em;
   right: 1em;
 }
+#searchbar div {
+	display:inline;
+}
 #searchbar ul {
   margin: 0; padding: 0;
   list-style: none;

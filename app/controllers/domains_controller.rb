@@ -37,7 +37,7 @@ class DomainsController < ApplicationController
     if @domain.destroy
       flash[:foreman_notice] = "Successfully destroyed domain."
     else
-      flash[:foreman_error] = @domain.errors.full_messages.join("<br>")
+      flash[:foreman_error] = @domain.errors.full_messages.join("<br/>")
     end
     redirect_to domains_url
   end

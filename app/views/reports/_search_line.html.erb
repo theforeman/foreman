@@ -1,14 +1,16 @@
 <% form_for @search do |f|-%>
-  <span title="A substring match">
+  <div title="A substring match">
     <%= f.label      :host_name_like, "Host" %>
     <%= f.text_field :host_name_like, :size => 10 %>
-  </span>
-  <span title="Time period">
+  </div>
+  <div title="Time period">
     <%= reports_since f  %>
-  </span> |
-  <% for status in Report::METRIC -%>
-    <%= check_box_tag status, "1", params[status] %>
-    <small><%= status.capitalize %></small> |
-  <% end -%>
-  <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
+  </div>
+  <div> |
+    <% for status in Report::METRIC -%>
+      <%= check_box_tag status, "1", params[status] %>
+      <small><%= status.capitalize %></small> |
+    <% end -%>
+    <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
+  </div>
 <% end %>

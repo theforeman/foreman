@@ -1,7 +1,7 @@
 <div id="searchbar" style="clear:both;">
   <div id="tabs" class="odd">
     <ul>
-      <li><%= link_to_function "Search", toggle_searchbar %><li>
+      <li><%= link_to_function "Search", toggle_searchbar %></li>
       <% for tab in @tabs.keys.sort -%>
         <%= searchtab tab, @tabs[tab], :selected => (@active_tab == tab) %>
       <% end -%>

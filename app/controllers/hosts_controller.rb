@@ -89,7 +89,7 @@ class HostsController < ApplicationController
     if @host.destroy
       flash[:foreman_notice] = "Successfully destroyed host."
     else
-      flash[:foreman_error] = @host.errors.full_messages.join("<br>")
+      flash[:foreman_error] = @host.errors.full_messages.join("<br/>")
     end
     redirect_to hosts_url
   end
@@ -127,7 +127,7 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => @host.info.to_yaml.gsub("\n","<br>") }
+        format.html { render :text => @host.info.to_yaml.gsub("\n","<br/>") }
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue
@@ -324,7 +324,7 @@ class HostsController < ApplicationController
     hosts.delete_if {|host| host.destroy}
 
     session[:selected] = []
-    flash[:foreman_notice] = hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{hosts.map(&:name).join('<br>')}"
+    flash[:foreman_notice] = hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{hosts.map(&:name).join('<br/>')}"
     redirect_to(hosts_path)
   end
 
@@ -438,7 +438,7 @@ class HostsController < ApplicationController
     action = mode ? "enabled" : "disabled"
 
     session[:selected] = []
-    flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{hosts.map(&:name).join('<br>')}"
+    flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{hosts.map(&:name).join('<br/>')}"
     redirect_to(hosts_path) and return
   end
 

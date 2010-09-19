@@ -37,7 +37,7 @@ class PuppetclassesController < ApplicationController
     if @puppetclass.destroy
       flash[:foreman_notice] = "Successfully destroyed puppetclass."
     else
-      flash[:foreman_error] = @puppetclass.errors.full_messages.join("<br>")
+      flash[:foreman_error] = @puppetclass.errors.full_messages.join("<br/>")
     end
     redirect_to puppetclasses_url
   end

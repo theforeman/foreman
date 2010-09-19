@@ -4,8 +4,9 @@
   <% for kind in [:new, :obsolete ] do %>
     <fieldset>
       <legend><%= kind.to_s.capitalize -%> puppetclasses</legend>
+      <% unless (pcs = @changed.send(:[], kind)[:puppetclasses]).empty? -%>
       <table>
-      <% @changed.send(:[], kind)[:puppetclasses].in_groups_of(@grouping) do |group| -%>
+      <% pcs.in_groups_of(@grouping) do |group| -%>
         <tr>
           <% for i in  0...@grouping do %>
            <% if group[i] -%>
@@ -16,14 +17,16 @@
             <% end -%>
           <% end -%>
         </tr>
-      <% end %>
+      <% end -%>
       </table>
+      <% end -%>
     </fieldset>
 
     <fieldset>
       <legend><%= kind.to_s.capitalize -%>  environments</legend>
+      <% unless (envs = @changed.send(:[], kind)[:environments]).empty? -%>
       <table>
-      <% @changed.send(:[], kind)[:environments].in_groups_of(@grouping) do |group| -%>
+      <% envs.in_groups_of(@grouping) do |group| -%>
         <tr>
           <% for i in 0...@grouping do %>
            <% if group[i] -%>
@@ -34,9 +37,12 @@
             <% end -%>
           <% end -%>
         </tr>
-      <% end %>
+      <% end -%>
       </table>
+      <% end -%>
     </fieldset>
   <% end -%>
-  <%= submit_tag "Update" -%> <%= submit_tag "Cancel" -%>
+  <div>
+    <%= submit_tag "Update" -%> <%= submit_tag "Cancel" -%>
+  </div>
 <% end -%>

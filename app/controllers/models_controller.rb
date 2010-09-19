@@ -37,7 +37,7 @@ class ModelsController < ApplicationController
     if  @model.destroy
       flash[:foreman_notice] = "Successfully destroyed model."
     else
-      flash[:foreman_error] = @model.errors.full_messages.join("<br>")
+      flash[:foreman_error] = @model.errors.full_messages.join("<br/>")
     end
     redirect_to models_url
   end

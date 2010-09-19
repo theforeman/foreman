@@ -89,13 +89,13 @@ class HostsControllerTest < ActionController::TestCase
   test "externalNodes should render correctly when id is given" do
     get :externalNodes, {:id => @host.id}, set_session_user
     assert_response :success
-    assert_template :text => @host.info.to_yaml.gsub("\n","<br>")
+    assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
 
   test "externalNodes should render correctly when name is given" do
     get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
-    assert_template :text => @host.info.to_yaml.gsub("\n","<br>")
+    assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
 
   test "externalNodes should render yml request correctly" do

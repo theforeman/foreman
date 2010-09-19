@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     if user.destroy
       flash[:foreman_notice] = "Successfully destroyed user."
     else
-      flash[:foreman_error] = user.errors.full_messages.join("<br>")
+      flash[:foreman_error] = user.errors.full_messages.join("<br/>")
     end
     redirect_to users_url
   end

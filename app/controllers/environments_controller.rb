@@ -41,7 +41,7 @@ class EnvironmentsController < ApplicationController
     if @environment.destroy
       flash[:foreman_notice] = "Successfully destroyed '#{@environment.name}''"
     else
-      flash[:foreman_error]  = @environment.errors.full_messages.join("<br>")
+      flash[:foreman_error]  = @environment.errors.full_messages.join("<br/>")
     end
     redirect_to environments_url
   end

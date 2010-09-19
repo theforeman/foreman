@@ -1,5 +1,5 @@
 <%= hidden_field_tag :via, @via %>
-<span id=fact_search>
+<span id="fact_search">
   <%= label_tag :search_fact_name_id, "Fact Name"  %>
   <%= collection_select :search, "#{@via}fact_name_id_eq".to_sym,
     Puppet::Rails::FactName.all(:select => "id, name", :order => "name ASC"),

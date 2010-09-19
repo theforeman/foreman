@@ -2,9 +2,9 @@
 Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 <% if @offset > 100 -%>
   <div class="flash error">
-    Host time seems to be a drift <br>
-    Host reported time is <%= @report.reported_at %> <br>
-    Foreman report creation time is <%= @report.created_at %> <br>
+    Host time seems to be a drift <br/>
+    Host reported time is <%= @report.reported_at %> <br/>
+    Foreman report creation time is <%= @report.created_at %> <br/>
     Which is an offset of <%= distance_of_time_in_words(@report.reported_at, @report.created_at, true) %>
   </div>
 <% end -%>
@@ -14,11 +14,11 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
 <% end -%>
 
 <div class="flash">
-  <table width="100%" border="0">
+  <table style="width:100%;" border="0">
     <tr>
       <td> <b>Metrics</b></td>
       <td>
-        <table width="100%">
+        <table style="width:100%;">
           <% @report.log.metrics["time"].values.each do |name, label, value|-%>
             <% if label == 'Total' then -%>
               <%   @totaltime = value -%>

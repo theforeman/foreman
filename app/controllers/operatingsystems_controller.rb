@@ -37,7 +37,7 @@ class OperatingsystemsController < ApplicationController
     if @operatingsystem.destroy
       flash[:foreman_notice] = "Successfully destroyed operatingsystem."
     else
-      flash[:foreman_error] = @operatingsystem.errors.full_messages.join("<br>")
+      flash[:foreman_error] = @operatingsystem.errors.full_messages.join("<br/>")
     end
     redirect_to operatingsystems_url
   end

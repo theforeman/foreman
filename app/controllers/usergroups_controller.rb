@@ -38,7 +38,7 @@ class UsergroupsController < ApplicationController
       flash[:foreman_notice] = "Successfully destroyed usergroup."
     else
       logger.error @usergroup.errors.full_messages
-      flash[:foreman_error] = @usergroup.errors.full_messages.join "<br>"
+      flash[:foreman_error] = @usergroup.errors.full_messages.join "<br/>"
     end
     redirect_to usergroups_path
   end

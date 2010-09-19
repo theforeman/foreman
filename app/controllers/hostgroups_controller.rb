@@ -37,7 +37,7 @@ class HostgroupsController < ApplicationController
     if @hostgroup.destroy
       flash[:foreman_notice] = "Successfully destroyed hostgroup."
     else
-      flash[:foreman_error] = @template.truncate @hostgroup.errors.full_messages.join("<br>"), 80
+      flash[:foreman_error] = @template.truncate @hostgroup.errors.full_messages.join("<br/>"), 80
     end
     redirect_to hostgroups_url
   end

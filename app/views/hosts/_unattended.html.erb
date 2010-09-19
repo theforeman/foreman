@@ -36,10 +36,10 @@
         <td><%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"] %></td>
       </tr>
     </table>
-    <%= link_to_function "Switch to custom disk layout", toggle_div("custom_disk") %> <br>
-    <span id="custom_disk", style="display:<%= @host.disk.empty? ? "none" : "inline" %>;">
-      <%= f.text_area :disk, :size => "80x10", :title => 'Use custom Disk layout' %><br>
-      <small>What ever text you use in here, would be used as your OS disk layout options<br>
+    <%= link_to_function "Switch to custom disk layout", toggle_div("custom_disk") %> <br/>
+    <span id="custom_disk" style="display:<%= @host.disk.empty? ? "none" : "inline" %>;">
+      <%= f.text_area :disk, :size => "80x10", :title => 'Use custom Disk layout' %><br/>
+      <small>What ever text you use in here, would be used as your OS disk layout options<br/>
         If you want to use the partition table option, delete all of the text from this field
       </small>
     </span>

@@ -1,6 +1,6 @@
 Operating system
 <%= collection_select :host, :operatingsystem_id, @architecture.operatingsystems, :id, :to_label, :include_blank => true %>
-<span id=os_sub_select>
+<span id="os_sub_select">
   <% if @operatingsystem -%>
     <%= render :partial => 'operatingsystem' %>
   <% end -%>
