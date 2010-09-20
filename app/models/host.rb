@@ -284,7 +284,7 @@ class Host < Puppet::Rails::Host
     end
     # by default, puppet doesnt store an env name in the database
     env=fv(:environment) || "production"
-    self.environment = Environment.find_or_create_by_name env
+    self.environment ||= Environment.find_or_create_by_name env
 
     os_name = fv(:operatingsystem)
     if orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
