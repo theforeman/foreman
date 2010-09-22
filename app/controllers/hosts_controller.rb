@@ -6,6 +6,8 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
+  before_filter :find_host, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
+    reports facts storeconfig_klasses clone externalNodes]
 
   helper :hosts, :reports
 
@@ -17,25 +19,29 @@ class HostsController < ApplicationController
   end
 
   def show
-    # filter graph time range
-    @range = (params["range"].empty? ? 7 : params["range"].to_i)
-    range = @range.days.ago
+    respond_to do |format|
+      format.html {
+        # filter graph time range
+        @range = (params["range"].empty? ? 7 : params["range"].to_i)
+        range = @range.days.ago
 
-    @host = Host.find params[:id]
-    graphs = @host.graph(range)
+        graphs = @host.graph(range)
 
-    # runtime graph
-    data = { :labels => graphs[:runtime_labels], :values => graphs[:runtime] }
-    options = { :title => "Runtime"}
-    @runtime_graph = setgraph(GoogleVisualr::AnnotatedTimeLine.new, data, options)
+        # runtime graph
+        data = { :labels => graphs[:runtime_labels], :values => graphs[:runtime] }
+        options = { :title => "Runtime"}
+        @runtime_graph = setgraph(GoogleVisualr::AnnotatedTimeLine.new, data, options)
 
-    # resource graph
-    data = { :labels => graphs[:resources_labels], :values => graphs[:resources] }
-    options = { :title => "Resource", :width => 800, :height => 300, :legend => 'bottom'}
-    @resource_graph = setgraph(GoogleVisualr::LineChart.new, data, options)
+        # resource graph
+        data = { :labels => graphs[:resources_labels], :values => graphs[:resources] }
+        options = { :title => "Resource", :width => 800, :height => 300, :legend => 'bottom'}
+        @resource_graph = setgraph(GoogleVisualr::LineChart.new, data, options)
 
-    # summary report text
-    @report_summary = Report.summarise(range, @host)
+        # summary report text
+        @report_summary = Report.summarise(range, @host)
+      }
+      format.yaml { render :text => @host.info.to_yaml }
+    end
   end
 
   def new
@@ -45,15 +51,15 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
-    @original = Host.find(params[:id])
-    @host = @original.clone
+    new = @host.clone
     load_vars_for_ajax
-    @host.puppetclasses = @original.puppetclasses
+    new.puppetclasses = @host.puppetclasses
     # Clone any parameters as well
-    @original.host_parameters.each{|param| @host.host_parameters << param.clone}
+    @host.host_parameters.each{|param| new.host_parameters << param.clone}
     flash[:error_customisation] = {:header_message => nil, :class => "flash notice", :id => nil,
       :message => "The following fields will need reviewing:" }
-    @host.valid?
+    new.valid?
+    @host = new
     render :action => :new
   end
 
@@ -69,12 +75,10 @@ class HostsController < ApplicationController
   end
 
   def edit
-    @host = Host.find(params[:id])
     load_vars_for_ajax
   end
 
   def update
-    @host = Host.find(params[:id])
     if @host.update_attributes(params[:host])
       flash[:foreman_notice] = "Successfully updated host."
       redirect_to @host
@@ -85,7 +89,6 @@ class HostsController < ApplicationController
   end
 
   def destroy
-    @host = Host.find(params[:id])
     if @host.destroy
       flash[:foreman_notice] = "Successfully destroyed host."
     else
@@ -118,12 +121,7 @@ class HostsController < ApplicationController
   #will return HTML error codes upon failure
 
   def externalNodes
-    # check our parameters and look for a host
-    if params[:id] and @host = Host.find(params[:id])
-    elsif params["name"] and @host = Host.find(:first,:conditions => ["name = ?",params["name"]])
-    else
-      render :text => '404 Not Found', :status => 404 and return
-    end
+    render :text => '404 Not Found', :status => 404 and return unless @host
 
     begin
       respond_to do |format|
@@ -138,7 +136,6 @@ class HostsController < ApplicationController
   end
 
   def puppetrun
-    host = Host.find params[:id]
     if GW::Puppet.run host.name
       flash[:foreman_notice] = "Successfully executed, check log files for more details"
     else
@@ -148,43 +145,31 @@ class HostsController < ApplicationController
   end
 
   def setBuild
-    host = Host.find params[:id]
-    if host.setBuild != false
-      flash[:foreman_notice] = "Enabled #{host.name} for rebuild on next boot"
+    if @host.setBuild != false
+      flash[:foreman_notice] = "Enabled #{@host.name} for rebuild on next boot"
     else
-      flash[:foreman_error] = "Failed to enable #{host.name} for installation"
+      flash[:foreman_error] = "Failed to enable #{@host.name} for installation"
     end
     redirect_to :back
   end
 
   def cancelBuild
-    host = Host.find params[:id]
-    if host.built(false)
-      flash[:foreman_notice] = "Canceled pending build for #{host.name}"
+    if @host.built(false)
+      flash[:foreman_notice] = "Canceled pending build for #{@host.name}"
     else
-      flash[:foreman_error] = "Failed to cancel pending build for #{host.name}"
+      flash[:foreman_error] = "Failed to cancel pending build for #{@host.name}"
     end
     redirect_to :back
-  end
-
-  # generates a link to Puppetmaster RD graphs
-  def rrdreport
-    if SETTINGS[:rrd_report_url].nil? or (host=Host.find(params[:id])).last_report.nil?
-      render :text => "Sorry, no graphs for this host"
-    else
-      render :partial => "rrdreport", :locals => { :host => host}
-    end
   end
 
   # shows the last report for a host
   def report
     # is it safe to assume that the biggest ID is the last report?
-    redirect_to :controller => "reports", :action => "show", :id => Report.maximum('id', :conditions => {:host_id => params[:id]})
+    redirect_to :controller => "reports", :action => "show", :id => Report.maximum('id', :conditions => {:host_id => @host})
   end
 
   # shows all reports for a certain host
   def reports
-    @host = Host.find(params[:id])
     # set defaults search order - cant use default scope due to bug in AR
     # http://github.com/binarylogic/searchlogic/issues#issue/17
     params[:search] ||= {}
@@ -212,11 +197,9 @@ class HostsController < ApplicationController
   end
 
   def facts
-    @host = Host.find(params[:id])
   end
 
   def storeconfig_klasses
-    @host = Host.find(params[:id])
   end
 
   # multiple host selection methods
@@ -440,6 +423,10 @@ class HostsController < ApplicationController
     session[:selected] = []
     flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{hosts.map(&:name).join('<br/>')}"
     redirect_to(hosts_path) and return
+  end
+
+  def find_host
+    @host = Host.find_by_name params[:id]
   end
 
 end
