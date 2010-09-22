@@ -82,6 +82,10 @@ class Host < Puppet::Rails::Host
 
   before_validation :normalize_addresses, :normalize_hostname
 
+  def to_param
+    name
+  end
+
   def <=>(other)
     self.name <=> other.name
   end
