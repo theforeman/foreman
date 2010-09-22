@@ -22,10 +22,25 @@ class CommonParameterTest < ActiveSupport::TestCase
     assert !parameter.save
   end
 
+  test "value can't be empty" do
+    parameter = CommonParameter.new :name => "some parameter", :value => ""
+    assert parameter.value.strip.empty?
+    assert !parameter.save
+  end
+
   test "value can't contain trailing spaces" do
     parameter = CommonParameter.new :name => "some parameter", :value => "   some crazy      value    "
     assert !parameter.value.strip.squeeze(" ").empty?
     assert !parameter.save
+
+    parameter.value.strip!.squeeze!(" ").empty?
+    assert parameter.save
+  end
+
+  test "value can contain spaces and unusual characters" do
+    parameter = CommonParameter.new :name => "some parameter", :value => "   some crazy \"\'&<*%£# value"
+    assert !parameter.value.strip.squeeze(" ").empty?
+    assert parameter.save
 
     parameter.value.strip!.squeeze!(" ").empty?
     assert parameter.save
