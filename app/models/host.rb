@@ -15,7 +15,7 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
 
   named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
-  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled = ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago), true]} }
+  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago), false]} }
 
   named_scope :with_fact, lambda { |fact,value|
     unless fact.nil? or value.nil?
