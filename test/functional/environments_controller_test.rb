@@ -121,7 +121,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert Puppetclass.find_by_name("base")
   end
 
-  test "should report new and obsolete classes and environements" do
+  test "should report new and obsolete classes and environments" do
     # Existing envs    are production and global_puppetmaster
     # Existing classes are base and apache
     Environment.expects(:puppetEnvs).returns(:production          => "/etc/puppet/env/muc",
@@ -137,5 +137,23 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_select "input#changed_new_environments_[value=dog]"
     assert_select "input#changed_obsolete_puppetclasses_[value=apache]"
     assert_select "input#changed_new_puppetclasses_[value=c]"
+  end
+
+  test "should obey config/ignored_classes_and_environments.yml" do
+    @request.env["HTTP_REFERER"] = environments_url
+    # Existing envs    are production and global_puppetmaster
+    # Existing classes are base and apache
+    Environment.expects(:puppetEnvs).returns(:production          => "/etc/puppet/env/muc",
+                                             :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
+                                            ).at_least_once
+    Puppetclass.expects(:scanForClasses).returns(["base", "c"]).at_least_once
+
+    FileUtils.cp Rails.root.to_s + "/test/functional/ignored_classes_and_environments.yml", Rails.root.to_s + "/config/ignored_classes_and_environments.yml"
+    # New envs are dog, obsolete envs are global_puppetmaster
+    # New classes are c, obsolete classes are apache
+    post :import_environments, {}, set_session_user
+    FileUtils.rm_f Rails.root.to_s + "/config/ignored_classes_and_environments.yml"
+
+    assert_redirected_to environments_url
   end
 end

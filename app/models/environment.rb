@@ -45,7 +45,9 @@ class Environment < ActiveRecord::Base
     # If we are deleting data then assure ourselves that we are using sensible values
     for env, paths in envs
       for path in paths.split ":"
-        raise "Unable to find directory #{path} in environment #{env}" unless File.directory? path
+        if Rails.env != "test"
+          raise "Unable to find directory #{path} in environment #{env}" unless File.directory?(path)
+        end
         pclasses << Puppetclass.scanForClasses(path)
       end
     end
@@ -60,9 +62,22 @@ class Environment < ActiveRecord::Base
     replacement[:environments]  = envs.keys.map(&:to_s).sort
     replacement[:puppetclasses] = pclasses.sort
 
-    return :obsolete => {:environments => [original[:environments]].flatten - [replacement[:environments]].flatten,      :puppetclasses => [original[:puppetclasses]].flatten - [replacement[:puppetclasses]].flatten},
-           :new      => {:environments => [replacement[:environments]].flatten      - [original[:environments]].flatten, :puppetclasses => [replacement[:puppetclasses]].flatten      - [original[:puppetclasses]].flatten }
+    changes =  {:obsolete => {:environments  => original[:environments]     - replacement[:environments],
+                              :puppetclasses => original[:puppetclasses]    - replacement[:puppetclasses]},
+               :new       => {:environments  => replacement[:environments]  - original[:environments],
+                              :puppetclasses => replacement[:puppetclasses] - original[:puppetclasses] }
+               }
 
+    # Remove any classes or environments that are in config/ignored_classes_and_environments.yml
+    ignored_file = File.join(Rails.root.to_s, "config", "ignored_classes_and_environments.yml")
+    if File.exist? ignored_file
+      ignored = YAML.load_file ignored_file
+      changes[:new][:environments]       -= ignored[:new][:environments]
+      changes[:new][:puppetclasses]      -= ignored[:new][:puppetclasses]
+      changes[:obsolete][:environments]  -= ignored[:obsolete][:environments]
+      changes[:obsolete][:puppetclasses] -= ignored[:obsolete][:puppetclasses]
+    end
+    changes
   end
 
   # Update the environments and puppetclasses based upon the user's selection
@@ -80,6 +95,7 @@ class Environment < ActiveRecord::Base
       Puppetclass.find_or_create_by_name pclass
     end
 
+    errors = ""
     # Then we create any new environments and attach the puppetclasses
     for env, paths in self.puppetEnvs
       if changed[:new][:environments].include? env.to_s
@@ -90,14 +106,18 @@ class Environment < ActiveRecord::Base
             pcs = Puppetclass.scanForClasses(modulepath)
             # We do not bind classes to be deleted to the new environment
             pcs -= changed[:obsolete][:puppetclasses]
-            env.puppetclasses = pcs.map{|pc| Puppetclass.find_by_name(pc)}
+            env.puppetclasses = pcs.map do |pc|
+              if (theClass = Puppetclass.find_by_name(pc)).nil?
+                errors += "Unable to find puppetclass #{pc} to attach to #{env.name}<br/>"
+              end
+              theClass
+            end.compact
           end
         end
       end
     end
 
     # We now delete the obsolete puppetclasses
-    errors = ""
     for pclass in changed[:obsolete][:puppetclasses]
       (pc = Puppetclass.find_by_name(pclass)).destroy
       pc.errors.each_full {|msg| errors += "#{msg}<br/>"} unless pc.errors.empty?

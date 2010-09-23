@@ -7,7 +7,7 @@ class PtablesControllerTest < ActionController::TestCase
   end
 
   def test_show_json
-    get :show, {:id => Ptable.first.id}, :format => :json
+    get :show, {:id => Ptable.first.id}, :format => :json, :user => users(:admin).id
     json = ActiveSupport::JSON.decode(@response.body)
     assert_equal "default", json["ptable"]["name"]
   end

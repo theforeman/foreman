@@ -1,0 +1,16 @@
+---
+:obsolete:
+  :environments:
+  - global_puppetmaster
+  - another_environment_you wish_to_keep_in_foreman
+  :puppetclasses:
+  - apache
+  - another_pupetclass_you_wish_to_keep_in_foreman
+:new:
+  :environments:
+  - dog
+  - another_environment_that_you_do_not_want_to_add_to_foreman
+  :puppetclasses:
+  - c
+  - another_puppetclass_that_you_do_not_want_to_add_to_foreman
+

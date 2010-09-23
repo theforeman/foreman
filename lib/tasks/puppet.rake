@@ -3,6 +3,7 @@
 #    fields in Foreman with what is already present in your database from
 #    StoragedConfig.
 require 'rake/clean'
+require 'yaml'
 
 namespace :puppet do
   root    = "/"
@@ -53,16 +54,69 @@ namespace :puppet do
       end
     end
   end
-  #TODO: remove old classes
   namespace :import do
-    desc "Update puppet environments and classes"
-    task :puppet_classes => :environment do
-      ec, pc = Environment.count, Puppetclass.count
-      Environment.importClasses
-      puts "Environment   old:#{ec}\tcurrent:#{Environment.count}"
-      puts "PuppetClasses old:#{pc}\tcurrent:#{Puppetclass.count}"
+    desc "Update puppet environments and classes. Optional batch flag triggers run with no prompting"
+    task :puppet_classes,  [:batch] => :environment do | t, args |
+      args.batch = args.batch == "true"
+      # Evalute any changes that exist between the database of environments and puppetclasses and
+      # the on-disk puppet installation
+      begin
+        puts "Evaluating possible changes to your installation" unless args.batch
+        changes = Environment.importClasses
+      rescue => e
+        unless args.batch
+          puts "Problems were detected during the evaluation phase"
+          puts
+          puts e.message.gsub(/<br\/>/, "\n") + "\n"
+          puts
+          puts "Please fix these issues and try again"
+        else
+          Rails.logger "Failed to refresh puppet classes:" + e.message
+        end
+        exit
+      end
+
+      unless changes[:new][:environments].empty?      and changes[:new][:puppetclasses].empty? and
+             changes[:obsolete][:environments].empty? and changes[:obsolete][:puppetclasses].empty?
+        unless args.batch
+          puts "Scheduled changes to your environment"
+          puts "New      environments  : " + changes[:new][:environments].to_sentence
+          puts "Obsolete environments  : " + changes[:obsolete][:environments].to_sentence
+          puts "New      puppetclasses : " + changes[:new][:puppetclasses].to_sentence
+          puts "Obsolete puppetclasses : " + changes[:obsolete][:puppetclasses].to_sentence
+          puts
+          print "Proceed with these modifications? <yes|no> "
+          response = $stdin.gets
+
+          exit unless response =~ /^yes/
+        end
+
+        errors = ""
+        # Apply the filtered changes to the database
+        begin
+          errors = Environment.obsolete_and_new changes
+        rescue e
+          errors = e.message + "\n"
+        end
+        unless args.batch
+          unless errors.empty?
+            puts "Problems were detected during the execution phase"
+            puts
+            puts errors.gsub(/<br\/>/, "\n") + "\n"
+            puts
+            puts "Import failed"
+          else
+            puts "Import complete"
+          end
+        else
+          Rails.logger "Failed to refresh puppet classes:" + errors
+        end
+      else
+        puts "No changes detected" unless args.batch
+      end
     end
   end
+
   namespace :import do
     desc "
     Import your hosts classes and parameters classifications from another external node source.

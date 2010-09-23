@@ -1,0 +1,16 @@
+---
+:obsolete:
+  :environments:
+  - an_environment_you wish_to_keep_in_foreman
+  - another_environment_you wish_to_keep_in_foreman
+  :puppetclasses:
+  - a_puppetclass_you_wish_to_keep_in_foreman
+  - another_pupetclass_you_wish_to_keep_in_foreman
+:new:
+  :environments:
+  - an_environment_that_you_do_not_want_to_add_to_foreman
+  - another_environment_that_you_do_not_want_to_add_to_foreman
+  :puppetclasses:
+  - a_puppetclass_that_you_do_not_want_to_add_to_foreman
+  - another_puppetclass_that_you_do_not_want_to_add_to_foreman
+

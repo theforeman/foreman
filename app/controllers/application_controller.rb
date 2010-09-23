@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   def import_environments
     @changed = Environment.importClasses
     if @changed[:obsolete][:environments].size > 0 or @changed[:obsolete][:puppetclasses].size > 0 or
-       @changed[:new][:environments].size > 0      or @changed[:new][:puppetclasses].size
+       @changed[:new][:environments].size > 0      or @changed[:new][:puppetclasses].size > 0
        @grouping = 3
       render :partial => "common/puppetclasses_or_envs_changed", :layout => true
     else
