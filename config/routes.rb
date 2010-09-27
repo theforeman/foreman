@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => {:id => /[^\/]+/},
     :member => { :report => :get, :reports => :get, :clone => :get,
       :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
-      :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :cancelBuild => :get, :puppetrun => :get },
+      :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :cancelBuild => :get, :puppetrun => :get, :facts => :get },
     :collection => { :show_search => :get, :multiple_actions => :get, :multiple_parameters => :get,
       :update_multiple_parameters => :post, :save_checkbox => :post, :select_multiple_hostgroup => :get,
       :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,

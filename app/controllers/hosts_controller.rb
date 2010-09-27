@@ -12,10 +12,15 @@ class HostsController < ApplicationController
   helper :hosts, :reports
 
   def index
-    @search = Host.search(params[:search])
-    @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment]
-    @via    = "fact_values_"
-    @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+    respond_to do |format|
+      format.html do
+        @search = Host.search(params[:search])
+        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment]
+        @via    = "fact_values_"
+        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+      end
+      format.json { render :json => Host.all(:select => [:name]).to_json(:only => :name) }
+    end
   end
 
   def show
@@ -41,6 +46,7 @@ class HostsController < ApplicationController
         @report_summary = Report.summarise(range, @host)
       }
       format.yaml { render :text => @host.info.to_yaml }
+      format.json { render :json => @host }
     end
   end
 
@@ -185,9 +191,7 @@ class HostsController < ApplicationController
         hash = {}
         h = Host.find_by_name host
         hash[host] = h.info
-        facts = {}
-        h.fact_values.each {|fv| facts[fv.fact_name.name] = fv.value}
-        hash[host]["facts"]= facts
+        hash[host]["facts"]= h.facts_hash
         hash
       end
     end
@@ -198,6 +202,10 @@ class HostsController < ApplicationController
   end
 
   def facts
+    respond_to do |format|
+      format.html { redirect_to fact_values_path(:search => {:host_name_eq => @host})}
+      format.json { render :json => @host.facts_hash }
+    end
   end
 
   def storeconfig_klasses

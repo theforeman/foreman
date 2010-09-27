@@ -407,6 +407,15 @@ class Host < Puppet::Rails::Host
     return (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) ? build == false : false
   end
 
+  def facts_hash
+    hash = {}
+    fact_values.all(:include => :fact_name).collect do |fact|
+      hash[fact.fact_name.name] = fact.value
+      hash
+    end
+    return hash
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
