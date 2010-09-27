@@ -29,4 +29,8 @@ class FactValue < Puppet::Rails::FactValue
     hash
   end
 
+  def as_json(options={})
+    super(:only => :value, :include => {:fact_name => {:only => :name }, :host => {:only => :name} } )
+  end
+
 end

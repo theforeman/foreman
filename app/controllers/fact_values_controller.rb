@@ -7,9 +7,16 @@ class FactValuesController < ApplicationController
   filter_parameter_logging :facts
 
   def index
-    @search      = FactValue.search(params[:search])
-    @fact_values = @search.paginate :page => params[:page], :include => [:fact_name, { :host => :domain }]
-    @via         = ""
+    respond_to do |format|
+      format.html do
+        @search      = FactValue.search(params[:search])
+        @fact_values = @search.paginate :page => params[:page], :include => [:fact_name, { :host => :domain }]
+        @via         = ""
+      end
+      format.json do
+        render :json => FactValue.all(:include => [:fact_name, :host])
+      end
+    end
   end
 
   def create
