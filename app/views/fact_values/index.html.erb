@@ -9,7 +9,7 @@
   <% for fact_value in @fact_values %>
     <% next if fact_value.name == "--- :_timestamp\n" -%>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to(h(fact_value.host.nil? ? "N/A" : fact_value.host.shortname), hosts_path("search[id_eq]"=> fact_value.host)) %></td>
+      <td><%= link_to(h(fact_value.host.nil? ? "N/A" : fact_value.host.shortname), hosts_path("search[id_eq]"=> fact_value.host_id)) %></td>
       <td>
         <%= link_to h(fact_value.fact_name.name),
           fact_values_path("search[fact_name_id_eq]" => fact_value.fact_name),
