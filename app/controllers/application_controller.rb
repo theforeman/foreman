@@ -95,6 +95,10 @@ class ApplicationController < ActionController::Base
     render :text => 'Invalid query', :status => 400 and return
   end
 
+  def not_found
+    render :text => "404 Not Found\n", :status => 404
+  end
+
   def setgraph chart, data, options = {}
     data[:labels].each {|l| chart.add_column *l }
     chart.add_rows data[:values]
