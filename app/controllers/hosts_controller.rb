@@ -121,8 +121,8 @@ class HostsController < ApplicationController
   #will return HTML error codes upon failure
 
   def externalNodes
-    @host ||= Host.find_by_name params[:name]
-    render :text => '404 Not Found', :status => 404 and return unless @host
+    @host ||= Host.find_by_name(params[:name]) if params[:name]
+    not_found and return unless @host
 
     begin
       respond_to do |format|
@@ -132,7 +132,7 @@ class HostsController < ApplicationController
     rescue
       # failed
       logger.warn "Failed to generate external nodes for #{@host.name} with #{$!}"
-      render :text => 'Unable to generate output, Check log files', :status => 412 and return
+      render :text => 'Unable to generate output, Check log files\n', :status => 412 and return
     end
   end
 
@@ -384,7 +384,7 @@ class HostsController < ApplicationController
       counter +=1
     end unless group.nil?
 
-    render :text => '404 Not Found', :status => 404 and return if @hosts.empty?
+    not_found if @hosts.empty?
   end
 
   def ajax_methods
@@ -427,7 +427,9 @@ class HostsController < ApplicationController
   end
 
   def find_host
-    @host = Host.find_by_name params[:id]
+    if params[:id]
+      render not_found unless @host = Host.find_by_name(params[:id])
+    end
   end
 
 end
