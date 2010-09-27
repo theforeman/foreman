@@ -121,6 +121,7 @@ class HostsController < ApplicationController
   #will return HTML error codes upon failure
 
   def externalNodes
+    @host ||= Host.find_by_name params[:name]
     render :text => '404 Not Found', :status => 404 and return unless @host
 
     begin
