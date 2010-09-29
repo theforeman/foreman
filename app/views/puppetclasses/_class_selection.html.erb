@@ -12,16 +12,16 @@
           <%= render :partial => "puppetclasses/selectedClasses",
             :collection => obj.puppetclasses ,:as => :klass,
             :locals => { :type => obj.class.to_s.downcase } %>
-          </div>
-          <% if (klasses = obj.hostgroup.try(:puppetclasses)).is_a?(Array) and obj.is_a?(Host) -%>
-            <% for klass in klasses.sort -%>
-              <li title="included already from host group"><%= h klass.name %></li>
-            <% end -%>
+        </div>
+        <% if (klasses = obj.hostgroup.try(:puppetclasses)).is_a?(Array) and obj.is_a?(Host) -%>
+          <% for klass in klasses.sort -%>
+            <li title="included already from host group"><%= h klass.name %></li>
           <% end -%>
-        </td>
+        <% end -%>
+      </td>
 
-        <%= render :partial => "puppetclasses/classes", :locals =>
-        {:puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all) - obj.all_puppetclasses, :type => obj.class.to_s.downcase } %>
-      </tr>
-    </table>
-  <% end -%>
+      <%= render :partial => "puppetclasses/classes", :locals =>
+      {:puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all) - obj.all_puppetclasses, :type => obj.class.to_s.downcase } %>
+    </tr>
+  </table>
+<% end -%>
