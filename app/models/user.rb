@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
 
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy Ensure_not_used_by.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup
   before_validation :prepare_password
 
@@ -36,6 +36,14 @@ class User < ActiveRecord::Base
   # The text item to see in a select dropdown menu
   def select_title
     to_label + " (#{login})"
+  end
+
+  def self.create_admin
+    email = SETTINGS[:administrator] || "root@" + Facter.domain
+    user = User.create(:login => "admin", :firstname => "Admin", :lastname => "User",
+                :mail => email, :auth_source => AuthSourceInternal.first, :password => "changeme")
+    user.update_attribute :admin, true
+    user
   end
 
   def self.try_to_login(login, password)
@@ -107,6 +115,17 @@ class User < ActiveRecord::Base
   def name_used_in_a_usergroup
     if Usergroup.all.map(&:name).include?(self.login)
       errors.add_to_base "A usergroup already exists with this name"
+    end
+  end
+
+  # The internal Admin Account is always available
+  # this is required as when not using external authentication, the systems logs you in with the
+  # admin account automatically
+  def ensure_admin_is_not_deleted
+    if login == "admin"
+      errors.add_to_base "Can't Delete Internal Admin account"
+      logger.warn "Unable to delete Internal Admin Account"
+      return false
     end
   end
 

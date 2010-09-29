@@ -82,5 +82,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal nil, User.try_to_login("anything", "")
   end
   # couldn't continue testing the rest of login method cause use auth_source.authenticate, which is not implemented yet
+
+  test  "should not be able to delete the admin account" do
+    assert !User.find_by_login("admin").destroy
+  end
 end
 

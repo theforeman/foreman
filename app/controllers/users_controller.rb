@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   end
 
   # Called from the login form.
-  # Stores the username in the session and redirects required URL or default homepage
+  # Stores the user id in the session and redirects required URL or default homepage
   def login
     session[:user] = nil
     if request.post?

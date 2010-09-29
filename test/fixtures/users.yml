@@ -16,4 +16,13 @@ two:
   mail: usertwo@someware.com
   admin: false
   last_login_on: 2009-10-12 21:50:04
-  auth_source: auth_sources(:one)
+  auth_source_id: 1
+
+admin:
+  login: admin
+  firstname: Admin
+  lastname: User
+  mail: a@b.c.com
+  admin: true
+  last_login_on: 2009-10-12 21:50:04
+  auth_source_id: 1

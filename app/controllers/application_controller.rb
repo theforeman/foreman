@@ -77,18 +77,28 @@ class ApplicationController < ActionController::Base
   end
 
 
-  #Force a user to login if ldap authentication is enabled
+  # Force a user to login if authentication is enabled
+  # Sets @user to the logged in user, or to admin if logins are not used
   def require_login
-    return true unless SETTINGS[:login]
-    unless session[:user] and @username = User.find(session[:user])
-      session[:original_uri] = request.request_uri
-      redirect_to login_users_path
+    unless session[:user] and @user = User.find(session[:user])
+      # User is not found or first login
+      if SETTINGS[:login] and SETTINGS[:login] == true
+        # authentication is enabled
+        session[:original_uri] = request.request_uri # keep the old request uri that we can redirect later on
+        redirect_to login_users_path and return
+      else
+        # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
+        unless @user = User.find_by_login("admin")
+          flash[:foreman_error] = "Unable to find internal system admin account - Recreating . . ."
+          @user = User.create_admin
+        end
+        session[:user] = @user.id
+      end
     end
   end
 
-  # returns current user
   def current_user
-    @username
+    @user
   end
 
   def invalid_request

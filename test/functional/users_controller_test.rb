@@ -79,10 +79,19 @@ class UsersControllerTest < ActionController::TestCase
     return unless SETTINGS[:login]
     @request.env['HTTP_REFERER'] = users_path
     user = users(:one)
-    delete :destroy, {:id => user}, {:user => user}
+    delete :destroy, {:id => user.id}, {:user => user.id}
     assert_redirected_to users_url
-    assert User.exists?(user.id)
+    assert User.exists?(user)
     assert @response.flash[:foreman_notice] == "You are currently logged in, suicidal?"
+  end
+
+  test "should recreate the admin account" do
+    return true unless SETTINGS[:login]
+    return true unless SETTINGS[:login] == false
+    User.find_by_login("admin").delete # Of course we only use destroy in the codebase
+    assert User.find_by_login("admin").nil?
+    get :index, {}, {:user => nil}
+    assert !User.find_by_login("admin").nil?
   end
 
 end
