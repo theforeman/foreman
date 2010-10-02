@@ -54,8 +54,9 @@ PAGE_SIZE=10000
 
 namespace :db do
   namespace :convert do
-    desc 'Convert/import production data to development.   DANGER Deletes all data in the development database.   Assumes both schemas are already migrated.'
-    task :prod2dev => :environment do
+    desc 'Convert/import production data to development.   DANGER Deletes all data in the development database.
+          Assumes both schemas are already migrated. Optional parameters: access this table for this many records'
+    task :prod2dev, [:table, :records] => :environment do |t, args|
 
       # We need unique classes so ActiveRecord can hash different connections
       # We do not want to use the real Model classes because any business
@@ -67,7 +68,13 @@ namespace :db do
 
       skip_tables = ["schema_info", "schema_migrations", "hosts_backup"]
       ActiveRecord::Base.establish_connection(:production)
-      (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
+      if args.table
+        tables = [args.table]
+      else
+        tables = ActiveRecord::Base.connection.tables - skip_tables
+      end
+
+      tables.each do |table_name|
 
         ProductionModelClass.set_table_name(table_name)
         DevelopmentModelClass.set_table_name(table_name)
@@ -95,6 +102,7 @@ namespace :db do
               new_model.save(false)
             end
           end
+          break if args.records and args.records.to_i > offset
         end
         print "#{count} records converted\n"
       end
