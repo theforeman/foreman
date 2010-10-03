@@ -1,11 +1,21 @@
 class EnvironmentsController < ApplicationController
+  before_filter :find_environment, :only => %w{show edit update destroy}
+
   def index
-    @search       = Environment.search(params[:search])
-    @environments = @search.paginate :page => params[:page]
+    respond_to do |format|
+      format.html do
+        @search       = Environment.search(params[:search])
+        @environments = @search.paginate :page => params[:page]
+      end
+      format.json { render :json => Environment.all.as_json(:only => :name) }
+    end
   end
 
   def show
-    @environment = Environment.find(params[:id])
+    respond_to do |format|
+      format.html { invalid_request }
+      format.json { render :json => @environment.as_json(:include => :hosts)}
+    end
   end
 
   def new
@@ -23,11 +33,9 @@ class EnvironmentsController < ApplicationController
   end
 
   def edit
-    @environment = Environment.find(params[:id])
   end
 
   def update
-    @environment = Environment.find(params[:id])
     if @environment.update_attributes(params[:environment])
       flash[:foreman_notice] = "Successfully updated environment."
       redirect_to environments_path
@@ -37,13 +45,17 @@ class EnvironmentsController < ApplicationController
   end
 
   def destroy
-    @environment = Environment.find(params[:id])
     if @environment.destroy
       flash[:foreman_notice] = "Successfully destroyed '#{@environment.name}''"
     else
       flash[:foreman_error]  = @environment.errors.full_messages.join("<br/>")
     end
     redirect_to environments_url
+  end
+
+  private
+  def find_environment
+    @environment = Environment.find_by_name(params[:id])
   end
 
 end

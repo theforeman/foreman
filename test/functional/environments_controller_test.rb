@@ -25,7 +25,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    get :edit, {:id => environment.id}, set_session_user
+    get :edit, {:id => environment.name}, set_session_user
     assert_response :success
   end
 
@@ -33,9 +33,9 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    put :update, { :commit => "Update", :id => environment.id, :environment => {:name => "other_environment"} }, set_session_user
-    environment = Environment.find_by_id(environment.id)
-    assert environment.name == "other_environment"
+    put :update, { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
+    env = Environment.find(environment)
+    assert env.name == "other_environment"
 
     assert_redirected_to environments_path
   end
@@ -45,7 +45,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert environment.save!
 
     assert_difference('Environment.count', -1) do
-      delete :destroy, {:id => environment.id}, set_session_user
+      delete :destroy, {:id => environment.name}, set_session_user
     end
 
     assert_redirected_to environments_path

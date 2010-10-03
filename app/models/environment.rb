@@ -8,6 +8,10 @@ class Environment < ActiveRecord::Base
 
   before_destroy Ensure_not_used_by.new(:hosts)
 
+  def to_param
+    name
+  end
+
   # returns an hash of all puppet environments and their relative paths
   def self.puppetEnvs
     env = Hash.new
@@ -106,5 +110,10 @@ class Environment < ActiveRecord::Base
     end
     errors
   end
+
+  def as_json(options={})
+    super({:only => :name}.merge(options))
+  end
+
 
 end
