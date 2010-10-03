@@ -215,6 +215,7 @@ class HostsController < ApplicationController
 
   def reset_multiple
     session[:selected] = []
+    flash.keep
     flash[:foreman_notice] = 'Selection cleared.'
     redirect_to hosts_path and return
   end
@@ -412,7 +413,13 @@ class HostsController < ApplicationController
       flash[:foreman_error] = 'No Hosts selected'
       redirect_to(hosts_path)
     else
-      @hosts = Host.find(session[:selected], :order => "hostgroup_id ASC")
+      begin
+        @hosts = Host.find(session[:selected], :order => "hostgroup_id ASC")
+      rescue
+        flash[:foreman_error] = "Something went wrong while selecting hosts - resetting ..."
+        flash.keep(:foreman_error)
+        redirect_to reset_multiple_hosts_path
+      end
     end
   end
 
