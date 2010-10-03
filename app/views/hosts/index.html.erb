@@ -2,7 +2,6 @@
 <%= render 'minilist', :hosts => @hosts, :header => "Hosts" %>
 <span class="title_action">
   <%= link_to "New Host", new_host_path %> |
-  <%= link_to_function "Toggle All", "toggleCheck()" %>
+  <%= link_to_function "Toggle All", "toggleCheck()" %> |
+  <%= link_to "Reset Selection", reset_multiple_hosts_path %>
 </span>
-
-
