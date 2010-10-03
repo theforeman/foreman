@@ -26,10 +26,10 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
             <% end -%>
             <tr>
               <td> <%= h label %> </td>
-              <td> <%= h value.round_with_precision(4) %> </td>
+              <td> <%= value.round_with_precision(4) rescue "N/A"%> </td>
             </tr>
           <% end %>
-          <tr><td class="last_row">Total</td><td class="last_row"><%= h @totaltime.round_with_precision(4) %></td></tr>
+          <tr><td class="last_row">Total</td><td class="last_row"><%= h @totaltime.round_with_precision(4) rescue "N/A"%></td></tr>
         </table>
       </td>
     </tr>
