@@ -73,7 +73,7 @@ class UsersController < ApplicationController
         session[:user] = user.id
         uri = session[:original_uri]
         session[:original_uri] = nil
-        redirect_to (uri || {:controller => 'hosts'})
+        redirect_to (uri || hosts_path)
       end
     end
   end
