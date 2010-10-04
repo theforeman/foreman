@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   filter_parameter_logging :password, :password_confirmation
-  before_filter :require_login, :except => [:login, :logout]
+  skip_before_filter :require_login, :only => [:login, :logout]
 
   def index
     # set defaults search order - cant use default scope due to bug in AR

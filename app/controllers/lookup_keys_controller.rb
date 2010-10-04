@@ -1,6 +1,6 @@
 class LookupKeysController < ApplicationController
-  before_filter :require_login, :except => :q
-  before_filter :require_ssl, :except => :q
+  skip_before_filter :require_login, :only => :q
+  skip_before_filter :require_ssl, :only => :q
 
   def index
     @lookup_key = LookupKey.all

@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   before_filter :prefetch_data, :graphs, :only => :index
-  before_filter :load_tabs, :manage_tabs,:only => [:errors, :OutOfSync, :active, :disabled]
+  skip_before_filter :load_tabs, :manage_tabs
   helper :hosts
 
   def index
