@@ -46,14 +46,15 @@ class UsergroupTest < ActiveSupport::TestCase
 
   test "hosts should be retrieved from recursive/complex usergroup definitions" do
     populate_usergroups
+    domain = Domain.find_or_create_by_name("someware.com")
 
     Host.with_options :architecture => Architecture.first, :environment => Environment.first, :operatingsystem => Operatingsystem.first, :ptable => Ptable.first do |object|
-      @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "192.168.3.1", :mac => "223344556601", :owner => @u1
-      @h2 = object.find_or_create_by_name :name => "h2.someware.com", :ip => "192.168.3.2", :mac => "223344556602", :owner => @ug2
-      @h3 = object.find_or_create_by_name :name => "h3.someware.com", :ip => "192.168.3.3", :mac => "223344556603", :owner => @u3
-      @h4 = object.find_or_create_by_name :name => "h4.someware.com", :ip => "192.168.3.4", :mac => "223344556604", :owner => @ug5
-      @h5 = object.find_or_create_by_name :name => "h5.someware.com", :ip => "192.168.3.5", :mac => "223344556605", :owner => @u2
-      @h6 = object.find_or_create_by_name :name => "h6.someware.com", :ip => "192.168.3.6", :mac => "223344556606", :owner => @ug3
+      @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "192.168.3.1", :mac => "223344556601", :owner => @u1, :domain => domain
+      @h2 = object.find_or_create_by_name :name => "h2.someware.com", :ip => "192.168.3.2", :mac => "223344556602", :owner => @ug2, :domain => domain
+      @h3 = object.find_or_create_by_name :name => "h3.someware.com", :ip => "192.168.3.3", :mac => "223344556603", :owner => @u3, :domain => domain
+      @h4 = object.find_or_create_by_name :name => "h4.someware.com", :ip => "192.168.3.4", :mac => "223344556604", :owner => @ug5, :domain => domain
+      @h5 = object.find_or_create_by_name :name => "h5.someware.com", :ip => "192.168.3.5", :mac => "223344556605", :owner => @u2, :domain => domain
+      @h6 = object.find_or_create_by_name :name => "h6.someware.com", :ip => "192.168.3.6", :mac => "223344556606", :owner => @ug3, :domain => domain
     end
     assert @u1.hosts.sort == [@h1]
     assert @u2.hosts.sort == [@h2, @h5]
@@ -75,7 +76,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
   test "cannot be destroyed when in use by a host" do
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @h1  = Host.find_or_create_by_name :name => "h1.someware.com", :ip => "192.168.3.1", :mac => "223344556601", :owner => @ug1, :architecture => Architecture.first,
+    @h1  = Host.find_or_create_by_name :name => "h1.someware.com", :ip => "192.168.3.1", :mac => "223344556601", :owner => @ug1, :architecture => Architecture.first, :domain => Domain.find_or_create_by_name("someware.com"),
       :environment => Environment.first, :operatingsystem => Operatingsystem.first, :ptable => Ptable.first
     @ug1.destroy
     assert @ug1.errors.full_messages[0] == "ug1 is used by h1.someware.com"

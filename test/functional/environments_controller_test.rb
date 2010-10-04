@@ -93,6 +93,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
                                             ).at_least_once
     host = hosts(:myfullhost)
     host.environment = Environment.find_by_name("production")
+    host.domain = Domain.find_or_create_by_name("mydomain.com")
     assert host.save
     assert Host.find_by_name("myfullname.mydomain.com").environment == Environment.find_by_name("production")
     post :obsolete_and_new, { "changed"=>{
@@ -110,6 +111,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     host = hosts(:myfullhost)
     host.puppetclasses = [Puppetclass.find_by_name("base")]
     host.environment = Environment.find_by_name("production")
+    host.domain = Domain.find_or_create_by_name("mydomain.com")
     assert host.save
     assert Host.find_by_name("myfullname.mydomain.com").puppetclasses == [Puppetclass.find_by_name("base")]
     post :obsolete_and_new, { "changed"=>{

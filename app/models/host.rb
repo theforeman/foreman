@@ -445,18 +445,13 @@ class Host < Puppet::Rails::Host
   end
 
   # ensure that host name is fqdn
-  # if they user inputed short name, the domain name will be appended
+  # if the user inputed short name, the domain name will be appended
   # this is done to ensure compatibility with puppet storeconfigs
-  # if the user added a domain, and the domain doesn't exist, we add it dynamically.
   def normalize_hostname
-    # no hostname was given, since this is before validation we need to ignore it and let the validations to produce an error
-    unless name.empty?
-      if name.count(".") == 0
-        self.name = name + "." + domain.name unless domain.nil?
-      else
-        self.domain = Domain.find_or_create_by_name name.split(".")[1..-1].join(".") if domain.nil?
-      end
-    end
+    # no hostname was given or a domain was selected, since this is before validation we need to ignore
+    # it and let the validations to produce an error
+    return if name.empty? or domain.nil?
+    self.name += ".#{domain}" unless name =~ /.#{domain}$/
   end
 
 end
