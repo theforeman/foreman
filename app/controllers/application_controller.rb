@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
-  before_filter :load_tabs, :manage_tabs
-  before_filter :welcome, :only => :index
+  before_filter :load_tabs, :manage_tabs, :unless => :request_json?
+  before_filter :welcome, :only => :index, :unless => :request_json?
 
   # host list AJAX methods
   # its located here, as it might be requested from the dashboard controller or via the hosts controller
@@ -84,6 +84,11 @@ class ApplicationController < ActionController::Base
       # User is not found or first login
       if SETTINGS[:login] and SETTINGS[:login] == true
         # authentication is enabled
+        if request_json?
+          # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
+          @user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
+          return !@user.nil?
+        end
         session[:original_uri] = request.request_uri # keep the old request uri that we can redirect later on
         redirect_to login_users_path and return
       else
@@ -92,7 +97,7 @@ class ApplicationController < ActionController::Base
           flash[:foreman_error] = "Unable to find internal system admin account - Recreating . . ."
           @user = User.create_admin
         end
-        session[:user] = @user.id
+        session[:user] = @user.id unless request_json?
       end
     end
   end
@@ -125,6 +130,10 @@ class ApplicationController < ActionController::Base
     #logger.debug "defined?(#{klass}) is ->#{eval "defined?(#{klass})"}<-"
     render :welcome and return if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?" rescue nil
     false
+  end
+
+  def request_json?
+    request.format.json?
   end
 
   private
