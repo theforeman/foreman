@@ -1,0 +1,47 @@
+# Red Hat Registration Snippet
+<% if @host.params["activation_key"] -%>
+# Discovered Activation Key <%= @host.params["activation_key"] %>
+satellite_hostname="spacewalk.tradition.int"
+rhn_activation_key="<%= @host.params["activation_key"] -%>"
+rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
+
+echo "Registering to RHN Satellite at [$satellite_hostname]"
+echo "Using Registration Key [$rhn_activation_key]"
+
+# Obtain our RHN Satellite Certificate
+echo "Obtaining RHN SSL certificate"
+wget http://$satellite_hostname/pub/$rhn_cert_file -O /usr/share/rhn/$rhn_cert_file
+
+# Update our up2date configuration file
+echo "Updating SSL CA Certificate to /usr/share/rhn/$rhn_cert_file"
+sed -i -e "s|^sslCACert=.*$|sslCACert=/usr/share/rhn/$rhn_cert_file|" /etc/sysconfig/rhn/up2date
+
+# Update our Satellite Hostname
+echo "Updating Satellite Hostname to [$satellite_hostname]"
+sed -i -e "s|^serverURL=.*$|serverURL=https://$satellite_hostname/XMLRPC|" /etc/sysconfig/rhn/up2date
+sed -i -e "s|^noSSLServerURL=.*$|noSSLServerURL=https://$satellite_hostname/XMLRPC|" /etc/sysconfig/rhn/up2date
+
+# Restart messagebus/HAL to try and prevent hardware detection errors in rhnreg_ks
+echo "Restarting services..."
+service messagebus restart
+service hald restart
+
+# Now, perform our registration
+#  (might get hardware errors here, due to dbus/messagebus lameness. These are safe to ignore.)
+echo -n "Performing RHN Registration... "
+rhnreg_ks --activationkey=$rhn_activation_key
+echo "done."
+
+# Check we registered
+echo -n "Checking System Registration... "
+if ! rhn_check; then
+    echo "FAILED"
+    echo " >> RHN Registration FAILED. Please Investigate. <<"
+else
+    echo "registration successful."
+fi
+# Done!
+<% else -%>
+# Not registering - host.params["activation_key"] not found.
+<% end -%>
+# End Red Hat Registration Snippet
