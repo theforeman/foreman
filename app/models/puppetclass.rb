@@ -150,4 +150,9 @@ class Puppetclass < ActiveRecord::Base
     end
     root
   end
+
+  def as_json(options={})
+    super({:only => [:name, :id]}.merge(options))
+  end
+
 end

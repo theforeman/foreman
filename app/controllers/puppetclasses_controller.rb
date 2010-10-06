@@ -1,7 +1,12 @@
 class PuppetclassesController < ApplicationController
   def index
-    @search = Puppetclass.search params[:search]
-    @puppetclasses = @search.paginate :page => params[:page], :include => [:environments, :hostgroups, :operatingsystems]
+    respond_to do |format|
+      format.html do
+        @search = Puppetclass.search params[:search]
+        @puppetclasses = @search.paginate :page => params[:page], :include => [:environments, :hostgroups, :operatingsystems]
+      end
+      format.json { render :json => Puppetclass.classes2hash(Puppetclass.all(:select => "name, id")) }
+    end
   end
 
   def new
