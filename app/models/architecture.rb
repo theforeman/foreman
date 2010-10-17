@@ -6,4 +6,12 @@ class Architecture < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   acts_as_audited
 
+  def to_param
+    name
+  end
+
+  def as_json(options={})
+    super({:only => [:name, :id]}.merge(options))
+  end
+
 end

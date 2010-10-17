@@ -1,11 +1,24 @@
 class ArchitecturesController < ApplicationController
+  before_filter :find_arch, :only => %w{show edit update destroy}
+
   def index
-    @search        = Architecture.search(params[:search])
-    @architectures = @search.paginate(:page => params[:page], :include => :operatingsystems)
+    respond_to do |format|
+      format.html do
+        @search        = Architecture.search(params[:search])
+        @architectures = @search.paginate(:page => params[:page], :include => :operatingsystems)
+      end
+      format.json { render :json => Architecture.all }
+    end
   end
 
   def new
     @architecture = Architecture.new
+  end
+
+  def show
+    respond_to do |format|
+      format.json { render :json => @architecture }
+    end
   end
 
   def create
@@ -19,11 +32,9 @@ class ArchitecturesController < ApplicationController
   end
 
   def edit
-    @architecture = Architecture.find(params[:id], :include => :operatingsystems)
   end
 
   def update
-    @architecture = Architecture.find(params[:id])
     if @architecture.update_attributes(params[:architecture])
       flash[:notice] = "Successfully updated architecture."
       redirect_to architectures_url
@@ -33,9 +44,13 @@ class ArchitecturesController < ApplicationController
   end
 
   def destroy
-    @architecture = Architecture.find(params[:id])
     @architecture.destroy
     flash[:notice] = "Successfully destroyed architecture."
     redirect_to architectures_url
+  end
+
+  private
+  def find_arch
+    @architecture = Architecture.find_by_name(params[:id])
   end
 end
