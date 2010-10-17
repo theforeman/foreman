@@ -54,6 +54,18 @@ class OperatingsystemsController < ApplicationController
     redirect_to operatingsystems_url
   end
 
+  def bootfiles
+    media = Media.find_by_name(params[:media])
+    arch =  Architecture.find_by_name(params[:architecture])
+    respond_to do |format|
+      format.json { render :json => @operatingsystem.pxe_files(media, arch)}
+    end
+  rescue => e
+    respond_to do |format|
+      format.json { render :json => e.to_s, :status => :unprocessable_entity }
+    end
+  end
+
   private
   def find_os
     @operatingsystem = Operatingsystem.find(params[:id])

@@ -1,0 +1,4 @@
+default linux
+label linux
+kernel <%= @kernel %>
+append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac

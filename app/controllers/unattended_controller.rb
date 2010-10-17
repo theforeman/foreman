@@ -1,10 +1,11 @@
 class UnattendedController < ApplicationController
   layout nil
   helper :all
-  before_filter :get_host_details, :allowed_to_install?
-  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish]
+  before_filter :get_host_details, :allowed_to_install?, :except => :pxe_kickstart_config
+  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config]
   skip_before_filter :require_ssl, :require_login
-  after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish, :jumpstart_profile, :jumpstart_finish]
+  after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish,
+    :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config]
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
@@ -41,6 +42,13 @@ class UnattendedController < ApplicationController
     logger.info "#{controller_name}: #{@host.name} is Built!"
     @host.built
     head(:created) and return
+  end
+
+  def pxe_kickstart_config
+    @host = Host.find_by_name params[:host_id]
+    prefix = @host.operatingsystem.pxe_prefix(@host.arch)
+    @kernel = "#{prefix}-#{Redhat::PXEFILES[:kernel]}"
+    @initrd = "#{prefix}-#{Redhat::PXEFILES[:initrd]}"
   end
 
   private

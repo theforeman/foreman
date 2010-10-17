@@ -43,10 +43,14 @@ class Operatingsystem < ActiveRecord::Base
 
   def media_uri host, url = nil
     url ||= host.media.path
-    URI.parse(url.gsub('$arch',    host.architecture.name).
-                  gsub('$major',   host.os.major).
-                  gsub('$minor',   host.os.minor).
-                  gsub('$version', [ host.os.major, host.os.minor ].compact.join('.'))
+    media_vars_to_uri(url, host.architecture.name, host.os)
+  end
+
+  def media_vars_to_uri (url, arch, os)
+    URI.parse(url.gsub('$arch',  arch).
+              gsub('$major',  os.major).
+              gsub('$minor',  os.minor).
+              gsub('$version', [os.major, os.minor ].compact.join('.'))
              ).normalize
   end
 
@@ -61,6 +65,17 @@ class Operatingsystem < ActiveRecord::Base
 
   def fullname
     to_label
+  end
+
+  # sets the prefix for the tfp files based on the os / arch combination
+  def pxe_prefix(arch)
+    "boot/#{to_s}-#{arch}".gsub(" ","-")
+  end
+
+  def pxe_files(media, arch)
+    boot_files_uri(media, arch).collect do |img|
+      { pxe_prefix(arch).to_sym => img.to_s}
+    end
   end
 
   def as_json(options={})
@@ -82,6 +97,10 @@ class Operatingsystem < ActiveRecord::Base
 
   def downcase_release_name
     self.release_name.downcase! unless defined?(Rake) or release_name.nil? or release_name.empty?
+  end
+
+  def boot_files_uri(media = nil , architecture = nil)
+    "Abstract"
   end
 
 end

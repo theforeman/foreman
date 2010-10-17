@@ -7,7 +7,7 @@ class HostsController < ApplicationController
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
   before_filter :find_host, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
-    reports facts storeconfig_klasses clone externalNodes]
+    reports facts storeconfig_klasses clone externalNodes pxe_config]
 
   helper :hosts, :reports
 
@@ -226,6 +226,10 @@ class HostsController < ApplicationController
       format.html { redirect_to fact_values_path(:search => {:host_name_eq => @host})}
       format.json { render :json => @host.facts_hash }
     end
+  end
+
+  def pxe_config
+    redirect_to(:controller => "unattended", :action => "pxe_#{@host.operatingsystem.pxe_type}_config", :host_id => @host) if @host
   end
 
   def storeconfig_klasses

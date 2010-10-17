@@ -1,4 +1,8 @@
 class Redhat < Operatingsystem
+
+  PXEDIR   = "images/pxeboot"
+  PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
+
   # outputs kickstart installation media based on the media type (NFS or URL)
   # it also convert the $arch string to the current host architecture
   def mediapath host
@@ -41,6 +45,18 @@ class Redhat < Operatingsystem
   # Override the class representation, as this breaks many rails helpers
   def class
     Operatingsystem
+  end
+
+  def boot_files_uri(media, architecture)
+    raise "invalid media for #{to_s}" unless medias.include?(media)
+    raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
+    PXEFILES.values.collect do |img|
+      URI.parse("#{media_vars_to_uri(media.path, architecture.name, self)}/#{PXEDIR}/#{img}").normalize
+    end
+  end
+
+  def pxe_type
+    "kickstart"
   end
 
 end
