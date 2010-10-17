@@ -1,11 +1,23 @@
 class HostgroupsController < ApplicationController
   def index
-    @search     = Hostgroup.search params[:search]
-    @hostgroups = @search.paginate :page => params[:page]
+    respond_to do |format|
+      format.html do
+        @search     = Hostgroup.search params[:search]
+        @hostgroups = @search.paginate :page => params[:page]
+      end
+      format.json { render :json => Hostgroup.all }
+    end
   end
 
   def new
     @hostgroup = Hostgroup.new
+  end
+
+  def show
+    @hostgroup = Hostgroup.find(params[:id])
+    respond_to do |format|
+      format.json { render :json => @hostgroup }
+    end
   end
 
   def create

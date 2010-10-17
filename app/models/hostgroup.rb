@@ -20,4 +20,8 @@ class Hostgroup < ActiveRecord::Base
    self
  end
 
+  def as_json(options={})
+    super({:only => [:name, :id]}.merge(options))
+  end
+
 end
