@@ -64,7 +64,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def as_json(options={})
-    {:operatingsystem => {:name => to_s, :id => id}}
+    {:operatingsystem => {:name => to_s, :id => id, :medias => medias, :architectures => architectures, :ptables => ptables}}
   end
 
   private

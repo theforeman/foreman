@@ -7,7 +7,7 @@ class OperatingsystemsController < ApplicationController
         @search           = Operatingsystem.search(params[:search])
         @operatingsystems = @search.all.paginate(:page => params[:page], :include => [:architectures], :order => :name)
       end
-      format.json { render :json => Operatingsystem.all }
+      format.json { render :json => Operatingsystem.all(:include => [:medias, :architectures, :ptables]) }
     end
 
   end
