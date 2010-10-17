@@ -7,7 +7,7 @@ class EnvironmentsController < ApplicationController
         @search       = Environment.search(params[:search])
         @environments = @search.paginate :page => params[:page]
       end
-      format.json { render :json => Environment.all.as_json(:only => :name) }
+      format.json { render :json => Environment.all.as_json }
     end
   end
 

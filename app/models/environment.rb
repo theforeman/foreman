@@ -112,7 +112,7 @@ class Environment < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => :name}.merge(options))
+    super({:only => [:name, :id]}.merge(options))
   end
 
 
