@@ -71,12 +71,20 @@ class HostsController < ApplicationController
 
   def create
     @host = Host.new(params[:host])
-    if @host.save
-      flash[:foreman_notice] = "Successfully created host."
-      redirect_to @host
-    else
-      load_vars_for_ajax
-      render :action => 'new'
+    respond_to do |format|
+      if @host.save
+        format.html do
+          flash[:foreman_notice] = "Successfully created host."
+          redirect_to @host
+        end
+        format.json { render :json => @host, :status => :created, :location => @host }
+      else
+        format.html do
+          load_vars_for_ajax
+          render :action => 'new'
+        end
+        format.json { render :json => @host.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -96,9 +104,15 @@ class HostsController < ApplicationController
 
   def destroy
     if @host.destroy
-      flash[:foreman_notice] = "Successfully destroyed host."
+      respond_to do |format|
+        format.html { flash[:foreman_notice] = "Successfully destroyed host." }
+        format.json { render :json => @host, :status => :ok and return }
+      end
     else
-      flash[:foreman_error] = @host.errors.full_messages.join("<br/>")
+      respond_to do |format|
+        format.html { flash[:foreman_error] = @host.errors.full_messages.join("<br/>") }
+        format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
+      end
     end
     redirect_to hosts_url
   end
@@ -153,9 +167,15 @@ class HostsController < ApplicationController
 
   def setBuild
     if @host.setBuild != false
-      flash[:foreman_notice] = "Enabled #{@host.name} for rebuild on next boot"
+      respond_to  do |format|
+        format.html { flash[:foreman_notice] = "Enabled #{@host.name} for rebuild on next boot" }
+        format.json { render :json => @host, :status => :ok and return }
+      end
     else
-      flash[:foreman_error] = "Failed to enable #{@host.name} for installation"
+      respond_to do |format|
+        format.html { flash[:foreman_error] = "Failed to enable #{@host.name} for installation" }
+        format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
+      end
     end
     redirect_to :back
   end
