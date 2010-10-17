@@ -157,7 +157,7 @@ class HostsController < ApplicationController
   end
 
   def puppetrun
-    if GW::Puppet.run host.name
+    if GW::Puppet.run @host.name
       flash[:foreman_notice] = "Successfully executed, check log files for more details"
     else
       flash[:foreman_error] = "Failed, check log files"
