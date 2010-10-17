@@ -1,11 +1,24 @@
 class DomainsController < ApplicationController
+  before_filter :find_domain, :only => %w{show edit update destroy}
+
   def index
-    @search  = Domain.search params[:search]
-    @domains = @search.paginate :page => params[:page], :include => 'hosts'
+    respond_to do |format|
+      format.html do
+        @search  = Domain.search params[:search]
+        @domains = @search.paginate :page => params[:page], :include => 'hosts'
+      end
+      format.json { render :json => Domain.all }
+    end
   end
 
   def new
     @domain = Domain.new
+  end
+
+  def show
+    respond_to do |format|
+      format.json { render :json => @domain }
+    end
   end
 
   def create
@@ -19,11 +32,9 @@ class DomainsController < ApplicationController
   end
 
   def edit
-    @domain = Domain.find(params[:id])
   end
 
   def update
-    @domain = Domain.find(params[:id])
     if @domain.update_attributes(params[:domain])
       flash[:foreman_notice] = "Successfully updated domain."
       redirect_to domains_url
@@ -33,7 +44,6 @@ class DomainsController < ApplicationController
   end
 
   def destroy
-    @domain = Domain.find(params[:id])
     if @domain.destroy
       flash[:foreman_notice] = "Successfully destroyed domain."
     else
@@ -41,4 +51,10 @@ class DomainsController < ApplicationController
     end
     redirect_to domains_url
   end
+
+  private
+  def find_domain
+    @domain = Domain.find_by_name(params[:id])
+  end
+
 end

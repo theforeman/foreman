@@ -16,11 +16,12 @@ class Domain < ActiveRecord::Base
 
   before_destroy Ensure_not_used_by.new(:hosts, :subnets)
 
-  # counts how many times a certian fact value exists in this domain
-  # used mostly for statistics
-  def countFact fact, value
-    Host.count :joins => [:domain, :fact_values, :fact_names],
-      :conditions => ["domains.name = ? and fact_names.name = ? and fact_values.value = ?", self, fact, value]
+  def to_param
+    name
+  end
+
+  def as_json(options={})
+    super({:only => [:name, :id]}.merge(options))
   end
 
 end

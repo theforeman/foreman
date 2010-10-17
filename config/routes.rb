@@ -23,7 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :usergroups
   map.resources :lookup_keys
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
-  map.resources :domains
+  map.resources :domains, :requirements => {:id => /[^\/]+/}
   map.resources :operatingsystems
   map.resources :medias
   map.resources :models
