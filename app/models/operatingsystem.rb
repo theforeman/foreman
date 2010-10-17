@@ -63,6 +63,10 @@ class Operatingsystem < ActiveRecord::Base
     to_label
   end
 
+  def as_json(options={})
+    {:operatingsystem => {:name => to_s, :id => id}}
+  end
+
   private
   def deduce_family
     if self.family.blank?

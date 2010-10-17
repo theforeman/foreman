@@ -1,12 +1,27 @@
 class OperatingsystemsController < ApplicationController
+  before_filter :find_os, :only => %w{show edit update destroy bootfiles}
+
   def index
-    @search           = Operatingsystem.search(params[:search])
-    @operatingsystems = @search.all.paginate(:page => params[:page], :include => [:architectures], :order => :name)
+    respond_to do |format|
+      format.html do
+        @search           = Operatingsystem.search(params[:search])
+        @operatingsystems = @search.all.paginate(:page => params[:page], :include => [:architectures], :order => :name)
+      end
+      format.json { render :json => Operatingsystem.all }
+    end
+
   end
 
   def new
     @operatingsystem = Operatingsystem.new
   end
+
+  def show
+    respond_to do |format|
+      format.json { render :json => @operatingsystem }
+    end
+  end
+
 
   def create
     @operatingsystem = Operatingsystem.new(params[:operatingsystem])
@@ -19,11 +34,9 @@ class OperatingsystemsController < ApplicationController
   end
 
   def edit
-    @operatingsystem = Operatingsystem.find(params[:id])
   end
 
   def update
-    @operatingsystem = Operatingsystem.find(params[:id])
     if @operatingsystem.update_attributes(params[:operatingsystem])
       flash[:foreman_notice] = "Successfully updated operatingsystem."
       redirect_to operatingsystems_url
@@ -33,7 +46,6 @@ class OperatingsystemsController < ApplicationController
   end
 
   def destroy
-    @operatingsystem = Operatingsystem.find(params[:id])
     if @operatingsystem.destroy
       flash[:foreman_notice] = "Successfully destroyed operatingsystem."
     else
@@ -41,4 +53,10 @@ class OperatingsystemsController < ApplicationController
     end
     redirect_to operatingsystems_url
   end
+
+  private
+  def find_os
+    @operatingsystem = Operatingsystem.find(params[:id])
+  end
+
 end
