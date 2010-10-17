@@ -1,11 +1,20 @@
 class PtablesController < ApplicationController
+  before_filter :find_ptable, :only => %w{show edit update destroy}
+
   def index
-    @search  = Ptable.search params[:search]
-    @ptables = @search.paginate(:page => params[:page], :include => [:operatingsystems])
+    respond_to do |format|
+      format.html do
+        @search  = Ptable.search params[:search]
+        @ptables = @search.paginate(:page => params[:page], :include => [:operatingsystems])
+      end
+      format.json { render :json => Ptable.all }
+    end
   end
 
   def show
-    @ptable = Ptable.find(params[:id])
+    respond_to do |format|
+      format.json { render :json => @ptable }
+    end
   end
 
   def new
@@ -23,11 +32,9 @@ class PtablesController < ApplicationController
   end
 
   def edit
-    @ptable = Ptable.find(params[:id])
   end
 
   def update
-    @ptable = Ptable.find(params[:id])
     if @ptable.update_attributes(params[:ptable])
       flash[:foreman_notice] = "Successfully updated partition table."
       redirect_to @ptable
@@ -37,9 +44,14 @@ class PtablesController < ApplicationController
   end
 
   def destroy
-    @ptable = Ptable.find(params[:id])
     @ptable.destroy
     flash[:foreman_notice] = "Successfully destroyed partition table."
     redirect_to ptables_url
   end
+
+  private
+  def find_ptable
+    @ptable = Ptable.find(params[:id])
+  end
+
 end

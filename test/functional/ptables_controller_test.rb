@@ -6,9 +6,10 @@ class PtablesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_show
-    get :show, {:id => Ptable.first}, set_session_user
-    assert_template 'show'
+  def test_show_json
+    get :show, {:id => Ptable.first.id}, :format => :json
+    json = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "default", json["ptable"]["name"]
   end
 
   def test_new
@@ -29,25 +30,25 @@ class PtablesControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => Ptable.first}, set_session_user
+    get :edit, {:id => Ptable.first.id}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     Ptable.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Ptable.first}, set_session_user
+    put :update, {:id => Ptable.first.id}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Ptable.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Ptable.first}, set_session_user
+    put :update, {:id => Ptable.first.id}, set_session_user
     assert_redirected_to ptable_url(assigns(:ptable))
   end
 
   def test_destroy
     ptable = Ptable.first
-    delete :destroy, {:id => ptable}, set_session_user
+    delete :destroy, {:id => ptable.id}, set_session_user
     assert_redirected_to ptables_url
     assert !Ptable.exists?(ptable.id)
   end
