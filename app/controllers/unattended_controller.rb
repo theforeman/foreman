@@ -1,11 +1,11 @@
 class UnattendedController < ApplicationController
   layout nil
   helper :all
-  before_filter :get_host_details, :allowed_to_install?, :except => :pxe_kickstart_config
-  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config]
+  before_filter :get_host_details, :allowed_to_install?, :except => [:pxe_kickstart_config, :pxe_debian_config]
+  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config, :pxe_debian_config]
   skip_before_filter :require_ssl, :require_login
   after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish,
-    :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config]
+    :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :pxe_debian_config]
 
   def kickstart
     logger.info "#{controller_name}: Kickstart host #{@host.name}"
@@ -49,6 +49,13 @@ class UnattendedController < ApplicationController
     prefix = @host.operatingsystem.pxe_prefix(@host.arch)
     @kernel = "#{prefix}-#{Redhat::PXEFILES[:kernel]}"
     @initrd = "#{prefix}-#{Redhat::PXEFILES[:initrd]}"
+  end
+
+  def pxe_debian_config
+    @host = Host.find_by_name params[:host_id]
+    prefix = @host.operatingsystem.pxe_prefix(@host.arch)
+    @kernel = "#{prefix}-#{Debian::PXEFILES[:kernel]}"
+    @initrd = "#{prefix}-#{Debian::PXEFILES[:initrd]}"
   end
 
   private
