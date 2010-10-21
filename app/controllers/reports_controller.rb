@@ -37,6 +37,8 @@ class ReportsController < ApplicationController
         end
       }
     end
+  rescue => e
+    render :text => e.to_s, :status => 500
   end
 
   def destroy

@@ -1,7 +1,9 @@
 class Report < ActiveRecord::Base
   belongs_to :host
-  serialize :log, Puppet::Transaction::Report
-  validates_presence_of :log, :host_id, :reported_at, :status
+  has_many :messages, :through => :logs, :dependent => :destroy
+  has_many :sources, :through => :logs, :dependent => :destroy
+  has_many :logs, :dependent => :destroy
+  validates_presence_of :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
 
   METRIC = %w[applied restarted failed failed_restarts skipped]
@@ -41,6 +43,16 @@ class Report < ActiveRecord::Base
     return type.nil? ? h : h[type]
   end
 
+  # extracts serialized metrics and keep them as a hash_with_indifferent_access
+  def metrics
+    YAML.load(read_attribute(:metrics)).with_indifferent_access
+  end
+
+  # serialize metrics as YAML
+  def metrics= m
+    write_attribute(:metrics,m.to_yaml) unless m.nil?
+  end
+
   # generate dynamically methods for all metrics
   # e.g. Report.last.applied
   METRIC.each do |method|
@@ -64,13 +76,11 @@ class Report < ActiveRecord::Base
   end
 
   def config_retrieval
-    t = validate_meteric("time", :config_retrieval)
-    t.round_with_precision(2) if t
+    metrics[:time][:config_retrieval].round_with_precision(2)
   end
 
   def runtime
-    t = validate_meteric("time", :total)
-    t.round_with_precision(2) if t
+    (metrics[:time][:total] || metrics[:time].values.sum).round_with_precision(2)
   end
 
   #imports a YAML report into database
@@ -83,6 +93,10 @@ class Report < ActiveRecord::Base
 
       # parse report metrics
       raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
+
+      # Is this a pre 2.6.x report format?
+      @pre26 = !report.instance_variables.include?("@resource_statuses")
+
       # convert report status to bit field
       st = calc_status(metrics_to_hash(report))
 
@@ -101,8 +115,10 @@ class Report < ActiveRecord::Base
       host.save_with_validation(false)
 
       # and save our report
-      self.create! :host => host, :reported_at => report.time.utc, :log => report, :status => st
-
+      r = self.create!(:host => host, :reported_at => report.time.utc, :status => st, :metrics => self.m2h(report.metrics))
+      # Store all Puppet message logs
+      r.import_log_messages report
+      return r
     rescue Exception => e
       logger.warn "Failed to process report for #{report.host} due to:#{e}"
       false
@@ -142,8 +158,8 @@ class Report < ActiveRecord::Base
     status = conditions[:status]
     cond = "created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and status = #{status}" unless status.nil?
-    # delete the reports
-    count = Report.delete_all(cond)
+    # delete the reports, must use destroy_all vs. delete_all because of assoicated logs and METRIC
+    count = Report.destroy_all(cond)
     logger.info Time.now.to_s + ": Expired #{count} Reports"
     return count
   end
@@ -160,23 +176,53 @@ class Report < ActiveRecord::Base
     counter
   end
 
-  protected
+  def import_log_messages report
+    report.logs.each do |r|
+      message = Message.find_or_create_by_value r.message
+      source  = Source.find_or_create_by_value r.source
+      log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
+      log.errors.empty?
+    end
+  end
+
+  private
 
   # Converts metrics form Puppet report into a hash
   # this hash is required by the calc_status method
   def self.metrics_to_hash(report)
-    resources = report.metrics["resources"]
     report_status = {}
+    metrics = report.metrics.with_indifferent_access
 
     # find our metric values
-    METRIC.each { |m| report_status[m] = resources[m.to_sym] }
+    METRIC.each do |m|
+      if @pre26
+        report_status[m] = metrics["resources"][m]
+      else
+        h=translate_metrics_to26(m)
+        report_status[m] = metrics[h[:type]][h[:name]]
+      end
+      report_status[m] ||= 0
+    end
+
     # special fix for false warning about skips
     # sometimes there are skip values, but there are no error messages, we ignore them.
     if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
       report_status["skipped"] = 0
-    end
+    end unless report_status["skipped"].nil?
     return report_status
   end
+
+
+  # return all metrics as a hash
+  def self.m2h metrics
+    h = {}
+    metrics.each do |title, mtype|
+      h[mtype.name] ||= {}
+      mtype.values.each{|m| h[mtype.name].merge!({m[0] => m[2]})}
+    end
+    return h
+  end
+
 
   # converts a hash into a bit field
   # expects a metrics_to_hash kind of hash
@@ -194,6 +240,19 @@ class Report < ActiveRecord::Base
   rescue Exception => e
     logger.warn "failed to process report due to #{e}"
     nil
+  end
+
+
+  # The metrics layout has changed in Puppet 2.6.x release,
+  # this method attempts to align the bit value metrics and the new name scheme in 2.6.x
+  # returns a hash of { :type => "metric type", :name => "metric_name"}
+  def self.translate_metrics_to26 metric
+   case metric
+    when "applied"
+      { :type => "changes", :name => :total}
+    else
+      { :type => "resources", :name => metric.to_sym}
+    end
   end
 
 end

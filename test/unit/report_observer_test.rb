@@ -14,10 +14,7 @@ class ReportObserverTest < ActiveSupport::TestCase
                       :disk => "empty partition"
     h.update_attribute :owner, User.first if SETTINGS[:login]
 
-    p = Puppet::Transaction::Report.new
-    p.save
-
-    @report = Report.new :host => h, :log => p, :reported_at => Date.today
+    @report = Report.new :host => h, :reported_at => Date.today
   end
 
   test "when notification fails, if report has an error a mail to admin should be sent" do

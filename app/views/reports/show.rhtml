@@ -1,4 +1,4 @@
-<% title @report.host.name %>
+<% title @report.host.name -%>
 Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 <% if @offset > 100 -%>
   <div class="flash error">
@@ -9,8 +9,8 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
   </div>
 <% end -%>
 
-<% if @report.log.logs.size > 0 -%>
-  <%= render :partial => 'output', :locals => { :logs => @report.log.logs} %>
+<% if @report.logs.size > 0 -%>
+  <%= render :partial => 'output', :locals => { :logs => @report.logs} %>
 <% end -%>
 
 <div class="flash">
@@ -19,8 +19,8 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
       <td> <b>Metrics</b></td>
       <td>
         <table style="width:100%;">
-          <% @report.log.metrics["time"].values.each do |name, label, value|-%>
-            <% if label == 'Total' then -%>
+          <% @report.metrics["time"].each do |label, value|-%>
+            <% if label.to_s =~ /total/i then -%>
               <%   @totaltime = value -%>
               <%   next -%>
             <% end -%>
@@ -29,7 +29,7 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
               <td> <%= value.round_with_precision(4) rescue "N/A"%> </td>
             </tr>
           <% end %>
-          <tr><td class="last_row">Total</td><td class="last_row"><%= h @totaltime.round_with_precision(4) rescue "N/A"%></td></tr>
+          <tr><td class="last_row">Total</td><td class="last_row"><%= h (@totaltime || @report.runtime).round_with_precision(4) rescue "N/A"%></td></tr>
         </table>
       </td>
     </tr>
