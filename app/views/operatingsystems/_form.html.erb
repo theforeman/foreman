@@ -10,11 +10,11 @@
       <td> <%= f.text_field :minor, :size => 8 %></td>
       <td> OS Family</td>
       <td> <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}%></td>
-      <span id="release_name" <%= 'style="display:none;"' unless @operatingsystem.family == "Debian" -%> >
-        <td> Release name </td>
-        <td><%= f.text_field :release_name, :size => 12%> </td>
-        <td><small>e.g. karmic, lucid, etch, woody</small></td>
-      </span>
+      <td id="release_name"  colspan="3" <%= 'style="display:none;"' unless @operatingsystem.family == "Debian" -%> >
+        Release name
+        <%= f.text_field :release_name, :size => 12%>
+        <small>e.g. karmic, lucid, etch, woody</small>
+      </td>
     </tr>
   </table>
   </p>
