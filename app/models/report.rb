@@ -178,6 +178,8 @@ class Report < ActiveRecord::Base
 
   def import_log_messages report
     report.logs.each do |r|
+      # skiping debug messages, we dont want them in our db
+      next if r.level == :debug
       message = Message.find_or_create_by_value r.message
       source  = Source.find_or_create_by_value r.source
       log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
