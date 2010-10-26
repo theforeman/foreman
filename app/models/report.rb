@@ -198,7 +198,7 @@ class Report < ActiveRecord::Base
     # find our metric values
     METRIC.each do |m|
       if @pre26
-        report_status[m] = metrics["resources"][m]
+        report_status[m] = metrics["resources"][m.to_sym]
       else
         h=translate_metrics_to26(m)
         report_status[m] = metrics[h[:type]][h[:name]]
@@ -210,7 +210,7 @@ class Report < ActiveRecord::Base
     # sometimes there are skip values, but there are no error messages, we ignore them.
     if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
       report_status["skipped"] = 0
-    end unless report_status["skipped"].nil?
+    end
     return report_status
   end
 

@@ -20,6 +20,11 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal @r.skipped, 3
   end
 
+  test "it should keep applied metrics" do
+    @r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-applied.yaml"))
+    assert_equal 3, @r.applied
+  end
+
   test "it should true on error? if there were errors" do
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3}
     assert @r.error?

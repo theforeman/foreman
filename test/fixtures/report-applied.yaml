@@ -1,0 +1,86 @@
+--- !ruby/object:Puppet::Transaction::Report 
+host: b.host.domain
+logs: []
+
+metrics: 
+  time: !ruby/object:Puppet::Util::Metric 
+    label: Time
+    name: time
+    values: 
+    - - :file
+      - File
+      - 6.11497139930725
+    - - :config_retrieval
+      - Config retrieval
+      - 13.6332910060883
+    - - :filebucket
+      - Filebucket
+      - 0.000134944915771484
+    - - :mount
+      - Mount
+      - 0.141838073730469
+    - - :schedule
+      - Schedule
+      - 0.000991106033325195
+    - - :cron
+      - Cron
+      - 0.0213279724121094
+    - - :total
+      - Total
+      - 26.5871164798737
+    - - :yumrepo
+      - Yumrepo
+      - 0.0031440258026123
+    - - :package
+      - Package
+      - 0.9647057056427
+    - - :user
+      - User
+      - 0.00112104415893555
+    - - :exec
+      - Exec
+      - 2.237300157547
+    - - :service
+      - Service
+      - 3.46583986282349
+    - - :host
+      - Host
+      - 0.00245118141174316
+  resources: !ruby/object:Puppet::Util::Metric 
+    label: Resources
+    name: resources
+    values: 
+    - - :applied
+      - Applied
+      - 3
+    - - :skipped
+      - Skipped
+      - 0
+    - - :total
+      - Total
+      - 1450
+    - - :scheduled
+      - Scheduled
+      - 1368
+    - - :restarted
+      - Restarted
+      - 0
+    - - :failed_restarts
+      - Failed restarts
+      - 0
+    - - :out_of_sync
+      - Out of sync
+      - 0
+    - - :failed
+      - Failed
+      - 0
+  changes: !ruby/object:Puppet::Util::Metric 
+    label: Changes
+    name: changes
+    values: 
+    - - :total
+      - Total
+      - 0
+records: {}
+
+time: 2010-10-21 07:14:54.382072 +02:00
