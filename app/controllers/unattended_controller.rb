@@ -8,8 +8,7 @@ class UnattendedController < ApplicationController
     :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :pxe_debian_config]
 
   def kickstart
-    logger.info "#{controller_name}: Kickstart host #{@host.name}"
-    @dynamic = @host.diskLayout=~/^#Dynamic/
+    @dynamic   = @host.diskLayout =~ /^#Dynamic/
     @arch      = @host.architecture.name
     os         = @host.operatingsystem
     @osver     = os.major.to_i
@@ -37,7 +36,7 @@ class UnattendedController < ApplicationController
     unattended_local "preseed_finish"
   end
 
-# this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
+  # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
     @host.built
@@ -72,20 +71,21 @@ class UnattendedController < ApplicationController
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
+    # search for a mac address in any of the RHN provsioning headers
+    # this section is kickstart only relevant
     maclist = []
-    maccond = "mac in ("
     unless request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].nil?
-      request.env.keys.each { | header |
-        if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/ then
-          maccond << "?, "
-          maclist << request.env[header].split[1].downcase.strip
+      begin
+        request.env.keys.each do | header |
+          maclist << request.env[header].split[1].downcase.strip if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/
         end
-      }
+      rescue => e
+        logger.info "unknown RHN_PROVISIONING header #{e}"
+      end
     end
-    maccond.sub!(/, $/, ')')
 
-    conditions = (ip and (!maclist.empty?)) ? ["ip = ? and " + maccond, ip, *maclist] : ["ip = ?",ip];
-    logger.info "#{controller_name}: conditions string: " + conditions.to_s
+    # we try to match first based on the MAC, falling back to the IP
+    conditions = (!maclist.empty? ? {:mac => maclist} : {:ip => ip})
     @host = Host.find(:first, :include => [:architecture, :media, :operatingsystem, :domain], :conditions => conditions)
     if @host.nil?
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
@@ -96,10 +96,11 @@ class UnattendedController < ApplicationController
       logger.error "#{controller_name}: #{@host.name}'s operatingsytem [#{@host.operatingsystem.fullname}] has no OS family!"
       head(:conflict) and return
     end
+    logger.info "Found #{@host}"
   end
 
   def allowed_to_install?
-    @host.build or @spoof ? true : head(:method_not_allowed)
+    (@host.build or @spoof) ? true : head(:method_not_allowed)
   end
 
   # Cleans Certificate and enable autosign

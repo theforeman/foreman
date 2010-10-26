@@ -208,6 +208,10 @@ class Host < Puppet::Rails::Host
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
     param["domainname"] = domain.fullname unless domain.nil? or domain.fullname.nil?
+    if SETTINGS[:ignore_puppet_facts_for_provisioning]
+      param["ip"]  = ip
+      param["mac"] = mac
+    end
     param.update self.params
 
     info_hash = {}
@@ -279,15 +283,17 @@ class Host < Puppet::Rails::Host
   end
 
   def populateFieldsFromFacts
-    self.mac = fv(:macaddress)
-    self.ip = fv(:ipaddress) if ip.nil?
+    unless SETTINGS[:ignore_puppet_facts_for_provisioning]
+      self.mac = fv(:macaddress).downcase
+      self.ip = fv(:ipaddress) if ip.nil?
+    end
     self.domain = Domain.find_or_create_by_name fv(:domain) unless fv(:domain).empty?
     # On solaris architecture fact is harwareisa
     if myarch=fv(:architecture) || fv(:hardwareisa)
       self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
     end
     # by default, puppet doesnt store an env name in the database
-    env=fv(:environment) || "production"
+    env=fv(:environment) || SETTINGS[:default_puppet_environment] || "production"
     self.environment ||= Environment.find_or_create_by_name env
 
     os_name = fv(:operatingsystem)
