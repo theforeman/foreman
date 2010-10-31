@@ -3,13 +3,13 @@
 
 Name:           foreman
 Version:        0.1.6
-Release:        rc1%{?dist}
+Release:        rc2%{?dist}
 Summary:        Systems Management web application
 
 Group:          Applications/System
 License:        GPLv3+
 URL:            http://theforeman.org
-Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-6rc1.tar.bz2
+Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-6rc2.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -97,6 +97,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%attr(-,%{name},%{name}) %{_datadir}/%{name}/config/environment.rb
 %attr(-,%{name},%{name}) %{_localstatedir}/lib/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/log/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
@@ -162,6 +163,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Sun Oct 30 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc2
+- New release candidate
+- Updated configuration file permssion not to break passenger
 * Sun Sep 19 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc1
 - Removed the depenecy upon rack 1.0.1 as its now bundled within Foreman
 * Mon May 31 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.5-1
