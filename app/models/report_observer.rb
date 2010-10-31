@@ -5,7 +5,7 @@ class ReportObserver < ActiveRecord::Observer
       # notify via email IF enabled is set to true
       if report.host.disabled?
         report.logger.warn "#{report.host} is disabled - skipping."
-        next
+        return
       end
       HostMailer.deliver_error_state(report) if SETTINGS[:failed_report_email_notification]
       # add here more actions - e.g. snmp alert etc
