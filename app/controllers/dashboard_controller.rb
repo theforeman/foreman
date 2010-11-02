@@ -1,10 +1,14 @@
 class DashboardController < ApplicationController
   before_filter :prefetch_data, :graphs, :only => :index
   skip_before_filter :load_tabs, :manage_tabs
-  helper :hosts
-  include Foreman::Controller::FactSelection
 
   def index
+    respond_to do |format|
+      format.html
+      format.yaml { render :text => @report.to_yaml }
+      format.json { render :json => @report }
+    end
+
   end
 
   private
@@ -12,10 +16,12 @@ class DashboardController < ApplicationController
 
     data ={
       :labels => [ ['string', "State"], ['number', "Number of Hosts"] ],
-      :values => [ ["Active", @active_hosts],["Error", @bad_hosts ],  ["Out Of Sync", @out_of_sync_hosts ],  ["OK", @good_hosts] ]
+      :values => [
+        ["Active", @report[:active_hosts]],["Error", @report[:bad_hosts]],
+        ["Out Of Sync", @report[:out_of_sync_hosts]],  ["OK", @report[:good_hosts]]
+      ]
     }
-    options = { :title => "Puppet Clients Activity Overview"}#,
-#      :colors =>['#0000FF','#FF0000','#00FF00','#41A317'] }
+    options = { :title => "Puppet Clients Activity Overview"}
     @overview = setgraph(GoogleVisualr::PieChart.new, data, options)
 
     data = {
@@ -28,21 +34,15 @@ class DashboardController < ApplicationController
   end
 
   def prefetch_data
-
-    @total_hosts = Host.count
-    # hosts with errors in the last puppet run
-    @bad_hosts = Host.recent.with_error.count
-    # hosts with changes in the last puppet run
-    @active_hosts = Host.recent.with_changes.count
-    @good_hosts = Host.recent.successful.count
-
-    @percentage = (@good_hosts == 0 or @total_hosts == 0) ? 0 : @good_hosts *100 / @total_hosts
-
-    # all hosts with didn't run puppet in the <time interval> - regardless of their status
-    @out_of_sync_hosts = Host.out_of_sync.count
-    @intersting_reports = Report.with_changes.count
-    @disabled_hosts = Host.alerts_disabled.count
-    # the run interval to show in the dashboard graph
+    @report = {
+      :total_hosts => Host.count,
+      :bad_hosts => Host.recent.with_error.count,
+      :active_hosts => Host.recent.with_changes.count,
+      :good_hosts => Host.recent.successful.count,
+      :out_of_sync_hosts => Host.out_of_sync.count,
+      :disabled_hosts => Host.alerts_disabled.count
+    }
+    @report[:percentage] = (@report[:good_hosts] == 0 or @report[:total_hosts] == 0) ? 0 : @report[:good_hosts]*100 / @report[:total_hosts]
   end
 
 end
