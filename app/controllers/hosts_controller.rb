@@ -9,7 +9,9 @@ class HostsController < ApplicationController
   before_filter :find_host, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config]
 
+  filter_parameter_logging :root_pass
   helper :hosts, :reports
+  include Foreman::Controller::FactSelection
 
   def index
     respond_to do |format|

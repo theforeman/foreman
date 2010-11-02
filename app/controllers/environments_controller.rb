@@ -1,4 +1,5 @@
 class EnvironmentsController < ApplicationController
+  include Foreman::Controller::Environments
   before_filter :find_environment, :only => %w{show edit update destroy}
 
   def index

@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   before_filter :prefetch_data, :graphs, :only => :index
   skip_before_filter :load_tabs, :manage_tabs
   helper :hosts
+  include Foreman::Controller::FactSelection
 
   def index
   end

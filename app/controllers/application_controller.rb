@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
 
-  filter_parameter_logging :root_pass
-
   # standard layout to all controllers
   layout 'standard'
   helper 'layout'
@@ -16,56 +14,7 @@ class ApplicationController < ActionController::Base
   before_filter :load_tabs, :manage_tabs, :unless => :request_json?
   before_filter :welcome, :detect_notices, :only => :index, :unless => :request_json?
 
-  # host list AJAX methods
-  # its located here, as it might be requested from the dashboard controller or via the hosts controller
-  def fact_selected
-    @fact_name_id = params[:search_fact_name_id].to_i
-    @via    = params[:via]
-    @values = FactValue.find(:all, :select => 'DISTINCT value', :conditions => {
-      :fact_name_id => @fact_name_id }, :order => 'value ASC') if @fact_name_id > 0
-    render :partial => 'common/fact_selected', :layout => false
-  end
-
-  def import_environments
-    @changed = Environment.importClasses
-    if @changed[:obsolete][:environments].size > 0 or @changed[:obsolete][:puppetclasses].size > 0 or
-       @changed[:new][:environments].size > 0      or @changed[:new][:puppetclasses].size > 0
-       @grouping = 3
-      render :partial => "common/puppetclasses_or_envs_changed", :layout => true
-    else
-      redirect_to :back
-    end
-  rescue Exception => e
-    flash[:foreman_error] = e
-    redirect_to :back
-  end
-
-  def obsolete_and_new
-    if params[:commit] == "Cancel"
-      redirect_to environments_path
-    else
-      if (errors = Environment.obsolete_and_new(params[:changed])).empty?
-        flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
-      else
-        flash[:foreman_error]  = "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors
-      end
-      redirect_to :back
-    end
-  end
-
   protected
-
-   def no_puppetclass_documentation_handler(exception)
-    if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
-      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
-    else
-      if local_request?
-        rescue_action_locally exception
-      else
-        rescue_action_in_public exception
-      end
-    end
-  end
 
   def require_ssl
     # if SSL is not configured, don't bother forcing it.
