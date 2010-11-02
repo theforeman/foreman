@@ -14,13 +14,14 @@ class HostsController < ApplicationController
 
   def index
     respond_to do |format|
+      @search = Host.search(params[:search])
       format.html do
-        @search = Host.search(params[:search])
         @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model]
         @via    = "fact_values_"
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
       end
-      format.json { render :json => Host.all(:select => [:name]).to_json(:only => :name) }
+      format.json { render :json => @search.all(:select => "name").map(&:name) }
+      format.yaml { render :text => @search.all(:select => "name").map(&:name).to_yaml }
     end
   end
 
