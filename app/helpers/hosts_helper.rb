@@ -35,8 +35,4 @@ module HostsHelper
     session[:selected].include?(host.id.to_s)
   end
 
-  def hosts_controller?
-    controller.controller_name == "hosts"
-  end
-
 end

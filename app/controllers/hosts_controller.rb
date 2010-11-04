@@ -17,7 +17,7 @@ class HostsController < ApplicationController
     respond_to do |format|
       format.html do
         @search = Host.search(params[:search])
-        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment]
+        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model]
         @via    = "fact_values_"
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
       end
@@ -375,6 +375,22 @@ class HostsController < ApplicationController
     render :nothing => true
   end
 
+  def errors
+    show_hosts Host.recent.with_error, "Hosts with errors"
+  end
+
+  def active
+    show_hosts Host.recent.with_changes, "Active Hosts"
+  end
+
+  def out_of_sync
+    show_hosts Host.out_of_sync, "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes"
+  end
+
+  def disabled
+    show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
+  end
+
   private
   def find_hosts
     fact, klass, group = params[:fact], params[:class], params[:hostgroup]
@@ -470,6 +486,23 @@ class HostsController < ApplicationController
   def find_host
     if params[:id]
       render not_found unless @host = Host.find_by_name(params[:id])
+    end
+  end
+
+  # TODO: This method is nearly identical to the index method
+  # this needs to be refactored.
+  def show_hosts list, title
+    @search = list.search(params[:search])
+    respond_to do |format|
+      format.html do
+        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model]
+        @via    = "fact_values_"
+        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+        @title = title
+        render :index
+      end
+      format.yaml { render :text => @search.all(:select => [:name]).map(&:name).to_yaml }
+      format.json { render :json => @search.all(:select => [:name]).map(&:name) }
     end
   end
 

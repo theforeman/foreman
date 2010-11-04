@@ -14,7 +14,7 @@
       <% hosts.each do |host| -%>
         <tr class="<%= cycle("even", "odd") -%>">
           <td>
-            <%= check_box_tag "host_ids[]", host.id, selected?(host), :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'insertHostVal(this)' if hosts_controller? -%>
+            <%= check_box_tag "host_ids[]", host.id, selected?(host), :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'insertHostVal(this)' -%>
             <%=name_column(host) %>
           </td>
           <td><%=h host.try(:os) %></td>
@@ -31,7 +31,7 @@
       <% end -%>
     </table>
     <div>
-      <%= submit_tag("Edit Multiple Hosts", :title => "Mass assign values to many hosts") if hosts_controller? %>
+      <%= submit_tag("Edit Multiple Hosts", :title => "Mass assign values to many hosts") %>
     </div>
   <% end -%>
 <% end -%>

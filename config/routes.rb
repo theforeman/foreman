@@ -4,7 +4,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :reports
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
     :requirements => { :name => /[^\.][\w\.-]+/ }
-  map.connect "/hosts/query", :controller => 'hosts', :action => 'query'
   map.resources :hosts,
     :requirements => {:id => /[^\/]+/},
     :member => { :report => :get, :reports => :get, :clone => :get,
@@ -15,7 +14,9 @@ ActionController::Routing::Routes.draw do |map|
       :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
       :multiple_destroy => :get, :submit_multiple_destroy => :post,
       :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
-      :multiple_enable => :get, :submit_multiple_enable => :post}
+      :multiple_enable => :get, :submit_multiple_enable => :post,
+      :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get
+  }
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.statistics '/statistics', :controller => 'statistics'
   map.resources :notices, :only => :destroy

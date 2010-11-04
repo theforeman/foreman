@@ -168,6 +168,31 @@ class HostsControllerTest < ActionController::TestCase
     end
 
   end
+  test "should get errors" do
+    get :errors, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+  end
+
+  test "should get active" do
+    get :active, {}, set_session_user
+    assert_response :success
+    assert_template :partial => "minilist"
+    assert_template 'index'
+  end
+
+  test "should get out of sync" do
+    get :out_of_sync, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+  end
+
+  test "should get disabled hosts" do
+    get :disabled, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+  end
+
   private
   def initialize_host
     @host = Host.create :name => "myfullhost",

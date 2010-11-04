@@ -4,10 +4,10 @@
   <p>Generated at <%= Time.now.to_s(:short) %></p>
   <p>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes <%= "#{@good_hosts} / #{@total_hosts}" %> hosts (<%=@percentage%>%) </p>
   <h1>Summary</h1>
-  <p>Hosts that had performed modifications <%= link_to @active_hosts, :action => "active" %></p>
-  <p>Out Of Sync Hosts <%= link_to @out_of_sync_hosts, :action => "OutOfSync" %></p>
-  <p>Hosts in Error State <%= link_to @bad_hosts, :action => "errors" %></p>
-  <p>Hosts With Alerts Disabled <%= link_to @disabled_hosts, :action => "disabled" %></p>
+  <p>Hosts that had performed modifications <%= link_to @active_hosts, active_hosts_path %></p>
+  <p>Out Of Sync Hosts <%= link_to @out_of_sync_hosts, out_of_sync_hosts_path %></p>
+  <p>Hosts in Error State <%= link_to @bad_hosts, errors_hosts_path %></p>
+  <p>Hosts With Alerts Disabled <%= link_to @disabled_hosts, disabled_hosts_path %></p>
 
   <div id='overview'></div>
   <%= @overview.render('overview') %>
