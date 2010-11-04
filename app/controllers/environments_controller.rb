@@ -1,5 +1,7 @@
 class EnvironmentsController < ApplicationController
   include Foreman::Controller::Environments
+  rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
+
   before_filter :find_environment, :only => %w{show edit update destroy}
 
   def index

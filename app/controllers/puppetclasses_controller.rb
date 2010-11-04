@@ -1,5 +1,7 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
+  rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
+
   def index
     respond_to do |format|
       format.html do
