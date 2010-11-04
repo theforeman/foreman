@@ -3,6 +3,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
 
   # standard layout to all controllers
   layout 'standard'
@@ -117,7 +118,7 @@ class ApplicationController < ActionController::Base
 
     return true if params[:tab_name].empty? or params[:action] != "index"
 
-    if    params[:tab_name] == "Reset"
+    if params[:tab_name] == "Reset"
       self.active_tab    = ""
     elsif params[:remove_me] and @tabs.has_key? params[:tab_name]
       @tabs.delete params[:tab_name]
@@ -154,5 +155,13 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+  # this has to be in the application controller, as the new request (for puppetdoc) url is not controller specific.
+  def no_puppetclass_documentation_handler(exception)
+    if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
+      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
+    else
+      local_request? ? rescue_action_locally(exception) : rescue_action_in_public(exception)
+    end
+  end
 
 end

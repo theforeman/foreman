@@ -29,17 +29,4 @@ module Foreman::Controller::Environments
     end
   end
 
-  protected
-  def no_puppetclass_documentation_handler(exception)
-    if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
-      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
-    else
-      if local_request?
-        rescue_action_locally exception
-      else
-        rescue_action_in_public exception
-      end
-    end
-  end
-
 end
