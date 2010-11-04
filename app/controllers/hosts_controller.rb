@@ -11,7 +11,6 @@ class HostsController < ApplicationController
 
   filter_parameter_logging :root_pass
   helper :hosts, :reports
-  include Foreman::Controller::FactSelection
 
   def index
     respond_to do |format|
@@ -389,6 +388,14 @@ class HostsController < ApplicationController
 
   def disabled
     show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
+  end
+
+  def fact_selected
+    @fact_name_id = params[:search_fact_name_id].to_i
+    @via    = params[:via]
+    @values = FactValue.fact_name_id_eq(@fact_name_id).ascend_by_value.all(:select => "DISTINCT value") if @fact_name_id > 0
+
+    render :partial => 'common/fact_selected', :layout => false
   end
 
   private
