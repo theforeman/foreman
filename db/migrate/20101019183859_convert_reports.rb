@@ -2,7 +2,7 @@ class ConvertReports < ActiveRecord::Migration
   def self.up
     say "About to convert all of the #{Report.count} reports log field into a more DB optimized way... this might take a while....."
 
-    Report.all.each do |report|
+    Report.find_in_batches do |report|
       case report.log.class.to_s
       when "Puppet::Transaction::Report"
         log = report.log
