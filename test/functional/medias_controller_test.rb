@@ -41,7 +41,7 @@ class MediasControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    media = Media.first
+    media = medias(:unused)
     delete :destroy, {:id => media}, set_session_user
     assert_redirected_to medias_url
     assert !Media.exists?(media.id)

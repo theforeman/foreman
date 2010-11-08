@@ -1,9 +1,8 @@
 class UnattendedController < ApplicationController
   layout nil
-  helper :all
   before_filter :get_host_details, :allowed_to_install?, :except => [:pxe_kickstart_config, :pxe_debian_config]
   before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config, :pxe_debian_config]
-  skip_before_filter :require_ssl, :require_login
+  skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
   after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish,
     :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :pxe_debian_config]
 
@@ -39,8 +38,7 @@ class UnattendedController < ApplicationController
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
-    @host.built
-    head(:created) and return
+    head(@host.built ? :created : :conflict)
   end
 
   def pxe_kickstart_config
@@ -87,11 +85,15 @@ class UnattendedController < ApplicationController
     # we try to match first based on the MAC, falling back to the IP
     conditions = (!maclist.empty? ? {:mac => maclist} : {:ip => ip})
     @host = Host.find(:first, :include => [:architecture, :media, :operatingsystem, :domain], :conditions => conditions)
-    if @host.nil?
+    unless @host
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
       head(:not_found) and return
     end
-    if @host.operatingsystem.type.nil?
+    unless @host.operatingsystem
+      logger.error "#{controller_name}: #{@host.name}'s operatingsystem is missing!"
+      head(:conflict) and return
+    end
+    unless @host.operatingsystem.family
       # Then, for some reason, the OS has not been specialized into a Redhat or Debian class
       logger.error "#{controller_name}: #{@host.name}'s operatingsytem [#{@host.operatingsystem.fullname}] has no OS family!"
       head(:conflict) and return
@@ -120,7 +122,7 @@ class UnattendedController < ApplicationController
   end
 
   def set_content_type
-    response.headers['Content-Type'] = 'text/plain' if @spoof
+    response.headers['Content-Type'] = 'text/plain'
   end
 
 end
