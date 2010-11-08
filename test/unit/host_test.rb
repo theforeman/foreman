@@ -256,4 +256,13 @@ class HostTest < ActiveSupport::TestCase
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
+  test "a fqdn Host should be assigned to a domain if such domain exists" do
+    domain = Domain.find_or_create_by_name "company.com"
+    host = Host.create :name => "host.company.com", :mac => "aabbccddeaff", :ip => "123.2.02.03",
+      :operatingsystem => Operatingsystem.first,
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
+    assert host.save
+    assert_equal domain, host.domain
+  end
+
 end

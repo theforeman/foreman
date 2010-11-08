@@ -507,7 +507,14 @@ class Host < Puppet::Rails::Host
   def normalize_hostname
     # no hostname was given or a domain was selected, since this is before validation we need to ignore
     # it and let the validations to produce an error
-    return if name.empty? or domain.nil?
-    self.name += ".#{domain}" unless name =~ /.#{domain}$/
+    return if name.empty?
+
+    if domain.nil? and name.match(/\./)
+      # try to assign the domain automaticilly based on our existing domains from the host FQDN
+      self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
+    else
+      # if our host is in short name, append the domain name
+      self.name += ".#{domain}" unless name =~ /.#{domain}$/
+    end
   end
 end
