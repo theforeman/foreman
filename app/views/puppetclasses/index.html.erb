@@ -5,6 +5,7 @@
     <th>Operating Systems</th>
     <th><%= order @search, :by => :environments_name, :as => "Environments" %>and documentation</th>
     <th>Host Group</th>
+    <th>Hosts</th>
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
@@ -17,6 +18,7 @@
         <% end %>
       </td>
       <td><%=h puppetclass.hostgroups.to_sentence %></td>
+      <td> <%= link_to "Hosts",   hosts_path         + "?search[puppetclasses_name_eq]=#{puppetclass}"%></td>
       <td align="right">
         <%= display_link_if_authorized "Destroy", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
       </td>
@@ -30,4 +32,3 @@
   <%= display_link_if_authorized "New Puppetclass", hash_for_new_puppetclass_path %> |
   <%= display_link_if_authorized "Import new puppet classes and environments", hash_for_import_environments_puppetclasses_path %>
 </span>
-
