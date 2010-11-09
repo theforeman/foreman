@@ -5,6 +5,7 @@ class UnattendedController < ApplicationController
   skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
   after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish,
     :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :pxe_debian_config]
+  before_filter :set_admin_user, :only => :built
 
   def kickstart
     @dynamic   = @host.diskLayout =~ /^#Dynamic/

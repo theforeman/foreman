@@ -153,9 +153,6 @@ class Host < Puppet::Rails::Host
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
-    # we are calling build with anonymous user as its unattended process which sets this flag
-    # TODO: consider adding another built in account for these actions
-    User.current = User.find_by_login("admin")
     self.build = false
     self.installed_at = Time.now.utc if installed
     # disallow any auto signing for our host.

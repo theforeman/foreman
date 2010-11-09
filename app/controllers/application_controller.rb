@@ -96,6 +96,13 @@ class ApplicationController < ActionController::Base
     request.format.json?
   end
 
+  # this method sets the Current user to be the Admin
+  # its required for actions which are not authenicated by default
+  # such as unattended notifications coming from an OS, or fact and reports creations
+  def set_admin_user
+    User.current = User.find_by_login("admin")
+  end
+
   private
   def detect_notices
     @notices = current_user.notices

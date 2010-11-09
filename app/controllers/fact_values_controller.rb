@@ -3,6 +3,7 @@ class FactValuesController < ApplicationController
   skip_before_filter :require_login,             :only => :create
   skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
+  before_filter :set_admin_user, :only => :create
 
   # avoids storing the facts data in the log files
   filter_parameter_logging :facts

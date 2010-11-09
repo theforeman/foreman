@@ -3,6 +3,7 @@ class ReportsController < ApplicationController
   skip_before_filter :require_ssl,               :only => :create
   skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
+  before_filter :set_admin_user, :only => :create
   helper :reports
 
   # avoids storing the report data in the log files
