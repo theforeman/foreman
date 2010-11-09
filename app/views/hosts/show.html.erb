@@ -1,10 +1,10 @@
 <% gcharts_script %>
 <% title @host.to_label %>
 <span class="title_action">
-  <%= link_to_if_authorized "Edit",    hash_for_edit_host_path(:id => @host),                                        :title => "Edit your host" %> |
-  <%= link_to_if_authorized "Facts",   hash_for_fact_values_path(:id => @host, "search[host_id_eq]" => @host.id),    :title => "Browse host facts" %> |
-  <%= link_to_if_authorized "Reports", hash_for_reports_host_path(:id => @host),                                     :title => "Browse host reports" %> |
-  <%= link_to_if_authorized "YAML",    hash_for_externalNodes_host_path(:id => @host),                               :title => "Puppet external nodes YAML dump" %> |
+  <%= link_to_if_authorized "Edit",    hash_for_edit_host_path(:id => @host),                       :title => "Edit your host" %> |
+  <%= link_to_if_authorized "Facts",   hash_for_fact_values_path("search[host_id_eq]" => @host.id), :title => "Browse host facts" %> |
+  <%= link_to_if_authorized "Reports", hash_for_reports_host_path(:id => @host),                    :title => "Browse host reports" %> |
+  <%= link_to_if_authorized "YAML",    hash_for_externalNodes_host_path(:id => @host),              :title => "Puppet external nodes YAML dump" %> |
   <% unless @host.build -%>
     <%= link_to_if_authorized "Build",        hash_for_setBuild_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => @host.can_be_build?),      :title => "Enable rebuild on next host boot" %>
   <% else -%>

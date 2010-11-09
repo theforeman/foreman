@@ -13,6 +13,7 @@ class FactValuesController < ApplicationController
       format.html do
         @search      = FactValue.search(params[:search])
         @fact_values = @search.paginate :page => params[:page], :include => [:fact_name, { :host => :domain }]
+        @timestamps  = FactValue.fact_name_name_like("timestamp").host_id_eq(@fact_values.map(&:host_id).uniq)
         @via         = ""
       end
       format.json do

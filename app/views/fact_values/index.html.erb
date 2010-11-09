@@ -5,9 +5,10 @@
     <th><%= order @search, :by => :host_name, :as => :Host %></th>
     <th><%= order @search, :by => :fact_name_name, :as => :Name %></th>
     <th><%= order @search, :by => :value %></th>
+    <th>Reported at</th>
   </tr>
   <% for fact_value in @fact_values %>
-    <% next if fact_value.name == "--- :_timestamp\n" -%>
+    <% next if fact_value.name =~ /timestamp/ -%>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to(h(fact_value.host.nil? ? "N/A" : fact_value.host.shortname), hosts_path("search[id_eq]"=> fact_value.host_id)) %></td>
       <td>
@@ -20,6 +21,7 @@
           fact_values_path("search[fact_name_id_eq]" => fact_value.fact_name, :"search[value_eq]" => fact_value.value),
           :title => "Show all #{fact_value.name} facts where they are equal to #{fact_value.value}" %>
       </td>
+      <td><%= fact_from fact_value %></td>
     </tr>
   <% end %>
 </table>
