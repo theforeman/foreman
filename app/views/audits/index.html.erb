@@ -17,7 +17,7 @@
       <td><%=h audit.action %></td>
       <td><%=h audit.created_at.to_s(:long) %></td>
       <td><%=h audit.changes.keys.map(&:humanize).to_sentence %></td>
-      <td><%=h audit.user %></td>
+      <td><%=h (audit.username || audit.user) %></td>
       <td><%= link_to "Details", audit %></td>
     </tr>
   <% end %>
