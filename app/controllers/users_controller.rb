@@ -52,6 +52,7 @@ class UsersController < ApplicationController
       # Only an admin can update admin attribute of another use
       # this is required, as the admin field is blacklisted above
       @user.update_attribute(:admin, admin) if User.current.admin
+      @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
       flash[:foreman_notice] = "Successfully updated user."
       redirect_to users_url
     else
