@@ -5,10 +5,10 @@
     <table class="list">
       <tr>
         <th><%= order @search, :by => :name %></th>
-        <th>Operating system</th>
-        <th>Environment</th>
-        <th>Model</th>
-        <th>Host Group</th>
+        <th><%= order @search, :by => :operatingsystem_name, :as => "Operating system" %></th>
+        <th><%= order @search, :by => :environment_name, :as => "Environment" %></th>
+        <th><%= order @search, :by => :model_name, :as => "Model" %></th>
+        <th><%= order @search, :by => :hostgroup_name, :as => "Host Group" %></th>
         <th><%= order @search, :by => :last_report %></th>
         <th></th>
       </tr>
