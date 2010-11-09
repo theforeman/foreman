@@ -9,11 +9,11 @@ class ReportsController < ApplicationController
   filter_parameter_logging :report
 
   def index
+    @interesting = (params[:search] and params[:search][:interesting] and params[:search][:interesting] == "true")
     search_cmd  = "Report"
     for condition in Report::METRIC
       search_cmd += ".with('#{condition.to_s}', #{params[condition]})" if params.has_key? condition
     end
-    search_cmd += ".with_changes" if (@interesting = params[:interesting])
     search_cmd += ".search(params[:search])"
     # set defaults search order - cant use default scope due to bug in AR
     # http://github.com/binarylogic/searchlogic/issues#issue/17

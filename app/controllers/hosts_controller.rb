@@ -212,13 +212,13 @@ class HostsController < ApplicationController
     redirect_to :controller => "reports", :action => "show", :id => Report.maximum('id', :conditions => {:host_id => @host})
   end
 
-  # shows all interesting reports for a certain host
+  # shows reports for a certain host
   def reports
     # set defaults search order - cant use default scope due to bug in AR
     # http://github.com/binarylogic/searchlogic/issues#issue/17
     params[:search] ||= {}
     params[:search][:order] ||=  "ascend_by_reported_at"
-    @search  = Report.search(params[:search]).status_ne(0)
+    @search  = Report.search(params[:search])
     @reports = @search.paginate(:page => params[:page], :conditions => {:host_id => @host}, :include => :host)
   end
 

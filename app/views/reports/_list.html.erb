@@ -16,7 +16,7 @@
   <% for report in @reports %>
     <tr class="<%= cycle("even", "odd") -%>">
       <% unless defined? @host -%>
-        <td><%= link_to h(report.host.shortname), reports_host_path(report.host) %></td>
+        <td><%= link_to h(report.host.shortname), reports_host_path(report.host) + "?search[interesting]=1" %></td>
       <% end -%>
       <td><%= reported_at_column(report) %></td>
       <td><%= h report.applied %></td>

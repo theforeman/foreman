@@ -8,7 +8,7 @@
   </div>
   <div> |
     <span title="Reports that contain some activity">
-      <%= check_box_tag "interesting", "1", params[:interesting] %>
+      <%= f.check_box :interesting , {}, true, false  %>
       <small>Interesting</small>
     </span>
     <% for status in Report::METRIC -%>

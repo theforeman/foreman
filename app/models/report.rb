@@ -22,7 +22,7 @@ class Report < ActiveRecord::Base
   named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
 
   # with_changes
-  named_scope :with_changes, {:conditions => "status != 0"}
+  named_scope :interesting, {:conditions => "status != 0"}
 
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
