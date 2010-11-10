@@ -86,6 +86,7 @@ class HostsController < ApplicationController
 
   def create
     @host = Host.new(params[:host])
+    @host.managed = true
     respond_to do |format|
       if @host.save
         format.html do
