@@ -1,3 +1,17 @@
+foreman (0.1.6-1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Mon, 10 Nov 2010 14:32:22 +0300
+
+foreman (0.1.5-3) experimental; urgency=low
+
+  * Added cron support
+  * Fixed dependencies of foreman-sqlite3, foreman-mysql and foreman-pgsql
+  * Relaxed dependencies of foreman
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Mon, 08 Nov 2010 16:28:17 +0300
+
 foreman (0.1.5-2) experimental; urgency=low
 
   * Bugfixes, added support for dbconfig-common and split packages.

@@ -4,7 +4,7 @@
 # see: dh_installdeb(1)
 
 set -e
-#set -x
+if [ ! -z "${DEBUG}" ]; then set -x; fi
 
 . /usr/share/debconf/confmodule
 . /usr/share/dbconfig-common/dpkg/postinst

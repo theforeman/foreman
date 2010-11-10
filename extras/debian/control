@@ -9,9 +9,9 @@ Homepage: http://www.theforeman.org/
 Package: foreman
 Architecture: all
 Pre-Depends: debconf
-Depends: ruby, ruby1.8 (>= 1.8.7), rubygems, rubygems1.8, rake (>=0.8.1), libjs-prototype (>= 1.6.0), libjs-scriptaculous (>= 1.8.1), puppet (>=0.24.4), dbconfig-common, foreman-sqlite3 | foreman-mysql | foreman-pgsql, ${misc:Depends}
-Recommends: libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid
-Suggests: thin | mongrel | httpd-cgi
+Depends: ruby, ruby1.8 (>= 1.8.7), rubygems, rubygems1.8, rake (>=0.8.1), libjs-prototype (>= 1.6.0), libjs-scriptaculous (>= 1.8.1), puppet (>=0.24.4), dbconfig-common, ${misc:Depends}
+Suggests: thin | mongrel | httpd-cgi, libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid
+Enhances: puppet
 Description: Systems management web interface
  Foreman is aimed to be a single address for all machines life cycle management.
  .
@@ -32,7 +32,8 @@ Description: Systems management web interface
 
 Package: foreman-mysql
 Architecture: all
-Depends: libdbd-mysql-ruby, mysql-client | virtual-mysql-client, ${misc:Depends}
+Depends: foreman, libdbd-mysql-ruby, ${misc:Depends}
+Recommends: mysql-client | virtual-mysql-client
 Suggests: mysql-server
 Description: metapackage providing MySQL dependencies for Foreman
  This package only provides MySQL dependencies for Foreman, a
@@ -43,7 +44,8 @@ Description: metapackage providing MySQL dependencies for Foreman
 
 Package: foreman-pgsql
 Architecture: all
-Depends: libdbd-pg-ruby, postgresql-client, ${misc:Depends}
+Depends: foreman, libdbd-pg-ruby, ${misc:Depends}
+Recommends: postgresql-client
 Suggests: postgresql
 Description: metapackage providing PostgreSQL dependencies for Foreman
  This package provides PostgreSQL dependencies for Foreman, a
@@ -54,7 +56,8 @@ Description: metapackage providing PostgreSQL dependencies for Foreman
 
 Package: foreman-sqlite3
 Architecture: all
-Depends: libdbd-sqlite3-ruby, sqlite3, ${misc:Depends}
+Depends: foreman, libdbd-sqlite3-ruby, ${misc:Depends}
+Recommends: sqlite3
 Description: metapackage providing sqlite dependencies for Foreman
  This package provides sqlite dependencies for Foreman, a
  flexible systems management web application. Install this
