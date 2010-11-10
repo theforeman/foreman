@@ -18,15 +18,17 @@ class ReportsControllerTest < ActionController::TestCase
 
   def test_create_duplicate
     create_a_puppet_transaction_report
-    post :create, {:report => @log}, set_session_user
+    User.current = nil
+    post :create, {:report => @log}
     assert_response :success
-    post :create, {:report => @log}, set_session_user
+    post :create, {:report => @log}
     assert_response :error
   end
 
   def test_create_valid
     create_a_puppet_transaction_report
-    post :create, {:report => @log}, set_session_user
+    User.current = nil
+    post :create, {:report => @log}
     assert_response :success
   end
 

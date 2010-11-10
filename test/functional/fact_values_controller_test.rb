@@ -13,12 +13,14 @@ class FactValuesControllerTest < ActionController::TestCase
   end
 
   def test_create_invalid
-    post :create, {:facts => fact_fixture[1..-1]}, set_session_user
+    User.current = nil
+    post :create, {:facts => fact_fixture[1..-1]}
     assert_response :bad_request
   end
 
   def test_create_valid
-    post :create, {:facts => fact_fixture}, set_session_user
+    User.current = nil
+    post :create, {:facts => fact_fixture}
     assert_response :success
   end
 

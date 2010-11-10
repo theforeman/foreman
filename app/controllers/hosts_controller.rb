@@ -1,6 +1,11 @@
 class HostsController < ApplicationController
-  skip_before_filter :require_login, :only => [ :query, :externalNodes, :lookup ]
-  skip_before_filter :require_ssl, :only => [ :query, :externalNodes, :lookup ]
+  # actions which don't require authentication and are always treathed as the admin user
+  ANONYMOUS_ACTIONS=[ :query, :externalNodes, :lookup ]
+  skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
+  skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
+  skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
+  before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
+
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
@@ -8,7 +13,6 @@ class HostsController < ApplicationController
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
   before_filter :find_host, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config]
-  before_filter :authorize
 
   filter_parameter_logging :root_pass
   helper :hosts, :reports

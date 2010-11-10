@@ -81,7 +81,8 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render 404 when no params are given" do
-    get :externalNodes, {}, set_session_user
+    User.current = nil
+    get :externalNodes
     assert_response :missing
     assert_template :text => '404 Not Found'
   end
@@ -93,7 +94,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render yml request correctly" do
-    get :externalNodes, {:id => @host.name, :format => "yml"}, set_session_user
+    get :externalNodes, {:id => @host.name, :format => "yml"}
     assert_response :success
     assert_template :text => @host.info.to_yaml
   end
@@ -129,7 +130,8 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "query in .yml format should return host.to_yml" do
-    get :query, {:format => "yml"}, set_session_user
+    User.current=nil
+    get :query, {:format => "yml"}
     assert_template :text => @host.to_yaml
   end
 
