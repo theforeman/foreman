@@ -1,4 +1,5 @@
 class HostsController < ApplicationController
+  include Facts
   # actions which don't require authentication and are always treathed as the admin user
   ANONYMOUS_ACTIONS=[ :query, :externalNodes, :lookup ]
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
@@ -404,14 +405,6 @@ class HostsController < ApplicationController
 
   def disabled
     show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
-  end
-
-  def fact_selected
-    @fact_name_id = params[:search_fact_name_id].to_i
-    @via    = params[:via]
-    @values = FactValue.fact_name_id_eq(@fact_name_id).ascend_by_value.all(:select => "DISTINCT value") if @fact_name_id > 0
-
-    render :partial => 'common/fact_selected', :layout => false
   end
 
   private
