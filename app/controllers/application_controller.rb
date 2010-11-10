@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
   before_filter :welcome, :detect_notices, :only => :index, :unless => :request_json?
   before_filter :authorize, :except => :login
 
+  protected
+
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action])
     return true if request.xhr?
@@ -24,8 +26,6 @@ class ApplicationController < ActionController::Base
   def deny_access
     User.current.logged? ? render_403 : require_login
   end
-
-  protected
 
   def require_ssl
     # if SSL is not configured, don't bother forcing it.
