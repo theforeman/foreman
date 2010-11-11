@@ -3,7 +3,7 @@
     <% content_tag_for :label, association, :class=>"floating" do %>
       <%= check_box_tag(
         "#{klass.class.to_s.downcase}[#{association.class.to_s.downcase}_ids][]",
-          association.id, klass.send(association.class.table_name).to_a.include?(association))
+        association.id, klass.send(association.class.table_name).map(&:id).include?(association.id))
       %>
       <%= contract association %>
       <%= hidden_field_tag "#{klass.class.to_s.downcase}[#{association.class.to_s.downcase}_ids][]" %>
