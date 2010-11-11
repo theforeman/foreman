@@ -1,3 +1,297 @@
+2010-11-11	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #450 - Environment imports lose their puppetclass associations
+
+2010-11-11	Ohad Levy <ohadlevy@gmail.com>
+	* fixed wrong usage of find_in_batches --> oops
+	* fixes #457 - LDAP on the fly user creation no longer works
+	* fixes #455 - selected items are not shown as selected
+	* Fixes #456 - After creating or editing a partition table, you get redirect to an invalid page
+	* fixes #454 - Foreman render 500 instead of 404
+	* Fixes #443 - remove unnecassary fact_values loading
+	* Restructure the host creation/edit page
+
+2010-11-10	Paul Kelly <pikelly@blueyonder.co.uk>
+	* refs #168 - optional fields were wrong
+	* Fixes #442 - User edit removes the Anonymous role
+	* Fixes #444 - use searchlogic in interesting report filter
+
+2010-11-10	Jochen Schalanda <jochen@schalanda.name>
+	* fixes #446 - Improvements for Debian package:
+
+2010-11-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #448 - Cant search by selecting a fact in the fact search bar
+	* fixes #445 - ensure that all anonymous actions are accessible
+	* all application controller methods should be protected
+
+2010-11-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #375 -  Sort all elements in host views
+	* fixes #441 - display facts timestamp
+	* Ensures that all anonymous actions are allowed - refs #366
+	* fixes #392 - audit search by user not working
+
+2010-11-08	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #168 - optional unattended settings
+	* Fixes #370 - Added 'interesting' filter to reports
+	* Fixes #440 - Admin acount is created without admin permissions
+
+2010-11-08	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #298 - Add tests to unattended controller
+	* fixes #438 - automatically associate the host domain
+	* Fixes #360, provide a list of hosts which are using a specific puppet class.
+	* Fixes broken links - refs #366
+
+2010-11-07	Ohad Levy <ohadlevy@gmail.com>
+	* wrong link to domain edit page, refs #366
+	* Fixes #436 - Migration should not fail if domain name is not set
+	* Optimize the way reports are being converted
+	* fix for puppetdoc lookups which do not exists on the filesystem - refs #423
+
+2010-11-07	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #366 - Redmine authorization port
+
+2010-11-04	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes #353 - Added responder for YAML output in HostsController#index
+	* Fixes #424 - Added responders for JSON and YAML to DashboardController#index
+
+2010-11-04	Ohad Levy <ohadlevy@gmail.com>
+	* Refactoring Fact_selection action
+	* This is addition fix to ref #423
+	* Minor SQL improvment
+	* Fixes #288 - Moved DashboardController actions (except for #index) to HostsController.
+
+2010-11-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #423 - import puppetclasses is available on all controllers
+
+2010-10-31	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes #422 - broken records will now be handled correctly in ReportObserver#after_save.
+	* Fixes #421 - change literal 1 to true in database migration AddEnabledToHosts.
+
+2010-10-31	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #420 - Settings dropdown is a partial
+
+2010-10-31	Ohad Levy <ohadlevy@gmail.com>
+	* updated RPM SPEC for 0.1-6RC2
+	* Fixes #284 - Use MAC address if IP doesn't exist when tftp booting
+
+2010-10-26	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #386 - Updated rake puppet:import_classes to support the new API
+
+2010-10-26	Ohad Levy <ohadlevy@gmail.com>
+	* Fixed an issue with metric processing on 0.25.x reports, refs #405
+
+2010-10-24	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes #356 - More improvements for Debian package specification
+	* Added support for Debian-based distributions for automatically populating TFTP directory.
+
+2010-10-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #415 - Operating systems debian types were always shown
+	* Fixes #178 and Fixes #24 - Automate populating the TFTP directory
+	* fixes #414 - Do not store debug messages
+
+2010-10-21	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #405 and Fixes #349 - Adds support to 2.6.x reports
+
+2010-10-20	Ohad Levy <ohadlevy@gmail.com>
+	* updating EPEL rpm link for RHEL6
+
+2010-10-17	Ohad Levy <ohadlevy@gmail.com>
+	* Operating system API should return allowed ptable, arch and media for this os
+	* Fixes #407 - Unable to trigger puppet runs
+	* Added RestAPI support to create, destory and enable build of hosts
+	* Added JSON API Support to the OS controller
+	* Added JSON API Support to the Partition Table controller
+	* Added JSON API Support to the Media controller
+	* Added JSON API Support to the HostGroups controller
+	* Environment JSON API should return the environment ID as well
+	* added JSON API Support to the Domains Controller
+	* added JSON API Support to Architectures controller
+
+2010-10-10	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Added a basic notice facility to foreman
+
+2010-10-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #369 - broken links on email reports
+
+2010-10-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #325 - Retrieve a list of all puppet classes using the REST API
+
+2010-10-05	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #399 - add Red Hat Network registration snippet
+
+2010-10-04	mattmoran76@gmail.com <mattmoran76@gmail.com>
+	* fixes bug #398 - issue with adding hosts with full stops This introduce a small behaviour change, before, once adding host like: x.domain.net, foreman would automatically add domain.net to its domain list, but now, as a full stop(".") is a valid hostname char, we can't parse the domain name safely, therefor we expect the user to make sure that the domain created before creating a host.
+
+2010-10-04	Ohad Levy <ohadlevy@gmail.com>
+	* Some of the controller filters were running twice, this way is the preferred way to ensure that they running only once where appropriate.
+	* minor cache optimizations and use routing helper
+	* fixes #397 - add basic authentication support for JSON requests
+
+2010-10-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #396 - Retrieve a list of all environments using the REST API * added support for JSON queries for environments and their respective hosts
+	* Merge branch '351' into develop
+	* fixes #394 - Reports do not work - total time is no longer a report metric in puppet 2.6
+	* - Added JSON support for fetch node lists - Added JSON support for fetching node facts hash
+	* fixed wrong reference to hosts, refs #385
+	* fixes #313 - Edit multiple hosts returns 404
+	* Minor html layout formatting fixes
+	* minor cleanups - refs #358
+	* fixes #389 - unable to query external nodes
+	* fixes #388 - added support to query inventory facts via json
+	* fixes #384 - out of sync might not show all real machines which are out of sync
+	* Fixes #358 - reference hosts by HOSTNAME instead of internal ID * removed rrd related links as RRD is deprecated * added a common host finder method * changed urls to include the host name rather its internal id
+	* fixes #330 - Import hosts_and_facts rakejob resets environments to production
+	* updating RPM SPEC file to build 0.1.6RC1
+	* fixes #394 - Reports do not work - total time is no longer a report metric in puppet 2.6
+	* - Added JSON support for fetch node lists - Added JSON support for fetching node facts hash
+	* fixed wrong reference to hosts, refs #385
+	* fixes #313 - Edit multiple hosts returns 404
+
+2010-10-03	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #395 - rake db:convert:prod2dev now accepts an optional table and record count parameter
+	* Fixes #390 - A user account is always associated with a session
+	* Fixes #351 - puppet rdocs need a link to the class browser for that environment
+	* Fixes #367 - Parameter validates_format_of is too restrictive
+
+2010-09-29	Ohad Levy <ohadlevy@gmail.com>
+	* Minor html layout formatting fixes
+
+2010-09-27	Ohad Levy <ohadlevy@gmail.com>
+	* minor cleanups - refs #358
+	* fixes #389 - unable to query external nodes
+	* fixes #388 - added support to query inventory facts via json
+
+2010-09-22	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch '367' into develop
+	* fixes #384 - out of sync might not show all real machines which are out of sync
+	* Fixes #358 - reference hosts by HOSTNAME instead of internal ID * removed rrd related links as RRD is deprecated * added a common host finder method * changed urls to include the host name rather its internal id
+	* fixes #384 - out of sync might not show all real machines which are out of sync
+	* Fixes #358 - reference hosts by HOSTNAME instead of internal ID * removed rrd related links as RRD is deprecated * added a common host finder method * changed urls to include the host name rather its internal id
+
+2010-09-22	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #367 - Parameter validates_format_of is too restrictive
+
+2010-09-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #330 - Import hosts_and_facts rakejob resets environments to production
+
+2010-09-19	Ohad Levy <ohadlevy@gmail.com>
+	* updating RPM SPEC file to build 0.1.6RC1
+	* fixes #383 - Foreman may not start up at all upon new installations
+	* fixes #382 - Import classes / environments can return server error
+	* Merge remote branch 'paul/bug/379-settings-on-narrow-screen' into develop
+
+2010-09-19	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #376 - Broken multiple assignment
+	* Fixes #239 - Erases environments and puppetclasses
+
+2010-09-19	Ohad Levy <ohadlevy@redhat.com>
+	* XHTML compliance
+	* update EPEL rpm links
+
+2010-09-16	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #379 - Additional settings dropdown not showing in narrow browsers
+
+2010-09-15	Ohad Levy <ohadlevy@redhat.com>
+	* settings route is no longer required - refs #294
+
+2010-09-12	Ohad Levy <ohadlevy@redhat.com>
+	* cleanup - refs #294
+
+2010-09-10	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #294 Convert settings to a dropdown
+
+2010-09-07	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #218 - Search hosts by puppetclass
+
+2010-09-05	Eric Shamow <eshamow@campina.advance.net>
+	* fixes #372 - add search option for disabled hosts
+	* fixes #371 - disable many hosts at once
+
+2010-08-31	Ohad Levy <ohadlevy@gmail.com>
+	* updated foreman puppet modules submodule to latest revision
+	* refs #369 - removing extra table header
+	* refs #369 - added additional tests
+	* fixes #369 and refactored the summary email view to make it human readable
+
+2010-08-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #368 - out of sync host list should not include disabled hosts
+	* refs #364, adding default layout to all dashboard actions
+
+2010-08-28	Eric Shamow <eshamow@campina.advance.net>
+	* fixes #364 - Enable "downtime" in Foreman * Added checkbox for enabling and disabling hosts from edit screen * Enabling e-mail reports for hosts in downtime * Added dashboard links to disabled hosts * Added basic tests
+
+2010-08-25	Ohad Levy <ohadlevy@gmail.com>
+	* Puppet 2.6 doesn't load rails class
+	* fixes #365 - puppet rdoc generation fails with puppet 2.6
+
+2010-08-18	Ohad Levy <ohadlevy@gmail.com>
+	* added rack 1.0.1 as a submodule
+
+2010-08-16	Ohad Levy <ohadlevy@gmail.com>
+	* Partial fix for refs #336, a host needs to be saved after new facts are imported
+	* fixes #362 - query interface provides hostname only unless verbose mode is enabled... this entire code will be refactored to optimize performance.
+	* fixed all parenthesize warnings
+
+2010-08-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #362 - Expose defined host list via query interface
+
+2010-08-15	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes bug #361: Omit 'environment' attribute in Host#info if environment is empty.
+
+2010-07-20	Jochen Schalanda <jochen@schalanda.name>
+	* fixes #355 - Improved Debian package: * Added meta-packages foreman-mysql, foreman-pgsql and foreman-sqlite3 for pulling in the respective dependencies * Added support for dbcommon-config * Simplified rules file * Improved copyright file * Removed duplicate JavaScript files
+
+2010-07-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #345 - unable to save associated operatingsystems
+	* fixes #344 medias pages do not show error messages
+
+2010-07-07	Ohad Levy <ohadlevy@gmail.com>
+	* refs #145, cleanup test
+	* requireing the sha1 library, refs #145
+
+2010-07-06	Ohad Levy <ohadlevy@gmail.com>
+	* reverting changes to settings file, refs #343
+
+2010-07-06	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #145 - Added AuthSourceInternal
+
+2010-07-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #329 - Errors parsing RRDs
+
+2010-06-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #331 - Operating system edit page error messages are out of alignments
+	* fixes #321 - external-node importer does not overwrite class list
+	* fixes #326 - Host resource graph legend is mislabelled
+	* fixes #329 - trying to recover from serialization side effects
+
+2010-06-25	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #260 - Switch to using STI for OS families
+
+2010-06-25	Jon Fautley <jon@dead.li>
+	* fixes #238 - Set Content-Type HTTP header when rendering nattended install scripts
+
+2010-06-17	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #261 - parameters now use a single reference_id
+
+2010-06-17	Jochen Schalanda <jochen.schalanda@detasad.com.sa>
+	* Fixes #312 - Change working directory to $FOREMAN_HOME before starting.
+
+2010-06-17	Frank Sweetser <fs@wpi.edu>
+	* fixes #324 - Don't try to read CA signed certs as foreman user before cleaning with puppetrun
+	* fixes #323 - Add a "cancel build" option
+
+2010-06-11	Frank Sweetser <fs@wpi.edu>
+	* Change puppetrun output to flash message
+
+2010-06-11	Jochen Schalanda <jochen.schalanda@detasad.com.sa>
+	* fixes #310 - Debian Initscript sometimes exits with return code >0 although no error occurred
+
+2010-06-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #315 - Newlines slipping into dynamic partition table layouts
+	* fixes #318 - users page does not sort based on last login
+
+2010-06-09	Frank Sweetser <fs@wpi.edu>
+	* fixes #316 - Show custom partition tables by default if set
+
 2010-06-07	Ohad Levy <ohadlevy@gmail.com>
 	* update docs for 0.1-5 release
 	* fixes #270 - host show page looks bad on IE or old versions of firefox
