@@ -333,6 +333,17 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get disabled hosts for a user with a fact_filter via json" do
+    one = users(:one)
+    one.roles << [roles(:manager)]
+    fn  = Puppet::Rails::FactName.create :name =>"architecture"
+    ufact = UserFact.create :user => one, :fact_name => fn, :criteria => "="
+    assert !(ufact.new_record?)
+
+    get :disabled, {:format => "json"}, {:user => one.id}
+    assert_response :success
+  end
+
   private
   def initialize_host
     User.current = users(:admin)

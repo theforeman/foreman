@@ -21,21 +21,9 @@ class HostsController < ApplicationController
   def index
 
     # restrict allowed hosts list based on the user permissions
-    @search = User.current.admin? ? Host.search(params[:search]) : Host.my_hosts.search(params[:search])
+    @search  = User.current.admin? ? Host.search(params[:search]) : Host.my_hosts.search(params[:search])
 
-    respond_to do |format|
-      format.html do
-        # You can see a host if you can CRUD it
-        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model, :fact_values]
-        @via    = "fact_values_"
-        # SQL optimizations queries
-        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
-        @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
-                                     :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
-      end
-      format.json { render :json => @search.all(:select => "name").map(&:name) }
-      format.yaml { render :text => @search.all(:select => "name").map(&:name).to_yaml }
-    end
+    render_hosts
   end
 
   def show
@@ -507,23 +495,36 @@ class HostsController < ApplicationController
     end
   end
 
-  # TODO: This method is nearly identical to the index method
-  # this needs to be refactored.
-  def show_hosts list, title
-    @search = list.search(params[:search])
+  # Returns the associationes to include when doing a search.
+  # If the user has a fact_filter then we need to include :fact_values
+  # We do not include most associations unless we are processing a html page
+  def included_associations(include = [])
+    include += [:hostgroup, :domain, :operatingsystem, :environment, :model] unless request_json?
+    include += [:fact_values] if User.current.user_facts.any?
+  end
+
+  def render_hosts title=nil
     respond_to do |format|
       format.html do
-        @hosts = @search.paginate :page => params[:page], :include => [:hostgroup, :domain, :operatingsystem, :environment, :model, :fact_values]
-        @via    = "fact_values_"
+        # You can see a host if you can CRUD it
+        @hosts = @search.paginate :page => params[:page], :include => included_associations
+        @via   = "fact_values_"
+        # SQL optimizations queries
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
         @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
                                      :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
-        @title = title
-        render :index
+        # rendering index page for  non index page requests (out of sync hosts etc)
+        render :index if title and @title = title
       end
-      format.yaml { render :text => @search.all(:select => [:name]).map(&:name).to_yaml }
-      format.json { render :json => @search.all(:select => [:name]).map(&:name) }
+      format.json { render :json => @search.all(:select => "name", :include => included_associations).map(&:name) }
+      format.yaml { render :text => @search.all(:select => "name", :include => included_associations).map(&:name).to_yaml }
     end
+
+  end
+
+  def show_hosts list, title
+    @search = User.current.admin? ? list.search(params[:search]) : list.my_hosts.search(params[:search])
+    render_hosts title
   end
 
 end
