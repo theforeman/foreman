@@ -35,19 +35,22 @@
     <%= render 'unattended', :f => f %>
   <% end -%>
 
-  <% field_set_tag 'Additional Information' do -%>
-    <table>
+  <% field_set_tag link_to_function "Additional Information", toggle_div("info") do -%>
+    <table style = "display:none; width:100%;", id = "info">
       <tr>
-        <td> <%= f.text_area :comment, :size => "80x5", :title => "additional information about this host" %></td>
-        <td>Alerts Enabled</td>
-        <td><%= f.check_box :enabled %></td>
+        <td colspan ="2"> <%= f.text_area :comment, :rows => 5, :style => "width:100%;", :title => "additional information about this host" %></td>
+      </tr>
+      <tr>
+        <td>Alerts Enabled <%= f.check_box :enabled %></td>
         <% if SETTINGS[:login] -%>
-          <td>Owned by</td>
-          <td>
+          <td align="right">Owned by
             <%= f.select :is_owned_by,
               option_groups_from_collection_for_select([ User, Usergroup], :all, :table_name, :id_and_type, :select_title, @host.is_owned_by),
-              :include_blank => "select an owner" %>
+              :include_blank => "select an owner"
+            %>
           </td>
+        <% else -%>
+          <td></td>
         <% end -%>
       </tr>
     </table>
