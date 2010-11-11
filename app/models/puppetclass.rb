@@ -15,19 +15,21 @@ class Puppetclass < ActiveRecord::Base
   before_destroy Ensure_not_used_by.new(:hosts)
   before_destroy Ensure_not_used_by.new(:hostgroups)
 
-  # Scans a directory for puppet classes
-  # +path+ : String containing a single module directory
+  # Scans a directory path for puppet classes
+  # +paths+ : String containing a colon separated module path
   # returns
   # Array of Strings containing puppetclass names
-  def self.scanForClasses(path)
+  def self.scanForClasses(paths)
     klasses=Array.new
-    Dir.glob("#{path}/*/manifests/**/*.pp").each do |manifest|
-      File.read(manifest).each_line do |line|
-        klass=line.match(/^class (\S+).*\{/)
-        klasses << klass[1] if klass
+    for path in paths.split(":")
+      Dir.glob("#{path}/*/manifests/**/*.pp").each do |manifest|
+        File.read(manifest).each_line do |line|
+          klass=line.match(/^class (\S+).*\{/)
+          klasses << klass[1] if klass
+        end
       end
     end
-    return klasses
+    return klasses.uniq
   end
 
   # returns a hash containing modules and associated classes

@@ -5,44 +5,44 @@
     <fieldset>
       <legend><%= kind.to_s.capitalize -%> puppetclasses</legend>
       <% unless (pcs = @changed.send(:[], kind)[:puppetclasses]).empty? -%>
-      <table>
-      <% pcs.in_groups_of(@grouping) do |group| -%>
-        <tr>
-          <% for i in  0...@grouping do %>
-           <% if group[i] -%>
-              <td>
-                <%= check_box_tag "changed[#{kind.to_s}][puppetclasses][]", group[i], true %>
-                <%= group[i] -%>
-              </td>
-            <% end -%>
+        <table>
+          <% pcs.in_groups_of(@grouping) do |group| -%>
+            <tr>
+              <% for i in  0...@grouping do %>
+                <% if group[i] -%>
+                  <td>
+                    <%= check_box_tag "changed[#{kind.to_s}][puppetclasses][]", group[i], true %>
+                    <%= group[i] -%>
+                  </td>
+                <% end -%>
+              <% end -%>
+            </tr>
           <% end -%>
-        </tr>
-      <% end -%>
-      </table>
+        </table>
       <% end -%>
     </fieldset>
 
     <fieldset>
       <legend><%= kind.to_s.capitalize -%>  environments</legend>
       <% unless (envs = @changed.send(:[], kind)[:environments]).empty? -%>
-      <table>
-      <% envs.in_groups_of(@grouping) do |group| -%>
-        <tr>
-          <% for i in 0...@grouping do %>
-           <% if group[i] -%>
-              <td>
-                <%= check_box_tag "changed[#{kind.to_s}][environments][]", group[i], true %>
-                <%= group[i] -%>
-              </td>
-            <% end -%>
+        <table>
+          <% envs.in_groups_of(@grouping) do |group| -%>
+            <tr>
+              <% for i in 0...@grouping do %>
+                <% if group[i] -%>
+                  <td>
+                    <%= check_box_tag "changed[#{kind.to_s}][environments][]", group[i], true %>
+                    <%= group[i] -%>
+                  </td>
+                <% end -%>
+              <% end -%>
+            </tr>
           <% end -%>
-        </tr>
-      <% end -%>
-      </table>
+        </table>
       <% end -%>
     </fieldset>
   <% end -%>
   <div>
-    <%= submit_tag "Update" -%> <%= submit_tag "Cancel" -%>
+    <%= submit_tag "Update" -%> or <%= link_to "Cancel", environments_path -%>
   </div>
 <% end -%>

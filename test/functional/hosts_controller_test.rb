@@ -27,7 +27,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should render 404 when host is not found" do
-    get :show, :id => "no.such.host"
+    get :show, {:id => "no.such.host"}, set_session_user
     assert_response :missing
     assert_template 'common/404'
   end

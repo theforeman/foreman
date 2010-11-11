@@ -17,16 +17,12 @@ module Foreman::Controller::Environments
   end
 
   def obsolete_and_new
-    if params[:commit] == "Cancel"
-      redirect_to environments_path
+    if (errors = Environment.obsolete_and_new(params[:changed])).empty?
+      flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
     else
-      if (errors = Environment.obsolete_and_new(params[:changed])).empty?
-        flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
-      else
-        flash[:foreman_error]  = "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors
-      end
-      redirect_to :back
+      flash[:foreman_error]  = "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors.join("<br>")
     end
+    redirect_to puppetclasses_path
   end
 
 end

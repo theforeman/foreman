@@ -21,7 +21,7 @@ Foreman::AccessControl.map do |map|
     map.permission :create_environments,  {:environments => [:new, :create]}
     map.permission :edit_environments,    {:environments => [:edit, :update]}
     map.permission :destroy_environments, {:environments => [:destroy]}
-    map.permission :import_environments,  {:environments => [:import_environments]}
+    map.permission :import_environments,  {:environments => [:import_environments, :obsolete_and_new]}
   end
 
   map.security_block :external_variables do |map|

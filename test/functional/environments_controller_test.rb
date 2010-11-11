@@ -53,10 +53,12 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should update environments via obsolete_and_new" do
     @request.env["HTTP_REFERER"] = environments_url
-    Environment.create :name => "tester"
-    ["a", "b", "c"].each {|name| Puppetclass.create :name => name}
-    Environment.expects(:puppetEnvs).returns(:muc                 => "/etc/puppet/env/muc",
-                                             :global_puppetmaster => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites",
+    as_admin do
+      ["tester", "muc"].each {|name| Environment.create :name => name}
+      ["a", "b", "c"].each   {|name| Puppetclass.create :name => name}
+    end
+    Environment.expects(:puppetEnvs).returns(:tester                 => "/etc/puppet/env/muc",
+                                             :muc                 => "/etc/puppet/env/muc",
                                              :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
                                             ).at_least_once
     Puppetclass.expects(:scanForClasses).returns(["a", "b", "c"]).at_least_once
@@ -72,11 +74,15 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should update puppetclasses via obsolete_and_new" do
     @request.env["HTTP_REFERER"] = environments_url
-    Puppetclass.create :name => "tester"
+    as_admin do
+      ["tester", "base"].each {|name| Puppetclass.create :name => name}
+      ["muc", "dog"].each {|name| Environment.create :name => name}
+    end
     Environment.expects(:puppetEnvs).returns(:muc                 => "/etc/puppet/env/muc",
                                              :global_puppetmaster => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites",
                                              :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
                                             ).at_least_once
+    Puppetclass.expects(:scanForClasses).returns(["base", "cat", "tester"]).at_least_once
     post :obsolete_and_new, { "changed"=>{
                                     "obsolete" => {"puppetclasses" => ["tester"]},
                                     "new"      => {"puppetclasses" => ["cat"]   }
@@ -84,23 +90,30 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
     assert_nil Puppetclass.find_by_name("tester")
     assert Puppetclass.find_by_name("cat")
+    assert Environment.find_by_name("muc").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
+    assert Environment.find_by_name("dog").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
+    assert Environment.find_by_name("global_puppetmaster").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
   end
 
   test "should fail to remove active environments" do
     @request.env["HTTP_REFERER"] = environments_url
-    Environment.expects(:puppetEnvs).returns(:production          => "/etc/puppet/env/muc",
+    Environment.expects(:puppetEnvs).returns(:dummy               => "/etc/puppet/env/muc",
                                              :global_puppetmaster => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
                                             ).at_least_once
+    Puppetclass.expects(:scanForClasses).returns(["a", "b", "c"]).at_least_once
     host = hosts(:myfullhost)
-    host.environment = Environment.find_by_name("production")
-    host.domain = Domain.find_or_create_by_name("mydomain.com")
-    assert host.save
-    assert Host.find_by_name("myfullname.mydomain.com").environment == Environment.find_by_name("production")
+    as_admin do
+      host.environment = Environment.find_or_create_by_name("dummy")
+      host.domain = Domain.find_or_create_by_name("mydomain.com")
+      assert host.save
+    end
+    assert Host.find_by_name("myfullname.mydomain.com").environment == Environment.find_by_name("dummy")
     post :obsolete_and_new, { "changed"=>{
-                                    "obsolete" => {"environments" => ["production"]}
+                                    "new"      => {"puppetclasses" => ["a", "b", "c"]},
+                                    "obsolete" => {"environments"  => ["dummy"]}
                              }}, set_session_user
     assert flash[:foreman_error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
-    assert Environment.find_by_name("production")
+    assert Environment.find_by_name("dummy")
   end
 
   test "should fail to remove active puppetclasses" do
