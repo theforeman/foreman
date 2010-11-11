@@ -1,7 +1,7 @@
 class EnvironmentsController < ApplicationController
   include Foreman::Controller::Environments
 
-  before_filter :find_environment, :only => %w{show edit update destroy}
+  before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
     respond_to do |format|
@@ -53,11 +53,6 @@ class EnvironmentsController < ApplicationController
       flash[:foreman_error]  = @environment.errors.full_messages.join("<br/>")
     end
     redirect_to environments_url
-  end
-
-  private
-  def find_environment
-    @environment = Environment.find_by_name(params[:id])
   end
 
 end

@@ -1,5 +1,5 @@
 class DomainsController < ApplicationController
-  before_filter :find_domain, :only => %w{show edit update destroy}
+  before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
     respond_to do |format|
@@ -50,11 +50,6 @@ class DomainsController < ApplicationController
       flash[:foreman_error] = @domain.errors.full_messages.join("<br/>")
     end
     redirect_to domains_url
-  end
-
-  private
-  def find_domain
-    @domain = Domain.find_by_name(params[:id])
   end
 
 end

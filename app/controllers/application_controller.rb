@@ -71,7 +71,13 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render :text => "404 Not Found\n", :status => 404
+    respond_to do |format|
+      format.html { render "common/404", :status => 404 }
+      format.json { head :status => 404}
+      format.yaml { head :status => 404}
+      format.yml { head :status => 404}
+    end
+    return true
   end
 
   def setgraph chart, data, options = {}
@@ -101,6 +107,18 @@ class ApplicationController < ActionController::Base
   # such as unattended notifications coming from an OS, or fact and reports creations
   def set_admin_user
     User.current = User.find_by_login("admin")
+  end
+
+  # searchs for an object based on its name and assign it to an instance variable
+  # required for models which implement the to_param method
+  #
+  # example:
+  # @host = Host.find_by_name params[:id]
+  def find_by_name
+    if params[:id]
+      obj = controller_name.singularize
+      not_found and return unless eval("@#{obj} = #{obj.camelize}.find_by_name(params[:id])")
+    end
   end
 
   private

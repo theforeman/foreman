@@ -1,5 +1,5 @@
 class ArchitecturesController < ApplicationController
-  before_filter :find_arch, :only => %w{show edit update destroy}
+  before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
     respond_to do |format|
@@ -49,8 +49,4 @@ class ArchitecturesController < ApplicationController
     redirect_to architectures_url
   end
 
-  private
-  def find_arch
-    @architecture = Architecture.find_by_name(params[:id])
-  end
 end

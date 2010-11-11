@@ -12,7 +12,7 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
-  before_filter :find_host, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
+  before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config]
 
   filter_parameter_logging :root_pass
@@ -157,7 +157,7 @@ class HostsController < ApplicationController
       end
     rescue
       # failed
-      logger.warn "Failed to generate external nodes for #{@host.name} with #{$!}"
+      logger.warn "Failed to generate external nodes for #{@host} with #{$!}"
       render :text => 'Unable to generate output, Check log files\n', :status => 412 and return
     end
   end
@@ -487,12 +487,6 @@ class HostsController < ApplicationController
     missed_hosts       = hosts.map(&:name).join('<br/>')
     flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
     redirect_to(hosts_path) and return
-  end
-
-  def find_host
-    if params[:id]
-      render not_found unless @host = Host.find_by_name(params[:id])
-    end
   end
 
   # Returns the associationes to include when doing a search.

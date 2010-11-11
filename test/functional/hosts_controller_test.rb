@@ -26,6 +26,12 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should render 404 when host is not found" do
+    get :show, :id => "no.such.host"
+    assert_response :missing
+    assert_template 'common/404'
+  end
+
   test "should get new" do
     get :new, {}, set_session_user
     assert_response :success
@@ -84,7 +90,7 @@ class HostsControllerTest < ActionController::TestCase
     User.current = nil
     get :externalNodes
     assert_response :missing
-    assert_template :text => '404 Not Found'
+    assert_template 'common/404'
   end
 
   test "externalNodes should render correctly when format text/html is given" do
