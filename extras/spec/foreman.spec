@@ -9,7 +9,7 @@ Summary:        Systems Management web application
 Group:          Applications/System
 License:        GPLv3+
 URL:            http://theforeman.org
-Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-6rc2.tar.bz2
+Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.1-6.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -163,6 +163,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu Nov 11 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6
+- New upstream version
 * Sun Oct 30 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc2
 - New release candidate
 - Updated configuration file permssion not to break passenger
