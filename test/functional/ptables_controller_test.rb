@@ -26,7 +26,7 @@ class PtablesControllerTest < ActionController::TestCase
   def test_create_valid
     Ptable.any_instance.stubs(:valid?).returns(true)
     post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user
-    assert_redirected_to ptable_url(assigns(:ptable))
+    assert_redirected_to ptables_url
   end
 
   def test_edit
@@ -43,7 +43,7 @@ class PtablesControllerTest < ActionController::TestCase
   def test_update_valid
     Ptable.any_instance.stubs(:valid?).returns(true)
     put :update, {:id => Ptable.first.id}, set_session_user
-    assert_redirected_to ptable_url(assigns(:ptable))
+    assert_redirected_to ptables_url
   end
 
   def test_destroy

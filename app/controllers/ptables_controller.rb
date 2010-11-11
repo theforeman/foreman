@@ -25,7 +25,7 @@ class PtablesController < ApplicationController
     @ptable = Ptable.new(params[:ptable])
     if @ptable.save
       flash[:foreman_notice] = "Successfully created partition table."
-      redirect_to @ptable
+      redirect_to ptables_url
     else
       render :action => 'new'
     end
@@ -37,7 +37,7 @@ class PtablesController < ApplicationController
   def update
     if @ptable.update_attributes(params[:ptable])
       flash[:foreman_notice] = "Successfully updated partition table."
-      redirect_to @ptable
+      redirect_to ptables_url
     else
       render :action => 'edit'
     end
