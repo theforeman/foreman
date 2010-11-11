@@ -81,9 +81,9 @@ class User < ActiveRecord::Base
       attrs = AuthSource.authenticate(login, password)
       if attrs
         user = new(*attrs)
-        # The default user must be given :create_users permissions for on-the-fly to work.
         user.login = login
-        User.current = user
+        # The default user can't auto create users, we need to change to Admin for this to work
+        User.current = User.find_by_login "admin"
         if user.save
           user.reload
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
@@ -92,6 +92,7 @@ class User < ActiveRecord::Base
           logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
           user = nil
         end
+        User.current = user
       end
     end
     anonymous = Role.find_by_name("Anonymous")
