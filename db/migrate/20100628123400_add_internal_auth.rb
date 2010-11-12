@@ -5,7 +5,8 @@ class AddInternalAuth < ActiveRecord::Migration
 
     User.reset_column_information
 
-    user = User.find_or_create_by_login(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => "root@#{Facter.domain}"){|u| u.admin = true}
+    user = User.find_or_create_by_login(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => "root@#{Facter.domain}")
+    user.update_attribute :admin, true
     src  = AuthSourceInternal.find_or_create_by_type "AuthSourceInternal"
     src.update_attribute :name, "Internal"
     user.auth_source = src

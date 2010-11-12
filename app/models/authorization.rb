@@ -28,7 +28,7 @@ module Authorization
     klass.gsub!(/authsource.*/, "authenticator")
     klass.gsub!(/commonparameter.*/, "global_variable")
     klasses = klass.pluralize
-    return true if User.current.allowed_to?("#{operation}_#{klasses}".to_sym)
+    return true if User.current and User.current.allowed_to?("#{operation}_#{klasses}".to_sym)
 
     errors.add_to_base "You do not have permission to #{operation} this #{klass}"
     false
@@ -36,6 +36,6 @@ module Authorization
 
   private
   def enforce?
-    not (defined?(Rake) or User.current.admin?)
+    not (defined?(Rake) or (User.current and User.current.admin?))
   end
 end
