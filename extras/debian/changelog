@@ -1,8 +1,15 @@
+foreman (0.1.6-2) experimental; urgency=low
+
+  * Fixed PostgreSQL support
+  * The package now depends on rake >=0.8.4
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Sun, 14 Nov 2010 13:30:35 +0300
+
 foreman (0.1.6-1) experimental; urgency=low
 
   * New upstream release
 
- -- Jochen Schalanda <jochen@schalanda.name>  Mon, 10 Nov 2010 14:32:22 +0300
+ -- Jochen Schalanda <jochen@schalanda.name>  Wed, 10 Nov 2010 14:32:22 +0300
 
 foreman (0.1.5-3) experimental; urgency=low
 
@@ -16,10 +23,10 @@ foreman (0.1.5-2) experimental; urgency=low
 
   * Bugfixes, added support for dbconfig-common and split packages.
 
- -- Jochen Schalanda <jochen@schalanda.name>  Mon, 07 Jul 2010 17:25:04 +0800
+ -- Jochen Schalanda <jochen@schalanda.name>  Wed, 07 Jul 2010 17:25:04 +0800
 
 foreman (0.1.5-1) experimental; urgency=low
 
   * Initial Debian version
 
- -- Jochen Schalanda <jochen@schalanda.name>  Mon, 07 Jun 2010 13:57:44 +0800
+ -- Jochen Schalanda <jochen@schalanda.name>  Wed, 07 Jun 2010 13:57:44 +0800
