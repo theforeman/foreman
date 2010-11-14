@@ -9,7 +9,7 @@ class AddOwnerToHosts < ActiveRecord::Migration
     email = SETTINGS[:administrator] || "root@#{Facter.domain}"
     owner = User.find_by_mail email
     owner ||= User.find_or_create_by_login(:login => "admin", :admin => true, :firstname => "Admin", :lastname => "User", :mail => email)
-    unless owner.nil? and owner.id.nil?
+    unless owner.nil? or owner.id.nil?
       say "setting default owner for all hosts"
       Host.update_all("owner_id = '#{owner.id}'")
     end
