@@ -17,9 +17,9 @@ case "$1" in
 			db_purge
 		fi
 		if which ucf >/dev/null 2>&1; then
-			ucf --purge /etc/foreman/database.yml
-			ucf --purge /etc/foreman/email.yml
-			ucf --purge /etc/foreman/session.yml
+			ucf --debconf-ok --purge /etc/foreman/database.yml
+			ucf --debconf-ok --purge /etc/foreman/email.yml
+			ucf --debconf-ok --purge /etc/foreman/session.yml
 		fi
 		# package-generated or runtime files are removed
 		rm -f /usr/share/foreman/db/schema.db

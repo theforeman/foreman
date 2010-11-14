@@ -36,17 +36,11 @@ dbc_dbfile_perms='0660'
 db_get foreman/database-type || true
 DB_TYPE=${RET}
 
-case "${DB_TYPE}" in
-	sqlite3)
-		dbc_generate_include_args='-o template_infile=/usr/share/foreman/templates/database-sqlite.yml.template'
-	;;
-	mysql|pgsql)
-		dbc_generate_include_args='-o template_infile=/usr/share/foreman/templates/database.yml.template'
-	;;
-	*)
-		exit 1;
-	;;
-esac
+if [ -z "${DB_TYPE}" ]; do
+	exit 1
+done
+
+dbc_generate_include_args='-o template_infile=/usr/share/foreman/templates/database-${DB_TYPE}.yml.template'
 
 dbc_go foreman $@
 

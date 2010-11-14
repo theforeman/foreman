@@ -2,7 +2,7 @@
 # config maintainer script for foreman
 
 set -e
-#set -x
+if [ ! -z "${DEBUG}" ]; then set -x; fi
 
 # source debconf stuff
 . /usr/share/debconf/confmodule
