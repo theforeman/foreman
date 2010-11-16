@@ -476,6 +476,11 @@ class Host < Puppet::Rails::Host
     false
   end
 
+  # Returns a url pointing to boot file
+  def url_for_boot file
+    "#{os.media_uri(self)}/#{os.url_for_boot(file)}"
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses

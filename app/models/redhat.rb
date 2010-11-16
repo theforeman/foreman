@@ -59,4 +59,8 @@ class Redhat < Operatingsystem
     "kickstart"
   end
 
+  def url_for_boot(file)
+    PXEDIR + "/" + PXEFILES[file]
+  end
+
 end

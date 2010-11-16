@@ -6,7 +6,7 @@ lang en_US.UTF-8
 <%= "selinux --disabled\n" if @osver != 3 -%>
 keyboard us
 skipx
-network --bootproto dhcp
+network --bootproto <%= @static ? "static" : "dhcp" %> --hostname <%= @host %>
 rootpw --iscrypted <%= root_pass %>
 firewall --disabled
 authconfig --useshadow --enablemd5 <%= @osver != 3 and @osver != 4 ? '--disablenis' : '' %>
@@ -17,7 +17,6 @@ bootloader --location=mbr --append="nofb quiet splash=quiet <%=ks_console%>" <%=
 <% else -%>
 <%= @host.diskLayout %>
 <% end -%>
-skipx
 text
 reboot
 

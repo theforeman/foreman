@@ -1,10 +1,10 @@
 class UnattendedController < ApplicationController
   layout nil
   before_filter :get_host_details, :allowed_to_install?, :except => [:pxe_kickstart_config, :pxe_debian_config]
-  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config, :pxe_debian_config]
+  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config, :gpxe_kickstart_config, :pxe_debian_config]
   skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
   after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish,
-    :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :pxe_debian_config]
+    :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :gpxe_kickstart_config, :pxe_debian_config]
   before_filter :set_admin_user, :only => :built
 
   def kickstart
@@ -15,6 +15,9 @@ class UnattendedController < ApplicationController
     @mediapath = os.mediapath @host
     @epel      = os.epel      @host
     @yumrepo   = os.yumrepo   @host
+
+    # force static network configurtion if static http parameter is defined, in the future this needs to go into the GUI
+    @static = !params[:static].empty?
     unattended_local "kickstart"
   end
 
@@ -47,6 +50,10 @@ class UnattendedController < ApplicationController
     prefix = @host.operatingsystem.pxe_prefix(@host.arch)
     @kernel = "#{prefix}-#{Redhat::PXEFILES[:kernel]}"
     @initrd = "#{prefix}-#{Redhat::PXEFILES[:initrd]}"
+  end
+
+  # Returns a valid GPXE config file to kickstart hosts
+  def gpxe_kickstart_config
   end
 
   def pxe_debian_config
