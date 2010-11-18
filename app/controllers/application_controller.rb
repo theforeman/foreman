@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
 
   # standard layout to all controllers
-  layout 'standard'
   helper 'layout'
 
   before_filter :require_ssl, :require_login
