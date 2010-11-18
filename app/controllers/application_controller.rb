@@ -178,7 +178,7 @@ class ApplicationController < ActionController::Base
 
   def render_403
     respond_to do |format|
-      format.html { render :template => "common/403", :layout => request.xhr?, :status => 403 }
+      format.html { render :template => "common/403", :layout => !request.xhr?, :status => 403 }
       format.atom { head 403 }
       format.yaml { head 403 }
       format.yml  { head 403 }
