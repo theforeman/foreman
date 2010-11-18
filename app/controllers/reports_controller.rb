@@ -46,9 +46,9 @@ class ReportsController < ApplicationController
   def destroy
     @report = Report.find(params[:id])
     if @report.destroy
-      flash[:foreman_notice] = "Successfully destroyed report."
+      notice "Successfully destroyed report."
     else
-      flash[:foreman_error] = @report.errors.full_messages.join("<br/>")
+      error @report.errors.full_messages.join("<br/>")
     end
     redirect_to reports_url
   end

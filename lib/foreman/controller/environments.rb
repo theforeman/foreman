@@ -12,15 +12,15 @@ module Foreman::Controller::Environments
       redirect_to :back
     end
   rescue Exception => e
-    flash[:foreman_error] = e
+    error e
     redirect_to :back
   end
 
   def obsolete_and_new
     if (errors = Environment.obsolete_and_new(params[:changed])).empty?
-      flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+      notice "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
     else
-      flash[:foreman_error]  = "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors.join("<br>")
+      error "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors.join("<br>")
     end
     redirect_to puppetclasses_path
   end

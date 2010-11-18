@@ -18,7 +18,7 @@ class PuppetclassesController < ApplicationController
   def create
     @puppetclass = Puppetclass.new(params[:puppetclass])
     if @puppetclass.save
-      flash[:foreman_notice] = "Successfully created puppetclass."
+      notice "Successfully created puppetclass."
       redirect_to puppetclasses_url
     else
       render :action => 'new'
@@ -32,7 +32,7 @@ class PuppetclassesController < ApplicationController
   def update
     @puppetclass = Puppetclass.find(params[:id])
     if @puppetclass.update_attributes(params[:puppetclass])
-      flash[:foreman_notice] = "Successfully updated puppetclass."
+      notice "Successfully updated puppetclass."
       redirect_to puppetclasses_url
     else
       render :action => 'edit'
@@ -42,9 +42,9 @@ class PuppetclassesController < ApplicationController
   def destroy
     @puppetclass = Puppetclass.find(params[:id])
     if @puppetclass.destroy
-      flash[:foreman_notice] = "Successfully destroyed puppetclass."
+      notice "Successfully destroyed puppetclass."
     else
-      flash[:foreman_error] = @puppetclass.errors.full_messages.join("<br/>")
+      error @puppetclass.errors.full_messages.join("<br/>")
     end
     redirect_to puppetclasses_url
   end

@@ -99,12 +99,12 @@ class PtablesControllerTest < ActionController::TestCase
   test 'user with editing rights should succeed in deleting a partition table' do
     setup_edit_user
     delete :destroy, {:id => Ptable.first.id}
-    assert flash[:foreman_notice] = "Successfully destroyed partition table."
+    assert flash[:notice] = "Successfully destroyed partition table."
   end
 
   test 'user with editing rights should succeed in creating a partition table' do
     setup_edit_user
     post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}
-    assert flash[:foreman_notice] = "Successfully created partition table."
+    assert flash[:notice] = "Successfully created partition table."
   end
 end

@@ -33,7 +33,7 @@ class RolesController < ApplicationController
     @role = Role.new(params[:role])
     @permissions = @role.setable_permissions
     if @role.save
-      flash[:foreman_notice] = "#{@role.name} succcessfully created"
+      notice "#{@role.name} succcessfully created"
       redirect_to roles_url
     else
       render :action => 'new'
@@ -48,7 +48,7 @@ class RolesController < ApplicationController
   def update
     @role = Role.find(params[:id])
     if @role.update_attributes(params[:role])
-      flash[:foreman_notice] = "#{@role.name} successfully updated"
+      notice "#{@role.name} successfully updated"
       redirect_to roles_url
     else
       render :action => 'edit'
@@ -58,9 +58,9 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find(params[:id])
     if @role.destroy
-      flash[:foreman_notice] = "Successfully destroyed role."
+      notice "Successfully destroyed role."
     else
-      flash[:foreman_error] = @role.errors.full_messages.join("<br/>")
+      error @role.errors.full_messages.join("<br/>")
     end
     redirect_to roles_url
   end
@@ -73,7 +73,7 @@ class RolesController < ApplicationController
         role.permissions = params[:permissions][role.id.to_s]
         role.save
       end
-      flash[:foreman_notice] = "All non public permissions successfuly updated"
+      notice "All non public permissions successfuly updated"
       redirect_to roles_url
     end
   end

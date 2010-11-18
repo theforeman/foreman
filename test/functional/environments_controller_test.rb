@@ -66,7 +66,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
                                     "obsolete" => {"environments" => ["tester"] },
                                     "new"      => {"environments" => ["dog"   ] }
                             }}, set_session_user
-    assert flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
     assert_nil Environment.find_by_name("tester")
     assert Environment.find_by_name("dog")
     assert Environment.find_by_name("dog").puppetclasses.map(&:name).sort == ["a", "b", "c"]
@@ -87,7 +87,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
                                     "obsolete" => {"puppetclasses" => ["tester"]},
                                     "new"      => {"puppetclasses" => ["cat"]   }
                              }}, set_session_user
-    assert flash[:foreman_notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
     assert_nil Puppetclass.find_by_name("tester")
     assert Puppetclass.find_by_name("cat")
     assert Environment.find_by_name("muc").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
@@ -112,7 +112,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
                                     "new"      => {"puppetclasses" => ["a", "b", "c"]},
                                     "obsolete" => {"environments"  => ["dummy"]}
                              }}, set_session_user
-    assert flash[:foreman_error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
+    assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
     assert Environment.find_by_name("dummy")
   end
 
@@ -130,7 +130,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, { "changed"=>{
                                     "obsolete" => {"puppetclasses" => ["base"]}
                              }}, set_session_user
-    assert flash[:foreman_error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
+    assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
     assert Puppetclass.find_by_name("base")
   end
 

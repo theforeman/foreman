@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
         unless User.current = User.find_by_login("admin")
-          flash[:foreman_error] = "Unable to find internal system admin account - Recreating . . ."
+          error "Unable to find internal system admin account - Recreating . . ."
           User.current = User.current = User.create_admin
         end
         session[:user] = User.current.id unless request_json?
@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # this method is returns the active user which gets used to puplate the audits table
   def current_user
     User.current
   end
@@ -121,6 +122,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def notice notice
+    flash[:notice] = notice
+  end
+
+  def error error
+    flash[:error] = error
+  end
+
   private
   def detect_notices
     @notices = current_user.notices
@@ -170,7 +179,7 @@ class ApplicationController < ActionController::Base
 
   def render_403
     respond_to do |format|
-      format.html { render :template => "common/403", :layout => (request.xhr? ? false : 'standard'), :status => 403 }
+      format.html { render :template => "common/403", :layout => request.xhr?, :status => 403 }
       format.atom { head 403 }
       format.yaml { head 403 }
       format.yml  { head 403 }

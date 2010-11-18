@@ -91,7 +91,7 @@ class RolesControllerTest < ActionController::TestCase
     users(:one).roles = [roles(:manager)] # make user one a manager
     delete :destroy, {:id => roles(:manager)}
     assert_redirected_to roles_path
-    assert_equal 'Role is in use', flash[:foreman_error]
+    assert_equal 'Role is in use', flash[:error]
     assert_not_nil Role.find_by_id(roles(:manager).id)
   end
 

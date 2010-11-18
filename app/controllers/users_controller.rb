@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @user.admin = params[:admin]
     if @user.save
       @user.roles = Role.name_is("Anonymous")
-      flash[:foreman_notice] = "Successfully created user."
+      notice "Successfully created user."
       redirect_to users_url
     else
       render :action => 'new'
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       # this is required, as the admin field is blacklisted above
       @user.update_attribute(:admin, admin) if User.current.admin
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
-      flash[:foreman_notice] = "Successfully updated user."
+      notice "Successfully updated user."
       redirect_to users_url
     else
       render :action => 'edit'
@@ -63,13 +63,13 @@ class UsersController < ApplicationController
   def destroy
     user = User.find(params[:id])
     if user == User.current
-      flash[:foreman_notice] = "You are currently logged in, suicidal?"
+      notice "You are currently logged in, suicidal?"
       redirect_to :back and return
     end
     if user.destroy
-      flash[:foreman_notice] = "Successfully destroyed user."
+      notice "Successfully destroyed user."
     else
-      flash[:foreman_error] = user.errors.full_messages.join("<br/>")
+      error user.errors.full_messages.join("<br/>")
     end
     redirect_to users_url
   end
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
       user = User.try_to_login(params[:login]['login'].downcase,  params[:login]['password'])
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
-        flash[:foreman_error] = "Incorrect username or password"
+        error "Incorrect username or password"
         redirect_to login_users_path
       else
         #valid user
@@ -97,11 +97,11 @@ class UsersController < ApplicationController
   # Clears the rails session and redirects to the login action
   def logout
     session[:user] = @user = User.current = nil
-    if flash[:foreman_notice] or flash[:foreman_error]
+    if flash[:notice] or flash[:error]
       flash.keep
     else
       session.clear
-      flash[:foreman_notice] = "Logged out - See you soon"
+      notice "Logged out - See you soon"
     end
     redirect_to login_users_path
   end

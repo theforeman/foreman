@@ -11,7 +11,7 @@ class ModelsController < ApplicationController
   def create
     @model = Model.new(params[:model])
     if @model.save
-      flash[:foreman_notice] = "Successfully created model."
+      notice "Successfully created model."
       redirect_to models_url
     else
       render :action => 'new'
@@ -25,7 +25,7 @@ class ModelsController < ApplicationController
   def update
     @model = Model.find(params[:id])
     if @model.update_attributes(params[:model])
-      flash[:foreman_notice] = "Successfully updated model."
+      notice "Successfully updated model."
       redirect_to models_url
     else
       render :action => 'edit'
@@ -35,9 +35,9 @@ class ModelsController < ApplicationController
   def destroy
     @model = Model.find(params[:id])
     if @model.destroy
-      flash[:foreman_notice] = "Successfully destroyed model."
+      notice "Successfully destroyed model."
     else
-      flash[:foreman_error] = @model.errors.full_messages.join("<br/>")
+      error @model.errors.full_messages.join("<br/>")
     end
     redirect_to models_url
   end

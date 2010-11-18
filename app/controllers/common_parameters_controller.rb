@@ -11,7 +11,7 @@ class CommonParametersController < ApplicationController
   def create
     @common_parameter = CommonParameter.new(params[:common_parameter])
     if @common_parameter.save
-      flash[:foreman_notice] = "Successfully created common parameter."
+      notice "Successfully created common parameter."
       redirect_to common_parameters_url
     else
       render :action => 'new'
@@ -25,7 +25,7 @@ class CommonParametersController < ApplicationController
   def update
     @common_parameter = CommonParameter.find(params[:id])
     if @common_parameter.update_attributes(params[:common_parameter])
-      flash[:foreman_notice] = "Successfully updated common parameter."
+      notice "Successfully updated common parameter."
       redirect_to common_parameters_url
     else
       render :action => 'edit'
@@ -35,7 +35,7 @@ class CommonParametersController < ApplicationController
   def destroy
     @common_parameter = CommonParameter.find(params[:id])
     @common_parameter.destroy
-    flash[:foreman_notice] = "Successfully destroyed common parameter."
+    notice "Successfully destroyed common parameter."
     redirect_to common_parameters_url
   end
 end

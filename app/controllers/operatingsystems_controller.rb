@@ -26,7 +26,7 @@ class OperatingsystemsController < ApplicationController
   def create
     @operatingsystem = Operatingsystem.new(params[:operatingsystem])
     if @operatingsystem.save
-      flash[:foreman_notice] = "Successfully created operatingsystem."
+      notice "Successfully created operatingsystem."
       redirect_to operatingsystems_url
     else
       render :action => 'new'
@@ -38,7 +38,7 @@ class OperatingsystemsController < ApplicationController
 
   def update
     if @operatingsystem.update_attributes(params[:operatingsystem])
-      flash[:foreman_notice] = "Successfully updated operatingsystem."
+      notice "Successfully updated operatingsystem."
       redirect_to operatingsystems_url
     else
       render :action => 'edit'
@@ -47,9 +47,9 @@ class OperatingsystemsController < ApplicationController
 
   def destroy
     if @operatingsystem.destroy
-      flash[:foreman_notice] = "Successfully destroyed operatingsystem."
+      notice "Successfully destroyed operatingsystem."
     else
-      flash[:foreman_error] = @operatingsystem.errors.full_messages.join("<br/>")
+      error @operatingsystem.errors.full_messages.join("<br/>")
     end
     redirect_to operatingsystems_url
   end

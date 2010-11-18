@@ -27,7 +27,7 @@ class EnvironmentsController < ApplicationController
   def create
     @environment = Environment.new(params[:environment])
     if @environment.save
-      flash[:foreman_notice] = "Successfully created environment."
+      notice "Successfully created environment."
       redirect_to environments_path
     else
       render :action => 'new'
@@ -39,7 +39,7 @@ class EnvironmentsController < ApplicationController
 
   def update
     if @environment.update_attributes(params[:environment])
-      flash[:foreman_notice] = "Successfully updated environment."
+      notice "Successfully updated environment."
       redirect_to environments_path
     else
       render :action => 'edit'
@@ -48,9 +48,9 @@ class EnvironmentsController < ApplicationController
 
   def destroy
     if @environment.destroy
-      flash[:foreman_notice] = "Successfully destroyed '#{@environment.name}''"
+      notice "Successfully destroyed #{@environment.name}"
     else
-      flash[:foreman_error]  = @environment.errors.full_messages.join("<br/>")
+      error @environment.errors.full_messages.join("<br/>")
     end
     redirect_to environments_url
   end

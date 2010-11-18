@@ -14,7 +14,7 @@ class AuthSourceLdapsController < ApplicationController
   def create
     @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
     if @auth_source_ldap.save
-      flash[:notice] = "Successfully created auth source ldap."
+      error "Successfully created auth source ldap."
       redirect_to auth_source_ldaps_url
     else
       render :action => 'new'
@@ -28,7 +28,7 @@ class AuthSourceLdapsController < ApplicationController
   def update
     @auth_source_ldap = AuthSourceLdap.find(params[:id])
     if @auth_source_ldap.update_attributes(params[:auth_source_ldap])
-      flash[:notice] = "Successfully updated auth source ldap."
+      error "Successfully updated auth source ldap."
       redirect_to auth_source_ldaps_url
     else
       render :action => 'edit'
@@ -38,7 +38,7 @@ class AuthSourceLdapsController < ApplicationController
   def destroy
     @auth_source_ldap = AuthSourceLdap.find(params[:id])
     @auth_source_ldap.destroy
-    flash[:notice] = "Successfully destroyed auth source ldap."
+    error "Successfully destroyed auth source ldap."
     redirect_to auth_source_ldaps_url
   end
 end

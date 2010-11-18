@@ -94,7 +94,7 @@ class UsersControllerTest < ActionController::TestCase
     delete :destroy, {:id => user.id}, {:user => user.id}
     assert_redirected_to users_url
     assert User.exists?(user)
-    assert @response.flash[:foreman_notice] == "You are currently logged in, suicidal?"
+    assert @response.flash[:notice] == "You are currently logged in, suicidal?"
   end
 
   test "should recreate the admin account" do

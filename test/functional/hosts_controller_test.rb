@@ -113,8 +113,8 @@ class HostsControllerTest < ActionController::TestCase
     get :setBuild, {:id => @host.name}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
-    assert_not_nil flash[:foreman_notice]
-    assert flash[:foreman_notice] == "Enabled myfullhost.company.com for rebuild on next boot"
+    assert_not_nil flash[:notice]
+    assert flash[:notice] == "Enabled myfullhost.company.com for rebuild on next boot"
   end
 
   test "when host is not saved after setBuild, the flash should inform it" do
@@ -125,8 +125,8 @@ class HostsControllerTest < ActionController::TestCase
     get :setBuild, {:id => @host.name}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
-    assert_not_nil flash[:foreman_error]
-    assert flash[:foreman_error] == "Failed to enable myfullhost.company.com for installation"
+    assert_not_nil flash[:error]
+    assert flash[:error] == "Failed to enable myfullhost.company.com for installation"
   end
 
   test "report should redirect to host's last report" do

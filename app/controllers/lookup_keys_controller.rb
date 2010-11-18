@@ -19,7 +19,7 @@ class LookupKeysController < ApplicationController
     @lookup_key = LookupKey.new(params[:lookup_key])
 
     if @lookup_key.save
-      flash[:foreman_notice] = 'Successfully created.'
+      notice 'Successfully created.'
       redirect_to (lookup_keys_url)
     else
       render :action => "new"
@@ -30,7 +30,7 @@ class LookupKeysController < ApplicationController
     @lookup_key = LookupKey.find(params[:id])
 
     if @lookup_key.update_attributes(params[:lookup_key])
-      flash[:foreman_notice] = 'Successfully updated.'
+      notice 'Successfully updated.'
       redirect_to(lookup_keys_url)
     else
       render :action => "edit"

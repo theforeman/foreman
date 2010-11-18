@@ -24,7 +24,7 @@ class DomainsController < ApplicationController
   def create
     @domain = Domain.new(params[:domain])
     if @domain.save
-      flash[:foreman_notice] = "Successfully created domain."
+      notice "Successfully created domain."
       redirect_to domains_url
     else
       render :action => 'new'
@@ -36,7 +36,7 @@ class DomainsController < ApplicationController
 
   def update
     if @domain.update_attributes(params[:domain])
-      flash[:foreman_notice] = "Successfully updated domain."
+      notice "Successfully updated domain."
       redirect_to domains_url
     else
       render :action => 'edit'
@@ -45,9 +45,9 @@ class DomainsController < ApplicationController
 
   def destroy
     if @domain.destroy
-      flash[:foreman_notice] = "Successfully destroyed domain."
+      notice "Successfully destroyed domain."
     else
-      flash[:foreman_error] = @domain.errors.full_messages.join("<br/>")
+      error @domain.errors.full_messages.join("<br/>")
     end
     redirect_to domains_url
   end

@@ -23,7 +23,7 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
     if @hostgroup.save
-      flash[:foreman_notice] = "Successfully created hostgroup."
+      notice "Successfully created hostgroup."
       redirect_to hostgroups_url
     else
       render :action => 'new'
@@ -37,7 +37,7 @@ class HostgroupsController < ApplicationController
   def update
     @hostgroup = Hostgroup.find(params[:id])
     if @hostgroup.update_attributes(params[:hostgroup])
-      flash[:foreman_notice] = "Successfully updated hostgroup."
+      notice "Successfully updated hostgroup."
       redirect_to hostgroups_url
     else
       render :action => 'edit'
@@ -47,9 +47,9 @@ class HostgroupsController < ApplicationController
   def destroy
     @hostgroup = Hostgroup.find(params[:id])
     if @hostgroup.destroy
-      flash[:foreman_notice] = "Successfully destroyed hostgroup."
+      notice "Successfully destroyed hostgroup."
     else
-      flash[:foreman_error] = @template.truncate @hostgroup.errors.full_messages.join("<br/>"), 80
+      error @template.truncate @hostgroup.errors.full_messages.join("<br/>"), 80
     end
     redirect_to hostgroups_url
   end

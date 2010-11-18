@@ -24,7 +24,7 @@ class ArchitecturesController < ApplicationController
   def create
     @architecture = Architecture.new(params[:architecture])
     if @architecture.save
-      flash[:notice] = "Successfully created architecture."
+      notice "Successfully created architecture."
       redirect_to architectures_url
     else
       render :action => 'new'
@@ -36,7 +36,7 @@ class ArchitecturesController < ApplicationController
 
   def update
     if @architecture.update_attributes(params[:architecture])
-      flash[:notice] = "Successfully updated architecture."
+      notice "Successfully updated architecture."
       redirect_to architectures_url
     else
       render :action => 'edit'
@@ -45,7 +45,7 @@ class ArchitecturesController < ApplicationController
 
   def destroy
     @architecture.destroy
-    flash[:notice] = "Successfully destroyed architecture."
+    notice "Successfully destroyed architecture."
     redirect_to architectures_url
   end
 

@@ -78,7 +78,7 @@ class HostsController < ApplicationController
     respond_to do |format|
       if @host.save
         format.html do
-          flash[:foreman_notice] = "Successfully created host."
+          notice "Successfully created host."
           redirect_to @host
         end
         format.json { render :json => @host, :status => :created, :location => @host }
@@ -100,7 +100,7 @@ class HostsController < ApplicationController
   def update
     @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
     if @host.update_attributes(params[:host])
-      flash[:foreman_notice] = "Successfully updated host."
+      notice "Successfully updated host."
       redirect_to @host
     else
       load_vars_for_ajax
@@ -111,12 +111,12 @@ class HostsController < ApplicationController
   def destroy
     if @host.destroy
       respond_to do |format|
-        format.html { flash[:foreman_notice] = "Successfully destroyed host." }
+        format.html { notice "Successfully destroyed host." }
         format.json { render :json => @host, :status => :ok and return }
       end
     else
       respond_to do |format|
-        format.html { flash[:foreman_error] = @host.errors.full_messages.join("<br/>") }
+        format.html { error @host.errors.full_messages.join("<br/>") }
         format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
       end
     end
@@ -164,9 +164,9 @@ class HostsController < ApplicationController
 
   def puppetrun
     if GW::Puppet.run @host.name
-      flash[:foreman_notice] = "Successfully executed, check log files for more details"
+      notice "Successfully executed, check log files for more details"
     else
-      flash[:foreman_error] = "Failed, check log files"
+      error "Failed, check log files"
     end
     redirect_to :back
   end
@@ -174,12 +174,12 @@ class HostsController < ApplicationController
   def setBuild
     if @host.setBuild != false
       respond_to  do |format|
-        format.html { flash[:foreman_notice] = "Enabled #{@host.name} for rebuild on next boot" }
+        format.html { notice "Enabled #{@host.name} for rebuild on next boot" }
         format.json { render :json => @host, :status => :ok and return }
       end
     else
       respond_to do |format|
-        format.html { flash[:foreman_error] = "Failed to enable #{@host.name} for installation" }
+        format.html { error "Failed to enable #{@host.name} for installation" }
         format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
       end
     end
@@ -188,9 +188,9 @@ class HostsController < ApplicationController
 
   def cancelBuild
     if @host.built(false)
-      flash[:foreman_notice] = "Canceled pending build for #{@host.name}"
+      notice "Canceled pending build for #{@host.name}"
     else
-      flash[:foreman_error] = "Failed to cancel pending build for #{@host.name}"
+      error "Failed to cancel pending build for #{@host.name}"
     end
     redirect_to :back
   end
@@ -254,13 +254,13 @@ class HostsController < ApplicationController
   def reset_multiple
     session[:selected] = []
     flash.keep
-    flash[:foreman_notice] = 'Selection cleared.'
+    notice 'Selection cleared.'
     redirect_to hosts_path and return
   end
 
   def update_multiple_parameters
     if params[:name].empty?
-      flash[:foreman_notice] = "No parameters were allocted to the selected hosts, can't mass assign."
+      notice "No parameters were allocted to the selected hosts, can't mass assign."
       redirect_to hosts_path and return
     end
 
@@ -280,10 +280,10 @@ class HostsController < ApplicationController
     end
     session[:selected] = []
     if @skipped_parameters.empty?
-      flash[:foreman_notice] = 'Updated all hosts!'
+      notice 'Updated all hosts!'
       redirect_to(hosts_path) and return
     else
-      flash[:foreman_notice] = "#{counter} Parameters updated, see below for more information"
+      notice "#{counter} Parameters updated, see below for more information"
     end
   end
 
@@ -293,11 +293,11 @@ class HostsController < ApplicationController
   def update_multiple_hostgroup
     # simple validations
     if (id=params["hostgroup"]["id"]).empty?
-      flash[:foreman_error] = 'No Hostgroup selected!'
+      error 'No Hostgroup selected!'
       redirect_to(select_multiple_hostgroup_hosts) and return
     end
     if (hg = Hostgroup.find id).nil?
-      flash[:foreman_error] = 'Empty Hostgroup selected!'
+      error 'Empty Hostgroup selected!'
       redirect_to(select_multiple_hostgroup_hosts) and return
     end
 
@@ -308,7 +308,7 @@ class HostsController < ApplicationController
     end
 
     session[:selected] = []
-    flash[:foreman_notice] = 'Updated hosts: Changed Hostgroup'
+    notice 'Updated hosts: Changed Hostgroup'
     redirect_to(hosts_path)
   end
 
@@ -318,11 +318,11 @@ class HostsController < ApplicationController
   def update_multiple_environment
     # simple validations
     if (params[:environment].nil?) or (id=params["environment"]["id"]).nil?
-      flash[:foreman_error] = 'No Environment selected!'
+      error 'No Environment selected!'
       redirect_to(select_multiple_environment_hosts_path) and return
     end
     if (ev = Environment.find id).nil?
-      flash[:foreman_error] = 'Empty Environment selected!'
+      error 'Empty Environment selected!'
       redirect_to(select_multiple_environment_hosts_path) and return
     end
 
@@ -333,7 +333,7 @@ class HostsController < ApplicationController
     end
 
     session[:selected] = []
-    flash[:foreman_notice] = 'Updated hosts: Changed Environment'
+    notice 'Updated hosts: Changed Environment'
     redirect_to(hosts_path)
   end
 
@@ -348,7 +348,7 @@ class HostsController < ApplicationController
 
     session[:selected] = []
     missed_hosts       = hosts.map(&:name).join('<br/>')
-    flash[:foreman_notice] = hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{missed_hosts}"
+    notice hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{missed_hosts}"
     redirect_to(hosts_path)
   end
 
@@ -465,13 +465,13 @@ class HostsController < ApplicationController
 
   def find_multiple
     if session[:selected].empty?
-      flash[:foreman_error] = 'No Hosts selected'
+      error 'No Hosts selected'
       redirect_to(hosts_path)
     else
       begin
         @hosts = Host.find(session[:selected], :order => "hostgroup_id ASC")
       rescue
-        flash[:foreman_error] = "Something went wrong while selecting hosts - resetting ..."
+        error "Something went wrong while selecting hosts - resetting ..."
         flash.keep(:foreman_error)
         redirect_to reset_multiple_hosts_path
       end
@@ -485,7 +485,7 @@ class HostsController < ApplicationController
 
     session[:selected] = []
     missed_hosts       = hosts.map(&:name).join('<br/>')
-    flash[:foreman_notice] = @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
+    notice @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
     redirect_to(hosts_path) and return
   end
 
