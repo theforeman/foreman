@@ -1,10 +1,23 @@
 class UnattendedController < ApplicationController
   layout nil
-  before_filter :get_host_details, :allowed_to_install?, :except => [:pxe_kickstart_config, :pxe_debian_config]
-  before_filter :handle_ca, :except => [:jumpstart_finish, :preseed_finish, :pxe_kickstart_config, :gpxe_kickstart_config, :pxe_debian_config]
+
+  # Methods which return configuration files for syslinux(pxe) or gpxe
+  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config]
+  GPXE_CONFIG_URLS = [:gpxe_kickstart_config]
+  CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS
+  # Methods which return valid provision instructions, used by the OS
+  PROVISION_URLS = [:kickstart, :preseed, :jumpstart_profile ]
+  # Methods which returns post install instructions for OS's which require it
+  FINISH_URLS = [:preseed_finish, :jumpstart_finish]
+
+  # We dont require any of these methods for provisioning
   skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
-  after_filter :set_content_type, :only => [:kickstart, :preseed, :preseed_finish,
-    :jumpstart_profile, :jumpstart_finish, :pxe_kickstart_config, :gpxe_kickstart_config, :pxe_debian_config]
+
+  # We want to find out our requesting host
+  before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS
+  before_filter :handle_ca, :only => PROVISION_URLS
+  # all of our requests should be returned in text/plain
+  after_filter :set_content_type
   before_filter :set_admin_user, :only => :built
 
   def kickstart
@@ -18,25 +31,25 @@ class UnattendedController < ApplicationController
 
     # force static network configurtion if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
-    unattended_local "kickstart"
+    unattended_local
   end
 
   def jumpstart_profile
-    unattended_local "jumpstart_profile"
+    unattended_local
   end
 
   def jumpstart_finish
-    unattended_local "jumpstart_finish"
+    unattended_local
   end
 
   def preseed
     @preseed_path   = @host.os.preseed_path   @host
     @preseed_server = @host.os.preseed_server @host
-    unattended_local "preseed"
+    unattended_local
   end
 
   def preseed_finish
-    unattended_local "preseed_finish"
+    unattended_local
   end
 
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
@@ -125,7 +138,8 @@ class UnattendedController < ApplicationController
     return false unless GW::Puppetca.sign @host.name
   end
 
-  def unattended_local type
+  def unattended_local
+    type = request.path.gsub("/#{controller_name}/","")
     render :template => "unattended/#{type}.local" if File.exists?("#{RAILS_ROOT}/app/views/unattended/#{type}.local.rhtml")
   end
 
