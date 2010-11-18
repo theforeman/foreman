@@ -1,7 +1,7 @@
 class Host < Puppet::Rails::Host
   include Authorization
   belongs_to :architecture
-  belongs_to :media
+  belongs_to :medium
   belongs_to :model
   belongs_to :domain
   belongs_to :operatingsystem
@@ -512,7 +512,7 @@ class Host < Puppet::Rails::Host
 
   # Returns a url pointing to boot file
   def url_for_boot file
-    "#{os.media_uri(self)}/#{os.url_for_boot(file)}"
+    "#{os.medium_uri(self)}/#{os.url_for_boot(file)}"
   end
 
   def sp_valid?

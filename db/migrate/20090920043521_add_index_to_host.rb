@@ -7,7 +7,7 @@ class AddIndexToHost < ActiveRecord::Migration
     add_index "hosts", :architecture_id, :name => 'host_arch_id_ix'
     add_index "hosts", :operatingsystem_id, :name => 'host_os_id_ix'
     add_index "hosts", :environment_id, :name => 'host_env_id_ix'
-    add_index "hosts", :media_id, :name => 'host_media_id_ix'
+    add_index "hosts", :medium_id, :name => 'host_medium_id_ix'
     add_index "hosts", :hostgroup_id, :name => 'host_group_id_ix'
   end
 
@@ -19,7 +19,7 @@ class AddIndexToHost < ActiveRecord::Migration
     remove_index "hosts", :name => 'host_arch_id_ix'
     remove_index "hosts", :name => 'host_os_id_ix'
     remove_index "hosts", :name => 'host_env_id_ix'
-    remove_index "hosts", :name => 'host_media_id_ix'
+    remove_index "hosts", :name => 'host_medium_id_ix'
     remove_index "hosts", :name => 'host_group_id_ix'
   end
 end

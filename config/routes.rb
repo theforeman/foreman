@@ -26,7 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
   map.resources :domains, :requirements => {:id => /[^\/]+/}
   map.resources :operatingsystems, :member => {:bootfiles => :get}
-  map.resources :medias
+  map.resources :media
   map.resources :models
   map.resources :architectures
   map.resources :puppetclasses, :member => { :assign => :post }, :collection => {:import_environments => :get}

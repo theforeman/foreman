@@ -120,6 +120,6 @@ class RolesControllerTest < ActionController::TestCase
     assert Role.find(1).permissions.empty?
   end
 
-  viewable = %w{Architecture Audit AuthSourceLdap Dashboard Domain Environment LookupKey FactValue CommonParameter Hostgroup Host Media Model Operatingsystem Ptable Puppetclass Report Setting Statistic Usergroup User}
-  editable = %w{Architecture Audit AuthSourceLdap           Domain Environment LookupKey           CommonParameter Hostgroup Host Media Model Operatingsystem Ptable Puppetclass Report                   Usergroup User}
+  viewable = %w{Architecture Audit AuthSourceLdap Dashboard Domain Environment LookupKey FactValue CommonParameter Hostgroup Host Medium Model Operatingsystem Ptable Puppetclass Report Setting Statistic Usergroup User}
+  editable = %w{Architecture Audit AuthSourceLdap           Domain Environment LookupKey           CommonParameter Hostgroup Host Medium Model Operatingsystem Ptable Puppetclass Report                   Usergroup User}
 end

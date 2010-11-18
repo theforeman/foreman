@@ -38,10 +38,10 @@ manager:
     - :create_hosts
     - :edit_hosts
     - :destroy_hosts
-    - :view_medias
-    - :create_medias
-    - :edit_medias
-    - :destroy_medias
+    - :view_media
+    - :create_media
+    - :edit_media
+    - :destroy_media
     - :view_models
     - :create_models
     - :edit_models
@@ -119,7 +119,7 @@ viewer:
     - :view_globals
     - :view_hostgroups
     - :view_hosts
-    - :view_medias
+    - :view_media
     - :view_models
     - :view_operatingsystems
     - :view_ptables
@@ -141,7 +141,7 @@ default_user:
     - :view_hostgroups
     - :view_domains
     - :view_oses
-    - :view_medias
+    - :view_media
     - :view_models
     - :view_environments
     - :view_architectures

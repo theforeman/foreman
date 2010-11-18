@@ -104,7 +104,7 @@ class UnattendedController < ApplicationController
 
     # we try to match first based on the MAC, falling back to the IP
     conditions = (!maclist.empty? ? {:mac => maclist} : {:ip => ip})
-    @host = Host.find(:first, :include => [:architecture, :media, :operatingsystem, :domain], :conditions => conditions)
+    @host = Host.find(:first, :include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
     unless @host
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
       head(:not_found) and return
@@ -164,7 +164,7 @@ class UnattendedController < ApplicationController
     @arch      = @host.architecture.name
     os         = @host.operatingsystem
     @osver     = os.major.to_i
-    @mediapath = os.mediapath @host
+    @mediapath = os.mediumpath @host
     @epel      = os.epel      @host
     @yumrepo   = os.yumrepo   @host
 

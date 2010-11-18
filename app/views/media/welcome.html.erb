@@ -1,7 +1,7 @@
 <div id="welcome">
-  <h2>Installation media configuration</h2>
+  <h2>Installation medium configuration</h2>
   <P>
-  As your configuration does not appear to have any installation medias declared then you might want to configure some at this point.
+  As your configuration does not appear to have any installation media declared then you might want to configure some at this point.
   </p>
   <p>
   This information represents the source of one or more operating system's installation files, accessible via the network.
@@ -9,15 +9,15 @@
   </p>
   <p>
   For example, if you have copied several Redhat release disks into a directory structure where the disk images are renamed 4.8 or 5.5, and each contained both x86_64 and i386 binaries, then you
-  could create a single media entry describing them all.
+  could create a single medium entry describing them all.
   The entry, which could be just named "Redhat" could contain a path like this "nfs://server/export/redhat/$version/$arch" or "http://server/redhat/$version/$arch".
 
   The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpolated back into the path specification to calculate the true URL address.
   </p>
   <p>
-  You may also associate one or more operating systems with this media or alternatively set this up later on the <%= link_to "Operating systems", operatingsystems_path -%> page.
+  You may also associate one or more operating systems with this medium or alternatively set this up later on the <%= link_to "Operating systems", operatingsystems_path -%> page.
   </p>
   </p>
-  <%= link_to "New installation media", new_media_path -%>.
+  <%= link_to "New installation medium", new_medium_path -%>.
   </p>
 </div>

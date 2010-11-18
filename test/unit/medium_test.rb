@@ -1,65 +1,65 @@
 require 'test_helper'
 
-class MediaTest < ActiveSupport::TestCase
+class MediumTest < ActiveSupport::TestCase
   setup do
     User.current = User.find_by_login "admin"
   end
 
   test "name can't be blank" do
-    media = Media.new :name => "   ", :path => "http://www.google.com"
-    assert media.name.strip.empty?
-    assert !media.save
+    medium = Medium.new :name => "   ", :path => "http://www.google.com"
+    assert medium.name.strip.empty?
+    assert !medium.save
   end
 
   test "name can't contain white spaces" do
-    media = Media.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
-    assert !media.name.strip.squeeze(" ").empty?
-    assert !media.save
+    medium = Medium.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
+    assert !medium.name.strip.squeeze(" ").empty?
+    assert !medium.save
 
-    media.name.strip!.squeeze!(" ")
-    assert media.save!
+    medium.name.strip!.squeeze!(" ")
+    assert medium.save!
   end
 
   test "name must be unique" do
-    media = Media.new :name => "Archlinux mirror", :path => "http://www.google.com"
-    assert media.save!
+    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
+    assert medium.save!
 
-    other_media = Media.new :name => "Archlinux mirror", :path => "http://www.youtube.com"
-    assert !other_media.save
+    other_medium = Medium.new :name => "Archlinux mirror", :path => "http://www.youtube.com"
+    assert !other_medium.save
   end
 
   test "path can't be blank" do
-    media = Media.new :name => "Archlinux mirror", :path => "  "
-    assert media.path.strip.empty?
-    assert !media.save
+    medium = Medium.new :name => "Archlinux mirror", :path => "  "
+    assert medium.path.strip.empty?
+    assert !medium.save
   end
 
   test "path must be unique" do
-    media = Media.new :name => "Archlinux mirror", :path => "http://www.google.com"
-    assert media.save!
+    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
+    assert medium.save!
 
-    other_media = Media.new :name => "Ubuntu mirror", :path => "http://www.google.com"
-    assert !other_media.save
+    other_medium = Medium.new :name => "Ubuntu mirror", :path => "http://www.google.com"
+    assert !other_medium.save
   end
 
   test "should not destroy while using" do
-    media = Media.new :name => "Archlinux mirror", :path => "http://www.google.com"
-    assert media.save!
+    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
+    assert medium.save!
 
     host = hosts(:one)
-    host.media = media
+    host.medium = medium
     assert host.save!
 
-    media.hosts << host
+    medium.hosts << host
 
-    assert !media.destroy
+    assert !medium.destroy
   end
 
   def setup_user operation
     @one = users(:one)
     as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_medias"
-      role.permissions = ["#{operation}_medias".to_sym]
+      role = Role.find_or_create_by_name :name => "#{operation}_media"
+      role.permissions = ["#{operation}_media".to_sym]
       @one.roles = [role]
       @one.save!
     end
@@ -68,21 +68,21 @@ class MediaTest < ActiveSupport::TestCase
 
   test "user with create permissions should be able to create" do
     setup_user "create"
-    record =  Media.create :name => "dummy", :path => "http://hello"
+    record =  Medium.create :name => "dummy", :path => "http://hello"
     assert record.valid?
     assert !record.new_record?
   end
 
   test "user with view permissions should not be able to create" do
     setup_user "view"
-    record =  Media.create :name => "dummy", :path => "http://hello"
+    record =  Medium.create :name => "dummy", :path => "http://hello"
     assert record.valid?
     assert record.new_record?
   end
 
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
-    record =  Media.first
+    record =  Medium.first
     as_admin do
       record.hosts = []
     end
@@ -92,21 +92,21 @@ class MediaTest < ActiveSupport::TestCase
 
   test "user with edit permissions should not be able to destroy" do
     setup_user "edit"
-    record =  Media.first
+    record =  Medium.first
     assert !record.destroy
     assert !record.frozen?
   end
 
   test "user with edit permissions should be able to edit" do
     setup_user "edit"
-    record      =  Media.first
+    record      =  Medium.first
     record.name = "renamed"
     assert record.save
   end
 
   test "user with destroy permissions should not be able to edit" do
     setup_user "destroy"
-    record      =  Media.first
+    record      =  Medium.first
     record.name = "renamed"
     as_admin do
       record.hosts = []

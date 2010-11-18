@@ -1,6 +1,6 @@
-class MigrateInstallationMediaUri < ActiveRecord::Migration
+class MigrateInstallationMediumUri < ActiveRecord::Migration
   def self.up
-    Media.all.each { |medium|
+    Medium.all.each { |medium|
       matches = /^([^:]+):(\/.+)/.match(medium.path)
 
       if matches.size == 3 and ![ 'http', 'https', 'ftp', 'ftps', 'nfs' ].include?(matches[1])

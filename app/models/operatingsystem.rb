@@ -4,7 +4,7 @@ require 'uri'
 class Operatingsystem < ActiveRecord::Base
   include Authorization
   has_many :hosts
-  has_and_belongs_to_many :medias
+  has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
   has_and_belongs_to_many :architectures
   has_and_belongs_to_many :puppetclasses
@@ -55,12 +55,12 @@ class Operatingsystem < ActiveRecord::Base
     families.map{|e| OpenStruct.new(:name => e, :value => e) }
   end
 
-  def media_uri host, url = nil
-    url ||= host.media.path
-    media_vars_to_uri(url, host.architecture.name, host.os)
+  def medium_uri host, url = nil
+    url ||= host.medium.path
+    medium_vars_to_uri(url, host.architecture.name, host.os)
   end
 
-  def media_vars_to_uri (url, arch, os)
+  def medium_vars_to_uri (url, arch, os)
     URI.parse(url.gsub('$arch',  arch).
               gsub('$major',  os.major).
               gsub('$minor',  os.minor).
@@ -86,14 +86,14 @@ class Operatingsystem < ActiveRecord::Base
     "boot/#{to_s}-#{arch}".gsub(" ","-")
   end
 
-  def pxe_files(media, arch)
-    boot_files_uri(media, arch).collect do |img|
+  def pxe_files(medium, arch)
+    boot_files_uri(medium, arch).collect do |img|
       { pxe_prefix(arch).to_sym => img.to_s}
     end
   end
 
   def as_json(options={})
-    {:operatingsystem => {:name => to_s, :id => id, :medias => medias, :architectures => architectures, :ptables => ptables}}
+    {:operatingsystem => {:name => to_s, :id => id, :media => media, :architectures => architectures, :ptables => ptables}}
   end
 
   private
@@ -113,7 +113,7 @@ class Operatingsystem < ActiveRecord::Base
     self.release_name.downcase! unless defined?(Rake) or release_name.nil? or release_name.empty?
   end
 
-  def boot_files_uri(media = nil , architecture = nil)
+  def boot_files_uri(medium = nil , architecture = nil)
     "Abstract"
   end
 

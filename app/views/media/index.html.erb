@@ -1,0 +1,23 @@
+<% title "Media" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Path</th>
+    <th>Operatingsystem</th>
+    <th></th>
+  </tr>
+  <% for medium in @media %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to_if_authorized h(medium), hash_for_edit_medium_path(:id => medium.id) %></td>
+      <td><%=h medium.path %></td>
+      <td><%=h medium.operatingsystems.to_sentence %></td>
+      <td align="right">
+        <%= display_link_if_authorized "Destroy", hash_for_medium_path(:id => medium, :auth_action => :destroy), :confirm => "Delete #{medium.name}?", :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @media %>
+<%= will_paginate     @media %>
+<p><%= display_link_if_authorized "New Medium", hash_for_new_medium_path %></p>

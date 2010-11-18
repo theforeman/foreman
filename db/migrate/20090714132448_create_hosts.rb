@@ -25,7 +25,7 @@ class CreateHosts < ActiveRecord::Migration
     add_column :hosts, :subnet_id, :integer
     add_column :hosts, :sp_subnet_id, :integer
     add_column :hosts, :ptable_id, :integer
-    add_column :hosts, :media_id, :integer
+    add_column :hosts, :medium_id, :integer
     add_column :hosts, :build, :boolean, :default => true
     add_column :hosts, :comment, :text
     add_column :hosts, :disk, :text
@@ -39,7 +39,7 @@ class CreateHosts < ActiveRecord::Migration
       remove_columns :hosts, :mac, :sp_mac, :sp_ip, :sp_name, :root_pass, :serial,
         :puppetmaster, :puppet_status, :domain_id, :architecture_id, :operatingsystem_id,
         :environment_id, :subnet_id, :sp_subnet_id, :ptable_id, :hosttype_id,
-        :media_id, :build, :comment, :disk, :installed_at
+        :medium_id, :build, :comment, :disk, :installed_at
     else
       drop_table :hosts
     end

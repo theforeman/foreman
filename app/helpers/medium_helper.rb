@@ -1,0 +1,2 @@
+module MediumHelper
+end

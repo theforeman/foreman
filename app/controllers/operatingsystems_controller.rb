@@ -7,7 +7,7 @@ class OperatingsystemsController < ApplicationController
         @search           = Operatingsystem.search(params[:search])
         @operatingsystems = @search.all.paginate(:page => params[:page], :include => [:architectures], :order => :name)
       end
-      format.json { render :json => Operatingsystem.all(:include => [:medias, :architectures, :ptables]) }
+      format.json { render :json => Operatingsystem.all(:include => [:media, :architectures, :ptables]) }
     end
 
   end
@@ -58,10 +58,10 @@ class OperatingsystemsController < ApplicationController
   end
 
   def bootfiles
-    media = Media.find_by_name(params[:media])
+    medium = Medium.find_by_name(params[:medium])
     arch =  Architecture.find_by_name(params[:architecture])
     respond_to do |format|
-      format.json { render :json => @operatingsystem.pxe_files(media, arch)}
+      format.json { render :json => @operatingsystem.pxe_files(medium, arch)}
     end
   rescue => e
     respond_to do |format|

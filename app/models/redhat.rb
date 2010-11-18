@@ -3,10 +3,10 @@ class Redhat < Operatingsystem
   PXEDIR   = "images/pxeboot"
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
-  # outputs kickstart installation media based on the media type (NFS or URL)
+  # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture
-  def mediapath host
-    uri = media_uri(host)
+  def mediumpath host
+    uri = medium_uri(host)
     server = uri.select(:host, :port).compact.join(':')
     dir = uri.select(:path, :query).compact.join('?') unless uri.scheme == 'ftp'
 
@@ -33,7 +33,7 @@ class Redhat < Operatingsystem
     else
       return ""
     end
-    return "su -c 'rpm -Uvh #{media_uri(host, epel_url)}'"
+    return "su -c 'rpm -Uvh #{medium_uri(host, epel_url)}'"
   end
 
   def yumrepo host
@@ -47,11 +47,11 @@ class Redhat < Operatingsystem
     Operatingsystem
   end
 
-  def boot_files_uri(media, architecture)
-    raise "invalid media for #{to_s}" unless medias.include?(media)
+  def boot_files_uri(medium, architecture)
+    raise "invalid medium for #{to_s}" unless media.include?(medium)
     raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
     PXEFILES.values.collect do |img|
-      URI.parse("#{media_vars_to_uri(media.path, architecture.name, self)}/#{PXEDIR}/#{img}").normalize
+      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{PXEDIR}/#{img}").normalize
     end
   end
 

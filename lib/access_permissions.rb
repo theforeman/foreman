@@ -62,11 +62,11 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
   end
 
-  map.security_block :medias do |map|
-    map.permission :view_medias,    {:medias => [:index, :show]}
-    map.permission :create_medias,  {:medias => [:new, :create]}
-    map.permission :edit_medias,    {:medias => [:edit, :update]}
-    map.permission :destroy_medias, {:medias => [:destroy]}
+  map.security_block :media do |map|
+    map.permission :view_media,    {:media => [:index, :show]}
+    map.permission :create_media,  {:media => [:new, :create]}
+    map.permission :edit_media,    {:media => [:edit, :update]}
+    map.permission :destroy_media, {:media => [:destroy]}
   end
 
   map.security_block :models do |map|
