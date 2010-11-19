@@ -22,7 +22,6 @@ class OperatingsystemsController < ApplicationController
     end
   end
 
-
   def create
     @operatingsystem = Operatingsystem.new(params[:operatingsystem])
     if @operatingsystem.save

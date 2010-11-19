@@ -11,7 +11,7 @@
       <td><%= link_to_if_authorized h(operatingsystem.to_label), hash_for_edit_operatingsystem_path(:id => operatingsystem.id) %></td>
       <td><%= h operatingsystem.family %></td>
       <td align="right">
-        <%= display_link_if_authorized "Destroy", hash_for_operatingsystem_path(:id => operatingsystem, :auth_action => :destroy), :confirm => "Delete #{operatingsystem.fullname}?", :action => :destroy %>
+        <%= display_link_if_authorized "Destroy", hash_for_operatingsystem_path(:id => operatingsystem, :auth_action => :destroy), :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
       </td>
     </tr>
   <% end %>
