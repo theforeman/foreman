@@ -1,0 +1,9 @@
+one:
+  name: MyString
+  template: MyText
+  template_kind_id: 1
+
+two:
+  name: MyString
+  template: MyText
+  template_kind_id: 3

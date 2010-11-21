@@ -1,0 +1,6 @@
+<% field_set_tag "Default Templates" do -%>
+  <% f.fields_for :os_default_templates do |builder| -%>
+    <%= render 'templates', :f => builder %>
+  <% end -%>
+  <p><%= link_to_add_fields("Add another default", f, :os_default_templates, "templates") %></p>
+<% end -%>

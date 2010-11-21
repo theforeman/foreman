@@ -29,7 +29,7 @@ class Debian < Operatingsystem
   end
 
   def pxe_type
-    "debian"
+    "preseed"
   end
 
   private

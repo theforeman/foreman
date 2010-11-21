@@ -1,0 +1,26 @@
+<% form_for @config_template do |f| %>
+  <%= f.error_messages %>
+  <p>
+    Name <%= f.text_field :name %>
+    Snippet <%= f.check_box :snippet %>
+    <span id="kind_selector" <%= display? @config_template.snippet %>>
+      Kind <%= f.collection_select :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true %>
+    </span>
+  </p>
+  <p>
+  <%= f.label :template %><br />
+  <%= f.text_area :template, :size => "100x20" %>
+  </p>
+  <div id="template_associations" <%= display? @config_template.snippet %>>
+    <% field_set_tag("Valid Operating Systems") do %>
+      <%= authorized_edit_habtm @config_template, Operatingsystem %>
+    <% end -%>
+    <br>
+
+    <%= render "combinations",  :f => f %>
+  </div>
+  <p><%= f.submit %></p>
+<% end %>
+
+<%= observe_field "config_template_snippet", :function => toggle_div("template_associations") %>
+<%= observe_field "config_template_snippet", :function => toggle_div("kind_selector") %>

@@ -1,0 +1,11 @@
+<div class="fields">
+  Kind <%= f.collection_select :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true },
+    { :onchange => remote_function(:url => {:action => :templates_for_type},
+                                   :update => "templates_#{f.object_id}",
+                                   :with => "'template_kind_id='+value+'&fid='+name+'&id=#{@operatingsystem.id}'")
+  } %>
+  <span id="templates_<%= f.object_id %>">
+    Template <%= f.collection_select :config_template_id, @operatingsystem.config_templates, :id, :name %>
+  </span>
+  <%= link_to_remove_fields("remove", f) %>
+</div>

@@ -8,6 +8,11 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :ptables
   has_and_belongs_to_many :architectures
   has_and_belongs_to_many :puppetclasses
+  has_and_belongs_to_many :config_templates
+  has_many :os_default_templates, :dependent => :destroy
+  accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
+    :reject_if => lambda { |v| v[:template_kind_id].blank? }
+
   validates_presence_of :major, :message => "Operating System version is required"
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
 

@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  config_template_id: 1
+  hostgroup_id: 1
+  environment: 1
+
+two:
+  config_template_id: 1
+  hostgroup_id: 2

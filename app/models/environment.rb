@@ -5,6 +5,8 @@ class Environment < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_format_of   :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
   default_scope :order => 'name'
+  has_many :config_templates, :through => :template_combinations, :dependent => :destroy
+  has_many :template_combinations
 
   before_destroy Ensure_not_used_by.new(:hosts)
 

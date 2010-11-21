@@ -1,0 +1,5 @@
+<div class="fields">
+  Host group <%= f.collection_select :hostgroup_id, Hostgroup.all, :id, :name, :include_blank => true %>
+  Environment <%= f.collection_select :environment_id, Environment.all, :id, :name, :include_blank => true %>
+  <%= link_to_remove_fields("remove", f) %>
+</div>

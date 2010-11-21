@@ -9,6 +9,8 @@ class Hostgroup < ActiveRecord::Base
   has_many :hosts
   before_destroy Ensure_not_used_by.new(:hosts)
   default_scope :order => 'name'
+  has_many :config_templates, :through => :template_combinations, :dependent => :destroy
+  has_many :template_combinations
 
   acts_as_audited
 

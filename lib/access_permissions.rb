@@ -76,6 +76,13 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_models, {:models => [:destroy]}
   end
 
+  map.security_block :config_templates do |map|
+    map.permission :view_templates,    {:config_templates => [:index, :show]}
+    map.permission :create_templates,  {:config_templates => [:new, :create]}
+    map.permission :edit_templates,    {:config_templates => [:edit, :update]}
+    map.permission :destroy_templates, {:config_templates => [:destroy]}
+  end
+
   map.security_block :operatingsystems do |map|
     map.permission :view_operatingsystems,    {:operatingsystems => [:index, :show]}
     map.permission :create_operatingsystems,  {:operatingsystems => [:new, :create]}

@@ -36,7 +36,7 @@ module ApplicationHelper
   def toggle_div div
     update_page do |page|
       page << "if ($('#{div}').visible()) {"
-      page[div].visual_effect :BlindUp
+      page[div].hide
       page << "} else {"
       page[div].visual_effect :BlindDown
       page << "}"
@@ -134,6 +134,11 @@ module ApplicationHelper
   def authorized_edit_habtm klass, association
     return edit_habtm(klass, association) if authorized_for params[:controller], params[:action]
     show_habtm klass.send(association.name.pluralize.downcase)
+  end
+
+  # renders a style=display based on an attribute properties
+  def display? attribute
+    "style=\"display:#{attribute ? "none" : "inline"};\""
   end
 
 end

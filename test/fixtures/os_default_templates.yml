@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  config_template: 
+  template_kind: 
+  operatingsystem: 
+
+two:
+  config_template: 
+  template_kind: 
+  operatingsystem: 

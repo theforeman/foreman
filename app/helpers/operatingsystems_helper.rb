@@ -12,4 +12,11 @@ module OperatingsystemsHelper
       page << "}"
     end
   end
+
+  # remove nested template_kind attribute from the attribute hash
+  # this is a workaround to nested attributes, as we dont know the id's of the object.
+  def param_field param
+    param.gsub("[template_kind_id]","")
+  end
+
 end

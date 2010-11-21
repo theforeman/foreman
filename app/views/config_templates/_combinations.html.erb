@@ -1,0 +1,6 @@
+<% field_set_tag "Valid Host group and Environment combinations", :id => "template_combination" do -%>
+  <% f.fields_for :template_combinations do |builder| -%>
+    <%= render 'combination', :f => builder %>
+  <% end -%>
+  <p><%= link_to_add_fields("Add another combination", f, :template_combinations, "combination") %></p>
+<% end -%>

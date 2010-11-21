@@ -29,7 +29,20 @@ echo \"Updated the certificate chain. There are now $count certificates\""
 
   # provide embedded snippets support as simple erb templates
   def snippets(file)
-    render :partial => "unattended/snippets/#{file}"
+    if (s=snippet(file.gsub(/^_/,"")))
+      return s
+    else
+      render :partial => "unattended/snippets/#{file}"
+    end
+  end
+
+  def snippet name
+    if template = ConfigTemplate.name_eq(name).snippet_eq(true).first
+      logger.debug "rendering snippet #{template.name}"
+      return render :inline => template.template
+    end
+  rescue
+    false
   end
 
 end

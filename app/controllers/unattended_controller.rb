@@ -2,13 +2,13 @@ class UnattendedController < ApplicationController
   layout nil
 
   # Methods which return configuration files for syslinux(pxe) or gpxe
-  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config]
-  GPXE_CONFIG_URLS = [:gpxe_kickstart_config]
+  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config] + TemplateKind.name_like("pxelinux").map(&:name)
+  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.name_like("gpxe").map(&:name)
   CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = [:kickstart, :preseed, :jumpstart_profile ]
+  PROVISION_URLS = [:kickstart, :preseed, :jumpstart_profile ] + TemplateKind.name_like("provision").map(&:name)
   # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = [:preseed_finish, :jumpstart_finish]
+  FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.name_like("finish").map(&:name)
 
   # We dont require any of these methods for provisioning
   skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
@@ -16,21 +16,13 @@ class UnattendedController < ApplicationController
   # We want to find out our requesting host
   before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS
   before_filter :handle_ca, :only => PROVISION_URLS
+  # load "helper" variables to be available in the templates
+  before_filter :load_template_vars, :only => PROVISION_URLS
   # all of our requests should be returned in text/plain
   after_filter :set_content_type
   before_filter :set_admin_user, :only => :built
 
   def kickstart
-    @dynamic   = @host.diskLayout =~ /^#Dynamic/
-    @arch      = @host.architecture.name
-    os         = @host.operatingsystem
-    @osver     = os.major.to_i
-    @mediapath = os.mediapath @host
-    @epel      = os.epel      @host
-    @yumrepo   = os.yumrepo   @host
-
-    # force static network configurtion if static http parameter is defined, in the future this needs to go into the GUI
-    @static = !params[:static].empty?
     unattended_local
   end
 
@@ -43,8 +35,6 @@ class UnattendedController < ApplicationController
   end
 
   def preseed
-    @preseed_path   = @host.os.preseed_path   @host
-    @preseed_server = @host.os.preseed_server @host
     unattended_local
   end
 
@@ -74,6 +64,16 @@ class UnattendedController < ApplicationController
     prefix = @host.operatingsystem.pxe_prefix(@host.arch)
     @kernel = "#{prefix}-#{Debian::PXEFILES[:kernel]}"
     @initrd = "#{prefix}-#{Debian::PXEFILES[:initrd]}"
+  end
+
+
+  # Generate an action for each template kind
+  # i.e. /unattended/provision will render the provisioning template for the requesting host
+  TemplateKind.all.each do |kind|
+    define_method kind.name do
+      @type = kind.name
+      unattended_local
+    end
   end
 
   private
@@ -138,13 +138,43 @@ class UnattendedController < ApplicationController
     return false unless GW::Puppetca.sign @host.name
   end
 
+  # we try to find this host specific template
+  # if it doesnt exists, we'll try to find a local generic template
+  # otherwise render the default view
   def unattended_local
-    type = request.path.gsub("/#{controller_name}/","")
-    render :template => "unattended/#{type}.local" if File.exists?("#{RAILS_ROOT}/app/views/unattended/#{type}.local.rhtml")
+    if config = @host.configTemplate(@type)
+      logger.debug "rendering DB template #{config.name} - #{@type}"
+      render :inline => config.template and return
+    end
+    type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
+    render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")
   end
 
   def set_content_type
     response.headers['Content-Type'] = 'text/plain'
+  end
+
+  def load_template_vars
+    # load the os family default variables
+    eval "#{@host.os.pxe_type}_attributes"
+  end
+
+  def kickstart_attributes
+    @dynamic   = @host.diskLayout =~ /^#Dynamic/
+    @arch      = @host.architecture.name
+    os         = @host.operatingsystem
+    @osver     = os.major.to_i
+    @mediapath = os.mediapath @host
+    @epel      = os.epel      @host
+    @yumrepo   = os.yumrepo   @host
+
+    # force static network configurtion if static http parameter is defined, in the future this needs to go into the GUI
+    @static = !params[:static].empty?
+  end
+
+  def preseed_attributes
+    @preseed_path   = @host.os.preseed_path   @host
+    @preseed_server = @host.os.preseed_server @host
   end
 
 end

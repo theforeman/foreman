@@ -34,6 +34,8 @@
   <% end -%>
   </p>
 
+  <%= render 'template_defaults', :f => f %>
+
   <% unless @operatingsystem.new_record? -%>
     <p>Currently used by <%= @operatingsystem.hosts.count %> hosts</p>
   <% end -%>
