@@ -73,7 +73,7 @@ class RolesControllerTest < ActionController::TestCase
         :permissions => ['edit_hosts']
     }
 
-    assert_redirected_to 'roles'
+    assert_redirected_to roles_path
     role = Role.find(1)
     assert_equal [:edit_hosts], role.permissions
   end
@@ -83,7 +83,7 @@ class RolesControllerTest < ActionController::TestCase
     assert r.save
 
     delete :destroy, :id => r
-    assert_redirected_to 'roles'
+    assert_redirected_to roles_path
     assert_nil Role.find_by_id(r.id)
   end
 
@@ -107,7 +107,7 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_post_report
     post :report, :permissions => { '0' => '', '1' => ['edit_issues'], '3' => ['add_issues', 'delete_issues']}
-    assert_redirected_to 'roles'
+    assert_redirected_to roles_path
 
     assert_equal [:edit_issues], Role.find(1).permissions
     assert_equal [:add_issues, :delete_issues], Role.find(3).permissions
@@ -116,7 +116,7 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_clear_all_permissions
     post :report, :permissions => { '0' => '' }
-    assert_redirected_to 'roles'
+    assert_redirected_to roles_path
     assert Role.find(1).permissions.empty?
   end
 
