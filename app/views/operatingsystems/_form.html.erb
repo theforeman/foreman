@@ -1,4 +1,4 @@
-<% form_for :operatingsystem, :url => family_url(@operatingsystem), :html => {:method => family_html_method } do |f| %>
+<% form_for @operatingsystem do |f| %>
   <%= f.error_messages %>
   <table>
     <tr>
@@ -37,6 +37,8 @@
   <% unless @operatingsystem.new_record? -%>
     <p>Currently used by <%= @operatingsystem.hosts.count %> hosts</p>
   <% end -%>
+
+  <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
 
   <p><%= f.submit "Submit" %></p>
 <% end %>

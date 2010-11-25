@@ -261,6 +261,8 @@ class Host < Puppet::Rails::Host
     CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
     # read domain parameters
     domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless domain.nil?
+    # read OS parameters
+    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
     hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
     # and now read host parameters, override if required

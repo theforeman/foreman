@@ -9,6 +9,9 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :architectures
   has_and_belongs_to_many :puppetclasses
   validates_presence_of :major, :message => "Operating System version is required"
+  has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
+
+  accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."

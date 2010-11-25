@@ -14,6 +14,7 @@ class OperatingsystemsController < ApplicationController
 
   def new
     @operatingsystem = Operatingsystem.new
+    @operatingsystem.os_parameters.build
   end
 
   def show
@@ -33,6 +34,7 @@ class OperatingsystemsController < ApplicationController
   end
 
   def edit
+    @operatingsystem.os_parameters.build if @operatingsystem.os_parameters.empty?
   end
 
   def update
