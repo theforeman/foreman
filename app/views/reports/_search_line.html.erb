@@ -2,9 +2,15 @@
   <% unless defined? @host %>
     <div title="A substring match">
       <%= f.label      :host_name_like, "Host" %>
-      <%= f.text_field :host_name_like, :size => 10 %>
+      <%= f.text_field :host_name_like, :size => 8 %>
     </div>
   <% end -%>
+  <span>
+    <%= f.label      :sources_value_like, "Resource" %>
+    <%= f.text_field :sources_value_like, :size => 8 %>
+    <%= f.label      :messages_value_like, "Log" %>
+    <%= f.text_field :messages_value_like, :size => 8 %>
+  </span>
   <div title="Time period">
     <%= reports_since f %>
   </div>
@@ -17,6 +23,6 @@
       <%= check_box_tag status, "1", params[status] %>
       <small><%= status.capitalize %></small> |
     <% end -%>
-    <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 10 %>
+    <%= f.submit "Go" %> Save as tab: <%= text_field_tag :tab_name, "", :size => 8 %>
   </div>
 <% end %>
