@@ -1,0 +1,169 @@
+=== 2.0.5 / 2010-09-01
+
+* 1 minor enhancement:
+
+  * Started merging like lexical cases to try to squeeze some optimization out
+
+=== 2.0.4 / 2009-08-18
+
+* 1 minor enhancement:
+
+  * Changed requires around to be more accurate.
+
+* 4 bug fixes:
+
+  * Fixed .autotest for minitest
+  * Fixed emacs escape lexing bug: "\C-\\" (maglev/gemstone)
+  * Fixed octal lexing edgecases. (maglev/gemstone)
+  * Fixed regexp lexing edgecases. (maglev/gemstone)
+
+=== 2.0.3 / 2009-06-23
+
+* 4 minor enhancements:
+
+  * Removed dead code handling d/regex match node cruft.
+  * Switched to minitest
+  * Updated .autotest and rakefile wrt rcov for new hoe capabilities
+  * Updated hoe for new capabilities
+
+* 4 bug fixes:
+
+  * Environment#all now deals with strange edge cases in RAD.
+  * Fixed packaging/compilation issue.
+  * Minor 1.9 fixes
+  * hoe -> flay -> rubyparser rakefile circularity fixed
+
+=== 2.0.2 / 2009-01-20
+
+* 2 minor enhancements:
+
+  * Added gauntlet_rubyparser plugin. YAY for easy massive bug-hunting.
+  * Promoted Sexp's file/line/comments to sexp_processor.
+
+* 4 bug fixes:
+
+  * Fixed and improved the readme
+  * Fixed lexing heredoc newlines.
+  * Fixed line numbers on defns.
+  * Fixed rdoc generation bug pointed out by hugh sasse (who rocks)
+
+=== 2.0.1 / 2008-11-04
+
+* 2 minor enhancements:
+
+  * Updated for changes to splat node in many contexts.
+  * Made PT a developer dep
+
+=== 2.0.0 / 2008-10-22
+
+* 1 major enhancement
+
+  * Brought on the AWESOME! 4x faster! no known lexing/parsing bugs!
+
+* 71 minor enhancements
+
+  * 1.9: Added Fixnum#ord.
+  * 1.9: Added missing Regexp constants and did it so it'd work on 1.9.
+  * Added #store_comment and #comments
+  * Added StringScanner #begin_of_line?
+  * Added a bunch of tests for regexp escape chars, #parse_string, #read_escape, ? numbers, ? whitespace.
+  * Added a hack for rubinius' r2l eval bug.
+  * Added a new token type tSTRING that bypasses tSTRING_BEG/END entirely. Only does non-interpolated strings and then falls back to the old way. MUCH cleaner tho.
+  * Added bin/ruby_parse
+  * Added compare rule to Rakefile.
+  * Added coverage files/dirs to clean rule.
+  * Added file and line numbers to all sexp nodes. Column/ranges to come.
+  * Added lex_state change for lvars at the end of yylex.
+  * Added lexed comments to defn/defs/class/module nodes.
+  * Added stats gathering for yylex. Reordered yylex for avg data
+  * Added tSYMBOL token type and parser rule to speed up symbol lexing.
+  * Added tally output for getch, unread, and unread_many.
+  * Added tests for ambigous uminus/uplus, backtick in cmdarg, square and curly brackets, numeric gvars, eos edge cases, string quoting %<> and %%%.
+  * All cases throughout yylex now return directly if they match, no passthroughs.
+  * All lexer cases now slurp entire token in one swoop.
+  * All zarrays are now just empty arrays.
+  * Changed s(:block_arg, :blah) to :"&blah" in args sexp.
+  * Cleaned up lexer error handling. Now just raises all over.
+  * Cleaned up read_escape and regx_options
+  * Cleaned up tokadd_string (for some definition of cleaned).
+  * Converted single quoted strings to new tSTRING token type.
+  * Coverage is currently 94.4% on lexer.
+  * Done what I can to clean up heredoc lexing... still sucks.
+  * Flattened resbodies in rescue node. Fixed .autotest file.
+  * Folded lex_keywords back in now that it screams.
+  * Found very last instanceof ILiteralNode in the code. haha!
+  * Got the tests subclassing PTTC and cleaned up a lot. YAY
+  * Handle yield(*ary) properly
+  * MASSIVELY cleaned out =begin/=end comment processor.
+  * Massive overhaul on Keyword class. All hail the mighty Hash!
+  * Massively cleaned up ident= edge cases and fixed a stupid bug from jruby.
+  * Merged @/@@ scanner together, going to try to do the same everywhere.
+  * Refactored fix_arg_lex_state, common across the lexer.
+  * Refactored new_fcall into new_call.
+  * Refactored some code to get better profile numbers.
+  * Refactored some more #fix_arg_lex_state.
+  * Refactored tail of yylex into its own method.
+  * Removed Module#kill
+  * Removed Token, replaced with Sexp.
+  * Removed all parse_number and parse_quote tests.
+  * Removed argspush, argscat. YAY!
+  * Removed as many token_buffer.split(//)'s as possible. 1 to go.
+  * Removed begins from compstmts
+  * Removed buffer arg for tokadd_string.
+  * Removed crufty (?) solo '@' token... wtf was that anyhow?
+  * Removed most jruby/stringio cruft from StringScanner.
+  * Removed one unread_many... 2 to go. They're harder.
+  * Removed store_comment, now done directly.
+  * Removed token_buffer. Now I just use token ivar.
+  * Removed use of s() from lexer. Changed the way line numbers are gathered.
+  * Renamed *qwords to *awords.
+  * Renamed StringScanner to RPStringScanner (a subclass) to fix namespace trashing.
+  * Renamed parse to process and aliased to parse.
+  * Renamed token_buffer to string_buffer since that arcane shit still needs it.
+  * Resolved the rest of the lexing issues I brought up w/ ruby-core.
+  * Revamped tokadd_escape.
+  * Rewrote Keyword and KWtable.
+  * Rewrote RubyLexer using StringScanner.
+  * Rewrote tokadd_escape. 79 lines down to 21.
+  * Split out lib/ruby_parser_extras.rb so lexer is standalone.
+  * Started to clean up the parser and make it as skinny as possible
+  * Stripped out as much code as possible.
+  * Stripped yylex of some dead code.
+  * Switched from StringIO to StringScanner.
+  * Updated rakefile for new hoe.
+  * Uses pure ruby racc if ENV['PURE_RUBY'], otherwise use c.
+  * Wrote a ton of lexer tests. Coverage is as close to 100% as possible.
+  * Wrote args to clean up the big nasty args processing grammar section.
+  * lex_strterm is now a plain array, removed RubyLexer#s(...).
+  * yield and super now flatten args.
+
+* 21+ bug fixes:
+
+  * I'm sure this list is missing a lot:
+  * Fixed 2 bugs both involving attrasgn (and ilk) esp when lhs is an array.
+  * Fixed a bug in the lexer for strings with single digit hex escapes.
+  * Fixed a bug parsing: a (args) { expr }... the space caused a different route to be followed and all hell broke loose.
+  * Fixed a bug with x\n=beginvar not putting begin back.
+  * Fixed attrasgn to have arglists, not arrays.
+  * Fixed bug in defn/defs with block fixing.
+  * Fixed class/module's name slot if colon2/3.
+  * Fixed dstr with empty interpolation body.
+  * Fixed for 1.9 string/char changes.
+  * Fixed lexer BS wrt determining token type of words.
+  * Fixed lexer BS wrt pass through values and lexing words. SO STUPID.
+  * Fixed lexing of floats.
+  * Fixed lexing of identifiers followed by equals. I hope.
+  * Fixed masgn with splat on lhs
+  * Fixed new_super to deal with block_pass correctly.
+  * Fixed parser's treatment of :colon2 and :colon3.
+  * Fixed regexp scanning of escaped numbers, ANY number is valid, not just octs.
+  * Fixed string scanning of escaped octs, allowing 1-3 chars.
+  * Fixed unescape for \n
+  * Fixed: omg this is stupid. '()' was returning bare nil
+  * Fixed: remove_begin now goes to the end, not sure why it didn't before.
+
+=== 1.0.0 / 2007-12-20
+
+* 1 major enhancement
+  * Birthday!
+

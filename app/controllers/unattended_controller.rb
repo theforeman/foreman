@@ -66,7 +66,6 @@ class UnattendedController < ApplicationController
     @initrd = "#{prefix}-#{Debian::PXEFILES[:initrd]}"
   end
 
-
   # Generate an action for each template kind
   # i.e. /unattended/provision will render the provisioning template for the requesting host
   TemplateKind.all.each do |kind|
@@ -144,7 +143,8 @@ class UnattendedController < ApplicationController
   def unattended_local
     if config = @host.configTemplate(@type)
       logger.debug "rendering DB template #{config.name} - #{@type}"
-      render :inline => config.template and return
+      @unsafe_template = config.template
+      render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
     end
     type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
     render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")

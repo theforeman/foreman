@@ -15,6 +15,11 @@ class Host < Puppet::Rails::Host
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
 
+  class Jail < Safemode::Jail
+    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup
+  end
+
+
   named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago), false]} }
 
@@ -209,6 +214,11 @@ class Host < Puppet::Rails::Host
     # fall back to the os default template
     template ||= templates.os_default_templates_operatingsystem_id_eq(operatingsystem_id).first
     template.is_a?(ConfigTemplate) ? template : nil
+  end
+
+  def safeConfigTemplate kind
+     box = Safemode::Box.new
+     box.eval(ERB.new(configTemplate kind, nil, '-').src)
   end
 
   # reports methods

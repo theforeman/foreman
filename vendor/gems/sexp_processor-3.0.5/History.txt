@@ -1,0 +1,49 @@
+=== 3.0.5 / 2010-09-01
+
+* 2 minor enhancements:
+
+  * Added in_context to clean up code.
+  * optimize inspect to avoid needlessly caching @line
+
+=== 3.0.4 / 2010-03-27
+
+* 1 minor enhancement:
+
+  * Added line number to pretty_print output if $VERBOSE
+
+=== 3.0.3 / 2009-08-14
+
+* 1 minor enhancement:
+
+  * Pulled #mass up from flog/flay
+
+=== 3.0.2 / 2009-06-23
+
+* 2 minor enhancements:
+
+  * Pulled unique.rb from ParseTree to sexp_processor.
+  * Switched to minitest.
+
+=== 3.0.1 / 2009-01-20
+
+* 3 minor enhancements:
+
+  * Filled out README
+  * Promoted file/line/comments from ruby_parser.
+  * Added sexp_type to compliment sexp_body.
+
+=== 3.0.0 / 2008-10-22
+
+* 2 major enhancements:
+
+  * Released as its own project, splitting from ParseTree
+  * Added Environment to SexpProcessor and built it in. YAY!
+
+* 6 minor enhancements:
+
+  * Allowed CompositeSexpProcessor to be more ducktypey.
+  * Refactored Sexp#method_missing into find_node and find_nodes.
+  * Removed Sexp#for and other PT specific code.
+  * SexpProcessor#process now runs rewriters before everything else.
+  * SexpProcessor#rewrite context only for subs, EMPTY for top level rewrites.
+  * SexpProcessor#rewrite will stop iterating if the result isn't another Sexp.

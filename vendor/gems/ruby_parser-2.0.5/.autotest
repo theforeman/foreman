@@ -1,0 +1,43 @@
+# -*- ruby -*-
+
+require 'autotest/restart'
+require 'autotest/rcov' if ENV['RCOV']
+
+Autotest.add_hook :initialize do |at|
+  at.extra_files << "../../ParseTree/dev/test/pt_testcase.rb"
+  at.libs << ":../../ParseTree/dev/test:../../sexp_processor/dev/lib"
+  at.add_exception 'unit'
+  at.add_exception 'coverage'
+  at.add_exception 'coverage.info'
+  at.add_exception '.diff'
+
+  at.libs << ':../../minitest/dev/lib'
+  at.testlib = "minitest/autorun"
+  at.unit_diff = "unit_diff -u -b"
+
+  at.add_mapping(/^lib\/.*\.y$/) do |f, _|
+    at.files_matching %r%^test/.*#{File.basename(f, '.y').gsub '_', '_?'}.rb$%
+  end
+
+  at.add_mapping(/pt_testcase.rb/) do |f, _|
+    at.files_matching(/test_.*rb$/)
+  end
+
+  %w(TestEnvironment TestStackState).each do |klass|
+    at.extra_class_map[klass] = "test/test_ruby_parser_extras.rb"
+  end
+
+  %w(TestRubyParser TestParseTree).each do |klass| # HACK
+    at.extra_class_map[klass] = "test/test_ruby_parser.rb"
+  end
+end
+
+Autotest.add_hook :run_command do |at|
+  system "rake parser"
+end
+
+class Autotest
+  def ruby
+    File.expand_path "~/.multiruby/install/1.9.0-0/bin/ruby"
+  end
+end if ENV['ONENINE']

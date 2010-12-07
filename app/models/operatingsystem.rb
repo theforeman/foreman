@@ -31,6 +31,11 @@ class Operatingsystem < ActiveRecord::Base
               'Redhat'  => %r{RedHat|Centos|Fedora}i,
               'Solaris' => %r{Solaris}i}
 
+
+  class Jail < Safemode::Jail
+    allow :name, :media_url, :major, :minor, :family, :to_s
+  end
+
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
   # family are the same thing then rails converts the record to a Debian or a solaris object as required.
   # Manually managing the 'type' field allows us to control the inheritance chain and the available methods
@@ -90,13 +95,6 @@ class Operatingsystem < ActiveRecord::Base
   def as_json(options={})
     {:operatingsystem => {:name => to_s, :id => id, :medias => medias, :architectures => architectures, :ptables => ptables}}
   end
-
-  def configTemplates kind
-    if kind.nil?
-      return []
-    end
-    ConfigTemplate.operatingsystems_id_eq(id).template_kind_name_eq(kind.name)
-  end  
 
   private
   def deduce_family

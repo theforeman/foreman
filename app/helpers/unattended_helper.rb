@@ -45,4 +45,9 @@ echo \"Updated the certificate chain. There are now $count certificates\""
     false
   end
 
+  def render_sandbox template
+     box = Safemode::Box.new self, [:foreman_url, :grub_pass, :snippets, :ks_console, :root_pass, :ca_pubkey]
+     box.eval(ERB.new(template, nil, '-').src, {:host=>@host, :osver=>@osver, :mediapath=>@mediapath, :static=>@static, :yumrepo=>@yumrepo, :dynamic=>@dynamic})
+  end
+
 end

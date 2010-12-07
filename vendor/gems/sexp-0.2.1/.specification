@@ -1,0 +1,82 @@
+--- !ruby/object:Gem::Specification 
+name: sexp
+version: !ruby/object:Gem::Version 
+  hash: 21
+  prerelease: false
+  segments: 
+  - 0
+  - 2
+  - 1
+  version: 0.2.1
+platform: ruby
+authors: 
+- Topher Cyll
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2008-08-29 00:00:00 +03:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: rparsec
+  prerelease: false
+  requirement: &id001 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        hash: 15
+        segments: 
+        - 1
+        - 0
+        version: "1.0"
+  type: :runtime
+  version_requirements: *id001
+description: 
+email: christophercyll@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: []
+
+files: 
+- sexp.rb
+- sexpressions.rb
+has_rdoc: true
+homepage: http://rubyforge.org/projects/sexp/
+licenses: []
+
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- .
+required_ruby_version: !ruby/object:Gem::Requirement 
+  none: false
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
+      version: "0"
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  none: false
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
+      version: "0"
+requirements: []
+
+rubyforge_project: sexp
+rubygems_version: 1.3.7
+signing_key: 
+specification_version: 2
+summary: SExpression Reading/Writing for Ruby
+test_files: []
+
