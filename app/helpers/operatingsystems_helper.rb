@@ -19,4 +19,8 @@ module OperatingsystemsHelper
     param.gsub("[template_kind_id]","")
   end
 
+  def span_id obj
+    obj.config_template.nil? ? "template_new_os_default_templates" : "templates_#{obj.object_id}"
+  end
+
 end

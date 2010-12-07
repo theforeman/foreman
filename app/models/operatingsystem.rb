@@ -91,6 +91,13 @@ class Operatingsystem < ActiveRecord::Base
     {:operatingsystem => {:name => to_s, :id => id, :medias => medias, :architectures => architectures, :ptables => ptables}}
   end
 
+  def configTemplates kind
+    if kind.nil?
+      return []
+    end
+    ConfigTemplate.operatingsystems_id_eq(id).template_kind_name_eq(kind.name)
+  end  
+
   private
   def deduce_family
     if self.family.blank?
