@@ -26,7 +26,7 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def remove_trailing_chars
-    self.template.gsub!("\r","")
+    self.template.gsub!("\r","") unless template.empty?
   end
 
 end
