@@ -11,7 +11,7 @@ class ConfigTemplate < ActiveRecord::Base
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
-  before_save :check_for_snippet_assoications
+  before_save :check_for_snippet_assoications, :remove_trailing_chars
 
   private
 
@@ -24,4 +24,9 @@ class ConfigTemplate < ActiveRecord::Base
     self.operatingsystems.clear
     self.template_kind = nil
   end
+
+  def remove_trailing_chars
+    self.template.gsub!("\r","")
+  end
+
 end
