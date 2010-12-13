@@ -8,5 +8,5 @@
   <span id="<%= span_id f.object %>">
     Template <%= f.collection_select :config_template_id, @operatingsystem.config_templates.template_kind_id_eq(f.object.template_kind), :id, :name %>
   </span>
-
+  <%= link_to_remove_fields("remove", f) %>
 </div>
