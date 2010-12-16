@@ -1,0 +1,48 @@
+<% form_for @subnet do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :domain %><br />
+    <%= f.collection_select :domain_id, Domain.all, :id, :name %>
+  </p>
+
+  <p>
+    <%= f.label :network %><br />
+    <%= f.text_field :network %>
+  </p>
+
+  <p>
+    <%= f.label :mask %><br />
+    <%= f.text_field :mask, :title => "netmask for this subnet" %>
+  </p>
+
+  <p>
+    <%= f.label :ranges %><br />
+    <%= f.text_field :ranges, :title => "A list of comma separated single IPs or start-end couples." %>
+  </p>
+
+  <p>
+    <%= f.label :dhcp_id %><br />
+    <%= f.collection_select :dhcp_id, SmartProxy.all, :id, :name, :include_blank => true %>
+  </p>
+
+  <p>
+    <%= f.label :tftp_id %><br />
+    <%= f.collection_select :tftp_id, SmartProxy.all, :id, :name, :include_blank => true %>
+  </p>
+
+  <p>
+    <%= f.label :vlanid %><br />
+    <%= f.text_field :vlanid %>
+  </p>
+
+  <p>
+    <%= f.label :priority %><br />
+    <%= f.text_field :priority %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

@@ -39,6 +39,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :auth_source_ldaps
   map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get}
   map.resources :config_templates, :except => [:show]
+  map.resources :smart_proxies, :except => [:show]
+  map.resources :subnets, :except => [:show]
 
   #default
   map.connect ':controller/:action/:id'

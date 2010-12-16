@@ -2,8 +2,16 @@
 
 one:
    name: one
-   number: 2.3.4.5
+   network: 2.3.4.0
    mask: 255.255.255.0
-#
-# two:
-#   column: value
+   domain: mydomain.net
+   dhcp_id: 1
+   tftp_id: 1
+
+two:
+   name: two
+   network: 3.3.4.0
+   mask: 255.255.255.0
+   domain: yourdomain.net
+   dhcp_id: 1
+   tftp_id: 1

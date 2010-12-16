@@ -9,6 +9,11 @@
     <%= f.text_field :fullname %>
   </p>
 
+  <p>
+    <%= f.label :dns_id %><br />
+    <%= f.collection_select :dns_id, SmartProxy.all, :id, :name, :include_blank => true %>
+  </p>
+
   <%= render :partial => "common_parameters/parameters", :locals => { :f => f, :type => :domain_parameters } %>
 
   <p><%= f.submit "Submit" %></p>

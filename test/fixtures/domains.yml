@@ -1,13 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 mydomain:
+  id: 1
   name: mydomain.net
-  fullname: somewhere in mydomain
+  dns_id: 3
 
 yourdomain:
   name: yourdomain.net
   fullname: somewhere in yourdomain
+  dns_id: 3
 
 unuseddomain:
   name: unused.net
   fullname: somewhare that is never used
+  dns_id: 3
+
+useless:
+  name: useless.net

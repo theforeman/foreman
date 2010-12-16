@@ -1,0 +1,20 @@
+<% title "Proxies" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Url</th>
+    <th></th>
+  </tr>
+  <% for proxy in @proxies %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to proxy.name, edit_smart_proxy_path(proxy) %></td>
+      <td><%=h proxy.url %></td>
+      <td>
+        <%= link_to "Destroy", proxy, :confirm => 'Are you sure?', :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Proxy", new_smart_proxy_path %></p>

@@ -1,0 +1,33 @@
+<% title "Subnets" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Domain</th>
+    <th>Number</th>
+    <th>Mask</th>
+    <th>Ranges</th>
+    <th>DHCP server</th>
+    <th>VLAN ID</th>
+    <th></th> 
+  </tr>
+  <% for subnet in @subnets %> 
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%=link_to h(subnet.name), edit_subnet_path(subnet)%></td>
+      <td><%=subnet.domain%></td>
+      <td><%=subnet.network%></td>
+      <td><%=subnet.mask%></td>
+      <td><%=subnet.ranges%></td>
+      <td><%=subnet.dhcp %></td>
+      <td><%=subnet.vlanid%></td>
+      <td align="right">
+        <%= link_to "Destroy", subnet, :confirm => "Delete #{subnet.name}?", :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @subnets %>
+<%= will_paginate     @subnets %>
+
+<p><%= link_to "New Subnet", new_subnet_path %></p>
+

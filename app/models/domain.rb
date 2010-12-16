@@ -3,6 +3,7 @@ class Domain < ActiveRecord::Base
   include Authorization
   has_many :hosts
   has_many :subnets
+  belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_and_belongs_to_many :users, :join_table => "user_domains"
 

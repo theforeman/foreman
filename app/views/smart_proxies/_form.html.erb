@@ -1,0 +1,12 @@
+<% form_for @proxy do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label "URL" %><br />
+    <%= f.text_field :url %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>
