@@ -99,6 +99,9 @@ class Host < Puppet::Rails::Host
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
   if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
+    # handles all orchestration of smart proxies.
+    include Orchestration
+
     validates_uniqueness_of  :ip
     validates_uniqueness_of  :mac
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
@@ -114,7 +117,6 @@ class Host < Puppet::Rails::Host
     validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => /(\d{1,3}\.){3}\d{1,3}/, :allow_nil => true, :allow_blank => true
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
-    validates_associated     :domain, :operatingsystem,  :architecture, :subnet,:media#, :user, :deployment, :model
   end
 
   before_validation :normalize_addresses, :normalize_hostname
@@ -385,6 +387,7 @@ class Host < Puppet::Rails::Host
     return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
     self.build = true
     self.save
+    errors.empty?
   end
 
   # this method accepts a puppets external node yaml output and generate a node in our setup
@@ -510,6 +513,10 @@ class Host < Puppet::Rails::Host
   # Returns a url pointing to boot file
   def url_for_boot file
     "#{os.media_uri(self)}/#{os.url_for_boot(file)}"
+  end
+
+  def sp_valid?
+    !sp_name.empty? and !sp_ip.empty? and !sp_mac.empty?
   end
 
   private

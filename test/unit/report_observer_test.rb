@@ -8,12 +8,7 @@ class ReportObserverTest < ActiveSupport::TestCase
     SETTINGS[:administrator] = "admin@example.com"
 
     # Host and Report creation
-    h = Host.create  :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-                      :domain => Domain.find_or_create_by_name("company.com"),
-                      :operatingsystem => Operatingsystem.create(:name => "linux", :major => 389),
-                      :architecture => Architecture.find_or_create_by_name("i386"),
-                      :environment => Environment.find_or_create_by_name("envy"),
-                      :disk => "empty partition"
+    h = hosts(:one)
     h.update_attribute :owner, User.first if SETTINGS[:login]
 
     @report = Report.new :host => h, :reported_at => Date.today

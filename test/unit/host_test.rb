@@ -40,12 +40,10 @@ class HostTest < ActiveSupport::TestCase
 
 
   test "should be able to save host" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
-    if host.new_record?
-      puts host.errors.full_messages
-    end
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first,
+      :subnet => subnets(:one), :architecture => Architecture.first,
+      :environment => Environment.first, :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
   end
@@ -59,41 +57,47 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from yaml of a new host" do
     assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
   end
-  if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
-      test "should not save if neither ptable or disk are defined when the host is managed" do
-        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-          :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-          :architecture => Architecture.first, :environment => Environment.first, :managed => true
-        assert !host.valid?
-      end
 
-      test "should save if neither ptable or disk are defined when the host is not managed" do
-        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-          :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-          :architecture => Architecture.first, :environment => Environment.first, :managed => false
-        assert host.valid?
-      end
+  test "should not save if neither ptable or disk are defined when the host is managed" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
+      :architecture => Architecture.first, :environment => Environment.first, :managed => true
+    assert !host.valid?
+  end
+
+  test "should save if neither ptable or disk are defined when the host is not managed" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
+      :subnet => subnets(:one), :architecture => Architecture.first, :environment => Environment.first, :managed => false
+    assert host.valid?
   end
 
   test "should save if ptable is defined" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first,
+      :subnet => subnets(:one), :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
     assert !host.new_record?
   end
 
   test "should save if disk is defined" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
       :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
     assert !host.new_record?
+  end
+
+  test "should not save if IP is not in the right subnet" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
+      :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+    assert !host.valid?
   end
 
   test "should import from external nodes output" do
     # create a dummy node
     Parameter.destroy_all
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
       :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
 
     # dummy external node info
@@ -101,7 +105,7 @@ class HostTest < ActiveSupport::TestCase
 
     host.importNode nodeinfo
 
-    assert host.info == nodeinfo
+    assert_equal host.info, nodeinfo
   end
 
   test "show be enabled by default" do
@@ -171,10 +175,10 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles = [Role.find_by_name("Viewer")]
     end
-    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.09",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
-                       :disk => "empty partition")
+                       :subnet => subnets(:one), :disk => "empty partition")
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -184,10 +188,10 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles = [Role.find_by_name("Create hosts")]
     end
-    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.11",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
-                       :disk => "empty partition")
+                       :subnet => subnets(:one), :disk => "empty partition")
     assert !host.new_record?
     assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -198,9 +202,10 @@ class HostTest < ActiveSupport::TestCase
       @one.roles      = [Role.find_by_name("Create hosts")]
       @one.hostgroups = [Hostgroup.find_by_name("Common")]
     end
-    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.4",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :subnet => subnets(:one),
                        :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
     assert !host.new_record?
     assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
@@ -212,9 +217,10 @@ class HostTest < ActiveSupport::TestCase
       @one.roles      = [Role.find_by_name("Create hosts")]
       @one.hostgroups = [Hostgroup.find_by_name("Unusual")]
     end
-    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "123.05.02.09",
+    host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.9",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :subnet => subnets(:one),
                        :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
@@ -261,11 +267,12 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "a fqdn Host should be assigned to a domain if such domain exists" do
-    domain = Domain.find_or_create_by_name "company.com"
-    host = Host.create :name => "host.company.com", :mac => "aabbccddeaff", :ip => "123.2.02.03",
-      :operatingsystem => Operatingsystem.first,
+    domain = domains(:mydomain)
+    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
+      :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
       :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
     assert host.save
+
     assert_equal domain, host.domain
   end
 

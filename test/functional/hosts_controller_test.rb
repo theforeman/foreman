@@ -43,11 +43,12 @@ class HostsControllerTest < ActionController::TestCase
       post :create, { :commit => "Create",
         :host => {:name => "myotherfullhost",
           :mac => "aabbecddee06",
-          :ip => "123.05.04.25",
-          :domain => Domain.find_or_create_by_name("othercompany.com"),
+          :ip => "2.3.4.125",
+          :domain => domains(:mydomain),
           :operatingsystem =>  Operatingsystem.first,
           :architecture => Architecture.first,
           :environment => Environment.first,
+          :subnet => subnets(:one),
           :disk => "empty partition"
         }
       }, set_session_user
@@ -114,7 +115,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:notice]
-    assert flash[:notice] == "Enabled myfullhost.company.com for rebuild on next boot"
+    assert flash[:notice] == "Enabled #{@host} for rebuild on next boot"
   end
 
   test "when host is not saved after setBuild, the flash should inform it" do
@@ -126,7 +127,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:error]
-    assert flash[:error] == "Failed to enable myfullhost.company.com for installation"
+    assert flash[:error] =~ /Failed to enable #{@host} for installation/
   end
 
   test "report should redirect to host's last report" do
@@ -355,11 +356,12 @@ class HostsControllerTest < ActionController::TestCase
     User.current = users(:admin)
     @host = Host.create :name => "myfullhost",
       :mac => "aabbecddeeff",
-      :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"),
+      :ip => "2.3.4.99",
+      :domain => domains(:mydomain),
       :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first,
       :environment => Environment.first,
+      :subnet => subnets(:one),
       :disk => "empty partition"
   end
 end

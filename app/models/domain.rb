@@ -1,3 +1,4 @@
+require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
   include Authorization
@@ -10,10 +11,6 @@ class Domain < ActiveRecord::Base
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
   validates_uniqueness_of :fullname, :allow_blank => true, :allow_nil => true
-  validates_format_of   :dnsserver, :with => /^\S+$/, :message => "Name cannot contain spaces",
-    :allow_blank => true, :allow_nil => true
-  validates_format_of   :gateway,   :with => /^\S+$/, :message => "Name cannot contain spaces",
-    :allow_blank => true, :allow_nil => true
   validates_presence_of :name
 
   default_scope :order => 'name'
@@ -45,6 +42,15 @@ class Domain < ActiveRecord::Base
 
     errors.add_to_base "You do not have permission to #{operation} this domain"
     false
+  end
+
+  # return the primary name server for our domain based on DNS lookup
+  # it first searches for SOA record, if it failed it will search for NS records
+  def nameservers
+    dns = Resolv::DNS.new
+    ns = dns.getresources(name, Resolv::DNS::Resource::IN::SOA).collect {|r| r.mname.to_s}
+    ns = dns.getresources(name, Resolv::DNS::Resource::IN::NS).collect {|r| r.name.to_s} if ns.empty?
+    ns.to_a.flatten
   end
 
 end

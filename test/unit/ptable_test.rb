@@ -57,11 +57,7 @@ class PtableTest < ActiveSupport::TestCase
     partition_table = Ptable.new :name => "Ubuntu default", :layout => "some layout"
     assert partition_table.save
 
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",
-      :ptable => partition_table
-    assert host.save!
+    host = hosts(:one)
     partition_table.hosts << host
 
     assert !partition_table.destroy

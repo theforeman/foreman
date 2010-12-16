@@ -41,12 +41,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.new :name => "i386"
     assert architecture.save
 
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => architecture, :environment => Environment.first, :disk => "empty partition",
-      :ptable => Ptable.first
-    assert host.save!
-
+    host = hosts(:one)
     architecture.hosts << host
 
     assert !architecture.destroy

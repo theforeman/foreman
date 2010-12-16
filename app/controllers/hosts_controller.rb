@@ -172,6 +172,7 @@ class HostsController < ApplicationController
   end
 
   def setBuild
+    forward_request_url
     if @host.setBuild != false
       respond_to  do |format|
         format.html { notice "Enabled #{@host.name} for rebuild on next boot" }
@@ -179,7 +180,7 @@ class HostsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { error "Failed to enable #{@host.name} for installation" }
+        format.html { error "Failed to enable #{@host.name} for installation: #{@host.errors.full_messages.join("br")}" }
         format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
       end
     end
@@ -519,6 +520,11 @@ class HostsController < ApplicationController
   def show_hosts list, title
     @search = User.current.admin? ? list.search(params[:search]) : list.my_hosts.search(params[:search])
     render_hosts title
+  end
+
+  # this is required for template generation (such as pxelinux) which is not done via a web request
+  def forward_request_url
+    @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
   end
 
 end

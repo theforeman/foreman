@@ -104,10 +104,11 @@ class EnvironmentsControllerTest < ActionController::TestCase
     host = hosts(:myfullhost)
     as_admin do
       host.environment = Environment.find_or_create_by_name("dummy")
-      host.domain = Domain.find_or_create_by_name("mydomain.com")
+      host.valid?
+      puts host.errors.full_messages
       assert host.save
     end
-    assert Host.find_by_name("myfullname.mydomain.com").environment == Environment.find_by_name("dummy")
+    assert_equal Host.find_by_name("myfullname.mydomain.net").environment, Environment.find_by_name("dummy")
     post :obsolete_and_new, { "changed"=>{
                                     "new"      => {"puppetclasses" => ["a", "b", "c"]},
                                     "obsolete" => {"environments"  => ["dummy"]}
@@ -124,9 +125,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     host = hosts(:myfullhost)
     host.puppetclasses = [Puppetclass.find_by_name("base")]
     host.environment = Environment.find_by_name("production")
-    host.domain = Domain.find_or_create_by_name("mydomain.com")
     assert host.save
-    assert Host.find_by_name("myfullname.mydomain.com").puppetclasses == [Puppetclass.find_by_name("base")]
+    assert Host.find_by_name("myfullname.mydomain.net").puppetclasses == [Puppetclass.find_by_name("base")]
     post :obsolete_and_new, { "changed"=>{
                                     "obsolete" => {"puppetclasses" => ["base"]}
                              }}, set_session_user

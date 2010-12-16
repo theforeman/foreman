@@ -46,10 +46,8 @@ class MediaTest < ActiveSupport::TestCase
     media = Media.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert media.save!
 
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",
-      :ptable => Ptable.first
+    host = hosts(:one)
+    host.media = media
     assert host.save!
 
     media.hosts << host

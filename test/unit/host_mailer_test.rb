@@ -2,18 +2,13 @@ require 'test_helper'
 
 class HostMailerTest < ActionMailer::TestCase
   def setup
+    @host = hosts(:one)
+    @env = environments(:production)
     as_admin do
-      @env = Environment.new :name => "testing"
-      @env.save!
-
-      @host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-        :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-        :architecture => Architecture.first, :environment => @env, :disk => "empty partition",
-        :ptable => Ptable.first, :last_report => Time.at(0)
-      @host.save!
-
+      @host.last_report = Time.at(0)
+      @host.save(false)
       @env.hosts << @host
-      @env.save!
+      @env.save
     end
     User.current = User.find_by_login "admin"
     SETTINGS[:foreman_url] = "http://localhost:3000/hosts/:id"
