@@ -133,6 +133,10 @@ class HostsController < ApplicationController
     end
   end
 
+  def domain_selected
+    assign_parameter "domain"
+  end
+
   def architecture_selected
     assign_parameter "architecture"
   end
@@ -459,8 +463,9 @@ class HostsController < ApplicationController
 
   def load_vars_for_ajax
     return unless @host
-    @environment = @host.environment
-    @architecture = @host.architecture
+    @environment     = @host.environment
+    @architecture    = @host.architecture
+    @domain          = @host.domain
     @operatingsystem = @host.operatingsystem
   end
 

@@ -2,12 +2,15 @@
   <% field_set_tag 'Network settings', :id => "network" do -%>
     <table>
       <tr>
-        <td>Domain</td>
-        <td><%= f.collection_select :domain_id, Domain.all, :id, :to_label %></td>
-        <td>IP</td>
-        <td><%= f.text_field :ip, :size => 16 %></td>
-        <td>MAC</td>
-        <td><%= f.text_field :mac, :size => 17 %></td>
+        <td colspan="10">
+          <td>Domain</td>
+          <td> <%= f.collection_select :domain_id, Domain.all, :id, :to_label, :include_blank => true %> </td>
+          <td><span id="host_subnet"> <%= render 'domain' if @domain %> </span></td>
+          <td>IP</td>
+          <td><%= text_field :host, :ip, :size => 16 %></td>
+          <td>MAC</td>
+          <td><%= f.text_field :mac, :size => 17 %></td>
+        </td>
       </tr>
     </table>
   <% end -%>
@@ -52,3 +55,9 @@
                   :update => :host_os,
                   :with => :architecture_id)
 %>
+<%= observe_field(:host_domain_id,
+                  :url => { :action => :domain_selected, :id => @host.id },
+                  :update => :host_subnet,
+                  :with => :domain_id)
+%>
+
