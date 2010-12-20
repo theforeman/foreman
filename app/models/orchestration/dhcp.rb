@@ -83,8 +83,6 @@ module Orchestration::DHCP
     end
 
     def boot_server
-      # require fix for #537
-      return "10.35.27.1"
       # where are we booting from
       begin
         tftp.bootServer
