@@ -1,15 +1,5 @@
 module UnattendedHelper
 
-  def ca_pubkey
-    #TODO: replace hardcoded dirs into puppet variables
-    unless SETTINGS[:CAPubKey].nil?
-      "echo \"#{SETTINGS[:CAPubKey]}\" >> /var/lib/puppet/ssl/certs/ca.pem
-count=`grep -c -- \"--END\" /var/lib/puppet/ssl/certs/ca.pem`
-echo \"Updated the certificate chain. There are now $count certificates\""
-    end
-    return ""
-  end
-
   def ks_console
     (@port and @baud) ? "console=ttyS#{@port},#{@baud}": ""
   end
@@ -46,8 +36,13 @@ echo \"Updated the certificate chain. There are now $count certificates\""
   end
 
   def render_sandbox template
-     box = Safemode::Box.new self, [:foreman_url, :grub_pass, :snippets, :ks_console, :root_pass, :ca_pubkey]
-     box.eval(ERB.new(template, nil, '-').src, {:host=>@host, :osver=>@osver, :mediapath=>@mediapath, :static=>@static, :yumrepo=>@yumrepo, :dynamic=>@dynamic, :epel =>@epel})
+    allowed_helpers   = [ :foreman_url, :grub_pass, :snippet, :snippets, :ks_console, :root_pass ]
+    allowed_variables = ({:arch => @arch, :host => @host, :osver => @osver, :mediapath => @mediapath, :static => @static,
+                         :yumrepo => @yumrepo, :dynamic => @dynamic, :epel => @epel,
+                         :preseed_server => @preseed_server, :preseed_path => @preseed_path })
+
+    box = Safemode::Box.new self, allowed_helpers
+    box.eval(ERB.new(template, nil, '-').src, allowed_variables)
   end
 
 end

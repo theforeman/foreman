@@ -16,7 +16,7 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
 
   class Jail < Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup
+    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup, :domain
   end
 
 
