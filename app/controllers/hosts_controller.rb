@@ -75,6 +75,7 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(params[:host])
     @host.managed = true
+    forward_request_url
     respond_to do |format|
       if @host.save
         format.html do
@@ -99,6 +100,7 @@ class HostsController < ApplicationController
 
   def update
     @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
+    forward_request_url
     if @host.update_attributes(params[:host])
       notice "Successfully updated host."
       redirect_to @host

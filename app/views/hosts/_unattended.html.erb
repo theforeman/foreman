@@ -10,6 +10,9 @@
           <td><%= text_field :host, :ip, :size => 16 %></td>
           <td>MAC</td>
           <td><%= f.text_field :mac, :size => 17 %></td>
+          <% if @host.new_record? -%>
+            <td title="Enable this host for provisioning">Build? <%= f.check_box :build,:checked => true %></td>
+          <% end -%>
         </td>
       </tr>
     </table>

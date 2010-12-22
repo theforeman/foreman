@@ -89,16 +89,21 @@ module Orchestration::TFTP
     end
 
     def queue_tftp_create
-      # nothing to do upon creation
+      return unless build
+      queue.create(:name => "TFTP Settings for #{self}", :priority => 20,
+                   :action => [self, :setTFTP])
+      queue.create(:name => "Fetch TFTP boot files for #{self}", :priority => 25,
+                   :action => [self, :setTFTPBootFiles])
     end
 
     def queue_tftp_update
-      if build == true and old.build == false
-        queue.create(:name => "TFTP Settings for #{self}", :priority => 20,
-                     :action => [self, :setTFTP])
-        queue.create(:name => "Fetch TFTP boot files for #{self}", :priority => 25,
-                     :action => [self, :setTFTPBootFiles])
-      end
+      set_tftp = false
+      set_tftp = true if (build == true and old.build == false)
+      if set_tftp == false and old
+        set_tftp = true if old.medium != medium or old.arch != arch
+        set_tftp = true if os and old.os and (old.os.name != os.name or old.os != os)
+      end unless
+      queue_tftp_create if set_tftp
       if build == false and old.build == true
         queue_tftp_destroy
       end
