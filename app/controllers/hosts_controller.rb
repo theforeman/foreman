@@ -8,7 +8,7 @@ class HostsController < ApplicationController
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
   before_filter :find_hosts, :only => :query
-  before_filter :ajax_methods, :only => [:environment_selected, :architecture_selected, :os_selected]
+  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected, :domain_selected]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
@@ -127,9 +127,14 @@ class HostsController < ApplicationController
 
   # form AJAX methods
 
-  def environment_selected
-    if params[:environment_id].to_i > 0 and @environment = Environment.find(params[:environment_id])
-      render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host ||= Host.new)}
+  def hostgroup_or_environment_selected
+     @environment = Environment.find(params[:environment_id]) if params[:environment_id].to_i > 0
+     @hostgroup   = Hostgroup.find(params[:hostgroup_id])     if params[:hostgroup_id].to_i   > 0
+     if @environment or @hostgroup
+      @host ||= Host.new
+      @host.hostgroup   = @hostgroup if @hostgroup
+      @host.environment = @environment if @environment
+      render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
     else
       return head(:not_found)
     end
