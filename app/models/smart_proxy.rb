@@ -8,10 +8,14 @@ class SmartProxy < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name, :url
   validates_format_of :url, :with => /^(http|https):\/\//, :message => "is invalid - only  http://, https:// are allowed"
-  before_save :try_to_connect
+  before_save :sanitaize_url, :try_to_connect
   before_destroy Ensure_not_used_by.new(:subnets, :domains)
 
   private
+
+  def sanitaize_url
+    self.url.chomp!("/") unless url.empty?
+  end
 
   def try_to_connect
     true
