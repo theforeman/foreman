@@ -20,10 +20,10 @@
         <% end -%>
       </td>
 
-      <% if @environment -%>
+      <% if @environment or obj.is_a?(Hostgroup) -%>
         <%= render :partial => "puppetclasses/classes",
           :locals => ({:puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all) - obj.all_puppetclasses,
-            :type          => obj.class.to_s.downcase })
+            :type => obj.class.to_s.downcase })
         %>
       <% else -%>
         <td>No environment selected</td>
