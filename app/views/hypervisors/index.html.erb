@@ -1,0 +1,20 @@
+<% title "Hypervisors" %>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Uri</th>
+    <th>Kind</th>
+    <th></th>
+  </tr>
+  <% for hypervisor in @hypervisors %>
+    <tr>
+      <td><%=link_to hypervisor.name, edit_hypervisor_path(hypervisor) %></td>
+      <td><%=h hypervisor.uri %></td>
+      <td><%=h hypervisor.kind %></td>
+      <td><%= link_to "Destroy", hypervisor, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Hypervisor", new_hypervisor_path %></p>

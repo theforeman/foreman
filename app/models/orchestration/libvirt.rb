@@ -1,0 +1,97 @@
+module Orchestration::Libvirt
+  def self.included(base)
+    base.send :include, InstanceMethods
+    base.class_eval do
+      attr_accessor :hypervisor_id, :storage_pool, :interface, :memory, :vcpu, :disk_size, :network_type, :powerup
+      after_validation  :initialize_libvirt, :queue_libvirt
+      before_destroy    :initialize_libvirt, :queue_libvirt_destory
+    end
+  end
+
+  module InstanceMethods
+    def libvirt?
+      !hypervisor_id.nil? and !memory.nil? and !vcpu.nil? and !storage_pool.nil? and !interface.nil? and !network_type.nil?
+    end
+
+    protected
+    def initialize_libvirt
+      return unless libvirt?
+      Virt.connect Hypervisor.find(hypervisor_id).uri
+      @guest = Virt::Guest.new({:name => name, :memory => memory, :arch => arch,
+                               :vcpu => vcpu, :pool => storage_pool, :size => disk_size,
+                               :device => interface, :type => network_type})
+    rescue => e
+      failure "Failed to initialize the Libvirt connection: #{e}"
+    end
+
+    def queue_libvirt
+      return unless libvirt? and errors.empty?
+      new_record? ? queue_libvirt_create : queue_libvirt_update
+    end
+
+    def queue_libvirt_create
+      queue.create(:name => "Libvirt: Settings up storage for instance #{self}", :priority => 1,
+                   :action => [self, :setLibvirtVolume])
+      queue.create(:name => "Settings up libvirt instance #{self}", :priority => 2,
+                   :action => [self, :setLibvirt])
+      queue.create(:name => "Settings up libvirt instance #{self} to start", :priority => 1000,
+                   :action => [self, :setPowerUp]) if powerup
+    end
+
+    def queue_libvirt_update
+    end
+
+    def queue_libvirt_destory
+      return unless libvirt? and errors.empty?
+      queue.create(:name => "Removing libvirt instance #{self}", :priority => 1,
+                   :action => [self, :delLibvirt])
+      queue.create(:name => "Removing libvirt Storage #{self}", :priority => 2,
+                   :action => [self, :delLibvirtVolume])
+    end
+
+    def setLibvirtVolume
+      logger.info "Adding Libvirt instance storage for #{name}"
+      @guest.volume.save
+    rescue => e
+      failure "Failed to create Storage for Libirt instance #{name}: #{e}"
+    end
+
+    def delLibvirtVolume
+      logger.info "Removing Libvirt instance storage for #{name}"
+      @guest.volume.destroy
+    rescue => e
+      failure "Failed to destroy Storage for Libirt instance #{name}: #{e}"
+    end
+
+    def setLibvirt
+      logger.info "Adding Libvirt instance for #{name}"
+      if @guest.save and !(self.mac = @guest.interface.mac).empty?
+        normalize_addresses
+      else
+        failure "failed to save virtual machine"
+      end
+    rescue => e
+      failure "Failed to create Libirt instance #{name}: #{e}"
+    end
+
+    def delLibvirt
+      logger.info "Removing Libvirt instance for for #{name}"
+      @guest.destroy
+    rescue => e
+      failure "Failed to destroy Libirt instance #{name}: #{e}"
+    end
+
+    def setPowerUp
+      @guest.start
+    rescue => e
+      failure "Failed to start Guest: #{e}"
+    end
+
+    def delPowerUp
+      @guest.stop
+    rescue => e
+      failure "Failed to stop Guest: #{e}"
+    end
+
+  end
+end

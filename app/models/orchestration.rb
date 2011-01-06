@@ -14,6 +14,7 @@ module Orchestration
       include Orchestration::DHCP
       include Orchestration::DNS
       include Orchestration::TFTP
+      include Orchestration::Libvirt
 
       # save handles both creation and update of hosts
       before_save :on_save
@@ -84,6 +85,7 @@ module Orchestration
       # if we have no failures - we are done
       return true if q.failed.empty? and q.pending.empty? and errors.empty?
 
+      logger.debug "Rolling back due to a problem: #{q.failed}"
       # handle errors
       # we try to undo all completed operations and trigger a DB rollback
       (q.completed + q.running).each do |task|

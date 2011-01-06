@@ -41,6 +41,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :config_templates, :except => [:show]
   map.resources :smart_proxies, :except => [:show]
   map.resources :subnets, :except => [:show]
+  map.resources :hypervisors, :except => [:show]
 
   #default
   map.connect ':controller/:action/:id'

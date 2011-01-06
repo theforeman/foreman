@@ -1,0 +1,18 @@
+<% form_for @hypervisor do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <tr>
+      <td><%= f.label :name %> </td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :uri %></td>
+      <td><%= f.text_field :uri, :size => 50%></td>
+    </tr>
+    <tr>
+      <td><%= f.label :kind %></td>
+      <td><%= f.select :kind, Hypervisor::KINDS %></td>
+    </tr>
+  </table>
+  <%= f.submit %>
+<% end %>

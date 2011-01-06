@@ -8,7 +8,7 @@ class HostsController < ApplicationController
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
   before_filter :find_hosts, :only => :query
-  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected, :domain_selected]
+  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected, :domain_selected, :hypervisor_selected]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
@@ -135,6 +135,34 @@ class HostsController < ApplicationController
       @host.hostgroup   = @hostgroup if @hostgroup
       @host.environment = @environment if @environment
       render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
+    else
+      return head(:not_found)
+    end
+  end
+
+  def hypervisor_selected
+    hypervisor_id = params[:host_hypervisor_id].to_i
+
+    # bare metal selected
+    hypervisor_defaults and return if hypervisor_id == 0
+
+    @host ||= Host.new
+    if ((@host.hypervisor_id = hypervisor_id) > 0) and (@hypervisor = Hypervisor.find(@host.hypervisor_id))
+      begin
+      @libvirt = @hypervisor.connect
+      rescue Libvirt::ConnectionError => e
+        # we reset to default
+        hypervisor_defaults(e.to_s) and return
+      end
+
+      @guest = Virt::Guest.new({:name => (@host.try(:name) || "new-#{Time.now}.to_i")})
+      render :update do |page|
+        page.replace_html :virtual_machine, :partial => "hypervisor"
+        page << "if ($('host_mac')) {"
+        page.remove :host_mac_label
+        page.remove :host_mac
+        page << " }"
+      end
     else
       return head(:not_found)
     end
@@ -537,6 +565,17 @@ class HostsController < ApplicationController
   # this is required for template generation (such as pxelinux) which is not done via a web request
   def forward_request_url
     @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+  end
+
+  def hypervisor_defaults msg = nil
+    @hypervisor = nil
+    render :update do |page|
+      page.alert(msg) if msg
+      page.replace_html :virtual_machine, :partial => "hypervisor"
+      # you can only select bare metal after you successfully selected a hypervisor before
+      page.insert_html :after, :host_ip, :partial => "mac"
+      page[:host_hypervisor_id].value = ""
+    end
   end
 
 end

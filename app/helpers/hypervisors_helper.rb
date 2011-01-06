@@ -1,0 +1,2 @@
+module HypervisorsHelper
+end

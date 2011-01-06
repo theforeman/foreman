@@ -1,4 +1,7 @@
 <% field_set_tag 'Unattended settings', :id => "unattended" do -%>
+  <span id="virtual_machine">
+    <%= render 'hypervisor' if @host.new_record? and Hypervisor.count > 0 %>
+  </span>
   <% field_set_tag 'Network settings', :id => "network" do -%>
     <table>
       <tr>
@@ -7,9 +10,10 @@
           <td> <%= f.collection_select :domain_id, Domain.all, :id, :to_label, :include_blank => true %> </td>
           <td><span id="host_subnet"> <%= render 'domain' if @domain %> </span></td>
           <td>IP</td>
-          <td><%= text_field :host, :ip, :size => 16 %></td>
-          <td>MAC</td>
-          <td><%= f.text_field :mac, :size => 17 %></td>
+          <td id="host_ip"><%= text_field :host, :ip, :size => 16 %></td>
+          <% unless @hypervisor -%>
+            <%= render 'mac' %>
+          <% end -%>
           <% if @host.new_record? -%>
             <td title="Enable this host for provisioning">Build? <%= f.check_box :build,:checked => true %></td>
           <% end -%>

@@ -1,0 +1,37 @@
+<% field_set_tag 'Virtual Host Settings', :id => "vm" do -%>
+  <table>
+    <tr>
+      <td>Provision on </td>
+      <td><%= collection_select :host, :hypervisor_id, Hypervisor.all, :id, :name, :include_blank => "Bare Metal" %></td>
+      <% if @hypervisor -%>
+        <% if @guest.new? -%>
+          <td>Memory</td>
+          <td> <%= collection_select :host, :memory, Hypervisor::MEMORY_SIZE, :to_i, :to_s %></td>
+        <% else -%>
+          <td>Memory(KB)</td>
+          <td> <%= text_field :host, :memory, :value => @guest.memory, :size => 10 %></td>
+        <% end -%>
+        <td>VCPU</td>
+        <td> <%= text_field :host, :vcpu, :value => @guest.vcpu, :size => 3 %></td>
+        <td>Image Size(GB)</td>
+        <td> <%= text_field :host, :disk_size, :value => @guest.volume.size, :size => 3 %></td>
+        <td> Storage Pool </td>
+        <td> <%= select :host, :storage_pool, @libvirt.storage_pools.map(&:name) %></td>
+        <td> Network </td>
+        <td> <%= select :host, :network_type, Hypervisor::NETWORK_TYPES %></td>
+        <% if @hypervisor.interfaces.empty? %>
+          <td> Interface </td>
+          <td> <%= text_field :host, :interface, :size => 8, :title => "Physical Interface on #{@libvirt.name}" %></td>
+        <% else -%>
+          <td> <%= select :host, :interface, @libvirt.networks + @libvirt.interfaces %></td>
+        <% end -%>
+        <td> Start instance </td>
+        <td> <%= check_box :host, :powerup, :checked => true %> </td>
+      <% end -%>
+    </tr>
+  </table>
+<% end -%>
+<%= observe_field(:host_hypervisor_id,
+                  :url => { :action => :hypervisor_selected },
+                  :with => :host_hypervisor_id)
+%>
