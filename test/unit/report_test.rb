@@ -119,6 +119,32 @@ class ReportTest < ActiveSupport::TestCase
     assert r
   end
 
+  def setup_for_email_reporting
+    # Email recepient
+    SETTINGS[:administrator] = "admin@example.com"
+    SETTINGS[:failed_report_email_notification] = true
+  end
 
+  test "when notification fails, if report has an error a mail to admin should be sent" do
+    setup_for_email_reporting
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-errors.yaml"))
+    end
+  end
+
+  test "when notification doesn't fails, if report has an error, no mail should be sent" do
+    setup_for_email_reporting
+    SETTINGS[:failed_report_email_notification] = false
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-errors.yaml"))
+    end
+  end
+
+  test "if report has no error, no mail should be sent" do
+    setup_for_email_reporting
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-applied.yaml"))
+    end
+  end
 
 end

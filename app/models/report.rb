@@ -122,6 +122,7 @@ class Report < ActiveRecord::Base
       # if we are using storeconfigs then we already have the facts
       # so we can refresh foreman internal fields accordingly
       host.populateFieldsFromFacts if SETTINGS[:using_storeconfigs]
+      r.inspect_report
       return r
     rescue Exception => e
       logger.warn "Failed to process report for #{report.host} due to:#{e}"
@@ -189,6 +190,20 @@ class Report < ActiveRecord::Base
       log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
       log.errors.empty?
     end
+  end
+
+  def inspect_report
+    if error?
+      # found a report with errors
+      # notify via email IF enabled is set to true
+      logger.warn "#{report.host} is disabled - skipping." and return if host.disabled?
+
+      logger.debug "error detected, checking if we need to send an email alert"
+      HostMailer.deliver_error_state(self) if SETTINGS[:failed_report_email_notification]
+      # add here more actions - e.g. snmp alert etc
+    end
+  rescue => e
+    logger.warn "failed to send failure email notification: #{e}"
   end
 
   private
