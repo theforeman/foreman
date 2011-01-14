@@ -573,7 +573,7 @@ class HostsController < ApplicationController
       page.alert(msg) if msg
       page.replace_html :virtual_machine, :partial => "hypervisor"
       # you can only select bare metal after you successfully selected a hypervisor before
-      page.insert_html :after, :host_ip, :partial => "mac"
+      page.insert_html :after, :host_ip_text, :partial => "mac"
       page[:host_hypervisor_id].value = ""
     end
   end
