@@ -8,7 +8,7 @@ class Hypervisor < ActiveRecord::Base
   before_save :try_to_connect
 
   KINDS= %w{libvirt}
-  MEMORY_SIZE = 8.times.map {|n| 2**n*1024*256}
+  MEMORY_SIZE = (1..8).to_a.map {|n| 2**n*1024*128}
   NETWORK_TYPES = %w{ bridge NAT }
 
   def connect
