@@ -1,16 +1,16 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
+gpxe:
   name: gPXE
 
-two:
+provision:
   name: provision
 
-three:
+pxelinux:
   name: PXELinux
 
-four:
+script:
   name: script
 
-five:
+finish:
   name: finish

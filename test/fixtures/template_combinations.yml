@@ -1,10 +1,14 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  config_template_id: 1
-  hostgroup_id: 1
-  environment: 1
+  config_template: mystring
+  hostgroup: common
+  environment: production
 
 two:
-  config_template_id: 1
-  hostgroup_id: 2
+  config_template: mystring2
+  hostgroup_id: unusual
+
+three:
+  config_template: myfinish
+  environment: production

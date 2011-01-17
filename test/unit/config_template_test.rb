@@ -5,7 +5,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt               = ConfigTemplate.new
     tmplt.name          = "Default Kickstart"
     tmplt.template      = "Some kickstart goes here"
-    tmplt.template_kind = template_kinds(:one)
+    tmplt.template_kind = template_kinds(:gpxe)
     assert tmplt.valid?
   end
 
@@ -26,10 +26,12 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
     tmplt.snippet  = true
-    tmplt.template_kind = template_kinds(:one)
+    tmplt.template_kind = template_kinds(:gpxe)
     tmplt.hostgroups << hostgroups(:common)
     tmplt.environments << environments(:production)
-    assert tmplt.save
+    as_admin do
+      assert tmplt.save
+    end
     assert_equal nil,tmplt.template_kind
     assert_equal [],tmplt.hostgroups
     assert_equal [],tmplt.environments

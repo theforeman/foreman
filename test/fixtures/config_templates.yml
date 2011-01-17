@@ -1,9 +1,24 @@
-one:
+mystring:
   name: MyString
   template: MyText
-  template_kind_id: 1
+  template_kind: gpxe
+  operatingsystems: centos5_3, redhat
 
-two:
-  name: MyString
+myscript:
+  name: MyScript
   template: MyText
-  template_kind_id: 3
+  template_kind: script
+  operatingsystems: centos5_3, redhat
+
+
+mystring2:
+  name: MyString2
+  template: MyText
+  template_kind: provision
+  operatingsystems: centos5_3, redhat
+
+myfinish:
+   name: MyFinish
+   template: MyFinish
+   template_kind: finish
+   operatingsystems: centos5_3, redhat
