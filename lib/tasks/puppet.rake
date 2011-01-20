@@ -71,19 +71,19 @@ namespace :puppet do
           puts
           puts "Please fix these issues and try again"
         else
-          Rails.logger "Failed to refresh puppet classes:" + e.message
+          Rails.logger "Failed to refresh puppet classes: #{e}"
         end
         exit
       end
 
       unless changes[:new][:environments].empty?      and changes[:new][:puppetclasses].empty? and
-             changes[:obsolete][:environments].empty? and changes[:obsolete][:puppetclasses].empty?
+        changes[:obsolete][:environments].empty? and changes[:obsolete][:puppetclasses].empty?
+        puts "Scheduled changes to your environment"
+        puts "New      environments  : " + changes[:new][:environments].to_sentence
+        puts "Obsolete environments  : " + changes[:obsolete][:environments].to_sentence
+        puts "New      puppetclasses : " + changes[:new][:puppetclasses].to_sentence
+        puts "Obsolete puppetclasses : " + changes[:obsolete][:puppetclasses].to_sentence
         unless args.batch
-          puts "Scheduled changes to your environment"
-          puts "New      environments  : " + changes[:new][:environments].to_sentence
-          puts "Obsolete environments  : " + changes[:obsolete][:environments].to_sentence
-          puts "New      puppetclasses : " + changes[:new][:puppetclasses].to_sentence
-          puts "Obsolete puppetclasses : " + changes[:obsolete][:puppetclasses].to_sentence
           puts
           print "Proceed with these modifications? <yes|no> "
           response = $stdin.gets
@@ -109,7 +109,7 @@ namespace :puppet do
             puts "Import complete"
           end
         else
-          Rails.logger "Failed to refresh puppet classes:" + errors
+          Rails.logger "Failed to refresh puppet classes: #{errors}"
         end
       else
         puts "No changes detected" unless args.batch
