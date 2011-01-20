@@ -1,3 +1,4 @@
+require 'ostruct'
 module ReportsHelper
 
   def reported_at_column(record)

@@ -1,10 +1,12 @@
-<% form_for @search do |f|-%>
-  <div title="A substring match">
-    <%= f.label      :host_name_like, "Host" %>
-    <%= f.text_field :host_name_like, :size => 10 %>
-  </div>
+<% form_for @search do |f| -%>
+  <% unless defined? @host %>
+    <div title="A substring match">
+      <%= f.label      :host_name_like, "Host" %>
+      <%= f.text_field :host_name_like, :size => 10 %>
+    </div>
+  <% end -%>
   <div title="Time period">
-    <%= reports_since f  %>
+    <%= reports_since f %>
   </div>
   <div> |
     <span title="Reports that contain some activity">
