@@ -13,6 +13,15 @@ Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
 Puppet.parse_config
 $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 
+# Are we sharing the database with Storeconfigs?
+#
+begin
+  SETTINGS[:using_storeconfigs] = !Puppet.settings.instance_variable_get(:@values)[:master][:dbadapter].empty?
+rescue
+  # we can't tell if we share the db or not if we are not running on the same host as the puppetmaster
+  # therefore the user should set this explicitly it the settings file
+end
+
 SETTINGS[:login] ||= SETTINGS[:ldap]
 
 # We load the default settings for the roles if they are not already present
