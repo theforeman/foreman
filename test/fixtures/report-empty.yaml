@@ -1,0 +1,31 @@
+--- !ruby/object:Puppet::Transaction::Report
+external_times: {}
+host: rhel6n01.corp.com
+logs:
+  - !ruby/object:Puppet::Util::Log
+    level: !ruby/sym err
+    message: "Could not retrieve catalog from remote server: Error 400 on SERVER: Could not find node 'rhel6n01.corp.com'; cannot compile" 
+    source: Puppet
+    tags:
+      - err
+    time: 2010-11-18 20:39:11.487700 -06:00
+    version: &id001 2.6.3
+  - !ruby/object:Puppet::Util::Log
+    level: !ruby/sym notice
+    message: Using cached catalog
+    source: Puppet
+    tags:
+      - notice
+    time: 2010-11-18 20:39:11.488888 -06:00
+    version: *id001
+  - !ruby/object:Puppet::Util::Log
+    level: !ruby/sym err
+    message: Could not retrieve catalog; skipping run
+    source: Puppet
+    tags:
+      - err
+    time: 2010-11-18 20:39:11.489098 -06:00
+    version: *id001
+metrics: {}
+resource_statuses: {}
+time: 2010-11-18 20:39:04.979613 -06:00

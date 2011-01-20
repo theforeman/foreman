@@ -114,5 +114,11 @@ class ReportTest < ActiveSupport::TestCase
     assert !record.save
     assert record.valid?
   end
+  test "it should import reports with no metrics" do
+    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.yaml"))
+    assert r
+  end
+
+
 
 end

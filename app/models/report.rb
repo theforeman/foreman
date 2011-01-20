@@ -77,11 +77,11 @@ class Report < ActiveRecord::Base
   end
 
   def config_retrieval
-    metrics[:time][:config_retrieval].round_with_precision(2)
+    metrics[:time][:config_retrieval].round_with_precision(2) rescue "N/A"
   end
 
   def runtime
-    (metrics[:time][:total] || metrics[:time].values.sum).round_with_precision(2)
+    (metrics[:time][:total] || metrics[:time].values.sum).round_with_precision(2) rescue "N/A"
   end
 
   #imports a YAML report into database
@@ -202,7 +202,7 @@ class Report < ActiveRecord::Base
         report_status[m] = metrics["resources"][m.to_sym]
       else
         h=translate_metrics_to26(m)
-        report_status[m] = metrics[h[:type]][h[:name]]
+        report_status[m] = metrics[h[:type]][h[:name]] rescue nil
       end
       report_status[m] ||= 0
     end

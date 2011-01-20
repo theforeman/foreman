@@ -22,4 +22,8 @@ module ReportsHelper
     choices += [OpenStruct.new(:name => "All Reports", :value =>  Report.first(:select => "created_at").created_at)]
     builder.collection_select :reported_at_gt, choices, :value, :name, {:include_blank => "Select a period"}
   end
+
+  def metric m
+    h(m.round_with_precision(4)) rescue "N/A"
+  end
 end

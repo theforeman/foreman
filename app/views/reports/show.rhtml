@@ -9,32 +9,8 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
   </div>
 <% end -%>
 
-<% if @report.logs.size > 0 -%>
-  <%= render :partial => 'output', :locals => { :logs => @report.logs} %>
-<% end -%>
-
-<div class="flash">
-  <table style="width:100%;" border="0">
-    <tr>
-      <td> <b>Metrics</b></td>
-      <td>
-        <table style="width:100%;">
-          <% @report.metrics["time"].each do |label, value|-%>
-            <% if label.to_s =~ /total/i then -%>
-              <%   @totaltime = value -%>
-              <%   next -%>
-            <% end -%>
-            <tr>
-              <td> <%= h label %> </td>
-              <td> <%= value.round_with_precision(4) rescue "N/A"%> </td>
-            </tr>
-          <% end %>
-          <tr><td class="last_row">Total</td><td class="last_row"><%= h (@totaltime || @report.runtime).round_with_precision(4) rescue "N/A"%></td></tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</div>
+<%= render 'output', :logs => @report.logs if @report.logs.size > 0 %>
+<%= render 'metrics', :metrics => @report.metrics["time"] if @report.metrics["time"] -%>
 
 <%= link_to 'Back', :back %> |
 <%= display_link_if_authorized 'Delete', hash_for_report_path(:id => @report, :auth_action => :destroy), :method => :delete -%> |

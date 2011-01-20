@@ -1,0 +1,20 @@
+<div class="flash">
+  <table style="width:100%;" border="0">
+    <tr>
+      <td> <b>Metrics</b></td>
+      <td>
+        <table style="width:100%;">
+          <% @report.metrics["time"].sort.each do |title, value|-%>
+            <%# we want to display total time at the end -%>
+            <% @totaltime = value and next if title.to_s =~ /total/i -%>
+            <tr>
+              <td> <%= h title %> </td>
+              <td> <%= metric value %> </td>
+            </tr>
+          <% end %>
+          <tr><td class="last_row">Total</td><td class="last_row"><%= metric (@totaltime || @report.runtime) %></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
