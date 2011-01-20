@@ -14,7 +14,7 @@ class AuthSourceLdapsController < ApplicationController
   def create
     @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
     if @auth_source_ldap.save
-      error "Successfully created auth source ldap."
+      notice "Successfully created auth source ldap."
       redirect_to auth_source_ldaps_url
     else
       render :action => 'new'
