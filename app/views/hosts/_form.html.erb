@@ -7,7 +7,7 @@
         <td>Name</td>
         <td><%= f.text_field :name, :size => 16, :value => @host.shortname %></td>
         <td>Host group</td>
-        <td><%= f.collection_select :hostgroup_id, Hostgroup.all, :id, :name, :include_blank => true %></td>
+        <td><%= f.collection_select :hostgroup_id, accessible_hostgroups, :id, :name, :include_blank => true %></td>
         <td>Environment</td>
         <td><%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
         <td>Puppetmaster</td>

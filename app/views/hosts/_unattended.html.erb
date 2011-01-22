@@ -7,7 +7,7 @@
       <tr>
         <td colspan="10">
           <td>Domain</td>
-          <td> <%= f.collection_select :domain_id, Domain.all, :id, :to_label, :include_blank => true %> </td>
+          <td> <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, :include_blank => true %> </td>
           <td><span id="host_subnet"> <%= render 'domain' if @domain %> </span></td>
           <td>IP</td>
           <td id="host_ip_text"><%= text_field :host, :ip, :size => 16 %></td>
