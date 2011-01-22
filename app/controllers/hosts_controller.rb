@@ -9,7 +9,7 @@ class HostsController < ApplicationController
 
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected, :domain_selected, :hypervisor_selected]
-  before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters,
+  before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
@@ -382,6 +382,19 @@ class HostsController < ApplicationController
   end
 
   def multiple_destroy
+  end
+
+  def multiple_build
+  end
+
+  def submit_multiple_build
+    hosts = Host.find(session[:selected])
+    hosts.delete_if{|host| host.setBuild}
+    session[:selected] = []
+
+    missed_hosts = hosts.map(&:name).join('<br/>')
+    notice hosts.empty? ? "The selected hosts will execute a build operation on next reboot" : "The following hosts failed the build operation: #{missed_hosts}"
+    redirect_to(hosts_path)
   end
 
   def submit_multiple_destroy
