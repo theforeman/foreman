@@ -122,6 +122,10 @@ class Host < Puppet::Rails::Host
 
   before_validation :normalize_addresses, :normalize_hostname
 
+  def after_initialize
+    self.owner ||= User.current
+  end
+
   def to_param
     name
   end
