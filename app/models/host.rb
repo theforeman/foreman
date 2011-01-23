@@ -103,7 +103,7 @@ class Host < Puppet::Rails::Host
     include Orchestration
 
     validates_uniqueness_of  :ip
-    validates_uniqueness_of  :mac
+    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor_id }
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
