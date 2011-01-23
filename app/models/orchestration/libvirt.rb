@@ -3,6 +3,7 @@ module Orchestration::Libvirt
     base.send :include, InstanceMethods
     base.class_eval do
       attr_accessor :hypervisor_id, :storage_pool, :interface, :memory, :vcpu, :disk_size, :network_type, :powerup
+      validates_presence_of :interface, :if => Proc.new{|h| h.hypervisor_id}
       after_validation  :initialize_libvirt, :queue_libvirt
       before_destroy    :initialize_libvirt, :queue_libvirt_destory
     end

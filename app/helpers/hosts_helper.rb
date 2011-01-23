@@ -36,4 +36,13 @@ module HostsHelper
     session[:selected].include?(host.id.to_s)
   end
 
+  def select_hypervisor
+    options_for_select Hypervisor.all.map{|h| [h.name, h.id]}, @host.try(:hypervisor_id).try(:to_i)
+  end
+
+
+  def select_memory memory = nil
+    options_for_select Hypervisor::MEMORY_SIZE.map {|mem| [number_to_human_size(mem*1024), mem]}, memory.to_i
+  end
+
 end

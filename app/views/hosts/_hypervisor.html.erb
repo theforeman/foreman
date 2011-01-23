@@ -2,28 +2,24 @@
   <table>
     <tr>
       <td>Provision on </td>
-      <td><%= collection_select :host, :hypervisor_id, Hypervisor.all, :id, :name, :include_blank => "Bare Metal" %></td>
-      <% if @hypervisor -%>
-        <% if @guest.new? -%>
-          <td>Memory</td>
-          <td> <%= collection_select :host, :memory, Hypervisor::MEMORY_SIZE, :to_i, :to_s %></td>
-        <% else -%>
-          <td>Memory(KB)</td>
-          <td> <%= text_field :host, :memory, :value => @guest.memory, :size => 10 %></td>
-        <% end -%>
+      <td><%= select :host, :hypervisor_id, select_hypervisor ,{ :include_blank => "Bare Metal"} %></td>
+      <% if @hypervisor or (@host and @host.hypervisor_id) -%>
+        <% (@hypervisor ||= Hypervisor.find(@host.hypervisor_id)) -%>
+        <td>Memory</td>
+        <td> <%= select :host, :memory, select_memory(@host.memory || @guest.memory) %></td>
         <td>VCPU</td>
-        <td> <%= text_field :host, :vcpu, :value => @guest.vcpu, :size => 3 %></td>
+        <td> <%= text_field :host, :vcpu, :value => (@host.vcpu || @guest.vcpu), :size => 1 %></td>
         <td>Image Size(GB)</td>
-        <td> <%= text_field :host, :disk_size, :value => @guest.volume.size, :size => 3 %></td>
+        <td> <%= text_field :host, :disk_size, :value => (@host.disk_size || @guest.volume.size), :size => 1 %></td>
         <td> Storage Pool </td>
-        <td> <%= select :host, :storage_pool, @libvirt.storage_pools.map(&:name) %></td>
+        <td> <%= select :host, :storage_pool, @hypervisor.storage_pools, {:selected => @host.storage_pool} %></td>
         <td> Network </td>
-        <td> <%= select :host, :network_type, Hypervisor::NETWORK_TYPES %></td>
+        <td> <%= select :host, :network_type, Hypervisor::NETWORK_TYPES, {:selected => @host.network_type } %></td>
         <% if @hypervisor.interfaces.empty? %>
           <td> Interface </td>
-          <td> <%= text_field :host, :interface, :size => 8, :title => "Physical Interface on #{@libvirt.name}" %></td>
+          <td> <%= text_field :host, :interface, :size => 8, :title => "Physical Interface on #{@hypervisor.name}", :value => @host.interface %></td>
         <% else -%>
-          <td> <%= select :host, :interface, @libvirt.networks + @libvirt.interfaces %></td>
+          <td> <%= select :host, :interface, @hypervisor.interfaces, :selected => @host.interface %></td>
         <% end -%>
         <td> Start instance </td>
         <td> <%= check_box :host, :powerup, :checked => true %> </td>

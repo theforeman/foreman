@@ -152,10 +152,13 @@ class HostsController < ApplicationController
       @libvirt = @hypervisor.connect
       rescue Libvirt::ConnectionError => e
         # we reset to default
+        @host.hypervisor_id = nil
+        logger.warn e.to_s
         hypervisor_defaults(e.to_s) and return
       end
 
       @guest = Virt::Guest.new({:name => (@host.try(:name) || "new-#{Time.now}.to_i")})
+
       render :update do |page|
         page.replace_html :virtual_machine, :partial => "hypervisor"
         page << "if ($('host_mac')) {"
@@ -573,8 +576,10 @@ class HostsController < ApplicationController
       page.alert(msg) if msg
       page.replace_html :virtual_machine, :partial => "hypervisor"
       # you can only select bare metal after you successfully selected a hypervisor before
+      page << "if (!$('host_mac')) {"
       page.insert_html :after, :host_ip_text, :partial => "mac"
       page[:host_hypervisor_id].value = ""
+      page << " }"
     end
   end
 

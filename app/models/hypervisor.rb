@@ -12,15 +12,29 @@ class Hypervisor < ActiveRecord::Base
   NETWORK_TYPES = %w{ bridge NAT }
 
   def connect
+    return true if @host and not @host.closed?
     logger.info "trying to contact Hypervisor #{name}"
     @host = Virt.connect(uri).host
   end
 
   # interfaces is a special case with libvirt, as its supported only on platforms that run netcf
   def interfaces
+    connect
     return unless host
     host.interfaces + host.networks
-    rescue
+  rescue => e
+    logger.debug e.to_s
+    []
+  end
+
+  def storage_pools
+    connect
+    return unless host
+    host.storage_pools.map(&:name)
+  end
+
+  def disconnect
+    host.disconnect if host
   end
 
   private
