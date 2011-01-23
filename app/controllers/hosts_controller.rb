@@ -14,6 +14,7 @@ class HostsController < ApplicationController
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config]
+  after_filter :disconnect_from_hypervisor, :only => :hypervisor_selected
 
   filter_parameter_logging :root_pass
   helper :hosts, :reports
@@ -149,8 +150,8 @@ class HostsController < ApplicationController
     @host ||= Host.new
     if ((@host.hypervisor_id = hypervisor_id) > 0) and (@hypervisor = Hypervisor.find(@host.hypervisor_id))
       begin
-      @libvirt = @hypervisor.connect
-      rescue Libvirt::ConnectionError => e
+        @hypervisor.connect
+      rescue => e
         # we reset to default
         @host.hypervisor_id = nil
         logger.warn e.to_s
@@ -581,6 +582,10 @@ class HostsController < ApplicationController
       page[:host_hypervisor_id].value = ""
       page << " }"
     end
+  end
+
+  def disconnect_from_hypervisor
+    @hypervisor.disconnect if @hypervisor
   end
 
 end

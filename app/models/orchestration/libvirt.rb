@@ -17,7 +17,7 @@ module Orchestration::Libvirt
     protected
     def initialize_libvirt
       return unless libvirt?
-      Virt.connect Hypervisor.find(hypervisor_id).uri
+      (@hypervisor = Hypervisor.find(hypervisor_id)).connect
       @guest = Virt::Guest.new({:name => name, :memory => memory, :arch => arch,
                                :vcpu => vcpu, :pool => storage_pool, :size => disk_size,
                                :device => interface, :type => network_type})
@@ -37,6 +37,8 @@ module Orchestration::Libvirt
                    :action => [self, :setLibvirt])
       queue.create(:name => "Settings up libvirt instance #{self} to start", :priority => 1000,
                    :action => [self, :setPowerUp]) if powerup
+      queue.create(:name => "Disconnect from hypervisor", :priority => 1001,
+                   :action => [self, :setDisconnectFromHypervisor])
     end
 
     def queue_libvirt_update
@@ -93,6 +95,16 @@ module Orchestration::Libvirt
     rescue => e
       failure "Failed to stop Guest: #{e}"
     end
+
+    def setDisconnectFromHypervisor
+      @hypervisor.disconnect
+      true
+    end
+
+    def delDisconnectFromHypervisor
+      @hypervisor.connect
+    end
+
 
   end
 end
