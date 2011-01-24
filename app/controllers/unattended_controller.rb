@@ -144,7 +144,11 @@ class UnattendedController < ApplicationController
     if config = @host.configTemplate(@type)
       logger.debug "rendering DB template #{config.name} - #{@type}"
       @unsafe_template = config.template
-      render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
+      if SETTINGS[:safemode_render]
+        render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
+      else
+        render :inline => @unsafe_template and return
+      end
     end
     type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
     render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")

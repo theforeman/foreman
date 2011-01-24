@@ -223,11 +223,6 @@ class Host < Puppet::Rails::Host
     template.is_a?(ConfigTemplate) ? template : nil
   end
 
-  def safeConfigTemplate kind
-     box = Safemode::Box.new
-     box.eval(ERB.new(configTemplate(kind, nil, '-')).src)
-  end
-
   # reports methods
 
   def error_count
