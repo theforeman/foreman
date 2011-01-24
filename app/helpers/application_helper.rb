@@ -5,7 +5,7 @@ module ApplicationHelper
     model.to_s
   end
   def graph(type,opts = {})
-    Gchart.send(type, {:size => '400x150', :bg => "E6DFCF", :format => "image_tag"}.merge(opts))
+    Gchart.send(type, {:size => '400x150', :bg => "EDF3EF", :format => "image_tag"}.merge(opts))
   end
 
   def show_habtm associations

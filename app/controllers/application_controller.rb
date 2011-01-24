@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
     data[:labels].each {|l| chart.add_column *l }
     chart.add_rows data[:values]
     defaults = { :width => 400, :height => 240, :is3D => true,
-      :backgroundColor => "#E6DFCF", :legendBackgroundColor => "#E6DFCF" }
+      :backgroundColor => "#EDF3EF", :legendBackgroundColor => "#EDF3EF" }
 
     defaults.merge(options).each {|k,v| chart.send "#{k}=",v if chart.respond_to? k}
     return chart

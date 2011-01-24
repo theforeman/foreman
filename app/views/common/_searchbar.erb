@@ -1,4 +1,4 @@
-<div id="searchbar" style="clear:both;">
+<div id="searchbar"> 
   <div id="tabs" class="odd">
     <ul>
       <li><%= link_to_function "Search", toggle_searchbar %></li>
@@ -12,7 +12,7 @@
     <ul>
       <li><%= link_to_function "Search", toggle_searchbar  %></li>
       <li>
-        <%= render :partial => 'search_line' %>
+        <div id="searchtab"><%= render :partial => 'search_line' %></div>
       </li>
     </ul>
   </div>

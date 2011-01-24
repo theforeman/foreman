@@ -2,10 +2,12 @@
   <%= f.error_messages %>
 
   <% field_set_tag 'Primary settings' do -%>
-    <table>
+    <table class="half">
       <tr>
         <td>Name</td>
         <td><%= f.text_field :name, :size => 16, :value => @host.shortname %></td>
+      </tr>
+      <tr>
         <td>Host group</td>
         <td>
             <%= f.collection_select :hostgroup_id, accessible_hostgroups, :id, :name, {:include_blank => true},
@@ -17,10 +19,16 @@
 
              <%= image_tag "spinner.gif", :id => "indicator1", :style => "display:none" %>
              </td>
+      </tr>
+      <tr>
         <td>Environment</td>
         <td><%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
+      </tr>
+      <tr>        
         <td>Puppetmaster</td>
         <td><%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %></td>
+      </tr>
+      <tr>        
         <td><%= link_to_function "Additional Classes", toggle_div(:classlist) %></td>
       </tr>
     </table>

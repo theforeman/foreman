@@ -2,27 +2,31 @@
   <span id="virtual_machine">
     <%= render 'hypervisor' if @host.new_record? and Hypervisor.count > 0 %>
   </span>
-  <% field_set_tag 'Network settings', :id => "network" do -%>
+  <% field_set_tag 'Network settings', :id => "network", :class=>'half fl' do -%>
     <table>
       <tr>
-        <td colspan="10">
-          <td>Domain</td>
-          <td> <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, :include_blank => true %> </td>
-          <td><span id="host_subnet"> <%= render 'domain' if @domain %> </span></td>
-          <td>IP</td>
-          <td id="host_ip_text"><%= text_field :host, :ip, :size => 16 %></td>
-          <% unless @hypervisor -%>
-            <%= render 'mac' %>
-          <% end -%>
-          <% if @host.new_record? -%>
-            <td title="Enable this host for provisioning">Build? <%= f.check_box :build,:checked => true %></td>
-          <% end -%>
-        </td>
+       <td>Domain</td>
+       <td> <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, :include_blank => true %> </td>
+       <td><span id="host_subnet"> <%= render 'domain' if @domain %> </span></td>
+      </tr>
+      <tr>             
+       <td>IP</td>
+       <td id="host_ip_text"><%= text_field :host, :ip, :size => 16 %></td>
+      </tr>
+      <tr>          
+       <% unless @hypervisor -%>
+         <%= render 'mac' %>
+       <% end -%>
+      </tr>
+      <tr>          
+       <% if @host.new_record? -%>
+         <td title="Enable this host for provisioning">Build? <%= f.check_box :build,:checked => true %></td>
+       <% end -%>
       </tr>
     </table>
   <% end -%>
 
-  <% field_set_tag 'Operating system settings', :id => "operatingsystem" do -%>
+  <% field_set_tag 'Operating system settings', :id => "operatingsystem", :class=>'half fl'  do -%>
     <table>
 
       <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :item=> @host } %>
@@ -30,8 +34,12 @@
       <tr>
         <td>Root password</td>
         <td><%= f.password_field :root_pass %></td>
+      </tr>
+      <tr>           
         <td>Model</td>
         <td><%= f.collection_select :model_id, Model.all, :id, :to_label, :include_blank => true %></td>
+      </tr>
+      <tr>           
         <td>Serial</td>
         <td><%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"] %></td>
       </tr>

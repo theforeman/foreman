@@ -1,20 +1,54 @@
+* {margin:0;padding:0;} 
+
+/* must declare 0 margins on everything, also for main layout components use padding, not 
+vertical margins (top and bottom) to add spacing, else those margins get added to total height 
+and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
+
+html, body {height: 100%;}
+
+#wrap {min-height: 100%;}
+
+#main {overflow:auto;
+	padding-bottom: 50px;}  /* must be same height as the footer */
+
+#footer {position: relative;
+	margin-top: -50px; /* negative value of footer height */
+	height: 50px;
+	clear:both;
+	color: #000;
+	background: url(../images/header_bg.png) repeat-x 0 -10%;
+} 
+#footer p {
+	line-height: 1em;
+	margin: 0 !important;
+	padding: 1em;
+}
+
+body:before {
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;
+}
+
+/* IMPORTANT
+
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+*/
+
+
 body {
   font-family: Verdana, Helvetica, Arial;
-  font-size: 14px;
   color:#484848;
   margin: 0;
   padding: 0;
-  background-color: #E6DFCF;
+  background-color: #EDF3EF !important;
 }
-
-h1, h2 {
-  font-variant:small-caps;
-  padding:0;
-  margin:0;
-}
-h1 { font-size:18px; }
-h2 { font-size:14px; }
-
 a img {
   border: none;
 }
@@ -39,23 +73,57 @@ input {
 p {
   line-height: 130%;
 }
-#header {height:3.5em;background-color:#406480;color:#E6DFCF; position:relative; padding-bottom: 8px;}
+fieldset {
+  border: 2px solid #D9E1E3;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 0 0 15px 0;
+  padding: 8px 8px 8px 14px;
+}
+fieldset legend {
+  border: 2px solid #D9E1E3;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-left: 18px;  
+  padding: 4px;
+}
+fieldset fieldset {
+  margin: 12px;
+}
+.half {
+	width: 44%;
+}
+#header {
+	height:5em;
+	background-color:#FFF;
+	color:#000; 
+	position:relative; 
+	padding-bottom: 8px;
+	background: url(../images/header_bg.png) repeat-x;
+}
 
 #header a {
   float:right;
   margin-right: 0.5em;
-  color: #CFDCE6;
-  height:1.8em;
+  color: #000;
+  font-weight: bold;
 }
 
 #header .title {
   color:#FFFAFA;
-  font-variant:small-caps;
-  font-weight: bold;
-  font-family: Helvetica, Arial, Verdana, sans-serif;
-  font-size: 130%;
+  text-transform:uppercase;
+  text-indent: -40000px;
+  background: url(../images/foreman.png) no-repeat left top;
+  height: 47px;
 }
-
+#menu {
+	margin-left: 10px;
+}
+#menu a {
+	color: #FFF;
+}
 #menu ul {
   margin: 0; padding: 0;
   list-style: none;
@@ -65,27 +133,18 @@ p {
 #menu li {
   float:left;
   list-style-type:none;
-  font-variant: small-caps;
+  text-transform:uppercase;
   padding: 4px 10px 4px 10px;
   height:1.2em;
-  font-size: 100%;
+  color: #7F9BB1;
 }
 #menu li .entry{
-  padding: 4px 10px 4px 10px;
 }
-#menu li a {
-  margin-right: 0.0em;
-  float:left;
-  color: #fff;
-  text-decoration: none;
+#menu li span {
 }
-#menu li a:hover {background:#759FCF; color:#fff;}
-#menu li a:active {background:#fff; color:#555;}
-
 #content {
   position:relative;
   padding: 1%;
-  margin: 0 auto;
   clear: both;
 }
 #content br{
@@ -97,16 +156,15 @@ p {
 
 #footer {
   clear: both;
-  border-top: 1px solid #bbb;
   font-size: 0.9em;
-  padding: 5px;
   text-align:center;
-  background: #E6C373;
-  color: #806C40;
-  margin-top: 1em;
 }
 
-#login-form {text-align: center;}
+#login-form {
+  text-align: center;
+  width: 390px;
+  margin: 0 auto;
+}
 #login-form table {margin-top:2em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;text-align: center;}
 #login-form label {font-weight: bold;}
@@ -119,7 +177,9 @@ p {
   border: 2px solid;
 }
 
-div.flash {margin-top: 28px;}
+div.flash {
+  margin: 15px 15px 0 15px;
+}
 
 div.flash.error, #errorExplanation {
   background: url(../images/false.png) 8px 5px no-repeat;
@@ -165,7 +225,7 @@ table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%;
 table.list th {
   text-decoration:none;
   text-align:left;
-  background:#555555;
+  background:#455054;
   color:#FFFFFF;
 }
 table.list th p {
@@ -221,21 +281,32 @@ table p {margin:0;}
 }
 #border-it { border: 2px solid #ddd; }
 
-div#dashboard {
-  text-align: center;
+#dashboard div{
   position: relative;
+  text-align: center;
+}
+div#dash {
+  padding: 10px;
+  background-color: #EDF3EF;
+  margin: 0 auto 10px auto;
+  display: block;
+  width: 790px;
+}
+#dash p {
+  margin: 0 0 0.3em;
+}
+#dashwrap {
+  margin: 0 auto;
+  width: 810px;
 }
 div#overview {
-  position: absolute;
-  right: 0;
-  top: 20px;
-  width: 30%
+  width: 400px;
+  float: left;
+  margin-right: 10px;
 }
 div#run_distribution {
-  position: absolute;
-  top: 20px;
-  left: 0;
-  width: 30%
+  width: 400px;
+  float: left;
 }
 
 #hostclasses, #classes li {
@@ -253,6 +324,12 @@ div#run_distribution {
   top: 1em;
   right: 1em;
 }
+#searchbar {
+  border-bottom: 2px solid #D9E1E3;
+  background-color: #ECF0F3;
+  height: 2.0em;
+  padding: 0.3em;
+}
 #searchbar div {
   display:inline;
 }
@@ -261,7 +338,6 @@ div#run_distribution {
   list-style: none;
   float: left;
   width: 100%;
-  background-color: #ffffff;
 }
 
 #searchbar li {
@@ -272,6 +348,9 @@ div#run_distribution {
 #searchbar li .selectedtab {
   padding-right: 4px;
   background-color:#e4e4e4;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 #searchbar li a.close{
@@ -296,10 +375,14 @@ div#run_distribution {
 #searchbar li a.close:hover {background:#e4e4e4; color:red;}
 #searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
  */
-  .clear {
+.clear {
     clear: both;
     height: 0;
     overflow: hidden;
+}
+#searchtab {
+  margin: 3px;
+  float:right;
 }
 
 #settings li {
@@ -307,12 +390,9 @@ div#run_distribution {
   padding:0 0 8px;
 }
 #welcome {
-  width: 85%;
-  margin: 0 auto;
-  background-color: #FFF;
-  padding: 20px 40px;
-  border: solid 1px black;
-  margin-top: 20px;
+    background-color: #ECF0F3;
+    margin: 20px auto 0;
+    padding: 15px;
 }
 /***** Tabular forms ******/
 .tabular p{
@@ -364,3 +444,47 @@ fieldset.settings label { display: block; }
 tr span.expander {background-image: url(../images/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
 tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}
 
+/* buttons */
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+a.button {
+    background: transparent url('../images/button_right.png') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+a.button span {
+    background: transparent url('../images/button_left.png') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+}
+a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+}
+
+.nomargin {
+  margin: none;
+}
+
+/* text align left */
+.la { text-align: left; }
+/* text align right */
+.ra { text-align: right; }
+/* float  right */
+.fr { float: right; }
+/* float left */
+.fl { float: left; }
