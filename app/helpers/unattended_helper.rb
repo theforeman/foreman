@@ -29,7 +29,7 @@ module UnattendedHelper
   def snippet name
     if template = ConfigTemplate.name_eq(name).snippet_eq(true).first
       logger.debug "rendering snippet #{template.name}"
-      return render :inline => template.template
+      return render(:inline => template.template)
     end
   rescue
     false

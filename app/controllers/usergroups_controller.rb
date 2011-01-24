@@ -38,7 +38,7 @@ class UsergroupsController < ApplicationController
       notice "Successfully destroyed usergroup."
     else
       logger.error @usergroup.errors.full_messages
-      error @usergroup.errors.full_messages.join "<br/>"
+      error @usergroup.errors.full_messages.join("<br/>")
     end
     redirect_to usergroups_path
   end

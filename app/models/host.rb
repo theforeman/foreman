@@ -221,7 +221,7 @@ class Host < Puppet::Rails::Host
 
   def safeConfigTemplate kind
      box = Safemode::Box.new
-     box.eval(ERB.new(configTemplate kind, nil, '-').src)
+     box.eval(ERB.new(configTemplate(kind, nil, '-')).src)
   end
 
   # reports methods

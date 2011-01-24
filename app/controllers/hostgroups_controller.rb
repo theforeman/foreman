@@ -49,7 +49,7 @@ class HostgroupsController < ApplicationController
     if @hostgroup.destroy
       notice "Successfully destroyed hostgroup."
     else
-      error @template.truncate @hostgroup.errors.full_messages.join("<br/>"), 80
+      error @template.truncate(@hostgroup.errors.full_messages.join("<br/>"), 80)
     end
     redirect_to hostgroups_url
   end
