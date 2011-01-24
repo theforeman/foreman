@@ -529,7 +529,7 @@ class HostsController < ApplicationController
     action = mode ? "enabled" : "disabled"
 
     session[:selected] = []
-    missed_hosts       = hosts.map(&:name).join('<br/>')
+    missed_hosts       = @hosts.map(&:name).join('<br/>')
     notice @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
     redirect_to(hosts_path) and return
   end
