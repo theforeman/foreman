@@ -34,8 +34,8 @@ module Orchestration
     end
 
     # log and add to errors
-    def failure msg
-      logger.warn msg
+    def failure msg, backtrace=nil
+      logger.warn(backtrace ? msg + backtrace.join("\n") : msg)
       errors.add_to_base msg
       false
     end
@@ -59,6 +59,9 @@ module Orchestration
     end
 
     private
+    def proxy_error e
+      e.respond_to?(:response)? e.response : e
+    end
     # Handles the actual queue
     # takes care for running the tasks in order
     # if any of them fail, it rollbacks all completed tasks

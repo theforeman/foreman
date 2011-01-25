@@ -37,6 +37,8 @@ module Orchestration::DHCP
     def getDHCP
       logger.info "Query a DHCP reservation for #{name}/#{ip}"
       dhcp.record subnet.network, mac
+    rescue => e
+      failure "Failed to read the DHCP record: #{proxy_error e}"
     end
 
     # Deletes the DHCP entry for this host
@@ -44,7 +46,7 @@ module Orchestration::DHCP
       logger.info "Delete the DHCP reservation for #{name}/#{ip}"
       dhcp.delete subnet.network, mac
     rescue => e
-      failure "Failed to delete the DHCP record: #{e}"
+      failure "Failed to delete the DHCP record: #{proxy_error e}"
     end
 
     def delSPDHCP
@@ -53,7 +55,7 @@ module Orchestration::DHCP
       logger.info "Delete a DHCP reservation for #{sp_name}/#{sp_ip}"
       dhcp.delete subnet.network, sp_mac
     rescue => e
-      failure "Failed to delete the Service Processor DHCP record: #{e}"
+      failure "Failed to delete the Service Processor DHCP record: #{proxy_error e}"
     end
 
     # Updates the DHCP scope to add a reservation for this host
@@ -63,7 +65,7 @@ module Orchestration::DHCP
       dhcp.set subnet.network,({:name => name, :filename => boot_filename,
                                :ip => ip, :nextserver => boot_server, :mac => mac})
     rescue => e
-      failure "Failed to set the DHCP record: #{e}"
+      failure "Failed to set the DHCP record: #{proxy_error e}"
     end
 
     def setSPDHCP
@@ -72,7 +74,7 @@ module Orchestration::DHCP
       logger.info "Add a DHCP reservation for #{sp_name}/#{sp_ip}"
       dhcp.set sp_subnet.network, sp_mac, :name => sp_name, :ip => sp_ip
     rescue => e
-      failure "Failed to set the Service Processor DHCP record: #{e}"
+      failure "Failed to set the Service Processor DHCP record: #{proxy_error e}"
     end
 
     private

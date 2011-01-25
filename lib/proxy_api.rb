@@ -28,7 +28,7 @@ module ProxyAPI
         false
       end
     rescue => e
-      logger.warn "failed to parse response: #{response} -> #{e}"
+      logger.warn "Failed to parse response: #{response} -> #{e}"
     end
 
     # Perform GET operation on the supplied path

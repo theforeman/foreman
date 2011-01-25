@@ -33,7 +33,7 @@ module Orchestration::DNS
       logger.info "Add the DNS record for #{name}/#{ip}"
       dns.set(:fqdn => name, :value => ip, :type => "A")
     rescue => e
-      failure "Failed to create the DNS record: #{e}"
+      failure "Failed to create the DNS record: #{proxy_error e}"
     end
 
     # Adds the host to the reverse DNS zone
@@ -42,7 +42,7 @@ module Orchestration::DNS
       logger.info "Add the Reverse DNS records for #{name}/#{to_arpa}"
       dns.set(:fqdn => name, :value => to_arpa, :type => "PTR")
     rescue => e
-      failure "Failed to create the Reverse DNS record: #{e}"
+      failure "Failed to create the Reverse DNS record: #{proxy_error e}"
     end
 
     # Removes the host from the forward DNS zones
@@ -51,7 +51,7 @@ module Orchestration::DNS
       logger.info "Delete the DNS records for #{name}/#{ip}"
       dns.delete(name)
     rescue => e
-      failure "Failed to delete the DNS record: #{e}"
+      failure "Failed to delete the DNS record: #{proxy_error e}"
     end
 
     # Removes the host from the forward DNS zones
@@ -60,7 +60,7 @@ module Orchestration::DNS
       logger.info "Delete the DNS reverse records for #{name}/#{to_arpa}"
       dns.delete(to_arpa)
     rescue => e
-      failure "Failed to delete the reverse DNS record: #{e}"
+      failure "Failed to delete the reverse DNS record: #{proxy_error e}"
     end
 
     private
