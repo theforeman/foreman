@@ -145,7 +145,13 @@ class UnattendedController < ApplicationController
       logger.debug "rendering DB template #{config.name} - #{@type}"
       @unsafe_template = config.template
       if SETTINGS[:safemode_render]
-        render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
+        begin
+          render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
+        rescue Exception => exc
+          msg = "There was an error rendering this template: "
+          render :text => msg + exc.message, :status => 500
+        end
+
       else
         render :inline => @unsafe_template and return
       end
