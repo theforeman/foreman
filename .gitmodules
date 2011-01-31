@@ -24,4 +24,4 @@
 	url = git://github.com/fauna/has_many_polymorphs.git
 [submodule "vendor/plugins/virt"]
 	path = vendor/plugins/virt
-	url = git://github.com/ohadlevy/libvirt-ruby.git
+	url = git://github.com/ohadlevy/virt.git
