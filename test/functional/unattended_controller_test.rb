@@ -31,7 +31,7 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :preseed
     assert_response :success
-    assert @response.headers["Content-Type"].match "text/plain"
+    assert @response.headers["Content-Type"].match("text/plain")
   end
 
   test "should support spoof" do

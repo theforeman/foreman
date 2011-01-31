@@ -79,7 +79,7 @@ class DomainTest < ActiveSupport::TestCase
       @one.domains = [domains(:mydomain)]
     end
     record =  Domain.find_by_name "mydomain.net"
-    assert record.update_attributes :name => "testing"
+    assert record.update_attributes(:name => "testing")
     assert record.valid?
   end
 
@@ -96,7 +96,7 @@ class DomainTest < ActiveSupport::TestCase
   test "user with edit permissions should be able to edit when unconstrained" do
     setup_user "edit"
     record =  Domain.first
-    assert record.update_attributes :name => "testing"
+    assert record.update_attributes(:name => "testing")
     assert record.valid?
   end
 

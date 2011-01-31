@@ -20,11 +20,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 class RoleTest < ActiveSupport::TestCase
   fixtures :roles
 
-    should have_many :user_roles
+    should have_many(:user_roles)
     should have_many(:users).through(:user_roles)
 
-    should validate_presence_of :name
-    should validate_uniqueness_of :name
+    should validate_presence_of(:name)
+    should validate_uniqueness_of(:name)
     should ensure_length_of(:name).is_at_most(30)
     should allow_value("a role name").for(:name)
     should_not allow_value(";a role name").for(:name)

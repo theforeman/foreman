@@ -27,12 +27,12 @@ class UsersControllerTest < ActionController::TestCase
   test "should not remove the anonymous role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles = [roles :anonymous]
+    assert user.roles =([roles :anonymous])
 
     put :update, { :commit => "Submit", :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert mod_user.roles = [roles :anonymous]
+    assert mod_user.roles =([roles :anonymous])
   end
 
   test "should set password" do

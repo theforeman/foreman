@@ -146,7 +146,7 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles      = [Role.find_by_name("Edit hosts")]
     end
-    assert @host.update_attributes :name => "blahblahblah"
+    assert @host.update_attributes(:name => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -156,7 +156,7 @@ class HostTest < ActiveSupport::TestCase
       @one.roles      = [Role.find_by_name("Edit hosts")]
       @one.domains    = [Domain.find_by_name("mydomain.net")]
     end
-    assert @host.update_attributes :name => "blahblahblah"
+    assert @host.update_attributes(:name => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
