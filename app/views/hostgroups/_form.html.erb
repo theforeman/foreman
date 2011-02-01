@@ -5,6 +5,36 @@
   <%= f.text_field :name %>
   </p>
 
+  <% field_set_tag 'Host Defaults' do -%>
+
+    <% field_set_tag 'Primary Settings' do %>
+      <table>
+        <tr>
+          <td>Environment
+            <%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
+          <td>Puppetmaster</td>
+          <td><%= f.text_field :puppetmaster, :size => 10, :value => @hostgroup.puppetmaster %></td>
+
+        </tr>
+      </table>
+    <% end -%>
+
+    <% field_set_tag 'Operating System Settings' do %>
+      <table>
+        <tr>
+          <td>
+            <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :type => "hostgroup", :item=> @hostgroup } -%>
+          </td>
+        </tr>
+        <tr>
+          <td>Root password
+            <%= f.password_field :root_pass %>
+          </td>
+        </tr>
+      </table>
+
+    <% end -%>
+  <% end -%>
 
   <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
 

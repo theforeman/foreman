@@ -1,5 +1,7 @@
 class HostsController < ApplicationController
   include Facts
+  include Foreman::Controller::HostDetails
+
   # actions which don't require authentication and are always treathed as the admin user
   ANONYMOUS_ACTIONS=[ :query, :externalNodes, :lookup ]
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
@@ -8,7 +10,8 @@ class HostsController < ApplicationController
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
   before_filter :find_hosts, :only => :query
-  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected, :domain_selected, :hypervisor_selected]
+  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected,
+    :domain_selected, :hypervisor_selected, :process_hostgroup]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
@@ -33,7 +36,6 @@ class HostsController < ApplicationController
         # filter graph time range
         @range = (params["range"].empty? ? 7 : params["range"].to_i)
         range = @range.days.ago
-
         graphs = @host.graph(range)
 
         # runtime graph
@@ -172,17 +174,8 @@ class HostsController < ApplicationController
     end
   end
 
-  def domain_selected
-    assign_parameter "domain"
-  end
 
-  def architecture_selected
-    assign_parameter "architecture"
-  end
 
-  def os_selected
-    assign_parameter "operatingsystem"
-  end
 
   #returns a yaml file ready to use for puppet external nodes script
   #expected a fqdn parameter to provide hostname to lookup
@@ -453,6 +446,29 @@ class HostsController < ApplicationController
     show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
   end
 
+  def process_hostgroup
+    @hostgroup       = Hostgroup.find(params[:hostgroup_id]) if params[:hostgroup_id].to_i > 0
+    @architecture    = @hostgroup.architecture
+    @operatingsystem = @hostgroup.operatingsystem
+
+    return head(:not_found) unless @hostgroup
+
+    render :update do |page|
+      page['host_environment_id'].value = @hostgroup.environment_id
+      page['host_root_pass'].value      = @hostgroup.root_pass
+      page['host_puppetmaster'].value   = @hostgroup.puppetmaster
+
+      if @hostgroup.architecture_id
+        page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:type => "host", :item => @hostgroup}
+        page['host_architecture_id'].value = @hostgroup.architecture_id
+      end
+      if @hostgroup.operatingsystem_id
+        page['host_operatingsystem_id'].value = @hostgroup.operatingsystem_id
+        page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:type => "host", :item => @hostgroup}
+      end
+    end
+  end
+
   private
   def find_hosts
     fact, klass, group = params[:fact], params[:class], params[:hostgroup]
@@ -505,12 +521,8 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id]) unless params[:id].empty?
   end
 
-  def assign_parameter name
-    if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
-      render :partial => name, :locals => {:host => (@host ||= Host.new)}
-    else
-      return head(:not_found)
-    end
+  def assign_param_locals
+    {:item => (@host ||= Host.new), :type => "host"}
   end
 
   def load_vars_for_ajax

@@ -2,6 +2,11 @@
 
 common:
   name: Common
+  architecture: x86_64
+  ptable: one
+  environment: production
+  operatingsystem: centos5_3
+  medium: one
 
 unusual:
   name: Unusual

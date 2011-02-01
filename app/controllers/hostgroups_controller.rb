@@ -1,4 +1,9 @@
 class HostgroupsController < ApplicationController
+  include Foreman::Controller::HostDetails
+
+  filter_parameter_logging :root_pass
+  before_filter :find_hostgroup
+
   def index
     respond_to do |format|
       format.html do
@@ -53,4 +58,17 @@ class HostgroupsController < ApplicationController
     end
     redirect_to hostgroups_url
   end
+
+  def find_hostgroup
+    @hostgroup = params[:id].nil? ? Hostgroup.new : Hostgroup.find(params[:id])
+    @architecture = @hostgroup.architecture
+    @operatingsystem = @hostgroup.operatingsystem
+  end
+
+  private
+
+  def assign_param_locals
+    {:type => "hostgroup", :item => @hostgroup}
+  end
+
 end

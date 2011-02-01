@@ -24,19 +24,9 @@
 
   <% field_set_tag 'Operating system settings', :id => "operatingsystem" do -%>
     <table>
-      <tr>
-        <td colspan="6">
-          <span id="architecture">
-            Architecture
-            <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
-            <span id="host_os">
-              <% if @architecture -%>
-                <%= render "architecture" -%>
-              <% end -%>
-            </span>
-          </span>
-        </td>
-      </tr>
+
+      <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :type => "host", :item=> @host } %>
+
       <tr>
         <td>Root password</td>
         <td><%= f.password_field :root_pass %></td>
@@ -57,14 +47,9 @@
 
 <% end -%>
 
-<%= observe_field(:host_architecture_id,
-                  :url => { :action => :architecture_selected, :id => @host.id },
-                  :update => :host_os,
-                  :with => :architecture_id)
-%>
+
 <%= observe_field(:host_domain_id,
                   :url => { :action => :domain_selected, :id => @host.id },
                   :update => :host_subnet,
                   :with => :domain_id)
 %>
-

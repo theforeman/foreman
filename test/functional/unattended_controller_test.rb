@@ -14,7 +14,6 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-
   test "should get a preseed finish script" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :preseed_finish
@@ -75,4 +74,20 @@ class UnattendedControllerTest < ActionController::TestCase
     get :kickstart
     assert_response :conflict
   end
+
+  test "template with  hostgroup should be rendered" do
+    get :template, {:id => "MyString", :hostgroup => "Common"}
+    assert_response :success
+  end
+
+  test "template with non-existant  hostgroup should not be rendered" do
+    get :template, {:id => "MyString2", :hostgroup => "NotArealHostgroup"}
+    assert_response :not_found
+  end
+
+ test "requesting a template that does not exist should fail" do
+    get :template, {:id => "kdsfjlkasjdfkl", :hostgroup => "Common"}
+    assert_response :not_found
+  end
+
 end

@@ -1,5 +1,6 @@
 class Hostgroup < ActiveRecord::Base
   include Authorization
+  include HostCommon
   has_and_belongs_to_many :puppetclasses
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
   validates_uniqueness_of :name
@@ -11,8 +12,18 @@ class Hostgroup < ActiveRecord::Base
   default_scope :order => 'name'
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
+  belongs_to :operatingsystem
+  belongs_to :environment
+  belongs_to :architecture
+  belongs_to :medium
+  belongs_to :ptable
 
+  alias_attribute :os, :operatingsystem
   acts_as_audited
+
+  class Jail < Safemode::Jail
+    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup, :domain
+  end
 
   #TODO: add a method that returns the valid os for a hostgroup
 
@@ -27,4 +38,20 @@ class Hostgroup < ActiveRecord::Base
   def hostgroup
     self
   end
+
+  def diskLayout
+    ptable.layout
+  end
+
+  def params
+    parameters = {}
+    # read common parameters
+    CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
+    # read OS parameters
+    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
+    # read group parameters only if a host belongs to a group
+    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
+    parameters
+  end
+
 end

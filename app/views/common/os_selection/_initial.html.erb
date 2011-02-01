@@ -1,0 +1,29 @@
+<tr>
+  <td colspan="6">
+    <span id="architecture">
+      Architecture
+      <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
+      <span id="host_os">
+
+        <span id="architecture_select">
+          <% if @architecture -%>
+            <%= render :partial => 'common/os_selection/architecture', :locals => { :f => f, :type => "hostgroup", :item=> item } %>
+          <% end -%>
+        </span>
+
+        <span id="operatingsystem_select">
+          <% if @operatingsystem -%>
+            <%= render :partial => 'common/os_selection/operatingsystem', :locals => { :f => f, :type => "hostgroup", :item=> item } %>
+          <% end -%>
+        </span>
+
+      </span>
+    </span>
+  </td>
+</tr>
+
+<%= observe_field(type + "_architecture_id",
+                  :url => { :action => :architecture_selected},
+                  :update => :architecture_select, :id => item.id,
+                  :with => :architecture_id)
+%>

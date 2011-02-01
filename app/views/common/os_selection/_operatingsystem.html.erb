@@ -1,0 +1,6 @@
+Media
+<%= collection_select :item, :medium_id, @operatingsystem.media, :id, :to_label, {:include_blank => true, :selected => item.medium_id},
+                           {:id => type + "_medium_id", :name => type + "[medium_id]"} %>
+Partition Table
+<%= collection_select :item, :ptable_id, @operatingsystem.ptables, :id, :to_label, {:include_blank => true, :selected => item.ptable_id},
+                           {:id => type + "_ptable_id", :name => type + "[ptable_id]"}  %>

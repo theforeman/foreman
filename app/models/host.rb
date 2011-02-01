@@ -15,10 +15,11 @@ class Host < Puppet::Rails::Host
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
 
+  include HostCommon
+
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup, :domain
   end
-
 
   named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago), false]} }
@@ -171,15 +172,6 @@ class Host < Puppet::Rails::Host
     GW::Puppetca.disable name
     GW::Tftp.remove mac
     self.save
-  end
-
-  # no need to store anything in the db if the entry is plain "puppet"
-  def puppetmaster
-    read_attribute(:puppetmaster) || SETTINGS[:puppet_server] || "puppet"
-  end
-
-  def puppetmaster=(pm)
-    write_attribute(:puppetmaster, pm == (SETTINGS[:puppet_server] || "puppet") ? nil : pm)
   end
 
   #retuns fqdn of host puppetmaster
@@ -508,11 +500,6 @@ class Host < Puppet::Rails::Host
     end
     errors.add_to_base "You do not have permission to #{operation} this host"
     false
-  end
-
-  # Returns a url pointing to boot file
-  def url_for_boot file
-    "#{os.medium_uri(self)}/#{os.url_for_boot(file)}"
   end
 
   def sp_valid?

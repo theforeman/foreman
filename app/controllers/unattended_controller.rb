@@ -14,7 +14,7 @@ class UnattendedController < ApplicationController
   skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
 
   # We want to find out our requesting host
-  before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS
+  before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS + [:template]
   before_filter :handle_ca, :only => PROVISION_URLS
   # load "helper" variables to be available in the templates
   before_filter :load_template_vars, :only => PROVISION_URLS
@@ -53,6 +53,18 @@ class UnattendedController < ApplicationController
     prefix = @host.operatingsystem.pxe_prefix(@host.arch)
     @kernel = "#{prefix}-#{Redhat::PXEFILES[:kernel]}"
     @initrd = "#{prefix}-#{Redhat::PXEFILES[:initrd]}"
+  end
+
+  def template
+    return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
+
+    template = ConfigTemplate.find_by_name(params['id'])
+    @host = Hostgroup.find_by_name(params['hostgroup'])
+
+    return head(:not_found) unless template and @host
+
+    load_template_vars if template.template_kind.name == 'provision'
+    safe_render template.template and return
   end
 
   # Returns a valid GPXE config file to kickstart hosts
@@ -143,18 +155,7 @@ class UnattendedController < ApplicationController
   def unattended_local
     if config = @host.configTemplate(@type)
       logger.debug "rendering DB template #{config.name} - #{@type}"
-      @unsafe_template = config.template
-      if SETTINGS[:safemode_render]
-        begin
-          render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
-        rescue Exception => exc
-          msg = "There was an error rendering this template: "
-          render :text => msg + exc.message, :status => 500
-        end
-
-      else
-        render :inline => @unsafe_template and return
-      end
+      safe_render config.template and return
     end
     type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
     render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")
@@ -186,5 +187,22 @@ class UnattendedController < ApplicationController
     @preseed_path   = @host.os.preseed_path   @host
     @preseed_server = @host.os.preseed_server @host
   end
+
+  private
+
+  def safe_render template
+      @unsafe_template = template
+      if SETTINGS[:safemode_render]
+        begin
+          render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
+        rescue Exception => exc
+          msg = "There was an error rendering this template: "
+          render :text => msg + exc.message, :status => 500 and return
+        end
+      else
+        render :inline => @unsafe_template and return
+      end
+  end
+
 
 end
