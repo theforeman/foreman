@@ -130,6 +130,10 @@ class HostsController < ApplicationController
 
   # form AJAX methods
 
+  def domain_selected
+    assign_parameter "domain"
+  end
+
   def hostgroup_or_environment_selected
      @environment = Environment.find(params[:environment_id]) if params[:environment_id].to_i > 0
      @hostgroup   = Hostgroup.find(params[:hostgroup_id])     if params[:hostgroup_id].to_i   > 0
@@ -448,10 +452,10 @@ class HostsController < ApplicationController
 
   def process_hostgroup
     @hostgroup       = Hostgroup.find(params[:hostgroup_id]) if params[:hostgroup_id].to_i > 0
+    return head(:not_found) unless @hostgroup
+
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
-
-    return head(:not_found) unless @hostgroup
 
     render :update do |page|
       page['host_environment_id'].value = @hostgroup.environment_id
@@ -459,12 +463,12 @@ class HostsController < ApplicationController
       page['host_puppetmaster'].value   = @hostgroup.puppetmaster
 
       if @hostgroup.architecture_id
-        page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:type => "host", :item => @hostgroup}
+        page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:item => @hostgroup}
         page['host_architecture_id'].value = @hostgroup.architecture_id
       end
       if @hostgroup.operatingsystem_id
         page['host_operatingsystem_id'].value = @hostgroup.operatingsystem_id
-        page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:type => "host", :item => @hostgroup}
+        page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @hostgroup}
       end
     end
   end
@@ -519,10 +523,6 @@ class HostsController < ApplicationController
   def ajax_methods
     return head(:method_not_allowed) unless request.xhr?
     @host = Host.find(params[:id]) unless params[:id].empty?
-  end
-
-  def assign_param_locals
-    {:item => (@host ||= Host.new), :type => "host"}
   end
 
   def load_vars_for_ajax

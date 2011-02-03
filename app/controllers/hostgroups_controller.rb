@@ -2,7 +2,7 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
 
   filter_parameter_logging :root_pass
-  before_filter :find_hostgroup
+  before_filter :find_hostgroup, :only => [:show, :edit, :update, :destroy]
 
   def index
     respond_to do |format|
@@ -19,7 +19,6 @@ class HostgroupsController < ApplicationController
   end
 
   def show
-    @hostgroup = Hostgroup.find(params[:id])
     respond_to do |format|
       format.json { render :json => @hostgroup }
     end
@@ -31,26 +30,26 @@ class HostgroupsController < ApplicationController
       notice "Successfully created hostgroup."
       redirect_to hostgroups_url
     else
+      load_vars_for_ajax
       render :action => 'new'
     end
   end
 
   def edit
-    @hostgroup = Hostgroup.find(params[:id])
+    load_vars_for_ajax
   end
 
   def update
-    @hostgroup = Hostgroup.find(params[:id])
     if @hostgroup.update_attributes(params[:hostgroup])
       notice "Successfully updated hostgroup."
       redirect_to hostgroups_url
     else
+      load_vars_for_ajax
       render :action => 'edit'
     end
   end
 
   def destroy
-    @hostgroup = Hostgroup.find(params[:id])
     if @hostgroup.destroy
       notice "Successfully destroyed hostgroup."
     else
@@ -59,16 +58,16 @@ class HostgroupsController < ApplicationController
     redirect_to hostgroups_url
   end
 
-  def find_hostgroup
-    @hostgroup = params[:id].nil? ? Hostgroup.new : Hostgroup.find(params[:id])
-    @architecture = @hostgroup.architecture
-    @operatingsystem = @hostgroup.operatingsystem
-  end
-
   private
 
-  def assign_param_locals
-    {:type => "hostgroup", :item => @hostgroup}
+  def find_hostgroup
+    @hostgroup = Hostgroup.find(params[:id])
+  end
+
+  def load_vars_for_ajax
+    return unless @hostgroup
+    @architecture    = @hostgroup.architecture
+    @operatingsystem = @hostgroup.operatingsystem
   end
 
 end

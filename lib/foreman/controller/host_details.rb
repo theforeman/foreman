@@ -1,12 +1,5 @@
-# This module is useful for
-#
-# After including this module, the controller needs to implement the following function:
-#
-#  def get_assign_param_locals
-#   {:type => "host", :item => @host}
-#  end
-#
-# changing :type and :item where appropriate
+# This module extract repeating methods which handle host assoications of hostgroups, os etc
+# Mainly used within the host and the hostgroup controllers
 
 module Foreman::Controller::HostDetails
 
@@ -18,13 +11,10 @@ module Foreman::Controller::HostDetails
     assign_parameter "operatingsystem", "common/os_selection/"
   end
 
-  def domain_selected
-    assign_parameter "domain"
-  end
-
+  private
   def assign_parameter name, root = ""
     if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
-      render :partial => root + name, :locals => assign_param_locals
+      render :partial => root + name, :locals => {:item => eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new")}
     else
       return head(:not_found)
     end

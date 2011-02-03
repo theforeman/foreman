@@ -141,4 +141,10 @@ module ApplicationHelper
     "style=\"display:#{attribute ? "none" : "inline"};\""
   end
 
+  # return our current model instance type based on the current controller
+  # i.e. HostsController would return "host"
+  def type
+    controller_name.singularize
+  end
+
 end
