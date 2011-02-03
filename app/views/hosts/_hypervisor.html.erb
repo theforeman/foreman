@@ -3,7 +3,8 @@
     <tr>
       <td>Provision on </td>
       <td><%= select :host, :hypervisor_id, select_hypervisor ,{ :include_blank => "Bare Metal"} %></td>
-      <% if @hypervisor or (@host and @host.hypervisor_id) -%>
+      <td><%= image_tag "spinner.gif", :id => "vm_indicator", :style => "display:none" %></td>
+      <% if @hypervisor or (@host and @host.hypervisor?) -%>
         <% (@hypervisor ||= Hypervisor.find(@host.hypervisor_id)) -%>
         <td>Memory</td>
         <td> <%= select :host, :memory, select_memory(@host.memory || @guest.memory) %></td>
@@ -29,5 +30,7 @@
 <% end -%>
 <%= observe_field(:host_hypervisor_id,
                   :url => { :action => :hypervisor_selected },
+                  :loading => "$('vm_indicator').show()",
+                  :complete => "$('vm_indicator').hide()",
                   :with => :host_hypervisor_id)
 %>

@@ -3,15 +3,20 @@ module Orchestration::Libvirt
     base.send :include, InstanceMethods
     base.class_eval do
       attr_accessor :hypervisor_id, :storage_pool, :interface, :memory, :vcpu, :disk_size, :network_type, :powerup
-      validates_presence_of :interface, :if => Proc.new{|h| h.hypervisor_id}
+      validates_presence_of :memory, :vcpu, :storage_pool, :disk_size, :network_type, :interface, :if => Proc.new{|h| h.hypervisor?}
       after_validation  :initialize_libvirt, :queue_libvirt
       before_destroy    :initialize_libvirt, :queue_libvirt_destory
     end
   end
 
   module InstanceMethods
+    def hypervisor?
+      !hypervisor_id.blank?
+    end
+
     def libvirt?
-      !hypervisor_id.nil? and !memory.nil? and !vcpu.nil? and !storage_pool.nil? and !interface.nil? and !network_type.nil?
+      hypervisor? and !memory.blank? and !vcpu.blank? and !storage_pool.blank? and \
+      !interface.blank? and !network_type.blank? and !disk_size.blank?
     end
 
     protected
