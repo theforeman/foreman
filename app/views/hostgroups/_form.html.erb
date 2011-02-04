@@ -19,19 +19,21 @@
       </table>
     <% end -%>
 
-    <% field_set_tag 'Operating System Settings' do %>
-      <table>
-        <tr>
-          <td>
-            <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :type => "hostgroup", :item=> @hostgroup } -%>
-          </td>
-        </tr>
-        <tr>
-          <td>Root password
-            <%= f.password_field :root_pass %>
-          </td>
-        </tr>
-      </table>
+    <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) -%>
+      <% field_set_tag 'Operating System Settings' do %>
+        <table>
+          <tr>
+            <td>
+              <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :item=> @hostgroup } -%>
+            </td>
+          </tr>
+          <tr>
+            <td>Root password
+              <%= f.password_field :root_pass %>
+            </td>
+          </tr>
+        </table>
+      <% end -%>
 
     <% end -%>
   <% end -%>

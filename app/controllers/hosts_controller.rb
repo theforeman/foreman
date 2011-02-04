@@ -459,16 +459,19 @@ class HostsController < ApplicationController
 
     render :update do |page|
       page['host_environment_id'].value = @hostgroup.environment_id
-      page['host_root_pass'].value      = @hostgroup.root_pass
       page['host_puppetmaster'].value   = @hostgroup.puppetmaster
 
-      if @hostgroup.architecture_id
-        page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:item => @hostgroup}
-        page['host_architecture_id'].value = @hostgroup.architecture_id
-      end
-      if @hostgroup.operatingsystem_id
-        page['host_operatingsystem_id'].value = @hostgroup.operatingsystem_id
-        page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @hostgroup}
+      if (SETTINGS[:unattended].nil? or SETTINGS[:unattended])
+        page['host_root_pass'].value = @hostgroup.root_pass
+
+        if @hostgroup.architecture_id
+          page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:item => @hostgroup}
+          page['host_architecture_id'].value = @hostgroup.architecture_id
+        end
+        if @hostgroup.operatingsystem_id
+          page['host_operatingsystem_id'].value = @hostgroup.operatingsystem_id
+          page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @hostgroup}
+        end
       end
     end
   end
