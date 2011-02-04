@@ -110,7 +110,7 @@ class Host < Puppet::Rails::Host
     validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :domain_id
-    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor_id }
+    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? }
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
     validates_format_of      :mac, :with => (/([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/), :unless => Proc.new { |host| host.hypervisor_id }
     validates_format_of      :ip,        :with => (/(\d{1,3}\.){3}\d{1,3}/)
