@@ -7,13 +7,13 @@
 
         <span id="architecture_select">
           <% if @architecture -%>
-            <%= render :partial => 'common/os_selection/architecture', :locals => { :f => f, :type => "hostgroup", :item=> item } %>
+            <%= render :partial => 'common/os_selection/architecture', :locals => { :f => f, :item=> item } %>
           <% end -%>
         </span>
 
         <span id="operatingsystem_select">
           <% if @operatingsystem -%>
-            <%= render :partial => 'common/os_selection/operatingsystem', :locals => { :f => f, :type => "hostgroup", :item=> item } %>
+            <%= render :partial => 'common/os_selection/operatingsystem', :locals => { :f => f, :item=> item } %>
           <% end -%>
         </span>
 
