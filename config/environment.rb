@@ -18,6 +18,8 @@ Rails::Initializer.run do |config|
   config.gem "googlecharts", :lib => "gchart"
   config.gem "safemode"
   config.gem "rack", :version => '1.1.0'
+  config.gem "rest-client", :version => '>=1.4.0', :lib => "restclient"
+  config.gem "json"
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
