@@ -20,8 +20,8 @@ module UnattendedHelper
 
   # provide embedded snippets support as simple erb templates
   def snippets(file)
-    if (s=snippet(file.gsub(/^_/,"")))
-      return s
+    unless ConfigTemplate.name_eq(file).snippet_eq(true).empty?
+      return snippet(file.gsub(/^_/,""))
     else
       render :partial => "unattended/snippets/#{file}"
     end
@@ -30,10 +30,14 @@ module UnattendedHelper
   def snippet name
     if template = ConfigTemplate.name_eq(name).snippet_eq(true).first
       logger.debug "rendering snippet #{template.name}"
-      return render(:inline => template.template)
+      begin
+        return unattended_render(template.template)
+      rescue Exception => exc
+        raise "The snippet '#{name}' threw an error: #{exc}"
+      end
+    else
+      raise "The specified snippet '#{name}' does not exist, or is not a snippet."
     end
-  rescue
-    false
   end
 
   def unattended_render template
