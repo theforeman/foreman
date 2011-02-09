@@ -3,6 +3,6 @@ Operating system
     {:include_blank => true, :selected => item.operatingsystem_id}, {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]"} %>
 
 <%= observe_field type + "_operatingsystem_id",
-    :url => { :action => :os_selected, :id => item.id },
+    :url => { :action => :os_selected },
     :update => :operatingsystem_select,
     :with => :operatingsystem_id %>
