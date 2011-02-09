@@ -4,7 +4,7 @@ module Orchestration::TFTP
     base.class_eval do
       attr_reader :tftp
       attr_accessor :request_url
-      after_validation :initialize_tftp, :queue_tftp
+      after_validation :initialize_tftp, :validate_tftp, :queue_tftp
       before_destroy :initialize_tftp, :queue_tftp_destroy
 
       # required for pxe template url helpers
@@ -63,6 +63,14 @@ module Orchestration::TFTP
     end
 
     private
+
+    def validate_tftp
+      return unless tftp?
+      return if Rails.env == "test"
+      if configTemplate("PXELinux").nil?
+        failure "No PXELinux templates where found for this host, make sure you define at least one in your #{os} settings"
+      end
+    end
 
     def generate_pxe_template
       # this is the only place we generate a template not via a web request
