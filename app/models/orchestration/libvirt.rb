@@ -23,7 +23,7 @@ module Orchestration::Libvirt
     def initialize_libvirt
       return unless libvirt?
       (@hypervisor = Hypervisor.find(hypervisor_id)).connect
-      @guest = Virt::Guest.new({:name => name, :memory => memory, :arch => arch,
+      @guest = Virt::Guest.new({:name => name, :memory => memory, :arch => architecture.name,
                                :vcpu => vcpu, :pool => storage_pool, :size => disk_size,
                                :device => interface, :type => network_type})
     rescue => e
