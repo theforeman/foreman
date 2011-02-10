@@ -24,6 +24,11 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_redirected_to hostgroups_url
   end
 
+  def test_clone
+    get :clone, {:id => Hostgroup.first}, set_session_user
+    assert_template 'new'
+  end
+
   def test_edit
     get :edit, {:id => Hostgroup.first}, set_session_user
     assert_template 'edit'

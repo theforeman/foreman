@@ -30,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :models
   map.resources :architectures
   map.resources :puppetclasses, :member => { :assign => :post }, :collection => {:import_environments => :get}
-  map.resources :hostgroups
+  map.resources :hostgroups, :member => { :clone => :get }
   map.resources :common_parameters
   map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post}
   map.resources :fact_values, :only => [:create, :index]

@@ -47,7 +47,7 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :hostgroups do |map|
     map.permission :view_hostgroups,       {:hostgroups => [:index, :show]}
-    map.permission :create_hostgroups,     {:hostgroups => [:new, :create]}
+    map.permission :create_hostgroups,     {:hostgroups => [:new, :create, :clone]}
     map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update]}
     map.permission :destroy_hostgroups,    {:hostgroups => [:destroy]}
   end

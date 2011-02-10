@@ -194,9 +194,9 @@ table p {margin:0;}
 .odd {background-color:#f6f7f8;}
 .even {background-color: #fff;}
 
-.fieldWithErrors input.text-input,
-.fieldWithErrors select,
-.fieldWithErrors {
+.fieldWithErrors input,
+.fieldWithErrors textarea,
+.fieldWithErrors select {
   border: solid 1px #f00;
 }
 
