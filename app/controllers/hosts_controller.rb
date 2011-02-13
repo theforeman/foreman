@@ -386,7 +386,10 @@ class HostsController < ApplicationController
 
   def submit_multiple_build
     hosts = Host.find(session[:selected])
-    hosts.delete_if{|host| host.setBuild}
+    hosts.delete_if do |host|
+      host.request_url = request.host_with_port if host.respond_to?(:request_url)
+      host.setBuild
+    end
     session[:selected] = []
 
     missed_hosts = hosts.map(&:name).join('<br/>')

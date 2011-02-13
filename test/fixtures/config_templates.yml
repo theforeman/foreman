@@ -22,3 +22,9 @@ myfinish:
    template: MyFinish
    template_kind: finish
    operatingsystems: centos5_3, redhat
+
+pxekickstart:
+    name: centos5_3_pxelinux
+    template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+    template_kind: pxelinux
+    operatingsystems: centos5_3, redhat

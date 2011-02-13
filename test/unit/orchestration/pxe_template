@@ -1,0 +1,4 @@
+default linux
+label linux
+kernel boot/centos-5.3-x86_64-vmlinuz
+append initrd=boot/centos-5.3-x86_64-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac

@@ -351,6 +351,16 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_submit_multiple_build
+    assert !hosts(:one).build
+    assert !hosts(:two).build
+    post :submit_multiple_build, {}, set_session_user.merge(:selected => [hosts(:one).id, hosts(:two).id])
+    assert_redirected_to hosts_path
+    assert flash[:notice] == "The selected hosts will execute a build operation on next reboot"
+    assert Host.find(hosts(:one)).build
+    assert Host.find(hosts(:two)).build
+  end
+
   private
   def initialize_host
     User.current = users(:admin)

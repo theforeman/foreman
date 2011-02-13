@@ -15,4 +15,13 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     assert_equal h.tftp?, false
   end
 
+  def test_generate_pxe_template
+    h = hosts(:one)
+    as_admin do
+      h.update_attribute :operatingsystem, operatingsystems(:centos5_3)
+      h.update_attribute :request_url, "ahost.com:3000"
+    end
+    assert h.send(:generate_pxe_template).split("~") == File.open(Pathname.new(__FILE__).parent + "pxe_template").readlines.map(&:strip)
+  end
+
 end
