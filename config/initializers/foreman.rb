@@ -79,7 +79,7 @@ class ActiveRecord::Base
   end
 
   def self.unconfigured?
-    count == 0
+    first.nil?
   end
 
 end
