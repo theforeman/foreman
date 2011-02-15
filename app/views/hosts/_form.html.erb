@@ -37,7 +37,7 @@
   <%= observe_field(:host_hostgroup_id,
                     :url => { :action => :hostgroup_or_environment_selected, :id => @host.id },
                     :update => :classlist,
-                    :with => "'hostgroup_id=' + value+'&environment_id='+$('host_environment_id').value")
+                    :with => "'hostgroup_id=' + value+'&environment_id='+$('host_environment_id').value") unless @host.new_record?
   %>
 
   <%= observe_field(:host_environment_id,
