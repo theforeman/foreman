@@ -1,6 +1,6 @@
 class SmartProxiesController < ApplicationController
   def index
-    @proxies = SmartProxy.all
+    @proxies = SmartProxy.paginate :page => params[:page]
   end
 
   def new

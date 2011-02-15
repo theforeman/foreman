@@ -4,12 +4,14 @@
   <tr>
     <th>Name</th>
     <th>Url</th>
+    <th>Features</th>
     <th></th>
   </tr>
   <% for proxy in @proxies %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to proxy.name, edit_smart_proxy_path(proxy) %></td>
       <td><%=h proxy.url %></td>
+      <td><%=h proxy.features.to_sentence %></td>
       <td>
         <%= link_to "Destroy", proxy, :confirm => 'Are you sure?', :method => :delete %>
       </td>
@@ -18,3 +20,6 @@
 </table>
 
 <p><%= link_to "New Proxy", new_smart_proxy_path %></p>
+
+<%= page_entries_info @proxies %>
+<%= will_paginate @proxies %>

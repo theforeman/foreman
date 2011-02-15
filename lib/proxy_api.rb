@@ -10,6 +10,7 @@ module ProxyAPI
     def initialize(args)
       # Each request is limited to 5 seconds
       @resource = RestClient::Resource.new(url, :timeout => 5, :headers => { :accept => :json })
+      true
     end
 
     def logger; RAILS_DEFAULT_LOGGER; end
@@ -33,7 +34,12 @@ module ProxyAPI
 
     # Perform GET operation on the supplied path
     def get path = nil
-      @resource[path.empty? ? "" : URI.escape(path)].get
+      # This ensures that an extra "/" is not generated
+      if path
+        @resource[URI.escape(path)].get
+      else
+        @resource.get
+      end
     end
 
     # Perform POST operation with the supplied payload on the supplied path
@@ -53,6 +59,17 @@ module ProxyAPI
       @resource[path].delete
     end
 
+  end
+
+  class Features < Resource
+    def initialize args
+      @url  = args[:url] + "/features" || raise("Must provide a URL")
+      super args
+    end
+
+    def features
+      parse get
+    end
   end
 
   class DHCP < Resource

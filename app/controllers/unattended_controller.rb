@@ -134,7 +134,7 @@ class UnattendedController < ApplicationController
     #through puppet.
 
     # we don't do anything if we are in spoof mode.
-    return if @spoof
+    return if @spoof or Rails.env == "test"
 
     return false unless GW::Puppetca.clean @host.name
     return false unless GW::Puppetca.sign @host.name
