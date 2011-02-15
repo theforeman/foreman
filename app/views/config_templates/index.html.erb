@@ -22,4 +22,6 @@
 
 <%= page_entries_info @config_templates %>
 <%= will_paginate @config_templates %>
-<p><%= display_link_if_authorized "New Template", hash_for_new_config_template_path %></p>
+<p><%= display_link_if_authorized "New Template", hash_for_new_config_template_path %> |
+<%= display_link_if_authorized "Build PXE Default", {:action => :build_pxe_default}%>
+</p>

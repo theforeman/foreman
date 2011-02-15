@@ -170,5 +170,14 @@ module ProxyAPI
     def bootServer
       parse get("serverName")
     end
+
+    # Create a default pxe menu
+    # [+args+] : Hash containing
+    #   :menu => String containing the menu text
+    # Returns    : Boolean status
+    def create_default args
+      parse(post(args, "create_default"))
+    end
+
   end
 end

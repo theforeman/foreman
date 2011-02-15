@@ -12,3 +12,8 @@ two:
 three:
   config_template: myfinish
   environment: production
+
+four:
+   config_template: mystring2
+   hostgroup: common
+   environment: production

@@ -33,7 +33,7 @@ class Operatingsystem < ActiveRecord::Base
 
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name
+    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd
   end
 
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
@@ -96,6 +96,14 @@ class Operatingsystem < ActiveRecord::Base
     {:operatingsystem => {:name => to_s, :id => id, :media => media, :architectures => architectures, :ptables => ptables}}
   end
 
+  def kernel arch
+    bootfile(arch,:kernel)
+  end
+
+  def initrd arch
+    bootfile(arch,:initrd)
+  end
+
   private
   def deduce_family
     if self.family.blank?
@@ -115,6 +123,10 @@ class Operatingsystem < ActiveRecord::Base
 
   def boot_files_uri(medium = nil , architecture = nil)
     "Abstract"
+  end
+
+  def bootfile arch, type
+    pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]")
   end
 
 end

@@ -13,6 +13,10 @@ class ConfigTemplate < ActiveRecord::Base
   has_many :os_default_templates
   before_save :check_for_snippet_assoications, :remove_trailing_chars
 
+  class Jail < Safemode::Jail
+    allow :name
+  end
+
   private
 
   # check if our template is a snippet, and remove its associations just in case they were selected.

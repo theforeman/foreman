@@ -2,7 +2,7 @@ class UnattendedController < ApplicationController
   layout nil
 
   # Methods which return configuration files for syslinux(pxe) or gpxe
-  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config] + TemplateKind.name_like("pxelinux").map(&:name)
+  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.name_like("pxelinux").map(&:name)
   GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.name_like("gpxe").map(&:name)
   CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS
   # Methods which return valid provision instructions, used by the OS
@@ -48,13 +48,6 @@ class UnattendedController < ApplicationController
     head(@host.built ? :created : :conflict)
   end
 
-  def pxe_kickstart_config
-    @host = Host.find_by_name params[:host_id]
-    prefix = @host.operatingsystem.pxe_prefix(@host.arch)
-    @kernel = "#{prefix}-#{Redhat::PXEFILES[:kernel]}"
-    @initrd = "#{prefix}-#{Redhat::PXEFILES[:initrd]}"
-  end
-
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
@@ -71,11 +64,9 @@ class UnattendedController < ApplicationController
   def gpxe_kickstart_config
   end
 
-  def pxe_debian_config
-    @host = Host.find_by_name params[:host_id]
-    prefix = @host.operatingsystem.pxe_prefix(@host.arch)
-    @kernel = "#{prefix}-#{Debian::PXEFILES[:kernel]}"
-    @initrd = "#{prefix}-#{Debian::PXEFILES[:initrd]}"
+  def pxe_config
+    @kernel = @host.operatingsystem.kernel @host.arch
+    @initrd = @host.operatingsystem.initrd @host.arch
   end
 
   # Generate an action for each template kind
@@ -155,7 +146,7 @@ class UnattendedController < ApplicationController
   def unattended_local
     if config = @host.configTemplate(@type)
       logger.debug "rendering DB template #{config.name} - #{@type}"
-      safe_render config.template and return
+      safe_render config and return
     end
     type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
     render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")
@@ -191,17 +182,22 @@ class UnattendedController < ApplicationController
   private
 
   def safe_render template
-      @unsafe_template = template
-      if SETTINGS[:safemode_render]
-        begin
-          render :inline => "<%= render_sandbox(@unsafe_template) %>" and return
-        rescue Exception => exc
-          msg = "There was an error rendering this template: "
-          render :text => msg + exc.message, :status => 500 and return
-        end
-      else
-        render :inline => @unsafe_template and return
-      end
+    template_name = ""
+    if template.is_a?(String)
+      @unsafe_template  = template
+    elsif template.is_a?(ConfigTemplate)
+      @unsafe_template  = template.template
+      template_name = template.name
+    else
+      raise "unknown template"
+    end
+
+    begin
+      render :inline => "<%= unattended_render(@unsafe_template) %>" and return
+    rescue Exception => exc
+      msg = "There was an error rendering the " + template_name + " template: "
+      render :text => msg + exc.message, :status => 500 and return
+    end
   end
 
 

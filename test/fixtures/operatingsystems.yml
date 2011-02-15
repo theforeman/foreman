@@ -5,6 +5,8 @@ centos5_3:
   major: 5
   minor: 3
   type: Redhat
+  media: one
+  architectures: x86_64
 
 redhat:
   name: Redhat 

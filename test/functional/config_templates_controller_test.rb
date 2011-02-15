@@ -46,4 +46,15 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_redirected_to config_templates_url
     assert !ConfigTemplate.exists?(config_template.id)
   end
+
+  def test_build_menu
+    ProxyAPI::TFTP.any_instance.stubs(:create_default_menu).returns(true)
+    ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+
+    @request.env['HTTP_REFERER'] = config_templates_path
+    get :build_pxe_default
+
+    assert_redirected_to config_templates_path
+  end
+
 end

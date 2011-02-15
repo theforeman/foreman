@@ -22,7 +22,8 @@ class Hostgroup < ActiveRecord::Base
   acts_as_audited
 
   class Jail < Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup, :domain
+    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
+      :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup, :domain
   end
 
   #TODO: add a method that returns the valid os for a hostgroup

@@ -28,3 +28,9 @@ pxekickstart:
     template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
     template_kind: pxelinux
     operatingsystems: centos5_3, redhat
+
+pxe_menu:
+   name: PXE Default Menu
+   template: "FOO"
+   template_kind: PXELinux
+   operatingsystems: centos5_3
