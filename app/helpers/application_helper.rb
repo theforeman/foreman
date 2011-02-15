@@ -71,7 +71,7 @@ module ApplicationHelper
     selected_class = options[:selected] ? "selectedtab" : ""
     content_tag(:li) do
       link_to opts, :class => selected_class do
-        title + (options[:no_close_button] ? "": (link_to "x", opts.merge(:remove_me => true), :class => "#{selected_class} close"))
+        h(title) + (options[:no_close_button] ? "": (link_to "x", opts.merge(:remove_me => true), :class => "#{selected_class} close"))
       end
     end
   end
