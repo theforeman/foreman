@@ -38,7 +38,7 @@ module ApplicationHelper
       page << "if ($('#{div}').visible()) {"
       page[div].hide
       page << "} else {"
-      page[div].visual_effect :BlindDown
+      page[div].visual_effect :BlindDown, :duration => 0.1
       page << "}"
     end
   end
