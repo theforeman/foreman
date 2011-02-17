@@ -1,5 +1,7 @@
 <% gcharts_script %>
-<% title @host.to_label %>
+<% title @host.to_label, false %>
+<h1><%= icon(@host.os) + @host.to_label %></h1>
+
 <span class="title_action">
   <%= link_to_if_authorized "Edit",    hash_for_edit_host_path(:id => @host),                       :title => "Edit your host" %> |
   <%= link_to_if_authorized "Facts",   hash_for_fact_values_path("search[host_id_eq]" => @host.id), :title => "Browse host facts" %> |

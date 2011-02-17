@@ -1,5 +1,7 @@
 module HostsHelper
   include CommonParametersHelper
+  include OperatingsystemsHelper
+
   def last_report_column(record)
     return nil if record.last_report.nil?
     time = time_ago_in_words(record.last_report.getlocal)

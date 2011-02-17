@@ -1,18 +1,14 @@
 <% form_for @usergroup do |f| %>
   <%= f.error_messages %>
-  <table>
-    <tr>
-      <td>Name</td>
-      <td><%= f.text_field :name %></td>
-    </tr>
-    <tr>
-      <td>User groups</td>
-      <td><%= edit_habtm @usergroup, Usergroup %></td>
-    </tr>
-    <tr>
-      <td>Users</td>
-      <td><%= edit_habtm @usergroup, User %></td>
-    </tr>
-    <tr><td><%= f.submit "Submit" %></td></tr>
-  </table>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+  <% field_set_tag("User Groups") do %>
+    <%= edit_habtm @usergroup, Usergroup %>
+  <% end %>
+  <% field_set_tag("Users") do %>
+    <%= edit_habtm @usergroup, User %>
+  <% end %>
+  <p><%= f.submit "Submit" %><p>
 <% end %>

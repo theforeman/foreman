@@ -1,5 +1,7 @@
 <% title "Users" %>
 
+<div class="title_action"><%= display_link_if_authorized "New User", hash_for_new_user_path %></div>
+
 <table class="list">
   <tr>
     <th><%= order @search, :by => :login %></th>
@@ -17,7 +19,7 @@
       <td><%=h user.firstname %></td>
       <td><%=h user.lastname %></td>
       <td><%=h user.mail %></td>
-      <td><%=admin_column user %></td>
+      <td><%=checked_icon user.admin? %></td>
       <td><%=h last_login_on_column(user)%></td>
       <td><%=h auth_source_column(user)%></td>
       <td><%= display_link_if_authorized "Destroy", hash_for_user_path(:id => user, :auth_action => :destroy), :confirm => "Delete #{user.name}?", :method => :delete %></td>
@@ -27,5 +29,3 @@
 
 <%= page_entries_info @users %>
 <%= will_paginate @users %>
-
-<p><%= display_link_if_authorized "New User", hash_for_new_user_path %></p>

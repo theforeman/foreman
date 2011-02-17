@@ -1,13 +1,14 @@
 <% title "Subnets" %>
 
+<div class="title_action"><%= link_to "New Subnet", new_subnet_path %></div>
+
 <table class="list">
   <tr>
     <th>Name</th>
     <th>Domain</th>
-    <th>Number</th>
-    <th>Mask</th>
+    <th>Network</th>
     <th>Ranges</th>
-    <th>DHCP server</th>
+    <th>DHCP Proxy</th>
     <th>VLAN ID</th>
     <th></th> 
   </tr>
@@ -15,8 +16,7 @@
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=link_to h(subnet.name), edit_subnet_path(subnet)%></td>
       <td><%=subnet.domain%></td>
-      <td><%=subnet.network%></td>
-      <td><%=subnet.mask%></td>
+      <td><%=subnet.to_label%></td>
       <td><%=subnet.ranges%></td>
       <td><%=subnet.dhcp %></td>
       <td><%=subnet.vlanid%></td>
@@ -28,6 +28,3 @@
 </table>
 <%= page_entries_info @subnets %>
 <%= will_paginate     @subnets %>
-
-<p><%= link_to "New Subnet", new_subnet_path %></p>
-

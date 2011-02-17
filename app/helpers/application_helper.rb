@@ -147,4 +147,8 @@ module ApplicationHelper
     controller_name.singularize
   end
 
+  def checked_icon condition
+    return image_tag "toggle_check.png" if condition
+  end
+
 end

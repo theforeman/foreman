@@ -1,9 +1,8 @@
 <% form_for @environment do |f| %>
   <%= f.error_messages %>
-  <table>
-    <tr>
-      <td> Name<br/> <%= f.text_field :name %> </td>
-    </tr>
-  </table>
+  <p>
+    <%= f.label :name %><br/>
+    <%= f.text_field :name %>
+  </p>
   <%= f.submit "Submit" %></p>
 <% end %>

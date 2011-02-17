@@ -1,5 +1,7 @@
 <% title "Models" %>
 
+<div class="title_action"><%= display_link_if_authorized "New Model", hash_for_new_model_path %></div>
+
 <table class="list">
   <tr>
     <th>Name</th>
@@ -9,8 +11,8 @@
   <% for model in @models %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=link_to_if_authorized h(model.name), hash_for_edit_model_path(:id => model)%></td>
-      <td><%= model.hosts.count %></td>
-      <td align="right">
+      <td class="ra"><%= link_to model.hosts.count, hosts_path("search[model_name_eq]" => model.name) %></td>
+      <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_model_path(:id => model, :auth_action => :destroy), :confirm => "Delete #{model.name}?", :method => :delete %>
       </td>
     </tr>
@@ -18,5 +20,3 @@
 </table>
 <%= page_entries_info @models %>
 <%= will_paginate     @models %>
-
-<p><%= display_link_if_authorized "New Model", hash_for_new_model_path %></p>

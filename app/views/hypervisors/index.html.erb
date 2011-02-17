@@ -1,5 +1,7 @@
 <% title "Hypervisors" %>
 
+<div class="title_action"><%= link_to "New Hypervisor", new_hypervisor_path %></div>
+
 <table class="list">
   <tr>
     <th>Name</th>
@@ -8,7 +10,7 @@
     <th></th>
   </tr>
   <% for hypervisor in @hypervisors %>
-    <tr>
+    <tr class="<%= cycle("even", "odd") -%>">
       <td><%=link_to hypervisor.name, edit_hypervisor_path(hypervisor) %></td>
       <td><%=h hypervisor.uri %></td>
       <td><%=h hypervisor.kind %></td>
@@ -16,5 +18,5 @@
     </tr>
   <% end %>
 </table>
-
-<p><%= link_to "New Hypervisor", new_hypervisor_path %></p>
+<%= page_entries_info @hypervisors %>
+<%= will_paginate     @hypervisor %>

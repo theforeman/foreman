@@ -23,4 +23,26 @@ module OperatingsystemsHelper
     obj.config_template.nil? ? "template_new_os_default_templates" : "templates_#{obj.object_id}"
   end
 
+  def icon record, opts = {}
+    return "" if record.nil? or record.name.nil?
+    family = case record.name
+    when /fedora/i
+      "Fedora"
+    when /ubuntu/i
+      "Ubuntu"
+    when /solaris|sunos/i
+      "Solaris"
+    when /darwin/i
+      "Darwin"
+    else
+      record.family
+    end
+
+    image_tag(family+".png", opts) + " "
+  end
+
+  def os_name record, opts = {}
+    "#{icon(record, opts)} #{h(record)}"
+  end
+
 end

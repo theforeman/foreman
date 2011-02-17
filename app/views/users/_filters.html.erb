@@ -2,15 +2,17 @@
   <% field_set_tag("Select the subset of all hosts to which these permissions apply", :id => "filters", :style => @user.filtering? ? "display:inline;" : "display:none") do %>
     <table>
       <tr>
-        <td>
-          Select
-          <%= f.check_box :filter_on_owner %>
-        </td>
-        <td colspan="2">
-          <% field_set_tag "Owned hosts" do %>
-            <%= @user.hosts.empty? ? "None" : @user.hosts.to_sentence %>
-          <% end -%>
-        </td>
+        <% unless @user.hosts.empty? -%>
+          <td>
+            Select
+            <%= f.check_box :filter_on_owner %>
+          </td>
+          <td colspan="2">
+            <% field_set_tag "Owned hosts" do %>
+              <%=  @user.hosts.to_sentence %>
+            <% end -%>
+          </td>
+        <% end -%>
       </tr>
       <tr>
         <td>
@@ -45,7 +47,7 @@
     </table>
   <% end -%>
   <%= link_to_function("Display host filters", nil, :id => "more_link") do |page|
-    page['filters'].visual_effect :blindDown
+    page['filters'].visual_effect :blindDown, :duration => 0.1
     page[:more_link].hide
   end unless @user.filtering?
 %>

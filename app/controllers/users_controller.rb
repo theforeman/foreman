@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     admin = params[:user].delete :admin
-    # Remove keys for resticted variables when the user is granted minimal access only to their own account
+    # Remove keys for restricted variables when the user is granted minimal access only to their own account
     if @minimal_edit
       for key in params[:user].keys
         params[:user].delete key unless %w{password_confirmation password mail firstname lastname}.include? key

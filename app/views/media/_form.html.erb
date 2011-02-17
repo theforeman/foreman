@@ -5,21 +5,16 @@
   <%= f.text_field :name %>
   </p>
   <p>
-  <%= f.label :path %><br />
-  <%= f.text_field :path, :size => 70 %>
-  </p >
   <small>
     The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).<br />
     for example http://mirror.averse.net/centos/$version/os/$arch where <strong>$arch</strong> will be substituted for the host's actual OS architecture<br />
     and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system.
   </small>
-  <p>
-  <%= f.label :operatingsystems %><br />
-  <%= authorized_edit_habtm @medium, Operatingsystem %>
-  </p>
-   <br/>
-  <% unless @medium.new_record? -%>
-    <p>Currently used by <%= @medium.hosts.count %> hosts</p>
+  <%= f.label :path %><br />
+  <%= f.text_field :path, :size => 70 %>
+  </p >
+    <% field_set_tag 'Operating Systems' do -%>
+    <%= authorized_edit_habtm @medium, Operatingsystem %>
   <% end -%>
 
   <p><%= f.submit "Submit" %></p>

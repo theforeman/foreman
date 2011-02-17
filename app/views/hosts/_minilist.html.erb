@@ -20,7 +20,7 @@
             <% end -%>
             <%=name_column(host) %>
           </td>
-          <td><%=h host.try(:os) %></td>
+          <td><%=icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
           <td><%=h host.try(:environment) %></td>
           <td><%=h host.try(:model) %></td>
           <td><%=h host.try(:hostgroup) %></td>

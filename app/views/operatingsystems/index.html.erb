@@ -1,16 +1,17 @@
 <% title "Operating systems" %>
+<div class="title_action"><%= display_link_if_authorized "New Operatingsystem", hash_for_new_operatingsystem_path %></div>
 
 <table class="list">
   <tr>
     <th>Name</th>
-    <th>Family</th>
+    <th>Hosts</th>
     <th></th>
   </tr>
   <% for operatingsystem in @operatingsystems %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to_if_authorized h(operatingsystem.to_label), hash_for_edit_operatingsystem_path(:id => operatingsystem.id) %></td>
-      <td><%= h operatingsystem.family %></td>
-      <td align="right">
+      <td><%= link_to_if_authorized(os_name(operatingsystem), hash_for_edit_operatingsystem_path(:id => operatingsystem.id)) %></td>
+      <td class="ra"><%= link_to operatingsystem.hosts.count, hosts_path("search[operatingsystem_name_eq]" => operatingsystem.name) %></td>
+      <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_operatingsystem_path(:id => operatingsystem, :auth_action => :destroy), :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
       </td>
     </tr>
@@ -19,5 +20,3 @@
 
 <%= page_entries_info @operatingsystems, :entry_name => "operating system" %>
 <%= will_paginate @operatingsystems %>
-
-<p><%= display_link_if_authorized "New Operatingsystem", hash_for_new_operatingsystem_path %></p>

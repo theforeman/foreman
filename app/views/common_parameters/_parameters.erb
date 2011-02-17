@@ -1,4 +1,4 @@
-<% field_set_tag "Parameters", :id => "parameters" do -%>
+<% field_set_tag "Parameters", :id => "parameters", :title => parameters_title do -%>
   <% f.fields_for type do |builder| -%>
     <%= render "common_parameters/parameter", :f => builder %>
   <% end -%>

@@ -1,7 +1,7 @@
 class HypervisorsController < ApplicationController
   def index
     respond_to do |format|
-      format.html {@hypervisors = Hypervisor.all}
+      format.html {@hypervisors = Hypervisor.paginate :page => params[:page]}
       format.json { render :json => Hypervisor.all }
     end
   end

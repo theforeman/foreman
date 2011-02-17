@@ -1,5 +1,9 @@
 <%= javascript "redmine-application" %>
-<h2>Roles</h2>
+<% title "Roles" %>
+<div class="title_action">
+  <%= link_to "New role", new_role_path %>
+  <%= link_to_if_authorized "Permissions report", :action => 'report' %>
+</div>
 
 <table class="list">
   <thead>
@@ -27,6 +31,3 @@
 </table>
 <%= page_entries_info @roles %>
 <%= will_paginate     @roles %>
-<p><%= link_to "New role", {:action => 'new'} %>
-
-<%= link_to_if_authorized "Permissions report", :action => 'report' %></p>

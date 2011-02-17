@@ -1,5 +1,7 @@
 <% title "Media" %>
 
+<div class="title_action"><%= display_link_if_authorized "New Medium", hash_for_new_medium_path %></div>
+
 <table class="list">
   <tr>
     <th>Name</th>
@@ -20,4 +22,3 @@
 </table>
 <%= page_entries_info @media %>
 <%= will_paginate     @media %>
-<p><%= display_link_if_authorized "New Medium", hash_for_new_medium_path %></p>

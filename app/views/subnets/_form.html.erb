@@ -25,14 +25,13 @@
     <%= f.text_field :ranges, :title => "A list of comma separated single IPs or start-end couples." %>
   </p>
 
-  <p>
-    <%= f.label :dhcp_id %><br />
-    <%= f.collection_select :dhcp_id, SmartProxy.all, :id, :name, :include_blank => true %>
+  <p title="DHCP Proxy to use within this subnet">
+    <%= f.label :dhcp_id, "DHCP Proxy" %>
+    <%= f.collection_select :dhcp_id, Feature.find_by_name("DHCP").smart_proxies, :id, :name, :include_blank => "None" %>
   </p>
-
-  <p>
-    <%= f.label :tftp_id %><br />
-    <%= f.collection_select :tftp_id, SmartProxy.all, :id, :name, :include_blank => true %>
+  <p title="TFTP Proxy to use within this subnet">
+    <%= f.label :tftp_id, "TFTP Proxy" %>
+    <%= f.collection_select :tftp_id, Feature.find_by_name("TFTP").smart_proxies, :id, :name, :include_blank => "None" %>
   </p>
 
   <p>

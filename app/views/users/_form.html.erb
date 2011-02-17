@@ -24,11 +24,11 @@
           </tr>
           <tr id="password" <%= 'style="display:none"' unless @user.manage_password? -%>>
             <td> Password </td>
-            <td> <%= password_field :user, :password %>  </td>
+            <td> <%= password_field :user, :password %> </td>
           </tr>
           <tr id="verification" <%= 'style="display:none"' unless @user.manage_password? -%>>
             <td>  Verification </td>
-            <td>  <%= password_field :user, :password_confirmation %>   </td>
+            <td>  <%= password_field :user, :password_confirmation %> </td>
           </tr>
           <% unless @minimal_edit -%>
             <tr>

@@ -4,14 +4,14 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
-  <p title="A descriptive name">
-    <%= f.label :fullname %><br />
+  <p title='Full name describing the domain'>
+    <%= f.label :fullname %><br>
     <%= f.text_field :fullname %>
   </p>
 
-  <p>
-    <%= f.label :dns_id %><br />
-    <%= f.collection_select :dns_id, SmartProxy.all, :id, :name, :include_blank => true %>
+  <p title="DNS Proxy to use within this domain">
+    <%= f.label :dns_id, "DNS Proxy" %><br />
+    <%= f.collection_select :dns_id, Feature.find_by_name("DNS").smart_proxies, :id, :name, :include_blank => "None" %>
   </p>
 
   <%= render :partial => "common_parameters/parameters", :locals => { :f => f, :type => :domain_parameters } %>

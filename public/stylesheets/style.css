@@ -255,6 +255,7 @@ table p {margin:0;}
 .even {background-color: #fff;}
 
 .fieldWithErrors input,
+.fieldWithErrors label,
 .fieldWithErrors textarea,
 .fieldWithErrors select {
   border: solid 1px #f00;
@@ -484,6 +485,8 @@ a.button:active span {
 .la { text-align: left; }
 /* text align right */
 .ra { text-align: right; }
+/* text align center */
+.ca { text-align: center; }
 /* float  right */
 .fr { float: right; }
 /* float left */

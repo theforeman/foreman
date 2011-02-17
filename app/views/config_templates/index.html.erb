@@ -1,19 +1,25 @@
 <% title "Config Templates" %>
 
+<div class="title_action">
+  <%= display_link_if_authorized "New Template", hash_for_new_config_template_path %> |
+  <%= display_link_if_authorized "Build PXE Default", {:action => :build_pxe_default}, :confirm => "You Are about to change the default PXE menu on all configured TFTP servers - continue ?"%>
+</div>
+
 <table class="list">
   <tr>
+    <tr class="<%= cycle("even", "odd") -%>">
     <th><%= order @search, :by => 'name' %></th>
-    <th>Combinations (hostgroup / environment)</th>
+    <th>Hostgroup / Environment</th>
     <th><%= order @search, :by => 'template_kind_name', :as => 'Kind' %></th>
     <th><%= order @search, :by => 'snippet' %></th>
     <th></th>
   </tr>
   <% for config_template in @config_templates %>
-    <tr>
+    <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to_if_authorized h(config_template), hash_for_edit_config_template_path(:id => config_template.id) %></td>
       <td><%= combination config_template %></td>
       <td><%= config_template.try(:template_kind) %></td>
-      <td><%= image_tag("true.png") if config_template.snippet %></td>
+      <td><%= checked_icon config_template.snippet %></td>
       <td><%= display_link_if_authorized "Destroy", hash_for_config_template_path(:id => config_template, :auth_action => :destroy), 
         :confirm => "Delete #{config_template}?", :method => :delete -%> </td>
     </tr>
@@ -22,6 +28,3 @@
 
 <%= page_entries_info @config_templates %>
 <%= will_paginate @config_templates %>
-<p><%= display_link_if_authorized "New Template", hash_for_new_config_template_path %> |
-<%= display_link_if_authorized "Build PXE Default", {:action => :build_pxe_default}%>
-</p>
