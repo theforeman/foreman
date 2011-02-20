@@ -579,6 +579,7 @@ class HostsController < ApplicationController
   def included_associations(include = [])
     include += [:hostgroup, :domain, :operatingsystem, :environment, :model] unless request_json?
     include += [:fact_values] if User.current.user_facts.any?
+    return include
   end
 
   def render_hosts title=nil
