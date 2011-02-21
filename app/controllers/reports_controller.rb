@@ -21,7 +21,7 @@ class ReportsController < ApplicationController
     params[:search][:order] ||= "descend_by_created_at"
 
     @search  = eval search_cmd
-    @reports = @search.paginate :page => params[:page], :include => [{:host => :domain}]
+    @reports = @search.paginate :page => params[:page]
   end
 
   def show
