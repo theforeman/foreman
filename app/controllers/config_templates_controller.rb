@@ -7,9 +7,8 @@ class ConfigTemplatesController < ApplicationController
         @search = ConfigTemplate.search params[:search]
         @config_templates = @search.paginate(:page => params[:page], :include => [:template_kind, :environments,:hostgroups])
       end
-      format.json { render :json => ConfigTemplate }
+      format.json { render :json => ConfigTemplate.all}
     end
-
   end
 
   def new
@@ -20,10 +19,9 @@ class ConfigTemplatesController < ApplicationController
   def create
     @config_template = ConfigTemplate.new(params[:config_template])
     if @config_template.save
-      notice "Successfully created config template."
-      redirect_to config_templates_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -35,18 +33,19 @@ class ConfigTemplatesController < ApplicationController
   def update
     @config_template = ConfigTemplate.find(params[:id])
     if @config_template.update_attributes(params[:config_template])
-      notice "Successfully updated config template."
-      redirect_to config_templates_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @config_template = ConfigTemplate.find(params[:id])
-    @config_template.destroy
-    notice "Successfully destroyed config template."
-    redirect_to config_templates_url
+    if @config_template.destroy
+      process_success
+    else
+      process_error
+    end
   end
 
   def build_pxe_default

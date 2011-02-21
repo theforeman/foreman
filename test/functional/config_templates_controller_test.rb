@@ -6,6 +6,13 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_json
+    get :index, {:format => "json"}, set_session_user
+    templates = ActiveSupport::JSON.decode(@response.body)
+    assert !templates.empty?
+    assert_response :success
+  end
+
   def test_new
     get :new, {}, set_session_user
     assert_template 'new'
@@ -21,6 +28,15 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     post :create, {}, set_session_user
     assert_redirected_to config_templates_url
+  end
+
+  def test_create_valid_json
+    ConfigTemplate.any_instance.stubs(:valid?).returns(true)
+    post :create, {:format=> "json", :config_template => {:template => "This is a test template",
+      :template_kind_id => 1, :name => "RandomName"}}, set_session_user
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert template["config_template"]["name"] == "RandomName"
+    assert_response :created
   end
 
   def test_edit
@@ -40,10 +56,26 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_redirected_to config_templates_url
   end
 
+  def test_update_valid_json
+    ConfigTemplate.any_instance.stubs(:valid?).returns(true)
+    put :update, {:format => "json", :id => ConfigTemplate.first,
+      :config_template => {:template => "blah"}}, set_session_user
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+  end
+
   def test_destroy
     config_template = ConfigTemplate.first
     delete :destroy, {:id => config_template}, set_session_user
     assert_redirected_to config_templates_url
+    assert !ConfigTemplate.exists?(config_template.id)
+  end
+
+  def test_destroy_json
+    config_template = ConfigTemplate.first
+    delete :destroy, {:format => "json", :id => config_template}, set_session_user
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
     assert !ConfigTemplate.exists?(config_template.id)
   end
 
@@ -56,5 +88,4 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
 
     assert_redirected_to config_templates_path
   end
-
 end

@@ -1,6 +1,9 @@
 class HypervisorsController < ApplicationController
   def index
-    @hypervisors = Hypervisor.all
+    respond_to do |format|
+      format.html {@hypervisors = Hypervisor.all}
+      format.json { render :json => Hypervisor.all }
+    end
   end
 
   def new
@@ -10,10 +13,9 @@ class HypervisorsController < ApplicationController
   def create
     @hypervisor = Hypervisor.new(params[:hypervisor])
     if @hypervisor.save
-      notice = "Successfully created hypervisor."
-      redirect_to hypervisors_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -24,18 +26,19 @@ class HypervisorsController < ApplicationController
   def update
     @hypervisor = Hypervisor.find(params[:id])
     if @hypervisor.update_attributes(params[:hypervisor])
-      notice = "Successfully updated hypervisor."
-      redirect_to hypervisors_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @hypervisor = Hypervisor.find(params[:id])
-    @hypervisor.destroy
-    notice = "Successfully destroyed hypervisor."
-    redirect_to hypervisors_url
+    if @hypervisor.destroy
+      process_success
+    else
+      process_error
+    end
   end
 
 end

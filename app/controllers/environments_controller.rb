@@ -27,10 +27,9 @@ class EnvironmentsController < ApplicationController
   def create
     @environment = Environment.new(params[:environment])
     if @environment.save
-      notice "Successfully created environment."
-      redirect_to environments_path
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -39,20 +38,19 @@ class EnvironmentsController < ApplicationController
 
   def update
     if @environment.update_attributes(params[:environment])
-      notice "Successfully updated environment."
-      redirect_to environments_path
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     if @environment.destroy
-      notice "Successfully destroyed #{@environment.name}"
+      process_success
     else
-      error @environment.errors.full_messages.join("<br/>")
+      load_vars_for_ajax
+      process_error
     end
-    redirect_to environments_url
   end
 
 end

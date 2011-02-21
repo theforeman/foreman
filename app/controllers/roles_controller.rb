@@ -33,10 +33,9 @@ class RolesController < ApplicationController
     @role = Role.new(params[:role])
     @permissions = @role.setable_permissions
     if @role.save
-      notice "#{@role.name} succcessfully created"
-      redirect_to roles_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -48,21 +47,19 @@ class RolesController < ApplicationController
   def update
     @role = Role.find(params[:id])
     if @role.update_attributes(params[:role])
-      notice "#{@role.name} successfully updated"
-      redirect_to roles_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @role = Role.find(params[:id])
     if @role.destroy
-      notice "Successfully destroyed role."
+      process_success
     else
-      error @role.errors.full_messages.join("<br/>")
+      process_error
     end
-    redirect_to roles_url
   end
 
   def report

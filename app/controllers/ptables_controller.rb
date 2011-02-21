@@ -24,10 +24,9 @@ class PtablesController < ApplicationController
   def create
     @ptable = Ptable.new(params[:ptable])
     if @ptable.save
-      notice "Successfully created partition table."
-      redirect_to ptables_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -36,17 +35,18 @@ class PtablesController < ApplicationController
 
   def update
     if @ptable.update_attributes(params[:ptable])
-      notice "Successfully updated partition table."
-      redirect_to ptables_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
-    @ptable.destroy
-    notice "Successfully destroyed partition table."
-    redirect_to ptables_url
+    if @ptable.destroy
+      process_success
+    else
+      process_error
+    end
   end
 
   private

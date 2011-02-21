@@ -1,6 +1,9 @@
 class SmartProxiesController < ApplicationController
   def index
-    @proxies = SmartProxy.paginate :page => params[:page]
+    respond_to do |format|
+      format.html {@proxies = SmartProxy.paginate :page => params[:page]}
+      format.json {render :json => SmartProxy.all}
+    end
   end
 
   def new
@@ -10,10 +13,9 @@ class SmartProxiesController < ApplicationController
   def create
     @proxy = SmartProxy.new(params[:smart_proxy])
     if @proxy.save
-      notice "Successfully created a new smart proxy."
-      redirect_to smart_proxies_url
+      process_success :object => @proxy
     else
-      render :action => 'new'
+      process_error :object => @proxy
     end
   end
 
@@ -24,17 +26,18 @@ class SmartProxiesController < ApplicationController
   def update
     @proxy = SmartProxy.find(params[:id])
     if @proxy.update_attributes(params[:smart_proxy])
-      notice "Successfully updated proxy."
-      redirect_to smart_proxies_url
+      process_success :object => @proxy
     else
-      render :action => 'edit'
+      process_error :object => @proxy
     end
   end
 
   def destroy
     @proxy = SmartProxy.find(params[:id])
-    @proxy.destroy
-    notice = "Successfully destroyed proxy."
-    redirect_to smart_proxies_url
+    if @proxy.destroy
+      process_success :object => @proxy
+    else
+      process_error :object => @proxy
+    end
   end
 end

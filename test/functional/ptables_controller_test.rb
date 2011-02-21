@@ -6,6 +6,14 @@ class PtablesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index
+    get :index, {:format => "json"}, set_session_user
+    ptables = ActiveSupport::JSON.decode(@response.body)
+    assert !ptables.empty?
+    assert hostgroups.is_a?(Array)
+    assert_response :success
+  end
+
   def test_show_json
     get :show, {:id => Ptable.first.id}, :format => :json, :user => users(:admin).id
     json = ActiveSupport::JSON.decode(@response.body)
@@ -29,6 +37,14 @@ class PtablesControllerTest < ActionController::TestCase
     assert_redirected_to ptables_url
   end
 
+  def test_create_valid_json
+    Ptable.any_instance.stubs(:valid?).returns(true)
+    post :create, {:format => "json", :ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user
+    ptable = ActiveSupport::JSON.decode(@response.body)
+    assert ptable["ptable"]["name"] == "dummy"
+    assert_response :created
+  end
+
   def test_edit
     get :edit, {:id => Ptable.first.id}, set_session_user
     assert_template 'edit'
@@ -46,12 +62,28 @@ class PtablesControllerTest < ActionController::TestCase
     assert_redirected_to ptables_url
   end
 
+  def test_update_valid_json
+    Ptable.any_instance.stubs(:valid?).returns(true)
+    put :update, {:format => "json", :id => Ptable.first.id}, set_session_user
+    ptable = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+  end
+
   def test_destroy
     ptable = Ptable.first
     ptable.hosts = []
     delete :destroy, {:id => ptable}, set_session_user
     assert_redirected_to ptables_url
     assert !Ptable.exists?(ptable.id)
+  end
+
+  def test_destroy_json
+    ptable = Ptable.first
+    ptable.hosts = []
+    delete :destroy, {:format => "json", :id => ptable}, set_session_user
+    ptable = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+    assert !Ptable.exists?(ptable['id'])
   end
 
   def setup_view_user

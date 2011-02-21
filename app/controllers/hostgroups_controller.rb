@@ -42,11 +42,10 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
     if @hostgroup.save
-      notice "Successfully created hostgroup."
-      redirect_to hostgroups_url
+      process_success
     else
       load_vars_for_ajax
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -56,21 +55,20 @@ class HostgroupsController < ApplicationController
 
   def update
     if @hostgroup.update_attributes(params[:hostgroup])
-      notice "Successfully updated hostgroup."
-      redirect_to hostgroups_url
+      process_success
     else
       load_vars_for_ajax
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     if @hostgroup.destroy
-      notice "Successfully destroyed hostgroup."
+      process_success
     else
-      error @template.truncate(@hostgroup.errors.full_messages.join("<br/>"), 80)
+      load_vars_for_ajax
+      process_error
     end
-    redirect_to hostgroups_url
   end
 
   private

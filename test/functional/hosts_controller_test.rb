@@ -26,6 +26,13 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get index via json" do
+    get :index, {:format => "json"}, set_session_user
+    assert_response :success
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    assert !hosts.empty?
+  end
+
   test "should render 404 when host is not found" do
     get :show, {:id => "no.such.host"}, set_session_user
     assert_response :missing
@@ -56,6 +63,27 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns['host'])
   end
 
+  test "should create new host via json" do
+    assert_difference 'Host.count' do
+      post :create, { :format => "json", :commit => "Create",
+        :host => {:name => "myotherfullhost",
+          :mac => "aabbecddee06",
+          :ip => "2.3.4.125",
+          :domain => domains(:mydomain),
+          :operatingsystem =>  Operatingsystem.first,
+          :architecture => Architecture.first,
+          :environment => Environment.first,
+          :subnet => subnets(:one),
+          :disk => "empty partition"
+        }
+      }, set_session_user
+    end
+    host = ActiveSupport::JSON.decode(@response.body)
+    assert_response :created
+
+  end
+
+
   test "should get edit" do
     get :edit, {:id => @host.name}, set_session_user
     assert_response :success
@@ -80,12 +108,28 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns(:host))
   end
 
+  def test_update_valid_json
+    Host.any_instance.stubs(:valid?).returns(true)
+    put :update, {:format => "json", :id => Host.first.name}, set_session_user
+    host = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+  end
+
   test "should destroy host" do
     assert_difference('Host.count', -1) do
       delete :destroy, {:id => @host.name}, set_session_user
     end
     assert_redirected_to hosts_url
   end
+
+  test "should destroy host via json" do
+    assert_difference('Host.count', -1) do
+      delete :destroy, {:format => "json", :id => @host.name}, set_session_user
+    end
+    host = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+  end
+
 
   test "externalNodes should render 404 when no params are given" do
     User.current = nil

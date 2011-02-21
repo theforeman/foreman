@@ -6,6 +6,13 @@ class MediaControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_json
+    get :index, {:format => "json"}, set_session_user
+    media = ActiveSupport::JSON.decode(@response.body)
+    assert !media.empty?
+    assert_response :success
+  end
+
   def test_new
     get :new, {}, set_session_user
     assert_template 'new'
@@ -21,6 +28,13 @@ class MediaControllerTest < ActionController::TestCase
     Medium.any_instance.stubs(:valid?).returns(true)
     post :create, {}, set_session_user
     assert_redirected_to media_url
+  end
+
+  def test_create_valid_json
+    Medium.any_instance.stubs(:valid?).returns(true)
+    post :create, {:format => "json"}, set_session_user
+    medium = ActiveSupport::JSON.decode(@response.body)
+    assert_response :created
   end
 
   def test_edit
@@ -40,11 +54,26 @@ class MediaControllerTest < ActionController::TestCase
     assert_redirected_to media_url
   end
 
+  def test_update_valid_json
+    Medium.any_instance.stubs(:valid?).returns(true)
+    put :update, {:format => "json", :id => Medium.first}, set_session_user
+    medium = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+  end
+
   def test_destroy
     medium = media(:unused)
     delete :destroy, {:id => medium}, set_session_user
     assert_redirected_to media_url
     assert !Medium.exists?(medium.id)
+  end
+
+  def test_destroy_json
+    medium = media(:unused)
+    delete :destroy, {:format => "json", :id => medium}, set_session_user
+    medium = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+    assert !Medium.exists?(medium['id'])
   end
 
   def setup_user

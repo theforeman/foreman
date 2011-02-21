@@ -79,20 +79,10 @@ class HostsController < ApplicationController
     @host = Host.new(params[:host])
     @host.managed = true
     forward_request_url
-    respond_to do |format|
-      if @host.save
-        format.html do
-          notice "Successfully created host."
-          redirect_to @host
-        end
-        format.json { render :json => @host, :status => :created, :location => @host }
-      else
-        format.html do
-          load_vars_for_ajax
-          render :action => 'new'
-        end
-        format.json { render :json => @host.errors, :status => :unprocessable_entity }
-      end
+    if @host.save
+      process_success :success_redirect => @host
+    else
+      process_error
     end
   end
 
@@ -105,27 +95,19 @@ class HostsController < ApplicationController
     @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
     forward_request_url
     if @host.update_attributes(params[:host])
-      notice "Successfully updated host."
-      redirect_to @host
+      process_success :success_redirect => @host
     else
       load_vars_for_ajax
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     if @host.destroy
-      respond_to do |format|
-        format.html { notice "Successfully destroyed host." }
-        format.json { render :json => @host, :status => :ok and return }
-      end
+      process_success
     else
-      respond_to do |format|
-        format.html { error @host.errors.full_messages.join("<br/>") }
-        format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
-      end
+      process_error
     end
-    redirect_to hosts_url
   end
 
   # form AJAX methods
@@ -214,26 +196,18 @@ class HostsController < ApplicationController
   def setBuild
     forward_request_url
     if @host.setBuild != false
-      respond_to  do |format|
-        format.html { notice "Enabled #{@host.name} for rebuild on next boot" }
-        format.json { render :json => @host, :status => :ok and return }
-      end
+      process_success :success_msg => "Enabled #{@host.name} for rebuild on next boot", :success_redirect => :back
     else
-      respond_to do |format|
-        format.html { error "Failed to enable #{@host.name} for installation: #{@host.errors.full_messages.join("br")}" }
-        format.json { render :json => @host.errors, :status => :unprocessable_entity and return }
-      end
+      process_error :redirect => :back, :error_msg => "Failed to enable #{@host.name} for installation: #{@host.errors.full_messages.join("br")}"
     end
-    redirect_to :back
   end
 
   def cancelBuild
     if @host.built(false)
-      notice "Canceled pending build for #{@host.name}"
+      process_success :success_msg =>  "Canceled pending build for #{@host.name}", :success_redirect => :back
     else
-      error "Failed to cancel pending build for #{@host.name}"
+      process_error :redirect => :back, :error_msg => "Failed to cancel pending build for #{@host.name}"
     end
-    redirect_to :back
   end
 
   # shows the last report for a host

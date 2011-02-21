@@ -11,10 +11,9 @@ class CommonParametersController < ApplicationController
   def create
     @common_parameter = CommonParameter.new(params[:common_parameter])
     if @common_parameter.save
-      notice "Successfully created common parameter."
-      redirect_to common_parameters_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -25,17 +24,18 @@ class CommonParametersController < ApplicationController
   def update
     @common_parameter = CommonParameter.find(params[:id])
     if @common_parameter.update_attributes(params[:common_parameter])
-      notice "Successfully updated common parameter."
-      redirect_to common_parameters_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @common_parameter = CommonParameter.find(params[:id])
-    @common_parameter.destroy
-    notice "Successfully destroyed common parameter."
-    redirect_to common_parameters_url
+    if @common_parameter.destroy
+      process_success
+    else
+      process_error
+    end
   end
 end

@@ -11,10 +11,9 @@ class ModelsController < ApplicationController
   def create
     @model = Model.new(params[:model])
     if @model.save
-      notice "Successfully created model."
-      redirect_to models_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -25,20 +24,18 @@ class ModelsController < ApplicationController
   def update
     @model = Model.find(params[:id])
     if @model.update_attributes(params[:model])
-      notice "Successfully updated model."
-      redirect_to models_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @model = Model.find(params[:id])
     if @model.destroy
-      notice "Successfully destroyed model."
+      process_success
     else
-      error @model.errors.full_messages.join("<br/>")
+      process_error
     end
-    redirect_to models_url
   end
 end

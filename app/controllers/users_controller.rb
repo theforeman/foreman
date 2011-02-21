@@ -23,10 +23,9 @@ class UsersController < ApplicationController
     @user.admin = params[:admin]
     if @user.save
       @user.roles = Role.name_is("Anonymous")
-      notice "Successfully created user."
-      redirect_to users_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -53,10 +52,9 @@ class UsersController < ApplicationController
       # this is required, as the admin field is blacklisted above
       @user.update_attribute(:admin, admin) if User.current.admin
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
-      notice "Successfully updated user."
-      redirect_to users_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
@@ -67,11 +65,10 @@ class UsersController < ApplicationController
       redirect_to :back and return
     end
     if user.destroy
-      notice "Successfully destroyed user."
+      process_success
     else
-      error user.errors.full_messages.join("<br/>")
+      process_error
     end
-    redirect_to users_url
   end
 
   # Called from the login form.

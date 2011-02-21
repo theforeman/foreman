@@ -27,10 +27,9 @@ class OperatingsystemsController < ApplicationController
   def create
     @operatingsystem = Operatingsystem.new(params[:operatingsystem])
     if @operatingsystem.save
-      notice "Successfully created operatingsystem."
-      redirect_to operatingsystems_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -41,20 +40,18 @@ class OperatingsystemsController < ApplicationController
 
   def update
     if @operatingsystem.update_attributes(params[:operatingsystem])
-      notice "Successfully updated operatingsystem."
-      redirect_to operatingsystems_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     if @operatingsystem.destroy
-      notice "Successfully destroyed operatingsystem."
+      process_success
     else
-      error @operatingsystem.errors.full_messages.join("<br/>")
+      process_error
     end
-    redirect_to operatingsystems_url
   end
 
   def bootfiles

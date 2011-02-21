@@ -1,7 +1,12 @@
 class SubnetsController < ApplicationController
   def index
-    @search = Subnet.search params[:search]
-    @subnets = @search.paginate(:page => params[:page])
+    respond_to do |format|
+      format.html do
+        @search = Subnet.search params[:search]
+        @subnets = @search.paginate(:page => params[:page])
+      end
+      format.json {render :json => Subnet.all}
+    end
   end
 
   def new
@@ -11,10 +16,9 @@ class SubnetsController < ApplicationController
   def create
     @subnet = Subnet.new(params[:subnet])
     if @subnet.save
-      notice "Successfully created subnet."
-      redirect_to subnets_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -25,18 +29,19 @@ class SubnetsController < ApplicationController
   def update
     @subnet = Subnet.find(params[:id])
     if @subnet.update_attributes(params[:subnet])
-      notice "Successfully updated subnet."
-      redirect_to subnets_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @subnet = Subnet.find(params[:id])
-    @subnet.destroy
-    notice "Successfully destroyed subnet."
-    redirect_to subnets_url
+    if @subnet.destroy
+      process_success
+    else
+      process_error
+    end
   end
 
   # query our subnet dhcp proxy for an unused IP

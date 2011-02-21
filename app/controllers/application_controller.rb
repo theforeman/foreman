@@ -197,4 +197,42 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def process_success hash = {}
+    hash[:object]                 ||= eval("@#{controller_name.singularize}")
+    hash[:object_name]            ||= hash[:object].to_s
+    hash[:success_msg]            ||= "Successfully #{action_name.pluralize.sub(/es$/,"ed").sub(/ys$/, "yed")} #{hash[:object_name]}."
+    hash[:success_redirect]       ||= eval("#{controller_name}_url")
+    hash[:json_code]                = :created if action_name == "create"
+
+    respond_to do |format|
+        format.html do
+          notice hash[:success_msg]
+          redirect_to hash[:success_redirect] and return
+        end
+        format.json { render :json => hash[:object], :status => hash[:json_code]}
+    end
+  end
+
+  def process_error hash = {}
+    hash[:object]           ||= eval("@#{controller_name.singularize}")
+
+    case action_name
+      when "create" then  hash[:render]  ||= "new"
+      when "update" then  hash[:render]  ||= "edit"
+      when "destroy" then
+        hash[:redirect]  ||= eval("#{controller_name}_url")
+        hash[:error_msg] ||= hash[:object].errors.full_messages.join("<br/>")
+    end
+
+    hash[:json_code] ||= :unprocessable_entity
+    respond_to do |format|
+        format.html do
+            error hash[:error_msg] if hash[:error_msg]
+            render :action => hash[:render] if hash[:render]
+            redirect_to hash[:redirect] if hash[:redirect]
+            return
+        end
+        format.json { render :json => hash[:object].errors, :status => hash[:json_code]}
+    end
+  end
 end

@@ -24,10 +24,9 @@ class MediaController < ApplicationController
   def create
     @medium = Medium.new(params[:medium])
     if @medium.save
-      notice "Successfully created medium."
-      redirect_to media_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -36,17 +35,18 @@ class MediaController < ApplicationController
 
   def update
     if @medium.update_attributes(params[:medium])
-      notice "Successfully updated medium."
-      redirect_to media_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
-    @medium.destroy
-    notice "Successfully destroyed medium."
-    redirect_to media_url
+    if @medium.destroy
+      process_success
+    else
+      process_error
+    end
   end
 
   private

@@ -6,6 +6,13 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_json
+    get :index, {:format => "json"}, set_session_user
+    oses = ActiveSupport::JSON.decode(@response.body)
+    assert !oses.empty?
+    assert_response :success
+  end
+
   def test_new
     get :new, {}, set_session_user
     assert_template 'new'
@@ -21,6 +28,15 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     Operatingsystem.any_instance.stubs(:valid?).returns(true)
     post :create, {}, set_session_user
     assert_redirected_to operatingsystems_url
+  end
+
+  def test_create_valid_json
+    Operatingsystem.any_instance.stubs(:valid?).returns(true)
+    post :create, {:format=> "json", :operatingsystem => {:name => "TestOs",
+      :major => "1", :minor => "1"}}, set_session_user
+    os = ActiveSupport::JSON.decode(@response.body)
+    assert os["operatingsystem"]["name"] == "TestOs 1.1"
+    assert_response :created
   end
 
   def test_edit
@@ -42,11 +58,30 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     assert_redirected_to operatingsystems_url
   end
 
+  def test_update_valid_json
+    Operatingsystem.any_instance.stubs(:valid?).returns(true)
+    Redhat.any_instance.stubs(:valid?).returns(true)
+    put :update, {:format => "json", :id => Operatingsystem.first,
+      :operatingsystem => {}}, set_session_user
+    os = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+  end
+
+
   def test_destroy
     operatingsystem = Operatingsystem.first
     operatingsystem.hosts = []
     delete :destroy, {:id => operatingsystem}, set_session_user
     assert_redirected_to operatingsystems_url
+    assert !Operatingsystem.exists?(operatingsystem.id)
+  end
+
+  def test_destroy_json
+    operatingsystem = Operatingsystem.first
+    operatingsystem.hosts = []
+    delete :destroy, {:format => "json", :id => operatingsystem}, set_session_user
+    os = ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
     assert !Operatingsystem.exists?(operatingsystem.id)
   end
 

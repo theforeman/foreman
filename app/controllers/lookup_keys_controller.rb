@@ -19,10 +19,9 @@ class LookupKeysController < ApplicationController
     @lookup_key = LookupKey.new(params[:lookup_key])
 
     if @lookup_key.save
-      notice 'Successfully created.'
-      redirect_to (lookup_keys_url)
+      process_success
     else
-      render :action => "new"
+      process_error
     end
   end
 
@@ -30,18 +29,19 @@ class LookupKeysController < ApplicationController
     @lookup_key = LookupKey.find(params[:id])
 
     if @lookup_key.update_attributes(params[:lookup_key])
-      notice 'Successfully updated.'
-      redirect_to(lookup_keys_url)
+      process_success
     else
-      render :action => "edit"
+      process_error
     end
   end
 
   def destroy
     @lookup_key = LookupKey.find(params[:id])
-    @lookup_key.destroy
-
-    redirect_to(lookup_keys_url)
+    if @lookup_key.destroy
+      process_success
+    else
+      process_error
+    end
   end
 
   # query action providing variable names - e.g. for extlookup

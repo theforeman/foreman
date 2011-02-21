@@ -24,10 +24,9 @@ class DomainsController < ApplicationController
   def create
     @domain = Domain.new(params[:domain])
     if @domain.save
-      notice "Successfully created domain."
-      redirect_to domains_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -36,20 +35,18 @@ class DomainsController < ApplicationController
 
   def update
     if @domain.update_attributes(params[:domain])
-      notice "Successfully updated domain."
-      redirect_to domains_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     if @domain.destroy
-      notice "Successfully destroyed domain."
+      process_success
     else
-      error @domain.errors.full_messages.join("<br/>")
+      process_error
     end
-    redirect_to domains_url
   end
 
 end

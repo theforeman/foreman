@@ -15,4 +15,8 @@ class LookupKey < ActiveRecord::Base
     return false
   end
 
+  def to_s
+    key
+  end
+
 end

@@ -14,10 +14,9 @@ class AuthSourceLdapsController < ApplicationController
   def create
     @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
     if @auth_source_ldap.save
-      notice "Successfully created auth source ldap."
-      redirect_to auth_source_ldaps_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -28,17 +27,19 @@ class AuthSourceLdapsController < ApplicationController
   def update
     @auth_source_ldap = AuthSourceLdap.find(params[:id])
     if @auth_source_ldap.update_attributes(params[:auth_source_ldap])
-      error "Successfully updated auth source ldap."
-      redirect_to auth_source_ldaps_url
+      process_success
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     @auth_source_ldap = AuthSourceLdap.find(params[:id])
-    @auth_source_ldap.destroy
-    error "Successfully destroyed auth source ldap."
-    redirect_to auth_source_ldaps_url
+    if @auth_source_ldap.destroy
+      process_success
+    else
+      process_error
+    end
+
   end
 end
