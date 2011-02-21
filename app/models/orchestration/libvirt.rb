@@ -5,7 +5,7 @@ module Orchestration::Libvirt
       attr_accessor :hypervisor_id, :storage_pool, :interface, :memory, :vcpu, :disk_size, :network_type, :powerup
       validates_presence_of :memory, :vcpu, :storage_pool, :disk_size, :network_type, :interface, :if => Proc.new{|h| h.hypervisor?}
       after_validation  :initialize_libvirt, :queue_libvirt
-      before_destroy    :initialize_libvirt, :queue_libvirt_destory
+      before_destroy    :initialize_libvirt, :queue_libvirt_destroy
     end
   end
 
@@ -49,7 +49,7 @@ module Orchestration::Libvirt
     def queue_libvirt_update
     end
 
-    def queue_libvirt_destory
+    def queue_libvirt_destroy
       return unless libvirt? and errors.empty?
       queue.create(:name => "Removing libvirt instance #{self}", :priority => 1,
                    :action => [self, :delLibvirt])
