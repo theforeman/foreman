@@ -8,17 +8,17 @@
   <% end %>
 
   <h3>Permissions</h3>
-  <div class="box" id="permissions">
+  <div id="permissions">
     <% perms_by_block = @permissions.group_by {|p| p.security_block.to_s} %>
     <% perms_by_block.keys.sort.each do |block| %>
-      <fieldset><legend><%=  block.humanize %></legend>
+      <% field_set_tag block.humanize, :class => "tabular" do %>
         <% perms_by_block[block].each do |permission| %>
           <label class="floating">
             <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
             <%= permission.name.to_s.humanize %>
           </label>
         <% end %>
-      </fieldset>
+      <% end %>
     <% end %>
     <br /><%= check_all_links 'permissions' %>
     <%= hidden_field_tag 'role[permissions][]', '' %>

@@ -1,12 +1,13 @@
 <% form_for @model do |f| %>
   <%= f.error_messages %>
   <p>
-  <%= f.label :name %><br />
-  <%= f.text_field :name %>
+    <%= f.label :name, nil, :class => "span-3" %>
+    <%= f.text_field :name, :class => "last" %>
   </p>
   <p title="General useful description, for example this kind of hardware needs a special BIOS setup">
-  <%= f.label :info %><br />
-  <%= f.text_area :info, :size => "50x10" %><br />
+  <%= f.label :info, nil, :class => "span-3" %>
+  <%= f.text_area :info, :size => "60x10", :class => "last" %>
   </p>
+  <br/>
   <p><%= f.submit "Submit" %></p>
 <% end -%>

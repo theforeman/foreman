@@ -55,4 +55,11 @@ module HostsHelper
     (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
   end
 
+  def update_details_from_hostgroup
+    return nil unless @host.new_record?
+    remote_function(:url => { :action => "process_hostgroup" },
+                    :method => :post, :loading => "$('indicator1').show()",
+                    :complete => "$('indicator1').hide()",
+                    :with => "'hostgroup_id=' + value")
+  end
 end

@@ -1,27 +1,29 @@
 <% form_for @config_template do |f| %>
   <%= f.error_messages %>
-  <p>
-    Name <%= f.text_field :name %>
-    Snippet <%= f.check_box :snippet %>
-    <span id="kind_selector" <%= display? @config_template.snippet %>>
-      Kind <%= f.collection_select :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true %>
-    </span>
+  <p class="span-24">
+  <%= f.label :name, nil, :class => "span-3" %>
+  <%= f.text_field :name, :class => "span-3" %>
+  <%= f.label :snippet, nil, :class => "span-2" %>
+  <%= f.check_box :snippet, :class => "span-1" %>
+  <span id="kind_selector" <%= display? @config_template.snippet %>>
+    <%= f.label :template_kind_id, "Type", :class => "span-1" %>
+    <%= f.collection_select :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true}, { :class => "span-3 last"} %>
+  </span>
   </p>
-  <p>
-  <%= f.label :template %><br />
-  <%= f.text_area :template, :size => "100x20" %>
+  <p class="span-24">
+  <%= f.label :template, nil, :class => "span-3" %>
+  <%= f.text_area :template,  :class => "span-15" %>
   </p>
   <div id="template_associations" <%= display? @config_template.snippet %>>
-    <% field_set_tag("Valid Operating Systems") do %>
+    <% field_set_tag("Valid Operating Systems", :class => "span-24") do %>
       <%= authorized_edit_habtm @config_template, Operatingsystem %>
     <% end -%>
-    <br>
 
-    <%= render "combinations",  :f => f %>
-    <br>
+    <div class="span-24">
+      <%= render "combinations", :f => f %>
+    </div>
   </div>
-  <p><%= f.submit %></p>
+  <p class="span-24 last"><%= f.submit %></p>
 <% end %>
-
 <%= observe_field "config_template_snippet", :function => toggle_div("template_associations") %>
 <%= observe_field "config_template_snippet", :function => toggle_div("kind_selector") %>

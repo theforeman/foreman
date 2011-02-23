@@ -68,7 +68,7 @@ class OperatingsystemsController < ApplicationController
 
   def templates_for_type
     return head(:method_not_allowed) unless request.xhr?
-    if params[:template_kind_id].to_i > 0 and kind = TemplateKind.find(params[:template_kind_id]) and @operatingsystem
+    if @operatingsystem and params[:template_kind_id].to_i > 0 and kind = TemplateKind.find(params[:template_kind_id])
       render :partial => 'template', :locals => {:templates => ConfigTemplate.template_kind_id_eq(kind.id).operatingsystems_id_eq(@operatingsystem.id), :fid => params[:fid]}
     else
       return head(:not_found)

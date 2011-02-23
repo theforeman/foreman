@@ -1,9 +1,8 @@
-<% title "Edit Host" %>
-
-<%= render :partial => 'form' %>
-
-<p>
+<% title "Edit #{@host}" %>
+<span class="title_action">
   <%= link_to "Show", @host %> |
   <%= link_to "View All", hosts_path %> |
   <%= link_to @host.managed? ? "Unmanage host" : "Manage host", toggle_manage_host_path(@host), {:method => :put} %>
-</p>
+</span>
+
+<%= render :partial => 'form' %>

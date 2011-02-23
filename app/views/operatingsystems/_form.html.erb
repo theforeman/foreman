@@ -1,23 +1,21 @@
 <% form_for @operatingsystem do |f| %>
   <%= f.error_messages %>
-  <table>
-    <tr>
-      <td> Name</td>
-      <td> <%= f.text_field :name, :size => "12" %> </td>
-      <td> Major</td>
-      <td> <%= f.text_field :major, :size => 8 %> </td>
-      <td> Minor</td>
-      <td> <%= f.text_field :minor, :size => 8 %></td>
-      <td> OS Family</td>
-      <td> <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}%></td>
-      <td id="release_name"  colspan="3" <%= 'style="display:none;"' unless @operatingsystem.family == "Debian" -%> >
-        Release name
-        <%= f.text_field :release_name, :size => 12%>
-        <small>e.g. karmic, lucid, etch, woody</small>
-      </td>
-    </tr>
-  </table>
-  </p>
+  <div class="span-24 last">
+    <%= f.label :name, nil, :class => "span-2" %>
+    <%= f.text_field :name, :class => "span-3" %>
+    <%= f.label :major, nil, :class => "span-2" %>
+    <%= f.text_field :major, :class => "span-1" %>
+    <%= f.label :minor, nil, :class => "span-2" %>
+    <%= f.text_field :minor, :class => "span-1" %>
+    <%= f.label :family, "OS Family", :class => "span-2" %>
+    <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}, {:class => "span-2"}%>
+    <span id="release_name" <%= display?(@operatingsystem.family != "Debian") %> title="e.g. karmic, lucid, etch, woody, maverick etc" >
+      <%= f.label :release_name, nil, :class => "span-3" %>
+      <%= f.text_field :release_name, :class => "span-2 last" %>
+    </span>
+    <%= observe_field "operatingsystem_family", :function => show_release %>
+  </div>
+  <br/>
   <p>
   <% field_set_tag("Architecture") do %>
     <%= authorized_edit_habtm @operatingsystem, Architecture %>
@@ -32,9 +30,8 @@
   <% field_set_tag("Installation Media") do %>
     <%= authorized_edit_habtm @operatingsystem, Medium %>
   <% end -%>
-  </p>
-
-  <%= render('template_defaults', :f => f)  unless @operatingsystem.new_record? %>
+  </p> 
+  <%= render('template_defaults', :f => f) unless @operatingsystem.new_record? %>
 
   <% unless @operatingsystem.new_record? -%>
     <p>Currently used by <%= @operatingsystem.hosts.count %> hosts</p>
@@ -44,4 +41,3 @@
 
   <p><%= f.submit "Submit" %></p>
 <% end %>
-<%= observe_field "operatingsystem_family", :function => show_release %>

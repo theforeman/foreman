@@ -1,12 +1,8 @@
-<table class="fields">
-  <tr>
-    <td>Name</td>
-    <td> <%= f.text_field :name, :size => 10 %> </td>
-    <td>Value</td>
-    <td>
-      <%= f.text_field :value, :size => 75 %>
-      <%= f.hidden_field :nested %>
-      <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
-    </td>
-  </tr>
-</table>
+<p class="fields">
+  <%= f.label :name, nil,  :class => "span-2" %>
+  <%= f.text_field :name,  :class => "span-3" %>
+  <%= f.label :value, nil, :class => "span-2" %>
+  <%= f.text_field :value, :class => "span-14" %>
+  <%= f.hidden_field :nested %>
+  <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
+</p>

@@ -106,9 +106,9 @@ class UsersController < ApplicationController
   def auth_source_selected
     render :update do |page|
       if params[:auth_source_id] and AuthSource.find(params[:auth_source_id]).can_set_password?
-        page.show 'password', 'verification'
+        page.show 'password'
       else
-        page.hide 'password', 'verification'
+        page.hide 'password'
       end
     end
   end

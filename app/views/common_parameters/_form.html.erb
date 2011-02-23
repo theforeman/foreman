@@ -1,12 +1,14 @@
 <% form_for @common_parameter do |f| %>
   <%= f.error_messages %>
   <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.label :name, nil, :class => "span-3" %>
+    <%= f.text_field :name, :class => "last" %>
   </p>
   <p>
-    <%= f.label :value %><br />
-    <%= f.text_field :value, :size => 100 %>
+    <%= f.label :value, nil, :class => "span-3" %>
+    <%= f.text_field :value, :class => "span-20 last" %>
   </p>
+  <br/>
+  <br/>
   <p><%= f.submit "Submit" %></p>
 <% end %>

@@ -1,38 +1,26 @@
 <% form_for @hostgroup do |f| %>
   <%= f.error_messages %>
   <p>
-  <%= f.label :name %><br />
-  <%= f.text_field :name %>
+    <%= f.label :name, nil, :class => "span-3" %>
+    <%= f.text_field :name, :class => "last" %>
   </p>
 
   <% field_set_tag 'Host Defaults' do -%>
 
     <% field_set_tag 'Primary Settings' do %>
-      <table>
-        <tr>
-          <td>Environment
-            <%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
-          <td>Puppetmaster</td>
-          <td><%= f.text_field :puppetmaster, :size => 10, :value => @hostgroup.puppetmaster %></td>
-
-        </tr>
-      </table>
+      <%= f.label :environment_id, nil, :class => "span-3" %>
+      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } , { :class => "span-4 colborder" } %>
+      <%= f.label :puppetmaster, nil, :class => "span-3" %>
+      <%= f.text_field :puppetmaster, :value => @hostgroup.puppetmaster, :class => "last" %>
     <% end -%>
 
     <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) -%>
       <% field_set_tag 'Operating System Settings' do %>
-        <table>
-          <tr>
-            <td>
-              <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :item=> @hostgroup } -%>
-            </td>
-          </tr>
-          <tr>
-            <td>Root password
-              <%= f.password_field :root_pass %>
-            </td>
-          </tr>
-        </table>
+        <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :item=> @hostgroup } -%>
+        <p>
+        <%= f.label :root_pass, "Root Password", :class => "span-3" %>
+        <%= f.password_field :root_pass, :class => "last" %>
+        </p>
       <% end -%>
 
     <% end -%>
@@ -40,7 +28,7 @@
 
   <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
 
-  <%= render :partial => "common_parameters/parameters", :locals => { :f => f, :type => :group_parameters } %>
+  <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
 
   <p><%= f.submit "Submit" %></p>
 <% end %>

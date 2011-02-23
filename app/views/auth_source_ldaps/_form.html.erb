@@ -1,60 +1,58 @@
 <% form_for @auth_source_ldap do |f| %>
   <%= f.error_messages %>
-  <p>
-  <%= f.label :name %><br />
-  <%= f.text_field :name %>
+  <p class="span-24">
+    <%= f.label :name, nil, :class => "span-2" %>
+    <%= f.text_field :name, :class => "span-3" %>
   </p>
-  <p>
-  <%= f.label :host %><br />
-  <%= f.text_field :host %>
+  <p class="span-24">
+    <%= f.label :host, nil, :class => "span-2" %>
+    <%= f.text_field :host, :class => "span-5" %>
   </p>
-  <p>
-  <%= f.label :port %><br />
-  <%= f.text_field :port, :size => 6 %>
-  <%= f.check_box :tls %>
-  <%= f.label :tls, "LDAPS" %>
+  <p class="span-24">
+    <%= f.label :port, nil, :class => "span-2" %>
+    <%= f.text_field :port, :class => "span-2" %>
+    <%= f.check_box :tls, :class => "span-1" %>
+    <%= f.label :tls, "LDAPS", :class => "span-3" %>
   </p>
-  <p>
-  <%= f.label :account %><br />
-  <%= f.text_field :account %>
-  <small> Use this account to authenticate, optional </small>
+  <p class="span-24">
+  <%= f.label :account, nil, :class => "span-2" %>
+  <%= f.text_field :account, :class => "span-3" %>
+  <small> Use this account to authenticate,<i>optional</i> </small>
   </p>
-  <p>
-  <%= f.label :account_password %><br />
-  <%= f.password_field :account_password,
-    :value => ((@auth_source_ldap.new_record? || @auth_source_ldap.account_password.blank?) ? '' : ('x'*15)),
-    :onfocus => "this.value='';"
-  %>
-  <small> Use this account to authenticate, optional </small>
+  <p class="span-24">
+    <%= f.label :account_password, nil, :class => "span-2" %>
+    <%= f.password_field :account_password, :class => "span-3",
+      :value => ((@auth_source_ldap.new_record? || @auth_source_ldap.account_password.blank?) ? '' : ('x'*15)),
+      :onfocus => "this.value='';"
+    %>
+    <small> Use this account to authenticate, <i>optional</i> </small>
   </p>
-  <p>
-  <%= f.label :base_dn %><br />
-  <%= f.text_field :base_dn, :size => 60 %>
+  <p class="span-24">
+  <%= f.label :base_dn ,nil, :class => "span-2" %>
+  <%= f.text_field :base_dn, :class => "span-10" %>
+  <%= f.check_box :onthefly_register, :class => "span-2" %>
+  <%= f.label :onthefly_register, "On-the-fly user creation", :class => "span-5" %>
   </p>
-  <p>
-  <%= f.label :onthefly_register, "On-the-fly user creation" %>
-  <%= f.check_box :onthefly_register %>
-  </p>
-  <% field_set_tag("Attributes") do %>
-    <p>
-    <%= f.label :attr_login %>
-    <%= f.text_field :attr_login %>
-    <small>e.g. uid</small>
+  <% field_set_tag("Attributes for on the fly user creation") do %>
+    <p class="span-24">
+    <%= f.label :attr_login, nil, :class => "span-3" %>
+    <%= f.text_field :attr_login, :class => "span-4" %>
+    <small class="last" >e.g. uid</small>
     </p>
-    <p>
-    <%= f.label :attr_firstname %>
-    <%= f.text_field :attr_firstname %>
-    <small>e.g. givenName</small>
+    <p class="span-24">
+    <%= f.label :attr_firstname, nil, :class => "span-3" %>
+    <%= f.text_field :attr_firstname, :class => "span-4" %>
+    <small class="last">e.g. givenName</small>
     </p>
-    <p>
-    <%= f.label :attr_lastname %>
-    <%= f.text_field :attr_lastname %>
-    <small>e.g. sn</small>
+    <p class="span-24">
+    <%= f.label :attr_lastname, nil, :class => "span-3" %>
+    <%= f.text_field :attr_lastname, :class => "span-4" %>
+    <small class="last">e.g. sn</small>
     </p>
-    <p>
-    <%= f.label :attr_mail %>
-    <%= f.text_field :attr_mail %>
-    <small>e.g. mail</small>
+    <p class="span-24">
+    <%= f.label :attr_mail, nil, :class => "span-3" %>
+    <%= f.text_field :attr_mail, :class => "span-4" %>
+    <small class="last">e.g. mail</small>
     </p>
   <% end -%>
   <p><%= f.submit "Submit" %></p>

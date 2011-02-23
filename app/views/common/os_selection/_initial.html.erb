@@ -1,29 +1,22 @@
-<tr>
-  <td colspan="6">
-    <span id="architecture">
-      Architecture
-      <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
-      <span id="host_os">
+<p>
+<span id="architecture">
+  <%= f.label :architecture_id, nil, :class => "span-3" %>
+  <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, { :include_blank => true }, { :class => "span-3" } %>
+  <span id="host_os">
 
-        <span id="architecture_select">
-          <% if @architecture -%>
-            <%= render :partial => 'common/os_selection/architecture', :locals => { :f => f, :item=> item } %>
-          <% end -%>
-        </span>
-
-        <span id="operatingsystem_select">
-          <% if @operatingsystem -%>
-            <%= render :partial => 'common/os_selection/operatingsystem', :locals => { :f => f, :item=> item } %>
-          <% end -%>
-        </span>
-
-      </span>
+    <span id="architecture_select">
+      <%= render 'common/os_selection/architecture', { :item => item } if @architecture %>
     </span>
-  </td>
-</tr>
+
+    <span id="operatingsystem_select">
+      <%= render 'common/os_selection/operatingsystem', { :item=> item } if @operatingsystem %>
+    </span>
+
+  </span>
+</span>
+</p>
 
 <%= observe_field(type + "_architecture_id",
                   :url => { :action => :architecture_selected},
                   :update => :architecture_select, :id => item.id,
-                  :with => :architecture_id)
-%>
+                  :with => :architecture_id) %>

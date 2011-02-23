@@ -10,8 +10,7 @@ class HostsController < ApplicationController
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
   before_filter :find_hosts, :only => :query
-  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected, :architecture_selected, :os_selected,
-    :domain_selected, :hypervisor_selected, :process_hostgroup]
+  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected]
   before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]

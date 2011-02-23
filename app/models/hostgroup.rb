@@ -5,6 +5,7 @@ class Hostgroup < ActiveRecord::Base
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
+  validates_presence_of :puppetmaster
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :hosts

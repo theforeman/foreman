@@ -1,8 +1,8 @@
 <% form_for @environment do |f| %>
   <%= f.error_messages %>
   <p>
-    <%= f.label :name %><br/>
-    <%= f.text_field :name %>
+    <%= f.label :name, nil, :class => "span-3" %>
+    <%= f.text_field :name, :class => "last" %>
   </p>
   <%= f.submit "Submit" %></p>
 <% end %>

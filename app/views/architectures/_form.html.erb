@@ -1,7 +1,8 @@
 <% form_for @architecture do |f| %>
   <%= f.error_messages %>
   <p>
-    <%= f.label :name %>: <%= f.text_field :name %>
+    <%= f.label :name, nil, :class => "span-3" %>
+    <%= f.text_field :name, :class => "last" %>
   </p>
   <% field_set_tag("Valid Operating systems") do -%>
     <%= authorized_edit_habtm @architecture, Operatingsystem %>

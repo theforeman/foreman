@@ -1,12 +1,12 @@
 <% form_for @proxy do |f| %>
   <%= f.error_messages %>
   <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+  <%= f.label :name, nil, :class => "span-3" %>
+  <%= f.text_field :name, :class => "last" %>
   </p>
   <p>
-    <%= f.label "URL" %><br />
-    <%= f.text_field :url %>
+  <%= f.label :url, "URL", :class => "span-3"%>
+  <%= f.text_field :url, :class => "last" %>
   </p>
   <p><%= f.submit %></p>
 <% end %>
