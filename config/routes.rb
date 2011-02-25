@@ -43,6 +43,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :subnets, :except => [:show]
   map.resources :hypervisors, :except => [:show]
   map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
+  map.connect '/status', :controller => "status", :action => "status"
 
   #default
   map.connect ':controller/:action/:id'
