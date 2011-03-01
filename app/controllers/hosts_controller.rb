@@ -569,8 +569,8 @@ class HostsController < ApplicationController
         # rendering index page for  non index page requests (out of sync hosts etc)
         render :index if title and @title = title
       end
-      format.json { render :json => @search.all(:select => "name", :include => included_associations).map(&:name) }
-      format.yaml { render :text => @search.all(:select => "name", :include => included_associations).map(&:name).to_yaml }
+      format.json { render :json => @search.all(:select => "hosts.name", :include => included_associations).map(&:name) }
+      format.yaml { render :text => @search.all(:select => "hosts.name", :include => included_associations).map(&:name).to_yaml }
     end
 
   end
