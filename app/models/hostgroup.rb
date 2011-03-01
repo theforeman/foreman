@@ -34,7 +34,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id]}.merge(options))
+    super({:only => [:name, :id, :value], :include => [:puppetclasses, :group_parameters, :environment]}.merge(options))
   end
 
   def hostgroup
