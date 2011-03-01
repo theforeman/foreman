@@ -59,4 +59,8 @@ class ActiveSupport::TestCase
     User.current = saved_user
     result
   end
+
+  def unattended?
+    SETTINGS[:unattended].nil? or SETTINGS[:unattended]
+  end
 end

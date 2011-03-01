@@ -65,10 +65,12 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save if neither ptable or disk are defined when the host is managed" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :architecture => Architecture.first, :environment => Environment.first, :managed => true
-    assert !host.valid?
+    if unattended?
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
+        :architecture => Architecture.first, :environment => Environment.first, :managed => true
+      assert !host.valid?
+    end
   end
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
@@ -93,10 +95,12 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save if IP is not in the right subnet" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
-    assert !host.valid?
+    if unattended?
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
+        :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+      assert !host.valid?
+    end
   end
 
   test "should import from external nodes output" do

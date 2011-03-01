@@ -84,7 +84,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
 
     @request.env['HTTP_REFERER'] = config_templates_path
-    get :build_pxe_default
+    get :build_pxe_default, {}, set_session_user
 
     assert_redirected_to config_templates_path
   end
