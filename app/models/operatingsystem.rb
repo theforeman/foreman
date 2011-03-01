@@ -26,6 +26,7 @@ class Operatingsystem < ActiveRecord::Base
   before_destroy Ensure_not_used_by.new(:hosts)
   before_save :deduce_family
   acts_as_audited
+  default_scope :order => 'LOWER(operatingsystems.name)'
 
   FAMILIES = {'Debian'  => %r{Debian|Ubuntu}i,
               'Redhat'  => %r{RedHat|Centos|Fedora}i,

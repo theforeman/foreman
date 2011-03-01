@@ -8,6 +8,7 @@ class Environment < ActiveRecord::Base
   has_many :template_combinations
 
   before_destroy Ensure_not_used_by.new(:hosts)
+  default_scope :order => 'LOWER(environments.name)'
 
   def to_param
     name

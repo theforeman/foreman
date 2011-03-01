@@ -17,6 +17,7 @@ class Hostgroup < ActiveRecord::Base
   belongs_to :architecture
   belongs_to :medium
   belongs_to :ptable
+  default_scope :order => 'LOWER(hostgroups.name)'
 
   alias_attribute :os, :operatingsystem
   acts_as_audited

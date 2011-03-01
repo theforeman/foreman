@@ -14,7 +14,7 @@ class Domain < ActiveRecord::Base
   validates_presence_of :name
 
   before_destroy Ensure_not_used_by.new(:hosts, :subnets)
-
+  default_scope :order => 'LOWER(domains.name)'
   def to_param
     name
   end

@@ -13,6 +13,7 @@ class Puppetclass < ActiveRecord::Base
 
   before_destroy Ensure_not_used_by.new(:hosts)
   before_destroy Ensure_not_used_by.new(:hostgroups)
+  default_scope :order => 'LOWER(puppetclasses.name)'
 
   # Scans a directory path for puppet classes
   # +paths+ : String containing a colon separated module path

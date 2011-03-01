@@ -1,6 +1,6 @@
 class UsergroupsController < ApplicationController
   def index
-    @usergroups = Usergroup.all(:order => "name")
+    @usergroups = Usergroup.paginate :page => params[:page]
   end
 
   def new

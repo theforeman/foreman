@@ -12,6 +12,7 @@ class SmartProxy < ActiveRecord::Base
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
   before_destroy Ensure_not_used_by.new(:subnets, :domains)
+  default_scope :order => 'LOWER(smart_proxies.name)'
 
   def self.name_map
     {

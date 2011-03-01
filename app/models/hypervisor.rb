@@ -6,6 +6,7 @@ class Hypervisor < ActiveRecord::Base
   validates_presence_of :name, :uri, :kind
   validates_uniqueness_of :name, :uri
   before_save :try_to_connect
+  default_scope :order => 'LOWER(hypervisors.name)'
 
   KINDS= %w{libvirt}
   MEMORY_SIZE = (1..8).to_a.map {|n| 2**n*1024*128}

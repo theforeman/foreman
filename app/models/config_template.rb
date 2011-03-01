@@ -12,6 +12,7 @@ class ConfigTemplate < ActiveRecord::Base
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
   before_save :check_for_snippet_assoications, :remove_trailing_chars
+  default_scope :order => 'LOWER(config_templates.name)'
 
   class Jail < Safemode::Jail
     allow :name

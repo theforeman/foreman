@@ -9,6 +9,7 @@ class Usergroup < ActiveRecord::Base
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
+  default_scope :order => 'LOWER(usergroups.name)'
 
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses
