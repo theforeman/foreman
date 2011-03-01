@@ -13,8 +13,6 @@ class Domain < ActiveRecord::Base
   validates_uniqueness_of :fullname, :allow_blank => true, :allow_nil => true
   validates_presence_of :name
 
-  default_scope :order => 'name'
-
   before_destroy Ensure_not_used_by.new(:hosts, :subnets)
 
   def to_param

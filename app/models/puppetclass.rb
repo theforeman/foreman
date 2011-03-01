@@ -10,7 +10,6 @@ class Puppetclass < ActiveRecord::Base
   validates_associated :environments
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
   acts_as_audited
-  default_scope :order => "name"
 
   before_destroy Ensure_not_used_by.new(:hosts)
   before_destroy Ensure_not_used_by.new(:hostgroups)

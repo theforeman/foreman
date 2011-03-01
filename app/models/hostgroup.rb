@@ -9,7 +9,6 @@ class Hostgroup < ActiveRecord::Base
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :hosts
   before_destroy Ensure_not_used_by.new(:hosts)
-  default_scope :order => 'name'
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
   belongs_to :operatingsystem
