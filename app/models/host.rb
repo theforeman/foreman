@@ -549,7 +549,7 @@ class Host < Puppet::Rails::Host
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
     else
       # if our host is in short name, append the domain name
-      self.name += ".#{domain}" unless name =~ /.#{domain}$/
+      self.name += ".#{domain}" unless name =~ /.#{domain}$/i
     end
   end
 end

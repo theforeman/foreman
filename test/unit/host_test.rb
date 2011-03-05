@@ -26,13 +26,19 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost.company.com", host.name
   end
 
+  test "should not add domain name to hostname if it already include it" do
+    host = Host.create :name => "myhost.COMPANY.COM", :mac => "aabbccddeeff", :ip => "123.1.2.3",
+      :domain => Domain.find_or_create_by_name("company.com")
+    assert_equal "myhost.COMPANY.COM", host.name
+  end
+
   test "should add hostname if it contains domain name" do
     host = Host.create :name => "myhost.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
       :domain => Domain.find_or_create_by_name("company.com")
     assert_equal "myhost.company.com", host.name
   end
 
-  test "should safe hosts with full stop in their name" do
+  test "should save hosts with full stop in their name" do
     host = Host.create :name => "my.host.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
       :domain => Domain.find_or_create_by_name("company.com")
     assert_equal "my.host.company.com", host.name
