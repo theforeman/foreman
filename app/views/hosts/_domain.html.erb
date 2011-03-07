@@ -1,7 +1,7 @@
 <% unless @domain.subnets.empty? -%>
-  <td>Subnet</td>
-  <td><%= collection_select :host, :subnet_id, @domain.subnets, :id, :to_label, :include_blank => true %></td>
-  <td><%= image_tag "spinner.gif", :id => "indicator", :style => "display:none" %></td>
+  <%= label :host, :subnet_id, nil, :class => "span-2" %>
+  <%= collection_select :host, :subnet_id, @domain.subnets, :id, :to_label, {:include_blank => true},{:class => "span-3"} %>
+  <%= image_tag "spinner.gif", :id => "indicator", :style => "display:none" %>
 <% end -%>
 <%= observe_field(:host_subnet_id,
                     :url => { :controller => "subnets", :action => "freeip" },

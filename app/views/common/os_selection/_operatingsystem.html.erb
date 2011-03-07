@@ -3,4 +3,4 @@
                       :selected => item.medium_id}, {:id => type + "_medium_id", :name => type + "[medium_id]", :class => "span-3"}) %>
 <%= label_tag "#{item}_ptable_id", "Partition Table" , :class => "span-3" %>
 <%= collection_select(:item, :ptable_id, @operatingsystem.ptables, :id, :to_label, {:include_blank => @operatingsystem.ptables.size > 1,
-                      :selected => item.ptable_id}, {:id => type + "_ptable_id", :name => type + "[ptable_id]", :class => "span-3"}) %>
+                      :selected => item.ptable_id}, {:id => type + "_ptable_id", :name => type + "[ptable_id]", :class => "span-3 last"}) %>

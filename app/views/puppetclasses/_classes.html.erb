@@ -6,7 +6,7 @@
       <div id="<%= list.first %>" style="display: none;">
         <% for klass in list.last.sort -%>
           <% content_tag_for :div, klass, :title => "Click to add #{klass}" do %>
-            <%= link_to_add_puppetclass(klass, type) %>
+            <%= link_to_add_puppetclass(klass, type) + " " + klass.klass %>
           <% end -%>
         <% end -%>
       </div>

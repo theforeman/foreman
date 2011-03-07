@@ -9,18 +9,20 @@
 
     <% field_set_tag 'Primary Settings' do %>
       <%= f.label :environment_id, nil, :class => "span-3" %>
-      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } , { :class => "span-4 colborder" } %>
-      <%= f.label :puppetmaster, nil, :class => "span-3" %>
-      <%= f.text_field :puppetmaster, :value => @hostgroup.puppetmaster, :class => "last" %>
+      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } , { :class => "span-3" } %>
+      <%= f.label :puppetmaster, nil, :class => "span-4" %>
+      <%= f.text_field :puppetmaster, :value => @hostgroup.puppetmaster, :class => "span-3 last" %>
     <% end -%>
 
     <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) -%>
       <% field_set_tag 'Operating System Settings' do %>
-        <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :item=> @hostgroup } -%>
-        <p>
+        <div class="span-24 last">
+        <%= render "common/os_selection/initial", { :f => f, :item=> @hostgroup } -%>
+        </div>
+        <div class="span-24 last">
         <%= f.label :root_pass, "Root Password", :class => "span-3" %>
-        <%= f.password_field :root_pass, :class => "last" %>
-        </p>
+        <%= f.password_field :root_pass, :class => "span-3 last" %>
+        </div>
       <% end -%>
 
     <% end -%>

@@ -1,4 +1,4 @@
 <% content_tag_for :div, klass, :selected do %>
-  <li title="Click to remove this class"><%= link_to_remove_puppetclass klass %></li>
+  <li title="Click to remove this class"><%= klass.name + link_to_remove_puppetclass(klass) %></li>
   <%= hidden_field_tag "#{type}[puppetclass_ids][]", klass.id %>
 <% end -%>

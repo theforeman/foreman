@@ -2,42 +2,30 @@
   <%= f.error_messages %>
 
   <% field_set_tag 'Primary settings' do -%>
-    <table class="half">
-      <tr>
-        <td>Name</td>
-        <td><%= f.text_field :name, :size => 16, :value => @host.shortname %></td>
-      </tr>
-      <tr>
-        <td>Host group</td>
-        <td>
-            <%= f.collection_select :hostgroup_id, accessible_hostgroups, :id, :name, {:include_blank => true},
-                      {:onchange => @host.new_record? ? remote_function(:url => { :action => "process_hostgroup" },
-                            :method => :post, :loading => "$('indicator1').show()",
-                            :complete => "$('indicator1').hide()",
-                            :with => "'hostgroup_id=' + value") : nil  }
-             %>
-
-             <%= image_tag "spinner.gif", :id => "indicator1", :style => "display:none" %>
-             </td>
-      </tr>
-      <tr>
-        <td>Environment</td>
-        <td><%= f.collection_select :environment_id, Environment.all, :id, :to_label, :include_blank => true %></td>
-      </tr>
-      <tr>        
-        <td>Puppetmaster</td>
-        <td><%= f.text_field :puppetmaster, :size => 10, :value => @host.puppetmaster %></td>
-      </tr>
-      <tr>        
-        <td><%= link_to_function "Additional Classes", toggle_div(:classlist) %></td>
-      </tr>
-    </table>
-
-    <div id="classlist" style="display:none;">
+    <div class="span-5">
+      <%= f.label :name %>
+      <%= f.text_field :name, :value => @host.shortname, :title => @host.to_s, :size => 12 %>
+    </div>
+    <div class="span-6">
+      <%= f.label :hostgroup_id, "Host group" %>
+      <%= image_tag "spinner.gif", :id => "indicator1", :style => "display:none;" %>
+      <%= f.collection_select(:hostgroup_id, accessible_hostgroups, :id, :name, {:include_blank => true},
+                              { :onchange => update_details_from_hostgroup }) %>
+    </div>
+    <div class="span-6">
+      <%= f.label :environment_id %>
+      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, {:include_blank => true} %>
+    </div>
+    <div class="span-6">
+      <%= f.label :puppetmaster %>
+      <%= f.text_field :puppetmaster, :value => @host.puppetmaster, :size => 12 %>
+    </div>
+    <%= link_to_function "Additional Classes", toggle_div(:classlist), :class => "span-4 last" %>
+    <div class="span-24 last" id="classlist" style="display:none;">
       <% if @environment or @hostgroup -%>
         <%= render 'puppetclasses/class_selection', :obj => @host %>
       <% else -%>
-        <b>Please select an Environment first</b>
+        <strong>Please select an Environment first</strong>
       <% end -%>
     </div>
   <% end -%>
@@ -45,42 +33,40 @@
   <%= observe_field(:host_hostgroup_id,
                     :url => { :action => :hostgroup_or_environment_selected, :id => @host.id },
                     :update => :classlist,
-                    :with => "'hostgroup_id=' + value+'&environment_id='+$('host_environment_id').value") unless @host.new_record?
-  %>
+                    :with => "'hostgroup_id=' + value+'&environment_id='+$('host_environment_id').value") unless @host.new_record?  %>
 
   <%= observe_field(:host_environment_id,
                     :url => { :action => :hostgroup_or_environment_selected, :id => @host.id },
                     :update => :classlist,
-                    :with => "'environment_id=' + value+'&hostgroup_id='+$('host_hostgroup_id').value")
-  %>
+                    :with => "'environment_id=' + value+'&hostgroup_id='+$('host_hostgroup_id').value") %>
 
   <%= f.hidden_field :managed %>
-  <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) and @host.managed -%>
-    <%= render 'unattended', :f => f %>
-  <% end -%>
 
-  <% field_set_tag link_to_function "Additional Information", toggle_div("info") do -%>
-    <table style = "display:none; width:100%;", id = "info">
-      <tr>
-        <td colspan ="2"> <%= f.text_area :comment, :rows => 5, :style => "width:100%;", :title => "additional information about this host" %></td>
-      </tr>
-      <tr>
-        <td>Alerts Enabled <%= f.check_box :enabled %></td>
-        <% if SETTINGS[:login] -%>
-          <td align="right">Owned by
-            <%= f.select :is_owned_by,
-              option_groups_from_collection_for_select([ User, Usergroup], :all, :table_name, :id_and_type, :select_title, @host.is_owned_by),
-              :include_blank => "select an owner"
-            %>
-          </td>
-        <% else -%>
-          <td></td>
+  <%= render('unattended', :f => f) if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) and @host.managed -%>
+
+  <%= render "common_parameters/parameters", {:f => f, :type => :host_parameters} %>
+
+  <% field_set_tag link_to_function("Additional Information", toggle_div(:additional_info)) do %>
+    <div id="additional_info" style="display:none;">
+      <div class="span-10">
+        <br>
+        <% if true || SETTINGS[:login] -%>
+          <%= f.label :is_owned_by, "Owner", :class => "span-3" %>
+          <%= f.select(:is_owned_by, option_groups_from_collection_for_select(
+            [ User, Usergroup], :all, :table_name, :id_and_type, :select_title,
+            @host.is_owned_by), {:include_blank => "select an owner"}, {:class => "span-5 last"}) %>
         <% end -%>
-      </tr>
-    </table>
+
+        <div class="span-10 last", title="Include this host within Foreman reporting">
+          <%= f.label :enabled, "Alerts Enabled", :class => "span-3" %>
+          <%= f.check_box :enabled, :class => "span-5 last"%>
+        </div>
+      </div>
+
+      <%= f.label :comment,"Additional information about this host", :class => "span-14 last" %>
+      <%= f.text_area :comment, :size => "70x10", :title => "Additional information about this host", :class => "span-14 last" %>
+    </div>
   <% end -%>
 
-  <%= render :partial => "common_parameters/parameters", :locals => {:f => f, :type => :host_parameters} %>
-
-  <p><%= f.submit "Submit" %></p>
+  <%= f.submit "Submit" %>
 <% end %>

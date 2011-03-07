@@ -1,5 +1,4 @@
-<p>
-<span id="architecture">
+<div id="architecture" class="span-24 last">
   <%= f.label :architecture_id, nil, :class => "span-3" %>
   <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, { :include_blank => true }, { :class => "span-3" } %>
   <span id="host_os">
@@ -13,8 +12,7 @@
     </span>
 
   </span>
-</span>
-</p>
+</div>
 
 <%= observe_field(type + "_architecture_id",
                   :url => { :action => :architecture_selected},

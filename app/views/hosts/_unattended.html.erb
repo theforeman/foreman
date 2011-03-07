@@ -1,60 +1,43 @@
-<% field_set_tag 'Unattended settings', :id => "unattended" do -%>
-  <span id="virtual_machine">
-    <%= render 'hypervisor' if @host.new_record? and Hypervisor.count > 0 %>
-  </span>
-  <% field_set_tag 'Network settings', :id => "network", :class=>'half fl' do -%>
-    <table>
-      <tr>
-       <td>Domain</td>
-       <td> <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, :include_blank => true %> </td>
-       <td><span id="host_subnet"> <%= render 'domain' if @domain %> </span></td>
-      </tr>
-      <tr>             
-       <td>IP</td>
-       <td id="host_ip_text"><%= text_field :host, :ip, :size => 16 %></td>
-      </tr>
-      <tr>          
-       <% unless @hypervisor -%>
-         <%= render 'mac' %>
-       <% end -%>
-      </tr>
-      <tr>          
-       <% if @host.new_record? -%>
-         <td title="Enable this host for provisioning">Build? <%= f.check_box :build,:checked => true %></td>
-       <% end -%>
-      </tr>
-    </table>
+<span id="virtual_machine">
+  <%= render('hypervisor', :f => f) if @host.new_record? and !Hypervisor.first.nil? %>
+</span>
+<% field_set_tag 'Network settings' do -%>
+  <%= f.label :domain_id, nil, :class => "span-3" %>
+  <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},{:class => "span-5"} %>
+  <span id="host_subnet" class="span-6"> <%= render 'domain' if @domain %> </span>
+  <%= f.label :ip, "IP", :class => "span-1" %>
+  <%= f.text_field :ip, :class => "span-3", :title => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you" %>
+  <% unless @hypervisor -%>
+    <%= render 'mac' %>
   <% end -%>
-
-  <% field_set_tag 'Operating system settings', :id => "operatingsystem", :class=>'half fl'  do -%>
-    <table>
-
-      <%= render :partial => "common/os_selection/initial", :locals => { :f => f, :item=> @host } %>
-
-      <tr>
-        <td>Root password</td>
-        <td><%= f.password_field :root_pass %></td>
-      </tr>
-      <tr>           
-        <td>Model</td>
-        <td><%= f.collection_select :model_id, Model.all, :id, :to_label, :include_blank => true %></td>
-      </tr>
-      <tr>           
-        <td>Serial</td>
-        <td><%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"] %></td>
-      </tr>
-    </table>
-    <%= link_to_function "Switch to custom disk layout", toggle_div("custom_disk") %> <br/>
-    <span id="custom_disk" style="display:<%= @host.disk.empty? ? "none" : "inline" %>;">
-      <%= f.text_area :disk, :size => "80x10", :title => 'Use custom Disk layout' %><br/>
-      <small>What ever text you use in here, would be used as your OS disk layout options<br/>
-        If you want to use the partition table option, delete all of the text from this field
-      </small>
-    </span>
+  <% if @host.new_record? -%>
+    <%= f.label :build, nil, :class => "span-1", :title => "Enable this host for provisioning" %>
+    <%= f.check_box :build, :checked => true, :class => "span-1 last" %>
   <% end -%>
-
 <% end -%>
 
+<% field_set_tag 'Operating system settings', :id => "operatingsystem" do -%>
+
+  <%= render "common/os_selection/initial", { :f => f, :item=> @host } %>
+
+  <div class="span-24 last">
+    <%= f.label :root_pass, "Root password", :class => "span-3" %>
+    <%= f.password_field :root_pass, :class => "span-3" %>
+    <%= f.label :model_id, nil, :class => "span-4" %>
+    <%= f.collection_select :model_id, Model.all, :id, :to_label, {:include_blank => true}, {:class => "span-3"} %>
+    <%= f.label :serial, nil, :class => "span-2" %>
+    <%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"], {}, {:class => "span-3"} %>
+    <%= link_to_function "Toggle custom disk layout", toggle_div("custom_disk"), :class => "span-5 last" %>
+  </div>
+
+  <div id="custom_disk" <%= display? @host.disk.empty?  %>>
+    <%= f.text_area :disk, :size => "10x6", :class => "span-24 last", :title => 'Use custom Disk layout' %>
+    <br>
+    <small>What ever text you use in here, would be used as your OS disk layout options
+      If you want to use the partition table option, delete all of the text from this field
+    </small>
+  </span>
+<% end -%>
 
 <%= observe_field(:host_domain_id,
                   :url => { :action => :domain_selected, :id => @host.id },
