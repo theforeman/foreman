@@ -18,6 +18,7 @@ module Orchestration
 
       # save handles both creation and update of hosts
       before_save :on_save
+      after_destroy :on_destroy
     end
   end
 
@@ -27,6 +28,10 @@ module Orchestration
 
     def on_save
       process queue
+    end
+
+    def on_destroy
+      errors.empty? ? process(queue) : false
     end
 
     def rollback
@@ -55,7 +60,6 @@ module Orchestration
     def destroy
       set_queue
       super
-      errors.empty? ? process(queue) : false
     end
 
     private
