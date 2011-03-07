@@ -87,12 +87,10 @@ class HostsController < ApplicationController
   end
 
   def edit
-    @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
     load_vars_for_ajax
   end
 
   def update
-    @host.managed = (@host.operatingsystem_id and @host.architecture_id and (@host.ptable_id or not @host.disk.empty?)) ? true : false
     forward_request_url
     if @host.update_attributes(params[:host])
       process_success :success_redirect => @host

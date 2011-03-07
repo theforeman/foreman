@@ -46,6 +46,7 @@
                     :with => "'environment_id=' + value+'&hostgroup_id='+$('host_hostgroup_id').value")
   %>
 
+  <%= f.hidden_field :managed %>
   <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) and @host.managed -%>
     <%= render 'unattended', :f => f %>
   <% end -%>

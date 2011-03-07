@@ -97,8 +97,6 @@ class Host < Puppet::Rails::Host
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
 
-  attr_accessor :managed
-
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
   if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
