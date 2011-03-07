@@ -91,7 +91,7 @@ module Orchestration
       logger.debug "Rolling back due to a problem: #{q.failed}"
       # handle errors
       # we try to undo all completed operations and trigger a DB rollback
-      (q.completed + q.running).each do |task|
+      (q.completed + q.running).sort.reverse_each do |task|
         begin
           task.status = "rollbacked"
           execute({:action => task.action, :rollback => true})
