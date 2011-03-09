@@ -27,8 +27,9 @@ class Host < Puppet::Rails::Host
 
   named_scope :with_fact, lambda { |fact,value|
     unless fact.nil? or value.nil?
-      { :joins => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id INNER JOIN fact_names fn_#{fact} ON fn_#{fact}.id = fv_#{fact}.fact_name_id",
-        :select => "hosts.name, hosts.id", :conditions =>
+      { :joins => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
+                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
+        :select => "DISTINCT hosts.name, hosts.id", :conditions =>
       ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id",value, fact ] }
     else
       raise "invalid fact"
