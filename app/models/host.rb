@@ -171,7 +171,7 @@ class Host < Puppet::Rails::Host
     self.installed_at = Time.now.utc if installed
     # disallow any auto signing for our host.
     GW::Puppetca.disable name
-    GW::Tftp.remove mac
+    GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
     self.save
   end
 
@@ -376,8 +376,12 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
-    #TODO move this stuff to be in the observer, as if the host changes after its being built this might invalidate the current settings
-    return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
+
+    # ensures that the legacy TFTP code is not called when using a smart proxy.
+    unless respond_to?(:tftp?) and tftp?
+      return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
+    end
+
     self.build = true
     self.save
     errors.empty?

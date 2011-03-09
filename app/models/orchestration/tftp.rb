@@ -106,15 +106,26 @@ module Orchestration::TFTP
 
     def queue_tftp_update
       set_tftp = false
-      set_tftp = true if (build == true and old.build == false)
-      if set_tftp == false and old
+      if build?
+        # we switched to build mode
+        set_fftp = true unless old.build?
+        # medium or arch changed
         set_tftp = true if old.medium != medium or old.arch != arch
+        # operating system changed
         set_tftp = true if os and old.os and (old.os.name != os.name or old.os != os)
-      end unless
-      queue_tftp_create if set_tftp
-      if build == false and old.build == true
-        queue_tftp_destroy
+        # MAC address changed
+        if mac != old.mac
+          set_tftp = true
+          # clean up old TFTP reservation file
+          if old.tftp?
+            old.initialize_tftp
+            queue.create(:name => "Remove old TFTP Settings for #{old}", :priority => 19,
+                         :action => [old, :delTFTP])
+          end
+        end
       end
+      queue_tftp_create  if set_tftp
+      queue_tftp_destroy if !build? and old.build?
     end
 
     def queue_tftp_destroy
