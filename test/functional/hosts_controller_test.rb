@@ -405,6 +405,24 @@ class HostsControllerTest < ActionController::TestCase
     assert Host.find(hosts(:two)).build
   end
 
+  def test_set_manage
+    @request.env['HTTP_REFERER'] = edit_host_path @host
+    assert @host.update_attribute :managed, false
+    assert @host.errors.empty?
+    put :toggle_manage, {:id => @host.name}, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :edit
+    assert flash[:notice] == "Foreman now manages the build cycle for #{@host.name}"
+  end
+
+  def test_unset_manage
+    @request.env['HTTP_REFERER'] = edit_host_path @host
+    assert @host.update_attribute :managed, true
+    assert @host.errors.empty?
+    put :toggle_manage, {:id => @host.name}, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :edit
+    assert flash[:notice] == "Foreman now no longer manages the build cycle for #{@host.name}"
+  end
+
   private
   def initialize_host
     User.current = users(:admin)

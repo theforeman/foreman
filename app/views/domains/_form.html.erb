@@ -1,10 +1,10 @@
 <% form_for @domain do |f| %>
   <%= f.error_messages %>
-  <p>
+  <p  title="The full DNS Domain name">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
-  <p>
+  <p title="A descriptive name">
     <%= f.label :fullname %><br />
     <%= f.text_field :fullname %>
   </p>

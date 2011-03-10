@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :name => /[^\.][\w\.-]+/ }
   map.resources :hosts,
     :requirements => {:id => /[^\/]+/},
-    :member => { :report => :get, :reports => :get, :clone => :get,
+    :member => { :report => :get, :reports => :get, :clone => :get, :toggle_manage => :put,
       :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
       :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :cancelBuild => :get, :puppetrun => :get, :facts => :get, :pxe_config => :get },
     :collection => { :show_search => :get, :multiple_actions => :get, :multiple_parameters => :get,

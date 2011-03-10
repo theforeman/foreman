@@ -16,7 +16,7 @@ class HostsController < ApplicationController
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
-    reports facts storeconfig_klasses clone externalNodes pxe_config]
+    reports facts storeconfig_klasses clone externalNodes pxe_config toggle_manage]
   after_filter :disconnect_from_hypervisor, :only => :hypervisor_selected
 
   filter_parameter_logging :root_pass
@@ -245,6 +245,15 @@ class HostsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to fact_values_path(:search => {:host_name_eq => @host})}
       format.json { render :json => @host.facts_hash }
+    end
+  end
+
+  def toggle_manage
+    if @host.toggle! :managed
+      toggle_text = @host.managed ? "" : " no longer"
+      process_success :success_msg => "Foreman now#{toggle_text} manages the build cycle for #{@host.name}", :success_redirect => :back
+    else
+      process_error   :error_msg   => "Failed to modify the build cycle for #{@host.name}", :redirect => :back
     end
   end
 
