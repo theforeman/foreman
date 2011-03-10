@@ -89,7 +89,11 @@ module Orchestration::DHCP
       begin
         tftp.bootServer
       rescue
-        URI.parse(subnet.tftp.url).host
+        begin
+          URI.parse(subnet.tftp.url).host
+        rescue => e
+          raise "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
+        end
       end
     end
 
