@@ -82,6 +82,7 @@ class HostsController < ApplicationController
     if @host.save
       process_success :success_redirect => @host
     else
+      load_vars_for_ajax
       process_error
     end
   end
