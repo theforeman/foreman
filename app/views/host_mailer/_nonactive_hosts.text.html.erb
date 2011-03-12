@@ -16,9 +16,15 @@
   <tr>
     <%= render 'link_to_host', :host => host %>
     <% if host.last_report -%>
-      <%= time_ago_in_words(host.last_report) %>
+      <td style="border: 1px solid #FF9933;
+        border-collapse: collapse;
+        padding: 4px;
+        background-color: #FFFFFF;"><%= time_ago_in_words(host.last_report) %></td>
     <% else -%>
-      <td>Unknown</td>
+      <td style="border: 1px solid #FF9933;
+        border-collapse: collapse;
+        padding: 4px;
+        background-color: #FFFFFF;">Unknown</td>
     <% end -%>
   </tr>
 <% end -%>
