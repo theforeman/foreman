@@ -73,7 +73,8 @@ module GW
     end
 
     def self.link mac
-        path+"/01-"+mac.gsub(/:/,"-").downcase
+      logger.info "**DEPRECATION WARNING*** Managing TFTP without a smart-proxy will not be supported in the next release"
+      path+"/01-"+mac.gsub(/:/,"-").downcase
     end
 
     def self.setserial serial
@@ -85,11 +86,13 @@ module GW
     extend GW::Logger
     # removes old certificate if it exists
     # parameter is the fqdn to use
-    @sbin      = "/usr/sbin"
-    @puppetdir = "/etc/puppet"
-    @ssldir    = "/var/lib/puppet/ssl"
+    @sbin       = "/usr/sbin"
+    @puppetdir  = "/etc/puppet"
+    @ssldir     = "/var/lib/puppet/ssl"
+    @deprecated = "**DEPRECATION WARNING*** Managing Puppet CA without a smart-proxy will not be supported in the next release"
 
     def self.clean fqdn
+      logger.info @deprecated
       fqdn.downcase!
       ssldir = Pathname.new @ssldir
       unless (ssldir + "ca").directory? and File.exists? "#{@sbin}/puppetca"
@@ -108,6 +111,7 @@ module GW
 
     #remove fqdn from autosign if exists
     def self.disable fqdn
+      logger.info @deprecated
       if File.exists? "#{@puppetdir}/autosign.conf"
         entries =  open("#{@puppetdir}/autosign.conf", File::RDONLY).readlines.collect do |l|
           l if l.chomp != fqdn
@@ -123,6 +127,7 @@ module GW
     # add fqdn to puppet autosign file
     # parameter is fqdn to use
     def self.sign fqdn
+      logger.info @deprecated
       FileUtils.touch("#{@puppetdir}/autosign.conf") unless File.exist?("#{@puppetdir}/autosign.conf")
 
       autosign = open("#{@puppetdir}/autosign.conf", File::RDWR)
@@ -139,6 +144,7 @@ module GW
     extend GW::Logger
 
     def self.run *hosts
+      logger.info "**DEPRECATION WARNING*** Managing Puppet without a smart-proxy will not be supported in the next release"
       puppetrun = GW::which("puppetrun", ["/usr/sbin", "/usr/bin"])
       sudo = GW::which("sudo", "/usr/bin")
 
