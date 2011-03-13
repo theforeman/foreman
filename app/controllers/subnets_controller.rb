@@ -55,8 +55,10 @@ class SubnetsController < ApplicationController
         page['indicator'].hide
         page['host_ip'].visual_effect :highlight
       end
+    else
+      # we don't want any failures if we failed to query our proxy
+      head :status => 200
     end
-    # we don't want any failures if we failed to query our proxy
   rescue => e
     logger.warn "failed to query #{subnet} for free ip: #{e}"
     head :status => 500
