@@ -10,7 +10,7 @@ class Task
   end
 
   def status=s
-    if Queue::STATUS.include?(s)
+    if Orchestration::Queue::STATUS.include?(s)
       update_ts
       @status = s
     else

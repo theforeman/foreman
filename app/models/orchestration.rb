@@ -1,5 +1,5 @@
 require "proxy_api"
-require 'queue'
+require 'orchestration/queue'
 
 module Orchestration
   def self.included(base)
@@ -133,7 +133,7 @@ module Orchestration
     end
 
     def set_queue
-      @queue = Queue.new
+      @queue = Orchestration::Queue.new
     end
 
     # we keep the before update host object in order to compare changes
