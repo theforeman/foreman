@@ -8,8 +8,8 @@ module ProxyAPI
     attr_reader :url, :user, :password
 
     def initialize(args)
-      # Each request is limited to 5 seconds
-      @resource = RestClient::Resource.new(url, :timeout => 5, :headers => { :accept => :json })
+      # Each request is limited to 60 seconds
+      @resource = RestClient::Resource.new(url, :timeout => 60, :headers => { :accept => :json })
       true
     end
 
