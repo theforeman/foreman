@@ -6,7 +6,7 @@ class Notice < ActiveRecord::Base
   validates_inclusion_of :level, :in => TYPES
 
   validates_presence_of :content
-  before_save :add_to_all_users
+  before_save :add_to_users
 
   def to_s
     "#{global? ? "global" : "individual"} #{content}"
@@ -22,8 +22,12 @@ class Notice < ActiveRecord::Base
   end
   private
 
-  def add_to_all_users
-    self.users = User.all
+  def add_to_users
+    if global
+      self.users = User.all
+    else
+      self.users = [User.current]
+    end
   end
 
   def set_default_notice_level
