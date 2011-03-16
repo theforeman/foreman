@@ -8,7 +8,7 @@
   <%= link_to_if_authorized "Reports", hash_for_reports_path("search[host_id_eq]" => @host.id),     :title => "Browse host reports" %> |
   <%= link_to_if_authorized "YAML",    hash_for_externalNodes_host_path(:id => @host),              :title => "Puppet external nodes YAML dump" %> |
   <% unless @host.build -%>
-    <%= link_to_if_authorized "Build",        hash_for_setBuild_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => @host.can_be_build?),      :title => "Enable rebuild on next host boot" %>
+    <%= link_to_if_authorized "Build",        hash_for_setBuild_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => @host.can_be_build?),      :title => "Enable rebuild on next host boot", :confirm => "Rebuild #{@host} on next reboot?\nThis would also delete all of its current facts and reports" %>
   <% else -%>
     <%= link_to_if_authorized "Cancel Build", hash_for_cancelBuild_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => !@host.can_be_build?),  :title => "Cancel build request for this host" %>
   <% end -%> |
