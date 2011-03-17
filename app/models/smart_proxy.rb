@@ -2,17 +2,28 @@ class SmartProxy < ActiveRecord::Base
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a perdefine sql
-  has_many :subnets, :foreign_key => "dhcp_id"
-  has_many :domains, :foreign_key => "dns_id"
   has_and_belongs_to_many :features
+  has_many :subnets,    :foreign_key => "dhcp_id"
+  has_many :domains,    :foreign_key => "dns_id"
+  has_many :hosts,      :foreign_key => "puppetproxy_id"
+  has_many :hostgroups, :foreign_key => "puppetproxy_id"
 
+  URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
   validates_presence_of :name, :url
-  validates_format_of :url, :with => /^(http|https):\/\//, :message => "is invalid - only  http://, https:// are allowed"
+  validates_format_of :url, :with => URL_HOSTNAME_MATCH, :message => "is invalid - only  http://, https:// are allowed"
+  validates_uniqueness_of :url, :message => "Only one declaration of a proxy is allowed"
+
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
-  before_destroy Ensure_not_used_by.new(:subnets, :domains)
+  before_destroy Ensure_not_used_by.new(:subnets, :domains, :hosts, :hostgroups)
+
   default_scope :order => 'LOWER(smart_proxies.name)'
+
+  def hostname
+    # This will always match as it is validated
+    url.match(URL_HOSTNAME_MATCH)[1]
+  end
 
   def self.name_map
     {
@@ -44,7 +55,7 @@ class SmartProxy < ActiveRecord::Base
     unless reply
       errors.add :url, "did not respond to a request for its feature list." +
         (reason ? "The reason given was: #{reason}." : "")
-      errors.add_to_base "Please check the proxy is configued and running on the host before saving."
+      errors.add_to_base "Please check the proxy is configured and running on the host before saving."
     end
     !reply.empty?
   end

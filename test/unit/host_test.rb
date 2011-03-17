@@ -108,7 +108,8 @@ class HostTest < ActiveSupport::TestCase
     Parameter.destroy_all
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
       :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
+      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa",
+      :puppetproxy => smart_proxies(:puppetmaster)
 
     # dummy external node info
     nodeinfo = {"environment" => "global_puppetmaster", "parameters"=>{"puppetmaster"=>"puppet", "MYVAR"=>"value"}, "classes"=>["apache", "base"]}

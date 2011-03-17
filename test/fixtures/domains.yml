@@ -3,17 +3,17 @@
 mydomain:
   id: 1
   name: mydomain.net
-  dns_id: 3
+  dns: three
 
 yourdomain:
   name: yourdomain.net
   fullname: somewhere in yourdomain
-  dns_id: 3
+  dns: three
 
 unuseddomain:
   name: unused.net
   fullname: somewhare that is never used
-  dns_id: 3
+  dns: three
 
 useless:
   name: useless.net

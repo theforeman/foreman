@@ -1,14 +1,15 @@
 one:
-  id: 1
   name: DHCP Proxy
   url: https://somewhere.net:8443
 
 two:
-  id: 2
   name: TFP Proxy
   url: http://somewhere.else
 
 three:
-  id: 3
   name: DNS Proxy
+  url: http://else.where:4567
+
+puppetmaster:
+  name: Puppetmaster Proxy
   url: http://else.where:4567

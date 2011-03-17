@@ -9,6 +9,8 @@ class HostObserver < ActiveRecord::Observer
   end
 
   def after_destroy(host)
-    GW::Puppetca.clean host.name unless Rails.env == "test"
+    return true if Rails.env == "test" or host.puppetca?
+
+    GW::Puppetca.clean host.name
   end
 end

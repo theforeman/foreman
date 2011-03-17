@@ -14,6 +14,7 @@ class Host < Puppet::Rails::Host
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
+  belongs_to :puppetproxy, :class_name => "SmartProxy"
 
   include HostCommon
 
@@ -169,15 +170,38 @@ class Host < Puppet::Rails::Host
   def built(installed = true)
     self.build = false
     self.installed_at = Time.now.utc if installed
-    # disallow any auto signing for our host.
-    GW::Puppetca.disable name
-    GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
+    # If this save fails then an exception is raised and further actions are not processed
+    unless Rails.env == "test"
+      # Disallow any auto signing for our host.
+      GW::Puppetca.disable name unless puppetca?
+      GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
+    end
     self.save
+  rescue => e
+    logger.warn "Failed to set Build on #{self}: #{e}"
+    false
   end
 
   #retuns fqdn of host puppetmaster
   def pm_fqdn
-    puppetmaster == "puppet" ? "puppet.#{domain.name}" : "#{puppetmaster}"
+    if puppetca?
+      puppetmaster.hostname
+    else
+      puppetmaster_name =~ /\./ ? puppetmaster_name : puppetmaster_name + "." + domain.name
+    end
+  end
+
+  # Cleans Certificate and enable Autosign
+  # Called after a host is given their provisioning template
+  # Returns : Boolean status of the operation
+  def handle_ca
+    return true if Rails.env == "test"
+    if puppetca?
+      respond_to(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
+    else
+      # Legacy CA handling
+      GW::Puppetca.clean(name) && GW::Puppetca.sign(name)
+    end
   end
 
   # no need to store anything in the db if the password is our default
@@ -262,7 +286,7 @@ class Host < Puppet::Rails::Host
     # Static parameters
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
-    param["puppetmaster"] = puppetmaster
+    param["puppetmaster"] = puppetca? ? puppetmaster.hostname : puppetmaster_name
     param["domainname"] = domain.fullname unless domain.nil? or domain.fullname.nil?
     if SETTINGS[:ignore_puppet_facts_for_provisioning]
       param["ip"]  = ip

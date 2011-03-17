@@ -14,6 +14,7 @@ module Orchestration
       include Orchestration::DHCP
       include Orchestration::DNS
       include Orchestration::TFTP
+      include Orchestration::Puppetca
       include Orchestration::Libvirt
 
       # save handles both creation and update of hosts

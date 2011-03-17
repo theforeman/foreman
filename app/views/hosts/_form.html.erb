@@ -16,9 +16,8 @@
       <%= f.label :environment_id %>
       <%= f.collection_select :environment_id, Environment.all, :id, :to_label, {:include_blank => true} %>
     </div>
-    <div class="span-6">
-      <%= f.label :puppetmaster %>
-      <%= f.text_field :puppetmaster, :value => @host.puppetmaster, :size => 12 %>
+    <div class="span-5">
+      <%= puppetmaster_field(@host, f) %>
     </div>
     <%= link_to_function "Additional Classes", toggle_div(:classlist), :class => "span-4 last" %>
     <div class="span-24 last" id="classlist" style="display:none;">

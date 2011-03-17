@@ -128,16 +128,19 @@ class UnattendedController < ApplicationController
     (@host.build or @spoof) ? true : head(:method_not_allowed)
   end
 
-  # Cleans Certificate and enable autosign
+  # Cleans Certificate and enable autosign. This is run as a before_filter for provisioning templates.
+  # The host is requesting its build configuration so I guess we just send them some text so a post mortum can see what happened
   def handle_ca
-    #the reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
-    #through puppet.
+    # The reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
 
-    # we don't do anything if we are in spoof mode.
-    return if @spoof or Rails.env == "test"
+    # We don't do anything if we are in spoof mode.
+    return true if @spoof
 
-    return false unless GW::Puppetca.clean @host.name
-    return false unless GW::Puppetca.sign @host.name
+    # This should terminate the before_filter and the action. We do not return a HTTP error otherwise this text will
+    # probably not get written into the provisioning file for later post mortum inspection.
+    # We can be sure that Anaconda and Suninstall will choke on this build configuration :-)
+    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!") unless @host.handle_ca
+    #TODO: Email the user who initiated this build operation.
   end
 
   # we try to find this host specific template

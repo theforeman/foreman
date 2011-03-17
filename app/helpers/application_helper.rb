@@ -138,7 +138,11 @@ module ApplicationHelper
 
   # renders a style=display based on an attribute properties
   def display? attribute
-    "style=\"display:#{attribute ? "none" : "inline"};\""
+    "style=#{display(attribute)}"
+  end
+
+  def display attribute
+    "display:#{attribute ? 'none' : 'inline'};"
   end
 
   # return our current model instance type based on the current controller

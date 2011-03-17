@@ -2,6 +2,7 @@ require 'test_helper'
 
 class NoticesControllerTest < ActionController::TestCase
   def setup
+    User.current = User.find_by_login "admin"
     @notice = Notice.create :global => false, :content => "hello", :level => "message"
     @request.env['HTTP_REFERER'] = hosts_path
   end

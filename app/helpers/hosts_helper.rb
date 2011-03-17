@@ -1,6 +1,7 @@
 module HostsHelper
   include CommonParametersHelper
   include OperatingsystemsHelper
+  include HostsAndHostgroupsHelper
 
   def last_report_column(record)
     return nil if record.last_report.nil?

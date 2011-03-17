@@ -10,8 +10,9 @@
     <% field_set_tag 'Primary Settings' do %>
       <%= f.label :environment_id, nil, :class => "span-3" %>
       <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } , { :class => "span-3" } %>
-      <%= f.label :puppetmaster, nil, :class => "span-4" %>
-      <%= f.text_field :puppetmaster, :value => @hostgroup.puppetmaster, :class => "span-3 last" %>
+      <div class="push-2 span-7 last">
+        <%= puppetmaster_field @hostgroup, f %>
+      </div>
     <% end -%>
 
     <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) -%>

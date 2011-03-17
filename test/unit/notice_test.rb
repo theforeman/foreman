@@ -6,7 +6,7 @@ class NoticeTest < ActiveSupport::TestCase
   end
 
   def test_should_attach_to_everyone
-    notice = Notice.create(:global => true, :content => "hello", :level => "message")
+    notice = Notice.create(:global => false, :content => "hello", :level => "message")
     assert User.count == notice.users.count
   end
 

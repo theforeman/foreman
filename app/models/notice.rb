@@ -24,9 +24,9 @@ class Notice < ActiveRecord::Base
 
   def add_to_users
     if global
-      self.users = User.all
-    else
       self.users = [User.current]
+    else
+      self.users = User.all
     end
   end
 

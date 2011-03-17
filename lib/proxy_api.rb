@@ -58,7 +58,31 @@ module ProxyAPI
     def delete path
       @resource[path].delete
     end
+  end
 
+  class Puppetca < Resource
+    def initialize args
+      @url  = args[:url] + "/puppet/ca"
+      super args
+    end
+
+    def set_autosign certname
+      parse(post("", "autosign/#{certname}"))
+    end
+
+    def del_autosign certname
+      parse(delete("autosign/#{certname}"))
+    rescue RestClient::ResourceNotFound
+      # entry doesn't exists anyway
+      true
+    end
+
+    def del_certificate certname
+      parse(delete("#{certname}"))
+    rescue RestClient::ResourceNotFound
+      # entry doesn't exists anyway
+      true
+    end
   end
 
   class Features < Resource

@@ -5,13 +5,13 @@ one:
    network: 2.3.4.0
    mask: 255.255.255.0
    domain: mydomain.net
-   dhcp_id: 1
-   tftp_id: 1
+   dhcp: one
+   tftp: one
 
 two:
    name: two
    network: 3.3.4.0
    mask: 255.255.255.0
    domain: yourdomain.net
-   dhcp_id: 1
-   tftp_id: 1
+   dhcp: one
+   tftp: one
