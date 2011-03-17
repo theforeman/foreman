@@ -8,6 +8,8 @@ module ProxyAPI
     attr_reader :url, :user, :password
 
     def initialize(args)
+      raise("Must provide a protocol and host when initialising a smart-proxy connection") unless url =~ /^http/
+
       # Each request is limited to 60 seconds
       @resource = RestClient::Resource.new(url, :timeout => 60, :headers => { :accept => :json })
       true
@@ -87,7 +89,7 @@ module ProxyAPI
 
   class Features < Resource
     def initialize args
-      @url  = args[:url] + "/features" || raise("Must provide a URL")
+      @url  = args[:url] + "/features"
       super args
     end
 
@@ -98,7 +100,7 @@ module ProxyAPI
 
   class DHCP < Resource
     def initialize args
-      @url  = args[:url] + "/dhcp" || raise("Must provide a URL")
+      @url  = args[:url] + "/dhcp"
       super args
     end
 
@@ -150,7 +152,7 @@ module ProxyAPI
 
   class DNS < Resource
     def initialize args
-      @url  = args[:url] + "/dns" || raise("Must provide a URL")
+      @url  = args[:url] + "/dns"
       super args
     end
 
@@ -175,7 +177,7 @@ module ProxyAPI
 
   class TFTP < Resource
     def initialize args
-      @url  = args[:url] + "/tftp" || raise("Must provide a URL")
+      @url  = args[:url] + "/tftp"
       super args
     end
 
