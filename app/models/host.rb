@@ -197,7 +197,7 @@ class Host < Puppet::Rails::Host
   def handle_ca
     return true if Rails.env == "test"
     if puppetca?
-      respond_to(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
+      respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
     else
       # Legacy CA handling
       GW::Puppetca.clean(name) && GW::Puppetca.sign(name)
