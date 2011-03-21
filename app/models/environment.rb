@@ -41,43 +41,54 @@ class Environment < ActiveRecord::Base
 
   # Imports all Environments and classes from Puppet modules
   def self.importClasses
-    envs     = self.puppetEnvs
-    pclasses = []
+    # Build two hashes representing the on-disk and in-database, env to classes associations
+    disk_tree, db_tree = Hash.new([]), Hash.new([])
 
-    # If we are deleting data then assure ourselves that we are using sensible values
+    # Create a representation of the puppet configuration where the environments are hash keys and the classes are sorted lists
+    envs = self.puppetEnvs
     for env, paths in envs
+      pclasses = []
       for path in paths.split ":"
         if Rails.env != "test"
+          # If we are deleting data then assure ourselves that we are using sensible values
           raise "Unable to find directory #{path} in environment #{env}" unless File.directory?(path)
         end
-        pclasses << Puppetclass.scanForClasses(path)
+        pclasses += Puppetclass.scanForClasses(path)
       end
+      disk_tree[env.to_s] = pclasses.sort.uniq
     end
-    pclasses = pclasses.flatten.uniq
-    raise "No puppetclasses found in #{envs.keys}" if pclasses.size == 0
 
-    original = {}
-    original[:environments]  = Environment.all.map(&:name).sort
-    original[:puppetclasses] = Puppetclass.all.map(&:name).sort
+    # Create a representation of the foreman configuration where the environments are hash keys and the classes are sorted lists
+    for env in Environment.all
+      db_tree[env.name] = env.puppetclasses.map(&:name).sort.uniq
+    end
 
-    replacement = {}
-    replacement[:environments]  = envs.keys.map(&:to_s).sort
-    replacement[:puppetclasses] = pclasses.sort
+    changes = {"new" => {}, "obsolete" => {}}
+    # Generate the difference between the on-disk and database configuration
+    for env in db_tree.keys
+      # Show the environment if there are classes in the db that do not exist on disk
+      # OR if there is no mention of the class on-disk
+      surplus_db_classes = db_tree[env] - disk_tree[env]
+      surplus_db_classes << "_destroy_" unless envs.has_key?(env.to_sym) # We need to distinguish between an empty and an obsolete env
+      changes["obsolete"][env] = surplus_db_classes if surplus_db_classes.size > 0
+    end
+    for env in disk_tree.keys
+      extra_disk_classes = disk_tree[env] - db_tree[env]
+      # Show the environment if there are new classes compared to the db
+      # OR if the environment has no puppetclasses but does not exist in the db
+      changes["new"][env] = extra_disk_classes if (extra_disk_classes.size > 0 or (disk_tree[env].size == 0 and Environment.find_by_name(env).nil?))
+    end
 
-    changes =  {:obsolete => {:environments  => original[:environments]     - replacement[:environments],
-                              :puppetclasses => original[:puppetclasses]    - replacement[:puppetclasses]},
-               :new       => {:environments  => replacement[:environments]  - original[:environments],
-                              :puppetclasses => replacement[:puppetclasses] - original[:puppetclasses] }
-               }
-
-    # Remove any classes or environments that are in config/ignored_classes_and_environments.yml
-    ignored_file = File.join(Rails.root.to_s, "config", "ignored_classes_and_environments.yml")
+    # Remove environments that are in config/ignored_environments.yml
+    ignored_file = File.join(Rails.root.to_s, "config", "ignored_environments.yml")
     if File.exist? ignored_file
       ignored = YAML.load_file ignored_file
-      changes[:new][:environments]       -= ignored[:new][:environments]
-      changes[:new][:puppetclasses]      -= ignored[:new][:puppetclasses]
-      changes[:obsolete][:environments]  -= ignored[:obsolete][:environments]
-      changes[:obsolete][:puppetclasses] -= ignored[:obsolete][:puppetclasses]
+      for env in ignored[:new]
+        changes["new"].delete env
+      end
+      for env in ignored[:obsolete]
+        changes["obsolete"].delete env
+      end
     end
     changes
   end
@@ -91,65 +102,68 @@ class Environment < ActiveRecord::Base
   # Returns   : Array of Strings containing all record errors
   def self.obsolete_and_new changed
     changed ||= {}
-    # Fill in any missing bits in the changed datastructure
-    changed.reverse_merge! :new => {}, :obsolete => {}
-    changed[:new].reverse_merge!(:environments => [], :puppetclasses => []);changed[:obsolete].reverse_merge!(:environments => [], :puppetclasses => [])
-
     @import_errors = []
-    # First we create any new puppetclasses
-    for pclass in changed[:new][:puppetclasses]
-      pc = Puppetclass.find_or_create_by_name pclass
-      @import_errors += pc.errors unless pc.errors.empty?
-    end
 
-    puppet_envs = puppetEnvs
-    # Then we create any new environments and add the associations
-    for env_str in changed[:new][:environments]
+    # Now we add environments and associations
+    for env_str in changed[:new].keys
       env = Environment.find_or_create_by_name env_str
       if (env.valid? and ! env.new_record?)
-        pcs = Puppetclass.scanForClasses(puppet_envs[env_str.to_sym]) - changed[:obsolete][:puppetclasses]
-        env.puppetclasses = names_to_instances(pcs, env)
+        begin
+          pclasses = eval(changed[:new][env_str])
+        rescue => e
+          @import_errors << "Failed to eval #{changed[:new][env_str]} as an array:" + e.message
+          next
+        end
+        for pclass in pclasses
+          pc = Puppetclass.find_or_create_by_name pclass
+          unless pc.errors.empty?
+            @import_errors += pc.errors
+          else
+            env.puppetclasses << pc
+          end
+        end
         env.save!
       else
         @import_errors << "Unable to find or create environment #{env_str} in the foreman database"
       end
-    end
-    # We rebuild the puppetclass bindings for all the environments known by foreman minus the ones we will delete
-    for env_str in Environment.all.map(&:name) - changed[:obsolete][:environments]
-      if (env = Environment.find_by_name(env_str))
-        if (path = puppet_envs[env_str.to_sym])
-          pcs = Puppetclass.scanForClasses(path) - changed[:obsolete][:puppetclasses]
-          # Convert the strings back into classes and add as an association
-          env.puppetclasses = names_to_instances pcs,  env
-          env.save!
+    end if changed[:new]
+
+    # Remove the obsoleted stuff
+    for env_str in changed[:obsolete].keys
+      env = Environment.find_by_name env_str
+      if env
+        begin
+          pclasses = eval(changed[:obsolete][env_str])
+        rescue => e
+          @import_errors << "Failed to eval #{changed[:obsolete][env_str]} as an array:" + e.message
+          next
+        end
+        pclass = ""
+        for pclass in pclasses
+          unless pclass == "_destroy_"
+            pc = Puppetclass.find_by_name pclass
+            if pc.nil?
+              @import_errors += "Unable to find puppet class #{pclass } in the foreman database"
+            else
+              env.puppetclasses.delete pc
+              unless pc.environments.any? or pc.hosts.any?
+                pc.destroy
+                @import_errors += pc.errors.full_messages unless pc.errors.empty?
+              end
+            end
+          end
+        end
+        if pclasses.include? "_destroy_"
+          env.destroy
+          @import_errors += env.errors.full_messages unless env.errors.empty?
         else
-          @import_errors << "Unable to find the module paths for environment #{env_str}. This is OK if you blocked its deletion."
+          env.save!
         end
       else
-        @import_errors << "Unable to rebuild environment #{env_str}. It is not in the foreman database"
+        @import_errors << "Unable to find environment #{env_str} in the foreman database"
       end
-    end
+    end if changed[:obsolete]
 
-    # Now we delete the obsolete environments
-    for env_str in changed[:obsolete][:environments]
-      if (env = Environment.find_by_name env_str)
-        env.puppetclasses.clear
-        env.destroy
-        @import_errors += env.errors.full_messages unless env.errors.empty?
-      else
-        @import_errors << "Unable to delete environment #{env_str}. It is not in the foreman database"
-      end
-    end
-
-    # and finally delete the obsolete puppetclasses
-    for pclass in changed[:obsolete][:puppetclasses]
-      if (pc = Puppetclass.find_by_name(pclass))
-        pc.destroy
-        @import_errors += pc.errors.full_messages unless pc.errors.empty?
-      else
-        @import_errors << "Unable to delete puppetclass #{pclass}. It is not in the foreman database"
-      end
-    end
     @import_errors
   end
 

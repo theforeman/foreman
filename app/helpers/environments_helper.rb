@@ -1,2 +1,3 @@
 module EnvironmentsHelper
+  include PuppetclassesAndEnvironmentsHelper
 end

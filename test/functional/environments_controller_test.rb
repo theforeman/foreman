@@ -91,123 +91,123 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
-  test "should update environments via obsolete_and_new" do
+  def setup_import_classes
+    Puppetclass.delete_all
+    Environment.delete_all
     @request.env["HTTP_REFERER"] = environments_url
+    # This is the database status
+    # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
     as_admin do
-      ["tester", "muc"].each {|name| Environment.create :name => name}
-      ["a", "b", "c"].each   {|name| Puppetclass.create :name => name}
+      ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
+      for name in ["env1", "env2"] do
+        e = Environment.create(:name => name)
+        e.puppetclasses += [Puppetclass.find_by_name("a"), Puppetclass.find_by_name("b"), Puppetclass.find_by_name("c")]
+      end
     end
-    Environment.expects(:puppetEnvs).returns(:tester                 => "/etc/puppet/env/muc",
-                                             :muc                 => "/etc/puppet/env/muc",
-                                             :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
+    # This is the on-disk status
+    # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
+    Environment.expects(:puppetEnvs).returns(:env1              => "/etc/puppet/env/muc",
+                                             :env2              => "/etc/puppet/env/muc"
                                             ).at_least_once
     Puppetclass.expects(:scanForClasses).returns(["a", "b", "c"]).at_least_once
-    post :obsolete_and_new, { "changed"=>{
-                                    "obsolete" => {"environments" => ["tester"] },
-                                    "new"      => {"environments" => ["dog"   ] }
-                            }}, set_session_user
-    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
-    assert_nil Environment.find_by_name("tester")
-    assert Environment.find_by_name("dog")
-    assert Environment.find_by_name("dog").puppetclasses.map(&:name).sort == ["a", "b", "c"]
   end
 
-  test "should update puppetclasses via obsolete_and_new" do
-    @request.env["HTTP_REFERER"] = environments_url
-    as_admin do
-      ["tester", "base"].each {|name| Puppetclass.create :name => name}
-      ["muc", "dog"].each {|name| Environment.create :name => name}
-    end
-    Environment.expects(:puppetEnvs).returns(:muc                 => "/etc/puppet/env/muc",
-                                             :global_puppetmaster => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites",
-                                             :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
-                                            ).at_least_once
-    Puppetclass.expects(:scanForClasses).returns(["base", "cat", "tester"]).at_least_once
-    post :obsolete_and_new, { "changed"=>{
-                                    "obsolete" => {"puppetclasses" => ["tester"]},
-                                    "new"      => {"puppetclasses" => ["cat"]   }
-                             }}, set_session_user
+  test "should handle disk environment containing additional classes" do
+    setup_import_classes
+    Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
+    #db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
+    #disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
+    get :import_environments, {}, set_session_user
+    assert_template "puppetclasses_or_envs_changed"
+    assert_select 'input#changed_new_env1[value*="a"]'
+    post :obsolete_and_new,
+      {"changed" =>
+        {"new" =>
+          {"env1" => '["a"]'}
+        }
+      }, set_session_user
+    assert_redirected_to environments_url
     assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
-    assert_nil Puppetclass.find_by_name("tester")
-    assert Puppetclass.find_by_name("cat")
-    assert Environment.find_by_name("muc").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
-    assert Environment.find_by_name("dog").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
-    assert Environment.find_by_name("global_puppetmaster").puppetclasses == [Puppetclass.find_by_name("base"), Puppetclass.find_by_name("cat")]
+    assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
+  end
+  test "should handle disk environment containing less classes" do
+    setup_import_classes
+    as_admin {Puppetclass.create(:name => "d")}
+    Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
+    #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
+    #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
+    get :import_environments, {}, set_session_user
+    assert_template "puppetclasses_or_envs_changed"
+    assert_select 'input#changed_obsolete_env1[value*="d"]'
+    post :obsolete_and_new,
+      {"changed" =>
+        {"obsolete" =>
+          {"env1" => '["d"]'}
+        }
+      }, set_session_user
+    assert_redirected_to environments_url
+    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    envs = Environment.find_by_name("env1").puppetclasses.map(&:name).sort
+    assert envs == ["a", "b", "c"]
+  end
+  test "should handle disk environment containing less environments" do
+    setup_import_classes
+    as_admin {Environment.create(:name => "env3")}
+    #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
+    #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
+    get :import_environments, {}, set_session_user
+    assert_template "puppetclasses_or_envs_changed"
+    assert_select 'input#changed_obsolete_env3'
+    post :obsolete_and_new,
+      {"changed" =>
+        {"obsolete" =>
+          {"env3" => '[]'}
+        }
+      }, set_session_user
+    assert_redirected_to environments_url
+    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert Environment.find_by_name("env3").puppetclasses.map(&:name).sort == []
   end
 
   test "should fail to remove active environments" do
-    @request.env["HTTP_REFERER"] = environments_url
-    Environment.expects(:puppetEnvs).returns(:dummy               => "/etc/puppet/env/muc",
-                                             :global_puppetmaster => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
-                                            ).at_least_once
-    Puppetclass.expects(:scanForClasses).returns(["a", "b", "c"]).at_least_once
-    host = hosts(:myfullhost)
+    setup_import_classes
     as_admin do
-      host.environment = Environment.find_or_create_by_name("dummy")
-      host.valid?
-      puts host.errors.full_messages
-      assert host.save
+      host = Host.first
+      host.environment = Environment.find_by_name("env1")
+      host.save
+      assert host.errors.empty?
+      assert Environment.find_by_name("env1").hosts.count > 0
     end
-    assert_equal Host.find_by_name("myfullname.mydomain.net").environment, Environment.find_by_name("dummy")
-    post :obsolete_and_new, { "changed"=>{
-                                    "new"      => {"puppetclasses" => ["a", "b", "c"]},
-                                    "obsolete" => {"environments"  => ["dummy"]}
-                             }}, set_session_user
+    get :import_environments, {}, set_session_user # We need this to stop failures about number of calls. It is not really part of the test.
+    # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
+    post :obsolete_and_new,
+      {"changed"=>
+        {"obsolete" =>
+          {"env1"  => '["a","b","c","_destroy_"]'}
+        }
+      }, set_session_user
+    assert Environment.find_by_name("env1").hosts.count > 0
     assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
-    assert Environment.find_by_name("dummy")
+    assert Environment.find_by_name("env1")
   end
 
-  test "should fail to remove active puppetclasses" do
+  test "should obey config/ignored_environments.yml" do
     @request.env["HTTP_REFERER"] = environments_url
-    Environment.expects(:puppetEnvs).returns(:production          => "/etc/puppet/env/muc",
-                                             :global_puppetmaster => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
-                                            ).at_least_once
-    host = hosts(:myfullhost)
-    host.puppetclasses = [Puppetclass.find_by_name("base")]
-    host.environment = Environment.find_by_name("production")
-    assert host.save
-    assert Host.find_by_name("myfullname.mydomain.net").puppetclasses == [Puppetclass.find_by_name("base")]
-    post :obsolete_and_new, { "changed"=>{
-                                    "obsolete" => {"puppetclasses" => ["base"]}
-                             }}, set_session_user
-    assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
-    assert Puppetclass.find_by_name("base")
-  end
+    setup_import_classes
+    as_admin do
+      Environment.create :name => "env3"
+      Environment.delete :name => "env1"
+    end
+    #db_tree   of {                         , "env2" => ["a", "b", "c"], "env3" => []}
+    #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
 
-  test "should report new and obsolete classes and environments" do
-    # Existing envs    are production and global_puppetmaster
-    # Existing classes are base and apache
-    Environment.expects(:puppetEnvs).returns(:production          => "/etc/puppet/env/muc",
-                                             :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
-                                            ).at_least_once
-    Puppetclass.expects(:scanForClasses).returns(["base", "c"]).at_least_once
-    post :import_environments, {}, set_session_user
-    # New envs are dog, obsolete envs are global_puppetmaster
-    # New classes are c, obsolete classes are apache
-    assert_response :ok
-    assert_template "puppetclasses_or_envs_changed"
-    assert_select "input#changed_obsolete_environments_[value=global_puppetmaster]"
-    assert_select "input#changed_new_environments_[value=dog]"
-    assert_select "input#changed_obsolete_puppetclasses_[value=apache]"
-    assert_select "input#changed_new_puppetclasses_[value=c]"
-  end
+    FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml.test_bak" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml"
+    FileUtils.cp Rails.root.to_s + "/test/functional/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml"
+    get :import_environments, {}, set_session_user
+    FileUtils.rm_f Rails.root.to_s + "/config/ignored_environments.yml"
+    FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml.test_bak", Rails.root.to_s + "/config/ignored_environments.yml" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml.test_bak"
 
-  test "should obey config/ignored_classes_and_environments.yml" do
-    @request.env["HTTP_REFERER"] = environments_url
-    # Existing envs    are production and global_puppetmaster
-    # Existing classes are base and apache
-    Environment.expects(:puppetEnvs).returns(:production          => "/etc/puppet/env/muc",
-                                             :dog                 => "/etc/puppet/env/global_puppetmaster:/etc/puppet/modules/sites"
-                                            ).at_least_once
-    Puppetclass.expects(:scanForClasses).returns(["base", "c"]).at_least_once
-
-    FileUtils.cp Rails.root.to_s + "/test/functional/ignored_classes_and_environments.yml", Rails.root.to_s + "/config/ignored_classes_and_environments.yml"
-    # New envs are dog, obsolete envs are global_puppetmaster
-    # New classes are c, obsolete classes are apache
-    post :import_environments, {}, set_session_user
-    FileUtils.rm_f Rails.root.to_s + "/config/ignored_classes_and_environments.yml"
-
-    assert_redirected_to environments_url
+    assert flash[:notice] == "No changes to your environments detected"
   end
 
   def setup_user

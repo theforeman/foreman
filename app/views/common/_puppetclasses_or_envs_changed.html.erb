@@ -1,47 +1,30 @@
-<% title "Changed environments and puppet classes" %>
-
+<% title "Changed environments and puppet classes" -%>
 <% form_tag '/environments/obsolete_and_new' do -%>
-  <% for kind in [:new, :obsolete ] do %>
-    <fieldset>
-      <legend><%= kind.to_s.capitalize -%> puppetclasses</legend>
-      <% unless (pcs = @changed.send(:[], kind)[:puppetclasses]).empty? -%>
-        <table>
-          <% pcs.in_groups_of(@grouping) do |group| -%>
-            <tr>
-              <% for i in  0...@grouping do %>
-                <% if group[i] -%>
-                  <td>
-                    <%= check_box_tag "changed[#{kind.to_s}][puppetclasses][]", group[i], true %>
-                    <%= group[i] -%>
-                  </td>
-                <% end -%>
-              <% end -%>
-            </tr>
+  <fieldset>
+    <legend>Accept these environment changes found in puppet? </legend>
+      <table>
+        <th>Environment</th><th>Operation</th><th>Classes</th>
+        <% for kind in ["new", "obsolete"] -%>
+          <% unless (envs = @changed.send(:[], kind)).empty? -%>
+            <% for env in envs.keys.sort -%>
+              <tr class="<%= cycle("even", "odd")-%>" >
+                <td>
+                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed.send(:[], kind)[env].to_json, true %>
+                  <%= env -%>
+                </td>
+                <td>
+                  <%= kind == "new" ? "Add:" : "Remove:" -%>
+                </td>
+                <% pcs = @changed.send(:[], kind)[env] -%>
+                <td>
+                  <%= class_update_text pcs, env %>
+                </td>
+              </tr>
+            <% end -%>
           <% end -%>
-        </table>
-      <% end -%>
-    </fieldset>
-
-    <fieldset>
-      <legend><%= kind.to_s.capitalize -%>  environments</legend>
-      <% unless (envs = @changed.send(:[], kind)[:environments]).empty? -%>
-        <table>
-          <% envs.in_groups_of(@grouping) do |group| -%>
-            <tr>
-              <% for i in 0...@grouping do %>
-                <% if group[i] -%>
-                  <td>
-                    <%= check_box_tag "changed[#{kind.to_s}][environments][]", group[i], true %>
-                    <%= group[i] -%>
-                  </td>
-                <% end -%>
-              <% end -%>
-            </tr>
-          <% end -%>
-        </table>
-      <% end -%>
-    </fieldset>
-  <% end -%>
+        <% end -%>
+    </table>
+  </fieldset>
   <div>
     <%= submit_tag "Update" -%> or <%= link_to "Cancel", environments_path -%>
   </div>

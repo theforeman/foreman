@@ -76,33 +76,42 @@ namespace :puppet do
         exit
       end
 
-      unless changes[:new][:environments].empty?      and changes[:new][:puppetclasses].empty? and
-        changes[:obsolete][:environments].empty? and changes[:obsolete][:puppetclasses].empty?
-        puts "Scheduled changes to your environment"
-        puts "New      environments  : " + changes[:new][:environments].to_sentence
-        puts "Obsolete environments  : " + changes[:obsolete][:environments].to_sentence
-        puts "New      puppetclasses : " + changes[:new][:puppetclasses].to_sentence
-        puts "Obsolete puppetclasses : " + changes[:obsolete][:puppetclasses].to_sentence
+      unless changes["new"].empty?      and changes["obsolete"].empty?
         unless args.batch
+          puts "Scheduled changes to your environment"
+          puts "Create/update environments"
+          for env, classes in changes["new"]
+            print "%-15s: %s\n" % [env, classes.to_sentence]
+          end
+          puts "Delete environments"
+          for env, classes in changes["obsolete"]
+            if classes.include? "_destroy_"
+              print "%-15s: %s\n" % [env, "Remove environment"]
+            else
+              print "%-15s: %s\n" % [env, classes.to_sentence]
+            end
+          end
           puts
           print "Proceed with these modifications? <yes|no> "
           response = $stdin.gets
 
-          exit unless response =~ /^yes/
+          exit(0) unless response =~ /^yes/
         end
 
         errors = ""
         # Apply the filtered changes to the database
         begin
-          errors = Environment.obsolete_and_new changes
-        rescue e
-          errors = e.message + "\n"
+          changed = {:new => changes["new"], :obsolete => changes["obsolete"] }
+          [:new, :obsolete].each{|kind| changed[kind].each_key{|k| changes[kind.to_s][k] = changes[kind.to_s][k].inspect}}
+          errors = Environment.obsolete_and_new(changed)
+        rescue => e
+          errors = e.message + "\n" + e.backtrace.join("\n")
         end
         unless args.batch
           unless errors.empty?
             puts "Problems were detected during the execution phase"
             puts
-            puts errors.gsub(/<br\/>/, "\n") + "\n"
+            puts errors.each{|e| e.gsub(/<br\/>/, "\n")} << "\n"
             puts
             puts "Import failed"
           else
