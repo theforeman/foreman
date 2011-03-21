@@ -136,6 +136,7 @@ module GW
       autosign.each_line { |line| found = true if line.chomp == fqdn }
       autosign.puts fqdn if found == false
       autosign.close
+      true
     end
   end
 
