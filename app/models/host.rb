@@ -184,11 +184,7 @@ class Host < Puppet::Rails::Host
 
   #retuns fqdn of host puppetmaster
   def pm_fqdn
-    if puppetca?
-      puppetmaster.hostname
-    else
-      puppetmaster_name =~ /\./ ? puppetmaster_name : puppetmaster_name + "." + domain.name
-    end
+    puppetmaster == "puppet" ? "puppet.#{domain.name}" : "#{puppetmaster}"
   end
 
   # Cleans Certificate and enable Autosign
@@ -286,7 +282,7 @@ class Host < Puppet::Rails::Host
     # Static parameters
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
-    param["puppetmaster"] = puppetca? ? puppetmaster.hostname : puppetmaster_name
+    param["puppetmaster"] = puppetmaster
     param["domainname"] = domain.fullname unless domain.nil? or domain.fullname.nil?
     if SETTINGS[:ignore_puppet_facts_for_provisioning]
       param["ip"]  = ip
