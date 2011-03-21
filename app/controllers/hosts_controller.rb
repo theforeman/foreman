@@ -443,9 +443,9 @@ class HostsController < ApplicationController
     @environment     = @hostgroup.environment
 
     render :update do |page|
-      page['host_environment_id'].value  = @hostgroup.environment_id
+      page['host_environment_id'].value = @hostgroup.environment_id if @hostgroup.environment_id
       # process_hostgroup is only ever called for new host records therefore the assigned value can never be @hostgroup.puppetmaster_name
-      page['host_puppetproxy_id'].value = @hostgroup.puppetmaster.id
+      page['host_puppetproxy_id'].value = @hostgroup.puppetmaster.id if @hostgroup.puppetca?
       if @environment
         @host = Host.new
         @host.hostgroup   = @hostgroup
