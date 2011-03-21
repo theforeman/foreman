@@ -24,6 +24,14 @@ end
 
 SETTINGS[:login] ||= SETTINGS[:ldap]
 
+begin
+  require 'virt'
+  SETTINGS[:libvirt] = true
+rescue LoadError
+  RAILS_DEFAULT_LOGGER.debug "Libvirt binding are missing - hypervisor management is disabled"
+  SETTINGS[:libvirt] = false
+end
+
 # We load the default settings for the roles if they are not already present
 Foreman::DefaultData::Loader.load(false)
 

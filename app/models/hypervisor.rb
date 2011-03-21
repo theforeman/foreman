@@ -1,4 +1,3 @@
-require 'virt'
 class Hypervisor < ActiveRecord::Base
   attr_accessible :name, :uri, :kind
   attr_reader :host

@@ -7,7 +7,6 @@
     ['Global Parameters',      common_parameters_url],
     ['Hardware Models',        models_url],
     ['Host Groups',            hostgroups_url],
-    ['Hypervisors',            hypervisors_url],
     ['Installation Media',     media_url],
     ['LDAP Authentication',    auth_source_ldaps_url],
     ['Operating Systems',      operatingsystems_url],
@@ -24,8 +23,9 @@
   choices += [
     ['Roles',               roles_url]
   ] if SETTINGS[:login] and User.current.admin?
+  choices += [['Hypervisors', hypervisors_url]] if SETTINGS[:libvirt]
 %>
-<%= select_tag "settings_dropdown", options_for_select(choices, @controller.request.url) %>
+<%= select_tag "settings_dropdown", options_for_select(choices.sort, @controller.request.url) %>
 
 <%= observe_field('settings_dropdown', :function => "window.location.href = value;") %>
 </span>
