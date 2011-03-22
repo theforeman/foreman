@@ -7,11 +7,11 @@ class AddFamilyToOs < ActiveRecord::Migration
     for os in Operatingsystem.all
       case os.name
       when /RedHat|Centos|Fedora/i
-        os.family_id = Family::FAMILIES.index :RedHat
+        os.family_id = Operatingsystem::FAMILIES.index :RedHat
       when /Solaris/i
-        os.family_id = Family::FAMILIES.index :Solaris
+        os.family_id = Operatingsystem::FAMILIES.index :Solaris
       when /Debian|Ubuntu/i
-        os.family_id = Family::FAMILIES.index :Debian
+        os.family_id = Operatingsystem::FAMILIES.index :Debian
       when nil
         say "You have an Operatingsystem with a nil name!"
         say os.inspect
