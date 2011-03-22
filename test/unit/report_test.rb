@@ -26,6 +26,19 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal 3, @r.applied
   end
 
+  test "it should keep applied and restarted metrics on reports from 2.6.5+ versions" do
+    return true if Facter.puppetversion < "2.6"
+    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.5.yaml"))
+    assert_equal 1, r.applied
+    assert_equal 1, r.restarted
+  end
+
+  test "it should keep failure metrics on reports from 2.6.5+ versions" do
+    return true if Facter.puppetversion < "2.6"
+    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.5-errors.yaml"))
+    assert_equal 1, r.failed
+  end
+
   test "it should true on error? if there were errors" do
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3}
     assert @r.error?

@@ -96,7 +96,8 @@ class Report < ActiveRecord::Base
       raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
 
       # Is this a pre 2.6.x report format?
-      @pre26 = !report.instance_variables.include?("@resource_statuses")
+      @post265 = report.instance_variables.include?("@report_format")
+      @pre26   = !report.instance_variables.include?("@resource_statuses")
 
       # convert report status to bit field
       st = calc_status(metrics_to_hash(report))
@@ -220,7 +221,8 @@ class Report < ActiveRecord::Base
         report_status[m] = metrics["resources"][m.to_sym]
       else
         h=translate_metrics_to26(m)
-        report_status[m] = metrics[h[:type]][h[:name]] rescue nil
+        mv = metrics[h[:type]]
+        report_status[m] = mv[h[:name].to_sym] + mv[h[:name].to_s] rescue nil
       end
       report_status[m] ||= 0
     end
@@ -229,6 +231,10 @@ class Report < ActiveRecord::Base
     # sometimes there are skip values, but there are no error messages, we ignore them.
     if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
       report_status["skipped"] = 0
+    end
+    # fix for reports that contain no metrics (i.e. failed catalog)
+    if @post265 and report.respond_to?(:status) and report.status == "failed"
+      report_status["failed"] += 1
     end
     return report_status
   end
@@ -269,9 +275,13 @@ class Report < ActiveRecord::Base
   def self.translate_metrics_to26 metric
     case metric
     when "applied"
-      { :type => "changes", :name => :total}
+      if @post265
+        { :type => "changes", :name => "total"}
+      else
+        { :type => "total", :name => :changes}
+      end
     else
-      { :type => "resources", :name => metric.to_sym}
+      { :type => "resources", :name => metric}
     end
   end
 
