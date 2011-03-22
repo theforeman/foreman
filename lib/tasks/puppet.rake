@@ -71,7 +71,7 @@ namespace :puppet do
           puts
           puts "Please fix these issues and try again"
         else
-          Rails.logger "Failed to refresh puppet classes: #{e}"
+          Rails.logger.warn "Failed to refresh puppet classes: #{e}"
         end
         exit
       end
@@ -118,7 +118,7 @@ namespace :puppet do
             puts "Import complete"
           end
         else
-          Rails.logger "Failed to refresh puppet classes: #{errors}"
+          Rails.logger.warn "Failed to refresh puppet classes: #{errors}"
         end
       else
         puts "No changes detected" unless args.batch
