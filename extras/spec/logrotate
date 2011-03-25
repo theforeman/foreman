@@ -7,6 +7,6 @@
   compress
 	daily
   postrotate
-    [ -e /etc/init.d/foreman ] && /etc/init.d/foreman restart >/dev/null 2>&1 || true
+    [ -e /etc/init.d/foreman ] && /etc/init.d/foreman condrestart >/dev/null 2>&1 || true
   endscript
 }

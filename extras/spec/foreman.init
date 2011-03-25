@@ -66,8 +66,16 @@ case "$1" in
         stop
         start
     ;;
+    condrestart)
+        if [ -f ${FOREMAN_HOME}/tmp/pids/server.pid ]; then
+            stop
+            start
+            RETVAL=$?
+        fi
+        ;;
+
     *)
-        echo $"Usage: $prog {start|stop|restart}"
+        echo $"Usage: $prog {start|stop|restart|condrestart}"
         exit 1
 esac
 
