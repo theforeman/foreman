@@ -14,7 +14,7 @@ module HostsAndHostgroupsHelper
   def puppetmaster_text_field object, f
     content_tag(:span, :id => "display_name", :style => display(object.puppetca?)) do
       f.label(:puppetmaster_name, "Puppetmaster") +
-      f.text_field(:puppetmaster_name, :size => 8, :value => object.puppetmaster.to_s)
+      f.text_field(:puppetmaster_name, :size => 8, :value => object.puppetmaster_name)
     end
   end
 
@@ -29,6 +29,9 @@ module HostsAndHostgroupsHelper
     link_to_function(image_tag("link.png"), :id => "switcher", :title => "Switch to using a reference to a smart proxy") do |page|
       page << "if ($('display_proxy').visible()) {"
       page["#{object.class.to_s.downcase}_puppetproxy_id"].value = ""
+      page << "}"
+      page << "if ($('display_name').visible()) {"
+      page["#{object.class.to_s.downcase}_puppetmaster_name"].value = ""
       page << "}"
       page[:display_name].toggle
       page[:display_proxy].toggle
