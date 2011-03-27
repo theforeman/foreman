@@ -86,7 +86,7 @@ module ApplicationHelper
   # a simple helper to load the google JS only on pages which requires it
   def gcharts_script
     content_for :head do
-      "<script src=http://www.google.com/jsapi></script>"
+      "<script src=#{request.protocol}www.google.com/jsapi></script>"
     end
   end
 
