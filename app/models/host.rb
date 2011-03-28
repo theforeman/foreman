@@ -282,8 +282,8 @@ class Host < Puppet::Rails::Host
     # Static parameters
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
-    param["puppetmaster"] = puppetmaster
-    param["domainname"] = domain.fullname unless domain.nil? or domain.fullname.nil?
+    param["puppetmaster"] = puppetmaster.to_s
+    param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
     if SETTINGS[:ignore_puppet_facts_for_provisioning]
       param["ip"]  = ip
       param["mac"] = mac

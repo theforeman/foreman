@@ -27,12 +27,14 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_create_valid
     SmartProxy.any_instance.stubs(:valid?).returns(true)
+    SmartProxy.any_instance.stubs(:to_s).returns("puppet")
     post :create, {}, set_session_user
     assert_redirected_to smart_proxies_url
   end
 
   def test_create_valid_json
     SmartProxy.any_instance.stubs(:valid?).returns(true)
+    SmartProxy.any_instance.stubs(:to_s).returns("puppet")
     post :create, {:format => "json"}, set_session_user
     proxy = ActiveSupport::JSON.decode(@response.body)
     assert_response :created
