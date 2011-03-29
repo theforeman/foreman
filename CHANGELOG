@@ -1,7 +1,290 @@
-2010-11-11	Paul Kelly <pikelly@blueyonder.co.uk>
-	* Fixes #450 - Environment imports lose their puppetclass associations
+2011-03-29	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #790 - puppetmaster_name should be obj.puppetmaster_name
+	* Fixes #789 - External node interpolation of puppetmaster
+
+2011-03-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #784 - The HOST flash runtime_graph disapears when you have a failed report
+	* fixes #793 - Including non-https version of Google jsapi causing SSL warning
+
+2011-03-26	Marcello de Sousa <foreman-dev@area151.com>
+	* Fixes #791 - Added a "condrestart" to the RPM init script and logrotate.
+
+2011-03-22	Ohad Levy <ohadlevy@gmail.com>
+	* fixes typo in log output - refs #565
+	* fixes #774 -  Migration may fail if upgrading from a 0.1-5 and older foreman
+	* fixes #761 - Support Puppet 2.6.x Report format 2
+
+2011-03-22	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #565 - rake puppet:import:puppet_classes misses some changes
+
+2011-03-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #582 - Foreman should not fail if libvirt ruby binding are not installed
+	* fixes #495 - only value field needs to be text, reverting
+	* fixes #495 - ensure we handle the correct index if there is more than one
+	* fixes #771 - unattended settings do not get updated correctly when choosing a hostgroup
+	* fixes #770 - puppet autosign fails if using legacy puppet ca handleing
+	* fixes #765 - puppetmaster name is no longer resolved after #609
+	* fixes #766 - removed dead code around RRD's
+	* fixes #495 - Facts truncation when using storeconfig and sharing a MySQL DB with puppet
+
+2011-03-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #763 - Sometimes list of hosts may fail if no OS details are found
+
+2011-03-18	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #758 - Respond_to typo
+
+2011-03-17	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #738 - Refactored the exception code in proxy_api.rb
+
+2011-03-17	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #609 - Orchestrate puppetca operations
+
+2011-03-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #630 - Clicking on build deletes all historic data without confirmation
+
+2011-03-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #598 - A 5 second timeout is to small on the proxy interface
+	* fixes #693 - Fix notifications allways being sent to all users
+	* updates host forms
+	* fixed broken tests
+	* added css grid and converted most pages to use that grid
+	* views cleanup and added more operatingsystems icons
+	* removed unused image
+
+2011-03-15	Ashay Humane <ashay.humane@gmail.com>
+	* fixes #701 - Include environment, puppetclasses and group_parameters for hostgroups json output.
+
+2011-03-15	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #674 - Rails Queue class conflict with Orchestration Queue
+
+2011-03-15	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes #464 - Debian package: use correct ActiveRecord adapter name in config/database.yml when using PostgreSQL.
+	* * Changed debian/changelog for foreman-0.1.6-2 release. * Changed dependency on rake from version >= 0.8.1 to >=0.8.4.
+	* Fixed #465 - Use correct condition in migration AddOwnerToHosts.
+
+2011-03-15	Frank Sweetser <fs@wpi.edu>
+	* HTML cleanup in nonactive hosts section of email summary report
+
+2011-03-15	Jason E. Rist <jrist@redhat.com>
+	* New Look and Feel for Foreman.
+
+2011-03-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #733 - All hosts are unmanaged after #641
+
+2011-03-13	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #662 - Add deprecation warnings for GW classes
+	* Fixes #641 - Allow editing of the host's managed atribute
+	* Fixes #728 - Do not attempt to render views/subnets/freeip
+	* Fixes #712 - settings lost on create failure
+	* Fixes #725 - Provided better message on boot_server detection failure
+	* Refs #611 - smart-proxy errors are not being displayed
+
+2011-03-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #702 - remove pxe-config-link when changing the mac address
+	* fixes #681 - with_fact named scope can't be used with more than one fact name and value pairs
+
+2011-03-07	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #642 - Redo managed host implementation
+	* Fixes #654 - Delete ROLLBACK should be in transaction block
+	* Fixes #714 - Reverse rollback operation order
+	* Fixes #695 - Unattended being false should skip some tests
+
+2011-03-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #691 - Implement simple status service
+
+2011-03-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #709 - upgrade bundled rails to latest version
+
+2011-03-07	Frank Sweetser <fs@wpi.edu>
+	* fixes #708 - Perform case insensitive match when checking if hostname includes domain
+
+2011-03-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes ##698 - added missing file to commit
+	* fixes #698 - Searching for puppetclass in json format gives 500 error
+
+2011-02-22	Ashay Humane <ashay.humane@gmail.com>
+	* Fixes #683 - Report list sometimes fail to generate the correct SQL query
+
+2011-02-21	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #670 - Adds proper json support for most CRUD operations
+	* fixes #682 - Typo in app/models/orchestration/libvirt.rb
+
+2011-02-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #680 - sql query on host index page is not eager loading
+	* fixes #681 - with_fact named scope can't be used with more than one fact name and value pairs
+
+2011-02-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #672 - Puppet class expansion should work faster
+
+2011-02-16	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #643 - choosing the hostgroup does not update the puppet class list correctly when creating a new host
+	* Fixes #653 - adds ip and mac to host whilelist for template rendering
+	* Fixes #650 - Makes snippet rendering use the safemode module to prevent attacks
+
+2011-02-16	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #664 - smart-proxy features
+
+2011-02-15	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #632 - Adds the ability to generate a PXE menu containig provisioning template and hostgroup combinations on smart proxies
+
+2011-02-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #667 - welcome screens query is not optimized
+	* fixes #666 - XSS vulnerability
+
+2011-02-13	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #623 - incomplete multiple builds commit
+
+2011-02-10	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes bug #644 - Added gem dependencies for 'rest-client' and 'json' to config/environment.rb.
+
+2011-02-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #334 - Clone a hostgroup
+
+2011-02-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #661 - unable to create 32bit libvirt instances
+	* fixes #660 - getting 404 while refreshing the operating systems selection
+	* fixes #612 - Print an error message when can not find a PXELinux template to render
+
+2011-02-04	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #649 - Makes the operating system settings for hostgroups obey the :unattended global setting
+	* adding missing files refs #646
+	* enforce mac address validation - refs #648
+	* fixes #646 - Creating a host and getting an error results in Operating System not being accepted
+	* fixes #648 - libvirt validations errors even if libvirt hypervisor is not selected
+
+2011-02-01	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #631 - Adds the ability to set default values for hostgroups, which are automatically applied when creating a new host (and selecting that host group), and allows for templates to be rendered with those default hostgroup values
+
+2011-02-01	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #626 - Render error directly in case of sandbox rendering, so can tell what went wrong
+	* fixes #604 - making safemode template rendering configurable
+	* Fixes #639 - resolves "parenthesize argument(s) for future version" warnings
+
+2011-01-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #635 - add a rack task to send out emails / patches to foreman developers list
+	* fixes #634 - libvirt-ruby name collation
+
+2011-01-26	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #452 - Host's owner should default to the logged in user
+	* Fixes #453 - Restrict dropdowns based upon user permissions
+	* Fixes #611 - Display smart-proxy error messages rather than http error codes
+	* Fixes #350 - Add multiple build operation
+
+2011-01-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #608 - Cant mass disable hosts notifications
+	* fixes #605 - remove parenthesize argument(s) warnings
+
+2011-01-24	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #600 - Added set_session_user to some tests
+
+2011-01-23	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #603 - mac address validations logic for virtual hosts is broken
+	* fixes #602 - Foreman leaves libvirt connections open
+	* fixes #601 - virtual machine guest values go away after a validation error
+
+2011-01-20	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #596 - ldap message type is error not notice
+
+2011-01-20	Eric Shamow <eshamow@colossus.advance.net>
+	* Fixes #578 - Emailed error reports are empty
+
+2011-01-20	Ashay Humane <ashay.humane@gmail.com>
+	* Implement #460 : Add search text field for search by Resource and Message.
+
+2011-01-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #335 - this patch will auto import the facts (making the rake task or import_facts script redundent).
+	* fixes #585 - support link points to an invalid url
+	* fixes 562 - rake task of import of classes and environments in batch mode does not work reliably
+	* fixes #595 - the search bar under reports is not always show
+	* fixes #474 - Foreman does not add a node automatically on initial report
+
+2011-01-17	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #592 - Adding tests for provisioning template selection based on Host
+
+2011-01-16	Ohad Levy <ohadlevy@gmail.com>
+	* Updated code to be more ruby 1.87- friendly, refs #427
+
+2011-01-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #583 - IP address suggestion does not work
+	* fixes #427 - Ability to provision xen/kvm guests
+
+2010-12-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #561 - Not all puppet classes are shown in the hostgroup edit page
+
+2010-12-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #558 - proxy fails if the the url include a tralinig slash.
+	* fixes #419 - switching hostgroups does not update the associated classes page
+
+2010-12-22	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #553 -improve handling of built option
+
+2010-12-20	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #555 - unable to build Debian hosts with Safe template's
+	* cleanup after smart proxy #554
+
+2010-12-20	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes #263 - Refactored Foreman to use correct singular and pluralization of medium/media
+
+2010-12-16	Ohad Levy <ohadlevy@gmail.com>
+	* added missing spinner image - refs #541
+	* Fixes #541 - Select Subnet per host
+	* Fixes #540 - Manages sub proxies
+	* Fixes #538 - library to communicate with the smart proxies
+	* Fixes #65, Fixes #339 and Fixes #539
+
+2010-12-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #534 - failing test for config_templates
+	* fixes #525 - config templates contain incorrect EOL chars
+	* Fixes #524 - unable to access epel in safe templates, refs #469
+	* Fixes #526 - it should be possible to delete config templates from OS defaults
+
+2010-12-13	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #468 - adding a default template for a grubby script which create a default script for redhat distros that will re-install it when executed
+
+2010-12-09	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #469 - Changing templates to be rendered within a safemode/sandbox
+	* Fixes #496 - Fixing issues with operating system edit/new pages when setting default config templates
+
+2010-11-29	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #378 - Adds support for multiple configuration templates
+	* fixes #463 - adds a simple rake task to reset administrator user account.
+
+2010-11-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #471 - enabling parameters for Operating Systems
+
+2010-11-22	Ohad Levy <ohadlevy@gmail.com>
+	* Updated rack version
+	* updated will paginate plugin
+	* updated rails to latest stable 2.3.x branch
+	* removed empty task folder
+	* roles: switched to route helpers
+	* fixes #478 - Host creation / edit operation might return undefined method crypt
+
+2010-11-21	Ohad Levy <ohadlevy@gmail.com>
+	* updated searchlogic to latest module
+
+2010-11-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #477 - unable to delete an OS
+
+2010-11-18	Ohad Levy <ohadlevy@gmail.com>
+	* Ensure layout is rendered when using html get requests for non authorized requests
+	* ignore all kind of vim swap files
+	* minor refactoring to unattended controller to include constants for filters
+	* changed application default layout file
+	* fixes #303 - cleanup flash hash from activescafold leftovers
+
+2010-11-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes typo - refs #470
+	* fixes #470 - Add gpxe scripts support
+
+2010-11-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #461 - Newly installed foreman installation creates the admin account without Admin permissions
+	* updated version file
 
 2010-11-11	Ohad Levy <ohadlevy@gmail.com>
+	* updated puppet module for foreman to include new yum repos
+	* updated SPEC file to 0.1-6 release
+	* updated changelog and Contributors list
 	* fixed wrong usage of find_in_batches --> oops
 	* fixes #457 - LDAP on the fly user creation no longer works
 	* fixes #455 - selected items are not shown as selected
@@ -9,6 +292,9 @@
 	* fixes #454 - Foreman render 500 instead of 404
 	* Fixes #443 - remove unnecassary fact_values loading
 	* Restructure the host creation/edit page
+
+2010-11-11	Paul Kelly <pikelly@blueyonder.co.uk>
+	* Fixes #450 - Environment imports lose their puppetclass associations
 
 2010-11-10	Paul Kelly <pikelly@blueyonder.co.uk>
 	* refs #168 - optional fields were wrong
