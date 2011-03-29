@@ -215,7 +215,7 @@ class Host < Puppet::Rails::Host
 
   # returns the host correct disk layout, custom or common
   def diskLayout
-    disk.empty? ? ptable.layout : disk.gsub("\r","")
+    (disk.empty? ? ptable.layout : disk).gsub("\r","")
   end
 
   # returns a configuration template (such as kickstart) to a given host
