@@ -27,10 +27,10 @@ module HostsAndHostgroupsHelper
 
   def toggle_puppetmaster_field object
     link_to_function(image_tag("link.png"), :id => "switcher", :title => "Switch to using a reference to a smart proxy") do |page|
-      page << "if ($('display_proxy').visible()) {"
+      page << "if ($('#display_proxy').is(':visible')) {"
       page["#{object.class.to_s.downcase}_puppetproxy_id"].value = ""
       page << "}"
-      page << "if ($('display_name').visible()) {"
+      page << "if ($('display_name').is(':visible')) {"
       page["#{object.class.to_s.downcase}_puppetmaster_name"].value = ""
       page << "}"
       page[:display_name].toggle

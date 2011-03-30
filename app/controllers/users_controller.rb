@@ -59,12 +59,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
-    if user == User.current
+    @user = User.find(params[:id])
+    if @user == User.current
       notice "You are currently logged in, suicidal?"
       redirect_to :back and return
     end
-    if user.destroy
+    if @user.destroy
       process_success
     else
       process_error

@@ -25,3 +25,6 @@
 [submodule "vendor/plugins/virt"]
 	path = vendor/plugins/virt
 	url = git://github.com/ohadlevy/virt.git
+[submodule "vendor/plugins/jrails"]
+	path = vendor/plugins/jrails
+	url = git://github.com/aaronchi/jrails.git

@@ -1,4 +1,4 @@
-<div class="fields">
+<div class="fields span-24 last">
   <%= f.label :hostgroup_id, nil, :class => "span-3" %>
   <%= f.collection_select :hostgroup_id, Hostgroup.all, :id, :name, { :include_blank => true }, { :class => "span-4"} %>
   <%= f.label :environment_id, nil, :class => "span-3" %>

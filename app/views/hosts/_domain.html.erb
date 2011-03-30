@@ -2,11 +2,10 @@
   <%= label :host, :subnet_id, nil, :class => "span-2" %>
   <%= collection_select :host, :subnet_id, @domain.subnets, :id, :to_label, {:include_blank => true},{:class => "span-3"} %>
   <%= image_tag "spinner.gif", :id => "indicator", :style => "display:none" %>
-<% end -%>
-<%= observe_field(:host_subnet_id,
+  <%= observe_field(:host_subnet_id,
                     :url => { :controller => "subnets", :action => "freeip" },
-                    :method => :get, :loading => "$('indicator').show()",
-                    :complete => "$('indicator').hide()",
+                    :method => :get, :loading => "$('#indicator').show()",
+                    :complete => "$('#indicator').hide()",
                     :with => :subnet_id)
-%>
-
+  %>
+<% end -%>

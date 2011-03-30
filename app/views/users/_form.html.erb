@@ -1,46 +1,53 @@
 <% form_for @user do |f| %>
   <%= f.error_messages %>
-  <p>
-  <%= f.label :login, nil, :class => "span-3" %>
-  <%= f.text_field :login, :class => "last" %>
-  </p>
-  <p>
-  <%= f.label :firstname, "First Name", :class => "span-3" %>
-  <%= f.text_field :firstname, :class => "last" %>
-  </p>
-  <p>
-  <%= f.label :lastname, "Last Name", :class => "span-3" %>
-  <%= f.text_field :lastname, :class => "last" %>
-  </p>
-  <p>
-  <%= f.label :mail, nil, :class => "span-3" %>
-  <%= f.text_field :mail, :class => "last" %>
-  </p>
-  <p>
-  <%= f.label :auth_source_id, "Authorized by", :class => "span-3" %>
-  <%= f.collection_select :auth_source_id, AuthSource.all.delete_if{|a| a.to_label.nil?}, :id, :to_label, {:include_blank => true}, {:class => "last"}  %>
-  </p>
-  <p id="password" <%= display? !@user.manage_password? %>>
-    <div>
-    <%= f.label :password, nil, :class => "span-3" %>
-    <%= f.password_field :password, :class => "last" %>
-    </div>
-    <div>
-    <%= f.label :password_confirmation, "Verify", :class => "span-3" %>
-    <%= f.password_field :password_confirmation, :class => "last" %>
+  <div class="span-24 last">
+    <p>
+    <%= f.label :login, nil, :class => "span-3" %>
+    <%= f.text_field :login, :class => "last" %>
+    </p>
+    <p>
+    <%= f.label :firstname, "First Name", :class => "span-3" %>
+    <%= f.text_field :firstname, :class => "last" %>
+    </p>
+    <p>
+    <%= f.label :lastname, "Last Name", :class => "span-3" %>
+    <%= f.text_field :lastname, :class => "last" %>
+    </p>
+    <p>
+    <%= f.label :mail, nil, :class => "span-3" %>
+    <%= f.text_field :mail, :class => "last" %>
+    </p>
+    <p>
+    <%= f.label :auth_source_id, "Authorized by", :class => "span-3" %>
+    <%= f.collection_select :auth_source_id, AuthSource.all.delete_if{|a| a.to_label.nil?}, :id, :to_label, {:include_blank => true}, {:class => "span-3 last"}  %>
+    </p>
   </div>
-  </p>
-  <p> <% unless @minimal_edit -%>
-    <%= f.label :admin, "Administrator", :class => "span-3" %>
-    <%= f.check_box :admin, :class => "last" -%>
-  <% end -%></p>
 
-  <% field_set_tag "Roles" do %>
-    <%= edit_habtm @user, Role.givable %>
+  <div id="password" <%= display? !@user.manage_password? %>>
+    <div class="span-24 last">
+      <%= f.label :password, nil, :class => "span-3" %>
+      <%= f.password_field :password, :class => "span-3 last" %>
+    </div>
+    <div class="span-24 last">
+      <%= f.label :password_confirmation, "Verify", :class => "span-3" %>
+      <%= f.password_field :password_confirmation, :class => "span-3 last" %>
+    </div>
+  </div>
+  <% unless @minimal_edit -%>
+    <div class="span-24 last">
+      <%= f.label :admin, "Administrator", :class => "span-3" %>
+      <%= f.check_box :admin, :class => "span-3 last" -%>
+    </div>
+  <% end -%>
+
+  <div class="span-24 last">
+    <% field_set_tag "Roles" do %>
+      <%= edit_habtm @user, Role.givable %>
+    <% end %>
+    <%= render("filters", :f => f) unless @minimal_edit -%>
+    <p> <%= f.submit "Submit" %> </p>
   <% end %>
-  <%= render("filters", :f => f) unless @minimal_edit -%>
-  <p> <%= f.submit "Submit" %> </p>
-<% end %>
+</div>
 <%= observe_field(:user_auth_source_id,
                   :url    => { :action => :auth_source_selected},
                   :with   => 'auth_source_id') %>

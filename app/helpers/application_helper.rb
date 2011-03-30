@@ -33,13 +33,18 @@ module ApplicationHelper
     link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
   end
 
-  def toggle_div div
+  def toggle_div divs
     update_page do |page|
-      page << "if ($('#{div}').visible()) {"
-      page[div].hide
-      page << "} else {"
-      page[div].visual_effect :BlindDown, :duration => 0.1
-      page << "}"
+      (divs.is_a?(Array) ? divs : divs.to_s).each do |div|
+        # add jquery '#div' to the div if its missing
+        div = div.to_s
+        div = "##{div}" if div[0] != "#"
+        page << "if ($('#{div}').is(':visible')) {"
+        page[div].hide()
+        page << "} else {"
+        page[div].BlindDown :duration => 0.1
+        page << "}"
+      end
     end
   end
 
@@ -61,9 +66,9 @@ module ApplicationHelper
   end
 
   def check_all_links(form_name)
-    link_to_function("Check all", "checkAll('#{form_name}', true)") +
+    link_to_function("Check all", "checkAll('##{form_name}', true)") +
     " | " +
-    link_to_function("Uncheck all", "checkAll('#{form_name}', false)")
+    link_to_function("Uncheck all", "checkAll('##{form_name}', false)")
   end
 
   def searchtab title, search, options
