@@ -52,13 +52,13 @@ class Subnet < ActiveRecord::Base
   end
 
   def unused_ip
-    if d=dhcp_proxy
+    if d = dhcp_proxy
       return d.unused_ip(network)["ip"]
     else
       nil
     end
   rescue => e
-    logger.warn "failed to fetch a free IP from our proxy: #{e}"
+    logger.warn "Failed to fetch a free IP from our proxy: #{e}"
     nil
   end
 

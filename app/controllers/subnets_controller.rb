@@ -60,7 +60,7 @@ class SubnetsController < ApplicationController
       head :status => 200
     end
   rescue => e
-    logger.warn "failed to query #{subnet} for free ip: #{e}"
+    logger.warn "Failed to query #{subnet} for free ip: #{e}"
     head :status => 500
   end
 

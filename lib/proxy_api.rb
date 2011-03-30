@@ -8,11 +8,30 @@ module ProxyAPI
     attr_reader :url, :user, :password
 
     def initialize(args)
-      raise("Must provide a protocol and host when initialising a smart-proxy connection") unless url =~ /^http/
+      raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
 
       # Each request is limited to 60 seconds
-      @resource = RestClient::Resource.new(url, :timeout => 60, :headers => { :accept => :json })
+      connect_params = {:timeout => 60, :headers => { :accept => :json }}
+
+      # We authenticate only if we are using SSL
+      if url.match(/^https/i)
+        cert         = SETTINGS[:ssl_certificate] || Puppet.settings[:hostcert]
+        ca_cert      = SETTINGS[:ssl_ca_file]     || Puppet.settings[:localcacert]
+        hostprivkey  = SETTINGS[:ssl_private_key] || Puppet.settings[:hostprivkey]
+
+        # Use update rather than merge! as this is not rails dependent
+        connect_params.update(
+          :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
+          :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
+          :ssl_ca_file      =>  ca_cert,
+          :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
+        )
+      end
+      @resource = RestClient::Resource.new(url, connect_params)
       true
+    rescue => e
+      logger.error "Failed to initialize connection to proxy: #{e}"
+      false
     end
 
     def logger; RAILS_DEFAULT_LOGGER; end
@@ -20,7 +39,7 @@ module ProxyAPI
     private
 
     # Decodes the JSON response if no HTTP error has been detected
-    # If an HTTP error is received then the error messsage is saves into @error
+    # If an HTTP error is received then the error message is saves into @error
     # Returns: Response, if the operation is GET, or true for POST, PUT and DELETE.
     #      OR: false if a HTTP error is detected
     # TODO: add error message handling
@@ -32,6 +51,7 @@ module ProxyAPI
       end
     rescue => e
       logger.warn "Failed to parse response: #{response} -> #{e}"
+      false
     end
 
     # Perform GET operation on the supplied path
