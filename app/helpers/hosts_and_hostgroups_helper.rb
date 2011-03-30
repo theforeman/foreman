@@ -14,7 +14,7 @@ module HostsAndHostgroupsHelper
   def puppetmaster_text_field object, f
     content_tag(:span, :id => "display_name", :style => display(object.puppetca?)) do
       f.label(:puppetmaster_name, "Puppetmaster") +
-      f.text_field(:puppetmaster_name, :size => 8, :value => object.puppetmaster_name)
+      f.text_field(:puppetmaster_name, :size => 8, :value => object.puppetmaster)
     end
   end
 
