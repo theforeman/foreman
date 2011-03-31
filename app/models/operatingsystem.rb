@@ -29,7 +29,7 @@ class Operatingsystem < ActiveRecord::Base
   default_scope :order => 'LOWER(operatingsystems.name)'
 
   FAMILIES = {'Debian'  => %r{Debian|Ubuntu}i,
-              'Redhat'  => %r{RedHat|Centos|Fedora}i,
+              'Redhat'  => %r{RedHat|Centos|Fedora|Scientific}i,
               'Solaris' => %r{Solaris}i}
 
 
