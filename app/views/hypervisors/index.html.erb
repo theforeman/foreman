@@ -11,10 +11,13 @@
   </tr>
   <% for hypervisor in @hypervisors %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=link_to hypervisor.name, edit_hypervisor_path(hypervisor) %></td>
+      <td><%=link_to hypervisor, hypervisor_path(hypervisor) %></td>
       <td><%=h hypervisor.uri %></td>
       <td><%=h hypervisor.kind %></td>
-      <td><%= link_to "Destroy", hypervisor, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td>
+        <%=link_to "Edit", edit_hypervisor_path(hypervisor) %>
+        <%= link_to "Destroy", hypervisor, :confirm => 'Are you sure?', :method => :delete %>
+      </td>
     </tr>
   <% end %>
 </table>

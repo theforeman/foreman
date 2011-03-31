@@ -38,39 +38,39 @@ class HypervisorsControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => Hypervisor.first}, set_session_user
+    get :edit, {:id => Hypervisor.first.name}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     Hypervisor.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Hypervisor.first}, set_session_user
+    put :update, {:id => Hypervisor.first.name}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Hypervisor.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Hypervisor.first}, set_session_user
+    put :update, {:id => Hypervisor.first.name}, set_session_user
     assert_redirected_to hypervisors_url
   end
 
   def test_update_valid_json
     Hypervisor.any_instance.stubs(:valid?).returns(true)
-    put :update, {:format => "json", :id => Hypervisor.first}, set_session_user
+    put :update, {:format => "json", :id => Hypervisor.first.name}, set_session_user
     hypervisor = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
   end
 
   def test_destroy
     hypervisor = Hypervisor.first
-    delete :destroy, {:id => hypervisor}, set_session_user
+    delete :destroy, {:id => hypervisor.name}, set_session_user
     assert_redirected_to hypervisors_url
     assert !Hypervisor.exists?(hypervisor.id)
   end
 
   def test_destroy_json
     hypervisor = Hypervisor.first
-    delete :destroy, {:format => "json", :id => hypervisor}, set_session_user
+    delete :destroy, {:format => "json", :id => hypervisor.name}, set_session_user
     hypervisor = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
     assert !Hypervisor.exists?(hypervisor['id'])

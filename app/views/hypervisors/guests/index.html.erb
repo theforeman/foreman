@@ -1,0 +1,27 @@
+<% title "Guests on #{@hypervisor}" %>
+
+<table class="list">
+  <th> Name </th>
+  <th> CPUs </th>
+  <th> Memory </th>
+  <th> NIC </th>
+  <th> Disk </th>
+  <th> Storage </th>
+  <th> Power </th>
+  <th></th>
+  <% @guests.each do |guest| -%>
+    <tr>
+      <td> <%= guest.name %> </td>
+      <td> <%= guest.vcpu %> </td>
+      <td> <%= number_to_human_size guest.memory*1024 %> </td>
+      <td> <%= guest.interface.device %> </td>
+      <td> <%= guest.volume.size %> GB </td>
+      <td> <%= guest.volume.pool %> </td>
+      <td> <%= state(!guest.running?) %> </td>
+      <td> <%= link_to "Power#{state(guest.running?)}" , power_hypervisor_guest_path(@hypervisor, guest.name.to_s), :method => :put %> </td>
+    </tr>
+  <% end -%>
+</table>
+
+<%= page_entries_info @guests %>
+<%= will_paginate     @guests %>
