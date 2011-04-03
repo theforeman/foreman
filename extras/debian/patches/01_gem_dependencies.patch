@@ -1,0 +1,13 @@
+--- a/config/environment.rb.orig	2011-04-03 17:12:02.496666671 +0200
++++ b/config/environment.rb	2011-04-03 17:12:11.856666671 +0200
+@@ -18,8 +18,8 @@
+   config.gem "googlecharts", :lib => "gchart"
+   config.gem "safemode"
+   config.gem "rack", :version => '1.1.0'
+-  config.gem "rest-client", :version => '>=1.4.0', :lib => "restclient"
+-  config.gem "json"
++  # config.gem "rest-client", :version => '>=1.4.0', :lib => "restclient"
++  # config.gem "json"
+   # config.gem "bj"
+   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
+   # config.gem "sqlite3-ruby", :lib => "sqlite3"

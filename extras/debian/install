@@ -5,12 +5,15 @@ config usr/share/foreman
 config/email.yaml.example etc/foreman
 config/settings.yaml etc/foreman
 db var/lib/foreman
-extras usr/share/foreman
+extras/dbmigrate usr/share/foreman/extras
+extras/ignored_environments.yml.sample usr/share/foreman/extras
+extras/puppet usr/share/foreman/extras
+extras/query usr/share/foreman/extras
+extras/rdoc usr/share/foreman/extras
 lib usr/share/foreman
 public var/lib/foreman
 Rakefile usr/share/foreman
 script usr/share/foreman
-test usr/share/foreman
 vendor/plugins usr/share/foreman/vendor
 vendor/gems usr/share/foreman/vendor
 vendor/rails usr/share/foreman/vendor

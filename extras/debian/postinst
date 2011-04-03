@@ -36,16 +36,14 @@ dbc_dbfile_perms='0660'
 db_get foreman/database-type || true
 DB_TYPE=${RET}
 
-if [ -z "${DB_TYPE}" ]; do
-	exit 1
-done
+if [ -n "${DB_TYPE}" ]; then
+  dbc_generate_include_args="-o template_infile=/usr/share/foreman/templates/database-${DB_TYPE}.yml.template"
 
-dbc_generate_include_args='-o template_infile=/usr/share/foreman/templates/database-${DB_TYPE}.yml.template'
+  dbc_go foreman $@
 
-dbc_go foreman $@
-
-# initialize/migrate the database
-su - foreman -s /bin/sh -c /usr/share/foreman/extras/dbmigrate >/dev/null 2>&1
+  # initialize/migrate the database
+  su - foreman -s /bin/sh -c /usr/share/foreman/extras/dbmigrate >/dev/null 2>&1
+fi
 
 #DEBHELPER#
 

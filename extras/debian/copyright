@@ -43,6 +43,38 @@ License: MIT
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 
+Files: vendor/gems/googlecharts-1.3.6
+Copyright: 2007 Matt Aimonetti
+License: MIT
+
+Files: vendor/gems/rack-1.1.0
+Copyright: 2007-2010 Christian Neukirchen
+License: MIT
+
+Files: vendor/gems/rparsec-1.0
+Copyright: 2006-2008
+License: BSD
+
+Files: vendor/gems/ruby2ruby-1.2.5
+Copyright: Ryan Davis
+License: MIT
+
+Files: vendor/gems/ruby_parser-2.0.5
+Copyright: 2007-2008 Ryan Davis
+License: MIT
+
+Files: vendor/gems/safemode-1.0
+Copyright: 2008 Sven Fuchs, Peter Cooper
+License: MIT
+
+Files: vendor/gems/sexp-0.2.1
+Copyright: 2008 Christopher Cyll
+License: MIT
+
+Files: vendor/gems/sexp_processor-3.0.5
+Copyright: 2008 Ryan Davis
+License: MIT
+
 Files: vendor/plugins/acts_as_audited
 Copyright: 2008 Brandon Keepers - Collective Idea
 License: MIT
@@ -59,6 +91,10 @@ Files: vendor/plugins/proxy
 Copyright: 2009 Ohad Levy
 License: MIT
 
+Files: vendor/plugins/render_component
+Copyright: 2007 David Heinemeier Hansson
+License: MIT
+
 Files: vendor/plugins/ruby-net-ldap
 Copyright: Francis Cianfrocca
 License: GPL-2
@@ -68,6 +104,12 @@ License: GPL-2
 Files: vendor/plugins/searchlogic
 Copyright: 2009 Ben Johnson of Binary Logic
 License: MIT
+
+Files: vendor/plugins/virt
+Copyright: Ohad Levy
+License: GPL-3
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL-3'.
 
 Files: vendor/plugins/will_paginate
 Copyright: 2007 PJ Hyett and Mislav Marohnić
