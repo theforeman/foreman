@@ -362,7 +362,7 @@ class Host < Puppet::Rails::Host
 
   def populateFieldsFromFacts
     unless SETTINGS[:ignore_puppet_facts_for_provisioning]
-      self.mac = fv(:macaddress).downcase
+      self.mac = fv(:macaddress).downcase unless fv(:macaddress).blank?
       self.ip = fv(:ipaddress) if ip.nil?
     end
     self.domain = Domain.find_or_create_by_name fv(:domain) unless fv(:domain).empty?
