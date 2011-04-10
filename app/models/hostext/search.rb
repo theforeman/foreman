@@ -23,6 +23,7 @@ module Hostext
 
         scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :ext_method => :search_by_puppetclass
         scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
+        scoped_search :in => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
         if SETTINGS[:unattended]
           scoped_search :in => :subnet,      :on => :network, :complete_value => true, :rename => :subnet
@@ -61,7 +62,44 @@ module Hostext
           return {:conditions => opts, :include => :hostgroup}
         end
 
+        def self.search_by_params(key, operator, value)
+          key_name = key.sub(/^.*\./,'')
+          opts     = {:conditions => "name = '#{key_name}' and value #{operator} '#{value_to_sql(operator, value)}'", :order => :priority}
+          p        = Parameter.all(opts)
+          return {} if p.blank?
+
+          max         = p.first.priority
+          negate_opts = {:conditions => "name = '#{key_name}' and NOT(value #{operator} '#{value_to_sql(operator, value)}') and priority > #{max}", :order => :priority}
+          n           = Parameter.all(negate_opts)
+
+          conditions = param_conditions(p)
+          negate = param_conditions(n)
+
+          conditions += " AND " unless conditions.blank? || negate.blank?
+          conditions += " NOT(#{negate})" unless negate.blank?
+          return {:conditions => conditions}
+        end
+
         private
+
+        def self.param_conditions(p)
+          conditions = []
+          p.each do |param|
+            case param.class.to_s
+              when 'CommonParameter'
+                # ignore
+              when 'DomainParameter'
+                conditions << "domain_id = #{param.reference_id}"
+              when 'OsParameter'
+                conditions << "operating_system_id = #{param.reference_id}"
+              when 'GroupParameter'
+                conditions << "hostgroup_id = #{param.reference_id}"
+              when 'HostParameter'
+                conditions << "id = #{param.reference_id}"
+            end
+          end
+          conditions.join(' OR ')
+        end
 
         def self.value_to_sql(operator, value)
           return value                 if operator !~ /LIKE/i
