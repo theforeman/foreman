@@ -33,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hostgroups, :member => { :clone => :get }
   map.resources :common_parameters
   map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post}
-  map.resources :fact_values, :only => [:create, :index]
+  map.resources :fact_values, :only => [:create, :index], :collection => { :auto_complete_search => :get }
   map.resources :ptables
   map.resources :roles, :collection => {:report => [:get, :post]}
   map.resources :auth_source_ldaps

@@ -1,5 +1,7 @@
 class FactValuesController < ApplicationController
   include Facts
+  include Foreman::Controller::AutoCompleteSearch
+
   skip_before_filter :require_ssl,               :only => :create
   skip_before_filter :require_login,             :only => :create
   skip_before_filter :authorize,                 :only => :create
@@ -10,15 +12,15 @@ class FactValuesController < ApplicationController
   filter_parameter_logging :facts
 
   def index
+    values = FactValue.search_for(params[:search],:order => params[:order])
+
     respond_to do |format|
       format.html do
-        @search      = FactValue.search(params[:search])
-        @fact_values = @search.paginate :page => params[:page], :include => [:fact_name, { :host => :domain }]
-        @timestamps  = FactValue.fact_name_name_like("timestamp").host_id_eq(@fact_values.map(&:host_id).uniq)
-        @via         = ""
+        @fact_values = values.paginate :page => params[:page], :include => [:host, :fact_name]
+        @timestamps  = FactValue.fact_name_name_eq("--- !ruby/sym _timestamp").host_id_eq(@fact_values.map(&:host_id).uniq)
       end
       format.json do
-        render :json => FactValue.all(:include => [:fact_name, :host])
+        render :json => values.all(:include => [:fact_name, :host])
       end
     end
   end
