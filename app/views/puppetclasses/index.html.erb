@@ -22,7 +22,7 @@
         <% end %>
       </td>
       <td><%=h puppetclass.hostgroups.to_sentence %></td>
-      <td> <%= link_to puppetclass.hosts.count, hosts_path("search[puppetclasses_name_eq]" => puppetclass.name)%></td>
+      <td> <%= link_to puppetclass.hosts.count, hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
       </td>

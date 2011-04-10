@@ -4,12 +4,12 @@
     <% title header ||= "" %>
     <table class="list">
       <tr>
-        <th><%= order @search, :by => :name %></th>
-        <th><%= order @search, :by => :operatingsystem_name, :as => "Operating system" %></th>
-        <th><%= order @search, :by => :environment_name, :as => "Environment" %></th>
-        <th><%= order @search, :by => :model_name, :as => "Model" %></th>
-        <th><%= order @search, :by => :hostgroup_name, :as => "Host Group" %></th>
-        <th><%= order @search, :by => :last_report %></th>
+        <th><%= sort :name %></th>
+        <th><%= sort :os, :as => "Operating system" %></th>
+        <th><%= sort :environment %></th>
+        <th><%= sort :model %></th>
+        <th><%= sort :hostgroup, :as => "Host Group" %></th>
+        <th><%= sort :last_report %></th>
         <th></th>
       </tr>
       <% hosts.each do |host| -%>

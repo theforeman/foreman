@@ -16,6 +16,7 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
   belongs_to :puppetproxy, :class_name => "SmartProxy"
 
+  include Hostext::Search
   include HostCommon
 
   class Jail < Safemode::Jail

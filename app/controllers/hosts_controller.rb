@@ -1,6 +1,7 @@
 class HostsController < ApplicationController
   include Facts
   include Foreman::Controller::HostDetails
+  include Foreman::Controller::AutoCompleteSearch
 
   # actions which don't require authentication and are always treathed as the admin user
   ANONYMOUS_ACTIONS=[ :query, :externalNodes, :lookup ]
@@ -22,10 +23,15 @@ class HostsController < ApplicationController
   helper :hosts, :reports
 
   def index
-
-    # restrict allowed hosts list based on the user permissions
-    @search  = User.current.admin? ? Host.search(params[:search]) : Host.my_hosts.search(params[:search])
-
+    begin
+      # restrict allowed hosts list based on the user permissions
+      my_hosts  = User.current.admin? ? Host : Host.my_hosts
+      @search = my_hosts.search_for(params[:search],:order => params[:order], :group => 'hosts.id')
+      flash.clear
+    rescue => e
+      error e.to_s
+      @search = my_hosts.search_for ''
+    end
     render_hosts
   end
 
@@ -419,18 +425,22 @@ class HostsController < ApplicationController
   end
 
   def errors
+    params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0 or status.skipped > 0)"
     show_hosts Host.recent.with_error, "Hosts with errors"
   end
 
   def active
+    params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)"
     show_hosts Host.recent.with_changes, "Active Hosts"
   end
 
   def out_of_sync
+    params[:search]="last_report > \"#{SETTINGS[:puppet_interval]} minutes ago\" and status.enabled = true"
     show_hosts Host.out_of_sync, "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes"
   end
 
   def disabled
+    params[:search]="status.enabled = false"
     show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
   end
 

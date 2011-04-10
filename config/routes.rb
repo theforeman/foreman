@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
       :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
       :multiple_destroy => :get, :submit_multiple_destroy => :post, :multiple_build => :get, :submit_multiple_build => :post,
       :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
-      :multiple_enable => :get, :submit_multiple_enable => :post,
+      :multiple_enable => :get, :submit_multiple_enable => :post, :auto_complete_search => :get,
       :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get
   }
   map.dashboard '/dashboard', :controller => 'dashboard'
