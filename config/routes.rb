@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
       :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get
   }
   map.dashboard '/dashboard', :controller => 'dashboard'
+  map.dashboard_auto_completer '/dashboard/auto_complete_search', :controller => 'hosts', :action => :auto_complete_search
   map.statistics '/statistics', :controller => 'statistics'
   map.resources :notices, :only => :destroy
   map.resources :audits
