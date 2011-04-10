@@ -5,7 +5,7 @@
         <ul>
           <li> <%= link_to_if_authorized "<span>Dashboard</span>",  hash_for_dashboard_path, :class => "button" , :class => "button" %> </li>
           <li> <%= link_to_if_authorized "<span>Hosts</span>",      hash_for_hosts_path, :class => "button", :class => "button" %> </li>
-          <li> <%= link_to_if_authorized "<span>Reports</span>",    hash_for_reports_path.merge(:search => {:interesting => true}) , :class => "button" %> </li>
+          <li> <%= link_to_if_authorized "<span>Reports</span>",    hash_for_reports_path.merge(:search => 'eventful = true') , :class => "button" %> </li>
           <li> <%= link_to_if_authorized "<span>Facts</span>",      hash_for_fact_values_path, :class => "button" %> </li>
           <li> <%= link_to_if_authorized "<span>Audit Log</span>",  hash_for_audits_path, :class => "button" %> </li>
           <li> <%= link_to_if_authorized "<span>Statistics</span>", hash_for_statistics_path, :class => "button" %> </li>

@@ -11,6 +11,19 @@ class Report < ActiveRecord::Base
   BIT_NUM = 6
   MAX = (1 << BIT_NUM) -1 # maximum value per metric
 
+  scoped_search :in => :host,     :on => :name, :complete_value => true, :rename => :host
+  scoped_search :in => :messages, :on => :value,                         :rename => :log
+  scoped_search :in => :sources,  :on => :value,                         :rename => :resource
+
+  scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported
+  scoped_search :on => :status,      :complete_value => {:true => true, :false => false}, :rename => :eventful
+
+  scoped_search :on => :status, :offset => METRIC.index("applied"),         :word_size => BIT_NUM, :rename => :applied
+  scoped_search :on => :status, :offset => METRIC.index("restarted"),       :word_size => BIT_NUM, :rename => :restarted
+  scoped_search :on => :status, :offset => METRIC.index("failed"),          :word_size => BIT_NUM, :rename => :failed
+  scoped_search :on => :status, :offset => METRIC.index("failed_restarts"), :word_size => BIT_NUM, :rename => :failed_restarts
+  scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
+
   # search for a metric - e.g.:
   # Report.with("failed") --> all reports which have a failed counter > 0
   # Report.with("failed",20) --> all reports which have a failed counter > 20

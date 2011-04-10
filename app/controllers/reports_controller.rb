@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
+
   skip_before_filter :require_login,             :only => :create
   skip_before_filter :require_ssl,               :only => :create
   skip_before_filter :authorize,                 :only => :create
@@ -9,23 +11,15 @@ class ReportsController < ApplicationController
   filter_parameter_logging :report
 
   def index
-    @interesting = (params[:search] and params[:search][:interesting] and params[:search][:interesting] == "true")
-    search_cmd  = "Report"
-    for condition in Report::METRIC
-      search_cmd += ".with('#{condition.to_s}', #{params[condition]})" if params.has_key? condition
-    end
-    search_cmd += ".search(params[:search])"
-    # set defaults search order - cant use default scope due to bug in AR
-    # http://github.com/binarylogic/searchlogic/issues#issue/17
-    params[:search] ||=  {}
-    params[:search][:order] ||= "descend_by_created_at"
-
-    @search  = eval search_cmd
-    @reports = @search.paginate :page => params[:page]
+    @reports = Report.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    flash.clear
+  rescue => e
+    error e.to_s
+    @reports = Report.all.paginate :page => params[:page]
   end
 
   def show
-    @report = Report.find(params[:id])
+    @report = Report.find(params[:id], :include => [:logs, :messages, :sources])
     @offset = @report.reported_at - @report.created_at
   end
 

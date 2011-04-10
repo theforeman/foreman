@@ -15,4 +15,4 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
 <%= link_to 'Back', :back %> |
 <%= display_link_if_authorized 'Delete', hash_for_report_path(:id => @report, :auth_action => :destroy), :method => :delete -%> |
 <%= link_to "Host details", @report.host %> |
-<%= link_to "Other reports for this hosts", reports_host_path(@report.host) %>
+<%= link_to "Other reports for this host", reports_host_path(@report.host) %>
