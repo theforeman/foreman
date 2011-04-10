@@ -28,6 +28,16 @@ class Operatingsystem < ActiveRecord::Base
   acts_as_audited
   default_scope :order => 'LOWER(operatingsystems.name)'
 
+  scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :major, :complete_value => :true
+  scoped_search :on => :minor, :complete_value => :true
+  scoped_search :on => :type, :complete_value => :true, :rename => "family"
+
+  scoped_search :in => :architectures,    :on => :name, :complete_value => :true, :rename => "architecture"
+  scoped_search :in => :media,            :on => :name, :complete_value => :true, :rename => "medium"
+  scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
+  scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
+
   FAMILIES = {'Debian'  => %r{Debian|Ubuntu}i,
               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific}i,
               'Solaris' => %r{Solaris}i}

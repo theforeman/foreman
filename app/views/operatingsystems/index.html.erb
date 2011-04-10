@@ -3,14 +3,14 @@
 
 <table class="list">
   <tr>
-    <th>Name</th>
+    <th><%= sort :name %></th>
     <th>Hosts</th>
     <th></th>
   </tr>
   <% for operatingsystem in @operatingsystems %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to_if_authorized(os_name(operatingsystem), hash_for_edit_operatingsystem_path(:id => operatingsystem.id)) %></td>
-      <td class="ra"><%= link_to operatingsystem.hosts.count, hosts_path(:search => "os = #{operatingsystem.name}") %></td>
+      <td class="ra"><%= link_to @counter[operatingsystem.id] || 0, hosts_path(:search => "os = #{operatingsystem.name}") %></td>
       <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_operatingsystem_path(:id => operatingsystem, :auth_action => :destroy), :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
       </td>

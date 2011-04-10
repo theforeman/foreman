@@ -1,15 +1,16 @@
 class OperatingsystemsController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
   before_filter :find_os, :only => %w{show edit update destroy bootfiles templates_for_type}
 
   def index
+    values = Operatingsystem.search_for(params[:search], :order => params[:order])
     respond_to do |format|
       format.html do
-        @search           = Operatingsystem.search(params[:search])
-        @operatingsystems = @search.all.paginate(:page => params[:page], :include => [:architectures], :order => :name)
+        @operatingsystems = values.paginate(:page => params[:page])
+        @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems})
       end
-      format.json { render :json => Operatingsystem.all(:include => [:media, :architectures, :ptables]) }
+      format.json { render :json => values.all(:include => [:media, :architectures, :ptables]) }
     end
-
   end
 
   def new

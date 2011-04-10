@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :lookup_keys
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
   map.resources :domains, :requirements => {:id => /[^\/]+/}
-  map.resources :operatingsystems, :member => {:bootfiles => :get}
+  map.resources :operatingsystems, :member => {:bootfiles => :get}, :collection => {:auto_complete_search => :get}
   map.resources :media
   map.resources :models
   map.resources :architectures
