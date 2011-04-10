@@ -1,13 +1,15 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
+  include Foreman::Controller::AutoCompleteSearch
 
   def index
+    values = Puppetclass.search_for(params[:search], :order => params[:order])
     respond_to do |format|
       format.html do
-        @search = Puppetclass.search params[:search]
-        @puppetclasses = @search.paginate :page => params[:page], :include => [:environments, :hostgroups, :operatingsystems]
+        @puppetclasses = values.paginate :page => params[:page], :include => [:environments, :hostgroups, :operatingsystems]
+        @counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses}})
       end
-      format.json { render :json => Puppetclass.classes2hash(Puppetclass.all(:select => "name, id")) }
+      format.json { render :json => Puppetclass.classes2hash(values.all(:select => "name, id")) }
     end
   end
 

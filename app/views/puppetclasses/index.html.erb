@@ -7,8 +7,8 @@
 
 <table class="list">
   <tr>
-    <th><%= order @search, :by => :name %></th>
-    <th><%= order @search, :by => :environments_name, :as => "Environments" %>and documentation</th>
+    <th><%= sort :name %></th>
+    <th><%= sort :environment, :as => "Environments" %>and documentation</th>
     <th>Host Group</th>
     <th>Hosts</th>
     <th></th>
@@ -21,8 +21,8 @@
           <%= link_to h(environment), "#", :onclick => rdoc_classes_path(environment, puppetclass.name) %>
         <% end %>
       </td>
-      <td><%=h puppetclass.hostgroups.to_sentence %></td>
-      <td> <%= link_to puppetclass.hosts.count, hosts_path(:search => "class = #{puppetclass.name}")%></td>
+      <td><%= puppetclass.hostgroups.map {|hg| link_to hg, hostgroup_path(hg)}.to_sentence %></td>
+      <td> <%= link_to @counter[puppetclass.id] || 0 , hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
       </td>
