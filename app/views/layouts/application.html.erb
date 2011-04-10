@@ -11,6 +11,7 @@
   <%= stylesheet_link_tag 'style' %>
   <%= stylesheet_link_tag 'typography' %>
   <%= stylesheet_link_tag 'grid' %>
+  <%= stylesheet_link_tag 'jquery-ui' %>
   <%= yield(:head) %>
   <%= javascript_include_tag :defaults, :cache => true %>
 </head>
@@ -25,7 +26,6 @@
      </div><%= render("home/menu") unless session[:user].nil? -%>
    </div>
     <div id="main">
-		<%= render "common/searchbar" rescue "<!-- The search facility is not available in this controller -->" unless params[:action] == 'show' %>
 		<%= content_tag('div', flash[:error],  :class => 'flash error')  if flash[:error] -%>
 		<%= content_tag('div', flash[:notice], :class => 'flash notice') if flash[:notice] -%>
 		<%= render 'common/notice' unless @notices.empty? -%>
@@ -36,6 +36,7 @@
 	     <%= yield -%>
 	   </div>
     </div>
+    <%= render "common/searchbar" if searchable? %>
   </div>
 
   <div id="footer">

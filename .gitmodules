@@ -28,3 +28,6 @@
 [submodule "vendor/plugins/jrails"]
 	path = vendor/plugins/jrails
 	url = git://github.com/aaronchi/jrails.git
+[submodule "vendor/plugins/scoped_search"]
+	path = vendor/plugins/scoped_search
+	url = git://github.com/wvanbergen/scoped_search.git

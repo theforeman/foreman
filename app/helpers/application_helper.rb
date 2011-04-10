@@ -160,4 +160,16 @@ module ApplicationHelper
     return image_tag "toggle_check.png" if condition
   end
 
+  def searchable?
+    controller.respond_to?(:auto_complete_search) rescue false
+  end
+
+  def auto_complete_search(method, val,tag_options = {}, completion_options = {})
+    path = eval("#{controller_name}_path")
+    options = tag_options.merge(:class => "auto_complete_input")
+    text_field_tag(method, val, options) + auto_complete_clear_value_button(method) +
+      auto_complete_field_jquery(method, "#{path}/auto_complete_#{method}", completion_options)
+  end
+
+
 end

@@ -1,19 +1,7 @@
-<div id="searchbar"> 
-  <div id="tabs" class="odd">
-    <ul>
-      <li><%= link_to_function "Search", toggle_searchbar %></li>
-      <% for tab in @tabs.keys.sort -%>
-        <%= searchtab tab, @tabs[tab], :selected => (@active_tab == tab) %>
-      <% end -%>
-      <%= searchtab "Reset", {}, :selected => false, :no_close_button => true %>
-    </ul>
-  </div>
-  <div id="search" style="display:none">
-    <ul>
-      <li><%= link_to_function "Search", toggle_searchbar  %></li>
-      <li>
-        <div id="searchtab"><%= render :partial => 'search_line' %></div>
-      </li>
-    </ul>
-  </div>
+<div class="auto_complete">
+  <% form_tag eval("#{controller_name}_path"), :method => "get" do %>
+    <%= auto_complete_search(:search, params[:search], {:placeholder => "Type Space For Search Options"},{ :delay => 100, :min_length => -1 }) %>
+    <%= submit_tag 'Search', :class => :auto_complete_submit %>
+  <% end -%>
+
 </div>
