@@ -129,6 +129,18 @@ class ApplicationController < ActionController::Base
     flash[:error] = error
   end
 
+  # this method is used with nested resources, where obj_id is passed into the parameters hash.
+  # it automaticilly updates the search text box with the releavnt relationship
+  # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
+  def setup_search_options
+    params[:search] ||= ""
+    params.keys.each do |param|
+      if param =~ /(\w+)_id$/
+        params[:search] += "#{$1} = #{params[param]}" unless params[param].blank?
+      end
+    end
+  end
+
   private
   def detect_notices
     @notices = current_user.notices

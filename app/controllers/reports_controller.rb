@@ -6,12 +6,13 @@ class ReportsController < ApplicationController
   skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
   before_filter :set_admin_user, :only => :create
+  before_filter :setup_search_options, :only => :index
 
   # avoids storing the report data in the log files
   filter_parameter_logging :report
 
   def index
-    @reports = Report.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @reports = Report.search_for(params[:search], :order => params[:order]).paginate :page => params[:page], :include => :host
     flash.clear
   rescue => e
     error e.to_s

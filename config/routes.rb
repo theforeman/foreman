@@ -6,17 +6,19 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :name => /[^\.][\w\.-]+/ }
   map.resources :hosts,
     :requirements => {:id => /[^\/]+/},
-    :member => { :report => :get, :reports => :get, :clone => :get, :toggle_manage => :put,
+    :member => { :report => :get, :clone => :get, :toggle_manage => :put,
       :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
-      :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :cancelBuild => :get, :puppetrun => :get, :facts => :get, :pxe_config => :get },
+      :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :cancelBuild => :get,
+      :puppetrun => :get, :facts => :get, :pxe_config => :get },
     :collection => { :show_search => :get, :multiple_actions => :get, :multiple_parameters => :get,
       :update_multiple_parameters => :post, :save_checkbox => :post, :select_multiple_hostgroup => :get,
       :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
       :multiple_destroy => :get, :submit_multiple_destroy => :post, :multiple_build => :get, :submit_multiple_build => :post,
       :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
       :multiple_enable => :get, :submit_multiple_enable => :post, :auto_complete_search => :get,
-      :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get
-  }
+      :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get } do |hosts|
+    hosts.resources :reports, :requirements => {:host_id => /[^\/]+/}, :only => :index
+  end
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.dashboard_auto_completer '/dashboard/auto_complete_search', :controller => 'hosts', :action => :auto_complete_search
   map.statistics '/statistics', :controller => 'statistics'

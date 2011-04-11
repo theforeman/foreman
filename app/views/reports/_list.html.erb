@@ -1,6 +1,6 @@
 <table class="list">
   <tr>
-    <% unless defined? @host -%>
+    <% unless params[:host_id] -%>
       <th><%= sort :host %></th>
     <% end -%>
     <th><%= sort :reported, :as => "Last report" %></th>
@@ -15,8 +15,8 @@
   </tr>
   <% for report in @reports %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <% unless defined? @host -%>
-        <td><%= link_to h(report.host), host_path(report.host) %></td>
+      <% unless params[:host_id] -%>
+        <td><%= link_to h(report.host), host_reports_path(report.host) %></td>
       <% end -%>
       <td><%= reported_at_column(report) %></td>
       <td><%= h report.applied %></td>
