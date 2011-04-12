@@ -56,6 +56,12 @@
     margin: .8em 0 .2em;
     line-height: 1.5;
 }
+.ui-autocomplete-error {
+    color: red;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+}
 .ui-autocomplete-loading
 {
     background: white url('../images/spinner.gif') right center no-repeat;

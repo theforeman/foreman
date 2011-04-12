@@ -7,7 +7,7 @@ module Foreman::Controller::AutoCompleteSearch
         {:label => item, :category => category}
       end
     rescue ScopedSearch::QueryNotSupported => e
-      @items = e.to_s
+      @items = [{:error =>e.to_s}]
     end
     render :json => @items
   end
