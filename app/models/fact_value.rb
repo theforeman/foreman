@@ -35,8 +35,13 @@ class FactValue < Puppet::Rails::FactValue
     hash
   end
 
-  def as_json(options={})
-    super(:only => :value, :include => {:fact_name => {:only => :name }, :host => {:only => :name} } )
+  def self.build_facts_hash facts
+    hash = {}
+    facts.each do |fact|
+      hash[fact.host.to_s] ||= {}
+      hash[fact.host.to_s].update({fact.name.to_s => fact.value})
+    end
+    return hash
   end
 
 end

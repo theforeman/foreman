@@ -7,12 +7,19 @@ class FactValuesController < ApplicationController
   skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
   before_filter :set_admin_user, :only => :create
+  before_filter :setup_search_options, :only => :index
 
   # avoids storing the facts data in the log files
   filter_parameter_logging :facts
 
   def index
-    values = FactValue.search_for(params[:search],:order => params[:order])
+    begin
+      values = FactValue.search_for(params[:search],:order => params[:order])
+      flash.clear
+    rescue => e
+      error e.to_s
+      values = FactValue.search_for ""
+    end
 
     respond_to do |format|
       format.html do
@@ -20,7 +27,7 @@ class FactValuesController < ApplicationController
         @timestamps  = FactValue.fact_name_name_eq("--- !ruby/sym _timestamp").host_id_eq(@fact_values.map(&:host_id).uniq)
       end
       format.json do
-        render :json => values.all(:include => [:fact_name, :host])
+        render :json => FactValue.build_facts_hash(values.all(:include => [:fact_name, :host]))
       end
     end
   end

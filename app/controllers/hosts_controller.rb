@@ -236,13 +236,6 @@ class HostsController < ApplicationController
     end
   end
 
-  def facts
-    respond_to do |format|
-      format.html { redirect_to fact_values_path(:search => {:host_name_eq => @host})}
-      format.json { render :json => @host.facts_hash }
-    end
-  end
-
   def toggle_manage
     if @host.toggle! :managed
       toggle_text = @host.managed ? "" : " no longer"

@@ -136,7 +136,10 @@ class ApplicationController < ActionController::Base
     params[:search] ||= ""
     params.keys.each do |param|
       if param =~ /(\w+)_id$/
-        params[:search] += "#{$1} = #{params[param]}" unless params[param].blank?
+        unless params[param].blank?
+          query = "#{$1} = #{params[param]}"
+          params[:search] += query unless params[:search].include? query
+        end
       end
     end
   end
