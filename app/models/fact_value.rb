@@ -5,7 +5,7 @@ class FactValue < Puppet::Rails::FactValue
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value
   scoped_search :in => :fact_name, :on => :name, :complete_value => true
-  scoped_search :in => :host, :on => :name, :rename => :host
+  scoped_search :in => :host, :on => :name, :rename => :host, :default_order => true
 
 
   # Todo: find a way to filter which values are logged,

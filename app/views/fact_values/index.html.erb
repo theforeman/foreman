@@ -2,7 +2,9 @@
 
 <table class="list">
   <tr>
-    <th><%= sort :host %></th>
+    <% unless params[:host_id] -%>
+      <th><%= sort :host %></th>
+    <% end %>
     <th><%= sort :name  %></th>
     <th><%= sort :value %></th>
     <th>Reported at</th>
@@ -10,10 +12,12 @@
   <% for fact_value in @fact_values %>
     <% next if fact_value.name =~ /timestamp/ -%>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td>
-        <%= link_to(h(fact_value.host.nil? ? "N/A" : fact_value.host),
-          hosts_path("search"=> "name = #{fact_value.host}"),
+      <% unless params[:host_id] -%>
+        <td>
+          <%= link_to(h(fact_value.host.nil? ? "N/A" : fact_value.host),
+                      host_facts_path(:host_id => fact_value.host),
           :title => "Show host") %></td>
+      <% end %>
       <td>
         <%= link_to h(fact_value.fact_name.name),
           fact_values_path("search" => "name = #{fact_value.name}"),
