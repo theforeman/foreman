@@ -11,3 +11,4 @@ public/images/active_scaffold
 public/javascripts/active_scaffold
 public/stylesheets/active_scaffold
 *.sw?
+.idea/*
