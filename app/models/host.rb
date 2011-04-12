@@ -382,7 +382,7 @@ class Host < Puppet::Rails::Host
       self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
     end
 
-    modelname = fv(:productname) || fv(:model)
+    modelname = fv(:productname) || fv(:model) || (fv(:is_virtual) == "true" ? fv(:virtual) : nil)
     self.model = Model.find_or_create_by_name(modelname.strip) if model.nil? and not modelname.empty?
 
     # again we are saving without validations as input is required (e.g. partition tables)
