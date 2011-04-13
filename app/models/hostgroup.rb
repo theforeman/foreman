@@ -23,6 +23,18 @@ class Hostgroup < ActiveRecord::Base
   alias_attribute :os, :operatingsystem
   acts_as_audited
 
+  scoped_search :on => :name, :complete_value => :true
+  scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
+  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
+  scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
+  scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
+  if SETTINGS[:unattended]
+    scoped_search :in => :architecture, :on => :name, :complete_value => :true, :rename => :architecture
+    scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => :os
+    scoped_search :in => :medium,            :on => :name, :complete_value => :true, :rename => "medium"
+    scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
+  end
+
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :hostgroup, :url_for_boot, :params, :hostgroup, :domain

@@ -1,16 +1,24 @@
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
+  include Foreman::Controller::AutoCompleteSearch
 
   filter_parameter_logging :root_pass
   before_filter :find_hostgroup, :only => [:show, :edit, :update, :destroy, :clone]
 
   def index
+    begin
+      values = Hostgroup.search_for(params[:search],:order => params[:order])
+      flash.clear
+    rescue => e
+      error e.to_s
+      values = Hostgroup.search_for ""
+    end
+
     respond_to do |format|
       format.html do
-        @search     = Hostgroup.search params[:search]
-        @hostgroups = @search.paginate :page => params[:page]
+        @hostgroups = values.paginate :page => params[:page]
       end
-      format.json { render :json => Hostgroup.all }
+      format.json { render :json => values }
     end
   end
 
