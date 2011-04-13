@@ -15,10 +15,15 @@ class Puppetclass < ActiveRecord::Base
   before_destroy Ensure_not_used_by.new(:hostgroups)
   default_scope :order => 'LOWER(puppetclasses.name)'
 
-
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
+  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host
+
+
+  def to_param
+    name
+  end
 
   # Scans a directory path for puppet classes
   # +paths+ : String containing a colon separated module path
@@ -161,6 +166,26 @@ class Puppetclass < ActiveRecord::Base
 
   def as_json(options={})
     super({:only => [:name, :id]}.merge(options))
+  end
+
+  def self.search_by_host(key, operator, value)
+    conditions  = "hosts.name #{operator} '#{value_to_sql(operator, value)}'"
+    direct      = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'DISTINCT puppetclasses.id').map(&:id)
+    indirect    = Hostgroup.all(:conditions => conditions, :joins => [:hosts,:puppetclasses], :select => 'DISTINCT puppetclasses.id').map(&:id)
+
+    opts = ''
+    opts += "puppetclasses.id IN(#{direct.join(',')})" unless direct.blank?
+    opts += " OR "                                     unless direct.blank? || indirect.blank?
+    opts += "hostgroups.id IN(#{indirect.join(',')})"  unless indirect.blank?
+    opts = "puppetclasses.id = 'nil'"                  if direct.blank? && indirect.blank?
+    return {:conditions => opts, :include => :hostgroups}
+  end
+
+  def self.value_to_sql(operator, value)
+    return value                 if operator !~ /LIKE/i
+    return value.tr_s('%*', '%') if (value ~ /%|\*/)
+
+    return "%#{value}%"
   end
 
 end

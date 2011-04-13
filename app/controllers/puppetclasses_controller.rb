@@ -1,12 +1,21 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :setup_search_options, :only => :index
 
   def index
-    values = Puppetclass.search_for(params[:search], :order => params[:order])
+    begin
+      values = Puppetclass.search_for(params[:search], :order => params[:order])
+      flash.clear
+    rescue => e
+      error e.to_s
+      values = Puppetclass.search_for ""
+    end
+
     respond_to do |format|
       format.html do
-        @puppetclasses = values.paginate :page => params[:page], :include => [:environments, :hostgroups, :operatingsystems]
+        @puppetclasses = values.paginate :page => params[:page], :include => [:environments, :hostgroups]
         @counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses}})
       end
       format.json { render :json => Puppetclass.classes2hash(values.all(:select => "name, id")) }
@@ -28,11 +37,9 @@ class PuppetclassesController < ApplicationController
   end
 
   def edit
-    @puppetclass = Puppetclass.find(params[:id])
   end
 
   def update
-    @puppetclass = Puppetclass.find(params[:id])
     if @puppetclass.update_attributes(params[:puppetclass])
       notice "Successfully updated puppetclass."
       redirect_to puppetclasses_url
@@ -42,7 +49,6 @@ class PuppetclassesController < ApplicationController
   end
 
   def destroy
-    @puppetclass = Puppetclass.find(params[:id])
     if @puppetclass.destroy
       notice "Successfully destroyed puppetclass."
     else

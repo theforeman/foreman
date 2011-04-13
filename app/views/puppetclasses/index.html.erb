@@ -15,7 +15,7 @@
   </tr>
   <% for puppetclass in @puppetclasses %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass.id) %></td>
+      <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass) %></td>
       <td>
         <% for environment in puppetclass.environments -%>
           <%= link_to h(environment), "#", :onclick => rdoc_classes_path(environment, puppetclass.name) %>

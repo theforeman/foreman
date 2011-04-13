@@ -24,25 +24,25 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => Puppetclass.first}, set_session_user
+    get :edit, {:id => Puppetclass.first.to_param}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     Puppetclass.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Puppetclass.first}, set_session_user
+    put :update, {:id => Puppetclass.first.to_param}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Puppetclass.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Puppetclass.first}, set_session_user
+    put :update, {:id => Puppetclass.first.to_param}, set_session_user
     assert_redirected_to puppetclasses_url
   end
 
   def test_destroy
     puppetclass = Puppetclass.first
-    delete :destroy, {:id => puppetclass}, set_session_user
+    delete :destroy, {:id => puppetclass.to_param}, set_session_user
     assert_redirected_to puppetclasses_url
     assert !Puppetclass.exists?(puppetclass.id)
   end
@@ -54,7 +54,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a puppetclass' do
     setup_user
-    get :edit, {:id => Puppetclass.first.id}
+    get :edit, {:id => Puppetclass.first.to_param}
     assert @response.status == '403 Forbidden'
   end
 
