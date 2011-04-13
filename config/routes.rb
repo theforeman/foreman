@@ -24,7 +24,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dashboard_auto_completer '/dashboard/auto_complete_search', :controller => 'hosts', :action => :auto_complete_search
   map.statistics '/statistics', :controller => 'statistics'
   map.resources :notices, :only => :destroy
-  map.resources :audits
+  map.resources :audits, :collection => {:auto_complete_search => :get}
   map.resources :usergroups
   map.resources :lookup_keys
   map.connect   "/lookup", :controller => "lookup_keys", :action => "q"

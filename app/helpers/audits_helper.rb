@@ -22,4 +22,10 @@ module AuditsHelper
     output
   end
 
+  def changes_column changes
+    msg = changes.keys.map(&:humanize).to_sentence if changes.is_a?(Hash)
+    msg ||=changes
+    return truncate(msg, :length => 50)
+  end
+
 end

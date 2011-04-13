@@ -2,12 +2,12 @@
 
 <table class="list">
   <tr>
-    <th><%= order @search, :by => :auditable_type, :as => "Changed" %></th>
+    <th><%= sort :changed %></th>
     <th>Object</th>
-    <th><%= order @search, :by => :action %></th>
-    <th><%= order @search, :by => :created_at, :as => "Changed at" %></th>
+    <th><%= sort :action %></th>
+    <th><%= sort :changed_at, :as => "Changed at" %></th>
     <th>Changes</th>
-    <th><%= order @search, :by => :username, :as => "Changed by" %></th>
+    <th><%= sort :user, :as => "Changed by" %></th>
     <th></th>
   </tr>
   <% for audit in @audits %>
@@ -16,8 +16,8 @@
       <td><%=h audit_title(audit) %></td>
       <td><%=h audit.action %></td>
       <td><%=h audit.created_at.to_s(:long) %></td>
-      <td><%=h audit.changes.keys.map(&:humanize).to_sentence %></td>
-      <td><%=h (audit.username || audit.user) %></td>
+      <td><%=h changes_column audit.changes %></td>
+      <td><%=h audit.user_as_string %></td>
       <td><%= link_to "Details", audit %></td>
     </tr>
   <% end %>
@@ -25,4 +25,3 @@
 
 <%= page_entries_info @audits %>
 <%= will_paginate @audits %>
-
