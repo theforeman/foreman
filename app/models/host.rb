@@ -106,17 +106,18 @@ class Host < Puppet::Rails::Host
     # handles all orchestration of smart proxies.
     include Orchestration
 
-    validates_uniqueness_of  :ip
-    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? }
+    validates_uniqueness_of  :ip, :if => Proc.new {|host| host.managed}
+    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed }
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_format_of      :sp_name, :with => /.*-sp/, :allow_nil => true, :allow_blank => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :domain_id
-    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? }
+    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed  }
+
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
-    validates_format_of      :mac, :with => (/([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/), :unless => Proc.new { |host| host.hypervisor_id }
-    validates_format_of      :ip,        :with => (/(\d{1,3}\.){3}\d{1,3}/)
+    validates_format_of      :mac, :with => (/([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/), :unless => Proc.new { |host| host.hypervisor_id or !host.managed }
+    validates_format_of      :ip,        :with => (/(\d{1,3}\.){3}\d{1,3}/), :if => Proc.new {|host| host.managed}
     validates_presence_of    :ptable, :message => "cant be blank unless a custom partition has been defined",
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake)  }
     validates_format_of      :sp_mac,    :with => /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/, :allow_nil => true, :allow_blank => true
