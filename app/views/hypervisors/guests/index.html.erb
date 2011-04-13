@@ -11,17 +11,24 @@
   <th></th>
   <% @guests.each do |guest| -%>
     <tr>
-      <td> <%= guest.name %> </td>
+      <td> <%= guest %> </td>
       <td> <%= guest.vcpu %> </td>
       <td> <%= number_to_human_size guest.memory*1024 %> </td>
       <td> <%= guest.interface.device %> </td>
       <td> <%= guest.volume.size %> GB </td>
       <td> <%= guest.volume.pool %> </td>
       <td> <%= state(!guest.running?) %> </td>
-      <td> <%= link_to "Power#{state(guest.running?)}" , power_hypervisor_guest_path(@hypervisor, guest.name.to_s), :method => :put %> </td>
+      <td>
+        <%= link_to "Power#{state(guest.running?)}" , power_hypervisor_guest_path(@hypervisor, guest), :confirm => 'Are you sure?', :method => :put %>
+        <%= link_to "Destroy", hypervisor_guest_path(@hypervisor, guest), :confirm => 'Are you sure?', :method => :delete %>
+      </td>
     </tr>
   <% end -%>
 </table>
+
+<p>
+Total of <%= number_to_human_size @guests.sum {|g| g.memory*1024} %> / <%= number_to_human_size @hypervisor.memory * 1024 %> memory used
+</p>
 
 <%= page_entries_info @guests %>
 <%= will_paginate     @guests %>

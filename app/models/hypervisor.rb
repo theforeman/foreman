@@ -1,3 +1,5 @@
+require 'hypervisor/guest'
+
 class Hypervisor < ActiveRecord::Base
   attr_accessible :name, :uri, :kind
   attr_reader :host
@@ -28,7 +30,19 @@ class Hypervisor < ActiveRecord::Base
   end
 
   def guests
-    query { host.guests.values.flatten.sort {|x,y| x.name <=> y.name }}
+    query { Virt::Guest.all }
+  end
+
+  def memory
+    query {host.connection.node_get_info.memory }
+  end
+
+  def free_memory
+    query {host.connection.node_free_memory } rescue nil
+  end
+
+  def cpus
+    query {host.connection.node_get_info.cpus}
   end
 
   def connect
@@ -39,10 +53,6 @@ class Hypervisor < ActiveRecord::Base
   def disconnect
     logger.debug "Closing connection to #{self}"
     host.disconnect if host
-  end
-
-  def find_guest_by_name name
-    host.find_guest_by_name name
   end
 
   private
