@@ -1,7 +1,7 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy, :assign]
   before_filter :setup_search_options, :only => :index
 
   def index
@@ -68,11 +68,10 @@ class PuppetclassesController < ApplicationController
   def assign
     return unless request.xhr?
 
-    klass = Puppetclass.find(params[:id])
     type = params[:type]
     render :update do |page|
-      page.insert_html :after, :selected_classes, :partial => 'selectedClasses', :locals => {:klass => klass, :type => type}
-      page["puppetclass_#{klass.id}"].hide
+      page.insert_html :after, :selected_classes, :partial => 'selectedClasses', :locals => {:klass => @puppetclass, :type => type}
+      page["puppetclass_#{@puppetclass.id}"].hide
     end
   end
 
