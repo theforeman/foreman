@@ -11,10 +11,10 @@
   <th></th>
   <% @guests.each do |guest| -%>
     <tr>
-      <td> <%= guest %> </td>
+      <td> <%= link_to guest, hypervisor_guest_path(@hypervisor, guest) %> </td>
       <td> <%= guest.vcpu %> </td>
       <td> <%= number_to_human_size guest.memory*1024 %> </td>
-      <td> <%= guest.interface.device %> </td>
+      <td> <%= guest.interface.device rescue "N/A" %> </td>
       <td> <%= guest.volume.size %> GB </td>
       <td> <%= guest.volume.pool %> </td>
       <td> <%= state(!guest.running?) %> </td>
@@ -27,7 +27,7 @@
 </table>
 
 <p>
-Total of <%= number_to_human_size @guests.sum {|g| g.memory*1024} %> / <%= number_to_human_size @hypervisor.memory * 1024 %> memory used
+Total of <%= number_to_human_size @guests.delete_if{|g| !g.running?}.sum {|g| g.memory*1024} %> / <%= number_to_human_size @hypervisor.memory * 1024 %> memory used
 </p>
 
 <%= page_entries_info @guests %>

@@ -1,4 +1,4 @@
-require 'virt/guest'
+require_dependency 'hypervisor/guest'
 
 class Hypervisors::GuestsController < ApplicationController
   before_filter :find_hypervisor
@@ -15,6 +15,7 @@ class Hypervisors::GuestsController < ApplicationController
 
   def show
     respond_to do |format|
+      format.html
       format.json { render :json => @guest }
     end
   end

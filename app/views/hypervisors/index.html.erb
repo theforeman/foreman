@@ -15,7 +15,8 @@
       <td><%=h hypervisor.uri %></td>
       <td><%=h hypervisor.kind %></td>
       <td>
-        <%=link_to "Edit", edit_hypervisor_path(hypervisor) %>
+        <%= link_to "Guests", hypervisor_guests_path(hypervisor) %>
+        <%= link_to "Edit", edit_hypervisor_path(hypervisor) %>
         <%= link_to "Destroy", hypervisor, :confirm => 'Are you sure?', :method => :delete %>
       </td>
     </tr>

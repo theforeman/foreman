@@ -1,0 +1,54 @@
+<% title @guest %>
+<div>
+
+  <div>
+    <strong class="span-3">Machine Type</strong>
+    <%= @guest.type %> / <%= @guest.machine %> / <%= @guest.arch %>
+  </div>
+
+  <div>
+    <strong class="span-3">VCPU(s)</strong>
+    <%= @guest.vcpu %>
+  </div>
+
+  <div>
+    <strong class="span-3">UUID</strong>
+    <%= @guest.uuid %>
+  </div>
+  <div>
+    <strong class="span-3">Memory</strong>
+    <%= number_to_human_size @guest.memory*1024 %> <%= "(Allocated: #{number_to_human_size @guest.current_memory.to_i*1024})" if @guest.current_memory %>
+  </div>
+  <% if @guest.interface -%>
+      <div>
+        <strong class="span-3">Network</strong>
+        <%= @guest.interface.device || @guest.interface.network %>
+      </div>
+      <div>
+        <strong class="span-3">NIC</strong>
+        <%= "#{@guest.interface.mac} (#{@guest.interface.model})" %>
+      </div>
+  <% end -%>
+  <div>
+    <strong class="span-3">Disk</strong>
+    <%= "#{@guest.volume.size}GB (#{@guest.volume.pool} storage pool)" %>
+  </div>
+
+  <div>
+    <strong class="span-3">Boot Device</strong>
+    <%= @guest.boot_device %>
+  </div>
+
+  <div>
+    <strong class="span-3">Running on</strong>
+    <%= link_to @hypervisor, hypervisor_path(@hypervisor) %>
+  </div>
+
+</div>
+<div class="title_action">
+  <%= link_to "Power#{state(@guest.running?)}", power_hypervisor_guest_path(@hypervisor, @guest), :confirm => 'Are you sure?', :method => :put %>
+  |
+  <%= link_to "Destroy", hypervisor_guest_path(@hypervisor, @guest), :confirm => 'Are you sure?', :method => :delete %>
+  |
+  <%= link_to "Other Guests on this hypervisor", hypervisor_guests_path(@hypervisor) %>
+</div>

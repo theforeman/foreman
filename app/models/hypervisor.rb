@@ -1,4 +1,4 @@
-require 'hypervisor/guest'
+require_dependency 'hypervisor/guest'
 
 class Hypervisor < ActiveRecord::Base
   attr_accessible :name, :uri, :kind

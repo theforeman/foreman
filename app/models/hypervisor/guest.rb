@@ -1,4 +1,4 @@
-require 'virt/guest'
+require_dependency 'virt/guest'
 
 class Virt::Guest
 
@@ -12,20 +12,12 @@ class Virt::Guest
     raise ActiveRecord::RecordNotFound
   end
 
-  def to_s
-    name.to_s
-  end
-
   def to_param
     to_s
   end
 
-  def <=> other
-    self.name <=> other.name
-  end
-
   def as_json opts
-    { to_s => {:memory => memory, :vcpu => vcpu, :running => running?, :volume => {:size => volume.size, :pool => volume.pool.name}}}
+    {to_s => {:memory => memory, :vcpu => vcpu, :running => running?, :volume => {:size => volume.size, :pool => volume.pool.name}}}
   end
 
 end
