@@ -9,19 +9,13 @@
     padding: 0px 20px 0px 10px;
     font-size: 1em;
     width: 80%;
-    border-bottom-left-radius: 10px 10px;
-    border-bottom-right-radius: 10px 10px;
-    border-top-left-radius: 10px 10px;
-    border-top-right-radius: 10px 10px;
+    border-radius: 10px;
 }
 .auto_complete_submit{
     font-family: Verdana, Helvetica, Arial;
     padding: 3px 8px;
     font-size: 12px;
-    border-bottom-left-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-    border-top-left-radius: 5px 5px;
-    border-top-right-radius: 5px 5px;
+    border-radius: 5px;
 }
 .auto_complete_submit:active{
   background: -moz-linear-gradient(top, #c2c3c0, #e4e5e4);
@@ -49,7 +43,13 @@
     margin: 0px 4px 0px -20px;
     display: inline;
 }
-
+.ui-autocomplete-completed {
+    color: #aaa;
+    font-weight: lighter;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+}
 .ui-autocomplete-category {
     font-weight: bold;
     padding: .2em .4em;
