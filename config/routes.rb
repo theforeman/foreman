@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
       :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
       :multiple_enable => :get, :submit_multiple_enable => :post, :auto_complete_search => :get,
       :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get } do |hosts|
-    hosts.resources :reports, :requirements => {:host_id => /[^\/]+/}, :only => :index
+    hosts.resources :reports, :requirements => {:host_id => /[^\/]+/}, :only => [:index, :show]
     hosts.resources :facts, :requirements => {:host_id => /[^\/]+/}, :only => :index, :controller => :fact_values
     hosts.resources :puppetclasses, :requirements => {:host_id => /[^\/]+/}, :only => :index
   end

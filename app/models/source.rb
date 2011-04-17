@@ -6,4 +6,8 @@ class Source < ActiveRecord::Base
   def to_s
     value
   end
+
+  def as_json(options={})
+    {:source => value }
+  end
 end

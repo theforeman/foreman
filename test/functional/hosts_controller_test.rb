@@ -182,12 +182,6 @@ class HostsControllerTest < ActionController::TestCase
     assert flash[:error] =~ /Failed to enable #{@host} for installation/
   end
 
-  test "report should redirect to host's last report" do
-    get :report, {:id => @host.name}, set_session_user
-    assert_response :found
-    assert_redirected_to :controller => "reports", :action => "show", :id => Report.maximum(:id, :conditions => {:host_id => @host})
-  end
-
   test "query in .yml format should return host.to_yml" do
     User.current=nil
     get :query, {:format => "yml"}

@@ -16,6 +16,22 @@ class ReportsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
+  def test_show_last
+    get :show, {:id => "last"}, set_session_user
+    assert_template 'show'
+  end
+
+  def test_show_last_report_for_host
+    get :show, {:id => "last", :host_id => Report.first.host.to_param}, set_session_user
+    assert_template 'show'
+  end
+
+  def test_render_404_when_invalid_report_for_a_host_is_requested
+    get :show, {:id => "last", :host_id => "blalala.domain.com"}, set_session_user
+    assert_response :missing
+    assert_template 'common/404'
+  end
+
   def test_create_duplicate
     create_a_puppet_transaction_report
     User.current = nil

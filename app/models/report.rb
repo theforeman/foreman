@@ -309,4 +309,8 @@ class Report < ActiveRecord::Base
     errors.add_to_base "You do not have permission to #{operation} this report"
     false
   end
+
+  def as_json(options={})
+    {:report => { :reported_at => reported_at, :metrics => metrics, :logs => logs }}
+  end
 end

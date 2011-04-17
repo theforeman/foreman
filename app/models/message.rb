@@ -7,4 +7,7 @@ class Message < ActiveRecord::Base
     value
   end
 
+  def as_json(options={})
+    {:message => value }
+  end
 end

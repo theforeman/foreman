@@ -16,12 +16,23 @@ class ReportsController < ApplicationController
     flash.clear
   rescue => e
     error e.to_s
-    @reports = Report.all.paginate :page => params[:page]
+    @reports = Report.search_for("").paginate :page => params[:page]
   end
 
   def show
-    @report = Report.find(params[:id], :include => [:logs, :messages, :sources])
-    @offset = @report.reported_at - @report.created_at
+    # are we searching for the last report?
+    if params[:id] == "last"
+      conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
+      params[:id] = Report.maximum(:id, :conditions => conditions)
+    end
+
+    return not_found if params[:id].blank?
+
+    @report = Report.find(params[:id], :include => { :logs => [:message, :source] })
+    respond_to do |format|
+      format.html { @offset = @report.reported_at - @report.created_at }
+      format.json { render :json => @report }
+    end
   end
 
   def create

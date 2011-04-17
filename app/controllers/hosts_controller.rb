@@ -214,12 +214,6 @@ class HostsController < ApplicationController
     end
   end
 
-  # shows the last report for a host
-  def report
-    # is it safe to assume that the biggest ID is the last report?
-    redirect_to :controller => "reports", :action => "show", :id => Report.maximum('id', :conditions => {:host_id => @host})
-  end
-
   def query
     if @verbose
       @hosts.map! do |host|
