@@ -231,7 +231,11 @@ module ProxyAPI
 
     # returns the TFTP boot server for this proxy
     def bootServer
-      parse get("serverName")
+      response = parse get("serverName")
+      if response and response["serverName"] and !response["serverName"].blank?
+        return response["serverName"]
+      end
+      false
     end
 
     # Create a default pxe menu

@@ -86,15 +86,14 @@ module Orchestration::DHCP
 
     def boot_server
       # where are we booting from
-      begin
-        tftp.bootServer
-      rescue
-        begin
-          URI.parse(subnet.tftp.url).host
-        rescue => e
-          raise "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
-        end
+      unless bs = tftp.bootServer
+        # trying to guess out tftp next server based on the smart proxy hostname
+        bs = URI.parse(subnet.tftp.url).host if subnet and subnet.tftp and subnet.tftp.url
       end
+      return bs unless bs.blank?
+      failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
+    rescue => e
+      failure "failed to detect boot server: #{e}"
     end
 
     def queue_dhcp
