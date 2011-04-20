@@ -46,7 +46,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :auth_source_ldaps
   map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get}
   map.resources :config_templates, :except => [:show]
-  map.resources :smart_proxies, :except => [:show]
+  map.resources :smart_proxies, :except => [:show] do |proxy|
+    proxy.resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
+    proxy.resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
+  end
   map.resources :subnets, :except => [:show]
   map.resources :hypervisors do |hypervisor|
     hypervisor.resources :guests, :controller => "Hypervisors::Guests",

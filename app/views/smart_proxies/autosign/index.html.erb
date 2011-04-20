@@ -1,0 +1,23 @@
+<% title "Autosign entries for #{@proxy}" %>
+
+<div class="title_action">
+  <%= link_to "Certificates", smart_proxy_puppetca_index_path(@proxy) %> |
+  <%= render :partial => 'form' %>
+</div>
+
+<table class='list'>
+  <tr>
+    <th>Name</th>
+    <th></th>
+  </tr>
+  <% @autosign.each do |cert| -%>
+      <tr class="<%= cycle("even", "odd") -%>">
+        <td><%= h cert%> </td>
+        <td>
+          <%= link_to "Destroy", smart_proxy_autosign_path(@proxy.to_param, cert), :confirm => 'Are you sure?', :method => :delete %>
+        </td>
+      </tr>
+  <% end -%>
+</table>
+<%= page_entries_info @autosign, :entry_name => "Autosign entries" %>
+<%= will_paginate @autosign %>

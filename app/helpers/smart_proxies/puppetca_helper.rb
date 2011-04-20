@@ -1,0 +1,2 @@
+module SmartProxies::PuppetcaHelper
+end

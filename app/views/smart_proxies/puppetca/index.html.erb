@@ -1,0 +1,26 @@
+<% title "Puppet certificates for #{@proxy}" %>
+<div class="title_action">
+  <%= link_to "Autosign Entries", smart_proxy_autosign_index_path(@proxy) %>
+</div>
+
+<table class='list'>
+  <tr>
+    <th>Certificate Name</th>
+    <th>State</th>
+    <th>Fingerprint</th>
+    <th></th>
+  </tr>
+  <% @certificates.each do |cert| -%>
+      <tr class="<%= cycle("even", "odd") -%>">
+        <td><%= h cert.name %> </td>
+        <td><%= h cert.state %></td>
+        <td><%= h cert.fingerprint %></td>
+        <td>
+          <%= link_to "Destroy", smart_proxy_puppetca_path(@proxy.to_param, cert.name), :confirm => 'Are you sure?', :method => :delete %>
+        </td>
+      </tr>
+  <% end -%>
+</table>
+
+<%= page_entries_info @certificates, :entry_name => "Puppet Certificates"  %>
+<%= will_paginate @certificates %>

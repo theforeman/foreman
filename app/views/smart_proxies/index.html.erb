@@ -16,6 +16,10 @@
       <td><%=h proxy.url %></td>
       <td><%=h proxy.features.to_sentence %></td>
       <td class="ra">
+        <% if proxy.features.include? Feature.find_by_name("Puppet CA") -%>
+          <%= link_to "Certificates", smart_proxy_puppetca_index_path(proxy) %>
+          <%= link_to "Autosign", smart_proxy_autosign_index_path(proxy) %>
+          <% end -%>
         <%= link_to "Destroy", proxy, :confirm => 'Are you sure?', :method => :delete %>
       </td>
     </tr>

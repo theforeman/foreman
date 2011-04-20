@@ -1,4 +1,4 @@
-require "proxy_api"
+require_dependency "proxy_api"
 require 'orchestration/queue'
 
 module Orchestration

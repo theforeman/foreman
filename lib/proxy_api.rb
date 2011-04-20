@@ -88,6 +88,11 @@ module ProxyAPI
       super args
     end
 
+    def autosign
+      result = parse(get "autosign")
+      result == true ? [] : result
+    end
+
     def set_autosign certname
       parse(post("", "autosign/#{certname}"))
     end
@@ -104,6 +109,10 @@ module ProxyAPI
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
       true
+    end
+
+    def all
+      parse(get)
     end
   end
 
