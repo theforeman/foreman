@@ -1,42 +1,45 @@
-<% if hosts.size > 0 -%>
-  <% allow_multiple = authorized_for(:hosts, :edit) or authorized_for(:hosts, :destroy) -%>
-  <% form_tag(multiple_actions_hosts_path,:method => "get", :id => "host_select_form") do %>
-    <% title header ||= "" %>
-    <table class="list">
-      <tr>
-        <th><%= sort :name %></th>
-        <th><%= sort :os, :as => "Operating system" %></th>
-        <th><%= sort :environment %></th>
-        <th><%= sort :model %></th>
-        <th><%= sort :hostgroup, :as => "Host Group" %></th>
-        <th><%= sort :last_report %></th>
-        <th></th>
-      </tr>
-      <% hosts.each do |host| -%>
-        <tr class="<%= cycle("even", "odd") -%>">
-          <td>
-            <% if allow_multiple -%>
-              <%= check_box_tag "host_ids[]", host.id, selected?(host), :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'insertHostVal(this)' -%>
-            <% end -%>
-            <%=name_column(host) %>
-          </td>
-          <td><%=icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
-          <td><%=h host.try(:environment) %></td>
-          <td><%=h host.try(:model) %></td>
-          <td><%=h host.try(:hostgroup) %></td>
-          <td><%=last_report_column(host) %></td>
-          <td>
-            <%= display_link_if_authorized 'Edit',    hash_for_edit_host_path(:id => host) %>
-            <%= display_link_if_authorized 'Clone',   hash_for_clone_host_path(:id => host)  %>
-            <%= display_link_if_authorized 'Destroy', hash_for_host_path(:id => host, :auth_action => :destroy), :confirm => "Delete #{host.name}?", :method => :delete, :action => :destroy %>
-          </td>
-        </tr>
-      <% end -%>
-    </table>
-    <div>
-      <%= submit_tag("Edit Multiple Hosts", :title => "Mass assign values to many hosts") if allow_multiple %><br />
-    </div>
-  <% end -%>
+<% title header ||= "" %>
+<table class="list">
+  <tr>
+    <% if authorized? -%>
+      <th></th>
+    <% end -%>
+    <th><%= sort :name %></th>
+    <th><%= sort :os, :as => "Operating system" %></th>
+    <th><%= sort :environment %></th>
+    <th><%= sort :model %></th>
+    <th><%= sort :hostgroup, :as => "Host Group" %></th>
+    <th><%= sort :last_report %></th>
+    <th></th>
+  </tr>
+  <% hosts.each do |host| -%>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td>
+        <% if authorized? -%>
+          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
+        <% end -%>
+      </td>
+      <td> <%=name_column(host) %> </td>
+    </td>
+    <td><%=icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
+    <td><%=h host.try(:environment) %></td>
+    <td><%=h host.try(:model) %></td>
+    <td><%=h host.try(:hostgroup) %></td>
+    <td><%=last_report_column(host) %></td>
+    <td>
+      <%= display_link_if_authorized 'Edit',    hash_for_edit_host_path(:id => host) %>
+      <%= display_link_if_authorized 'Clone',   hash_for_clone_host_path(:id => host)  %>
+      <%= display_link_if_authorized 'Destroy', hash_for_host_path(:id => host, :auth_action => :destroy), :confirm => "Delete #{host.name}?", :method => :delete, :action => :destroy %>
+    </td>
+  </tr>
+<% end -%>
+</table>
+<% if authorized? -%>
+  <div class="multiple_actions">
+    <%= button_to_function "Toggle All", "toggleCheck()" %>
+    <%= button_to_function "Reset Selection", "cleanHostsSelection()" %>
+    <%= multiple_actions_select %>
+  </div>
 <% end -%>
 <%= page_entries_info hosts %>
 <%= will_paginate hosts %>

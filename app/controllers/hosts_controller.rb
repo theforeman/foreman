@@ -12,9 +12,10 @@ class HostsController < ApplicationController
 
   before_filter :find_hosts, :only => :query
   before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected]
-  before_filter :find_multiple, :only => [:multiple_actions, :update_multiple_parameters, :multiple_build,
+  before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
-    :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable]
+    :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
+    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config toggle_manage]
   after_filter :disconnect_from_hypervisor, :only => :hypervisor_selected
@@ -27,7 +28,6 @@ class HostsController < ApplicationController
       # restrict allowed hosts list based on the user permissions
       my_hosts  = User.current.admin? ? Host : Host.my_hosts
       @search = my_hosts.search_for(params[:search],:order => params[:order], :group => 'hosts.id')
-      flash.clear
     rescue => e
       error e.to_s
       @search = my_hosts.search_for ''
@@ -248,19 +248,8 @@ class HostsController < ApplicationController
 
   # multiple host selection methods
 
-  # present the available actions to the user
-  def multiple_actions
-  end
-
   def multiple_parameters
     @parameters = HostParameter.reference_id_is(@hosts).all(:select => "distinct name")
-  end
-
-  def reset_multiple
-    session[:selected] = []
-    flash.keep
-    notice 'Selection cleared.'
-    redirect_to hosts_path and return
   end
 
   def update_multiple_parameters
@@ -283,7 +272,6 @@ class HostsController < ApplicationController
         @skipped_parameters[host.name] = skipped unless skipped.empty?
       end
     end
-    session[:selected] = []
     if @skipped_parameters.empty?
       notice 'Updated all hosts!'
       redirect_to(hosts_path) and return
@@ -299,20 +287,19 @@ class HostsController < ApplicationController
     # simple validations
     if (id=params["hostgroup"]["id"]).empty?
       error 'No Hostgroup selected!'
-      redirect_to(select_multiple_hostgroup_hosts) and return
+      redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
     if (hg = Hostgroup.find id).nil?
       error 'Empty Hostgroup selected!'
-      redirect_to(select_multiple_hostgroup_hosts) and return
+      redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
 
     #update the hosts
-    Host.find(session[:selected]).each do |host|
+    @hosts.each.each do |host|
       host.hostgroup=hg
       host.save(perform_validation = false)
     end
 
-    session[:selected] = []
     notice 'Updated hosts: Changed Hostgroup'
     redirect_to(hosts_path)
   end
@@ -332,12 +319,12 @@ class HostsController < ApplicationController
     end
 
     #update the hosts
-    Host.find(session[:selected]).each do |host|
+    @hosts.each do |host|
       host.environment=ev
       host.save(perform_validation = false)
     end
 
-    session[:selected] = []
+    params[:host_ids] = []
     notice 'Updated hosts: Changed Environment'
     redirect_to(hosts_path)
   end
@@ -349,27 +336,30 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_build
-    hosts = Host.find(session[:selected])
-    hosts.delete_if do |host|
+    @hosts.delete_if do |host|
       host.request_url = request.host_with_port if host.respond_to?(:request_url)
       host.setBuild
     end
-    session[:selected] = []
 
-    missed_hosts = hosts.map(&:name).join('<br/>')
-    notice hosts.empty? ? "The selected hosts will execute a build operation on next reboot" : "The following hosts failed the build operation: #{missed_hosts}"
+    missed_hosts = @hosts.map(&:name).join('<br/>')
+    if @hosts.empty?
+      notice "The selected hosts will execute a build operation on next reboot"
+    else
+      error "The following hosts failed the build operation: #{missed_hosts}"
+    end
     redirect_to(hosts_path)
   end
 
   def submit_multiple_destroy
-    # destroy the hosts
-    hosts = Host.find(session[:selected])
     # keep all the ones that were not deleted for notification.
-    hosts.delete_if {|host| host.destroy}
+    @hosts.delete_if {|host| host.destroy}
 
-    session[:selected] = []
-    missed_hosts       = hosts.map(&:name).join('<br/>')
-    notice hosts.empty? ? "Destroyed selected hosts" : "The following hosts were not deleted: #{missed_hosts}"
+    missed_hosts = hosts.map(&:name).join('<br/>')
+    if @hosts.empty?
+      notice "Destroyed selected hosts"
+    else
+      error "The following hosts were not deleted: #{missed_hosts}"
+    end
     redirect_to(hosts_path)
   end
 
@@ -385,20 +375,6 @@ class HostsController < ApplicationController
 
   def submit_multiple_enable
     toggle_hostmode
-  end
-
-  # AJAX method to update our session each time a host has been selected
-  # we are using AJAX and JS as the user might select multiple hosts across different pages (or requests).
-  def save_checkbox
-    return unless request.xhr?
-    session[:selected] ||= []
-    case params[:is_checked]
-    when "true"
-      session[:selected] << params[:box]
-    when "false"
-      session[:selected].delete params[:box]
-    end
-    render :nothing => true
   end
 
   def errors
@@ -516,18 +492,14 @@ class HostsController < ApplicationController
   end
 
   def find_multiple
-    if session[:selected].empty?
+    if params[:host_ids].blank?
       error 'No Hosts selected'
-      redirect_to(hosts_path)
-    else
-      begin
-        @hosts = Host.find(session[:selected], :order => "hostgroup_id ASC")
-      rescue
-        error "Something went wrong while selecting hosts - resetting ..."
-        flash.keep(:foreman_error)
-        redirect_to reset_multiple_hosts_path
-      end
+      redirect_to(hosts_path) and return false
     end
+    @hosts = Host.find(params[:host_ids], :order => "hostgroup_id ASC")
+  rescue => e
+    error "Something went wrong while selecting hosts - #{e}"
+    redirect_to hosts_path
   end
 
   def toggle_hostmode mode=true
@@ -535,9 +507,8 @@ class HostsController < ApplicationController
     @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
 
-    session[:selected] = []
     missed_hosts       = @hosts.map(&:name).join('<br/>')
-    notice @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
+    error @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
     redirect_to(hosts_path) and return
   end
 

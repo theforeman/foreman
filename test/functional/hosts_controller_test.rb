@@ -344,9 +344,9 @@ class HostsControllerTest < ActionController::TestCase
     setup_multiple_environments
     assert @host1.environment == environments(:production)
     assert @host2.environment == environments(:production)
-    post :update_multiple_environment,
-      {:environment => { :id => environments(:global_puppetmaster).id}},
-      {:selected => [@host1.id, @host2.id], :user => User.first.id}
+    post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
+      :environment => { :id => environments(:global_puppetmaster).id}},
+      { :user => User.first.id}
     assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
     assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
   end
@@ -356,8 +356,8 @@ class HostsControllerTest < ActionController::TestCase
     @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
     @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
     post :update_multiple_parameters,
-      {:name => { "p1" => "hello"}},
-      {:selected => [@host1.id, @host2.id], :user => User.first.id}
+      {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
+      {:user => User.first.id}
     assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
@@ -400,7 +400,7 @@ class HostsControllerTest < ActionController::TestCase
   def test_submit_multiple_build
     assert !hosts(:one).build
     assert !hosts(:two).build
-    post :submit_multiple_build, {}, set_session_user.merge(:selected => [hosts(:one).id, hosts(:two).id])
+    post :submit_multiple_build, {:host_ids => [hosts(:one).id, hosts(:two).id]}, set_session_user
     assert_redirected_to hosts_path
     assert flash[:notice] == "The selected hosts will execute a build operation on next reboot"
     assert Host.find(hosts(:one)).build

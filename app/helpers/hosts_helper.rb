@@ -30,9 +30,28 @@ module HostsHelper
     ((Time.now - time) / 1.day).round.to_i
   end
 
+  def authorized?
+    authorized_for(:hosts, :edit) or authorized_for(:hosts, :destroy)
+  end
+
   def searching?
     params[:search].empty?
   end
+
+  def multiple_actions_select
+    actions = [
+        ['Change Group', select_multiple_hostgroup_hosts_path],
+        ['Change Environment', select_multiple_environment_hosts_path],
+        ['Edit Parameters', multiple_parameters_hosts_path],
+        ['Destroy Hosts', multiple_destroy_hosts_path],
+        ['Disable Notifications', multiple_disable_hosts_path],
+        ['Enable Notifications', multiple_enable_hosts_path],
+    ]
+    actions << ['Build Hosts', multiple_build_hosts_path] if SETTINGS[:unattended]
+
+    select_tag "Multiple Actions", options_for_select(["Edit Multiple Hosts",""] + actions.sort), :id => "Submit_multiple", :onchange => 'submit_multiple(this.value)'
+  end
+
 
   def selected? host
     return false if host.nil? or not host.is_a?(Host) or session[:selected].nil?
