@@ -415,7 +415,7 @@ class HostsControllerTest < ActionController::TestCase
   test "should get active" do
     get :active, {}, set_session_user
     assert_response :success
-    assert_template :partial => "minilist"
+    assert_template :partial => "list"
     assert_template 'index'
   end
 

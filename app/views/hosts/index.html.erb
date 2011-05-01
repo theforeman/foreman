@@ -1,5 +1,4 @@
-<%= javascript "jquery.cookie", "host_checkbox" %>
-<%= render 'minilist', :hosts => @hosts, :header => @title || "Hosts"  %>
+<%= render 'list', :hosts => @hosts, :header => @title || "Hosts"  %>
 <span class="title_action">
   <%= display_link_if_authorized "New Host", hash_for_new_host_path %>
 </span>

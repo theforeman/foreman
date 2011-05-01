@@ -1,9 +1,8 @@
+<%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
 <table class="list">
   <tr>
-    <% if authorized? -%>
-      <th></th>
-    <% end -%>
+    <th></th>
     <th><%= sort :name %></th>
     <th><%= sort :os, :as => "Operating system" %></th>
     <th><%= sort :environment %></th>
@@ -15,9 +14,7 @@
   <% hosts.each do |host| -%>
     <tr class="<%= cycle("even", "odd") -%>">
       <td>
-        <% if authorized? -%>
-          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
-        <% end -%>
+        <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
       <td> <%=name_column(host) %> </td>
     </td>
@@ -42,4 +39,4 @@
   </div>
 <% end -%>
 <%= page_entries_info hosts %>
-<%= will_paginate hosts %>
+<%= will_paginate hosts %><strong><span class="select_count">0</span></strong> Selected

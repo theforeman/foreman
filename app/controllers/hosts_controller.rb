@@ -324,7 +324,6 @@ class HostsController < ApplicationController
       host.save(perform_validation = false)
     end
 
-    params[:host_ids] = []
     notice 'Updated hosts: Changed Environment'
     redirect_to(hosts_path)
   end
@@ -354,7 +353,7 @@ class HostsController < ApplicationController
     # keep all the ones that were not deleted for notification.
     @hosts.delete_if {|host| host.destroy}
 
-    missed_hosts = hosts.map(&:name).join('<br/>')
+    missed_hosts = @hosts.map(&:name).join('<br/>')
     if @hosts.empty?
       notice "Destroyed selected hosts"
     else
@@ -515,7 +514,11 @@ class HostsController < ApplicationController
     action = mode ? "enabled" : "disabled"
 
     missed_hosts       = @hosts.map(&:name).join('<br/>')
-    error @hosts.empty? ? "#{action.capitalize} selected hosts" : "The following hosts were not #{action}: #{missed_hosts}"
+    if @hosts.empty?
+      notice "#{action.capitalize} selected hosts"
+    else
+      error "The following hosts were not #{action}: #{missed_hosts}"
+    end
     redirect_to(hosts_path) and return
   end
 

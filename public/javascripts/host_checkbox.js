@@ -11,6 +11,7 @@ function hostChecked(box) {
   }
   $.cookie("_ForemanSelectedHosts", JSON.stringify($.foremanSelectedHosts));
   toggle_actions();
+  update_counter($("span.select_count"));
   return false;
 }
 
@@ -58,6 +59,7 @@ $(function() {
     }
   }
   toggle_actions();
+  update_counter($("span.select_count"));
   return false;
 });
 
@@ -74,9 +76,10 @@ function cleanHostsSelection() {
   $('.host_select_boxes').each(function(index, box) {
     box.checked = false;
     hostChecked(box);
-  })
+  });
   resetSelection();
   toggle_actions();
+  update_counter($("span.select_count"));
   return false;
 }
 
@@ -90,6 +93,21 @@ function toggleCheck() {
 
 // updates the form URL based on the action selection
 function submit_multiple(path) {
-  window.location.href = path+"?"+$.param({host_ids: $.foremanSelectedHosts});
-  resetSelection();
+  var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
+  var html = $('<div></div>').appendTo('body').load(url + " #content");
+  var title = $('select [value=\"' + path + '\"]').text();
+  html.dialog({
+    title: title,
+    width: 700,
+    modal: true,
+    close: function(event, ui) {}
+  });
+  cleanHostsSelection();
+  return false;
+}
+
+function update_counter(id) {
+  if ($.foremanSelectedHosts)
+    id.text($.foremanSelectedHosts.length);
+  return false;
 }
