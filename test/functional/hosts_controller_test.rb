@@ -331,6 +331,51 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'multiple without hosts' do
+    post :update_multiple_hostgroup
+    assert_redirected_to hosts_url
+    assert_equal "No Hosts selected", flash[:error]
+
+    # now try to pass an invalid id
+    post :update_multiple_hostgroup, {:host_ids => [-1], :host_names => ["no.such.host"]}
+
+    assert_redirected_to hosts_url
+    assert_equal "No hosts were found with that id or name", flash[:error]
+  end
+
+  test 'multiple hostgroup change by host ids' do
+    # check that we have hosts and their hostgroup is empty
+    hosts = [hosts(:one), hosts(:two)]
+    hosts.each { |host| assert_nil host.hostgroup }
+
+    hostgroup = hostgroups(:unusual)
+    post :update_multiple_hostgroup, { :host_ids => hosts.map(&:id), :hostgroup => { :id => hostgroup.id } }
+
+    # reloads hosts
+    hosts.map! {|h| Host.find(h.id)}
+    hosts.each { |host| assert_equal hostgroup, host.hostgroup }
+  end
+
+
+  test 'multiple hostgroup change by host names' do
+    host_names = %w{temp.yourdomain.net myname.mydomain.net }
+    # check that we have hosts and their hostgroup is empty
+    host_names.each do |name|
+      host = Host.find_by_name name
+      assert_not_nil host
+      assert_nil host.hostgroup
+    end
+
+    hostgroup = hostgroups(:common)
+    post :update_multiple_hostgroup, { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }
+
+    host_names.each do |name|
+      host = Host.find_by_name name
+      assert_not_nil host
+      assert_equal host.hostgroup, hostgroup
+    end
+  end
+
 
   def setup_multiple_environments
     setup_user_and_host "edit"

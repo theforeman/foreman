@@ -285,11 +285,11 @@ class HostsController < ApplicationController
 
   def update_multiple_hostgroup
     # simple validations
-    if (id=params["hostgroup"]["id"]).empty?
+    unless (id=params["hostgroup"]["id"])
       error 'No Hostgroup selected!'
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
-    if (hg = Hostgroup.find id).nil?
+    unless (hg = Hostgroup.find id)
       error 'Empty Hostgroup selected!'
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
@@ -492,14 +492,21 @@ class HostsController < ApplicationController
   end
 
   def find_multiple
-    if params[:host_ids].blank?
+  # Lets search by name or id and make sure one of them exists first
+    if params[:host_names].present? or params[:host_ids].present?
+      @hosts = Host.all(:conditions => ["id IN (?) or name IN (?)", params[:host_ids], params[:host_names] ])
+      if @hosts.empty?
+        error 'No hosts were found with that id or name'
+        redirect_to(hosts_path) and return false
+      end
+    else
       error 'No Hosts selected'
       redirect_to(hosts_path) and return false
     end
-    @hosts = Host.find(params[:host_ids], :order => "hostgroup_id ASC")
-  rescue => e
-    error "Something went wrong while selecting hosts - #{e}"
-    redirect_to hosts_path
+
+    rescue => e
+      error "Something went wrong while selecting hosts - #{e}"
+      redirect_to hosts_path
   end
 
   def toggle_hostmode mode=true
