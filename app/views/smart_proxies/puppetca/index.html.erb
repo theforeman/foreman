@@ -16,6 +16,7 @@
         <td><%= h cert.state %></td>
         <td><%= h cert.fingerprint %></td>
         <td>
+          <%= link_to "Sign", smart_proxy_puppetca_path(@proxy.to_param, cert), :method => :put if cert.state == "pending" %>
           <%= link_to "Destroy", smart_proxy_puppetca_path(@proxy.to_param, cert.name), :confirm => 'Are you sure?', :method => :delete %>
         </td>
       </tr>

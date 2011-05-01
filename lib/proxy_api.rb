@@ -104,6 +104,10 @@ module ProxyAPI
       true
     end
 
+    def sign_certificate certname
+      parse(post("", certname))
+    end
+
     def del_certificate certname
       parse(delete("#{certname}"))
     rescue RestClient::ResourceNotFound

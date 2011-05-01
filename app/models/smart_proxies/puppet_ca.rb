@@ -33,6 +33,12 @@ class SmartProxies::PuppetCA
       end
     end
 
+  def sign
+    raise "unable to sign a non pending certificate" unless state == "pending"
+    proxy = SmartProxy.find(smart_proxy_id)
+    Rails.cache.delete("ca_#{proxy.id}")
+    ProxyAPI::Puppetca.new({:url => proxy.url}).sign_certificate name
+  end
 
   def destroy
     proxy = SmartProxy.find(smart_proxy_id)

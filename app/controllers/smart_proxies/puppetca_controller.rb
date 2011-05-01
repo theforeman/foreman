@@ -2,6 +2,10 @@ class SmartProxies::PuppetcaController < ApplicationController
   before_filter :find_proxy
 
   def index
+
+    # expire cache if forced
+    Rails.cache.delete("ca_#{@proxy.id}") if params[:expire_cache] == "true"
+
     begin
       certificates = SmartProxies::PuppetCA.all(@proxy)
     rescue => e
@@ -20,14 +24,21 @@ class SmartProxies::PuppetcaController < ApplicationController
     end
   end
 
-  def create
-
+  def update
+    cert = SmartProxies::PuppetCA.find(@proxy, params[:id])
+    if cert.sign
+      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy), :object_name => cert.to_s })
+    else
+      process_error({ :redirect => smart_proxy_puppetca_index_path(@proxy) })
+    end
+  rescue
+    process_error({ :redirect => smart_proxy_puppetca_index_path(@proxy) })
   end
 
   def destroy
     cert = SmartProxies::PuppetCA.find(@proxy, params[:id])
     if cert.destroy
-      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy) })
+      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy), :object_name => cert.to_s })
     else
       process_error({ :redirect => smart_proxy_puppetca_index_path(@proxy) })
     end
