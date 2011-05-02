@@ -25,6 +25,7 @@ class HomeController < ApplicationController
     yield
     result[:result] = 'ok'
     result[:status] = 200
+    result[:version] = SETTINGS[:version]
     result[:db_duration_ms] = ((Time.now - start) * 1000).round.to_s
   rescue Exception => e
     result[:result] = 'fail'
