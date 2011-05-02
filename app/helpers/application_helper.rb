@@ -162,6 +162,7 @@ module ApplicationHelper
   end
 
   def searchable?
+    return false if (SETTINGS[:login] and !User.current )
     controller.respond_to?(:auto_complete_search) rescue false
   end
 

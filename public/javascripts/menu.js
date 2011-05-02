@@ -1,5 +1,8 @@
 // Settings drop-down
 $(function() {
+  // in case the user doesn't have access to settings return
+  if ( $("#settings_list").position() == undefined) return;
+
   $("#settings_list").hide();
   $("#settings_dropdown").autocomplete({
     source: function(request, response) {
@@ -99,8 +102,8 @@ $(function() {
     }
     $('<div />').appendTo('body').load($(this).attr('href') + '&query=' + query + ' form').dialog({
       title: $(this).text(),
-      height: 350,
-      width: 400,
+      width: 450,
+      resizable: false,
       modal: true
     })
     return false;
@@ -124,13 +127,13 @@ $(function() {
   }
   $magicLine
       .width(currPage.parent().width() - 8)
-      .css("left", currPage.position().left + 4)
+      .css("left", currPage.position().left )
       .data("origLeft", $magicLine.position().left)
       .data("origWidth", $magicLine.width());
 
   $("#menu1 li").find("a").hover(function() {
     $el = $(this);
-    leftPos = $el.position().left + 4;
+    leftPos = $el.position().left ;
     newWidth = $el.parent().width() - 8;
 
     $magicLine.stop().animate({

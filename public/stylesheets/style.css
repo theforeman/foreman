@@ -549,15 +549,22 @@ a.button:active span {
 
 .group:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
 *:first-child+html .group { zoom: 1; } /* IE7 */
-#menu1 { margin: 0 auto; list-style: none; position: absolute; top: 47px; width: 960px; }
-#menu1 li { display: inline; text-transform: uppercase; font-weight: bold; float: left; }
-#menu1 li a{ color: #455054; font-size: 14px;  display: block; padding: 6px 10px 4px 10px; text-decoration: none; }
+#menu1 { margin: 0 auto; list-style: none; position: absolute; top: 47px; width: 960px; height: 32px }
+#menu1 li { display: inline;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    color: #455054;
+    float: left;
+    margin: 0px 4px 0px 4px;
+}
+#menu1 li a{ color: #455054; display: block; text-decoration: none; padding: 0 6px 0 8px;}
 #menu1 li a:hover { color: white; }
 #menu1 li span{}
 #magic-line { position: absolute; top: -1px; left: 0; width: 100px; height: 2px; background: #fe4902; }
 .current_page_item a {
     background: url(../images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50%  repeat-x;
-    height: 23px;
+    height: 30px;
     -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px; border-top-left-radius: 5px;
 }
