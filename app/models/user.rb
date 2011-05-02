@@ -1,7 +1,10 @@
 require 'digest/sha1'
+require 'foreman/threadsession'
 
 class User < ActiveRecord::Base
   include Authorization
+  include Foreman::ThreadSession::UserModel
+
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
 
@@ -41,8 +44,6 @@ class User < ActiveRecord::Base
   scoped_search :on => :mail, :complete_value => :true
   scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
   scoped_search :on => :last_login_on, :complete_value => :true
-
-  cattr_accessor :current
 
   def to_label
     "#{firstname} #{lastname}"
