@@ -202,19 +202,6 @@ class Host < Puppet::Rails::Host
     end
   end
 
-  # no need to store anything in the db if the password is our default
-  def root_pass
-    read_attribute(:root_pass) || SETTINGS[:root_pass] || "!*!*!*!*!"
-  end
-
-  # make sure we store an encrypted copy of the password in the database
-  # this password can be use as is in a unix system
-  def root_pass=(pass)
-    return if pass.empty?
-    p = pass =~ /^\$1\$foreman\$.*/ ? pass : pass.crypt("$1$foreman$")
-    write_attribute(:root_pass, p)
-  end
-
   # returns the host correct disk layout, custom or common
   def diskLayout
     (disk.empty? ? ptable.layout : disk).gsub("\r","")
