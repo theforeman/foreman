@@ -1,7 +1,7 @@
 <div class="auto_complete">
   <% form_tag eval("#{controller_name}_path"), :method => "get" do %>
     <%= auto_complete_search(:search, params[:search], {:placeholder => "Type Space For Search Options"},{ :delay => 100, :min_length => -1 }) %>
-    <%= submit_tag 'Search', :class => :auto_complete_submit %>
+    <%= link_to "Bookmark this Search", url_for("/bookmarks/new?kontroller=#{controller_name}"),:id=>"bookmark", :style=>"font-size: 12px;"%>
+    <button id='submit_search' style="font-size: 12px;">Search</button>
   <% end -%>
-
 </div>

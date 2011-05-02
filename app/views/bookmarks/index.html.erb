@@ -1,0 +1,25 @@
+<% title "Manage Bookmarks" %>
+<div class="title_action"></div>
+
+<table class="list">
+  <tr>
+    <th>Name</th>
+    <th>Query</th>
+    <th>Page</th>
+    <th>Public</th>
+    <th></th>
+  </tr>
+  <% for bookmark in @bookmarks %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to_if_authorized(h(bookmark.name), hash_for_edit_bookmark_path(:id => bookmark.name)) %></td>
+      <td><%=h bookmark.query %></td>
+      <td><%=h bookmark.controller %></td>
+      <td><%=h bookmark.public %></td>
+      <td align="right">
+        <%= display_link_if_authorized "Destroy", hash_for_bookmark_path(:id => bookmark.name, :auth_action => :destroy), :confirm => "Delete #{bookmark.name}?", :method => :delete  %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @bookmarks %>
+<%= will_paginate @bookmarks %>

@@ -1,31 +1,32 @@
-<span style="float:right;">
-  <% choices  = [
-    ['Additional Settings', ""],
-    ['Architectures',          architectures_url],
-    ['Domains',                domains_url],
-    ['Environments',           environments_url],
-    ['Global Parameters',      common_parameters_url],
-    ['Hardware Models',        models_url],
-    ['Host Groups',            hostgroups_url],
-    ['Installation Media',     media_url],
-    ['LDAP Authentication',    auth_source_ldaps_url],
-    ['Operating Systems',      operatingsystems_url],
-    ['Partition Tables',       ptables_url],
-    ['Provisioning Templates', config_templates_url],
-    ['Puppet Classes',         puppetclasses_url],
-    ['Smart Proxies',          smart_proxies_url],
-    ['Subnets',                subnets_url],
-    ]
-  choices += [
-    ['Users',               users_url],
-    ['Usergroups',          usergroups_url]
-  ] if  SETTINGS[:login]
-  choices += [
-    ['Roles',               roles_url]
-  ] if SETTINGS[:login] and User.current.admin?
-  choices += [['Hypervisors', hypervisors_url]] if SETTINGS[:libvirt]
-%>
-<%= select_tag "settings_dropdown", options_for_select(choices.sort, @controller.request.url) %>
+<div id="settings_dropdown" class="dropdown_header" >
+  <a href="#">Settings&nbsp;&#9660;</a>
 
-<%= observe_field('settings_dropdown', :function => "window.location.href = value;") %>
-</span>
+  <% choices  = [
+      ['Additional Settings', ""],
+      ['Architectures',          architectures_url],
+      ['Bookmarks',              bookmarks_url],
+      ['Domains',                domains_url],
+      ['Environments',           environments_url],
+      ['Global Parameters',      common_parameters_url],
+      ['Hardware Models',        models_url],
+      ['Host Groups',            hostgroups_url],
+      ['Installation Media',     media_url],
+      ['LDAP Authentication',    auth_source_ldaps_url],
+      ['Operating Systems',      operatingsystems_url],
+      ['Partition Tables',       ptables_url],
+      ['Provisioning Templates', config_templates_url],
+      ['Puppet Classes',         puppetclasses_url],
+      ['Smart Proxies',          smart_proxies_url],
+      ['Subnets',                subnets_url],
+    ]
+    choices += [
+      ['Users',                  users_url],
+      ['Usergroups',             usergroups_url]
+    ] if SETTINGS[:login]
+    choices += [
+      ['Roles',                  roles_url]
+    ] if SETTINGS[:login] and User.current.admin?
+    choices += [['Hypervisors',  hypervisors_url]] if SETTINGS[:libvirt]
+  %>
+  <%= select_tag "settings_list", options_for_select(choices.sort, @controller.request.url) %>
+</div>

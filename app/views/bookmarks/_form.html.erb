@@ -1,0 +1,17 @@
+<% form_for @bookmark do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name, nil, :class => "span-3" %>
+    <%= f.text_field :name, :value => params[:query].to_s.strip.split(/\s|=|!|~|>|</)[0], :class => "last" %>
+  </p>
+  <p>
+    <%= f.label :query, nil, :class => "span-3" %>
+    <%= f.text_field :query, :value => params[:query], :class => "last" %>
+  </p>
+  <p>
+    <%= f.label :public, nil, :class => "span-3" %>
+    <%= f.check_box :public, :checked => true, :class => "last" %>
+  </p>
+  <%= f.hidden_field :controller, :value => params[:kontroller] %>
+  <%= f.submit "Submit" %>
+<% end %>

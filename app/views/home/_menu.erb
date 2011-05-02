@@ -1,21 +1,15 @@
-<div id="menu">
-  <table width="100%">
-    <tr>
-      <td style="width: 100%;">
-        <ul>
-          <li> <%= link_to_if_authorized "<span>Dashboard</span>",  hash_for_dashboard_path, :class => "button" , :class => "button" %> </li>
-          <li> <%= link_to_if_authorized "<span>Hosts</span>",      hash_for_hosts_path, :class => "button", :class => "button" %> </li>
-          <li> <%= link_to_if_authorized "<span>Reports</span>",    hash_for_reports_path.merge(:search => 'eventful = true') , :class => "button" %> </li>
-          <li> <%= link_to_if_authorized "<span>Facts</span>",      hash_for_fact_values_path, :class => "button" %> </li>
-          <li> <%= link_to_if_authorized "<span>Audit Log</span>",  hash_for_audits_path, :class => "button" %> </li>
-          <li> <%= link_to_if_authorized "<span>Statistics</span>", hash_for_statistics_path, :class => "button" %> </li>
-        </ul>
-      </td>
-      <td>
-        <% if User.current.admin? or User.current.allowed_to?(:access_settings) -%>
-        <%= render "home/settings" -%>
-        <% end -%>
-      </td>
-    </tr>
-  </table>
+<div id="menu1" style="width: 100%;">
+  <% myBookmarks = Bookmark.my_bookmarks %>
+  <ul class="group">
+    <%= menu 'dashboard',  myBookmarks %>
+    <%= menu 'hosts',      myBookmarks %>
+    <%= menu 'reports',    myBookmarks, hash_for_reports_path.merge(:search => 'eventful = true') %>
+    <%= menu 'facts' ,     myBookmarks, hash_for_fact_values_path %>
+    <%= menu 'audits',     myBookmarks, hash_for_audits_path %>
+    <%= menu 'statistics', myBookmarks %>
+    <% if User.current.admin? or User.current.allowed_to?(:access_settings) -%>
+      <li style="float:right; margin-right: 80px;"><%= render "home/settings" -%></li>
+    <% end -%>
+  </ul>
 </div>
+
