@@ -1,5 +1,5 @@
 #!gpxe
-kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url("kickstart")%>?static=yes ksdevice=bootif network kssendmac ip=${net0/ip} netmask=${net0/netmask} gateway=${net0/gateway} dns=${net0/dns}
+kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url("provision")%>?static=yes ksdevice=bootif network kssendmac ip=${net0/ip} netmask=${net0/netmask} gateway=${net0/gateway} dns=${net0/dns}
 initrd <%= "#{@host.url_for_boot(:initrd)}" %>
 
 boot
