@@ -1,5 +1,5 @@
 .auto_complete {
-    width: 73%;
+    width: 55%;
     position: absolute;
     top:12px;
     left: 240px;
@@ -161,8 +161,9 @@ fieldset fieldset {
 #header a {
   float:right;
   margin-right: 0.5em;
-  color: #000;
+  color: #455054;
   font-weight: bold;
+  font-size: 12px;
 }
 
 #header .title {
