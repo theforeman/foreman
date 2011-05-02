@@ -1,17 +1,26 @@
 class UsersController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
 
   filter_parameter_logging :password, :password_confirmation
   skip_before_filter :require_login, :only => [:login, :logout]
   skip_before_filter :authorize, :only => [:login, :logout]
 
   def index
-    # set defaults search order - cant use default scope due to bug in AR
-    # http://github.com/binarylogic/searchlogic/issues#issue/17
-    params[:search] ||=  {}
-    params[:search][:order] ||= "descend_by_firstname"
+    begin
+      users = User.search_for(params[:search], :order => params[:order])
+    rescue => e
+      error e.to_s
+      users = User.search_for('', :order => params[:order]).paginate :page => params[:page]
+    end
 
-    @search = User.search(params[:search])
-    @users = @search.paginate(:page => params[:page], :include => [:auth_source])
+    respond_to do |format|
+      format.html do
+        @users = users.paginate :page => params[:page], :include => [:auth_source]
+      end
+      format.json do
+        render :json => users.all
+      end
+    end
   end
 
   def new

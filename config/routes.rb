@@ -44,7 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :ptables
   map.resources :roles, :collection => {:report => [:get, :post]}
   map.resources :auth_source_ldaps
-  map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get}
+  map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get, :auto_complete_search => :get}
   map.resources :config_templates, :except => [:show]
   map.resources :smart_proxies, :except => [:show] do |proxy|
     proxy.resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :update, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }

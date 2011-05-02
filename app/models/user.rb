@@ -35,6 +35,13 @@ class User < ActiveRecord::Base
   before_validation :prepare_password
   after_destroy Proc.new {|user| user.domains.clear; user.hostgroups.clear}
 
+  scoped_search :on => :login, :complete_value => :true
+  scoped_search :on => :firstname, :complete_value => :true
+  scoped_search :on => :lastname, :complete_value => :true
+  scoped_search :on => :mail, :complete_value => :true
+  scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :last_login_on, :complete_value => :true
+
   cattr_accessor :current
 
   def to_label
@@ -184,6 +191,10 @@ class User < ActiveRecord::Base
       logger.warn "Unable to delete internal admin account"
       return false
     end
+  end
+
+  def as_json opts
+    {login => {:firstname => firstname, :lastname => lastname, :mail => mail}}
   end
 
 end
