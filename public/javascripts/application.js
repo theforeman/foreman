@@ -29,3 +29,11 @@ function toggleRowGroup(el) {
     n = n.next();
   }
 }
+
+// allow opening new window for selected links
+$(function() {
+  $('a[rel="external"]').click( function() {
+    window.open( $(this).attr('href') );
+    return false;
+  });
+});
