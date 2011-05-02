@@ -482,7 +482,7 @@ class Host < Puppet::Rails::Host
   end
 
   def can_be_build?
-    return (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) ? build == false : false
+    managed? and (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) ? build == false : false
   end
 
   def facts_hash
