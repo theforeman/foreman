@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
         User.current = user
         user.update_attribute(:last_login_on, Time.now.utc)
       else
-        user = nil
+        User.current = user = nil
       end
     else
       # user is not yet registered, try to authenticate with available sources

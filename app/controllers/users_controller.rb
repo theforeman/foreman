@@ -83,7 +83,7 @@ class UsersController < ApplicationController
   # Called from the login form.
   # Stores the user id in the session and redirects required URL or default homepage
   def login
-    session[:user] = nil
+    session[:user] = User.current = nil
     if request.post?
       user = User.try_to_login(params[:login]['login'].downcase,  params[:login]['password'])
       if user.nil?
