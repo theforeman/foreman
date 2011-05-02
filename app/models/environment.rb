@@ -17,8 +17,12 @@ class Environment < ActiveRecord::Base
   # returns an hash of all puppet environments and their relative paths
   def self.puppetEnvs
     env = Hash.new
-    # read puppet configuration
-    Puppet.settings.parse # Check that puppet.conf has not been edited since the rack application was started
+    unless Rails.env == "test"
+      # reread puppet configuration
+      Puppet.clear
+      Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
+    end
+    Puppet.parse_config # Check that puppet.conf has not been edited since the rack application was started
     conf = Puppet.settings.instance_variable_get(:@values)
 
     # query for the environments variable
