@@ -13,6 +13,7 @@ class AddTableBookmarks < ActiveRecord::Migration
     add_index :bookmarks, :controller
     add_index :bookmarks, [:owner_id, :owner_type]
 
+    User.current = User.find_by_login("admin")
     Bookmark.find_or_create_by_name :name => "eventful", :query => "eventful = true", :controller=> "reports", :public => true
     Bookmark.find_or_create_by_name :name => "active", :query => 'last_report > "35 minutes ago" and (status.applied > 0 or status.restarted > 0)', :controller=> "hosts", :public => true
     Bookmark.find_or_create_by_name :name => "out of sync", :query => 'last_report < "30 minutes ago" and status.enabled = true', :controller=> "hosts", :public => true
