@@ -1,12 +1,15 @@
 <% title "Puppet certificates for #{@proxy}" %>
 <div class="title_action">
   <%= link_to "Autosign Entries", smart_proxy_autosign_index_path(@proxy) %>
+  <%= state_filter %>
 </div>
 
 <table class='list'>
   <tr>
     <th>Certificate Name</th>
     <th>State</th>
+    <th>Valid from</th>
+    <th>Expires</th>
     <th>Fingerprint</th>
     <th></th>
   </tr>
@@ -14,10 +17,12 @@
       <tr class="<%= cycle("even", "odd") -%>">
         <td><%= h cert.name %> </td>
         <td><%= h cert.state %></td>
+        <td><%= time_column cert.valid_from %></td>
+        <td><%= time_column cert.expires_at, :tense => :future %></td>
         <td><%= h cert.fingerprint %></td>
         <td>
-          <%= link_to "Sign", smart_proxy_puppetca_path(@proxy.to_param, cert), :method => :put if cert.state == "pending" %>
-          <%= link_to "Destroy", smart_proxy_puppetca_path(@proxy.to_param, cert.name), :confirm => 'Are you sure?', :method => :delete %>
+          <%= link_to_if cert.state == "pending", "Sign", smart_proxy_puppetca_path(@proxy.to_param, cert), :method => :put %>
+          <%= link_to_if cert.state != "revoked", "Destroy", smart_proxy_puppetca_path(@proxy.to_param, cert.name), :confirm => 'Are you sure?', :method => :delete %>
         </td>
       </tr>
   <% end -%>

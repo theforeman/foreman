@@ -7,7 +7,11 @@ class SmartProxies::PuppetcaController < ApplicationController
     Rails.cache.delete("ca_#{@proxy.id}") if params[:expire_cache] == "true"
 
     begin
-      certificates = SmartProxies::PuppetCA.all(@proxy)
+      if params[:state].blank?
+        certificates = SmartProxies::PuppetCA.all @proxy
+      else
+        certificates = SmartProxies::PuppetCA.find_by_state @proxy, params[:state]
+      end
     rescue => e
       certificates = []
       error e
@@ -15,7 +19,7 @@ class SmartProxies::PuppetcaController < ApplicationController
     respond_to do |format|
       format.html do
         begin
-          @certificates = certificates.paginate :page => params[:page], :per_page => 20
+          @certificates = certificates.sort.paginate :page => params[:page], :per_page => 20
         rescue => e
           error e
         end

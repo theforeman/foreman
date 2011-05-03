@@ -1,11 +1,14 @@
 require_dependency "proxy_api"
+require "time"
 
 class SmartProxies::PuppetCA
 
-  attr_reader :name, :state, :fingerprint, :smart_proxy_id
+  attr_reader :name, :state, :fingerprint, :valid_from, :expires_at, :smart_proxy_id
 
   def initialize opts
-    @name, @state, @fingerprint, @smart_proxy_id = opts.flatten
+    @name, @state, @fingerprint, @valid_from, @expires_at, @smart_proxy_id = opts.flatten
+    @valid_from = Time.parse(@valid_from) unless @valid_from.blank?
+    @expires_at = Time.parse(@expires_at) unless @expires_at.blank?
   end
 
     class << self
@@ -17,7 +20,7 @@ class SmartProxies::PuppetCA
           api = ProxyAPI::Puppetca.new({:url => proxy.url})
 
           certs = api.all.map do |name, properties|
-            new([name, properties['state'], properties['fingerprint'], proxy.id])
+            new([name, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
           end.compact
 
           # save our CA details for 5 seconds
@@ -28,6 +31,12 @@ class SmartProxies::PuppetCA
 
       def find(proxy, name)
         all(proxy).select{|c| c.name == name}.first
+      rescue
+        raise ActiveRecord::RecordNotFound
+      end
+
+      def find_by_state(proxy, state)
+         all(proxy).select{|c| c.state == state}
       rescue
         raise ActiveRecord::RecordNotFound
       end
@@ -49,5 +58,9 @@ class SmartProxies::PuppetCA
   def to_param; name; end
 
   def to_s; name; end
+
+  def <=> other
+    self.name <=> other.name
+  end
 
 end
