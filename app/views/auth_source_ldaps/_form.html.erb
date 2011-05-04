@@ -21,10 +21,7 @@
   </p>
   <p class="span-24">
     <%= f.label :account_password, nil, :class => "span-2" %>
-    <%= f.password_field :account_password, :class => "span-3",
-      :value => ((@auth_source_ldap.new_record? || @auth_source_ldap.account_password.blank?) ? '' : ('x'*15)),
-      :onfocus => "this.value='';"
-    %>
+    <%= f.password_field :account_password, :class => "span-3", :onfocus => "this.value='';" %>
     <small> Use this account to authenticate, <i>optional</i> </small>
   </p>
   <p class="span-24">
@@ -57,6 +54,6 @@
       <small class="last">e.g. mail</small>
       </p>
     <% end -%>
-    <%= f.submit "Submit" %></p>
+    <%= f.submit "Submit" %>
   </div>
 <% end %>

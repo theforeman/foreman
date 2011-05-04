@@ -1,4 +1,6 @@
 class AuthSourceLdapsController < ApplicationController
+  filter_parameter_logging :account_password
+
   def index
     @auth_source_ldaps = AuthSourceLdap.all
   end
