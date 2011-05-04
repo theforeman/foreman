@@ -11,7 +11,7 @@ module ProxyAPI
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
 
       # Each request is limited to 60 seconds
-      connect_params = {:timeout => 60, :headers => { :accept => :json }}
+      connect_params = {:timeout => 60, :open_timeout => 10, :headers => { :accept => :json }}
 
       # We authenticate only if we are using SSL
       if url.match(/^https/i)
