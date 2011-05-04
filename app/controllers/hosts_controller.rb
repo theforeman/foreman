@@ -194,7 +194,7 @@ class HostsController < ApplicationController
     else
       error "Failed, check log files"
     end
-    redirect_to :back
+    redirect_to host_path(@host)
   end
 
   def setBuild
