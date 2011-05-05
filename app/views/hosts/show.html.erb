@@ -1,4 +1,3 @@
-<% gcharts_script %>
 <% title @host.to_label, false %>
 <h1><%= icon(@host.os) + @host.to_label %></h1>
 
@@ -33,9 +32,8 @@
     <%= form_tag @host,:id => 'days_filter', :method => :get %>
     <p>Reports from the last
       <%= select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-                 {:selected => @range},{:onchange =>"$('#days_filter').submit();$(this).disable();"}) %> days
-    <%#= submit_tag "filter", :disable_with => "Updating..." %>
-     - <%= @host.reports.recent(@range.days.ago).count %> reports found
+        {:selected => @range},{:onchange =>"$('#days_filter').submit();$(this).disable();"}) %>
+        days - <%= @host.reports.recent(@range.days.ago).count %> reports found
     </p>
   <% end -%>
 

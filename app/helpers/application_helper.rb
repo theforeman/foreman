@@ -86,13 +86,6 @@ module ApplicationHelper
     end
   end
 
-  # a simple helper to load the google JS only on pages which requires it
-  def gcharts_script
-    content_for :head do
-      "<script src=#{request.protocol}www.google.com/jsapi></script>"
-    end
-  end
-
   def fact_name_select
     param = params[:search]["#{@via}fact_name_id_eq"] if params[:search]
     return param.to_i unless param.empty?

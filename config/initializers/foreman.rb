@@ -1,7 +1,6 @@
 require 'access_permissions'
 require 'puppet'
 require 'puppet/rails'
-require 'gchart'
 
 # import settings file
 SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")

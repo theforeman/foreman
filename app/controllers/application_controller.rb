@@ -80,16 +80,6 @@ class ApplicationController < ActionController::Base
     return true
   end
 
-  def setgraph chart, data, options = {}
-    data[:labels].each {|l| chart.add_column *l }
-    chart.add_rows data[:values]
-    defaults = { :width => 400, :height => 240, :is3D => true,
-      :backgroundColor => "#EDF3EF", :legendBackgroundColor => "#EDF3EF" }
-
-    defaults.merge(options).each {|k,v| chart.send "#{k}=",v if chart.respond_to? k}
-    return chart
-  end
-
   def welcome
     klass = controller_name.camelize.singularize
     eval "#{klass}" rescue nil # We must force an autoload of the model class
