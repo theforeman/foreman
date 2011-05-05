@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :prefetch_data, :graphs, :only => :index
+  before_filter :prefetch_data, :only => :index
   skip_before_filter :load_tabs, :manage_tabs
 
   def index
@@ -13,27 +13,6 @@ class DashboardController < ApplicationController
   end
 
   private
-  def graphs
-
-    data ={
-      :labels => [ ['string', "State"], ['number', "Number of Hosts"] ],
-      :values => [
-        ["Active", @report[:active_hosts]],["Error", @report[:bad_hosts]],
-        ["Out Of Sync", @report[:out_of_sync_hosts]],  ["OK", @report[:good_hosts]]
-      ]
-    }
-    options = { :title => "Puppet Clients Activity Overview"}
-    @overview = setgraph(GoogleVisualr::PieChart.new, data, options)
-
-    data = {
-      :labels => [ ['datetime', "Time Ago In Minutes" ],['number', "Number Of Clients"]],
-      :values => Report.count_puppet_runs()
-    }
-    options = { :title => "Run Distribution in the last #{SETTINGS[:puppet_interval]} minutes", :min => 0 }
-    @run_distribution = setgraph(GoogleVisualr::ColumnChart.new, data, options)
-
-  end
-
   def prefetch_data
     hosts = Host.search_for(params[:search])
     @report = {

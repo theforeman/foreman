@@ -183,18 +183,6 @@ class Report < ActiveRecord::Base
     return count
   end
 
-  def self.count_puppet_runs(interval = nil)
-    interval ||= SETTINGS[:puppet_interval] / 10
-    counter = []
-    now=Time.now.utc
-    (1..(SETTINGS[:puppet_interval] / interval)).each do
-      ago = now - interval.minutes
-      counter << [ now.getlocal, Report.count(:all, :conditions => {:reported_at => ago..(now-1.second)})]
-      now = ago
-    end
-    counter
-  end
-
   def import_log_messages report
     report.logs.each do |r|
       # skiping debug messages, we dont want them in our db

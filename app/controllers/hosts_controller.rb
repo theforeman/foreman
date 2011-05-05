@@ -40,21 +40,9 @@ class HostsController < ApplicationController
       format.html {
         # filter graph time range
         @range = (params["range"].empty? ? 7 : params["range"].to_i)
-        range = @range.days.ago
-        graphs = @host.graph(range)
-
-        # runtime graph
-        data = { :labels => graphs[:runtime_labels], :values => graphs[:runtime] }
-        options = { :title => "Runtime"}
-        @runtime_graph = setgraph(GoogleVisualr::AnnotatedTimeLine.new, data, options)
-
-        # resource graph
-        data = { :labels => graphs[:resources_labels], :values => graphs[:resources] }
-        options = { :title => "Resource", :width => 800, :height => 300, :legend => 'bottom'}
-        @resource_graph = setgraph(GoogleVisualr::LineChart.new, data, options)
 
         # summary report text
-        @report_summary = Report.summarise(range, @host)
+        @report_summary = Report.summarise(@range.days.ago, @host)
       }
       format.yaml { render :text => @host.info.to_yaml }
       format.json { render :json => @host }

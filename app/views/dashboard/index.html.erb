@@ -1,18 +1,40 @@
 <% gcharts_script %>
 <div id='dashboard'>
   <div id='dash'>
-  <h1>Overview</h1>
-  <p>Generated at <%= Time.now.to_s(:short) %></p>
-  <p>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%=@report[:percentage]%>%) </p>
-   <p>Hosts that had performed modifications <%= link_to @report[:active_hosts], active_hosts_path %>            </p>
-   <p>Out Of Sync Hosts                      <%= link_to @report[:out_of_sync_hosts], out_of_sync_hosts_path  %> </p>
-   <p>Hosts in Error State                   <%= link_to @report[:bad_hosts], errors_hosts_path %>               </p>
-   <p>Hosts With Alerts Disabled             <%= link_to @report[:disabled_hosts], disabled_hosts_path %>        </p>
+    <h1>Overview</h1>
+    <p>Generated at <%= Time.now.to_s(:short) %></p>
+    <table class="list">
+      <tr>
+        <th>Description</th>
+        <th>Data</th>
+      </tr>
+      <tr class="even">
+        <td>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes</td>
+        <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%=@report[:percentage]%>%) </td>
+      </tr>
+      <tr class="odd">
+        <td><%= link_to 'Hosts that had performed modifications', active_hosts_path %></td>
+        <td><%= @report[:active_hosts] %> </td>
+      </tr>
+      </tr>
+      <tr class="even">
+        <td><%= link_to'Out Of Sync Hosts', out_of_sync_hosts_path  %></td>
+        <td><%= @report[:out_of_sync_hosts] %> </td>
+      </tr>
+      </tr>
+      <tr class="odd">
+        <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
+        <td><%= @report[:bad_hosts] %> </td>
+      </tr>
+      </tr>
+      <tr class="even">
+        <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>
+        <td><%= @report[:disabled_hosts] %> </td>
+      </tr>
+    </table>
   </div>
   <div id='dashwrap'>
-	  <div id='overview'></div>
-	  <%= @overview.render('overview') %>
-	  <div id='run_distribution'></div>
-	  <%= @run_distribution.render('run_distribution') %>
+    <%= render_overview(@report) %>
+    <%= render_run_distribution(count_reports) %>
   </div>
 </div>

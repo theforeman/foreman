@@ -101,7 +101,7 @@ body {
   color:#484848;
   margin: 0;
   padding: 0;
-  background-color: #EDF3EF !important;
+  background-color: #EDF6FC !important;
 }
 a img {
   border: none;
@@ -322,11 +322,9 @@ table p {margin:0;}
 #host_overview {
   position: relative;
   float:right;
-  width:30%
+  width:30%;
+  margin-top: 26px;
 }
-#host_overview table { border: 1px solid #ccc; }
-
-#host_overview table th{ text-align: left; }
 
 .pagination { float: right }
 
@@ -343,7 +341,6 @@ table p {margin:0;}
 }
 div#dash {
   padding: 10px;
-  background-color: #EDF3EF;
   margin: 0 auto 10px auto;
   display: block;
   width: 790px;
@@ -353,16 +350,29 @@ div#dash {
 }
 #dashwrap {
   margin: 0 auto;
-  width: 810px;
+  width: 910px;
 }
 div#overview {
-  width: 400px;
+  width: 450px;
+  height: 350px;
   float: left;
   margin-right: 10px;
 }
 div#run_distribution {
-  width: 400px;
+  width: 450px;
+  height: 350px;
   float: left;
+}
+
+.statistics_pie{
+  width: 400px;
+  height: 300px;
+  float: left;
+}
+.host_chart{
+  width: 800px;
+  height: 300px;
+  margin-top: 20px;
 }
 
 #hostclasses, #classes li {
@@ -546,26 +556,38 @@ a.button:active span {
 /*
 	Menu
 */
-
-.group:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
-*:first-child+html .group { zoom: 1; } /* IE7 */
-#menu1 { margin: 0 auto; list-style: none; position: absolute; top: 47px; width: 960px; height: 32px }
+#menu1 { margin: 0 auto; list-style: none; position: absolute; top: 47px;}
 #menu1 li { display: inline;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 14px;
     color: #455054;
     float: left;
-    margin: 0px 4px 0px 4px;
+    margin: 3px 4px 0px 4px;
 }
-#menu1 li a{ color: #455054; display: block; text-decoration: none; padding: 0 6px 0 8px;}
-#menu1 li a:hover { color: white; }
-#menu1 li span{}
+#menu1 li a{
+    color: #455054;
+    display: block;
+    text-decoration: none;
+    padding: 0 4px 0 10px;
+}
+
+#menu1 li a span {
+    color:  #455054;
+    padding: 2px 2px 2px 0px;
+    margin-left: 2px;
+}
+#menu1 li a:hover { color: #000;
+    background-color:#507ea1;
+    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+}
+#menu1 li a span:hover {color: #000;
+    background-color:#7f9bb1;
+    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+}
 #magic-line { position: absolute; top: -1px; left: 0; width: 100px; height: 2px; background: #fe4902; }
 .current_page_item a {
     background: url(../images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50%  repeat-x;
-    height: 30px;
-    -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; border-top-right-radius: 5px;
-    -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px; border-top-left-radius: 5px;
+    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
 }
 .menu-dropdown {text-transform: capitalize;}

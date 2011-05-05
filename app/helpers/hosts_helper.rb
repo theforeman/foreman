@@ -82,4 +82,172 @@ module HostsHelper
                     :complete => "$('#indicator1').hide()",
                     :with => "'hostgroup_id=' + value")
   end
+
+  def render_report_status_chart name, title, subtitle, data
+  function = <<-EOF
+  $(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: '#{name}',
+         defaultSeriesType: 'line',
+         zoomType: 'x',
+         margin: [ 50, 50, 90, 50],
+         borderWidth: 2,
+         backgroundColor: {
+         linearGradient: [0, 0, 0, 300],
+         stops: [
+            [0, '#ffffff'],
+            [1, '#EDF6FC']
+         ]}
+      },
+      title: {
+         text: '#{title}',
+         x: -20 //center
+      },
+      subtitle: {
+         text: '#{subtitle}',
+         x: -20
+      },
+      credits: {
+      enabled: false,
+      },
+      xAxis: {
+         type: 'datetime',
+         labels: {
+            rotation: -45,
+            align: 'right',
+            style: {
+                font: 'normal 13px Verdana, sans-serif'
+            }
+         }
+      },
+      yAxis: {
+         title: {
+            text: 'Number of Events'
+         },
+         min: 0
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name + ': ' + this.y + '</b><br/>'+
+              Highcharts.dateFormat('%e. %b %H:%M', this.x)  ;
+         }
+      },
+      legend: {
+         layout: 'horizontal',
+         align: 'bottom',
+         verticalAlign: 'bottom',
+         x: 10,
+         y: -10,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Failed',
+         data: [ #{data[:failed].join(' ,')} ]
+      }, {
+         name: 'Failed restarts',
+         data: [#{data[:failed_restarts].join(' ,')}]
+      }, {
+         name: 'Applied',
+         data: [#{data[:applied].join(' ,')}]
+      }, {
+         name: 'Restarted',
+         data: [#{data[:restarted].join(' ,')}]
+      }, {
+         name: 'Skipped',
+         data: [#{data[:skipped].join(' ,')}]
+      }]
+   });
+
+
+  });
+EOF
+    javascript_tag(function)
+  end
+ def render_runtime_chart name, title, subtitle, data
+  function = <<-EOF
+  $(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: '#{name}',
+         defaultSeriesType: 'area',
+         zoomType: 'x',
+         margin: [ 50, 50, 90, 50],
+         borderWidth: 2,
+         backgroundColor: {
+         linearGradient: [0, 0, 0, 300],
+         stops: [
+            [0, '#ffffff'],
+            [1, '#EDF6FC']
+         ]}
+      },
+      title: {
+         text: '#{title}',
+         x: -20 //center
+      },
+      subtitle: {
+         text: '#{subtitle}',
+         x: -20
+      },
+      credits: {
+      enabled: false,
+      },
+      xAxis: {
+         type: 'datetime',
+         labels: {
+            rotation: -45,
+            align: 'right',
+            style: {
+                font: 'normal 13px Verdana, sans-serif'
+            }
+         }
+      },
+      yAxis: {
+         title: {
+            text: 'Time in Seconds'
+         },
+         min: 0
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name + ': ' + this.y + '</b><br/>'+
+              Highcharts.dateFormat('%e. %b %H:%M', this.x)  ;
+         }
+      },
+      legend: {
+         layout: 'horizontal',
+         align: 'bottom',
+         verticalAlign: 'bottom',
+         x: 10,
+         y: -10,
+         borderWidth: 0
+      },
+      plotOptions: {
+         area: {
+            lineWidth: 1,
+            stacking: 'normal',
+            marker: {
+               enabled: false,
+               symbol: 'circle',
+               radius: 2,
+               states: {
+                  hover: {
+                     enabled: true
+                  }
+               }
+            }
+         }
+      },
+      series: [{
+         name: 'Runtime',
+         data: [ #{data[:runtime].join(' ,')} ]
+      }, {
+         name: 'Config Retrieval',
+         data: [#{data[:config].join(' ,')}]
+      }]
+   });
+  });
+EOF
+    javascript_tag(function)
+ end
 end

@@ -5,9 +5,6 @@ module ApplicationHelper
   def contract model
     model.to_s
   end
-  def graph(type,opts = {})
-    Gchart.send(type, {:size => '400x150', :bg => "EDF3EF", :format => "image_tag"}.merge(opts))
-  end
 
   def show_habtm associations
     render :partial => 'common/show_habtm', :collection => associations, :as => :association

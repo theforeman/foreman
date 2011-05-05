@@ -1,9 +1,13 @@
-<table>
+<table class="list">
+  <tr>
+    <th>Description</th>
+    <th>Data</th>
+  </tr>
   <% [["Domain", host.domain], ["IP Address", host.ip], ["Puppet Environment", host.environment], ["Host Architecture", host.arch],
-    ["Host Operating System", host.os], ["Host Group", host.hostgroup]].each do |th,td| %>
-    <tr>
-      <th><%= th %></th>
-      <td><%= td %></td>
+    ["Host Operating System", host.os], ["Host Group", host.hostgroup]].each do |name,value| %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td style="width: 240px;"><%= name %></td>
+      <td><%= value %></td>
     </tr>
   <% end -%>
 </table>

@@ -462,15 +462,25 @@ class Host < Puppet::Rails::Host
     output
   end
 
-  def graph(timerange = 1.day.ago)
+   def resources_chart(timerange = 1.day.ago)
     data = {}
-    data[:runtime] = []
-    data[:resources] = []
-    data[:runtime_labels] = [ ['datetime', "Time" ],['number', "Config Retrieval"], ['number', 'Total']]
-    data[:resources_labels] = [ ['datetime','Time']] + Report::METRIC.sort.map{|metric| ['number', metric] }
+    data[:applied], data[:failed], data[:restarted], data[:failed_restarts], data[:skipped] = [],[],[],[],[]
     reports.recent(timerange).each do |r|
-      data[:runtime] << [r.reported_at.getlocal, r.config_retrieval, r.runtime ]
-      data[:resources] << [r.reported_at.getlocal, r.status.sort.map(&:last)].flatten
+      data[:applied]         << "[ #{r.reported_at.to_i}000, #{r.applied} ]"
+      data[:failed]          << "[ #{r.reported_at.to_i}000, #{r.failed} ]"
+      data[:restarted]       << "[ #{r.reported_at.to_i}000, #{r.restarted} ]"
+      data[:failed_restarts] << "[ #{r.reported_at.to_i}000, #{r.failed_restarts} ]"
+      data[:skipped]         << "[ #{r.reported_at.to_i}000, #{r.skipped} ]"
+    end
+    return data
+  end
+
+  def runtime_chart(timerange = 1.day.ago)
+    data = {}
+    data[:config], data[:runtime] = [], []
+    reports.recent(timerange).each do |r|
+      data[:config]  << "[ #{r.reported_at.to_i}000, #{r.config_retrieval} ]"
+      data[:runtime] << "[ #{r.reported_at.to_i}000, #{r.runtime} ]"
     end
     return data
   end

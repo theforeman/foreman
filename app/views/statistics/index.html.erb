@@ -1,36 +1,18 @@
 <center>
-  <%=
-    graph("pie_3d" ,{:title => "OS Distribution", :data => @os_count.values,
-          :labels =>@os_count.keys})
-  -%>
-  <%=
-    graph("pie_3d" ,{:title => "Architecture Distribution", :data => @arch_count.values,
-          :labels =>@arch_count.keys})
-  -%>
-  <%=
-    graph("pie" ,{:title => "Environments Distribution", :data => @env_count.values,
-          :labels => @env_count.to_a.map{|x| x.join(" ")}, })
-  -%>
-  <%=
-    graph("pie_3d" ,{:title => "Num of Cpu's", :data => @cpu_count.values,
-          :labels =>@cpu_count.keys})
-  -%>
-  <%=
-    graph("pie_3d" ,{:title => "Hardware", :data => @model_count.values,
-          :labels =>@model_count.keys})
-  -%>
-  <%=
+  <%= pie_chart("os_dist" ,"OS Distribution", @os_count) %>
 
-    graph("pie_3d" ,{:title => "Class Distribution", :data => @klass_count.values,
-          :labels =>@klass_count.keys})
-  -%>
+  <%= pie_chart("arch_dist" ,"Architecture Distribution", @arch_count) %>
 
+  <%= pie_chart("env_dist" ,"Environments Distribution", @env_count) %>
 
-  <%=
-    graph("bar", {:title => "Average memory usage", :data => [[@mem_free,@swap_free],[@mem_size,@swap_size]],
-          :axis_with_labels => ["x","x"],:bar_colors => ['FF0000', '00FF00'],:stacked => false,
-          :legend => ["Avg Free", "Avg Size"], :bar_width_and_spacing => 40,
-          :axis_labels => [['Memory|Swap'], ["#{@mem_free} GB/#{@mem_size} GB","#{@swap_free} GB/#{@swap_size} GB"]] })
-  -%>
+  <%= pie_chart("cpu_num" ,"Number of CPUs", @cpu_count) %>
+
+  <%= pie_chart("hardware" ,"Hardware", @model_count) %>
+
+  <%= pie_chart("class_dist" ,"Class Distribution", @klass_count) %>
+
+  <%= pie_chart("mem_usage" ,"Average memory usage", [["free memory (GB)",@mem_free],["used memory (GB)",@mem_size-@mem_free]]) %>
+
+  <%= pie_chart("swap_usage" ,"Average swap usage", [["free swap (GB)",@swap_free],["used swap (GB)",@swap_size-@swap_free]]) %>
 
 </center>
