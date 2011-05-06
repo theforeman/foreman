@@ -86,7 +86,12 @@ module Orchestration::DHCP
 
     def boot_server
       # where are we booting from
-      unless bs = tftp.bootServer
+      begin
+        bs = tftp.bootServer
+      rescue RestClient::ResourceNotFound
+        nil
+      end
+      if bs.blank?
         # trying to guess out tftp next server based on the smart proxy hostname
         bs = URI.parse(subnet.tftp.url).host if subnet and subnet.tftp and subnet.tftp.url
       end
