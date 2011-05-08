@@ -12,8 +12,11 @@ class ReportsController < ApplicationController
   filter_parameter_logging :report
 
   def index
-    @reports = Report.search_for(params[:search], :order => params[:order]).paginate :page => params[:page], :include => :host
-    flash.clear
+    values = Report.search_for(params[:search], :order => params[:order])
+    respond_to do |format|
+      format.html { @reports = values.paginate :page => params[:page], :include => :host }
+      format.json { render :json => values.paginate(:page => params[:page], :include => [:host,:logs]) }
+    end
   rescue => e
     error e.to_s
     @reports = Report.search_for("").paginate :page => params[:page]

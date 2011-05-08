@@ -11,6 +11,13 @@ class ReportsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_via_json
+    get :index, {:format => "json"}, set_session_user
+    assert_response :success
+    reports = ActiveSupport::JSON.decode(@response.body)
+    assert !reports.empty?
+  end
+
   def test_show
     get :show, {:id => Report.last.id}, set_session_user
     assert_template 'show'
