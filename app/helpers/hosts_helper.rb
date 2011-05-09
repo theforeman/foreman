@@ -141,6 +141,19 @@ module HostsHelper
          y: -10,
          borderWidth: 0
       },
+      colors: [
+       '#AA4643',
+       '#AA4643',
+       '#AA4643',
+       '#89A54E',
+       '#4572A7',
+       '#80699B',
+       '#3D96AE',
+       '#DB843D',
+       '#92A8CD',
+       '#A47D7C',
+       '#B5CA92'
+      ],
       series: [{
          name: 'Failed',
          data: [ #{data[:failed].join(' ,')} ]
@@ -148,14 +161,14 @@ module HostsHelper
          name: 'Failed restarts',
          data: [#{data[:failed_restarts].join(' ,')}]
       }, {
+         name: 'Skipped',
+         data: [#{data[:skipped].join(' ,')}]
+      }, {
          name: 'Applied',
          data: [#{data[:applied].join(' ,')}]
       }, {
          name: 'Restarted',
          data: [#{data[:restarted].join(' ,')}]
-      }, {
-         name: 'Skipped',
-         data: [#{data[:skipped].join(' ,')}]
       }]
    });
 
