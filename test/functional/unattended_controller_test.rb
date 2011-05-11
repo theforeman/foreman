@@ -70,6 +70,7 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should not provide unattended files to hosts which don't have an assign os" do
+    hosts(:two).update_attribute(:operatingsystem_id, nil)
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{hosts(:two).mac}"
     get :kickstart
     assert_response :conflict
