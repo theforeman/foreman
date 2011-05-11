@@ -9,7 +9,8 @@
           </td>
           <td colspan="2">
             <% field_set_tag "Owned hosts" do %>
-              <%=  @user.hosts.to_sentence %>
+              <%=  contracted_host_list @user -%>
+              <%=  expanded_host_list @user -%>
             <% end -%>
           </td>
         <% end -%>
