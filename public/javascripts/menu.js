@@ -52,8 +52,8 @@ $(function() {
       response(
           $(this.element).children("ul").children("li").map(
               function() {
-                var bookmark = $(this).children("a")[0];
-                return { label: bookmark.text , value: bookmark.href };
+                var bookmark = $(this).children("a");
+                return { label: bookmark.text() , value: bookmark.attr('href') };
               })
           )
     },
@@ -75,7 +75,7 @@ $(function() {
       return false;
     }
     mainMenu.autocomplete("close");
-    currentMenu.autocomplete('search', '');
+    currentMenu.autocomplete("search", "");
     return false;
   });
 
