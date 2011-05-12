@@ -7,6 +7,11 @@ class FactValue < Puppet::Rails::FactValue
   scoped_search :in => :fact_name, :on => :name, :complete_value => true
   scoped_search :in => :host, :on => :name, :rename => :host, :default_order => true
 
+  named_scope :no_timestamp_facts, :include => [:fact_name],
+              :conditions => ["fact_names.name <> ?","--- !ruby/sym _timestamp"]
+
+  named_scope :timestamp_facts, :joins => [:fact_name],
+              :conditions => ["fact_names.name = ?","--- !ruby/sym _timestamp"]
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data

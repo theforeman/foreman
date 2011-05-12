@@ -23,16 +23,28 @@ class HostsController < ApplicationController
   filter_parameter_logging :root_pass
   helper :hosts, :reports
 
-  def index
+  def index (title = nil)
     begin
       # restrict allowed hosts list based on the user permissions
-      my_hosts  = User.current.admin? ? Host : Host.my_hosts
-      @search = my_hosts.search_for(params[:search],:order => params[:order], :group => 'hosts.id')
+      my_hosts = User.current.admin? ? Host : Host.my_hosts
+      search   = my_hosts.search_for(params[:search],:order => params[:order], :group => 'hosts.id')
     rescue => e
       error e.to_s
-      @search = my_hosts.search_for ''
+      search = my_hosts.search_for ''
     end
-    render_hosts
+      respond_to do |format|
+      format.html do
+        @hosts = search.paginate :page => params[:page], :include => included_associations
+        # SQL optimizations queries
+        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+        @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
+                                     :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
+        # rendering index page for non index page requests (out of sync hosts etc)
+        render :index if title and @title = title
+      end
+      format.json { render :json => search.all(:select => "hosts.name", :include => included_associations).map(&:name) }
+      format.yaml { render :text => search.all(:select => "hosts.name", :include => included_associations).map(&:name).to_yaml }
+    end
   end
 
   def show
@@ -151,9 +163,6 @@ class HostsController < ApplicationController
       return head(:not_found)
     end
   end
-
-
-
 
   #returns a yaml file ready to use for puppet external nodes script
   #expected a fqdn parameter to provide hostname to lookup
@@ -366,22 +375,22 @@ class HostsController < ApplicationController
 
   def errors
     params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0 or status.skipped > 0)"
-    show_hosts Host.recent.with_error, "Hosts with errors"
+    index "Hosts with errors"
   end
 
   def active
     params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)"
-    show_hosts Host.recent.with_changes, "Active Hosts"
+    index "Active Hosts"
   end
 
   def out_of_sync
-    params[:search]="last_report > \"#{SETTINGS[:puppet_interval]} minutes ago\" and status.enabled = true"
-    show_hosts Host.out_of_sync, "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes"
+    params[:search]="last_report < \"#{SETTINGS[:puppet_interval]} minutes ago\" and status.enabled = true"
+    index "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes"
   end
 
   def disabled
     params[:search]="status.enabled = false"
-    show_hosts Host.alerts_disabled, "Hosts with notifications disabled"
+    index "Hosts with notifications disabled"
   end
 
   def process_hostgroup
@@ -517,30 +526,6 @@ class HostsController < ApplicationController
     include += [:hostgroup, :domain, :operatingsystem, :environment, :model] unless request_json?
     include += [:fact_values] if User.current.user_facts.any?
     return include
-  end
-
-  def render_hosts title=nil
-    respond_to do |format|
-      format.html do
-        # You can see a host if you can CRUD it
-        @hosts = @search.paginate :page => params[:page], :include => included_associations
-        @via   = "fact_values_"
-        # SQL optimizations queries
-        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
-        @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
-                                     :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
-        # rendering index page for  non index page requests (out of sync hosts etc)
-        render :index if title and @title = title
-      end
-      format.json { render :json => @search.all(:select => "hosts.name", :include => included_associations).map(&:name) }
-      format.yaml { render :text => @search.all(:select => "hosts.name", :include => included_associations).map(&:name).to_yaml }
-    end
-
-  end
-
-  def show_hosts list, title
-    @search = User.current.admin? ? list.search(params[:search]) : list.my_hosts.search(params[:search])
-    render_hosts title
   end
 
   # this is required for template generation (such as pxelinux) which is not done via a web request
