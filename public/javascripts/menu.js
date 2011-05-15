@@ -113,6 +113,15 @@ $(function() {
       });
 });
 
+//make action title links into buttons
+$(function(){
+  $(".title_action span").button({disabled: true});
+  $(".title_action a").button();
+  $("h1").addClass("title_action_header");
+  $('input[type|="submit"]').button();
+});
+
+
 // menu animation
 $(function() {
   var $el, leftPos, newWidth, $mainNav = $("#menu1");

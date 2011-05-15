@@ -154,7 +154,6 @@ fieldset fieldset {
 	background-color:#FFF;
 	color:#000; 
 	position:relative; 
-	padding-bottom: 8px;
 	background: url(../images/header_bg.png) repeat-x;
 }
 
@@ -385,11 +384,24 @@ div#run_distribution {
   color: #333;
 }
 
-#content .title_action {
+.title_action {
   position: absolute;
   top: 1em;
   right: 1em;
+  text-align: right;
+  padding: 5px 0;
+  font-size: 12px;
 }
+
+.title_action_header{
+  position: relative;
+  color: white;
+  background-color: #7f9bb1;
+  padding: 5px 3px;
+  -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+  width: 100%;
+}
+
 #searchbar {
   border-bottom: 2px solid #D9E1E3;
   background-color: #ECF0F3;
