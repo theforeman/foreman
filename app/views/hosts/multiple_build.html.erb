@@ -1,5 +1,6 @@
 <%= render 'selected_hosts', :hosts => @hosts %>
 
 <% form_tag submit_multiple_build_hosts_path({:host_ids => params[:host_ids]}) do -%>
-  <%= submit_tag "Mark these hosts for a build operation on next boot" %>
+  <%# submit_tag "Mark these hosts for a build operation on next boot" %>
+    <small>Mark these hosts for a build operation on next boot</small>
 <% end %>

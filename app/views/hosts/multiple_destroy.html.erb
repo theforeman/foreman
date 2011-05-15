@@ -1,6 +1,6 @@
 <%= render 'selected_hosts', :hosts => @hosts %>
 
 <% form_tag submit_multiple_destroy_hosts_path(:host_ids => params[:host_ids]) do -%>
-  <%= submit_tag "DESTROY SELECTED HOSTS!" %>
+  <%# submit_tag "DESTROY SELECTED HOSTS!" %>
   <small>This might take a while, as all hosts, facts and reports will be destroyed as well</small>
 <% end %>

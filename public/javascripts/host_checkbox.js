@@ -100,10 +100,21 @@ function submit_multiple(path) {
   html.dialog({
     title: title,
     width: 700,
+    height: 450,
     modal: true,
-    close: function(event, ui) {}
+    close: function(event, ui) {},
+    buttons: {
+      "OK": function() {
+        cleanHostsSelection();
+        $("form").submit();
+        $( this ).dialog( "close" );
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
   });
-  cleanHostsSelection();
+
   return false;
 }
 
