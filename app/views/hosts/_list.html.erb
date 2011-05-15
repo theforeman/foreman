@@ -2,7 +2,7 @@
 <% title header ||= "" %>
 <table class="list">
   <tr>
-    <th></th>
+    <th><%= check_box_tag "check_all", "", false,{:onclick => "toggleCheck()", :title => "Select All"}%></th>
     <th><%= sort :name %></th>
     <th><%= sort :os, :as => "Operating system" %></th>
     <th><%= sort :environment %></th>
@@ -31,12 +31,5 @@
   </tr>
 <% end -%>
 </table>
-<% if authorized? -%>
-  <div class="multiple_actions">
-    <%= button_to_function "Toggle All", "toggleCheck()" %>
-    <%= button_to_function "Reset Selection", "cleanHostsSelection()" %>
-    <%= multiple_actions_select %>
-  </div>
-<% end -%>
 <%= page_entries_info hosts %>
 <%= will_paginate hosts %><strong><span class="select_count">0</span></strong> Selected

@@ -1,13 +1,22 @@
 // Settings drop-down
 $(function() {
+  dropdown($("#settings_list"), $("#settings_dropdown"), function(event, ui) {
+      window.location.href = ui.item.value;
+    });
+});
+// Javascript based drop-down menu
+// src - a select-box that has the data to display
+// dst - a link place holder for the position of the drop-down
+// func - function that will execute on select
+function dropdown(src, dst, func) {
   // in case the user doesn't have access to settings return
-  if ( $("#settings_list").position() == undefined) return;
+  if ( src.position() == undefined) return;
 
-  $("#settings_list").hide();
-  $("#settings_dropdown").autocomplete({
+  src.hide();
+  dst.autocomplete({
     source: function(request, response) {
       response(
-          $("#settings_list").children("option").map(
+          src.children("option").map(
               function(item) {
                 return { label: this.text , value: this.value };
               })
@@ -15,9 +24,7 @@ $(function() {
     },
     minLength: 0,
     delay: 0,
-    select: function(event, ui) {
-      window.location.href = ui.item.value;
-    }
+    select: func
   }).data("autocomplete")._renderItem = function(ul, item) {
     return $("<li></li>")
         .data("item.autocomplete", item)
@@ -25,7 +32,7 @@ $(function() {
         .appendTo(ul);
   };
   // toggle drop-down.
-  $('#settings_dropdown').click(function() {
+  dst.click(function() {
     if ($(this).autocomplete("widget").is(":visible")) {
       $(this).autocomplete("close");
       return;
@@ -33,14 +40,14 @@ $(function() {
     $(this).autocomplete('search', '');
   });
   // close drop-down when mouse leave the widget.
-  $('#settings_dropdown').autocomplete("widget").hover(function() {
+  dst.autocomplete("widget").hover(function() {
   },
       function() {
         if ($(this).is(":visible")) {
-          $('#settings_dropdown').autocomplete("widget").slideUp('fast');
+          dst.autocomplete("widget").slideUp('fast');
         }
       });
-});
+};
 
 // Bookmarks sub-menu
 $(function() {

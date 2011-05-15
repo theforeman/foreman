@@ -43,11 +43,7 @@ function readFromCookie() {
 }
 
 function toggle_actions() {
-  if ($.foremanSelectedHosts.length > 0) {
-    $("#Submit_multiple").enable()
-  } else {
-    $("#Submit_multiple").disable()
-  }
+  $("#actions_dropdown a").button({disabled: ($.foremanSelectedHosts.length == 0) });
 }
 
 // setups checkbox values upon document load
@@ -84,10 +80,15 @@ function cleanHostsSelection() {
 }
 
 function toggleCheck() {
+  var checked = $("#check_all").attr("checked");
   $('.host_select_boxes').each(function(index, box) {
-    box.checked = !box.checked;
+    box.checked = checked;
     hostChecked(box);
   });
+  if(!checked)
+  {
+     cleanHostsSelection();
+  }
   return false;
 }
 
@@ -108,6 +109,14 @@ function submit_multiple(path) {
 
 function update_counter(id) {
   if ($.foremanSelectedHosts)
+  {
     id.text($.foremanSelectedHosts.length);
+    $("#check_all").attr("checked", $.foremanSelectedHosts.length > 0 );
+  }
+
+  if ($("#check_all").attr("checked"))
+    $("#check_all").attr("title", $.foremanSelectedHosts.length + " - items selected.\nUncheck to Clear Selection" );
+  else
+    $("#check_all").attr("title", "Select all items in this page" );
   return false;
 }
