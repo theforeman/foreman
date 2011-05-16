@@ -10,7 +10,7 @@ SETTINGS[:version] = "0.2.1"
 SETTINGS[:puppet_interval] ||= 30
 SETTINGS[:run_interval] = SETTINGS[:puppet_interval].minutes
 
-SETTINGS[:unattended] = SETTINGS[:unattended].nil? or SETTINGS[:unattended]
+SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
 Puppet.parse_config
 $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
