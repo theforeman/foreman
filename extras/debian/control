@@ -11,7 +11,7 @@ Architecture: all
 Pre-Depends: debconf
 Depends: ruby, ruby1.8 (>= 1.8.7), rubygems, rubygems1.8, rake (>=0.8.4), libjs-prototype (>= 1.6.0), libjs-scriptaculous (>= 1.8.1),
          puppet (>=0.24.4), dbconfig-common, librestclient-ruby (>= 1.4.0), libjson-ruby, ${misc:Depends}
-Recommends: foreman-proxy, libvirt-ruby 
+Recommends: foreman-proxy, libvirt-ruby
 Suggests: thin | mongrel | httpd-cgi, libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid, libvirt-bin
 Enhances: puppet
 Description: Systems management web interface
@@ -34,7 +34,8 @@ Description: Systems management web interface
 
 Package: foreman-mysql
 Architecture: all
-Depends: foreman, libdbd-mysql-ruby, mysql-server, mysql-client | virtual-mysql-client, ${misc:Depends}
+Pre-Depends: mysql-server, mysql-client | virtual-mysql-client
+Depends: foreman, libdbd-mysql-ruby, ${misc:Depends}
 Description: metapackage providing MySQL dependencies for Foreman
  This package only provides MySQL dependencies for Foreman, a
  flexible systems management web application. Install this
@@ -44,7 +45,8 @@ Description: metapackage providing MySQL dependencies for Foreman
 
 Package: foreman-pgsql
 Architecture: all
-Depends: foreman, libdbd-pg-ruby, postgresql, postgresql-client, ${misc:Depends}
+Pre-Depends: postgresql, postgresql-client
+Depends: foreman, libdbd-pg-ruby, ${misc:Depends}
 Description: metapackage providing PostgreSQL dependencies for Foreman
  This package provides PostgreSQL dependencies for Foreman, a
  flexible systems management web application. Install this
