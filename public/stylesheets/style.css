@@ -7,25 +7,23 @@
 }
 .auto_complete_input {
     font-family: Verdana, Helvetica, Arial;
-    padding: 0px 20px 3px 10px;
-    margin: 0 2px 0 0;
+    padding: 2px 20px 3px 10px;
+    margin: 0 1px 0 0;
     font-size: 14px;
     width: 70%;
-    border-radius: 8px;
+    border-radius: 20px;
+    border: solid 1px #507ea1;
 }
 .auto_complete_clear{
-    background: url('../images/ui-icons_6da8d5_256x240.png') right center no-repeat;
+    background: url('../images/ui-icons_6da8d5_256x240.png') center no-repeat;
     background-position: -32px -192px;
     font-size: 12px;
     padding: 0px 8px;
-    margin: 0px 0px 0px -20px;
+    margin-left:-20px;
 }
 .auto_complete_clear:hover {
     background: url('../images/ui-icons_217bc0_256x240.png') right center no-repeat;
     background-position: -32px -192px;
-    font-size: 12px;
-    padding: 0px 8px;
-    margin: 0px 0px 0px -20px;
 }
 .ui-autocomplete-completed {
     color: #aaa;
@@ -395,10 +393,9 @@ div#run_distribution {
 
 .title_action_header{
   position: relative;
-  color: white;
-  background-color: #7f9bb1;
+  border-bottom: solid 1px;
+  border-bottom-color: #7f9bb1;
   padding: 5px 3px;
-  -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
   width: 100%;
 }
 
@@ -582,6 +579,7 @@ a.button:active span {
     display: block;
     text-decoration: none;
     padding: 0 4px 0 10px;
+    height: 24px;
 }
 
 #menu1 li a span {
@@ -591,7 +589,7 @@ a.button:active span {
 }
 #menu1 li a:hover { color: #000;
     background-color:#507ea1;
-    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+    -moz-border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;
 }
 #menu1 li a span:hover {color: #000;
     background-color:#7f9bb1;
@@ -600,6 +598,7 @@ a.button:active span {
 #magic-line { position: absolute; top: -1px; left: 0; width: 100px; height: 2px; background: #fe4902; }
 .current_page_item a {
     background: url(../images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50%  repeat-x;
-    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+    -moz-border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;
+    height: 25px;
 }
 .menu-dropdown {text-transform: capitalize;}

@@ -96,7 +96,7 @@ function toggleCheck() {
 function submit_multiple(path) {
   var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
   var html = $('<div></div>').appendTo('body').load(url + " #content");
-  var title = $('select [value=\"' + path + '\"]').text();
+  var title = $('select [value=\"' + path + '\"]').text() + " - Confirmation Dialog";
   html.dialog({
     title: title,
     width: 700,
