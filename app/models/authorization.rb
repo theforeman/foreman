@@ -36,6 +36,9 @@ module Authorization
 
   private
   def enforce?
-    not (defined?(Rake) or (User.current and User.current.admin?))
+    return false if (User.current and User.current.admin?)
+    return true  if defined?(Rake) and Rails.env == "test"
+    return false if defined?(Rake)
+    true
   end
 end

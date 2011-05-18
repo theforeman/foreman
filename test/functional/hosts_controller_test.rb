@@ -332,12 +332,12 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'multiple without hosts' do
-    post :update_multiple_hostgroup
+    post :update_multiple_hostgroup, {}, set_session_user
     assert_redirected_to hosts_url
     assert_equal "No Hosts selected", flash[:error]
 
     # now try to pass an invalid id
-    post :update_multiple_hostgroup, {:host_ids => [-1], :host_names => ["no.such.host"]}
+    post :update_multiple_hostgroup, {:host_ids => [-1], :host_names => ["no.such.host"]}, set_session_user
 
     assert_redirected_to hosts_url
     assert_equal "No hosts were found with that id or name", flash[:error]
@@ -349,7 +349,7 @@ class HostsControllerTest < ActionController::TestCase
     hosts.each { |host| assert_nil host.hostgroup }
 
     hostgroup = hostgroups(:unusual)
-    post :update_multiple_hostgroup, { :host_ids => hosts.map(&:id), :hostgroup => { :id => hostgroup.id } }
+    post :update_multiple_hostgroup, { :host_ids => hosts.map(&:id), :hostgroup => { :id => hostgroup.id } }, set_session_user
 
     # reloads hosts
     hosts.map! {|h| Host.find(h.id)}
@@ -367,7 +367,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     hostgroup = hostgroups(:common)
-    post :update_multiple_hostgroup, { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }
+    post :update_multiple_hostgroup, { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }, set_session_user
 
     host_names.each do |name|
       host = Host.find_by_name name

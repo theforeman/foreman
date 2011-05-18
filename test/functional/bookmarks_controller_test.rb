@@ -2,38 +2,38 @@ require 'test_helper'
 
 class BookmarksControllerTest < ActionController::TestCase
   test "should get index" do
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns(:bookmarks)
   end
 
   test "should get new" do
-    get :new
+    get :new, {}, set_session_user
     assert_response :success
   end
 
   test "should create bookmark" do
     User.current = users(:one)
     assert_difference('Bookmark.count') do
-      post :create, :bookmark => {:name => "foo-bar", :query => "bar", :public => false, :controller => "hosts"}
+      post :create, {:bookmark => {:name => "foo-bar", :query => "bar", :public => false, :controller => "hosts"}}, set_session_user
     end
 
     assert_redirected_to hosts_path
   end
 
   test "should get edit" do
-    get :edit, :id => bookmarks(:one).to_param
+    get :edit, {:id => bookmarks(:one).to_param}, set_session_user
     assert_response :success
   end
 
   test "should update bookmark" do
-    put :update, :id => bookmarks(:one).to_param, :bookmark => { }
+    put :update, {:id => bookmarks(:one).to_param, :bookmark => { }}, set_session_user
     assert_redirected_to bookmark_path(assigns(:bookmark))
   end
 
   test "should destroy bookmark" do
     assert_difference('Bookmark.count', -1) do
-      delete :destroy, :id => bookmarks(:one).to_param
+      delete :destroy, {:id => bookmarks(:one).to_param}, set_session_user
     end
 
     assert_redirected_to bookmarks_path
