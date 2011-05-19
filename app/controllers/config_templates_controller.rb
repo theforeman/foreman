@@ -99,7 +99,7 @@ class ConfigTemplatesController < ApplicationController
 
     respond_to do |format|
       format.html { notice "PXE Default file has been deployed to all Smart Proxies" }
-      format.json { render :status => :ok and return }
+      format.json { head :status => :ok and return }
     end
     redirect_to :back
   end
