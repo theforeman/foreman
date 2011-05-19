@@ -2,6 +2,10 @@ class CommonParametersController < ApplicationController
   def index
     @search            = CommonParameter.search(params[:search])
     @common_parameters = @search.paginate(:page => params[:page])
+    respond_to do |format|
+      format.html
+      format.json { render :json => @common_parameters}
+    end
   end
 
   def new
