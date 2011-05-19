@@ -32,12 +32,12 @@
   <%= observe_field(:host_hostgroup_id,
                     :url => { :action => :hostgroup_or_environment_selected, :id => @host.id },
                     :update => :classlist,
-                    :with => "'hostgroup_id=' + value+'&environment_id='+$('host_environment_id').value") unless @host.new_record?  %>
+                    :with => "'hostgroup_id=' + value+'&environment_id='+$('#host_environment_id').attr('value')") unless @host.new_record?  %>
 
   <%= observe_field(:host_environment_id,
                     :url => { :action => :hostgroup_or_environment_selected, :id => @host.id },
                     :update => :classlist,
-                    :with => "'environment_id=' + value+'&hostgroup_id='+$('host_hostgroup_id').value") %>
+                    :with => "'environment_id=' + value+'&hostgroup_id='+$('#host_hostgroup_id').attr('value')") %>
 
   <%= f.hidden_field :managed %>
 
