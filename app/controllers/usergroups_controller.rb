@@ -1,6 +1,10 @@
 class UsergroupsController < ApplicationController
   def index
     @usergroups = Usergroup.paginate :page => params[:page]
+    respond_to do |format|
+      format.html
+      format.json { render :json => @usergroups}
+    end
   end
 
   def new

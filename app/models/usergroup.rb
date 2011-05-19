@@ -52,4 +52,8 @@ class Usergroup < ActiveRecord::Base
     end
   end
 
+  def as_json(options={})
+    super({:only => [:name, :id]}.merge(options))
+  end
+
 end
