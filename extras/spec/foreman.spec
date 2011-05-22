@@ -18,7 +18,11 @@ Requires:       ruby(abi) = 1.8
 Requires:       rubygems
 Requires:       rubygem(rake) >= 0.8.3
 Requires:       puppet >= 0.24.4
+%if ! (0%{?fedora} > 14 || 0%{?rhel} > 5)
+Requires:       rubygem(sqlite3)
+%else
 Requires:       rubygem(sqlite3-ruby)
+%endif
 Requires:       rubygem(rest-client)
 Requires:       rubygem(json)
 Requires(pre):  shadow-utils
