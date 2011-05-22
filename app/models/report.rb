@@ -298,22 +298,17 @@ class Report < ActiveRecord::Base
     false
   end
 
-  def summarystatus
-    case self
-    when error?
-      "Failed"
-    when changes?
-      "Modified"
-    else
-      "Success"
-    end
+  def summaryStatus
+    return "Failed"   if error?
+    return "Modified" if changes?
+    return "Success"
   end
 
   def as_json(options={})
     {:report =>
       { :reported_at => reported_at, :status => status,
         :host => host.name, :metrics => metrics, :logs => logs.all(:include => [:source, :message]),
-        :id => id, :summary => summarystatus
+        :id => id, :summary => summaryStatus
       },
     }
   end
