@@ -86,6 +86,11 @@ module HostsHelper
   def render_report_status_chart name, title, subtitle, data
   function = <<-EOF
   $(function() {
+    Highcharts.setOptions({
+      global: {
+        useUTC: false
+      }
+    });
    chart = new Highcharts.Chart({
       chart: {
          renderTo: '#{name}',
