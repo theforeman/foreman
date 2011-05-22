@@ -1,0 +1,11 @@
+[foreman]
+name=Foreman - Stable
+baseurl=http://yum.theforeman.org/stable/
+enabled=1
+gpgcheck=0
+
+[foreman-testing]
+name=Foreman - Testing
+baseurl=http://yum.theforeman.org/test/
+enabled=0
+gpgcheck=0
