@@ -217,9 +217,13 @@ fieldset fieldset {
   width: 390px;
   margin: 0 auto;
 }
-#login-form table {margin-top:2em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
+#login-form table {margin-top:2em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ECF0F3'); /* for IE */
+background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ECF0F3)); /* for webkit browsers */
+background: -moz-linear-gradient(top,  #fff,  #ECF0F3); /* for firefox 3.6+ */
+-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
 #login-form table td {padding: 6px;text-align: center;}
-#login-form label {font-weight: bold;}
+#login-form label {font-weight: bold; color: #507ea1;}
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
@@ -366,20 +370,41 @@ div#run_distribution {
   height: 300px;
   float: left;
 }
+
+
 .host_chart{
   width: 800px;
   height: 300px;
   margin-top: 20px;
 }
 
-#hostclasses, #classes li {
-  list-style-type:none;
+.puppet-classes-table {  border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin:1em auto;}
+.puppet-classes-table td{  border: 1px solid #e4e4e4;  border-collapse: collapse;}
+.puppet-classes-table th {
+  text-decoration:none;
+  text-align:left;
+  background:#7f9bb1;
+  color:#FFFFFF;
+}
+.puppet-classes-table .odd{background-color:#e4e4e4;}
+.puppet-classes-table .even{background-color:#f6f7f8;}
+
+
+#hostclasses, #classes{
+  width: 320px;
+  vertical-align: top;
+
+}
+#hostclasses, #classes li, #classes li a {
+  list-style-type: none;
   margin-right: 0.5em;
+  text-decoration: none;
 }
 
-#classes .puppetclass a {
-  font-size: 75%;
+#classes .puppetclass a, .puppetclass li a {
   color: #333;
+  float: right;
+  margin-right: 10px;
 }
 
 .title_action {

@@ -16,11 +16,15 @@
       <%= f.label :environment_id %>
       <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } %>
     </div>
-    <div class="span-5">
+    <div class="span-6 last">
       <%= puppetmaster_field(@host, f) %>
     </div>
-    <%= link_to_function "Additional Classes", toggle_div(:classlist), :class => "span-4 last" %>
-    <div class="span-24 last" id="classlist" style="display:none;">
+    <br>
+    <div class ="span-4 last">
+      <%= link_to_function "Additional Classes", '$("#classlist").slideToggle();' %>
+    </div>
+    <br>
+    <div id="classlist" style="display:none;">
       <% if @environment or @hostgroup -%>
         <%= render 'puppetclasses/class_selection', :obj => @host %>
       <% else -%>
@@ -45,7 +49,7 @@
 
   <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
 
-  <% field_set_tag link_to_function("Additional Information", toggle_div(:additional_info)) do %>
+  <% field_set_tag link_to_function("Additional Information", '$("#additional_info").slideToggle()') do %>
     <div id="additional_info" style="display:none;">
       <div class="span-10">
         <br>
