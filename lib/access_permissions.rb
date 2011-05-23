@@ -60,6 +60,7 @@ Foreman::AccessControl.map do |map|
                                       :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
                                       :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage]}
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
+    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild]}
   end
 
   map.security_block :media do |map|

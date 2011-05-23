@@ -52,7 +52,7 @@ module Foreman
 
             hosts_editor =  Role.name_is("Edit hosts").empty? ? Role.create(:name => "Edit hosts") : Role.name_is("Edit hosts")[0]
             if reset or hosts_editor.permissions.empty?
-              hosts_editor.update_attribute :permissions, [:view_hosts,    :edit_hosts,    :create_hosts,    :destroy_hosts]
+              hosts_editor.update_attribute :permissions, [:view_hosts,    :edit_hosts,    :create_hosts,    :destroy_hosts, :build_hosts]
             end
 
             viewer =  Role.name_is("Viewer").empty? ? Role.create(:name => "Viewer") : Role.name_is("Viewer")[0]
@@ -101,6 +101,7 @@ module Foreman
                 :create_hosts,
                 :edit_hosts,
                 :destroy_hosts,
+                :build_hosts,
                 :view_media,
                 :create_media,
                 :edit_media,
