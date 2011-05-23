@@ -1,4 +1,4 @@
 default linux
 label linux
 kernel <%= @kernel %>
-append initrd=<%= @initrd %> interface=auto url=<%= foreman_url("provision")%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=unassigned-hostname locale=en_US console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA
+append initrd=<%= @initrd %> interface=auto url=<%= foreman_url("provision")%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=unassigned-hostname language=en locale=en_US console-keymaps-at/keymap=us debian-installer/country=US
