@@ -28,7 +28,7 @@ class BookmarksControllerTest < ActionController::TestCase
 
   test "should update bookmark" do
     put :update, {:id => bookmarks(:one).to_param, :bookmark => { }}, set_session_user
-    assert_redirected_to bookmark_path(assigns(:bookmark))
+    assert_redirected_to bookmarks_path
   end
 
   test "should destroy bookmark" do
