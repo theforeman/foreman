@@ -1,14 +1,14 @@
 <div id="welcome">
   <h2>Hostgroup configuration</h2>
   <p>
-  A Host group is in some ways similar to an inherited node declaration, in that it is a highlevel grouping
+  A Host group is in some ways similar to an inherited node declaration, in that it is a high level grouping
   of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of
   a new host and ensures that the host is configured in one of your pre-defined states.
   In addition to defining which puppet classes get included when building this host type you
   are also able to assign variables to a hostgroup to further refine the behaviour of the puppet runtime.
   The hostgroup's classes and the hostgroup's variables are included in the external node information
   when the puppetmaster compiles the host's configuration.
-  <p/>
+  </p>
   <p>
   There are two strategies when using hostgroups. You may create puppet classes that represent high-level host configurations,
   for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules
@@ -18,4 +18,3 @@
 
   <%= link_to "New hostgroup", new_hostgroup_path %>
 </div>
-

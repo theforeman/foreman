@@ -1,12 +1,12 @@
 <div id="menu1" style="width: 100%;">
-  <% myBookmarks = Bookmark.my_bookmarks %>
+  <% my_bookmarks = Bookmark.my_bookmarks %>
   <ul class="group">
-    <%= menu 'dashboard',  myBookmarks %>
-    <%= menu 'hosts',      myBookmarks %>
-    <%= menu 'reports',    myBookmarks, hash_for_reports_path.merge(:search => 'eventful = true') %>
-    <%= menu 'facts' ,     myBookmarks, hash_for_fact_values_path %>
-    <%= menu 'audits',     myBookmarks, hash_for_audits_path %>
-    <%= menu 'statistics', myBookmarks %>
+    <%= menu 'dashboard',  my_bookmarks %>
+    <%= menu 'hosts',      my_bookmarks %>
+    <%= menu 'reports',    my_bookmarks, hash_for_reports_path.merge(:search => 'eventful = true') %>
+    <%= menu 'facts' ,     my_bookmarks, hash_for_fact_values_path %>
+    <%= menu 'audits',     my_bookmarks, hash_for_audits_path %>
+    <%= menu 'statistics', my_bookmarks %>
     <% if User.current.admin? or User.current.allowed_to?(:access_settings) -%>
       <li style="float:right; margin-right: 80px;"><%= render "home/settings" -%></li>
     <% end -%>

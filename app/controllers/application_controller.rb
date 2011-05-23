@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
         unless User.current = User.find_by_login("admin")
           error "Unable to find internal system admin account - Recreating . . ."
-          User.current = User.current = User.create_admin
+          User.current = User.create_admin
         end
         session[:user] = User.current.id unless request_json?
       end
@@ -93,13 +93,13 @@ class ApplicationController < ActionController::Base
   end
 
   # this method sets the Current user to be the Admin
-  # its required for actions which are not authenicated by default
+  # its required for actions which are not authenticated by default
   # such as unattended notifications coming from an OS, or fact and reports creations
   def set_admin_user
     User.current = User.find_by_login("admin")
   end
 
-  # searchs for an object based on its name and assign it to an instance variable
+  # searches for an object based on its name and assign it to an instance variable
   # required for models which implement the to_param method
   #
   # example:
@@ -120,7 +120,7 @@ class ApplicationController < ActionController::Base
   end
 
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
-  # it automaticilly updates the search text box with the releavnt relationship
+  # it automatically updates the search text box with the relevant relationship
   # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
   def setup_search_options
     params[:search] ||= ""

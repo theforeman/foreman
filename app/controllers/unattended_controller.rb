@@ -1,7 +1,7 @@
 class UnattendedController < ApplicationController
   layout nil
 
-  # Methods which return configuration files for syslinux(pxe) or gpxe
+  # Methods which return configuration files for syslinux(pxe) or g/ipxe
   PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.name_like("pxelinux").map(&:name)
   GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.name_like("gpxe").map(&:name)
   CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS
@@ -92,7 +92,7 @@ class UnattendedController < ApplicationController
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
-    # search for a mac address in any of the RHN provsioning headers
+    # search for a mac address in any of the RHN provisioning headers
     # this section is kickstart only relevant
     maclist = []
     unless request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].nil?
@@ -107,18 +107,18 @@ class UnattendedController < ApplicationController
 
     # we try to match first based on the MAC, falling back to the IP
     conditions = (!maclist.empty? ? {:mac => maclist} : {:ip => ip})
-    @host = Host.find(:first, :include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
+    @host = Host.first(:include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
     unless @host
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
       head(:not_found) and return
     end
     unless @host.operatingsystem
-      logger.error "#{controller_name}: #{@host.name}'s operatingsystem is missing!"
+      logger.error "#{controller_name}: #{@host.name}'s operating system is missing!"
       head(:conflict) and return
     end
     unless @host.operatingsystem.family
       # Then, for some reason, the OS has not been specialized into a Redhat or Debian class
-      logger.error "#{controller_name}: #{@host.name}'s operatingsytem [#{@host.operatingsystem.fullname}] has no OS family!"
+      logger.error "#{controller_name}: #{@host.name}'s operating system [#{@host.operatingsystem.fullname}] has no OS family!"
       head(:conflict) and return
     end
     logger.info "Found #{@host}"
@@ -144,7 +144,7 @@ class UnattendedController < ApplicationController
   end
 
   # we try to find this host specific template
-  # if it doesnt exists, we'll try to find a local generic template
+  # if it doesn't exists, we'll try to find a local generic template
   # otherwise render the default view
   def unattended_local
     if config = @host.configTemplate(@type)

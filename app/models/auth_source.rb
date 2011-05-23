@@ -52,7 +52,7 @@ class AuthSource < ActiveRecord::Base
   # Try to authenticate a user not yet registered against available sources
   # Returns : user's attributes OR nil
   def self.authenticate(login, password)
-    AuthSource.find(:all).each do |source|
+    AuthSource.all.each do |source|
       begin
         logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
         attrs = source.authenticate(login, password)

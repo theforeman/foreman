@@ -251,7 +251,7 @@ class HostsController < ApplicationController
 
   def update_multiple_parameters
     if params[:name].empty?
-      notice "No parameters were allocted to the selected hosts, can't mass assign."
+      notice "No parameters were allocated to the selected hosts, can't mass assign."
       redirect_to hosts_path and return
     end
 
@@ -292,9 +292,9 @@ class HostsController < ApplicationController
     end
 
     #update the hosts
-    @hosts.each.each do |host|
+    @hosts.each do |host|
       host.hostgroup=hg
-      host.save(perform_validation = false)
+      host.save(false)
     end
 
     notice 'Updated hosts: Changed Hostgroup'
@@ -318,7 +318,7 @@ class HostsController < ApplicationController
     #update the hosts
     @hosts.each do |host|
       host.environment=ev
-      host.save(perform_validation = false)
+      host.save(false)
     end
 
     notice 'Updated hosts: Changed Environment'
@@ -441,7 +441,7 @@ class HostsController < ApplicationController
     when "active", nil
       state = "recent"
     else
-      raise invalid_request and return
+      raise invalid_request
     end
 
     @hosts = Host.send(state).map(&:name) if fact.empty? and klass.empty? and group.empty?

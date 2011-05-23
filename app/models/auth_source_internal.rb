@@ -3,7 +3,7 @@ class AuthSourceInternal < AuthSource
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
 
-    User.find(:first, :conditions => ["login=?", login]).try :matching_password?, password
+    User.first(:conditions => ["login=?", login]).try :matching_password?, password
   end
 
   def auth_method_name

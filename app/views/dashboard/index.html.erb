@@ -1,6 +1,7 @@
 <div id='dashboard'>
   <div id='dash'>
     <h1>Overview</h1>
+
     <p>Generated at <%= Time.now.to_s(:short) %></p>
     <table class="list">
       <tr>
@@ -9,22 +10,19 @@
       </tr>
       <tr class="even">
         <td>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes</td>
-        <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%=@report[:percentage]%>%) </td>
+        <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
       </tr>
       <tr class="odd">
         <td><%= link_to 'Hosts that had performed modifications', active_hosts_path %></td>
         <td><%= @report[:active_hosts] %> </td>
       </tr>
-      </tr>
       <tr class="even">
-        <td><%= link_to'Out Of Sync Hosts', out_of_sync_hosts_path  %></td>
+        <td><%= link_to 'Out Of Sync Hosts', out_of_sync_hosts_path %></td>
         <td><%= @report[:out_of_sync_hosts] %> </td>
-      </tr>
       </tr>
       <tr class="odd">
         <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
         <td><%= @report[:bad_hosts] %> </td>
-      </tr>
       </tr>
       <tr class="even">
         <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>

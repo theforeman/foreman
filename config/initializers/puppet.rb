@@ -17,7 +17,7 @@ end
 if Facter.puppetversion == "0.25.5"
   begin
     require 'RRDtool'
-  rescue LoadError => detail
+  rescue LoadError
     nil
   end
 end

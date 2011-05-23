@@ -18,7 +18,7 @@ class Parameter < ActiveRecord::Base
   end
 
   def self.reassign_priorities
-    # priorities will be reassinged because of after_initialize
+    # priorities will be reassigned because of after_initialize
     find_in_batches do |params|
       params.each { |param| param.update_attribute(:priority, param.priority) }
     end

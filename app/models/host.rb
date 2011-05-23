@@ -486,7 +486,7 @@ class Host < Puppet::Rails::Host
   end
 
   def classes_from_storeconfigs
-    klasses = resources.find(:all, :conditions => {:restype => "Class"}, :select => :title, :order => :title)
+    klasses = resources.find.all(:conditions => {:restype => "Class"}, :select => :title, :order => :title)
     klasses.map!(&:title).delete(:main)
     return klasses
   end
@@ -517,7 +517,7 @@ class Host < Puppet::Rails::Host
       if current.allowed_to?(:create_hosts)
         # We are unconstrained
         return true if current.domains.empty? and current.hostgroups.empty?
-        # We are contrained and the constraint is matched
+        # We are constrained and the constraint is matched
         return true if (!current.domains.empty?    and current.domains.include?(domain)) or
         (!current.hostgroups.empty? and current.hostgroups.include?(hostgroup))
       end

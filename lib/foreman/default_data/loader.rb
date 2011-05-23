@@ -24,7 +24,7 @@ module Foreman
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, :conditions => {:builtin => 0})
+          !Role.first(:conditions => {:builtin => 0})
         end
 
         # Loads the default data

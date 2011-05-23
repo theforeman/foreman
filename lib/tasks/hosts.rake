@@ -39,7 +39,7 @@ namespace :hosts do
       if ip.empty?
         missingdns << host
       else
-        puts "conflict IP address for #{host.name}" if ip =! host.ip
+        puts "conflict IP address for #{host.name}" unless ip == host.ip
         if Ping.pingecho host.ip
           print "."
           pingable << host

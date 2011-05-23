@@ -28,7 +28,7 @@ class Puppetclass < ActiveRecord::Base
   # Scans a directory path for puppet classes
   # +paths+ : String containing a colon separated module path
   # returns
-  # Array of Strings containing puppetclass names
+  # Array of Strings containing puppet class names
   def self.scanForClasses(paths)
     klasses=Array.new
     for path in paths.split(":")
@@ -57,7 +57,7 @@ class Puppetclass < ActiveRecord::Base
   end
 
   # returns module name (excluding of the class name)
-  # if class seperator does not exists (the "::" chars), then returns the whole class name
+  # if class separator does not exists (the "::" chars), then returns the whole class name
   def module_name
     return (i = name.index("::")) ? name[0..i-1] : name
   end
@@ -72,7 +72,7 @@ class Puppetclass < ActiveRecord::Base
     klass <=> other.klass
   end
 
-  # Retrieve the manifestdir from the puppet configuration
+  # Retrieve the manifest dir from the puppet configuration
   # Returns: String
   def self.manifestdir
     ps =  Puppet.settings.instance_variable_get(:@values)
@@ -141,7 +141,7 @@ class Puppetclass < ActiveRecord::Base
 
   # Optionally creates a copy of the current puppet modules and sanitizes it.
   # If your 'live' manifests and modules can be parsed by puppetdoc
-  # then you do not neeed to do this step. (Unfortunately some sites have circular
+  # then you do not need to do this step. (Unfortunately some sites have circular
   # symlinks which have to be removed.)
   # If the executable RAILS_ROOT/script/rdoc_prepare_script exists then it is run
   # and passed a list of all directory paths in all environments.

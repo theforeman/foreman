@@ -84,12 +84,11 @@ namespace :db do
         DevelopmentModelClass.record_timestamps = false
 
         # Page through the data in case the table is too large to fit in RAM
-        offset = count = 0;
+        offset = count = 0
         print "Converting #{table_name}..."; STDOUT.flush
         # First, delete any old dev data
         DevelopmentModelClass.delete_all
-        while ((models = ProductionModelClass.find(:all,
-            :offset=>offset, :limit=>PAGE_SIZE)).size > 0)
+        while ((models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0)
 
           count += models.size
           offset += PAGE_SIZE
