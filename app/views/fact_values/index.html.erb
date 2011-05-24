@@ -10,23 +10,25 @@
     <th>Reported at</th>
   </tr>
   <% for fact_value in @fact_values %>
-    <% next if fact_value.name =~ /timestamp/ -%>
     <tr class="<%= cycle("even", "odd") -%>">
       <% unless params[:host_id] -%>
         <td>
-          <%= link_to(h(fact_value.host.nil? ? "N/A" : fact_value.host),
-                      host_facts_path(:host_id => fact_value.host),
-          :title => "Show host") %></td>
+          <% if fact_value.host -%>
+            <%= link_to(fact_value.host, host_facts_path(:host_id => fact_value.host), :title => "Show host facts") %>
+          <% else -%>
+            N/A
+          <% end %>
+        </td>
       <% end %>
       <td>
         <%= link_to h(fact_value.fact_name.name),
           fact_values_path("search" => "name = #{fact_value.name}"),
-          :title => "Show all #{fact_value.name} facts" %>
+        :title => "Show all #{fact_value.name} fact values" %>
       </td>
       <td>
         <%= link_to h(truncate fact_value.value, :length => 40),
           fact_values_path("search" => "facts.#{fact_value.name} = \"#{fact_value.value}\""),
-          :title => "Show all #{fact_value.name} facts where they are equal to #{fact_value.value}" %>
+        :title => "Show all #{fact_value.name} facts where they are equal to #{fact_value.value}" %>
       </td>
       <td><%= fact_from fact_value %></td>
     </tr>
