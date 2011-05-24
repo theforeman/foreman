@@ -51,8 +51,7 @@ class Host < Puppet::Rails::Host
   }
   named_scope :with_error, { :conditions => "(puppet_status > 0) and
     ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed")} & #{Report::MAX}) != 0) or
-    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed_restarts")} & #{Report::MAX}) != 0) or
-    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("skipped")} & #{Report::MAX}) != 0)"
+    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed_restarts")} & #{Report::MAX}) != 0)"
   }
 
 

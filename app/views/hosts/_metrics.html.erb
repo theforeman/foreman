@@ -6,7 +6,7 @@
     <% report_summary.each do |name, value| -%>
         <tr class="<%= cycle("even", "odd") -%>">
       <td style="width: 240px;"> <%= name %> </td>
-      <% style = (name =~ /failed|skipped|failed_restart/ and value > 0) ? "color:red;font-weight:bold" : ""-%>
+      <% style = (name =~ /failed|failed_restart/ and value > 0) ? "color:red;font-weight:bold" : ""-%>
       <td style="<%= style %>"> <%= value %> </td>
     </tr>
   <% end -%>

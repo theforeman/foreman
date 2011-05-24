@@ -18,7 +18,7 @@
   <tr>
     <%= render 'link_to_host', :host => host %>
     <% params[:metrics].each do |m,v| -%>
-      <% if m =~ /failed|skipped|failed_restart/ and v > 0 -%>
+      <% if m =~ /failed|failed_restart/ and v > 0 -%>
         <td style="color:red;font-weight:bold;border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
       <% else -%>
         <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">

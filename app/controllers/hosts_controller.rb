@@ -374,7 +374,7 @@ class HostsController < ApplicationController
   end
 
   def errors
-    params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0 or status.skipped > 0)"
+    params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)"
     index "Hosts with errors"
   end
 

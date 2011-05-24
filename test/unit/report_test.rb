@@ -44,9 +44,15 @@ class ReportTest < ActiveSupport::TestCase
     assert @r.error?
   end
 
+  test "it should not be an error if there are only skips" do
+    @r.status={"applied" => 92, "restarted" => 300, "failed" => 0, "failed_restarts" => 0, "skipped" => 3}
+    assert !@r.error?
+  end
+
+
   test "it should false on error? if there were no errors" do
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 0, "failed_restarts" => 0, "skipped" => 0}
-    assert @r.error? == false
+    assert !@r.error?
   end
 
   test "with named scope should return our report with applied resources" do
