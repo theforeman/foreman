@@ -60,15 +60,14 @@
                   @host.is_owned_by), { :include_blank => "select an owner" }, { :class => "span-5 last" }) %>
         <% end -%>
 
-        <div class="span-10 last">
-        , title="Include this host within Foreman reporting">
-        <%= f.label :enabled, "Alerts Enabled", :class => "span-3" %>
-        <%= f.check_box :enabled, :class => "span-5 last" %>
+        <div class="span-10 last" title="Include this host within Foreman reporting">
+            <%= f.label :enabled, "Alerts Enabled", :class => "span-3" %>
+            <%= f.check_box :enabled, :class => "span-5 last" %>
+        </div>
       </div>
+      <%= f.label :comment, "Additional information about this host", :class => "span-14 last" %>
+      <%= f.text_area :comment, :size => "70x10", :title => "Additional information about this host", :class => "span-14 last" %>
     </div>
-
-    <%= f.label :comment, "Additional information about this host", :class => "span-14 last" %>
-    <%= f.text_area :comment, :size => "70x10", :title => "Additional information about this host", :class => "span-14 last" %>
   <% end -%>
 
   <%= f.submit "Submit" %>
