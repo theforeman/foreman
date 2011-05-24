@@ -344,6 +344,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'multiple hostgroup change by host ids' do
+    @request.env['HTTP_REFERER'] = hosts_path
     # check that we have hosts and their hostgroup is empty
     hosts = [hosts(:one), hosts(:two)]
     hosts.each { |host| assert_nil host.hostgroup }
@@ -358,6 +359,7 @@ class HostsControllerTest < ActionController::TestCase
 
 
   test 'multiple hostgroup change by host names' do
+    @request.env['HTTP_REFERER'] = hosts_path
     host_names = %w{temp.yourdomain.net myname.mydomain.net }
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|

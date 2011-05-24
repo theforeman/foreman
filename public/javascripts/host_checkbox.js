@@ -103,16 +103,23 @@ function submit_multiple(path) {
     height: 450,
     modal: true,
     close: function(event, ui) {},
-    buttons: {
-      "OK": function() {
-        cleanHostsSelection();
-        $("form").submit();
-        $( this ).dialog( "close" );
-      },
-      Cancel: function() {
-        $( this ).dialog( "close" );
+    buttons: [
+      {
+        text: "OK",
+        click: function() {
+            cleanHostsSelection();
+            $("form").submit();
+            $( this ).dialog( "close" );
+        },
+        id: "multiple-ok",
+        disabled: true
+      },{
+        text: "Cancel",
+        click: function() {
+          $( this ).dialog( "close" );
+        }
       }
-    }
+    ]
   });
 
   return false;

@@ -286,11 +286,7 @@ class HostsController < ApplicationController
       error 'No Hostgroup selected!'
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
-    unless (hg = Hostgroup.find id)
-      error 'Empty Hostgroup selected!'
-      redirect_to(select_multiple_hostgroup_hosts_path) and return
-    end
-
+    hg = Hostgroup.find(id) rescue nil
     #update the hosts
     @hosts.each do |host|
       host.hostgroup=hg
@@ -298,7 +294,8 @@ class HostsController < ApplicationController
     end
 
     notice 'Updated hosts: Changed Hostgroup'
-    redirect_to(hosts_path)
+    # We prefer to go back as this does not lose the current search
+    redirect_back_or_to hosts_path
   end
 
   def select_multiple_environment
@@ -310,10 +307,7 @@ class HostsController < ApplicationController
       error 'No Environment selected!'
       redirect_to(select_multiple_environment_hosts_path) and return
     end
-    if (ev = Environment.find id).nil?
-      error 'Empty Environment selected!'
-      redirect_to(select_multiple_environment_hosts_path) and return
-    end
+    ev = Environment.find(id) rescue nil
 
     #update the hosts
     @hosts.each do |host|
@@ -322,7 +316,7 @@ class HostsController < ApplicationController
     end
 
     notice 'Updated hosts: Changed Environment'
-    redirect_to(hosts_path)
+    redirect_back_or_to hosts_path
   end
 
   def multiple_destroy

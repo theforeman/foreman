@@ -240,4 +240,7 @@ class ApplicationController < ActionController::Base
         format.json { render :json => hash[:object].errors, :status => hash[:json_code]}
     end
   end
+  def redirect_back_or_to url
+    redirect_to request.referer.empty? ? url : :back
+  end
 end
