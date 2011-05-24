@@ -20,7 +20,7 @@
       <td> <%= state(!guest.running?) %> </td>
       <td>
         <%= link_to "Power#{state(guest.running?)}" , power_hypervisor_guest_path(@hypervisor, guest), :confirm => 'Are you sure?', :method => :put %>
-        <%= link_to "Destroy", hypervisor_guest_path(@hypervisor, guest), :confirm => 'Are you sure?', :method => :delete %>
+        <%= link_to "Destroy", hypervisor_guest_path(@hypervisor, guest), :confirm => "Are you sure to destroy #{guest} and its virtual storage?", :method => :delete %>
       </td>
     </tr>
   <% end -%>
