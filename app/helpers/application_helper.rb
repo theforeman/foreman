@@ -47,7 +47,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_puppetclass klass
-    link_to_function image_tag("delete.png"),:class=>"ui-icon ui-icon-minus" do |page|
+    link_to_function "",:class=>"ui-icon ui-icon-minus" do |page|
       page["selected_puppetclass_#{klass.id}"].remove
       #TODO if the class is already selected, removing it will not add it to the avail class list
       page << "if ($('puppetclass_#{klass.id}')) {"
@@ -58,7 +58,7 @@ module ApplicationHelper
 
   def link_to_add_puppetclass klass, type
     # link to remote is faster than inline js when having many classes
-    link_to_remote image_tag("add.png"),
+    link_to_remote "",
       {:url => assign_puppetclass_path(klass, :type => type),
       :position => {:after => {:success => "selected_classes" }}},{:class=>"ui-icon ui-icon-plus"}
   end
