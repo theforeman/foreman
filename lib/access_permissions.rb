@@ -16,6 +16,27 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_authenticators, {:auth_source_ldaps => [:destroy]}
   end
 
+  map.security_block :bookmarks do |map|
+    map.permission :view_bookmarks,    {:bookmarks => [:index, :show]}
+    map.permission :create_bookmarks,  {:bookmarks => [:new, :create]}
+    map.permission :edit_bookmarks,    {:bookmarks => [:edit, :update]}
+    map.permission :destroy_bookmarks, {:bookmarks => [:destroy]}
+  end
+
+  map.security_block :config_templates do |map|
+    map.permission :view_templates,    {:config_templates => [:index, :show]}
+    map.permission :create_templates,  {:config_templates => [:new, :create]}
+    map.permission :edit_templates,    {:config_templates => [:edit, :update]}
+    map.permission :destroy_templates, {:config_templates => [:destroy]}
+  end
+
+  map.security_block :domains do |map|
+    map.permission :view_domains,       {:domains => [:index, :show]}
+    map.permission :create_domain,      {:domains => [:new, :create]}
+    map.permission :edit_domains,       {:domains => [:edit, :update]}
+    map.permission :destroy_domains,    {:domains => [:destroy]}
+  end
+
   map.security_block :environments do |map|
     map.permission :view_environments,    {:environments => [:index, :show]}
     map.permission :create_environments,  {:environments => [:new, :create]}
@@ -29,13 +50,6 @@ Foreman::AccessControl.map do |map|
     map.permission :create_external_variables,  {:lookup_keys => [:new, :create]}
     map.permission :edit_external_variables,    {:lookup_keys => [:edit, :update]}
     map.permission :destroy_external_variables, {:lookup_keys => [:destroy]}
-  end
-
-  map.security_block :domains do |map|
-    map.permission :view_domains,       {:domains => [:index, :show]}
-    map.permission :create_domain,      {:domains => [:new, :create]}
-    map.permission :edit_domains,       {:domains => [:edit, :update]}
-    map.permission :destroy_domains,    {:domains => [:destroy]}
   end
 
   map.security_block :global_variables do |map|
@@ -63,6 +77,20 @@ Foreman::AccessControl.map do |map|
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild]}
   end
 
+  map.security_block :hypervisors do |map|
+    map.permission :view_hypervisors,    {:hypervisors => [:index, :show]}
+    map.permission :create_hypervisors,  {:hypervisors => [:new, :create]}
+    map.permission :edit_hypervisors,    {:hypervisors => [:edit, :update]}
+    map.permission :destroy_hypervisors, {:hypervisors => [:destroy]}
+  end
+
+  map.security_block :hypervisors_guests do |map|
+    map.permission :view_hypervisors_guests,    {:hypervisors_guests => [:index, :show]}
+    map.permission :create_hypervisors_guests,  {:hypervisors_guests => [:create, :update]}
+    map.permission :destroy_hypervisors_guests, {:hypervisors_guests => [:destroy]}
+    map.permission :power_hypervisors_guests,   {:hypervisors_guests => [:power]}
+  end
+
   map.security_block :media do |map|
     map.permission :view_media,    {:media => [:index, :show]}
     map.permission :create_media,  {:media => [:new, :create]}
@@ -75,13 +103,6 @@ Foreman::AccessControl.map do |map|
     map.permission :create_models,  {:models => [:new, :create]}
     map.permission :edit_models,    {:models => [:edit, :update]}
     map.permission :destroy_models, {:models => [:destroy]}
-  end
-
-  map.security_block :config_templates do |map|
-    map.permission :view_templates,    {:config_templates => [:index, :show]}
-    map.permission :create_templates,  {:config_templates => [:new, :create]}
-    map.permission :edit_templates,    {:config_templates => [:edit, :update]}
-    map.permission :destroy_templates, {:config_templates => [:destroy]}
   end
 
   map.security_block :operatingsystems do |map|
@@ -104,6 +125,32 @@ Foreman::AccessControl.map do |map|
     map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update]}
     map.permission :destroy_puppetclasses, {:puppetclasses => [:destroy]}
     map.permission :import_puppetclasses,  {:puppetclasses => [:import_environments]}
+  end
+
+  map.security_block :smart_proxies do |map|
+    map.permission :view_smart_proxies,    {:smart_proxies => [:index, :show]}
+    map.permission :create_smart_proxies,  {:smart_proxies => [:new, :create]}
+    map.permission :edit_smart_proxies,    {:smart_proxies => [:edit, :update]}
+    map.permission :destroy_smart_proxies, {:smart_proxies => [:destroy]}
+  end
+
+  map.security_block :smart_proxies_autosign do |map|
+    map.permission :view_smart_proxies_autosign,    {:smart_proxies_autosign => [:index, :show]}
+    map.permission :create_smart_proxies_autosign,  {:smart_proxies_autosign => [:new, :create]}
+    map.permission :destroy_smart_proxies_autosign, {:smart_proxies_autosign => [:destroy]}
+  end
+
+  map.security_block :smart_proxies_puppetca do |map|
+    map.permission :view_smart_proxies_puppetca,    {:smart_proxies_puppetca => [:index]}
+    map.permission :edit_smart_proxies_puppetca,    {:smart_proxies_puppetca => [:update]}
+    map.permission :destroy_smart_proxies_puppetca, {:smart_proxies_puppetca => [:destroy]}
+  end
+
+  map.security_block :subnets do |map|
+    map.permission :view_subnets,    {:subnets => [:index, :show]}
+    map.permission :create_subnets,  {:subnets => [:new, :create]}
+    map.permission :edit_subnets,    {:subnets => [:edit, :update]}
+    map.permission :destroy_subnets, {:subnets => [:destroy]}
   end
 
   map.security_block :usergroups do |map|

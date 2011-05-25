@@ -96,7 +96,7 @@ module ApplicationHelper
   # +controller+ : String or symbol for the controller
   # +action+     : String or symbol for the action
   def authorized_for(controller, action)
-    User.current.allowed_to?({:controller => controller, :action => action}) rescue false
+    User.current.allowed_to?({:controller => controller.to_s.gsub(/::/, "_").underscore, :action => action}) rescue false
   end
 
   # Display a link if user is authorized, otherwise a string

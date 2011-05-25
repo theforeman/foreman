@@ -52,7 +52,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :subnets, :except => [:show]
   map.resources :hypervisors do |hypervisor|
-    hypervisor.resources :guests, :controller => "Hypervisors::Guests",
+    hypervisor.resources :guests, :controller => "Hypervisors::Guests", :except => [:edit],
       :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }
   end if SETTINGS[:libvirt]
   map.resources :bookmarks, :except => [:show]

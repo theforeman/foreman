@@ -1,6 +1,6 @@
 <% title "Puppet certificates for #{@proxy}" %>
 <div class="title_action">
-  <%= link_to "Autosign Entries", smart_proxy_autosign_index_path(@proxy) %>
+  <%= display_link_if_authorized "Autosign Entries", hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => @proxy) %>
   <%= state_filter %>
 </div>
 
@@ -21,8 +21,8 @@
         <td><%= time_column cert.expires_at, :tense => :future %></td>
         <td><%= h cert.fingerprint %></td>
         <td>
-          <%= link_to_if cert.state == "pending", "Sign", smart_proxy_puppetca_path(@proxy.to_param, cert), :method => :put %>
-          <%= link_to_if cert.state != "revoked", "Destroy", smart_proxy_puppetca_path(@proxy.to_param, cert.name), :confirm => 'Are you sure?', :method => :delete %>
+          <%= display_link_if_authorized("Sign", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert), :method => :put) if cert.state == "pending" %>
+          <%= display_link_if_authorized("Destroy", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert), :confirm => 'Are you sure?', :method => :delete) if cert.state != "revoked"  %>
         </td>
       </tr>
   <% end -%>

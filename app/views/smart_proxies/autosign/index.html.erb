@@ -1,8 +1,8 @@
 <% title "Autosign entries for #{@proxy}" %>
 
 <div class="title_action">
-  <%= link_to "Certificates", smart_proxy_puppetca_index_path(@proxy) %> |
-  <%= render :partial => 'form' %>
+  <%= display_link_if_authorized "Certificates", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy) %>
+  <%= render :partial => 'form' if authorized_for "SmartProxies::Autosign", :create%>
 </div>
 
 <table class='list'>
@@ -14,7 +14,7 @@
       <tr class="<%= cycle("even", "odd") -%>">
         <td><%= h cert%> </td>
         <td>
-          <%= link_to "Destroy", smart_proxy_autosign_path(@proxy.to_param, cert), :confirm => 'Are you sure?', :method => :delete %>
+          <%= display_link_if_authorized "Destroy", hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert).merge(:auth_ation => :destroy), :confirm => 'Are you sure?', :method => :delete %>
         </td>
       </tr>
   <% end -%>
