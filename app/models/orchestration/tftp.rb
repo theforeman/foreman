@@ -72,6 +72,7 @@ module Orchestration::TFTP
       end
     end
 
+    include Foreman::Renderer
     def generate_pxe_template
       # this is the only place we generate a template not via a web request
       # therefore some workaround is required to "render" the template.
@@ -80,8 +81,7 @@ module Orchestration::TFTP
       pxefiles = eval "#{os.family}::PXEFILES"
       @kernel  = "#{prefix}-#{pxefiles[:kernel]}"
       @initrd  = "#{prefix}-#{pxefiles[:initrd]}"
-      pxe      = configTemplate("PXELinux").template
-      ERB.new(pxe, nil, '-').result(binding)
+      pxe_render configTemplate("PXELinux").template
     rescue => e
       failure "Failed to generate PXELinux template: #{e}"
     end

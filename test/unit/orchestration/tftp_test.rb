@@ -22,11 +22,12 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   def test_generate_pxe_template
     if unattended?
       h = hosts(:one)
-      as_admin do
-        h.update_attribute :operatingsystem, operatingsystems(:centos5_3)
-        h.update_attribute :request_url, "ahost.com:3000"
-      end
-      assert h.send(:generate_pxe_template).split("~") == File.open(Pathname.new(__FILE__).parent + "pxe_template").readlines.map(&:strip)
+      as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
+      h.request_url = "ahost.com:3000"
+
+      template = h.send('generate_pxe_template').split("~")
+      expected = File.open(Pathname.new(__FILE__).parent + "pxe_template").readlines.map(&:strip)
+      assert_equal template,expected
     end
   end
 end
