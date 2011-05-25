@@ -9,6 +9,10 @@
       <%= f.label :template_kind_id, "Type", :class => "span-1" %>
       <%= f.collection_select :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true}, { :class => "span-3 last" } %>
     </div>
+    <div>
+      <%= link_to 'Documentation', "http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros",
+                  :rel => "external", :style => "float:right;", :title => "Useful template functions and macros" %>
+    </div>
   </div>
   <div class="span-24">
   <%= f.label :template, nil, :class => "span-3" %>
