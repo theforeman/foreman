@@ -27,7 +27,7 @@ class HostsController < ApplicationController
     begin
       # restrict allowed hosts list based on the user permissions
       my_hosts = User.current.admin? ? Host : Host.my_hosts
-      search   = my_hosts.search_for(params[:search],:order => params[:order], :group => 'hosts.id')
+      search   = my_hosts.search_for(params[:search],:order => params[:order])
     rescue => e
       error e.to_s
       search = my_hosts.search_for ''
