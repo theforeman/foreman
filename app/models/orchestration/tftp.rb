@@ -81,7 +81,7 @@ module Orchestration::TFTP
       @kernel  = "#{prefix}-#{pxefiles[:kernel]}"
       @initrd  = "#{prefix}-#{pxefiles[:initrd]}"
       pxe      = configTemplate("PXELinux").template
-      ERB.new(pxe).result(binding)
+      ERB.new(pxe, nil, '-').result(binding)
     rescue => e
       failure "Failed to generate PXELinux template: #{e}"
     end
