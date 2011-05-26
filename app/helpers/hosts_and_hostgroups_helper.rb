@@ -12,14 +12,14 @@ module HostsAndHostgroupsHelper
   end
 
   def puppetmaster_text_field object, f
-    content_tag(:span, :id => "display_name", :style => display(object.puppetca?)) do
+    content_tag(:span, :id => "display_name", :style => display(object.puppetca? || object.new_record?)) do
       f.label(:puppetmaster_name, "Puppetmaster") +
       f.text_field(:puppetmaster_name, :size => 8, :value => object.puppetmaster)
     end
   end
 
   def puppetmaster_select_proxy object, f, proxies
-    content_tag(:span, :id => "display_proxy", :style => display(!object.puppetca?)) do
+    content_tag(:span, :id => "display_proxy", :style => display(!(object.puppetca? || object.new_record?))) do
       f.label(:puppetproxy_id, "Puppetmaster") +
       f.collection_select(:puppetproxy_id, proxies, :id, :name, :include_blank => true)
     end
