@@ -96,7 +96,9 @@ function toggleCheck() {
 function submit_multiple(path) {
   var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
   var html = $('<div></div>').appendTo('body').load(url + " #content");
-  var title = $('select [value=\"' + path + '\"]').text() + " - Confirmation Dialog";
+  var what = $('select [value=\"' + path + '\"]').text()
+  var title = what + " - Confirmation Dialog";
+  var state = what.match(/Environment|Group/)
   html.dialog({
     title: title,
     width: 700,
@@ -112,7 +114,7 @@ function submit_multiple(path) {
             $( this ).dialog( "close" );
         },
         id: "multiple-ok",
-        disabled: true
+        disabled: state
       },{
         text: "Cancel",
         click: function() {
