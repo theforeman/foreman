@@ -1,13 +1,22 @@
 class ConfigTemplatesController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
   include Foreman::Renderer
 
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+
   def index
+    begin
+      values = ConfigTemplate.search_for(params[:search], :order => params[:order])
+    rescue => e
+      error e.to_s
+      values = ConfigTemplate.search_for ""
+    end
+
     respond_to do |format|
       format.html do
-        @search = ConfigTemplate.search params[:search]
-        @config_templates = @search.paginate(:page => params[:page], :include => [:template_kind, :environments,:hostgroups])
+        @config_templates = values.paginate(:page => params[:page], :include => [:template_kind, :environments,:hostgroups])
       end
-      format.json { render :json => ConfigTemplate.all}
+      format.json { render :json => values}
     end
   end
 
@@ -26,12 +35,10 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def edit
-    @config_template = ConfigTemplate.find(params[:id])
     @config_template.template_combinations.build if @config_template.template_combinations.empty?
   end
 
   def update
-    @config_template = ConfigTemplate.find(params[:id])
     if @config_template.update_attributes(params[:config_template])
       process_success
     else
@@ -40,7 +47,6 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def destroy
-    @config_template = ConfigTemplate.find(params[:id])
     if @config_template.destroy
       process_success
     else

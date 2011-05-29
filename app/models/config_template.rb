@@ -14,8 +14,21 @@ class ConfigTemplate < ActiveRecord::Base
   before_save :check_for_snippet_assoications, :remove_trailing_chars
   default_scope :order => 'LOWER(config_templates.name)'
 
+  scoped_search :on => :name,    :complete_value => true, :default_order => true
+  scoped_search :on => :snippet, :complete_value => true, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :template
+
+  scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
+  scoped_search :in => :environments,     :on => :name, :rename => :environment,     :complete_value => true
+  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
+  scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
+
   class Jail < Safemode::Jail
     allow :name
+  end
+
+  def to_param
+    name
   end
 
   private
@@ -32,6 +45,10 @@ class ConfigTemplate < ActiveRecord::Base
 
   def remove_trailing_chars
     self.template.gsub!("\r","") unless template.empty?
+  end
+
+  def as_json(options={})
+    super({:only => [:name, :template, :snippet]}.merge(options))
   end
 
 end
