@@ -65,3 +65,5 @@ binary-install/foreman::
 	sed -e 's:/usr/local/bin/ruby:/usr/bin/env ruby:' -i debian/foreman/usr/share/foreman/vendor/gems/sexp_processor-3.0.5/test/test_environment.rb
 	sed -e 's:/usr/local/bin/ruby:/usr/bin/env ruby:' -i debian/foreman/usr/share/foreman/vendor/gems/sexp_processor-3.0.5/test/test_sexp.rb
 	sed -e 's:/usr/local/bin/ruby:/usr/bin/env ruby:' -i debian/foreman/usr/share/foreman/vendor/gems/sexp_processor-3.0.5/test/test_sexp_processor.rb
+	# Patch environments.rb - necessary since changing source format to 3.0 (native)
+	patch -p0 debian/foreman/usr/share/foreman/config/environment.rb debian/patches/01_gem_dependencies.patch

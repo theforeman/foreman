@@ -9,7 +9,7 @@ Homepage: http://www.theforeman.org/
 Package: foreman
 Architecture: all
 Pre-Depends: debconf
-Depends: ruby, ruby1.8 (>= 1.8.7), rubygems, rubygems1.8, rake (>=0.8.4), libjs-prototype (>= 1.6.0), libjs-scriptaculous (>= 1.8.1),
+Depends: ruby, ruby1.8 (>= 1.8.7), rubygems, rubygems1.8, rake (>=0.8.4),
          puppet (>=0.24.4), dbconfig-common, librestclient-ruby (>= 1.4.0), libjson-ruby, ${misc:Depends}
 Recommends: foreman-proxy, libvirt-ruby
 Suggests: thin | mongrel | httpd-cgi, libfcgi-ruby, libapache2-mod-passenger | libapache2-mod-fcgid, libvirt-bin

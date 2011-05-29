@@ -1,3 +1,9 @@
+foreman (0.2+0.3rc2-0) experimental; urgency=low
+
+  * Release candidate 2 for version 0.3
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Sun, 29 May 2011 14:18:22 +0200
+
 foreman (0.2-2) experimental; urgency=low
 
   * Fixed installation order of database dependencies
