@@ -67,7 +67,7 @@ module Orchestration::TFTP
     def validate_tftp
       return unless tftp?
       return if Rails.env == "test"
-      if configTemplate("PXELinux").nil?
+      if configTemplate({:kind => "PXELinux"}).nil?
         failure "No PXELinux templates where found for this host, make sure you define at least one in your #{os} settings"
       end
     end
@@ -81,7 +81,7 @@ module Orchestration::TFTP
       pxefiles = eval "#{os.family}::PXEFILES"
       @kernel  = "#{prefix}-#{pxefiles[:kernel]}"
       @initrd  = "#{prefix}-#{pxefiles[:initrd]}"
-      pxe_render configTemplate("PXELinux").template
+      pxe_render configTemplate({:kind => "PXELinux"}).template
     rescue => e
       failure "Failed to generate PXELinux template: #{e}"
     end

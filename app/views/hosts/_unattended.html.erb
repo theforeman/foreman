@@ -1,7 +1,7 @@
 <span id="virtual_machine">
   <%= render('hypervisor', :f => f) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
 </span>
-<% field_set_tag 'Network settings' do -%>
+<% field_set_tag 'Network Settings' do -%>
   <%= f.label :domain_id, nil, :class => "span-3" %>
   <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},{:class => "span-5"} %>
   <span id="host_subnet" class="span-6"> <%= render 'domain' if @domain %> </span>
@@ -16,27 +16,41 @@
   <% end -%>
 <% end -%>
 
-<% field_set_tag 'Operating system settings', :id => "operatingsystem" do -%>
-
-  <%= render "common/os_selection/initial", { :f => f, :item=> @host } %>
-
+<% field_set_tag 'Provisioning Settings' do -%>
   <div class="span-24 last">
+    <%= render "common/os_selection/initial", { :f => f, :item=> @host } %>
+  </div>
+
+  <div id="os-tab2" class="span-24 last">
     <%= f.label :root_pass, "Root password", :class => "span-3" %>
     <%= f.password_field :root_pass, :class => "span-3" %>
-    <%= f.label :model_id, nil, :class => "span-4" %>
-    <%= f.collection_select :model_id, Model.all, :id, :to_label, {:include_blank => true}, {:class => "span-3"} %>
-    <%= f.label :serial, nil, :class => "span-2" %>
-    <%= f.select :serial, ["","0,9600n8","0,19200n8","1,9600n8","1,19200n8"], {}, {:class => "span-3"} %>
-    <%= link_to_function "Toggle custom disk layout", toggle_div("custom_disk"), :class => "span-5 last" %>
+    <%= f.label :model_id, "Hardware Model", :class => "span-4" %>
+    <%= f.collection_select :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:class => "span-3"}%>
+    <% unless @host.new_record? -%>
+     <div class="push-2"> Last Install <%= date @host.installed_at %></div>
+    <% end -%>
   </div>
 
-  <div id="custom_disk" <%= display? @host.disk.empty?  %>>
-    <%= f.text_area :disk, :size => "10x6", :class => "span-24 last", :title => 'Use custom Disk layout' %>
-    <br>
-    <small>What ever text you use in here, would be used as your OS disk layout options
-      If you want to use the partition table option, delete all of the text from this field
-    </small>
+  <div id="os-tab3" class="span-24">
+
+    <table>
+      <tr>
+        <td> <%= link_to_function "Toggle custom disk layout", toggle_div("custom_disk") %> </td>
+        <td> <%= link_to_function "Provisioning Templates", "template_info('#templates_info','/hosts/template_used')", :title => "Click to refresh" %>  </td>
+      </tr>
+      <tr>
+        <td class="span-12"> <div id="custom_disk" <%= display? %>>
+          <%= f.text_area :disk, :size => "50x6", :title => 'Use custom Disk layout' %>
+          <br>
+          <small>What ever text you use in here, would be used as your OS disk layout options
+            If you want to use the partition table option, delete all of the text from this field</small>
+        </div></td>
+        <td class="span-12"> <div id="templates_info"> </div> </td>
+      </tr>
+    </table>
+
   </div>
+
 <% end -%>
 
 <%= observe_field(:host_domain_id,

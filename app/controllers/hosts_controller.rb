@@ -422,6 +422,15 @@ class HostsController < ApplicationController
     end
   end
 
+  def template_used
+    templates = TemplateKind.all.map do |kind|
+      ConfigTemplate.find_template({:kind => kind.name, :operatingsystem_id => params[:operatingsystem_id],
+                                   :hostgroup_id => params[:hostgroup_id], :environment_id => params[:environment_id]})
+    end.compact
+    return not_found if templates.empty?
+    render :partial => "provisioning", :locals => {:templates => templates}
+  end
+
   private
   def find_hosts
     fact, klass, group = params[:fact], params[:class], params[:hostgroup]

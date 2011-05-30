@@ -133,7 +133,7 @@ module ApplicationHelper
   end
 
   # renders a style=display based on an attribute properties
-  def display? attribute
+  def display? attribute = true
     "style=#{display(attribute)}"
   end
 

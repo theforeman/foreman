@@ -31,6 +31,36 @@ class ConfigTemplate < ActiveRecord::Base
     name
   end
 
+  def self.find_template opts = {}
+    raise "Must provide template kind"        unless opts[:kind]
+    raise "Must provide an operating systems" unless opts[:operatingsystem_id]
+
+    # first filter valid templates to our OS and requested template kind.
+    templates = ConfigTemplate.operatingsystems_id_eq(opts[:operatingsystem_id]).template_kind_name_eq(opts[:kind])
+
+    # once a template has been matched, we no longer look for others.
+
+    if opts[:hostgroup_id] and opts[:environment_id]
+      # try to find a full match to our host group and environment
+      template = templates.hostgroups_id_eq(opts[:hostgroup_id]).environments_id_eq(opts[:environment_id]).first
+    end
+
+    if opts[:hostgroup_id]
+      # try to find a match with our hostgroup only
+      template ||= templates.hostgroups_id_eq(opts[:hostgroup_id]).first
+    end
+
+    if opts[:environment_id]
+      # search for a template based only on our environment
+      template ||= templates.environments_id_eq(opts[:environment_id]).first
+    end
+
+    # fall back to the os default template
+    template ||= templates.os_default_templates_operatingsystem_id_eq(opts[:operatingsystem_id]).first
+    template.is_a?(ConfigTemplate) ? template : nil
+
+  end
+
   private
 
   # check if our template is a snippet, and remove its associations just in case they were selected.

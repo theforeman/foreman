@@ -15,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
       :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
       :multiple_destroy => :get, :submit_multiple_destroy => :post, :multiple_build => :get, :submit_multiple_build => :post,
       :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
-      :multiple_enable => :get, :submit_multiple_enable => :post, :auto_complete_search => :get,
+      :multiple_enable => :get, :submit_multiple_enable => :post, :auto_complete_search => :get, :template_used => :get,
       :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get } do |hosts|
     hosts.resources :reports, :requirements => {:host_id => /[^\/]+/}, :only => [:index, :show]
     hosts.resources :facts, :requirements => {:host_id => /[^\/]+/}, :only => :index, :controller => :fact_values

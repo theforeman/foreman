@@ -207,21 +207,13 @@ class Host < Puppet::Rails::Host
   end
 
   # returns a configuration template (such as kickstart) to a given host
-  def configTemplate kind
-    kind ||= "provision"
-    # first filter valid templates to our OS and requested template kind.
-    templates = ConfigTemplate.operatingsystems_id_eq(operatingsystem_id).template_kind_name_eq(kind)
-    unless hostgroup_id.nil?
-      # try to find a full match to our host group and environment
-      template = templates.hostgroups_id_eq(hostgroup_id).environments_id_eq(environment_id).first
-      # try to find a match with our hostgroup only
-      template ||= templates.hostgroups_id_eq(hostgroup_id).first
-    end
-    # search for a template based only on our environment
-    template ||= templates.environments_id_eq(environment_id).first
-    # fall back to the os default template
-    template ||= templates.os_default_templates_operatingsystem_id_eq(operatingsystem_id).first
-    template.is_a?(ConfigTemplate) ? template : nil
+  def configTemplate opts = {}
+    opts[:kind]               ||= "provision"
+    opts[:operatingsystem_id] ||= operatingsystem_id
+    opts[:hostgroup_id]       ||= hostgroup_id
+    opts[:environment_id]     ||= environment_id
+
+    ConfigTemplate.find_template opts
   end
 
   # reports methods

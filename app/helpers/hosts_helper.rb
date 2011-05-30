@@ -52,6 +52,18 @@ module HostsHelper
     select_tag "Multiple Actions", options_for_select(actions.sort), :id => "Submit_multiple", :onchange => 'submit_multiple(this.value)'
   end
 
+  def date ts=nil
+    return "#{time_ago_in_words ts} ago" if ts
+    "N/A"
+  end
+
+  def template_path opts = {}
+    if t = @host.configTemplate(opts)
+      link_to t, edit_config_template_path(t)
+    else
+      "N/A"
+    end
+  end
 
   def selected? host
     return false if host.nil? or not host.is_a?(Host) or session[:selected].nil?

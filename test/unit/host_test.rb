@@ -292,7 +292,7 @@ class HostTest < ActiveSupport::TestCase
       :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
-    assert_equal ConfigTemplate.find_by_name("MyString"), host.configTemplate("gPXE")
+    assert_equal ConfigTemplate.find_by_name("MyString"), host.configTemplate({:kind => "gPXE"})
   end
 
   test "a system should retrieve its provision template if it is associated to the correct host group only" do
@@ -300,7 +300,7 @@ class HostTest < ActiveSupport::TestCase
       :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
-    assert_equal ConfigTemplate.find_by_name("MyString2"), host.configTemplate("provision")
+    assert_equal ConfigTemplate.find_by_name("MyString2"), host.configTemplate({:kind => "provision"})
   end
 
   test "a system should retrieve its script template if it is associated to the correct OS only" do
@@ -308,7 +308,7 @@ class HostTest < ActiveSupport::TestCase
       :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
-    assert_equal ConfigTemplate.find_by_name("MyScript"), host.configTemplate("script")
+    assert_equal ConfigTemplate.find_by_name("MyScript"), host.configTemplate({:kind => "script"})
   end
 
  test "a system should retrieve its finish template if it is associated to the correct environment only" do
@@ -316,7 +316,7 @@ class HostTest < ActiveSupport::TestCase
       :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
-    assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate("finish")
+    assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate({:kind => "finish"})
   end
 
 

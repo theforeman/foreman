@@ -147,7 +147,7 @@ class UnattendedController < ApplicationController
   # if it doesn't exists, we'll try to find a local generic template
   # otherwise render the default view
   def unattended_local
-    if config = @host.configTemplate(@type)
+    if config = @host.configTemplate({:kind => @type})
       logger.debug "rendering DB template #{config.name} - #{@type}"
       safe_render config and return
     end
