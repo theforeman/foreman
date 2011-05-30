@@ -36,7 +36,7 @@
     <table>
       <tr>
         <td> <%= link_to_function "Toggle custom disk layout", toggle_div("custom_disk") %> </td>
-        <td> <%= link_to_function "Provisioning Templates", "template_info('#templates_info','/hosts/template_used')", :title => "Click to refresh" %>  </td>
+        <td> <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh" %>  </td>
       </tr>
       <tr>
         <td class="span-12"> <div id="custom_disk" <%= display? %>>
