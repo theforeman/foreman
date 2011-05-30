@@ -154,7 +154,7 @@ class HostsController < ApplicationController
 
       render :update do |page|
         page.replace_html :virtual_machine, :partial => "hypervisor"
-        page << "if ($('host_mac')) {"
+        page << "if ($('#host_mac')) {"
         page.remove :host_mac_label
         page.remove :host_mac
         page << " }"

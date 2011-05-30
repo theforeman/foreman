@@ -1,48 +1,46 @@
 <% field_set_tag 'Virtual Host Settings', :id => "vm" do -%>
-  <div class="span-5">
+  <div class="span-6">
     <%= label :host, :hypervisor_id, "Provision on" %>
     <%= select :host, :hypervisor_id, select_hypervisor ,{ :include_blank => "Bare Metal"} %>
     <%= image_tag "spinner.gif", :id => "vm_indicator", :style => "display:none" %>
   </div>
   <% if @hypervisor or (@host and @host.hypervisor?) -%>
     <% (@hypervisor ||= Hypervisor.find(@host.hypervisor_id)) -%>
-    <div class="span-4">
+    <div class="span-4 pull-1">
       <%= label :host, :memory, "Memory" %>
       <%= select :host, :memory, select_memory(@host.memory || @guest.memory) %>
     </div>
-    <div class="span-2">
+    <div class="span-3">
       <%= label :host, :vcpu, "VCPU" %>
       <%= text_field :host, :vcpu, :value => (@host.vcpu || @guest.vcpu), :size => 1 %>
     </div>
-    <div class="span-4">
+    <div class="span-4 pull-1">
       <%= label :host, :disk_size, "Image Size(GB)" %>
       <%= text_field :host, :disk_size, :value => (@host.disk_size || @guest.volume.size), :size => 1 %>
     </div>
     <div class="span-4">
-      <%= label :host, :storage_pool, "Storage Pool" %>
+      <%= label :host, :storage_pool, "Storage" %>
       <%= select :host, :storage_pool, @hypervisor.storage_pools, {:selected => @host.storage_pool} %>
     </div>
-    <div class="span-4">
+    <div class="span-7">
       <%= label :host, :network_type, "Network" %>
       <%= select :host, :network_type, Hypervisor::NETWORK_TYPES, {:selected => @host.network_type } %>
-    </div>
-    <div class="span-3">
+      <%= label :host, :interface %>
       <% if @hypervisor.interfaces.empty? %>
-        <%= label :host, :interfaces %>
         <%= text_field :host, :interface, :title => "Physical Interface on #{@hypervisor.name}", :value => @host.interface, :size => 3 %>
       <% else -%>
         <%= select :host, :interface, @hypervisor.interfaces, :selected => @host.interface %>
       <% end -%>
     </div>
-    <div class="span-2 last">
-      <%= label :host, :powerup, "Start?" %>
+    <div class="span-3 last">
       <%= check_box :host, :powerup, :title => "Power up this instance", :checked => true %>
+      <%= label :host, :powerup, "Start?" %>
     </div>
   <% end -%>
 <% end -%>
 <%= observe_field(:host_hypervisor_id,
                   :url => { :action => :hypervisor_selected },
-                  :loading => "$('vm_indicator').show()",
-                  :complete => "$('vm_indicator').hide()",
+                  :loading => "$('#vm_indicator').show()",
+                  :complete => "$('#vm_indicator').hide()",
                   :with => :host_hypervisor_id)
 %>
