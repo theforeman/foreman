@@ -112,34 +112,35 @@ class Puppetclass < ActiveRecord::Base
 
       # Create the documentation
 
+      puts "*********Proccessing environment #{env} *************"
       cmd = "puppetdoc --output #{out} --modulepath #{modulepaths} -m rdoc"
       puts cmd if defined?(Rake)
       sh cmd do |ok, res|
-        unless ok
-          logger.warn "Failed to process puppetdocs for #{out} while executing #{cmd}"
-          warn "Failed to process puppetdocs for #{out} while executing #{cmd}"
-          return false
-        end
-
-        # Add a link to the class browser
-        files =  %x{find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null}.gsub(/\n/, " ")
-        if files.empty?
-          warn "No files to update with the browser link in #{out}. This is probably due to a previous error."
+        if ok
+          # Add a link to the class browser
+          files =  %x{find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null}.gsub(/\n/, " ")
+          if files.empty?
+            warn "No files to update with the browser link in #{out}. This is probably due to a previous error."
+          else
+            cmd = "ruby -p -i -e '$_.gsub!(/#{validator}/,\"#{replacement}\")' #{files}"
+            puts cmd if debug
+           sh cmd
+          end
+          # Relocate the paths for files and references if the manifests were relocated and sanitized
+          if relocated and (files = %x{find #{out} -exec grep -l '#{root}' {} \\;}.gsub(/\n/, " ")) != ""
+            puts "Rewriting..." if verbose
+            cmd = "ruby -p -i -e 'rex=%r{#{root}};$_.gsub!(rex,\"\")' #{files}"
+            puts cmd if debug
+            sh cmd
+            # Now relocate the files/* files to match the rewritten url
+            mv Dir.glob("#{out}/files/#{root}/*"), "#{out}/files", :verbose => verbose
+          end
         else
-          cmd = "ruby -p -i -e '$_.gsub!(/#{validator}/,\"#{replacement}\")' #{files}"
-          puts cmd if debug
-         sh cmd
-        end
-        # Relocate the paths for files and references if the manifests were relocated and sanitized
-        if relocated and (files = %x{find #{out} -exec grep -l '#{root}' {} \\;}.gsub(/\n/, " ")) != ""
-          puts "Rewriting..." if verbose
-          cmd = "ruby -p -i -e 'rex=%r{#{root}};$_.gsub!(rex,\"\")' #{files}"
-          puts cmd if debug
-          sh cmd
-          # Now relocate the files/* files to match the rewritten url
-          mv Dir.glob("#{out}/files/#{root}/*"), "#{out}/files", :verbose => verbose
+          logger.warn "Failed to process puppetdocs for #{out} while executing #{cmd}"
+          puts "Failed to process puppetdocs for #{out} while executing #{cmd}"
         end
       end
+      puts
     end
   end
 
