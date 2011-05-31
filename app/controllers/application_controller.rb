@@ -45,7 +45,9 @@ class ApplicationController < ActionController::Base
         # authentication is enabled
         if request_json?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
-          User.current = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
+          user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
+          User.current = user.is_a?(User) ? user : nil
+          logger.warn("Failed authentcation from #{request.remote_ip} #{user}") if User.current.nil?
           return !User.current.nil?
         end
         session[:original_uri] = request.request_uri # keep the old request uri that we can redirect later on
