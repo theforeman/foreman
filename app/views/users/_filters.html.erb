@@ -2,18 +2,16 @@
   <% field_set_tag("Select the subset of all hosts to which these permissions apply", :id => "filters", :style => @user.filtering? ? "display:inline;" : "display:none") do %>
     <table>
       <tr>
-        <% unless @user.hosts.empty? -%>
-          <td>
-            Select
-            <%= f.check_box :filter_on_owner %>
-          </td>
-          <td colspan="2">
-            <% field_set_tag "Owned hosts" do %>
-              <%=  contracted_host_list @user -%>
-              <%=  expanded_host_list @user -%>
-            <% end -%>
-          </td>
-        <% end -%>
+        <td>
+          Select
+          <%= f.check_box :filter_on_owner %>
+        </td>
+        <td colspan="2">
+          <% field_set_tag "Owned hosts" do %>
+            <%=  contracted_host_list @user -%>
+            <%=  expanded_host_list @user -%>
+          <% end -%>
+        </td>
       </tr>
       <tr>
         <td>
