@@ -30,10 +30,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    @user.admin = params[:admin]
+    @user = User.new(params[:user]){|u| u.admin = params[:user][:admin] }
     if @user.save
-      @user.roles = Role.name_is("Anonymous")
+      @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
       process_success
     else
       process_error
