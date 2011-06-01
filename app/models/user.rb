@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   include Foreman::ThreadSession::UserModel
 
   attr_protected :password_hash, :password_salt, :admin
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :editing_self
 
   belongs_to :auth_source
   has_many :changes, :class_name => 'Audit', :as => :user
@@ -144,7 +144,7 @@ class User < ActiveRecord::Base
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, options={})
     return true if admin?
-
+    return true if editing_self
     return false if roles.empty?
     roles.detect {|role| role.allowed_to?(action)}
   end

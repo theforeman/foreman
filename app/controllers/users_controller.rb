@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   skip_before_filter :require_login, :only => [:login, :logout]
   skip_before_filter :authorize, :only => [:login, :logout]
 
+  attr_accessor :editing_self
+
   def index
     begin
       users = User.search_for(params[:search], :order => params[:order])
@@ -50,11 +52,12 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     admin = params[:user].delete :admin
-    # Remove keys for restricted variables when the user is granted minimal access only to their own account
-    if @minimal_edit
+    # Remove keys for restricted variables when the user is editing their own account
+    if editing_self
       for key in params[:user].keys
         params[:user].delete key unless %w{password_confirmation password mail firstname lastname}.include? key
       end
+      User.current.editing_self = true
     end
     if @user.update_attributes(params[:user])
       # Only an admin can update admin attribute of another use
@@ -65,6 +68,7 @@ class UsersController < ApplicationController
     else
       process_error
     end
+    User.current.editing_self = false if editing_self
   end
 
   def destroy
@@ -125,12 +129,12 @@ class UsersController < ApplicationController
   private
 
   def authorize(ctrl = params[:controller], action = params[:action])
-    # Minimal edit is true when the user is granted access to just their
-    # own account details
-    @minimal_edit = false
+    # Editing self is true when the user is granted access to just their own account details
+
+    self.editing_self = false
     return true if User.current.allowed_to?({:controller => ctrl, :action => action})
-    if action =~ /edit|update/ and params[:id] == User.current.id.to_s
-      return @minimal_edit=true
+    if (action =~ /edit|update/ and params[:id] == User.current.id.to_s)
+      return self.editing_self = true
     else
       deny_access and return
     end
