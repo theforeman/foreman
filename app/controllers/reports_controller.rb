@@ -13,9 +13,10 @@ class ReportsController < ApplicationController
 
   def index
     values = Report.search_for(params[:search], :order => params[:order])
+    pagination_opts = { :page => params[:page], :per_page => params[:per_page] }
     respond_to do |format|
-      format.html { @reports = values.paginate :page => params[:page], :include => :host }
-      format.json { render :json => values.paginate(:page => params[:page], :include => [:host,:logs]) }
+      format.html { @reports =      values.paginate(pagination_opts.merge({ :include => :host })) }
+      format.json { render :json => values.paginate(pagination_opts.merge({ :include => [:host,:logs] } ))}
     end
   rescue => e
     error e.to_s
