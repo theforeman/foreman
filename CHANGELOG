@@ -1,3 +1,242 @@
+2011-06-07	Ohad Levy <ohadlevy@gmail.com>
+	* minor cleanup - refs #836
+
+2011-06-05	Corey Osman <corey@logicminds.biz>
+	* fixes #956 return custom number of reports
+
+2011-06-05	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #921 - Roles and admin not saved on create new user
+	* Fixes #906 - Always allow a user to edit some of their own User details
+	* Fixes #904 - Always show owned in user host filter
+
+2011-05-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #952 - incorrect error message when api basic auth authentication fails
+
+2011-05-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #951 - when querying for host templates POST is used instead of GET
+	* fixes #950 - virtual machine settings sometimes break into two lines
+	* fixes #903 - Show resulting provisioning options at the Host edit screen
+
+2011-05-29	Jochen Schalanda <jochen@schalanda.name>
+	* Preperations for Foreman 0.3:
+
+2011-05-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #948 - better support for API config_templates api
+
+2011-05-26	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #946 - Some edit_multiple pages have OK button disabled
+	* Fixes #923 - Hostgroup puppetmaster proxy ignored on new host page
+	* Fixes #943 - Use the Sandbox renderer for host's PXE menu
+
+2011-05-25	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #911 - Add link to template documentation
+	* Fixes #920 - Add authorization to hypervisor, bookmarks, subnets, smart-proxy/autosign and puppetca
+	* Fixes 867 - Allow update_multiple to clear hostgroup
+
+2011-05-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #887 - tftp templates with -%> crashes foreman
+	* fixes #939 - Invalid PostgreSQL statement
+
+2011-05-25	Romain Vrignaud <rvrignaud@gmail.com>
+	* fixes #942 - Fix syslinux asking for language for debian 6 and debian 5
+
+2011-05-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #930 - Skipped resources should not put systems in 'error' state
+	* fixes #922 - Confirmation message should be more explicit
+	* fixes #916 - Incorrect fact entries in the db breaks facts view
+
+2011-05-24	Amos Benari <abenari@redhat.com>
+	* fixes #892 missing div close and some other html crimes.
+	* fixes #932 + sign on Safari is not rendered correctly
+
+2011-05-23	D. Johnson <fenris02@fedoraproject.org>
+	* fixes #928 - Patch spec file to work with Fedora 15+
+	* fixes #929 - Add files for foreman-release mini package
+
+2011-05-23	Ohad Levy <ohadlevy@gmail.com>
+	* fixed broken test - refs #836
+	* fixes #899 - There are numerous typos and formatting issues with the code
+
+2011-05-23	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #905 - Add :build_host as a separate permission type
+
+2011-05-23	Amos Benari <abenari@redhat.com>
+	* UI updates
+	* fixes edit bookmark url redirection after edit - refs #836.
+
+2011-05-22	Amos Benari <abenari@redhat.com>
+	* fixes #900 - search by "x minutes ago" and the charts in show host
+
+2011-05-22	Marcello de Sousa <foreman-dev@area151.com>
+	* fixes #918 - API /usergroups won't output json
+	* fixes #919 - PXE Default file deployed via the API generates an error
+	* fixes #917 modified: app/controllers/common_parameters_controller.rb modified: app/models/common_parameter.rb
+
+2011-05-22	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes wrong summary status sting the the report API response refs #882
+
+2011-05-22	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #914 - Edit permission should also grant manage/unmanage
+	* Fixes #883 - Enable Authorization checking during rake tests
+
+2011-05-22	Jochen Schalanda <jochen@schalanda.name>
+	* Fixes #868 - Fixed installation order of database dependencies
+
+2011-05-19	Amos Benari <abenari@redhat.com>
+	* fixes #909 host edit broken. Issue was a result of moving to jquery.
+
+2011-05-17	Amos Benari <abenari@redhat.com>
+	* make the buttons smaller.
+	* added scroll and submit button to the multi action dialog
+	* muved the check all to the top of the list and the multiple selection action to the action bar.
+	* no default open color on dashboard pie
+	* action bar buttons, title and submit buttons style changes.
+
+2011-05-17	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #901 - Unattended field in settings.yaml
+
+2011-05-15	Corey Osman <corey@logicminds.biz>
+	* Feature #882 - add api call to reports page to get the index section
+
+2011-05-12	Amos Benari <abenari@redhat.com>
+	* take[2] fixes #893 fixed pagination issue in the facts page. fixed sort issue with out_of_sync, errors, active and disabled urls.
+	* fix bookmark sub-menu on ie and ff fixes #889
+
+2011-05-11	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #458 - Long host list in edit user
+	* Fixes #805 - display 'no subnets' when selecting a site with no subnets
+
+2011-05-11	Ohad Levy <ohadlevy@gmail.com>
+	* Feature #896 add json response for statistics page
+
+2011-05-09	Amos Benari <abenari@redhat.com>
+	* errors bookmark was wrong. fixes #886
+	* fixed colors and order of serias in show host page resources chart refs
+
+2011-05-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #885 - unable to fetch tftp serever name correctly
+
+2011-05-05	Ohad Levy <ohadlevy@gmail.com>
+	* refs #285 - removes any left over from the old google charts libraries
+
+2011-05-05	Amos Benari <abenari@redhat.com>
+	* fixes #285 - Use Charting system which can work offline
+
+2011-05-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #751 - foreman responds with http 500 error if proxy is unreachable
+	* fixes #872 - LDAP Auth Source Account Password reset
+	* fixes #673 - Curl can't be used to trigger runs
+
+2011-05-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #876 - Improve puppet certificates pages
+	* fixes #874 - rails js caching fails to refresh
+
+2011-05-02	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that current user is cleared, refs #807
+	* fixes #854 - Provide the version when calling the status api method
+	* fixes #871 - Wrong wget url in app/views/unattended/ files
+	* fixes #807 - Update the User.current implementation to use a Thread-local variable
+	* fixes #817 - puppet classe names and ambiguity
+	* fixes # 839 - Disable (grey out) "build" button for unmanaged hosts
+	* fixes #755 - The external nodes YAML link should be clickable for a non-admin user in Host/View
+	* fixes #797 - JSON for users not returned
+	* fixes #769 - host groups passwords are stored in their non encrypted form in the database.
+	* fixes #852 - Open "Support" and "Wiki" Links In New Window
+	* ensures migration can actually run... refs #836
+
+2011-05-02	Amos Benari <abenari@redhat.com>
+	* fixed menu item when logging in with a non-admin user, refs #836.
+	* fixes #860 header links overlap search button on 1024 screen
+	* added search bookmarks, fixes #836
+
+2011-05-02	Marcello de Sousa <foreman-dev@area151.com>
+	* Fixes #756 - Foreman should now detect changes in puppet.conf (eg: environments) when importing classes
+
+2011-05-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #870 - allow to sign certificate requests via foreman
+	* refs #815 - converted mulity host selections to a dialog box
+	* Fixes #865 - adds support for api to select multiple hosts via name and id
+
+2011-04-24	Ohad Levy <ohadlevy@gmail.com>
+	* updated spec file to its latest version
+
+2011-04-23	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #815 - Redirect to login page when editing multiple hosts
+
+2011-04-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #400 - Puppetca Monitor
+	* fixes #856 - Enable time based caching
+
+2011-04-17	Amos Benari <abenari@redhat.com>
+	* Improved usability of the search suggestion list - fixed #850 when writing a long query such as "a=b and c=" it will gray-out the completed part (a=b) this is done to help the user focus on the part that he is writing.
+
+2011-04-17	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #847 - Retrieve last report information per host via the api
+	* Fixes Bug #837 - Properly handles serverName get
+
+2011-04-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes an issue with class assignments - refs #827
+	* fixes #843 - show more virtual guests information
+	* fixes #841 - unmanaged hosts still require ip/mac address
+	* fixes #827 add support for retrieving classes per host via the api
+
+2011-04-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #834 - add search to hostgroup page
+	* fixes #835 - allow to delete virtual guests
+
+2011-04-13	Amos Benari <abenari@redhat.com>
+	* add search to audit page fixes #773, fixes #772 and fixes #412
+
+2011-04-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #52 - remove unused fields from puppetclasses table
+	* fixes #739: Clicking hostname leads to 'search', not details
+	* fixes #831 - /hosts/fqdn/facts should not be a redirection
+	* Addresses #830 - set host model from facter for virtual guests
+
+2011-04-12	Amos Benari <abenari@redhat.com>
+	* override default operators in the suggestion list to prevent syntax that doesn't make sence for example, in hosts page 'class != foo' will get any host that has class that is not foo if a host has two class foo and bar it will be in the list because bar != foo this kind of queries doesn't make sence and there for removed from the suggestion list.
+	* use the new error rendering option in scoped search auto completer.
+	* ignore idea (rubymine) files.
+	* updated scoped search plugin
+
+2011-04-11	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #829 - /hosts/fqdn/reports should not be a redirection
+
+2011-04-10	Ohad Levy <ohadlevy@gmail.com>
+	* addes search to dashboard page refs #719
+	* added search to puppet classes page #refs 719
+	* added search to operating systems page #refs 719
+	* fixes #259 - Ability to search Hosts by Parameters
+	* added search to reports page #refs 719
+	* added search to facts page #refs 719
+	* adds search to hosts refs #719
+	* fixes #719 - Adds new search functionaily
+
+2011-04-06	Jochen Schalanda <jochen@schalanda.name>
+	* Updated Debian package specification: * made dependencies for foreman-{mysql,pgsql,sqlite3} clearer, refs #638 * added dependencies to librestclient-ruby and libjson-ruby, refs #669 * updated copyright file
+
+2011-04-06	Frank Sweetser <fs@WPI.EDU>
+	* Recognize Scientific Linux as a RedHat derivative.
+
+2011-04-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #759 - populate hosts fails if the host has no mac-address
+
+2011-03-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #723 - Hypervisor details page
+	* fixes #806 - Switch to JQuery instead of Prototype JavaScript library
+
+2011-03-30	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #544 - Foreman connects using an ssl certificate
+
+2011-03-30	Frank Sweetser <fs@wpi.edu>
+	* fixes #801 - Strip carriage returns from all partition tables
+
+2011-03-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #804 - 'puppet' value should be the default for the puppetmaster text field
+
+2011-03-29	Ohad Levy <ohadlevy@gmail.com>
+	* Bumped to 0.2 release
+
 2011-03-29	Paul Kelly <paul.ian.kelly@googlemail.com>
 	* Fixes #790 - puppetmaster_name should be obj.puppetmaster_name
 	* Fixes #789 - External node interpolation of puppetmaster

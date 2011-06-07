@@ -5,7 +5,7 @@ require 'puppet/rails'
 # import settings file
 SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 
-SETTINGS[:version] = "0.2.1"
+SETTINGS[:version] = "0.3"
 # fallback to a 30 minutes run interval if its not defined
 SETTINGS[:puppet_interval] ||= 30
 SETTINGS[:run_interval] = SETTINGS[:puppet_interval].minutes
