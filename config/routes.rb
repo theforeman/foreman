@@ -55,7 +55,7 @@ ActionController::Routing::Routes.draw do |map|
     hypervisor.resources :guests, :controller => "Hypervisors::Guests", :except => [:edit],
       :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }
   end if SETTINGS[:libvirt]
-  map.resources :bookmarks, :except => [:show]
+  map.resources :bookmarks, :except => [:show], :requirements => { :id => /[^\/]+/ }
   map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
   map.connect '/status', :controller => "home", :action => "status"
 
