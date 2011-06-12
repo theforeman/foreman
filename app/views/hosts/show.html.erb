@@ -2,44 +2,47 @@
 <h1><%= icon(@host.os) + @host.to_label %></h1>
 
 <span class="title_action">
-  <%= link_to_if_authorized "Edit",    hash_for_edit_host_path(:id => @host),                    :title => "Edit your host" %>
-  <%= link_to_if_authorized "Facts",   hash_for_host_facts_path(:host_id => @host),              :title => "Browse host facts" %>
-  <%= link_to_if_authorized "Reports", hash_for_host_reports_path(:host_id => @host),            :title => "Browse host reports" %>
-  <%= link_to "YAML",                  externalNodes_host_path(:id => @host),                    :title => "Puppet external nodes YAML dump" %>
+  <%= link_to_if_authorized "Edit", hash_for_edit_host_path(:id => @host), :title => "Edit your host" %>
+  <%= link_to_if_authorized "Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts" %>
+  <%= link_to_if_authorized "Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports" %>
+  <%= link_to "YAML", externalNodes_host_path(:id => @host), :title => "Puppet external nodes YAML dump" %>
   <% unless @host.build -%>
-    <%= link_to_if_authorized "Build",        hash_for_setBuild_host_path(:id => @host).merge(:enable_link => @host.can_be_build?),      :title => "Enable rebuild on next host boot", :confirm => "Rebuild #{@host} on next reboot?\nThis would also delete all of its current facts and reports" %>
+    <%= link_to_if_authorized "Build", hash_for_setBuild_host_path(:id => @host).merge(:enable_link => @host.can_be_build?),
+                              :title => "Enable rebuild on next host boot",
+                              :confirm => "Rebuild #{@host} on next reboot?\nThis would also delete all of its current facts and reports" %>
   <% else -%>
-    <%= link_to_if_authorized "Cancel Build", hash_for_cancelBuild_host_path(:id => @host).merge(:enable_link => !@host.can_be_build?),  :title => "Cancel build request for this host" %>
+    <%= link_to_if_authorized "Cancel Build", hash_for_cancelBuild_host_path(:id => @host).merge(:enable_link => !@host.can_be_build?),
+                              :title => "Cancel build request for this host" %>
   <% end -%>
-    <%= link_to_if_authorized "Run puppet", hash_for_puppetrun_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => SETTINGS[:puppetrun]),  :title => "Trigger a puppetrun on a node; requires that puppet run is enabled" %>
-  <span title="Show all host puppet classes, requires storeconfigs">
-    <%= link_to_if @host.resources.count > 0, "All Puppet Classes", storeconfig_klasses_host_path(@host) %>
-  </span>
-  <%= link_to_if_authorized "Delete", hash_for_host_path(:id => @host, :auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete%>
+  <%= link_to_if_authorized "Run puppet", hash_for_puppetrun_host_path(:id => @host).merge(:auth_action => :edit, :enable_link => SETTINGS[:puppetrun]),
+                            :title => "Trigger a puppetrun on a node; requires that puppet run is enabled" %>
+  <%= link_to_if_authorized "All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => @host).merge(:auth_action => :read, :enable_link => @host.resources.count > 0),
+                            :title => "Show all host puppet classes, requires storeconfigs" %>
+  <%= link_to_if_authorized "Delete", hash_for_host_path(:id => @host, :auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
 </span>
 
 <div id="host_overview">
-  <%= render :partial => "hosts/overview", :locals => {:host => @host} %>
+  <%= render :partial => "hosts/overview", :locals => { :host => @host } %>
   <% if @report_summary.size == 0 -%>
     <p>No puppet activity for this host in the last <%= @range %> days</p>
   <% else -%>
-    <%= render :partial => "hosts/metrics", :locals => {:report_summary => @report_summary[@host.name][:metrics]} %>
+    <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
   <% end -%>
 </div>
 
 <div id="host_report">
   <% if @host.reports.size > 0 -%>
-    <%= form_tag @host,:id => 'days_filter', :method => :get %>
+    <%= form_tag @host, :id => 'days_filter', :method => :get %>
     <p>Reports from the last
       <%= select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-        {:selected => @range},{:onchange =>"$('#days_filter').submit();$(this).disable();"}) %>
-        days - <%= @host.reports.recent(@range.days.ago).count %> reports found
+                 { :selected => @range }, { :onchange =>"$('#days_filter').submit();$(this).disable();" }) %>
+      days - <%= @host.reports.recent(@range.days.ago).count %> reports found
     </p>
   <% end -%>
 
   <div id="runtime_graph" class="host_chart"></div>
-  <%= render_runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days" , @host.runtime_chart(@range.days.ago) %>
+  <%= render_runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
 
   <div id="resource_graph" class="host_chart"></div>
-  <%= render_report_status_chart 'resource_graph', 'Resources', "last #{@range} days" , @host.resources_chart(@range.days.ago) %>
+  <%= render_report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
 </div>
