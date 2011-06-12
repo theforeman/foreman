@@ -16,8 +16,8 @@
       <td><%=h hypervisor.kind %></td>
       <td>
         <%= display_link_if_authorized "Guests", hash_for_hypervisor_guests_path(:hypervisor_id => hypervisor.name) %>
-        <%= display_link_if_authorized "Edit",   hash_for_edit_hypervisor_path(:id => hypervisor.id) %>
-        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_path(:id => hypervisor, :auth_action => :destroy), :confirm => "Delete #{hypervisor.name}?", :method => :delete %>
+        <%= display_link_if_authorized "Edit",   hash_for_edit_hypervisor_path(:id => hypervisor.name) %>
+        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_path(:id => hypervisor.name, :auth_action => :destroy), :confirm => "Delete #{hypervisor.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>

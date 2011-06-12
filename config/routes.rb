@@ -51,7 +51,7 @@ ActionController::Routing::Routes.draw do |map|
     proxy.resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
   end
   map.resources :subnets, :except => [:show]
-  map.resources :hypervisors do |hypervisor|
+  map.resources :hypervisors, :requirements => { :id => /[^\/]+/ } do |hypervisor|
     hypervisor.resources :guests, :controller => "Hypervisors::Guests", :except => [:edit],
       :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }
   end if SETTINGS[:libvirt]
