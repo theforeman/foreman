@@ -89,13 +89,13 @@ module Hostext
               when 'CommonParameter'
                 # ignore
               when 'DomainParameter'
-                conditions << "domain_id = #{param.reference_id}"
+                conditions << "hosts.domain_id = #{param.reference_id}"
               when 'OsParameter'
-                conditions << "operating_system_id = #{param.reference_id}"
+                conditions << "hosts.operatingsystem_id = #{param.reference_id}"
               when 'GroupParameter'
-                conditions << "hostgroup_id = #{param.reference_id}"
+                conditions << "hosts.hostgroup_id = #{param.reference_id}"
               when 'HostParameter'
-                conditions << "id = #{param.reference_id}"
+                conditions << "hosts.id = #{param.reference_id}"
             end
           end
           conditions.join(' OR ')
