@@ -1,12 +1,13 @@
 class UnattendedController < ApplicationController
   layout nil
 
-  # Methods which return configuration files for syslinux(pxe) or g/ipxe
+  # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
   PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.name_like("pxelinux").map(&:name)
+  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.name_like("pxegrub").map(&:name)
   GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.name_like("gpxe").map(&:name)
-  CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS
+  CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = [:kickstart, :preseed, :jumpstart_profile ] + TemplateKind.name_like("provision").map(&:name)
+  PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.name_like("provision").map(&:name)
   # Methods which returns post install instructions for OS's which require it
   FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.name_like("finish").map(&:name)
 
@@ -23,14 +24,6 @@ class UnattendedController < ApplicationController
   before_filter :set_admin_user, :only => :built
 
   def kickstart
-    unattended_local
-  end
-
-  def jumpstart_profile
-    unattended_local
-  end
-
-  def jumpstart_finish
     unattended_local
   end
 
@@ -162,6 +155,24 @@ class UnattendedController < ApplicationController
   def load_template_vars
     # load the os family default variables
     eval "#{@host.os.pxe_type}_attributes"
+  end
+
+  def jumpstart_attributes
+    if @host.operatingsystem.supports_image and @host.use_image
+      @install_type     = "flash_install"
+      # We have an individual override for the host's image file
+      if @host.image_file
+        @archive_location = @host.image_file
+      else
+        @archive_location = @host.default_image_file
+      end
+    else
+      @install_type = "initial_install"
+      @system_type  = "standalone"
+      @cluster      = "SUNWCreq"
+      @locale       = "C"
+    end
+    @disk = @host.diskLayout
   end
 
   def kickstart_attributes

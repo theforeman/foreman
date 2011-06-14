@@ -38,4 +38,11 @@ module HostsAndHostgroupsHelper
     end
   end
 
+  def image_file_entry item
+    # If the host has an explicit image_path then use that
+    # Else use the default based upon the host's medium and operatingsystem
+    value = item.image_file || item.default_image_file
+    text_field :item, :image_file, :value => value, :disabled => !item.use_image,
+                 :id => type + "_image_file", :name => type + "[image_file]", :class => "span-14 last"
+  end
 end

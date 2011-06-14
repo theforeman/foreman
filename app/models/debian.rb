@@ -32,6 +32,11 @@ class Debian < Operatingsystem
     "preseed"
   end
 
+  # Does this OS family use release_name in its naming scheme
+  def use_release_name?
+    true
+  end
+
   private
 
   # tries to guess if this an ubuntu or a debian os

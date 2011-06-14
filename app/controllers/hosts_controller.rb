@@ -489,6 +489,7 @@ class HostsController < ApplicationController
     @architecture    = @host.architecture
     @domain          = @host.domain
     @operatingsystem = @host.operatingsystem
+    @medium          = @host.medium
   end
 
   def find_multiple

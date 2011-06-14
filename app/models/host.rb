@@ -18,6 +18,7 @@ class Host < Puppet::Rails::Host
 
   include Hostext::Search
   include HostCommon
+  include HostTemplateHelpers
 
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot,

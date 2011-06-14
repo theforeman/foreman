@@ -72,14 +72,20 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def medium_vars_to_uri (url, arch, os)
-    URI.parse(url.gsub('$arch',  arch).
-              gsub('$major',  os.major).
-              gsub('$minor',  os.minor).
-              gsub('$version', [os.major, os.minor ].compact.join('.'))
-             ).normalize
+    URI.parse(interpolate_medium_vars(url, arch, os)).normalize
   end
 
-  # The OS is usually represented as the catenation of the OS and the revision. E.G. "Solaris 10"
+  def interpolate_medium_vars path, arch, os
+    return "" if path.empty?
+
+    path.gsub('$arch',  arch).
+         gsub('$major',  os.major).
+         gsub('$minor',  os.minor).
+         gsub('$version', [os.major, os.minor ].compact.join('.')).
+         gsub('$release', os.release_name ? os.release_name : "" )
+  end
+
+  # The OS is usually represented as the catenation of the OS and the revision
   def to_label
     "#{name} #{major}#{('.' + minor) unless minor.empty?}"
   end
@@ -115,6 +121,40 @@ class Operatingsystem < ActiveRecord::Base
     bootfile(arch,:initrd)
   end
 
+  def bootfile arch, type
+    pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]")
+  end
+
+  # Does this OS family support a build variant that is constructed from a prebuilt archive
+  def supports_image
+    false
+  end
+
+  # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
+  # override in sub operatingsystem classes as required.
+  def pxe_variant
+    "syslinux"
+  end
+
+  # The kind of PXE configuration template used. PXELinux and PXEGrub are currently supported
+  def template_kind
+    "PXELinux"
+  end
+
+  #handle things like gpxelinux/ gpxe / pxelinux here
+  def boot_filename
+    "pxelinux.0"
+  end
+
+  # Does this OS family use release_name in its naming scheme
+  def use_release_name?
+    false
+  end
+
+  def image_extension
+    raise "Attempting to construct a operatingsystem image filename but #{family} cannot be built from an image"
+  end
+
   private
   def deduce_family
     if self.family.blank?
@@ -132,12 +172,16 @@ class Operatingsystem < ActiveRecord::Base
     self.release_name.downcase! unless defined?(Rake) or release_name.nil? or release_name.empty?
   end
 
-  def boot_files_uri(medium = nil , architecture = nil)
-    "Abstract"
+  def boot_files_uri(medium, architecture)
+    raise "invalid medium for #{to_s}" unless media.include?(medium)
+    raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
+    eval("#{self.family}::PXEFILES").values.collect do |img|
+      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxedir}/#{img}").normalize
+    end
   end
 
-  def bootfile arch, type
-    pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]")
+  # If this OS family requires access to its media via NFS
+  def require_nfs_access_to_medium
+    false
   end
-
 end

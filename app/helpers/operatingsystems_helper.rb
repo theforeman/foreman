@@ -4,7 +4,7 @@ module OperatingsystemsHelper
   # displays release name on debian based distributions on operating system edit page.
   def show_release
     update_page do |page|
-      page << "if (value == 'Debian') {"
+      page << "if (value == 'Debian' || value == 'Solaris') {"
       page[:release_name].show
       page[:release_name].highlight
       page << "} else {"

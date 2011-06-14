@@ -21,7 +21,8 @@ module Orchestration::TFTP
     protected
     def initialize_tftp
       return unless tftp?
-      @tftp = ProxyAPI::TFTP.new :url => subnet.tftp.url
+      @tftp = ProxyAPI::TFTP.new :url => subnet.tftp.url,
+        :variant => operatingsystem.pxe_variant
     rescue => e
       failure "Failed to initialize the TFTP proxy: #{e}"
     end
@@ -30,7 +31,7 @@ module Orchestration::TFTP
     # +returns+ : Boolean true on success
     def setTFTP
       logger.info "Add the TFTP configuration for #{name}"
-      tftp.set mac, :syslinux_config => generate_pxe_template
+      tftp.set mac, :pxeconfig => generate_pxe_template
     rescue => e
       failure "Failed to set TFTP: #{proxy_error e}"
     end
@@ -67,8 +68,8 @@ module Orchestration::TFTP
     def validate_tftp
       return unless tftp?
       return if Rails.env == "test"
-      if configTemplate({:kind => "PXELinux"}).nil?
-        failure "No PXELinux templates where found for this host, make sure you define at least one in your #{os} settings"
+      if configTemplate({:kind => operatingsystem.template_kind}).nil?
+        failure "No #{operatingsystem.template_kind} templates where found for this host, make sure you define at least one in your #{os} settings"
       end
     end
 
@@ -81,9 +82,9 @@ module Orchestration::TFTP
       pxefiles = eval "#{os.family}::PXEFILES"
       @kernel  = "#{prefix}-#{pxefiles[:kernel]}"
       @initrd  = "#{prefix}-#{pxefiles[:initrd]}"
-      pxe_render configTemplate({:kind => "PXELinux"}).template
+      pxe_render configTemplate({:kind => os.template_kind}).template
     rescue => e
-      failure "Failed to generate PXELinux template: #{e}"
+      failure "Failed to generate #{os.template_kind} template: #{e}"
     end
 
     #returns the URL for Foreman based on the required action

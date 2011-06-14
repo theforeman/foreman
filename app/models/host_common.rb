@@ -43,6 +43,28 @@ module HostCommon
       read_attribute(:root_pass) || SETTINGS[:root_pass] || "!*!*!*!*!"
     end
 
+    # If the host/hostgroup has a medium then use the path from there
+    # Else if the host/hostgroup's operatingsystem has only one media then use the image_path from that as this is automatically displayed when there is only one item
+    # Else we cannot provide a default and it is cut and paste time
+    def default_image_file
+      if medium
+        nfs_path = medium.try :image_path
+        if operatingsystem.try(:media) and operatingsystem.media.size == 1
+          nfs_path ||= operatingsystem.media.first.image_path
+        end
+        operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) + "#{operatingsystem.file_prefix}.#{architecture}.#{operatingsystem.image_extension}"
+      else
+        ""
+      end
+    end
+
+    def image_file= file
+      # We only save a value into the image_file field if the value is not the default path, (which was placed in the entry when it was displayed,)
+      # and it is not a directory, (ends in /)
+      value = ( (default_image_file == file) or (file =~ /\/$/) or file == "") ? nil : file
+      write_attribute :image_file, value
+    end
+
     # make sure we store an encrypted copy of the password in the database
     # this password can be use as is in a unix system
     def root_pass=(pass)

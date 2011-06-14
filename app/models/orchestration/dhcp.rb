@@ -62,7 +62,7 @@ module Orchestration::DHCP
     # +returns+ : Boolean true on success
     def setDHCP
       logger.info "Add a DHCP reservation for #{name}/#{ip}"
-      dhcp.set subnet.network,({:name => name, :filename => boot_filename,
+      dhcp.set subnet.network,({:name => name, :filename => operatingsystem.boot_filename,
                                :ip => ip, :nextserver => boot_server, :mac => mac})
     rescue => e
       failure "Failed to set the DHCP record: #{proxy_error e}"
@@ -78,11 +78,6 @@ module Orchestration::DHCP
     end
 
     private
-
-    def boot_filename
-      #handle things like gpxelinux/ gpxe / pxelinux here
-      "pxelinux.0"
-    end
 
     def boot_server
       # where are we booting from

@@ -25,13 +25,9 @@ module ProxyAPI
           :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
           :ssl_ca_file      =>  ca_cert,
           :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
-        )
+        ) unless Rails.env == "test"
       end
       @resource = RestClient::Resource.new(url, connect_params)
-      true
-    rescue => e
-      logger.error "Failed to initialize connection to proxy: #{e}"
-      false
     end
 
     def logger; RAILS_DEFAULT_LOGGER; end
@@ -210,27 +206,25 @@ module ProxyAPI
 
   class TFTP < Resource
     def initialize args
-      @url  = args[:url] + "/tftp"
+      @url     = args[:url] + "/tftp"
+      @variant = args[:variant]
       super args
     end
 
     # Creates a TFTP boot entry
-    # [+mac+]  : String in coloned sextuplet format
+    # [+mac+]  : MAC address
     # [+args+] : Hash containing
-    #    :syslinux_config => String containing the configuration
+    #    :pxeconfig => String containing the configuration
     # Returns  : Boolean status
     def set mac, args
-      parse(post(args, mac))
+      parse(post(args, "#{@variant}/#{mac}"))
     end
 
     # Deletes a TFTP boot entry
     # [+mac+] : String in coloned sextuplet format
     # Returns : Boolean status
     def delete mac
-      parse(super("#{mac}"))
-    rescue RestClient::ResourceNotFound
-      # entry doesn't exists anyway
-      return true
+      parse(super("#{@variant}/#{mac}"))
     end
 
     # Requests that the proxy download the bootfile from the media's source

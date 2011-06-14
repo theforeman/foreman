@@ -1,21 +1,36 @@
+<%= javascript "nfs_visibility" %>
 <% form_for @medium do |f| %>
   <%= f.error_messages %>
   <p>
-  <%= f.label :name %><br />
-  <%= f.text_field :name %>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
   </p>
   <p>
-  <small>
-    The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).<br />
-    for example http://mirror.averse.net/centos/$version/os/$arch where <strong>$arch</strong> will be substituted for the host's actual OS architecture<br />
-    and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system.
-  </small>
-  <%= f.label :path %><br />
-  <%= f.text_field :path, :size => 70 %>
-  </p >
+    <small>
+      The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).<br />
+      for example http://mirror.averse.net/centos/$version/os/$arch where <strong>$arch</strong> will be substituted for the host's actual OS architecture<br />
+      and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris
+      adn Debian media may also use <strong>$release</strong>.
+    </small>
+  </p>
+  <p>
+    <%= f.label :path %><br />
+    <%= f.text_field :path, :size => 70 %>
+  </p>
+  <p id="nfs-section" style="display:<%= @medium.operatingsystems.sort.map(&:require_nfs_access_to_medium).any? ? "inline" : "none"-%>;">
+    <%= f.label :media_path, "The NFS path to the media." %><br />
+    <%= f.text_field :media_path, :size => 64 %><br/>
+    <%= f.label :config_path, "The NFS path to the jumpstart control files." %><br />
+    <%= f.text_field :config_path, :size => 64 %><br/>
+    <%= f.label :image_path, "The NFS path to the image directory." %><br />
+    <%= f.text_field :image_path, :size => 64 %>
+  </p>
     <% field_set_tag 'Operating Systems' do -%>
     <%= authorized_edit_habtm @medium, Operatingsystem %>
   <% end -%>
 
   <p><%= f.submit "Submit" %></p>
 <% end %>
+<script type="text/javascript" charset="utf-8">
+  nfs_section_visibility([<%= Operatingsystem.all.sort.map(&:require_nfs_access_to_medium).join(", ") %>])
+</script>

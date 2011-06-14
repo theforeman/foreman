@@ -1,6 +1,5 @@
 class Redhat < Operatingsystem
 
-  PXEDIR   = "images/pxeboot"
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)
@@ -47,20 +46,17 @@ class Redhat < Operatingsystem
     Operatingsystem
   end
 
-  def boot_files_uri(medium, architecture)
-    raise "invalid medium for #{to_s}" unless media.include?(medium)
-    raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
-    PXEFILES.values.collect do |img|
-      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{PXEDIR}/#{img}").normalize
-    end
-  end
-
+  # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
   def pxe_type
     "kickstart"
   end
 
+  def pxedir
+    "images/pxeboot"
+  end
+
   def url_for_boot(file)
-    PXEDIR + "/" + PXEFILES[file]
+    pxedir + "/" + PXEFILES[file]
   end
 
 end
