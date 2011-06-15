@@ -13,7 +13,8 @@ class Medium < ActiveRecord::Base
     :message => "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)"
 
   validates_format_of :media_path, :config_path, :image_path, :allow_blank => true,
-    :with => VALID_NFS_PATH, :message => "does not appear to be a valid nfs mount path"
+    :with => VALID_NFS_PATH, :message => "does not appear to be a valid nfs mount path",
+    :if => Proc.new { |m| m.respond_to? :media_path }
 
   alias_attribute :os, :operatingsystem
   before_destroy Ensure_not_used_by.new(:hosts)
