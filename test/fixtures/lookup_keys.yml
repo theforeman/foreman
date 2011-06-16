@@ -1,7 +1,16 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  key: MyString
+  key: port
+  path:
+  validator_type:
+  puppetclass : one
+  default_value: 80
 
 two:
-  key: MyString
+  key: ssl_port
+  path:
+  validator_type: list
+  validator_rule: 443,8443
+  puppetclass : one
+  default_value: 443

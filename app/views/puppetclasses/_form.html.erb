@@ -1,23 +1,32 @@
+<%= javascript "lookup_keys" %>
+
 <% form_for @puppetclass do |f| %>
   <%= f.error_messages %>
   <p>
   <%= f.label :name, nil, :class => "span-3" %>
   <%= f.text_field :name, :class => "last" %>
   </p>
-  <p>
+
   <% field_set_tag("Puppet Environments") do %>
     <%= authorized_edit_habtm @puppetclass, Environment %>
   <% end -%>
-  </p>
+
   <% field_set_tag("Host Groups") do %>
-    <p>
     <%= authorized_edit_habtm @puppetclass, Hostgroup %>
-    </p>
   <% end -%>
   <% unless @puppetclass.new_record? -%>
     <p>
     Currently used by <%= @puppetclass.hosts.count %> hosts
     </p>
   <% end -%>
+
+  <h3>Variables</h3>
+
+  <% f.fields_for :lookup_keys do |lookup_keys_form| %>
+    <%= render :partial => 'lookup_keys/fields', :locals => { :f => lookup_keys_form } %>
+  <% end %>
+  <p><%= add_child_link "New Variable", :lookup_keys %></p>
+  <%= new_child_fields_template(f, :lookup_keys, {:partial => "lookup_keys/fields"})%>
+
   <p><%= f.submit "Submit" %></p>
 <% end %>

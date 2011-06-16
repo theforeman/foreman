@@ -112,7 +112,9 @@ class HostTest < ActiveSupport::TestCase
       :puppetproxy => smart_proxies(:puppetmaster)
 
     # dummy external node info
-    nodeinfo = {"environment" => "global_puppetmaster", "parameters"=>{"puppetmaster"=>"puppet", "MYVAR"=>"value"}, "classes"=>["apache", "base"]}
+    nodeinfo = {"environment" => "global_puppetmaster",
+      "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80", "ssl_port" => "443"},
+      "classes"=>["apache", "base"]}
 
     host.importNode nodeinfo
 

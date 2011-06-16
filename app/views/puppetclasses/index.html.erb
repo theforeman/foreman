@@ -11,6 +11,7 @@
     <th><%= sort :environment, :as => "Environments" %>and documentation</th>
     <th>Host Group</th>
     <th>Hosts</th>
+    <th>Keys</th>
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
@@ -23,6 +24,9 @@
       </td>
       <td><%= puppetclass.hostgroups.map {|hg| link_to hg, hostgroup_path(hg)}.to_sentence %></td>
       <td> <%= link_to @counter[puppetclass.id] || 0 , hosts_path(:search => "class = #{puppetclass.name}")%></td>
+      <td>
+        <%= link_to puppetclass.lookup_keys.count, puppetclass_lookup_keys_path(puppetclass) %>
+      </td>
       <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
       </td>

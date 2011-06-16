@@ -1,8 +1,5 @@
-<p class="fields">
-<%= f.label :value, "Value" %>
-<%= f.text_field :value %>
-<%= f.label :priority, "Priority" %>
-<%= f.text_field :priority %>
-<%= link_to_remove_fields("remove", f) if authorized_for(params[:controller], params[:action]) %>
-</p>
-
+<div class="prepend-2 fields">
+  <%= f.text_field :match, :class => "span-5", :title => "Valid match for this value"%>
+  <%= f.text_field :value, :class => "span-3", :title => "Value" %>
+  <%= remove_child_link "Remove", f, {:title => 'remove value'} %>
+</div>

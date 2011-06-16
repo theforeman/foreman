@@ -27,15 +27,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :notices, :only => :destroy
   map.resources :audits, :collection => {:auto_complete_search => :get}
   map.resources :usergroups
-  map.resources :lookup_keys
-  map.connect   "/lookup", :controller => "lookup_keys", :action => "q"
   map.resources :domains, :requirements => {:id => /[^\/]+/}
   map.resources :operatingsystems, :member => {:bootfiles => :get}, :collection => {:auto_complete_search => :get}
   map.resources :media
   map.resources :models
   map.resources :architectures
+  map.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}
   map.resources :puppetclasses, :member => { :assign => :post }, :collection => {:import_environments => :get, :auto_complete_search => :get} do |pc|
     pc.resources :hosts, :requirements => {:id => /[^\/]+/}
+    pc.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}
   end
   map.resources :hostgroups, :member => { :nest => :get, :clone => :get }, :collection => { :auto_complete_search => :get }
   map.resources :common_parameters

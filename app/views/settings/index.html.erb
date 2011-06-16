@@ -11,7 +11,7 @@
   <% for setting in @settings %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=h setting.name %></td>
-      <td><%=h setting.value %></td>
+      <td><%=h show_value(setting) %></td>
       <td><%=h setting.description %></td>
       <td><%=h setting.category %></td>
       <td><%= link_to_function "Edit", "edit_setting('#{setting}','#{edit_setting_path(setting)}')" %></td>

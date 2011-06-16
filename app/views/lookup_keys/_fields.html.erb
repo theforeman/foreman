@@ -1,9 +1,19 @@
-<%= error_messages_for :lookup_key %>
-<p>
-<%= f.label :key, "Key" %>
-<%= f.text_field :key %>
-</p>
-<% f.fields_for :lookup_values do |builder| -%>
-  <%= render 'value', :f => builder %>
-<% end -%>
-<p><%= authorized_for(params[:controller], params[:action]) ? link_to_add_fields("Add a value", f, :lookup_values, "value") : "Add a value" %></p>
+<div class="fields">
+  <%= f.text_field :key, :class => "span-2", :title => "The variable name" %>
+  <%= f.text_field :description, :class => "span-5", :title => "Description" %>
+  <%= f.text_field :default_value, :class => "span-3", :title => "Default value" %>
+  <%= f.select :validator_type, options_for_select(LookupKey::VALIDATION_TYPES, f.object.validator_type), { :include_blank => "string"} , {:class => "span-2", :title => "Type of allowed values"} %>
+  <%= f.text_field :validator_rule, :class => "span-3", :title => "Validator constraint" %>
+  <%= f.text_area :path, :size => "5x2", :value => f.object.path, :title => "The order in which values are resolved" %>
+
+  <%# the following field is required to see child validations %>
+  <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
+  <%= remove_child_link "Remove", f %>
+  <div class="children_fields">
+    <% f.fields_for :lookup_values do |lookup_values| %>
+      <%= render :partial => 'lookup_keys/value', :locals => { :f => lookup_values } %>
+    <% end %>
+    <%= add_child_link "New value", :lookup_values, {:class => "ui-icon ui-icon-plus", :title => 'add new value'} %>
+    <%= new_child_fields_template(f, :lookup_values, {:partial => "lookup_keys/value"}) %>
+  </div>
+</div>

@@ -99,6 +99,7 @@ class Host < Puppet::Rails::Host
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
   alias_attribute :hostname, :name
+  alias_attribute :fqdn, :name
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
@@ -270,6 +271,13 @@ class Host < Puppet::Rails::Host
       param["mac"] = mac
     end
     param.update self.params
+
+    # lookup keys
+    klasses  = puppetclasses.map(&:id)
+    klasses += hostgroup.classes.map(&:id) if hostgroup
+    LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
+      param[k.to_s] = k.value_for(self)
+    end unless klasses.empty?
 
     info_hash = {}
     info_hash['classes'] = self.puppetclasses_names

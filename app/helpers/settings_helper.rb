@@ -9,4 +9,12 @@ module SettingsHelper
     end
   end
 
+  def show_value setting
+    case setting.settings_type
+    when "array"
+      "[ " + setting.value.join(", ") + " ]"
+    else
+      setting.value
+    end
+  end
 end

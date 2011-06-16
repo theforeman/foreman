@@ -4,7 +4,7 @@ class Hostgroup < ActiveRecord::Base
   include HostCommon
   has_and_belongs_to_many :puppetclasses
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
-  validates_uniqueness_of :name, :scope => :ancestry
+  validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
@@ -51,7 +51,7 @@ class Hostgroup < ActiveRecord::Base
 
   def to_label
     return unless name
-    "/" + ancestors.map{|a| a.name + "/"}.join + name
+    ancestors.map{|a| a.name + "/"}.join + name
   end
 
   def as_json(options={})

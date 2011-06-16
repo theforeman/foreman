@@ -25,7 +25,7 @@ module Foreman
             domain = Facter.domain
             [
               set('administrator', "The Default administrator email address", "root@#{domain}"),
-              set('foreman_url',   "The URL where your foreman instance is running on", "http://foreman.#{domain}"),
+              set('foreman_url',   "The hostname where your foreman instance is running on", "foreman.#{domain}"),
             ].each { |s| create s.update(:category => "General")}
 
             [
@@ -45,7 +45,8 @@ module Foreman
               set('puppetrun', "Enables Puppetrun Support", false),
               set('puppet_server', "Default Puppet Server hostname", "puppet"),
               set('failed_report_email_notification', "Enable Email Alerts per each failed puppet report", false),
-              set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", (!Puppet.settings.instance_variable_get(:@values)[:master][:dbadapter].empty? rescue false))
+              set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", (!Puppet.settings.instance_variable_get(:@values)[:master][:dbadapter].empty? rescue false)),
+              set('Default_variables_Lookup_Path', "The Default path in which foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"])
             ].compact.each { |s| create s.update(:category => "Puppet")}
 
 
