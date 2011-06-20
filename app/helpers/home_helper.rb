@@ -1,7 +1,7 @@
 module HomeHelper
 
   def class_for_current_page(tab)
-    controller_name =~ /#{tab.singularize}/i ? "current_page_item" : ""
+    controller_name.gsub(/_.*/,"s") == tab ? "current_page_item" : ""
   end
 
   def menu(tab, myBookmarks ,path = nil)
