@@ -25,7 +25,7 @@ class Hostgroup < ActiveRecord::Base
   acts_as_audited
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
+  scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
