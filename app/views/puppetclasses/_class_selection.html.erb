@@ -12,7 +12,7 @@
           :collection => obj.puppetclasses ,:as => :klass,
           :locals => { :type => obj.class.to_s.downcase } %>
       </div>
-      <% if (klasses = obj.hostgroup.try(:puppetclasses)).is_a?(Array) and obj.is_a?(Host) -%>
+      <% if (klasses = obj.hostgroup.try(:classes)).is_a?(Array) and obj.is_a?(Host) -%>
         <% for klass in klasses -%>
           <li title="included already from host group"><%= h klass.name %></li>
         <% end -%>

@@ -38,6 +38,17 @@ module HostsAndHostgroupsHelper
     end
   end
 
+  def hostgroup_name group
+    return if group.blank?
+    content_tag(:span, group.to_s.gsub(group.name, ""), :class => "grey") +
+      link_to_if_authorized(h(group.name), hash_for_edit_hostgroup_path(:id => group))
+  end
+
+  def accessible_hostgroups
+    hg = (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
+    hg.sort
+  end
+
   def image_file_entry item
     # If the host has an explicit image_path then use that
     # Else use the default based upon the host's medium and operatingsystem

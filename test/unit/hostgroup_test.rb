@@ -87,4 +87,57 @@ class HostgroupTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test "should be able to nest a group parameters" do
+    # creates a 3 level hirecy, each one with his own parameters
+    # and overrides.
+    pid = Time.now.to_i
+    assert (top = Hostgroup.create(:name => "topA", :group_parameters_attributes => {
+      pid += 1=>{"name"=>"topA", "value"=>"1", :nested => ""},
+      pid += 1=>{"name"=>"topB", "value"=>"1", :nested => ""},
+      pid += 1=>{"name"=>"topC", "value"=>"1", :nested => ""},
+    }))
+    assert (second = Hostgroup.create(:name => "SecondA", :parent_id => top.id, :group_parameters_attributes => {
+      pid += 1 =>{"name"=>"topA", "value"=>"2", :nested => ""},
+      pid += 1 =>{"name"=>"secondA", "value"=>"2", :nested => ""}}))
+
+    assert second.parameters.include? "topA"
+    assert_equal "2", second.parameters["topA"]
+    assert second.parameters.include? "topB"
+    assert_equal "1", second.parameters["topB"]
+    assert second.parameters.include? "topC"
+    assert_equal "1", second.parameters["topC"]
+    assert second.parameters.include? "secondA"
+    assert_equal "2", second.parameters["secondA"]
+
+    assert (third = Hostgroup.create(:name => "ThirdA", :parent_id => second.id, :group_parameters_attributes => {
+      pid += 1 =>{"name"=>"topB", "value"=>"3", :nested => ""},
+      pid += 1 =>{"name"=>"topA", "value"=>"3", :nested => ""}}))
+
+    assert third.parameters.include? "topA"
+    assert_equal "3", third.parameters["topA"]
+    assert third.parameters.include? "topB"
+    assert_equal "3", third.parameters["topB"]
+    assert third.parameters.include? "topC"
+    assert_equal "1", third.parameters["topC"]
+    assert third.parameters.include? "secondA"
+    assert_equal "2", third.parameters["secondA"]
+  end
+
+  test "should inheirt parent classes" do
+   assert (top = Hostgroup.create(:name => "topA", "puppetclass_ids"=>[Puppetclass.first.id]))
+   assert (second = Hostgroup.create(:name => "secondB", :parent_id => top.id, "puppetclass_ids"=>[Puppetclass.last.id]))
+
+   assert_equal [Puppetclass.first, Puppetclass.last].sort, second.classes.sort
+  end
+
+  test "should remove relationships if deleting a parent hostgroup" do
+   assert (top = Hostgroup.create(:name => "topA"))
+   assert (second = Hostgroup.create(:name => "secondB", :parent_id => top.id))
+
+   assert top.has_children?
+   assert !second.is_root?
+   assert top.destroy
+   assert Hostgroup.find(second.id).is_root?
+  end
+
 end

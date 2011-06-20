@@ -19,6 +19,12 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  def test_nest
+    get :nest, {:id => Hostgroup.first.id}, set_session_user
+    assert_template 'new'
+  end
+
+
   def test_create_invalid
     Hostgroup.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
@@ -71,15 +77,15 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    hostgroup = Hostgroup.first
-    delete :destroy, {:id => hostgroup}, set_session_user
+    hostgroup = hostgroups(:unusual)
+    delete :destroy, {:id => hostgroup.id}, set_session_user
     assert_redirected_to hostgroups_url
     assert !Hostgroup.exists?(hostgroup.id)
   end
 
   def test_destroy_json
-    hostgroup = Hostgroup.first
-    delete :destroy, {:format => "json", :id => hostgroup}, set_session_user
+    hostgroup = hostgroups(:common)
+    delete :destroy, {:format => "json", :id => hostgroup.id}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
     assert !Hostgroup.exists?(hostgroup.id)

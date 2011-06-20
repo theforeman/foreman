@@ -1,9 +1,15 @@
 <% form_for @hostgroup do |f| %>
   <%= f.error_messages %>
   <p>
+    <%= f.label :parent_id, "Parent", :class => "span-3" %>
+    <%= f.collection_select(:parent_id, accessible_hostgroups, :id, :to_label, { :include_blank => true },
+                            { :class => "span-3" }) %>
+
     <%= f.label :name, nil, :class => "span-3" %>
-    <%= f.text_field :name, :class => "last" %>
+    <%= f.text_field :name, :class => "span-3" %>
   </p>
+
+  <br>
 
   <% field_set_tag 'Host Defaults' do -%>
 

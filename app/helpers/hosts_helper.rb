@@ -83,10 +83,6 @@ module HostsHelper
     (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all
   end
 
-  def accessible_hostgroups
-    (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
-  end
-
   def update_details_from_hostgroup
     return nil unless @host.new_record?
     remote_function(:url => { :action => "process_hostgroup" },

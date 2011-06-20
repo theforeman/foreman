@@ -28,3 +28,6 @@
 [submodule "vendor/plugins/scoped_search"]
 	path = vendor/plugins/scoped_search
 	url = git://github.com/wvanbergen/scoped_search.git
+[submodule "vendor/plugins/ancestry"]
+	path = vendor/plugins/ancestry
+	url = git://github.com/stefankroes/ancestry.git

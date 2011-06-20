@@ -254,7 +254,7 @@ class Host < Puppet::Rails::Host
   end
 
   def all_puppetclasses
-    return hostgroup.nil? ? puppetclasses : (hostgroup.puppetclasses + puppetclasses).uniq
+    return hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
   end
 
   # provide information about each node, mainly used for puppet external nodes
@@ -288,7 +288,7 @@ class Host < Puppet::Rails::Host
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
-    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
+    parameters.update hostgroup.parameters unless hostgroup.nil?
     # and now read host parameters, override if required
     host_parameters.each {|p| parameters.update Hash[p.name => p.value] }
     return parameters

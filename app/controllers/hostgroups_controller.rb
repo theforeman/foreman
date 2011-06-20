@@ -8,7 +8,6 @@ class HostgroupsController < ApplicationController
   def index
     begin
       values = Hostgroup.search_for(params[:search],:order => params[:order])
-      flash.clear
     rescue => e
       error e.to_s
       values = Hostgroup.search_for ""
@@ -24,6 +23,11 @@ class HostgroupsController < ApplicationController
 
   def new
     @hostgroup = Hostgroup.new
+  end
+
+  def nest
+    @hostgroup = Hostgroup.new(:parent_id => params[:id])
+    render :action => :new
   end
 
   # Clone the hostgroup

@@ -627,3 +627,7 @@ a.button:active span {
     height: 25px;
 }
 .menu-dropdown {text-transform: capitalize;}
+
+.grey {
+  color:#aaa;
+}

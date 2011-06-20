@@ -1,9 +1,10 @@
 class Hostgroup < ActiveRecord::Base
+  has_ancestry :orphan_strategy => :rootify
   include Authorization
   include HostCommon
   has_and_belongs_to_many :puppetclasses
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :ancestry
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
@@ -43,11 +44,17 @@ class Hostgroup < ActiveRecord::Base
   #TODO: add a method that returns the valid os for a hostgroup
 
   def all_puppetclasses
-    puppetclasses
+    classes
+  end
+
+  alias_method :to_label, :to_s
+
+  def to_label
+    "/" + ancestors.map{|a| a.name + "/"}.join + name
   end
 
   def as_json(options={})
-    super({:only => [:name, :id, :value], :include => [:puppetclasses, :group_parameters, :environment]}.merge(options))
+    super({:only => [:name, :id], :methods => [:classes, :parameters], :include => [:puppetclasses, :group_parameters, :environment]}.merge(options))
   end
 
   def hostgroup
@@ -58,6 +65,27 @@ class Hostgroup < ActiveRecord::Base
     ptable.layout
   end
 
+  def classes
+    klasses = []
+    ids = ancestor_ids
+    ids << id unless new_record? or self.frozen?
+    Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :puppetclasses)).each do |hg|
+      klasses << hg.puppetclasses
+    end
+    klasses.flatten
+  end
+
+  # returns self and parent parameters as a hash
+  def parameters
+    hash = {}
+    ids = ancestor_ids
+    ids << id unless new_record? or self.frozen?
+    Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :group_parameters)).each do |hg|
+      hg.group_parameters.each {|p| hash[p.name] = p.value }
+    end
+    hash
+  end
+
   def params
     parameters = {}
     # read common parameters
@@ -65,7 +93,7 @@ class Hostgroup < ActiveRecord::Base
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
-    hostgroup.group_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless hostgroup.nil?
+    parameters.update self.parameters unless hostgroup.nil?
     parameters
   end
 

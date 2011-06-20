@@ -20,7 +20,7 @@
       <td><%= icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
       <td><%= h host.try(:environment) %></td>
       <td><%= h host.try(:model) %></td>
-      <td><%= h host.try(:hostgroup) %></td>
+      <td><%= hostgroup_name host.hostgroup %></td>
       <td><%= last_report_column(host) %></td>
       <td>
         <%= display_link_if_authorized 'Edit', hash_for_edit_host_path(:id => host) %>
