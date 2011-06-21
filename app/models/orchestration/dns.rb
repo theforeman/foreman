@@ -30,7 +30,7 @@ module Orchestration::DNS
     # Adds the host to the forward DNS zone
     # +returns+ : Boolean true on success
     def setDNSRecord
-      logger.info "Add the DNS record for #{name}/#{ip}"
+      logger.info "{#{User.current.login}}Add the DNS record for #{name}/#{ip}"
       dns.set(:fqdn => name, :value => ip, :type => "A")
     rescue => e
       failure "Failed to create the DNS record: #{proxy_error e}"
@@ -39,7 +39,7 @@ module Orchestration::DNS
     # Adds the host to the reverse DNS zone
     # +returns+ : Boolean true on success
     def setDNSPtr
-      logger.info "Add the Reverse DNS records for #{name}/#{to_arpa}"
+      logger.info "{#{User.current.login}}Add the Reverse DNS records for #{name}/#{to_arpa}"
       dns.set(:fqdn => name, :value => to_arpa, :type => "PTR")
     rescue => e
       failure "Failed to create the Reverse DNS record: #{proxy_error e}"
@@ -48,7 +48,7 @@ module Orchestration::DNS
     # Removes the host from the forward DNS zones
     # +returns+ : Boolean true on success
     def delDNSRecord
-      logger.info "Delete the DNS records for #{name}/#{ip}"
+      logger.info "{#{User.current.login}}Delete the DNS records for #{name}/#{ip}"
       dns.delete(name)
     rescue => e
       failure "Failed to delete the DNS record: #{proxy_error e}"
@@ -57,7 +57,7 @@ module Orchestration::DNS
     # Removes the host from the forward DNS zones
     # +returns+ : Boolean true on success
     def delDNSPtr
-      logger.info "Delete the DNS reverse records for #{name}/#{to_arpa}"
+      logger.info "{#{User.current.login}}Delete the DNS reverse records for #{name}/#{to_arpa}"
       dns.delete(to_arpa)
     rescue => e
       failure "Failed to delete the reverse DNS record: #{proxy_error e}"
