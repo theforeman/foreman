@@ -56,4 +56,11 @@ module HostsAndHostgroupsHelper
     text_field :item, :image_file, :value => value, :disabled => !item.use_image,
                  :id => type + "_image_file", :name => type + "[image_file]", :class => "span-14 last"
   end
+
+  def parent_classes obj
+    return obj.hostgroup.classes if obj.is_a?(Host) and obj.hostgroup
+    return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(Hostgroup)
+    []
+  end
+
 end
