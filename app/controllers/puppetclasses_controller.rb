@@ -7,7 +7,6 @@ class PuppetclassesController < ApplicationController
   def index
     begin
       values = Puppetclass.search_for(params[:search], :order => params[:order])
-      flash.clear
     rescue => e
       error e.to_s
       values = Puppetclass.search_for ""
