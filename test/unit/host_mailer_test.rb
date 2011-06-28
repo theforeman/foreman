@@ -11,7 +11,7 @@ class HostMailerTest < ActionMailer::TestCase
       @env.save
     end
     User.current = User.find_by_login "admin"
-    SETTINGS[:foreman_url] = "http://localhost:3000/hosts/:id"
+    Setting[:foreman_url] = "http://localhost:3000/hosts/:id"
 
     @options = {}
     @options[:env] = @env
@@ -24,16 +24,8 @@ class HostMailerTest < ActionMailer::TestCase
 
   test "mail should have admin as recipient if email is not defined" do
     @options[:email] = nil
-    SETTINGS[:administrator] = "admin@vurbia.com"
+    Setting[:administrator] = "admin@vurbia.com"
     assert HostMailer.deliver_summary(@options).to.include?("admin@vurbia.com")
-  end
-
-  test "mail should have any recipient if email or admin are not defined" do
-    user = User.create :mail => "chuck.norris@vurbia.com", :login => "Chuck_Norris", :auth_source => auth_sources(:one)
-    assert user.valid?
-    @options[:email] = nil
-    SETTINGS[:administrator] = nil
-    assert HostMailer.deliver_summary(@options).to.include?("chuck.norris@vurbia.com")
   end
 
   test "mail should have a subject" do

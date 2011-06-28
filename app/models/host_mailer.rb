@@ -7,7 +7,7 @@ class HostMailer < ActionMailer::Base
     # options our host list if required
     filter = []
 
-    if (body[:url] = SETTINGS[:foreman_url]).empty?
+    if (body[:url] = Setting[:foreman_url]).empty?
       raise ":foreman_url: entry in Foreman configuration file, see http://theforeman.org/projects/foreman/wiki/Mail_Notifications"
     end
 
@@ -31,7 +31,7 @@ class HostMailer < ActionMailer::Base
       # we didnt define a filter, use all hosts instead
       hosts=Host
     end
-    email = options[:email] || SETTINGS[:administrator] || User.all(:select => :mail).map(&:mail)
+    email = options[:email] || Setting[:administrator]
     raise "unable to find recipients" if email.empty?
     recipients email
     from "Foreman-noreply@" + Facter.domain
@@ -49,7 +49,7 @@ class HostMailer < ActionMailer::Base
   def error_state(report)
     host = report.host
     email = host.owner.recipients if SETTINGS[:login] and not host.owner.nil?
-    email = SETTINGS[:administrator] if email.empty?
+    email = Setting[:administrator]   if email.empty?
     raise "unable to find recipients" if email.empty?
     recipients email
     from "Foreman-noreply@" + Facter.domain

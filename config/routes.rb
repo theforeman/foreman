@@ -56,6 +56,7 @@ ActionController::Routing::Routes.draw do |map|
       :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }
   end if SETTINGS[:libvirt]
   map.resources :bookmarks, :except => [:show], :requirements => { :id => /[^\/]+/ }
+  map.resources :settings, :only => [:index, :edit, :update]
   map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
   map.connect '/status', :controller => "home", :action => "status"
 

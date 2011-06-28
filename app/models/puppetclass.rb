@@ -88,7 +88,7 @@ class Puppetclass < ActiveRecord::Base
     relocated      = root != "/"             # This is true if the prepare phase copied the modules tree
 
     # Retrieve an optional http server's DocumentRoot from the settings.yaml file, and prepare it for writing
-    doc_root = Pathname.new(SETTINGS[:document_root] || RAILS_ROOT + "/public") + "puppet/rdoc"
+    doc_root = Pathname.new(Setting[:document_root])
     doc_root.mkpath
     unless doc_root.directory? and doc_root.writable?
       puts "Unable to write html to #{doc_root}"

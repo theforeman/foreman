@@ -15,9 +15,9 @@ module ProxyAPI
 
       # We authenticate only if we are using SSL
       if url.match(/^https/i)
-        cert         = SETTINGS[:ssl_certificate] || Puppet.settings[:hostcert]
-        ca_cert      = SETTINGS[:ssl_ca_file]     || Puppet.settings[:localcacert]
-        hostprivkey  = SETTINGS[:ssl_private_key] || Puppet.settings[:hostprivkey]
+        cert         = Setting[:ssl_certificate]
+        ca_cert      = Setting[:ssl_ca_file]
+        hostprivkey  = Setting[:ssl_private_key]
 
         # Use update rather than merge! as this is not rails dependent
         connect_params.update(

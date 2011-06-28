@@ -368,18 +368,18 @@ class HostsController < ApplicationController
   end
 
   def errors
-    params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)"
+    params[:search]="last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)"
     index "Hosts with errors"
   end
 
   def active
-    params[:search]="last_report > \"#{SETTINGS[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)"
+    params[:search]="last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)"
     index "Active Hosts"
   end
 
   def out_of_sync
-    params[:search]="last_report < \"#{SETTINGS[:puppet_interval]} minutes ago\" and status.enabled = true"
-    index "Hosts which didn't run puppet in the last #{SETTINGS[:puppet_interval]} minutes"
+    params[:search]="last_report < \"#{Setting[:puppet_interval]} minutes ago\" and status.enabled = true"
+    index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval]} minutes"
   end
 
   def disabled

@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   end
 
   def self.create_admin
-    email = SETTINGS[:administrator] || "root@" + Facter.domain
+    email = Setting[:administrator]
     user = User.create(:login => "admin", :firstname => "Admin", :lastname => "User",
                        :mail => email, :auth_source => AuthSourceInternal.first, :password => "changeme")
     user.update_attribute :admin, true

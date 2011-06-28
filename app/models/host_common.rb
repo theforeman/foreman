@@ -26,7 +26,7 @@ module HostCommon
       if puppetca?
         SmartProxy.find(read_attribute(:puppetproxy_id))
       else
-        read_attribute(:puppetmaster_name) || SETTINGS[:puppet_server] || "puppet"
+        read_attribute(:puppetmaster_name) || Setting[:puppet_server]
       end
     end
 
@@ -34,13 +34,13 @@ module HostCommon
       if puppetca?
         write_attribute(:puppetproxy_id, pm.id)
       else
-        write_attribute(:puppetmaster_name, pm == (SETTINGS[:puppet_server] || "puppet") ? nil : pm)
+        write_attribute(:puppetmaster_name, pm == (Setting[:puppet_server]) ? nil : pm)
       end
     end
 
     # no need to store anything in the db if the password is our default
     def root_pass
-      read_attribute(:root_pass) || SETTINGS[:root_pass] || "!*!*!*!*!"
+      read_attribute(:root_pass) || Setting[:root_pass]
     end
 
     # If the host/hostgroup has a medium then use the path from there

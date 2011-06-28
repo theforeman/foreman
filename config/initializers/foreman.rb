@@ -6,24 +6,11 @@ require 'puppet/rails'
 SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 
 SETTINGS[:version] = "0.3"
-# fallback to a 30 minutes run interval if its not defined
-SETTINGS[:puppet_interval] ||= 30
-SETTINGS[:run_interval] = SETTINGS[:puppet_interval].minutes
 
 SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
 Puppet.parse_config
 $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
-
-# Are we sharing the database with Storeconfigs?
-#
-begin
-  SETTINGS[:using_storeconfigs] = !Puppet.settings.instance_variable_get(:@values)[:master][:dbadapter].empty?
-rescue
-  # we can't tell if we share the db or not if we are not running on the same host as the puppetmaster
-  # therefore the user should set this explicitly it the settings file
-end
-
 SETTINGS[:login] ||= SETTINGS[:ldap]
 
 begin

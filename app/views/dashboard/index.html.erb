@@ -9,7 +9,7 @@
         <th>Data</th>
       </tr>
       <tr class="even">
-        <td>Good Host Reports in the last <%= SETTINGS[:puppet_interval] %> minutes</td>
+        <td>Good Host Reports in the last <%= Setting[:puppet_interval] %> minutes</td>
         <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
       </tr>
       <tr class="odd">

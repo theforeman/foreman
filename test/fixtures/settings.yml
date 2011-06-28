@@ -1,0 +1,65 @@
+attributes1:
+  name: administrator
+  category: General
+  default: root@some.host.fqdn
+  description: The Default administrator email address
+attributes2:
+  name: foreman_url
+  category: General
+  default: http://foreman.some.host.fqdn
+attributes3:
+  name: root_pass
+  category: Provisioning
+  default: xybxa6JUkz63w
+  description: Default root password on provisioned hosts default is 123123
+attributes4:
+  name: safemode_render
+  category: Provisioning
+  default: t
+  description: Enable safe mode config templates rendinging(recommended)
+attributes5:
+  name: ssl_certificate
+  category: Provisioning
+  default: /var/lib/puppet/ssl/certs/some.host.fqdn
+  description: SSL Certificate path that foreman would use to communicate with its proxies
+attributes6:
+  name: ssl_ca_file
+  category: Provisioning
+  default: /var/lib/puppet/ssl/certs/ca.pem
+  description: SSL CA file that foreman would use to communicate with its proxies
+attributes7:
+  name: ssl_priv_key
+  category: Provisioning
+  default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
+  description: SSL Private Key file that foreman would use to communicate with its proxies
+attributes8:
+  name: puppet_interval
+  settings_type: integer
+  category: Puppet
+  default: "30"
+  description: Puppet interval in minutes
+attributes9:
+  name: default_puppet_environment
+  category: Puppet
+  default: production
+  description: "The Puppet environment foreman would default to in case it can't auto detect it"
+attributes10:
+  name: modulepath
+  category: Puppet
+  default: /etc/puppet/modules
+  description: "The Puppet default module path in case that Foreman can't auto detect it"
+attributes11:
+  name: document_root
+  category: Puppet
+  default: /home/olevy/git/foreman/public/puppet/rdoc
+  description: Document root where puppetdoc files should be created
+attributes12:
+  name: puppet_server
+  category: Puppet
+  default: puppet
+  description: Default Puppet Server hostname
+attributes13:
+  name: failed_report_email_notification
+  category: Puppet
+  default: false
+  description: Enable Email Alerts per each failed puppet report

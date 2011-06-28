@@ -1,0 +1,21 @@
+<% title "Edit Setting" %>
+
+<% form_for @setting do |f| %>
+  <div class="span-24 last">
+    <%= f.error_messages %>
+    <span class="span-8">
+      <%= f.object %>
+    </span>
+    <span class="span-8">
+      <%= f.label :value %>
+      <%= value(f) %>
+    </span>
+    <span class="span-8 last">
+      <%= f.object.description %>
+    </span>
+
+  </div>
+  <div class="span-24 last"><%= f.submit %></div>
+<% end %>
+
+

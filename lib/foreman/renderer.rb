@@ -2,7 +2,7 @@ module Foreman
   module Renderer
     def render_safe template, allowed_methods = [], allowed_vars = {}
 
-      if SETTINGS[:safemode_render]
+      if Setting[:safemode_render]
         box = Safemode::Box.new self, allowed_methods
         box.eval(ERB.new(template, nil, '-').src, allowed_vars)
       else
@@ -39,7 +39,7 @@ module Foreman
     def unattended_render template
       allowed_helpers   = [ :foreman_url, :grub_pass, :snippet, :snippets, :ks_console, :root_pass ]
       allowed_variables = ({:arch => @arch, :host => @host, :osver => @osver, :mediapath => @mediapath, :static => @static,
-                           :yumrepo => @yumrepo, :dynamic => @dynamic, :epel => @epel,
+                           :yumrepo => @yumrepo, :dynamic => @dynamic, :epel => @epel, :kernel => @kernel, :initrd => @initrd,
                            :preseed_server => @preseed_server, :preseed_path => @preseed_path })
       render_safe template, allowed_helpers, allowed_variables
     end

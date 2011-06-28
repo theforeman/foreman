@@ -1,11 +1,11 @@
 module DashboardHelper
 
   def count_reports()
-    interval = SETTINGS[:puppet_interval] / 10
+    interval = Setting[:puppet_interval] / 10
     counter = []
     labels = []
-    start =Time.now.utc - SETTINGS[:puppet_interval].minutes
-    (1..(SETTINGS[:puppet_interval] / interval)).each do
+    start =Time.now.utc - Setting[:puppet_interval].minutes
+    (1..(Setting[:puppet_interval] / interval)).each do
       now = start + interval.minutes
       counter << [ Report.count(:all, :conditions => {:reported_at => start..(now-1.second)})]
       labels  << [ "'#{time_ago_in_words(start.getlocal)}'" ]
@@ -90,7 +90,7 @@ EOF
       enabled: false,
       },
       title: {
-         text: 'Run Distribution in the last #{SETTINGS[:puppet_interval]} minutes'
+         text: 'Run Distribution in the last #{Setting[:puppet_interval]} minutes'
       },
       xAxis: {
          categories: [ #{data[:labels].join(' ,')} ] ,

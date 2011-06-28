@@ -20,7 +20,7 @@ class Environment < ActiveRecord::Base
     unless Rails.env == "test"
       # reread puppet configuration
       Puppet.clear
-      Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
+      Puppet[:config] = SETTINGS[:puppetconfdir]
     end
     Puppet.parse_config # Check that puppet.conf has not been edited since the rack application was started
     conf = Puppet.settings.instance_variable_get(:@values)
@@ -38,7 +38,7 @@ class Environment < ActiveRecord::Base
     end
     if env.values.compact.size == 0
       # fall back to defaults - we probably don't use environments
-      env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || SETTINGS[:modulepath] || Puppet[:modulepath] || "/etc/puppet/modules"
+      env[:production] = conf[:main][:modulepath] || conf[:puppetmasterd][:modulepath] || Setting[:modulepath]
     end
     return env
   end

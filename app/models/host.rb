@@ -25,8 +25,8 @@ class Host < Puppet::Rails::Host
         :params, :hostgroup, :domain, :ip, :mac
   end
 
-  named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago)]} }
-  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (SETTINGS[:run_interval] + 5.minutes).ago), false]} }
+  named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
+  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
 
   named_scope :with_fact, lambda { |fact,value|
     unless fact.nil? or value.nil?
@@ -241,7 +241,7 @@ class Host < Puppet::Rails::Host
   end
 
   def no_report
-    last_report.nil? or last_report < Time.now - (SETTINGS[:run_interval] + 3.minutes) and enabled?
+    last_report.nil? or last_report < Time.now - (Setting[:puppet_interval] + 3).minutes and enabled?
   end
 
   def disabled?
@@ -265,7 +265,7 @@ class Host < Puppet::Rails::Host
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster.to_s
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
-    if SETTINGS[:ignore_puppet_facts_for_provisioning]
+    if Setting[:ignore_puppet_facts_for_provisioning]
       param["ip"]  = ip
       param["mac"] = mac
     end
@@ -342,7 +342,7 @@ class Host < Puppet::Rails::Host
   end
 
   def populateFieldsFromFacts
-    unless SETTINGS[:ignore_puppet_facts_for_provisioning]
+    unless Setting[:ignore_puppet_facts_for_provisioning]
       self.mac = fv(:macaddress).downcase unless fv(:macaddress).blank?
       self.ip = fv(:ipaddress) if ip.nil?
     end
@@ -352,7 +352,7 @@ class Host < Puppet::Rails::Host
       self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
     end
     # by default, puppet doesnt store an env name in the database
-    env=fv(:environment) || SETTINGS[:default_puppet_environment] || "production"
+    env=fv(:environment) || Setting[:default_puppet_environment]
     self.environment ||= Environment.find_or_create_by_name env
 
     os_name = fv(:operatingsystem)
