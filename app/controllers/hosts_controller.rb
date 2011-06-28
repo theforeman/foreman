@@ -378,8 +378,8 @@ class HostsController < ApplicationController
   end
 
   def out_of_sync
-    params[:search]="last_report < \"#{Setting[:puppet_interval]} minutes ago\" and status.enabled = true"
-    index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval]} minutes"
+    params[:search]="last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true"
+    index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval] + 5} minutes"
   end
 
   def disabled
