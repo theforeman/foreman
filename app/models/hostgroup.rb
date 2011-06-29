@@ -50,6 +50,7 @@ class Hostgroup < ActiveRecord::Base
   alias_method :to_label, :to_s
 
   def to_label
+    return unless name
     "/" + ancestors.map{|a| a.name + "/"}.join + name
   end
 
