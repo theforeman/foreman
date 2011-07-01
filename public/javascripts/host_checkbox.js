@@ -92,6 +92,15 @@ function toggleCheck() {
   return false;
 }
 
+function toggle_multiple_ok_button(elem){
+  var b = $("#multiple-ok", $(elem).closest("div.ui-dialog"));
+  if (elem.value != 'disabled') {
+    b.removeClass("ui-state-disabled").attr("disabled", false);
+  }else{
+    b.addClass("ui-state-disabled").attr("disabled", true);
+  }
+}
+
 // updates the form URL based on the action selection
 function submit_multiple(path) {
   var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});

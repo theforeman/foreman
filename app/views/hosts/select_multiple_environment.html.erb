@@ -2,5 +2,5 @@
 
 <% form_for :environment, :url => update_multiple_environment_hosts_path(:host_ids => params[:host_ids]) do |f| %>
   <%= f.select :id, [["Select Environment", "disabled"],["*Clear environment*", "" ]] + Environment.all.map{|e| [e.name, e.id]},{},
-        :onchange => toggle_ok_button %>
+        :onchange => "toggle_multiple_ok_button(this)" %>
 <% end %>

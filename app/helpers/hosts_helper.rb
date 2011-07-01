@@ -276,16 +276,4 @@ EOF
 EOF
     javascript_tag(function)
   end
-
-  def toggle_ok_button
-    update_page do |page|
-      page << "if (value != 'disabled') {"
-                  page["multiple-ok"].attr('disabled', false)
-                  page["multiple-ok"].removeClass('ui-button-disabled ui-state-disabled')
-      page << "}else{"
-                  page["multiple-ok"].attr('disabled', true)
-                  page["multiple-ok"].addClass('ui-button-disabled ui-state-disabled')
-      page << "}"
-    end
-  end
 end
