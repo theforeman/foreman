@@ -33,6 +33,7 @@ function dropdown(src, dst, func) {
   };
   // toggle drop-down.
   dst.click(function() {
+    if ($("a", this).attr("disabled") == "true") return;
     if ($(this).autocomplete("widget").is(":visible")) {
       $(this).autocomplete("close");
       return;
