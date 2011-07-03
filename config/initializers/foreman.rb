@@ -21,6 +21,9 @@ rescue LoadError
   SETTINGS[:libvirt] = false
 end
 
+# We load the default settings if they are not already present
+Foreman::DefaultSettings::Loader.load(false)
+
 # We load the default settings for the roles if they are not already present
 Foreman::DefaultData::Loader.load(false)
 

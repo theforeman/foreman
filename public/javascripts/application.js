@@ -51,3 +51,32 @@ function template_info(div, url) {
         }
       });
 }
+
+
+// Settings edit
+function edit_setting(name, url) {
+  var html = $('<div></div>').appendTo('body').load(url + " #content");
+  html.dialog({
+    modal: true,
+    title: "Editing " + name,
+    width: 700,
+    height: 250,
+    close: function(event, ui) {},
+    buttons: [
+      {
+        text: "OK",
+        click: function() {
+            $("form").submit();
+            $( this ).dialog( "close" );
+        },
+      },{
+        text: "Cancel",
+        click: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    ]
+  });
+
+  return false;
+}

@@ -14,7 +14,7 @@
       <td><%=h setting.value %></td>
       <td><%=h setting.description %></td>
       <td><%=h setting.category %></td>
-      <td><%= link_to "Edit", edit_setting_path(setting) %></td>
+      <td><%= link_to_function "Edit", "edit_setting('#{setting}','#{edit_setting_path(setting)}')" %></td>
     </tr>
   <% end %>
 </table>

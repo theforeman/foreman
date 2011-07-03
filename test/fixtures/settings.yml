@@ -7,6 +7,7 @@ attributes2:
   name: foreman_url
   category: General
   default: http://foreman.some.host.fqdn
+  description: The URL Foreman should point to in emails etc
 attributes3:
   name: root_pass
   category: Provisioning
@@ -15,7 +16,7 @@ attributes3:
 attributes4:
   name: safemode_render
   category: Provisioning
-  default: t
+  default: "true"
   description: Enable safe mode config templates rendinging(recommended)
 attributes5:
   name: ssl_certificate
@@ -36,7 +37,7 @@ attributes8:
   name: puppet_interval
   settings_type: integer
   category: Puppet
-  default: "30"
+  default: 30
   description: Puppet interval in minutes
 attributes9:
   name: default_puppet_environment
@@ -61,5 +62,5 @@ attributes12:
 attributes13:
   name: failed_report_email_notification
   category: Puppet
-  default: false
+  default: "false"
   description: Enable Email Alerts per each failed puppet report
