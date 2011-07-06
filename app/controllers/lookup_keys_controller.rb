@@ -19,6 +19,15 @@ class LookupKeysController < ApplicationController
     end
   end
 
+  def show
+    return not_found if ((name = params[:host_id]).blank? or (host = Host.find_by_name(name)).blank?)
+    @value = @lookup_key.value_for(host)
+
+    respond_to do |format|
+      format.json { render :json => @value}
+    end
+  end
+
   def edit
   end
 

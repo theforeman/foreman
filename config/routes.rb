@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
     hosts.resources :reports, :requirements => {:host_id => /[^\/]+/}, :only => [:index, :show]
     hosts.resources :facts, :requirements => {:host_id => /[^\/]+/}, :only => :index, :controller => :fact_values
     hosts.resources :puppetclasses, :requirements => {:host_id => /[^\/]+/}, :only => :index
+    hosts.resources :lookup_keys, :requirements => {:host_id => /[^\/]+/}, :only => :show
   end
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.dashboard_auto_completer '/dashboard/auto_complete_search', :controller => 'hosts', :action => :auto_complete_search

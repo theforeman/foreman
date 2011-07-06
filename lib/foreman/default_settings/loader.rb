@@ -46,7 +46,8 @@ module Foreman
               set('puppet_server', "Default Puppet Server hostname", "puppet"),
               set('failed_report_email_notification', "Enable Email Alerts per each failed puppet report", false),
               set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", (!Puppet.settings.instance_variable_get(:@values)[:master][:dbadapter].empty? rescue false)),
-              set('Default_variables_Lookup_Path', "The Default path in which foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"])
+              set('Default_variables_Lookup_Path', "The Default path in which foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"]),
+              set('Enable_Smart_Variables_in_ENC', "Should the smart variables be exposed via the ENC yaml output?", true)
             ].compact.each { |s| create s.update(:category => "Puppet")}
 
 

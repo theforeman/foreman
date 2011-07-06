@@ -273,11 +273,13 @@ class Host < Puppet::Rails::Host
     param.update self.params
 
     # lookup keys
-    klasses  = puppetclasses.map(&:id)
-    klasses += hostgroup.classes.map(&:id) if hostgroup
-    LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
-      param[k.to_s] = k.value_for(self)
-    end unless klasses.empty?
+    if Setting["Enable_Smart_Variables_in_ENC"]
+      klasses  = puppetclasses.map(&:id)
+      klasses += hostgroup.classes.map(&:id) if hostgroup
+      LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
+        param[k.to_s] = k.value_for(self)
+      end unless klasses.empty?
+    end
 
     info_hash = {}
     info_hash['classes'] = self.puppetclasses_names
