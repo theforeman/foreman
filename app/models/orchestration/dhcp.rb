@@ -79,8 +79,12 @@ module Orchestration::DHCP
 
     private
 
+    # where are we booting from
     def boot_server
-      # where are we booting from
+
+      # if we don't manage tftp at all, we dont create a next-server entry.
+      return nil if tftp.nil?
+
       begin
         bs = tftp.bootServer
       rescue RestClient::ResourceNotFound
