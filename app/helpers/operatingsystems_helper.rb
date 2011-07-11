@@ -34,6 +34,8 @@ module OperatingsystemsHelper
       "Solaris"
     when /darwin/i
       "Darwin"
+    when /centos/i
+      "Centos"
     else
       record.family
     end
