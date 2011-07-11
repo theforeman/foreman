@@ -1,13 +1,14 @@
 #!/bin/sh
 cd $SI_CONFIG_DIR
-hostname=`hostname`
-# the servers that runs foreman
-foreman="foreman"
-
+arch=`uname -p`
+foreman=foreman
 # We load the finish script into the logs directory so as to leave a record
-$SI_CONFIG_DIR/curl http://$foreman/unattended/jumpstart_finish > /a/var/sadm/system/logs/puppet.postinstall
+./curl.$arch -s http://$foreman/unattended/finish > /a/var/sadm/system/logs/puppet.postinstall
 # Copy the working nsswitch and resolv.conf into the new server's etc directory
 cp /etc/nsswitch.conf /a/etc
 cp /etc/resolv.conf /a/etc
+# Make a working curl available
+echo "Copying ./curl.$arch /a/tmp/curl"
+cp -p ./curl.$arch /a/tmp/curl
 # Now execute the downloaded finish script in the new root context
 chroot /a /bin/sh /var/sadm/system/logs/puppet.postinstall

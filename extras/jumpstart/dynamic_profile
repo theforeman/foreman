@@ -4,6 +4,7 @@ cd $SI_CONFIG_DIR
 hostname=`hostname`
 dnsdomain=`/sbin/dhcpinfo 15`
 dnsservers=`/sbin/dhcpinfo 6`
+arch=`uname -p`
 echo "domain $dnsdomain" >> /etc/resolv.conf
 for i in $dnsservers
 do
@@ -12,5 +13,5 @@ done
 perl -p -i -e "s/hosts:.*/hosts: files dns/" /tmp/root/etc/nsswitch.conf
 # and then download our configuration from foreman
 foreman="foreman"
-./curl http://$foreman/unattended/jumpstart_profile > ${SI_PROFILE}
+./curl.$arch -s http://$foreman/unattended/provision > ${SI_PROFILE}
 exit 0

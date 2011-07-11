@@ -6,4 +6,5 @@ terminal=vt100
 timeserver=localhost
 name_service=none
 nfs4_domain=default
-root_password=BeyKOhxKk6A/6
+root_password={FILTERED]
+auto_reg=disable
