@@ -17,7 +17,7 @@ module ProxyAPI
       if url.match(/^https/i)
         cert         = Setting[:ssl_certificate]
         ca_cert      = Setting[:ssl_ca_file]
-        hostprivkey  = Setting[:ssl_private_key]
+        hostprivkey  = Setting[:ssl_priv_key]
 
         # Use update rather than merge! as this is not rails dependent
         connect_params.update(
