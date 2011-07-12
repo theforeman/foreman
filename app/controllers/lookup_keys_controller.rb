@@ -24,7 +24,7 @@ class LookupKeysController < ApplicationController
     @value = @lookup_key.value_for(host)
 
     respond_to do |format|
-      format.json { render :json => @value}
+      format.json { render :json => { :value => @value } }
     end
   end
 
