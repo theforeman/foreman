@@ -63,7 +63,7 @@ module Orchestration::DHCP
     def setDHCP
       logger.info "{#{User.current.login}}Add a DHCP reservation for #{name}/#{ip}"
       dhcp.set subnet.network,({:name => name, :filename => operatingsystem.boot_filename,
-                               :ip => ip, :nextserver => boot_server, :mac => mac})
+                               :ip => ip, :nextserver => boot_server, :mac => mac, :hostname => name})
     rescue => e
       failure "Failed to set the DHCP record: #{proxy_error e}"
     end
