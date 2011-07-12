@@ -5,7 +5,8 @@ class Host < Puppet::Rails::Host
   belongs_to :model
   belongs_to :domain
   belongs_to :operatingsystem
-  has_and_belongs_to_many :puppetclasses
+  has_many :host_classes, :dependent => :destroy
+  has_many :puppetclasses, :through => :host_classes
   belongs_to :environment
   belongs_to :subnet
   belongs_to :ptable
