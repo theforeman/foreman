@@ -22,8 +22,16 @@ class FactValue < Puppet::Rails::FactValue
   # required only on facts that return a unit (e.g. MB, GB etc)
   # normal  facts could be used via the sum and AR average
   def self.mem_average(fact)
-    values=all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}})
-    return values.size > 0 ? (values.map{|fv| fv.value.to_gb}.sum / values.size).round_with_precision(1) : 0
+    total, count = to_gb(fact)
+    return 0 if count == 0
+    (total / count).round_with_precision(1)
+  end
+
+  # returns the rounded total of memory fact values (e.g. MB, GB etc)
+  def self.mem_sum(fact)
+    to_gb(fact).first.round_with_precision(1)
+  rescue
+    0
   end
 
   # returns the sum of each value, e.g. how many machines with 2,4...n cpu's
@@ -47,6 +55,16 @@ class FactValue < Puppet::Rails::FactValue
       hash[fact.host.to_s].update({fact.name.to_s => fact.value})
     end
     return hash
+  end
+
+  private
+  # converts all strings with units (such as 1 MB) to GB scale and Sum them
+  # returns an array with total sum and number of elements
+  def self.to_gb fact
+    values = all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}).map do |fv|
+      fv.value.to_gb
+    end
+    [ values.sum, values.count ]
   end
 
 end
