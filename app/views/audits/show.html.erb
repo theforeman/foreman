@@ -3,6 +3,7 @@
 <table class="list">
   <tr>
     <th>What</th>
+    <th>Parent</th>
     <th>Old</th>
     <th>New</th>
   </tr>
@@ -10,6 +11,7 @@
     <% next if change.nil? or change.to_s.empty? -%>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= h name.humanize %></td>
+      <td><%= h audit_parent @audit %></td>
       <%# TODO: Refactor this whole code away from here -%>
       <% record = true if name =~ /.*_id$/ -%>
       <% if change.is_a?(Array) %>

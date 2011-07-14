@@ -21,5 +21,4 @@ class Audit < ActiveRecord::Base
   scoped_search :in => :search_hosts,        :on => :name,  :complete_value => true, :rename => :host
   scoped_search :in => :search_users,        :on => :login, :complete_value => true, :rename => :user
 
-
 end

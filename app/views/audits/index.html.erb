@@ -4,6 +4,7 @@
   <tr>
     <th><%= sort :changed %></th>
     <th>Object</th>
+    <th>Parent</th>
     <th><%= sort :action %></th>
     <th><%= sort :changed_at, :as => "Changed at" %></th>
     <th>Changes</th>
@@ -14,6 +15,7 @@
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=h auditable_type(audit) %></td>
       <td><%=h audit_title(audit) %></td>
+      <td><%=h audit_parent(audit) %></td>
       <td><%=h audit.action %></td>
       <td><%=h audit.created_at.to_s(:long) %></td>
       <td><%=h changes_column audit.changes %></td>

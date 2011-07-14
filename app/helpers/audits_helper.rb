@@ -12,6 +12,10 @@ module AuditsHelper
     audit.try(:auditable).try(:name)
   end
 
+  def audit_parent audit
+    audit.try(:auditable_parent).try(:name)
+  end
+
   def auditable_type audit
     audit.auditable_type.split("::").last
   end

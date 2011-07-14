@@ -1,5 +1,6 @@
 class HostParameter < Parameter
   belongs_to :host, :foreign_key => :reference_id
+  acts_as_audited :except => [:priority], :parent => :host
   validates_uniqueness_of :name, :scope => :reference_id
 
   def to_s
