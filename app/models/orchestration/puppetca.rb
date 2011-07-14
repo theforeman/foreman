@@ -50,6 +50,7 @@ module Orchestration::Puppetca
 
     def queue_puppetca
       return unless puppetca? and errors.empty?
+      return unless Setting[:manage_puppetca]
       new_record? ? queue_puppetca_create : queue_puppetca_update
     end
 
@@ -69,6 +70,7 @@ module Orchestration::Puppetca
 
     def queue_puppetca_destroy
       return unless puppetca? and errors.empty?
+      return unless Setting[:manage_puppetca]
       queue.create(:name => "Delete PuppetCA certificates for #{self}", :priority => 50,
                    :action => [self, :delCertificate])
       queue.create(:name => "Delete PuppetCA certificates for #{self}", :priority => 55,
