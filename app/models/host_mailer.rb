@@ -35,11 +35,21 @@ class HostMailer < ActionMailer::Base
     raise "unable to find recipients" if email.empty?
     recipients email
     from "Foreman-noreply@" + Facter.domain
-    subject "Summary Puppet report from Foreman"
     sent_on Time.now
     time = options[:time] || 1.day.ago
+    host_data = Report.summarise(time, hosts.all).sort
+    total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}
+    host_data.flatten.delete_if { |x| true unless x.is_a?(Hash) }.each do |data_hash|
+      total_metrics["failed"]          += data_hash[:metrics]["failed"]
+      total_metrics["restarted"]       += data_hash[:metrics]["restarted"]
+      total_metrics["skipped"]         += data_hash[:metrics]["skipped"]
+      total_metrics["applied"]         += data_hash[:metrics]["applied"]
+      total_metrics["failed_restarts"] += data_hash[:metrics]["failed_restarts"]
+    end
+    total = 0 ; total_metrics.values.each { |v| total += v }
+    subject "Summary Puppet report from Foreman - F:#{total_metrics["failed"]} R:#{total_metrics["restarted"]} S:#{total_metrics["skipped"]} A:#{total_metrics["applied"]} FR:#{total_metrics["failed_restarts"]} T:#{total}"
     content_type "text/html"
-    body[:hosts] = Report.summarise(time, hosts.all).sort
+    body[:hosts] = host_data
     body[:timerange] = time
     body[:out_of_sync] = hosts.out_of_sync
     body[:disabled] = hosts.alerts_disabled
