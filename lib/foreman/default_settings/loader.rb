@@ -34,6 +34,7 @@ module Foreman
               set('ssl_certificate', "SSL Certificate path that foreman would use to communicate with its proxies", Puppet.settings[:hostcert]),
               set('ssl_ca_file',  "SSL CA file that foreman would use to communicate with its proxies", Puppet.settings[:localcacert]),
               set('ssl_priv_key', "SSL Private Key file that foreman would use to communicate with its proxies", Puppet.settings[:hostprivkey]),
+              set('manage_puppetca', "Should foreman automate certificate signing upon provisioning new host", true),
               set('ignore_puppet_facts_for_provisioning', "Does not update ipaddress and MAC values from puppet facts", false)
             ].each { |s| create s.update(:category => "Provisioning")}
 

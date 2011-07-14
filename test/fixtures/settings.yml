@@ -69,3 +69,8 @@ attributes14:
   category: Puppet
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
+attributes15:
+  name: manage_puppetca
+  category: Provisioning
+  default: true
+  description: Should Foreman manage host certificates when provisioning hosts

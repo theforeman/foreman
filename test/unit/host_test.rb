@@ -321,5 +321,10 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate({:kind => "finish"})
   end
 
+ test "when provisioning a new host we should not call puppetca if its disabled" do
+   # TODO improve this test :-)
+   Setting[:manage_puppetca] = false
+   assert hosts(:one).handle_ca
+ end
 
 end

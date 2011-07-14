@@ -177,7 +177,7 @@ class Host < Puppet::Rails::Host
     # If this save fails then an exception is raised and further actions are not processed
     unless Rails.env == "test"
       # Disallow any auto signing for our host.
-      GW::Puppetca.disable name unless puppetca?
+      GW::Puppetca.disable name unless puppetca? or not Setting[:manage_puppetca]
       GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
     end
     self.save
@@ -196,6 +196,7 @@ class Host < Puppet::Rails::Host
   # Returns : Boolean status of the operation
   def handle_ca
     return true if Rails.env == "test"
+    return true if Setting[:manage_puppetca]
     if puppetca?
       respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
     else
