@@ -327,4 +327,12 @@ class HostTest < ActiveSupport::TestCase
    assert hosts(:one).handle_ca
  end
 
+ test "custom_disk_partition_with_erb" do
+   h = hosts(:one)
+   h.disk = "<%= 1 + 1 %>"
+   h.save
+
+   assert_equal "2", h.diskLayout
+ end
+
 end

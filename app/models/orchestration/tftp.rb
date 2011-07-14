@@ -73,7 +73,6 @@ module Orchestration::TFTP
       end
     end
 
-    include Foreman::Renderer
     def generate_pxe_template
       # this is the only place we generate a template not via a web request
       # therefore some workaround is required to "render" the template.

@@ -106,6 +106,7 @@ class Host < Puppet::Rails::Host
   validates_presence_of    :name, :environment_id
   if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
+    include Foreman::Renderer
     include Orchestration
 
     validates_uniqueness_of  :ip, :if => Proc.new {|host| host.managed}
@@ -207,7 +208,7 @@ class Host < Puppet::Rails::Host
 
   # returns the host correct disk layout, custom or common
   def diskLayout
-    (disk.empty? ? ptable.layout : disk).gsub("\r","")
+    pxe_render((disk.empty? ? ptable.layout : disk).gsub("\r",""))
   end
 
   # returns a configuration template (such as kickstart) to a given host

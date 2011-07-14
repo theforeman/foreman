@@ -2,7 +2,7 @@
 
 one:
   name: default
-  layout: zerombr yes\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+  layout: zerombr yes\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
 
 ubuntu:
   name: ubuntu default
