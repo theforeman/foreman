@@ -50,8 +50,6 @@ module Foreman
               set('Default_variables_Lookup_Path', "The Default path in which foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"]),
               set('Enable_Smart_Variables_in_ENC', "Should the smart variables be exposed via the ENC yaml output?", true)
             ].compact.each { |s| create s.update(:category => "Puppet")}
-
-
           end
           true
         end

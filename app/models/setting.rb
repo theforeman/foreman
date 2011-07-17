@@ -1,4 +1,5 @@
 class Setting < ActiveRecord::Base
+  include Authorization
   attr_accessible :name, :value, :description, :category, :settings_type, :default
   # audit the changes to this model
   acts_as_audited :only => [:value], :on => [:update]
@@ -14,6 +15,7 @@ class Setting < ActiveRecord::Base
   before_validation :fix_types
   before_save :save_as_settings_type
   validate :validate_attributes
+  default_scope :order => 'LOWER(settings.name)'
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :category, :complete_value => :true
@@ -99,6 +101,15 @@ class Setting < ActiveRecord::Base
       end
     end
     true
+  end
+
+  def enforce?
+    # if there are no users in the system, we allow changing of settings
+    # this is mostly required for first time foreman is running or if someone deleted all users.
+    return false if User.first.nil? rescue true
+    # we need to allow rake test to create our settings
+    return false if defined?(Rake) and Rails.env == "test"
+    super
   end
 
 end

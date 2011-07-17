@@ -1,5 +1,6 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :require_admin
 
   def index
     values = Setting.search_for(params[:search], :order => params[:order])
