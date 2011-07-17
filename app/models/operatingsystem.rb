@@ -87,7 +87,11 @@ class Operatingsystem < ActiveRecord::Base
 
   # The OS is usually represented as the catenation of the OS and the revision
   def to_label
-    "#{name} #{major}#{('.' + minor) unless minor.empty?}"
+    "#{name} #{release}"
+  end
+
+  def release
+    "#{major}#{('.' + minor) unless minor.empty?}"
   end
 
   def to_s

@@ -56,7 +56,7 @@ class HostsController < ApplicationController
         # summary report text
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
-      format.yaml { render :text => @host.info.to_yaml }
+      format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : rundeck.to_yaml }
       format.json { render :json => @host }
     end
   end
@@ -553,6 +553,16 @@ class HostsController < ApplicationController
 
   def disconnect_from_hypervisor
     @hypervisor.disconnect if @hypervisor
+  end
+
+  # returns a rundeck view
+  def rundeck
+    raise "must define a @host" unless @host
+
+    {@host.name => { "desciption" =>  @host.comment, "hostname" => @host.name, "nodename" => @host.name,
+      "osArch" => @host.arch.name, "osFamily" => @host.os.family, "osName" => @host.os.name,
+      "osVersion" => @host.os.release, "tags" => @host.puppetclasses_names, "username" => @host.owner.try(:name) }
+    }
   end
 
 end
