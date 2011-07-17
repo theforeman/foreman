@@ -64,7 +64,7 @@ class FactValue < Puppet::Rails::FactValue
     values = all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}).map do |fv|
       fv.value.to_gb
     end
-    [ values.sum, values.count ]
+    [ values.sum, values.size ]
   end
 
 end
