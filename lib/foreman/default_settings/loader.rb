@@ -27,6 +27,7 @@ module Foreman
               set('administrator', "The Default administrator email address", "root@#{domain}"),
               set('foreman_url',   "The hostname where your foreman instance is running on", "foreman.#{domain}"),
               set('email_replay_address', "The email replay address for emails that foreman is sending", "Foreman-noreply@#{domain}"),
+              set('entries_per_page', "The amount of records shown per page in foreman", 20),
             ].each { |s| create s.update(:category => "General")}
 
             [

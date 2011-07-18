@@ -74,3 +74,8 @@ attributes15:
   category: Provisioning
   default: true
   description: Should Foreman manage host certificates when provisioning hosts
+attributes16:
+  name: entries_per_page
+  category: General
+  default: 20
+  description: The amount of records shown per page in foreman

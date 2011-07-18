@@ -55,7 +55,7 @@ class ActiveRecord::Base
   alias_attribute :to_s, :to_label
 
   def self.per_page
-    20
+    Setting["entries_per_page"]
   end
 
   def self.unconfigured?
