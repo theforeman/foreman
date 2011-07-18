@@ -1,8 +1,8 @@
 class Report < ActiveRecord::Base
   include Authorization
   belongs_to :host
-  has_many :messages, :through => :logs, :dependent => :destroy
-  has_many :sources, :through => :logs, :dependent => :destroy
+  has_many :messages, :through => :logs
+  has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
   validates_presence_of :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
@@ -177,8 +177,43 @@ class Report < ActiveRecord::Base
     status = conditions[:status]
     cond = "created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and status = #{status}" unless status.nil?
-    # delete the reports, must use destroy_all vs. delete_all because of assoicated logs and METRIC
-    count = Report.destroy_all(cond)
+    # using find in batches to reduce the memory abuse
+    # trying to be smart about how to delete reports and their associated data, so it would be
+    # as fast as possible without a lot of performance penalties.
+    count = 0
+    Report.find_in_batches(:conditions => cond, :select => :id) do |reports|
+      report_ids = reports.map &:id
+      Log.delete_all({:report_id => report_ids})
+      count += Report.delete_all({:id => report_ids})
+    end
+    # try to find all non used logs, messages and sources
+
+    # first extract all information from our logs
+    all_reports, used_messages, used_sources = [],[],[]
+    Log.find_in_batches do |logs|
+      logs.each do |log|
+        all_reports << log.report_id unless log.report_id.blank?
+        used_messages << log.message_id unless log.message_id.blank?
+        used_sources << log.source_id unless log.source_id.blank?
+      end
+    end
+
+    all_reports.uniq! ; used_messages.uniq! ; used_sources.uniq!
+
+    # reports which have logs entries
+    used_reports = Report.all(:select => :id, :conditions => {:id => all_reports}).map(&:id)
+
+    orphaned_logs = all_reports - used_reports
+    Log.delete_all({:report_id => orphaned_logs}) unless orphaned_logs.empty?
+
+    all_messages = Message.all(:select => :id).map(&:id)
+    orphaned_messages = all_messages - used_messages
+    Message.delete_all({:id => orphaned_messages}) unless orphaned_messages.empty?
+
+    all_sources = Source.all(:select => :id).map(&:id)
+    orphaned_sources = all_sources - used_sources
+    Source.delete_all({:id => orphaned_sources}) unless orphaned_sources.empty?
+
     logger.info Time.now.to_s + ": Expired #{count} Reports"
     return count
   end
