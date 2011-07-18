@@ -62,7 +62,7 @@ if options[:command].empty? or (options[:facts].empty? and options[:class].empty
 end
 
 unless ARGV.empty?
-  warn "unkonwn parameter #{ARGV.join(" ")}"
+  warn "unknown parameter #{ARGV.join(" ")}"
   exit 1
 end
 
