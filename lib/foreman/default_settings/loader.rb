@@ -26,6 +26,7 @@ module Foreman
             [
               set('administrator', "The Default administrator email address", "root@#{domain}"),
               set('foreman_url',   "The hostname where your foreman instance is running on", "foreman.#{domain}"),
+              set('email_replay_address', "The email replay address for emails that foreman is sending", "Foreman-noreply@#{domain}"),
             ].each { |s| create s.update(:category => "General")}
 
             [

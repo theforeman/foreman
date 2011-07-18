@@ -34,7 +34,7 @@ class HostMailer < ActionMailer::Base
     email = options[:email] || Setting[:administrator]
     raise "unable to find recipients" if email.empty?
     recipients email
-    from "Foreman-noreply@" + Facter.domain
+    from Setting["email_replay_address"]
     sent_on Time.now
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, hosts.all).sort
@@ -62,7 +62,7 @@ class HostMailer < ActionMailer::Base
     email = Setting[:administrator]   if email.empty?
     raise "unable to find recipients" if email.empty?
     recipients email
-    from "Foreman-noreply@" + Facter.domain
+    from Setting["email_replay_address"]
     subject "Puppet error on #{host.to_label}"
     sent_on Time.now
     content_type "text/html"
