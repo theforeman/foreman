@@ -1,13 +1,12 @@
 class MediaController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
   before_filter :find_medium, :only => %w{show edit update destroy}
 
   def index
+    values = Medium.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html do
-        @search = Medium.search params[:search]
-        @media = @search.paginate(:page => params[:page], :include => [:operatingsystems])
-      end
-      format.json { render :json => Medium.all.as_json }
+      format.html { @media = values.paginate(:page => params[:page], :include => [:operatingsystems]) }
+      format.json { render :json => values.as_json }
     end
   end
 

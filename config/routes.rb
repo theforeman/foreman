@@ -28,22 +28,22 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :notices, :only => :destroy
   map.resources :audits, :collection => {:auto_complete_search => :get}
   map.resources :usergroups
-  map.resources :domains, :requirements => {:id => /[^\/]+/}
+  map.resources :domains, :requirements => {:id => /[^\/]+/}, :collection => {:auto_complete_search => :get}
   map.resources :operatingsystems, :member => {:bootfiles => :get}, :collection => {:auto_complete_search => :get}
-  map.resources :media
-  map.resources :models
-  map.resources :architectures
+  map.resources :media, :collection => {:auto_complete_search => :get}
+  map.resources :models, :collection => {:auto_complete_search => :get}
+  map.resources :architectures, :collection => {:auto_complete_search => :get}
   map.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}
   map.resources :puppetclasses, :member => { :assign => :post }, :collection => {:import_environments => :get, :auto_complete_search => :get} do |pc|
     pc.resources :hosts, :requirements => {:id => /[^\/]+/}
     pc.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}
   end
   map.resources :hostgroups, :member => { :nest => :get, :clone => :get }, :collection => { :auto_complete_search => :get }
-  map.resources :common_parameters
-  map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post}
+  map.resources :common_parameters, :collection => {:auto_complete_search => :get}
+  map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post, :auto_complete_search => :get}
   map.resources :fact_values, :only => [:create, :index], :collection => { :auto_complete_search => :get }
-  map.resources :ptables
-  map.resources :roles, :collection => {:report => [:get, :post]}
+  map.resources :ptables, :collection => {:auto_complete_search => :get}
+  map.resources :roles, :collection => {:report => [:get, :post], :auto_complete_search => :get}
   map.resources :auth_source_ldaps
   map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get, :auto_complete_search => :get}
   map.resources :config_templates, :except => [:show], :collection => { :auto_complete_search => :get }, :requirements => { :id => /[^\/]+/ }
@@ -51,7 +51,7 @@ ActionController::Routing::Routes.draw do |map|
     proxy.resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :update, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
     proxy.resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
   end
-  map.resources :subnets, :except => [:show]
+  map.resources :subnets, :except => [:show], :collection => {:auto_complete_search => :get}
   map.resources :hypervisors, :requirements => { :id => /[^\/]+/ } do |hypervisor|
     hypervisor.resources :guests, :controller => "Hypervisors::Guests", :except => [:edit],
       :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }

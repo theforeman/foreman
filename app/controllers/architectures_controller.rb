@@ -1,13 +1,12 @@
 class ArchitecturesController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
+    values = Architecture.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html do
-        @search        = Architecture.search(params[:search])
-        @architectures = @search.paginate(:page => params[:page], :include => :operatingsystems)
-      end
-      format.json { render :json => Architecture.all }
+      format.html { @architectures = values.paginate(:page => params[:page], :include => :operatingsystems) }
+      format.json { render :json => values }
     end
   end
 

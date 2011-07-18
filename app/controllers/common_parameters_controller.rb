@@ -1,10 +1,11 @@
 class CommonParametersController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
+
   def index
-    @search            = CommonParameter.search(params[:search])
-    @common_parameters = @search.paginate(:page => params[:page])
+    values = CommonParameter.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html
-      format.json { render :json => @common_parameters}
+      format.html { @common_parameters = values.paginate(:page => params[:page]) }
+      format.json { render :json => values}
     end
   end
 

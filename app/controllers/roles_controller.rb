@@ -16,11 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class RolesController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
   before_filter :require_admin
 
   def index
-    @search = Role.search(params[:search])
-    @roles = @search.paginate(:page => params[:page], :order => "builtin ASC, name ASC")
+    values = Role.search_for(params[:search], :order => params[:order])
+    respond_to do |format|
+      format.html { @roles = values.paginate :page => params[:page] }
+      format.json { render :json => values }
+    end
   end
 
   def new

@@ -10,6 +10,8 @@ class Environment < ActiveRecord::Base
   before_destroy Ensure_not_used_by.new(:hosts)
   default_scope :order => 'LOWER(environments.name)'
 
+  scoped_search :on => :name, :complete_value => :true
+
   def to_param
     name
   end

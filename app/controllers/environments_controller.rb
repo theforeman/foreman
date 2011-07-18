@@ -1,15 +1,14 @@
 class EnvironmentsController < ApplicationController
   include Foreman::Controller::Environments
+  include Foreman::Controller::AutoCompleteSearch
 
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
+    values = Environment.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html do
-        @search       = Environment.search(params[:search])
-        @environments = @search.paginate :page => params[:page]
-      end
-      format.json { render :json => Environment.all.as_json }
+      format.html { @environments = values.paginate :page => params[:page] }
+      format.json { render :json => values.as_json }
     end
   end
 

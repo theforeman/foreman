@@ -7,6 +7,8 @@ class Architecture < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   acts_as_audited
 
+  scoped_search :on => :name, :complete_value => :true
+
   def to_param
     name
   end

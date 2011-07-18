@@ -40,6 +40,8 @@ class Role < ActiveRecord::Base
   validates_format_of :name, :with => /^\w[\w\s\'\-]*\w$/i
   validates_inclusion_of :builtin, :in => 0..2
 
+  scoped_search :on => :name, :complete_value => true
+
   def initialize *args
     super *args
     self.builtin = 0

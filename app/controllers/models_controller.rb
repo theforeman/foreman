@@ -1,7 +1,12 @@
 class ModelsController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
+
   def index
-    @search = Model.search params[:search]
-    @models = @search.paginate :page => params[:page]
+    values = Model.search_for(params[:search], :order => params[:order])
+    respond_to do |format|
+      format.html { @models = values.paginate :page => params[:page] }
+      format.json { render :json => values }
+    end
   end
 
   def new

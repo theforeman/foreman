@@ -13,6 +13,8 @@ class Domain < ActiveRecord::Base
   validates_uniqueness_of :fullname, :allow_blank => true, :allow_nil => true
   validates_presence_of :name
 
+  scoped_search :on => [:name, :fullname], :complete_value => true
+
   before_destroy Ensure_not_used_by.new(:hosts, :subnets)
   default_scope :order => 'LOWER(domains.name)'
   def to_param

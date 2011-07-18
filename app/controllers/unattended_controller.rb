@@ -12,7 +12,7 @@ class UnattendedController < ApplicationController
   FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.name_like("finish").map(&:name)
 
   # We dont require any of these methods for provisioning
-  skip_before_filter :require_ssl, :require_login, :authorize, :load_tabs, :manage_tabs
+  skip_before_filter :require_ssl, :require_login, :authorize
 
   # We want to find out our requesting host
   before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS + [:template]

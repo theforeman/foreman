@@ -5,4 +5,7 @@ class Model < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
   default_scope :order => 'LOWER(models.name)'
+
+  scoped_search :on => :name, :complete_value => :true, :default_order => true
+  scoped_search :on => :info
 end

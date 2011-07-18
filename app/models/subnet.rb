@@ -16,6 +16,9 @@ class Subnet < ActiveRecord::Base
 
   before_destroy Ensure_not_used_by.new(:hosts, :sps)
 
+  scoped_search :on => [:name, :network, :mask], :complete_value => true
+  scoped_search :in => :domain, :on => :name, :rename => :domain, :complete_value => true
+
   # Subnets are displayed in the form of their network network/network mask
   def to_label
     "#{network}/#{cidr}"

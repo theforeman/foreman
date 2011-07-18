@@ -14,4 +14,9 @@ module Foreman::Controller::AutoCompleteSearch
     render :json => @items
   end
 
+  def invalid_search_query(e)
+    error "Invalid search query: #{e}"
+    redirect_to :back
+  end
+
 end
