@@ -197,7 +197,7 @@ class Host < Puppet::Rails::Host
   # Returns : Boolean status of the operation
   def handle_ca
     return true if Rails.env == "test"
-    return true if Setting[:manage_puppetca]
+    return true unless Setting[:manage_puppetca]
     if puppetca?
       respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
     else
