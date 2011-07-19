@@ -1,5 +1,4 @@
 class HostsController < ApplicationController
-  include Facts
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 

@@ -1,5 +1,4 @@
 class FactValuesController < ApplicationController
-  include Facts
   include Foreman::Controller::AutoCompleteSearch
 
   skip_before_filter :require_ssl,               :only => :create
