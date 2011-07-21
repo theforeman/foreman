@@ -5,12 +5,16 @@
 <table class="list">
   <tr>
     <th><%= sort :name %></th>
+    <th>Vendor class</th>
+    <th>Hardware model</th>
     <th>Hosts</th>
     <th></th>
   </tr>
   <% for model in @models %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=link_to_if_authorized h(model.name), hash_for_edit_model_path(:id => model)%></td>
+      <td><%=h(model.vendor_class)%></td>
+      <td><%=h(model.hardware_model)%></td>
       <td class="ra"><%= link_to model.hosts.count, hosts_path(:search=>"model = #{model.name}") %></td>
       <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_model_path(:id => model, :auth_action => :destroy), :confirm => "Delete #{model.name}?", :method => :delete %>

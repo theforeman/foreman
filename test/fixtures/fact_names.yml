@@ -1,10 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-x86_64:
-   name: x86_64
-
-sparc:
-  name: sparc
+productname:
+  name: productname
+  id: 1
 #
 # two:
 #   column: value

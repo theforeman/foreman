@@ -9,7 +9,7 @@ centos5_3:
   architectures: x86_64
 
 redhat:
-  name: Redhat 
+  name: Redhat
   major: 6
   minor: 1
   type: Redhat
@@ -19,3 +19,13 @@ ubuntu1010:
   major: 10
   minor: 10
   type: Debian
+
+solaris10:
+  name: Solaris
+  major: 5
+  minor: 10
+  type: Solaris
+  media: solaris10
+  architectures: sparc
+  release_name: hw0910
+

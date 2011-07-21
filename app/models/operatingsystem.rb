@@ -146,7 +146,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename
+  def boot_filename host=nil
     "pxelinux.0"
   end
 

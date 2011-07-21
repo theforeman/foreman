@@ -52,7 +52,11 @@ module HostCommon
         if operatingsystem.try(:media) and operatingsystem.media.size == 1
           nfs_path ||= operatingsystem.media.first.image_path
         end
-        operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) + "#{operatingsystem.file_prefix}.#{architecture}.#{operatingsystem.image_extension}"
+        # We encode the hw_model into the image file name as not all Sparc flashes can contain all possible hw_models. The user can always
+        # edit it if required or use symlinks if they prefer.
+        hw_model = model.try :hardware_model
+        operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) +\
+          "#{operatingsystem.file_prefix}.#{architecture}#{hw_model.empty? ? "" : "." + hw_model.downcase}.#{operatingsystem.image_extension}"
       else
         ""
       end

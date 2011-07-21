@@ -37,7 +37,8 @@ module Foreman
     end
 
     def unattended_render template
-      allowed_helpers   = [ :foreman_url, :grub_pass, :snippet, :snippets, :ks_console, :root_pass ]
+      allowed_helpers   = [ :foreman_url, :grub_pass, :snippet, :snippets, :ks_console, :root_pass, :multiboot, :jumpstart_path, :install_path,
+                            :miniroot]
       allowed_variables = ({:arch => @arch, :host => @host, :osver => @osver, :mediapath => @mediapath, :static => @static,
                            :yumrepo => @yumrepo, :dynamic => @dynamic, :epel => @epel, :kernel => @kernel, :initrd => @initrd,
                            :preseed_server => @preseed_server, :preseed_path => @preseed_path })

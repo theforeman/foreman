@@ -4,7 +4,7 @@ module Orchestration::DHCP
     base.class_eval do
       attr_reader :dhcp
       after_validation  :initialize_dhcp, :queue_dhcp
-      before_destroy    :initialize_dhcp, :queue_dhcp_destory
+      before_destroy    :initialize_dhcp, :queue_dhcp_destroy
       validate :ip_belongs_to_subnet?
     end
   end
@@ -62,8 +62,18 @@ module Orchestration::DHCP
     # +returns+ : Boolean true on success
     def setDHCP
       logger.info "{#{User.current.login}}Add a DHCP reservation for #{name}/#{ip}"
-      dhcp.set subnet.network,({:name => name, :filename => operatingsystem.boot_filename,
-                               :ip => ip, :nextserver => boot_server, :mac => mac, :hostname => name})
+      dhcp_attr = {:name => name, :filename => operatingsystem.boot_filename(self),
+                   :ip => ip, :mac => mac, :hostname => name}
+
+      next_server = boot_server
+      dhcp_attr.merge!(:nextserver => next_server) if next_server
+
+      if jumpstart?
+        jumpstart_arguments = os.jumpstart_params self
+        dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
+      end
+
+      dhcp.set subnet.network, dhcp_attr
     rescue => e
       failure "Failed to set the DHCP record: #{proxy_error e}"
     end
@@ -130,10 +140,19 @@ module Orchestration::DHCP
                        :action => [old, :delSPDHCP])
         end
       end
+      # Handle jumpstart
+      if jumpstart?
+        if !old.build? or (old.medium != medium or old.arch != arch) or
+                          (os and old.os and (old.os.name != os.name or old.os != os))
+          update = true
+          old.initialize_dhcp if old.dhcp.nil? and old.dhcp?
+          queue.create(:name => "DHCP Settings for #{old}", :priority => 5, :action => [old, :delDHCP])
+        end
+      end
       queue_dhcp_create if update
     end
 
-    def queue_dhcp_destory
+    def queue_dhcp_destroy
       return unless dhcp? and errors.empty?
       queue.create(:name => "DHCP Settings for #{self}", :priority => 5,
                    :action => [self, :delDHCP])
@@ -153,6 +172,5 @@ module Orchestration::DHCP
       # probably an invalid ip / subnet were entered
       # we let other validations handle that
     end
-
   end
 end

@@ -11,4 +11,11 @@ module HostTemplateHelpers
     operatingsystem.jumpstart_path medium, domain
   end
 
+  def multiboot
+    operatingsystem.pxe_prefix(architecture) + "-multiboot"
+  end
+
+  def miniroot
+    operatingsystem.initrd(architecture)
+  end
 end

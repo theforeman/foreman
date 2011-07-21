@@ -3,3 +3,8 @@
 one:
   name: KVM
   info: Virtual Machine
+
+V210:
+  name: SUN V210
+  vendor_class: Sun-Fire-V210
+  hardware_model: SUN4U

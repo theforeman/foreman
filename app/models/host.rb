@@ -380,8 +380,10 @@ class Host < Puppet::Rails::Host
       self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
     end
 
-    modelname = fv(:productname) || fv(:model) || (fv(:is_virtual) == "true" ? fv(:virtual) : nil)
-    self.model = Model.find_or_create_by_name(modelname.strip) if model.nil? and not modelname.empty?
+    unless self.model
+      modelname = fv(:productname) || fv(:model) || (fv(:is_virtual) == "true" ? fv(:virtual) : nil)
+      self.model = Model.find_or_create_by_name(modelname.strip) unless modelname.empty?
+    end
 
     # again we are saving without validations as input is required (e.g. partition tables)
     self.save(false)
@@ -538,6 +540,10 @@ class Host < Puppet::Rails::Host
 
   def sp_valid?
     !sp_name.empty? and !sp_ip.empty? and !sp_mac.empty?
+  end
+
+  def jumpstart?
+    operatingsystem.family == "Solaris" and architecture.name =~/Sparc/i rescue false
   end
 
   private

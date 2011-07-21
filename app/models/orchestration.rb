@@ -143,6 +143,14 @@ module Orchestration
       @old = clone
       for key in (changed_attributes.keys - ["updated_at"])
         @old.send "#{key}=", changed_attributes[key]
+        # At this point the old cached bindings may still be present so we force an AR association reload
+        # This logic may not work or be required if we switch to Rails 3
+        if (match = key.match(/^(.*)_id$/))
+          name = match[1].to_sym
+          next if name == :owner # This does not work for the owner association even from the console
+          self.send(name, true) if (send(name) and send(name).id != @attributes[key])
+          old.send(name, true)  if (old.send(name) and old.send(name).id != old.attributes[key])
+        end
       end
     end
 

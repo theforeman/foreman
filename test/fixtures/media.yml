@@ -11,3 +11,11 @@ ubuntu:
 unused:
   name: unused
   path: http://nothing.intersting.com
+
+solaris10:
+  name: Solaris 10
+  path: http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch
+  media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
+  config_path: brsla01:/vol/jumpstart
+  image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
+

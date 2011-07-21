@@ -37,9 +37,13 @@ class Solaris < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
-  def boot_filename
+  def boot_filename host
     #handle things like gpxelinux/ gpxe / pxelinux here
-    "Solaris-5.#{minor}-#{release_name}-pxegrub"
+    if host.jumpstart?
+      "Solaris-#{major}.#{minor}-#{release_name}-#{host.model.hardware_model}-inetboot"
+    else
+      "Solaris-5.#{minor}-#{release_name}-pxegrub"
+    end
   end
 
   def pxeconfig_default
@@ -79,11 +83,34 @@ class Solaris < Operatingsystem
     true
   end
 
+
+  def jumpstart_params host
+    # root server and install server are always the same under Foreman
+    server_name = host.medium.media_host
+    server_ip   = host.domain.resolver.getaddress(server_name).to_s
+    jpath       = jumpstart_path host.medium, host.domain
+    ipath       = interpolate_medium_vars(host.medium.media_dir, host.architecture.name, self)
+
+    return failure "Host's operating system has an unknown vendor class" unless (vendor = host.model.vendor_class)
+
+    {
+    "<#{vendor}>root_server_ip"        => server_ip,                              # 192.168.216.241
+    "<#{vendor}>root_server_hostname"  => server_name,                            # mediahost
+    "<#{vendor}>root_path_name"        => "#{ipath}/Solaris_#{minor}/Tools/Boot", # /vol/solgi_5.10/sol10_hw0910/Solaris_10/Tools/Boot
+    "<#{vendor}>install_server_ip"     => server_ip,                              # 192.168.216.241
+    "<#{vendor}>install_server_name"   => server_name,                            # mediahost
+    "<#{vendor}>install_path"          => ipath,                                  # /vol/solgi_5.10/sol10_hw0910
+    "<#{vendor}>sysid_server_path"     => "#{jpath}/sysidcfg/sysidcfg_primary",   # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary
+    "<#{vendor}>jumpstart_server_path" => jpath,                                  # 192.168.216.241:/vol/jumpstart
+    }
+  end
+
   private
   def resolv_nfs_path host, dir, domain
     host = host + ".#{domain.name}" unless host =~ /\./
     # If host is already an IP then this works fine
-    ip = Resolv.new.getaddress(host)
+    ip = domain.resolver.getaddress(host)
     "#{ip}:#{dir}"
   end
+
 end

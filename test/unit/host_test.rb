@@ -335,4 +335,14 @@ class HostTest < ActiveSupport::TestCase
    assert_equal "2", h.diskLayout
  end
 
+  test "models are updated when host.model has no value" do
+    h = hosts(:one)
+    as_admin do
+      FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => 1)
+    end
+    assert_difference('Model.count') do
+      h.populateFieldsFromFacts
+    end
+  end
+
 end

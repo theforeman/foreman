@@ -1,8 +1,8 @@
 default=0
 timeout=10
 title Solaris_10 Jumpstart
-        kernel <%= "#{operatingsystem.pxe_prefix(architecture)}-multiboot" %> kernel/unix - install dhcp nowin -B install_config=<%= jumpstart_path %>,sysid_config=<%= jumpstart_path %>/sysidcfg/sysidcfg_primary,install_media=<%= install_path %>,install_boot=<%= install_path %>/boot
-        module <%= os.initrd(architecture) %>
+        kernel <%= multiboot %> kernel/unix - install dhcp nowin -B install_config=<%= jumpstart_path %>,sysid_config=<%= jumpstart_path %>/sysidcfg/sysidcfg_primary,install_media=<%= install_path %>,install_boot=<%= install_path %>/boot
+        module <%= miniroot %>
 title Solaris 10
         findroot (rootfs0,0,a)
         kernel$ /platform/i86pc/multiboot

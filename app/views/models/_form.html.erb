@@ -4,6 +4,14 @@
     <%= f.label :name, nil, :class => "span-3" %>
     <%= f.text_field :name, :class => "last" %>
   </p>
+  <p title="The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m">
+    <%= f.label :hardware_model, nil, :class => "span-3" %>
+    <%= f.text_field :hardware_model, :class => "last" %>
+  </p>
+  <p title="The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,">
+    <%= f.label :vendor_class, nil, :class => "span-3" %>
+    <%= f.text_field :vendor_class, :class => "last" %>
+  </p>
   <p title="General useful description, for example this kind of hardware needs a special BIOS setup">
   <%= f.label :info, nil, :class => "span-3" %>
   <%= f.text_area :info, :size => "60x10", :class => "last" %>

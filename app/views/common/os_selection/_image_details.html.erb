@@ -8,7 +8,7 @@
   <%= image_file_entry item-%>
   <%= observe_field type + "_cb_use_image",
     :url => { :action => :use_image_selected },
-    :with => "'#{type}[use_image]=' + value + '&#{type}[medium_id]=' + $('##{type}_medium_id').attr('value') + '&#{type}[operatingsystem_id]=' + $('##{type}_operatingsystem_id').attr('value') + '&#{type}[architecture_id]=' + $('##{type}_architecture_id').attr('value')"
+    :with => "'#{type}[use_image]=' + value + '&#{type}[medium_id]=' + $('##{type}_medium_id').val() + '&#{type}[operatingsystem_id]=' + $('##{type}_operatingsystem_id').val() + '&#{type}[architecture_id]=' + $('##{type}_architecture_id').val() + '&#{type}[model_id]=' + $('##{type}_model_id').val()"
   %>
 
 </span>

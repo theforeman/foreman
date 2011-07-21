@@ -53,5 +53,9 @@ class Domain < ActiveRecord::Base
     ns.to_a.flatten
   end
 
+  def resolver
+    Resolv::DNS.new :search => name, :nameserver => nameservers, :ndots => 1
+  end
+
 end
 

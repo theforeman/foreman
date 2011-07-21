@@ -93,6 +93,8 @@ module Orchestration::TFTP
 
     def queue_tftp
       return unless tftp? and errors.empty?
+      # Jumpstart builds require only minimal tftp services. They do require a tftp object to query for the boot_server.
+      return true if jumpstart?
       new_record? ? queue_tftp_create : queue_tftp_update
     end
 
@@ -108,7 +110,7 @@ module Orchestration::TFTP
       set_tftp = false
       if build?
         # we switched to build mode
-        set_fftp = true unless old.build?
+        set_tftp = true unless old.build?
         # medium or arch changed
         set_tftp = true if old.medium != medium or old.arch != arch
         # operating system changed
@@ -130,6 +132,7 @@ module Orchestration::TFTP
 
     def queue_tftp_destroy
       return unless tftp? and errors.empty?
+      return true if jumpstart?
       queue.create(:name => "TFTP Settings for #{self}", :priority => 20,
                    :action => [self, :delTFTP])
     end

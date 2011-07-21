@@ -154,6 +154,8 @@ module ProxyAPI
     # Returns    : Hash or false
     def record subnet, mac
       parse get("#{subnet}/#{mac}")
+    rescue RestClient::ResourceNotFound
+      false
     end
 
     # Sets a DHCP entry
