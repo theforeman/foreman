@@ -364,9 +364,14 @@ class Host < Puppet::Rails::Host
     if myarch=fv(:architecture) || fv(:hardwareisa)
       self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
     end
-    # by default, puppet doesnt store an env name in the database
-    env=fv(:environment) || Setting[:default_puppet_environment]
-    self.environment ||= Environment.find_or_create_by_name env
+
+    # by default, puppet doesn't store an env name in the database
+    env = fv(:environment) || Setting[:default_puppet_environment]
+    if Setting[:update_environment_from_facts]
+      self.environment = Environment.find_or_create_by_name env
+    else
+      self.environment ||= Environment.find_or_create_by_name env
+    end
 
     os_name = fv(:operatingsystem)
     if orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
