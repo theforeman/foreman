@@ -10,5 +10,8 @@
 <%= observe_field type + "_medium_id",
     :url => { :action => :medium_selected },
     :update => :image_details,
-    :with => "'#{type}[medium_id]=' + value + '&#{type}[operatingsystem_id]=' + $('##{type}_operatingsystem_id').attr('value') + '&#{type}[use_image]=' + $('##{type}_cb_use_image').attr('checked')"
+    :with => "'#{type}[medium_id]=' + value + " +
+             "'&#{type}[operatingsystem_id]=' + $('##{type}_operatingsystem_id').val() + " +
+             "'&#{type}[use_image]=' + $('##{type}_cb_use_image').attr('checked') + " +
+             "'&#{type}[architecture_id]=' + $('##{type}_architecture_id').val()"
 %>
