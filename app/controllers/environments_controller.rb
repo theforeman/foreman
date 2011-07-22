@@ -47,7 +47,6 @@ class EnvironmentsController < ApplicationController
     if @environment.destroy
       process_success
     else
-      load_vars_for_ajax
       process_error
     end
   end
