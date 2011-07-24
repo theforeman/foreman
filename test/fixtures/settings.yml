@@ -79,3 +79,8 @@ attributes16:
   category: General
   default: 20
   description: The amount of records shown per page in foreman
+attributes17:
+  name: update_environment_from_facts
+  category: Puppet
+  default: false
+  description: Foreman will update a host's environment from its facts
