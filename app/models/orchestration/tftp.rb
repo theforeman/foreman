@@ -78,17 +78,11 @@ module Orchestration::TFTP
       # therefore some workaround is required to "render" the template.
 
       prefix   = operatingsystem.pxe_prefix(arch)
-      pxefiles = eval "#{os.family}::PXEFILES"
-      @kernel  = "#{prefix}-#{pxefiles[:kernel]}"
-      @initrd  = "#{prefix}-#{pxefiles[:initrd]}"
+      @kernel = os.kernel(arch)
+      @initrd = os.initrd(arch)
       pxe_render configTemplate({:kind => os.template_kind}).template
     rescue => e
       failure "Failed to generate #{os.template_kind} template: #{e}"
-    end
-
-    #returns the URL for Foreman based on the required action
-    def foreman_url(action = "provision")
-      url_for :only_path => false, :controller => "unattended", :action => action, :host => request_url
     end
 
     def queue_tftp

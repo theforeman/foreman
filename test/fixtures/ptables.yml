@@ -7,3 +7,7 @@ one:
 ubuntu:
   name: ubuntu default
   layout: d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...
+
+suse:
+  name: suse default
+  layout: "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>"

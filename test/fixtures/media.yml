@@ -19,3 +19,7 @@ solaris10:
   config_path: brsla01:/vol/jumpstart
   image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
 
+suse:
+  name: OpenSuse Mirror
+  path: "http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss"
+

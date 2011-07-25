@@ -184,13 +184,16 @@ class UnattendedController < ApplicationController
     @epel      = os.epel      @host
     @yumrepo   = os.yumrepo   @host
 
-    # force static network configurtion if static http parameter is defined, in the future this needs to go into the GUI
+    # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
   end
 
   def preseed_attributes
     @preseed_path   = @host.os.preseed_path   @host
     @preseed_server = @host.os.preseed_server @host
+  end
+
+  def yast_attributes
   end
 
   private

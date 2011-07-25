@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE profile>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+  <general>
+    <mode>
+      <confirm config:type="boolean">false</confirm>
+      <final_reboot config:type="boolean">true</final_reboot>
+    </mode>
+  </general>
+  <networking>
+    <dns>
+      <hostname><%= @host.name %></hostname>
+      <resolv_conf_policy>auto</resolv_conf_policy>
+    </dns>
+    <interfaces config:type="list">
+      <interface>
+        <bootproto>dhcp</bootproto>
+        <device>eth0</device>
+        <startmode>auto</startmode>
+        <usercontrol>no</usercontrol>
+      </interface>
+    </interfaces>
+  </networking>
+  <ntp-client>
+    <configure_dhcp config:type="boolean">false</configure_dhcp>
+    <peers config:type="list">
+      <peer>
+        <address>ntp</address>
+        <initial_sync config:type="boolean">true</initial_sync>
+        <options></options>
+        <type>server</type>
+      </peer>
+    </peers>
+    <start_at_boot config:type="boolean">true</start_at_boot>
+    <start_in_chroot config:type="boolean">true</start_in_chroot>
+  </ntp-client>
+  <%= @host.diskLayout %>
+  <runlevel>
+    <default>3</default>
+  </runlevel>
+  <software>
+    <base>default</base>
+    <packages config:type="list">
+      <package>puppet</package>
+      <package>wget</package>
+    </packages>
+  </software>
+  <users config:type="list">
+    <user>
+      <username>root</username>
+      <encrypted config:type="boolean">true</encrypted>
+      <fullname>root</fullname>
+      <gid>0</gid>
+      <home>/root</home>
+      <shell>/bin/bash</shell>
+      <uid>0</uid>
+      <user_password><%= root_pass %>/</user_password>
+    </user>
+  </users>
+  <scripts>
+    <post-scripts config:type="list">
+      <script>
+        <filename>post.sh</filename>
+        <interpreter>shell</interpreter>
+        <network_needed config:type="boolean">true</network_needed>
+        <notification>Setting up Puppet / Foreman ...</notification>
+        <debug config:type="boolean">true</debug>
+        <source><![CDATA[
+          cat > /etc/puppet/puppet.conf << EOF
+<%= snippets "puppet.conf" -%>
+EOF
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server puppet  --no-daemonize
+/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+/sbin/chkconfig puppet on -f
+]]>
+        </source>
+      </script>
+    </post-scripts>
+  </scripts>
+</profile>

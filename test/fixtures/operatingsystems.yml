@@ -29,3 +29,8 @@ solaris10:
   architectures: sparc
   release_name: hw0910
 
+suse:
+  name: OpenSuse
+  major: 11
+  minor: 4
+  type: Suse

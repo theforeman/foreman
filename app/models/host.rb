@@ -19,10 +19,9 @@ class Host < Puppet::Rails::Host
 
   include Hostext::Search
   include HostCommon
-  include HostTemplateHelpers
 
   class Jail < Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :environment, :ptable, :hostgroup, :url_for_boot,
+    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
         :params, :hostgroup, :domain, :ip, :mac
   end
 
@@ -108,6 +107,7 @@ class Host < Puppet::Rails::Host
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
+    include HostTemplateHelpers
 
     validates_uniqueness_of  :ip, :if => Proc.new {|host| host.managed}
     validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed }

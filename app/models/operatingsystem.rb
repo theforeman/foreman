@@ -38,9 +38,10 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
 
-  FAMILIES = {'Debian'  => %r{Debian|Ubuntu}i,
-              'Redhat'  => %r{RedHat|Centos|Fedora|Scientific}i,
-              'Solaris' => %r{Solaris}i}
+  FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
+               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific}i,
+               'Suse'    => %r{OpenSuSE}i,
+               'Solaris' => %r{Solaris}i }
 
 
   class Jail < Safemode::Jail
@@ -85,7 +86,7 @@ class Operatingsystem < ActiveRecord::Base
          gsub('$release', os.release_name ? os.release_name : "" )
   end
 
-  # The OS is usually represented as the catenation of the OS and the revision
+  # The OS is usually represented as the concatenation of the OS and the revision
   def to_label
     "#{name} #{release}"
   end
@@ -134,7 +135,6 @@ class Operatingsystem < ActiveRecord::Base
     false
   end
 
-  # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
   # override in sub operatingsystem classes as required.
   def pxe_variant
     "syslinux"
@@ -180,7 +180,7 @@ class Operatingsystem < ActiveRecord::Base
     raise "invalid medium for #{to_s}" unless media.include?(medium)
     raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
     eval("#{self.family}::PXEFILES").values.collect do |img|
-      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxedir}/#{img}").normalize
+      medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end
   end
 
