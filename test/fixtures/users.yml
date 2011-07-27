@@ -7,7 +7,7 @@ one:
   mail: userone@someware.com
   admin: false
   last_login_on: 2009-10-12 21:50:04
-  auth_source: auth_sources(:one)
+  auth_source: one
 
 two:
   login: two
@@ -16,7 +16,7 @@ two:
   mail: usertwo@someware.com
   admin: false
   last_login_on: 2009-10-12 21:50:04
-  auth_source: auth_sources(:one)
+  auth_source: one
 
 admin:
   login: admin
@@ -25,4 +25,15 @@ admin:
   mail: admin@someware.com
   admin: true
   last_login_on: 2009-10-12 21:50:04
-  auth_source: auth_sources(:one)
+  auth_source: one
+
+internal:
+  login: test
+  firstname: test
+  lastname: User
+  mail: testuser@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 287ee23b24efc2cb01db8e3da347a2747fc5b58b
+  password_salt: 2a493af5472a889b530036a1fb25123f4e56efc9

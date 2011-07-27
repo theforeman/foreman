@@ -84,7 +84,14 @@ class UserTest < ActiveSupport::TestCase
   end
   # couldn't continue testing the rest of login method cause use auth_source.authenticate, which is not implemented yet
 
-  test  "should not be able to delete the admin account" do
+  test "when a user login, his last login time should be updated" do
+    user = users(:internal)
+    last_login = user.last_login_on
+    assert_not_nil User.try_to_login(user.login, "changeme")
+    assert_not_equal last_login, User.find(user.id).last_login_on
+  end
+
+  test "should not be able to delete the admin account" do
     assert !User.find_by_login("admin").destroy
   end
 

@@ -75,39 +75,31 @@ class User < ActiveRecord::Base
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
 
+    user = nil
+    # user is already in local database
     if user = find_by_login(login)
-      # user is already in local database
+      # user has an authentication method and the authentication was successful
       if user.auth_source and user.auth_source.authenticate(login, password)
-        # user has an authentication method and the authentication was successful
-        User.current = user
-        user.update_attribute(:last_login_on, Time.now.utc)
+        logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
       else
-        User.current = user = nil
+        logger.debug "Failed to authenicate #{user} against #{user.auth_source} authentication source"
+        user = nil
       end
     else
-      # user is not yet registered, try to authenticate with available sources
-      attrs = AuthSource.authenticate(login, password)
-      if attrs
-        user = new(*attrs)
-        user.login = login
-        # The default user can't auto create users, we need to change to Admin for this to work
-        User.current = User.find_by_login "admin"
-        if user.save
-          user.reload
-          logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
-          user.update_attribute(:last_login_on, Time.now.utc)
-        else
-          logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
-          user = nil
-        end
+      user = try_to_auto_create_user(login, password)
+    end
+    if user
+      as "admin" do
+        user.update_attribute(:last_login_on, Time.now.utc)
+        anonymous = Role.find_by_name("Anonymous")
+        user.roles << anonymous unless user.roles.include?(anonymous)
         User.current = user
       end
+    else
+      logger.info "invalid user"
+      User.current = nil
     end
-    anonymous = Role.find_by_name("Anonymous")
-    User.current.roles <<  anonymous unless user.nil? or User.current.roles.include?(anonymous)
-    return user
-  rescue => text
-    raise text
+    user
   end
 
   def matching_password?(pass)
@@ -175,6 +167,26 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest([pass, password_salt].join)
   end
 
+  def self.try_to_auto_create_user(login, password)
+    return nil if login.blank? or password.blank?
+
+    # user is not yet registered, try to authenticate with available sources
+    if attrs = AuthSource.authenticate(login, password)
+      user = new(*attrs)
+      user.login = login
+      # The default user can't auto create users, we need to change to Admin for this to work
+      User.as "admin" do
+        if user.save
+          logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
+        else
+          logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
+          user = nil
+        end
+      end
+    end
+    user
+  end
+
   protected
 
   def name_used_in_a_usergroup
@@ -193,9 +205,4 @@ class User < ActiveRecord::Base
       return false
     end
   end
-
-  def as_json opts
-    {login => {:firstname => firstname, :lastname => lastname, :mail => mail}}
-  end
-
 end
