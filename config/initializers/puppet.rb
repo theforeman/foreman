@@ -11,6 +11,11 @@ end
 class Puppet::Rails::FactName
   has_many :user_facts
   has_many :users, :through => :user_facts
+
+  def to_param
+    name
+  end
+
 end
 
 # workaround for puppet bug http://projects.reductivelabs.com/issues/3949
