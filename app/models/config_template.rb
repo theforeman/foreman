@@ -58,7 +58,16 @@ class ConfigTemplate < ActiveRecord::Base
     # fall back to the os default template
     template ||= templates.os_default_templates_operatingsystem_id_eq(opts[:operatingsystem_id]).first
     template.is_a?(ConfigTemplate) ? template : nil
+  end
 
+  def enforce_permissions operation
+    # We get called again with the operation being set to create
+    return true if operation == "edit" and new_record?
+
+    return true if User.current and User.current.allowed_to?("#{operation}_templates".to_sym)
+
+    errors.add_to_base "You do not have permission to #{operation} this template"
+    false
   end
 
   private
