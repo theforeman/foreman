@@ -345,4 +345,16 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "hostgroup should set default values when none exists" do
+    # should set os, but not arch
+    hg = hostgroups(:common)
+    h  = Host.new
+    h.hostgroup = hg
+    h.architecture = architectures(:sparc)
+    assert !h.valid?
+    assert_equal hg.operatingsystem, h.operatingsystem
+    assert_not_equal hg.architecture , h.architecture
+    assert_equal h.architecture, architectures(:sparc)
+  end
+
 end

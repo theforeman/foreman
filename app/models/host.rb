@@ -128,7 +128,7 @@ class Host < Puppet::Rails::Host
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
   end
 
-  before_validation :normalize_addresses, :normalize_hostname
+  before_validation :normalize_addresses, :normalize_hostname, :set_hostgroup_defaults
 
   def after_initialize
     self.owner ||= User.current
@@ -590,4 +590,12 @@ class Host < Puppet::Rails::Host
       self.name += ".#{domain}" unless name =~ /.#{domain}$/i
     end
   end
+
+  def set_hostgroup_defaults
+    return unless hostgroup
+    %w{environment operatingsystem medium architecture ptable root_pass puppetmaster_name puppetproxy}.each do |e|
+      eval("self.#{e} = hostgroup.#{e}") if self.send(e.to_sym).nil?
+    end
+  end
+
 end
