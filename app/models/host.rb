@@ -610,6 +610,13 @@ class Host < Puppet::Rails::Host
         status = false
       end
     end if os
+
+    puppetclasses.uniq.each do |e|
+      unless environment.puppetclasses.include?(e)
+        errors.add(:puppetclasses, "#{e} does not belong to the #{environment} environment")
+        status = false
+      end
+    end if environment
     status
   end
 

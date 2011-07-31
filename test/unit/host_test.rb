@@ -365,4 +365,23 @@ class HostTest < ActiveSupport::TestCase
     assert_match /does not belong to #{h.os} operating system/, h.errors[:architecture]
   end
 
+  test "host puppet classes must belong to the host environment" do
+    h = hosts(:redhat)
+
+    pc = puppetclasses(:two)
+    h.puppetclasses << pc
+    assert !h.environment.puppetclasses.include?(pc)
+    assert !h.valid?
+    assert_match /does not belong to the #{h.environment} environment/, h.errors[:puppetclasses]
+  end
+
+  test "when changing host environment, its puppet classes should be verified" do
+    h = hosts(:one)
+    h.puppetclasses << puppetclasses(:one)
+    assert h.save
+    h.environment = environments(:testing)
+    assert !h.save
+    assert_match /does not belong to the #{h.environment} environment/, h.errors[:puppetclasses]
+  end
+
 end
