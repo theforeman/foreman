@@ -129,6 +129,7 @@ class Host < Puppet::Rails::Host
   end
 
   before_validation :normalize_addresses, :normalize_hostname, :set_hostgroup_defaults
+  after_validation :ensure_assoications
 
   def after_initialize
     self.owner ||= User.current
@@ -596,6 +597,20 @@ class Host < Puppet::Rails::Host
     %w{environment operatingsystem medium architecture ptable root_pass puppetmaster_name puppetproxy}.each do |e|
       eval("self.#{e} = hostgroup.#{e}") if self.send(e.to_sym).nil?
     end
+  end
+
+  # checks if the host assoication is a valid assoication for this host
+  def ensure_assoications
+    status = true
+    %w{ ptable medium architecture}.each do |e|
+      value = self.send(e.to_sym)
+      next if value.blank?
+      unless os.send(e.pluralize.to_sym).include?(value)
+        errors.add(e, "#{value} does not belong to #{os} operating system")
+        status = false
+      end
+    end if os
+    status
   end
 
 end

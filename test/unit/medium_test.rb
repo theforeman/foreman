@@ -48,6 +48,7 @@ class MediumTest < ActiveSupport::TestCase
 
     host = hosts(:one)
     host.medium = medium
+    host.os.media << medium
     assert host.save!
 
     medium.hosts << host

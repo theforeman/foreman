@@ -59,7 +59,8 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert operating_system.save
 
     host = hosts(:one)
-    operating_system.hosts << host
+    host.os = operating_system
+    host.save(false)
 
     assert !operating_system.destroy
   end

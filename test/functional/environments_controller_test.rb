@@ -174,7 +174,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin do
       host = Host.first
       host.environment = Environment.find_by_name("env1")
-      host.save
+      host.save!
       assert host.errors.empty?
       assert Environment.find_by_name("env1").hosts.count > 0
     end

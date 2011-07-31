@@ -50,7 +50,7 @@ class UsergroupTest < ActiveSupport::TestCase
     populate_usergroups
     domain = domains(:mydomain)
 
-    Host.with_options :architecture => Architecture.first, :environment => Environment.first, :operatingsystem => Operatingsystem.first, :ptable => Ptable.first, :subnet => subnets(:one) do |object|
+    Host.with_options :architecture => architectures(:x86_64), :environment => environments(:production), :operatingsystem => operatingsystems(:redhat), :ptable => ptables(:one), :subnet => subnets(:one) do |object|
       @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "2.3.4.10", :mac => "223344556601", :owner => @u1, :domain => domain
       @h2 = object.find_or_create_by_name :name => "h2.someware.com", :ip => "2.3.4.11", :mac => "223344556602", :owner => @ug2, :domain => domain
       @h3 = object.find_or_create_by_name :name => "h3.someware.com", :ip => "2.3.4.12", :mac => "223344556603", :owner => @u3, :domain => domain

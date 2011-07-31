@@ -42,7 +42,8 @@ class ArchitectureTest < ActiveSupport::TestCase
     assert architecture.save
 
     host = hosts(:one)
-    architecture.hosts << host
+    host.architecture = architecture
+    host.save(false)
 
     assert !architecture.destroy
   end

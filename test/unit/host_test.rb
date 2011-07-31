@@ -47,9 +47,9 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first,
-      :subnet => subnets(:one), :architecture => Architecture.first,
-      :environment => Environment.first, :disk => "empty partition"
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64),
+      :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
   end
@@ -75,22 +75,22 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :subnet => subnets(:one), :architecture => Architecture.first, :environment => Environment.first, :managed => false
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
     assert host.valid?
   end
 
   test "should save if ptable is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first,
-      :subnet => subnets(:one), :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
     assert !host.new_record?
   end
 
   test "should save if disk is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
     assert !host.new_record?
   end
 
@@ -107,8 +107,8 @@ class HostTest < ActiveSupport::TestCase
     # create a dummy node
     Parameter.destroy_all
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
-      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :architecture => architectures(:x86_64), :environment => environments(:global_puppetmaster), :disk => "aaa",
       :puppetproxy => smart_proxies(:puppetmaster)
 
     # dummy external node info
@@ -282,8 +282,8 @@ class HostTest < ActiveSupport::TestCase
   test "a fqdn Host should be assigned to a domain if such domain exists" do
     domain = domains(:mydomain)
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
-      :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "aaa"
+      :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
     assert host.save
 
     assert_equal domain, host.domain
@@ -355,6 +355,14 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hg.operatingsystem, h.operatingsystem
     assert_not_equal hg.architecture , h.architecture
     assert_equal h.architecture, architectures(:sparc)
+  end
+
+  test "host os attributes must be assoicated with the host os" do
+    h = hosts(:redhat)
+    h.architecture = architectures(:sparc)
+    assert !h.os.architectures.include?(h.arch)
+    assert !h.valid?
+    assert_match /does not belong to #{h.os} operating system/, h.errors[:architecture]
   end
 
 end

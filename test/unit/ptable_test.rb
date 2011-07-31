@@ -58,7 +58,8 @@ class PtableTest < ActiveSupport::TestCase
     assert partition_table.save
 
     host = hosts(:one)
-    partition_table.hosts << host
+    host.ptable = partition_table
+    host.save(false)
 
     assert !partition_table.destroy
   end

@@ -52,9 +52,9 @@ class HostsControllerTest < ActionController::TestCase
           :mac => "aabbecddee06",
           :ip => "2.3.4.125",
           :domain => domains(:mydomain),
-          :operatingsystem =>  Operatingsystem.first,
-          :architecture => Architecture.first,
-          :environment => Environment.first,
+          :operatingsystem => operatingsystems(:redhat),
+          :architecture => architectures(:x86_64),
+          :environment => environments(:production),
           :subnet => subnets(:one),
           :disk => "empty partition"
         }
@@ -70,9 +70,9 @@ class HostsControllerTest < ActionController::TestCase
           :mac => "aabbecddee06",
           :ip => "2.3.4.125",
           :domain => domains(:mydomain),
-          :operatingsystem =>  Operatingsystem.first,
-          :architecture => Architecture.first,
-          :environment => Environment.first,
+          :operatingsystem => operatingsystems(:redhat),
+          :architecture => architectures(:x86_64),
+          :environment => environments(:production),
           :subnet => subnets(:one),
           :disk => "empty partition"
         }
@@ -479,9 +479,9 @@ class HostsControllerTest < ActionController::TestCase
       :mac             => "aabbecddeeff",
       :ip              => "2.3.4.99",
       :domain          => domains(:mydomain),
-      :operatingsystem => Operatingsystem.first,
-      :architecture    => Architecture.first,
-      :environment     => Environment.first,
+      :operatingsystem => operatingsystems(:redhat),
+      :architecture    => architectures(:x86_64),
+      :environment     => environments(:production),
       :subnet          => subnets(:one),
       :disk            => "empty partition",
       :puppetproxy     => smart_proxies(:puppetmaster)

@@ -7,18 +7,25 @@ centos5_3:
   type: Redhat
   media: one
   architectures: x86_64
+  ptables: one
 
 redhat:
   name: Redhat
   major: 6
   minor: 1
   type: Redhat
+  ptables: one
+  architectures: x86_64
+  media: one
 
 ubuntu1010:
   name: Ubuntu
   major: 10
   minor: 10
   type: Debian
+  ptables: ubuntu
+  media: ubuntu
+  architectures: x86_64
 
 solaris10:
   name: Solaris
