@@ -50,10 +50,15 @@ class SubnetsController < ApplicationController
     not_found and return unless subnet = Subnet.find(s)
 
     if ip = subnet.unused_ip
-      render :update do |page|
-        page['host_ip'].value = ip
-        page['indicator'].hide
-        page['host_ip'].visual_effect :highlight
+      respond_to do |format|
+        format.html do
+          render :update do |page|
+            page['host_ip'].value = ip
+            page['indicator'].hide
+            page['host_ip'].visual_effect :highlight
+          end
+        end
+        format.json { render :json => {:ip => ip} }
       end
     else
       # we don't want any failures if we failed to query our proxy
