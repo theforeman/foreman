@@ -63,4 +63,12 @@ module HostsAndHostgroupsHelper
     []
   end
 
+  def select_hypervisor item
+    options_for_select Hypervisor.all.map{|h| [h.name, h.id]}, item.try(:hypervisor_id).try(:to_i)
+  end
+
+  def select_memory memory = nil
+    options_for_select Hypervisor::MEMORY_SIZE.map {|mem| [number_to_human_size(mem*1024), mem]}, memory.to_i
+  end
+
 end

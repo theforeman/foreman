@@ -1,4 +1,4 @@
-require_dependency 'hypervisor/guest'
+require 'hypervisor/guest'
 
 class Hypervisor < ActiveRecord::Base
   attr_accessible :name, :uri, :kind
@@ -46,11 +46,13 @@ class Hypervisor < ActiveRecord::Base
   end
 
   def connect
+    return true if Rails.env == "test"
     logger.info "trying to contact Hypervisor #{name}"
     @host = Virt.connect(uri).host
   end
 
   def disconnect
+    return true if Rails.env == "test"
     logger.debug "Closing connection to #{self}"
     host.disconnect if host
   end
@@ -67,7 +69,7 @@ class Hypervisor < ActiveRecord::Base
   end
 
   # we query the hypervisor
-  # if the conntection was open before, we leave it open
+  # if the connection was open before, we leave it open
   # otherwise we open and close the connection
   def query
     c = connected?
@@ -78,8 +80,7 @@ class Hypervisor < ActiveRecord::Base
   end
 
   def connected?
-    return true if @host and not @host.closed?
-    false
+    @host and !@host.closed?
   end
 
 end

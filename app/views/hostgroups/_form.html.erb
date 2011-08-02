@@ -15,7 +15,7 @@
 
     <% field_set_tag 'Primary Settings' do %>
       <%= f.label :environment_id, nil, :class => "span-3" %>
-      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } , { :class => "span-3" } %>
+      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true }, { :class => "span-3" } %>
       <div class="push-2 span-7 last">
         <%= puppetmaster_field @hostgroup, f %>
       </div>
@@ -24,14 +24,17 @@
     <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) -%>
       <% field_set_tag 'Operating System Settings' do %>
         <div class="span-24 last">
-        <%= render "common/os_selection/initial", { :f => f, :item=> @hostgroup } -%>
+          <%= render "common/os_selection/initial", { :f => f, :item=> @hostgroup } -%>
         </div>
         <div class="span-24 last">
-        <%= f.label :root_pass, "Root Password", :class => "span-3" %>
-        <%= f.password_field :root_pass, :class => "span-3 last" %>
+          <%= f.label :root_pass, "Root Password", :class => "span-3" %>
+          <%= f.password_field :root_pass, :class => "span-3 last" %>
         </div>
       <% end -%>
 
+      <span id="virtual_machine">
+        <%= render('common/hypervisor', :item => @hostgroup) if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
+      </span>
     <% end -%>
   <% end -%>
 

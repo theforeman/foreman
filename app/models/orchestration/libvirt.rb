@@ -2,18 +2,14 @@ module Orchestration::Libvirt
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_accessor :hypervisor_id, :storage_pool, :interface, :memory, :vcpu, :disk_size, :network_type, :powerup
-      validates_presence_of :memory, :vcpu, :storage_pool, :disk_size, :network_type, :interface, :if => Proc.new{|h| h.hypervisor?}
+      include Vm
+      attr_accessor :powerup
       after_validation  :initialize_libvirt, :queue_libvirt
       before_destroy    :initialize_libvirt, :queue_libvirt_destroy
     end
   end
 
   module InstanceMethods
-    def hypervisor?
-      !hypervisor_id.blank?
-    end
-
     def libvirt?
       hypervisor? and !memory.blank? and !vcpu.blank? and !storage_pool.blank? and \
       !interface.blank? and !network_type.blank? and !disk_size.blank?
@@ -116,7 +112,5 @@ module Orchestration::Libvirt
     def delDisconnectFromHypervisor
       @hypervisor.connect
     end
-
-
   end
 end

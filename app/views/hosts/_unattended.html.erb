@@ -1,5 +1,5 @@
 <span id="virtual_machine">
-  <%= render('hypervisor', :f => f) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
+  <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
 </span>
 <% field_set_tag 'Network Settings' do -%>
   <%= f.label :domain_id, nil, :class => "span-3" %>

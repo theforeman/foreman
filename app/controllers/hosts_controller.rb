@@ -2,7 +2,7 @@ class HostsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  # actions which don't require authentication and are always treathed as the admin user
+  # actions which don't require authentication and are always treated as the admin user
   ANONYMOUS_ACTIONS=[ :query, :externalNodes, :lookup ]
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
   skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
@@ -17,7 +17,6 @@ class HostsController < ApplicationController
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone externalNodes pxe_config toggle_manage]
-  after_filter :disconnect_from_hypervisor, :only => :hypervisor_selected
 
   filter_parameter_logging :root_pass
   helper :hosts, :reports
@@ -127,37 +126,6 @@ class HostsController < ApplicationController
       @host.hostgroup   = @hostgroup if @hostgroup
       @host.environment = @environment if @environment
       render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
-    else
-      return head(:not_found)
-    end
-  end
-
-  def hypervisor_selected
-    hypervisor_id = params[:host_hypervisor_id].to_i
-
-    # bare metal selected
-    hypervisor_defaults and return if hypervisor_id == 0
-
-    @host ||= Host.new
-    if ((@host.hypervisor_id = hypervisor_id) > 0) and (@hypervisor = Hypervisor.find(@host.hypervisor_id))
-      begin
-        @hypervisor.connect
-      rescue => e
-        # we reset to default
-        @host.hypervisor_id = nil
-        logger.warn e.to_s
-        hypervisor_defaults(e.to_s) and return
-      end
-
-      @guest = Virt::Guest.new({:name => (@host.try(:name) || "new-#{Time.now}.to_i")})
-
-      render :update do |page|
-        page.replace_html :virtual_machine, :partial => "hypervisor"
-        page << "if ($('#host_mac')) {"
-        page.remove :host_mac_label
-        page.remove :host_mac
-        page << " }"
-      end
     else
       return head(:not_found)
     end
@@ -394,28 +362,34 @@ class HostsController < ApplicationController
     @operatingsystem = @hostgroup.operatingsystem
     @environment     = @hostgroup.environment
 
+    @host = Host.new
+    @host.hostgroup = @hostgroup
+    @host.set_hostgroup_defaults
+
     render :update do |page|
       page['host_environment_id'].value = @hostgroup.environment_id if @hostgroup.environment_id
       # process_hostgroup is only ever called for new host records therefore the assigned value can never be @hostgroup.puppetmaster_name
       # This means that we should use the puppetproxy display type as new hosts should use this feature
       page['host_puppetproxy_id'].value = @hostgroup.puppetca? ? @hostgroup.puppetmaster.id : ""
       if @environment
-        @host = Host.new
-        @host.hostgroup   = @hostgroup
-        @host.environment = @environment
         page.replace_html :classlist, :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
       end
 
-      if (SETTINGS[:unattended].nil? or SETTINGS[:unattended])
+      if SETTINGS[:unattended]
         page['host_root_pass'].value = @hostgroup.root_pass
+        if @hostgroup.hypervisor? and (@hypervisor = Hypervisor.find(@host.hypervisor_id))
+          @hypervisor.connect
+          # we are in a view context
+          controller.send(:update_hypervisor_details, @host, page)
+          @hypervisor.disconnect
+        end
 
         if @architecture
-          page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:item => @hostgroup}
+          page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:item => @host}
           page['host_architecture_id'].value = @architecture.id
         end
         if @operatingsystem
-          page['host_operatingsystem_id'].value = @operatingsystem.id
-          page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @hostgroup}
+          page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @host}
         end
       end
     end
@@ -537,22 +511,6 @@ class HostsController < ApplicationController
     @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
   end
 
-  def hypervisor_defaults msg = nil
-    @hypervisor = nil
-    render :update do |page|
-      page.alert(msg) if msg
-      page.replace_html :virtual_machine, :partial => "hypervisor"
-      # you can only select bare metal after you successfully selected a hypervisor before
-      page << "if (!$('host_mac')) {"
-      page.insert_html :after, :host_ip, :partial => "mac"
-      page[:host_hypervisor_id].value = ""
-      page << " }"
-    end
-  end
-
-  def disconnect_from_hypervisor
-    @hypervisor.disconnect if @hypervisor
-  end
 
   # returns a rundeck view
   def rundeck

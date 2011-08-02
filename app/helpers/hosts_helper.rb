@@ -10,7 +10,7 @@ module HostsHelper
       link_to_if_authorized(time,  hash_for_host_report_path(:host_id => record.to_param, :id => "last", :enable_link => @last_reports[record.id]))
   end
 
-# method that reformats the hostname column by adding the status icons
+# method that reformat the hostname column by adding the status icons
   def name_column(record)
     if record.build and not record.installed_at.nil?
       image ="attention_required.png"
@@ -70,14 +70,6 @@ module HostsHelper
     session[:selected].include?(host.id.to_s)
   end
 
-  def select_hypervisor
-    options_for_select Hypervisor.all.map{|h| [h.name, h.id]}, @host.try(:hypervisor_id).try(:to_i)
-  end
-
-
-  def select_memory memory = nil
-    options_for_select Hypervisor::MEMORY_SIZE.map {|mem| [number_to_human_size(mem*1024), mem]}, memory.to_i
-  end
 
   def accessible_domains
     (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all

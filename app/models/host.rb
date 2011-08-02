@@ -103,7 +103,7 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
-  if SETTINGS[:unattended].nil? or SETTINGS[:unattended]
+  if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
@@ -505,7 +505,7 @@ class Host < Puppet::Rails::Host
   end
 
   def can_be_build?
-    managed? and (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) ? build == false : false
+    managed? and SETTINGS[:unattended] ? build == false : false
   end
 
   def facts_hash
@@ -547,6 +547,13 @@ class Host < Puppet::Rails::Host
     operatingsystem.family == "Solaris" and architecture.name =~/Sparc/i rescue false
   end
 
+  def set_hostgroup_defaults
+    return unless hostgroup
+    assign_hostgroup_attributes(%w{environment puppetmaster_name puppetproxy})
+    assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass}) if SETTINGS[:unattended]
+    assign_hostgroup_attributes(Vm::PROPERTIES) if new_record? and hostgroup.hypervisor?
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
@@ -576,7 +583,7 @@ class Host < Puppet::Rails::Host
   end
 
   # ensure that host name is fqdn
-  # if the user inputed short name, the domain name will be appended
+  # if the user inputted short name, the domain name will be appended
   # this is done to ensure compatibility with puppet storeconfigs
   def normalize_hostname
     # no hostname was given or a domain was selected, since this is before validation we need to ignore
@@ -584,7 +591,7 @@ class Host < Puppet::Rails::Host
     return if name.empty?
 
     if domain.nil? and name.match(/\./)
-      # try to assign the domain automaticilly based on our existing domains from the host FQDN
+      # try to assign the domain automatically based on our existing domains from the host FQDN
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
     else
       # if our host is in short name, append the domain name
@@ -592,14 +599,13 @@ class Host < Puppet::Rails::Host
     end
   end
 
-  def set_hostgroup_defaults
-    return unless hostgroup
-    %w{environment operatingsystem medium architecture ptable root_pass puppetmaster_name puppetproxy}.each do |e|
-      eval("self.#{e} = hostgroup.#{e}") if self.send(e.to_sym).nil?
+  def assign_hostgroup_attributes attrs = []
+    attrs.each do |attr|
+      eval("self.#{attr.to_s} ||= hostgroup.#{attr.to_s}")
     end
   end
 
-  # checks if the host assoication is a valid assoication for this host
+  # checks if the host association is a valid association for this host
   def ensure_assoications
     status = true
     %w{ ptable medium architecture}.each do |e|

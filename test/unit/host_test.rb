@@ -357,7 +357,16 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.architecture, architectures(:sparc)
   end
 
-  test "host os attributes must be assoicated with the host os" do
+  test "hostgroup should set default vm values when none exists" do
+    hg = hostgroups(:db)
+    assert_not_nil hg.memory
+    h = Host.new
+    h.hostgroup = hg
+    assert !h.valid?
+    assert_equal hg.memory, h.memory
+  end
+
+  test "host os attributes must be associated with the host os" do
     h = hosts(:redhat)
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)

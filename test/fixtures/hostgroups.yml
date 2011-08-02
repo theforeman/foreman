@@ -10,3 +10,19 @@ common:
 
 unusual:
   name: Unusual
+
+db:
+  name: db
+  architecture: x86_64
+  ptable: one
+  environment: production
+  operatingsystem: centos5_3
+  medium: one
+  vm_defaults:
+    network_type: bridge
+    memory: "1048576"
+    disk_size: "8"
+    storage_pool: default
+    hypervisor_id: 123
+    interface: br0
+    vcpu: "1"

@@ -2,6 +2,7 @@ class Hostgroup < ActiveRecord::Base
   has_ancestry :orphan_strategy => :rootify
   include Authorization
   include HostCommon
+  include Vm
   has_and_belongs_to_many :puppetclasses
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
   validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
@@ -18,6 +19,7 @@ class Hostgroup < ActiveRecord::Base
   belongs_to :medium
   belongs_to :ptable
   belongs_to :puppetproxy, :class_name => "SmartProxy"
+  before_save :serialize_vm_attributes
 
   default_scope :order => 'LOWER(hostgroups.name)'
 
@@ -55,7 +57,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id], :methods => [:classes, :parameters], :include => [:puppetclasses, :group_parameters, :environment]}.merge(options))
+    super({:only => [:name, :id], :methods => [:classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]}.merge(options))
   end
 
   def hostgroup
@@ -96,6 +98,40 @@ class Hostgroup < ActiveRecord::Base
     # read group parameters only if a host belongs to a group
     parameters.update self.parameters unless hostgroup.nil?
     parameters
+  end
+
+  def vm_defaults
+    YAML.load(read_attribute(:vm_defaults))
+  rescue
+    {}
+  end
+
+  def vm_defaults=(v={})
+    raise "defaults must be a hash" unless v.is_a?(Hash)
+    v.delete_if{|attr, value| not Vm::PROPERTIES.include?(attr.to_sym)}
+    write_attribute :vm_defaults, v.to_yaml
+  end
+
+  def after_find
+    deserialize_vm_attributes
+  end
+
+  private
+
+  def serialize_vm_attributes
+    hash = {}
+    Vm::PROPERTIES.each do |attr|
+      value = self.send(attr)
+      hash[attr.to_s] = value if value
+    end
+    self.vm_defaults = hash
+  end
+
+  def deserialize_vm_attributes
+    hash = vm_defaults
+    Vm::PROPERTIES.each do |attr|
+      eval("@#{attr} = hash[attr.to_s]") if hash.has_key?(attr.to_s)
+    end
   end
 
 end

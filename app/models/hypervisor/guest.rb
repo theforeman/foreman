@@ -1,4 +1,4 @@
-require_dependency 'virt/guest'
+require 'virt/guest'
 
 class Virt::Guest
 
