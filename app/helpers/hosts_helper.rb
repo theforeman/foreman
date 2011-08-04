@@ -1,13 +1,12 @@
 module HostsHelper
-  include CommonParametersHelper
   include OperatingsystemsHelper
   include HostsAndHostgroupsHelper
 
   def last_report_column(record)
     return nil if record.last_report.nil?
     time = time_ago_in_words(record.last_report.getlocal)
-    image_tag("#{not (record.error_count > 0 or record.no_report)}.png", :size => "18x18") +
-      link_to_if_authorized(time,  hash_for_host_report_path(:host_id => record.to_param, :id => "last", :enable_link => @last_reports[record.id]))
+    report_icon(record) +
+      link_to_if_authorized(time, hash_for_host_report_path(:host_id => record.to_param, :id => "last", :enable_link => @last_reports[record.id]))
   end
 
 # method that reformat the hostname column by adding the status icons
@@ -69,7 +68,6 @@ module HostsHelper
     return false if host.nil? or not host.is_a?(Host) or session[:selected].nil?
     session[:selected].include?(host.id.to_s)
   end
-
 
   def accessible_domains
     (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all
