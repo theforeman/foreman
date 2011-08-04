@@ -1,15 +1,12 @@
 class Report < ActiveRecord::Base
   include Authorization
+  include ReportCommon
   belongs_to :host
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
   validates_presence_of :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
-
-  METRIC = %w[applied restarted failed failed_restarts skipped]
-  BIT_NUM = 6
-  MAX = (1 << BIT_NUM) -1 # maximum value per metric
 
   scoped_search :in => :host,     :on => :name, :complete_value => true, :rename => :host
   scoped_search :in => :messages, :on => :value,                         :rename => :log
@@ -23,13 +20,6 @@ class Report < ActiveRecord::Base
   scoped_search :on => :status, :offset => METRIC.index("failed"),          :word_size => BIT_NUM, :rename => :failed
   scoped_search :on => :status, :offset => METRIC.index("failed_restarts"), :word_size => BIT_NUM, :rename => :failed_restarts
   scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
-
-  # search for a metric - e.g.:
-  # Report.with("failed") --> all reports which have a failed counter > 0
-  # Report.with("failed",20) --> all reports which have a failed counter > 20
-  named_scope :with, lambda { |*arg| { :conditions =>
-    "(status >> #{BIT_NUM*METRIC.index(arg[0])} & #{MAX}) > #{arg[1] || 0}"}
-  }
 
   # returns recent reports
   named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
@@ -45,18 +35,6 @@ class Report < ActiveRecord::Base
     write_attribute(:status,s) unless s.nil?
   end
 
-  #returns metrics
-  #when no metric type is specific returns hash with all values
-  #passing a METRIC member will return its value
-  def status(type = nil)
-    raise "invalid type #{type}" if type and not METRIC.include?(type)
-    h = {}
-    (type || METRIC).each do |m|
-      h[m] = (read_attribute(:status) || 0) >> (BIT_NUM*METRIC.index(m)) & MAX
-    end
-    return type.nil? ? h : h[type]
-  end
-
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
     YAML.load(read_attribute(:metrics)).with_indifferent_access
@@ -65,24 +43,6 @@ class Report < ActiveRecord::Base
   # serialize metrics as YAML
   def metrics= m
     write_attribute(:metrics,m.to_yaml) unless m.nil?
-  end
-
-  # generate dynamically methods for all metrics
-  # e.g. Report.last.applied
-  METRIC.each do |method|
-    define_method method do
-      status method
-    end
-  end
-
-  # returns true if total error metrics are > 0
-  def error?
-    %w[failed failed_restarts].sum {|f| status f} > 0
-  end
-
-  # returns true if total action metrics are > 0
-  def changes?
-    %w[applied restarted].sum {|f| status f} > 0
   end
 
   def to_label
@@ -243,6 +203,11 @@ class Report < ActiveRecord::Base
     logger.warn "failed to send failure email notification: #{e}"
   end
 
+  # represent if we have a report --> used to ensure consistency across host report state the report itself
+  def no_report
+    false
+  end
+
   private
 
   # Converts metrics form Puppet report into a hash
@@ -346,5 +311,10 @@ class Report < ActiveRecord::Base
         :id => id, :summary => summaryStatus
       },
     }
+  end
+
+  # puppet report status table column name
+  def self.report_status
+    "status"
   end
 end

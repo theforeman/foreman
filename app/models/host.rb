@@ -1,5 +1,6 @@
 class Host < Puppet::Rails::Host
   include Authorization
+  include ReportCommon
   belongs_to :architecture
   belongs_to :medium
   belongs_to :model
@@ -22,7 +23,7 @@ class Host < Puppet::Rails::Host
 
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
-        :params, :hostgroup, :domain, :ip, :mac
+      :params, :hostgroup, :domain, :ip, :mac
   end
 
   named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
@@ -32,8 +33,8 @@ class Host < Puppet::Rails::Host
     unless fact.nil? or value.nil?
       { :joins => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
                    INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
-        :select => "DISTINCT hosts.name, hosts.id", :conditions =>
-      ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id",value, fact ] }
+                   :select => "DISTINCT hosts.name, hosts.id", :conditions =>
+                   ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id",value, fact ] }
     else
       raise "invalid fact"
     end
@@ -47,18 +48,14 @@ class Host < Puppet::Rails::Host
     end
   }
 
-  named_scope :with, lambda { |*arg| { :conditions =>
-    "(puppet_status >> #{Report::BIT_NUM*Report::METRIC.index(arg[0])} & #{Report::MAX}) > #{arg[1] || 0}"}
-  }
   named_scope :with_error, { :conditions => "(puppet_status > 0) and
-    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed")} & #{Report::MAX}) != 0) or
-    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("failed_restarts")} & #{Report::MAX}) != 0)"
+    ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
+    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0)"
   }
-
 
   named_scope :with_changes, { :conditions => "(puppet_status > 0) and
-    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("applied")} & #{Report::MAX}) != 0) or
-    ((puppet_status >> #{Report::BIT_NUM*Report::METRIC.index("restarted")} & #{Report::MAX}) !=0)"
+    ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
+    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) !=0)"
   }
 
   named_scope :successful, {:conditions => "puppet_status = 0"}
@@ -226,23 +223,6 @@ class Host < Puppet::Rails::Host
 
   def error_count
     %w[failed failed_restarts].sum {|f| status f}
-  end
-
-  def status(type = nil)
-    raise "invalid type #{type}" if type and not Report::METRIC.include?(type)
-    h = {}
-    (type || Report::METRIC).each do |m|
-      h[m] = (read_attribute(:puppet_status) || 0) >> (Report::BIT_NUM*Report::METRIC.index(m)) & Report::MAX
-    end
-    return type.nil? ? h : h[type]
-  end
-
-  # generate dynamically methods for all metrics
-  # e.g. Report.last.applied
-  Report::METRIC.each do |method|
-    define_method method do
-      status method
-    end
   end
 
   def no_report
@@ -475,7 +455,7 @@ class Host < Puppet::Rails::Host
     output
   end
 
-   def resources_chart(timerange = 1.day.ago)
+  def resources_chart(timerange = 1.day.ago)
     data = {}
     data[:applied], data[:failed], data[:restarted], data[:failed_restarts], data[:skipped] = [],[],[],[],[]
     reports.recent(timerange).each do |r|
@@ -626,4 +606,13 @@ class Host < Puppet::Rails::Host
     status
   end
 
+  # alias to ensure same method that resolves the last report between the hosts and reports tables.
+  def reported_at
+    last_report
+  end
+
+  # puppet report status table column name
+  def self.report_status
+    "puppet_status"
+  end
 end
