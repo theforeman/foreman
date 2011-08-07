@@ -7,6 +7,7 @@ class Bookmark < ActiveRecord::Base
   validates_format_of :controller, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   validates_presence_of :query
   default_scope :order => :name
+  before_validation :set_default_user
 
   named_scope :my_bookmarks, lambda {
     return {} unless SETTINGS[:login]
@@ -16,11 +17,12 @@ class Bookmark < ActiveRecord::Base
     {:conditions => conditions}
   }
 
-  def after_initialize
+  def set_default_user
     self.owner ||= User.current
   end
 
   def to_param
     name
   end
+
 end

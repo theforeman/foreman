@@ -125,10 +125,10 @@ class Host < Puppet::Rails::Host
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
   end
 
-  before_validation :normalize_addresses, :normalize_hostname, :set_hostgroup_defaults
+  before_validation :normalize_addresses, :normalize_hostname, :set_hostgroup_defaults, :set_default_user
   after_validation :ensure_assoications
 
-  def after_initialize
+  def set_default_user
     self.owner ||= User.current
   end
 
