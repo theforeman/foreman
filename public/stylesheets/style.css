@@ -271,7 +271,7 @@ div.flash.notice {
 .error-messages h2 {
   color: white; margin-top: 0; padding-bottom: 0; font-size: 16px;
 }
-.error-messages li {margin-left: 20px; list-style: square;}
+.error-messages li {margin-left: 20px; list-style: none;}
 
 .field-with-errors input, .field-with-errors textarea, .field-with-errors select {border: 2px solid #BC1C3D;}
 

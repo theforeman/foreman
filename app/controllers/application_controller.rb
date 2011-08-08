@@ -86,7 +86,6 @@ class ApplicationController < ActionController::Base
   def welcome
     klass = controller_name.camelize.singularize
     eval "#{klass}" rescue nil # We must force an autoload of the model class
-    #logger.debug "defined?(#{klass}) is ->#{eval "defined?(#{klass})"}<-"
     render :welcome and return if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?" rescue nil
     false
   end
@@ -214,6 +213,8 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
+    logger.warn exception
+    logger.warn exception.application_backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
 

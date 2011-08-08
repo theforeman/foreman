@@ -6,6 +6,18 @@
   </ul>
 </div>
 
-<p> If you feel this is an error with Foreman itself, please open a new issue with <a href=http://theforeman.org/projects/foreman/issues>Foreman ticketing system</a></p>
+<p>
+  If you feel this is an error with Foreman itself, please open a new issue with <a href=http://theforeman.org/projects/foreman/issues>Foreman ticketing system</a>,
+  You would probably need to attach the
+  <%= link_to_function "Full trace", toggle_div("backtrace") %> and relevant log entries.
+</p>
 
+<div id="backtrace", <%= display? %> class="error-messages">
+  <h3> <%= exception.message %> <%= exception.class %> </h3>
+  <ul>
+    <% exception.application_backtrace.each do |line| -%>
+      <li> <%= h line %> </li>
+    <% end -%>
+  </ul>
+</div>
 <p><%= link_to "Back", root_path %></p>
