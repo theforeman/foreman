@@ -7,7 +7,7 @@
     <%= menu 'facts' ,     my_bookmarks, hash_for_fact_values_path %>
     <%= menu 'audits',     my_bookmarks, hash_for_audits_path %>
     <%= menu 'statistics', my_bookmarks %>
-    <% if User.current.admin? or User.current.allowed_to?(:access_settings) -%>
+    <% if User.current and (User.current.admin? or User.current.allowed_to?(:access_settings)) -%>
       <li style="float:right; margin-right: 80px;"><%= render "home/settings" -%></li>
     <% end -%>
   </ul>
