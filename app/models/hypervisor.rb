@@ -1,4 +1,5 @@
 require 'hypervisor/guest'
+require 'timeout'
 
 class Hypervisor < ActiveRecord::Base
   attr_accessible :name, :uri, :kind
@@ -48,24 +49,32 @@ class Hypervisor < ActiveRecord::Base
   def connect
     return true if Rails.env == "test"
     logger.info "trying to contact Hypervisor #{name}"
-    @host = Virt.connect(uri).host
+    Timeout::timeout(10, StandardError) { @host = Virt.connect(uri).host }
+  rescue => e
+    logger.warn "Failed to connect to hypervisor #{name} - #{e}"
+    @host = nil
+    raise
   end
 
   def disconnect
     return true if Rails.env == "test"
-    logger.debug "Closing connection to #{self}"
-    host.disconnect if host
+    logger.debug "Closing connection to #{name}"
+    Timeout::timeout(10, StandardError) { host.disconnect } if host
+  rescue => e
+    logger.warn "Failed to disconnect from hypervisor #{name} - #{e}"
+    false
+  ensure
+    @host = nil
   end
 
   private
   def try_to_connect
-    return true if Rails.env == "test"
-    return true if Virt.connect(uri)
+    connect
   rescue => e
     errors.add_to_base "Unable to connect to Hypervisor: #{e}"
     false
   ensure
-    Virt.connection.disconnect rescue false
+    disconnect
   end
 
   # we query the hypervisor
