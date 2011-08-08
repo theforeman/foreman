@@ -84,14 +84,12 @@ class Solaris < Operatingsystem
   end
 
 
-  def jumpstart_params host
+  def jumpstart_params host, vendor
     # root server and install server are always the same under Foreman
     server_name = host.medium.media_host
     server_ip   = host.domain.resolver.getaddress(server_name).to_s
     jpath       = jumpstart_path host.medium, host.domain
     ipath       = interpolate_medium_vars(host.medium.media_dir, host.architecture.name, self)
-
-    return failure "Host's operating system has an unknown vendor class" unless (vendor = host.model.vendor_class)
 
     {
     "<#{vendor}>root_server_ip"        => server_ip,                              # 192.168.216.241

@@ -24,7 +24,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01.yourdomain.net").returns("2.3.4.5").once
     #User.current = users(:admin)
-    result = h.os.jumpstart_params h
+    result = h.os.jumpstart_params h, h.model.vendor_class
     assert_equal result, {"<Sun-Fire-V210>install_path" => "/vol/solgi_5.10/sol10_hw0910_sparc",
                           "<Sun-Fire-V210>install_server_ip" => "2.3.4.5",
                           "<Sun-Fire-V210>install_server_name" => "brsla01",
