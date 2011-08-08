@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
+  rescue_from Exception, :with => :generic_exception
 
   # standard layout to all controllers
   helper 'layout'
@@ -210,6 +211,10 @@ class ApplicationController < ActionController::Base
   end
   def redirect_back_or_to url
     redirect_to request.referer.empty? ? url : :back
+  end
+
+  def generic_exception(exception)
+    render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
 
 end
