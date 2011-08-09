@@ -21,7 +21,11 @@
       </div>
     <% end -%>
 
-    <% if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) -%>
+    <% if SETTINGS[:unattended] -%>
+      <% field_set_tag 'Network Settings' do -%>
+        <%= render 'common/domain_subnet', :item => @hostgroup %>
+      <% end -%>
+
       <% field_set_tag 'Operating System Settings' do %>
         <div class="span-24 last">
           <%= render "common/os_selection/initial", { :f => f, :item=> @hostgroup } -%>

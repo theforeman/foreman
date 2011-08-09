@@ -1,0 +1,9 @@
+<%= label type, :domain_id, nil, :class => "span-3" %>
+<%= collection_select type, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},{:class => "span-5"} %>
+<span id="<%= type %>_subnet" class="span-6"> <%= render 'common/domain', :type => type if @domain %> </span>
+
+<%= observe_field( "#{type}_domain_id",
+                  :url => { :action => :domain_selected },
+                  :update => "#{type}_subnet",
+                  :with => :domain_id)
+%>

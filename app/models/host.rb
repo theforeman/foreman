@@ -1,22 +1,14 @@
 class Host < Puppet::Rails::Host
   include Authorization
   include ReportCommon
-  belongs_to :architecture
-  belongs_to :medium
   belongs_to :model
-  belongs_to :domain
-  belongs_to :operatingsystem
   has_many :host_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :host_classes
-  belongs_to :environment
-  belongs_to :subnet
-  belongs_to :ptable
   belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
-  belongs_to :puppetproxy, :class_name => "SmartProxy"
 
   include Hostext::Search
   include HostCommon
@@ -529,8 +521,8 @@ class Host < Puppet::Rails::Host
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment puppetmaster_name puppetproxy})
-    assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass}) if SETTINGS[:unattended]
+    assign_hostgroup_attributes(%w{environment domain puppetmaster_name puppetproxy})
+    assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet}) if SETTINGS[:unattended] and (new_record? or managed?)
     assign_hostgroup_attributes(Vm::PROPERTIES) if new_record? and hostgroup.hypervisor?
   end
 

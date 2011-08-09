@@ -2,9 +2,7 @@
   <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
 </span>
 <% field_set_tag 'Network Settings' do -%>
-  <%= f.label :domain_id, nil, :class => "span-3" %>
-  <%= f.collection_select :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},{:class => "span-5"} %>
-  <span id="host_subnet" class="span-6"> <%= render 'domain' if @domain %> </span>
+  <%= render 'common/domain_subnet', :item => @host %>
   <%= f.label :ip, "IP", :class => "span-1" %>
   <%= f.text_field :ip, :class => "span-3", :title => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you" %>
   <% unless @hypervisor -%>
@@ -50,11 +48,4 @@
     </table>
 
   </div>
-
 <% end -%>
-
-<%= observe_field(:host_domain_id,
-                  :url => { :action => :domain_selected, :id => @host.id },
-                  :update => :host_subnet,
-                  :with => :domain_id)
-%>

@@ -93,6 +93,8 @@ class HostgroupsController < ApplicationController
     return unless @hostgroup
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
+    @domain          = @hostgroup.domain
+    @hypervisor      = @hostgroup.hypervisor
   end
 
 end

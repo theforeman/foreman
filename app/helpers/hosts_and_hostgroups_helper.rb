@@ -71,4 +71,8 @@ module HostsAndHostgroupsHelper
     options_for_select Hypervisor::MEMORY_SIZE.map {|mem| [number_to_human_size(mem*1024), mem]}, memory.to_i
   end
 
+  def accessible_domains
+    (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all
+  end
+
 end

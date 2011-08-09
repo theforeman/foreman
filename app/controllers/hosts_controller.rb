@@ -114,10 +114,6 @@ class HostsController < ApplicationController
 
   # form AJAX methods
 
-  def domain_selected
-    assign_parameter "domain"
-  end
-
   def hostgroup_or_environment_selected
      @environment = Environment.find(params[:environment_id]) if params[:environment_id].to_i > 0
      @hostgroup   = Hostgroup.find(params[:hostgroup_id])     if params[:hostgroup_id].to_i   > 0
@@ -361,6 +357,8 @@ class HostsController < ApplicationController
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
     @environment     = @hostgroup.environment
+    @domain          = @hostgroup.domain
+    @subnet          = @hostgroup.subnet
 
     @host = Host.new
     @host.hostgroup = @hostgroup
@@ -377,7 +375,7 @@ class HostsController < ApplicationController
 
       if SETTINGS[:unattended]
         page['host_root_pass'].value = @hostgroup.root_pass
-        if @hostgroup.hypervisor? and (@hypervisor = Hypervisor.find(@host.hypervisor_id))
+        if (@hypervisor = @hostgroup.hypervisor)
           @hypervisor.connect
           # we are in a view context
           controller.send(:update_hypervisor_details, @host, page)
@@ -390,6 +388,14 @@ class HostsController < ApplicationController
         end
         if @operatingsystem
           page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @host}
+        end
+        if @domain
+          page['host_domain_id'].value = @domain.id
+          if @subnet
+            page.replace_html(:host_subnet, :partial => 'common/domain', :locals => {:item => @host})
+            page['host_subnet_id'].val("0").change
+            page['host_subnet_id'].val("#{@subnet.id}").change
+          end
         end
       end
     end
@@ -463,6 +469,7 @@ class HostsController < ApplicationController
     @domain          = @host.domain
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
+    @hypervisor      = @host.hypervisor
   end
 
   def find_multiple

@@ -13,12 +13,6 @@ class Hostgroup < ActiveRecord::Base
   before_destroy Ensure_not_used_by.new(:hosts)
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations
-  belongs_to :operatingsystem
-  belongs_to :environment
-  belongs_to :architecture
-  belongs_to :medium
-  belongs_to :ptable
-  belongs_to :puppetproxy, :class_name => "SmartProxy"
   before_save :serialize_vm_attributes
 
   default_scope :order => 'LOWER(hostgroups.name)'

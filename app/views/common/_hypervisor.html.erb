@@ -6,7 +6,7 @@
     <%= image_tag "spinner.gif", :id => "vm_indicator", :style => "display:none" %>
   </div>
   <% if @hypervisor or (item and item.hypervisor?) -%>
-    <% (@hypervisor ||= Hypervisor.find(item.hypervisor_id)) -%>
+    <% @hypervisor ||= item.hypervisor -%>
     <div class="span-4 pull-1">
       <%= label item_name, :memory, "Memory" %>
       <%= select item_name, :memory, select_memory(item.memory || @guest.memory) %>

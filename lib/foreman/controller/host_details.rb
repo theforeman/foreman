@@ -21,6 +21,10 @@ module Foreman::Controller::HostDetails
     render :partial => "common/os_selection/image_details", :locals => { :item => item_object }
   end
 
+  def domain_selected
+    assign_parameter "domain", "common/"
+  end
+
   def use_image_selected
     item = item_object
     render(:update) do |page|
@@ -101,7 +105,7 @@ module Foreman::Controller::HostDetails
       page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => controller.send(:item_object) }
       # you can only select bare metal after you successfully selected a hypervisor before
       page << "if ($('#host_mac').length == 0) {"
-      page.insert_html :after, :host_ip, :partial => "mac"
+      page.insert_html :after, :host_ip, :partial => "hosts/mac"
       page[:host_hypervisor_id].value = ""
       page << " }"
     end

@@ -6,6 +6,14 @@ module HostCommon
     base.class_eval do
       validates_format_of   :puppetmaster_name, :with => /^puppet$|^.*\..+\S$/, :allow_blank => true, :message => "The puppetmaster may be 'puppet' or the fully qualified hostname"
       validates_presence_of :puppetmaster
+      belongs_to :architecture
+      belongs_to :environment
+      belongs_to :operatingsystem
+      belongs_to :medium
+      belongs_to :ptable
+      belongs_to :puppetproxy, :class_name => "SmartProxy"
+      belongs_to :domain
+      belongs_to :subnet
     end
   end
 

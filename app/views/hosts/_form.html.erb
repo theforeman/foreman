@@ -45,7 +45,7 @@
 
   <%= f.hidden_field :managed %>
 
-  <%= render('unattended', :f => f) if (SETTINGS[:unattended].nil? or SETTINGS[:unattended]) and @host.managed -%>
+  <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
   <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
 
@@ -53,7 +53,7 @@
     <div id="additional_info" style="display:none;">
       <div class="span-10">
         <br>
-        <% if true || SETTINGS[:login] -%>
+        <% if SETTINGS[:login] -%>
           <%= f.label :is_owned_by, "Owner", :class => "span-3" %>
           <%= f.select(               :is_owned_by, option_groups_from_collection_for_select(
                   [User, Usergroup], :all, :table_name, :id_and_type, :select_title,

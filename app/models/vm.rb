@@ -13,6 +13,15 @@ module Vm
     def hypervisor?
       !hypervisor_id.blank?
     end
+
+    def hypervisor
+      return nil unless hypervisor?
+      Hypervisor.find(hypervisor_id)
+    rescue ActiveRecord::RecordNotFound
+      # we stored an invalid hypervisor
+      self.hypervisor_id = nil
+    end
+
   end
 
 end
