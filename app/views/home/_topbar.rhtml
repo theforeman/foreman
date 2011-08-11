@@ -1,6 +1,8 @@
-<%  if SETTINGS[:login] and SETTINGS[:login] == true and User.current %>
-  <%= link_to("Sign Out #{User.current.login}", logout_users_path) %>
-  <%= link_to("My account", edit_user_path(User.current) )%>
-<% end -%>
-<%= link_to 'Wiki',    "http://theforeman.org/wiki/foreman", :rel => "external" %>
-<%= link_to 'Support', "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
+<div class="top-bar">
+  <%  if SETTINGS[:login] and User.current %>
+      <%= link_to("Sign Out #{User.current.login}", logout_users_path) %>
+      <%= link_to("My account", edit_user_path(User.current) )%>
+  <% end -%>
+  <%= link_to 'Wiki',    "http://theforeman.org/wiki/foreman", :rel => "external" %>
+  <%= link_to 'Support', "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
+</div>

@@ -22,7 +22,6 @@ class ConfigTemplatesController < ApplicationController
 
   def new
     @config_template = ConfigTemplate.new
-    @config_template.template_combinations.build
   end
 
   def create
@@ -35,7 +34,6 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def edit
-    @config_template.template_combinations.build if @config_template.template_combinations.empty?
   end
 
   def update

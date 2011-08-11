@@ -1,9 +1,10 @@
+<div class="login-background"></div>
 <div id="login-form">
   <% form_tag({:action=> "login"}) do %>
     <table>
       <tr>
         <td align="right"><label for="login">Username:</label></td>
-        <td align="left"><p><%= text_field 'login','login' %></p></td>
+        <td align="left"><%= text_field 'login','login' %></td>
       </tr>
       <tr>
         <td align="right"><label for="password">Password:</label></td>
@@ -16,5 +17,6 @@
     </tr>
   </table>
 <% end %>
-<%= javascript_tag "Form.Element.focus('login_login');" %>
+<%= javascript_tag '$("#login_login").focus();' %>
+<%= javascript_tag '$(".title").hide();' %>
 </div>

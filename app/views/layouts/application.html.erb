@@ -1,47 +1,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta name="generator" content="Bluefish 2.0.2" />
+  <head>
+    <meta name="generator" content="Bluefish 2.0.2" />
 
-  <title>
-  <%= h(yield(:title) || "The Foreman") %></title>
-  <%= stylesheet_link_tag 'reset' %>
-  <%= stylesheet_link_tag 'style' %>
-  <%= stylesheet_link_tag 'typography' %>
-  <%= stylesheet_link_tag 'grid' %>
-  <%= stylesheet_link_tag 'jquery-ui' %>
-  <%= javascript_include_tag :defaults, 'menu', 'highcharts' %>
-  <%= yield(:head) %>
-</head>
+    <title> <%= h(yield(:title) || "Foreman") %></title>
+    <%= stylesheet_link_tag 'reset', 'style', 'typography', 'grid', 'jquery-ui', 'jquery.jnotify' %>
+    <%= javascript_include_tag :defaults, 'menu', 'highcharts', 'jquery.jnotify' %>
+    <%= yield(:head) %>
+  </head>
 
-<body>
-  <div id="wrap">
-   <div id="header">
-     <%= render 'home/topbar' %>
-
-     <div class="title">
-       The Foreman
-     </div>
-   </div>
-    <div id="main">
-		<%= content_tag('div', flash[:error],  :class => 'flash error')  if flash[:error] -%>
-		<%= content_tag('div', flash[:notice], :class => 'flash notice') if flash[:notice] -%>
-		<%= render 'common/notice' unless @notices.empty? -%>
-	   <div id="content">
-	     <%- if show_title? -%>
-	     <h1><%=h yield(:title) %></h1>
-	     <%- end -%>
-	     <%= yield -%>
-	   </div>
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <div class="title"> Foreman </div>
+        <%= render 'home/topbar' %>
+      </div>
+      <div id="main">
+        <%= content_tag('div', flash[:error],  :class => 'flash error')  if flash[:error] -%>
+        <%= content_tag('div', flash[:notice], :class => 'flash notice') if flash[:notice] -%>
+        <%= render 'common/notice' unless @notices.empty? -%>
+        <div id="content">
+          <%= yield -%>
+        </div>
+        <%= render("home/menu") unless session[:user].nil? -%>
+        <%= render "common/searchbar" if searchable? %>
+      </div>
     </div>
-    <%= render("home/menu") unless session[:user].nil? -%>
-    <%= render "common/searchbar" if searchable? %>
-  </div>
-
-  <div id="footer">
-    <p>Version <%= SETTINGS[:version] %> &copy; 2009-<script>document.write( (new Date()).getFullYear() );</script> <%= mail_to "paul.ian.kelly@googlemail.com", "Paul Kelly" %> and <%= mail_to "ohadlevy@gmail.com", "Ohad Levy" %></p>
-  </div>
-</body>
+    <div id="footer">
+      <p>Version <%= SETTINGS[:version] %> &copy; 2009-<script>document.write( (new Date()).getFullYear() );</script> <%= mail_to "paul.ian.kelly@googlemail.com", "Paul Kelly" %> and <%= mail_to "ohadlevy@gmail.com", "Ohad Levy" %></p>
+    </div>
+  </body>
 </html>

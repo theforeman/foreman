@@ -65,7 +65,6 @@ module ApplicationHelper
 
   def check_all_links(form_name)
     link_to_function("Check all", "checkAll('##{form_name}', true)") +
-    " | " +
     link_to_function("Uncheck all", "checkAll('##{form_name}', false)")
   end
 
@@ -124,7 +123,11 @@ module ApplicationHelper
   # +html_options+ : Hash containing html options for the link or span
   def display_link_if_authorized(name, options = {}, html_options = nil)
     auth_action = options.delete :auth_action
-    link_to(name, options, html_options) if authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
+    if authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
+      link_to(name, options, html_options)
+    else
+      ""
+    end
   end
 
   def authorized_edit_habtm klass, association
@@ -153,7 +156,7 @@ module ApplicationHelper
 
   def searchable?
     return false if (SETTINGS[:login] and !User.current )
-    controller.respond_to?(:auto_complete_search) rescue false
+    (controller.action_name == "index") && (controller.respond_to?(:auto_complete_search)) rescue false
   end
 
   def auto_complete_search(method, val,tag_options = {}, completion_options = {})

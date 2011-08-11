@@ -1,7 +1,7 @@
 <div class="auto_complete">
   <% form_tag eval("#{controller_name}_path"), :method => "get" do %>
-    <%= auto_complete_search(:search, params[:search], {:placeholder => "Type Space For Search Options"},{ :delay => 100, :min_length => -1 }) %>
-    <%= display_link_if_authorized "Bookmark this Search", {:controller => :bookmarks, :action => :new, :kontroller => controller_name}, {:id => "bookmark", :style=>"font-size: 2px; top: -4px;"} %>
-    <button id='submit_search' style="font-size: 12px;">Search</button>
+    <%= auto_complete_search(:search, params[:search], {:placeholder => "Filter ..."},{ :delay => 100, :min_length => -1 }) %>
+    <%= display_link_if_authorized "Bookmark this Search", {:controller => :bookmarks, :action => :new, :kontroller => controller_name}, {:id => "bookmark"} %>
+    <%= link_to_function 'Search', "$('.auto_complete form').submit()" , {:id => 'submit_search', :style => 'font-size: 12px;' } %>
   <% end -%>
 </div>

@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
   end
   alias_method :name, :to_label
 
+  def to_param
+    "#{id}-#{login.parameterize}"
+  end
+
   def <=>(other)
     self.name.downcase <=> other.name.downcase
   end

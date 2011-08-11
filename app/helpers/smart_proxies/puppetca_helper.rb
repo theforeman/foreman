@@ -13,4 +13,5 @@ module SmartProxies::PuppetcaHelper
     str += " ago" if opts[:tense] == :past
     str
   end
+
 end

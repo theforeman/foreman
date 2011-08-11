@@ -1,10 +1,15 @@
+<div class="title_action">
+  <%= check_all_links 'permissions' %>
+</div>
+
 <% form_for @role do |f| %>
   <%= error_messages_for 'role' %>
 
   <% if @role.builtin? %>
-    <h2><b>Name</b> <i><%= @role.name -%></i></h2>
+    <h2><b><%= f.label :name %></b> <i><%= @role.name -%></i></h2>
   <% else %>
-    <%= f.text_field :name, :label => "Name", :style => "margin-left:1px;", :required => true %>
+    <%= f.label :name, "Name", :class => "span-2" %>
+    <%= f.text_field :name %>
   <% end %>
 
   <h3>Permissions</h3>
@@ -20,8 +25,7 @@
         <% end %>
       <% end %>
     <% end %>
-    <br /><%= check_all_links 'permissions' %>
-    <%= hidden_field_tag 'role[permissions][]', '' %>
+  <%= hidden_field_tag 'role[permissions][]', '' %>
   </div>
   <%= submit_tag "Submit" %>
 <% end %>

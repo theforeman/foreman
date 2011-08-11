@@ -27,11 +27,11 @@
   <p class="span-24">
   <%= f.label :base_dn ,nil, :class => "span-2" %>
   <%= f.text_field :base_dn, :class => "span-10" %>
-  <%= f.check_box :onthefly_register, :class => "span-2" %>
+  <%= f.check_box :onthefly_register, :class => "span-2", :onchange => "$('#on_the_fly_attrs').toggle()" %>
   <%= f.label :onthefly_register, "On-the-fly user creation", :class => "span-5 last" %>
   </p>
 
-  <div class="span-24 last">
+  <div id="on_the_fly_attrs" class="span-24 last", <%= display(@auth_source_ldap.onthefly_register?) %>>
     <% field_set_tag("Attributes for on the fly user creation") do %>
       <p class="span-24">
       <%= f.label :attr_login, nil, :class => "span-3" %>

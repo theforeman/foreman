@@ -9,9 +9,9 @@
   <%= f.text_area :layout, :class => "span-15 last" %>
   </p>
   <p>
-  <% field_set_tag("Valid operating systems") do %>
+  <% field_set_tag("Valid operating systems", :class => "span-24") do %>
     <%= authorized_edit_habtm @ptable, Operatingsystem %>
   <% end %>
   </p>
-  <p><%= f.submit "Submit" %></p>
+  <p class="span-24"><%= f.submit "Submit" %></p>
 <% end %>

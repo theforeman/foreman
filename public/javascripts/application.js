@@ -1,3 +1,10 @@
+$(function() {
+    $('.error, .warning, .notice').hide().each(function(index, item) {
+        item = $(item);
+        $.jnotify(item.text(), { type: item.attr('class'), sticky: true });
+    });
+});
+
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
   $(link).closest(".fields").hide();

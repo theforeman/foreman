@@ -1,7 +1,8 @@
 <% title "Environments" %>
 
-<div class="title_action"><%= display_link_if_authorized "New Environment", hash_for_new_environment_path %> |
-<%= display_link_if_authorized "Import all classes and environments",  hash_for_import_environments_environments_path, :action => "import_environments" %>
+<div class="title_action">
+  <%= display_link_if_authorized "New Environment", hash_for_new_environment_path %>
+  <%= display_link_if_authorized "Import all classes and environments",  hash_for_import_environments_environments_path, :action => "import_environments" %>
 </div>
 <table class="list">
   <tr>

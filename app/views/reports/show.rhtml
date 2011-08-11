@@ -1,8 +1,8 @@
 <% title @report.host.name -%>
 Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 <% if @offset > 100 -%>
-  <div class="flash error">
-    Host time seems to be a drift <br/>
+  <div id="errorExplanation">
+    <h3>Host time seems to be a driftd!</h3>
     Host reported time is <%= @report.reported_at %> <br/>
     Foreman report creation time is <%= @report.created_at %> <br/>
     Which is an offset of <%= distance_of_time_in_words(@report.reported_at, @report.created_at, true) %>

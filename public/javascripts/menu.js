@@ -116,9 +116,7 @@ $(function() {
     })
     return false;
   }),
-      $("#submit_search").button({
-        icons: { primary: "ui-icon-search" }
-      });
+    $("#submit_search").button();
 });
 
 //make action title links into buttons
@@ -141,6 +139,7 @@ $(function() {
   if (currPage.position() == undefined) {
     currPage = $("#settings_dropdown");
     currPage.addClass('current_page_item');
+    $("#settings_dropdown a").text($("title").attr("text") + " ▼");
   }
   $magicLine
       .width(currPage.parent().width() - 8)

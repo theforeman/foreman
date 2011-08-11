@@ -1,7 +1,9 @@
-<% title "Puppet certificates for #{@proxy}" %>
+<% title "PuppetCA on #{@proxy.name}" %>
+<div class="page_title">
+  Filter <%= state_filter %>
+</div>
 <div class="title_action">
   <%= display_link_if_authorized "Autosign Entries", hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => @proxy) %>
-  <%= state_filter %>
 </div>
 
 <table class='list'>

@@ -51,6 +51,10 @@ class Hostgroup < ActiveRecord::Base
     ancestors.map{|a| a.name + "/"}.join + name
   end
 
+  def to_param
+    "#{id}-#{to_label.parameterize}"
+  end
+
   def as_json(options={})
     super({:only => [:name, :id], :methods => [:classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]}.merge(options))
   end

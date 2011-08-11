@@ -1,32 +1,32 @@
 <div id="settings_dropdown" class="dropdown_header" >
   <a href="#">Settings&nbsp;&#9660;</a>
 
-  <% choices  = [
-      ['Architectures',          architectures_url],
-      ['Bookmarks',              bookmarks_url],
-      ['Domains',                domains_url],
-      ['Environments',           environments_url],
-      ['Foreman Settings',       settings_url],
-      ['Global Parameters',      common_parameters_url],
-      ['Hardware Models',        models_url],
-      ['Host Groups',            hostgroups_url],
-      ['Installation Media',     media_url],
-      ['LDAP Authentication',    auth_source_ldaps_url],
-      ['Operating Systems',      operatingsystems_url],
-      ['Partition Tables',       ptables_url],
-      ['Provisioning Templates', config_templates_url],
-      ['Puppet Classes',         puppetclasses_url],
-      ['Smart Proxies',          smart_proxies_url],
-      ['Subnets',                subnets_url],
-    ]
+  <% choices  = []
+     choices += [['Architectures',          :architectures]]
+     choices += [['Bookmarks',              :bookmarks]]
+     choices += [['Domains',                :domains]]
+     choices += [['Environments',           :environments]]
+     choices += [['Foreman Settings',       :settings]]
+     choices += [['Global Parameters',      :common_parameters]]
+     choices += [['Hardware Models',        :models]]
+     choices += [['Host Groups',            :hostgroups]]
+     choices += [['Installation Media',     :media]]
+     choices += [['LDAP Authentication',    :auth_source_ldaps]]
+     choices += [['Operating Systems',      :operatingsystems]]
+     choices += [['Partition Tables',       :ptables]]
+     choices += [['Provisioning Templates', :config_templates]]
+     choices += [['Puppet Classes',         :puppetclasses]]
+     choices += [['Smart Proxies',          :smart_proxies]]
+     choices += [['Subnets',                :subnets]]
+
     choices += [
-      ['Users',                  users_url],
-      ['Usergroups',             usergroups_url]
+      ['Users',                  :users],
+      ['User Groups',            :usergroups]
     ] if SETTINGS[:login]
     choices += [
-      ['Roles',                  roles_url]
+      ['Roles',                  :roles]
     ] if SETTINGS[:login] and User.current.admin?
-    choices += [['Hypervisors',  hypervisors_url]] if SETTINGS[:libvirt]
+    choices += [['Hypervisors',  :hypervisors]] if SETTINGS[:libvirt]
   %>
-  <%= select_tag "settings_list", options_for_select(choices.sort, @controller.request.url) %>
+  <%= select_tag "settings_list", options_for_select(allowed_choices(choices), @controller.request.url) %>
 </div>

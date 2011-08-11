@@ -14,4 +14,13 @@ module HomeHelper
         end
     end
   end
+
+  # filters out any non allowed actions from the setting menu.
+  def allowed_choices choices, action = "index"
+    choices.map do |opt|
+      name, kontroller = opt
+      url = eval("#{kontroller}_url")
+      authorized_for(kontroller, action) ? [name, url] : nil
+    end.compact.sort
+  end
 end

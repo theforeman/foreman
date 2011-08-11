@@ -29,6 +29,10 @@ class SmartProxy < ActiveRecord::Base
     hostname =~ /^puppet\./ ? "puppet" : hostname
   end
 
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
+
   def self.name_map
     {
       "tftp"     => Feature.find_by_name("TFTP"),

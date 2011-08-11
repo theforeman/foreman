@@ -5,6 +5,7 @@ module LayoutHelper
   end
 
   def show_title?
+    return false if searchable?
     @show_title
   end
 

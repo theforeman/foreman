@@ -1,29 +1,37 @@
 .auto_complete {
     width: 55%;
     position: absolute;
-    top:12px;
-    left: 240px;
+    top:116px;
+    left: 16px;
     min-width: 600px;
+    height: 20px;
 }
 .auto_complete_input {
     font-family: Verdana, Helvetica, Arial;
-    padding: 2px 20px 3px 10px;
-    margin: 0 1px 0 0;
+    padding: 3px 20px 4px 10px;
+    margin: 0 3px 0 0;
     font-size: 14px;
     width: 70%;
-    border-radius: 20px;
-    border: solid 1px #507ea1;
+    -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+    border: solid 2px #D9E1E3;
 }
+.ui-autocomplete-loading
+{
+    background: white url('../images/spinner.gif') right center no-repeat;
+    margin: 0 0px 0 0;
+}
+
 .auto_complete_clear{
     background: url('../images/ui-icons_6da8d5_256x240.png') center no-repeat;
-    background-position: -32px -192px;
-    font-size: 12px;
-    padding: 0px 8px;
-    margin-left:-20px;
+    background-position: -80px -128px;
+    font-size: 14px;
+    padding: 1px 8px 0 8px;
+    margin-left:-22px;
+    margin-right: 2px;
 }
 .auto_complete_clear:hover {
-    background: url('../images/ui-icons_217bc0_256x240.png') right center no-repeat;
-    background-position: -32px -192px;
+    background: url('../images/ui-icons_217bc0_256x240.png') center no-repeat;
+    background-position: -80px -128px;
 }
 .ui-autocomplete-completed {
     color: #aaa;
@@ -44,16 +52,12 @@
     margin: .8em 0 .2em;
     line-height: 1.5;
 }
-.ui-autocomplete-loading
-{
-    background: white url('../images/spinner.gif') right center no-repeat;
-    margin: 0 -2px 0 0;
-}
 
-* {margin:0;padding:0;} 
 
-/* must declare 0 margins on everything, also for main layout components use padding, not 
-vertical margins (top and bottom) to add spacing, else those margins get added to total height 
+* {margin:0;padding:0;}
+
+/* must declare 0 margins on everything, also for main layout components use padding, not
+vertical margins (top and bottom) to add spacing, else those margins get added to total height
 and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
 
 html, body {height: 100%;}
@@ -61,15 +65,16 @@ html, body {height: 100%;}
 #wrap {min-height: 100%;}
 
 #main {
-	padding-bottom: 50px;}  /* must be same height as the footer */
+	padding-bottom: 40px;}  /* must be same height as the footer */
 
 #footer {position: relative;
-	margin-top: -50px; /* negative value of footer height */
-	height: 50px;
+	margin-top: -40px; /* negative value of footer height */
+	height: 40px;
 	clear:both;
 	color: #000;
 	background: url(../images/header_bg.png) repeat-x 0 -10%;
-} 
+}
+#footer a { color: #000; text-decoration: none;}
 #footer p {
 	line-height: 1em;
 	margin: 0 !important;
@@ -93,13 +98,12 @@ margin-top:-32767px;
 <![endif]-->
 */
 
-
 body {
   font-family: Verdana, Helvetica, Arial;
   color:#484848;
   margin: 0;
   padding: 0;
-  background-color: #EDF6FC !important;
+  background: #fafafa !important;
 }
 a img {
   border: none;
@@ -138,7 +142,7 @@ fieldset legend {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  margin-left: 18px;  
+  margin-left: 18px;
   padding: 4px;
 }
 fieldset fieldset {
@@ -148,52 +152,42 @@ fieldset fieldset {
 	width: 44%;
 }
 #header {
-	height:5em;
+	height: 130px;
 	background-color:#FFF;
-	color:#000; 
-	position:relative; 
+	color:#000;
+	position:relative;
 	background: url(../images/header_bg.png) repeat-x;
 }
 
 #header a {
   float:right;
   margin-right: 0.5em;
-  color: #455054;
+  margin-top: 0.2em;
+  padding-left: 0.5em;
+  color: #fff;
   font-weight: bold;
   font-size: 12px;
+  text-decoration: none;
+  border-left: solid 1px white;
 }
 
 #header .title {
-  color:#FFFAFA;
-  text-transform:uppercase;
-  text-indent: -40000px;
-  background: url(../images/foreman.png) no-repeat left top;
-  height: 47px;
+  text-indent: 70px ;
+  position: relative;
+  top: 1px;
+  text-shadow: 3px;
+  font-size: 28px;
+  padding-top: 4px;
+  color: #fff;
+  background: url(../images/foreman.png) no-repeat 5px 2px;
+  height: 84px;
 }
-#menu {
-	margin-left: 10px;
-}
-#menu a {
-	color: #FFF;
-}
-#menu ul {
-  margin: 0; padding: 0;
-  list-style: none;
-  float: left;
+.top-bar{
+    position: absolute;
+    top: 3px;
+    right: 5px;
 }
 
-#menu li {
-  float:left;
-  list-style-type:none;
-  text-transform:uppercase;
-  padding: 4px 10px 4px 10px;
-  height:1.2em;
-  color: #7F9BB1;
-}
-#menu li .entry{
-}
-#menu li span {
-}
 #content {
   position:relative;
   padding: 1%;
@@ -217,6 +211,7 @@ fieldset fieldset {
   width: 390px;
   margin: 0 auto;
 }
+
 #login-form table {margin-top:2em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ECF0F3'); /* for IE */
 background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ECF0F3)); /* for webkit browsers */
@@ -225,8 +220,17 @@ background: -moz-linear-gradient(top,  #fff,  #ECF0F3); /* for firefox 3.6+ */
 #login-form table td {padding: 6px;text-align: center;}
 #login-form label {font-weight: bold; color: #507ea1;}
 
+.login-background{
+ background: url(../images/foreman_large.png) no-repeat left top;
+ height: 190px;
+ margin-top: -30px;
+ margin-left: 100px;
+}
+
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
+  position: relative;
+  top: -40px;
   padding: 4px 4px 4px 30px;
   margin-bottom: 12px;
   font-size: 1.1em;
@@ -320,20 +324,8 @@ table p {margin:0;}
 /* host show page */
 #title, td.last_row { font-weight: bold; }
 
-#host_overview {
-  position: relative;
-  float:right;
-  width:30%;
-  margin-top: 26px;
-}
-
 .pagination { float: right }
 
-#host_report {
-  position: relative;
-  float: left;
-  width:70%
-}
 #border-it { border: 2px solid #ddd; }
 
 #dashboard div{
@@ -366,14 +358,18 @@ div#run_distribution {
 }
 
 .statistics_pie{
-  width: 400px;
-  height: 300px;
-  float: left;
+  width: 380px;
+  height: 280px;
 }
 
+.page_title{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: -22px;
 
+}
 .host_chart{
-  width: 800px;
+  width: 700px;
   height: 300px;
   margin-top: 20px;
 }
@@ -408,73 +404,20 @@ div#run_distribution {
 }
 
 .title_action {
-  position: absolute;
-  top: 1em;
-  right: 1em;
+  position: relative;
+  top: -21px;
+  right: 0px;
+  float: right;
   text-align: right;
-  padding: 5px 0;
+  padding: 0px 0;
   font-size: 12px;
 }
 
-.title_action_header{
-  position: relative;
-  border-bottom: solid 1px;
-  border-bottom-color: #7f9bb1;
-  padding: 5px 3px;
-  width: 100%;
+#actions_dropdown {
+  float: right;
+    margin-left: 3px;
 }
 
-#searchbar {
-  border-bottom: 2px solid #D9E1E3;
-  background-color: #ECF0F3;
-  height: 2.0em;
-  padding: 0.3em;
-}
-#searchbar div {
-  display:inline;
-}
-#searchbar ul {
-  margin: 0; padding: 0;
-  list-style: none;
-  float: left;
-  width: 100%;
-}
-
-#searchbar li {
-  float:left;
-  padding-right: 4px;
-  list-style-type:none;
-}
-#searchbar li .selectedtab {
-  padding-right: 4px;
-  background-color:#e4e4e4;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-#searchbar li a.close{
-  color: red;
-  padding-left: 1px;
-  padding-top: 1px;
-  padding-bottom: 7px;
-  text-decoration: none;
-}
-#searchbar li a {
-  display: block;
-  float:left;
-  color: #484848;
-  font-weight: bold;
-  margin: 0;
-  padding: 4px 4px 4px 10px;
-}
-/* Maybe someone else can ge ths hovering to work esthetically
-#searchbar li a:hover {background:#759FCF; color:#fff;}
-#searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
-
-#searchbar li a.close:hover {background:#e4e4e4; color:red;}
-#searchbar li a.active, li a.selected:hover {background:#fff; color:#555;}
- */
 .clear {
     clear: both;
     height: 0;
@@ -590,7 +533,8 @@ a.button:active span {
 /*
 	Menu
 */
-#menu1 { margin: 0 auto; list-style: none; position: absolute; top: 47px;}
+#menu1 { list-style: none; position: absolute; top: 57px; width: 100%;}
+#menu1 ul { margin-left: 56px; min-width: 600px;}
 #menu1 li { display: inline;
     text-transform: uppercase;
     font-weight: bold;
@@ -603,28 +547,31 @@ a.button:active span {
     color: #455054;
     display: block;
     text-decoration: none;
-    padding: 0 4px 0 10px;
-    height: 24px;
+    padding: 10px 4px 0 10px;
+    text-indent: -4px;
+    height: 30px;
+    text-shadow: 0 1px 0 #bfcbd7;
+    background-color: #bfcbd7;
+    -moz-border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;
 }
-
+#menu1 li a:hover { color: #000; }
 #menu1 li a span {
     color:  #455054;
     padding: 2px 2px 2px 0px;
+    border-left: solid 1px gray;
     margin-left: 2px;
-}
-#menu1 li a:hover { color: #000;
-    background-color:#507ea1;
-    -moz-border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;
+    font-size: 10px;
 }
 #menu1 li a span:hover {color: #000;
-    background-color:#7f9bb1;
-    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+    border-left: solid 1px black;
 }
-#magic-line { position: absolute; top: -1px; left: 0; width: 100px; height: 2px; background: #fe4902; }
+#magic-line { position: absolute; top: 0px; left: 0; width: 100px; height: 2px; background: #FDBF3B/*#507ea1*/; }
 .current_page_item a {
-    background: url(../images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50%  repeat-x;
+    /*background: url(../images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50%  repeat-x;*/
+    background: #fafafa !important;
     -moz-border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;
     height: 25px;
+    text-shadow: none !important;
 }
 .menu-dropdown {text-transform: capitalize;}
 

@@ -6,7 +6,13 @@ module StatisticsHelper
     new Highcharts.Chart({
       chart: {
         renderTo: '#{name}',
-        backgroundColor: "#EDF6FC"
+        borderWidth: 2,
+        backgroundColor: {
+         linearGradient: [0, 0, 0, 200],
+         stops: [
+            [0, '#ffffff'],
+            [1, '#EDF6FC']
+         ]}
       },
       credits: {
       enabled: false,

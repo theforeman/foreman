@@ -15,6 +15,7 @@ class SmartProxies::PuppetcaController < ApplicationController
     rescue => e
       certificates = []
       error e
+      redirect_to :back and return
     end
     respond_to do |format|
       format.html do
