@@ -83,6 +83,8 @@ class Host < Puppet::Rails::Host
     {:conditions => conditions}
   }
 
+  named_scope :completer_scope, lambda { my_hosts.scope(:find) }
+
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
 
