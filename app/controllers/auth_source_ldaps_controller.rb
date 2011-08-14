@@ -3,6 +3,11 @@ class AuthSourceLdapsController < ApplicationController
 
   def index
     @auth_source_ldaps = AuthSourceLdap.all
+    respond_to do |format|
+      format.html { }
+      format.json { render :json => @auth_source_ldaps }
+    end
+
   end
 
   def show
