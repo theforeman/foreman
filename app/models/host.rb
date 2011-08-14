@@ -18,6 +18,8 @@ class Host < Puppet::Rails::Host
       :params, :hostgroup, :domain, :ip, :mac
   end
 
+  attr_accessor :cached_parameters
+
   named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
 
@@ -248,15 +250,6 @@ class Host < Puppet::Rails::Host
     end
     param.update self.params
 
-    # lookup keys
-    if Setting["Enable_Smart_Variables_in_ENC"]
-      klasses  = puppetclasses.map(&:id)
-      klasses += hostgroup.classes.map(&:id) if hostgroup
-      LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
-        param[k.to_s] = k.value_for(self)
-      end unless klasses.empty?
-    end
-
     info_hash = {}
     info_hash['classes'] = self.puppetclasses_names
     info_hash['parameters'] = param
@@ -266,18 +259,30 @@ class Host < Puppet::Rails::Host
   end
 
   def params
-    parameters = {}
+    return cached_parameters if cached_parameters
+
+    cached_parameters = {}
     # read common parameters
-    CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.all.each {|p| cached_parameters.update Hash[p.name => p.value] }
     # read domain parameters
-    domain.domain_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless domain.nil?
+    domain.domain_parameters.each {|p| cached_parameters.update Hash[p.name => p.value] } unless domain.nil?
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
+    operatingsystem.os_parameters.each {|p| cached_parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
-    parameters.update hostgroup.parameters unless hostgroup.nil?
+    cached_parameters.update hostgroup.parameters unless hostgroup.nil?
     # and now read host parameters, override if required
-    host_parameters.each {|p| parameters.update Hash[p.name => p.value] }
-    return parameters
+    host_parameters.each {|p| cached_parameters.update Hash[p.name => p.value] }
+
+    # lookup keys
+    if Setting["Enable_Smart_Variables_in_ENC"]
+      klasses  = puppetclasses.map(&:id)
+      klasses += hostgroup.classes.map(&:id) if hostgroup
+      LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
+        cached_parameters[k.to_s] = k.value_for(self)
+      end unless klasses.empty?
+    end
+
+    return cached_parameters
   end
 
   def self.importHostAndFacts yaml
