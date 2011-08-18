@@ -1,12 +1,16 @@
 require 'test_helper'
 
 class DhcpOrchestrationTest < ActiveSupport::TestCase
+  def setup
+    disable_orchestration
+  end
+
   def test_host_should_have_dhcp
     if unattended?
       h = hosts(:one)
       assert h.valid?
-      assert h.dhcp != nil
       assert h.dhcp?
+      assert_instance_of Net::DhcpRecord, h.dhcp_record
     end
   end
 
@@ -14,8 +18,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     if unattended?
       h = hosts(:minimal)
       assert h.valid?
-      assert_equal h.dhcp, nil
-      assert_equal h.dhcp?, false
+      assert_equal false, h.dhcp?
     end
   end
 

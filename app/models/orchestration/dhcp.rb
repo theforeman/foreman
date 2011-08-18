@@ -2,10 +2,9 @@ module Orchestration::DHCP
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_reader :dhcp
-      after_validation  :initialize_dhcp, :queue_dhcp
-      before_destroy    :initialize_dhcp, :queue_dhcp_destroy
-      validate :ip_belongs_to_subnet?
+      after_validation :queue_dhcp
+      before_destroy :queue_dhcp_destroy
+      validate :ip_belongs_to_subnet?, :valid_jumpstart_model
     end
   end
 
@@ -15,81 +14,58 @@ module Orchestration::DHCP
       !subnet.nil? and !subnet.dhcp.nil? and !subnet.dhcp.url.empty?
     end
 
+    def sp_dhcp?
+      !sp_subnet.nil? and !sp_subnet.dhcp.nil? and !sp_subnet.dhcp.url.empty?
+    end
+
+    def dhcp_record
+      return unless dhcp?
+      @dhcp_record ||= Net::DhcpRecord.new dhcp_attrs
+    end
+
+    def sp_dhcp_record
+      return unless sp_dhcp?
+      @sp_dhcp_record ||= Net::DhcpRecord.new sp_dhcp_attrs
+    end
+
     protected
 
-    def initialize_dhcp sub = nil
-      return unless dhcp?
-      # there are usage cases where our object is saved across subnets
-      # i.e. management port is not on the same subnet
-      sub ||= subnet
-      @dhcp = ProxyAPI::DHCP.new(:url => sub.dhcp.url)
-    rescue => e
-      failure "Failed to initialize the DHCP proxy: #{e}"
+    def set_dhcp
+      dhcp_record.create
     end
 
-    # Retrieves the DHCP entry for this host via a lookup on the MAC
-    # Returns: Hash  Example {
-    #   "mac"       :"22:33:44:55:66:11"
-    #   "nextServer":"192.168.122.1"
-    #   "title"     :"some.host.name"
-    #   "filename"  :"pxelinux.0"
-    #   "ip"        :"192.168.122.4"}
-    def getDHCP
-      logger.info "Query a DHCP reservation for #{name}/#{ip}"
-      dhcp.record subnet.network, mac
-    rescue => e
-      failure "Failed to read the DHCP record: #{proxy_error e}"
+    def set_sp_dhcp
+      sp_dhcp_record.create
     end
 
-    # Deletes the DHCP entry for this host
-    def delDHCP
-      logger.info "{#{User.current.login}}Delete the DHCP reservation for #{name}/#{ip}"
-      dhcp.delete subnet.network, mac
-    rescue => e
-      failure "Failed to delete the DHCP record: #{proxy_error e}"
+    def del_dhcp
+      dhcp_record.destroy
     end
 
-    def delSPDHCP
-      return true unless sp_valid?
-      initialize_dhcp(sp_subnet) unless subnet == sp_subnet
-      logger.info "{#{User.current.login}}Delete a DHCP reservation for #{sp_name}/#{sp_ip}"
-      dhcp.delete subnet.network, sp_mac
-    rescue => e
-      failure "Failed to delete the Service Processor DHCP record: #{proxy_error e}"
-    end
-
-    # Updates the DHCP scope to add a reservation for this host
-    # +returns+ : Boolean true on success
-    def setDHCP
-      logger.info "{#{User.current.login}}Add a DHCP reservation for #{name}/#{ip}"
-      dhcp_attr = {:name => name, :filename => operatingsystem.boot_filename(self),
-                   :ip => ip, :mac => mac, :hostname => name}
-
-      next_server = boot_server
-      dhcp_attr.merge!(:nextserver => next_server) if next_server
-
-      if jumpstart?
-        raise "Host's operating system has an unknown vendor class" unless (vendor = model.vendor_class and !vendor.empty?)
-
-        jumpstart_arguments = os.jumpstart_params self, vendor
-        dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
-      end
-
-      dhcp.set subnet.network, dhcp_attr
-    rescue => e
-      failure "Failed to set the DHCP record: #{proxy_error e}"
-    end
-
-    def setSPDHCP
-      return true unless sp_valid?
-      initialize_dhcp(sp_subnet) unless subnet == sp_subnet
-      logger.info "{#{User.current.login}}Add a DHCP reservation for #{sp_name}/#{sp_ip}"
-      dhcp.set sp_subnet.network, sp_mac, :name => sp_name, :ip => sp_ip
-    rescue => e
-      failure "Failed to set the Service Processor DHCP record: #{proxy_error e}"
+    def del_sp_dhcp
+      sp_dhcp_record.destroy
     end
 
     private
+    # returns a hash of dhcp record settings
+    def dhcp_attrs
+      return unless dhcp?
+      dhcp_attr = { :name => name, :filename => operatingsystem.boot_filename(self),
+                    :ip => ip, :mac => mac, :hostname => name, :proxy => proxy_for_host,
+                    :network => subnet.network, :nextServer => boot_server }
+
+      if jumpstart?
+        jumpstart_arguments = os.jumpstart_params self, model.vendor_class
+        dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
+      end
+      dhcp_attr
+    end
+
+    # returns a hash of service processor / ilo dhcp record settings
+    def sp_dhcp_attrs
+      return unless sp_dhcp?
+      { :name => sp_name, :ip => sp_ip, :mac => sp_mac, :proxy => proxy_for_sp, :network => sp_subnet.network }
+    end
 
     # where are we booting from
     def boot_server
@@ -97,14 +73,10 @@ module Orchestration::DHCP
       # if we don't manage tftp at all, we dont create a next-server entry.
       return nil if tftp.nil?
 
-      begin
-        bs = tftp.bootServer
-      rescue RestClient::ResourceNotFound
-        nil
-      end
+      bs = tftp.bootServer
       if bs.blank?
         # trying to guess out tftp next server based on the smart proxy hostname
-        bs = URI.parse(subnet.tftp.url).host if subnet and subnet.tftp and subnet.tftp.url
+        bs = URI.parse(subnet.tftp.url).host if respond_to?(:tftp?) and tftp?
       end
       return bs unless bs.blank?
       failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
@@ -118,48 +90,45 @@ module Orchestration::DHCP
     end
 
     def queue_dhcp_create
-      queue.create(:name => "DHCP Settings for #{self}", :priority => 10,
-                   :action => [self, :setDHCP])
-      queue.create(:name => "DHCP Settings for #{sp_name}", :priority => 15,
-                   :action => [self, :setSPDHCP]) if sp_valid?
+      queue.create(:name   => "DHCP Settings for #{self}", :priority => 10,
+                   :action => [self, :set_dhcp])
+      queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 15,
+                   :action => [self, :set_sp_dhcp]) if sp_dhcp?
     end
 
     def queue_dhcp_update
-      update = false
-      # IP Address  / name changed
-      if (old.ip != ip) or (old.name != name) or (old.mac != mac)
-        update = true
-        if old.dhcp?
-          old.initialize_dhcp
-          queue.create(:name => "DHCP Settings for #{old}", :priority => 5,
-                       :action => [old, :delDHCP])
-        end
-      end
-      if old.sp_valid? and ((old.sp_name != sp_name) or (old.sp_mac != sp_mac) or (old.sp_ip != sp_ip))
-        update = true
-        if old.sp_subnet and old.sp_subnet.dhcp and old.sp_subnet.dhcp.url
-          queue.create(:name => "DHCP Settings for #{old.sp_name}", :priority => 5,
-                       :action => [old, :delSPDHCP])
-        end
-      end
+      queue.create(:name => "DHCP Settings for #{old}", :priority => 5,
+                   :action => [old, :del_dhcp]) if old.dhcp? and dhcp_update_required?
+      queue.create(:name   => "DHCP Settings for #{old.sp_name}", :priority => 5,
+                   :action => [old, :del_sp_dhcp]) if old.sp_dhcp? and sp_dhcp_update_required?
+      queue_dhcp_create if dhcp_update_required?
+    end
+
+    # do we need to update our dhcp reservations
+    def dhcp_update_required?
+      # IP Address / name changed
+      return true if (old.ip != ip) or (old.name != name) or (old.mac != mac)
       # Handle jumpstart
       if jumpstart?
         if !old.build? or (old.medium != medium or old.arch != arch) or
-                          (os and old.os and (old.os.name != os.name or old.os != os))
-          update = true
-          old.initialize_dhcp if old.dhcp.nil? and old.dhcp?
-          queue.create(:name => "DHCP Settings for #{old}", :priority => 5, :action => [old, :delDHCP])
+            (os and old.os and (old.os.name != os.name or old.os != os))
+            return true
         end
       end
-      queue_dhcp_create if update
+      false
+    end
+
+    def sp_dhcp_update_required?
+      return true if old.sp_valid? and ((old.sp_name != sp_name) or (old.sp_mac != sp_mac) or (old.sp_ip != sp_ip))
+      false
     end
 
     def queue_dhcp_destroy
       return unless dhcp? and errors.empty?
-      queue.create(:name => "DHCP Settings for #{self}", :priority => 5,
-                   :action => [self, :delDHCP])
-      queue.create(:name => "DHCP Settings for #{sp_name}", :priority => 5,
-                   :action => [self, :delSPDHCP]) if sp_valid?
+      queue.create(:name   => "DHCP Settings for #{self}", :priority => 5,
+                   :action => [self, :del_dhcp])
+      queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 5,
+                   :action => [self, :del_sp_dhcp]) if sp_valid?
       true
     end
 
@@ -170,9 +139,23 @@ module Orchestration::DHCP
         errors.add :ip, "Does not match selected Subnet"
         return false
       end
-    rescue => e
+    rescue
       # probably an invalid ip / subnet were entered
       # we let other validations handle that
+    end
+
+    def valid_jumpstart_model
+      return unless jumpstart?
+      errors.add :model, "Has an unknown vendor class" if model.vendor_class.empty?
+      false
+    end
+
+    def proxy_for_host
+      ProxyAPI::DHCP.new(:url => subnet.dhcp.url) if dhcp?
+    end
+
+    def proxy_for_sp
+      ProxyAPI::DHCP.new(:url => sp_subnet.dhcp.url) if sp_dhcp?
     end
   end
 end

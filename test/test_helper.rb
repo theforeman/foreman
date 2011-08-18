@@ -65,4 +65,13 @@ class ActiveSupport::TestCase
   def unattended?
     SETTINGS[:unattended].nil? or SETTINGS[:unattended]
   end
+
+  def self.disable_orchestration
+    #This disables the DNS/DHCP orchestration
+    Host.any_instance.stubs(:boot_server).returns("boot_server")
+  end
+
+  def disable_orchestration
+    ActiveSupport::TestCase.disable_orchestration
+  end
 end

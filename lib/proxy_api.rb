@@ -1,6 +1,7 @@
 require "rest_client"
 require "json"
 require "uri"
+require 'net'
 
 module ProxyAPI
 
@@ -153,7 +154,8 @@ module ProxyAPI
     # [+mac+]    : String in coloned sextuplet format
     # Returns    : Hash or false
     def record subnet, mac
-      parse get("#{subnet}/#{mac}")
+      response = parse(get("#{subnet}/#{mac}"))
+      Net::DhcpRecord.new response.merge(:network => subnet, :proxy => self)
     rescue RestClient::ResourceNotFound
       false
     end
@@ -245,6 +247,8 @@ module ProxyAPI
         return response["serverName"]
       end
       false
+    rescue RestClient::ResourceNotFound
+      nil
     end
 
     # Create a default pxe menu

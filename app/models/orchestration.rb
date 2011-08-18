@@ -5,7 +5,7 @@ module Orchestration
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_reader :queue, :old
+      attr_reader :queue, :old, :record_conflicts
       # stores actions to be performed on our proxies based on priority
       before_validation :set_queue
       before_validation :setup_clone
@@ -84,16 +84,20 @@ module Orchestration
         begin
           task.status = execute({:action => task.action}) ? "completed" : "failed"
 
+        rescue Net::Conflict => e
+          task.status = "conflict"
+          @record_conflicts << e
+          failure e.message
         rescue => e
           task.status = "failed"
-          failed "failed #{e}"
+          failure "failed #{e}"
         end
       end
 
       # if we have no failures - we are done
-      return true if q.failed.empty? and q.pending.empty? and errors.empty?
+      return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and errors.empty?
 
-      logger.debug "Rolling back due to a problem: #{q.failed}"
+      logger.debug "Rolling back due to a problem: #{q.failed + q.conflict}"
       # handle errors
       # we try to undo all completed operations and trigger a DB rollback
       (q.completed + q.running).sort.reverse_each do |task|
@@ -102,7 +106,7 @@ module Orchestration
           execute({:action => task.action, :rollback => true})
         rescue => e
           # if the operation failed, we can just report upon it
-          failed "Failed to perform rollback on #{task.name} - #{e}"
+          failure "Failed to perform rollback on #{task.name} - #{e}"
         end
       end
 
@@ -128,13 +132,14 @@ module Orchestration
       if obj.respond_to?(met)
         return obj.send(met)
       else
-        failed "invalid method #{met}"
+        failure "invalid method #{met}"
         raise "invalid method #{met}"
       end
     end
 
     def set_queue
       @queue = Orchestration::Queue.new
+      @record_conflicts = []
     end
 
     # we keep the before update host object in order to compare changes

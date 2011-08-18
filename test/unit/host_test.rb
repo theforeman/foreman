@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HostTest < ActiveSupport::TestCase
   setup do
+    disable_orchestration
     User.current = User.find_by_login "admin"
   end
 
@@ -285,7 +286,6 @@ class HostTest < ActiveSupport::TestCase
       :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
       :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
     assert host.save
-
     assert_equal domain, host.domain
   end
 

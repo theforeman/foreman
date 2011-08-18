@@ -30,9 +30,8 @@ class DomainTest < ActiveSupport::TestCase
   end
 
   test "should not destroy if it contains hosts" do
+    disable_orchestration
     host = create_a_host
-    host.valid?
-    puts host.errors.full_messages unless host.errors.empty?
     assert host.save
 
     domain = host.domain

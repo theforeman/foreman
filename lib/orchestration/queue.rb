@@ -4,7 +4,7 @@ module Orchestration
   class Queue
 
     attr_reader :items
-    STATUS = %w[ pending running failed completed rollbacked ]
+    STATUS = %w[ pending running failed completed rollbacked conflict ]
 
     def initialize
       @items = []

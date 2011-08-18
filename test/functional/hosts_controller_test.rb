@@ -475,6 +475,7 @@ class HostsControllerTest < ActionController::TestCase
   private
   def initialize_host
     User.current = users(:admin)
+    disable_orchestration
     @host = Host.create :name => "myfullhost",
       :mac             => "aabbecddeeff",
       :ip              => "2.3.4.99",
