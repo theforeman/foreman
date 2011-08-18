@@ -285,7 +285,7 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
       :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
       :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
-    assert host.save
+    host.valid?
     assert_equal domain, host.domain
   end
 

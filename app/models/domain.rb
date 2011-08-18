@@ -34,7 +34,7 @@ class Domain < ActiveRecord::Base
     if current.allowed_to?("#{operation}_domains".to_sym)
       # If you can create domains then you can create them anywhere
       return true if operation == "create"
-      # However if you are editing or destroying and you have a domain list then you are contrained
+      # However if you are editing or destroying and you have a domain list then you are constrained
       if current.domains.empty? or current.domains.map(&:id).include? self.id
         return true
       end
@@ -55,6 +55,14 @@ class Domain < ActiveRecord::Base
 
   def resolver
     Resolv::DNS.new :search => name, :nameserver => nameservers, :ndots => 1
+  end
+
+  def proxy
+    ProxyAPI::DNS.new(:url => dns.url) if dns and !dns.url.blank?
+  end
+
+  def lookup query
+    Net::DNS.lookup query, proxy, resolver
   end
 
 end

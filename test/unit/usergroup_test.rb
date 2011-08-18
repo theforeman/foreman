@@ -49,6 +49,7 @@ class UsergroupTest < ActiveSupport::TestCase
   test "hosts should be retrieved from recursive/complex usergroup definitions" do
     populate_usergroups
     domain = domains(:mydomain)
+    disable_orchestration
 
     Host.with_options :architecture => architectures(:x86_64), :environment => environments(:production), :operatingsystem => operatingsystems(:redhat), :ptable => ptables(:one), :subnet => subnets(:one) do |object|
       @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "2.3.4.10", :mac => "223344556601", :owner => @u1, :domain => domain
