@@ -1,7 +1,6 @@
 module Net
   module DNS
     class ARecord < DNS::Record
-      attr_reader :type
 
       def initialize opts = { }
         super opts

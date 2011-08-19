@@ -55,7 +55,6 @@ module Net
 
       def create
         logger.info "Add DNS #{type} record for #{to_s}"
-
       end
 
       def attrs

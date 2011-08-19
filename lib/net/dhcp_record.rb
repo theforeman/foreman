@@ -16,7 +16,7 @@ module Net
     # Deletes the DHCP entry
     def destroy
       logger.debug "Delete DHCP reservation for #{to_s}"
-      # it is save to call destroy even if the entry does not exists, so we don't bother with validating anything here.
+      # it is safe to call destroy even if the entry does not exists, so we don't bother with validating anything here.
       proxy.delete network, mac
     end
 
