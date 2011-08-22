@@ -18,6 +18,7 @@ class Hostgroup < ActiveRecord::Base
   default_scope :order => 'LOWER(hostgroups.name)'
 
   alias_attribute :os, :operatingsystem
+  alias_attribute :label, :to_label
   acts_as_audited
 
   scoped_search :on => :name, :complete_value => :true
@@ -43,8 +44,6 @@ class Hostgroup < ActiveRecord::Base
     classes
   end
 
-  alias_method :to_label, :to_s
-
   def to_label
     return unless name
     return name if ancestry.empty?
@@ -56,7 +55,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id], :methods => [:classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]}.merge(options))
+    super({:only => [:name, :subnet_id, :domain_id, :id], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]}.merge(options))
   end
 
   def hostgroup
