@@ -50,16 +50,17 @@ class Subnet < ActiveRecord::Base
     IPAddr.new(mask).to_i.to_s(2).count("1")
   end
 
+  def dhcp?
+    dhcp and dhcp.url
+  end
+
   def dhcp_proxy
-    dhcp and dhcp.url ? ProxyAPI::DHCP.new(:url => dhcp.url) : nil
+    ProxyAPI::DHCP.new(:url => dhcp.url) if dhcp?
   end
 
   def unused_ip
-    if d = dhcp_proxy
-      return d.unused_ip(network)["ip"]
-    else
-      nil
-    end
+    return unless dhcp?
+    dhcp_proxy.unused_ip(network)["ip"]
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"
     nil
