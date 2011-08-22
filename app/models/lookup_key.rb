@@ -66,10 +66,12 @@ class LookupKey < ActiveRecord::Base
   end
 
   # translates an element such as domain to its real value per host
-  # tries to find the host attribute first, then fallback to a puppet fact.
+  # tries to find the host attribute first, parameters and then fallback to a puppet fact.
   def attr_to_value host, element
     # direct host attribute
     return host.send(element) if host.respond_to?(element)
+    # host parameter
+    return host.host_params[element] if host.host_params.include?(element)
     # fact attribute
     if fn = host.fact_names.first(:conditions => {:name => element})
       return FactValue.first(:conditions => {:host_id => host.id, :fact_name_id => fn.id}).value
