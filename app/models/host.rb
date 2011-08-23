@@ -264,6 +264,9 @@ class Host < Puppet::Rails::Host
   def params
     host_params.update(lookup_keys_params)
   end
+  def clear_host_parameters_cache!
+    @cached_host_params = nil
+  end
 
   def host_params
     return cached_host_params unless cached_host_params.blank?

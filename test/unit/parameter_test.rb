@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class ParameterTest < ActiveSupport::TestCase
   setup do
     User.current = User.find_by_login "admin"
@@ -12,7 +14,7 @@ class ParameterTest < ActiveSupport::TestCase
     p4 = GroupParameter.new  :name => "param", :value => "value4", :reference_id => Hostgroup.first
     assert p4.save
   end
-  
+
   test "parameters are hierarchically applied" do
     cp = CommonParameter.create :name => "animal", :value => "cat"
 
@@ -22,18 +24,21 @@ class ParameterTest < ActiveSupport::TestCase
     :domain => domain , :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
     :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
 
-    assert host.params["animal"] == "cat" 
+    assert_equal "cat", host.host_params["animal"]
 
     domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog")
+    host.clear_host_parameters_cache!
 
-    assert host.params["animal"] == "dog"
+    assert_equal "dog", host.host_params["animal"]
 
     hostgroup.group_parameters << GroupParameter.create(:name => "animal",:value => "cow")
+    host.clear_host_parameters_cache!
 
-    assert host.params["animal"] == "cow"
+    assert_equal "cow", host.host_params["animal"]
 
     host.host_parameters << HostParameter.create(:name => "animal", :value => "pig")
+    host.clear_host_parameters_cache!
 
-    assert host.params["animal"] == "pig"
+    assert_equal "pig", host.host_params["animal"]
   end
 end
