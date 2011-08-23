@@ -2,10 +2,9 @@ module Orchestration::TFTP
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_reader :tftp
       attr_accessor :request_url
-      after_validation :initialize_tftp, :validate_tftp, :queue_tftp
-      before_destroy :initialize_tftp, :queue_tftp_destroy
+      after_validation :validate_tftp, :queue_tftp
+      before_destroy :queue_tftp_destroy
 
       # required for pxe template url helpers
       include ActionController::UrlWriter
@@ -15,17 +14,14 @@ module Orchestration::TFTP
   module InstanceMethods
 
     def tftp?
-      !subnet.nil? and !subnet.tftp.nil? and !subnet.tftp.url.empty?
+      !!(subnet and subnet.tftp?)
+    end
+
+    def tftp
+      subnet.tftp_proxy(:variant => operatingsystem.pxe_variant) if tftp?
     end
 
     protected
-    def initialize_tftp
-      return unless tftp?
-      @tftp = ProxyAPI::TFTP.new :url => subnet.tftp.url,
-        :variant => operatingsystem.pxe_variant
-    rescue => e
-      failure "Failed to initialize the TFTP proxy: #{e}"
-    end
 
     # Adds the host to the forward and reverse TFTP zones
     # +returns+ : Boolean true on success
@@ -114,7 +110,6 @@ module Orchestration::TFTP
           set_tftp = true
           # clean up old TFTP reservation file
           if old.tftp?
-            old.initialize_tftp
             queue.create(:name => "Remove old TFTP Settings for #{old}", :priority => 19,
                          :action => [old, :delTFTP])
           end

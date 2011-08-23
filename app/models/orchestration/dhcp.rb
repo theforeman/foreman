@@ -11,11 +11,11 @@ module Orchestration::DHCP
   module InstanceMethods
 
     def dhcp?
-      !subnet.nil? and !subnet.dhcp.nil? and !subnet.dhcp.url.empty?
+      !subnet.nil? and subnet.dhcp?
     end
 
     def sp_dhcp?
-      !sp_subnet.nil? and !sp_subnet.dhcp.nil? and !sp_subnet.dhcp.url.empty?
+      !sp_subnet.nil? and sp_subnet.dhcp?
     end
 
     def dhcp_record
@@ -69,9 +69,8 @@ module Orchestration::DHCP
 
     # where are we booting from
     def boot_server
-
       # if we don't manage tftp at all, we dont create a next-server entry.
-      return nil if tftp.nil?
+      return unless tftp?
 
       bs = tftp.bootServer
       if bs.blank?
@@ -151,11 +150,11 @@ module Orchestration::DHCP
     end
 
     def proxy_for_host
-      ProxyAPI::DHCP.new(:url => subnet.dhcp.url) if dhcp?
+      subnet.dhcp_proxy
     end
 
     def proxy_for_sp
-      ProxyAPI::DHCP.new(:url => sp_subnet.dhcp.url) if sp_dhcp?
+      sp_subnet.dhcp_proxy
     end
   end
 end

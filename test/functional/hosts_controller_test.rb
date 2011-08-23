@@ -448,6 +448,7 @@ class HostsControllerTest < ActionController::TestCase
     assert !hosts(:one).build
     assert !hosts(:two).build
     post :submit_multiple_build, {:host_ids => [hosts(:one).id, hosts(:two).id]}, set_session_user
+    assert_response :found
     assert_redirected_to hosts_path
     assert flash[:notice] == "The selected hosts will execute a build operation on next reboot"
     assert Host.find(hosts(:one)).build

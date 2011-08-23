@@ -4,18 +4,16 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   def test_host_should_have_tftp
     if unattended?
       h = hosts(:one)
-      assert h.valid?
-      assert h.tftp != nil
       assert h.tftp?
+      assert_not_nil h.tftp
     end
   end
 
   def test_host_should_not_have_tftp
     if unattended?
       h = hosts(:minimal)
-      assert h.valid?
-      assert_equal h.tftp, nil
-      assert_equal h.tftp?, false
+      assert_equal false, h.tftp?
+      assert_equal nil, h.tftp
     end
   end
 

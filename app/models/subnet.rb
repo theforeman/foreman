@@ -51,11 +51,19 @@ class Subnet < ActiveRecord::Base
   end
 
   def dhcp?
-    dhcp and dhcp.url
+    !!(dhcp and dhcp.url and !dhcp.url.blank?)
   end
 
-  def dhcp_proxy
-    ProxyAPI::DHCP.new(:url => dhcp.url) if dhcp?
+  def dhcp_proxy attrs = {}
+    @dhcp_proxy ||= ProxyAPI::DHCP.new({:url => dhcp.url}.merge(attrs)) if dhcp?
+  end
+
+  def tftp?
+    !!(tftp and tftp.url and !tftp.url.blank?)
+  end
+
+  def tftp_proxy attrs = {}
+    @tftp_proxy ||= ProxyAPI::TFTP.new({:url => tftp.url}.merge(attrs)) if tftp?
   end
 
   def unused_ip
