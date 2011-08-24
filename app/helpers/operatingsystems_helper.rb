@@ -36,6 +36,8 @@ module OperatingsystemsHelper
       "Darwin"
     when /centos/i
       "Centos"
+    when /scientific/i
+      "Scientific"
     else
       record.family
     end
