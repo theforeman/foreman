@@ -549,6 +549,14 @@ class Host < Puppet::Rails::Host
     end
   end
 
+  # returns a rundeck output
+  def rundeck
+    {name => { "desciption" =>  comment, "hostname" => name, "nodename" => name,
+      "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
+      "osVersion" => os.release, "tags" => puppetclasses_names, "username" => owner.try(:name) }
+    }
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses

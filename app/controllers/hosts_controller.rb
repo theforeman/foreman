@@ -41,7 +41,13 @@ class HostsController < ApplicationController
         render :index if title and @title = title
       end
       format.json { render :json => search.all(:select => "hosts.name", :include => included_associations).map(&:name) }
-      format.yaml { render :text => search.all(:select => "hosts.name", :include => included_associations).map(&:name).to_yaml }
+      format.yaml do
+        render :text => if params["rundeck"]
+          search.all(:include => included_associations).map(&:rundeck)
+        else
+          search.all(:select => "hosts.name").map(&:name)
+        end.to_yaml
+      end
     end
   end
 
@@ -54,7 +60,7 @@ class HostsController < ApplicationController
         # summary report text
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
-      format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : rundeck.to_yaml }
+      format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
       format.json { render :json => @host }
     end
   end
@@ -516,17 +522,6 @@ class HostsController < ApplicationController
   # this is required for template generation (such as pxelinux) which is not done via a web request
   def forward_request_url
     @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
-  end
-
-
-  # returns a rundeck view
-  def rundeck
-    raise "must define a @host" unless @host
-
-    {@host.name => { "desciption" =>  @host.comment, "hostname" => @host.name, "nodename" => @host.name,
-      "osArch" => @host.arch.name, "osFamily" => @host.os.family, "osName" => @host.os.name,
-      "osVersion" => @host.os.release, "tags" => @host.puppetclasses_names, "username" => @host.owner.try(:name) }
-    }
   end
 
 end
