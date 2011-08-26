@@ -25,7 +25,7 @@
       <td>
         <%= display_link_if_authorized 'Edit', hash_for_edit_host_path(:id => host) %>
         <%= display_link_if_authorized 'Clone', hash_for_clone_host_path(:id => host) %>
-        <%= display_link_if_authorized 'Destroy', hash_for_host_path(:id => host, :auth_action => :destroy), :confirm => "Delete #{host.name}?", :method => :delete, :action => :destroy %>
+        <%= display_link_if_authorized 'Delete', hash_for_host_path(:id => host, :auth_action => :destroy), :confirm => "Delete #{host.name}?", :method => :delete, :action => :destroy %>
       </td>
     </tr>
   <% end -%>
