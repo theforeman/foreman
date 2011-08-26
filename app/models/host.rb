@@ -549,10 +549,17 @@ class Host < Puppet::Rails::Host
 
   # returns a rundeck output
   def rundeck
-    {name => { "description" =>  comment, "hostname" => name, "nodename" => name,
+    rdecktags = puppetclasses_names.map{|k| "class=#{k}"}
+    unless self.params["rundeckfacts"].empty?
+      rdecktags += self.params["rundeckfacts"].split(",").map{|rdf| "#{rdf}=#{fact(rdf)[0].value}"}
+    end
+    { name => { "description" => comment, "hostname" => name, "nodename" => name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
-      "osVersion" => os.release, "tags" => puppetclasses_names, "username" => "root" }
+      "osVersion" => os.release, "tags" => rdecktags, "username" => self.params["rundeckuser"] || "root" }
     }
+  rescue => e
+    logger.warn "Failed to fetch rundeck info for #{to_s}: #{e}"
+    {}
   end
 
   private
