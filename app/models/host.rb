@@ -48,12 +48,23 @@ class Host < Puppet::Rails::Host
     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0)"
   }
 
-  named_scope :with_changes, { :conditions => "(puppet_status > 0) and
-    ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) !=0)"
+  named_scope :without_error, { :conditions =>
+    "((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
+     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)"
   }
 
-  named_scope :successful, {:conditions => "puppet_status = 0"}
+  named_scope :with_changes, { :conditions => "(puppet_status > 0) and
+    ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
+    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0)"
+  }
+
+  named_scope :without_changes, { :conditions =>
+    "((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) or
+     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)"
+  }
+
+  named_scope :successful, lambda { without_changes.without_error.scope(:find)}
+
   named_scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
 
   named_scope :my_hosts, lambda {
