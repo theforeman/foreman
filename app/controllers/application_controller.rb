@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
   # standard layout to all controllers
   helper 'layout'
@@ -187,27 +188,30 @@ class ApplicationController < ActionController::Base
   end
 
   def process_error hash = {}
-    hash[:object]           ||= eval("@#{controller_name.singularize}")
+    hash[:object] ||= eval("@#{controller_name.singularize}")
 
     case action_name
-      when "create" then  hash[:render]  ||= "new"
-      when "update" then  hash[:render]  ||= "edit"
-      when "destroy" then
-        hash[:redirect]  ||= eval("#{controller_name}_url")
-        hash[:error_msg] ||= hash[:object].errors.full_messages.join("<br/>")
+    when "create" then hash[:render] ||= "new"
+    when "update" then hash[:render] ||= "edit"
+    when "destroy" then
+      hash[:redirect] ||= eval("#{controller_name}_url")
     end
+    hash[:error_msg] ||= hash[:object].errors.full_messages
+    hash[:error_msg] = [hash[:error_msg]].flatten
 
     hash[:json_code] ||= :unprocessable_entity
+    logger.info "Failed to save: #{hash[:error_msg].join(", ")}"
     respond_to do |format|
-        format.html do
-            error hash[:error_msg] if hash[:error_msg]
-            render :action => hash[:render] if hash[:render]
-            redirect_to hash[:redirect] if hash[:redirect]
-            return
-        end
-        format.json { render :json => hash[:object].errors, :status => hash[:json_code]}
+      format.html do
+        error hash[:error_msg].join("<br/>") unless hash[:error_msg].empty?
+        render :action => hash[:render] if hash[:render]
+        redirect_to hash[:redirect] if hash[:redirect]
+        return
+      end
+      format.json { render :json => {"errors" => hash[:object].errors} , :status => hash[:json_code]}
     end
   end
+
   def redirect_back_or_to url
     redirect_to request.referer.empty? ? url : :back
   end
