@@ -551,7 +551,7 @@ class Host < Puppet::Rails::Host
   def rundeck
     {name => { "desciption" =>  comment, "hostname" => name, "nodename" => name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
-      "osVersion" => os.release, "tags" => puppetclasses_names, "username" => owner.try(:name) }
+      "osVersion" => os.release, "tags" => puppetclasses_names, "username" => "root" }
     }
   end
 

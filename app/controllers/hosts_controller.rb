@@ -43,7 +43,9 @@ class HostsController < ApplicationController
       format.json { render :json => search.all(:select => "hosts.name", :include => included_associations).map(&:name) }
       format.yaml do
         render :text => if params["rundeck"]
-          search.all(:include => included_associations).map(&:rundeck)
+          result = {}
+          search.all(:include => included_associations).each{|h| result.update(h.rundeck)}
+          result
         else
           search.all(:select => "hosts.name").map(&:name)
         end.to_yaml
