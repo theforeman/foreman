@@ -549,7 +549,7 @@ class Host < Puppet::Rails::Host
 
   # returns a rundeck output
   def rundeck
-    {name => { "desciption" =>  comment, "hostname" => name, "nodename" => name,
+    {name => { "description" =>  comment, "hostname" => name, "nodename" => name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
       "osVersion" => os.release, "tags" => puppetclasses_names, "username" => "root" }
     }

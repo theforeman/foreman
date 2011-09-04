@@ -49,7 +49,7 @@ class LookupValuesController < ApplicationController
   private
 
   def reject_non_json_requests
-    render_403 unless request_json?
+    render_403 unless api_request?
   end
 
   def find_by_id

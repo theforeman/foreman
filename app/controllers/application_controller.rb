@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
-  before_filter :welcome, :detect_notices, :only => :index, :unless => :request_json?
+  before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
   before_filter :authorize, :except => :login
 
   protected
@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
       # User is not found or first login
       if SETTINGS[:login] and SETTINGS[:login] == true
         # authentication is enabled
-        if request_json?
+        if api_request?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
           user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
           User.current = user.is_a?(User) ? user : nil
@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
           error "Unable to find internal system admin account - Recreating . . ."
           User.current = User.create_admin
         end
-        session[:user] = User.current.id unless request_json?
+        session[:user] = User.current.id unless api_request?
       end
     end
   end
@@ -91,8 +91,8 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  def request_json?
-    request.format.json?
+  def api_request?
+    request.format.json? or request.format.yaml?
   end
 
   # this method sets the Current user to be the Admin
