@@ -170,7 +170,7 @@ class Puppetclass < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id]}.merge(options))
+    super({:only => [:name, :id], :methods => [:lookup_keys]}.merge(options))
   end
 
   def self.search_by_host(key, operator, value)

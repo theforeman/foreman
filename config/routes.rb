@@ -33,7 +33,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :media, :collection => {:auto_complete_search => :get}
   map.resources :models, :collection => {:auto_complete_search => :get}
   map.resources :architectures, :collection => {:auto_complete_search => :get}
-  map.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}
+  map.resources :lookup_keys, :except => [:new, :create], :requirements => {:id => /[^\/]+/} do |keys|
+    keys.resources :lookup_values, :only => [:index, :create, :update, :destroy]
+  end
   map.resources :puppetclasses, :member => { :assign => :post }, :collection => {:import_environments => :get, :auto_complete_search => :get} do |pc|
     pc.resources :hosts, :requirements => {:id => /[^\/]+/}
     pc.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}

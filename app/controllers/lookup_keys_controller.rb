@@ -20,11 +20,14 @@ class LookupKeysController < ApplicationController
   end
 
   def show
-    return not_found if ((name = params[:host_id]).blank? or (host = Host.find_by_name(name)).blank?)
-    @value = @lookup_key.value_for(host)
+    if (name = params[:host_id]).blank? or (host = Host.find_by_name(name)).blank?
+      value = @lookup_key
+    else
+      value = { :value => @lookup_key.value_for(host) }
+    end
 
     respond_to do |format|
-      format.json { render :json => { :value => @value } }
+      format.json { render :json => value }
     end
   end
 
@@ -50,7 +53,12 @@ class LookupKeysController < ApplicationController
   private
   def find_by_key
     if params[:id]
-      not_found and return unless @lookup_key = LookupKey.find_by_key(params[:id])
+      if params[:id].to_i == 0
+        @lookup_key = LookupKey.find_by_key(params[:id])
+      else
+        @lookup_key = LookupKey.find(params[:id])
+      end
+      not_found and return if @lookup_key.blank?
     end
   end
 end

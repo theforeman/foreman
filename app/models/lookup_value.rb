@@ -1,7 +1,8 @@
 class LookupValue < ActiveRecord::Base
+  include Authorization
   belongs_to :lookup_key
   validates_uniqueness_of :match, :scope => :lookup_key_id
-  validates_presence_of :match, :value
+  validates_presence_of :match, :value, :lookup_key_id
   delegate :key, :to => :lookup_key
   validate :validate_range, :validate_list, :validate_regexp, :validate_match
   before_validation :sanitize_match
@@ -9,6 +10,14 @@ class LookupValue < ActiveRecord::Base
   named_scope :default, :conditions => { :match => "default" }, :limit => 1
 
   default_scope :order => 'LOWER(lookup_values.value)'
+
+  scoped_search :on => :value, :complete_value => true, :default_order => true
+  scoped_search :on => :match, :complete_value => true
+  scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
+
+  def name
+    value
+  end
 
   private
 
@@ -35,4 +44,9 @@ class LookupValue < ActiveRecord::Base
     return true unless (lookup_key.validator_type == 'list')
     errors.add(:value, "not in list") and return false unless lookup_key.validator_rule.split(LookupKey::KEY_DELM).map(&:strip).include?(value)
   end
+
+  def as_json(options={})
+    super({:only => [:value, :match, :lookup_key_id, :id]}.merge(options))
+  end
+
 end

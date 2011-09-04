@@ -117,4 +117,8 @@ class LookupKey < ActiveRecord::Base
     errors.add(:default_value, "not in list") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
   end
 
+  def as_json(options={})
+    super({:only => [:key, :description, :default_value, :id]}.merge(options))
+  end
+
 end
