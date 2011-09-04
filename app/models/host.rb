@@ -540,11 +540,9 @@ class Host < Puppet::Rails::Host
   def set_hostgroup_defaults
     return unless hostgroup
     assign_hostgroup_attributes(%w{environment domain puppetmaster_name puppetproxy})
-    if new_record? or managed?
-      if SETTINGS[:unattended]
-        assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet})
-        self.ip ||= subnet.unused_ip if subnet
-      end
+    if SETTINGS[:unattended] and (new_record? or managed?)
+      assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet})
+      self.ip ||= subnet.unused_ip if subnet
       assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor?
     end
   end
