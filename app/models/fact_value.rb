@@ -3,9 +3,9 @@ class FactValue < Puppet::Rails::FactValue
   delegate :name, :to => :fact_name
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
-  scoped_search :on => :value
+  scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
-  scoped_search :in => :host, :on => :name, :rename => :host, :default_order => true
+  scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
 
   named_scope :no_timestamp_facts, :include => [:fact_name],
               :conditions => ["fact_names.name <> ?",:_timestamp]
