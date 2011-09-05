@@ -296,7 +296,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'user with edit host rights and facts are set should succeed in viewing host1' do
     setup_user_and_host "Edit"
     as_admin do
-      fn_id = Puppet::Rails::FactName.find_or_create_by_name("architecture").id
+      fn_id = FactName.find_or_create_by_name("architecture").id
       FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
       UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
@@ -309,7 +309,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'user with edit host rights and facts are set should fail to view host2' do
     setup_user_and_host "Edit"
     as_admin do
-      fn_id = Puppet::Rails::FactName.find_or_create_by_name("architecture").id
+      fn_id = FactName.find_or_create_by_name("architecture").id
       FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
       UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
@@ -436,7 +436,7 @@ class HostsControllerTest < ActionController::TestCase
   test "should get disabled hosts for a user with a fact_filter via json" do
     one = users(:one)
     one.roles << [roles(:manager)]
-    fn  = Puppet::Rails::FactName.create :name =>"architecture"
+    fn  = FactName.create :name =>"architecture"
     ufact = UserFact.create :user => one, :fact_name => fn, :criteria => "="
     assert !(ufact.new_record?)
 

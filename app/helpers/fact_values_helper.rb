@@ -1,7 +1,7 @@
 module FactValuesHelper
 
   def fact_from record
-    time_ago_in_words(Time.parse(@timestamps.select{|fv| fv.host_id == record.host_id}.first.value).utc) + " ago"
+    time_ago_in_words(record.host.last_compile) + " ago"
   rescue
     "N/A"
   end

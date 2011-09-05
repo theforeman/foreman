@@ -3,7 +3,7 @@ require 'test_helper'
 class FactValueTest < ActiveSupport::TestCase
   def setup
     @host = hosts(:one)
-    @fact_name  = Puppet::Rails::FactName.create(:name => "my_facting_name")
+    @fact_name  = FactName.create(:name => "my_facting_name")
     @fact_value = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
   end
 

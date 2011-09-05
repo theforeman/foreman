@@ -12,11 +12,18 @@ class Puppet::Rails::FactName
   has_many :user_facts
   has_many :users, :through => :user_facts
 
+  named_scope :no_timestamp_fact, :conditions => ["fact_names.name <> ?",:_timestamp]
+  named_scope :timestamp_facts,   :conditions => ["fact_names.name = ?", :_timestamp]
+
+  default_scope :order => 'LOWER(fact_names.name)'
+
   def to_param
     name
   end
 
 end
+
+FactName = Puppet::Rails::FactName
 
 # workaround for puppet bug http://projects.reductivelabs.com/issues/3949
 if Facter.puppetversion == "0.25.5"

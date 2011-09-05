@@ -43,8 +43,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.user_facts.count == 0
       user_fact = @user.user_facts.build :operator => "==", :andor => "or"
-      user_fact.fact_name_id = Puppet::Rails::FactName.first.id if Puppet::Rails::FactName.first
-      true
+      user_fact.fact_name_id = FactName.first.id if FactName.first
     end
   end
 

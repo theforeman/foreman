@@ -51,7 +51,7 @@ class HostMailerTest < ActionMailer::TestCase
     @options[:env] = nil
     @options[:factname] = "Kernel"
     @options[:factvalue] = "Linux"
-    fn = Puppet::Rails::FactName.create :name => @options[:factname]
+    fn = FactName.create :name => @options[:factname]
     FactValue.create :value => @options[:factvalue], :fact_name => fn, :host => @host
     assert HostMailer.deliver_summary(@options).body.include?(@options[:factname])
   end

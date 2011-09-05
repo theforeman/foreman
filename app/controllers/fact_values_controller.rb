@@ -14,7 +14,6 @@ class FactValuesController < ApplicationController
   def index
     begin
       values = FactValue.no_timestamp_facts.search_for(params[:search],:order => params[:order])
-      flash.clear
     rescue => e
       error e.to_s
       values = FactValue.no_timestamp_facts.search_for ""
@@ -22,8 +21,7 @@ class FactValuesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @fact_values = values.paginate :page => params[:page]
-        @timestamps  = FactValue.timestamp_facts.host_id_eq(@fact_values.map(&:host_id).uniq)
+        @fact_values = values.required_fields.paginate :page => params[:page]
       end
       format.json do
         render :json => FactValue.build_facts_hash(values.all(:include => [:fact_name, :host]))
