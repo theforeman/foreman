@@ -46,7 +46,11 @@ module Orchestration::Libvirt
     end
 
     def queue_libvirt_destroy
-      return unless libvirt? and errors.empty?
+      return unless errors.empty?
+      return unless libvirt? or (hostgroup and hostgroup.hypervisor?)
+      @hypervisor ||= hostgroup.hypervisor.connect
+      @guest ||= Virt::Guest.find(name) rescue nil
+      return if @guest.nil?
       queue.create(:name => "Removing libvirt instance #{self}", :priority => 1,
                    :action => [self, :delLibvirt])
       queue.create(:name => "Removing libvirt Storage #{self}", :priority => 2,
