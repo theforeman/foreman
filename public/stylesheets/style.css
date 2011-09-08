@@ -578,3 +578,11 @@ a.button:active span {
 .grey {
   color:#aaa;
 }
+
+.fact_chart {
+  height: 400px !important;
+  width: 600px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  display: none;
+}

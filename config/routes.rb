@@ -44,7 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :common_parameters, :collection => {:auto_complete_search => :get}
   map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post, :auto_complete_search => :get}
   map.resources :fact_values, :only => [:create, :index], :collection => { :auto_complete_search => :get }
-  map.resources :facts, :only => [:index], :requirements => {:id => /[^\/]+/} do |facts|
+  map.resources :facts, :only => [:index, :show], :requirements => {:id => /[^\/]+/} do |facts|
     facts.resources :values, :requirements => {:id => /[^\/]+/}, :only => :index, :controller => :fact_values
   end
   map.resources :ptables, :collection => {:auto_complete_search => :get}

@@ -87,3 +87,63 @@ function edit_setting(name, url) {
 
   return false;
 }
+
+function get_pie_chart(div, url) {
+  if($("#"+div)[0] == undefined)
+  {
+    var html = $('<div id= '+ div + ' class="fact_chart" ></div>').appendTo('body');
+    $.getJSON(url, function(data) { pie_chart(div, data.name, data.values);
+      html.dialog({
+        width: 600,
+        resizable: false,
+        title: data.name + ' distribution',
+        close: function(event, ui){
+           $("#"+div).remove();
+        }
+      });
+    });
+  } else {$("#"+div).dialog("moveToTop");}
+}
+
+function pie_chart(div, title, data) {
+  new Highcharts.Chart({
+    chart: {
+      renderTo: div,
+      borderWidth: 0,
+      backgroundColor: {
+       linearGradient: [0, 0, 0, 200],
+       stops: [
+          [0, '#ffffff'],
+          [1, '#EDF6FC']
+       ]}
+    },
+    credits: {
+    enabled: false,
+    },
+    title: {
+       text: title
+    },
+    tooltip: {
+       formatter: function() {
+          return '<b>'+ this.point.name +'</b>: '+ this.y;
+       }
+    },
+    plotOptions: {
+       pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+             enabled: true,
+             formatter: function() {
+                return '<b>'+ this.point.name +'</b>: '+ this.y;
+             }
+          }
+       }
+    },
+     series: [{
+       type: 'pie',
+       name: '',
+       data: data
+    }]
+  });
+};

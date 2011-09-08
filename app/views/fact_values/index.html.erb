@@ -21,6 +21,8 @@
         </td>
       <% end %>
       <td>
+        <%= link_to_function image_tag("pie_chart_icon.png", :alt => "Show distribution chart"),
+          "get_pie_chart('fact_chart-#{fact_value.fact_name_id}', '#{fact_path(fact_value.fact_name_id)}')" %>
         <%= link_to h(fact_value.fact_name.name),
           fact_values_path("search" => "name = #{fact_value.name}"),
         :title => "Show all #{fact_value.name} fact values" %>

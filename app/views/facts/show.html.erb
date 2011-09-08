@@ -1,0 +1,3 @@
+<% title @fact.name %>
+
+<%= pie_chart @fact.name,  "#{@fact.name.camelize} Distribution", FactValue.count_each(@fact.name) %>
