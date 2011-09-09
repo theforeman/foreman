@@ -477,7 +477,7 @@ class HostsController < ApplicationController
     @domain          = @host.domain
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
-    @hypervisor      = @host.hypervisor
+    @hypervisor      = @host.hypervisor if @host.respond_to?(:hypervisor)
   end
 
   def find_multiple
