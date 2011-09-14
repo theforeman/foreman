@@ -26,7 +26,7 @@ class Hypervisors::GuestsController < ApplicationController
     if (@guest.send(action) rescue false)
       state = @guest.running? ? "running" : "stopped"
       notice "#{@guest.name} is now #{state}"
-      redirect_to hypervisor_guests_path params[:hypervisor_id]
+      redirect_to hypervisor_guests_path(params[:hypervisor_id])
     else
       error "failed to #{action} #{@guest.name}"
       redirect_to :back

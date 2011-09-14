@@ -151,7 +151,7 @@ module ApplicationHelper
   end
 
   def checked_icon condition
-    return image_tag "toggle_check.png" if condition
+    return image_tag("toggle_check.png") if condition
   end
 
   def searchable?

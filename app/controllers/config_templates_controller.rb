@@ -96,7 +96,7 @@ class ConfigTemplatesController < ApplicationController
     unless error_msgs.empty?
       msg = "There was an error creating the PXE Default file: #{error_msgs.join(",")}"
       respond_to do |format|
-        format.html { error msg and return redirect_to :back}
+        format.html { error(msg) and return redirect_to(:back)}
         format.json { render :json => msg, :status => 500 and return }
       end
     end
