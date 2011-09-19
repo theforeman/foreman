@@ -157,6 +157,7 @@ class HostsController < ApplicationController
   end
 
   def puppetrun
+    return deny_access unless Setting[:puppetrun]
     if GW::Puppet.run @host.name
       notice "Successfully executed, check log files for more details"
     else

@@ -74,7 +74,8 @@ class ApplicationController < ActionController::Base
     render :text => 'Invalid query', :status => 400 and return
   end
 
-  def not_found
+  def not_found(exception = nil)
+    logger.debug "not found: #{exception}" if exception
     respond_to do |format|
       format.html { render "common/404", :status => 404 }
       format.json { head :status => 404}

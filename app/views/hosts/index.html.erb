@@ -5,7 +5,7 @@
       </div>
       <%= multiple_actions_select %>
   <% end -%>
-  <%= display_link_if_authorized "New Host", hash_for_new_host_path %>
+  <%= link_to_if_authorized "New Host", hash_for_new_host_path %>
 </span>
 <%= render 'list', :hosts => @hosts, :header => @title || "Hosts"  %>
 <script>

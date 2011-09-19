@@ -101,17 +101,16 @@ module ApplicationHelper
   # Display a link if user is authorized, otherwise a string
   # +name+    : String to be displayed
   # +options+ : Hash containing
-  #             :enable_link : Boolean indicating whether the link is to be displayed
   #             :controller  : String or Symbol representing the controller
   #             :auth_action : String or Symbol representing the action to be used for authorization checks
   # +html_options+ : Hash containing html options for the link or span
   def link_to_if_authorized(name, options = {}, html_options = {})
-    enable_link = options.has_key?(:enable_link) ? options.delete(:enable_link) : true
+    enable_link = html_options.has_key?(:disabled) ? !html_options[:disabled] : true
     auth_action = options.delete :auth_action
     if enable_link
       link_to_if authorized_for(options[:controller] || params[:controller], auth_action || options[:action]), name, options, html_options
     else
-      content_tag(:span, name, {:class => "entry"}.merge(html_options))
+      link_to_function name, 'void()', html_options
     end
   end
 
@@ -121,9 +120,10 @@ module ApplicationHelper
   #             :controller  : String or Symbol representing the controller
   #             :auth_action : String or Symbol representing the action to be used for authorization checks
   # +html_options+ : Hash containing html options for the link or span
-  def display_link_if_authorized(name, options = {}, html_options = nil)
+  def display_link_if_authorized(name, options = {}, html_options = {})
     auth_action = options.delete :auth_action
-    if authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
+    enable_link = html_options.has_key?(:disabled) ? !html_options[:disabled] : true
+    if enable_link and authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
       link_to(name, options, html_options)
     else
       ""
