@@ -27,7 +27,7 @@ class AddSuseTemplates < ActiveRecord::Migration
 
   rescue Exception => e
     # something bad happened, but we don't want to break the migration process
-    logger.warn "Failed to migrate #{e}" if logger
+    Rails.logger.warn "Failed to migrate #{e}"
     return true
 
   end

@@ -30,7 +30,7 @@ class AddSolarisTemplates < ActiveRecord::Migration
     end
   rescue Exception => e
     # something bad happened, but we don't want to break the migration process
-    logger.warn "Failed to migrate #{e}"
+    Rails.logger.warn "Failed to migrate #{e}"
     return true
   end
 
