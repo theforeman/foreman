@@ -6,6 +6,9 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     @attributes = { :name= => "value",
                     :host= => "value",
                     :attr_login= => "value",
+                    :attr_mail= => "some@where.com",
+                    :attr_firstname= => "ohad",
+                    :attr_lastname=  => "daho",
                     :port= => 389 }
     User.current = users(:admin)
   end
@@ -28,9 +31,14 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   test "should exists a attr_login" do
     missing(:attr_login=)
+    @auth_source_ldap.onthefly_register = true
     assert !@auth_source_ldap.save
 
     set(:attr_login=)
+    set(:attr_firstname=)
+    set(:attr_lastname=)
+    set(:attr_mail=)
+    @auth_source_ldap.onthefly_register = true
     assert @auth_source_ldap.save
   end
 
