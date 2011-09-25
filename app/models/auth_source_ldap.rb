@@ -19,7 +19,8 @@ require 'net/ldap'
 require 'iconv'
 
 class AuthSourceLdap < AuthSource
-  validates_presence_of :host, :port, :attr_login
+  validates_presence_of :host, :port
+  validates_presence_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :if => Proc.new {|auth| auth.onthefly_register? }
   validates_length_of :name, :host, :account_password, :maximum => 60, :allow_nil => true
   validates_length_of :account, :base_dn, :maximum => 255, :allow_nil => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
