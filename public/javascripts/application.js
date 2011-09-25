@@ -1,9 +1,19 @@
 $(function() {
-    $('.error, .warning, .notice').hide().each(function(index, item) {
-        item = $(item);
-        $.jnotify(item.text(), { type: item.attr('class'), sticky: true });
-    });
+  $('.error').hide().each(function(index, item) {
+    if ($('.errorExplanation').length == 0) {
+      $.jnotify($(item).text(), { type: "error", sticky: true });
+    }
+  });
+
+  $('.warning').hide().each(function(index, item) {
+    $.jnotify($(item).text(), { type: "warning", sticky: true });
+  });
+
+  $('.notice').hide().each(function(index, item) {
+    $.jnotify($(item).text(), { type: "success", sticky: false });
+  });
 });
+
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
