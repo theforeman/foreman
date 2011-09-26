@@ -68,29 +68,6 @@ module ApplicationHelper
     link_to_function("Uncheck all", "checkAll('##{form_name}', false)")
   end
 
-  def searchtab title, search, options
-    opts = {:action => params[:action], :tab_name => title, :search => search}
-    selected_class = options[:selected] ? "selectedtab" : ""
-    content_tag(:li) do
-      link_to opts, :class => selected_class do
-        h(title) + (options[:no_close_button] ? "": (link_to "x", opts.merge(:remove_me => true), :class => "#{selected_class} close"))
-      end
-    end
-  end
-
-  def toggle_searchbar
-    update_page do |page|
-      page['search'].toggle
-      page['tabs'].toggle
-    end
-  end
-
-  def fact_name_select
-    param = params[:search]["#{@via}fact_name_id_eq"] if params[:search]
-    return param.to_i unless param.empty?
-    return @fact_name_id if @fact_name_id
-  end
-
   # Return true if user is authorized for controller/action, otherwise false
   # +controller+ : String or symbol for the controller
   # +action+     : String or symbol for the action
@@ -164,6 +141,32 @@ module ApplicationHelper
     options = tag_options.merge(:class => "auto_complete_input")
     text_field_tag(method, val, options) + auto_complete_clear_value_button(method) +
       auto_complete_field_jquery(method, "#{path}/auto_complete_#{method}", completion_options)
+  end
+
+  def edit_textfield(object, property, options={})
+    edit_inline(object, property, options.merge({:type => "edit_textfield"}))
+  end
+
+  def edit_textarea(object, property, options={})
+    edit_inline(object, property, options.merge({:type => "edit_textarea"}))
+  end
+
+
+  protected
+  def edit_inline(object, property, options={})
+    name       = "#{type}[#{property}]"
+    helper     = options[:helper]
+    value      = helper.nil? ? object.send(property) : self.send(helper, object)
+    klass      = options[:type]
+    update_url = options[:update_url] || url_for(object)
+
+    opts = { :title => "Click to edit", "data-url" => update_url, :class => klass,
+      :name => name, "data-field" => property, :value => value}
+
+    content_tag_for :span, object, opts do
+      h(value)
+    end
+
   end
 
 end

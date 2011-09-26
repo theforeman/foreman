@@ -157,3 +157,42 @@ function pie_chart(div, title, data) {
     }]
   });
 };
+
+$(document).ready(function() {
+  var common_settings = {
+    method      : 'PUT',
+    submit      : 'Save',
+    indicator   : "<img src='../images/spinner.gif' />",
+    tooltip     : 'Click to edit..',
+    placeholder : 'Click to edit..',
+    submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
+    onsuccess   :  function(data) {
+      var parsed = $.parseJSON(data);
+      $(this).html(parsed[$(this).attr('name').split("[")[0]][$(this).attr('data-field')]);
+    },
+    onerror     : function(settings, original, xhr) {
+      original.reset();
+      var error = $.parseJSON(xhr.responseText)["errors"]
+      $.jnotify(error, { type: "error", sticky: true });
+    }
+  };
+
+  $('.edit_textfield').each(function() {
+    var settings = {
+      type : 'text',
+      name : $(this).attr('name'),
+    };
+    $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
+  });
+
+  $('.edit_textarea').each(function() {
+    var settings = {
+      type : 'textarea',
+      name : $(this).attr('name'),
+      rows : 8,
+      cols : 36
+    };
+    $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
+  });
+
+});
