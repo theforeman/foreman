@@ -70,34 +70,6 @@ function template_info(div, url) {
 }
 
 
-// Settings edit
-function edit_setting(name, url) {
-  var html = $('<div></div>').appendTo('body').load(url + " #content");
-  html.dialog({
-    modal: true,
-    title: "Editing " + name,
-    width: 700,
-    height: 250,
-    close: function(event, ui) {},
-    buttons: [
-      {
-        text: "OK",
-        click: function() {
-            $("form").submit();
-            $( this ).dialog( "close" );
-        },
-      },{
-        text: "Cancel",
-        click: function() {
-          $( this ).dialog( "close" );
-        }
-      }
-    ]
-  });
-
-  return false;
-}
-
 function get_pie_chart(div, url) {
   if($("#"+div)[0] == undefined)
   {
@@ -161,11 +133,14 @@ function pie_chart(div, title, data) {
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
+    cancel      : 'Cancel',
     submit      : 'Save',
     indicator   : "<img src='../images/spinner.gif' />",
     tooltip     : 'Click to edit..',
     placeholder : 'Click to edit..',
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
+    onedit      : function(data) { $(this).removeClass("editable"); },
+    callback    : function(value, settings) { $(this).addClass("editable"); },
     onsuccess   :  function(data) {
       var parsed = $.parseJSON(data);
       $(this).html(parsed[$(this).attr('name').split("[")[0]][$(this).attr('data-field')]);
@@ -181,6 +156,7 @@ $(document).ready(function() {
     var settings = {
       type : 'text',
       name : $(this).attr('name'),
+      width: '100%',
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });

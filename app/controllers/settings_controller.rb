@@ -12,10 +12,6 @@ class SettingsController < ApplicationController
     end
   end
 
-  def edit
-    @setting = Setting.find(params[:id])
-  end
-
   def update
     @setting = Setting.find(params[:id])
     if @setting.update_attributes(params[:setting])

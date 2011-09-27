@@ -89,6 +89,18 @@ class Setting < ActiveRecord::Base
       self.value = false if value == "false"
     when "integer"
       self.value = value.to_i if value =~ /\d+/
+    when "array"
+      if value =~ /^\s*\[.*\]\s*$/
+        begin
+          self.value = YAML.load(value.gsub(/(\,)(\S)/, "\\1 \\2"))
+        rescue => e
+          errors.add(:value, "invalid value: #{e}")
+          return false
+        end
+      else
+        errors.add(:value, "Must be an array")
+        return false
+      end
     end
     true
   end

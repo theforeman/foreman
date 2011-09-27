@@ -160,7 +160,7 @@ module ApplicationHelper
     klass      = options[:type]
     update_url = options[:update_url] || url_for(object)
 
-    opts = { :title => "Click to edit", "data-url" => update_url, :class => klass,
+    opts = { :title => "Click to edit", "data-url" => update_url, :class => "editable #{klass}",
       :name => name, "data-field" => property, :value => value}
 
     content_tag_for :span, object, opts do

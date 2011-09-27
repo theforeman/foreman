@@ -6,15 +6,13 @@
     <th>Value</th>
     <th>Description</th>
     <th><%= sort :category %></th>
-    <th></th>
   </tr>
   <% for setting in @settings %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=h setting.name %></td>
-      <td><%=h show_value(setting) %></td>
+      <td><%= edit_textfield(setting, :value,{:helper => :show_value}) %></td>
       <td><%=h setting.description %></td>
       <td><%=h setting.category %></td>
-      <td><%= link_to_function "Edit", "edit_setting('#{setting}','#{edit_setting_path(setting)}')" %></td>
     </tr>
   <% end %>
 </table>

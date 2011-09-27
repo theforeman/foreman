@@ -16,5 +16,7 @@ module SettingsHelper
     else
       setting.value
     end
+  rescue
+    setting.value
   end
 end
