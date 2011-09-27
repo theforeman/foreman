@@ -49,7 +49,7 @@ class Hypervisor < ActiveRecord::Base
   def connect
     return true if Rails.env == "test"
     logger.debug "trying to contact Hypervisor #{name}"
-    Timeout::timeout(10, StandardError) { @host = Virt.connect(uri).host }
+    Timeout::timeout(10, StandardError) { @host = Virt.connect(uri,{:username => SETTINGS[:esxi_username], :password => SETTINGS[:esxi_password]}).host }
   rescue => e
     logger.warn "Failed to connect to hypervisor #{name} - #{e}"
     @host = nil
