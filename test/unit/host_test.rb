@@ -114,7 +114,9 @@ class HostTest < ActiveSupport::TestCase
 
     # dummy external node info
     nodeinfo = {"environment" => "global_puppetmaster",
-      "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80", "ssl_port" => "443"},
+      "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80",
+        "ssl_port" => "443", "foreman_env"=> "global_puppetmaster", "owner_name"=>"Admin User",
+        "root_pw"=>"xybxa6JUkz63w", "owner_email"=>"admin@someware.com"},
       "classes"=>["apache", "base"]}
 
     host.importNode nodeinfo

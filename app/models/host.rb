@@ -258,6 +258,14 @@ class Host < Puppet::Rails::Host
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster.to_s
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
+    param["hostgroup"]    = hostgroup.name unless hostgroup.nil?
+    param["root_pw"]      = root_pass if SETTINGS[:unattended]
+    param["foreman_env"]  = environment.to_s unless environment.nil? or environment.name.nil?
+    if SETTINGS[:login]
+      param["owner_name"]  = owner.name
+      param["owner_email"] = owner.is_a?(User) ? owner.mail : owner.users.map(&:mail)
+    end
+
     if Setting[:ignore_puppet_facts_for_provisioning]
       param["ip"]  = ip
       param["mac"] = mac
@@ -267,7 +275,7 @@ class Host < Puppet::Rails::Host
     info_hash = {}
     info_hash['classes'] = self.puppetclasses_names
     info_hash['parameters'] = param
-    info_hash['environment'] = environment.to_s unless environment.nil? or environment.name.nil?
+    info_hash['environment'] = param["foreman_env"]
 
     return info_hash
   end
