@@ -157,9 +157,9 @@ module ProxyAPI
       response = parse(get("#{subnet}/#{mac}"))
       attrs = response.merge(:network => subnet, :proxy => self)
       if response.keys.grep(/Sun/i).empty?
-        Net::DHCP::SparcRecord.new attrs
-      else
         Net::DHCP::Record.new attrs
+      else
+        Net::DHCP::SparcRecord.new attrs
       end
     rescue RestClient::ResourceNotFound
       nil
