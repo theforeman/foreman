@@ -42,7 +42,7 @@ module HostsHelper
         ['Change Group', select_multiple_hostgroup_hosts_path],
         ['Change Environment', select_multiple_environment_hosts_path],
         ['Edit Parameters', multiple_parameters_hosts_path],
-        ['Destroy Hosts', multiple_destroy_hosts_path],
+        ['Delete Hosts', multiple_destroy_hosts_path],
         ['Disable Notifications', multiple_disable_hosts_path],
         ['Enable Notifications', multiple_enable_hosts_path],
     ]

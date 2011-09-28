@@ -2,7 +2,10 @@
 <span class="title_action">
   <%= link_to "Show", @host %>
   <%= link_to "View All", hosts_path %>
-  <%= display_link_if_authorized (@host.managed? ? "Unmanage host" : "Manage host"), hash_for_toggle_manage_host_path(:id => @host.name), {:method => :put} %>
+  <% if SETTINGS[:unattended] -%>
+    <%= display_link_if_authorized (@host.managed? ? "Unmanage host" : "Manage host"),
+      hash_for_toggle_manage_host_path(:id => @host.name), {:method => :put} %>
+  <% end -%>
 </span>
 
 <%= render :partial => 'form' %>

@@ -15,8 +15,12 @@ $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 SETTINGS[:login] ||= SETTINGS[:ldap]
 
 begin
-  require 'virt'
-  SETTINGS[:libvirt] = true
+  if SETTINGS[:unattended]
+    require 'virt'
+    SETTINGS[:libvirt] = true
+  else
+    SETTINGS[:libvirt] = false
+  end
 rescue LoadError
   RAILS_DEFAULT_LOGGER.debug "Libvirt binding are missing - hypervisor management is disabled"
   SETTINGS[:libvirt] = false

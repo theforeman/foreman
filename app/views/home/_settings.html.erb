@@ -1,23 +1,28 @@
 <div id="settings_dropdown" class="dropdown_header" >
   <a href="#">Settings&nbsp;&#9660;</a>
 
-  <% choices  = []
-     choices += [['Architectures',          :architectures]]
-     choices += [['Bookmarks',              :bookmarks]]
-     choices += [['Domains',                :domains]]
-     choices += [['Environments',           :environments]]
-     choices += [['Foreman Settings',       :settings]]
-     choices += [['Global Parameters',      :common_parameters]]
-     choices += [['Hardware Models',        :models]]
-     choices += [['Host Groups',            :hostgroups]]
-     choices += [['Installation Media',     :media]]
-     choices += [['LDAP Authentication',    :auth_source_ldaps]]
-     choices += [['Operating Systems',      :operatingsystems]]
-     choices += [['Partition Tables',       :ptables]]
-     choices += [['Provisioning Templates', :config_templates]]
-     choices += [['Puppet Classes',         :puppetclasses]]
-     choices += [['Smart Proxies',          :smart_proxies]]
-     choices += [['Subnets',                :subnets]]
+  <%
+    choices = [
+      ['Bookmarks',              :bookmarks],
+      ['Environments',           :environments],
+      ['Foreman Settings',       :settings],
+      ['Global Parameters',      :common_parameters],
+      ['Host Groups',            :hostgroups],
+      ['LDAP Authentication',    :auth_source_ldaps],
+      ['Puppet Classes',         :puppetclasses],
+      ['Smart Proxies',          :smart_proxies]
+    ]
+
+    choices += [
+      ['Architectures',          :architectures],
+      ['Domains',                :domains],
+      ['Hardware Models',        :models],
+      ['Installation Media',     :media],
+      ['Operating Systems',      :operatingsystems],
+      ['Partition Tables',       :ptables],
+      ['Provisioning Templates', :config_templates],
+      ['Subnets',                :subnets]
+    ] if SETTINGS[:unattended]
 
     choices += [
       ['Users',                  :users],

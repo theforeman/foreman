@@ -27,12 +27,24 @@ ActionController::Routing::Routes.draw do |map|
   map.statistics '/statistics', :controller => 'statistics'
   map.resources :notices, :only => :destroy
   map.resources :audits, :collection => {:auto_complete_search => :get}
-  map.resources :usergroups
-  map.resources :domains, :requirements => {:id => /[^\/]+/}, :collection => {:auto_complete_search => :get}
-  map.resources :operatingsystems, :member => {:bootfiles => :get}, :collection => {:auto_complete_search => :get}
-  map.resources :media, :collection => {:auto_complete_search => :get}
-  map.resources :models, :collection => {:auto_complete_search => :get}
-  map.resources :architectures, :collection => {:auto_complete_search => :get}
+  if SETTINGS[:login]
+    map.resources :usergroups
+    map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get, :auto_complete_search => :get}
+    map.resources :roles, :collection => {:report => [:get, :post], :auto_complete_search => :get}
+  end
+
+  if SETTINGS[:unattended]
+    map.resources :domains, :requirements => {:id => /[^\/]+/}, :collection => {:auto_complete_search => :get}
+    map.resources :operatingsystems, :member => {:bootfiles => :get}, :collection => {:auto_complete_search => :get}
+    map.resources :media, :collection => {:auto_complete_search => :get}
+    map.resources :models, :collection => {:auto_complete_search => :get}
+    map.resources :architectures, :collection => {:auto_complete_search => :get}
+    map.resources :ptables, :collection => {:auto_complete_search => :get}
+    map.resources :config_templates, :except => [:show], :collection => { :auto_complete_search => :get }, :requirements => { :id => /[^\/]+/ }
+    map.resources :subnets, :except => [:show], :collection => {:auto_complete_search => :get}
+    map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
+  end
+
   map.resources :lookup_keys, :except => [:new, :create], :requirements => {:id => /[^\/]+/} do |keys|
     keys.resources :lookup_values, :only => [:index, :create, :update, :destroy]
   end
@@ -47,23 +59,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :facts, :only => [:index, :show], :requirements => {:id => /[^\/]+/} do |facts|
     facts.resources :values, :requirements => {:id => /[^\/]+/}, :only => :index, :controller => :fact_values
   end
-  map.resources :ptables, :collection => {:auto_complete_search => :get}
-  map.resources :roles, :collection => {:report => [:get, :post], :auto_complete_search => :get}
   map.resources :auth_source_ldaps
-  map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get, :auto_complete_search => :get}
-  map.resources :config_templates, :except => [:show], :collection => { :auto_complete_search => :get }, :requirements => { :id => /[^\/]+/ }
   map.resources :smart_proxies, :except => [:show] do |proxy|
     proxy.resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :update, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
     proxy.resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
   end
-  map.resources :subnets, :except => [:show], :collection => {:auto_complete_search => :get}
   map.resources :hypervisors, :requirements => { :id => /[^\/]+/ } do |hypervisor|
     hypervisor.resources :guests, :controller => "Hypervisors::Guests", :except => [:edit],
       :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }
   end if SETTINGS[:libvirt]
   map.resources :bookmarks, :except => [:show], :requirements => { :id => /[^\/]+/ }
   map.resources :settings, :only => [:index, :update]
-  map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
   map.connect '/status', :controller => "home", :action => "status"
 
   #default
