@@ -155,9 +155,14 @@ module ProxyAPI
     # Returns    : Hash or false
     def record subnet, mac
       response = parse(get("#{subnet}/#{mac}"))
-      Net::DhcpRecord.new response.merge(:network => subnet, :proxy => self)
+      attrs = response.merge(:network => subnet, :proxy => self)
+      if response.keys.grep(/Sun/i).empty?
+        Net::DHCP::SparcRecord.new attrs
+      else
+        Net::DHCP::Record.new attrs
+      end
     rescue RestClient::ResourceNotFound
-      false
+      nil
     end
 
     # Sets a DHCP entry
