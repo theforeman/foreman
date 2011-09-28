@@ -1,0 +1,8 @@
+--- 
+#your default puppet server - can be overridden in the host level
+#if none specified, plain "puppet" will be used.
+#:puppet_server: puppet
+:unattended: true
+:puppetconfdir: /etc/puppet/puppet.conf
+:login: false
+:require_ssl: false
