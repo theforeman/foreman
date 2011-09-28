@@ -1,5 +1,5 @@
-module Net
-  class DhcpRecord < Record
+module Net::DHCP
+  class Record < Net::Record
     attr_accessor :ip, :mac, :network, :nextServer, :filename
 
     def initialize opts = { }

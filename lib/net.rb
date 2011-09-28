@@ -1,6 +1,4 @@
 module Net
-  autoload :DhcpRecord, "net/dhcp_record.rb"
-
   class Record
     include Net::Validations
     attr_accessor :hostname, :proxy, :logger
