@@ -87,7 +87,7 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :template, :snippet]}.merge(options))
+    super({:only => [:name, :template, :id, :snippet],:include => [:template_kind]}.merge(options))
   end
 
 end
