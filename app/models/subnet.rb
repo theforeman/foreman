@@ -74,4 +74,15 @@ class Subnet < ActiveRecord::Base
     nil
   end
 
+  # imports subnets from a dhcp smart proxy
+  def self.import proxy
+    return unless proxy.features.include?(Feature.find_by_name("DHCP"))
+    ProxyAPI::DHCP.new(:url => proxy.url).subnets.map do |s|
+      # do not import existing networks.
+      attrs = { :network => s["network"], :mask => s["netmask"] }
+      next if first(:conditions => attrs)
+      new(attrs.update(:dhcp => proxy))
+    end.compact
+  end
+
 end

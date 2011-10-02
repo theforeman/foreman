@@ -1,0 +1,12 @@
+<% title "Import subnets" %>
+
+<% form_tag create_multiple_subnets_path do -%>
+  <% @subnets.each do |subnet| -%>
+    <h3><%= subnet -%></h3>
+    <hr>
+    <% fields_for "subnets[]", subnet do |f| -%>
+      <%= render 'fields', :f => f %>
+    <% end -%>
+  <% end -%>
+  <%= submit_tag %>
+<% end -%>

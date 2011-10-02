@@ -41,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
     map.resources :architectures, :collection => {:auto_complete_search => :get}
     map.resources :ptables, :collection => {:auto_complete_search => :get}
     map.resources :config_templates, :except => [:show], :collection => { :auto_complete_search => :get }, :requirements => { :id => /[^\/]+/ }
-    map.resources :subnets, :except => [:show], :collection => {:auto_complete_search => :get}
+    map.resources :subnets, :except => [:show], :collection => {:auto_complete_search => :get, :import => :get, :create_multiple => :post}
     map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
   end
 
