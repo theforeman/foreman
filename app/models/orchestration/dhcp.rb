@@ -11,11 +11,11 @@ module Orchestration::DHCP
   module InstanceMethods
 
     def dhcp?
-      !subnet.nil? and subnet.dhcp?
+      !subnet.nil? and subnet.dhcp? and errors.empty?
     end
 
     def sp_dhcp?
-      !sp_subnet.nil? and sp_subnet.dhcp?
+      !sp_subnet.nil? and sp_subnet.dhcp? and errors.empty?
     end
 
     def dhcp_record

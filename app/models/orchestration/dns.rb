@@ -10,7 +10,7 @@ module Orchestration::DNS
   module InstanceMethods
 
     def dns?
-      !domain.nil? and !domain.proxy.nil?
+      !domain.nil? and !domain.proxy.nil? and errors.empty?
     end
 
     def dns_a_record
