@@ -9,4 +9,12 @@ module PuppetclassesHelper
       page.insert_html(:after, "puppetdoc",link_to(:back))
     end
   end
+
+  def host_counter klass
+    # workaround for sqlite bug
+    # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/4544-rails3-activerecord-sqlite3-lost-column-type-when-using-views#ticket-4544-2
+    @counter[klass.id.to_s] || @counter[klass.id.to_i] || 0
+  rescue
+    "N/A"
+  end
 end
