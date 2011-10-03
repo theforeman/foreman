@@ -103,7 +103,7 @@ module Hostext
 
         def self.value_to_sql(operator, value)
           return value                 if operator !~ /LIKE/i
-          return value.tr_s('%*', '%') if (value ~ /%|\*/)
+          return value.tr_s('%*', '%') if (value =~ /%|\*/)
 
           return "%#{value}%"
         end
