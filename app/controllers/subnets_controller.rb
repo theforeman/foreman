@@ -78,6 +78,10 @@ class SubnetsController < ApplicationController
   end
 
   def create_multiple
+    if params[:subnets].empty?
+      return redirect_to subnets_path, :notice => "No Subnets selected"
+    end
+
     @subnets = Subnet.create(params[:subnets]).reject { |s| s.errors.empty? }
     if @subnets.empty?
       process_success(:object => @subnets, :success_msg => "Imported Subnets")

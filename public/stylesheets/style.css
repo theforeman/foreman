@@ -428,7 +428,7 @@ div#run_distribution {
   float:right;
 }
 
-#settings li {
+.imported_subnet, #settings li {
   list-style-type:none;
   padding:0 0 8px;
 }

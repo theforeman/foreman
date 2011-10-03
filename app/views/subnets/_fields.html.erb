@@ -19,11 +19,6 @@
   <%= f.text_field :mask, :title => "netmask for this subnet", :class => "last" %>
 </p>
 
-<p>
-  <%= f.label :ranges, nil, :class => "span-3" %>
-  <%= f.text_field :ranges, :title => "A list of comma separated single IPs or start-end couples.", :class => "last" %>
-</p>
-
 <p title="DHCP Proxy to use within this subnet">
   <%= f.label :dhcp_id, "DHCP Proxy", :class => "span-3" %>
   <%= f.collection_select :dhcp_id, Feature.find_by_name("DHCP").smart_proxies, :id, :name, {:include_blank => "None"}, {:class => "last"} %>
@@ -36,9 +31,4 @@
 <p>
   <%= f.label :vlanid, nil, :class => "span-3" %>
   <%= f.text_field :vlanid, :class => "last" %>
-</p>
-
-<p>
-  <%= f.label :priority, nil, :class => "span-3"%>
-  <%= f.text_field :priority, :class => "last"%>
 </p>
