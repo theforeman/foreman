@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.root :controller => "hosts"
+  map.root :controller => "dashboard"
 
   map.resources :reports,  :collection => { :auto_complete_search => :get }
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
