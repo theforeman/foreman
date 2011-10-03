@@ -151,6 +151,9 @@ module ApplicationHelper
     edit_inline(object, property, options.merge({:type => "edit_textarea"}))
   end
 
+  def edit_select(object, property, options={})
+    edit_inline(object, property, options.merge({:type => "edit_select"}))
+  end
 
   protected
   def edit_inline(object, property, options={})
@@ -161,7 +164,7 @@ module ApplicationHelper
     update_url = options[:update_url] || url_for(object)
 
     opts = { :title => "Click to edit", "data-url" => update_url, :class => "editable #{klass}",
-      :name => name, "data-field" => property, :value => value}
+      :name => name, "data-field" => property, :value => value, :select_values => options[:select_values]}
 
     content_tag_for :span, object, opts do
       h(value)

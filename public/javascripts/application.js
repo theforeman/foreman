@@ -143,7 +143,9 @@ $(document).ready(function() {
     callback    : function(value, settings) { $(this).addClass("editable"); },
     onsuccess   :  function(data) {
       var parsed = $.parseJSON(data);
-      $(this).html(parsed[$(this).attr('name').split("[")[0]][$(this).attr('data-field')]);
+      var key = $(this).attr('name').split("[")[0]
+      var val = $(this).attr('data-field');
+      $(this).html(String(parsed[key][val]));
     },
     onerror     : function(settings, original, xhr) {
       original.reset();
@@ -170,5 +172,16 @@ $(document).ready(function() {
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
+
+  $('.edit_select').each(function() {
+    var settings = {
+      type : 'select',
+      name : $(this).attr('name'),
+      data : $(this).attr('select_values'),
+      width: '100%',
+    };
+    $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
+  });
+
 
 });
