@@ -73,7 +73,7 @@ class Hostgroup < ActiveRecord::Base
     Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :puppetclasses)).each do |hg|
       klasses << hg.puppetclasses
     end
-    klasses.flatten
+    klasses.flatten.sort
   end
 
   # returns self and parent parameters as a hash
