@@ -260,6 +260,7 @@ class Host < Puppet::Rails::Host
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
     param["root_pw"]      = root_pass if SETTINGS[:unattended]
+    param["comment"]      = comment unless comment.blank?
     param["foreman_env"]  = environment.to_s unless environment.nil? or environment.name.nil?
     if SETTINGS[:login]
       param["owner_name"]  = owner.name
