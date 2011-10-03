@@ -46,7 +46,7 @@
 
 </div>
 <div class="title_action">
-  <%= display_link_if_authorized "Power#{state(@guest.running?)}", hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest.id), :confirm => 'Are you sure?', :method => :put %>
-  <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest.id).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
+  <%= display_link_if_authorized "Power#{state(@guest.running?)}", hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest), :confirm => 'Are you sure?', :method => :put %>
+  <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
   <%= display_link_if_authorized "Other Guests on this hypervisor", hash_for_hypervisor_guests_path(:hypervisor_id => @hypervisor) %>
 </div>

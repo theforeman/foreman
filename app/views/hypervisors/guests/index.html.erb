@@ -11,7 +11,7 @@
   <th></th>
   <% @guests.each do |guest| -%>
     <tr>
-      <td> <%= link_to_if_authorized guest.name, hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest.id) %> </td>
+      <td> <%= link_to_if_authorized guest, hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest) %> </td>
       <td> <%= guest.vcpu %> </td>
       <td> <%= number_to_human_size guest.memory*1024 %> </td>
       <td> <%= guest.interface.device rescue "N/A" %> </td>
@@ -19,8 +19,8 @@
       <td> <%= guest.volume.pool %> </td>
       <td> <%= state(!guest.running?) %> </td>
       <td>
-        <%= display_link_if_authorized "Power#{state(guest.running?)}" , hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest.id), :confirm => 'Are you sure?', :method => :put %>
-        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest.id).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
+        <%= display_link_if_authorized "Power#{state(guest.running?)}" , hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest), :confirm => 'Are you sure?', :method => :put %>
+        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
       </td>
     </tr>
   <% end -%>
