@@ -1,5 +1,5 @@
 <%= label type, :subnet_id, nil, :class => "span-2" %>
-<%= collection_select type, :subnet_id, @domain.subnets, :id, :to_label, {:include_blank => @domain.subnets.any? ? true : "No subnets"},{:class => "span-3"} %>
+<%= collection_select type, :subnet_id, @domain.subnets, :id, :title, {:include_blank => @domain.subnets.any? ? true : "No subnets"},{:class => "span-3"} %>
 <%= image_tag "spinner.gif", :id => "indicator", :style => "display:none" %>
 <%= observe_field(:host_subnet_id,
                 :url => { :controller => "subnets", :action => "freeip" },

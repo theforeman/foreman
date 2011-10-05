@@ -24,6 +24,10 @@ class Subnet < ActiveRecord::Base
     "#{network}/#{cidr}"
   end
 
+  def title
+    "#{name} (#{to_label})"
+  end
+
   # Subnets are sorted on their priority value
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
