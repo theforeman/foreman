@@ -109,10 +109,12 @@ class ApplicationController < ActionController::Base
   # example:
   # @host = Host.find_by_name params[:id]
   def find_by_name
-    if params[:id]
-      obj = controller_name.singularize
-      not_found and return unless eval("@#{obj} = #{obj.camelize}.find_by_name(params[:id])")
-    end
+    not_found and return if (id = params[:id]).blank?
+
+    obj = controller_name.singularize
+    # determine if we are searching for a numerical id or plain name
+    cond = "find_by_" + ((id =~ /^\d+$/ && id=id.to_i) ? "id" : "name")
+    not_found and return unless eval("@#{obj} = #{obj.camelize}.#{cond}(id)")
   end
 
   def notice notice
