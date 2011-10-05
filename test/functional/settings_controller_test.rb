@@ -6,15 +6,10 @@ class SettingsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_edit
-    get :edit, {:id => Setting.first}, set_session_user
-    assert_template 'edit'
-  end
-
   def test_update_invalid
     Setting.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Setting.first}, set_session_user
-    assert_template 'edit'
+    put :update, {:id => Setting.first, :format => "json"}, set_session_user
+    assert_response :unprocessable_entity
   end
 
   def test_update_valid
