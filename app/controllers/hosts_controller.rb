@@ -16,7 +16,7 @@ class HostsController < ApplicationController
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
-    reports facts storeconfig_klasses clone externalNodes pxe_config toggle_manage]
+    reports facts storeconfig_klasses clone pxe_config toggle_manage]
 
   filter_parameter_logging :root_pass
   helper :hosts, :reports
