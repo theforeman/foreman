@@ -73,7 +73,7 @@ end
 class String
   def to_gb
     begin
-      value,unit=self.match(/(\d+|.+) ([KMG]B)$/i)[1..2]
+      value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMG]B?|B))$/i)[1..3]
       case unit.to_sym
       when nil, :B, :byte          then (value.to_f / 1000_000_000)
       when :GB, :G, :gigabyte      then value.to_f
@@ -82,7 +82,7 @@ class String
       else raise "Unknown unit: #{unit.inspect}!"
       end
     rescue
-      raise "Unknown string"
+      raise "Unknown string: #{self.inspect}!"
     end
   end
 end
