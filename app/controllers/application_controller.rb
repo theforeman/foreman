@@ -3,7 +3,6 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  rescue_from ActionController::RoutingError, :with => :no_puppetclass_documentation_handler
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
@@ -220,6 +219,7 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
+    return no_puppetclass_documentation_handler(exception) if exception.is_a?(ActionController::RoutingError)
     logger.warn exception
     logger.warn exception.application_backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
