@@ -37,6 +37,10 @@ class HostgroupsController < ApplicationController
     new.puppetclasses = @hostgroup.puppetclasses
     # Clone any parameters as well
     @hostgroup.group_parameters.each{|param| new.group_parameters << param.clone}
+    if @hypervisor
+      new.vm_defaults = @hostgroup.vm_defaults
+      new.send(:deserialize_vm_attributes)
+    end
     flash[:error_customisation] = {:header_message => "Clone Hostgroup", :class => "flash notice", :id => nil,
       :message => "The following fields will need reviewing:" }
     new.valid?
