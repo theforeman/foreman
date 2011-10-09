@@ -54,6 +54,7 @@ class Hypervisors::GuestsController < ApplicationController
 
   def find_guest
     @guest = Virt::Guest.find(params[:id])
+    puts @guest
   end
 
 end

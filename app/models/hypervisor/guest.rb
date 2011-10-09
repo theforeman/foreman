@@ -6,8 +6,8 @@ class Virt::Guest
     Virt.connection.host.guests.values.flatten.sort
   end
 
-  def self.find(name)
-    Virt.connection.host.find_guest_by_name name
+  def self.find(id)
+    Virt.connection.host.find_guest_by_id id.to_i
   rescue
     raise ActiveRecord::RecordNotFound
   end
