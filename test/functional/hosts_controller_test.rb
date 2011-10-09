@@ -147,13 +147,13 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render correctly when format text/html is given" do
-    get :externalNodes, {:id => @host.name}, set_session_user
+    get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
 
   test "externalNodes should render yml request correctly" do
-    get :externalNodes, {:id => @host.name, :format => "yml"}, set_session_user
+    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml
   end
