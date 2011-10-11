@@ -1,5 +1,5 @@
 function nfs_section_visibility(os_has_nfs){
-  $('.tabular :checkbox').each(function (i) {
+  $('.inputs-list :checkbox').each(function (i) {
     $(this).change(os_has_nfs, toggle_nfs_section)
   })
   $("input:submit").each(function (i) {
@@ -8,7 +8,7 @@ function nfs_section_visibility(os_has_nfs){
 }
 function count_checked_nfs(os_has_nfs){
   var count = 0;
-  $('.tabular :checkbox').each(function(i) {
+  $('.inputs-list :checkbox').each(function(i) {
     if(os_has_nfs[i] == true && this.checked) {
       count ++;
     }

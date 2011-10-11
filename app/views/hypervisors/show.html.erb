@@ -2,15 +2,17 @@
 <% fields = %w{cores cpus memory mhz model nodes sockets threads} -%>
 
 <% fields.each do |key| -%>
-    <div>
-      <strong class="span-4"> <%= key.titleize %></strong>
+    <div class="row">
+      <strong class="span4"> <%= key.titleize %></strong>
       <%= @host.connection.node_get_info.send(key.to_sym) %>
     </div>
 <% end -%>
 
-<div>
-  <strong class="span-4"> Available memory</strong>
+<div class="row">
+  <strong class="span4"> Available memory</strong>
   <%= number_to_human_size @host.connection.node_free_memory rescue "N/A" %>
 </div>
+<br>
 
-<%= link_to "Guests", hypervisor_guests_path(@hypervisor) %> or <%= link_to "Back", hypervisors_path %>
+<%= link_to "Guests", hypervisor_guests_path(@hypervisor), :class => "btn primary" %>
+<%= link_to "Back", hypervisors_path, :class => "btn" %>

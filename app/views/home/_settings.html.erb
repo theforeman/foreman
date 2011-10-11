@@ -1,37 +1,8 @@
-<div id="settings_dropdown" class="dropdown_header" >
-  <a href="#">Settings&nbsp;&#9660;</a>
-
-  <%
-    choices = [
-      ['Bookmarks',              :bookmarks],
-      ['Environments',           :environments],
-      ['Foreman Settings',       :settings],
-      ['Global Parameters',      :common_parameters],
-      ['Host Groups',            :hostgroups],
-      ['LDAP Authentication',    :auth_source_ldaps],
-      ['Puppet Classes',         :puppetclasses],
-      ['Smart Proxies',          :smart_proxies]
-    ]
-
-    choices += [
-      ['Architectures',          :architectures],
-      ['Domains',                :domains],
-      ['Hardware Models',        :models],
-      ['Installation Media',     :media],
-      ['Operating Systems',      :operatingsystems],
-      ['Partition Tables',       :ptables],
-      ['Provisioning Templates', :config_templates],
-      ['Subnets',                :subnets]
-    ] if SETTINGS[:unattended]
-
-    choices += [
-      ['Users',                  :users],
-      ['User Groups',            :usergroups]
-    ] if SETTINGS[:login]
-    choices += [
-      ['Roles',                  :roles]
-    ] if SETTINGS[:login] and User.current.admin?
-    choices += [['Hypervisors',  :hypervisors]] if SETTINGS[:libvirt]
-  %>
-  <%= select_tag "settings_list", options_for_select(allowed_choices(choices), @controller.request.url) %>
-</div>
+<li class="dropdown <%= class_for_setting_page %>">
+<%= link_to "Settings", "#", :class => "dropdown-toggle" %>
+  <ul class="dropdown-menu">
+    <% setting_options.each do |c|-%>
+      <li> <%= display_link_if_authorized c[0], :controller => c[1] %></li>
+    <% end -%>
+  </ul>
+</li>

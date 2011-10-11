@@ -29,11 +29,11 @@ module Foreman::Controller::HostDetails
     item = item_object
     render(:update) do |page|
       if item.use_image
-        page["##{controller_name.singularize}_image_file"].value = item.image_file || item.default_image_file
-        page["##{controller_name.singularize}_image_file"].attr('disabled', false)
+        page["##{item_name}_image_file"].value = item.image_file || item.default_image_file
+        page["##{item_name}_image_file"].attr('disabled', false)
       else
-        page["##{controller_name.singularize}_image_file"].value = ""
-        page["##{controller_name.singularize}_image_file"].attr('disabled', true)
+        page["##{item_name}_image_file"].value = ""
+        page["##{item_name}_image_file"].attr('disabled', true)
       end
     end
   end
@@ -88,10 +88,7 @@ module Foreman::Controller::HostDetails
 
   def update_hypervisor_details item, page
     page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => item }
-    page << "if ($('#host_mac')) {"
-    page.remove :host_mac_label
-    page.remove :host_mac
-    page << " }"
+    page << "if ($('#host_mac')) $('#host_mac').parentsUntil('.clearfix').parent().remove()"
   end
 
   def disconnect_from_hypervisor

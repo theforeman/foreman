@@ -1,6 +1,6 @@
 <% title "Host Groups" %>
 
-<div class="title_action"><%= display_link_if_authorized "New Hostgroup", hash_for_new_hostgroup_path %></div>
+<% title_actions display_link_if_authorized("New Hostgroup", hash_for_new_hostgroup_path), help_path %>
 
 <table class="list">
   <tr>

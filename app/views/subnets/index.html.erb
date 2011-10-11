@@ -1,25 +1,21 @@
 <% title "Subnets" %>
 
-<div class="title_action"><%= display_link_if_authorized "New Subnet", hash_for_new_subnet_path %></div>
+<% title_actions display_link_if_authorized("New Subnet", hash_for_new_subnet_path) %>
 
 <table class="list">
   <tr>
     <th><%= sort :name %></th>
-    <th><%= sort :domain %></th>
     <th><%= sort :network %></th>
-    <th>Ranges</th>
+    <th><%= sort :domain %></th>
     <th>DHCP Proxy</th>
-    <th>VLAN ID</th>
     <th></th>
   </tr>
   <% for subnet in @subnets %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=link_to_if_authorized h(subnet.name), hash_for_edit_subnet_path(:id => subnet)%></td>
-      <td><%=subnet.domain%></td>
       <td><%=subnet.to_label%></td>
-      <td><%=subnet.ranges%></td>
+      <td><%=subnet.domain%></td>
       <td><%=subnet.dhcp %></td>
-      <td><%=subnet.vlanid%></td>
       <td align="right">
         <%= display_link_if_authorized "Destroy", hash_for_subnet_path(:id => subnet, :auth_action => :destroy), :confirm => "Delete #{subnet.name}?", :method => :delete %>
       </td>

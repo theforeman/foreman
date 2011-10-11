@@ -69,7 +69,8 @@ class PuppetclassesController < ApplicationController
 
     type = params[:type]
     render :update do |page|
-      page.insert_html :after, :selected_classes, :partial => 'selectedClasses', :locals => {:klass => @puppetclass, :type => type}
+      page.insert_html :bottom, :selected_classes, :partial => 'selectedClasses', :locals => {:klass => @puppetclass, :type => type}
+      page["selected_puppetclass_#{@puppetclass.id}"].highlight(5000)
       page["puppetclass_#{@puppetclass.id}"].hide
     end
   end

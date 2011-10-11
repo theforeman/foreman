@@ -1,5 +1,5 @@
 <% if (!bookmarks.empty?) -%>
-<ul class='bookmarks-list'>
+<ul class='dropdown-menu'>
   <% for bookmark in bookmarks -%>
       <li><%= link_to_if_authorized bookmark.name, eval("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
   <% end -%>

@@ -1,50 +1,58 @@
 <% form_for @hostgroup do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :parent_id, "Parent", :class => "span-3" %>
-    <%= f.collection_select(:parent_id, accessible_hostgroups, :id, :to_label, { :include_blank => true },
-                            { :class => "span-3" }) %>
+  <%= base_errors_for @hostgroup %>
 
-    <%= f.label :name, nil, :class => "span-3" %>
-    <%= f.text_field :name, :class => "span-3" %>
-  </p>
-
-  <br>
-
-  <% field_set_tag 'Host Defaults' do -%>
-
-    <% field_set_tag 'Primary Settings' do %>
-      <%= f.label :environment_id, nil, :class => "span-3" %>
-      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true }, { :class => "span-3" } %>
-      <div class="push-2 span-7 last">
-        <%= puppetmaster_field @hostgroup, f %>
-      </div>
-    <% end -%>
-
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary">Primary</a></li>
+    <li><a href="#puppet_klasses">Puppet Classes</a></li>
     <% if SETTINGS[:unattended] -%>
-      <% field_set_tag 'Network Settings' do -%>
-        <%= render 'common/domain_subnet', :item => @hostgroup %>
+      <li><a href="#network">Network</a></li>
+      <li><a href="#os">Operating System</a></li>
+      <% if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
+        <li><a href="#virtual_machine">Virtual Machine</a></li>
       <% end -%>
-
-      <% field_set_tag 'Operating System Settings' do %>
-        <div class="span-24 last">
-          <%= render "common/os_selection/initial", { :f => f, :item=> @hostgroup } -%>
-        </div>
-        <div class="span-24 last">
-          <%= f.label :root_pass, "Root Password", :class => "span-3" %>
-          <%= f.password_field :root_pass, :class => "span-3 last" %>
-        </div>
-      <% end -%>
-
-      <span id="virtual_machine">
-        <%= render('common/hypervisor', :item => @hostgroup) if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
-      </span>
     <% end -%>
-  <% end -%>
+    <li><a href="#params">Parameters</a></li>
+  </ul>
 
-  <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
+  <div class="tab-content">
 
-  <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+    <div class="active" id="primary">
+      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label,  :include_blank => true %>
+      <%= text_f f, :name %>
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, :include_blank => true %>
 
-  <p><%= f.submit "Submit" %></p>
+      <%= select_f f, :puppetproxy_id,Feature.find_by_name("Puppet CA").smart_proxies, :id, :name,
+        { :include_blank => true},
+        { :label => "Puppet Master Proxy"}
+      %>
+      <%= text_f f, :puppetmaster_name, :label => "Puppet Master FQDN", :size => 8, :value => f.object.puppetmaster %>
+    </div>
+
+    <div id="puppet_klasses">
+      <% if @environment or @hostgroup.environment -%>
+        <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
+      <% else -%>
+        <p class="alert-message">Please select an Environment first</p>
+      <% end -%>
+    </div>
+
+    <div id="network" class="clearfix">
+      <%= render 'common/domain_subnet', :item => @hostgroup %>
+    </div>
+
+    <div id="os" class="clearfix">
+      <%= render "common/os_selection/initial", :item=> @hostgroup %>
+      <%= password_f f, :root_pass, :label => "Root Password" %>
+    </div>
+
+    <div id="virtual_machine" class="clearfix">
+      <%= render('common/hypervisor', :item => @hostgroup) %>
+    </div>
+
+    <div id="params">
+      <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+    </div>
+  </div>
+
+  <%= submit_or_cancel f %>
 <% end %>

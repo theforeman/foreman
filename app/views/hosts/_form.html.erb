@@ -1,74 +1,79 @@
 <% form_for @host do |f| %>
-  <%= f.error_messages %>
+  <%= base_errors_for @host %>
 
-  <% field_set_tag 'Primary settings' do -%>
-    <div class="span-5">
-      <%= f.label :name %>
-      <%= f.text_field :name, :value => @host.shortname, :title => @host.to_s, :size => 12 %>
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary">Primary</a></li>
+    <li><a href="#puppet_klasses">Puppet Classes</a></li>
+    <% if SETTINGS[:unattended] and @host.managed -%>
+      <li><a href="#network">Network</a></li>
+      <li><a href="#os">Operating System</a></li>
+      <% if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
+        <li><a href="#virtual_machine">Virtual Machine</a></li>
+      <% end -%>
+    <% end -%>
+    <li><a href="#params">Parameters</a></li>
+    <li><a href="#info">Additional Information</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="active" id="primary">
+      <%= text_f f, :name, :class => "xlarge" %>
+      <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
+        { :include_blank => true },
+        { :onchange => update_details_from_hostgroup,
+          :help_inline => image_tag("spinner.gif", :id => "indicator1", :style => "display:none;")
+      } %>
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true } %>
+      <%= select_f f, :puppetproxy_id,Feature.find_by_name("Puppet CA").smart_proxies, :id, :name,
+        { :include_blank => true},
+        { :label => "Puppet Master Proxy"}
+      %>
+      <%= text_f f, :puppetmaster_name, :label => "Puppet Master FQDN",
+        :value => f.object.puppetmaster, :class => "xlarge",
+        :help_inline => "only required for legacy puppet run" %>
+
+      <%= (observe_field(:host_hostgroup_id,
+                        :url    => { :action => :hostgroup_or_environment_selected, :id => @host.id },
+                        :update => :puppet_klasses,
+                        :with   => "'hostgroup_id=' + value+'&environment_id='+$('#host_environment_id').attr('value')")
+          ) unless @host.new_record? %>
+      <%= observe_field(:host_environment_id,
+                        :url    => { :action => :hostgroup_or_environment_selected, :id => @host.id },
+                        :update => :puppet_klasses,
+                        :with   => "'environment_id=' + value+'&hostgroup_id='+$('#host_hostgroup_id').attr('value')") %>
     </div>
-    <div class="span-3">
-      <%= f.label :hostgroup_id, "Host group" %>
-      <%= image_tag "spinner.gif", :id => "indicator1", :style => "display:none;" %>
-    </div>
-    <%= f.collection_select(:hostgroup_id, accessible_hostgroups, :id, :to_label, { :include_blank => true },
-                            { :onchange => update_details_from_hostgroup, :class => "span-3" }) %>
-    <div class="span-6">
-      <%= f.label :environment_id %>
-      <%= f.collection_select :environment_id, Environment.all, :id, :to_label, { :include_blank => true } %>
-    </div>
-    <div class="span-6 last">
-      <%= puppetmaster_field(@host, f) %>
-    </div>
-    <br>
-    <div class ="span-4 last">
-      <%= link_to_function "Additional Classes", '$("#classlist").slideToggle();' %>
-    </div>
-    <br>
-    <div id="classlist" style="display:none;">
+
+    <div id="puppet_klasses">
       <% if @environment or @hostgroup -%>
         <%= render 'puppetclasses/class_selection', :obj => @host %>
       <% else -%>
-        <strong>Please select an Environment first</strong>
+        <p class="alert-message">Please select an Environment first</p>
       <% end -%>
     </div>
-  <% end -%>
 
-  <%= observe_field(:host_hostgroup_id,
-                    :url    => { :action => :hostgroup_or_environment_selected, :id => @host.id },
-                    :update => :classlist,
-                    :with   => "'hostgroup_id=' + value+'&environment_id='+$('#host_environment_id').attr('value')") unless @host.new_record? %>
+    <%= f.hidden_field :managed %>
 
-  <%= observe_field(:host_environment_id,
-                    :url    => { :action => :hostgroup_or_environment_selected, :id => @host.id },
-                    :update => :classlist,
-                    :with   => "'environment_id=' + value+'&hostgroup_id='+$('#host_hostgroup_id').attr('value')") %>
+    <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
-  <%= f.hidden_field :managed %>
-
-  <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
-
-  <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
-
-  <% field_set_tag link_to_function("Additional Information", '$("#additional_info").slideToggle()') do %>
-    <div id="additional_info" style="display:none;">
-      <div class="span-10">
-        <br>
-        <% if SETTINGS[:login] -%>
-          <%= f.label :is_owned_by, "Owner", :class => "span-3" %>
-          <%= f.select(               :is_owned_by, option_groups_from_collection_for_select(
-                  [User, Usergroup], :all, :table_name, :id_and_type, :select_title,
-                  @host.is_owned_by), { :include_blank => "select an owner" }, { :class => "span-5 last" }) %>
-        <% end -%>
-
-        <div class="span-10 last" title="Include this host within Foreman reporting">
-          <%= f.label :enabled, "Alerts Enabled", :class => "span-3" %>
-          <%= f.check_box :enabled, :class => "span-5 last" %>
-        </div>
-      </div>
-      <%= f.label :comment, "Additional information about this host", :class => "span-14 last" %>
-      <%= f.text_area :comment, :size => "70x10", :title => "Additional information about this host", :class => "span-14 last" %>
+    <div id="params">
+      <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
     </div>
-  <% end -%>
 
-  <%= f.submit "Submit" %>
+    <div id="info">
+      <% if SETTINGS[:login] -%>
+        <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
+          [User, Usergroup], :all, :table_name, :id_and_type, :select_title,
+          @host.is_owned_by), { :include_blank => "select an owner" }, { :label => "Owned By" }
+        %>
+      <% end -%>
+      <%= checkbox_f f, :enabled, :label => "Alerts Enabled",
+        :help_inline => "Include this host within Foreman reporting"
+      %>
+      <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => "Hardware Model"} %>
+      <%= textarea_f f, :comment, :help_block => "Additional information about this host", :class => "xxlarge", :rows => "3" %>
+    </div>
+  </div>
+
+  <%= submit_or_cancel f %>
 <% end %>

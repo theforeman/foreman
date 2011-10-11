@@ -1,15 +1,18 @@
 <% Puppetclass.classes2hash(puppetclasses).sort.in_groups(3,nil) do |group| -%>
-  <td id="classes">
+  <div class="span4 classes">
     <% group.each do |list| -%>
       <% next if list.nil? %>
-      <li title="Click to expand module class list"><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('##{list.first}').fadeToggle('slow')" %></li>
-      <div id="<%= list.first %>" style="display: none;">
-        <% for klass in list.last.sort -%>
-          <% content_tag_for :div, klass, :title => "Click to add #{klass}", :class=>"#{cycle('even', 'odd')}" do %>
-            <%= "&nbsp;&nbsp;" + klass.name + link_to_add_puppetclass(klass, type) %>
-          <% end -%>
-        <% end -%>
-      </div>
+      <ul>
+        <li title="Click to expand module class list"><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('#pc_#{list.first}').fadeToggle('slow')" %>
+          <ul id="pc_<%= list.first %>" style="display: none;">
+            <% for klass in list.last.sort -%>
+              <% content_tag_for :li, klass, :title => "Click to add #{klass}", :class=> "#{cycle('even', 'odd')}" do %>
+                <%= klass.name + link_to_add_puppetclass(klass, type) %>
+              <% end -%>
+            <% end -%>
+          </ul>
+        </li>
+      </ul>
     <% end -%>
-  </td>
+  </div>
 <% end -%>

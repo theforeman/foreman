@@ -1,17 +1,16 @@
 <% title "Import subnets" %>
 
 <h2>We've found the following subnets</h2>
-<% form_tag create_multiple_subnets_path do -%>
+<% form_tag create_multiple_subnets_path do |f| -%>
   <% @subnets.each do |subnet| -%>
-    <div id="<% subnet.to_s %>", class="imported_subnet">
-      <li><%= subnet %>(<%= options(@subnets) %>)</li>
+    <div id="<% subnet.to_s %>", class="imported_subnet row">
+      <li><strong><%= subnet %></strong> <%= options(@subnets) %></li>
       <span class="subnet_fields" <%= display?(minimal?(@subnets)) %>>
-        <hr>
         <% fields_for "subnets[]", subnet do |f| -%>
           <%= render 'fields', :f => f %>
         <% end -%>
       </span>
     </div>
   <% end -%>
-  <%= submit_tag %>
+  <%= submit_or_cancel f %>
 <% end -%>

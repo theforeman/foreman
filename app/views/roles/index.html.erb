@@ -1,8 +1,6 @@
 <% title "Roles" %>
-<div class="title_action">
-  <%= link_to "New role", new_role_path %>
-  <%= link_to_if_authorized "Permissions report", :action => 'report' %>
-</div>
+<% title_actions link_to("New role", new_role_path),
+   link_to_if_authorized("Permissions report", :action => 'report') %>
 
 <table class="list">
   <thead>

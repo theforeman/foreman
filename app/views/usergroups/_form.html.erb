@@ -1,14 +1,7 @@
 <% form_for @usergroup do |f| %>
-  <%= f.error_messages %>
-  <p>
-  <%= f.label :name, nil, :class => "span-3"  %>
-  <%= f.text_field :name, :class => "last" %>
-  </p>
-  <% field_set_tag("User Groups") do %>
-    <%= edit_habtm @usergroup, Usergroup %>
-  <% end %>
-  <% field_set_tag("Users") do %>
-    <%= edit_habtm @usergroup, User %>
-  <% end %>
-  <p><%= f.submit "Submit" %><p>
+  <%= base_errors_for @usergroup %>
+  <%= text_f f, :name %>
+  <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => "User Groups" %>
+  <%= multiple_checkboxes f, :users, @usergroup, User, :label => "Users" %>
+  <%= submit_or_cancel f %>
 <% end %>

@@ -14,6 +14,18 @@ class ApplicationController < ActionController::Base
   before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
   before_filter :authorize, :except => :login
 
+  def welcome
+    @searchbar = true
+    klass = controller_name == "dashboard" ? "Host" : controller_name.camelize.singularize
+    eval "#{klass}" rescue nil # We must force an autoload of the model class
+    if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?"
+      @searchbar = false
+      render :welcome and return
+    end
+  rescue
+    not_found
+  end
+
   protected
 
   # Authorize the user for the requested action
@@ -82,13 +94,6 @@ class ApplicationController < ActionController::Base
       format.yml { head :status => 404}
     end
     return true
-  end
-
-  def welcome
-    klass = controller_name.camelize.singularize
-    eval "#{klass}" rescue nil # We must force an autoload of the model class
-    render :welcome and return if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?" rescue nil
-    false
   end
 
   def api_request?

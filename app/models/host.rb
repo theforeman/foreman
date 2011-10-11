@@ -133,7 +133,7 @@ class Host < Puppet::Rails::Host
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
   end
 
-  before_validation :set_hostgroup_defaults, :set_default_user, :normalize_addresses, :normalize_hostname
+  before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
   after_validation :ensure_assoications
 
   def set_default_user
@@ -562,9 +562,12 @@ class Host < Puppet::Rails::Host
     assign_hostgroup_attributes(%w{environment domain puppetmaster_name puppetproxy})
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet})
-      self.ip ||= subnet.unused_ip if subnet
       assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor?
     end
+  end
+
+  def set_ip_address
+    self.ip ||= subnet.unused_ip if subnet if SETTINGS[:unattended] and (new_record? or managed?)
   end
 
   # returns a rundeck output
@@ -623,6 +626,10 @@ class Host < Puppet::Rails::Host
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
     else
       # if our host is in short name, append the domain name
+      if !new_record? and changed_attributes.keys.include? "domain_id"
+        old_domain = Domain.find(changed_attributes["domain_id"])
+        self.name.gsub(old_domain.to_s,"")
+      end
       self.name += ".#{domain}" unless name =~ /.#{domain}$/i
     end
   end

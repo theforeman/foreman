@@ -1,0 +1,7 @@
+<li class="dropdown">
+<%= link_to User.current.login.capitalize, "#", :class => "dropdown-toggle" %>
+  <ul class="dropdown-menu">
+    <li><%= link_to("Sign Out", logout_users_path) %></li>
+    <li><%= link_to("My account", edit_user_path(User.current) )%></li>
+  </ul>
+</li>

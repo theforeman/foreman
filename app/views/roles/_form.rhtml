@@ -1,31 +1,28 @@
-<div class="title_action">
-  <%= check_all_links 'permissions' %>
-</div>
+<% title_actions check_all_links('permissions') %>
 
 <% form_for @role do |f| %>
-  <%= error_messages_for 'role' %>
+  <%= base_errors_for @role %>
 
-  <% if @role.builtin? %>
-    <h2><b><%= f.label :name %></b> <i><%= @role.name -%></i></h2>
-  <% else %>
-    <%= f.label :name, "Name", :class => "span-2" %>
-    <%= f.text_field :name %>
-  <% end %>
+  <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
 
-  <h3>Permissions</h3>
-  <div id="permissions">
-    <% perms_by_block = @permissions.group_by {|p| p.security_block.to_s} %>
-    <% perms_by_block.keys.sort.each do |block| %>
-      <% field_set_tag block.humanize, :class => "tabular" do %>
-        <% perms_by_block[block].each do |permission| %>
-          <label class="floating">
-            <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
-            <%= permission.name.to_s.humanize %>
-          </label>
-        <% end %>
-      <% end %>
-    <% end %>
-  <%= hidden_field_tag 'role[permissions][]', '' %>
-  </div>
-  <%= submit_tag "Submit" %>
-<% end %>
+  <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
+  <% perms_by_block.keys.sort.each do |block| %>
+    <div class="clearfix">
+      <%= label_tag 'role[permissions]', block.humanize %>
+      <div class="input">
+        <ul class="inputs-list">
+          <% perms_by_block[block].each do |permission| %>
+            <li>
+            <% content_tag_for 'role[permissions][]', permission do %>
+              <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+              <%= permission.name %>
+              <%= hidden_field_tag 'role[permissions][]' %>
+            <% end -%>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end -%>
+  <%= submit_or_cancel f %>
+<% end -%>

@@ -1,11 +1,7 @@
 <% title "Edit #{@host}" %>
-<span class="title_action">
-  <%= link_to "Show", @host %>
-  <%= link_to "View All", hosts_path %>
-  <% if SETTINGS[:unattended] -%>
-    <%= display_link_if_authorized (@host.managed? ? "Unmanage host" : "Manage host"),
-      hash_for_toggle_manage_host_path(:id => @host.name), {:method => :put} %>
-  <% end -%>
-</span>
+<% if SETTINGS[:unattended] -%>
+  <% title_actions display_link_if_authorized((@host.managed? ? "Unmanage host" : "Manage host"),
+    hash_for_toggle_manage_host_path(:id => @host.name), {:method => :put}) %>
+<% end -%>
 
 <%= render :partial => 'form' %>

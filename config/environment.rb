@@ -46,4 +46,6 @@ Rails::Initializer.run do |config|
 
   # enables in memory cache store with ttl
   config.cache_store = :timed_cached_store
+  # Disable fieldWithErrors divs
+  config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}" }
 end

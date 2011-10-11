@@ -1,12 +1,13 @@
 <% title "Environments" %>
 
-<div class="title_action">
-  <%= display_link_if_authorized "New Environment", hash_for_new_environment_path %>
-  <%= display_link_if_authorized "Import all classes and environments",  hash_for_import_environments_environments_path, :action => "import_environments" %>
-</div>
+<% title_actions display_link_if_authorized("New Environment", hash_for_new_environment_path),
+  display_link_if_authorized("Import all classes and environments",  hash_for_import_environments_environments_path, :action => "import_environments"), help_path
+%>
+
 <table class="list">
   <tr>
     <th><%= sort :name %></th>
+    <th>Hosts</th>
     <th></th>
   </tr>
 
@@ -15,8 +16,8 @@
       <td>
         <%= link_to_if_authorized h(environment.name), hash_for_edit_environment_path(:id=> environment.name) %>
       </td>
+      <td><%= link_to_if environment.hosts.any?, environment.hosts.size, hosts_path(:search => "environment = #{environment}") %>
       <td class="ra">
-        <%= link_to "Hosts",   hosts_path(:search=>"environment = #{environment}") %>
         <%= link_to "classes", puppetclasses_path(:search => "environment = #{environment}")%>
         <%= display_link_if_authorized "Destroy", hash_for_environment_path(:id => environment.name, :auth_action => :destroy), :confirm => "Delete #{environment.name}?", :method => :delete %>
       </td>

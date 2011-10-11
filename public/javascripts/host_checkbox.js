@@ -43,7 +43,14 @@ function readFromCookie() {
 }
 
 function toggle_actions() {
-  $("#actions_dropdown a").button({disabled: ($.foremanSelectedHosts.length == 0) });
+  var dropdown = $("#Submit_multiple")
+  if ($.foremanSelectedHosts.length == 0) {
+    dropdown.addClass("disabled");
+    dropdown.attr('disabled', 'disabled')
+  } else {
+    dropdown.removeClass("disabled");
+    dropdown.removeAttr('disabled');
+  }
 }
 
 // setups checkbox values upon document load
@@ -103,6 +110,7 @@ function toggle_multiple_ok_button(elem){
 
 // updates the form URL based on the action selection
 function submit_multiple(path) {
+  if ($("#Submit_multiple").hasClass("disabled")){ return false }
   var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
   var html = $('<div></div>').appendTo('body').load(url + " #content");
   var what = $('select [value=\"' + path + '\"]').text()

@@ -30,4 +30,18 @@ module ReportsHelper
   def metric m
     h(m.round_with_precision(4)) rescue "N/A"
   end
+
+  def label_tag level
+    tag = case level
+          when :notice
+            "notice"
+          when :warning
+            "warning"
+          when :err
+            "important"
+          else
+            "default"
+          end
+    "class='label #{tag}'"
+  end
 end

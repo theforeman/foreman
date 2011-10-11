@@ -1,19 +1,23 @@
-<%= label_tag "#{item}_medium_id", "Media" , :class => "span-2" %>
-<%= collection_select(:item, :medium_id, @operatingsystem.media, :id, :to_label, {:include_blank => @operatingsystem.media.size > 1,
-                      :selected => item.medium_id}, {:id => type + "_medium_id", :name => type + "[medium_id]", :class => "span-3"}) %>
-<%= label_tag "#{item}_ptable_id", "Partition Table" , :class => "span-3" %>
-<%= collection_select(:item, :ptable_id, @operatingsystem.ptables, :id, :to_label, {:include_blank => @operatingsystem.ptables.size > 1,
-                      :selected => item.ptable_id}, {:id => type + "_ptable_id", :name => type + "[ptable_id]", :class => "span-3 last"}) %>
-
-<% if @operatingsystem.supports_image -%>
-  <%= render "common/os_selection/image_details", {:item => item} %>
-
-  <%= observe_field type + "_medium_id",
-      :url => { :action => :medium_selected },
-      :update => :image_details,
-      :with => "'#{type}[medium_id]=' + value + " +
-               "'&#{type}[operatingsystem_id]=' + $('##{type}_operatingsystem_id').val() + " +
-               "'&#{type}[use_image]=' + $('##{type}_cb_use_image').attr('checked') + " +
-               "'&#{type}[architecture_id]=' + $('##{type}_architecture_id').val()"
+<% fields_for item do |f| %>
+  <%= select_f f, :medium_id, os_media, :id, :to_label,
+    {:include_blank => os_media.size > 1, :selected => item.medium_id},
+    {:id => type + "_medium_id", :name => type + "[medium_id]", :label => "Media", :disabled => os_media.empty? }
   %>
+  <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
+    {:include_blank => os_ptable.size > 1, :selected => item.ptable_id},
+    {:id => type + "_ptable_id", :name => type + "[ptable_id]", :label => "Partition Table", :disabled => os_ptable.empty?}
+  %>
+
+    <% if @operatingsystem and @operatingsystem.supports_image -%>
+      <%= render "common/os_selection/image_details", {:item => item} %>
+
+      <%= observe_field type + "_medium_id",
+        :url => { :action => :medium_selected },
+        :update => :image_details,
+        :with => "'#{type}[medium_id]=' + value + " +
+        "'&#{type}[operatingsystem_id]=' + $('##{type}_operatingsystem_id').val() + " +
+      "'&#{type}[use_image]=' + $('##{type}_cb_use_image').attr('checked') + " +
+      "'&#{type}[architecture_id]=' + $('##{type}_architecture_id').val()"
+    %>
+  <% end -%>
 <% end -%>

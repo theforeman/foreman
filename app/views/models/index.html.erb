@@ -1,6 +1,6 @@
 <% title "Hardware Models" %>
 
-<div class="title_action"><%= display_link_if_authorized "New Model", hash_for_new_model_path %></div>
+<% title_actions display_link_if_authorized("New Model", hash_for_new_model_path) %>
 
 <table class="list">
   <tr>
@@ -15,7 +15,7 @@
       <td><%=link_to_if_authorized h(model.name), hash_for_edit_model_path(:id => model)%></td>
       <td><%=h(model.vendor_class)%></td>
       <td><%=h(model.hardware_model)%></td>
-      <td class="ra"><%= link_to model.hosts.count, hosts_path(:search=>"model = #{model.name}") %></td>
+      <td class="ra"><%= link_to_if model.hosts.any?, model.hosts.count, hosts_path(:search=>"model = #{model.name}") %></td>
       <td class="ra">
         <%= display_link_if_authorized "Destroy", hash_for_model_path(:id => model, :auth_action => :destroy), :confirm => "Delete #{model.name}?", :method => :delete %>
       </td>

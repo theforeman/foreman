@@ -2,6 +2,7 @@
 module ApplicationHelper
   include HomeHelper
 
+  protected
   def contract model
     model.to_s
   end
@@ -15,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function(image_tag("false.png", :title => "remove"), "remove_fields(this)")
+    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "btn small danger", :title => "Remove")
   end
 
   # Creates a link to a javascript function that creates field entries for the association on the web page
@@ -28,7 +29,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
+    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), :class => "btn small success")
   end
 
   def toggle_div divs
@@ -82,12 +83,12 @@ module ApplicationHelper
   #             :auth_action : String or Symbol representing the action to be used for authorization checks
   # +html_options+ : Hash containing html options for the link or span
   def link_to_if_authorized(name, options = {}, html_options = {})
-    enable_link = html_options.has_key?(:disabled) ? !html_options[:disabled] : true
     auth_action = options.delete :auth_action
+    enable_link = authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
     if enable_link
-      link_to_if authorized_for(options[:controller] || params[:controller], auth_action || options[:action]), name, options, html_options
+      link_to name, options, html_options
     else
-      link_to_function name, 'void()', html_options
+      link_to_function name, 'void()', html_options.merge!(:class => 'disabled', :disabled => true)
     end
   end
 
@@ -133,6 +134,7 @@ module ApplicationHelper
 
   def searchable?
     return false if (SETTINGS[:login] and !User.current )
+    return false if @searchbar == false
     (controller.action_name == "index") && (controller.respond_to?(:auto_complete_search)) rescue false
   end
 
@@ -141,6 +143,10 @@ module ApplicationHelper
     options = tag_options.merge(:class => "auto_complete_input")
     text_field_tag(method, val, options) + auto_complete_clear_value_button(method) +
       auto_complete_field_jquery(method, "#{path}/auto_complete_#{method}", completion_options)
+  end
+
+  def help_path
+    link_to "Help", :action => "help"
   end
 
   def edit_textfield(object, property, options={})
@@ -155,7 +161,7 @@ module ApplicationHelper
     edit_inline(object, property, options.merge({:type => "edit_select"}))
   end
 
-  protected
+  private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"
     helper     = options[:helper]

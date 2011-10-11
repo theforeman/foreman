@@ -379,7 +379,7 @@ class HostsController < ApplicationController
       # This means that we should use the puppetproxy display type as new hosts should use this feature
       page['host_puppetproxy_id'].value = @hostgroup.puppetca? ? @hostgroup.puppetmaster.id : ""
       if @environment
-        page.replace_html :classlist, :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
+        page.replace_html :puppet_klasses, :partial => 'puppetclasses/class_selection', :locals => {:obj => @host}
       end
 
       if SETTINGS[:unattended]

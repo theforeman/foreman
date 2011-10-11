@@ -1,9 +1,14 @@
-<%= label_tag "#{item}_operatingsystem_id", "Operating System", :class => "span-4" %>
-<%= collection_select(:item, :operatingsystem_id, @architecture.operatingsystems, :id, :to_label,
-                      {:include_blank => true, :selected => item.operatingsystem_id},
-                      {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]", :class => "span-3"}) %>
+<% fields_for item do |f| %>
+  <%= select_f f, :operatingsystem_id, arch_oss, :id, :to_label,
+    {:selected => item.operatingsystem_id, :include_blank => true},
+    {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]",
+      :label => "Operating Systems",
+      :disabled => arch_oss.empty? ? true : false }
+  %>
 
-<%= observe_field type + "_operatingsystem_id",
+  <%= observe_field type + "_operatingsystem_id",
     :url => { :action => :os_selected },
     :update => :operatingsystem_select,
-    :with => :operatingsystem_id %>
+    :with => :operatingsystem_id
+  %>
+<% end -%>

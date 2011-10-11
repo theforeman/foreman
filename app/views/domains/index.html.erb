@@ -1,6 +1,6 @@
 <% title "Domains" %>
 
-<div class="title_action"> <%= display_link_if_authorized "New Domain", hash_for_new_domain_path%></div>
+<% title_actions display_link_if_authorized("New Domain", hash_for_new_domain_path), help_path %>
 
 <table class="list">
   <tr>
@@ -11,7 +11,7 @@
   <% for domain in @domains %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to_if_authorized h(domain.fullname.empty? ? domain.name : domain.fullname), hash_for_edit_domain_path(:id => domain.name)%></td>
-      <td><%= domain.hosts.size %>
+      <td><%= link_to_if domain.hosts.any?, domain.hosts.size, hosts_path(:search => "domain = #{domain}") %>
       <td class="ra"> <%= display_link_if_authorized "Destroy", hash_for_domain_path(:id => domain, :auth_action => :destroy), :confirm => "Delete #{domain.name}?", :method => :delete %></td>
     </tr>
   <% end %>

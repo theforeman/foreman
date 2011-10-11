@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => "dashboard"
 
+  map.connect ':controller/help', :action => 'welcome'
+
   map.resources :reports,  :collection => { :auto_complete_search => :get }
   map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
     :requirements => { :name => /[^\.][\w\.-]+/ }

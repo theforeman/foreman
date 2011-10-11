@@ -21,19 +21,21 @@ module DashboardHelper
     new Highcharts.Chart({
       chart: {
         renderTo: 'overview',
-        borderWidth: 2,
+        borderColor: '#909090',
+        borderWidth: 1,
         backgroundColor: {
-         linearGradient: [0, 0, 0, 300],
+         linearGradient: [0, 0, 0, 200],
          stops: [
             [0, '#ffffff'],
-            [1, '#EDF6FC']
+            [1, '#EDEDED']
          ]}
       },
       credits: {
       enabled: false,
       },
       title: {
-         text: 'Puppet Clients Activity Overview'
+         text: 'Puppet Clients Activity Overview',
+         style: {color: '#000000'}
       },
       tooltip: {
          formatter: function() {
@@ -75,22 +77,24 @@ EOF
  $(function() {
    chart = new Highcharts.Chart({
       chart: {
-         renderTo: 'run_distribution',
-         defaultSeriesType: 'column',
-         borderWidth: 2,
-         margin: [ 50, 50, 100, 80],
-         backgroundColor: {
-         linearGradient: [0, 0, 0, 300],
+        renderTo: 'run_distribution',
+        defaultSeriesType: 'column',
+        margin: [ 50, 50, 100, 80],
+        borderColor: '#909090',
+        borderWidth: 1,
+        backgroundColor: {
+         linearGradient: [0, 0, 0, 200],
          stops: [
             [0, '#ffffff'],
-            [1, '#EDF6FC']
+            [1, '#EDEDED']
          ]}
       },
       credits: {
       enabled: false,
       },
       title: {
-         text: 'Run Distribution in the last #{Setting[:puppet_interval]} minutes'
+         text: 'Run Distribution in the last #{Setting[:puppet_interval]} minutes',
+         style: {color: '#000000'}
       },
       xAxis: {
          categories: [ #{data[:labels].join(' ,')} ] ,

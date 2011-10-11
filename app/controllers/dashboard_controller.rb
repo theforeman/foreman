@@ -1,7 +1,6 @@
 class DashboardController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :prefetch_data, :only => :index
-  skip_before_filter :load_tabs, :manage_tabs
 
   def index
     respond_to do |format|

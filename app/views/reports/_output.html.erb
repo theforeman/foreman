@@ -3,7 +3,7 @@
   <th>Level</th><th>Resource</th><th>message</th>
   <% logs.each do |log| -%>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= h log.level %></td>
+      <td><span <%= label_tag log.level %>><%= h log.level %></span></td>
       <td><%= h log.source %></td>
       <td><%= h log.message %></td>
     </tr>

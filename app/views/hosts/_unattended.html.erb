@@ -1,51 +1,25 @@
-<span id="virtual_machine">
+<div id="virtual_machine" class="clearfix">
   <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
-</span>
-<% field_set_tag 'Network Settings' do -%>
+</div>
+
+<div id="network" class="clearfix">
   <%= render 'common/domain_subnet', :item => @host %>
-  <%= f.label :ip, "IP", :class => "span-1" %>
-  <%= f.text_field :ip, :class => "span-3", :title => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you" %>
+  <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" %>
   <% unless @hypervisor -%>
-    <%= render 'mac' %>
+    <%= text_f f, :mac, :label => "MAC", :help_inline => "MAC address for this host" %>
   <% end -%>
+</div>
+
+<div id="os" class="clearfix">
+  <%= render "common/os_selection/initial", { :item=> @host } %>
+  <%= textarea_f f, :disk, :class => "xxlarge", :label => 'Custom Disk layout', :rows => "4",
+    :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
   <% if @host.new_record? -%>
-    <%= f.label :build, nil, :class => "span-1", :title => "Enable this host for provisioning" %>
-    <%= f.check_box :build, :checked => true, :class => "span-1 last" %>
+    <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
   <% end -%>
-<% end -%>
 
-<% field_set_tag 'Provisioning Settings' do -%>
-  <div class="span-24 last">
-    <%= render "common/os_selection/initial", { :f => f, :item=> @host } %>
+  <div class="row">
+    <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh", :class => "btn small info span2 ra" %> 
+    <div id="templates_info" class="span10"> </div>
   </div>
-
-  <div id="os-tab2" class="span-24 last">
-    <%= f.label :root_pass, "Root password", :class => "span-3" %>
-    <%= f.password_field :root_pass, :class => "span-3" %>
-    <%= f.label :model_id, "Hardware Model", :class => "span-4" %>
-    <%= f.collection_select :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:class => "span-3"}%>
-    <% unless @host.new_record? -%>
-     <div class="push-2"> Last Install <%= date @host.installed_at %></div>
-    <% end -%>
-  </div>
-
-  <div id="os-tab3" class="span-24">
-
-    <table>
-      <tr>
-        <td> <%= link_to_function "Toggle custom disk layout", toggle_div("custom_disk") %> </td>
-        <td> <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh" %>  </td>
-      </tr>
-      <tr>
-        <td class="span-12"> <div id="custom_disk" <%= display? %>>
-          <%= f.text_area :disk, :size => "50x6", :title => 'Use custom Disk layout' %>
-          <br>
-          <small>What ever text(or ERB template) you use in here, would be used as your OS disk layout options
-            If you want to use the partition table option, delete all of the text from this field</small>
-        </div></td>
-        <td class="span-12"> <div id="templates_info"> </div> </td>
-      </tr>
-    </table>
-
-  </div>
-<% end -%>
+</div>

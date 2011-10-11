@@ -1,8 +1,9 @@
-<%= stylesheet_link_tag 'style' %>
-<div id="errorExplanation" class="errorExplanation">
-  <h2>Error!</h2>
+<%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style' %>
+<%= javascript_include_tag :defaults %>
+<div class="alert-message block-message error">
+  <h3>Oops</h3>
   <p>
-  Either you didn't generate the puppetdocs (see <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser>here</a>) or
+  Either you didn't generate the puppetdocs (see <a rel="external" href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser>here</a>) or
   the class <strong><%= name -%></strong> could not be found in environment <strong><%= environment -%></strong><br/>
   Please ensure that the class <strong><%= name -%></strong>'s declaration is accessible via the modulepath associated with <strong><%= environment -%></strong>.
   </p>

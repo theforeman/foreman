@@ -1,2 +1,7 @@
-<%= label_tag :config_template_id, "Template", :class => "span-3" %>
-<%= collection_select param_field(fid), :config_template_id, templates, :id, :name, {}, {:class => "span-5"} %>
+<div class="clearfix">
+  <%= label_tag :config_template_id, "Template" %>
+  <div class="input">
+    <%= collection_select param_field(fid), :config_template_id, templates, :id, :name %>
+    <%= link_to_remove_fields("remove", f) %>
+  </div>
+</div>

@@ -1,7 +1,19 @@
-<div class="auto_complete">
-  <% form_tag eval("#{controller_name}_path"), :method => "get" do %>
-    <%= auto_complete_search(:search, params[:search], {:placeholder => "Filter ..."},{ :delay => 100, :min_length => -1 }) %>
-    <%= display_link_if_authorized "Bookmark this Search", {:controller => :bookmarks, :action => :new, :kontroller => controller_name}, {:id => "bookmark"} %>
-    <%= link_to_function 'Search', "$('.auto_complete form').submit()" , {:id => 'submit_search', :style => 'font-size: 12px;' } %>
-  <% end -%>
+<% form_tag eval("#{controller_name}_path"), :method => "get" do %>
+  <%= auto_complete_search(:search, params[:search], {:placeholder => "Filter ..."},{ :delay => 100, :min_length => -1 }) %>
+  <%= display_link_if_authorized image_tag('bookmark.png', :class => "bookmark", :alt => "Bookmark this search"), {:controller => :bookmarks, :action => :new, :kontroller => controller_name}, {:'data-controls-modal'=>"bookmarks-modal", :id => "bookmark", :class => "btn small", :title => "Bookmark this search"} %>
+  <%= link_to_function 'Search', "$(this).parent().submit()" , {:id => 'submit_search', :class => 'btn small' } %>
+<% end -%>
+
+<div id="bookmarks-modal" class="modal hide fade" style="display: none; ">
+  <div class="modal-header">
+    <a href="#" class="close">×</a>
+    <h3>Add Bookmark</h3>
+  </div>
+  <div class="modal-body">
+
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn primary">Submit</a>
+    <a href="#" class="btn secondary">Cancel</a>
+  </div>
 </div>

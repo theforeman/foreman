@@ -1,8 +1,16 @@
-<p class="fields">
-  <%= f.label :name, nil,  :class => "span-2" %>
-  <%= f.text_field :name,  :class => "span-3" %>
-  <%= f.label :value, nil, :class => "span-2" %>
-  <%= f.text_field :value, :class => "span-14" %>
+<div class="fields">
+  <div class="clearfix">
+    <%= f.label :name %>
+    <div class="input">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+  <div class="clearfix">
+    <%= f.label :value %>
+    <div class="input">
+      <%= f.text_field :value, :class => "span10" %>
+      <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
+    </div>
+  </div>
   <%= f.hidden_field :nested %>
-  <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
-</p>
+</div>

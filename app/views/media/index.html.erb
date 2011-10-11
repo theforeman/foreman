@@ -1,12 +1,12 @@
 <% title "Installation Media" %>
 
-<div class="title_action"><%= display_link_if_authorized "New Medium", hash_for_new_medium_path %></div>
+<% title_actions display_link_if_authorized("New Medium", hash_for_new_medium_path), help_path %>
 
 <table class="list">
   <tr>
     <th><%= sort :name %></th>
     <th><%= sort :path %></th>
-    <th>Operatingsystem</th>
+    <th>Operating systems</th>
     <th></th>
   </tr>
   <% for medium in @media %>

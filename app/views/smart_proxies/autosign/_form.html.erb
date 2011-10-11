@@ -1,5 +1,9 @@
-<% form_tag smart_proxy_autosign_index_path(@proxy), :title => "New autosign entry",:style => "display:inline;" do %>
-  <%= label_tag("Name") %>
-  <%= text_field_tag(:id) %>
-  <%= submit_tag 'Save' %>
+<% form_tag smart_proxy_autosign_index_path(@proxy) do |f| %>
+  <div class="clearfix">
+    <%= label_tag("Name") %>
+    <div class="input">
+      <%= text_field_tag(:id) %>
+    </div>
+  </div>
+  <%= submit_tag 'Save', :class => "btn success" %>
 <% end -%>

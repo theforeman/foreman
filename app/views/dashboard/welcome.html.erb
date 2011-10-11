@@ -1,0 +1,72 @@
+<div id="welcome">
+  <h1> Welcome </h1>
+    Before you can use Foreman for the first time there are a few tasks that must be performed. You must decide how you
+    wish to use the software, and update the primary settings file
+    <b>config/settings.yaml</b> and the <%= link_to "settings", settings_path %> to indicate your selections.
+  </p>
+
+  <h2>Operating Mode</h2>
+
+  <p>
+    You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also
+    turn on unattended mode operation in which Foreman
+    creates and manages the configuration files necessary to completely configure a new host. When operating in
+    unattended mode Foreman will require more information,
+    so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and thier clones), see <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external">here</a> for more details.
+  </p>
+
+  <h2>User Authentication</h2>
+
+  <p>
+    Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who
+    is performing the task. If you wish to track the actions of a
+    particular user then it is possible to use an additional authentication stage and provide a user account. At
+    present, authentication is performed against the internal Database or a LDAP
+    service provided by one or more LDAP servers. 
+    <% if SETTINGS[:login] -%>
+    For internal Users, simply create a new user at <%= link_to "Users", users_path %> or
+    if you chose to use LDAP authentication then you must provide connection details for
+    your authentication provider on <%= link_to "LDAP page", new_auth_source_ldap_path %>
+    <% end -%>
+
+    </p>
+    <p><span class="label notice">Notice</span>
+    You would need to enable login in your settings.yml file first and restart foreman
+    <p>
+    <p><span class="label important">Important</span>
+    the default username and password are <b>admin</b> and <b>changeme</b>
+    </p>
+
+  <h2>Import your data</h2>
+
+  <p>
+    Foreman comes with some importers to ease the burden of entering loads of data about your current installation. If
+    you are already using puppet you should consider using some of the rake tasks that have been provided.
+  <ul>
+    <li>
+      Inventory browser - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Facts rel="external">Importing Puppet Facts</a>
+    </li>
+    <li>
+      Puppet External Nodes -
+      <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external">Importing Puppet classes and environments</a>
+    </li>
+    <li>
+      Reporting - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Reports rel="external">Puppet Reports integration</a>
+  </ul>
+
+  <h2>Additional steps</h2>
+  <p>
+  You may optionally wish to generate the online documentation for your puppet classes -
+  <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser rel="external">puppet class browser</a>
+  </p>
+
+  <p>
+    After you have decided on the two primary modes of operation and performed any appropriate imports then it would be
+    good idea if you visited some of the other configuration pages to see if
+    additional setup is required under the Additional settings select box on the top right.
+
+  <p>You may also find the <a href=http://theforeman.org/projects/foreman/wiki/Howtos rel="external">Howtos</a> useful.</p>
+
+  <p><span class="label notice">Notice</span> This page will self destruct once data comes in.</p>
+
+</div>

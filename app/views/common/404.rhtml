@@ -1,4 +1,8 @@
-<h1><%= controller_name.camelize.singularize %> Not Found</h1>
+<div class="alert-message block-message warning">
+  <h1><%= controller_name.camelize.singularize rescue nil %> Not Found</h1>
 
-<p>Please try to update your request</p>
-<p><%= link_to "Back", root_path -%></p>
+  <p>Please try to update your request</p>
+  <div class="alert-actions">
+    <%= link_to "Back", root_path, :class => "btn small" %>
+  </div>
+</div>

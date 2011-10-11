@@ -1,24 +1,18 @@
+<% title "Partition table configuration" %>
+<% title_actions link_to("New partition table", new_ptable_path) %>
 <div id="welcome">
-  <h2>Partition table configuration</h2>
-  <P>
-  As your configuration does not appear to have any partition tables declared then you might want to configure some at this point.
-  </p>
-  <p>
-  A partition table entry represents either
+  <p> A partition table entry represents either </p>
   <ul>
-    <li>
-    An explicit layout for the partitions of your hard drive(s). E.G.
-    <pre>
+    <li> An explicit layout for the partitions of your hard drive(s). E.G.</li>
+<pre>
 zerombr yes
 clearpart --all --initlabel
 part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
 part swap  --recommended
-   </pre>
-    </li>
-    <li>
-    A script to dynamically calculate the desired sizes. E.G.
-    <pre>
+</pre>
+  <li>A script to dynamically calculate the desired sizes. E.G.</li>
+<pre>
 #Dynamic - The below code is to manage the swap size
 
 #get the actual memory installed on the system and divide by 1024 to get it in MB
@@ -43,8 +37,7 @@ part /boot --fstype ext3 --size 100 --asprimary
 part / --fstype ext3 --size 8192 --maxsize 12288 --grow
 part /tmp2 --size 250 --fstype ext3 --grow
 EOF
-    </pre>
-    </li>
+</pre>
   </ul>
   <p>
   The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior
@@ -56,8 +49,4 @@ EOF
   <p>
   You may also associate one or more operating systems with this partition table or alternatively set this up later on the <%= link_to "Operating systems", operatingsystems_path -%> page.
   </p>
-  <p>
-  <%= link_to "New partition table", new_ptable_path -%>.
-  </p>
 </div>
-

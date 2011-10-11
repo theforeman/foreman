@@ -1,9 +1,10 @@
 <% title "Provisioning Templates" %>
 
-<div class="title_action">
-  <%= display_link_if_authorized "New Template", hash_for_new_config_template_path %>
-  <%= display_link_if_authorized "Build PXE Default", {:action => :build_pxe_default}, :confirm => "You Are about to change the default PXE menu on all configured TFTP servers - continue ?"%>
-</div>
+<% title_actions display_link_if_authorized("New Template", hash_for_new_config_template_path),
+  display_link_if_authorized("Build PXE Default", {:action => :build_pxe_default},{
+    :confirm => "You Are about to change the default PXE menu on all configured TFTP servers - continue ?",
+    :class => "btn info"})
+%>
 
 <table class="list">
   <tr>

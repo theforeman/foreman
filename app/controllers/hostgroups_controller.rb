@@ -41,11 +41,10 @@ class HostgroupsController < ApplicationController
       new.vm_defaults = @hostgroup.vm_defaults
       new.send(:deserialize_vm_attributes)
     end
-    flash[:error_customisation] = {:header_message => "Clone Hostgroup", :class => "flash notice", :id => nil,
-      :message => "The following fields will need reviewing:" }
-    new.valid?
     new.name = ""
+    new.valid?
     @hostgroup = new
+    notice "The following fields would need reviewing"
     render :action => :new
   end
 

@@ -1,14 +1,13 @@
 <% title "Puppet classes" %>
 
-<span class="title_action">
-  <%= display_link_if_authorized "New Puppetclass", hash_for_new_puppetclass_path %>
-  <%= display_link_if_authorized "Import new puppet classes and environments", hash_for_import_environments_puppetclasses_path %>
-</span>
+<% title_actions display_link_if_authorized("New Puppetclass", hash_for_new_puppetclass_path),
+  display_link_if_authorized("Import new puppet classes and environments", hash_for_import_environments_puppetclasses_path)
+%>
 
 <table class="list">
   <tr>
     <th><%= sort :name %></th>
-    <th><%= sort :environment, :as => "Environments" %>and documentation</th>
+    <th><%= sort :environment, :as => "Environments" %> and documentation</th>
     <th>Host Group</th>
     <th>Hosts</th>
     <th>Keys</th>

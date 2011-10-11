@@ -1,69 +1,9 @@
+<% title_actions link_to("New Host", new_host_path)%>
 <div id="welcome">
-  <h1> Welcome </h1>
-  <center><b>Always remember that there is online help available from the two links at the top right of the page.</b>
-  </center>
+  <h1>Hosts</h1>
   <p>
-    Before you can use Foreman for the first time there are a few tasks that must be performed. You must decide how you
-    wish to use the software, and update the file
-    <b>config/settings.yaml</b> to indicate your selections.
+  You don't seem to have any Hosts, for more infomation see <%= link_to "this page", root_path %>
   </p>
 
-  <h2>Operating Mode</h2>
-
-  <p>
-    You may operate Foreman in basic mode, in which it acts as a reporting and external node generator or you may also
-    turn on unattended mode operation in which Foreman
-    creates and manages the configuration files necessary to completely configure a new machine. When operating in
-    unattended mode Foreman will require more information,
-    so expect more questions, but it will be able to provide Kickstart and Preseed files for a Redhat or Debian
-    installation (see <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations>here</a> for more
-    details).
-  </p>
-
-  <h2>User Authentication</h2>
-
-  <p>
-    Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who
-    is performing the task. If you wish to track the actions of a
-    particular user then it is possible to use an additional authentication stage and provide a user account. At
-    present, authentication is performed against the LDAP
-    service provided by one or more LDAP servers. Microsoft Windows Active Directory provides a suitable LDAP interface
-    so a windows account
-    may be used for this purpose. If you chose to use LDAP authentication then you must provide connection details for
-    your authentication provider on
-    the <a href="http://theforeman.org/projects/foreman/wiki/LDAP_Authentication">Settings/LDAP Authentication</a> page.
-  </p>
-
-  <h2>Import your data</h2>
-
-  <p>
-    Foreman comes with some importers to ease the burden of entering loads of data about your current installation. If
-    you are already using puppet you should consider using some of the rake tasks that have been provided.
-  <ul>
-    <li>
-      Inventory browser - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Facts>Importing Puppet Facts</a>
-    </li>
-    <li>
-      Puppet External Nodes -
-      <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes>Importing Puppet classes and environments</a>
-    </li>
-    <li>
-      Reporting - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Reports>Puppet Reports integration</a>
-  </ul>
-
-  <h2>Additional steps</h2>
-  <p>
-  You may optionally wish to generate the online documentation for your puppet classes -
-  <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser>puppet class browser</a>
-  </p>
-
-  <p>
-    After you have decided on the two primary modes of operation and performed any appropriate imports then it would be
-    good idea if you visited some of the other configuration pages to see if
-    additional setup is required under the Additional settings select box on the top right.
-
-  <p>You may also find the <a href=http://theforeman.org/projects/foreman/wiki/Howtos>Howtos</a> useful.</p>
-
-  <p><%= link_to "New Host", new_host_path %></p>
+  <p>This page will self destruct once data comes in.</p>
 </div>
-

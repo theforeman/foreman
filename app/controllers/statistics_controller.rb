@@ -22,9 +22,6 @@ class StatisticsController < ApplicationController
                                            :swap_free   => @swap_free, :mem_totsize => @mem_totsize, :mem_totfree => @mem_totfree } }
       end
     end
-  rescue Exception => e
-    logger.error e
-    render :text => "No Inventory data has been found - add some hosts and facts and try again", :layout => true
   end
 
 end

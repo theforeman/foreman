@@ -1,15 +1,15 @@
 $(function() {
-  $('.error').hide().each(function(index, item) {
-    if ($('.errorExplanation').length == 0) {
+  $('.flash.error').hide().each(function(index, item) {
+    if ($('.alert-message.error.base').length == 0) {
       $.jnotify($(item).text(), { type: "error", sticky: true });
     }
   });
 
-  $('.warning').hide().each(function(index, item) {
+  $('.flash.warning').hide().each(function(index, item) {
     $.jnotify($(item).text(), { type: "warning", sticky: true });
   });
 
-  $('.notice').hide().each(function(index, item) {
+  $('.flash.notice').hide().each(function(index, item) {
     $.jnotify($(item).text(), { type: "success", sticky: false });
   });
 });
@@ -71,20 +71,16 @@ function template_info(div, url) {
 
 
 function get_pie_chart(div, url) {
-  if($("#"+div)[0] == undefined)
+  if($("#"+div).length == 0)
   {
-    var html = $('<div id= '+ div + ' class="fact_chart" ></div>').appendTo('body');
-    $.getJSON(url, function(data) { pie_chart(div, data.name, data.values);
-      html.dialog({
-        width: 600,
-        resizable: false,
-        title: data.name + ' distribution',
-        close: function(event, ui){
-           $("#"+div).remove();
-        }
-      });
+    $('body').append('<div id="' + div + '" class="modal fade"></div>');
+    $("#"+div).append('<div class="modal-header"><a href="#" class="close">×</a><h3>Fact Chart</h3></div>')
+              .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
+    $("#"+div).modal('show');
+    $.getJSON(url, function(data) {
+      pie_chart(div+'-body', data.name, data.values);
     });
-  } else {$("#"+div).dialog("moveToTop");}
+  } else {$("#"+div).modal('show');}
 }
 
 function pie_chart(div, title, data) {
@@ -96,14 +92,15 @@ function pie_chart(div, title, data) {
        linearGradient: [0, 0, 0, 200],
        stops: [
           [0, '#ffffff'],
-          [1, '#EDF6FC']
+          [1, '#EDEDED']
        ]}
     },
     credits: {
     enabled: false,
     },
     title: {
-       text: title
+       text: title,
+       style: {color: "#000000"}
     },
     tooltip: {
        formatter: function() {
@@ -133,8 +130,6 @@ function pie_chart(div, title, data) {
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
-    cancel      : 'Cancel',
-    submit      : 'Save',
     indicator   : "<img src='../images/spinner.gif' />",
     tooltip     : 'Click to edit..',
     placeholder : 'Click to edit..',
@@ -183,5 +178,72 @@ $(document).ready(function() {
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
 
+
+});
+
+// adds buttons classes to all links
+$(function(){
+  $("#title_action a").addClass("btn");
+  $(".table_action a").addClass("btn small");
+});
+
+$(function()
+{
+  magic_line("#menu" , 1);
+  magic_line("#menu2", 0);
+});
+
+function magic_line(id, combo) {
+    var $el, leftPos, newWidth, $mainNav = $(id);
+
+    $mainNav.append("<li class='magic-line'></li>");
+    var $magicLine = $(id + " .magic-line");
+
+    $magicLine
+        .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
+        .css("left", $(".active").position().left)
+        .data("origLeft", $magicLine.position().left)
+        .data("origWidth", $magicLine.width());
+
+    $(id + " li").hover(function() {
+        $el = $(this);
+        if ($el.parent().hasClass("dropdown-menu")){
+          $el=$el.parent().parent();
+        }
+        leftPos = $el.position().left;
+        newWidth = $el.width();
+        if ($el.find("a").hasClass("narrow-right")){
+          newWidth = newWidth + $(".dropdown").width() * combo;
+        }
+        $magicLine.stop().animate({
+            left: leftPos,
+            width: newWidth
+        });
+    }, function() {
+        $magicLine.stop().animate({
+            left: $magicLine.data("origLeft"),
+            width: $magicLine.data("origWidth")
+        });
+    });
+}
+
+//add bookmark dialog
+$(function()
+{
+  $('#bookmarks-modal .primary').click(function(){
+    $("#bookmark_submit").click();
+  });
+  $('#bookmarks-modal .secondary').click(function(){
+    $('#bookmarks-modal').modal('hide');
+  });
+  $("#bookmarks-modal").bind('shown', function () {
+    var query = encodeURI($("#search").val());
+    $("#bookmarks-modal .modal-body").append("<span id='loading'>Loading ...</span>");
+    $("#bookmarks-modal .modal-body").load($("#bookmark").attr('href') + '&query=' + query + ' form',
+        function(response, status, xhr) {
+          $("#loading").hide();
+          $("#bookmarks-modal .modal-body .btn").hide()
+        });
+  });
 
 });

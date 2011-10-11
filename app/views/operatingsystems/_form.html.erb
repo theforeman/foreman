@@ -1,39 +1,43 @@
 <% form_for @operatingsystem do |f| %>
-  <%= f.error_messages %>
-  <div class="span-24 last">
-    <%= f.label :name, nil, :class => "span-2" %>
-    <%= f.text_field :name, :class => "span-3" %>
-    <%= f.label :major, nil, :class => "span-2" %>
-    <%= f.text_field :major, :class => "span-1" %>
-    <%= f.label :minor, nil, :class => "span-2" %>
-    <%= f.text_field :minor, :class => "span-1" %>
-    <%= f.label :family, "OS Family", :class => "span-2" %>
-    <%= f.collection_select :family, Operatingsystem.families_as_collection, :value, :name, {:include_blank => "Choose a family"}, {:class => "span-2"}%>
-    <span id="release_name" <%= display?(!@operatingsystem.use_release_name?) %> title="e.g. karmic, lucid, hw0910 etc" >
-      <%= f.label :release_name, nil, :class => "span-3" %>
-      <%= f.text_field :release_name, :class => "span-2 last" %>
-    </span>
-    <%= observe_field "operatingsystem_family", :function => show_release %>
+  <%= base_errors_for @operatingsystem %>
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary">Primary</a></li>
+    <li><a href="#params">Parameters</a></li>
+    <li><a href="#templates">Templates</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="active" id="primary">
+
+      <%= text_f f, :name, :help_inline => "e.g. RedHat" %>
+      <%= text_f f, :major, :help_inline => "e.g. 6", :class => "small" %>
+      <%= text_f f, :minor, :help_inline => "e.g. 2", :class => "small" %>
+      <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => "Choose a family"},
+        { :label => "OS Family", :help_inline => "The Operating System type" }
+      %>
+      <div id="release_name" <%= display?(!@operatingsystem.use_release_name?) %>>
+        <%= text_f f, :release_name, :help_inline => "e.g. karmic, lucid, hw0910 etc" %>
+      </div>
+      <%= observe_field "operatingsystem_family", :function => show_release %>
+
+      <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture %>
+      <%= multiple_checkboxes f, :ptables, @operatingsystem, Ptable, :label => "Partition tables" %>
+      <%= multiple_checkboxes f, :media, @operatingsystem, Medium, :label => "Installation media" %>
+    </div>
+
+    <div id="templates">
+      <% if @operatingsystem.new_record? -%>
+        <p><span class="label notice">Notice</span> It is not possible to edit provisioning templates at this stage, please save the host first</p>
+      <% else -%>
+        <%= render('template_defaults', :f => f) %>
+      <% end -%>
+    </div>
+
+    <div id="params">
+      <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
+    </div>
   </div>
-  <br/>
-  <p>
-  <% field_set_tag("Architecture") do %>
-    <%= authorized_edit_habtm @operatingsystem, Architecture %>
-  <% end -%>
-  </p>
-  <p>
-  <% field_set_tag("Partition tables") do %>
-    <%= authorized_edit_habtm @operatingsystem, Ptable %>
-  <% end -%>
-  </p>
-  <p>
-  <% field_set_tag("Installation Media") do %>
-    <%= authorized_edit_habtm @operatingsystem, Medium %>
-  <% end -%>
-  </p>
-  <%= render('template_defaults', :f => f) unless @operatingsystem.new_record? %>
 
-  <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
-
-  <p><%= f.submit "Submit" %></p>
+  <%= submit_or_cancel f %>
 <% end %>

@@ -6,7 +6,16 @@ module HostsHelper
     return nil if record.last_report.nil?
     time = time_ago_in_words(record.last_report.getlocal)
     report_icon(record) +
-      link_to_if_authorized(time, hash_for_host_report_path(:host_id => record.to_param, :id => "last"), :disabled => !@last_reports[record.id])
+      link_to_if_authorized(time, hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
+                            last_report_column_html(record))
+  end
+
+  def last_report_column_html record
+    {
+      "rel" => "twipsy",
+      "data-original-title" => @last_reports[record.id] ? "Click to view" : "Report Already Deleted",
+      :disabled => !@last_reports[record.id]
+    }
   end
 
 # method that reformat the hostname column by adding the status icons
@@ -91,16 +100,18 @@ module HostsHelper
          defaultSeriesType: 'line',
          zoomType: 'x',
          margin: [ 50, 50, 90, 50],
-         borderWidth: 2,
+         borderColor: '#909090',
+         borderWidth: 1,
          backgroundColor: {
          linearGradient: [0, 0, 0, 300],
          stops: [
             [0, '#ffffff'],
-            [1, '#EDF6FC']
+            [1, '#EDEDED']
          ]}
       },
       title: {
          text: '#{title}',
+         style: {color: '#000000'},
          x: -20 //center
       },
       subtitle: {
@@ -185,16 +196,18 @@ EOF
          defaultSeriesType: 'area',
          zoomType: 'x',
          margin: [ 50, 50, 90, 50],
-         borderWidth: 2,
+         borderColor: '#909090',
+         borderWidth: 1,
          backgroundColor: {
          linearGradient: [0, 0, 0, 300],
          stops: [
             [0, '#ffffff'],
-            [1, '#EDF6FC']
+            [1, '#EDEDED']
          ]}
       },
       title: {
          text: '#{title}',
+         style: {color: '#000000'},
          x: -20 //center
       },
       subtitle: {

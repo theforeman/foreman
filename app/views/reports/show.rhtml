@@ -1,18 +1,20 @@
-<% title @report.host.name -%>
+<% title @report.host %>
 Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
 <% if @offset > 100 -%>
-  <div id="errorExplanation">
+  <div class="alert-message block-message error" data-alert="close">
+    <a class="close" href="#">×</a>
     <h3>Host time seems to be a driftd!</h3>
-    Host reported time is <%= @report.reported_at %> <br/>
-    Foreman report creation time is <%= @report.created_at %> <br/>
-    Which is an offset of <%= distance_of_time_in_words(@report.reported_at, @report.created_at, true) %>
+    Host reported time is <em><%= @report.reported_at %></em> <br/>
+    Foreman report creation time is <em><%= @report.created_at %></em> <br/>
+    Which is an offset of <b><%= distance_of_time_in_words(@report.reported_at, @report.created_at, true) %></b>
   </div>
 <% end -%>
 
 <%= render 'output', :logs => @report.logs if @report.logs.size > 0 %>
 <%= render 'metrics', :metrics => @report.metrics["time"] if @report.metrics["time"] -%>
 
-<%= link_to 'Back', :back %> |
-<%= display_link_if_authorized 'Delete', hash_for_report_path(:id => @report, :auth_action => :destroy), :method => :delete -%> |
-<%= link_to "Host details", @report.host %> |
-<%= link_to "Other reports for this host", host_reports_path(@report.host) %>
+<%= title_actions link_to('Back', :back),
+  display_link_if_authorized('Delete', hash_for_report_path(:id => @report, :auth_action => :destroy), :method => :delete),
+  link_to("Host details", @report.host),
+  link_to("Other reports for this host", host_reports_path(@report.host))
+%>

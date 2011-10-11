@@ -1,12 +1,6 @@
 <% form_for @proxy do |f| %>
-  <%= f.error_messages %>
-  <p>
-  <%= f.label :name, nil, :class => "span-3" %>
-  <%= f.text_field :name, :class => "last" %>
-  </p>
-  <p>
-  <%= f.label :url, "URL", :class => "span-3"%>
-  <%= f.text_field :url, :class => "last" %>
-  </p>
-  <p><%= f.submit %></p>
+  <%= base_errors_for @proxy %>
+  <%= text_f(f, :name) %>
+  <%= text_f(f, :url, :label => "URL", :class => "xlarge" ) %>
+  <%= submit_or_cancel(f) %>
 <% end %>

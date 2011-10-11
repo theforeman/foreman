@@ -30,12 +30,10 @@ class RolesController < ApplicationController
   def new
     # Prefills the form with 'default user' role permissions
     @role        = Role.new({:permissions => Role.default_user.permissions})
-    @permissions = @role.setable_permissions
   end
 
   def create
     @role = Role.new(params[:role])
-    @permissions = @role.setable_permissions
     if @role.save
       process_success
     else
@@ -45,7 +43,6 @@ class RolesController < ApplicationController
 
   def edit
     @role = Role.find(params[:id])
-    @permissions = @role.setable_permissions
   end
 
   def update

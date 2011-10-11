@@ -1,42 +1,39 @@
+<% title 'Overview' %>
 <div id='dashboard'>
-  <div id='dash'>
-    <h1>Overview</h1>
-
-    <p>Generated at <%= Time.now.to_s(:short) %></p>
-    <table class="list">
-      <tr>
-        <th>Description</th>
-        <th>Data</th>
-      </tr>
-      <tr class="even">
-        <td>Good Host Reports in the last <%= Setting[:puppet_interval] %> minutes</td>
-        <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
-      </tr>
-      <tr class="odd">
-        <td><%= link_to 'Hosts that had performed modifications', active_hosts_path %></td>
-        <td><%= @report[:active_hosts] %> </td>
-      </tr>
-      <tr class="even">
-        <td><%= link_to 'Out Of Sync Hosts', out_of_sync_hosts_path %></td>
-        <td><%= @report[:out_of_sync_hosts] %> </td>
-      </tr>
-      <tr class="odd">
-        <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
-        <td><%= @report[:bad_hosts] %> </td>
-      </tr>
-      <tr class="even">
-        <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>
-        <td><%= @report[:disabled_hosts] %> </td>
-      </tr>
-    </table>
-  </div>
-  <div id='dashwrap'>
-    <%= render_overview(@report) %>
-    <%= render_run_distribution(count_reports) %>
+  <p>Generated at <%= Time.now.to_s(:short) %></p>
+  <table class="list">
+    <tr>
+      <th>Description</th>
+      <th>Data</th>
+    </tr>
+    <tr class="even">
+      <td>Good Host Reports in the last <%= Setting[:puppet_interval] %> minutes</td>
+      <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
+    </tr>
+    <tr class="odd">
+      <td><%= link_to 'Hosts that had performed modifications', active_hosts_path %></td>
+      <td><%= @report[:active_hosts] %> </td>
+    </tr>
+    <tr class="even">
+      <td><%= link_to 'Out Of Sync Hosts', out_of_sync_hosts_path %></td>
+      <td><%= @report[:out_of_sync_hosts] %> </td>
+    </tr>
+    <tr class="odd">
+      <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
+      <td><%= @report[:bad_hosts] %> </td>
+    </tr>
+    <tr class="even">
+      <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>
+      <td><%= @report[:disabled_hosts] %> </td>
+    </tr>
+  </table>
+  <div id='dashboard-charts' class='row'>
+    <div class='span8'>
+      <%= render_overview(@report) %>
+    </div>
+    <div class='span8'>
+      <%= render_run_distribution(count_reports) %>
+    </div>
   </div>
 </div>
-<script type="text/javascript">
-$(function() {
-  $('.auto_complete form').position({my: 'center bottom', at: 'center top', of: $('h1'), collision: 'fit'});
-});
-</script>
+

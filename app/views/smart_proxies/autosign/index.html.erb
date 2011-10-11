@@ -1,9 +1,7 @@
 <% title "Autosign entries for #{@proxy}" %>
 
-<div class="title_action">
-  <%= display_link_if_authorized "Certificates", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy) %>
-  <%= render :partial => 'form' if authorized_for "SmartProxies::Autosign", :create%>
-</div>
+<% title_actions display_link_if_authorized("Certificates", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy)),
+  autosign_form %>
 
 <table class='list'>
   <tr>

@@ -12,12 +12,9 @@
   <%= link_to_function "Full trace", toggle_div("backtrace") %> and relevant log entries.
 </p>
 
-<div id="backtrace", <%= display? %> class="error-messages">
-  <h3> <%= exception.message %> <%= exception.class %> </h3>
-  <ul>
-    <% exception.application_backtrace.each do |line| -%>
-      <li> <%= h line %> </li>
-    <% end -%>
-  </ul>
+<div id="backtrace", <%= display? %> class="alert-message block-message error">
+  <em><%= exception.class %></em><br>
+  <strong><%= exception.message %></strong><br>
+  <%= exception.application_backtrace.join("<br>") %>
 </div>
 <p><%= link_to "Back", root_path %></p>

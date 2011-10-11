@@ -1,18 +1,17 @@
-<div id="architecture" class="span-24 last">
-  <%= f.label :architecture_id, nil, :class => "span-3" %>
-  <%= f.collection_select :architecture_id, Architecture.all, :id, :to_label, { :include_blank => true }, { :class => "span-3" } %>
-  <span id="host_os">
+<% fields_for item do |f| %>
+  <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
 
+  <span id="host_os">
     <span id="architecture_select">
-      <%= render 'common/os_selection/architecture', { :item => item } if @architecture %>
+      <%= render 'common/os_selection/architecture', :item => item %>
     </span>
 
     <span id="operatingsystem_select">
-      <%= render 'common/os_selection/operatingsystem', { :item=> item } if @operatingsystem %>
+      <%= render 'common/os_selection/operatingsystem', :item => item %>
     </span>
 
   </span>
-</div>
+<% end -%>
 
 <%= observe_field(type + "_architecture_id",
                   :url => { :action => :architecture_selected},

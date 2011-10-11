@@ -1,15 +1,5 @@
-<span class="title_action">
-  <% if authorized? -%>
-      <div id="actions_dropdown" >
-        <%= link_to("Edit Multiple Hosts&nbsp;&#9660;", "#")%>
-      </div>
-      <%= multiple_actions_select %>
-  <% end -%>
-  <%= link_to_if_authorized "New Host", hash_for_new_host_path %>
+<% if authorized? -%>
+  <% title_actions multiple_actions_select, (link_to_if_authorized "New Host", hash_for_new_host_path) -%>
+<% end -%>
 </span>
 <%= render 'list', :hosts => @hosts, :header => @title || "Hosts"  %>
-<script>
-  dropdown($("#Submit_multiple"), $("#actions_dropdown"),function(event, ui) {
-      submit_multiple(ui.item.value);
-    });
-</script>

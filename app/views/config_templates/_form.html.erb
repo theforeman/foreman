@@ -1,26 +1,20 @@
 <% form_for @config_template do |f| %>
-  <%= f.error_messages %>
-  <div class="span-24">
-    <%= f.label :name, nil, :class => "span-3" %>
-    <%= f.text_field :name, :class => "span-3" %>
-    <%= f.label :snippet, nil, :class => "span-2" %>
-    <%= f.check_box :snippet, :class => "span-1", :onchange => toggle_div(["kind_selector","template_associations"]) %>
-    <div id="kind_selector" <%= display? @config_template.snippet %>>
-      <%= f.label :template_kind_id, "Type", :class => "span-1" %>
-      <%= f.collection_select :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true}, { :class => "span-3 last" } %>
-    </div>
-    <%= link_to 'Documentation', "http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros",
-      :rel => "external", :class => "fr", :title => "Useful template functions and macros" %>
-    <%= f.text_area :template,  :class => "span-24" %>
-    <div id="template_associations" <%= display? @config_template.snippet %> class="span-24 last">
-      <% field_set_tag("Valid Operating Systems") do %>
-        <%= authorized_edit_habtm @config_template, Operatingsystem %>
-      <% end -%>
-    </div>
+  <%= base_errors_for @config_template %>
+  <%= text_f f, :name %>
+  <%= checkbox_f f, :snippet, :onchange => "$('#kind_selector, #template_associations').toggle(!$('#config_template_snippet').attr('checked'))" %>
 
-    <div class="span-24">
-      <%= render "combinations", :f => f %>
-    </div>
+  <div id="kind_selector" <%= display? @config_template.snippet %>>
+    <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
+ </div>
+ <%= textarea_f f, :template, :class => "span13",
+   :help_block =>"<span class='label notice'>Notice</span> #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
+     :rel => "external"}"
+   %>
+
+  <div id="template_associations" <%= display? @config_template.snippet %>>
+    <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Operating Systems" %>
+    <%= render "combinations", :f => f %>
   </div>
-  <div class="span-24"><%= f.submit %></div>
+
+  <%= submit_or_cancel f %>
 <% end %>

@@ -9,8 +9,6 @@
     <th><%= sort :failed %></th>
     <th><%= sort :failed_restarts, :as => "Restart Failures" %></th>
     <th><%= sort :skipped %></th>
-    <th>Config retrieval</th>
-    <th>Runtime</th>
     <th></th>
   </tr>
   <% for report in @reports %>
@@ -24,10 +22,7 @@
       <td><%= h report.failed %></td>
       <td><%= h report.failed_restarts %></td>
       <td><%= h report.skipped %></td>
-      <td><%= h report.config_retrieval %></td>
-      <td><%= h report.runtime %></td>
       <td align="right">
-        <%= link_to "Details", report %>
         <%= display_link_if_authorized "Destroy", hash_for_report_path(:id => report.id, :auth_action => :destroy), :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
       </td>
     </tr>

@@ -17,10 +17,10 @@
       <td> <%= guest.interface.device rescue "N/A" %> </td>
       <td> <%= guest.volume.size %> GB </td>
       <td> <%= guest.volume.pool %> </td>
-      <td> <%= state(!guest.running?) %> </td>
+      <td <%= power_class(guest.running?)%>> <%= state(!guest.running?) %> </td>
       <td>
-        <%= display_link_if_authorized "Power#{state(guest.running?)}" , hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest), :confirm => 'Are you sure?', :method => :put %>
-        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
+        <%= power_action guest %>
+        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class => "label important" %>
       </td>
     </tr>
   <% end -%>

@@ -1,4 +1,5 @@
 <% form_for @subnet do |f| %>
+  <%= base_errors_for @subnet %>
   <%= render 'fields', :f => f %>
-  <p><%= f.submit %></p>
+  <%= submit_or_cancel f %>
 <% end %>

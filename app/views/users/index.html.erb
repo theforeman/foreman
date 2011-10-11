@@ -1,6 +1,6 @@
 <% title "Users" %>
 
-<div class="title_action"><%= display_link_if_authorized "New User", hash_for_new_user_path %></div>
+<% title_actions  display_link_if_authorized("New User", hash_for_new_user_path) %>
 
 <table class="list">
   <tr>
