@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     eval "#{klass}" rescue nil # We must force an autoload of the model class
     if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?"
       @searchbar = false
-      render :welcome and return
+      render :welcome rescue nil and return
     end
   rescue
     not_found
