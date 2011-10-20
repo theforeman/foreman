@@ -14,7 +14,7 @@ module OperatingsystemsHelper
   end
 
   def icon record, opts = {}
-    return "" if record.blank? or record.name.blank? or record.family.blank?
+    return "" if record.blank? or record.name.blank?
     family = case record.name
     when /fedora/i
       "Fedora"
@@ -28,7 +28,10 @@ module OperatingsystemsHelper
       "Centos"
     when /scientific/i
       "Scientific"
+    when /SLC/i
+      "SLC"
     else
+      return "" if record.family.blank?
       record.family
     end
 
