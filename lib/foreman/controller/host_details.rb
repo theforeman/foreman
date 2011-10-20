@@ -27,13 +27,14 @@ module Foreman::Controller::HostDetails
 
   def use_image_selected
     item = item_object
+    iname = item_name
     render(:update) do |page|
       if item.use_image
-        page["##{item_name}_image_file"].value = item.image_file || item.default_image_file
-        page["##{item_name}_image_file"].attr('disabled', false)
+        page["##{iname}_image_file"].value = item.image_file || item.default_image_file
+        page["##{iname}_image_file"].attr('disabled', false)
       else
-        page["##{item_name}_image_file"].value = ""
-        page["##{item_name}_image_file"].attr('disabled', true)
+        page["##{iname}_image_file"].value = ""
+        page["##{iname}_image_file"].attr('disabled', true)
       end
     end
   end
