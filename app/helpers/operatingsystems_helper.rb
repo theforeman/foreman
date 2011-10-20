@@ -38,6 +38,8 @@ module OperatingsystemsHelper
       "Centos"
     when /scientific/i
       "Scientific"
+    when /SLC/i
+      "SLC"
     else
       record.family
     end
