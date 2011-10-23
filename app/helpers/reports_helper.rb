@@ -31,7 +31,7 @@ module ReportsHelper
     h(m.round_with_precision(4)) rescue "N/A"
   end
 
-  def label_tag level
+  def report_tag level
     tag = case level
           when :notice
             "notice"

@@ -102,46 +102,40 @@ function toggleCheck() {
 function toggle_multiple_ok_button(elem){
   var b = $("#multiple-ok", $(elem).closest("div.ui-dialog"));
   if (elem.value != 'disabled') {
-    b.removeClass("ui-state-disabled").attr("disabled", false);
+    b.removeClass("disabled").attr("disabled", false);
   }else{
-    b.addClass("ui-state-disabled").attr("disabled", true);
+    b.addClass("disabled").attr("disabled", true);
   }
 }
 
 // updates the form URL based on the action selection
 function submit_multiple(path) {
-  if ($("#Submit_multiple").hasClass("disabled")){ return false }
-  var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
-  var html = $('<div></div>').appendTo('body').load(url + " #content");
+  if ($.foremanSelectedHosts.length == 0){ return false }
+
   var what = $('select [value=\"' + path + '\"]').text()
-  var title = what + " - Confirmation Dialog";
-  var state = what.match(/Environment|Group/)
-  html.dialog({
-    title: title,
-    width: 700,
-    height: 450,
-    modal: true,
-    close: function(event, ui) {},
-    buttons: [
-      {
-        text: "OK",
-        click: function() {
-            cleanHostsSelection();
-            $("form").submit();
-            $( this ).dialog( "close" );
-        },
-        id: "multiple-ok",
-        disabled: state
-      },{
-        text: "Cancel",
-        click: function() {
-          $( this ).dialog( "close" );
-        }
-      }
-    ]
+  var title = what + " - The following hosts are about to be changed";
+  $('#confirmation-modal .modal-header h3').text(title);
+
+  $('#confirmation-modal .primary').click(function(){
+    $("#confirmation-modal form").submit();
+    $('#confirmation-modal').modal('hide');
   });
 
-  return false;
+  $('#confirmation-modal .secondary').click(function(){
+    $('#confirmation-modal').modal('hide');
+  });
+
+  $("#confirmation-modal").bind('shown', function () {
+    var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
+    $("#confirmation-modal .modal-body").load(url + " #content",
+        function(response, status, xhr) {
+          $("#loading").hide();
+          $("#confirmation-modal .modal-body .btn").hide()
+        });
+  });
+  $('#confirmation-modal .modal-body').empty();
+  $("#confirmation-modal .modal-body").append("<span id='loading'>Loading ...</span>");
+  $('#confirmation-modal').modal("show");
 }
 
 function update_counter(id) {

@@ -1,4 +1,5 @@
 class HostMailer < ActionMailer::Base
+  helper :reports
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
   def summary(options = {})
     # currently we send to all registered users or to the administrator (if LDAP is disabled).

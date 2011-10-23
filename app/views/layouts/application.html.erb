@@ -29,9 +29,11 @@
         <%= content_tag('div', flash[:notice], :class => 'flash notice') if flash[:notice] -%>
         <%= render 'common/notice' unless @notices.empty? -%>
         <div id="content" class="container">
-          <div class="row">
-            <h1 class="span16"><%=h @page_header %></h1>
-          </div>
+          <% unless @page_header.blank? -%>
+            <div class="row">
+              <h1 class="span16"><%=h @page_header %></h1>
+            </div>
+          <% end -%>
           <div class="row">
             <div class="span8 la fl">
               <%= render "common/searchbar" if searchable? %>

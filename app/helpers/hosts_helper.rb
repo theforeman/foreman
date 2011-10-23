@@ -57,7 +57,8 @@ module HostsHelper
     ]
     actions << ['Build Hosts', multiple_build_hosts_path] if SETTINGS[:unattended]
 
-    select_tag "Multiple Actions", options_for_select(actions.sort), :id => "Submit_multiple", :onchange => 'submit_multiple(this.value)'
+    select_tag "Multiple Actions", options_for_select(actions.sort), :id => "Submit_multiple", :onchange => 'submit_multiple(this.value)',
+      :class => "medium", :title => "Perform Actions on multiple hosts"
   end
 
   def date ts=nil

@@ -30,5 +30,17 @@
     </tr>
   <% end -%>
 </table>
+<div id="confirmation-modal" class="modal hide fade" style="display: none;">
+  <div class="modal-header">
+    <a href="#" class="close">×</a>
+    <h3>Please Confirm</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <a href="#" class="btn primary">Submit</a>
+    <a href="#" class="btn secondary">Cancel</a>
+  </div>
+</div>
+
 <%= page_entries_info hosts %> - <strong><span class="select_count">0</span></strong> Selected
 <%= will_paginate hosts %>

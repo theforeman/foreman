@@ -260,6 +260,16 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
   overflow: hidden;
 }
 
+#confirmation-modal{
+  width: 750px !important;
+}
+#confirmation-modal .modal-body{
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 300px;
+  max-height: 500px;
+}
+
 .editable {
   background: url("../images/edit.png") no-repeat scroll 98% 6px transparent;
   cursor: pointer;
