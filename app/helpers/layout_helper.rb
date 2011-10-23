@@ -86,7 +86,7 @@ module LayoutHelper
   end
 
   def submit_or_cancel f
-    "<br>" + content_tag(:p) do
+    "<br>" + content_tag(:p, :class => "ra") do
       link_to("Cancel", eval("#{controller_name}_path"), :class => "btn") + " " +
       f.submit("Submit", :class => "btn primary")
     end

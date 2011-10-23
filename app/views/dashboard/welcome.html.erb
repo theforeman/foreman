@@ -23,19 +23,25 @@
     particular user then it is possible to use an additional authentication stage and provide a user account. At
     present, authentication is performed against the internal Database or a LDAP
     service provided by one or more LDAP servers. 
-    <% if SETTINGS[:login] -%>
-    For internal Users, simply create a new user at <%= link_to "Users", users_path %> or
-    if you chose to use LDAP authentication then you must provide connection details for
-    your authentication provider on <%= link_to "LDAP page", new_auth_source_ldap_path %>
-    <% end -%>
 
-    </p>
-    <p><span class="label notice">Notice</span>
-    You would need to enable login in your settings.yml file first and restart foreman
-    <p>
-    <p><span class="label important">Important</span>
-    the default username and password are <b>admin</b> and <b>changeme</b>
-    </p>
+    <p> Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.<p>
+
+    <% if SETTINGS[:login] -%>
+      <ul>
+        <li> For internal Users, simply create a new user at the <%= link_to "Users", users_path %> page </li>
+        <li> if you chose to use LDAP authentication then you must provide connection details for
+        your authentication provider on <%= link_to "LDAP", new_auth_source_ldap_path %> page </li>
+        <li> For Roles and permissions, see the <%= link_to "Roles", roles_path %> page</li>
+      </ul>
+    <% else -%>
+      </p>
+      <p><span class="label notice">Notice</span>
+      You would need to enable login in your settings.yml file first and restart foreman
+      <p>
+      <p><span class="label important">Important</span>
+      the default username and password are <b>admin</b> and <b>changeme</b>
+      </p>
+    <% end -%>
 
   <h2>Import your data</h2>
 
