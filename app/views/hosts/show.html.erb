@@ -1,4 +1,4 @@
-<% title icon(@host.os) + @host.to_label %>
+<% title @host.to_label, icon(@host.os) + @host.to_label %>
 
 <% title_actions link_to_if_authorized("Edit", hash_for_edit_host_path(:id => @host), :title => "Edit your host"),
   link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts"),

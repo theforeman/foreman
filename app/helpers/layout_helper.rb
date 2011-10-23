@@ -1,11 +1,7 @@
 module LayoutHelper
-  def title(page_title, show_title = true)
+  def title(page_title, page_header = nil)
     @content_for_title = page_title.to_s
-    @show_title = show_title
-  end
-
-  def show_title?
-    @show_title
+    @page_header       = page_header || @content_for_title
   end
 
   def title_actions *elements
