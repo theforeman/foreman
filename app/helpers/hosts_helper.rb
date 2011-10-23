@@ -274,5 +274,16 @@ EOF
   });
 EOF
     javascript_tag(function)
+ end
+
+  def reports_show
+    return unless @host.reports.size > 0
+    form_tag @host, :id => 'days_filter', :method => :get do
+      content_tag(:p, {}) { "Reports from the last " +
+        select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
+               {:selected => @range}, {:class=>"span2", :onchange =>"$('#days_filter').submit();$(this).disabled();"}) +
+               " days - #{@host.reports.recent(@range.days.ago).count} reports found"
+      }
+    end
   end
 end
