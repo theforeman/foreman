@@ -17,7 +17,6 @@ module HomeHelper
       ['Foreman Settings',       :settings],
       ['Global Parameters',      :common_parameters],
       ['Host Groups',            :hostgroups],
-      ['LDAP Authentication',    :auth_source_ldaps],
       ['Puppet Classes',         :puppetclasses],
       ['Smart Proxies',          :smart_proxies]
     ]
@@ -35,7 +34,8 @@ module HomeHelper
 
     choices += [
       ['Users',                  :users],
-      ['User Groups',            :usergroups]
+      ['User Groups',            :usergroups],
+      ['LDAP Authentication',    :auth_source_ldaps]
     ] if SETTINGS[:login]
     choices += [
       ['Roles',                  :roles]
