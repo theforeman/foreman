@@ -153,7 +153,7 @@ $(document).ready(function() {
     var settings = {
       type : 'text',
       name : $(this).attr('name'),
-      width: '100%',
+      width: '95%',
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
@@ -173,7 +173,7 @@ $(document).ready(function() {
       type : 'select',
       name : $(this).attr('name'),
       data : $(this).attr('select_values'),
-      width: '100%',
+      submit : 'Save',
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
