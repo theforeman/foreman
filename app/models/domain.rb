@@ -17,6 +17,11 @@ class Domain < ActiveRecord::Base
 
   before_destroy Ensure_not_used_by.new(:hosts, :subnets)
   default_scope :order => 'LOWER(domains.name)'
+
+  class Jail < Safemode::Jail
+    allow :name, :fullname
+  end
+
   def to_param
     name
   end
