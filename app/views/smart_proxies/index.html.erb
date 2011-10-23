@@ -20,7 +20,7 @@
           <%= display_link_if_authorized "Certificates | ", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy) %>
           <%= display_link_if_authorized "Autosign | ", hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => proxy) %>
         <% end -%>
-        <% if proxy.features.include? Feature.find_by_name("DHCP") -%>
+        <% if SETTINGS[:unattended] and proxy.features.include? Feature.find_by_name("DHCP") -%>
           <%= display_link_if_authorized "Import Subnets | ", hash_for_import_subnets_path(:smart_proxy_id => proxy) %>
         <% end -%>
         <%= display_link_if_authorized "Destroy", hash_for_smart_proxy_path(:id => proxy, :auth_action => :destroy), :confirm => "Destroy #{proxy.name}?", :method => :delete %>
