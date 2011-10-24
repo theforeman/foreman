@@ -1,22 +1,2 @@
-<div class="fields">
-  <div class="clearfix">
-    <%= f.label :template_kind_id, "Type" %>
-    <div class="input">
-      <%= f.collection_select(:template_kind_id, TemplateKind.all, :id, :name,
-                              {:include_blank => true }, 
-                              :onchange => remote_function(:url => {:action => :templates_for_type},
-                                                           :update => span_id(f.object),
-                                                           :with => "'template_kind_id='+value+'&fid='+name+'&id=#{@operatingsystem.id}'") )
-       %>
-    </div>
-  </div>
-  <div id="<%= span_id f.object %>" class="clearfix">
-    <%= f.label :config_template_id, "Template" %>
-    <div class="input">
-      <%= f.collection_select(:config_template_id, @operatingsystem.config_templates.template_kind_id_eq(f.object.template_kind), :id, :name, 
-                              { :include_blank => @operatingsystem.config_templates.template_kind_id_eq(f.object.template_kind).size > 0 } )
-      %>
-      <%= link_to_remove_fields("remove", f) %>
-    </div>
-  </div>
-</div>
+<%= select_f f,:config_template_id, @operatingsystem.config_templates.template_kind_id_eq(f.object.template_kind_id), :id, :name, {:include_blank => true}, { :label => f.object.template_kind } %>
+<%= f.hidden_field :template_kind_id %>

@@ -1,6 +1,6 @@
 class OperatingsystemsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_os, :only => %w{show edit update destroy bootfiles templates_for_type}
+  before_filter :find_os, :only => %w{show edit update destroy bootfiles}
 
   def index
     values = Operatingsystem.search_for(params[:search], :order => params[:order])
@@ -15,8 +15,6 @@ class OperatingsystemsController < ApplicationController
 
   def new
     @operatingsystem = Operatingsystem.new
-    @operatingsystem.os_parameters.build
-    @operatingsystem.os_default_templates.build
   end
 
   def show
@@ -35,8 +33,10 @@ class OperatingsystemsController < ApplicationController
   end
 
   def edit
-    @operatingsystem.os_parameters.build if @operatingsystem.os_parameters.empty?
-    @operatingsystem.os_default_templates.build if @operatingsystem.os_default_templates.empty?
+    # Generates default OS template entries
+    @operatingsystem.config_templates.map(&:template_kind_id).uniq.each do |kind|
+      @operatingsystem.os_default_templates.build(:template_kind_id => kind) if @operatingsystem.os_default_templates.template_kind_id_eq(kind).blank?
+    end if SETTINGS[:unattended]
   end
 
   def update
@@ -64,15 +64,6 @@ class OperatingsystemsController < ApplicationController
   rescue => e
     respond_to do |format|
       format.json { render :json => e.to_s, :status => :unprocessable_entity }
-    end
-  end
-
-  def templates_for_type
-    return head(:method_not_allowed) unless request.xhr?
-    if @operatingsystem and params[:template_kind_id].to_i > 0 and kind = TemplateKind.find(params[:template_kind_id])
-      render :partial => 'template', :locals => {:templates => ConfigTemplate.template_kind_id_eq(kind.id).operatingsystems_id_eq(@operatingsystem.id), :fid => params[:fid]}
-    else
-      return head(:not_found)
     end
   end
 

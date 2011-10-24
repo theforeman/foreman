@@ -3,7 +3,9 @@
   <ul class="tabs" data-tabs="tabs">
     <li class="active"><a href="#primary">Primary</a></li>
     <li><a href="#params">Parameters</a></li>
-    <li><a href="#templates">Templates</a></li>
+    <% if SETTINGS[:unattended] -%>
+      <li><a href="#templates">Templates</a></li>
+    <% end -%>
   </ul>
 
   <div class="tab-content">
@@ -26,13 +28,7 @@
       <%= multiple_checkboxes f, :media, @operatingsystem, Medium, :label => "Installation media" %>
     </div>
 
-    <div id="templates">
-      <% if @operatingsystem.new_record? -%>
-        <p><span class="label notice">Notice</span> It is not possible to edit provisioning templates at this stage, please save the host first</p>
-      <% else -%>
-        <%= render('template_defaults', :f => f) %>
-      <% end -%>
-    </div>
+    <%= render('template_defaults', :f => f) if SETTINGS[:unattended] -%>
 
     <div id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
