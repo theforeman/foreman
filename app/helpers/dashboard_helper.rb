@@ -60,8 +60,9 @@ module DashboardHelper
          data: [
             ['Active',   #{report[:active_hosts]}],
             ['Error',    #{report[:bad_hosts]}],
-            ['OK',       #{report[:good_hosts]}],
-            ['Out of sync',   #{report[:out_of_sync_hosts]}]
+            ['OK',       #{report[:ok_hosts]}],
+            ['Out of sync',   #{report[:out_of_sync_hosts]}],
+            ['No report', #{report[:reports_missing]}]
          ]
       }]
     });

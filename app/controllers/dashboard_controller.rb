@@ -23,6 +23,8 @@ class DashboardController < ApplicationController
       :disabled_hosts => hosts.alerts_disabled.count
     }
     @report[:percentage] = (@report[:good_hosts] == 0 or @report[:total_hosts] == 0) ? 0 : @report[:good_hosts]*100 / @report[:total_hosts]
+    @report[:ok_hosts] = @report[:good_hosts] - @report[:active_hosts]
+    @report[:reports_missing] = @report[:total_hosts] - @report[:good_hosts] - @report[:bad_hosts] - @report[:out_of_sync_hosts]
   end
 
 end
