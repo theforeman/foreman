@@ -8,6 +8,13 @@
   <% unless @hypervisor -%>
     <%= text_f f, :mac, :label => "MAC", :help_inline => "MAC address for this host" %>
   <% end -%>
+  <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" %>
+  <%= text_f f, :sp_ip,  :label => "BMC IP" %>
+  <%= text_f f, :sp_mac, :label => "BMC MAC" %>
+  <%= select_f f, :sp_subnet_id, domain_subnets, :id, :title,
+    { :include_blank => domain_subnets.any? ? true : "No subnets"},
+    { :disabled => domain_subnets.empty? ? true : false, :label => "BMC Subnet" }
+  %>
 </div>
 
 <div id="os" class="clearfix">
