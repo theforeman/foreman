@@ -1,6 +1,6 @@
 <%= javascript "lookup_keys" %>
 
 <% form_for(@lookup_key) do |f| %>
-  <%= render :partial => 'fields',:locals => {:f => f} %>
-  <p> <%= f.submit 'Update' %> </p>
+  <%= render 'fields', :f => f %>
+  <%= submit_or_cancel f %>
 <% end %>

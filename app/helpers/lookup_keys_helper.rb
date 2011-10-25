@@ -1,12 +1,12 @@
 module LookupKeysHelper
 
   def remove_child_link(name, f, opts = {})
-    opts[:class] = [opts[:class], "remove_nested_fields"].compact.join(" ")
+    opts[:class] = [opts[:class], "remove_nested_fields btn small danger"].compact.join(" ")
     f.hidden_field(:_destroy) + link_to(name, "javascript:void(0)", opts)
   end
 
   def add_child_link(name, association, opts = {})
-    opts[:class] = [opts[:class], "add_nested_fields"].compact.join(" ")
+    opts[:class] = [opts[:class], "add_nested_fields btn small success"].compact.join(" ")
     opts[:"data-association"] = association
     link_to(name, "javascript:void(0)", opts)
   end

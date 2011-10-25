@@ -281,3 +281,7 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 .tab_error {
   background: #FAE5E3;
 }
+.smart_var_add_match {
+  top: -47px;
+  position: relative;
+}

@@ -1,19 +1,27 @@
-<div class="fields">
-  <%= f.text_field :key, :class => "span-2", :title => "The variable name" %>
-  <%= f.text_field :description, :class => "span-5", :title => "Description" %>
-  <%= f.text_field :default_value, :class => "span-3", :title => "Default value" %>
-  <%= f.select :validator_type, options_for_select(LookupKey::VALIDATION_TYPES, f.object.validator_type), { :include_blank => "string"} , {:class => "span-2", :title => "Type of allowed values"} %>
-  <%= f.text_field :validator_rule, :class => "span-3", :title => "Validator constraint" %>
-  <%= f.text_area :path, :size => "5x2", :value => f.object.path, :title => "The order in which values are resolved" %>
+<div id=<%= f.object.key %> class="fields">
+  <%= text_f f, :key, :label => "Name" %>
+  <%= text_f f, :description %>
+  <%= text_f f, :default_value, :class => "xxlarge", :help_inline => "value to use when there is no match" %>
+  <%= selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATION_TYPES, f.object.validator_type),
+    { :include_blank => "string"},
+    { :label => "Type Validator", :help_inline => "Type of allowed values", :class => "medium"}
+  %>
+  <%= text_f f, :validator_rule, :label => "Validator constraint", :help_inline => "allowed values based on this rule", :class => "xxlarge" %>
+  <%= textarea_f f, :path, :rows => "4", :value => f.object.path, 
+    :help_inline => "The order in which values are resolved", :label => "Order",
+    :help_block  => "You may use many attributes as a matcher, e.g. <b>hostgroup, environment</b><br>
+    This would expect a matcher such as <b>hostgroup = \"web servers\", environment = production</b>"
+  %>
 
   <%# the following field is required to see child validations %>
   <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
-  <%= remove_child_link "Remove", f unless controller_name == "lookup_keys" %>
   <div class="children_fields">
-    <% f.fields_for :lookup_values do |lookup_values| %>
-      <%= render :partial => 'lookup_keys/value', :locals => { :f => lookup_values } %>
-    <% end %>
-    <%= add_child_link "New value", :lookup_values, {:class => "ui-icon ui-icon-plus", :title => 'add new value'} %>
     <%= new_child_fields_template(f, :lookup_values, {:partial => "lookup_keys/value"}) %>
+    <% f.fields_for :lookup_values do |lookup_values| %>
+      <%= render 'lookup_keys/value', :f => lookup_values %>
+    <% end %>
+    <%= add_child_link "+", :lookup_values, { :class => "info smart_var_add_match", :title => 'add new matcher / value'} %>
   </div>
+  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f unless controller_name == "lookup_keys" %>
+  <hr>
 </div>

@@ -247,6 +247,7 @@ $(function()
   });
 
 });
+
 //
 // highlight tabs with errors
 $(function(){
@@ -256,4 +257,11 @@ $(function(){
     // now add a class to that tab
     $("a[href=#"+id+"]").addClass("tab_error");
   })
+});
+
+$(function () {
+  $('a[rel="popover"]').popover({
+    html: true
+  });
+  $('a[rel="twipsy"]').twipsy();
 });

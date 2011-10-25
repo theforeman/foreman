@@ -36,6 +36,7 @@ $(function() {
 
     var field = $(content).insertBefore(this);
     $(this).closest("form").trigger({type: 'nested:fieldAdded', field: field});
+    $('a[rel="popover"]').popover();
     return false;
   });
 

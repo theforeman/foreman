@@ -96,4 +96,8 @@ module LayoutHelper
     end
   end
 
+  def popover title, msg, options = {}
+    link_to_function title, {:rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+  end
+
 end

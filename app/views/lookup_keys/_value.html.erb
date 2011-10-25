@@ -1,5 +1,6 @@
-<div class="prepend-2 fields">
-  <%= f.text_field :match, :class => "span-5", :title => "Valid match for this value"%>
-  <%= f.text_field :value, :class => "span-3", :title => "Value" %>
-  <%= remove_child_link "Remove", f, {:title => 'remove value'} %>
+<div class="fields">
+  <%= text_f f, :match, :class => "xxlarge",
+    :help_inline => popover("?", "You may use any attribute foreman knows about, fact etc for example: <br> domain = example.com <br> is_virtual = true", :class => "label notice")
+  %>
+  <%= text_f f, :value, :class => "xxlarge", :help_inline => remove_child_link("X", f, {:title => 'remove value'}) %>
 </div>
