@@ -248,7 +248,7 @@ $(function()
 
 });
 
-//
+
 // highlight tabs with errors
 $(function(){
   $(".tab-content").find(".clearfix.error").each(function() {
