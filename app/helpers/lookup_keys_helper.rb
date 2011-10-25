@@ -1,7 +1,7 @@
 module LookupKeysHelper
 
   def remove_child_link(name, f, opts = {})
-    opts[:class] = [opts[:class], "remove_nested_fields btn small danger"].compact.join(" ")
+    opts[:class] = [opts[:class], "remove_nested_fields"].compact.join(" ")
     f.hidden_field(:_destroy) + link_to(name, "javascript:void(0)", opts)
   end
 
@@ -16,7 +16,7 @@ module LookupKeysHelper
     options[:partial]            ||= association.to_s.singularize
     options[:form_builder_local] ||= :f
 
-    content_tag(:div, :id => "#{association}_fields_template", :style => "display: none") do
+    content_tag(:div, :id => "#{association}_fields_template", :style => "display: none;") do
       form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
         render(:partial => options[:partial], :locals => { options[:form_builder_local] => f })
       end

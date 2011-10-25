@@ -1,16 +1,19 @@
-<div id=<%= f.object.key %> class="fields">
+<div <%= "id=#{f.object.key || 'new_lookup_keys'}" %> class="fields" >
   <%= text_f f, :key, :label => "Name" %>
   <%= text_f f, :description %>
-  <%= text_f f, :default_value, :class => "xxlarge", :help_inline => "value to use when there is no match" %>
+  <%= text_f f, :default_value, :class => "xxlarge", :help_inline => popover("?","value to use when there is no match", :title => "Default Value") %>
   <%= selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATION_TYPES, f.object.validator_type),
     { :include_blank => "string"},
-    { :label => "Type Validator", :help_inline => "Type of allowed values", :class => "medium"}
+    { :label => "Type Validator", :class => "medium",
+      :help_inline => popover("?","<dl> <dt>String</dt> <dd>everything goes</dd> <dt>Regexp</dt> <dd>regular expression to verify the value</dd>
+       <dt>List</dt> <dd>comma seperated values, e.g. 80,443<dd> </dt>", :title => "How values are validated")}
   %>
-  <%= text_f f, :validator_rule, :label => "Validator constraint", :help_inline => "allowed values based on this rule", :class => "xxlarge" %>
-  <%= textarea_f f, :path, :rows => "4", :value => f.object.path, 
-    :help_inline => "The order in which values are resolved", :label => "Order",
-    :help_block  => "You may use many attributes as a matcher, e.g. <b>hostgroup, environment</b><br>
-    This would expect a matcher such as <b>hostgroup = \"web servers\", environment = production</b>"
+  <%= text_f f, :validator_rule, :label => "Validator constraint", :class => "xxlarge",
+    :help_inline => popover("?","Values to match Type validator, leave blank if its String", :title => "Validator constraint")%>
+  <%= textarea_f f, :path, :rows => "4", :value => f.object.path, :label => "Order",
+    :help_inline => popover("?", "The order in which matchers keys are processed, first match wins.<br>
+    You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code>
+    would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>", :title => "The order in which values are resolved")
   %>
 
   <%# the following field is required to see child validations %>
@@ -22,6 +25,6 @@
     <% end %>
     <%= add_child_link "+", :lookup_values, { :class => "info smart_var_add_match", :title => 'add new matcher / value'} %>
   </div>
-  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f unless controller_name == "lookup_keys" %>
+  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn danger'} unless controller_name == "lookup_keys" %>
   <hr>
 </div>

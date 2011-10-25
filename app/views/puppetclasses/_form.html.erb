@@ -23,18 +23,18 @@
           <p><strong>Help!</strong> What is a <a href=http://theforeman.org/projects/foreman/wiki/Smart_Variables rel="external">Smart variable</a>?</p>
         </div>
       <% end -%>
-      <ul class="pills" data-tabs="pills">
+      <p class="ra"><%= add_child_link "New Variable", :lookup_keys %></p>
+      <ul class="pills vertical span3" data-tabs="pills">
         <% @puppetclass.lookup_keys.each do |key| -%>
-          <li><a href="#<%= key %>"><%= key %></a></li>
+          <li <%= 'class="active"' if @puppetclass.lookup_keys.first == key%>><a id="pill_<%= key %>" href="#<%= key %>"><%= key %></a></li>
         <% end -%>
       </ul>
 
-      <div class="pill-content">
+      <div class="pill-content span13">
         <% f.fields_for :lookup_keys do |lookup_keys_form| %>
           <%= render 'lookup_keys/fields', :f => lookup_keys_form %>
         <% end %>
       </div>
-      <p><%= add_child_link "New Variable", :lookup_keys %></p>
       <%= new_child_fields_template(f, :lookup_keys, {:partial => "lookup_keys/fields"})%>
     </div>
   </div>

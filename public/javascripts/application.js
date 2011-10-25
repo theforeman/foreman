@@ -261,7 +261,8 @@ $(function(){
 
 $(function () {
   $('a[rel="popover"]').popover({
-    html: true
+    html: true,
+    placement: 'above',
   });
   $('a[rel="twipsy"]').twipsy();
 });

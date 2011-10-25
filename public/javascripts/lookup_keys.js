@@ -33,12 +33,24 @@ $(function() {
     var regexp  = new RegExp('new_' + assoc, 'g');
     var new_id  = new Date().getTime();
     content     = content.replace(regexp, "new_" + new_id);
-
-    var field = $(content).insertBefore(this);
+    var field   = '';
+    if (assoc == 'lookup_keys') {
+      $('.pills .active, .pill-content .active').removeClass('active');
+      var pill = "<li class='active'><a href='#new_" + new_id + "' >new</a></li>"
+      $('.pills').prepend(pill);
+      field = $('.pill-content').prepend($(content).addClass('active'));
+    } else {
+      field = $(content).insertBefore($(this));
+    }
     $(this).closest("form").trigger({type: 'nested:fieldAdded', field: field});
-    $('a[rel="popover"]').popover();
+    $('a[rel="popover"]').popover({html: true, placement: 'above'});
     return false;
   });
+
+  //set selected tab on page load
+  $(function(){
+    $('.pill-content .fields').first().addClass('active');
+  })
 
   $('form a.remove_nested_fields').live('click', function() {
     var hidden_field = $(this).prev('input[type=hidden]')[0];
@@ -46,6 +58,11 @@ $(function() {
       hidden_field.value = '1';
     }
     $(this).closest('.fields').hide();
+    if($(this).parent().hasClass('fields'))
+    {
+      $('#pill_' + $(this).closest('.fields').attr('id')).hide();
+      $('.pills li :visible').first().click();
+    }
     $(this).closest("form").trigger('nested:fieldRemoved');
     return false;
   });
