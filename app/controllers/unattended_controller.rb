@@ -14,6 +14,11 @@ class UnattendedController < ApplicationController
   # We dont require any of these methods for provisioning
   skip_before_filter :require_ssl, :require_login, :authorize
 
+  # require logged in user to see templates in spoof mode
+  before_filter do |c|
+    c.send(:require_login) if c.params.keys.include?("spoof")
+  end
+
   # We want to find out our requesting host
   before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS + [:template]
   before_filter :handle_ca, :only => PROVISION_URLS
@@ -72,6 +77,7 @@ class UnattendedController < ApplicationController
   end
 
   private
+
   # lookup for a host based on the ip address and if possible by a mac address(as sent by anaconda)
   # if the host was found than its record will be in @host
   # if the host doesn't exists, it will return 404 and the requested method will not be reached.

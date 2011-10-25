@@ -34,8 +34,13 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should support spoof" do
-    get :preseed, {:spoof => hosts(:ubuntu).ip}
+    get :preseed, {:spoof => hosts(:ubuntu).ip}, set_session_user
     assert_response :success
+  end
+
+  test "should render spoof when user is not logged in" do
+    get :preseed, {:spoof => hosts(:ubuntu).ip}
+    assert_response :redirect
   end
 
   test "should provide pxe config for redhat" do
