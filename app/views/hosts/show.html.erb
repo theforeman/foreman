@@ -11,11 +11,11 @@
   else
     link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => @host),:disabled => @host.can_be_build?,
                            :title => "Cancel build request for this host")
-  end
+  end,
   link_to_if_authorized("Run puppet", hash_for_puppetrun_host_path(:id => @host).merge(:auth_action => :edit), :disabled => !Setting[:puppetrun],
-                        :title => "Trigger a puppetrun on a node; requires that puppet run is enabled")
+                        :title => "Trigger a puppetrun on a node; requires that puppet run is enabled"),
   link_to_if_authorized("All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => @host).merge(:auth_action => :read), :disabled => @host.resources.count == 0,
-                        :title => "Show all host puppet classes, requires storeconfigs")
+                        :title => "Show all host puppet classes, requires storeconfigs"),
   link_to_if_authorized("Delete", hash_for_host_path(:id => @host, :auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete)
 -%>
 <% content_for(:search_bar) {reports_show} %>
