@@ -5,17 +5,22 @@ module HostsHelper
   def last_report_column(record)
     return nil if record.last_report.nil?
     time = time_ago_in_words(record.last_report.getlocal)
-    report_icon(record) +
-      link_to_if_authorized(time, hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
-                            last_report_column_html(record))
+    link_to_if_authorized(report_icon(record) + time,
+                          hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
+                          last_report_column_html(record))
   end
 
   def last_report_column_html record
-    {
-      "rel" => "twipsy",
-      "data-original-title" => @last_reports[record.id] ? "Click to view" : "Report Already Deleted",
-      :disabled => !@last_reports[record.id]
-    }
+    opts = { :rel => "twipsy" }
+    if @last_reports[record.id]
+      opts.merge!( "data-original-title" => "View last reprot details")
+    else
+      opts.merge!(
+        "data-original-title" => "Report Already Deleted",
+        :disabled => true, :class => "disabled", :onclick => 'return false'
+      )
+      opts
+    end
   end
 
 # method that reformat the hostname column by adding the status icons
