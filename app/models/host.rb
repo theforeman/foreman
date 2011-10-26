@@ -262,7 +262,7 @@ class Host < Puppet::Rails::Host
     param["root_pw"]      = root_pass if SETTINGS[:unattended]
     param["comment"]      = comment unless comment.blank?
     param["foreman_env"]  = environment.to_s unless environment.nil? or environment.name.nil?
-    if SETTINGS[:login]
+    if SETTINGS[:login] and owner
       param["owner_name"]  = owner.name
       param["owner_email"] = owner.is_a?(User) ? owner.mail : owner.users.map(&:mail)
     end
