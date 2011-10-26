@@ -1,9 +1,6 @@
 <% title @host.to_label, icon(@host.os) + @host.to_label %>
 
 <% title_actions link_to_if_authorized("Edit", hash_for_edit_host_path(:id => @host), :title => "Edit your host"),
-  link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts"),
-  link_to_if_authorized("Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports"),
-  link_to("YAML", externalNodes_host_path(:name => @host), :title => "Puppet external nodes YAML dump"),
   unless @host.build
     link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => @host), :disabled => !@host.can_be_build?,
                           :title => "Enable rebuild on next host boot",

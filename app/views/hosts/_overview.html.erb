@@ -1,13 +1,25 @@
 <table class="list">
   <tr>
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td>
+      <%= link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts" , :class => 'btn small') %>
+      <%= link_to_if_authorized("Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports" , :class => 'btn small') %>
+      <%= link_to("YAML", externalNodes_host_path(:name => @host), :title => "Puppet external nodes YAML dump" , :class => 'btn small') %>
+    </td>
+  </tr>
+</table>
+<table class="list">
+  <tr>
     <th>Properties</th>
     <th></th>
   </tr>
   <% [["Domain", host.domain], ["IP Address", host.ip], ["Puppet Environment", host.environment], ["Host Architecture", host.arch],
-    ["Host Operating System", host.os], ["Host Group", host.hostgroup]].each do |name,value| %>
+    ["Host Operating System", host.os], ["Host Group", host.hostgroup], ["Owner", host.owner]].each do |name,value| %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td style="width: 240px;"><%= name %></td>
-      <td><%= value %></td>
-    </tr>
-  <% end -%>
-</table>
+        <td><%= name %></td>
+        <td><%= value %></td>
+      </tr>
+    <% end -%>
+  </table>
