@@ -1,56 +1,5 @@
 module StatisticsHelper
 
-  def pie_chart name, title, data
-    function = <<-EOF
-  $(function () {
-    new Highcharts.Chart({
-      chart: {
-        renderTo: '#{name}',
-        borderColor: '#909090',
-        borderWidth: 1,
-        backgroundColor: {
-         linearGradient: [0, 0, 0, 200],
-         stops: [
-            [0, '#ffffff'],
-            [1, '#EDEDED']
-         ]}
-      },
-      credits: {
-      enabled: false,
-      },
-      title: {
-         text: '#{title}',
-         style: {color: '#000000'}
-      },
-      tooltip: {
-         formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.y;
-         }
-      },
-      plotOptions: {
-         pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-               enabled: true,
-               formatter: function() {
-                  return  this.point.name + ': '+ this.y;
-               }
-            }
-         }
-      },
-       series: [{
-         type: 'pie',
-         name: '',
-         data: [ #{data.map{ |kv| "['#{kv[0]}', #{kv[1]}]"}.join(',')} ]
-      }]
-    });
-  });
-EOF
-    content_tag(:div, nil,:id=>name,:class=>'statistics_pie') +
-    javascript_tag(function)
-  end
-
   def charts
     [
       pie_chart("os_dist" ,"OS Distribution", @os_count),

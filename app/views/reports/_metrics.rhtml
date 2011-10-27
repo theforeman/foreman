@@ -1,18 +1,18 @@
-<table style="border: 2px solid;">
-  <tr>
-    <td> <b>Metrics</b></td>
-    <td>
-      <table style="border: 0px; width:100%;">
-        <% @report.metrics["time"].sort.each do |title, value|-%>
-          <%# we want to display total time at the end -%>
-          <% @totaltime = value and next if title.to_s =~ /total/i -%>
-          <tr>
-            <td> <%= h title %> </td>
-            <td> <%= metric value %> </td>
-          </tr>
-        <% end %>
-        <tr class="label"><td>Total</td><td><%= metric (@totaltime || @report.runtime) %></td></tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<% @totaltime = metrics.delete('total') %>
+<div class="row">
+  <div class="span10">
+    <h4 class="ca">Metrics</h4>
+    <%= pie_chart("metrics" ,"Report Metrics", metrics, :class => "ca")%>
+  </div>
+  <div class="offset1 span5">
+    <table>
+      <% metrics.sort.each do |title, value|-%>
+        <tr>
+          <td> <%= h title %> </td>
+          <td> <%= metric value %> </td>
+        </tr>
+      <% end %>
+      <tr class="label"><td>Total</td><td><%= metric (@totaltime || @report.runtime) %></td></tr>
+    </table>
+  </div>
+</div>
