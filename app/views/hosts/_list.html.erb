@@ -2,7 +2,7 @@
 <% title header ||= "" %>
 <table class="list">
   <tr>
-    <th><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
+    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
     <th><%= sort :name %></th>
     <th><%= sort :os, :as => "Operating system" %></th>
     <th><%= sort :environment %></th>
@@ -13,7 +13,7 @@
   </tr>
   <% hosts.each do |host| -%>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td>
+      <td class="ca">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
       <td> <%= name_column(host) %> </td>
