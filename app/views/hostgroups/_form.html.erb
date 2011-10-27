@@ -36,16 +36,16 @@
       <% end -%>
     </div>
 
-    <div id="network" class="clearfix">
+    <div id="network">
       <%= render 'common/domain_subnet', :item => @hostgroup %>
     </div>
 
-    <div id="os" class="clearfix">
+    <div id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
       <%= password_f f, :root_pass, :label => "Root Password" %>
     </div>
 
-    <div id="virtual_machine" class="clearfix">
+    <div id="virtual_machine">
       <%= render('common/hypervisor', :item => @hostgroup) %>
     </div>
 

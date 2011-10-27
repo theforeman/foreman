@@ -1,8 +1,8 @@
-<div id="virtual_machine" class="clearfix">
+<div id="virtual_machine">
   <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
 </div>
 
-<div id="network" class="clearfix">
+<div id="network">
   <%= render 'common/domain_subnet', :item => @host %>
   <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" %>
   <% unless @hypervisor -%>
@@ -17,16 +17,17 @@
   %>
 </div>
 
-<div id="os" class="clearfix">
+<div id="os">
   <%= render "common/os_selection/initial", { :item=> @host } %>
   <%= textarea_f f, :disk, :class => "xxlarge", :label => 'Custom Disk layout', :rows => "4",
     :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
   <% if @host.new_record? -%>
     <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
   <% end -%>
+  <%= password_f f, :root_pass, :label => "Root Password" %>
 
   <div class="row">
-    <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh", :class => "btn small info span2 ra" %> 
+    <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh", :class => "btn small span2 ra" %> 
     <div id="templates_info" class="span10"> </div>
   </div>
 </div>
