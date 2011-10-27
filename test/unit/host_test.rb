@@ -370,6 +370,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "host os attributes must be associated with the host os" do
     h = hosts(:redhat)
+    h.managed = true
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)
     assert !h.valid?
