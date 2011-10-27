@@ -650,7 +650,7 @@ class Host < Puppet::Rails::Host
         errors.add(e, "#{value} does not belong to #{os} operating system")
         status = false
       end
-    end if os
+    end if SETTINGS[:unattended] and managed? and os
 
     puppetclasses.uniq.each do |e|
       unless environment.puppetclasses.include?(e)
