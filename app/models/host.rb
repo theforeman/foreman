@@ -44,8 +44,8 @@ class Host < Puppet::Rails::Host
   }
 
   named_scope :with_error, { :conditions => "(puppet_status > 0) and
-    ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0)"
+   ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
+    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )"
   }
 
   named_scope :without_error, { :conditions =>
@@ -54,12 +54,12 @@ class Host < Puppet::Rails::Host
   }
 
   named_scope :with_changes, { :conditions => "(puppet_status > 0) and
-    ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0)"
+    ( ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
+    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )"
   }
 
   named_scope :without_changes, { :conditions =>
-    "((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) or
+    "((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
      ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)"
   }
 

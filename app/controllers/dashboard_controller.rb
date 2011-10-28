@@ -15,15 +15,15 @@ class DashboardController < ApplicationController
   def prefetch_data
     hosts = Host.search_for(params[:search])
     @report = {
-      :total_hosts => hosts.count,
-      :bad_hosts => hosts.recent.with_error.count,
-      :active_hosts => hosts.recent.with_changes.count,
-      :good_hosts => hosts.recent.successful.count,
+      :total_hosts       => hosts.count,
+      :bad_hosts         => hosts.recent.with_error.count,
+      :active_hosts      => hosts.recent.with_changes.count,
+      :ok_hosts          => hosts.recent.successful.count,
       :out_of_sync_hosts => hosts.out_of_sync.count,
-      :disabled_hosts => hosts.alerts_disabled.count
+      :disabled_hosts    => hosts.alerts_disabled.count
     }
+    @report[:good_hosts] = @report[:ok_hosts] + @report[:active_hosts]
     @report[:percentage] = (@report[:good_hosts] == 0 or @report[:total_hosts] == 0) ? 0 : @report[:good_hosts]*100 / @report[:total_hosts]
-    @report[:ok_hosts] = @report[:good_hosts] - @report[:active_hosts]
     @report[:reports_missing] = @report[:total_hosts] - @report[:good_hosts] - @report[:bad_hosts] - @report[:out_of_sync_hosts]
   end
 
