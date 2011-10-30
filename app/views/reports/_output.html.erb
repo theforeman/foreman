@@ -1,11 +1,14 @@
-<table class="list" border=1>
-  <caption>Puppet Output</caption>
-  <th>Level</th><th>Resource</th><th>message</th>
+<table class="list zebra-striped" border=1>
+  <tr>
+    <th>Level</th><th>Resource</th><th>message</th>
+  </tr>
   <% logs.each do |log| -%>
-    <tr class="<%= cycle("even", "odd") -%>">
-      <td><span <%= report_tag log.level %>><%= h log.level %></span></td>
-      <td><%= h log.source %></td>
-      <td><%= h log.message %></td>
-    </tr>
+    <% if logs_filter(log.level) -%>
+      <tr>
+        <td><span <%= report_tag log.level %>><%= h log.level %></span></td>
+        <td><%= h log.source %></td>
+        <td><%= h log.message %></td>
+      </tr>
+    <% end -%>
   <% end -%>
 </table>

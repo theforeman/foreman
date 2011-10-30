@@ -10,6 +10,8 @@ Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_wor
   </div>
 <% end -%>
 
+<% content_for(:search_bar) {logs_show} %>
+
 <%= render 'output', :logs => @report.logs if @report.logs.size > 0 %>
 <%= render 'metrics', :metrics => @report.metrics["time"] if @report.metrics["time"] -%>
 

@@ -44,4 +44,28 @@ module ReportsHelper
           end
     "class='label #{tag}'"
   end
+
+   def logs_show
+    return unless @report.logs.size > 0
+    form_tag @report, :id => 'level_filter', :method => :get do
+      content_tag(:p, {}) { "Show logs with severity higher or equal to " +
+        select(nil, 'level', {:notice => 0,:warning => 1,:err => 2},
+               {:selected => params[:level].to_i}, {:class=>"span2", :onchange =>"$('#level_filter').submit();$(this).disabled();"})
+      }
+    end
+   end
+
+   def logs_filter(level)
+     return true unless params[:level]
+     return case level
+          when :notice
+            params[:level].to_i <= 0;
+          when :warning
+            params[:level].to_i <= 1;
+          when :err
+            params[:level].to_i <= 2;
+          else
+            true
+          end
+   end
 end
