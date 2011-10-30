@@ -29,6 +29,9 @@ optparse = OptionParser.new do |opts|
   opts.on( '-u', '--user USER', "User to use - defaults to #{options[:user]}" ) do |user|
     options[:user] = user
   end
+  opts.on( '-q', '--quiet', 'Suppress deprication warning' ) do |cmd|
+    options[:quiet] = true
+  end
 
   options[:facts] = {}
   opts.on( '-f', '--facts fact=x,fact=y..', 'one or more facts to filter the host list' ) do |facts|
@@ -55,6 +58,7 @@ optparse = OptionParser.new do |opts|
 end
 
 optparse.parse!
+puts "WARNING: The Query API is deprecated and will be retired. Please use the new Search API." unless options[:quiet]
 
 if options[:command].empty? or (options[:facts].empty? and options[:class].empty?)
   puts optparse
@@ -65,6 +69,7 @@ unless ARGV.empty?
   warn "unknown parameter #{ARGV.join(" ")}"
   exit 1
 end
+
 
 puts "About to execute: #{options[:command]}"
 query = {"state" => options[:state]}
