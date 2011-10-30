@@ -9,7 +9,7 @@ class Host < Puppet::Rails::Host
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
-  belongs_to :sp_subnet
+  belongs_to :sp_subnet, :class_name => "Subnet"
 
   include Hostext::Search
   include HostCommon

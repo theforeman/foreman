@@ -64,7 +64,7 @@ module Orchestration::DHCP
     # returns a hash of service processor / ilo dhcp record settings
     def sp_dhcp_attrs
       return unless sp_dhcp?
-      { :name => sp_name, :ip => sp_ip, :mac => sp_mac, :proxy => proxy_for_sp, :network => sp_subnet.network }
+      { :hostname => sp_name, :name => sp_name, :ip => sp_ip, :mac => sp_mac, :proxy => proxy_for_sp, :network => sp_subnet.network }
     end
 
     # where are we booting from
