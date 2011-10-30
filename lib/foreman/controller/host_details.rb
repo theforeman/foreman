@@ -99,11 +99,12 @@ module Foreman::Controller::HostDetails
   def hypervisor_defaults msg = nil
     @hypervisor = nil
     render :update do |page|
+      item = controller.send(:item_object)
       page.alert(msg) if msg
-      page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => controller.send(:item_object) }
+      page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => item }
       # you can only select bare metal after you successfully selected a hypervisor before
       page << "if ($('#host_mac').length == 0) {"
-      page.insert_html :after, :host_ip, :partial => "hosts/mac"
+      page.replace_html :mac_address, :partial => "hosts/mac", :locals => {:item => item } if controller_name == "hosts"
       page[:host_hypervisor_id].value = ""
       page << " }"
     end
