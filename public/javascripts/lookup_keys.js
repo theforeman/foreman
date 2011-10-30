@@ -36,7 +36,7 @@ $(function() {
     var field   = '';
     if (assoc == 'lookup_keys') {
       $('.pills .active, .pill-content .active').removeClass('active');
-      var pill = "<li class='active'><a href='#new_" + new_id + "' >new</a></li>"
+      var pill = "<li class='active'><a href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new</a></li>"
       $('.pills').prepend(pill);
       field = $('.pill-content').prepend($(content).addClass('active'));
     } else {

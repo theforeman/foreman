@@ -1,4 +1,5 @@
 <div <%= "id=#{f.object.key || 'new_lookup_keys'}" %> class="fields" >
+  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn danger action_btn'} unless controller_name == "lookup_keys" %>
   <%= text_f f, :key, :label => "Name" %>
   <%= text_f f, :description %>
   <%= text_f f, :default_value, :class => "xxlarge", :help_inline => popover("?","value to use when there is no match", :title => "Default Value") %>
@@ -25,6 +26,5 @@
     <% end %>
     <%= add_child_link "+", :lookup_values, { :class => "info smart_var_add_match", :title => 'add new matcher / value'} %>
   </div>
-  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn danger'} unless controller_name == "lookup_keys" %>
   <hr>
 </div>
