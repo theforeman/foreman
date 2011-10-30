@@ -26,6 +26,10 @@
         { :label => "Puppet Master Proxy"}
       %>
       <%= text_f f, :puppetmaster_name, :label => "Puppet Master FQDN", :size => 8, :value => f.object.puppetmaster %>
+      <%= observe_field(:hostgroup_environment_id,
+                        :url    => { :action => :environment_selected, :id => @hostgroup.id },
+                        :update => :puppet_klasses,
+                        :with   => "'environment_id=' + value") %>
     </div>
 
     <div id="puppet_klasses">
