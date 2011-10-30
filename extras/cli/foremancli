@@ -1,0 +1,183 @@
+#!/usr/bin/env ruby
+# Copyright (C) 2011 Vijay Brian Gupta brian.gupta@brandorr.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+# USA.
+
+require "optparse"
+
+collections_filterable = [
+  :hosts,
+  :puppetclasses,
+  :fact_values,
+  :environments,
+  :hostgroups,
+]
+
+collections = [
+  :architectures,
+  :auth_source_ldaps,
+  :common_parameters,
+  :config_templates,
+  :domains,
+  :hypervisors,
+  :lookup_keys,
+  :media,
+  :operatingsystems,
+  :ptables,
+  :reports,
+  :smart_proxies,
+  :subnets,
+  :usergroups,
+  :users
+]
+
+collections_not_implemented = [ :dashboard ]
+
+@foreman_user = ENV['FOREMAN_USER']     if ENV['FOREMAN_USER']
+@foreman_pass = ENV['FOREMAN_PASSWORD'] if ENV['FOREMAN_PASSWORD']
+@foreman_url  = ENV['FOREMAN_SERVER']   if ENV['FOREMAN_SERVER']
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: " + File.basename($0) + " [options] ..."
+
+  options[:debug] = false
+  opts.on( "-d", "--debug", "Output more information" ) do
+    options[:debug] = true
+  end
+  options[:username] = false
+  opts.on( '-u', '--user USER', "Foreman user") do |f|
+    options[:username] = f
+  end
+  options[:password] = false
+  opts.on( "-p", "--pass PASSWORD", "Foreman password" ) do |f|
+    options[:password] = f
+  end
+  options[:server] = false
+  opts.on( "-s", "--server URL", "Foreman Server URL" ) do |f|
+    options[:server] = f
+  end
+  options[:json] = false
+  opts.on( "--json", "JSON output" ) do
+    options[:json] = true
+  end
+  options[:yaml] = false
+  opts.on( "--yaml", "YAML output" ) do
+    options[:yaml] = true
+  end
+  options[:status] = false
+  opts.on( "--status", "Foreman status" ) do
+    options[:status] = true
+  end
+# options[:dashboard] = false
+# opts.on( "--dashboard", "Foreman dashboard" ) do |f|
+#   options[:dashboard] = f
+# end
+  options[:custom] = false
+  opts.on( "--custom COLLECTION", "Custom COLLECTION string, see: http://theforeman.org/projects/foreman/wiki/API" ) do |f|
+    options[:custom] = f
+  end
+  collections_filterable.each do |collection|
+    options[collection] = false
+    opts.on("--#{collection} [filter]", "Retreive a list of #{collection}") do |f|
+      options[collection] = f || true
+    end
+  end
+  collections.each do |collection|
+    options[collection] = false
+    opts.on("--#{collection}", "Retreive a list of #{collection}") do
+      options[collection] = true
+    end
+  end
+  collections_not_implemented.each do |collection|
+    options[collection] = false
+    opts.on("--#{collection}", "Not implemented") do
+      options[collection] = true
+    end
+  end
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    puts ""
+    puts "     ENVIRONMENT VARIABLES:"
+    puts ""
+    puts "     FOREMAN_SERVER                  Foreman Server URL"
+    puts "     FOREMAN_USER                    Foreman user"
+    puts "     FOREMAN_PASSWORD                Foreman password"
+    puts ""
+    puts "     CLI options take precendence over ENVIRONMENT VARIABLES"
+    puts ""
+    exit 1
+  end
+end.parse!
+if options.values.uniq == [false]
+  warn "Use -h, --help for usage."
+  exit 1
+end
+
+require "rubygems"
+require "rest_client"
+require "json"
+require "yaml"
+
+@foreman_user = options.delete(:username) if options[:username]
+@foreman_pass = options.delete(:password) if options[:password]
+@foreman_url  = options.delete(:server)   if options[:server]
+@usejson      = options.delete(:json)     if options[:json]
+@useyaml      = options.delete(:yaml)     if options[:yaml]
+@custom       = options.delete(:custom)   if options[:custom]
+@status       = options.delete(:status)   if options[:status]
+
+RestClient.log = 'stdout' if options.delete(:debug)
+
+def get_collection(path, options = {})
+  JSON.parse(RestClient::Request.new({:method  => :get,
+                                     :url     => "#{@foreman_url}/#{path.to_s.chomp('/')}",
+                                     :user    => @foreman_user, :password => @foreman_pass,
+                                     :headers => { :accept => :json, :content_type => :json }}.merge(options)).execute)
+end
+
+def search_collection(path,search)
+  get_collection(path, :url => "#{@foreman_url}/#{path}?search=#{URI.encode(search)}")
+end
+
+def format
+  return "json" if @usejson
+  return "yaml" if @useyaml
+end
+
+def print_response response
+  puts(case format
+      when "json"
+        JSON.pretty_generate(response)
+      when "yaml"
+        YAML.dump(response)
+      else
+        (response.first.is_a?(Hash) ? response.map{|o| o.inspect} : response).join("\n")
+      end)
+end
+
+options.each do |collection, filter|
+  next unless filter
+  if filter == true
+    print_response(get_collection(collection))
+  else
+    print_response(search_collection(collection, filter))
+  end
+end
+
+print_response(get_collection(@custom)) if @custom
+
+puts JSON.pretty_generate(get_collection("status")) if @status
