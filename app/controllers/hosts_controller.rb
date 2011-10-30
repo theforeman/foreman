@@ -161,7 +161,7 @@ class HostsController < ApplicationController
     if GW::Puppet.run @host.name
       notice "Successfully executed, check log files for more details"
     else
-      error "Failed, check log files"
+      error "Failed, Please check log files for more information"
     end
     redirect_to host_path(@host)
   end

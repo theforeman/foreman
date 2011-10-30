@@ -200,20 +200,24 @@ class ApplicationController < ActionController::Base
     case action_name
     when "create" then hash[:render] ||= "new"
     when "update" then hash[:render] ||= "edit"
-    when "destroy" then
+    else
       hash[:redirect] ||= eval("#{controller_name}_url")
     end
-    hash[:error_msg] ||= hash[:object].errors.full_messages
-    hash[:error_msg] = [hash[:error_msg]].flatten
+    hash[:error_msg] ||= hash[:object].errors.on_base.to_a
 
     hash[:json_code] ||= :unprocessable_entity
-    logger.info "Failed to save: #{hash[:error_msg].join(", ")}"
+    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}"
     respond_to do |format|
       format.html do
-        error hash[:error_msg].join("<br/>") unless hash[:error_msg].empty?
-        render :action => hash[:render] if hash[:render]
-        redirect_to hash[:redirect] if hash[:redirect]
-        return
+        if hash[:render]
+          flash.now[:error] = hash[:error_msg].join("<br/>") unless hash[:error_msg].empty?
+          render :action => hash[:render]
+          return
+        elsif hash[:redirect]
+          error(hash[:error_msg].join("<br/>")) unless hash[:error_msg].empty?
+          redirect_to hash[:redirect]
+          return
+        end
       end
       format.json { render :json => {"errors" => hash[:object].errors} , :status => hash[:json_code]}
     end

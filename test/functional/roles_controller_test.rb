@@ -57,7 +57,6 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' }
   end
 
   def test_get_edit

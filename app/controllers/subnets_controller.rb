@@ -73,7 +73,8 @@ class SubnetsController < ApplicationController
     proxy = SmartProxy.find(params[:smart_proxy_id])
     @subnets = Subnet.import(proxy)
     if @subnets.empty?
-      redirect_to :subnets, :notice => "No new subnets found"
+      flash[:warning] = "No new subnets found"
+      redirect_to :subnets
     end
   end
 

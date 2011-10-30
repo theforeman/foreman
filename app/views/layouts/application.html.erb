@@ -25,8 +25,9 @@
       </div>
 
       <div id="main">
-        <%= content_tag('div', flash[:error],  :class => 'flash error')  if flash[:error] -%>
-        <%= content_tag('div', flash[:notice], :class => 'flash notice') if flash[:notice] -%>
+        <%= content_tag('div', flash[:error],   :class => 'flash error')   if flash[:error] -%>
+        <%= content_tag('div', flash[:warning], :class => 'flash warning') if flash[:warning] -%>
+        <%= content_tag('div', flash[:notice],  :class => 'flash notice')  if flash[:notice] -%>
         <%= render 'common/notice' unless @notices.empty? -%>
         <div id="content" class="container">
           <% unless @page_header.blank? -%>
