@@ -7,7 +7,7 @@
 
     <title> <%= h(yield(:title) || "Foreman") %></title>
     <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style' %>
-    <%= javascript_include_tag :defaults, 'highcharts', 'jquery.jnotify', 'jquery.jeditable', 'bootstrap-dropdown', 'bootstrap-alerts', 'bootstrap-tabs', 'bootstrap-modal', 'bootstrap-twipsy', 'bootstrap-popover' %>
+    <%= javascript_include_tag :defaults, 'highcharts', 'charts', 'jquery.jnotify', 'jquery.jeditable', 'bootstrap-dropdown', 'bootstrap-alerts', 'bootstrap-tabs', 'bootstrap-modal', 'bootstrap-twipsy', 'bootstrap-popover' %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 
     <%= yield(:head) %>

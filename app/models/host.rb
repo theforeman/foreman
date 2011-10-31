@@ -478,8 +478,10 @@ class Host < Puppet::Rails::Host
     output = {}
     Host.count(:include => assocication.pluralize, :group => "#{assocication}_id").to_a.each do |a|
       #Ugly Ugly Ugly - I guess I'm missing something basic here
-      label = eval(assocication.camelize).send("find",a[0].to_i).to_label if a[0]
-      output[label] = a[1]
+      if a[0]
+        label = eval(assocication.camelize).send("find",a[0].to_i).to_label
+        output[label] = a[1]
+      end
     end
     output
   end

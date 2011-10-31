@@ -181,13 +181,11 @@ table.list td {
 .fieldWithErrors select {
   border: solid 1px #f00;
 }
-
-.statistics_pie{
+.statistics_pie.small{
   width: 320px;
   height: 275px;
   padding-bottom: 4px;
 }
-
 .page_title{
   font-size: 20px;
   font-weight: bold;
