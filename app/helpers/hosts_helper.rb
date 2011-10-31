@@ -13,7 +13,7 @@ module HostsHelper
   def last_report_column_html record
     opts = { :rel => "twipsy" }
     if @last_reports[record.id]
-      opts.merge!( "data-original-title" => "View last reprot details")
+      opts.merge!( "data-original-title" => "View last report details")
     else
       opts.merge!(
         "data-original-title" => "Report Already Deleted",
