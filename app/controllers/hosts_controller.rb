@@ -404,6 +404,7 @@ class HostsController < ApplicationController
             page.replace_html(:host_subnet, :partial => 'common/domain', :locals => {:item => @host})
             page['host_subnet_id'].val("0").change
             page['host_subnet_id'].val("#{@subnet.id}").change
+            page.replace_html(:sp_subnet, :partial => 'hosts/sp_subnet', :locals => {:item => @host})
           end
         end
       end

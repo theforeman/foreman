@@ -41,4 +41,96 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     }
   end
 
+  test "new host should create a dhcp reservertion" do
+    h = hosts(:dhcp).clone
+    assert h.new_record?
+    h.name = "dummy-123"
+    h.ip = "2.3.4.101"
+    h.mac = "bb:bb:bb:bb:bb"
+    assert h.valid?
+    assert_equal h.queue.items.select {|x| x.action.last == :set_dhcp }.size, 1
+    assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
+  end
+
+  test "new host should create a BMC dhcp reservertion" do
+    h = hosts(:dhcp).clone
+    assert h.new_record?
+    h.name = "dummy-123"
+    h.ip = "2.3.4.101"
+    h.mac = "bb:bb:bb:bb:bb"
+    h.sp_name = "dummy-bmc"
+    h.sp_ip = "2.3.4.102"
+    h.sp_mac = "aa:bb:cd:cd:ee:ff"
+    h.sp_subnet = h.subnet
+    assert h.valid?
+    assert h.sp_dhcp?
+    assert_equal h.queue.items.select {|x| x.action.last == :set_dhcp }.size, 1
+    assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
+    assert_equal h.queue.items.select {|x| x.action.last == :set_sp_dhcp }.size, 1
+    assert h.queue.items.select {|x| x.action.last == :del_sp_dhcp }.empty?
+  end
+
+  test "existing host should not change any dhcp settings" do
+    h = hosts(:dhcp)
+    assert h.valid?
+    assert_equal h.ip, h.old.ip
+    assert_equal h.mac, h.old.mac
+    assert_equal h.name, h.old.name
+    assert_equal h.subnet, h.old.subnet
+    assert h.queue.items.empty?
+  end
+
+  test "existing host should not change any bmc dhcp settings" do
+    h = hosts(:sp_dhcp)
+    assert h.valid?
+    assert_equal h.sp_ip, h.old.sp_ip
+    assert_equal h.sp_mac, h.old.sp_mac
+    assert_equal h.sp_name, h.old.sp_name
+    assert_equal h.sp_subnet, h.old.sp_subnet
+    assert h.queue.items.empty?
+  end
+
+  test "when an existing host change its ip address, its dhcp record should be updated" do
+    h = hosts(:dhcp)
+    h.ip = "2.3.4.101"
+    assert h.valid?
+    assert_equal h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_dhcp ] }.size, 1
+  end
+
+  test "when an existing host change its bmc ip address, its dhcp record should be updated" do
+    h = hosts(:sp_dhcp)
+    h.sp_ip = "2.3.4.101"
+    assert h.valid?
+    assert_equal h.queue.items.select {|x| x.action == [ h,     :set_sp_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_sp_dhcp ] }.size, 1
+  end
+
+  test "when an existing host change its mac address, its dhcp record should be updated" do
+    h = hosts(:dhcp)
+    h.mac = "aa:aa:aa:bb:bb:dd"
+    assert h.valid?
+    assert_equal h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_dhcp ] }.size, 1
+  end
+
+  test "when an existing host change its bmc mac address, its dhcp record should be updated" do
+    h = hosts(:sp_dhcp)
+    h.sp_mac = "aa:aa:aa:ab:bb:bb"
+    assert h.valid?
+    assert_equal h.queue.items.select {|x| x.action == [ h,     :set_sp_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_sp_dhcp ] }.size, 1
+  end
+
+  test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
+    h = hosts(:sp_dhcp)
+    h.mac = "aa:aa:aa:bb:bb:dd"
+    h.sp_name = "BMC-it"
+    assert h.valid?
+    assert_equal h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h,     :set_sp_dhcp ] }.size, 1
+    assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_sp_dhcp ] }.size, 1
+  end
+
 end

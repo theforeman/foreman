@@ -15,7 +15,7 @@ module Orchestration::DHCP
     end
 
     def sp_dhcp?
-      !sp_subnet.nil? and sp_subnet.dhcp? and errors.empty?
+      sp_valid? and !sp_subnet.nil? and sp_subnet.dhcp? and errors.empty?
     end
 
     def dhcp_record
@@ -84,29 +84,41 @@ module Orchestration::DHCP
     end
 
     def queue_dhcp
-      return unless dhcp? and errors.empty?
+      return unless (dhcp? or (old and old.dhcp?) or sp_dhcp? or (old and old.sp_dhcp?)) and errors.empty?
+      logger.debug "inspecting changes that are required for DHCP infrastructure"
       new_record? ? queue_dhcp_create : queue_dhcp_update
     end
 
     def queue_dhcp_create
+      logger.debug "Adding new DHCP reservations"
       queue.create(:name   => "DHCP Settings for #{self}", :priority => 10,
-                   :action => [self, :set_dhcp])
+                   :action => [self, :set_dhcp]) if dhcp?
       queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 15,
                    :action => [self, :set_sp_dhcp]) if sp_dhcp?
     end
 
     def queue_dhcp_update
-      queue.create(:name => "DHCP Settings for #{old}", :priority => 5,
-                   :action => [old, :del_dhcp]) if old.dhcp? and dhcp_update_required?
-      queue.create(:name   => "DHCP Settings for #{old.sp_name}", :priority => 5,
-                   :action => [old, :del_sp_dhcp]) if old.sp_dhcp? and sp_dhcp_update_required?
-      queue_dhcp_create if dhcp_update_required?
+      if dhcp_update_required?
+        logger.debug ("Detected a changed required for DHCP record")
+        queue.create(:name => "DHCP Settings for #{old}", :priority => 5,
+                     :action => [old, :del_dhcp]) if old.dhcp?
+        queue.create(:name   => "DHCP Settings for #{self}", :priority => 10,
+                     :action => [self, :set_dhcp]) if dhcp?
+      end
+
+      if sp_dhcp_update_required?
+        logger.debug ("Detected a changed required for BMC DHCP record")
+        queue.create(:name   => "DHCP Settings for #{old.sp_name}", :priority => 5,
+                     :action => [old, :del_sp_dhcp]) if old.sp_dhcp?
+        queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 15,
+                     :action => [self, :set_sp_dhcp]) if sp_dhcp?
+      end
     end
 
     # do we need to update our dhcp reservations
     def dhcp_update_required?
       # IP Address / name changed
-      return true if (old.ip != ip) or (old.name != name) or (old.mac != mac)
+      return true if ((old.ip != ip) or (old.name != name) or (old.mac != mac) or (old.subnet != subnet))
       # Handle jumpstart
       if jumpstart?
         if !old.build? or (old.medium != medium or old.arch != arch) or
@@ -118,7 +130,7 @@ module Orchestration::DHCP
     end
 
     def sp_dhcp_update_required?
-      return true if old.sp_valid? and ((old.sp_name != sp_name) or (old.sp_mac != sp_mac) or (old.sp_ip != sp_ip))
+      return true if ((old.sp_name != sp_name) or (old.sp_mac != sp_mac) or (old.sp_ip != sp_ip) or (old.sp_subnet != sp_subnet))
       false
     end
 

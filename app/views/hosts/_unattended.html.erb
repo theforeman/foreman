@@ -11,10 +11,9 @@
   <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" %>
   <%= text_f f, :sp_ip,  :label => "BMC IP" %>
   <%= text_f f, :sp_mac, :label => "BMC MAC" %>
-  <%= select_f f, :sp_subnet_id, domain_subnets, :id, :title,
-    { :include_blank => domain_subnets.any? ? true : "No subnets"},
-    { :disabled => domain_subnets.empty? ? true : false, :label => "BMC Subnet" }
-  %>
+  <span id="sp_subnet">
+    <%= render 'sp_subnet', :item => @host %>
+  </span>
 </div>
 
 <div id="os">

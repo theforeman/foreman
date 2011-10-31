@@ -90,14 +90,14 @@ module Orchestration
           failure e.message
         rescue => e
           task.status = "failed"
-          failure "failed #{e}"
+          failure "#{task.name} task failed with the following error: #{e}"
         end
       end
 
       # if we have no failures - we are done
       return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and errors.empty?
 
-      logger.debug "Rolling back due to a problem: #{q.failed + q.conflict}"
+      logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
       # handle errors
       # we try to undo all completed operations and trigger a DB rollback
       (q.completed + q.running).sort.reverse_each do |task|
