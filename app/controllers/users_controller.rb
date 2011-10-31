@@ -62,7 +62,7 @@ class UsersController < ApplicationController
       # this is required, as the admin field is blacklisted above
       @user.update_attribute(:admin, admin) if User.current.admin
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
-      process_success
+      process_success editing_self ? { :success_redirect => hosts_path } : {}
     else
       process_error
     end
@@ -131,7 +131,7 @@ class UsersController < ApplicationController
 
     self.editing_self = false
     return true if User.current.allowed_to?({:controller => ctrl, :action => action})
-    if (action =~ /edit|update/ and params[:id] == User.current.id.to_s)
+    if (action =~ /edit|update/ and params[:id].to_i == User.current.id)
       return self.editing_self = true
     else
       deny_access and return
