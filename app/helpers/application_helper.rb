@@ -163,23 +163,23 @@ module ApplicationHelper
 
   def pie_chart name, title, data, options = {}
     content_tag(:div, nil,
-                { :id=>name,
-                  :class=>'statistics_pie',
-                  :'chart-name'  => name,
-                  :'chart-title' => title,
-                  :'chart-data'  => data.to_a.to_json
-                }.merge(options)) 
+                { :id             => name,
+                  :class          => 'statistics_pie',
+                  :'chart-name'   => name,
+                  :'chart-title'  => title,
+                  :'chart-data'   => data.to_a.to_json
+                }.merge(options))
   end
 
-  def bar_chart name, title, yTitle, data, options = {}
+  def bar_chart name, title, yTitle, labels, data, options = {}
     content_tag(:div, nil,
-                { :id=>name,
-                  :class=>'statistics_pie',
-                  :'chart-name'      => name,
-                  :'chart-title'     => title,
-                  :'chart-yTitle'    => yTitle,
-                  :'chart-labels'    => data[:labels].to_a.to_json,
-                  :'chart-data'  => data[:counter].to_a.to_json
+                { :id             => name,
+                  :class          => 'statistics_bar',
+                  :'chart-name'   => name,
+                  :'chart-title'  => title,
+                  :'chart-yTitle' => yTitle,
+                  :'chart-labels' => labels.to_a.to_json,
+                  :'chart-data'   => data.to_a.to_json
                 }.merge(options))
   end
 

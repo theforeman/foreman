@@ -27,7 +27,8 @@ module DashboardHelper
     bar_chart "run_distribution",
               "Run Distribution in the last #{Setting[:puppet_interval]} minutes",
               "Number Of Clients",
-              data,
+              data[:labels],
+              data[:counter],
               options
   end
 end
