@@ -19,32 +19,36 @@
 require "optparse"
 
 collections_filterable = [
-  :hosts,
-  :puppetclasses,
-  :fact_values,
-  :environments,
-  :hostgroups,
-]
-
-collections = [
   :architectures,
-  :auth_source_ldaps,
   :common_parameters,
   :config_templates,
   :domains,
+  :environments,
+  :fact_values,
+  :hosts,
+  :hostgroups,
+  :media,
+  :puppetclasses,
+  :reports,
+  :roles,
+  :settings
+]
+
+collections = [
+  :auth_source_ldaps,
+  :dashboard,
   :hypervisors,
   :lookup_keys,
-  :media,
   :operatingsystems,
   :ptables,
-  :reports,
   :smart_proxies,
+  :statistics,
   :subnets,
   :usergroups,
   :users
 ]
 
-collections_not_implemented = [ :dashboard ]
+collections_not_implemented = [ :audits, :bookmarks ]
 
 @foreman_user = ENV['FOREMAN_USER']     if ENV['FOREMAN_USER']
 @foreman_pass = ENV['FOREMAN_PASSWORD'] if ENV['FOREMAN_PASSWORD']
@@ -118,6 +122,18 @@ OptionParser.new do |opts|
     puts "     FOREMAN_PASSWORD                Foreman password"
     puts ""
     puts "     CLI options take precendence over ENVIRONMENT VARIABLES"
+    puts ""
+    puts "     FILTERS:"
+    puts ""
+    puts "     Please see:"
+    puts "     http://theforeman.org/projects/foreman/wiki/Search_API"
+    puts ""
+    puts "     Examples:"
+    puts "     --hosts \"domain = domain.com AND class = squid\""
+    puts "     --hosts \"domain = domain.com AND facts.architecture = x86_64 AND \\"
+    puts "       class = module::class"
+    puts "     --classes \"name = squid\""
+    puts "     --domains \"name = domain.com\""
     puts ""
     exit 1
   end
