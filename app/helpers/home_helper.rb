@@ -5,7 +5,7 @@ module HomeHelper
   end
 
   def class_for_setting_page
-   if setting_options.map{|o| o[0].downcase}.include? controller_name.gsub(/_.*/,"s")
+   if setting_options.map{|o| o[1]}.include? controller_name.to_sym
      "active"
    end
   end
