@@ -1,4 +1,4 @@
-<% title "External variables" %>
+<% title "Smart variables" %>
 
 <table class="list">
   <tr>
@@ -11,7 +11,7 @@
 <% @lookup_keys.each do |lookup_key| %>
   <tr class="<%= cycle("even", "odd") -%>">
     <td><%= link_to_if_authorized h(lookup_key.key), hash_for_edit_lookup_key_path(:id => lookup_key) %></td>
-    <td><%= link_to_if_authorized h(lookup_key.puppetclass), hash_for_edit_puppetclass_path(:id => lookup_key.puppetclass) %></td>
+    <td><%= link_to_if_authorized h(lookup_key.puppetclass), hash_for_edit_puppetclass_path(:id => lookup_key.puppetclass) if lookup_key.puppetclass %></td>
     <td><%=h lookup_key.lookup_values.count %></td>
     <td><%= display_link_if_authorized 'Destroy', hash_for_lookup_key_path(:id => lookup_key, :auth_action => :destroy), :confirm => "Delete #{lookup_key.key}?", :method => :delete %></td>
   </tr>

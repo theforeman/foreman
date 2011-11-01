@@ -18,6 +18,7 @@ module HomeHelper
       ['Global Parameters',      :common_parameters],
       ['Host Groups',            :hostgroups],
       ['Puppet Classes',         :puppetclasses],
+      ['Smart Variables',        :lookup_keys],
       ['Smart Proxies',          :smart_proxies]
     ]
 
