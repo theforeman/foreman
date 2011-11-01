@@ -99,7 +99,7 @@ module Orchestration::DHCP
 
     def queue_dhcp_update
       if dhcp_update_required?
-        logger.debug ("Detected a changed required for DHCP record")
+        logger.debug("Detected a changed required for DHCP record")
         queue.create(:name => "DHCP Settings for #{old}", :priority => 5,
                      :action => [old, :del_dhcp]) if old.dhcp?
         queue.create(:name   => "DHCP Settings for #{self}", :priority => 10,
@@ -107,7 +107,7 @@ module Orchestration::DHCP
       end
 
       if sp_dhcp_update_required?
-        logger.debug ("Detected a changed required for BMC DHCP record")
+        logger.debug("Detected a changed required for BMC DHCP record")
         queue.create(:name   => "DHCP Settings for #{old.sp_name}", :priority => 5,
                      :action => [old, :del_sp_dhcp]) if old.sp_dhcp?
         queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 15,
