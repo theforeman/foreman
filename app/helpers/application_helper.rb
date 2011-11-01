@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "btn small danger", :title => "Remove")
+    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label important", :title => "Remove")
   end
 
   # Creates a link to a javascript function that creates field entries for the association on the web page
@@ -29,7 +29,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), :class => "btn small success")
+    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), :class => "btn small info")
   end
 
   def toggle_div divs
