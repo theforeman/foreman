@@ -198,13 +198,17 @@ function magic_line(id, combo) {
 
     $mainNav.append("<li class='magic-line'></li>");
     var $magicLine = $(id + " .magic-line");
-
-    $magicLine
+    if ( $(".active").size() > 0){
+      $magicLine
         .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
         .css("left", $(".active").position().left)
         .data("origLeft", $magicLine.position().left)
         .data("origWidth", $magicLine.width());
-
+    } else {
+      $magicLine.width(0).css("left", 0)
+          .data("origLeft", $magicLine.position().left)
+          .data("origWidth", $magicLine.width());
+    }
     $(id + " li").hover(function() {
         $el = $(this);
         if ($el.parent().hasClass("dropdown-menu")){
