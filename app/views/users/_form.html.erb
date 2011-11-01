@@ -1,28 +1,43 @@
 <% form_for @user do |f| %>
   <%= base_errors_for @user %>
-  <%= text_f f, :login %>
-  <%= text_f f, :firstname, :label => "First Name" %>
-  <%= text_f f, :lastname, :label => "Last Name" %>
-  <%= text_f f, :mail %>
 
-  <% unless @editing_self -%>
-    <%= select_f f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, :include_blank => true,
-      :label => "Authorized by"
-    %>
-  <% end -%>
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary">Primary</a></li>
+    <% unless @editing_self %>
+      <li><a href="#filters">Filters</a></li>
+    <% end -%>
+  </ul>
 
-  <div id="password" <%= display? !@user.manage_password? %>>
-    <%= password_f f, :password %>
-    <%= password_f f, :password_confirmation, :label => "Verify" %>
+  <div class="tab-content">
+    <div class="active" id="primary">
+
+      <%= text_f f, :login %>
+      <%= text_f f, :firstname, :label => "First Name" %>
+      <%= text_f f, :lastname, :label => "Last Name" %>
+      <%= text_f f, :mail %>
+
+      <% unless @editing_self -%>
+        <%= select_f f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, :include_blank => true,
+          :label => "Authorized by"
+        %>
+      <% end -%>
+
+      <div id="password" <%= display? !@user.manage_password? %>>
+        <%= password_f f, :password %>
+        <%= password_f f, :password_confirmation, :label => "Verify" %>
+      </div>
+      <% unless @editing_self -%>
+        <%= checkbox_f f, :admin, :label => "Administrator" %>
+
+        <%= multiple_checkboxes f, :roles, @user, Role.givable %>
+      </div>
+
+      <div id="filters">
+        <%= render("filters", :f => f) %>
+      </div>
+
+    <% end %>
   </div>
-  <% unless @editing_self -%>
-    <%= checkbox_f f, :admin, :label => "Administrator" %>
-
-    <%= multiple_checkboxes f, :roles, @user, Role.givable %>
-
-    <%= render("filters", :f => f) -%>
-
-  <% end %>
   <%= submit_or_cancel f %>
 <% end -%>
 <%= observe_field(:user_auth_source_id,

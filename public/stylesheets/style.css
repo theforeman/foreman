@@ -291,6 +291,10 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
   float: right;
 }
 
+.user-filter fieldset legend{
+  margin-left:-10px;
+}
+
 /* vertical pills addition to bootstrap */
 .tabs.vertical>li,.pills.vertical>li{float: none;}
 .tabs.vertical{border-right:1px solid #ddd;border-bottom-color:transparent;width:24.5%;margin-top:6px;}.tabs.vertical>li>a{-webkit-border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px;margin-bottom:2px;margin-right:0;}.tabs.vertical>li>a:hover{border-color:#ddd #eee #ddd #ddd;}

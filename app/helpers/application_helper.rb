@@ -24,12 +24,12 @@ module ApplicationHelper
   # +f+          : FormBuiler object
   # +association : The field are created to allow entry into this association
   # +partial+    : String containing an optional partial into which we render
-  def link_to_add_fields(name, f, association, partial = nil)
+  def link_to_add_fields(name, f, association, partial = nil, options = {})
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), :class => "btn small info")
+    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), options.merge({:class => "btn small info"}) )
   end
 
   def toggle_div divs
