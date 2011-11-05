@@ -163,7 +163,7 @@ def get_collection(path, options = {})
   JSON.parse(RestClient::Request.new({:method  => :get,
                                      :url     => "#{@foreman_url}/#{path.to_s.chomp('/')}",
                                      :user    => @foreman_user, :password => @foreman_pass,
-                                     :headers => { :accept => :json, :content_type => :json }}.merge(options)).execute)
+                                     :headers => { :accept => :json, :content_type => :json }}.merge(options)).execute.to_s)
 end
 
 def search_collection(path,search)
