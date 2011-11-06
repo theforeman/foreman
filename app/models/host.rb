@@ -490,11 +490,11 @@ class Host < Puppet::Rails::Host
     data = {}
     data[:applied], data[:failed], data[:restarted], data[:failed_restarts], data[:skipped] = [],[],[],[],[]
     reports.recent(timerange).each do |r|
-      data[:applied]         << "[ #{r.reported_at.to_i}000, #{r.applied} ]"
-      data[:failed]          << "[ #{r.reported_at.to_i}000, #{r.failed} ]"
-      data[:restarted]       << "[ #{r.reported_at.to_i}000, #{r.restarted} ]"
-      data[:failed_restarts] << "[ #{r.reported_at.to_i}000, #{r.failed_restarts} ]"
-      data[:skipped]         << "[ #{r.reported_at.to_i}000, #{r.skipped} ]"
+      data[:applied]         << [r.reported_at.to_i*1000, r.applied ]
+      data[:failed]          << [r.reported_at.to_i*1000, r.failed ]
+      data[:restarted]       << [r.reported_at.to_i*1000, r.restarted ]
+      data[:failed_restarts] << [r.reported_at.to_i*1000, r.failed_restarts ]
+      data[:skipped]         << [r.reported_at.to_i*1000, r.skipped ]
     end
     return data
   end
@@ -503,8 +503,8 @@ class Host < Puppet::Rails::Host
     data = {}
     data[:config], data[:runtime] = [], []
     reports.recent(timerange).each do |r|
-      data[:config]  << "[ #{r.reported_at.to_i}000, #{r.config_retrieval} ]"
-      data[:runtime] << "[ #{r.reported_at.to_i}000, #{r.runtime} ]"
+      data[:config]  << [r.reported_at.to_i*1000, r.config_retrieval]
+      data[:runtime] << [r.reported_at.to_i*1000, r.runtime]
     end
     return data
   end

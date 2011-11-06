@@ -171,13 +171,13 @@ module ApplicationHelper
                 }.merge(options))
   end
 
-  def bar_chart name, title, yTitle, labels, data, options = {}
+  def bar_chart name, title, subtitle, labels, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
                   :class          => 'statistics_bar',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
-                  :'chart-yTitle' => yTitle,
+                  :'chart-subtitle' => subtitle,
                   :'chart-labels' => labels.to_a.to_json,
                   :'chart-data'   => data.to_a.to_json
                 }.merge(options))

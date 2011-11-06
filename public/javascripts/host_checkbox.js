@@ -31,7 +31,7 @@ function rmHostId(id) {
 function readFromCookie() {
   try {
     if (r = $.cookie("_ForemanSelectedHosts")) {
-      return JSON.parse(r);
+      return $.parseJSON(r);
     } else {
       return []
     }

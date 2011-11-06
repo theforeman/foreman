@@ -20,7 +20,7 @@ module HostsHelper
     opts
   end
 
-# method that reformat the hostname column by adding the status icons
+  # method that reformat the hostname column by adding the status icons
   def name_column(record)
     if record.build
       style ="notice"
@@ -69,18 +69,18 @@ module HostsHelper
 
   def multiple_actions_select
     actions = [
-        ['Select Actions', ''],
-        ['Change Group', select_multiple_hostgroup_hosts_path],
-        ['Change Environment', select_multiple_environment_hosts_path],
-        ['Edit Parameters', multiple_parameters_hosts_path],
-        ['Delete Hosts', multiple_destroy_hosts_path],
-        ['Disable Notifications', multiple_disable_hosts_path],
-        ['Enable Notifications', multiple_enable_hosts_path],
+      ['Select Actions', ''],
+      ['Change Group', select_multiple_hostgroup_hosts_path],
+      ['Change Environment', select_multiple_environment_hosts_path],
+      ['Edit Parameters', multiple_parameters_hosts_path],
+      ['Delete Hosts', multiple_destroy_hosts_path],
+      ['Disable Notifications', multiple_disable_hosts_path],
+      ['Enable Notifications', multiple_enable_hosts_path],
     ]
     actions.insert(1, ['Build Hosts', multiple_build_hosts_path]) if SETTINGS[:unattended]
 
     select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple", :"data-controls-modal"=>"confirmation-modal",
-                 :"data-backdrop"=>"static", :class => "medium", :title => "Perform Actions on multiple hosts"
+      :"data-backdrop"=>"static", :class => "medium", :title => "Perform Actions on multiple hosts"
   end
 
   def date ts=nil
@@ -109,195 +109,32 @@ module HostsHelper
                     :with => "'hostgroup_id=' + value")
   end
 
-  def render_report_status_chart name, title, subtitle, data
-  function = <<-EOF
-  $(function() {
-    Highcharts.setOptions({
-      global: {
-        useUTC: false
-      }
-    });
-   chart = new Highcharts.Chart({
-      chart: {
-         renderTo: '#{name}',
-         defaultSeriesType: 'line',
-         zoomType: 'x',
-         margin: [ 50, 50, 90, 50],
-         borderColor: '#909090',
-         borderWidth: 1,
-         backgroundColor: {
-         linearGradient: [0, 0, 0, 300],
-         stops: [
-            [0, '#ffffff'],
-            [1, '#EDEDED']
-         ]}
-      },
-      title: {
-         text: '#{title}',
-         style: {color: '#000000'},
-         x: -20 //center
-      },
-      subtitle: {
-         text: '#{subtitle}',
-         x: -20
-      },
-      credits: {
-      enabled: false,
-      },
-      xAxis: {
-         type: 'datetime',
-         labels: {
-            rotation: -45,
-            align: 'right',
-            style: {
-                font: 'normal 13px Verdana, sans-serif'
-            }
-         }
-      },
-      yAxis: {
-         title: {
-            text: 'Number of Events'
-         },
-         min: 0
-      },
-      tooltip: {
-         formatter: function() {
-                   return '<b>'+ this.series.name + ': ' + this.y + '</b><br/>'+
-              Highcharts.dateFormat('%e. %b %H:%M', this.x)  ;
-         }
-      },
-      legend: {
-         layout: 'horizontal',
-         align: 'bottom',
-         verticalAlign: 'bottom',
-         x: 10,
-         y: -10,
-         borderWidth: 0
-      },
-      colors: [
-       '#AA4643',
-       '#AA4643',
-       '#80699B',
-       '#89A54E',
-       '#4572A7',
-       '#80699B',
-       '#3D96AE',
-       '#DB843D',
-       '#92A8CD',
-       '#A47D7C',
-       '#B5CA92'
-      ],
-      series: [{
-         name: 'Failed',
-         data: [ #{data[:failed].join(' ,')} ]
-      }, {
-         name: 'Failed restarts',
-         data: [#{data[:failed_restarts].join(' ,')}]
-      }, {
-         name: 'Skipped',
-         data: [#{data[:skipped].join(' ,')}]
-      }, {
-         name: 'Applied',
-         data: [#{data[:applied].join(' ,')}]
-      }, {
-         name: 'Restarted',
-         data: [#{data[:restarted].join(' ,')}]
-      }]
-   });
-
-
-  });
-EOF
-    javascript_tag(function)
+  def report_status_chart name, title, subtitle, data, options = {}
+    content_tag(:div, nil,
+                { :id             => name,
+                  :class          => 'span11 host_chart',
+                  :'chart-name'   => name,
+                  :'chart-title'  => title,
+                  :'chart-subtitle'  => subtitle,
+                  :'chart-data-failed'  => data[:failed].to_a.to_json,
+                  :'chart-data-failed_restart'   => data[:failed_restart].to_a.to_json,
+                  :'chart-data-skipped'  => data[:skipped].to_a.to_json,
+                  :'chart-data-applied'  => data[:applied].to_a.to_json,
+                  :'chart-data-restarted'  => data[:restarted].to_a.to_json
+    }.merge(options))
   end
- def render_runtime_chart name, title, subtitle, data
-  function = <<-EOF
-  $(function() {
-   chart = new Highcharts.Chart({
-      chart: {
-         renderTo: '#{name}',
-         defaultSeriesType: 'area',
-         zoomType: 'x',
-         margin: [ 50, 50, 90, 50],
-         borderColor: '#909090',
-         borderWidth: 1,
-         backgroundColor: {
-         linearGradient: [0, 0, 0, 300],
-         stops: [
-            [0, '#ffffff'],
-            [1, '#EDEDED']
-         ]}
-      },
-      title: {
-         text: '#{title}',
-         style: {color: '#000000'},
-         x: -20 //center
-      },
-      subtitle: {
-         text: '#{subtitle}',
-         x: -20
-      },
-      credits: {
-      enabled: false,
-      },
-      xAxis: {
-         type: 'datetime',
-         labels: {
-            rotation: -45,
-            align: 'right',
-            style: {
-                font: 'normal 13px Verdana, sans-serif'
-            }
-         }
-      },
-      yAxis: {
-         title: {
-            text: 'Time in Seconds'
-         },
-         min: 0
-      },
-      tooltip: {
-         formatter: function() {
-                   return '<b>'+ this.series.name + ': ' + this.y + '</b><br/>'+
-              Highcharts.dateFormat('%e. %b %H:%M', this.x)  ;
-         }
-      },
-      legend: {
-         layout: 'horizontal',
-         align: 'bottom',
-         verticalAlign: 'bottom',
-         x: 10,
-         y: -10,
-         borderWidth: 0
-      },
-      plotOptions: {
-         area: {
-            lineWidth: 1,
-            stacking: 'normal',
-            marker: {
-               enabled: false,
-               symbol: 'circle',
-               radius: 2,
-               states: {
-                  hover: {
-                     enabled: true
-                  }
-               }
-            }
-         }
-      },
-      series: [{
-         name: 'Runtime',
-         data: [ #{data[:runtime].join(' ,')} ]
-      }, {
-         name: 'Config Retrieval',
-         data: [#{data[:config].join(' ,')}]
-      }]
-   });
-  });
-EOF
-    javascript_tag(function)
- end
+
+  def runtime_chart name, title, subtitle, data, options = {}
+    content_tag(:div, nil,
+                { :id             => name,
+                  :class          => 'span11 host_chart',
+                  :'chart-name'   => name,
+                  :'chart-title'  => title,
+                  :'chart-subtitle'  => subtitle,
+                  :'chart-data-runtime'  => data[:runtime].to_a.to_json,
+                  :'chart-data-config'   => data[:config].to_a.to_json
+    }.merge(options))
+  end
 
   def reports_show
     return unless @host.reports.size > 0

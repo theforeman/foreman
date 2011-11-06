@@ -1,3 +1,4 @@
+<% javascript 'charts' %>
 <% title @host.to_label, icon(@host.os) + @host.to_label %>
 
 <% title_actions link_to_if_authorized("Edit", hash_for_edit_host_path(:id => @host), :title => "Edit your host"),
@@ -18,12 +19,12 @@
 <% content_for(:search_bar) {reports_show} %>
 
 <div class="row">
-  <div id="runtime_graph" class="span10 host_chart"></div>
-  <div class="span6"><%= render :partial => "hosts/overview", :locals => { :host => @host } %></div>
+  <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
+  <div class="span5"><%= render :partial => "hosts/overview", :locals => { :host => @host } %></div>
 </div>
 <div class="row">
-  <div id="resource_graph" class="span10 host_chart"></div>
-  <div class="span6">
+  <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
+  <div class="span5">
     <% if @report_summary.size == 0 -%>
         <p>No puppet activity for this host in the last <%= @range %> days</p>
     <% else -%>
@@ -31,6 +32,3 @@
     <% end -%>
   </div>
 </div>
-
-<%= render_runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
-<%= render_report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
