@@ -18,7 +18,7 @@
   <div class="tab-content">
 
     <div class="active" id="primary">
-      <%= text_f f, :name, :class => "xlarge" %>
+      <%= text_f f, :name, :class => "xlarge", :value => name_field(@host) %>
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
         { :include_blank => true },
         { :onchange => update_details_from_hostgroup,

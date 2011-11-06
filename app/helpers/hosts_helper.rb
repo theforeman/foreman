@@ -3,40 +3,56 @@ module HostsHelper
   include HostsAndHostgroupsHelper
 
   def last_report_column(record)
-    return nil if record.last_report.nil?
-    time = time_ago_in_words(record.last_report.getlocal)
-    link_to_if_authorized(report_icon(record) + time,
+    time = record.last_report? ? time_ago_in_words(record.last_report.getlocal) +" ago": ""
+    link_to_if_authorized(time,
                           hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
-                          last_report_column_html(record))
+                          last_report_tooltip(record))
   end
 
-  def last_report_column_html record
+  def last_report_tooltip record
     opts = { :rel => "twipsy" }
     if @last_reports[record.id]
       opts.merge!( "data-original-title" => "View last report details")
     else
-      opts.merge!(
-        "data-original-title" => "Report Already Deleted",
-        :disabled => true, :class => "disabled", :onclick => 'return false'
-      )
-      opts
+      opts.merge!(:disabled => true, :class => "disabled", :onclick => 'return false')
+      opts.merge!("data-original-title" => "Report Already Deleted") unless record.last_report.nil?
     end
+    opts
   end
 
 # method that reformat the hostname column by adding the status icons
   def name_column(record)
-    if record.build and not record.installed_at.nil?
-      image ="attention_required.png"
-      title = "Pending Installation"
-    elsif (os = @fact_kernels.select{|h| h.host_id == record.id}.first.value rescue nil).nil?
-      image = "warning.png"
-      title = "No Inventory Data"
+    if record.build
+      style ="notice"
+      label = "Pending Installation"
+      short = "B"
+    elsif record.respond_to?(:enabled) && !record.enabled
+      label = "Alerts disabled"
+      style = ""
+      short = "D"
+    elsif record.respond_to?(:last_report) && record.last_report.nil?
+      label = "No reports"
+      style = ""
+      short = "N"
+    elsif record.error?
+      label = "Error"
+      style = "important"
+      short = "E"
+    elsif record.no_report
+      label = "Out of sync"
+      style = "warning"
+      short = "S"
+    elsif record.changes?
+      label = "Active"
+      style = "notice"
+      short = "A"
     else
-      image = "#{os}.jpg"
-      title = os
+      label = "No changes"
+      style = "success"
+      short = "O"
     end
-    image_tag("hosts/#{image}", :size => "18x18", :title => title) +
-      link_to(record.shortname, host_path(record))
+    content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
+      link_to(" " + record.shortname, host_path(record),{:rel=>"twipsy", :"data-original-title"=>record})
   end
 
   def days_ago time
@@ -53,6 +69,7 @@ module HostsHelper
 
   def multiple_actions_select
     actions = [
+        ['Select Actions', ''],
         ['Change Group', select_multiple_hostgroup_hosts_path],
         ['Change Environment', select_multiple_environment_hosts_path],
         ['Edit Parameters', multiple_parameters_hosts_path],
@@ -60,10 +77,10 @@ module HostsHelper
         ['Disable Notifications', multiple_disable_hosts_path],
         ['Enable Notifications', multiple_enable_hosts_path],
     ]
-    actions << ['Build Hosts', multiple_build_hosts_path] if SETTINGS[:unattended]
+    actions.insert(1, ['Build Hosts', multiple_build_hosts_path]) if SETTINGS[:unattended]
 
-    select_tag "Multiple Actions", options_for_select(actions.sort), :id => "Submit_multiple", :onchange => 'submit_multiple(this.value)',
-      :class => "medium", :title => "Perform Actions on multiple hosts"
+    select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple", :"data-controls-modal"=>"confirmation-modal",
+                 :"data-backdrop"=>"static", :class => "medium", :title => "Perform Actions on multiple hosts"
   end
 
   def date ts=nil
@@ -292,4 +309,9 @@ EOF
       }
     end
   end
+
+  def name_field host
+    (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
+  end
+
 end

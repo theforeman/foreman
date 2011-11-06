@@ -1,19 +1,13 @@
 require 'ostruct'
 module ReportsHelper
 
-  def report_icon(record)
-    if record.error? or record.no_report
-      img = "hosts/warning"
-    elsif record.changes?
-      img = "hosts/attention_required"
-    else
-      img = "true"
-    end
-    image_tag("#{img}.png", :size => "18x18")
+  def reported_at_column(record)
+    link_to(time_ago_in_words(record.reported_at.getlocal) + " ago", report_path(record))
   end
 
-  def reported_at_column(record)
-    report_icon(record) + " " + link_to(time_ago_in_words(record.reported_at.getlocal) + " ago", report_path(record))
+   def report_event_column(event, style = "")
+    style = "" if event == 0
+    content_tag(:span, event, :class=>'label ' + style)
   end
 
   def reports_since builder

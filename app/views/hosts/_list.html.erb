@@ -1,6 +1,6 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
-<table class="list">
+<table class="list zebra-striped">
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
     <th><%= sort :name %></th>
@@ -12,14 +12,14 @@
     <th></th>
   </tr>
   <% hosts.each do |host| -%>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td class="ca">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
-      <td> <%= name_column(host) %> </td>
+      <td class="tbl-column4"> <%= name_column(host) %> </td>
       <td><%= icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
       <td><%= h host.try(:environment) %></td>
-      <td><%= h host.try(:model) %></td>
+      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.try(:model)%>" ><%= h host.try(:model) %></td>
       <td><%= hostgroup_name host.hostgroup %></td>
       <td><%= last_report_column(host) %></td>
       <td>
@@ -30,7 +30,7 @@
     </tr>
   <% end -%>
 </table>
-<div id="confirmation-modal" class="modal hide fade" style="display: none;">
+<div id="confirmation-modal" class="modal hide fade">
   <div class="modal-header">
     <a href="#" class="close">×</a>
     <h3>Please Confirm</h3>
@@ -42,5 +42,5 @@
   </div>
 </div>
 
-<%= page_entries_info hosts %> - <strong><span class="select_count">0</span></strong> Selected
+<%= page_entries_info hosts, :more => " - <strong><span class='select_count'>0</span></strong> Selected" %>
 <%= will_paginate hosts %>
