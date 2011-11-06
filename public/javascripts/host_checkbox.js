@@ -109,12 +109,12 @@ function toggle_multiple_ok_button(elem){
 }
 
 // updates the form URL based on the action selection
-function submit_multiple(path) {
-  if ($.foremanSelectedHosts.length == 0){ return false }
-
-  var what = $('select [value=\"' + path + '\"]').text()
-  var title = what + " - The following hosts are about to be changed";
-  $('#confirmation-modal .modal-header h3').text(title);
+$(function() {
+  $('#Submit_multiple').change(function(){
+      var title =  $('#Submit_multiple option:selected').text() + " - The following hosts are about to be changed";
+      $('#confirmation-modal .modal-header h3').text(title);
+      $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='images/spinner.gif'>");
+  });
 
   $('#confirmation-modal .primary').click(function(){
     $("#confirmation-modal form").submit();
@@ -124,19 +124,16 @@ function submit_multiple(path) {
   $('#confirmation-modal .secondary').click(function(){
     $('#confirmation-modal').modal('hide');
   });
-
-  $("#confirmation-modal").bind('shown', function () {
-    var url = path + "?" + $.param({host_ids: $.foremanSelectedHosts});
+ 
+   $("#confirmation-modal").bind('shown', function () {
+    var url = $('#Submit_multiple').val() + "?" + $.param({host_ids: $.foremanSelectedHosts});
     $("#confirmation-modal .modal-body").load(url + " #content",
         function(response, status, xhr) {
           $("#loading").hide();
-          $("#confirmation-modal .modal-body .btn").hide()
+          $('#Submit_multiple').val('');
         });
   });
-  $('#confirmation-modal .modal-body').empty();
-  $("#confirmation-modal .modal-body").append("<span id='loading'>Loading ...</span>");
-  $('#confirmation-modal').modal("show");
-}
+});
 
 function update_counter(id) {
   if ($.foremanSelectedHosts)
