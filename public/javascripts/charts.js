@@ -3,7 +3,7 @@ $(function(){
     var el = $(element);
     var name = el.attr('chart-name');
     var title = el.attr('chart-title');
-    var data = JSON.parse(el.attr('chart-data'));
+    var data = $.parseJSON(el.attr('chart-data'));
 
     stat_pie(name, title, data);
   });
@@ -13,8 +13,8 @@ $(function(){
     var name = el.attr('chart-name');
     var title = el.attr('chart-title');
     var yTitle = el.attr('chart-yTitle');
-    var labels = JSON.parse(el.attr('chart-labels'));
-    var data = JSON.parse(el.attr('chart-data'));
+    var labels = $.parseJSON(el.attr('chart-labels'));
+    var data = $.parseJSON(el.attr('chart-data'));
 
     stat_bar(name, title, yTitle, labels, data);
   });
