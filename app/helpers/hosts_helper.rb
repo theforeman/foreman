@@ -121,7 +121,7 @@ module HostsHelper
                   :'chart-data-skipped'  => data[:skipped].to_a.to_json,
                   :'chart-data-applied'  => data[:applied].to_a.to_json,
                   :'chart-data-restarted'  => data[:restarted].to_a.to_json
-    }.merge(options))
+                }.merge(options))
   end
 
   def runtime_chart name, title, subtitle, data, options = {}
@@ -133,7 +133,7 @@ module HostsHelper
                   :'chart-subtitle'  => subtitle,
                   :'chart-data-runtime'  => data[:runtime].to_a.to_json,
                   :'chart-data-config'   => data[:config].to_a.to_json
-    }.merge(options))
+                }.merge(options))
   end
 
   def reports_show
