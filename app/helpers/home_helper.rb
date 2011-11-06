@@ -14,7 +14,7 @@ module HomeHelper
     choices = [
       ['Bookmarks',              :bookmarks],
       ['Environments',           :environments],
-      ['Foreman Settings',       :settings],
+      ['Settings',               :settings],
       ['Global Parameters',      :common_parameters],
       ['Host Groups',            :hostgroups],
       ['Puppet Classes',         :puppetclasses],
