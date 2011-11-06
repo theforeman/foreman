@@ -1,6 +1,6 @@
 <% title @report.host %>
 Reported at <%= @report.reported_at.getlocal %>, which is <b><%= time_ago_in_words(@report.reported_at) %> ago</b>
-<% if @offset > 100 -%>
+<% if @offset > 10 -%>
   <div class="alert-message block-message error" data-alert="close">
     <a class="close" href="#">×</a>
     <h3>Host time seems to be a driftd!</h3>
