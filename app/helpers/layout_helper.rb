@@ -21,8 +21,22 @@ module LayoutHelper
   end
 
   def will_paginate(collection = nil, options = {})
+    options.merge!(:class=>"span10 pagination fr")
     options[:renderer] ||= "WillPaginate::ViewHelpers::BootstrapLinkRenderer"
+    options[:inner_window] ||= 3
+    options[:outer_window] ||= 0
     super collection, options
+  end
+
+  def page_entries_info(collection, options = {})
+    html = super(collection, options)
+    html += options[:more] if options[:more]
+    content_tag(
+        :div,content_tag(
+            :ul, content_tag(
+                :li, link_to(html, "#")
+            ), :style=>"float: left;"
+        ), :class => "span6 pagination")
   end
 
   def text_f(f, attr, options = {})
