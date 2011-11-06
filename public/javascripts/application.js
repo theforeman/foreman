@@ -96,7 +96,7 @@ function pie_chart(div, title, data) {
        ]}
     },
     credits: {
-    enabled: false,
+    enabled: false
     },
     title: {
        text: title,
@@ -153,7 +153,7 @@ $(document).ready(function() {
     var settings = {
       type : 'text',
       name : $(this).attr('name'),
-      width: '95%',
+      width: '95%'
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
@@ -173,7 +173,7 @@ $(document).ready(function() {
       type : 'select',
       name : $(this).attr('name'),
       data : $(this).attr('select_values'),
-      submit : 'Save',
+      submit : 'Save'
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
@@ -266,7 +266,7 @@ $(function(){
 $(function () {
   $('a[rel="popover"]').popover({
     html: true,
-    placement: 'above',
+    placement: 'above'
   });
-  $('a[rel="twipsy"]').twipsy();
+  $('[rel="twipsy"]').twipsy();
 });
