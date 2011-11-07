@@ -79,8 +79,8 @@ module HostsHelper
     ]
     actions.insert(1, ['Build Hosts', multiple_build_hosts_path]) if SETTINGS[:unattended]
 
-    select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple", :"data-controls-modal"=>"confirmation-modal",
-      :"data-backdrop"=>"static", :class => "medium", :title => "Perform Actions on multiple hosts"
+    select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple",
+      :class => "medium", :title => "Perform Actions on multiple hosts"
   end
 
   def date ts=nil

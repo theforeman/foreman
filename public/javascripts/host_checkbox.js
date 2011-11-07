@@ -111,9 +111,11 @@ function toggle_multiple_ok_button(elem){
 // updates the form URL based on the action selection
 $(function() {
   $('#Submit_multiple').change(function(){
-      var title =  $('#Submit_multiple option:selected').text() + " - The following hosts are about to be changed";
-      $('#confirmation-modal .modal-header h3').text(title);
-      $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='images/spinner.gif'>");
+    if ($.foremanSelectedHosts.length == 0 || $(this).val()==''){ return false }
+    var title =  $('#Submit_multiple option:selected').text() + " - The following hosts are about to be changed";
+    $('#confirmation-modal .modal-header h3').text(title);
+    $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/images/spinner.gif'>");
+    $('#confirmation-modal').modal({show: "true", backdrop: "static"});
   });
 
   $('#confirmation-modal .primary').click(function(){
