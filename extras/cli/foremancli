@@ -31,21 +31,22 @@ collections_filterable = [
   :puppetclasses,
   :reports,
   :roles,
-  :settings
+  :settings,
+  :lookup_keys,
+  :dashboard,
+  :operatingsystems,
+  :subnets,
+  :ptables,
+  :users
 ]
 
 collections = [
   :auth_source_ldaps,
-  :dashboard,
   :hypervisors,
-  :lookup_keys,
-  :operatingsystems,
-  :ptables,
+  :lookup_values,
   :smart_proxies,
   :statistics,
-  :subnets,
   :usergroups,
-  :users
 ]
 
 collections_not_implemented = [ :audits, :bookmarks ]
