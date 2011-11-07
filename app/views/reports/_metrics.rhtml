@@ -1,16 +1,17 @@
 <% @totaltime = metrics.delete('total') %>
+<% metrics.delete_if{ |k,v| v < 0.001 } %>
 <div class="row">
   <%= pie_chart("metrics" ,"Report Metrics", metrics, :class => "statistics_pie span7")%>
   <%= bar_chart("status" ,"Report Status"," Number of Events", status.keys, status.values, :class => "statistics_bar span5")%>
   <div class="span4">
-    <table>
+    <table class='list' style="height: 398px;">
       <% metrics.sort.each do |title, value|-%>
         <tr>
           <td> <%= h title %> </td>
           <td> <%= metric value %> </td>
         </tr>
-      <% end %>
-      <tr class="label"><td>Total</td><td><%= metric (@totaltime || @report.runtime) %></td></tr>
+        <% end %>
+      <tr><th>Total</th><th><%= metric (@totaltime || @report.runtime) %></th></tr>
     </table>
   </div>
 </div>
