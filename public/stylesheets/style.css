@@ -316,6 +316,7 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 .fixed-width{table-layout:fixed;}
 
 [class*="tbl-column"]{ overflow: hidden; white-space: nowrap;}
+table th.small{width:60px; max-width:60px;}
 .tbl-column1{width:40px; max-width:40px;}
 .tbl-column2{width:100px; max-width:100px;}
 .tbl-column3{width:160px; max-width:160px;}
