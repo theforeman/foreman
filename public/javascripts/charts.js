@@ -170,7 +170,7 @@ function report_status_chart(name, title, subtitle, data_failed, data_failed_res
          renderTo: name,
          defaultSeriesType: 'line',
          zoomType: 'x',
-         margin: [ 50, 50, 90, 50],
+         margin: [ 50, 30, 90, 70],
          borderColor: '#909090',
          borderWidth: 1,
          backgroundColor: {
@@ -261,7 +261,7 @@ function runtime_chart (name, title, subtitle, data_runtime, data_config) {
          renderTo: name,
          defaultSeriesType: 'area',
          zoomType: 'x',
-         margin: [ 50, 50, 90, 50],
+         margin: [ 50, 30, 90, 70],
          borderColor: '#909090',
          borderWidth: 1,
          backgroundColor: {
