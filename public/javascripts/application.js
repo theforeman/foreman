@@ -270,3 +270,27 @@ $(function () {
   });
   $('[rel="twipsy"]').twipsy();
 });
+
+function filter_by_level(level){
+  if(level == 'notice'){
+    $('.notice').closest('tr').show();
+    $('.warning').closest('tr').show();
+    $('.important').closest('tr').show();
+  }
+  if(level == 'warning'){
+    $('.notice').closest('tr').hide();
+    $('.warning').closest('tr').show();
+    $('.important').closest('tr').show();
+  }
+  if(level == 'error'){
+    $('.notice').closest('tr').hide();
+    $('.warning').closest('tr').hide();
+    $('.important').closest('tr').show();
+  }
+  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh').visible()){
+    $('#ntsh').show();
+  }
+  else{
+    $('#ntsh').hide();
+  }
+}
