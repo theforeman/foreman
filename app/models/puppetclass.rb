@@ -38,8 +38,8 @@ class Puppetclass < ActiveRecord::Base
     for path in paths.split(":")
       Dir.glob("#{path}/*/manifests/**/*.pp").each do |manifest|
         File.read(manifest).each_line do |line|
-          klass=line.match(/^class (\S+).*\{/)
-          klasses << klass[1] if klass
+          klass=line.match(/^class\s+([\w:]*)/)
+	  klasses << klass[1] if klass
         end
       end
     end
