@@ -97,6 +97,15 @@ class Host < Puppet::Rails::Host
 
   named_scope :completer_scope, lambda { my_hosts.scope(:find) }
 
+  named_scope :run_distribution, lambda { |fromtime,totime|
+    unless fromtime.nil? or totime.nil?
+      { :joins => "INNER JOIN reports ON reports.host_id = hosts.id",
+        :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
+    else
+      raise "invalid timerange"
+    end
+  }
+
   # audit the changes to this model
   acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
 

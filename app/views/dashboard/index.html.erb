@@ -29,7 +29,7 @@
   </table>
   <div id='dashboard-charts' class='row'>
     <%= render_overview(@report, :class => 'statistics_pie span8') %>
-    <%= render_run_distribution(count_reports, :class => 'statistics_bar span8') %>
+    <%= render_run_distribution(count_reports(@hosts), :class => 'statistics_bar span8') %>
   </div>
 </div>
 

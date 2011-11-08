@@ -1,13 +1,13 @@
 module DashboardHelper
 
-  def count_reports()
+  def count_reports(hosts)
     interval = Setting[:puppet_interval] / 10
     counter = []
     labels = []
     start =Time.now.utc - Setting[:puppet_interval].minutes
     (1..(Setting[:puppet_interval] / interval)).each do
       now = start + interval.minutes
-      counter <<  Report.count(:all, :conditions => {:reported_at => start..(now-1.second)})
+      counter <<  hosts.run_distribution(start, now-1.second).count
       labels  <<  "#{time_ago_in_words(start.getlocal)}"
       start = now
     end
