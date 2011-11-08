@@ -1,4 +1,456 @@
+2011-11-08	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1299 foreman don't remove the () from puppet class names
+
+2011-11-08	Amos Benari <abenari@redhat.com>
+	* fixes #1261 - show templates in host-show page
+	* show hosts chart subtitle has proper space now.
+	* make log-table-filter in the reports-show page, work localy with js instead of submit.
+	* report show metrics ignore metrics that where less then 0.001 sec. also table hight and summary style fixed.
+	* fixed reports index page column-width.
+	* fixed column width in hosts page for IE.
+	* fixed js for multiple-actions confirmation-modal.
+	* un-obtrosive js for the show host charts.
+	* fixed json parse to work on IE
+	* guest and hypervisor show page get the standard style.
+	* show hosts chart subtitle has proper space now.
+
+2011-11-08	Tim Speetjens <tim.speetjens@gmail.com>
+	* Fixes #1298 - Make the run distribution chart appear within the same scope as the rest of the dashboard
+
+2011-11-07	Ohad Levy <ohadlevy@gmail.com>
+	* Bump to 0.4rc5
+	* fixes #1297 - expose all searchable collections in foreman CLI
+
+2011-11-07	Brian Gupta <brian.gupta@brandorr.com>
+	* foremancli - Added a .to_s to a restclient call to support older versions of rest-client
+
+2011-11-07	Amos Benari <abenari@redhat.com>
+	* un-obtrosive js for the show host charts.
+	* fixed json parse to work on IE
+
+2011-11-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1294 - Build should not require TFTP if using gPXE
+	* fixes #1291 - Sub hostgroups not shown when editing multiple hosts
+
+2011-11-06	Amos Benari <abenari@redhat.com>
+	* placed the page entries info on the same line as paginator and give it the same style.
+	* give the add-bookmarks modal a dark background.
+	* show time offset error on 10 minutes instead of 100 minutes.
+	* fixed javascript errors on IE.
+	* fixed multiple action, was missing a place-holder. java-script are now non-obtrusive.
+	* fixes #1196 - show FQDN in the hosts listing to prevent misunderstanding
+	* changed 'settings' to 'more', and 'oreman settings' to 'settings'
+
+2011-11-03	Amos Benari <abenari@redhat.com>
+	* set consistent color array for the dashboard pie.
+
+2011-11-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1286 - moved user permission filters into a tab
+	* removed whitespace warnings
+
+2011-11-01	Amos Benari <abenari@redhat.com>
+	* fixed 'active; settings menu condition. It is now active on lookup_keys controller too.
+	* update the look of host parameters page to look like the smart variables.
+	* fixes #1282 - added smart variables to settings menu.
+	* prevent magic-line code from braking when a page does not belong to a menu item.
+
+2011-10-31	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #11 from traylenator/reprot
+	* fixes #1273 - wrong MAC address regexp, now with the right regexp
+	* fixes #1273 - wrong MAC address regexp
+	* fixes #1257 - various fixes around bcm dhcp record
+	* refs #1257 - added missing model definition
+	* fixes #1274 - a user is not able to edit itself
+
+2011-10-31	Steve Traylen <steve.traylen@cern.ch>
+	* typo reprot -> report
+
+2011-10-31	Amos Benari <abenari@redhat.com>
+	* fixes #1277 - add bar chart to report show page.
+	* fixes #1275 - filter report log by severity level
+	* fixes #1276 - Non intrusive javascript pie and bar
+	* refs #1231 smart variables ui improvemnts
+
+2011-10-31	Brian Gupta <brian.gupta@brandorr.com>
+	* minor updates to foreman CLI
+
+2011-10-31	Tim Speetjens <tim.speetjens@gmail.com>
+	* refs #1151 Fix the scopes so they behave as expected and Adapt dashboard pie data to the corrected scopes
+
+2011-10-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1263 - mac field is not shown when toggling from virtual to bare metal
+	* fixes #1174 - some error messages may show up twice
+	* fixes #1272 - New Hostgroup: Selecting an environment does not update class list
+
+2011-10-30	Brian Gupta <brian.gupta@brandorr.com>
+	* fixes #945 - Added basic Command Line Interface for foreman
+	* Added deprication warning to ssh-using-foreman
+
+2011-10-29	Ohad Levy <ohadlevy@gmail.com>
+	* update puppet modules and scoped_search plugin
+
+2011-10-27	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #10 from joschi/debian_rules_fix
+	* added missing test update, refs #1269
+	* fixes #1269 - do not enforce assoication validations on non managed hosts
+	* fixes #1266 - align host checkboxes with top checkbox
+	* fixes #1267 - missing root password
+	* fixes #1268 - added chart to report metrics.
+	* wip #1231
+
+2011-10-27	Tim Speetjens <tim.speetjens@gmail.com>
+	* fixes #1151 Fix dashboard pie, to contain correct total number of hosts
+
+2011-10-27	Amos Benari <abenari@redhat.com>
+	* fixes #1246 action links in host show page.
+	* fixes #1231 - make first pill active by default vertical pills
+
+2011-10-26	Jochen Schalanda <jochen@schalanda.name>
+	* Removed `chmod` on grid.css in debian/rules file since this file doesn't exist anymore
+
+2011-10-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1262 - Node.rb fails when host has no owner
+
+2011-10-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1257 - allow to manage BMC interfaces via foreman
+	* fixes #1256 - report links from host list might lead to a purged report
+	* wip #1231
+	* refs #1246 - puppet run is now visible, but styling could improve
+	* fixes #1208 - Unauthenticated IP spoofing should not be allowed
+	* fixes #1235 open tabs with errors in forms
+
+2011-10-24	Amos Benari <abenari@redhat.com>
+	* fixes #1236 - multiple actions modal
+	* fixes #1237 - seperate page header from title
+	* fixes #1230: table overlays buttons in host view
+	* bookmarks form query as text area instead of text field
+
+2011-10-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1232 - unable to assign OS default provisioning templates
+
+2011-10-23	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1242 - unable to set boolean values in foreman settings page
+	* update help screen
+	* fixes #1219 - <%= shortname %> and <%= domain %> not available in PXELinux template
+	* fixes #1233 - ldap authentication should not be shown if login is disabled
+	* fixes #1234 - Do not display subnet import if we are not working in unattended mode
+
+2011-10-20	Ohad Levy <ohadlevy@gmail.com>
+	* minor ui updates
+
+2011-10-20	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixed #1241 - Now prompts with default flash file name
+
+2011-10-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1228 - 404 not found generated when there is no help / welcome view
+
+2011-10-18	Tim Speetjens <tim.speetjens@gmail.com>
+	* fixes #1166 - be more liberal in accepted values for to_gb - add better logging message
+
+2011-10-18	Ohad Levy <ohadlevy@gmail.com>
+	* new UI for foreman
+
+2011-10-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixed broken test - refs #1211
+	* fixes #127 - hostgroup clone fails if it has vm attributes
+	* fixes #1216 - puppetdoc errors where not captured correctly
+
+2011-10-05	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1211 - ENC url is name, not id.
+	* fixes #1209 - Show subnet name in the HOST editing screen
+	* fixes #1211 allow both id and name as an id
+	* clean up unused views and tests, refs #1184
+
+2011-10-03	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1184 - added editing of true / false values in settings page
+	* fixes #1207 - debian / ubutnu installation might ask for a keyboard during preseed
+	* fixes #1156 - default kickstart should not do yum upgrade
+	* fixes #1063 - can't deploy default pxe menu
+	* Revert "fixes #1183 - make an ESXi server appear in the UI without errors"
+	* fixes #792 - Dashboard should be default view
+	* fixes #1205 - search for classes and like operator fail
+	* fixes #1199 -  hosts count in puppetclass page always shows 0
+	* fixes #1192 - nested hostgroup should be sorted by name
+	* refs #1201 - adds the ability not to import all subnets
+	* fixes #1203 foreman might report 500 error when hostname is not defined
+	* adds host description as an ENC parameter refs #1179
+
+2011-10-03	Corey Osman <corey@logicminds.biz>
+	* fixes #1123 api for config_templates needs to return additional attributes
+
+2011-10-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1181 - Host searching returns duplicates
+	* fixes #1201 - Import Subnets from DHCP server
+
+2011-09-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1188 - add a sample configuration file
+	* fixes #1187 remove unrequired menus when foreman is not used for provisioning
+	* refs #1186, fixed wrong condition
+	* Merge branch 'sol' into develop
+	* fixes #1186 foreman does not forward sparc dhcp vendor options when creating a sparc Solaris host
+
+2011-09-27	Ohad Levy <ohadlevy@gmail.com>
+	* Feature #1184 - allow to save array based settings
+	* refs #1179 - hostname name in enc should include its parents too
+	* fixes #1179 - exposes foreman attributes in enc this includes:
+
+2011-09-26	David Swift <dswift@pccowboy.com>
+	* fixes #1183 - make an ESXi server appear in the UI without errors
+
+2011-09-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1182 - added inline editing
+
+2011-09-26	Corey Osman <corey@logicminds.biz>
+	* fixes #1160 - provisioning api does not contain all the sub components
+
+2011-09-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes test, refs #1150
+	* fixes #1174 - error messages might show up twice
+	* fixes #1150 - When ticking On-the-fly user creation submit button and fields are hidden
+
+2011-09-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1180 - db migration may fail because of missing logger
+
+2011-09-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1153 - Change line color for skipped resources
+	* fixes #1167 - some setting values are ignored
+
+2011-09-14	Ohad Levy <ohadlevy@gmail.com>
+	* added parenthesis to avoid warnings on older Ruby
+
+2011-09-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1163 - undefined method hypervisor when Edit host
+
+2011-09-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1162 - delete guest when deleting the host in foreman
+	* fixes #1161 - adds graph per facts
+
+2011-09-05	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1088 - Overly aggressive query in facts tab
+	* refactor - various facts cleanups
+
+2011-09-04	Marcello de Sousa <foreman-dev@area151.com>
+	* Fixes #1131 - Minor inconsistency: "Destroy" and "Delete" button have same function and different names
+	* Fixes #1133 - Support configurable exportable "facts" (as tags) and "username" to rundeck
+
+2011-09-04	Frank Sweetser <fs@wpi.edu>
+	* Add Scientific Linux OS icon
+
+2011-09-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1135 - missing "good" systems with skipped resources in dashboard report
+	* fixes #1056 - Rundeck url doesn't work when ldap auth is active
+	* fixes #1084 - OpenSUSE / SLES deployment root password not working
+	* fixes #1146 - Provide error details via the API upon failure
+	* fixes #1134 - Multiple host exporting formatting for rundeck not correct
+	* fixes #1147 - fail to update hosts when running with unattended mode disable
+	* fixes #1148 - CRUD on lookup values via the API
+
+2011-08-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1057 - Allow foreman search to output multiple hosts when outputting to rundeck
+
+2011-08-23	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1125 - tftp proxy might not always be initialized
+	* refs  #1128 - ensure that parameters cache is cleared between tests
+	* fixes #1128 - Ability to match on Parameters in Smart Variables
+	* fixes #1127 - add ip auto discovery when none is defined
+	* fixes #1126 - addes full hostgroup name to hostgroup api
+
+2011-08-20	Ohad Levy <ohadlevy@gmail.com>
+	* Revert "Upgraded Rails version to 2.3.14"
+	* Upgraded Rails version to 2.3.14
+
+2011-08-19	Ohad Levy <ohadlevy@gmail.com>
+	* cleanup typo
+
+2011-08-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1121 - convert dns handling to real network objects
+	* fixes #1122 - extracted common REGEXPs
+	* fixes #1120 - Replaced DHCP functionaitlity by the new net dhcp record classes
+
+2011-08-16	Amos Benari <abenari@redhat.com>
+	* New artwork
+
+2011-08-16	Ohad Levy <ohadlevy@gmail.com>
+	* removed non required plugin, and updated reference puppet modules
+
+2011-08-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1111 - search auto completer should not suggest hosts which are not visible to the current user
+
+2011-08-14	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1086 - Add smart-variables to params output for templating
+	* Fixes #958 - GET throws error on auth_src_ldaps
+
+2011-08-10	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1085, order matters if the host params is a short name instead of fqdn
+	* fixes #1103 - hypervisor connections logs to info level instead of debug
+
+2011-08-09	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1067 Link to Foreman issue tracker opens in a new window
+	* fixes #1085 - add default domain and subnet settings to hostgroups
+	* fixes #1093 - undefined method
+
+2011-08-09	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1095 - Vendor_class error reporting is incorrect
+
+2011-08-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1097 - 500 ERROR could be generated when User.current is not set
+	* fixes #1096 - limit libvirt hypervisor connection time
+	* refs #1067 - Error message should show trace too
+	* fixes #1067 - Expose error messages in the web GUI
+
+2011-08-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1092 - hostgroup should not look for parent hostgroups if they do not exists
+	* fixes #1091 - hosts should not use pre initializer for users
+	* fixes #1082 - Fix inconsistent icons between Hosts summary and Report summary views
+	* fixes #1087 - removes code duplication between Reports and Hosts
+
+2011-08-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #724 - Allow default VM specs to be tied to a hostgroup
+
+2011-08-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1081 - Expose subnets unused IP via the subnets API/json
+
+2011-07-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #762 - Check class assignment consistency
+	* fixes #1077 - Ensure that host OS attributes are related to the OS itself
+	* fixes #1078 - Foreman should accept minimal parameters when creating a new host
+
+2011-07-31	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1071 - ConfigTemplate permission name
+
+2011-07-28	Ohad Levy <ohadlevy@gmail.com>
+	* FEATURE #982 API call to get fact keys
+
+2011-07-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1064 - last login info for a user without admin rights is not updated
+
+2011-07-27	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1070 - image_file name is wrong
+
+2011-07-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1058 Adds support for OpenSuSE provisioning
+
+2011-07-24	Ohad Levy <ohadlevy@gmail.com>
+	* wrong setting category - refs #636
+
+2011-07-24	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #989 - Add Sparc Solaris support
+	* Fixes #636 - Update environment from facts
+	* Fixes #1061 - Deleting used env gives 500 error
+	* Fixes 1052 - Error when selecting medium
+
+2011-07-20	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1039 - ssl_private_key name
+	* Fixes #1038 - DHCP hostname option
+
+2011-07-19	Ohad Levy <ohadlevy@gmail.com>
+	* wrong puppetca condition - refs #1043
+	* refs #898 - more leftovers
+
+2011-07-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #897 - typo
+	* fixes #687 - this dramateclly improves expired reports deletion speed and system usage.
+	* fixes #685 - records per page should be configurable
+	* fixes #898 - remove old search leftovers across the app
+	* fixes #822 - Allow a Customizable "Reply" Address in Email Configuration
+
+2011-07-17	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1050 removing model level authorization from settings table
+	* fixes #1050 - Foreman settings should not be viewed/edited by non admin user
+	* fixes #1018 - adds rundeck information fetching via foreman
+	* fixes #1046 - Error when editing a lookup key
+	* fixes count vs size method on older ruby versions, refs #1045
+	* fixes #1049 - Ensures that all audit db fields are in place prior to first audit
+
+2011-07-17	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #954 - rdoc:generate continues if a single puppetdoc fails
+	* Fixes #1047 - settings controller tests fail to set_session_user
+
+2011-07-14	Mikael Fridh <frimik@gmail.com>
+	* fixes #1045 adds total memory usage chart to statistics page
+
+2011-07-14	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Refs #1041 Add audit_parent to db and ui
+
+2011-07-14	Greg Sutcliffe <gsutcliffe@ibahn.com>
+	* fixes #1042 add a more detailed status message to the summary email
+
+2011-07-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1044 - Adds ERB templates to disk layouts
+	* fixes #1043 adds missing patches commit.
+	* fixes #1043 - make autosign optional
+
+2011-07-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1040 - deleting a hostgroup, may delete a configuration template too
+	* updated foreman puppet module to include the smart variables puppet function
+	* fixes #777 - this enable auditing of when a host is changing its puppet class assignmetns
+
+2011-07-11	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #991 - Missing jumpstart files. Refs #820
+
+2011-07-11	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1001, foreman should not use dhcp next server when tftp is not used
+	* fixes #1031 - Adds a CentOS logo
+
+2011-07-11	Kai Stian Olstad <kai.stian.olstad@gmail.com>
+	* Fixes #1000 Out of sync shows hosts with last report equal puppet_interval
+
+2011-07-07	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1026 - Medium create fails with 'invalid nfs path'
+
+2011-07-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1029 - allows smart variables to be resolved via http get request.
+	* fixes #322 Ability to add custom variables and multiple values resovled in a dynamic Hierarchally order
+
+2011-07-03	Ohad Levy <ohadlevy@gmail.com>
+	* splitted setting default data from the migration this allows to add new data and modify its defaults improved settings UI a bit more refs #100
+	* updated extras to include foreman puppet module recent modifications
+
+2011-07-03	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1020 - edit multiple ok button
+	* Fixes #1017 - edit multiple is grey but still active
+	* Fixes #1013 - Architecture change is ignored on the new hostgroup page
+
+2011-06-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #100 - Setting is now a ActiveRecord object
+
+2011-06-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1010 - import new classes does not show error-message
+	* fixes #1009 - hostgroup should show its parent classes too
+
+2011-06-21	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #999 - Log the operator who performs network database operations
+
+2011-06-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #998 - free text search on hostsgroup page.
+	* fixes #997 - hosts tab is highlighted when in hostgroup pages
+	* fixes #35 - Allow hostgroup nesting for puppet classes and parameters
+
+2011-06-16	Amos Benari <abenari@redhat.com>
+	* fixes #993 postgres search issue
+
+2011-06-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #987 - migration fails when using postgres after #820
+
+2011-06-15	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #820 - Intel Solaris support
+
+2011-06-15	Amos Benari <abenari@redhat.com>
+	* fixes #965 and fixes #964
+
+2011-06-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #984 - Display Error on environments->classes link
+
+2011-06-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #968 - cannot search a puppetclass by name
+	* fixes #976 - hypervisor name can't contain "."
+	* fixes #973 - Error 500 when click "All Puppet Classes"
+
+2011-06-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #967 - bookmark fails if its name includes a "."
+
 2011-06-07	Ohad Levy <ohadlevy@gmail.com>
+	* Version bump to 0.3
 	* minor cleanup - refs #836
 
 2011-06-05	Corey Osman <corey@logicminds.biz>
