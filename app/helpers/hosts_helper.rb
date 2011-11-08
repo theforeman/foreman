@@ -141,7 +141,7 @@ module HostsHelper
     form_tag @host, :id => 'days_filter', :method => :get do
       content_tag(:p, {}) { "Reports from the last " +
         select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-               {:selected => @range}, {:class=>"span2", :onchange =>"$('#days_filter').submit();$(this).disabled();"}) +
+               {:selected => @range}, {:class=>"mini", :onchange =>"$('#days_filter').submit();$(this).disabled();"}) +
                " days - #{@host.reports.recent(@range.days.ago).count} reports found"
       }
     end
@@ -151,4 +151,14 @@ module HostsHelper
     (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
   end
 
+  def show_templates
+    return unless SETTINGS[:unattended]
+    return if (templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact).empty?
+    options = templates.map do |t|
+      next if t.template_kind.name == "PXELinux" # we can't render these for now
+      [t.name, url_for({:controller => 'unattended', :action => t.template_kind.name, :spoof => @host.ip})]
+    end.compact
+    select(nil, 'templates',options,{:include_blank => true},
+           {:onchange =>"if ($('#_templates').val() == '') {return false;}; window.open($('#_templates').val(), $('#_templates option:selected').text(),[width='300',height='400',scrollbars='yes']);"})
+  end
 end
