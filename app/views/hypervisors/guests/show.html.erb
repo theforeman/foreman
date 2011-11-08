@@ -1,52 +1,55 @@
 <% title @guest %>
-<div>
 
-  <div>
-    <strong class="span-3">Machine Type</strong>
-    <%= @guest.type %> / <%= @guest.machine %> / <%= @guest.arch %>
-  </div>
+<div class='row'>
+  <div class='span16'>
+    <table class="list zebra-striped">
+      <tr><th colspan="2">Properties</th></tr>
+      <tr>
+        <td>Machine Type</td>
+        <td><%= @guest.type %> / <%= @guest.machine %> / <%= @guest.arch %></td>
+      </tr>
 
-  <div>
-    <strong class="span-3">VCPU(s)</strong>
-    <%= @guest.vcpu %>
-  </div>
+      <tr>
+        <td>VCPU(s)</td>
+        <td><%= @guest.vcpu %></td>
+      </tr>
 
-  <div>
-    <strong class="span-3">UUID</strong>
-    <%= @guest.uuid %>
-  </div>
-  <div>
-    <strong class="span-3">Memory</strong>
-    <%= number_to_human_size @guest.memory*1024 %> <%= "(Allocated: #{number_to_human_size @guest.current_memory.to_i*1024})" if @guest.current_memory %>
-  </div>
-  <% if @guest.interface -%>
+      <tr>
+        <td>UUID</td>
+        <td><%= @guest.uuid %></td>
+      </tr>
+      <tr>
+        <td>Memory</td>
+        <td><%= number_to_human_size @guest.memory*1024 %> <%= "(Allocated: #{number_to_human_size @guest.current_memory.to_i*1024})" if @guest.current_memory %></td>
+      </tr>
+
+      <% if @guest.interface -%>
+          <tr>
+            <td>Network</td>
+            <td><%= @guest.interface.device || @guest.interface.network %></td>
+          </tr>
+          <tr>
+            <td>NIC</td>
+            <td><%= "#{@guest.interface.mac} (#{@guest.interface.model})" %></td>
+          </tr>
+      <% end -%>
+      <tr>
+        <td>Disk</td>
+        <td><%= "#{@guest.volume.size}GB (#{@guest.volume.pool} storage pool)" %></td>
+      </tr>
+
       <div>
-        <strong class="span-3">Network</strong>
-        <%= @guest.interface.device || @guest.interface.network %>
+        <td>Boot Device</td>
+        <td><%= @guest.boot_device %></td>
       </div>
-      <div>
-        <strong class="span-3">NIC</strong>
-        <%= "#{@guest.interface.mac} (#{@guest.interface.model})" %>
-      </div>
-  <% end -%>
-  <div>
-    <strong class="span-3">Disk</strong>
-    <%= "#{@guest.volume.size}GB (#{@guest.volume.pool} storage pool)" %>
-  </div>
 
-  <div>
-    <strong class="span-3">Boot Device</strong>
-    <%= @guest.boot_device %>
+      <tr>
+        <td>Running on</td>
+        <td><%= link_to @hypervisor, hypervisor_path(@hypervisor) %></td>
+      </tr>
+    </table>
   </div>
-
-  <div>
-    <strong class="span-3">Running on</strong>
-    <%= link_to @hypervisor, hypervisor_path(@hypervisor) %>
-  </div>
-
 </div>
-<div class="title_action">
-  <%= display_link_if_authorized "Power#{state(@guest.running?)}", hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest), :confirm => 'Are you sure?', :method => :put %>
-  <%= display_link_if_authorized "Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete %>
-  <%= display_link_if_authorized "Other Guests on this hypervisor", hash_for_hypervisor_guests_path(:hypervisor_id => @hypervisor) %>
-</div>
+<% title_actions display_link_if_authorized("Power#{state(@guest.running?)}", hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@guest.running? ? "danger" : "success")),
+                 display_link_if_authorized("Destroy", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => @guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class=>'btn danger'),
+                 display_link_if_authorized("Other Guests on this hypervisor", hash_for_hypervisor_guests_path(:hypervisor_id => @hypervisor), :class=>'btn') %>

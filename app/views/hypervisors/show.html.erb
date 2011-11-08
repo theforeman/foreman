@@ -1,16 +1,22 @@
 <% title "Hypervisor #{@hypervisor} details" %>
+
 <% fields = %w{cores cpus memory mhz model nodes sockets threads} -%>
-
-<% fields.each do |key| -%>
-    <div class="row">
-      <strong class="span4"> <%= key.titleize %></strong>
-      <%= @host.connection.node_get_info.send(key.to_sym) %>
-    </div>
-<% end -%>
-
-<div class="row">
-  <strong class="span4"> Available memory</strong>
-  <%= number_to_human_size @host.connection.node_free_memory rescue "N/A" %>
+<div class='row'>
+  <div class='span16'>
+<table class="list zebra-striped">
+  <tr><th colspan="2">Properties</th></tr>
+  <% fields.each do |key| -%>
+    <tr>
+      <td> <%= key.titleize %></td>
+      <td> <%= @host.connection.node_get_info.send(key.to_sym) rescue "N/A"%></td>
+    </tr>
+  <% end -%>
+  <tr>
+    <td> Available memory</td>
+    <td> <%= number_to_human_size @host.connection.node_free_memory rescue "N/A" %> </td>
+  </tr>
+</table>
+  </div>
 </div>
 <br>
 
