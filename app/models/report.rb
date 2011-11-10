@@ -281,6 +281,12 @@ class Report < ActiveRecord::Base
       else
         { :type => "total", :name => :changes}
       end
+    when "failed_restarts"
+      if @pre26
+        { :type => "resources", :name => metric}
+      else
+        { :type => "resources", :name => "failed_to_restart"}
+      end
     else
       { :type => "resources", :name => metric}
     end
