@@ -120,13 +120,21 @@ function stat_pie(name, title, data, border, expandable, show_title) {
       },
       plotOptions: {
          pie: {
-            allowPointSelect: true,
+            allowPointSelect: false,
             cursor: 'pointer',
             dataLabels: {
                enabled: true,
                formatter: function() {
                   return  this.point.name + ': '+ Math.round(this.y*100)/100;
                }
+            },
+            events: {
+                click: function(event) {
+                  var link = $($('#links-tbl tr td a')[event.point.x]).attr('href');
+                  if (link != undefined) {
+                    window.location.href = link;
+                  }
+                }
             }
          }
       },
