@@ -68,65 +68,6 @@ function template_info(div, url) {
         }
       });
 }
-
-
-function get_pie_chart(div, url) {
-  if($("#"+div).length == 0)
-  {
-    $('body').append('<div id="' + div + '" class="modal fade"></div>');
-    $("#"+div).append('<div class="modal-header"><a href="#" class="close">×</a><h3>Fact Chart</h3></div>')
-              .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
-    $("#"+div).modal('show');
-    $.getJSON(url, function(data) {
-      pie_chart(div+'-body', data.name, data.values);
-    });
-  } else {$("#"+div).modal('show');}
-}
-
-function pie_chart(div, title, data) {
-  new Highcharts.Chart({
-    chart: {
-      renderTo: div,
-      borderWidth: 0,
-      backgroundColor: {
-       linearGradient: [0, 0, 0, 200],
-       stops: [
-          [0, '#ffffff'],
-          [1, '#EDEDED']
-       ]}
-    },
-    credits: {
-    enabled: false
-    },
-    title: {
-       text: title,
-       style: {color: "#000000"}
-    },
-    tooltip: {
-       formatter: function() {
-          return '<b>'+ this.point.name +'</b>: '+ this.y;
-       }
-    },
-    plotOptions: {
-       pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-             enabled: true,
-             formatter: function() {
-                return '<b>'+ this.point.name +'</b>: '+ this.y;
-             }
-          }
-       }
-    },
-     series: [{
-       type: 'pie',
-       name: '',
-       data: data
-    }]
-  });
-};
-
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
@@ -177,8 +118,6 @@ $(document).ready(function() {
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
-
-
 });
 
 // adds buttons classes to all links

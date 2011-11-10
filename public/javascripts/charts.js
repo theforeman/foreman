@@ -3,9 +3,12 @@ $(function(){
     var el = $(element);
     var name = el.attr('chart-name');
     var title = el.attr('chart-title');
+    var border = $.parseJSON(el.attr('border'));
+    var expandable = el.attr('expandable');
+    var show_title = $.parseJSON(el.attr('show_title'));
     var data = $.parseJSON(el.attr('chart-data'));
 
-    stat_pie(name, title, data);
+    stat_pie(name, title, data, border, expandable, show_title);
   });
 
   $(".statistics_bar").each(function(index, element){
@@ -46,12 +49,56 @@ $(function(){
 
 });
 
-function stat_pie(name, title, data) {
-    new Highcharts.Chart({
+function expand_chart(ref){
+  var chart = $(ref)
+  if (!chart.hasClass('statistics_pie')){
+    chart = $(ref).children().children('.statistics_pie');
+  }
+  var modal_id = chart.attr('id')+'_modal';
+  var title = chart.attr('chart-title');
+  var data = $.parseJSON(chart.attr('chart-data'));
+   if($("#"+modal_id).length == 0)
+  {
+    $('body').append('<div id="' + modal_id + '" class="modal fade"></div>');
+    $("#"+modal_id).append('<div class="modal-header"><a href="#" class="close">×</a><h3> ' +title+ ' </h3></div>')
+              .append('<div id="' + modal_id + '-body" class="fact_chart modal-body">Loading ...</div>');
+    $("#"+modal_id).modal('show');
+    stat_pie(modal_id+'-body', title, data, 0, false, false)
+  } else {$("#"+modal_id).modal('show');}
+}
+
+function get_pie_chart(div, url) {
+  if($("#"+div).length == 0)
+  {
+    $('body').append('<div id="' + div + '" class="modal fade"></div>');
+    $("#"+div).append('<div class="modal-header"><a href="#" class="close">×</a><h3>Fact Chart</h3></div>')
+              .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
+    $("#"+div).modal('show');
+    $.getJSON(url, function(data) {
+      stat_pie(div+'-body', data.name, data.values,0);
+    });
+  } else {$("#"+div).modal('show');}
+}
+
+function stat_pie(name, title, data, border, expandable, show_title) {
+  if (border == undefined) { border = 1;}
+  if (show_title == undefined) { show_title = true;}
+  if (expandable == undefined) { expandable = false;}
+  var top_spacing = 10;
+  if (show_title == false){title=''; top_spacing = 5;}
+  new Highcharts.Chart({
       chart: {
         renderTo: name,
         borderColor: '#909090',
-        borderWidth: 1,
+        borderWidth: border,
+        spacingTop: top_spacing,
+        spacingBottom: 10,
+        spacingLeft: 0,
+        spacingRight: 0,
+        events: {
+          click: function(e) {if(expandable){expand_chart(this.container.parentElement);}},
+          selection: function(e) {alert('kuku');}
+        },
         backgroundColor: {
          linearGradient: [0, 0, 0, 200],
          stops: [

@@ -162,6 +162,7 @@ module ApplicationHelper
   end
 
   def pie_chart name, title, data, options = {}
+    content_tag(:h4,title,:class=>'ca') +
     content_tag(:div, nil,
                 { :id             => name,
                   :class          => 'statistics_pie',
