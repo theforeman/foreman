@@ -16,7 +16,7 @@ class Host < Puppet::Rails::Host
 
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
-      :params, :hostgroup, :domain, :ip, :mac, :shortname
+      :params, :hostgroup, :domain, :ip, :mac, :shortname, :architecture
   end
 
   attr_reader :cached_host_params, :cached_lookup_keys_params
