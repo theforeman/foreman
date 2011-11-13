@@ -52,7 +52,7 @@ module HostsHelper
       short = "O"
     end
     content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
-      link_to(" " + record.shortname, host_path(record),{:rel=>"twipsy", :"data-original-title"=>record})
+      link_to("  #{record}", host_path(record),{:rel=>"twipsy", :"data-original-title"=>record})
   end
 
   def days_ago time
