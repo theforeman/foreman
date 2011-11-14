@@ -34,14 +34,14 @@ module HostsHelper
       label = "No reports"
       style = ""
       short = "N"
-    elsif record.error?
-      label = "Error"
-      style = "important"
-      short = "E"
     elsif record.no_report
       label = "Out of sync"
       style = "warning"
       short = "S"
+    elsif record.error?
+      label = "Error"
+      style = "important"
+      short = "E"
     elsif record.changes?
       label = "Active"
       style = "notice"
