@@ -25,7 +25,7 @@
 <div class="row">
   <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
   <div class="span5">
-    <% if SETTINGS[:unattended] -%>
+    <% if SETTINGS[:unattended] and @host.managed? -%>
       <table class="list">
         <tr><th>Templates</th></tr>
         <tr><td><%= show_templates -%></td></tr>
