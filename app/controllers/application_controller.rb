@@ -58,10 +58,20 @@ class ApplicationController < ActionController::Base
         if api_request?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
           user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          User.current = user.is_a?(User) ? user : nil
-          logger.warn("Failed authentication from #{request.remote_ip} #{user}") if User.current.nil?
+          logger.warn("Failed API authentication request from #{request.remote_ip}") unless user
+        # if login delegation authorized and REMOTE_USER not empty, authenticate user without using password
+        elsif (uid=request.env["REMOTE_USER"]).present? and Setting["authorize_login_delegation"]
+          user = User.find_by_login(uid)
+          logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        end
+
+        if user.is_a?(User)
+          logger.info("Authorized user #{user.login}(#{user.to_label})")
+          User.current = user
+          session[:user] = User.current.id unless api_request?
           return !User.current.nil?
         end
+
         session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
         redirect_to login_users_path and return
       else
