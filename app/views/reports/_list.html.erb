@@ -9,6 +9,7 @@
     <th class="small"><%= sort :failed %></th>
     <th class="small"><%= sort :failed_restarts, :as => "Restart<br>Failures" %></th>
     <th class="small"><%= sort :skipped %></th>
+    <th class="small"><%= sort :pending %></th>
     <th class="small"></th>
   </tr>
   <% for report in @reports %>
@@ -22,6 +23,7 @@
       <td><%= report_event_column(report.failed, "important") %></td>
       <td><%= report_event_column(report.failed_restarts, "warning") %></td>
       <td><%= report_event_column(report.skipped, "notice") %></td>
+      <td><%= report_event_column(report.pending, "notice") %></td>
       <td align="right">
         <%= display_link_if_authorized "Destroy", hash_for_report_path(:id => report.id, :auth_action => :destroy), :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
       </td>

@@ -427,6 +427,12 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get pending" do
+    get :pending, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+  end
+
   test "should get disabled hosts" do
     get :disabled, {}, set_session_user
     assert_response :success

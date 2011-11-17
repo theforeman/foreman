@@ -349,6 +349,11 @@ class HostsController < ApplicationController
     index "Active Hosts"
   end
 
+  def pending
+    params[:search]="last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.pending > 0)"
+    index "Pending Hosts"
+  end
+
   def out_of_sync
     params[:search]="last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true"
     index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval] + 5} minutes"

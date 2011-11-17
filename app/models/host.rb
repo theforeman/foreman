@@ -63,7 +63,15 @@ class Host < Puppet::Rails::Host
      ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)"
   }
 
-  named_scope :successful, lambda { without_changes.without_error.scope(:find)}
+  named_scope :with_pending_changes, { :conditions => "(puppet_status > 0) and
+    ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)"
+  }
+
+  named_scope :without_pending_changes, { :conditions =>
+    "((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)"
+  }
+
+  named_scope :successful, lambda { without_changes.without_error.without_pending_changes.scope(:find)}
 
   named_scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
 
