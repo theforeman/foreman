@@ -1,0 +1,627 @@
+--- !ruby/object:Puppet::Transaction::Report
+  configuration_version: 1321590922
+  host: puppetmaster1.vm
+  kind: apply
+  logs: 
+    - !ruby/object:Puppet::Util::Log
+      level: !ruby/sym info
+      message: Caching catalog for puppetmaster1.vm
+      source: Puppet
+      tags: 
+        - info
+      time: 2011-11-18 04:35:22.791391 +00:00
+    - !ruby/object:Puppet::Util::Log
+      level: !ruby/sym info
+      message: Applying configuration version '1321590922'
+      source: Puppet
+      tags: 
+        - info
+      time: 2011-11-18 04:35:22.879717 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 14
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file8]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.889956 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 8
+      message: "current_value {md5}980fe9e4399ee8b8f553c2d3dceb0cda, should be {md5}383de0ff6f5a31731dbd27a7278bbccf (noop)"
+      source: "/Stage[main]//File[/tmp/file2]/content"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.923368 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 11
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file5]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.924941 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 13
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file7]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.926587 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 12
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file6]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.927997 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 16
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file10]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.929859 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 9
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file3]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.933014 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 10
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file4]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.935271 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 15
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file9]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.936869 +00:00
+    - !ruby/object:Puppet::Util::Log
+      file: /etc/puppet/manifests/site.pp
+      level: !ruby/sym notice
+      line: 7
+      message: "current_value absent, should be file (noop)"
+      source: "/Stage[main]//File[/tmp/file1]/ensure"
+      tags: 
+        - notice
+        - file
+        - class
+      time: 2011-11-18 04:35:22.939037 +00:00
+    - !ruby/object:Puppet::Util::Log
+      level: !ruby/sym notice
+      message: Finished catalog run in 0.07 seconds
+      source: Puppet
+      tags: 
+        - notice
+      time: 2011-11-18 04:35:22.943074 +00:00
+  metrics: 
+    time: !ruby/object:Puppet::Util::Metric
+      label: Time
+      name: time
+      values: 
+        - 
+          - config_retrieval
+          - Config retrieval
+          - 0.845368146896362
+        - 
+          - service
+          - Service
+          - 0.007622
+        - 
+          - schedule
+          - Schedule
+          - 0.001103
+        - 
+          - total
+          - Total
+          - 0.897144146896362
+        - 
+          - file
+          - File
+          - 0.042869
+        - 
+          - filebucket
+          - Filebucket
+          - 0.000182
+    resources: !ruby/object:Puppet::Util::Metric
+      label: Resources
+      name: resources
+      values: 
+        - 
+          - total
+          - Total
+          - 18
+        - 
+          - out_of_sync
+          - Out of sync
+          - 10
+    events: !ruby/object:Puppet::Util::Metric
+      label: Events
+      name: events
+      values: 
+        - 
+          - noop
+          - Noop
+          - 10
+        - 
+          - total
+          - Total
+          - 10
+    changes: !ruby/object:Puppet::Util::Metric
+      label: Changes
+      name: changes
+      values: 
+        - 
+          - total
+          - Total
+          - 0
+  puppet_version: 2.6.12
+  report_format: 2
+  resource_statuses: 
+    "Schedule[monthly]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000211
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Schedule[monthly]"
+      resource_type: Schedule
+      skipped: false
+      tags: 
+        - schedule
+        - monthly
+      time: 2011-11-18 04:35:22.931521 +00:00
+      title: monthly
+    "Filebucket[puppet]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000182
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Filebucket[puppet]"
+      resource_type: Filebucket
+      skipped: false
+      tags: 
+        - filebucket
+        - puppet
+      time: 2011-11-18 04:35:22.937584 +00:00
+      title: puppet
+    "Schedule[never]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000173
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Schedule[never]"
+      resource_type: Schedule
+      skipped: false
+      tags: 
+        - schedule
+        - never
+      time: 2011-11-18 04:35:22.930444 +00:00
+      title: never
+    "File[/tmp/file9]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.001004
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.936798 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 15
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file9]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.936280 +00:00
+      title: /tmp/file9
+    "Schedule[weekly]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000236
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Schedule[weekly]"
+      resource_type: Schedule
+      skipped: false
+      tags: 
+        - schedule
+        - weekly
+      time: 2011-11-18 04:35:22.880603 +00:00
+      title: weekly
+    "File[/tmp/file8]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.001106
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.889839 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 14
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file8]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.889206 +00:00
+      title: /tmp/file8
+    "File[/tmp/file7]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.001081
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.926516 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 13
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file7]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.926023 +00:00
+      title: /tmp/file7
+    "File[/tmp/file6]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000811
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.927928 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 12
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file6]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.927444 +00:00
+      title: /tmp/file6
+    "File[/tmp/file5]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.001284
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.924873 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 11
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file5]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.924291 +00:00
+      title: /tmp/file5
+    "Service[crond]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.007622
+      events: []
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 18
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Service[crond]"
+      resource_type: Service
+      skipped: false
+      tags: 
+        - service
+        - crond
+        - class
+      time: 2011-11-18 04:35:22.881104 +00:00
+      title: crond
+    "File[/tmp/file4]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.00112
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.935187 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 10
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file4]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.934516 +00:00
+      title: /tmp/file4
+    "File[/tmp/file3]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.001422
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.932902 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 9
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file3]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.932045 +00:00
+      title: /tmp/file3
+    "Schedule[puppet]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000151
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Schedule[puppet]"
+      resource_type: Schedule
+      skipped: false
+      tags: 
+        - schedule
+        - puppet
+      time: 2011-11-18 04:35:22.938011 +00:00
+      title: puppet
+    "File[/tmp/file2]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.033203
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: "{md5}383de0ff6f5a31731dbd27a7278bbccf"
+          historical_value: 
+          message: "current_value {md5}980fe9e4399ee8b8f553c2d3dceb0cda, should be {md5}383de0ff6f5a31731dbd27a7278bbccf (noop)"
+          name: !ruby/sym content_changed
+          previous_value: "{md5}980fe9e4399ee8b8f553c2d3dceb0cda"
+          property: content
+          status: noop
+          time: 2011-11-18 04:35:22.923221 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 8
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file2]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.890638 +00:00
+      title: /tmp/file2
+    "Schedule[hourly]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000176
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Schedule[hourly]"
+      resource_type: Schedule
+      skipped: false
+      tags: 
+        - schedule
+        - hourly
+      time: 2011-11-18 04:35:22.928808 +00:00
+      title: hourly
+    "File[/tmp/file10]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000869
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.929791 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 16
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file10]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.929280 +00:00
+      title: /tmp/file10
+    "Schedule[daily]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000156
+      events: []
+      failed: false
+      file: 
+      line: 
+      out_of_sync: false
+      out_of_sync_count: 0
+      resource: "Schedule[daily]"
+      resource_type: Schedule
+      skipped: false
+      tags: 
+        - schedule
+        - daily
+      time: 2011-11-18 04:35:22.930849 +00:00
+      title: daily
+    "File[/tmp/file1]": !ruby/object:Puppet::Resource::Status
+      change_count: 0
+      changed: false
+      evaluation_time: 0.000969
+      events: 
+        - !ruby/object:Puppet::Transaction::Event
+          audited: false
+          desired_value: !ruby/sym file
+          historical_value: 
+          message: "current_value absent, should be file (noop)"
+          name: !ruby/sym file_created
+          previous_value: !ruby/sym absent
+          property: ensure
+          status: noop
+          time: 2011-11-18 04:35:22.938972 +00:00
+      failed: false
+      file: /etc/puppet/manifests/site.pp
+      line: 7
+      out_of_sync: true
+      out_of_sync_count: 1
+      resource: "File[/tmp/file1]"
+      resource_type: File
+      skipped: false
+      tags: 
+        - file
+        - class
+      time: 2011-11-18 04:35:22.938529 +00:00
+      title: /tmp/file1
+  status: unchanged
+  time: 2011-11-18 04:35:21.413028 +00:00

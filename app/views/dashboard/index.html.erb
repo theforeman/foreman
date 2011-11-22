@@ -11,22 +11,26 @@
       <td><%= @report[:active_hosts] %> </td>
     </tr>
     <tr class="even">
+      <td><%= link_to 'Hosts that had pending changes', 'hosts?search=status.pending+>+0' %></td>
+      <td><%= @report[:pending_hosts] %> </td>
+    </tr>
+    <tr class="odd">
       <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
       <td><%= @report[:bad_hosts] %> </td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
       <td><%=link_to "Good Host Reports in the last #{Setting[:puppet_interval]}  minutes", "hosts?search=last_report+>+'#{Setting[:puppet_interval]} minutes ago'+and+status.enabled+%3D+true+and+status.interesting++%3D+false"%></td>
       <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
       <td><%= link_to 'Out Of Sync Hosts', out_of_sync_hosts_path %></td>
       <td><%= @report[:out_of_sync_hosts] %> </td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
       <td><%= link_to 'Hosts With No Reports', 'hosts?search=not+has+last_report' %></td>
       <td><%= @report[:reports_missing] %> </td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
       <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>
       <td><%= @report[:disabled_hosts] %> </td>
     </tr>

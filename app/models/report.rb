@@ -20,6 +20,7 @@ class Report < ActiveRecord::Base
   scoped_search :on => :status, :offset => METRIC.index("failed"),          :word_size => BIT_NUM, :rename => :failed
   scoped_search :on => :status, :offset => METRIC.index("failed_restarts"), :word_size => BIT_NUM, :rename => :failed_restarts
   scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
+  scoped_search :on => :status, :offset => METRIC.index("pending"),         :word_size => BIT_NUM, :rename => :pending
 
   # returns recent reports
   named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
@@ -287,6 +288,8 @@ class Report < ActiveRecord::Base
       else
         { :type => "resources", :name => "failed_to_restart"}
       end
+    when "pending"
+      { :type => "events", :name => "noop" }
     else
       { :type => "resources", :name => metric}
     end
