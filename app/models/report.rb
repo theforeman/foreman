@@ -13,7 +13,7 @@ class Report < ActiveRecord::Base
   scoped_search :in => :sources,  :on => :value,                         :rename => :resource
 
   scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported
-  scoped_search :on => :status,      :complete_value => {:true => true, :false => false}, :rename => :eventful
+  scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
 
   scoped_search :on => :status, :offset => METRIC.index("applied"),         :word_size => BIT_NUM, :rename => :applied
   scoped_search :on => :status, :offset => METRIC.index("restarted"),       :word_size => BIT_NUM, :rename => :restarted
