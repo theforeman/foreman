@@ -61,7 +61,7 @@ function expand_chart(ref){
   {
     $('body').append('<div id="' + modal_id + '" class="modal fade"></div>');
     $("#"+modal_id).append('<div class="modal-header"><a href="#" class="close">×</a><h3> ' +title+ ' </h3></div>')
-              .append('<div id="' + modal_id + '-body" class="fact_chart modal-body">Loading ...</div>');
+              .append('<div chart-href='+chart.attr("chart-href")+' id="' + modal_id + '-body" class="fact_chart modal-body">Loading ...</div>');
     $("#"+modal_id).modal('show');
     stat_pie(modal_id+'-body', title, data, 0, false, false)
   } else {$("#"+modal_id).modal('show');}
@@ -75,6 +75,8 @@ function get_pie_chart(div, url) {
               .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
     $("#"+div).modal('show');
     $.getJSON(url, function(data) {
+      var ref = "/hosts?search=facts."+data.name+"~~VAL1~"
+      $("#"+div+"-body").attr('chart-href', ref);
       stat_pie(div+'-body', data.name, data.values,0);
     });
   } else {$("#"+div).modal('show');}
@@ -131,6 +133,20 @@ function stat_pie(name, title, data, border, expandable, show_title) {
             events: {
                 click: function(event) {
                   var link = $($('#links-tbl tr td a')[event.point.x]).attr('href');
+                  if (link == undefined) {
+                    link = $($('#'+name)[0]).attr('chart-href');
+                    if (link.indexOf("~VAL2~") != -1) {
+                      var strSplit = event.point.name.split(" ");
+                      var val1 = strSplit[0];
+                      var val2 = strSplit[1];
+                      link = link.replace("~VAL2~", val2);
+                    } else {
+                      var val1 = event.point.name;
+                      if (val1.indexOf(" ") != -1) val1 = '"' + val1 +'"';
+                    }
+                    link = link.replace("~VAL1~", val1);
+                  }
+
                   if (link != undefined) {
                     window.location.href = link;
                   }
