@@ -168,7 +168,8 @@ module ApplicationHelper
                   :class          => 'statistics_pie',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
-                  :'chart-data'   => data.to_a.to_json
+                  :'chart-data'   => data.to_a.to_json,
+                  :'chart-href'   => options[:search] ? "/hosts?search=#{URI.encode(options.delete(:search))}" : ''
                 }.merge(options))
   end
 
