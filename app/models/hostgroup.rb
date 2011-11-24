@@ -16,8 +16,6 @@ class Hostgroup < ActiveRecord::Base
   before_save :serialize_vm_attributes
   after_find :deserialize_vm_attributes
 
-  default_scope :order => 'LOWER(hostgroups.name)'
-
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
   acts_as_audited
