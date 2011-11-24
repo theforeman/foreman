@@ -123,6 +123,7 @@ $(document).ready(function() {
 // adds buttons classes to all links
 $(function(){
   $("#title_action a").addClass("btn");
+  $("#title_action a[href*='new']").addClass("success");
   $(".table_action a").addClass("btn small");
 });
 
