@@ -320,3 +320,7 @@ table th.small{width:60px; max-width:60px;}
 .tbl-column5{width:280px; max-width:280px;}
 .tbl-column6{width:340px; max-width:340px;}
 .tbl-column7{width:400px; max-width:400px;}
+
+.gray{
+    color:#808080 !important;
+}

@@ -17,10 +17,10 @@
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
       <td class="tbl-column4"> <%= name_column(host) %> </td>
-      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.os %>"><%= icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
-      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.try(:environment) %>"><%= h host.try(:environment) %></td>
-      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.try(:model)%>" ><%= h host.try(:model) %></td>
-      <td class="tbl-column3" rel="twipsy" data-original-title="<%= host.hostgroup %>" ><%= hostgroup_name host.hostgroup %></td>
+      <td class="tbl-column2"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
+      <td class="tbl-column2"><%= trunc(host.try(:environment), 14) %></td>
+      <td class="tbl-column2"><%= trunc(host.try(:model), 14) %></td>
+      <td class="tbl-column3"><%= hostgroup_name host.hostgroup, 26 %></td>
       <td class="tbl-column2"><%= last_report_column(host) %></td>
       <td>
         <%= display_link_if_authorized 'Edit', hash_for_edit_host_path(:id => host) %>

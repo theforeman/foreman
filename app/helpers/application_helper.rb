@@ -19,6 +19,12 @@ module ApplicationHelper
     f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label important", :title => "Remove")
   end
 
+  def trunc text, length
+    text = text.to_s
+    options = text.size > length ? {:'data-original-title'=>text, :rel=>'twipsy'} : {}
+    content_tag(:span, truncate(text, :length => length), options).html_safe
+  end
+
   # Creates a link to a javascript function that creates field entries for the association on the web page
   # +name+       : String containing links's text
   # +f+          : FormBuiler object
@@ -48,11 +54,19 @@ module ApplicationHelper
   end
 
   def link_to_remove_puppetclass klass
-    link_to_function "","remove_puppet_class(this)", :'data-class-id'=>klass.id, :class=>"ui-icon ui-icon-minus"
+    options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
+    content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
+    link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
+                     :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
+                     :class=>"ui-icon ui-icon-minus")
   end
 
   def link_to_add_puppetclass klass, type
-    link_to_function "", "add_puppet_class(this)", :'data-class-id'=>klass.id, :class=>"ui-icon ui-icon-plus"
+    options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
+    content_tag(:span, truncate(klass.name, :length => 28), :'data-original-title'=>klass.name, :rel=>'twipsy').html_safe +
+    link_to_function("", "add_puppet_class(this)", :'data-class-id'=>klass.id,
+                     :'data-original-title'=>"Click to add #{klass}", :rel=>'twipsy',
+                     :class=>"ui-icon ui-icon-plus")
   end
 
   def check_all_links(form_name)

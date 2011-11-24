@@ -1,8 +1,12 @@
 module HostsAndHostgroupsHelper
-  def hostgroup_name group
+  def hostgroup_name group, max_length = 1000
     return if group.blank?
-    content_tag(:span, group.to_s.gsub(group.name, ""), :class => "grey") +
-      link_to_if_authorized(h(group.name), hash_for_edit_hostgroup_path(:id => group))
+    options = (group.to_s.size > max_length) ? {:'data-original-title'=> group.to_s, :rel=>'twipsy'} : {}
+    nesting = truncate(group.to_s.gsub(group.name, ""), :length => max_length - group.name.size)
+    link_to_if_authorized(
+        content_tag(:span,
+            content_tag(:span, nesting, :class => "gray") + group.name, options),
+        hash_for_edit_hostgroup_path(:id => group))
   end
 
   def accessible_hostgroups
