@@ -12,7 +12,7 @@
       <tr class="<%= cycle("even", "odd") -%>">
         <td><%= h cert%> </td>
         <td>
-          <%= display_link_if_authorized "Destroy", hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert).merge(:auth_ation => :destroy), :confirm => 'Are you sure?', :method => :delete %>
+          <%= display_link_if_authorized "Delete", hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert).merge(:auth_ation => :destroy), :confirm => 'Are you sure?', :method => :delete %>
         </td>
       </tr>
   <% end -%>

@@ -12,7 +12,7 @@
       <td><%=link_to_if_authorized h(ptable.name), hash_for_edit_ptable_path(:id => ptable.id) %></td>
       <td><%=h ptable.operatingsystems.to_sentence %></td>
       <td class="ra">
-        <%= display_link_if_authorized "Destroy", hash_for_ptable_path(:id => ptable, :auth_action => :destroy), :confirm => "Delete #{ptable.name}?", :method => :delete %>
+        <%= display_link_if_authorized "Delete", hash_for_ptable_path(:id => ptable, :auth_action => :destroy), :confirm => "Delete #{ptable.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>

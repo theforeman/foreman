@@ -27,7 +27,7 @@
         <%= link_to puppetclass.lookup_keys.count, puppetclass_lookup_keys_path(puppetclass) %>
       </td>
       <td class="ra">
-        <%= display_link_if_authorized "Destroy", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
+        <%= display_link_if_authorized "Delete", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>

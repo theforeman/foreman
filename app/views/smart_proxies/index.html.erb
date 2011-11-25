@@ -23,7 +23,7 @@
         <% if SETTINGS[:unattended] and proxy.features.include? Feature.find_by_name("DHCP") -%>
           <%= display_link_if_authorized "Import Subnets | ", hash_for_import_subnets_path(:smart_proxy_id => proxy) %>
         <% end -%>
-        <%= display_link_if_authorized "Destroy", hash_for_smart_proxy_path(:id => proxy, :auth_action => :destroy), :confirm => "Destroy #{proxy.name}?", :method => :delete %>
+        <%= display_link_if_authorized "Delete", hash_for_smart_proxy_path(:id => proxy, :auth_action => :destroy), :confirm => "Delete #{proxy.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>

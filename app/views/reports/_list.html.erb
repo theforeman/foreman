@@ -23,7 +23,7 @@
       <td><%= report_event_column(report.failed_restarts, "warning") %></td>
       <td><%= report_event_column(report.skipped, "notice") %></td>
       <td align="right">
-        <%= display_link_if_authorized "Destroy", hash_for_report_path(:id => report.id, :auth_action => :destroy), :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
+        <%= display_link_if_authorized "Delete", hash_for_report_path(:id => report.id, :auth_action => :destroy), :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
       </td>
     </tr>
   <% end %>

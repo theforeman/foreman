@@ -21,7 +21,7 @@
       <td><%= combination config_template %></td>
       <td><%= config_template.try(:template_kind) %></td>
       <td><%= checked_icon config_template.snippet %></td>
-      <td><%= display_link_if_authorized "Destroy", hash_for_config_template_path(:id => config_template.to_param, :auth_action => :destroy),
+      <td><%= display_link_if_authorized "Delete", hash_for_config_template_path(:id => config_template.to_param, :auth_action => :destroy),
         :confirm => "Delete #{config_template}?", :method => :delete -%> </td>
     </tr>
   <% end %>

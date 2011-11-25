@@ -13,7 +13,7 @@
       <td class="ra">
         <%= display_link_if_authorized 'Nest',    hash_for_nest_hostgroup_path(:id => hostgroup) %>
         <%= display_link_if_authorized 'Clone',   hash_for_clone_hostgroup_path(:id => hostgroup) %>
-        <%= display_link_if_authorized "Destroy", hash_for_hostgroup_path(:id => hostgroup, :auth_action => :destroy), :confirm => warning_message(hostgroup), :method => :delete %>
+        <%= display_link_if_authorized "Delete", hash_for_hostgroup_path(:id => hostgroup, :auth_action => :destroy), :confirm => warning_message(hostgroup), :method => :delete %>
       </td>
     </tr>
   <% end %>
