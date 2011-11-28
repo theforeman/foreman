@@ -46,6 +46,10 @@ module HostsHelper
       label = "Active"
       style = "notice"
       short = "A"
+    elsif record.pending?
+      label = "Pending"
+      style = "warning"
+      short = "P"
     else
       label = "No changes"
       style = "success"

@@ -1,32 +1,36 @@
 <% title 'Overview' %>
 <div id='dashboard'>
   <p>Generated at <%= Time.now.to_s(:short) %></p>
-  <table id='links-tbl' class="list">
+  <table id='links-tbl' class="list zebra-striped">
     <tr>
       <th>Description</th>
       <th>Data</th>
     </tr>
-    <tr class="odd">
+    <tr>
       <td><%= searchable_links 'Hosts that had performed modifications', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)" %></td>
       <td><%= @report[:active_hosts] %> </td>
     </tr>
-    <tr class="even">
+    <tr>
+      <td><%= searchable_links 'Hosts that had pending changes', 'status.pending > 0' %></td>
+      <td><%= @report[:pending_hosts] %> </td>
+    </tr>
+    <tr>
       <td><%= searchable_links 'Hosts in Error State', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)" %></td>
       <td><%= @report[:bad_hosts] %> </td>
     </tr>
-    <tr class="odd">
+    <tr>
       <td><%=searchable_links "Good Host Reports in the last #{Setting[:puppet_interval]} minutes", "last_report > \"#{Setting[:puppet_interval]} minutes ago\" and status.enabled = true and status.interesting=false" %></td>
       <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
     </tr>
-    <tr class="even">
+    <tr>
       <td><%= searchable_links 'Out Of Sync Hosts', "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true" %></td>
       <td><%= @report[:out_of_sync_hosts] %> </td>
     </tr>
-    <tr class="odd">
+    <tr>
       <td><%= searchable_links 'Hosts With No Reports', "not has last_report" %></td>
       <td><%= @report[:reports_missing] %> </td>
     </tr>
-    <tr class="even">
+    <tr>
       <td><%= searchable_links 'Hosts With Alerts Disabled', "status.enabled = false" %></td>
       <td><%= @report[:disabled_hosts] %> </td>
     </tr>

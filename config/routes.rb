@@ -46,6 +46,7 @@ Foreman::Application.routes.draw do
         get 'template_used'
         get 'query' # Legacy query interface
         get 'active'
+        get 'pending'
         get 'out_of_sync'
         get 'errors'
         get 'disabled'

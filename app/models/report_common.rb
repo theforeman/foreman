@@ -1,5 +1,5 @@
 module ReportCommon
-  METRIC = %w[applied restarted failed failed_restarts skipped]
+  METRIC = %w[applied restarted failed failed_restarts skipped pending]
   BIT_NUM = 6
   MAX = (1 << BIT_NUM) -1 # maximum value per metric
 
@@ -30,6 +30,11 @@ module ReportCommon
   # returns true if total action metrics are > 0
   def changes?
     %w[applied restarted].sum {|f| status f} > 0
+  end
+
+  # returns true if there are any changes pending
+  def pending?
+    pending > 0
   end
 
   #returns metrics

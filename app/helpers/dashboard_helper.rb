@@ -16,6 +16,7 @@ module DashboardHelper
 
   def render_overview report, options = {}
     data = [[:Active,    report[:active_hosts]],
+            [:'Pending changes', report[:pending_hosts]],
             [:Error, report[:bad_hosts]],
             [:OK, report[:ok_hosts]],
             [:'Out of sync', report[:out_of_sync_hosts]],
