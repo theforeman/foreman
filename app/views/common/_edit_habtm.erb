@@ -4,7 +4,7 @@
   <% else -%>
     <% associations.sort{|a,b| a.to_s <=> b.to_s}.each do |association| -%>
       <li>
-      <% content_tag_for :label, association do %>
+      <%= content_tag_for :label, association do %>
         <%= check_box_tag(
           "#{klass.class.table_name.singularize}[#{association.class.to_s.downcase}_ids][]",
           association.id, klass.send(association.class.table_name).map(&:id).include?(association.id))

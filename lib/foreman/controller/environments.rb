@@ -5,7 +5,7 @@ module Foreman::Controller::Environments
   def import_environments
     @changed = Environment.importClasses
     if @changed["new"].size > 0 or @changed["obsolete"].size > 0
-      render :partial => "common/puppetclasses_or_envs_changed", :layout => true
+      render "common/_puppetclasses_or_envs_changed"
     else
       notice "No changes to your environments detected"
       redirect_to "/" + controller_path

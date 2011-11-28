@@ -6,11 +6,11 @@ one:
   action: update
   id: "1"
   user_type:
-  auditable_type: Puppet::Rails::Host
+  association_type: Puppet::Rails::Host
   user_id:
   version: "1"
-  auditable_id: "272"
-  changes: |
+  association_id: "272"
+  audited_changes: |
     ---
     architecture_id:
     - 10463

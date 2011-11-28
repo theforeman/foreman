@@ -1,4 +1,4 @@
-<% form_for @config_template do |f| %>
+<%= form_for @config_template do |f| %>
   <%= base_errors_for @config_template %>
   <%= text_f f, :name %>
   <%= checkbox_f f, :snippet, :onchange => "$('#kind_selector, #template_associations').toggle(!$('#config_template_snippet').attr('checked'))" %>

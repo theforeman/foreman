@@ -93,7 +93,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit an operating system' do
     setup_user
     get :edit, {:id => Operatingsystem.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing operatingsystems' do

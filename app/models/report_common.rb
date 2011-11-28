@@ -8,7 +8,7 @@ module ReportCommon
       # search for a metric - e.g.:
       # Report.with("failed") --> all reports which have a failed counter > 0
       # Report.with("failed",20) --> all reports which have a failed counter > 20
-      named_scope :with, lambda { |*arg| {
+      scope :with, lambda { |*arg| {
         :conditions => "(#{report_status} >> #{BIT_NUM*METRIC.index(arg[0])} & #{MAX}) > #{arg[1] || 0}"}
       }
     end

@@ -99,7 +99,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit a hostgroup ' do
     setup_user
     get :edit, {:id => Hostgroup.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing hostgroups' do

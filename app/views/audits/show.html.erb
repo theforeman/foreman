@@ -1,4 +1,4 @@
-<% title "#{@audit.action.camelize} #{auditable_type @audit} #{audit_title @audit}" %>
+<% title "#{@audit.action.camelize} #{association_type @audit} #{audit_title @audit}" %>
 
 <table class="list">
   <tr>
@@ -7,11 +7,11 @@
     <th>Old</th>
     <th>New</th>
   </tr>
-  <% @audit.changes.each do |name,change| -%>
+  <% @audit.audited_changes.each do |name,change| -%>
     <% next if change.nil? or change.to_s.empty? -%>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= h name.humanize %></td>
-      <td><%= h audit_parent @audit %></td>
+      <td><%= name.humanize %></td>
+      <td><%= audit_parent @audit %></td>
       <%# TODO: Refactor this whole code away from here -%>
       <% record = true if name =~ /.*_id$/ -%>
       <% if change.is_a?(Array) %>
@@ -21,7 +21,7 @@
         <% end -%>
       <% else -%>
         <% change = id_to_label(name,change) if record -%>
-        <%= change_order(@audit.action, change).map {|v| "<td>#{h v}</td>"} -%>
+        <%= change_order(@audit.action, change).map{|v| "<td>#{v}</td>"}.join.html_safe -%>
       <% end -%>
     </tr>
   <% end -%>

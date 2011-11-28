@@ -1,5 +1,5 @@
 <%= javascript "nfs_visibility" %>
-<% form_for @medium do |f| %>
+<%= form_for @medium do |f| %>
   <%= base_errors_for @medium %>
   <%= text_f f, :name %>
   <%= text_f f, :path, :class => "xxlarge", :help_block => "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).

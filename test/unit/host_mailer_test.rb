@@ -6,7 +6,7 @@ class HostMailerTest < ActionMailer::TestCase
     @env = environments(:production)
     as_admin do
       @host.last_report = Time.at(0)
-      @host.save(false)
+      @host.save(:validate => false)
       @env.hosts << @host
       @env.save
     end
@@ -19,32 +19,32 @@ class HostMailerTest < ActionMailer::TestCase
 
   test "mail should have the specified recipient" do
     @options[:email] = "ltolchinsky@vurbiatechnologies.com"
-    assert HostMailer.deliver_summary(@options).to.include?("ltolchinsky@vurbiatechnologies.com")
+    assert HostMailer.summary(@options).deliver.to.include?("ltolchinsky@vurbiatechnologies.com")
   end
 
   test "mail should have admin as recipient if email is not defined" do
     @options[:email] = nil
     Setting[:administrator] = "admin@vurbia.com"
-    assert HostMailer.deliver_summary(@options).to.include?("admin@vurbia.com")
+    assert HostMailer.summary(@options).deliver.to.include?("admin@vurbia.com")
   end
 
   test "mail should have a subject" do
-    assert !HostMailer.deliver_summary(@options).subject.empty?
+    assert !HostMailer.summary(@options).deliver.subject.empty?
   end
 
   test "mail should have a body" do
-    assert !HostMailer.deliver_summary(@options).body.empty?
+    assert !HostMailer.summary(@options).deliver.body.empty?
   end
 
   # TODO: add an assertion checking the presence of a fact filter.
   test "mail should contain a filter if it's defined" do
     @options[:env] = @env
-    assert HostMailer.deliver_summary(@options).body.include?(@env.name)
+    assert HostMailer.summary(@options).body.include?(@env.name)
   end
 
   test "mail should have the host for the specific filter" do
     @options[:env] = @env
-    assert HostMailer.deliver_summary(@options).body.include?(@host.name)
+    assert HostMailer.summary(@options).deliver.body.include?(@host.name)
   end
 
   test "mail should display the filter for the specific fact" do
@@ -53,17 +53,17 @@ class HostMailerTest < ActionMailer::TestCase
     @options[:factvalue] = "Linux"
     fn = FactName.create :name => @options[:factname]
     FactValue.create :value => @options[:factvalue], :fact_name => fn, :host => @host
-    assert HostMailer.deliver_summary(@options).body.include?(@options[:factname])
+    assert HostMailer.summary(@options).deliver.body.include?(@options[:factname])
   end
 
   test "mail should report at least one host" do
-    assert HostMailer.deliver_summary(@options).body.include?(@host.name)
+    assert HostMailer.summary(@options).deliver.body.include?(@host.name)
   end
 
   test "mail should report disabled hosts" do
     @host.enabled = false
     @host.save
-    assert HostMailer.deliver_summary(@options).body.include?(@host.name)
+    assert HostMailer.summary(@options).deliver.body.include?(@host.name)
   end
 
 end

@@ -44,7 +44,7 @@ module Foreman
               set('puppet_interval', "Puppet interval in minutes", 30 ),
               set('default_puppet_environment',"The Puppet environment foreman would default to in case it can't auto detect it", "production"),
               set('modulepath',"The Puppet default module path in case that Foreman can't auto detect it", "/etc/puppet/modules"),
-              set('document_root', "Document root where puppetdoc files should be created", "#{RAILS_ROOT}/public/puppet/rdoc"),
+              set('document_root', "Document root where puppetdoc files should be created", "#{Rails.root}/public/puppet/rdoc"),
               set('puppetrun', "Enables Puppetrun Support", false),
               set('puppet_server', "Default Puppet Server hostname", "puppet"),
               set('failed_report_email_notification', "Enable Email Alerts per each failed puppet report", false),

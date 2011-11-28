@@ -14,7 +14,7 @@ class Subnet < ActiveRecord::Base
   validates_uniqueness_of :name,    :scope => :domain_id
   default_scope :order => 'priority'
 
-  before_destroy Ensure_not_used_by.new(:hosts, :sps)
+  before_destroy EnsureNotUsedBy.new(:hosts, :sps)
 
   scoped_search :on => [:name, :network, :mask], :complete_value => true
   scoped_search :in => :domain, :on => :name, :rename => :domain, :complete_value => true

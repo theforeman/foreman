@@ -8,7 +8,7 @@ module LookupKeysHelper
   def add_child_link(name, association, opts = {})
     opts[:class] = [opts[:class], "add_nested_fields btn small success"].compact.join(" ")
     opts[:"data-association"] = association
-    link_to(name, "javascript:void(0)", opts)
+    link_to(name.to_s, "javascript:void(0)", opts)
   end
 
   def new_child_fields_template(form_builder, association, options = { })

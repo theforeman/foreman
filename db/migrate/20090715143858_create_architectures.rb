@@ -10,8 +10,6 @@ class CreateArchitectures < ActiveRecord::Migration
       t.references :operatingsystem, :null => false
     end
 
-    Architecture.create :name => "x86_64"
-    Architecture.create :name => "i386"
   end
 
   def self.down

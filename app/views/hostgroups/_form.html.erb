@@ -1,4 +1,5 @@
-<% form_for @hostgroup do |f| %>
+<%= javascript 'host_edit' %>
+<%= form_for @hostgroup do |f| %>
   <%= base_errors_for @hostgroup %>
 
   <ul class="tabs" data-tabs="tabs">
@@ -17,19 +18,15 @@
   <div class="tab-content">
 
     <div class="active" id="primary">
-      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label,  :include_blank => true %>
+      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:onchange => 'hostgroup_changed(this);',
+                      :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
       <%= text_f f, :name %>
-      <%= select_f f, :environment_id, Environment.all, :id, :to_label, :include_blank => true %>
-
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true}, {:onchange => 'update_puppetclasses(this);'} %>
       <%= select_f f, :puppetproxy_id,Feature.find_by_name("Puppet CA").smart_proxies, :id, :name,
         { :include_blank => true},
         { :label => "Puppet Master Proxy"}
       %>
       <%= text_f f, :puppetmaster_name, :label => "Puppet Master FQDN", :size => 8, :value => f.object.puppetmaster %>
-      <%= observe_field(:hostgroup_environment_id,
-                        :url    => { :action => :environment_selected, :id => @hostgroup.id },
-                        :update => :puppet_klasses,
-                        :with   => "'environment_id=' + value") %>
     </div>
 
     <div id="puppet_klasses">

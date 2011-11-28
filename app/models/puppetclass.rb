@@ -15,8 +15,8 @@ class Puppetclass < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
   acts_as_audited
 
-  before_destroy Ensure_not_used_by.new(:hosts)
-  before_destroy Ensure_not_used_by.new(:hostgroups)
+  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hostgroups)
   default_scope :order => 'LOWER(puppetclasses.name)'
 
   scoped_search :on => :name, :complete_value => :true
@@ -148,13 +148,13 @@ class Puppetclass < ActiveRecord::Base
   # If your 'live' manifests and modules can be parsed by puppetdoc
   # then you do not need to do this step. (Unfortunately some sites have circular
   # symlinks which have to be removed.)
-  # If the executable RAILS_ROOT/script/rdoc_prepare_script exists then it is run
+  # If the executable Rails,root/script/rdoc_prepare_script exists then it is run
   # and passed a list of all directory paths in all environments.
   # It should return the directory into which it has copied the cleaned modules"
   def self.prepare_rdoc root
     debug, verbose = false, false
 
-    prepare_script = Pathname.new(RAILS_ROOT) + "script/rdoc_prepare_script.rb"
+    prepare_script = Pathname.new(Rails.root) + "script/rdoc_prepare_script.rb"
     if prepare_script.executable?
       dirs = Environment.puppetEnvs.values.join(":").split(":").uniq.sort.join(" ")
       puts "Running #{prepare_script} #{dirs}" if debug
@@ -170,7 +170,7 @@ class Puppetclass < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id], :methods => [:lookup_keys]}.merge(options))
+    super({:only => [:name, :id], :methods => [:lookup_keys]})
   end
 
   def self.search_by_host(key, operator, value)

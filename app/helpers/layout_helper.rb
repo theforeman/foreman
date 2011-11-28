@@ -1,15 +1,15 @@
 module LayoutHelper
   def title(page_title, page_header = nil)
-    @content_for_title = page_title.to_s
+    content_for(:title, page_title.to_s)
     @page_header       = page_header || @content_for_title
   end
 
   def title_actions *elements
-    content_for(:title_actions) { elements.join(" ") }
+    content_for(:title_actions) { elements.join(" ").html_safe }
   end
 
   def search_bar *elements
-    content_for(:search_bar) { elements.join(" ") }
+    content_for(:search_bar) { elements.join(" ").html_safe }
   end
 
   def stylesheet(*args)
@@ -18,25 +18,6 @@ module LayoutHelper
 
   def javascript(*args)
     content_for(:head) { javascript_include_tag(*args) }
-  end
-
-  def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"span10 pagination fr")
-    options[:renderer] ||= "WillPaginate::ViewHelpers::BootstrapLinkRenderer"
-    options[:inner_window] ||= 3
-    options[:outer_window] ||= 0
-    super collection, options
-  end
-
-  def page_entries_info(collection, options = {})
-    html = super(collection, options)
-    html += options[:more] if options[:more]
-    content_tag(
-        :div,content_tag(
-            :ul, content_tag(
-                :li, link_to(html, "#")
-            ), :style=>"float: left;"
-        ), :class => "span6 pagination")
   end
 
   def text_f(f, attr, options = {})
@@ -83,35 +64,53 @@ module LayoutHelper
 
   def field(f, attr, options = {})
     obj = f.object
-    error = obj.errors.on(attr)
+    error = obj.errors[attr]
+    help_inline = content_tag(:span, (error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe), :class => "help-inline")
+    help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "clearfix #{error.empty? ? "" : 'error'}" do
-      f.label(attr, options.delete(:label)) +
+      f.label(attr, options.delete(:label)).html_safe +
         content_tag(:div, :class => "input") do
-          raw = ""
-          raw += content_tag(:span, (error.empty? ? options[:help_inline] : error.to_a.to_sentence), :class => "help-inline")
-          raw += content_tag(:span, options[:help_block], :class => "help-block")
-          yield + raw
-        end
+          yield.html_safe + help_inline.html_safe + help_block.html_safe
+        end.html_safe
     end
   end
 
   def submit_or_cancel f
-    "<br>" + content_tag(:p, :class => "ra") do
+    "<br>".html_safe + content_tag(:p, :class => "ra") do
       link_to("Cancel", eval("#{controller_name}_path"), :class => "btn") + " " +
       f.submit("Submit", :class => "btn primary")
     end
   end
 
   def base_errors_for obj
-    if errors = obj.errors.on(:base)
+    unless obj.errors[:base].blank?
       content_tag(:div, :class => "alert-message block-message error base in fade", "data-alert" => true) do
-        '<a class="close" href="#">×</a>' + "<h4>Unable to save</h4>" + errors.map {|e| "<li>#{e}</li>"}.join
+        "<a class='close' href='#'>×</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.to_s.html_safe
       end
     end
   end
 
   def popover title, msg, options = {}
     link_to_function title, {:rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+  end
+
+   def will_paginate(collection = nil, options = {})
+    options.merge!(:class=>"span10 pagination fr")
+    options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
+    options[:inner_window] ||= 2
+    options[:outer_window] ||= 0
+    super collection, options
+  end
+
+  def page_entries_info(collection, options = {})
+    html = super(collection, options)
+    html += options[:more].html_safe if options[:more]
+    content_tag(
+      :div,content_tag(
+          :ul, content_tag(
+              :li, link_to(html, "#")
+          ), :style=>"float: left;"
+      ), :class => "span6 pagination")
   end
 
 end

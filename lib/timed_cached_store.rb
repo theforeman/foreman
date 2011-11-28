@@ -3,7 +3,7 @@
 # it has a similar behaviour to memcached, but does not require memcache
 # however this will not clean up automatically, only upon request
 
-class TimedCachedStore < ActiveSupport::Cache::SynchronizedMemoryStore
+class TimedCachedStore < ActiveSupport::Cache::MemoryStore
   def exist?(name, options = nil)
     delete_if_expired name
     super

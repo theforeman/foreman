@@ -1,13 +1,7 @@
-<% fields_for item do |f| %>
-  <%= select_f f, :domain_id, accessible_domains, :id, :to_label, :include_blank => true %>
+<%= fields_for item do |f| %>
+  <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true}, {:onchange => 'domain_selected(this);'} %>
 
-  <span id="<%= type %>_subnet">
+  <span id="subnet_select">
     <%= render 'common/domain', :item => item %>
   </span>
-
-  <%= observe_field("#{type}_domain_id",
-                    :url => { :action => :domain_selected },
-                    :update => "#{type}_subnet",
-                    :with => :domain_id)
-  %>
 <% end  -%>

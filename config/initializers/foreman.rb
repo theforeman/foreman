@@ -1,12 +1,10 @@
-require 'core_extensions'
-require 'access_permissions'
+require 'foreman'
 require 'puppet'
 require 'puppet/rails'
-
 # import settings file
-SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
+SETTINGS= YAML.load_file("#{Rails.root}/config/settings.yaml")
 
-SETTINGS[:version] = "0.4"
+SETTINGS[:version] = "0.5"
 
 SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
@@ -22,7 +20,7 @@ begin
     SETTINGS[:libvirt] = false
   end
 rescue LoadError
-  RAILS_DEFAULT_LOGGER.debug "Libvirt binding are missing - hypervisor management is disabled"
+  Rails.logger.debug "Libvirt binding are missing - hypervisor management is disabled"
   SETTINGS[:libvirt] = false
 end
 
@@ -31,3 +29,5 @@ Foreman::DefaultSettings::Loader.load
 
 # We load the default settings for the roles if they are not already present
 Foreman::DefaultData::Loader.load(false)
+
+WillPaginate.per_page = Setting.entries_per_page rescue 20

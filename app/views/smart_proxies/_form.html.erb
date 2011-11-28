@@ -1,4 +1,4 @@
-<% form_for @proxy do |f| %>
+<%= form_for @proxy do |f| %>
   <%= base_errors_for @proxy %>
   <%= text_f(f, :name) %>
   <%= text_f(f, :url, :label => "URL", :class => "xlarge" ) %>

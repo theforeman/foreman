@@ -53,9 +53,8 @@ class SubnetsController < ApplicationController
       respond_to do |format|
         format.html do
           render :update do |page|
-            page['host_ip'].value = ip
-            page['indicator'].hide
-            page['host_ip'].visual_effect :highlight
+            page['#host_ip'].val(ip)
+            page['#host_ip'].show('highlight', 5000)
           end
         end
         format.json { render :json => {:ip => ip} }

@@ -1,4 +1,4 @@
-<% form_for @usergroup do |f| %>
+<%= form_for @usergroup do |f| %>
   <%= base_errors_for @usergroup %>
   <%= text_f f, :name %>
   <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => "User Groups" %>

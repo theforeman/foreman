@@ -1,10 +1,9 @@
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
+require 'foreman/controller/auto_complete_search'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
-  rescue_from Exception, :with => :generic_exception
+  #rescue_from Exception, :with => :generic_exception
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
   # standard layout to all controllers
@@ -60,10 +59,10 @@ class ApplicationController < ActionController::Base
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
           user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
           User.current = user.is_a?(User) ? user : nil
-          logger.warn("Failed authentcation from #{request.remote_ip} #{user}") if User.current.nil?
+          logger.warn("Failed authentication from #{request.remote_ip} #{user}") if User.current.nil?
           return !User.current.nil?
         end
-        session[:original_uri] = request.request_uri # keep the old request uri that we can redirect later on
+        session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
         redirect_to login_users_path and return
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
@@ -76,7 +75,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # this method is returns the active user which gets used to puplate the audits table
+  # this method is returns the active user which gets used to populate the audits table
   def current_user
     User.current
   end
@@ -129,6 +128,10 @@ class ApplicationController < ActionController::Base
     flash[:error] = error
   end
 
+  def warning warning
+    flash[:warning] = warning
+  end
+
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
   # it automatically updates the search text box with the relevant relationship
   # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
@@ -174,7 +177,7 @@ class ApplicationController < ActionController::Base
     if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
       render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
     else
-      local_request? ? rescue_action_locally(exception) : rescue_action_in_public(exception)
+      request.local? ? request.rescue_action_locally(exception) : rescue_action_in_public(exception)
     end
   end
 
@@ -203,7 +206,7 @@ class ApplicationController < ActionController::Base
     else
       hash[:redirect] ||= eval("#{controller_name}_url")
     end
-    hash[:error_msg] ||= hash[:object].errors.on_base.to_a
+    hash[:error_msg] ||= hash[:object].errors[:base]
 
     hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}"

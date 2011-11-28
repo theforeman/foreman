@@ -1,6 +1,6 @@
 <% title_actions link_to("Documentation", "http://theforeman.org/projects/foreman/wiki/LDAP_Authentication", :rel => "external") %>
 
-<% form_for @auth_source_ldap do |f| %>
+<%= form_for @auth_source_ldap do |f| %>
   <%= base_errors_for @auth_source_ldap %>
 
   <%= text_f f, :name %>
@@ -13,7 +13,7 @@
   <%= checkbox_f f, :onthefly_register, :label => "On-the-fly user creation", :onchange => "$('#on_the_fly_attrs').toggle($('#auth_source_ldap_onthefly_register').attr('checked'))",
     :help_inline => "LDAP user will have his Foreman account automatically created the first time he logs into Foreman" %>
   <div id="on_the_fly_attrs" <%= display?(!on_the_fly?(@auth_source_ldap)) %>>
-    <% field_set_tag("Attributes for on the fly user creation") do %>
+    <%= field_set_tag("Attributes for on the fly user creation") do %>
       <%= text_f f, :attr_login, :help_inline => "e.g. uid" %>
       <%= text_f f, :attr_firstname, :help_inline => "e.g. givenName" %>
       <%= text_f f, :attr_lastname, :help_inline => "e.g. sn" %>

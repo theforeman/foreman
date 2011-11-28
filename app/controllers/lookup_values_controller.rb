@@ -3,7 +3,6 @@ class LookupValuesController < ApplicationController
   before_filter :reject_non_json_requests
   before_filter :find_by_id, :except => [:index, :create]
   before_filter :setup_search_options, :only => :index
-  filter_parameter_logging :value # might contain sensative information
 
   def index
     begin

@@ -32,4 +32,10 @@ module DashboardHelper
               data[:counter],
               options
   end
+
+  def searchable_links name, search
+    search += " and #{params[:search]}" unless params[:search].blank?
+    link_to name, hosts_path(:search => search)
+  end
+
 end

@@ -1,6 +1,6 @@
 <% title "Permissions report" %>
 
-<% form_tag(report_roles_path, :id => 'permissions_form') do %>
+<%= form_tag(report_roles_path, :id => 'permissions_form') do %>
   <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
   <table class="list">
     <thead>

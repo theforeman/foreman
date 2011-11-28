@@ -7,7 +7,7 @@ class LookupValue < ActiveRecord::Base
   validate :validate_range, :validate_list, :validate_regexp, :validate_match
   before_validation :sanitize_match
 
-  named_scope :default, :conditions => { :match => "default" }, :limit => 1
+  scope :default, :conditions => { :match => "default" }, :limit => 1
 
   default_scope :order => 'LOWER(lookup_values.value)'
 

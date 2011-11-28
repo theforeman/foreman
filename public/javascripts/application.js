@@ -233,3 +233,21 @@ function filter_by_level(level){
     $('#ntsh').hide();
   }
 }
+
+function auth_source_selected(){
+  var auth_source_id = $('#user_auth_source_id').attr('value');
+  if (auth_source_id == '') return false;
+  $.ajax({
+    type:'get',
+    url:'/users/auth_source_selected',
+    data:'auth_source_id=' + auth_source_id
+  })
+}
+function show_release(element){
+  var os_family = $(element).val();
+  if (os_family == 'Debian' || os_family == 'Solaris') {
+    $("#release_name").show('highlight', 1000);
+  } else {
+    $("#release_name").hide();
+  }
+}

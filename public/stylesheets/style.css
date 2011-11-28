@@ -206,11 +206,7 @@ table.list td {
   margin-left: 10px;
   margin-bottom: 0px;
 }
-#puppet_klasses h3 {
-  background-color: #F6F7F8;
-}
-
-.puppetclass a, .puppetclass li a {
+.puppetclass a, .puppetclass li a, .selected_puppetclass a, .selected_puppetclass li a {
   color: #333;
   float: right;
   margin-right: 10px;

@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  filter_parameter_logging :password, :password_confirmation
   skip_before_filter :require_login, :only => [:login, :logout]
   skip_before_filter :authorize, :only => [:login, :logout]
 
@@ -117,9 +116,9 @@ class UsersController < ApplicationController
   def auth_source_selected
     render :update do |page|
       if params[:auth_source_id] and AuthSource.find(params[:auth_source_id]).can_set_password?
-        page.show 'password'
+        page['#password'].show
       else
-        page.hide 'password'
+        page['#password'].hide
       end
     end
   end

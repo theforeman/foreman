@@ -2,14 +2,14 @@ class UnattendedController < ApplicationController
   layout nil
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.name_like("pxelinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.name_like("pxegrub").map(&:name)
-  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.name_like("gpxe").map(&:name)
+  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","pxelinux").map(&:name)
+  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.where("name LIKE ?", "pxegrub").map(&:name)
+  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.where("name LIKE ?", "gpxe").map(&:name)
   CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.name_like("provision").map(&:name)
+  PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.where("name LIKE ?", "provision").map(&:name)
   # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.name_like("finish").map(&:name)
+  FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
   skip_before_filter :require_ssl, :require_login, :authorize
@@ -151,7 +151,7 @@ class UnattendedController < ApplicationController
       safe_render config and return
     end
     type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
-    render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")
+    render :template => type if File.exists?("#{Rails.root}/app/views/#{type}.rhtml")
   end
 
   def set_content_type

@@ -1,4 +1,4 @@
-<% form_for @bookmark do |f| %>
+<%= form_for @bookmark do |f| %>
   <%= base_errors_for @bookmark %>
   <%= text_f f, :name, :value => params[:query].to_s.strip.split(/\s|=|!|~|>|</)[0] %>
   <%= textarea_f f, :query, :value => params[:query], :class => "xlarge" , :rows=> '3' %>

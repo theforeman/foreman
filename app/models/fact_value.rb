@@ -7,14 +7,14 @@ class FactValue < Puppet::Rails::FactValue
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
   scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
 
-  named_scope :no_timestamp_facts, :include => [:fact_name],
+  scope :no_timestamp_facts, :include => [:fact_name],
               :conditions => ["fact_names.name <> ?",:_timestamp]
 
-  named_scope :timestamp_facts, :joins => [:fact_name],
+  scope :timestamp_facts, :joins => [:fact_name],
               :conditions => ["fact_names.name = ?",:_timestamp]
 
-  named_scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
-  named_scope :required_fields, { :include => :host }
+  scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
+  scope :required_fields, { :include => :host }
   default_scope :order => 'LOWER(fact_values.value)'
 
   # Todo: find a way to filter which values are logged,
@@ -28,12 +28,12 @@ class FactValue < Puppet::Rails::FactValue
   def self.mem_average(fact)
     total, count = to_gb(fact)
     return 0 if count == 0
-    (total / count).round_with_precision(1)
+    (total / count).round(1)
   end
 
   # returns the rounded total of memory fact values (e.g. MB, GB etc)
   def self.mem_sum(fact)
-    to_gb(fact).first.round_with_precision(1)
+    to_gb(fact).first.to_f.round(1)
   rescue
     0
   end

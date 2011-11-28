@@ -60,7 +60,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
     host = hosts(:one)
     host.os = operating_system
-    host.save(false)
+    host.save(:validate => false)
 
     assert !operating_system.destroy
   end

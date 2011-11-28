@@ -21,7 +21,7 @@ class Setting < ActiveRecord::Base
   scoped_search :on => :category, :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
 
-  def self.per_page; 20; end # can't use our own settings
+  def self.per_page; 20 end # can't use our own settings
 
   def self.[](name)
     if record = first(:conditions => {:name => name.to_s})

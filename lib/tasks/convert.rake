@@ -98,7 +98,7 @@ namespace :db do
             models.each do |model|
               new_model = DevelopmentModelClass.new(model.attributes)
               new_model.id = model.id
-              new_model.save(false)
+              new_model.save(:validate => false)
             end
           end
           break if args.records and args.records.to_i > offset

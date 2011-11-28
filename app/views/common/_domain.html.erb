@@ -1,13 +1,8 @@
-<% fields_for item do |f| %>
+<%= fields_for item do |f| %>
   <%= select_f f, :subnet_id, domain_subnets, :id, :title,
     { :include_blank => domain_subnets.any? ? true : "No subnets"},
-    { :disabled => domain_subnets.empty? ? true : false,
-      :help_inline => image_tag("spinner.gif", :id => "indicator", :style => "display:none") }
+    { :disabled => domain_subnets.empty?,
+      :help_inline => image_tag("spinner.gif", :id => "subnet_indicator", :class => "hide"),
+      :onchange => 'subnet_selected(this);'}
   %>
-  <%= observe_field(:host_subnet_id,
-                    :url => { :controller => "subnets", :action => "freeip" },
-                    :method => :get, :loading => "$('#indicator').show()",
-                    :complete => "$('#indicator').hide()",
-                    :with => :subnet_id) if type.to_s == "host"
-   %>
 <% end -%>

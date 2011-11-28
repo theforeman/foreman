@@ -388,6 +388,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "user with edit host rights with update environments should change environments" do
+    @request.env['HTTP_REFERER'] = hosts_path
     setup_multiple_environments
     assert @host1.environment == environments(:production)
     assert @host2.environment == environments(:production)
@@ -477,15 +478,16 @@ class HostsControllerTest < ActionController::TestCase
   def initialize_host
     User.current = users(:admin)
     disable_orchestration
-    @host = Host.create :name => "myfullhost",
-      :mac             => "aabbecddeeff",
-      :ip              => "2.3.4.99",
-      :domain          => domains(:mydomain),
-      :operatingsystem => operatingsystems(:redhat),
-      :architecture    => architectures(:x86_64),
-      :environment     => environments(:production),
-      :subnet          => subnets(:one),
-      :disk            => "empty partition",
-      :puppetproxy     => smart_proxies(:puppetmaster)
+    @host = Host.create(:name => "myfullhost",
+                        :mac             => "aabbecddeeff",
+                        :ip              => "2.3.4.99",
+                        :domain          => domains(:mydomain),
+                        :operatingsystem => operatingsystems(:redhat),
+                        :architecture    => architectures(:x86_64),
+                        :environment     => environments(:production),
+                        :subnet          => subnets(:one),
+                        :disk            => "empty partition",
+                        :puppetproxy     => smart_proxies(:puppetmaster)
+                       )
   end
 end

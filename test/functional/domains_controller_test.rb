@@ -77,7 +77,7 @@ class DomainsControllerTest < ActionController::TestCase
     delete :destroy, {:format => "json", :id => domain.name}, set_session_user
     domain = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !Domain.exists?(domain['id'])
+    assert !Domain.exists?(:name => domain['id'])
   end
 
   def setup_user

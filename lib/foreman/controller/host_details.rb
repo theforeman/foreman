@@ -40,7 +40,7 @@ module Foreman::Controller::HostDetails
   end
 
   def hypervisor_selected
-    hypervisor_id = params["#{item_name}_hypervisor_id".to_sym].to_i
+    hypervisor_id = params["hypervisor_id".to_sym].to_i
 
     # bare metal selected
     hypervisor_defaults and return if hypervisor_id == 0
@@ -88,7 +88,7 @@ module Foreman::Controller::HostDetails
   end
 
   def update_hypervisor_details item, page
-    page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => item }
+    page['#virtual_machine'].html(render(:partial => "common/hypervisor", :locals => { :item => item }))
     page << "if ($('#host_mac')) $('#host_mac').parentsUntil('.clearfix').parent().remove()"
   end
 

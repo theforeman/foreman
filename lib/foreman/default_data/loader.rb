@@ -35,27 +35,27 @@ module Foreman
           Role.count rescue return
           Role.transaction do
             # Roles
-            manager = Role.name_is("Manager").empty? ? Role.create(:name => "Manager") : Role.name_is("Manager")[0]
+            manager = Role.where(:name => "Manager").empty? ? Role.create(:name => "Manager") : Role.where(:name => "Manager")[0]
             if reset or manager.permissions.empty?
               manager.update_attribute :permissions, manager.setable_permissions.collect {|p| p.name}
             end
 
-            ptable_editor =  Role.name_is("Edit partition tables").empty? ? Role.create(:name => "Edit partition tables") : Role.name_is("Edit partition tables")[0]
+            ptable_editor =  Role.where(:name => "Edit partition tables").empty? ? Role.create(:name => "Edit partition tables") : Role.where(:name => "Edit partition tables")[0]
             if reset or ptable_editor.permissions.empty?
               ptable_editor.update_attribute :permissions, [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables]
             end
 
-            hosts_reader =  Role.name_is("View hosts").empty? ? Role.create(:name => "View hosts") : Role.name_is("View hosts")[0]
+            hosts_reader =  Role.where(:name => "View hosts").empty? ? Role.create(:name => "View hosts") : Role.where(:name => "View hosts")[0]
             if reset or hosts_reader.permissions.empty?
               hosts_reader.update_attribute :permissions, [:view_hosts]
             end
 
-            hosts_editor =  Role.name_is("Edit hosts").empty? ? Role.create(:name => "Edit hosts") : Role.name_is("Edit hosts")[0]
+            hosts_editor =  Role.where(:name => "Edit hosts").empty? ? Role.create(:name => "Edit hosts") : Role.where(:name => "Edit hosts")[0]
             if reset or hosts_editor.permissions.empty?
               hosts_editor.update_attribute :permissions, [:view_hosts,    :edit_hosts,    :create_hosts,    :destroy_hosts, :build_hosts]
             end
 
-            viewer =  Role.name_is("Viewer").empty? ? Role.create(:name => "Viewer") : Role.name_is("Viewer")[0]
+            viewer =  Role.where(:name => "Viewer").empty? ? Role.create(:name => "Viewer") : Role.where(:name => "Viewer")[0]
             if reset or viewer.permissions.empty?
               viewer.update_attribute :permissions, [:view_hosts,
                 :view_puppetclasses,
@@ -83,7 +83,7 @@ module Foreman
                 :view_audit_logs]
             end
 
-            siteman = Role.name_is("Site manager").empty? ? Role.create(:name => "Site manager") : Role.name_is("Site manager")[0]
+            siteman = Role.where(:name => "Site manager").empty? ? Role.create(:name => "Site manager") : Role.where(:name => "Site manager")[0]
             if reset or siteman.permissions.empty?
               siteman.update_attribute :permissions, [ :view_architectures,
                 :view_audit_logs,

@@ -1,4 +1,4 @@
-<% form_for @model do |f| %>
+<%= form_for @model do |f| %>
   <%= base_errors_for @model %>
   <%= text_f f, :name %>
   <%= text_f f, :hardware_model, :help_block => "The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m" %>

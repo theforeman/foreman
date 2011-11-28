@@ -7,7 +7,7 @@ class Environment < ActiveRecord::Base
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
 
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   default_scope :order => 'LOWER(environments.name)'
 
   scoped_search :on => :name, :complete_value => :true
@@ -174,6 +174,7 @@ class Environment < ActiveRecord::Base
   end
 
   def as_json(options={})
+    options ||= {}
     super({:only => [:name, :id]}.merge(options))
   end
 

@@ -23,9 +23,9 @@ class Operatingsystem < ActiveRecord::Base
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   before_save :deduce_family
-  acts_as_audited
+  #acts_as_audited
   default_scope :order => 'LOWER(operatingsystems.name)'
 
   scoped_search :on => :name, :complete_value => :true

@@ -1,6 +1,6 @@
 <%= javascript "lookup_keys" %>
 
-<% form_for @puppetclass do |f| %>
+<%= form_for @puppetclass do |f| %>
   <%= base_errors_for @puppetclass %>
   <ul class="tabs" data-tabs="tabs">
     <li class="active"><a href="#primary">Primary</a></li>
@@ -31,7 +31,7 @@
       </ul>
 
       <div class="pill-content span13">
-        <% f.fields_for :lookup_keys do |lookup_keys_form| %>
+        <%= f.fields_for :lookup_keys do |lookup_keys_form| %>
           <%= render 'lookup_keys/fields', :f => lookup_keys_form %>
         <% end %>
       </div>

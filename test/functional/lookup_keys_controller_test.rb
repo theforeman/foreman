@@ -33,7 +33,7 @@ class LookupKeysControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit an external variable' do
     setup_user
     get :edit, {:id => LookupKey.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing external variables' do

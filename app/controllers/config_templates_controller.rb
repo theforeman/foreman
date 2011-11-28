@@ -114,7 +114,7 @@ class ConfigTemplatesController < ApplicationController
   #  generated for
   def pxe_default_combos
     combos = []
-    ConfigTemplate.template_kind_name_eq("provision").each do |template|
+    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
         if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium

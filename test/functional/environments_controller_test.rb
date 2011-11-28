@@ -100,7 +100,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin do
       ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
       for name in ["env1", "env2"] do
-        e = Environment.create(:name => name)
+        e = Environment.create!(:name => name)
         e.puppetclasses += [Puppetclass.find_by_name("a"), Puppetclass.find_by_name("b"), Puppetclass.find_by_name("c")]
       end
     end
@@ -196,7 +196,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       Environment.create :name => "env3"
-      Environment.delete :name => "env1"
+      Environment.where(:name => "env1").first.delete
     end
     #db_tree   of {                         , "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
@@ -218,7 +218,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit an environment' do
     setup_user
     get :edit, {:id => Environment.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing environments' do

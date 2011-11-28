@@ -9,6 +9,7 @@ module Foreman
         ERB.new(template, nil, '-').result(binding)
       end
     end
+
     #returns the URL for Foreman Built status (when a host has finished the OS installation)
     def foreman_url(action = "built")
       url_for :only_path => false, :controller => "unattended", :action => action
@@ -16,7 +17,7 @@ module Foreman
 
     # provide embedded snippets support as simple erb templates
     def snippets(file)
-      unless ConfigTemplate.name_eq(file).snippet_eq(true).empty?
+      unless ConfigTemplate.where(:name => file, :snippet => true).empty?
         return snippet(file.gsub(/^_/,""))
       else
         render :partial => "unattended/snippets/#{file}"
@@ -24,7 +25,7 @@ module Foreman
     end
 
     def snippet name
-      if template = ConfigTemplate.name_eq(name).snippet_eq(true).first
+      if template = ConfigTemplate.where(:name => name, :snippet => true).first
         logger.debug "rendering snippet #{template.name}"
         begin
           return unattended_render(template.template)

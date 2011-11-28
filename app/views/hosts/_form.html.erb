@@ -1,4 +1,5 @@
-<% form_for @host do |f| %>
+<%= javascript 'host_edit' %>
+<%= form_for @host do |f| %>
   <%= base_errors_for @host %>
 
   <ul class="tabs" data-tabs="tabs">
@@ -20,11 +21,11 @@
     <div class="active" id="primary">
       <%= text_f f, :name, :class => "xlarge", :value => name_field(@host) %>
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
-        { :include_blank => true },
-        { :onchange => update_details_from_hostgroup,
-          :help_inline => image_tag("spinner.gif", :id => "indicator1", :style => "display:none;")
-      } %>
-      <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true } %>
+        { :include_blank => true},
+        { :onchange => 'hostgroup_changed(this);', :'data-host-id' => @host.id,
+          :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
+
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },{:onchange => 'update_puppetclasses(this);'} %>
       <%= select_f f, :puppetproxy_id,Feature.find_by_name("Puppet CA").smart_proxies, :id, :name,
         { :include_blank => true},
         { :label => "Puppet Master Proxy"}
@@ -33,15 +34,6 @@
         :value => f.object.puppetmaster, :class => "xlarge",
         :help_inline => "only required for legacy puppet run" %>
 
-      <%= (observe_field(:host_hostgroup_id,
-                        :url    => { :action => :hostgroup_or_environment_selected, :id => @host.id },
-                        :update => :puppet_klasses,
-                        :with   => "'hostgroup_id=' + value+'&environment_id='+$('#host_environment_id').attr('value')")
-          ) unless @host.new_record? %>
-      <%= observe_field(:host_environment_id,
-                        :url    => { :action => :hostgroup_or_environment_selected, :id => @host.id },
-                        :update => :puppet_klasses,
-                        :with   => "'environment_id=' + value+'&hostgroup_id='+$('#host_hostgroup_id').attr('value')") %>
     </div>
 
     <div id="puppet_klasses">

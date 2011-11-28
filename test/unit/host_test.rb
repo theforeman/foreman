@@ -374,7 +374,7 @@ class HostTest < ActiveSupport::TestCase
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)
     assert !h.valid?
-    assert_match /does not belong to #{h.os} operating system/, h.errors[:architecture]
+    assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture]
   end
 
   test "host puppet classes must belong to the host environment" do
@@ -384,16 +384,17 @@ class HostTest < ActiveSupport::TestCase
     h.puppetclasses << pc
     assert !h.environment.puppetclasses.include?(pc)
     assert !h.valid?
-    assert_match /does not belong to the #{h.environment} environment/, h.errors[:puppetclasses]
+    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
   test "when changing host environment, its puppet classes should be verified" do
     h = hosts(:one)
-    h.puppetclasses << puppetclasses(:one)
+    pc = puppetclasses(:one)
+    h.puppetclasses << pc
     assert h.save
     h.environment = environments(:testing)
     assert !h.save
-    assert_match /does not belong to the #{h.environment} environment/, h.errors[:puppetclasses]
+    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
 end

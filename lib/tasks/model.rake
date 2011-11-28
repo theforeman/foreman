@@ -66,7 +66,7 @@ def consolidate mappings, dryrun
         end
         unless dryrun
           model.hosts << valid_hosts
-          model.save(false)
+          model.save(:validate => false)
           if model.errors.empty?
             original.delete if original.hosts.count == 0
           else

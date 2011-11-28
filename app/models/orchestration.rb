@@ -42,7 +42,7 @@ module Orchestration
     # log and add to errors
     def failure msg, backtrace=nil
       logger.warn(backtrace ? msg + backtrace.join("\n") : msg)
-      errors.add_to_base msg
+      errors.add :base, msg
       false
     end
 
@@ -51,7 +51,7 @@ module Orchestration
     # we override this method in order to include checking the
     # after validation callbacks status, as rails by default does
     # not care about their return status.
-    def valid?
+    def valid?(context = nil)
       super
       errors.empty?
     end

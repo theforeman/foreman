@@ -8,9 +8,6 @@ class ReportsController < ApplicationController
   before_filter :set_admin_user, :only => :create
   before_filter :setup_search_options, :only => :index
 
-  # avoids storing the report data in the log files
-  filter_parameter_logging :report
-
   def index
     values = Report.search_for(params[:search], :order => params[:order])
     pagination_opts = { :page => params[:page], :per_page => params[:per_page] }

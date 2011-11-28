@@ -55,9 +55,9 @@ class SmartProxies::PuppetCA
     ProxyAPI::Puppetca.new({:url => proxy.url}).del_certificate name
   end
 
-  def to_param; name; end
+  def to_param; name end
 
-  def to_s; name; end
+  def to_s; name end
 
   def <=> other
     self.name <=> other.name

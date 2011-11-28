@@ -16,7 +16,7 @@ class SmartProxy < ActiveRecord::Base
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
-  before_destroy Ensure_not_used_by.new(:subnets, :domains, :hosts, :hostgroups)
+  before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
   default_scope :order => 'LOWER(smart_proxies.name)'
 
@@ -56,13 +56,13 @@ class SmartProxy < ActiveRecord::Base
     reason = false
     begin
       reply = ProxyAPI::Features.new(:url => url).features
-      self.features = reply.map{|f| name_map[f]} unless reply.empty?
+      self.features = reply.map{|f| name_map[f]} if reply.is_a?(Array) and reply.any?
     rescue => e
       reason = e.message
     end
     unless reply
-      errors.add_to_base "Unable to communicate with the proxy: #{reason}"
-      errors.add_to_base "Please check the proxy is configured and running on the host before saving."
+      errors.add :base, "Unable to communicate with the proxy: #{reason}"
+      errors.add :base, "Please check the proxy is configured and running on the host before saving."
     end
     !reply.empty?
   end

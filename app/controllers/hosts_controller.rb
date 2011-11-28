@@ -1,3 +1,5 @@
+require 'foreman/controller/host_details'
+
 class HostsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
@@ -10,7 +12,6 @@ class HostsController < ApplicationController
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
   before_filter :find_hosts, :only => :query
-  before_filter :ajax_methods, :only => [:hostgroup_or_environment_selected]
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
@@ -18,7 +19,6 @@ class HostsController < ApplicationController
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone pxe_config toggle_manage]
 
-  filter_parameter_logging :root_pass
   helper :hosts, :reports
 
   def index (title = nil)
@@ -35,8 +35,6 @@ class HostsController < ApplicationController
         @hosts = search.paginate :page => params[:page], :include => included_associations
         # SQL optimizations queries
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
-        @fact_kernels = FactValue.all(:select => "host_id, fact_values.value", :joins => [:host, :fact_name],
-                                     :conditions => {"fact_values.host_id" => @hosts, "fact_names.name" => 'kernel'})
         # rendering index page for non index page requests (out of sync hosts etc)
         render :index if title and @title = title
       end
@@ -79,8 +77,7 @@ class HostsController < ApplicationController
     new.puppetclasses = @host.puppetclasses
     # Clone any parameters as well
     @host.host_parameters.each{|param| new.host_parameters << param.clone}
-    flash[:error_customisation] = {:header_message => nil, :class => "flash notice", :id => nil,
-      :message => "The following fields will need reviewing:" }
+    flash[:warning] = "The following fields will need reviewing"
     new.valid?
     @host = new
     render :action => :new
@@ -121,11 +118,13 @@ class HostsController < ApplicationController
   end
 
   # form AJAX methods
-
   def hostgroup_or_environment_selected
-     @environment = Environment.find(params[:environment_id]) if params[:environment_id].to_i > 0
-     @hostgroup   = Hostgroup.find(params[:hostgroup_id])     if params[:hostgroup_id].to_i   > 0
-     if @environment or @hostgroup
+    return head(:method_not_allowed) unless request.xhr?
+
+    @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
+    @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
+    @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
+    if @environment or @hostgroup
       @host ||= Host.new
       @host.hostgroup   = @hostgroup if @hostgroup
       @host.environment = @environment if @environment
@@ -262,7 +261,7 @@ class HostsController < ApplicationController
     #update the hosts
     @hosts.each do |host|
       host.hostgroup=hg
-      host.save(false)
+      host.save(:validate => false)
     end
 
     notice 'Updated hosts: Changed Hostgroup'
@@ -284,7 +283,7 @@ class HostsController < ApplicationController
     #update the hosts
     @hosts.each do |host|
       host.environment=ev
-      host.save(false)
+      host.save(:validate => false)
     end
 
     notice 'Updated hosts: Changed Environment'
@@ -374,16 +373,15 @@ class HostsController < ApplicationController
     @host.set_hostgroup_defaults
 
     render :update do |page|
-      page['host_environment_id'].value = @hostgroup.environment_id if @hostgroup.environment_id
+      page['*[id*=environment_id]'].val(@hostgroup.environment_id) if @hostgroup.environment_id
       # process_hostgroup is only ever called for new host records therefore the assigned value can never be @hostgroup.puppetmaster_name
       # This means that we should use the puppetproxy display type as new hosts should use this feature
-      page['host_puppetproxy_id'].value = @hostgroup.puppetca? ? @hostgroup.puppetmaster.id : ""
-      if @environment
-        page.replace_html :puppet_klasses, :partial => 'puppetclasses/class_selection', :locals => {:obj => @host}
-      end
+      page['*[id*=puppetproxy_id]'].val(@hostgroup.puppetca? ? @hostgroup.puppetmaster.id : "")
+
+      page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
 
       if SETTINGS[:unattended]
-        page['host_root_pass'].value = @hostgroup.root_pass
+        page['*[id*=root_pass]'].val(@hostgroup.root_pass)
         if (@hypervisor = @hostgroup.hypervisor)
           @hypervisor.connect
           # we are in a view context
@@ -392,19 +390,18 @@ class HostsController < ApplicationController
         end
 
         if @architecture
-          page.replace_html :architecture_select, :partial => 'common/os_selection/architecture', :locals => {:item => @host}
-          page['host_architecture_id'].value = @architecture.id
+          page['#os_select'].html(render(:partial => 'common/os_selection/architecture', :locals => {:item => @host}))
+          page['#*[id*=architecture_id]'].val(@architecture.id)
         end
-        if @operatingsystem
-          page.replace_html :operatingsystem_select, :partial => 'common/os_selection/operatingsystem', :locals => {:item => @host}
-        end
+
+        page['#media_select'].html(render(:partial => 'common/os_selection/operatingsystem', :locals => {:item => @host})) if @operatingsystem
+
         if @domain
-          page['host_domain_id'].value = @domain.id
+          page['*[id*=domain_id]'].val(@domain.id)
           if @subnet
-            page.replace_html(:host_subnet, :partial => 'common/domain', :locals => {:item => @host})
-            page['host_subnet_id'].val("0").change
-            page['host_subnet_id'].val("#{@subnet.id}").change
-            page.replace_html(:sp_subnet, :partial => 'hosts/sp_subnet', :locals => {:item => @host})
+            page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
+            page['#host_subnet_id'].val(@subnet.id).change
+            page['#sp_subnet'].html(render(:partial => 'hosts/sp_subnet', :locals => {:item => @host}))
           end
         end
       end
@@ -459,17 +456,12 @@ class HostsController < ApplicationController
     end unless klass.nil?
 
     group.each do |k|
-      list = Host.hostgroup_name_eq(k).send(state).map(&:name)
+      list = Host.joins(:hostgroup).where("hostgroups.name" => k).send(state).map(&:name)
       @hosts = counter == 0 ? list : @hosts & list
       counter +=1
     end unless group.nil?
 
     not_found if @hosts.empty?
-  end
-
-  def ajax_methods
-    return head(:method_not_allowed) unless request.xhr?
-    @host = Host.find(params[:id]) unless params[:id].empty?
   end
 
   def load_vars_for_ajax

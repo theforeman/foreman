@@ -31,7 +31,7 @@ module ProxyAPI
       @resource = RestClient::Resource.new(url, connect_params)
     end
 
-    def logger; RAILS_DEFAULT_LOGGER; end
+    def logger; Rails.logger; end
 
     private
 

@@ -94,7 +94,7 @@ class UsersControllerTest < ActionController::TestCase
     delete :destroy, {:id => user.id}, {:user => user.id}
     assert_redirected_to users_url
     assert User.exists?(user)
-    assert @response.flash[:notice] == "You are currently logged in, suicidal?"
+    assert @request.flash[:notice] == "You are currently logged in, suicidal?"
   end
 
   test "should recreate the admin account" do
@@ -117,7 +117,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit a user' do
     setup_users
     get :edit, {:id => User.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing users' do

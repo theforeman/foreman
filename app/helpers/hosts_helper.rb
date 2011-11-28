@@ -101,14 +101,6 @@ module HostsHelper
     session[:selected].include?(host.id.to_s)
   end
 
-  def update_details_from_hostgroup
-    return nil unless @host.new_record?
-    remote_function(:url => { :action => "process_hostgroup" },
-                    :method => :post, :loading => "$('#indicator1').show()",
-                    :complete => "$('#indicator1').hide()",
-                    :with => "'hostgroup_id=' + value")
-  end
-
   def report_status_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
@@ -139,11 +131,10 @@ module HostsHelper
   def reports_show
     return unless @host.reports.size > 0
     form_tag @host, :id => 'days_filter', :method => :get do
-      content_tag(:p, {}) { "Reports from the last " +
-        select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-               {:selected => @range}, {:class=>"mini", :onchange =>"$('#days_filter').submit();$(this).disabled();"}) +
-               " days - #{@host.reports.recent(@range.days.ago).count} reports found"
-      }
+      content_tag(:span, "Reports from the last ") +
+      select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
+            {:selected => @range}, {:class=>"mini", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
+            " days - #{@host.reports.recent(@range.days.ago).count} reports found"
     end
   end
 

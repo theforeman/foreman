@@ -15,7 +15,7 @@ class PtablesControllerTest < ActionController::TestCase
   end
 
   def test_show_json
-    get :show, {:id => Ptable.first.id}, :format => :json, :user => users(:admin).id
+    get :show, {:id => Ptable.first.id, :format => :json}, set_session_user
     json = ActiveSupport::JSON.decode(@response.body)
     assert_equal "default", json["ptable"]["name"]
   end
@@ -83,7 +83,7 @@ class PtablesControllerTest < ActionController::TestCase
     delete :destroy, {:format => "json", :id => ptable}, set_session_user
     ptable = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !Ptable.exists?(ptable['id'])
+    assert !Ptable.exists?(:id => ptable['id'])
   end
 
   def setup_view_user
@@ -94,19 +94,19 @@ class PtablesControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit a partition table' do
     setup_view_user
     get :edit, {:id => Ptable.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to delete a partition table' do
     setup_view_user
     delete :destroy, {:id => Ptable.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to create a partition table' do
     setup_view_user
     post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing partition tables' do

@@ -1,7 +1,7 @@
 <%= javascript "lookup_keys" %>
 <% title("Edit Smart Variable") %>
 
-<% form_for(@lookup_key) do |f| %>
+<%= form_for(@lookup_key) do |f| %>
   <%= render 'fields', :f => f %>
   <%= submit_or_cancel f %>
 <% end %>

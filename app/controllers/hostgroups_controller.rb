@@ -1,8 +1,9 @@
+require 'foreman/controller/host_details'
+
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  filter_parameter_logging :root_pass
   before_filter :find_hostgroup, :only => [:show, :edit, :update, :destroy, :clone]
 
   def index

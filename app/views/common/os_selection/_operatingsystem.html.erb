@@ -1,4 +1,4 @@
-<% fields_for item do |f| %>
+<%= fields_for item do |f| %>
   <%= select_f f, :medium_id, os_media, :id, :to_label,
     {:include_blank => os_media.size > 1, :selected => item.medium_id},
     {:id => type + "_medium_id", :name => type + "[medium_id]", :label => "Media", :disabled => os_media.empty? }

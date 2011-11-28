@@ -1,36 +1,27 @@
 # config/initializers/will_paginate.rb
+require 'will_paginate/array'
 
 module WillPaginate
-  module ViewHelpers
+  module ActionView
     class BootstrapLinkRenderer < LinkRenderer
+     protected
 
-      def to_html
-        links = @options[:page_links] ? visible_page_numbers.map {|n| page_link_or_span(n, '')} : []
-        html  = add_prev_next(links).join(@options[:separator])
-        @options[:container] ? @template.content_tag(:div, @template.content_tag(:ul, html), html_attributes) : html
+      def html_container(html)
+        tag :div, tag(:ul, html), container_attributes
       end
 
-      protected
-
-      # previous/next buttons
-      def add_prev_next(links)
-        prev_class = "prev"
-        next_class = "next"
-        prev_class += " disabled" if visible_page_numbers.first == current_page
-        next_class += " disabled" if visible_page_numbers.last == current_page
-        links.unshift page_link_or_span(visible_page_numbers.first == current_page ? current_page : @collection.previous_page, prev_class, @options[:previous_label])
-        links.push page_link_or_span(visible_page_numbers.last == current_page ? current_page : @collection.next_page, next_class, @options[:next_label])
+      def page_number(page)
+        tag :li, link(page, page, :rel => rel_value(page)), :class => ('active' if page == current_page)
       end
 
-      def page_link_or_span(page, span_class, text = nil)
-        span_class ||=""
-        span_class += " active"  if page and page == current_page
-        page_link page, text ||= page.to_s, :rel => rel_value(page), :class => span_class
+      def previous_or_next_page(page, text, classname)
+        tag :li, link(text, page || '#'), :class => [classname[0..3], classname, ('disabled' unless page)].join(' ')
       end
 
-      def page_link(page, text, attributes = {})
-        @template.content_tag(:li, @template.link_to(text, url_for(page), attributes) ,attributes)
+      def gap
+        tag :li, link(super, '#'), :class => 'disabled'
       end
+
     end
   end
 end

@@ -71,7 +71,7 @@ class Hypervisor < ActiveRecord::Base
   def try_to_connect
     connect
   rescue => e
-    errors.add_to_base "Unable to connect to Hypervisor: #{e}"
+    errors.add :base, "Unable to connect to Hypervisor: #{e}"
     false
   ensure
     disconnect

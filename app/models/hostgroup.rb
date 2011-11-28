@@ -10,10 +10,11 @@ class Hostgroup < ActiveRecord::Base
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :hosts
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations
   before_save :serialize_vm_attributes
+  after_find :deserialize_vm_attributes
 
   default_scope :order => 'LOWER(hostgroups.name)'
 
@@ -55,7 +56,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]}.merge(options))
+    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]})
   end
 
   def hostgroup
@@ -108,10 +109,6 @@ class Hostgroup < ActiveRecord::Base
     raise "defaults must be a hash" unless v.is_a?(Hash)
     v.delete_if{|attr, value| not Vm::PROPERTIES.include?(attr.to_sym)}
     write_attribute :vm_defaults, v.to_yaml
-  end
-
-  def after_find
-    deserialize_vm_attributes
   end
 
   private

@@ -82,6 +82,6 @@ class SubnetsControllerTest < ActionController::TestCase
     delete :destroy, {:format => "json", :id => subnet}, set_session_user
     subnet = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !Subnet.exists?(subnet['id'])
+    assert !Subnet.exists?(:id => subnet['id'])
   end
 end

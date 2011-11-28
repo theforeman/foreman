@@ -5,14 +5,14 @@
       </p>Please save the Operating System first and try again.</p>
     </div>
   <% else -%>
-    <% if ConfigTemplate.operatingsystems_id_eq(@operatingsystem.id).empty? -%>
+    <% if ConfigTemplate.joins(:operatingsystems).where(:id => @operatingsystem.id).empty? -%>
       <div class="alert-message warning" data-alert="close">
         <a class="close" href="#">×</a>
         <p><strong>No templates found!</strong> you probably need to configure your <%= link_to "templates", config_templates_path %> first.</p>
       </div>
     <% end -%>
 
-    <% f.fields_for :os_default_templates do |builder| -%>
+    <%= f.fields_for :os_default_templates do |builder| -%>
       <%= render 'templates', :f => builder %>
     <% end -%>
   <% end -%>

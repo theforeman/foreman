@@ -19,7 +19,7 @@
     <h3>Available Classes</h3>
     <div class="row">
       <%= render "puppetclasses/classes",
-        :puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all) - obj.all_puppetclasses,
+        :puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all), :selected_puppet_classes => obj.all_puppetclasses,
         :type => obj.class.to_s.downcase
       %>
     </div>

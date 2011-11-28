@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
 
-  before_destroy Ensure_not_used_by.new(:hosts), :ensure_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup
   before_validation :prepare_password
   after_destroy Proc.new {|user| user.domains.clear; user.hostgroups.clear}
@@ -79,7 +79,6 @@ class User < ActiveRecord::Base
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
 
-    user = nil
     # user is already in local database
     if user = find_by_login(login)
       # user has an authentication method and the authentication was successful
@@ -187,15 +186,15 @@ class User < ActiveRecord::Base
           user = nil
         end
       end
+      user
     end
-    user
   end
 
   protected
 
   def name_used_in_a_usergroup
     if Usergroup.all.map(&:name).include?(self.login)
-      errors.add_to_base "A usergroup already exists with this name"
+      errors.add :base, "A usergroup already exists with this name"
     end
   end
 
@@ -204,7 +203,7 @@ class User < ActiveRecord::Base
   # admin account automatically
   def ensure_admin_is_not_deleted
     if login == "admin"
-      errors.add_to_base "Can't delete internal admin account"
+      errors.add :base, "Can't delete internal admin account"
       logger.warn "Unable to delete internal admin account"
       return false
     end

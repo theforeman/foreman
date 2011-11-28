@@ -29,7 +29,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), options.merge({:class => "btn small info"}) )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn small info"}) )
   end
 
   def toggle_div divs
@@ -48,20 +48,11 @@ module ApplicationHelper
   end
 
   def link_to_remove_puppetclass klass
-    link_to_function "",:class=>"ui-icon ui-icon-minus" do |page|
-      page["selected_puppetclass_#{klass.id}"].remove
-      #TODO if the class is already selected, removing it will not add it to the avail class list
-      page << "if ($('puppetclass_#{klass.id}')) {"
-      page["puppetclass_#{klass.id}"].show
-      page << "}"
-    end
+    link_to_function "","remove_puppet_class(this)", :'data-class-id'=>klass.id, :class=>"ui-icon ui-icon-minus"
   end
 
   def link_to_add_puppetclass klass, type
-    # link to remote is faster than inline js when having many classes
-    link_to_remote "",
-      {:url => assign_puppetclass_path(klass, :type => type),
-      :position => {:after => {:success => "selected_classes" }}},{:class=>"ui-icon ui-icon-plus"}
+    link_to_function "", "add_puppet_class(this)", :'data-class-id'=>klass.id, :class=>"ui-icon ui-icon-plus"
   end
 
   def check_all_links(form_name)
@@ -146,7 +137,7 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to "Help", :action => "help"
+    link_to "Help", :action => "welcome"
   end
 
   def edit_textfield(object, property, options={})

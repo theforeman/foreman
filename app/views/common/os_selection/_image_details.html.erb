@@ -1,4 +1,4 @@
-<% fields_for item do |f| %>
+<%= fields_for item do |f| %>
   <span id="image_details">
     <%= checkbox_f f, :use_image, :id => type + "_cb_use_image", :label => "Build from img?" -%>
     <%= hidden_field_tag type + "[use_image]", 0 %>

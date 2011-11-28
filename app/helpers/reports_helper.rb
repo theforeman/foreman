@@ -22,7 +22,7 @@ module ReportsHelper
   end
 
   def metric m
-    h(m.round_with_precision(4)) rescue "N/A"
+    m.round(4) rescue "N/A"
   end
 
   def report_tag level
@@ -42,10 +42,9 @@ module ReportsHelper
    def logs_show
     return unless @report.logs.size > 0
     form_tag @report, :id => 'level_filter', :method => :get do
-      content_tag(:p, {}) { "Show log messages: " +
-        select(nil, 'level', [['All messages', 'notice'],['Warnings and errors', 'warning'],['Errors only', 'error']],
-               {}, {:class=>"span4", :onchange =>"filter_by_level($(this).val());"})
-      }
+      content_tag(:span, "Show log messages: ") +
+      select(nil, 'level', [['All messages', 'notice'],['Warnings and errors', 'warning'],['Errors only', 'error']],
+             {}, {:class=>"span4", :onchange =>"filter_by_level($(this).val());"})
     end
    end
 end

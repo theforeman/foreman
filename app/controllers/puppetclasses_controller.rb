@@ -1,3 +1,5 @@
+require 'foreman/controller/environments'
+
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
@@ -54,25 +56,6 @@ class PuppetclassesController < ApplicationController
       error @puppetclass.errors.full_messages.join("<br/>")
     end
     redirect_to puppetclasses_url
-  end
-
-  # AJAX methods
-
-  # adds a puppetclass to an existing host or hostgroup
-  #
-  # We assign the new puppetclasses (e.g. in the context of a Host or a Host Group)
-  # via ajax and not java script as rendering javascript for each and every class
-  # seems to be much longer than the average roundtrip time to the server
-  # TODO: convert this to pure javascript then AJAX will not be required.
-  def assign
-    return unless request.xhr?
-
-    type = params[:type]
-    render :update do |page|
-      page.insert_html :bottom, :selected_classes, :partial => 'selectedClasses', :locals => {:klass => @puppetclass, :type => type}
-      page["selected_puppetclass_#{@puppetclass.id}"].highlight(5000)
-      page["puppetclass_#{@puppetclass.id}"].hide
-    end
   end
 
 end

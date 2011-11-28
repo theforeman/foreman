@@ -1,3 +1,5 @@
+require "net/validations"
+
 module Net
   class Record
     include Net::Validations

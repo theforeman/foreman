@@ -1,4 +1,4 @@
-<% fields_for item do |f| -%>
+<%= fields_for item do |f| -%>
   <%= select_f f, :sp_subnet_id, domain_subnets, :id, :title,
     { :include_blank => domain_subnets.any? ? true : "No subnets"},
     { :disabled => domain_subnets.empty? ? true : false, :label => "BMC Subnet" }

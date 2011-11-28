@@ -22,10 +22,10 @@ class Report < ActiveRecord::Base
   scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
 
   # returns recent reports
-  named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
+  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
 
   # with_changes
-  named_scope :interesting, {:conditions => "status != 0"}
+  scope :interesting, {:conditions => "status != 0"}
 
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
@@ -87,7 +87,7 @@ class Report < ActiveRecord::Base
       # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
       # 2. We want this to be fast and light on the db.
       # at this point, the report is important, not as much of the host
-      host.save_with_validation(false)
+      host.save(:validate => false)
 
       # and save our report
       r = self.create!(:host => host, :reported_at => report.time.utc, :status => st, :metrics => self.m2h(report.metrics))
@@ -196,7 +196,7 @@ class Report < ActiveRecord::Base
       logger.warn "#{report.host} is disabled - skipping." and return if host.disabled?
 
       logger.debug "error detected, checking if we need to send an email alert"
-      HostMailer.deliver_error_state(self) if Setting[:failed_report_email_notification]
+      HostMailer.error_state(self).deliver if Setting[:failed_report_email_notification]
       # add here more actions - e.g. snmp alert etc
     end
   rescue => e
@@ -208,6 +208,14 @@ class Report < ActiveRecord::Base
     false
   end
 
+  def as_json(options={})
+    {:report =>
+      { :reported_at => reported_at, :status => status,
+        :host => host.name, :metrics => metrics, :logs => logs.all(:include => [:source, :message]),
+        :id => id, :summary => summaryStatus
+      },
+    }
+  end
   private
 
   # Converts metrics form Puppet report into a hash
@@ -300,7 +308,7 @@ class Report < ActiveRecord::Base
     return true if operation == "create"
     return true if operation == "destroy" and User.current.allowed_to?(:destroy_reports)
 
-    errors.add_to_base "You do not have permission to #{operation} this report"
+    errors.add :base, "You do not have permission to #{operation} this report"
     false
   end
 
@@ -308,15 +316,6 @@ class Report < ActiveRecord::Base
     return "Failed"   if error?
     return "Modified" if changes?
     return "Success"
-  end
-
-  def as_json(options={})
-    {:report =>
-      { :reported_at => reported_at, :status => status,
-        :host => host.name, :metrics => metrics, :logs => logs.all(:include => [:source, :message]),
-        :id => id, :summary => summaryStatus
-      },
-    }
   end
 
   # puppet report status table column name

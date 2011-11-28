@@ -7,7 +7,7 @@ module Orchestration::TFTP
       before_destroy :queue_tftp_destroy
 
       # required for pxe template url helpers
-      include ActionController::UrlWriter
+      include Rails.application.routes.url_helpers
     end
   end
 

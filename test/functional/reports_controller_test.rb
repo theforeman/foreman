@@ -42,16 +42,16 @@ class ReportsControllerTest < ActionController::TestCase
   def test_create_duplicate
     create_a_puppet_transaction_report
     User.current = nil
-    post :create, {:report => @log}
+    post :create, {:report => @log, :format => "yml"}
     assert_response :success
-    post :create, {:report => @log}
+    post :create, {:report => @log, :format => "yml"}
     assert_response :error
   end
 
   def test_create_valid
     create_a_puppet_transaction_report
     User.current = nil
-    post :create, {:report => @log}
+    post :create, {:report => @log, :format => "yml"}
     assert_response :success
   end
 
@@ -94,12 +94,6 @@ class ReportsControllerTest < ActionController::TestCase
   def user_setup
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-  end
-
-  test 'user with viewer rights should fail to edit a report' do
-    user_setup
-    get :edit, {:id => Report.first.id}
-    assert @response.status == '403 Forbidden'
   end
 
   test 'user with viewer rights should succeed in viewing reports' do

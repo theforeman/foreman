@@ -80,6 +80,6 @@ class SmartProxiesControllerTest < ActionController::TestCase
     delete :destroy, {:format => "json", :id => proxy}, set_session_user
     proxy = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !SmartProxy.exists?(proxy['id'])
+    assert !SmartProxy.exists?(:id => proxy['id'])
   end
 end

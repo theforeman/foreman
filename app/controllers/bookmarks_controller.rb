@@ -2,7 +2,7 @@ class BookmarksController < ApplicationController
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
-    @bookmarks = Bookmark.all.paginate(:page => params[:page])
+    @bookmarks = Bookmark.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html

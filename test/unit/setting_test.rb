@@ -42,7 +42,7 @@ class SettingTest < ActiveSupport::TestCase
     s = Setting.find_by_name "foo"
     s.name = "boo"
     assert !s.save
-    assert_equal s.errors[:name], "is not allowed to change"
+    assert_equal s.errors[:name], ["is not allowed to change"]
   end
 
   def test_name_could_be_a_symbol_or_a_string

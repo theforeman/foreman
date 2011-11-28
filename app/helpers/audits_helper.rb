@@ -13,11 +13,11 @@ module AuditsHelper
   end
 
   def audit_parent audit
-    audit.try(:auditable_parent).try(:name)
+    audit.try(:associated).try(:name)
   end
 
-  def auditable_type audit
-    audit.auditable_type.split("::").last
+  def association_type audit
+    audit.association_type.split("::").last if audit.association_type
   end
 
   def change_order action, value

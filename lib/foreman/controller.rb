@@ -1,0 +1,2 @@
+module Foreman::Controller
+end

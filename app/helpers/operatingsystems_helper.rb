@@ -1,18 +1,6 @@
 module OperatingsystemsHelper
   include CommonParametersHelper
 
-  # displays release name on debian based distributions on operating system edit page.
-  def show_release
-    update_page do |page|
-      page << "if (value == 'Debian' || value == 'Solaris') {"
-      page[:release_name].show
-      page[:release_name].highlight
-      page << "} else {"
-      page[:release_name].hide
-      page << "}"
-    end
-  end
-
   def icon record, opts = {}
     return "" if record.blank? or record.name.blank?
     family = case record.name
@@ -39,7 +27,7 @@ module OperatingsystemsHelper
   end
 
   def os_name record, opts = {}
-    "#{icon(record, opts)} #{h(record)}"
+    "#{icon(record, opts)} #{record}".html_safe
   end
 
 end

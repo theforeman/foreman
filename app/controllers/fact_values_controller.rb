@@ -8,9 +8,6 @@ class FactValuesController < ApplicationController
   before_filter :set_admin_user, :only => :create
   before_filter :setup_search_options, :only => :index
 
-  # avoids storing the facts data in the log files
-  filter_parameter_logging :facts
-
   def index
     begin
       values = FactValue.no_timestamp_facts.search_for(params[:search],:order => params[:order])

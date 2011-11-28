@@ -1,5 +1,5 @@
 class HostClass < ActiveRecord::Base
-  acts_as_audited :parent => :host
+  acts_as_audited :associated_with => :host
   belongs_to :host
   belongs_to :puppetclass
 

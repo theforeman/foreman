@@ -6,7 +6,7 @@ class MediaController < ApplicationController
     values = Medium.search_for(params[:search], :order => params[:order])
     respond_to do |format|
       format.html { @media = values.paginate(:page => params[:page], :include => [:operatingsystems]) }
-      format.json { render :json => values.as_json }
+      format.json { render :json => values }
     end
   end
 

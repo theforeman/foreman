@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FactValuesControllerTest < ActionController::TestCase
   def fact_fixture
-    Pathname.new("#{RAILS_ROOT}/test/fixtures/brslc022.facts.yaml").read
+    Pathname.new("#{Rails.root}/test/fixtures/brslc022.facts.yaml").read
   end
 
   def test_index
@@ -14,13 +14,13 @@ class FactValuesControllerTest < ActionController::TestCase
 
   def test_create_invalid
     User.current = nil
-    post :create, {:facts => fact_fixture[1..-1]}
+    post :create, {:facts => fact_fixture[1..-1], :format => "yml"}
     assert_response :bad_request
   end
 
   def test_create_valid
     User.current = nil
-    post :create, {:facts => fact_fixture}
+    post :create, {:facts => fact_fixture, :format => "yml"}
     assert_response :success
   end
 

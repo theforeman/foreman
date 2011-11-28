@@ -74,7 +74,7 @@ class LookupKey < ActiveRecord::Base
     return host.host_params[element] if host.host_params.include?(element)
     # fact attribute
     if fn = host.fact_names.first(:conditions => {:name => element})
-      return FactValue.first(:conditions => {:host_id => host.id, :fact_name_id => fn.id}).value
+      return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
     end
   end
 

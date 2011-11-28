@@ -42,16 +42,8 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert @auth_source_ldap.save
   end
 
-  test "should exists a port" do
-    missing(:port=)
-    assert !@auth_source_ldap.save
-
-    set(:port=)
-    assert @auth_source_ldap.save
-  end
-
-  test "after initiliaze if port == 0 should automatically change to 389" do
-    other_auth_source_ldap = AuthSourceLdap.new(:port => 0)
+  test "after initialize if port == 0 should automatically change to 389" do
+    other_auth_source_ldap = AuthSourceLdap.new
     assert_equal 389, other_auth_source_ldap.port
   end
 

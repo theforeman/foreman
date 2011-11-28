@@ -27,16 +27,18 @@ class ActiveRecord::Base
       "#{self.class.name} Attribute Update"
     )
   end
-  class Ensure_not_used_by
-    def initialize(*attribute)
+
+  # ActiveRecord Callback class
+  class EnsureNotUsedBy
+    def initialize *attribute
       @klasses = attribute
-      @logger  = RAILS_DEFAULT_LOGGER
+      @logger  = Rails.logger
     end
 
     def before_destroy(record)
       for klass in @klasses
-        for what in eval "record.#{klass.to_s}"
-          record.errors.add_to_base(record.to_label + " is used by " + what.to_s)
+        for what in record.send(klass.to_sym)
+          record.errors.add :base, "#{record} is used by #{what}"
         end
       end
       unless record.errors.empty?
@@ -54,15 +56,13 @@ class ActiveRecord::Base
   alias_attribute :to_label, :name
   alias_attribute :to_s, :to_label
 
-  def self.per_page
-    Setting["entries_per_page"]
-  end
-
   def self.unconfigured?
     first.nil?
   end
 
 end
+
+
 
 module ExemptedFromLogging
   def process(request, *args)
@@ -85,17 +85,4 @@ class String
       raise "Unknown string: #{self.inspect}!"
     end
   end
-end
-module ActionView::Helpers::ActiveRecordHelper
-  def error_messages_for_with_customisation(*params)
-    if flash[:error_customisation]
-      if params[-1].is_a? Hash
-        params[-1].update flash[:error_customisation]
-      else
-        params << flash[:error_customisation]
-      end
-    end
-    error_messages_for_without_customisation(*params)
-  end
-  alias_method_chain :error_messages_for, :customisation
 end

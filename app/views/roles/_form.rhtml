@@ -1,6 +1,6 @@
 <% title_actions check_all_links('permissions') %>
 
-<% form_for @role do |f| %>
+<%= form_for @role do |f| %>
   <%= base_errors_for @role %>
 
   <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
@@ -13,7 +13,7 @@
         <ul class="inputs-list">
           <% perms_by_block[block].each do |permission| %>
             <li>
-            <% content_tag_for 'role[permissions][]', permission do %>
+            <%= content_tag :div, 'role[permissions][]' do %>
               <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
               <%= permission.name %>
               <%= hidden_field_tag 'role[permissions][]' %>
