@@ -98,8 +98,7 @@ function stat_pie(name, title, data, border, expandable, show_title) {
         spacingLeft: 0,
         spacingRight: 0,
         events: {
-          click: function(e) {if(expandable){expand_chart(this.container.parentElement);}},
-          selection: function(e) {alert('kuku');}
+          click: function(e) {if(expandable){expand_chart($(this.container).parent());}}
         },
         backgroundColor: {
          linearGradient: [0, 0, 0, 200],
