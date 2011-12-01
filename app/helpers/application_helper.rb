@@ -63,7 +63,7 @@ module ApplicationHelper
 
   def link_to_add_puppetclass klass, type
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
-    content_tag(:span, truncate(klass.name, :length => 28), :'data-original-title'=>klass.name, :rel=>'twipsy').html_safe +
+    content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("", "add_puppet_class(this)", :'data-class-id'=>klass.id,
                      :'data-original-title'=>"Click to add #{klass}", :rel=>'twipsy',
                      :class=>"ui-icon ui-icon-plus")

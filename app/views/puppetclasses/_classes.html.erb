@@ -3,12 +3,12 @@
     <% group.each do |list| -%>
       <% next if list.nil? %>
       <ul>
-        <li title="Click to expand module class list"><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('#pc_#{list.first}').fadeToggle('slow')" %>
+        <li><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('#pc_#{list.first}').fadeToggle('slow')" %>
           <ul id="pc_<%= list.first %>" style="display: none;">
             <% for klass in list.last.sort -%>
               <% style = selected_puppet_classes.include?(klass) ? "hide" : "#{cycle('even', 'odd')}" %>
-              <%= content_tag_for :li, klass, :title => "Click to add #{klass}", :class=> style do %>
-                <%= klass.name.html_safe + link_to_add_puppetclass(klass, type) %>
+              <%= content_tag_for :li, klass, :class=> style do %>
+                <%= link_to_add_puppetclass(klass, type) %>
               <% end -%>
             <% end -%>
           </ul>
