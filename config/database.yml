@@ -1,3 +1,12 @@
+production:
+  adapter: mysql
+  database: puppet
+  host: localhost
+  port: 3306
+  username: puppet
+  password: puppet_db_password
+  encoding: utf8
+
 # SQLite version 3.x
 #   gem install sqlite3
 development:
@@ -15,8 +24,3 @@ test:
   pool: 5
   timeout: 5000
 
-production:
-  adapter: sqlite3
-  database: db/production.sqlite3
-  pool: 5
-  timeout: 5000
