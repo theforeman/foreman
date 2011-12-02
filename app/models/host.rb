@@ -399,7 +399,10 @@ class Host < Puppet::Rails::Host
     end
 
     os_name = fv(:operatingsystem)
-    if orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
+    if os_name == "Archlinux"
+      # Archlinux is rolling release, so it has no release. We use 1.0 always
+      self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, "1", "0"
+    elsif orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
       major, minor = orel.split(".")
       minor ||= ""
       self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
