@@ -10,7 +10,7 @@
     </ul>
     <ul>
       <% parent_classes(obj).each do |klass| %>
-        <li title="included already from host group"><%= h klass.name %></li>
+        <li data-original-title="included already from host group" rel="twipsy" style='color:black;'><%= h klass.name %></li>
       <% end -%>
     </ul>
   </div>

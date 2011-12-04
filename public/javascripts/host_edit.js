@@ -1,13 +1,14 @@
 function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var content = $(item).parent().clone();
-  content.attr('title', 'Click to remove this class');
   content.attr('id', 'selected_puppetclass_'+ id);
   content.append("<input id='host_puppetclass_ids_' name='host[puppetclass_ids][]' type='hidden' value=" +id+ ">");
+  content.children('span').twipsy();
 
-  var link = content.children().first();
+  var link = content.children('a');
   link.attr('onclick', 'remove_puppet_class(this)');
-  link.removeClass('ui-icon-plus').addClass('ui-icon-minus');
+  link.attr('data-original-title', 'Click to undo adding this class');
+  link.removeClass('ui-icon-plus').addClass('ui-icon-minus').twipsy();
 
   $('#selected_classes').append(content)
 
@@ -18,6 +19,7 @@ function add_puppet_class(item){
 function remove_puppet_class(item){
   var id = $(item).attr('data-class-id');
   $('#puppetclass_' + id ).show();
+  $('#selected_puppetclass_' + id).children('a').twipsy('hide');
   $('#selected_puppetclass_' + id).remove();
 
   return false;
@@ -35,6 +37,7 @@ function hostgroup_changed(element) {
       data:'hostgroup_id=' + hostgroup_id,
       complete: function(request){
          $('#hostgroup_indicator').hide();
+         $('[rel="twipsy"]').twipsy();
       }
     })
   } else { // edit host
@@ -56,6 +59,7 @@ function update_puppetclasses(element) {
     },
     complete: function(request) {
       $('#hostgroup_indicator').hide();
+      $('[rel="twipsy"]').twipsy();
     }
   })
 }
