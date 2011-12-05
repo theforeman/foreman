@@ -20,9 +20,9 @@ module GW
 
   module Logger
     def logger
-      if defined? RAILS_DEFAULT_LOGGER
+      if defined? Rails and defined? Rails.logger
         # If we are running as a library in a rails app then use the provided logger
-        RAILS_DEFAULT_LOGGER
+        Rails.logger
       else
         # We must make our own ruby based logger if we are a standalone proxy server
         require 'logger'
