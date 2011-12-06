@@ -9,15 +9,15 @@ class Subnet < ActiveRecord::Base
   belongs_to :domain
   validates_presence_of   :network, :mask, :domain_id, :name
   validates_uniqueness_of :network
-  validates_format_of     :network, :with  => Net::Validations::IP_REGEXP
-  validates_format_of     :mask,    :with  => Net::Validations::IP_REGEXP
+  validates_format_of     :network, :mask,                        :with => Net::Validations::IP_REGEXP
+  validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true
   validates_uniqueness_of :name,    :scope => :domain_id
   default_scope :order => 'priority'
   validate :validate_ranges
 
   before_destroy EnsureNotUsedBy.new(:hosts, :sps)
 
-  scoped_search :on => [:name, :network, :mask], :complete_value => true
+  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary], :complete_value => true
   scoped_search :in => :domain, :on => :name, :rename => :domain, :complete_value => true
 
   # Subnets are displayed in the form of their network network/network mask
