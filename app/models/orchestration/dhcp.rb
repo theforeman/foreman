@@ -77,7 +77,7 @@ module Orchestration::DHCP
         # trying to guess out tftp next server based on the smart proxy hostname
         bs = URI.parse(subnet.tftp.url).host if respond_to?(:tftp?) and tftp?
       end
-      return bs unless bs.blank?
+      return(bs =~/^\d/ ? bs : dns_ptr_record.dns_lookup(bs).ip) unless bs.blank?
       failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
     rescue => e
       failure "failed to detect boot server: #{e}"
