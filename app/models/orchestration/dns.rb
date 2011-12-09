@@ -14,12 +14,12 @@ module Orchestration::DNS
     end
 
     def dns_a_record
-      return unless dns?
+      return unless dns? or @dns_a_record
       @dns_a_record ||= Net::DNS::ARecord.new dns_record_attrs
     end
 
     def dns_ptr_record
-      return unless dns?
+      return unless dns? or @dns_ptr_record
       @dns_ptr_record ||= Net::DNS::PTRRecord.new dns_record_attrs
     end
 
