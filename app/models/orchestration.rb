@@ -79,7 +79,8 @@ module Orchestration
       # process all pending tasks
       q.pending.each do |task|
         # if we have failures, we don't want to process any more tasks
-        next unless q.failed.empty?
+        break unless q.failed.empty?
+
         task.status = "running"
         begin
           task.status = execute({:action => task.action}) ? "completed" : "failed"
@@ -88,6 +89,9 @@ module Orchestration
           task.status = "conflict"
           @record_conflicts << e
           failure e.message
+        rescue RestClient::Exception => e
+          task.status = "failed"
+          failure "#{task.name} task failed with the following error: #{e.response}"
         rescue => e
           task.status = "failed"
           failure "#{task.name} task failed with the following error: #{e}"

@@ -15,7 +15,7 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
-    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy]
+    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
     reports facts storeconfig_klasses clone pxe_config toggle_manage]
 
@@ -336,6 +336,20 @@ class HostsController < ApplicationController
 
   def submit_multiple_enable
     toggle_hostmode
+  end
+
+  def multiple_puppetrun
+    return deny_access unless Setting[:puppetrun]
+  end
+
+  def update_multiple_puppetrun
+    return deny_access unless Setting[:puppetrun]
+    if GW::Puppet.run @hosts.map(&:fqdn)
+      notice "Successfully executed, check reports and/or log files for more details"
+    else
+      error "Some or all hosts execution failed, Please check log files for more information"
+    end
+    redirect_back_or_to hosts_path
   end
 
   def errors

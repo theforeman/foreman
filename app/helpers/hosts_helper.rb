@@ -82,6 +82,7 @@ module HostsHelper
       ['Enable Notifications', multiple_enable_hosts_path],
     ]
     actions.insert(1, ['Build Hosts', multiple_build_hosts_path]) if SETTINGS[:unattended]
+    actions <<  ['Run Puppet', multiple_puppetrun_hosts_path] if Setting[:puppetrun]
 
     select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple",
       :class => "medium", :title => "Perform Actions on multiple hosts"
