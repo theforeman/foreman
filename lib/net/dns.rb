@@ -45,10 +45,6 @@ module Net
         raise "Must provide a DNS resolver" unless resolver.is_a?(Resolv::DNS)
       end
 
-      def to_s
-        "#{hostname}/#{ip}"
-      end
-
       def destroy
         logger.info "Delete the DNS #{type} record for #{to_s}"
       end
@@ -73,7 +69,7 @@ module Net
         e.type     = "dns"
         e.expected = to_s
         e.actual   = conflicts
-        e.message  = "DNS conflict detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
+        e.message  = "in DNS detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
         e
       end
 

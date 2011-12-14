@@ -2,7 +2,7 @@ module Orchestration::DNS
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      after_validation :validate_dns, :queue_dns
+      after_validation :validate_dns, :queue_remove_dns_conflicts, :queue_dns
       before_destroy :queue_dns_destroy
     end
   end
@@ -10,7 +10,7 @@ module Orchestration::DNS
   module InstanceMethods
 
     def dns?
-      !domain.nil? and !domain.proxy.nil? and errors.empty?
+      !domain.nil? and !domain.proxy.nil?
     end
 
     def dns_a_record
@@ -29,23 +29,41 @@ module Orchestration::DNS
       dns_a_record.create
     end
 
+    def set_conflicting_dns_a_record
+      dns_a_record.conflicts[0].create
+    end
+
     def set_dns_ptr_record
       dns_ptr_record.create
+    end
+
+    def set_conflicting_dns_ptr_record
+      dns_ptr_record.conflicts[0].create
     end
 
     def del_dns_a_record
       dns_a_record.destroy
     end
 
+    def del_conflicting_dns_a_record
+      dns_a_record.conflicts[0].destroy
+    end
+
     def del_dns_ptr_record
       dns_ptr_record.destroy
+    end
+
+    def del_conflicting_dns_ptr_record
+      dns_ptr_record.conflicts[0].destroy
     end
 
     def validate_dns
       return unless dns?
       return unless new_record?
-      failure("#{hostname} A record is already in DNS") if dns_a_record.conflicting?
-      failure("#{ip} PTR is already in DNS")            if dns_ptr_record.conflicting?
+      return if overwrite?
+      status = true
+      status = failure("- #{dns_a_record.conflicts[0]} exists in DNS ", nil, :conflict) if dns_a_record.conflicting?
+      status &= failure("- #{dns_ptr_record.conflicts[0]} exists in DNS", nil, :conflict) if dns_ptr_record.conflicting?
     end
 
     def dns_record_attrs
@@ -60,6 +78,7 @@ module Orchestration::DNS
     end
 
     def queue_dns_create
+      logger.debug "Scheduling new DNS entries"
       queue.create(:name   => "DNS record for #{self}", :priority => 3,
                    :action => [self, :set_dns_a_record])
       queue.create(:name   => "Reverse DNS record for #{self}", :priority => 3,
@@ -86,5 +105,15 @@ module Orchestration::DNS
                    :action => [self, :del_dns_ptr_record])
     end
 
+    def queue_remove_dns_conflicts
+      return unless dns? and errors.empty?
+      return unless overwrite?
+      logger.debug "Scheduling DNS conflict removal"
+      queue.create(:name   => "Remove conflicting DNS record for #{self}", :priority => 1,
+                   :action => [self, :del_conflicting_dns_a_record])
+      queue.create(:name   => "Remove conflicting Reverse DNS record for #{self}", :priority => 1,
+                   :action => [self, :del_conflicting_dns_ptr_record])
+
+    end
   end
 end

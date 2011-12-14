@@ -7,6 +7,10 @@ module Net
         @type = "A"
       end
 
+      def to_s
+        "#{hostname}/#{ip}"
+      end
+
       def destroy
         super
         proxy.delete(hostname)
@@ -24,7 +28,7 @@ module Net
         @conflicts ||= [dns_lookup(hostname)].delete_if { |c| c == self }.compact
       end
 
-      # Verifies that are record already exists on the dhcp server
+      # Verifies that a record already exists on the dns server
       def valid?
         self == dns_lookup(hostname)
       end

@@ -46,7 +46,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.new_record?
     h.name = "dummy-123"
     h.ip = "2.3.4.101"
-    h.mac = "bb:bb:bb:bb:bb"
+    h.mac = "bb:bb:bb:bb:bb:bb"
     assert h.valid?
     assert_equal h.queue.items.select {|x| x.action.last == :set_dhcp }.size, 1
     assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
@@ -57,7 +57,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.new_record?
     h.name = "dummy-123"
     h.ip = "2.3.4.101"
-    h.mac = "bb:bb:bb:bb:bb"
+    h.mac = "bb:bb:bb:bb:bb:bb"
     h.sp_name = "dummy-bmc"
     h.sp_ip = "2.3.4.102"
     h.sp_mac = "aa:bb:cd:cd:ee:ff"
