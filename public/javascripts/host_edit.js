@@ -1,8 +1,9 @@
 function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
+  var type = $(item).attr('data-type');
   var content = $(item).parent().clone();
   content.attr('id', 'selected_puppetclass_'+ id);
-  content.append("<input id='host_puppetclass_ids_' name='host[puppetclass_ids][]' type='hidden' value=" +id+ ">");
+  content.append("<input id='" + type +"_puppetclass_ids_' name='" + type +"[puppetclass_ids][]' type='hidden' value=" +id+ ">");
   content.children('span').twipsy();
 
   var link = content.children('a');
