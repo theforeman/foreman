@@ -6,4 +6,5 @@ require 'foreman/controller'
 require 'net'
 
 module Foreman
+  mattr_accessor :report_logger, :fact_logger, :default_logger
 end

@@ -17,6 +17,10 @@ class FactValue < Puppet::Rails::FactValue
   scope :required_fields, { :include => :host }
   default_scope :order => 'LOWER(fact_values.value)'
 
+  def logger
+    Foreman.fact_logger
+  end
+
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
   #

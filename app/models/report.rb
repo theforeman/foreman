@@ -46,6 +46,10 @@ class Report < ActiveRecord::Base
     write_attribute(:metrics,m.to_yaml) unless m.nil?
   end
 
+  def logger
+    Foreman.report_logger
+  end
+
   def to_label
     "#{host.name} / #{reported_at.to_s}"
   end
