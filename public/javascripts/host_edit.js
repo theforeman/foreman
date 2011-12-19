@@ -86,6 +86,14 @@ function hypervisor_selected(element){
 function subnet_selected(element){
   var subnet_id = $(element).val();
   if (subnet_id == '' || $('#host_ip').size() == 0) return false;
+  // We do not query the proxy if the host_ip field is filled in and contains an
+  // IP that is in the selected subnet
+  var drop_text = $(element).text().split("\n")[subnet_id]
+  if (drop_text.length !=0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
+    var details = $(element).text().split("\n")[subnet_id].replace(/^[^(]+\(/, "").replace(")","").split("/");
+    if (subnet_contains(details[0], details[1], $('#host_ip').val()))
+      return false;
+  }
   $('#subnet_indicator').show();
   $.ajax({
     data:'subnet_id=' + subnet_id,
@@ -93,6 +101,22 @@ function subnet_selected(element){
     url:'/subnets/freeip',
     complete: function(request){$('#subnet_indicator').hide()}
   })
+}
+
+function subnet_contains(number, cidr, ip){
+  var int_ip     = _to_int(ip);
+  var int_number = _to_int(number);
+  var shift      = 32 - parseInt(cidr);
+  return (int_ip >> shift == int_number >> shift);
+}
+
+function _to_int(str){
+  var nibble = str.split(".");
+  var integer = 0;
+  for(i=0;i<=3;i++){
+    integer = (integer * 256) + parseInt(nibble[i]);
+  }
+  return integer;
 }
 
 function domain_selected(element){
