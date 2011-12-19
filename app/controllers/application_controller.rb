@@ -3,7 +3,7 @@ require 'foreman/controller/auto_complete_search'
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
-  #rescue_from Exception, :with => :generic_exception
+  rescue_from Exception, :with => :generic_exception
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
   # standard layout to all controllers
@@ -232,8 +232,8 @@ class ApplicationController < ActionController::Base
 
   def generic_exception(exception)
     return no_puppetclass_documentation_handler(exception) if exception.is_a?(ActionController::RoutingError)
-    logger.warn exception
-    logger.warn exception.application_backtrace.join("\n")
+    logger.warn "Operation FAILED: #{exception}"
+    logger.debug Rails.backtrace_cleaner.clean(exception.backtrace).join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
 

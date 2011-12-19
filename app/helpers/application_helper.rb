@@ -47,7 +47,7 @@ module ApplicationHelper
         page << "if ($('#{div}').is(':visible')) {"
         page[div].hide()
         page << "} else {"
-        page[div].BlindDown :duration => 0.1
+        page[div].show
         page << "}"
       end
     end
