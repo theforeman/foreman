@@ -104,7 +104,7 @@ module Orchestration
       end
 
       # if we have no failures - we are done
-      return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and orchestation_errors?
+      return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and orchestration_errors?
 
       logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
       # handle errors
