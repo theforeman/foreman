@@ -1,7 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 mydomain:
-  id: 1
   name: mydomain.net
   dns: three
 

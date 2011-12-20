@@ -9,9 +9,12 @@ class HostParameter < Parameter
 
   private
   def enforce_permissions operation
-  # We get called again with the operation being set to create
-  return true if operation == "edit" and new_record?
+    # We get called again with the operation being set to create
+    return true if operation == "edit" and new_record?
 
-  self.host.enforce_permissions operation
+    auth = User.current.allowed_to?("#{operation}_params".to_sym) and Host.my_hosts.include?(host)
+
+    errors.add :base, "You do not have permission to #{operation} this domain" unless auth
+    return auth
   end
 end

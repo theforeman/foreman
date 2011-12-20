@@ -2,14 +2,14 @@
   <div class="clearfix">
     <%= f.label :name %>
     <div class="input">
-      <%= f.text_field :name %>
+      <%= f.text_field :name, :disabled => (not authorized_via_my_scope("host_editing", "edit_params")) %>
     </div>
   </div>
   <div class="clearfix">
     <%= f.label :value %>
     <div class="input">
-      <%= f.text_field :value, :class => "span10" %>
-      <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
+      <%= f.text_field :value, :class => "span10", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")) %>
+      <%= link_to_remove_fields("remove", f) if authorized_via_my_scope("host_editing", "destroy_params") -%>
     </div>
   </div>
   <%= f.hidden_field :nested %>

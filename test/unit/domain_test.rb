@@ -108,8 +108,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
-    record =  Domain.first
-    record.subnets.clear
+    record = domains(:useless)
     assert record.destroy
     assert record.frozen?
   end

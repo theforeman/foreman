@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
     return true if admin?
     return true if editing_self
     return false if roles.empty?
-    roles.detect {|role| role.allowed_to?(action)}
+    roles.detect {|role| role.allowed_to?(action)}.present?
   end
 
   def logged?

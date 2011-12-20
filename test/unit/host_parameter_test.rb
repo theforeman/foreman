@@ -35,11 +35,11 @@ class HostParameterTest < ActiveSupport::TestCase
     assert @parameter2.valid?
   end
 
-  def setup_user operation
+  def setup_user operation, type = "params"
     @one = users(:one)
     as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_hosts"
-      role.permissions = ["#{operation}_hosts".to_sym]
+      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+      role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles      = [role]
       @one.domains    = []
       @one.hostgroups = []
@@ -55,9 +55,9 @@ class HostParameterTest < ActiveSupport::TestCase
       @one.domains = [domains(:mydomain)]
       @one.save!
     end
-    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    assert record.valid?
-    assert record.new_record?
+    assert_nothing_raised do
+      HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    end
   end
 
   test "user with create permissions should not be able to create when not permitted" do
@@ -67,9 +67,9 @@ class HostParameterTest < ActiveSupport::TestCase
       @one.save!
       hosts(:one).update_attribute :hostgroup, hostgroups(:unusual)
     end
-    record =  HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
     assert record.valid?
-    assert record.new_record?
+    assert !record.save
   end
 
   test "user with create permissions should be able to create when unconstrained" do
@@ -77,13 +77,13 @@ class HostParameterTest < ActiveSupport::TestCase
     as_admin do
       @one.domains = []
     end
-    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    assert record.valid?
-    assert !record.new_record?
+    assert_nothing_raised do
+      HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    end
   end
 
   test "user with view permissions should not be able to create" do
-    setup_user "view"
+    setup_user "view", "hosts"
     record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
     assert record.valid?
     assert record.new_record?
