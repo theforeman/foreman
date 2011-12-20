@@ -10,9 +10,15 @@
     <%# hidden field to ensure that classes gets removed if none are defined -%>
     <%= hidden_field_tag obj.class.to_s.downcase + "[puppetclass_ids][]" %>
     <ul id="selected_classes">
-      <%= render :partial => "puppetclasses/selectedClasses",
-        :collection => obj.puppetclasses ,:as => :klass,
-        :locals => { :type => obj.class.to_s.downcase } %>
+      <% if authorized_for(:host_editing, :edit_classes) -%>
+        <%= render :partial => "puppetclasses/selectedClasses",
+          :collection => obj.puppetclasses ,:as => :klass,
+          :locals => { :type => obj.class.to_s.downcase } %>
+      <% else -%>
+        <% obj.puppetclasses.each do |klass| %>
+          <li data-original-title="Not authorized to edit classes" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+        <% end -%>
+      <% end -%>
     </ul>
     <ul>
       <% parent_classes(obj).each do |klass| %>
