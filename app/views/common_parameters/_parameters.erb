@@ -2,5 +2,5 @@
   <%= f.fields_for type do |builder| -%>
     <%= render "common_parameters/parameter", :f => builder %>
   <% end -%>
-  <p><%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_add_fields("+", f, type, "common_parameters/parameter") : "Add a parameter" %></p>
+  <p><%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields("+", f, type, "common_parameters/parameter") : "" %></p>
 <% end -%>

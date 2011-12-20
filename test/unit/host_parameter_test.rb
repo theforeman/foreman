@@ -35,11 +35,11 @@ class HostParameterTest < ActiveSupport::TestCase
     assert @parameter2.valid?
   end
 
-  def setup_user operation
+  def setup_user operation, type = "hosts"
     @one = users(:one)
     as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_hosts"
-      role.permissions = ["#{operation}_hosts".to_sym]
+      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+      role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles      = [role]
       @one.domains    = []
       @one.hostgroups = []
@@ -73,7 +73,7 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   test "user with create permissions should be able to create when unconstrained" do
-    setup_user "create"
+    setup_user "create", "params"
     as_admin do
       @one.domains = []
     end
@@ -90,7 +90,7 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
+    setup_user "destroy", "params"
     record =  HostParameter.first
     assert record.destroy
     assert record.frozen?
@@ -104,7 +104,7 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   test "user with edit permissions should be able to edit" do
-    setup_user "edit"
+    setup_user "edit", "params"
     record      =  HostParameter.first
     record.name = "renamed"
     assert record.save

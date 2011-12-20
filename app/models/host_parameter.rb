@@ -12,6 +12,10 @@ class HostParameter < Parameter
   # We get called again with the operation being set to create
   return true if operation == "edit" and new_record?
 
-  self.host.enforce_permissions operation
+  if User.current.allowed_to?("#{operation}_params".to_sym)
+   return true
+  end
+
+  return false
   end
 end
