@@ -31,11 +31,3 @@ Foreman::DefaultSettings::Loader.load
 Foreman::DefaultData::Loader.load(false)
 
 WillPaginate.per_page = Setting.entries_per_page rescue 20
-
-# We create the report and fact logs
-Foreman::report_logger  = ActiveSupport::BufferedLogger.new(Rails.root + "log/#{Rails.env}-report.log", Rails.logger.level)
-Foreman::fact_logger    = ActiveSupport::BufferedLogger.new(Rails.root + "log/#{Rails.env}-fact.log", Rails.logger.level)
-Foreman::default_logger = Rails.logger
-# and now activate the custom logger that uses them.
-# Unfortunately the first line of the log is written by the metal so we need to modify the rack stack
-Rails.configuration.middleware.swap Rails::Rack::Logger, Foreman::LogSwitcher
