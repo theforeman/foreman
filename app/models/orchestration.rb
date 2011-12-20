@@ -11,8 +11,8 @@ module Orchestration
       before_validation :setup_clone
 
       # extend our Host model to know how to handle subsystems
-      include Orchestration::DNS
       include Orchestration::DHCP
+      include Orchestration::DNS
       include Orchestration::TFTP
       include Orchestration::Puppetca
       include Orchestration::Libvirt
@@ -40,9 +40,9 @@ module Orchestration
     end
 
     # log and add to errors
-    def failure msg, backtrace=nil, dest = :base
+    def failure msg, backtrace=nil
       logger.warn(backtrace ? msg + backtrace.join("\n") : msg)
-      errors.add dest, msg
+      errors.add :base, msg
       false
     end
 
@@ -53,7 +53,7 @@ module Orchestration
     # not care about their return status.
     def valid?(context = nil)
       super
-      orchestration_errors?
+      errors.empty?
     end
 
     # we override the destroy method, in order to ensure our queue exists before other callbacks
@@ -88,12 +88,7 @@ module Orchestration
         rescue Net::Conflict => e
           task.status = "conflict"
           @record_conflicts << e
-          failure e.message, nil, :conflict
-        #TODO: This is not a real error, but at the moment the proxy / foreman lacks better handling
-        # of the error instead of explode.
-        rescue Net::LeaseConflict => e
-          task.status = "failed"
-          failure "DHCP has a lease at #{e}"
+          failure e.message
         rescue RestClient::Exception => e
           task.status = "failed"
           failure "#{task.name} task failed with the following error: #{e.response}"
@@ -104,7 +99,7 @@ module Orchestration
       end
 
       # if we have no failures - we are done
-      return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and orchestation_errors?
+      return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and errors.empty?
 
       logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
       # handle errors
@@ -166,10 +161,6 @@ module Orchestration
           old.send(name, true)  if (old.send(name) and old.send(name).id != old.attributes[key])
         end
       end
-    end
-
-    def orchestration_errors?
-      overwrite? ? errors.are_all_conflicts? : errors.empty?
     end
 
   end

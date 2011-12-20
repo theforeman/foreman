@@ -6,10 +6,6 @@ module Net
         @type = "PTR"
       end
 
-      def to_s
-        "#{ip}/#{hostname}"
-      end
-
       def destroy
         super
         proxy.delete(to_arpa)
@@ -27,7 +23,7 @@ module Net
         @conflicts ||= [dns_lookup(ip)].delete_if{|c| c == self}.compact
       end
 
-      # Verifies that a record already exists on the dns server
+      # Verifies that are record already exists on the dhcp server
       def valid?
         logger.debug "Fetching DNS reservation for #{to_s}"
         self == dns_lookup(ip)

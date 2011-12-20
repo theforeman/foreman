@@ -91,7 +91,6 @@ class HostsController < ApplicationController
       process_success :success_redirect => @host
     else
       load_vars_for_ajax
-      offer_to_overwrite_conflicts
       process_error
     end
   end
@@ -106,7 +105,6 @@ class HostsController < ApplicationController
       process_success :success_redirect => @host
     else
       load_vars_for_ajax
-      offer_to_overwrite_conflicts
       process_error
     end
   end
@@ -539,14 +537,6 @@ class HostsController < ApplicationController
   # this is required for template generation (such as pxelinux) which is not done via a web request
   def forward_request_url
     @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
-  end
-
-  # if a save failed and the only reason was network conflicts then flag this so that the view
-  # is rendered differently and the next save operation will be forced
-  def offer_to_overwrite_conflicts
-    if @host.errors.any? and @host.errors.are_all_conflicts?
-      @host.overwrite = "true"
-    end
   end
 
 end

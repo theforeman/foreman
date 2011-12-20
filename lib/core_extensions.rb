@@ -86,9 +86,3 @@ class String
     end
   end
 end
-
-class ActiveModel::Errors
-  def are_all_conflicts?
-    self[:conflict].count == self.count
-  end
-end

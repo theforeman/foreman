@@ -601,15 +601,6 @@ class Host < Puppet::Rails::Host
     {}
   end
 
-  def overwrite?
-    @overwrite ||= false
-  end
-
-  # We have to coerce the value back to boolean. It is not done for us by the framework.
-  def overwrite=(value)
-    @overwrite = value == "true"
-  end
-
   private
   # align common mac and ip address input
   def normalize_addresses

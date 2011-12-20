@@ -216,7 +216,7 @@ class ApplicationController < ActionController::Base
     else
       hash[:redirect] ||= eval("#{controller_name}_url")
     end
-    hash[:error_msg] ||= hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}
+    hash[:error_msg] ||= hash[:object].errors[:base]
 
     hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}"

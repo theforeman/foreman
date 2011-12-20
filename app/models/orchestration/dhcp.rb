@@ -2,7 +2,7 @@ module Orchestration::DHCP
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      after_validation :validate_dhcp, :queue_remove_dhcp_conflicts, :queue_dhcp
+      after_validation :queue_dhcp
       before_destroy :queue_dhcp_destroy
       validate :ip_belongs_to_subnet?, :valid_jumpstart_model
     end
@@ -11,11 +11,11 @@ module Orchestration::DHCP
   module InstanceMethods
 
     def dhcp?
-      !subnet.nil? and subnet.dhcp?
+      !subnet.nil? and subnet.dhcp? and errors.empty?
     end
 
     def sp_dhcp?
-      sp_valid? and !sp_subnet.nil? and sp_subnet.dhcp?
+      sp_valid? and !sp_subnet.nil? and sp_subnet.dhcp? and errors.empty?
     end
 
     def dhcp_record
@@ -30,49 +30,20 @@ module Orchestration::DHCP
 
     protected
 
-    def validate_dhcp
-      # This is an expensive operation and we will only do it if the DNS validation failed. This will ensure
-      # that we report on both DNS and DHCP conflicts when we offer to remove collisions. It retrieves and
-      # caches the conflicting records so we must always do it when overwriting
-      return unless (errors.any? and errors.are_all_conflicts?) or overwrite?
-
-      return unless dhcp?
-      status = true
-      status = failure("- #{dhcp_record.conflicts[0]} exists in DHCP", nil, :conflict) if dhcp_record.conflicting?
-      status &= failure("- #{sp_dhcp_record.conflicts[0]} exists in DHCP", nil, :conflict) if sp_dhcp? and sp_dhcp_record.conflicting?
-      overwrite? ? errors.are_all_conflicts? : status
-    end
-
     def set_dhcp
       dhcp_record.create
-    end
-
-    def set_dhcp_conflicts
-      dhcp_record.conflicts.each{|conflict| conflict.create}
     end
 
     def set_sp_dhcp
       sp_dhcp_record.create
     end
 
-    def set_sp_dhcp_conflicts
-      sp_dhcp_record.conflicts.each{|conflict| conflict.create}
-    end
-
     def del_dhcp
       dhcp_record.destroy
     end
 
-    def del_dhcp_conflicts
-      dhcp_record.conflicts.each{|conflict| conflict.destroy}
-    end
-
     def del_sp_dhcp
       sp_dhcp_record.destroy
-    end
-
-    def del_sp_dhcp_conflicts
-      sp_dhcp_record.conflicts.each{|conflict| conflict.destroy}
     end
 
     private
@@ -113,12 +84,13 @@ module Orchestration::DHCP
     end
 
     def queue_dhcp
-      return unless (dhcp? or (old and old.dhcp?) or sp_dhcp? or (old and old.sp_dhcp?)) and orchestration_errors?
+      return unless (dhcp? or (old and old.dhcp?) or sp_dhcp? or (old and old.sp_dhcp?)) and errors.empty?
+      logger.debug "inspecting changes that are required for DHCP infrastructure"
       new_record? ? queue_dhcp_create : queue_dhcp_update
     end
 
     def queue_dhcp_create
-      logger.debug "Scheduling new DHCP reservations"
+      logger.debug "Adding new DHCP reservations"
       queue.create(:name   => "DHCP Settings for #{self}", :priority => 10,
                    :action => [self, :set_dhcp]) if dhcp?
       queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 15,
@@ -168,17 +140,6 @@ module Orchestration::DHCP
                    :action => [self, :del_dhcp])
       queue.create(:name   => "DHCP Settings for #{sp_name}", :priority => 5,
                    :action => [self, :del_sp_dhcp]) if sp_valid?
-      true
-    end
-
-    def queue_remove_dhcp_conflicts
-      return unless dhcp? and errors.any? and errors.are_all_conflicts?
-      return unless overwrite?
-      logger.debug "Scheduling DHCP conflicts removal"
-      queue.create(:name   => "DHCP conflicts removal for #{self}", :priority => 5,
-                   :action => [self, :del_dhcp_conflicts]) if dhcp_record.conflicting?
-      queue.create(:name   => "DHCP conflicts removal for #{sp_name}", :priority => 5,
-                   :action => [self, :del_sp_dhcp_conflicts]) if sp_valid? and sp_dhcp_record.conflicting?
       true
     end
 
