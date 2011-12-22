@@ -22,6 +22,20 @@ class Report < ActiveRecord::Base
   scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
   scoped_search :on => :status, :offset => METRIC.index("pending"),         :word_size => BIT_NUM, :rename => :pending
 
+  # returns reports for hosts in the User's filter set
+  scope :my_reports, lambda {
+    user = User.current
+    unless user.admin?
+      conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))",Host.my_hosts.map(&:id)])
+      conditions.sub!(/\s*\(\)\s*/, "")
+      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+    else
+      conditions = {}
+    end
+    {:conditions => conditions}
+  }
+
   # returns recent reports
   scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
 

@@ -9,7 +9,7 @@ class ReportsController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    values = Report.search_for(params[:search], :order => params[:order])
+    values = Report.my_reports.search_for(params[:search], :order => params[:order])
     pagination_opts = { :page => params[:page], :per_page => params[:per_page] }
     respond_to do |format|
       format.html { @reports =      values.paginate(pagination_opts.merge({ :include => :host })) }
@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
     end
   rescue => e
     error e.to_s
-    @reports = Report.search_for("").paginate :page => params[:page]
+    @reports = Report.my_reports.search_for("").paginate :page => params[:page]
   end
 
   def show
@@ -29,7 +29,7 @@ class ReportsController < ApplicationController
 
     return not_found if params[:id].blank?
 
-    @report = Report.find(params[:id], :include => { :logs => [:message, :source] })
+    @report = Report.my_reports.find(params[:id], :include => { :logs => [:message, :source] })
     respond_to do |format|
       format.html { @offset = @report.reported_at - @report.created_at }
       format.json { render :json => @report }
@@ -59,4 +59,5 @@ class ReportsController < ApplicationController
     end
     redirect_to reports_url
   end
+
 end
