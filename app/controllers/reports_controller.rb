@@ -9,7 +9,8 @@ class ReportsController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    values = Report.search_for(params[:search], :order => params[:order])
+    my_reports = User.current.admin? ? Report : Report.my_reports
+    values = my_reports.search_for(params[:search], :order => params[:order])
     pagination_opts = { :page => params[:page], :per_page => params[:per_page] }
     respond_to do |format|
       format.html { @reports =      values.paginate(pagination_opts.merge({ :include => :host })) }
@@ -29,7 +30,8 @@ class ReportsController < ApplicationController
 
     return not_found if params[:id].blank?
 
-    @report = Report.find(params[:id], :include => { :logs => [:message, :source] })
+    my_reports = User.current.admin? ? Report : Report.my_reports
+    @report = my_reports.find(params[:id], :include => { :logs => [:message, :source] })
     respond_to do |format|
       format.html { @offset = @report.reported_at - @report.created_at }
       format.json { render :json => @report }

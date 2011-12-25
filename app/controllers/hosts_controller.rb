@@ -52,6 +52,8 @@ class HostsController < ApplicationController
   end
 
   def show
+    auth  = User.current.admin? ? true : Host.my_hosts.include?(@host)
+    not_found and return unless auth
     respond_to do |format|
       format.html {
         # filter graph time range
@@ -96,6 +98,8 @@ class HostsController < ApplicationController
   end
 
   def edit
+    auth  = User.current.admin? ? true : Host.my_hosts.include?(@host)
+    not_found and return unless auth
     load_vars_for_ajax
   end
 
