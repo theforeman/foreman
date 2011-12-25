@@ -16,8 +16,8 @@ class HostsController < ApplicationController
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
-  before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
-    reports facts storeconfig_klasses clone pxe_config toggle_manage]
+  before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
+    storeconfig_klasses clone pxe_config toggle_manage]
 
   helper :hosts, :reports
 
@@ -437,6 +437,14 @@ class HostsController < ApplicationController
   end
 
   private
+
+  def find_by_name
+    # find host first, if we fail, do nothing
+    super
+    return false unless @host
+    deny_access and return unless User.current.admin? or Host.my_hosts.include?(@host)
+  end
+
   def find_hosts
     fact, klass, group = params[:fact], params[:class], params[:hostgroup]
 
