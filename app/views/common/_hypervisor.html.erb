@@ -2,7 +2,8 @@
   <div id = "vm">
     <%= selectable_f f, :hypervisor_id, select_hypervisor(item),
       { :include_blank => "Bare Metal" },
-      { :label => "Provision on", :help_inline => image_tag("spinner.gif", :id => "vm_indicator", :class => "hide"),:onchange => 'hypervisor_selected(this);' }
+      { :label => "Provision on", :help_inline => image_tag("spinner.gif", :id => "vm_indicator", :class => "hide"),
+        :onchange => 'hypervisor_selected(this);', "data-type" => controller_name }
     %>
 
     <% if @hypervisor ||= item.try(:hypervisor) -%>
@@ -16,7 +17,7 @@
       <% else -%>
         <%= selectable_f f, :interface, interfaces %>
       <% end -%>
-      <%= checkbox_f f, :powerup, :help_inline => "Power up this instance", :checked => true, :label => "Start?" %>
+      <%= checkbox_f f, :powerup, :help_inline => "Power up this instance", :checked => true, :label => "Start?" if type == "host" %>
     <% end -%>
   </div>
 <% end -%>

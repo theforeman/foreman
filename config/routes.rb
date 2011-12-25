@@ -111,6 +111,11 @@ Foreman::Application.routes.draw do
     end
     collection do
       get 'auto_complete_search'
+      post 'environment_selected'
+      post 'hypervisor_selected'
+      post 'architecture_selected'
+      post 'os_selected'
+      post 'domain_selected'
     end
   end
 
