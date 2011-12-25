@@ -38,8 +38,8 @@ function hostgroup_changed(element) {
       url:'/' + type + '/process_hostgroup',
       data:'hostgroup_id=' + hostgroup_id,
       complete: function(request){
-         $('#hostgroup_indicator').hide();
-         $('[rel="twipsy"]').twipsy();
+        $('#hostgroup_indicator').hide();
+        $('[rel="twipsy"]').twipsy();
       }
     })
   } else { // edit host

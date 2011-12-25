@@ -27,7 +27,7 @@ function add_fields(link, association, content) {
 }
 
 function checkAll (id, checked) {
-  $(id).find(":checkbox:not([disabled='disabled'])").attr('checked',checked)
+  $(id).find(":checkbox:not([disabled='disabled'])").attr('checked',checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -62,12 +62,13 @@ function template_info(div, url) {
 
   $(div).html('<img src="/images/spinner.gif" alt="Wait" />');
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id,
-      function(response, status, xhr) {
-        if (status == "error") {
-          $(div).html("<p>Sorry but no templates were configured.</p>");
-        }
-      });
+              function(response, status, xhr) {
+                if (status == "error") {
+                  $(div).html("<p>Sorry but no templates were configured.</p>");
+                }
+              });
 }
+
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
@@ -127,53 +128,51 @@ $(function(){
   $(".table_action a").addClass("btn small");
 });
 
-$(function()
-{
+$(function() {
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
 });
 
 function magic_line(id, combo) {
-    var $el, leftPos, newWidth, $mainNav = $(id);
+  var $el, leftPos, newWidth, $mainNav = $(id);
 
-    $mainNav.append("<li class='magic-line'></li>");
-    var $magicLine = $(id + " .magic-line");
-    if ( $(".active").size() > 0){
-      $magicLine
-        .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
-        .css("left", $(".active").position().left)
-        .data("origLeft", $magicLine.position().left)
-        .data("origWidth", $magicLine.width());
-    } else {
-      $magicLine.width(0).css("left", 0)
-          .data("origLeft", $magicLine.position().left)
-          .data("origWidth", $magicLine.width());
+  $mainNav.append("<li class='magic-line'></li>");
+  var $magicLine = $(id + " .magic-line");
+  if ( $(".active").size() > 0){
+    $magicLine
+    .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
+    .css("left", $(".active").position().left)
+    .data("origLeft", $magicLine.position().left)
+    .data("origWidth", $magicLine.width());
+  } else {
+    $magicLine.width(0).css("left", 0)
+    .data("origLeft", $magicLine.position().left)
+    .data("origWidth", $magicLine.width());
+  }
+  $(id + " li").hover(function() {
+    $el = $(this);
+    if ($el.parent().hasClass("dropdown-menu")){
+      $el=$el.parent().parent();
     }
-    $(id + " li").hover(function() {
-        $el = $(this);
-        if ($el.parent().hasClass("dropdown-menu")){
-          $el=$el.parent().parent();
-        }
-        leftPos = $el.position().left;
-        newWidth = $el.width();
-        if ($el.find("a").hasClass("narrow-right")){
-          newWidth = newWidth + $(".dropdown").width() * combo;
-        }
-        $magicLine.stop().animate({
-            left: leftPos,
-            width: newWidth
-        });
-    }, function() {
-        $magicLine.stop().animate({
-            left: $magicLine.data("origLeft"),
-            width: $magicLine.data("origWidth")
-        });
+    leftPos = $el.position().left;
+    newWidth = $el.width();
+    if ($el.find("a").hasClass("narrow-right")){
+      newWidth = newWidth + $(".dropdown").width() * combo;
+    }
+    $magicLine.stop().animate({
+      left: leftPos,
+      width: newWidth
     });
+  }, function() {
+    $magicLine.stop().animate({
+      left: $magicLine.data("origLeft"),
+      width: $magicLine.data("origWidth")
+    });
+  });
 }
 
 //add bookmark dialog
-$(function()
-{
+$(function() {
   $('#bookmarks-modal .primary').click(function(){
     $("#bookmark_submit").click();
   });
@@ -184,10 +183,10 @@ $(function()
     var query = encodeURI($("#search").val());
     $("#bookmarks-modal .modal-body").append("<span id='loading'>Loading ...</span>");
     $("#bookmarks-modal .modal-body").load($("#bookmark").attr('href') + '&query=' + query + ' form',
-        function(response, status, xhr) {
-          $("#loading").hide();
-          $("#bookmarks-modal .modal-body .btn").hide()
-        });
+                                           function(response, status, xhr) {
+                                             $("#loading").hide();
+                                             $("#bookmarks-modal .modal-body .btn").hide()
+                                           });
   });
 
 });

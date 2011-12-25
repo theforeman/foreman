@@ -58,8 +58,7 @@ $(function() {
       hidden_field.value = '1';
     }
     $(this).closest('.fields').hide();
-    if($(this).parent().hasClass('fields'))
-    {
+    if($(this).parent().hasClass('fields')) {
       $('#pill_' + $(this).closest('.fields').attr('id')).hide();
       $('.pills li :visible').first().click();
     }
