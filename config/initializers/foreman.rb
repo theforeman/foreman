@@ -6,7 +6,7 @@ require 'puppet/rails'
 # import settings file
 SETTINGS= YAML.load_file("#{RAILS_ROOT}/config/settings.yaml")
 
-SETTINGS[:version] = "0.4"
+SETTINGS[:version] = "0.4.1"
 
 SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
