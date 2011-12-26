@@ -88,7 +88,7 @@ module ApplicationHelper
     if enable_link
       link_to name, options, html_options
     else
-      link_to_function name, 'void()', html_options.merge!(:class => 'disabled', :disabled => true)
+      link_to_function name, 'void()', html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     end
   end
 
@@ -162,12 +162,14 @@ module ApplicationHelper
   end
 
   def pie_chart name, title, data, options = {}
+    content_tag(:h4,title,:class=>'ca') +
     content_tag(:div, nil,
                 { :id             => name,
                   :class          => 'statistics_pie',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
-                  :'chart-data'   => data.to_a.to_json
+                  :'chart-data'   => data.to_a.to_json,
+                  :'chart-href'   => options[:search] ? "/hosts?search=#{URI.encode(options.delete(:search))}" : ''
                 }.merge(options))
   end
 

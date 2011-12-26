@@ -19,7 +19,8 @@ module DashboardHelper
             [:Error, report[:bad_hosts]],
             [:OK, report[:ok_hosts]],
             [:'Out of sync', report[:out_of_sync_hosts]],
-            [:'No report', report[:reports_missing]]]
+            [:'No report', report[:reports_missing]],
+            [:'Notification disabled', report[:disabled_hosts]]]
     pie_chart 'overview', 'Puppet Clients Activity Overview', data, options
   end
 

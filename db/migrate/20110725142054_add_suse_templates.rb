@@ -22,6 +22,7 @@ class AddSuseTemplates < ActiveRecord::Migration
     disk = Ptable.create :name => "SuSE Entire Virtual Disk", :layout =>"  <partitioning  config:type=\"list\">\n    <drive>\n      <device>/dev/vda</device>       \n      <use>all</use>\n    </drive>\n  </partitioning>"
     disk.operatingsystems = os
 
+    Medium.reset_column_information
     medium = Medium.create :name => "OpenSuSE mirror", :path => "http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss"
     medium.operatingsystems = os
 

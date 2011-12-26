@@ -1,3 +1,9 @@
+foreman (0.4-1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Jochen Schalanda <jochen@schalanda.name>  Tue, 08 Nov 2011 19:55:00 +0100
+
 foreman (0.2+0.3rc2-0) experimental; urgency=low
 
   * Release candidate 2 for version 0.3

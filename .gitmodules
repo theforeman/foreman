@@ -18,7 +18,7 @@
 	url = git://github.com/ohadlevy/puppet-foreman.git
 [submodule "vendor/plugins/has_many_polymorphs"]
 	path = vendor/plugins/has_many_polymorphs
-	url = https://github.com/evan/has_many_polymorphs.git
+	url = git://github.com/evan/has_many_polymorphs.git
 [submodule "vendor/plugins/virt"]
 	path = vendor/plugins/virt
 	url = git://github.com/ohadlevy/virt.git

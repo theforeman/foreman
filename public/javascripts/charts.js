@@ -3,9 +3,12 @@ $(function(){
     var el = $(element);
     var name = el.attr('chart-name');
     var title = el.attr('chart-title');
+    var border = $.parseJSON(el.attr('border'));
+    var expandable = el.attr('expandable');
+    var show_title = $.parseJSON(el.attr('show_title'));
     var data = $.parseJSON(el.attr('chart-data'));
 
-    stat_pie(name, title, data);
+    stat_pie(name, title, data, border, expandable, show_title);
   });
 
   $(".statistics_bar").each(function(index, element){
@@ -46,12 +49,58 @@ $(function(){
 
 });
 
-function stat_pie(name, title, data) {
-    new Highcharts.Chart({
+function expand_chart(ref){
+  var chart = $(ref)
+  if (!chart.hasClass('statistics_pie')){
+    chart = $(ref).children().children('.statistics_pie');
+  }
+  var modal_id = chart.attr('id')+'_modal';
+  var title = chart.attr('chart-title');
+  var data = $.parseJSON(chart.attr('chart-data'));
+   if($("#"+modal_id).length == 0)
+  {
+    $('body').append('<div id="' + modal_id + '" class="modal fade"></div>');
+    $("#"+modal_id).append('<div class="modal-header"><a href="#" class="close">×</a><h3> ' +title+ ' </h3></div>')
+              .append('<div chart-href='+chart.attr("chart-href")+' id="' + modal_id + '-body" class="fact_chart modal-body">Loading ...</div>');
+    $("#"+modal_id).modal('show');
+    stat_pie(modal_id+'-body', title, data, 0, false, false)
+  } else {$("#"+modal_id).modal('show');}
+}
+
+function get_pie_chart(div, url) {
+  if($("#"+div).length == 0)
+  {
+    $('body').append('<div id="' + div + '" class="modal fade"></div>');
+    $("#"+div).append('<div class="modal-header"><a href="#" class="close">×</a><h3>Fact Chart</h3></div>')
+              .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
+    $("#"+div).modal('show');
+    $.getJSON(url, function(data) {
+      var ref = "/hosts?search=facts."+data.name+"~~VAL1~"
+      $("#"+div+"-body").attr('chart-href', ref);
+      stat_pie(div+'-body', data.name, data.values,0);
+    });
+  } else {$("#"+div).modal('show');}
+}
+
+function stat_pie(name, title, data, border, expandable, show_title) {
+  if (border == undefined) { border = 1;}
+  if (show_title == undefined) { show_title = true;}
+  if (expandable == undefined) { expandable = false;}
+  var top_spacing = 10;
+  if (show_title == false){title=''; top_spacing = 5;}
+  new Highcharts.Chart({
       chart: {
         renderTo: name,
         borderColor: '#909090',
-        borderWidth: 1,
+        borderWidth: border,
+        spacingTop: top_spacing,
+        spacingBottom: 10,
+        spacingLeft: 0,
+        spacingRight: 0,
+        events: {
+          click: function(e) {if(expandable){expand_chart(this.container.parentElement);}},
+          selection: function(e) {alert('kuku');}
+        },
         backgroundColor: {
          linearGradient: [0, 0, 0, 200],
          stops: [
@@ -73,13 +122,35 @@ function stat_pie(name, title, data) {
       },
       plotOptions: {
          pie: {
-            allowPointSelect: true,
+            allowPointSelect: false,
             cursor: 'pointer',
             dataLabels: {
                enabled: true,
                formatter: function() {
                   return  this.point.name + ': '+ Math.round(this.y*100)/100;
                }
+            },
+            events: {
+                click: function(event) {
+                  var link = $($('#links-tbl tr td a')[event.point.x]).attr('href');
+                  if (link == undefined) {
+                    link = $($('#'+name)[0]).attr('chart-href');
+                    if (link.indexOf("~VAL2~") != -1) {
+                      var strSplit = event.point.name.split(" ");
+                      var val1 = strSplit[0];
+                      var val2 = strSplit[1];
+                      link = link.replace("~VAL2~", val2);
+                    } else {
+                      var val1 = event.point.name;
+                      if (val1.indexOf(" ") != -1) val1 = '"' + val1 +'"';
+                    }
+                    link = link.replace("~VAL1~", val1);
+                  }
+
+                  if (link != undefined) {
+                    window.location.href = link;
+                  }
+                }
             }
          }
       },
