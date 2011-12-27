@@ -2,14 +2,14 @@
 %global confdir extras/spec
 
 Name:           foreman
-Version:        0.2
-Release:        1
+Version:        0.4.1
+Release:        0.1
 Summary:        Systems Management web application
 
 Group:          Applications/System
 License:        GPLv3+
 URL:            http://theforeman.org
-Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-0.2.tar.bz2
+Source0:        http://github.com/ohadlevy/%{name}/tarball/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -18,11 +18,7 @@ Requires:       ruby(abi) = 1.8
 Requires:       rubygems
 Requires:       rubygem(rake) >= 0.8.3
 Requires:       puppet >= 0.24.4
-%if ! (0%{?fedora} > 14 || 0%{?rhel} > 5)
-Requires:       rubygem(sqlite3)
-%else
 Requires:       rubygem(sqlite3-ruby)
-%endif
 Requires:       rubygem(rest-client)
 Requires:       rubygem(json)
 Requires(pre):  shadow-utils
@@ -30,8 +26,6 @@ Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
-
-Packager:       Ohad Levy <ohadlevy@gmail.com>
 
 %description
 Foreman is aimed to be a Single Address For All Machines Life Cycle Management.
@@ -122,6 +116,7 @@ datadir=%{_datadir}/%{name}
 varlibdir=%{_localstatedir}/lib/%{name}
 # remove all active_scaffold left overs
 find $datadir -type d -name "active_scaffold*" 2>/dev/null | xargs rm -rf
+rm -f $datadir/public/javascripts/all.js 2>/dev/null
 
 if [ ! -d $varlibdir/db -a -d $datadir/db -a ! -L $datadir/db ]; then
   [ -d $varlibdir ] || mkdir -p $varlibdir
@@ -169,6 +164,30 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Dec 26 2011 ohadlevy@gmail.com - 0.4.1
+- rebuilt
+* Thu Nov 08 2011 ohadlevy@gmail.com - 0.4
+- rebuilt
+* Thu Nov 07 2011 ohadlevy@gmail.com - 0.4rc5
+- rebuilt
+* Thu Oct 25 2011 ohadlevy@gmail.com - 0.4rc4
+- rebuilt
+* Thu Oct 18 2011 ohadlevy@gmail.com - 0.4rc3
+- rebuilt
+* Sat Sep 28 2011 ohadlevy@gmail.com - 0.4rc2
+- rebuilt
+* Sat Sep 10 2011 ohadlevy@gmail.com - 0.4rc1
+- rebuilt
+
+* Tue Jun 07 2011 ohadlevy@gmail.com - 0.3
+- rebuilt
+
+* Tue May 24 2011 ohadlevy@gmail.com - 0.3rc1-2
+- rebuilt
+
+* Thu May 05 2011 ohadlevy@gmail.com - 0.3rc1
+- rebuilt
+
 * Tue Mar 29 2011 ohadlevy@gmail.com - 0.2
 - Version bump to 0.2
 
