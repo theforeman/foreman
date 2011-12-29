@@ -168,7 +168,7 @@ module ApplicationHelper
   end
 
   def pie_chart name, title, data, options = {}
-    content_tag(:h4,title,:class=>'ca') +
+    link_to_function(content_tag(:h4,title,:class=>'ca'), "expand_chart(this)") +
     content_tag(:div, nil,
                 { :id             => name,
                   :class          => 'statistics_pie',

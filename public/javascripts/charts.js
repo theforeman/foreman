@@ -52,7 +52,7 @@ $(function(){
 function expand_chart(ref){
   var chart = $(ref)
   if (!chart.hasClass('statistics_pie')){
-    chart = $(ref).children().children('.statistics_pie');
+    chart = $(ref).parent().children('.statistics_pie');
   }
   var modal_id = chart.attr('id')+'_modal';
   var title = chart.attr('chart-title');

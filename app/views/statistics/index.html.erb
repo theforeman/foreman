@@ -1,7 +1,7 @@
-<ul class="media-grid">
+<div class="grid">
 <% charts.each do |ch| -%>
-  <li>
-    <%= link_to_function content_tag(:div, ch, :class=>"thumbnail"), "expand_chart(this);" %>
-  </li>
+  <div class="span5 clear-fix stats-grid">
+    <%= content_tag(:div, ch, :class=>"thumbnail") %>
+  </div>
 <% end -%>
-</ul>
+</div>
