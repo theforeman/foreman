@@ -11,16 +11,16 @@
       <td><%= @report[:active_hosts] %> </td>
     </tr>
     <tr>
-      <td><%= searchable_links 'Hosts that had pending changes', 'status.pending > 0' %></td>
-      <td><%= @report[:pending_hosts] %> </td>
-    </tr>
-    <tr>
       <td><%= searchable_links 'Hosts in Error State', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)" %></td>
       <td><%= @report[:bad_hosts] %> </td>
     </tr>
     <tr>
       <td><%=searchable_links "Good Host Reports in the last #{Setting[:puppet_interval]} minutes", "last_report > \"#{Setting[:puppet_interval]} minutes ago\" and status.enabled = true and status.interesting=false" %></td>
       <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
+    </tr>
+    <tr>
+      <td><%= searchable_links 'Hosts that had pending changes', 'status.pending > 0' %></td>
+      <td><%= @report[:pending_hosts] %> </td>
     </tr>
     <tr>
       <td><%= searchable_links 'Out Of Sync Hosts', "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true" %></td>
