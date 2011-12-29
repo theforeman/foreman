@@ -440,6 +440,7 @@ class HostsController < ApplicationController
 
   def find_by_name
     # find host first, if we fail, do nothing
+    params[:id].downcase! if params[:id].present?
     super
     return false unless @host
     deny_access and return unless User.current.admin? or Host.my_hosts.include?(@host)

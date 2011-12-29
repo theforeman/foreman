@@ -397,4 +397,11 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
+  test "name should be lowercase" do
+    h = hosts(:redhat)
+    assert h.valid?
+    h.name.upcase!
+    assert !h.valid?
+  end
+
 end

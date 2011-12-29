@@ -123,6 +123,8 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
+  validate :is_name_downcased?
+
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
@@ -693,4 +695,10 @@ class Host < Puppet::Rails::Host
   def self.report_status
     "puppet_status"
   end
+
+  def is_name_downcased?
+    return unless name.present?
+    errors.add(:name, "must be downcase") unless name == name.downcase
+  end
+
 end
