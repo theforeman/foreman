@@ -163,5 +163,13 @@ module Orchestration
       end
     end
 
+    # Ensure that the bootserver is in IP format and not a hostname
+    # We can reuse the DNS subsystem, if we are managing it
+    def bootserver_ip name_or_ip
+      return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
+      return dns_ptr_record.dns_lookup(name_or_ip).ip if dns_ptr_record
+      # Looks like we are managing DHCP but not DNS
+      domain.resolver.getaddress(name_or_ip).to_s
+    end
   end
 end

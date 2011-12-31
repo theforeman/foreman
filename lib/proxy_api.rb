@@ -249,7 +249,7 @@ module ProxyAPI
     def bootServer
       response = parse get("serverName")
       if response and response["serverName"] and !response["serverName"].blank?
-        return(response["serverName"] =~ /^\d/ ? response["serverName"] : dns_ptr_record.dns_lookup(response["serverName"]).ip)
+        return(bootserver_ip response["serverName"] )
       end
       false
     rescue RestClient::ResourceNotFound
