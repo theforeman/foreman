@@ -6,6 +6,7 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.json { render :json => @bookmarks }
     end
   end
 
