@@ -146,7 +146,8 @@ module ProxyAPI
     end
 
     def unused_ip subnet
-      parse get("#{subnet}/unused_ip")
+      params = "?from=#{subnet.from}&to=#{subnet.to}" if subnet.from.present? and subnet.to.present?
+      parse get("#{subnet.network}/unused_ip#{params}")
     end
 
     # Retrieves a DHCP entry

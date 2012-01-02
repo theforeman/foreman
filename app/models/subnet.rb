@@ -13,6 +13,7 @@ class Subnet < ActiveRecord::Base
   validates_format_of     :mask,    :with  => Net::Validations::IP_REGEXP
   validates_uniqueness_of :name,    :scope => :domain_id
   default_scope :order => 'priority'
+  validate :validate_ranges
 
   before_destroy EnsureNotUsedBy.new(:hosts, :sps)
 
@@ -72,7 +73,7 @@ class Subnet < ActiveRecord::Base
 
   def unused_ip
     return unless dhcp?
-    dhcp_proxy.unused_ip(network)["ip"]
+    dhcp_proxy.unused_ip(self)["ip"]
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"
     nil
@@ -89,4 +90,17 @@ class Subnet < ActiveRecord::Base
     end.compact
   end
 
+  private
+
+  def validate_ranges
+    errors.add(:from, "invalid IP address")            if from.present? and !from =~ Net::Validations::IP_REGEXP
+    errors.add(:to, "invalid IP address")              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
+    errors.add(:from, "does not belong to subnet")     if from.present? and not self.contains?(f=IPAddr.new(from))
+    errors.add(:to, "does not belong to subnet")       if to.present?   and not self.contains?(t=IPAddr.new(to))
+    errors.add(:from, "can't be bigger than to range") if from.present? and t.present? and f > t
+    if (from.present? or to.present?)
+      errors.add(:from, "must be specified if to is defined")   if from.blank?
+      errors.add(:to,   "must be specified if from is defined") if to.blank?
+    end
+  end
 end
