@@ -60,7 +60,8 @@ class Domain < ActiveRecord::Base
   end
 
   def resolver
-    Resolv::DNS.new :search => name, :nameserver => nameservers, :ndots => 1
+    ns = nameservers
+    Resolv::DNS.new ns.empty? ? nil : {:search => name, :nameserver => ns, :ndots => 1}
   end
 
   def proxy
