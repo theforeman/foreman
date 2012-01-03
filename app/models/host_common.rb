@@ -78,6 +78,10 @@ module HostCommon
       write_attribute :image_file, value
     end
 
+    def image_file
+      super || default_image_file
+    end
+
     # make sure we store an encrypted copy of the password in the database
     # this password can be use as is in a unix system
     def root_pass=(pass)

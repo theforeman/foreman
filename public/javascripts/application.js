@@ -196,7 +196,7 @@ $(function() {
 $(function(){
   $(".tab-content").find(".clearfix.error").each(function() {
     // find each tab id
-    var id = $(this).parentsUntil(".tab-content").attr("id");
+    var id = $(this).parentsUntil(".tab-content").last().attr("id");
     // now add a class to that tab
     $("a[href=#"+id+"]").addClass("tab_error");
   })

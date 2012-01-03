@@ -157,3 +157,48 @@ function os_selected(element){
     }
   })
 }
+
+function medium_selected(element){
+  var type = $(element).attr('data-type');
+  var obj = (type == "hosts" ? "host" : "hostgroup");
+  var attrs = {};
+  attrs[obj] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id']);
+  attrs[obj]["use_image"] = $('*[id*=cb_use_image]').attr('checked') == "checked";
+  $.ajax({
+    data: attrs,
+    type:'post',
+    url:'/' + type + '/medium_selected',
+    success: function(request) {
+      $('#image_details').html(request);
+    }
+  })
+}
+
+function use_image_selected(element){
+  var type = $(element).attr('data-type');
+  var obj = (type == "hosts" ? "host" : "hostgroup");
+  var attrs = {};
+  attrs[obj] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id']);
+  attrs[obj]['use_image'] = ($(element).attr('checked') == "checked");
+  $.ajax({
+    data: attrs,
+    type: 'post',
+    url:  '/' + type + '/use_image_selected',
+    success: function(response) {
+      var field = $('*[id*=image_file]');
+      if (attrs[obj]["use_image"]) {
+        if (field.val() == "") field.val(response["image_file"]);
+      } else
+        field.val("");
+
+      field.attr("disabled", !attrs[obj]["use_image"]);
+    }
+  });
+}
+
+// return a hash with values of all attributes
+function attribute_hash(attributes){
+  var attrs = {};
+  for (i=0;i < attributes.length; i++) { attrs[attributes[i]] = $('*[id*='+attributes[i]+']').val(); }
+  return attrs;
+}
