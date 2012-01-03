@@ -8,15 +8,27 @@ gem "acts_as_audited", "2.0.0"
 gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymorphs.git"
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.2.4"
+gem "puppet"
 
-gem 'sqlite3', :require => 'sqlite3'
+group :sqlite do
+  gem 'sqlite3'
+end
 
-gem 'scoped_search', '>= 2.3.4'
+group :mysql do
+  gem 'mysql'
+end
+
+group :postgresql do
+  gem 'pg'
+end
+
+gem 'scoped_search', '>= 2.3.6'
 #group :provisioning do
   gem "safemode", "1.0", :git => "https://github.com/svenfuchs/safemode.git"
   gem "ruby2ruby"
   gem "ruby_parser"
   gem "virt", ">= 0.2.0"
+  gem "ruby-libvirt" # to remove once upgrading vir to 0.3
 #end
 
 group :authentication do
