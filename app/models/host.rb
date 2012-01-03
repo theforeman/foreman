@@ -400,7 +400,7 @@ class Host < Puppet::Rails::Host
 
     os_name = fv(:operatingsystem)
     case os_name
-    when /suse/i
+    when /(suse|sles)/i
       orel = fv(:operatingsystemrelease)
     else
       orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
