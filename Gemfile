@@ -9,7 +9,17 @@ gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymo
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.2.4"
 
-gem 'sqlite3', :require => 'sqlite3'
+group :sqlite do
+  gem 'sqlite3', :require => 'sqlite3'
+end
+
+group :mysql do
+  gem 'mysql'
+end
+
+group :postgresql do
+  gem 'pg'
+end
 
 gem 'scoped_search', '>= 2.3.4'
 #group :provisioning do
