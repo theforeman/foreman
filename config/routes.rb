@@ -124,6 +124,7 @@ Foreman::Application.routes.draw do
   resources :puppetclasses do
     collection do
       get 'import_environments'
+      post 'obsolete_and_new'
       get 'auto_complete_search'
     end
     constraints(:id => /[^\/]+/) do
