@@ -157,7 +157,8 @@ module Orchestration::DHCP
 
     def valid_jumpstart_model
       return unless jumpstart?
-      errors.add :model, "Has an unknown vendor class" if model.vendor_class.empty?
+      errors.add :model_id, "is required for Solaris SPARC deployment" if model.blank?
+      errors.add :model_id, "Has an unknown vendor class" if model and model.vendor_class.empty?
       false
     end
 

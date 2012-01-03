@@ -63,7 +63,7 @@ module HostCommon
         end
         # We encode the hw_model into the image file name as not all Sparc flashes can contain all possible hw_models. The user can always
         # edit it if required or use symlinks if they prefer.
-        hw_model = model.try :hardware_model
+        hw_model = model.try :hardware_model if defined?(model_id)
         operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) +\
           "#{operatingsystem.file_prefix}.#{architecture}#{hw_model.empty? ? "" : "." + hw_model.downcase}.#{operatingsystem.image_extension}"
       else
