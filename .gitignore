@@ -8,3 +8,4 @@ config/settings.yaml
 config/email.yaml
 *.sw?
 .idea
+.rbenv-version
