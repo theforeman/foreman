@@ -163,7 +163,7 @@ function medium_selected(element){
   var obj = (type == "hosts" ? "host" : "hostgroup");
   var attrs = {};
   attrs[obj] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id']);
-  attrs[obj]["use_image"] = $('*[id*=cb_use_image]').attr('checked') == "checked";
+  attrs[obj]["use_image"] = $('*[id*=use_image]').attr('checked') == "checked";
   $.ajax({
     data: attrs,
     type:'post',
