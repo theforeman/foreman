@@ -10,7 +10,7 @@ class Subnet < ActiveRecord::Base
   validates_presence_of   :network, :mask, :domain_id, :name
   validates_uniqueness_of :network
   validates_format_of     :network, :mask,                        :with => Net::Validations::IP_REGEXP
-  validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true
+  validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true, :allow_nil => true
   validates_uniqueness_of :name,    :scope => :domain_id
   default_scope :order => 'priority'
   validate :validate_ranges
