@@ -238,7 +238,7 @@ Foreman::Application.routes.draw do
   match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
   match 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
   match 'statistics', :to => 'statistics#index', :as => "statistics"
-  match 'home/status', :to => 'home#status'
+  match 'status', :to => 'home#status', :as => "status"
 
   # match for all unattended scripts
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'

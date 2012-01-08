@@ -7,13 +7,12 @@ class HomeController < ApplicationController
 
   def status
     respond_to do |format|
-      format.html { redirect_to root_path and return }
-
       format.json do
         # make fake db call, measure duration and report errors
         result = exception_watch { User.first }
         render :json => result, :status => result[:status]
       end
+      format.all { invalid_request }
     end
   end
 
