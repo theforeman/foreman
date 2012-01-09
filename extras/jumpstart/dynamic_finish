@@ -7,6 +7,10 @@ foreman=foreman
 # Copy the working nsswitch and resolv.conf into the new server's etc directory
 cp /etc/nsswitch.conf /a/etc
 cp /etc/resolv.conf /a/etc
+# Copy the mnttab into the new server's etc directory so we can use pkgadd to install OpenCSW
+cp /etc/mnttab /a/etc/mnttab
+# Copy the admin file into the new servers tmp directory
+cp -p ./admin /a/tmp
 # Make a working curl available
 echo "Copying ./curl.$arch /a/tmp/curl"
 cp -p ./curl.$arch /a/tmp/curl
