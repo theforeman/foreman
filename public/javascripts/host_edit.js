@@ -94,9 +94,10 @@ function subnet_selected(element){
     if (subnet_contains(details[0], details[1], $('#host_ip').val()))
       return false;
   }
+  var attrs = attribute_hash(["subnet_id", "host_mac"]);
   $('#subnet_indicator').show();
   $.ajax({
-    data:'subnet_id=' + subnet_id,
+    data: attrs,
     type:'post',
     url:'/subnets/freeip',
     complete: function(request){$('#subnet_indicator').hide()}

@@ -71,9 +71,9 @@ class Subnet < ActiveRecord::Base
     @tftp_proxy ||= ProxyAPI::TFTP.new({:url => tftp.url}.merge(attrs)) if tftp?
   end
 
-  def unused_ip
+  def unused_ip mac = nil
     return unless dhcp?
-    dhcp_proxy.unused_ip(self)["ip"]
+    dhcp_proxy.unused_ip(self, mac)["ip"]
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"
     nil

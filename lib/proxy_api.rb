@@ -145,8 +145,12 @@ module ProxyAPI
       parse get(subnet)
     end
 
-    def unused_ip subnet
-      params = "?from=#{subnet.from}&to=#{subnet.to}" if subnet.from.present? and subnet.to.present?
+    def unused_ip subnet, mac = nil
+      params = {}
+      params.merge!({:mac => mac}) if mac.present?
+
+      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? and subnet.to.present?
+      params = "?" + params.map{|e| e.join("=")}.join("&") if params.any?
       parse get("#{subnet.network}/unused_ip#{params}")
     end
 
