@@ -201,7 +201,7 @@ class Host < Puppet::Rails::Host
     unless Rails.env == "test"
       # Disallow any auto signing for our host.
       GW::Puppetca.disable name unless puppetca? or not Setting[:manage_puppetca]
-      GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
+      GW::Tftp.remove mac if SETTINGS[:unattended] and not (respond_to?(:tftp?) and tftp?)
     end
     self.save
   rescue => e
@@ -433,7 +433,7 @@ class Host < Puppet::Rails::Host
     clearReports
 
     # ensures that the legacy TFTP code is not called when using a smart proxy.
-    unless respond_to?(:tftp?) and tftp?
+    if SETTINGS[:unattended] and not (respond_to?(:tftp?) and tftp?)
       return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
     end
 
