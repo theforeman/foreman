@@ -217,7 +217,7 @@ class HostsController < ApplicationController
   # multiple host selection methods
 
   def multiple_parameters
-    @parameters = HostParameter.reference_id_is(@hosts).all(:select => "distinct name")
+    @parameters = HostParameter.where(:reference_id => @hosts).select("distinct name")
   end
 
   def update_multiple_parameters
