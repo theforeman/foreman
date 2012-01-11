@@ -1,4 +1,12 @@
+2012-01-11	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1420 - bootserver ip lookup fails when not managing DNS
+
+2011-12-28	Jochen Schalanda <jochen@schalanda.name>
+	* Added new changelog entry for Foreman 0.4.1 Debian package
+
 2011-12-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1412 - unable to checkout 0.4.1 via git
+	* version bump to 0.4.1
 	* fixes #1316 - Postgres DB Error while run rake db:migrate
 
 2011-12-25	Florian Koch <florian.koch1981@googlemail.com>
