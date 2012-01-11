@@ -66,7 +66,7 @@ module Orchestration::TFTP
       return unless operatingsystem
       return if Rails.env == "test"
       if configTemplate({:kind => operatingsystem.template_kind}).nil? and configTemplate({:kind => "gPXE"}).nil?
-        failure "No #{operatingsystem.template_kind} templates where found for this host, make sure you define at least one in your #{os} settings"
+        failure "No #{operatingsystem.template_kind} templates were found for this host, make sure you define at least one in your #{os} settings"
       end
     end
 
