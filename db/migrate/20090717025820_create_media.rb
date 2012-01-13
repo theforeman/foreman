@@ -8,7 +8,6 @@ class CreateMedia < ActiveRecord::Migration
     end
     Medium.create :name => "CentOS mirror", :path => "http://mirror.averse.net/centos/$major.$minor/os/$arch"
     Medium.create :name => "Fedora Mirror", :path => "http://mirror.nus.edu.sg/fedora/releases/$major/Fedora/$arch/os/"
-    Medium.create :name => "RedHat Beta", :path => "http://ftp.redhat.com/pub/redhat/rhel/beta/$major/$arch/os"
     Medium.create :name => "Ubuntu Mirror", :path => "http://sg.archive.ubuntu.com"
 
   end
