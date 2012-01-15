@@ -32,7 +32,7 @@ class SmartProxies::PuppetcaController < ApplicationController
   def update
     cert = SmartProxies::PuppetCA.find(@proxy, params[:id])
     if cert.sign
-      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy), :object_name => cert.to_s })
+      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy, :state => params[:state]), :object_name => cert.to_s })
     else
       process_error({ :redirect => smart_proxy_puppetca_index_path(@proxy) })
     end
@@ -43,7 +43,7 @@ class SmartProxies::PuppetcaController < ApplicationController
   def destroy
     cert = SmartProxies::PuppetCA.find(@proxy, params[:id])
     if cert.destroy
-      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy), :object_name => cert.to_s })
+      process_success({ :success_redirect => smart_proxy_puppetca_index_path(@proxy, :state => params[:state]), :object_name => cert.to_s })
     else
       process_error({ :redirect => smart_proxy_puppetca_index_path(@proxy) })
     end
