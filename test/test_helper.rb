@@ -20,7 +20,7 @@ class ActiveSupport::TestCase
   end
 
   def set_session_user
-    SETTINGS[:login] ? {:user => User.find_by_login("admin")} : {}
+    SETTINGS[:login] ? {:user => User.find_by_login("admin").id, :expires_at => 5.minutes.from_now} : {}
   end
 
   def as_admin

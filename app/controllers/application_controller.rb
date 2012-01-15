@@ -10,8 +10,9 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :session_expiry, :update_activity_time, :unless => :api_request? if SETTINGS[:login]
   before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
-  before_filter :authorize, :except => :login
+  before_filter :authorize
 
   def welcome
     @searchbar = true
@@ -53,7 +54,7 @@ class ApplicationController < ActionController::Base
   def require_login
     unless session[:user] and User.current = User.find(session[:user])
       # User is not found or first login
-      if SETTINGS[:login] and SETTINGS[:login] == true
+      if SETTINGS[:login]
         # authentication is enabled
         if api_request?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
@@ -155,6 +156,24 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+  end
+
+  def session_expiry
+    expire_session if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
+  rescue => e
+    logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
+    expire_session
+  end
+
+  def update_activity_time
+    session[:expires_at] = Setting.idle_timeout.minutes.from_now.utc
+  end
+
+  def expire_session
+    logger.info "Session for #{current_user} is expired."
+    reset_session
+    flash[:warning] = "Your session has expired, please login again"
+    redirect_to login_users_path
   end
 
   private

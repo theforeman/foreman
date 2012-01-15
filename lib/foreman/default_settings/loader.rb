@@ -28,7 +28,8 @@ module Foreman
               set('foreman_url',   "The hostname where your foreman instance is running on", "foreman.#{domain}"),
               set('email_replay_address', "The email replay address for emails that foreman is sending", "Foreman-noreply@#{domain}"),
               set('entries_per_page', "The amount of records shown per page in foreman", 20),
-	      set('authorize_login_delegation',"Authorize login delegation with REMOTE_USER environment variable",false),
+              set('authorize_login_delegation',"Authorize login delegation with REMOTE_USER environment variable",false),
+              set('idle_timeout',"Logoff users after a certian timeout, in minutes",60),
             ].each { |s| create s.update(:category => "General")}
 
             [

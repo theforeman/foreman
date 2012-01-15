@@ -84,3 +84,8 @@ attributes17:
   category: Puppet
   default: false
   description: Foreman will update a host's environment from its facts
+attributes18:
+  name: idle_timeout
+  category: General
+  default: 5
+  description: idle timeout

@@ -141,7 +141,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "externalNodes should render 404 when no params are given" do
     User.current = nil
-    get :externalNodes
+    get :externalNodes, {}, set_session_user
     assert_response :missing
     assert_template 'common/404'
   end
@@ -218,9 +218,9 @@ class HostsControllerTest < ActionController::TestCase
       @host1.domain = domains(:mydomain)
       @host2.domain = domains(:yourdomain)
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert @response.body =~ /#{@host1.shortname}/
+    assert_contains @response.body, /#{@host1.shortname}/
   end
 
   test 'user with edit host rights and domain is set should fail to view host2' do
@@ -230,7 +230,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.domain = domains(:mydomain)
       @host2.domain = domains(:yourdomain)
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
@@ -245,7 +245,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body =~ /#{@host1.name}/
   end
@@ -260,7 +260,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
@@ -274,7 +274,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body =~ /#{@host1.name}/
   end
@@ -288,7 +288,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
@@ -301,7 +301,7 @@ class HostsControllerTest < ActionController::TestCase
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
       UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body =~ /#{@host1.name}/
   end
@@ -314,20 +314,20 @@ class HostsControllerTest < ActionController::TestCase
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
       UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
 
   test 'user with view host rights should fail to edit host' do
     setup_user_and_host "View"
-    get :edit, {:id => @host1.id}
-    assert @response.status == '403 Forbidden'
+    get :edit, {:id => @host1.id}, set_session_user.merge(:user => @one.id)
+    assert_equal @response.status, 403
   end
 
   test 'user with view host rights should should succeed in viewing hosts' do
     setup_user_and_host "View"
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
   end
 
@@ -394,7 +394,7 @@ class HostsControllerTest < ActionController::TestCase
     assert @host2.environment == environments(:production)
     post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => environments(:global_puppetmaster).id}},
-      { :user => User.first.id}
+      set_session_user.merge(:user => User.first.id)
     assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
     assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
   end
@@ -405,7 +405,7 @@ class HostsControllerTest < ActionController::TestCase
     @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
     post :update_multiple_parameters,
       {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
-      {:user => User.first.id}
+      set_session_user.merge(:user => User.first.id)
     assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
@@ -418,7 +418,7 @@ class HostsControllerTest < ActionController::TestCase
   test "should get active" do
     get :active, {}, set_session_user
     assert_response :success
-    assert_template :partial => "list"
+    assert_template :partial => "_list"
     assert_template 'index'
   end
 

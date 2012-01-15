@@ -217,13 +217,13 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit an environment' do
     setup_user
-    get :edit, {:id => Environment.first.id}
+    get :edit, {:id => environments(:production).name}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing environments' do
     setup_user
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
   end
 end

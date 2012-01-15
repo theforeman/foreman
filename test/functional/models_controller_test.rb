@@ -54,13 +54,13 @@ class ModelsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a model' do
     setup_user
-    get :edit, {:id => Model.first.id}
+    get :edit, {:id => Model.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing models' do
     setup_user
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
   end
 end
