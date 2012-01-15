@@ -149,7 +149,7 @@ class Environment < ActiveRecord::Base
           unless pclass == "_destroy_"
             pc = Puppetclass.find_by_name pclass
             if pc.nil?
-              @import_errors += "Unable to find puppet class #{pclass } in the foreman database"
+              @import_errors << "Unable to find puppet class #{pclass} in the foreman database"
             else
               env.puppetclasses.delete pc
               unless pc.environments.any? or pc.hosts.any?
