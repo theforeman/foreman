@@ -77,6 +77,8 @@ module Orchestration::TFTP
       prefix   = operatingsystem.pxe_prefix(arch)
       @kernel = os.kernel(arch)
       @initrd = os.initrd(arch)
+      # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
+      @host = self
       pxe_render configTemplate({:kind => os.template_kind}).template
     rescue => e
       failure "Failed to generate #{os.template_kind} template: #{e}"
