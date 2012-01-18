@@ -72,12 +72,13 @@ module Orchestration::DHCP
       # if we don't manage tftp at all, we dont create a next-server entry.
       return unless tftp?
 
+      # first try to ask our TFTP server for its boot server
       bs = tftp.bootServer
-      if bs.blank?
-        # trying to guess out tftp next server based on the smart proxy hostname
-        bs = URI.parse(subnet.tftp.url).host if respond_to?(:tftp?) and tftp?
-      end
-      return(bootserver_ip(bs)) unless bs.blank?
+      # if that failed, trying to guess out tftp next server based on the smart proxy hostname
+      bs ||= URI.parse(subnet.tftp.url).host if respond_to?(:tftp?) and tftp?
+      # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
+      return to_ip_address(bs) if bs.present?
+
       failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
     rescue => e
       failure "failed to detect boot server: #{e}"

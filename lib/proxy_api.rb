@@ -252,9 +252,8 @@ module ProxyAPI
 
     # returns the TFTP boot server for this proxy
     def bootServer
-      response = parse get("serverName")
-      if response and response["serverName"] and !response["serverName"].blank?
-        return(bootserver_ip response["serverName"] )
+      if response = parse(get("serverName")) and response["serverName"].present?
+        return response["serverName"]
       end
       false
     rescue RestClient::ResourceNotFound

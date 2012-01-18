@@ -701,4 +701,14 @@ class Host < Puppet::Rails::Host
     errors.add(:name, "must be downcase") unless name == name.downcase
   end
 
+  # converts a name into ip address using DNS.
+  # if we are managing DNS, we can query the correct DNS server
+  # otherwise, use normal systems dns settings to resolv
+  def to_ip_address name_or_ip
+    return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
+    return dns_ptr_record.dns_lookup(name_or_ip).ip if dns_ptr_record
+    # fall back to normal dns resolution
+    domain.resolver.getaddress(name_or_ip).to_s
+  end
+
 end
