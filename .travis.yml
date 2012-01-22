@@ -1,0 +1,15 @@
+language: ruby
+bundler_args: --without development
+
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  # - rbx-19mode # currently in active development, may or may not work for your project
+# uncomment this line if your project needs to run something other than `rake`:
+# script: bundle exec rspec spec
+branches:
+  only:
+    - develop
+notifications:
+  irc: "irc.freenode.org#theforeman"

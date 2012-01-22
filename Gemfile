@@ -35,11 +35,15 @@ group :authentication do
   gem 'net-ldap'
 end
 
-group :test, :development do
-  # To use debugger
-  gem "ruby-debug", :platforms => :ruby_18
-  gem "ruby-debug19", :platforms => :ruby_19
+group :test do
   gem 'mocha'
   gem 'shoulda'
   gem 'rr'
+  gem 'rake'
+end
+
+group :development do
+  # To use debugger
+  gem "ruby-debug", :platforms => :ruby_18
+  gem "ruby-debug19", :platforms => :ruby_19
 end
