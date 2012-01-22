@@ -1,5 +1,6 @@
 language: ruby
 bundler_args: --without development
+before_install: "sudo apt-get install -y libvirt-ruby libvirt-dev"
 
 rvm:
   - 1.8.7
