@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
 
-APP_ROOT="~/builds/ohadlevy/foreman"
+APP_ROOT=`cwd`
 
 # setup basic settings file
 sed -e 's/:login: false/:login: true/' $APP_ROOT/config/settings.yaml.example > $APP_ROOT/config/settings.yaml
