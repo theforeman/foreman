@@ -27,8 +27,7 @@ gem 'scoped_search', '>= 2.3.6'
   gem "safemode", "1.0", :git => "https://github.com/svenfuchs/safemode.git"
   gem "ruby2ruby"
   gem "ruby_parser"
-  gem "virt", ">= 0.2.0"
-  gem "ruby-libvirt" # to remove once upgrading vir to 0.3
+  gem "virt", ">= 0.2.1"
 #end
 
 group :authentication do
