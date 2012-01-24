@@ -138,16 +138,8 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
-
-  test "externalNodes should render 404 when no params are given" do
-    User.current = nil
-    get :externalNodes, {}, set_session_user
-    assert_response :missing
-    assert_template 'common/404'
-  end
-
   test "externalNodes should render correctly when format text/html is given" do
-    get :externalNodes, {:name => @host.name}, set_session_user
+    get :externalNodes, {:name => @host.name}
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
@@ -215,8 +207,8 @@ class HostsControllerTest < ActionController::TestCase
     setup_user_and_host "Edit"
     as_admin do
       @one.domains  = [domains(:mydomain)]
-      @host1.domain = domains(:mydomain)
-      @host2.domain = domains(:yourdomain)
+      @host1.update_attribute(:domain, domains(:mydomain))
+      @host2.update_attribute(:domain, domains(:yourdomain))
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
