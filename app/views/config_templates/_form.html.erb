@@ -8,7 +8,7 @@
  </div>
  <%= textarea_f f, :template, :class => "span13",
    :help_block =>"<span class='label notice'>Notice</span> #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
-     :rel => "external"}"
+     :rel => "external"}".html_safe
    %>
 
   <div id="template_associations" <%= display? @config_template.snippet %>>
