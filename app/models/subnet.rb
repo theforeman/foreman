@@ -19,7 +19,7 @@ class Subnet < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts, :sps)
 
-  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary], :complete_value => true
+  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
 
   # Subnets are displayed in the form of their network network/network mask
