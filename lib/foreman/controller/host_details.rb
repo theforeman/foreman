@@ -27,16 +27,7 @@ module Foreman::Controller::HostDetails
 
   def use_image_selected
     item = item_object
-    iname = item_name
-    render(:update) do |page|
-      if item.use_image
-        page["##{iname}_image_file"].value = item.image_file || item.default_image_file
-        page["##{iname}_image_file"].attr('disabled', false)
-      else
-        page["##{iname}_image_file"].value = ""
-        page["##{iname}_image_file"].attr('disabled', true)
-      end
-    end
+    render :json => {:use_image => item.use_image, :image_file => item.image_file}
   end
 
   def hypervisor_selected

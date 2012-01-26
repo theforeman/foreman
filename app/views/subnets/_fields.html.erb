@@ -1,8 +1,13 @@
 <%= text_f f, :name %>
-<%= select_f f, :domain_id, Domain.all, :id, :name, :include_blank => true, 
-  :help_inline => "Domains in which this subnet is part" %>
 <%= text_f f, :network %>
 <%= text_f f, :mask, :help_inline => "Netmask for this subnet", :label => "Netmask" %>
+<%= text_f f, :gateway, :help_inline => "Optional: Gateway for this subnet", :label => "Gateway" %>
+<%= text_f f, :dns_primary, 	:help_inline => "Optional: Primary DNS for this subnet", 	 :label => "Primary DNS" %>
+<%= text_f f, :dns_secondary, :help_inline => "Optional: Secondary DNS for this subnet", :label => "Secondary DNS" %>
+<%= text_f f, :from, :help_inline => "Optional: Starting IP Address for IP auto suggestion", :label => "From IP" %>
+<%= text_f f, :to,   :help_inline => "Optional: Ending IP Address for IP auto suggestion", :label => "To IP" %>
+<%= text_f f, :vlanid, :help_inline => "Optional: VLAN ID for this subnet", :label => "VLAN" %>
+<%= multiple_checkboxes f, :domain, f.object, Domain, :help_inline => "Domains in which this subnet is part" %>
 
 <%= select_f f, :dhcp_id, Feature.find_by_name("DHCP").smart_proxies, :id, :name, :include_blank => "None", 
   :help_inline => "DHCP Proxy to use within this subnet", :label => "DHCP Proxy" %>

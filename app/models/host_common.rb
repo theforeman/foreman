@@ -63,7 +63,7 @@ module HostCommon
         end
         # We encode the hw_model into the image file name as not all Sparc flashes can contain all possible hw_models. The user can always
         # edit it if required or use symlinks if they prefer.
-        hw_model = model.try :hardware_model
+        hw_model = model.try :hardware_model if defined?(model_id)
         operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) +\
           "#{operatingsystem.file_prefix}.#{architecture}#{hw_model.empty? ? "" : "." + hw_model.downcase}.#{operatingsystem.image_extension}"
       else
@@ -78,11 +78,14 @@ module HostCommon
       write_attribute :image_file, value
     end
 
+    def image_file
+      super || default_image_file
+    end
+
     # make sure we store an encrypted copy of the password in the database
     # this password can be use as is in a unix system
     def root_pass=(pass)
-      return if pass.empty?
-      p = pass =~ /^\$1\$foreman\$.*/ ? pass : pass.crypt("$1$foreman$")
+      p = pass.empty? ? nil : (pass =~ /^\$1\$foreman\$.*/ ? pass : pass.crypt("$1$foreman$"))
       write_attribute(:root_pass, p)
     end
 

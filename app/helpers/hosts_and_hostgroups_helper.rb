@@ -14,14 +14,6 @@ module HostsAndHostgroupsHelper
     hg.sort
   end
 
-  def image_file_entry f, item
-    # If the host has an explicit image_path then use that
-    # Else use the default based upon the host's medium and operatingsystem
-    value = (item.use_image && item.image_file) || item.default_image_file
-    text_f f, :image_file, :value => value, :disabled => !item.use_image,
-                 :id => type + "_image_file", :name => type + "[image_file]", :class => "xxlarge"
-  end
-
   def parent_classes obj
     return obj.hostgroup.classes if obj.is_a?(Host) and obj.hostgroup
     return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(Hostgroup)

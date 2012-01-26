@@ -1,5 +1,6 @@
 <%= fields_for item do |f| %>
-  <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true}, {:onchange => 'architecture_selected(this);'} %>
+  <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
+    {:onchange => 'architecture_selected(this);', "data-type" => controller_name} %>
 
   <span id="host_os">
     <span id="os_select">

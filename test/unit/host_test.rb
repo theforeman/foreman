@@ -397,4 +397,28 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
+  test "name should be lowercase" do
+    h = hosts(:redhat)
+    assert h.valid?
+    h.name.upcase!
+    assert !h.valid?
+  end
+
+  test "should allow to save root pw" do
+    h = hosts(:redhat)
+    pw = h.root_pass
+    h.root_pass = "token"
+    assert h.save
+    assert_not_equal pw, h.root_pass
+  end
+
+  test "should allow to revert to default root pw" do
+    h = hosts(:redhat)
+    h.root_pass = "token"
+    assert h.save
+    h.root_pass = ""
+    assert h.save
+    assert_equal h.root_pass, Setting.root_pass
+  end
+
 end

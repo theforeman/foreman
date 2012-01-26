@@ -72,12 +72,13 @@ module Orchestration::DHCP
       # if we don't manage tftp at all, we dont create a next-server entry.
       return unless tftp?
 
+      # first try to ask our TFTP server for its boot server
       bs = tftp.bootServer
-      if bs.blank?
-        # trying to guess out tftp next server based on the smart proxy hostname
-        bs = URI.parse(subnet.tftp.url).host if respond_to?(:tftp?) and tftp?
-      end
-      return(bs =~/^\d/ ? bs : dns_ptr_record.dns_lookup(bs).ip) unless bs.blank?
+      # if that failed, trying to guess out tftp next server based on the smart proxy hostname
+      bs ||= URI.parse(subnet.tftp.url).host if respond_to?(:tftp?) and tftp?
+      # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
+      return to_ip_address(bs) if bs.present?
+
       failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
     rescue => e
       failure "failed to detect boot server: #{e}"
@@ -157,7 +158,8 @@ module Orchestration::DHCP
 
     def valid_jumpstart_model
       return unless jumpstart?
-      errors.add :model, "Has an unknown vendor class" if model.vendor_class.empty?
+      errors.add :model_id, "is required for Solaris SPARC deployment" if model.blank?
+      errors.add :model_id, "Has an unknown vendor class" if model and model.vendor_class.empty?
       false
     end
 

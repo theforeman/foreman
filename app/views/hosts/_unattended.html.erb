@@ -3,11 +3,11 @@
 </div>
 
 <div id="network">
-  <%= render 'common/domain_subnet', :item => @host %>
-  <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" , :autocomplete => 'off'%>
   <span id="mac_address">
     <%= render 'mac', :item => @host unless @hypervisor -%>
   </span>
+  <%= render 'common/domain_subnet', :item => @host %>
+  <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" , :autocomplete => 'off'%>
   <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" , :autocomplete => 'off'%>
   <%= text_f f, :sp_ip,  :label => "BMC IP" , :autocomplete => 'off'%>
   <%= text_f f, :sp_mac, :label => "BMC MAC", :autocomplete => 'off' %>

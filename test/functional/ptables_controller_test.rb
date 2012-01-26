@@ -93,25 +93,25 @@ class PtablesControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a partition table' do
     setup_view_user
-    get :edit, {:id => Ptable.first.id}
+    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to delete a partition table' do
     setup_view_user
-    delete :destroy, {:id => Ptable.first.id}
+    delete :destroy, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to create a partition table' do
     setup_view_user
-    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}
+    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing partition tables' do
     setup_view_user
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
   end
 
@@ -124,7 +124,7 @@ class PtablesControllerTest < ActionController::TestCase
 
   test 'user with editing rights should succeed in editing a partition table' do
     setup_edit_user
-    get :edit, {:id => Ptable.first.id}
+    get :edit, {:id => Ptable.first.id}, set_session_user
     assert_response :success
   end
 

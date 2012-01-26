@@ -3,7 +3,11 @@ require "resolv"
 class Domain < ActiveRecord::Base
   include Authorization
   has_many :hosts
-  has_many :subnets
+  has_many :hostgroups
+  #order matters! see https://github.com/rails/rails/issues/670
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets)
+  has_many :subnet_domains, :dependent => :destroy
+  has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_and_belongs_to_many :users, :join_table => "user_domains"
@@ -15,7 +19,6 @@ class Domain < ActiveRecord::Base
 
   scoped_search :on => [:name, :fullname], :complete_value => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :subnets)
   default_scope :order => 'LOWER(domains.name)'
 
   class Jail < Safemode::Jail
@@ -59,7 +62,8 @@ class Domain < ActiveRecord::Base
   end
 
   def resolver
-    Resolv::DNS.new :search => name, :nameserver => nameservers, :ndots => 1
+    ns = nameservers
+    Resolv::DNS.new ns.empty? ? nil : {:search => name, :nameserver => ns, :ndots => 1}
   end
 
   def proxy
@@ -71,4 +75,3 @@ class Domain < ActiveRecord::Base
   end
 
 end
-

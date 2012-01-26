@@ -10,11 +10,32 @@ logger "Starting finish script"
 /usr/bin/perl -p -i -e "s/PermitRootLogin no/PermitRootLogin yes/" /etc/ssh/sshd_config
 
 # Now ensure that we have the newest puppet and facter installed
-/usr/bin/cp /var/pkg-get/admin-fullauto /var/pkg-get/admin > /dev/null
-/opt/csw/bin/pkg-get -U
-/opt/csw/bin/pkg-get -u -f CSWfacter CSWpuppet
+mount /proc
+/usr/bin/cat /etc/mnttab | sed -e 's/\/a/\//' | sed -e 's/\/a//' > /a/etc/mnttab
+/sbin/mount -F mntfs mnttab /etc/mnttab
+/usr/sbin/mknod /devices/pseudo/random@0:random c 190 0
+/usr/sbin/mknod /devices/pseudo/random@0:urandom c 190 1
+/usr/sbin/pkgadd -a /tmp/admin -d http://get.opencsw.org/now all
+/opt/csw/bin/pkgutil -U -y
+/opt/csw/bin/pkgutil -u -f -y CSWfacter CSWpuppet CSWwget
 
-echo "Configuring puppet"
+/usr/bin/echo "Creating helper startup script to start puppet"
+ONETIME=S99.enable.puppet
+/usr/bin/cat > /etc/rc3.d/$ONETIME << EOF
+#!/bin/sh
+#
+# $ONETIME
+#
+# runs once at startup and then removes itself.
+#
+PATH=/usr/bin:/usr/sbin; export PATH
+/usr/sbin/svccfg import /var/opt/csw/svc/manifest/network/cswpuppetd.xml
+/usr/sbin/svcadm enable svc:/network/cswpuppetd
+sleep 2
+rm \$0
+EOF
+
+/usr/bin/echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
 <%= snippets "puppet.conf" -%>
 EOF
@@ -24,6 +45,7 @@ then
     rm -f /etc/opt/csw/puppet/puppetd.conf
     ln -s /etc/puppet/puppet.conf /etc/opt/csw/puppet/puppetd.conf
 fi
+/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server puppet --no-daemonize
 echo "Informing Foreman that we are built"
 /opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url %>
 exit 0

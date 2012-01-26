@@ -83,13 +83,13 @@ class MediaControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a medium' do
     setup_user
-    get :edit, {:id => Medium.first.id}
+    get :edit, {:id => Medium.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing media' do
     setup_user
-    get :index
+    get :index, {}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
 end

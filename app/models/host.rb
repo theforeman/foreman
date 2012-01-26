@@ -16,7 +16,7 @@ class Host < Puppet::Rails::Host
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
-      :params, :hostgroup, :domain, :ip, :mac, :shortname, :architecture
+      :params, :hostgroup, :domain, :ip, :mac, :shortname, :architecture, :model
   end
 
   attr_reader :cached_host_params, :cached_lookup_keys_params
@@ -123,6 +123,8 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
+  validate :is_name_downcased?
+
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
@@ -140,7 +142,7 @@ class Host < Puppet::Rails::Host
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
     validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or !host.managed }
     validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :ptable, :message => "cant be blank unless a custom partition has been defined",
+    validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake)  }
     validates_format_of      :sp_mac,    :with => Net::Validations::MAC_REGEXP, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => Net::Validations::IP_REGEXP, :allow_nil => true, :allow_blank => true
@@ -199,7 +201,7 @@ class Host < Puppet::Rails::Host
     unless Rails.env == "test"
       # Disallow any auto signing for our host.
       GW::Puppetca.disable name unless puppetca? or not Setting[:manage_puppetca]
-      GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
+      GW::Tftp.remove mac if SETTINGS[:unattended] and not (respond_to?(:tftp?) and tftp?)
     end
     self.save
   rescue => e
@@ -399,13 +401,20 @@ class Host < Puppet::Rails::Host
     end
 
     os_name = fv(:operatingsystem)
-    if os_name == "Archlinux"
-      # Archlinux is rolling release, so it has no release. We use 1.0 always
-      self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, "1", "0"
-    elsif orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
+    case os_name
+    when /(suse|sles)/i
+      orel = fv(:operatingsystemrelease)
+    else
+      orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
+    end
+
+    if orel.present? 
       major, minor = orel.split(".")
       minor ||= ""
       self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
+    elsif os_name == "Archlinux"
+      # Archlinux is rolling release, so it has no release. We use 1.0 always
+      self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, "1", "0"
     end
 
     unless self.model
@@ -427,7 +436,7 @@ class Host < Puppet::Rails::Host
     clearReports
 
     # ensures that the legacy TFTP code is not called when using a smart proxy.
-    unless respond_to?(:tftp?) and tftp?
+    if SETTINGS[:unattended] and not (respond_to?(:tftp?) and tftp?)
       return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
     end
 
@@ -689,4 +698,20 @@ class Host < Puppet::Rails::Host
   def self.report_status
     "puppet_status"
   end
+
+  def is_name_downcased?
+    return unless name.present?
+    errors.add(:name, "must be downcase") unless name == name.downcase
+  end
+
+  # converts a name into ip address using DNS.
+  # if we are managing DNS, we can query the correct DNS server
+  # otherwise, use normal systems dns settings to resolv
+  def to_ip_address name_or_ip
+    return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
+    return dns_ptr_record.dns_lookup(name_or_ip).ip if dns_ptr_record
+    # fall back to normal dns resolution
+    domain.resolver.getaddress(name_or_ip).to_s
+  end
+
 end

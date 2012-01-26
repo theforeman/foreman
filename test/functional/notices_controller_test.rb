@@ -29,7 +29,7 @@ class NoticesControllerTest < ActionController::TestCase
 
   def test_notice_is_finally_deleted
     for user in User.all do
-      delete :destroy, {:id => @notice.id}, {:user => user.id}
+      delete :destroy, {:id => @notice.id}, set_session_user.merge(:user => user.id)
     end
     assert Notice.count == 0
   end

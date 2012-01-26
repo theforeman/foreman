@@ -3,15 +3,16 @@ require 'foreman/controller/auto_complete_search'
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
-  #rescue_from Exception, :with => :generic_exception
+  rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
   # standard layout to all controllers
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :session_expiry, :update_activity_time, :unless => :api_request? if SETTINGS[:login]
   before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
-  before_filter :authorize, :except => :login
+  before_filter :authorize
 
   def welcome
     @searchbar = true
@@ -53,15 +54,25 @@ class ApplicationController < ActionController::Base
   def require_login
     unless session[:user] and User.current = User.find(session[:user])
       # User is not found or first login
-      if SETTINGS[:login] and SETTINGS[:login] == true
+      if SETTINGS[:login]
         # authentication is enabled
         if api_request?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
           user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          User.current = user.is_a?(User) ? user : nil
-          logger.warn("Failed authentication from #{request.remote_ip} #{user}") if User.current.nil?
+          logger.warn("Failed API authentication request from #{request.remote_ip}") unless user
+        # if login delegation authorized and REMOTE_USER not empty, authenticate user without using password
+        elsif (uid=request.env["REMOTE_USER"]).present? and Setting["authorize_login_delegation"]
+          user = User.find_by_login(uid)
+          logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        end
+
+        if user.is_a?(User)
+          logger.info("Authorized user #{user.login}(#{user.to_label})")
+          User.current = user
+          session[:user] = User.current.id unless api_request?
           return !User.current.nil?
         end
+
         session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
         redirect_to login_users_path and return
       else
@@ -145,6 +156,24 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+  end
+
+  def session_expiry
+    expire_session if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
+  rescue => e
+    logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
+    expire_session
+  end
+
+  def update_activity_time
+    session[:expires_at] = Setting.idle_timeout.minutes.from_now.utc
+  end
+
+  def expire_session
+    logger.info "Session for #{current_user} is expired."
+    reset_session
+    flash[:warning] = "Your session has expired, please login again"
+    redirect_to login_users_path
   end
 
   private
@@ -232,8 +261,8 @@ class ApplicationController < ActionController::Base
 
   def generic_exception(exception)
     return no_puppetclass_documentation_handler(exception) if exception.is_a?(ActionController::RoutingError)
-    logger.warn exception
-    logger.warn exception.application_backtrace.join("\n")
+    logger.warn "Operation FAILED: #{exception}"
+    logger.debug Rails.backtrace_cleaner.clean(exception.backtrace).join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
 

@@ -9,6 +9,7 @@ class HostsController < ApplicationController
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
   skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
   skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
+  skip_before_filter :session_expiry, :update_activity_time, :only => ANONYMOUS_ACTIONS
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
   before_filter :find_hosts, :only => :query
@@ -16,8 +17,8 @@ class HostsController < ApplicationController
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
-  before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild report
-    reports facts storeconfig_klasses clone pxe_config toggle_manage]
+  before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
+    storeconfig_klasses clone pxe_config toggle_manage]
 
   helper :hosts, :reports
 
@@ -217,7 +218,7 @@ class HostsController < ApplicationController
   # multiple host selection methods
 
   def multiple_parameters
-    @parameters = HostParameter.reference_id_is(@hosts).all(:select => "distinct name")
+    @parameters = HostParameter.where(:reference_id => @hosts).select("distinct name")
   end
 
   def update_multiple_parameters
@@ -437,6 +438,15 @@ class HostsController < ApplicationController
   end
 
   private
+
+  def find_by_name
+    # find host first, if we fail, do nothing
+    params[:id].downcase! if params[:id].present?
+    super
+    return false unless @host
+    deny_access and return unless User.current.admin? or Host.my_hosts.include?(@host)
+  end
+
   def find_hosts
     fact, klass, group = params[:fact], params[:class], params[:hostgroup]
 

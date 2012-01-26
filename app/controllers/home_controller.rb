@@ -1,19 +1,19 @@
 class HomeController < ApplicationController
   skip_before_filter :require_login, :only => [:status]
   skip_before_filter :authorize, :only => [:status]
+  skip_before_filter :session_expiry, :update_activity_time, :only => :status
 
   def settings
   end
 
   def status
     respond_to do |format|
-      format.html { redirect_to root_path and return }
-
       format.json do
         # make fake db call, measure duration and report errors
         result = exception_watch { User.first }
         render :json => result, :status => result[:status]
       end
+      format.all { invalid_request }
     end
   end
 

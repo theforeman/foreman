@@ -47,7 +47,7 @@ module ApplicationHelper
         page << "if ($('#{div}').is(':visible')) {"
         page[div].hide()
         page << "} else {"
-        page[div].BlindDown :duration => 0.1
+        page[div].show
         page << "}"
       end
     end
@@ -58,15 +58,16 @@ module ApplicationHelper
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
                      :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
-                     :class=>"ui-icon ui-icon-minus")
+                     :class=>"ui-icon ui-icon-minus", "data-type" => type)
   end
 
   def link_to_add_puppetclass klass, type
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
-    link_to_function("", "add_puppet_class(this)", :'data-class-id'=>klass.id,
-                     :'data-original-title'=>"Click to add #{klass}", :rel=>'twipsy',
-                     :class=>"ui-icon ui-icon-plus")
+    link_to_function("", "add_puppet_class(this)",
+                       'data-class-id' => klass.id, 'data-type' => type,
+                       'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
+                       :class => "ui-icon ui-icon-plus")
   end
 
   def check_all_links(form_name)
@@ -167,7 +168,7 @@ module ApplicationHelper
   end
 
   def pie_chart name, title, data, options = {}
-    content_tag(:h4,title,:class=>'ca') +
+    link_to_function(content_tag(:h4,title,:class=>'ca'), "expand_chart(this)") +
     content_tag(:div, nil,
                 { :id             => name,
                   :class          => 'statistics_pie',

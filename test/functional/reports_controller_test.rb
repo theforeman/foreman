@@ -98,7 +98,7 @@ class ReportsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should succeed in viewing reports' do
     user_setup
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
   end
 end

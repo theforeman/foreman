@@ -145,8 +145,13 @@ module ProxyAPI
       parse get(subnet)
     end
 
-    def unused_ip subnet
-      parse get("#{subnet}/unused_ip")
+    def unused_ip subnet, mac = nil
+      params = {}
+      params.merge!({:mac => mac}) if mac.present?
+
+      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? and subnet.to.present?
+      params = "?" + params.map{|e| e.join("=")}.join("&") if params.any?
+      parse get("#{subnet.network}/unused_ip#{params}")
     end
 
     # Retrieves a DHCP entry
@@ -247,9 +252,8 @@ module ProxyAPI
 
     # returns the TFTP boot server for this proxy
     def bootServer
-      response = parse get("serverName")
-      if response and response["serverName"] and !response["serverName"].blank?
-        return(response["serverName"] =~ /^\d/ ? response["serverName"] : dns_ptr_record.dns_lookup(response["serverName"]).ip)
+      if response = parse(get("serverName")) and response["serverName"].present?
+        return response["serverName"]
       end
       false
     rescue RestClient::ResourceNotFound

@@ -12,7 +12,7 @@ class UnattendedController < ApplicationController
   FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
-  skip_before_filter :require_ssl, :require_login, :authorize
+  skip_before_filter :require_ssl, :require_login, :authorize, :session_expiry, :update_activity_time
 
   # require logged in user to see templates in spoof mode
   before_filter do |c|

@@ -27,8 +27,7 @@ class Redhat < Operatingsystem
     when "5"
       epel_url.gsub!("$os","5-4")
     when "6"
-       epel_url.gsub!("$os","6-5").
-         gsub!("/pub/epel/","/pub/epel/beta/") # workaround for hardcoded beta in url, should be remove once RH6 is released
+       epel_url.gsub!("$os","6-5")
     else
       return ""
     end

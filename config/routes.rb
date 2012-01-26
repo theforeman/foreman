@@ -58,6 +58,7 @@ Foreman::Application.routes.draw do
         post 'architecture_selected'
         post 'os_selected'
         post 'domain_selected'
+        post 'use_image_selected'
       end
 
       constraints(:host_id => /[^\/]+/) do
@@ -111,12 +112,19 @@ Foreman::Application.routes.draw do
     end
     collection do
       get 'auto_complete_search'
+      post 'environment_selected'
+      post 'hypervisor_selected'
+      post 'architecture_selected'
+      post 'os_selected'
+      post 'domain_selected'
+      post 'use_image_selected'
     end
   end
 
   resources :puppetclasses do
     collection do
       get 'import_environments'
+      post 'obsolete_and_new'
       get 'auto_complete_search'
     end
     constraints(:id => /[^\/]+/) do
@@ -230,7 +238,7 @@ Foreman::Application.routes.draw do
   match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
   match 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
   match 'statistics', :to => 'statistics#index', :as => "statistics"
-  match 'home/status', :to => 'home#status'
+  match 'status', :to => 'home#status', :as => "status"
 
   # match for all unattended scripts
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
