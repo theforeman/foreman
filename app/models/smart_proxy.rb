@@ -56,14 +56,15 @@ class SmartProxy < ActiveRecord::Base
     reason = false
     begin
       reply = ProxyAPI::Features.new(:url => url).features
-      self.features = reply.map{|f| name_map[f]} if reply.is_a?(Array) and reply.any?
+      if reply.is_a?(Array) and reply.any?
+        self.features = reply.map{|f| name_map[f]}
+      else
+        errors.add :base, "No features found on this proxy, please make sure you enable at least one feature"
+      end
     rescue => e
-      reason = e.message
-    end
-    unless reply
-      errors.add :base, "Unable to communicate with the proxy: #{reason}"
+      errors.add :base, "Unable to communicate with the proxy: #{e}"
       errors.add :base, "Please check the proxy is configured and running on the host before saving."
     end
-    !reply.empty?
+    features.any?
   end
 end
