@@ -31,7 +31,7 @@ module Foreman::Controller::HostDetails
   end
 
   def hypervisor_selected
-    hypervisor_id = params["hypervisor_id".to_sym].to_i
+    hypervisor_id = params["hypervisor_id"].to_i
 
     # bare metal selected
     hypervisor_defaults and return if hypervisor_id == 0
@@ -92,10 +92,10 @@ module Foreman::Controller::HostDetails
     render :update do |page|
       item = controller.send(:item_object)
       page.alert(msg) if msg
-      page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => item }
+      page['#virtual_machine'].html(render :partial => "common/hypervisor", :locals => { :item => item })
       # you can only select bare metal after you successfully selected a hypervisor before
       page << "if ($('#host_mac').length == 0) {"
-      page.replace_html :mac_address, :partial => "hosts/mac", :locals => {:item => item } if controller_name == "hosts"
+      page['#mac_address'].html(render :partial => "hosts/mac", :locals => {:item => item }) if controller_name == "hosts"
       page[:host_hypervisor_id].value = ""
       page << " }"
     end
