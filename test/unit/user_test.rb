@@ -140,18 +140,23 @@ class UserTest < ActiveSupport::TestCase
 
   test "user with edit permissions should be able to edit" do
     setup_user "edit"
-    record      =  User.first
+    record      = users(:one)
     record.login = "renamed"
     assert record.save
   end
 
   test "user with destroy permissions should not be able to edit" do
     setup_user "destroy"
-    record      =  User.first
+    record      =  users(:one)
     record.login = "renamed"
     assert !record.save
     assert record.valid?
   end
 
-end
+  test "should not be able to rename the admin account" do
+    u = User.find_by_login("admin")
+    u.login = "root"
+    assert !u.save
+  end
 
+end

@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   validates_length_of :mail, :maximum => 60, :allow_nil => true
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
-  validate :name_used_in_a_usergroup
+  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
   before_validation :prepare_password
   after_destroy Proc.new {|user| user.domains.clear; user.hostgroups.clear}
 
@@ -207,6 +207,12 @@ class User < ActiveRecord::Base
       errors.add :base, "Can't delete internal admin account"
       logger.warn "Unable to delete internal admin account"
       return false
+    end
+  end
+
+  def ensure_admin_is_not_renamed
+    if login_changed? and login_was == "admin"
+      errors.add :login, "Can't rename internal #{login} account to #{login_was}"
     end
   end
 end
