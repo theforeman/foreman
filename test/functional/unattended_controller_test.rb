@@ -44,12 +44,12 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should provide pxe config for redhat" do
-    get :pxe_kickstart_config, {:host_id => hosts(:redhat).name}
+    get :pxe_kickstart_config, {:spoof => hosts(:redhat).ip}, set_session_user
     assert_response :success
   end
 
   test "should provide pxe config for debian" do
-    get :pxe_debian_config, {:host_id => hosts(:ubuntu).name}
+    get :pxe_debian_config, {:spoof => hosts(:ubuntu).ip}, set_session_user
     assert_response :success
   end
 
