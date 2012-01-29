@@ -28,6 +28,7 @@ gem 'scoped_search', '>= 2.3.6'
   gem "ruby2ruby"
   gem "ruby_parser"
   gem "virt", "0.1"
+  gem "ruby-libvirt" # to remove once upgrading virt to 0.3
 #end
 
 group :authentication do
