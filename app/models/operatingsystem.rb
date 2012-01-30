@@ -41,6 +41,7 @@ class Operatingsystem < ActiveRecord::Base
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
                'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
                'Suse'    => %r{OpenSuSE}i,
+               'Microsoft' => %r{Microsoft}i, }
                'Solaris' => %r{Solaris}i }
 
 

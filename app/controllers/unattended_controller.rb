@@ -39,6 +39,10 @@ class UnattendedController < ApplicationController
   def preseed_finish
     unattended_local
   end
+  
+  def waik
+    unattended_local
+  end
 
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
@@ -200,6 +204,9 @@ class UnattendedController < ApplicationController
   end
 
   def yast_attributes
+  end
+
+  def waik_attributes
   end
 
   private
