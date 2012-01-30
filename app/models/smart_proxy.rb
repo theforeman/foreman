@@ -54,6 +54,7 @@ class SmartProxy < ActiveRecord::Base
 
     name_map = SmartProxy.name_map
     reason = false
+    self.features.clear
     begin
       reply = ProxyAPI::Features.new(:url => url).features
       if reply.is_a?(Array) and reply.any?
