@@ -47,7 +47,7 @@ module Foreman::Controller::HostDetails
         hypervisor_defaults(e.to_s) and return
       end
 
-      @guest = Virt::Guest.new({ :name => (item.try(:name) || "new-#{Time.now.to_i}") })
+      @guest = @hypervisor.host.create_guest({ :name => (item.try(:name) || "new-#{Time.now.to_i}") })
 
       render :update do |page|
         controller.send(:update_hypervisor_details, item, page)
