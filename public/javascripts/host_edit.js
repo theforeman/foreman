@@ -54,7 +54,7 @@ function update_puppetclasses(element) {
   var hostgroup_id = $('*[id*=hostgroup_id]').attr('value');
   if (env_id == "") return false;
   var url = '/' + type;
-  url = (type == "host") ? url + '/hostgroup_or_environment_selected' : url + '/environment_selected';
+  url = (type == "hosts") ? url + '/hostgroup_or_environment_selected' : url + '/environment_selected';
   $.ajax({
     type: 'post',
     url:  url,
