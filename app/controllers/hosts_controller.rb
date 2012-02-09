@@ -171,7 +171,7 @@ class HostsController < ApplicationController
     if @host.setBuild != false
       process_success :success_msg => "Enabled #{@host.name} for rebuild on next boot", :success_redirect => :back
     else
-      process_error :redirect => :back, :error_msg => ["Failed to enable #{@host.name} for installation", @host.errors.full_messages]
+      process_error :redirect => :back, :error_msg => (["Failed to enable #{@host.name} for installation"] + @host.errors.full_messages)
     end
   end
 

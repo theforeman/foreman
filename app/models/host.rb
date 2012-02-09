@@ -230,6 +230,7 @@ class Host < Puppet::Rails::Host
 
   # returns the host correct disk layout, custom or common
   def diskLayout
+    @host = self
     pxe_render((disk.empty? ? ptable.layout : disk).gsub("\r",""))
   end
 

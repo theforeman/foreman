@@ -18,6 +18,7 @@ class Domain < ActiveRecord::Base
   validates_presence_of :name
 
   scoped_search :on => [:name, :fullname], :complete_value => true
+  scoped_search :in => :domain_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   default_scope :order => 'LOWER(domains.name)'
 

@@ -14,6 +14,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations
   before_save :serialize_vm_attributes
+  before_save :remove_duplicated_nested_class
   after_find :deserialize_vm_attributes
 
   alias_attribute :os, :operatingsystem
@@ -125,6 +126,10 @@ class Hostgroup < ActiveRecord::Base
     Vm::PROPERTIES.each do |attr|
       eval("@#{attr} = hash[attr.to_s]") if hash.has_key?(attr.to_s)
     end
+  end
+
+  def remove_duplicated_nested_class
+    self.puppetclasses -= ancestors.map(&:puppetclasses).flatten
   end
 
 end
