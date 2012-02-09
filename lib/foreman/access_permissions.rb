@@ -77,6 +77,13 @@ Foreman::AccessControl.map do |map|
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild]}
   end
 
+  map.security_block :host_editing do |map|
+    map.permission :edit_classes,   {:host_editing => [:edit_classes]}
+    map.permission :create_params,  {:host_editing => [:create_params]}
+    map.permission :edit_params,    {:host_editing => [:edit_params]}
+    map.permission :destroy_params, {:host_editing => [:destroy_params]}
+  end
+
   map.security_block :hypervisors do |map|
     map.permission :view_hypervisors,    {:hypervisors => [:index, :show]}
     map.permission :create_hypervisors,  {:hypervisors => [:new, :create]}
