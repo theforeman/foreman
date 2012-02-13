@@ -10,7 +10,7 @@ class GroupParameter < Parameter
 
     current = User.current
 
-    if current.allowed_to?("#{operation}_hostgroups".to_sym)
+    if current.allowed_to?("#{operation}_params".to_sym)
       if current.hostgroups.empty? or current.hostgroups.include? hostgroup
         return true
       end

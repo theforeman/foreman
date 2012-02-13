@@ -61,7 +61,7 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   test "user with create permissions should not be able to create when not permitted" do
-    setup_user "create"
+    setup_user "create", "params"
     as_admin do
       @one.hostgroups = [hostgroups(:common)]
       @one.save!
@@ -69,7 +69,7 @@ class HostParameterTest < ActiveSupport::TestCase
     end
     record =  HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
     assert record.valid?
-    assert record.new_record?
+    assert !record.new_record?
   end
 
   test "user with create permissions should be able to create when unconstrained" do

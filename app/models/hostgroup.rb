@@ -33,6 +33,21 @@ class Hostgroup < ActiveRecord::Base
     scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
   end
 
+  # returns reports for hosts in the User's filter set
+  scope :my_groups, lambda {
+    user = User.current
+    unless user.admin?
+      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))",user.hostgroups.map(&:id)])
+      conditions.sub!(/\s*\(\)\s*/, "")
+      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+    else
+      conditions = {}
+    end
+p conditions
+    {:conditions => conditions}
+  }
+
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppetproxy

@@ -8,10 +8,11 @@ class HostgroupsController < ApplicationController
 
   def index
     begin
-      values = Hostgroup.search_for(params[:search],:order => params[:order])
+      my_groups = User.current.admin? ? Hostgroup : Hostgroup.my_groups
+      values = my_groups.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = Hostgroup.search_for ""
+      values = my_groups.search_for ""
     end
 
     respond_to do |format|
@@ -50,6 +51,8 @@ class HostgroupsController < ApplicationController
   end
 
   def show
+    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
+    not_found and return unless auth
     respond_to do |format|
       format.json { render :json => @hostgroup }
     end
@@ -66,6 +69,8 @@ class HostgroupsController < ApplicationController
   end
 
   def edit
+    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
+    not_found and return unless auth
     load_vars_for_ajax
   end
 
