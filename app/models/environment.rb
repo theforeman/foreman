@@ -123,7 +123,7 @@ class Environment < ActiveRecord::Base
         for pclass in pclasses
           pc = Puppetclass.find_or_create_by_name pclass
           unless pc.errors.empty?
-            @import_errors += pc.errors
+            @import_errors += pc.errors.map(&:to_s)
           else
             env.puppetclasses << pc
           end
