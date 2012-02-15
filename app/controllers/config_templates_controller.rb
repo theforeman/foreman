@@ -3,6 +3,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Renderer
 
   before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :handle_template_upload, :only => [:create, :update]
 
   def index
     begin
@@ -127,6 +128,12 @@ class ConfigTemplatesController < ApplicationController
 
   def default_template_url template, hostgroup
     url_for :only_path => false, :action => :template, :controller => :unattended, :id => template.name, :hostgroup => hostgroup.name
+  end
+
+  # convert the file upload into a simple string to save in our db.
+  def handle_template_upload
+    return unless params[:config_template] and (t=params[:config_template][:template])
+    params[:config_template][:template] = t.read if t.respond_to?(:read)
   end
 
 end

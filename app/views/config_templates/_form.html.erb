@@ -1,4 +1,4 @@
-<%= form_for @config_template do |f| %>
+<%= form_for @config_template, :html => { :multipart => true } do |f| %>
   <%= base_errors_for @config_template %>
   <%= text_f f, :name %>
   <%= checkbox_f f, :snippet, :onchange => "$('#kind_selector, #template_associations').toggle(!$('#config_template_snippet').attr('checked'))" %>
@@ -6,15 +6,17 @@
   <div id="kind_selector" <%= display? @config_template.snippet %>>
     <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
  </div>
+
  <%= textarea_f f, :template, :class => "span13",
    :help_block =>"<span class='label notice'>Notice</span> #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
      :rel => "external"}".html_safe
    %>
+ <%= file_field_f f, :template, :help_inline => "<span class='label notice'>upload</span> a template instead".html_safe %>
 
-  <div id="template_associations" <%= display? @config_template.snippet %>>
-    <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Operating Systems" %>
-    <%= render "combinations", :f => f %>
-  </div>
+ <div id="template_associations" <%= display? @config_template.snippet %>>
+   <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Operating Systems" %>
+   <%= render "combinations", :f => f %>
+ </div>
 
-  <%= submit_or_cancel f %>
+ <%= submit_or_cancel f %>
 <% end %>

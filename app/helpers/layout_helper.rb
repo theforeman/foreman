@@ -62,6 +62,12 @@ module LayoutHelper
     end
   end
 
+  def file_field_f(f, attr, options = {})
+    field(f, attr, options) do
+      f.file_field attr, options
+    end
+  end
+
   def field(f, attr, options = {})
     obj = f.object
     error = obj.errors[attr]
