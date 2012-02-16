@@ -174,12 +174,6 @@ class HostsControllerTest < ActionController::TestCase
     assert flash[:error] =~ /Failed to enable #{@host} for installation/
   end
 
-  test "query in .yml format should return host.to_yml" do
-    User.current=nil
-    get :query, {:format => "yml"}
-    assert_template :text => @host.to_yaml
-  end
-
   def test_clone
     get :clone, {:id => Host.first.name}, set_session_user
     assert_template 'new'

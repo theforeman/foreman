@@ -35,7 +35,7 @@ class HostParameterTest < ActiveSupport::TestCase
     assert @parameter2.valid?
   end
 
-  def setup_user operation, type = "hosts"
+  def setup_user operation, type = "params"
     @one = users(:one)
     as_admin do
       role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
@@ -55,42 +55,42 @@ class HostParameterTest < ActiveSupport::TestCase
       @one.domains = [domains(:mydomain)]
       @one.save!
     end
-    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    assert record.valid?
-    assert record.new_record?
+    assert_nothing_raised do
+      HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    end
   end
 
   test "user with create permissions should not be able to create when not permitted" do
-    setup_user "create", "params"
+    setup_user "create"
     as_admin do
       @one.hostgroups = [hostgroups(:common)]
       @one.save!
       hosts(:one).update_attribute :hostgroup, hostgroups(:unusual)
     end
-    record =  HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
     assert record.valid?
-    assert !record.new_record?
+    assert !record.save
   end
 
   test "user with create permissions should be able to create when unconstrained" do
-    setup_user "create", "params"
+    setup_user "create"
     as_admin do
       @one.domains = []
     end
-    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    assert record.valid?
-    assert !record.new_record?
+    assert_nothing_raised do
+      HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    end
   end
 
   test "user with view permissions should not be able to create" do
-    setup_user "view"
+    setup_user "view", "hosts"
     record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
     assert record.valid?
     assert record.new_record?
   end
 
   test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy", "params"
+    setup_user "destroy"
     record =  HostParameter.first
     assert record.destroy
     assert record.frozen?
@@ -104,7 +104,7 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   test "user with edit permissions should be able to edit" do
-    setup_user "edit", "params"
+    setup_user "edit"
     record      =  HostParameter.first
     record.name = "renamed"
     assert record.save
