@@ -15,7 +15,7 @@ group :sqlite do
 end
 
 group :mysql do
-  gem 'mysql'
+  gem 'mysql2'
 end
 
 group :postgresql do
