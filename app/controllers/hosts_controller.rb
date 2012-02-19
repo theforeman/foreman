@@ -5,14 +5,14 @@ class HostsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   # actions which don't require authentication and are always treated as the admin user
-  ANONYMOUS_ACTIONS=[ :query, :externalNodes, :lookup ]
+  ANONYMOUS_ACTIONS=[ :externalNodes, :lookup ]
+  SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
   skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
   skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
   skip_before_filter :session_expiry, :update_activity_time, :only => ANONYMOUS_ACTIONS
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
-  before_filter :find_hosts, :only => :query
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
@@ -183,22 +183,6 @@ class HostsController < ApplicationController
     end
   end
 
-  def query
-    if @verbose
-      @hosts.map! do |host|
-        hash = {}
-        h = Host.find_by_name host
-        hash[host] = h.info
-        hash[host]["facts"]= h.facts_hash
-        hash
-      end
-    end
-    respond_to do |format|
-      format.html
-      format.yml { render :text => @hosts.to_yaml }
-    end
-  end
-
   def toggle_manage
     if @host.toggle! :managed
       toggle_text = @host.managed ? "" : " no longer"
@@ -354,27 +338,27 @@ class HostsController < ApplicationController
   end
 
   def errors
-    params[:search]="last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)"
+    merge_search_filter("last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)")
     index "Hosts with errors"
   end
 
   def active
-    params[:search]="last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)"
+    merge_search_filter("last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)")
     index "Active Hosts"
   end
 
   def pending
-    params[:search]="last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.pending > 0)"
+    merge_search_filter("last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.pending > 0)")
     index "Pending Hosts"
   end
 
   def out_of_sync
-    params[:search]="last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true"
+    merge_search_filter("last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true")
     index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval] + 5} minutes"
   end
 
   def disabled
-    params[:search]="status.enabled = false"
+    merge_search_filter("status.enabled = false")
     index "Hosts with notifications disabled"
   end
 
@@ -447,52 +431,6 @@ class HostsController < ApplicationController
     deny_access and return unless User.current.admin? or Host.my_hosts.include?(@host)
   end
 
-  def find_hosts
-    fact, klass, group = params[:fact], params[:class], params[:hostgroup]
-
-    @verbose = params[:verbose] == "yes"
-
-    case params[:state]
-    when "out_of_sync"
-      state = "out_of_sync"
-    when "all"
-      state = "all"
-    when "active", nil
-      state = "recent"
-    else
-      raise invalid_request
-    end
-
-    @hosts = Host.send(state).map(&:name) if fact.empty? and klass.empty? and group.empty?
-    @hosts ||= []
-    counter = 0
-
-    # TODO: rewrite this part, my brain stopped working
-    # it should be possible for a one join
-    fact.each do |f|
-      # split facts based on name => value pairs
-      q = f.split("-seperator-")
-      invalid_request unless q.size == 2
-      list = Host.with_fact(*q).send(state).map(&:name)
-      @hosts = counter == 0 ? list : @hosts & list
-      counter +=1
-    end unless fact.nil?
-
-    klass.each do |k|
-      list = Host.with_class(k).send(state).map(&:name)
-      @hosts = counter == 0 ? list : @hosts & list
-      counter +=1
-    end unless klass.nil?
-
-    group.each do |k|
-      list = Host.joins(:hostgroup).where("hostgroups.name" => k).send(state).map(&:name)
-      @hosts = counter == 0 ? list : @hosts & list
-      counter +=1
-    end unless group.nil?
-
-    not_found if @hosts.empty?
-  end
-
   def load_vars_for_ajax
     return unless @host
     @environment     = @host.environment
@@ -535,7 +473,7 @@ class HostsController < ApplicationController
     redirect_to(hosts_path) and return
   end
 
-  # Returns the associationes to include when doing a search.
+  # Returns the associations to include when doing a search.
   # If the user has a fact_filter then we need to include :fact_values
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
@@ -547,6 +485,14 @@ class HostsController < ApplicationController
   # this is required for template generation (such as pxelinux) which is not done via a web request
   def forward_request_url
     @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+  end
+
+  def merge_search_filter filter
+    if params[:search].empty?
+      params[:search] = filter
+    else
+      params[:search] += " and #{filter}"
+    end
   end
 
 end

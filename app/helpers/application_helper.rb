@@ -141,7 +141,9 @@ module ApplicationHelper
   def searchable?
     return false if (SETTINGS[:login] and !User.current )
     return false if @searchbar == false
-    (controller.action_name == "index") && (controller.respond_to?(:auto_complete_search)) rescue false
+    if (controller.action_name == "index") or (defined?(SEARCHABLE_ACTIONS) and (SEARCHABLE_ACTIONS.include?(controller.action_name)))
+      controller.respond_to?(:auto_complete_search)
+    end
   end
 
   def auto_complete_search(method, val,tag_options = {}, completion_options = {})

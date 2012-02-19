@@ -1,15 +1,23 @@
 #!/usr/bin/ruby
 
-require "foreman.rb"
 require 'optparse'
 class NilClass; def empty?; true; end; end
 begin
   require 'rubygems'
   require 'net/ssh/multi'
-rescue LoadError => detail
+rescue LoadError
   warn "failed to load ssh_multi library - try: gem install net-ssh-multi"
   exit 1
 end
+
+foreman_user = ENV['FOREMAN_USER']     || "admin"
+foreman_pass = ENV['FOREMAN_PASSWORD'] || "changeme"
+foreman_url  = ENV['FOREMAN_SERVER']   || "https://foreman"
+
+require 'uri'
+require 'net/http'
+require 'net/https'
+require 'yaml'
 
 options = {}
 optparse = OptionParser.new do |opts|
@@ -25,12 +33,10 @@ optparse = OptionParser.new do |opts|
   opts.on( '-c', '--command CMD', 'command to execute' ) do |cmd|
     options[:command] = cmd
   end
+
   options[:user] = "root"
   opts.on( '-u', '--user USER', "User to use - defaults to #{options[:user]}" ) do |user|
     options[:user] = user
-  end
-  opts.on( '-q', '--quiet', 'Suppress deprication warning' ) do |cmd|
-    options[:quiet] = true
   end
 
   options[:facts] = {}
@@ -47,8 +53,13 @@ optparse = OptionParser.new do |opts|
   end
 
   options[:state] = "active"
-  opts.on( '-s', '--state STATE', "Filter base of host state - active,out_of_sync all defaults to active hosts" ) do |state|
+  opts.on( '-s', '--state STATE', "Filter base of host state - active, out_of_sync,all, errors, pending, disabled  defaults to active hosts" ) do |state|
     options[:state] = state
+  end
+
+  options[:filter] = ""
+  opts.on('--filter FILTER', "Custom Filter to append to hosts search" ) do |f|
+    options[:filter] = f
   end
 
   opts.on( '-h', '--help', 'Display this screen' ) do
@@ -58,9 +69,8 @@ optparse = OptionParser.new do |opts|
 end
 
 optparse.parse!
-puts "WARNING: The Query API is deprecated and will be retired. Please use the new Search API." unless options[:quiet]
 
-if options[:command].empty? or (options[:facts].empty? and options[:class].empty?)
+if options[:command].empty? or (options[:facts].empty? and options[:klass].empty? and options[:filter].empty?)
   puts optparse
   exit 1
 end
@@ -70,18 +80,49 @@ unless ARGV.empty?
   exit 1
 end
 
+states = %w[errors active pending out_of_sync disabled all]
+unless states.include? options[:state]
+  warn "invalid state #{options[:state]}"
+  exit 1
+end
 
 puts "About to execute: #{options[:command]}"
-query = {"state" => options[:state]}
-query.merge!({"fact" => options[:facts]}) unless options[:facts].empty?
-query.merge!({"class" => options[:klass]}) unless options[:klass].empty?
 
-hosts = gethosts query
+# translate our options into a foreman search string
+query = []
+query << options[:facts].map{|n,v| "facts.#{n} = \"#{v}\""}.join(" and ") unless options[:facts].empty?
+query << options[:klass].map{|c| "class = #{c}"}.join(" and ")            unless options[:klass].empty?
+query << options[:filter]                                                 unless options[:filter].empty?
+query = query.join(" and ")
 
-if hosts.nil?
+foreman_url += "/hosts"
+foreman_url += "/#{options[:state]}" if options[:state] != "all"
+
+uri = URI.parse(foreman_url)
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+
+path = URI.escape("#{uri.path}?search=#{query}")
+req  = Net::HTTP::Get.new(path)
+req.basic_auth(foreman_user, foreman_pass)
+req['Accept'] = 'application/x-yaml'
+
+begin
+  hosts = YAML.load(http.request(req).body)
+  rescue => e
+  warn "Failed to process response: #{e}"
+  exit 1
+end
+
+unless hosts.is_a?(Array)
+  warn "invalid response from Foreman: #{hosts}"
+  exit 1
+end
+if hosts.empty?
   warn "unable to find any hosts"
   exit 1
 end
+
 puts "on the following #{hosts.size} hosts: #{hosts.join(" ")}"
 puts "ctrl-c to abort or any key to continue"
 $stdin.gets
