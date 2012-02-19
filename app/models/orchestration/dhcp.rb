@@ -19,12 +19,12 @@ module Orchestration::DHCP
     end
 
     def dhcp_record
-      return unless dhcp?
+      return unless dhcp? or @dhcp_record
       @dhcp_record ||= jumpstart? ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
     end
 
     def sp_dhcp_record
-      return unless sp_dhcp?
+      return unless sp_dhcp? or @sp_dhcp_record
       @sp_dhcp_record ||= Net::DHCP::Record.new sp_dhcp_attrs
     end
 
