@@ -46,7 +46,6 @@ Foreman::Application.routes.draw do
         post 'submit_multiple_enable'
         get 'auto_complete_search'
         get 'template_used'
-        get 'query' # Legacy query interface
         get 'active'
         get 'pending'
         get 'out_of_sync'
