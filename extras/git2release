@@ -3,7 +3,7 @@
 
 cd /tmp
 rm -rf foreman
-git clone git://github.com/ohadlevy/foreman.git foreman --branch develop
+git clone git://github.com/theforeman/foreman.git foreman --branch develop
 cd foreman
 git submodule init
 git submodule update

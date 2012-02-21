@@ -1,3 +1,0 @@
-[submodule "extras/puppet"]
-	path = extras/puppet
-	url = git://github.com/ohadlevy/puppet-foreman.git
