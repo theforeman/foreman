@@ -6,9 +6,13 @@
         <li><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('#pc_#{list.first}').fadeToggle('slow')" %>
           <ul id="pc_<%= list.first %>" style="display: none;">
             <% for klass in list.last.sort -%>
-              <% style = selected_puppet_classes.include?(klass) ? "hide" : "#{cycle('even', 'odd')}" %>
-              <%= content_tag_for :li, klass, :class=> style do %>
-                <%= link_to_add_puppetclass(klass, type) %>
+              <% if not authorized_for(:host_editing, :edit_classes) -%>
+                <li data-original-title="Not authorized to edit classes" rel="twipsy" style='colour:black;'><%= h klass.name %></li>
+              <% else -%>
+                <% style = selected_puppet_classes.include?(klass) ? "hide" : "#{cycle('even', 'odd')}" %>
+                <%= content_tag_for :li, klass, :class=> style do %>
+                  <%= link_to_add_puppetclass(klass, type) %>
+                <% end -%>
               <% end -%>
             <% end -%>
           </ul>
