@@ -44,7 +44,6 @@ class Hostgroup < ActiveRecord::Base
     else
       conditions = {}
     end
-p conditions
     {:conditions => conditions}
   }
 
