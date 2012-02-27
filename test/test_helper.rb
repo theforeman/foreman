@@ -44,6 +44,7 @@ class ActiveSupport::TestCase
     Net::DNS::PTRRecord.any_instance.stubs(:conflicting?).returns(false)
     Net::DHCP::Record.any_instance.stubs(:create).returns(true)
     Net::DHCP::SparcRecord.any_instance.stubs(:create).returns(true)
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["production"])
   end
 
   def disable_orchestration

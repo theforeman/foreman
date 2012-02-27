@@ -27,20 +27,6 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert !other_puppet_class.save
   end
 
-  test "scanForClasses should retrieve puppetclasses from .pp files" do
-    path = "/some/path"
-    puppet_classes = ["class some_puppet_class {","class other_puppet_class{","class yet_another_puppet_class{"]
-    mock(Dir).glob("#{path}/*/manifests/**/*.pp") { puppet_classes }
-    puppet_classes.each do |puppet_class|
-      mock(File).read(anything) { StringIO.new(puppet_class) }
-    end
-
-    klasses = Puppetclass.scanForClasses path
-    assert klasses[0] == "some_puppet_class"
-    assert klasses[1] == "other_puppet_class"
-    assert klasses[2] == "yet_another_puppet_class"
-  end
-
   def setup_user operation
     @one = users(:one)
     as_admin do

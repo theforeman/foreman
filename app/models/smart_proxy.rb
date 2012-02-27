@@ -1,7 +1,7 @@
 class SmartProxy < ActiveRecord::Base
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
-  # maybe with a perdefine sql
+  # maybe with a predefined sql
   has_and_belongs_to_many :features
   has_many :subnets,    :foreign_key => "dhcp_id"
   has_many :domains,    :foreign_key => "dns_id"

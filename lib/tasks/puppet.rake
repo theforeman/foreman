@@ -76,7 +76,7 @@ namespace :puppet do
         exit
       end
 
-      unless changes["new"].empty?      and changes["obsolete"].empty?
+      unless changes["new"].empty? and changes["obsolete"].empty?
         unless args.batch
           puts "Scheduled changes to your environment"
           puts "Create/update environments"

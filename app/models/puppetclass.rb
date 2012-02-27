@@ -29,23 +29,6 @@ class Puppetclass < ActiveRecord::Base
     name
   end
 
-  # Scans a directory path for puppet classes
-  # +paths+ : String containing a colon separated module path
-  # returns
-  # Array of Strings containing puppet class names
-  def self.scanForClasses(paths)
-    klasses=Array.new
-    for path in paths.split(":")
-      Dir.glob("#{path}/*/manifests/**/*.pp").each do |manifest|
-        File.read(manifest).each_line do |line|
-          klass=line.match(/^class\s+([\w:-]*)/)
-	  klasses << klass[1] if klass
-        end
-      end
-    end
-    return klasses.uniq
-  end
-
   # returns a hash containing modules and associated classes
   def self.classes2hash classes
     hash = {}
@@ -74,13 +57,6 @@ class Puppetclass < ActiveRecord::Base
   # add sort by class name
   def <=>(other)
     klass <=> other.klass
-  end
-
-  # Retrieve the manifest dir from the puppet configuration
-  # Returns: String
-  def self.manifestdir
-    ps =  Puppet.settings.instance_variable_get(:@values)
-    ps[:main][:manifestdir] || ps[:puppetmasterd][:manifestdir] || ps[:puppetd][:manifestdir] || Puppet.settings[:manifestdir] || "/etc/puppet/manifests"
   end
 
   # Populates the rdoc tree with information about all the classes in your modules.

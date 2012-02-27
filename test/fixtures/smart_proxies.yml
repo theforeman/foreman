@@ -13,3 +13,4 @@ three:
 puppetmaster:
   name: Puppetmaster Proxy
   url: http://else.where:4567
+  features: puppet, 'puppet ca'

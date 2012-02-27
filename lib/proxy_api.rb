@@ -42,7 +42,7 @@ module ProxyAPI
     # TODO: add error message handling
     def parse response
       if response and response.code >= 200 and response.code < 300
-        return response.body.size > 2 ? JSON.parse(response.body) : true
+        return response.body.present? ? JSON.parse(response.body) : true
       else
         false
       end
@@ -79,6 +79,28 @@ module ProxyAPI
     end
   end
 
+  class Puppet < Resource
+    def initialize args
+      @url  = args[:url] + "/puppet"
+      super args
+    end
+
+    def environments
+      parse(get "environments")
+    end
+
+    def environment env
+      parse(get "environments/#{env}")
+    end
+
+    def classes env
+      return if env.blank?
+      parse(get "environments/#{env}/classes").map { |k| k.keys.first }
+    rescue RestClient::ResourceNotFound
+      []
+    end
+
+  end
   class Puppetca < Resource
     def initialize args
       @url  = args[:url] + "/puppet/ca"
@@ -86,8 +108,7 @@ module ProxyAPI
     end
 
     def autosign
-      result = parse(get "autosign")
-      result == true ? [] : result
+      parse(get "autosign")
     end
 
     def set_autosign certname

@@ -106,17 +106,15 @@ class EnvironmentsControllerTest < ActionController::TestCase
     end
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    Environment.expects(:puppetEnvs).returns(:env1              => "/etc/puppet/env/muc",
-                                             :env2              => "/etc/puppet/env/muc"
-                                            ).at_least_once
-    Puppetclass.expects(:scanForClasses).returns(["a", "b", "c"]).at_least_once
+    envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
+    Environment.expects(:puppetEnvs).returns(envs).at_least_once
   end
 
   test "should handle disk environment containing additional classes" do
     setup_import_classes
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
-    #db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
-    #disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
+#    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
+#    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     get :import_environments, {}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_new_env1[value*="a"]'
@@ -127,7 +125,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert flash[:notice] = "Successfully updated environments and puppetclasses from the on-disk puppet installation"
     assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
   end
   test "should handle disk environment containing less classes" do
@@ -165,7 +163,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert flash[:notice] = "Successfully updated environments and puppetclasses from the on-disk puppet installation"
     assert Environment.find_by_name("env3").puppetclasses.map(&:name).sort == []
   end
 
@@ -196,7 +194,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       Environment.create :name => "env3"
-      Environment.where(:name => "env1").first.delete
+      Environment.delete_all(:name => "env1")
     end
     #db_tree   of {                         , "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
