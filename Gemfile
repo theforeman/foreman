@@ -5,7 +5,7 @@ gem "jquery-rails"
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
 gem "acts_as_audited", "2.0.0"
-gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymorphs.git"
+gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymorphs.git", :ref => '03429a61e511f394e9f96af0c8998268ca99d42b'
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.2.4"
 gem "puppet"
