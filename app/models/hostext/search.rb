@@ -99,7 +99,7 @@ module Hostext
                 conditions << "hosts.id = #{param.reference_id}"
             end
           end
-          conditions.join(' OR ')
+          conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"
         end
 
         def self.value_to_sql(operator, value)
