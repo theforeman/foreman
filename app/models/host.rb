@@ -363,7 +363,7 @@ class Host < Puppet::Rails::Host
     save(:validate => false)
 
     # we want to import other information only if this host was never installed via Foreman
-    populateFieldsFromFacts if installed_at.nil?
+    populateFieldsFromFacts(facts.values) if installed_at.nil?
 
     # we are saving here with no validations, as we want this process to be as fast
     # as possible, assuming we already have all the right settings in Foreman.
@@ -376,52 +376,18 @@ class Host < Puppet::Rails::Host
     logger.warn "Failed to save #{facts.name}: #{e}"
   end
 
-  def fv name
-    v=fact_values.first(:select => "fact_values.value", :joins => :fact_name,
-                        :conditions => "fact_names.name = '#{name}'")
-    v.value unless v.nil?
-  end
+  def populateFieldsFromFacts facts
+    importer = Facts::Importer.new facts
 
-  def populateFieldsFromFacts
-    unless Setting[:ignore_puppet_facts_for_provisioning]
-      self.mac = fv(:macaddress).downcase unless fv(:macaddress).blank?
-      self.ip = fv(:ipaddress) if ip.nil?
-    end
-    self.domain = Domain.find_or_create_by_name fv(:domain) unless fv(:domain).empty?
-    # On solaris architecture fact is harwareisa
-    if myarch=fv(:architecture) || fv(:hardwareisa)
-      self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
-    end
+    set_non_empty_values importer, [:domain, :architecture, :operatingsystem, :model]
+    set_non_empty_values importer, [:mac, :ip] unless Setting[:ignore_puppet_facts_for_provisioning]
 
-    # by default, puppet doesn't store an env name in the database
-    env = fv(:environment) || Setting[:default_puppet_environment]
     if Setting[:update_environment_from_facts]
-      self.environment = Environment.find_or_create_by_name env
+      set_non_empty_values importer, [:environment]
     else
-      self.environment ||= Environment.find_or_create_by_name env
+      self.environment ||= importer.environment unless importer.environment.blank?
     end
 
-    os_name = fv(:operatingsystem)
-    case os_name
-    when /(suse|sles)/i
-      orel = fv(:operatingsystemrelease)
-    else
-      orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
-    end
-
-    if orel.present?
-      major, minor = orel.split(".")
-      minor ||= ""
-      self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
-    end
-
-    unless self.model
-      modelname = fv(:productname) || fv(:model) || (fv(:is_virtual) == "true" ? fv(:virtual) : nil)
-      self.model = Model.find_or_create_by_name(modelname.strip) unless modelname.empty?
-    end
-
-    # again we are saving without validations as input is required (e.g. partition tables)
-    self.save(:validate => false)
   end
 
   # Called by build link in the list
@@ -712,4 +678,10 @@ class Host < Puppet::Rails::Host
     domain.resolver.getaddress(name_or_ip).to_s
   end
 
+  def set_non_empty_values importer, methods
+    methods.each do |attr|
+      value = importer.send(attr)
+      self.send("#{attr}=", value) unless value.blank?
+    end
+  end
 end

@@ -343,7 +343,8 @@ class HostTest < ActiveSupport::TestCase
       FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => 1)
     end
     assert_difference('Model.count') do
-      h.populateFieldsFromFacts
+    facts = YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+      h.populateFieldsFromFacts facts.values
     end
   end
 
