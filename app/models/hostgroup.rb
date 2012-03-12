@@ -69,7 +69,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]})
+    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id, :ancestry], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]})
   end
 
   def hostgroup
