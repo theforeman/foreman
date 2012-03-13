@@ -293,7 +293,7 @@ class Host < Puppet::Rails::Host
     info_hash = {}
     info_hash['classes'] = self.puppetclasses_names
     info_hash['parameters'] = param
-    info_hash['environment'] = param["foreman_env"]
+    info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
 
     return info_hash
   end
