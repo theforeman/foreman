@@ -51,7 +51,7 @@ namespace :smartproxy do
           puts "Updated #{host.name} to use the #{proxy.name} smart proxy"
         end
       end
-      puts "Failed to map #{host.name}'s puppetmaster(#{host.pm_fqdn}) to a smart proxy" if host.puppetproxy.nil?
+      puts "Failed to map #{host.name}'s puppetmaster(#{host.pm_fqdn}) to a smart proxy" if host.puppet_proxy.nil?
     end
   end
 end

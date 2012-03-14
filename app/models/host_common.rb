@@ -86,6 +86,8 @@ module HostCommon
       if puppet_proxy.features.include?("Puppet CA")
         self.puppet_ca_proxy ||= puppet_proxy
       end
+    rescue
+      true # we don't want to break anything, so just skipping.
     end
   end
 end
