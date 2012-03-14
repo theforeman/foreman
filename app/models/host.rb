@@ -15,7 +15,7 @@ class Host < Puppet::Rails::Host
   include HostCommon
 
   class Jail < ::Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
+    allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
       :params, :hostgroup, :domain, :ip, :mac, :shortname, :architecture, :model
   end
 
@@ -266,10 +266,13 @@ class Host < Puppet::Rails::Host
     # Static parameters
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
-    param["puppetmaster"] = puppetmaster.to_s
+    param["puppetmaster"] = puppetmaster
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
-    param["root_pw"]      = root_pass if SETTINGS[:unattended]
+    if SETTINGS[:unattended]
+      param["root_pw"]      = root_pass
+      param["puppet_ca"]    = puppet_ca_server if puppetca?
+    end
     param["comment"]      = comment unless comment.blank?
     param["foreman_env"]  = environment.to_s unless environment.nil? or environment.name.nil?
     if SETTINGS[:login] and owner

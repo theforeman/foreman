@@ -35,6 +35,10 @@ module HostCommon
       puppet_proxy.to_s
     end
 
+    def puppet_ca_server
+      puppet_ca_proxy.to_s
+    end
+
     # no need to store anything in the db if the password is our default
     def root_pass
       read_attribute(:root_pass) || Setting[:root_pass]
