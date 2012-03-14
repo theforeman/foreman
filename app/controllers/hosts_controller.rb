@@ -377,11 +377,9 @@ class HostsController < ApplicationController
     @host.set_hostgroup_defaults
 
     render :update do |page|
-      page['*[id*=environment_id]'].val(@hostgroup.environment_id) if @hostgroup.environment_id
-      # process_hostgroup is only ever called for new host records therefore the assigned value can never be @hostgroup.puppetmaster_name
-      # This means that we should use the puppetproxy display type as new hosts should use this feature
-      page['*[id*=puppetproxy_id]'].val(@hostgroup.puppetca? ? @hostgroup.puppetmaster.id : "")
-
+      [:environment_id, :puppet_ca_proxy_id, :puppet_proxy_id].each do |field|
+        page["*[id*=#{field}]"].val(@hostgroup.send(field)) if @hostgroup.send(field).present?
+      end
       page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
 
       if SETTINGS[:unattended]

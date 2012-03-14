@@ -96,14 +96,6 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal @host.disk, "ntfs"
   end
 
-  test "should update host when using textual puppetmaster" do
-    as_admin {@host.update_attributes :puppetproxy_id => nil, :puppetmaster_name => "puppet"}
-    assert @host.valid?
-    put :update, { :commit => "Update", :id => @host.name, :host => {:disk => "ntfs"} }, set_session_user
-    @host = Host.find(@host)
-    assert_equal @host.disk, "ntfs"
-  end
-
   def test_update_invalid
     Host.any_instance.stubs(:valid?).returns(false)
     put :update, {:id => Host.first.name}, set_session_user
@@ -479,7 +471,7 @@ class HostsControllerTest < ActionController::TestCase
                         :environment     => environments(:production),
                         :subnet          => subnets(:one),
                         :disk            => "empty partition",
-                        :puppetproxy     => smart_proxies(:puppetmaster)
+                        :puppet_proxy    => smart_proxies(:puppetmaster)
                        )
   end
 end

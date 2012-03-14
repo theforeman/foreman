@@ -49,7 +49,7 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-      :subnet => subnets(:one), :architecture => architectures(:x86_64),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
@@ -76,14 +76,14 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
     assert host.valid?
   end
 
   test "should save if ptable is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
     assert !host.new_record?
   end
@@ -91,7 +91,7 @@ class HostTest < ActiveSupport::TestCase
   test "should save if disk is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
     assert !host.new_record?
   end
 
@@ -99,7 +99,7 @@ class HostTest < ActiveSupport::TestCase
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
         :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-        :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+        :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
       assert !host.valid?
     end
   end
@@ -110,7 +110,7 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
       :architecture => architectures(:x86_64), :environment => environments(:global_puppetmaster), :disk => "aaa",
-      :puppetproxy => smart_proxies(:puppetmaster)
+      :puppet_proxy => smart_proxies(:puppetmaster)
 
     # dummy external node info
     nodeinfo = {"environment" => "global_puppetmaster",
@@ -193,7 +193,7 @@ class HostTest < ActiveSupport::TestCase
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.09",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
-                       :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :architecture => architectures(:x86_64), :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster),
                        :subnet => subnets(:one), :disk => "empty partition")
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
@@ -205,7 +205,7 @@ class HostTest < ActiveSupport::TestCase
       @one.roles = [Role.find_by_name("Create hosts")]
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.11",
-                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
+                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),  :puppet_proxy => smart_proxies(:puppetmaster),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
                        :subnet => subnets(:one), :disk => "empty partition")
     assert !host.new_record?
@@ -222,7 +222,7 @@ class HostTest < ActiveSupport::TestCase
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
                        :subnet => subnets(:one),
-                       :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
+                       :disk => "empty partition", :hostgroup => hostgroups(:common))
     assert !host.new_record?
     assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -237,7 +237,7 @@ class HostTest < ActiveSupport::TestCase
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
                        :subnet => subnets(:one),
-                       :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
+                       :disk => "empty partition", :hostgroup => hostgroups(:common))
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
   end

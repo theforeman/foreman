@@ -13,7 +13,7 @@ module Orchestration::Puppetca
     protected
     def initialize_puppetca
       return unless puppetca?
-      @puppetca = ProxyAPI::Puppetca.new :url => puppetmaster.url
+      @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
       true
     rescue => e
       failure "Failed to initialize the Puppetca proxy: #{e}"

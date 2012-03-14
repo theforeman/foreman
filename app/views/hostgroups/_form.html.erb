@@ -23,11 +23,8 @@
                       :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true}, {:onchange => 'update_puppetclasses(this);', :"data-type" => controller_name} %>
-      <%= select_f f, :puppetproxy_id,Feature.find_by_name("Puppet CA").smart_proxies, :id, :name,
-        { :include_blank => true},
-        { :label => "Puppet Master Proxy"}
-      %>
-      <%= text_f f, :puppetmaster_name, :label => "Puppet Master FQDN", :size => 8, :value => f.object.puppetmaster %>
+
+      <%= puppet_master_fields f %>
     </div>
 
     <div id="puppet_klasses">

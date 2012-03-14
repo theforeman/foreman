@@ -59,4 +59,28 @@ module HostsAndHostgroupsHelper
     @operatingsystem.ptables
   end
 
+  def puppet_master_fields f
+    ca      = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
+    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
+    # do not show the ca proxy, if we have only one of those and its the same as the puppet proxy
+    fields =  puppet_ca(f) unless ca.count == 1 and ca.map(&:id) == proxies.map(&:id)
+    "#{fields} #{puppet_master(f)}".html_safe
+  end
+
+  def puppet_ca f
+    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
+    select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
+             { :include_blank => proxies.count > 1 },
+             { :label       => "Puppet CA",
+               :help_inline => "Use this puppet server as a CA server" }
+  end
+
+  def puppet_master f
+    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
+    select_f f, :puppet_proxy_id, proxies, :id, :name,
+             { :include_blank => proxies.count > 1 },
+             { :label       => "Puppet Master",
+               :help_inline => "Use this puppet server as an initial Puppet Server and to execute puppetrun" }
+  end
+
 end

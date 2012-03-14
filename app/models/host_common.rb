@@ -4,16 +4,17 @@ module HostCommon
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      validates_format_of   :puppetmaster_name, :with => /^puppet$|^.*\..+\S$/, :allow_blank => true, :message => "The puppetmaster may be 'puppet' or the fully qualified hostname"
-      validates_presence_of :puppetmaster
       belongs_to :architecture
       belongs_to :environment
       belongs_to :operatingsystem
       belongs_to :medium
       belongs_to :ptable
-      belongs_to :puppetproxy, :class_name => "SmartProxy"
+      belongs_to :puppet_proxy,    :class_name => "SmartProxy"
+      belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
       belongs_to :domain
       belongs_to :subnet
+
+      before_save :check_puppet_ca_proxy_is_required?
     end
   end
 
@@ -24,26 +25,14 @@ module HostCommon
     end
 
     def puppetca?
-      (!puppetproxy_id.nil? and !puppetproxy.url.empty?)
+      !!(puppet_ca_proxy and puppet_ca_proxy.url.present?)
     end
 
     # no need to store anything in the db if the entry is plain "puppet"
     # If the system is using smart proxies and the user has run the smartproxy:migrate task
     # then the puppetmaster functions handle smart proxy objects
     def puppetmaster
-      if puppetca?
-        SmartProxy.find(read_attribute(:puppetproxy_id))
-      else
-        read_attribute(:puppetmaster_name) || Setting[:puppet_server]
-      end
-    end
-
-    def puppetmaster=(pm)
-      if puppetca?
-        write_attribute(:puppetproxy_id, pm.id)
-      else
-        write_attribute(:puppetmaster_name, pm == (Setting[:puppet_server]) ? nil : pm)
-      end
+      puppet_proxy.to_s
     end
 
     # no need to store anything in the db if the password is our default
@@ -89,5 +78,14 @@ module HostCommon
       write_attribute(:root_pass, p)
     end
 
+    private
+
+    # fall back to our puppet proxy in case our puppet ca is not defined/used.
+    def check_puppet_ca_proxy_is_required?
+      return true if puppet_ca_proxy_id.present? or puppet_proxy_id.blank?
+      if puppet_proxy.features.include?("Puppet CA")
+        self.puppet_ca_proxy ||= puppet_proxy
+      end
+    end
   end
 end

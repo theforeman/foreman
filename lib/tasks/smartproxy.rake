@@ -13,7 +13,7 @@ END_DESC
 namespace :smartproxy do
   task :migrate => :environment do
 
-    proxies = Feature.find_by_name("Puppet CA").smart_proxies
+    proxies = Feature.find_by_name("Puppet").smart_proxies
     proxies.map! do |proxy|
       class << proxy
         attr_accessor :names
@@ -47,7 +47,7 @@ namespace :smartproxy do
         fqpm = host.pm_fqdn
         if proxy.include?(fqpm)
           # The proxy's name or puppet alias is the same as the fully qualified puppetmaster_name
-          host.update_attribute(:puppetproxy_id, proxy.id)
+          host.update_attribute(:puppet_proxy_id, proxy.id)
           puts "Updated #{host.name} to use the #{proxy.name} smart proxy"
         end
       end

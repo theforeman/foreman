@@ -7,9 +7,11 @@ common:
   environment: production
   operatingsystem: centos5_3
   medium: one
+  puppet_proxy: puppetmaster
 
 unusual:
   name: Unusual
+  puppet_proxy: puppetmaster
 
 db:
   name: db
@@ -18,6 +20,7 @@ db:
   environment: production
   operatingsystem: centos5_3
   medium: one
+  puppet_proxy: puppetmaster
   vm_defaults:
     network_type: bridge
     memory: "1048576"
