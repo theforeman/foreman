@@ -564,6 +564,18 @@ class Host < Puppet::Rails::Host
     {}
   end
 
+  def puppetrun!
+    unless puppet_proxy.present?
+      errors.add(:base, "no puppet proxy defined - cant continue")
+      logger.warn "unable to execute puppet run, no puppet proxies defined"
+      return false
+    end
+    ProxyAPI::Puppet.new({:url => puppet_proxy.url}).run fqdn
+  rescue => e
+    errors.add(:base, "failed to execute puppetrun: #{e}")
+    false
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses

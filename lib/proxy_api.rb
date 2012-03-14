@@ -6,7 +6,7 @@ require 'net'
 module ProxyAPI
 
   class Resource
-    attr_reader :url, :user, :password
+    attr_reader :url
 
     def initialize(args)
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
@@ -62,14 +62,12 @@ module ProxyAPI
     end
 
     # Perform POST operation with the supplied payload on the supplied path
-    def post payload, path
-      path ||= ""
+    def post payload, path = ""
       @resource[path].post payload
     end
 
     # Perform PUT operation with the supplied payload on the supplied path
-    def put payload, path
-      path ||= ""
+    def put payload, path = ""
       @resource[path].put payload
     end
 
@@ -98,6 +96,10 @@ module ProxyAPI
       parse(get "environments/#{env}/classes").map { |k| k.keys.first }
     rescue RestClient::ResourceNotFound
       []
+    end
+
+    def run hosts
+      parse(post({:nodes => hosts}, "run"))
     end
 
   end

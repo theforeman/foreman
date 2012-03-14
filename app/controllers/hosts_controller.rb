@@ -158,10 +158,10 @@ class HostsController < ApplicationController
 
   def puppetrun
     return deny_access unless Setting[:puppetrun]
-    if GW::Puppet.run @host.name
+    if @host.puppetrun!
       notice "Successfully executed, check log files for more details"
     else
-      error "Failed, Please check log files for more information"
+      error @host.errors[:base]
     end
     redirect_to host_path(@host)
   end
@@ -329,7 +329,7 @@ class HostsController < ApplicationController
 
   def update_multiple_puppetrun
     return deny_access unless Setting[:puppetrun]
-    if GW::Puppet.run @hosts.map(&:fqdn)
+    if @hosts.map(&:puppetrun!).uniq == [true]
       notice "Successfully executed, check reports and/or log files for more details"
     else
       error "Some or all hosts execution failed, Please check log files for more information"
