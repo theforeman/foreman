@@ -73,8 +73,10 @@ class ApplicationController < ActionController::Base
           return !User.current.nil?
         end
 
-        session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
-        redirect_to login_users_path and return
+        unless api_request?
+          session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
+          redirect_to login_users_path and return
+        end
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
         unless User.current = User.find_by_login("admin")
