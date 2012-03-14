@@ -40,7 +40,7 @@ class HostsController < ApplicationController
         render :index if title and @title = title
       end
       # should you ever need more attributes just add to the :only array or specify :methods, :include, :except to the options hash
-      format.json { render :json => search.to_json({:only => ["name", "id", "hostgroup_id", "operatingsystem_id"]})}
+      format.json { render :json => search.includes(included_associations).to_json({:only => [:name, :id, :hostgroup_id, :operatingsystem_id]}) }
 
       format.yaml do
         render :text => if params["rundeck"]
