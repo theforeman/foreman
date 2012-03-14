@@ -83,9 +83,14 @@ attributes17:
   name: update_environment_from_facts
   category: Puppet
   default: false
-  description: Foreman will update a host's environment from its facts
+  description: Foreman will update a hosts environment from its facts
 attributes18:
   name: idle_timeout
   category: General
   default: 5
   description: idle timeout
+attributes19:
+  name: enc_environment
+  category: Puppet
+  default: true
+  description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
