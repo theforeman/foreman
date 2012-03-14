@@ -197,14 +197,8 @@ class Host < Puppet::Rails::Host
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
-    self.build = false
+    self.build        = false
     self.installed_at = Time.now.utc if installed
-    # If this save fails then an exception is raised and further actions are not processed
-    unless Rails.env == "test"
-      # Disallow any auto signing for our host.
-      GW::Puppetca.disable name unless puppetca? or not Setting[:manage_puppetca]
-      GW::Tftp.remove mac if SETTINGS[:unattended] and not (respond_to?(:tftp?) and tftp?)
-    end
     self.save
   rescue => e
     logger.warn "Failed to set Build on #{self}: #{e}"
@@ -224,9 +218,6 @@ class Host < Puppet::Rails::Host
     return true unless Setting[:manage_puppetca]
     if puppetca?
       respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
-    else
-      # Legacy CA handling
-      GW::Puppetca.clean(name) && GW::Puppetca.sign(name)
     end
   end
 
@@ -400,12 +391,6 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
-
-    # ensures that the legacy TFTP code is not called when using a smart proxy.
-    if SETTINGS[:unattended] and not (respond_to?(:tftp?) and tftp?)
-      return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
-    end
-
     self.build = true
     self.save
     errors.empty?
