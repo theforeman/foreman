@@ -68,6 +68,8 @@ module HostsAndHostgroupsHelper
   end
 
   def puppet_ca f
+    # if we are not using provisioning, not much point in presenting the CA option (assuming your CA is already set otherwise)
+    return unless SETTINGS[:unattended]
     proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
              { :include_blank => proxies.count > 1 },
@@ -80,7 +82,7 @@ module HostsAndHostgroupsHelper
     select_f f, :puppet_proxy_id, proxies, :id, :name,
              { :include_blank => proxies.count > 1 },
              { :label       => "Puppet Master",
-               :help_inline => "Use this puppet server as an initial Puppet Server and to execute puppetrun" }
+               :help_inline => "Use this puppet server as an initial Puppet Server or to execute puppet runs" }
   end
 
 end
