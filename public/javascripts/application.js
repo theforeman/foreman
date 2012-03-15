@@ -1,7 +1,9 @@
 $(function() {
   $('.flash.error').hide().each(function(index, item) {
     if ($('.alert-message.error.base').length == 0) {
-      $.jnotify($(item).text(), { type: "error", sticky: true });
+      if ($('.modal').length == 0) {
+        $.jnotify($(item).text(), { type: "error", sticky: true });
+      }
     }
   });
 

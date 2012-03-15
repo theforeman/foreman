@@ -256,11 +256,16 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 #confirmation-modal{
   width: 750px !important;
 }
+
 #confirmation-modal .modal-body{
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 300px;
   max-height: 500px;
+}
+
+#host-conflicts-modal {
+  width: 650px !important;
 }
 
 .editable {

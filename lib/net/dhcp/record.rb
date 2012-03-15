@@ -31,7 +31,7 @@ module Net::DHCP
         e.type     = "dhcp"
         e.expected = to_s
         e.actual   = conflicts
-        e.message  = "DHCP conflict detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
+        e.message  = "in DHCP detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
         raise e
       end
     end

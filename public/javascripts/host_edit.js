@@ -203,3 +203,10 @@ function attribute_hash(attributes){
   for (i=0;i < attributes.length; i++) { attrs[attributes[i]] = $('*[id*='+attributes[i]+']').val(); }
   return attrs;
 }
+
+$(function () {
+  $("#host-conflicts-modal").modal({show: "true", backdrop: "static"});
+  $('#host-conflicts-modal').click(function(){
+    $('#host-conflicts-modal').modal('hide');
+  });
+});

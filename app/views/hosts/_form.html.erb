@@ -1,4 +1,5 @@
 <%= javascript 'host_edit' %>
+<%= render "conflicts" if @host.errors[:conflict].any? %>
 <%= form_for @host do |f| %>
   <%= base_errors_for @host %>
 
@@ -60,6 +61,6 @@
       <%= textarea_f f, :comment, :help_block => "Additional information about this host", :class => "xxlarge", :rows => "3" %>
     </div>
   </div>
-
-  <%= submit_or_cancel f %>
+  <%= f.hidden_field :overwrite? %>
+  <%= submit_or_cancel f, @host.overwrite? %>
 <% end %>

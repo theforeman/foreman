@@ -1,0 +1,29 @@
+<div id="host-conflicts-modal" class="modal in fade" <%= display(false) %>>
+  <div class="modal-header">
+    <a href="#" class="close">&times</a>
+    <h3>Conflicts have been detected</h3>
+  </div>
+  <div class="modal-body">
+    <p> The following entries were found conflicting with what foreman wanted to apply.</p>
+
+    <p> Please review them carefully, if you are certain that they should be removed, please click on overwrite.</p>
+
+    <div class="alert-message block-message">
+      <% @host.errors[:conflict].each do |e| -%>
+        <li><%= e %></li>
+      <% end -%>
+    </div>
+
+    <h4>Additionally, we are about to perform the following <%@host.queue.count %> actions</h4>
+    <div class="alert-message block-message info">
+      <% @host.queue.all.each do |task| -%>
+        <li><%= task.name %></li>
+      <% end -%>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <a href="#" class="btn">ACK</a>
+  </div>
+</div>

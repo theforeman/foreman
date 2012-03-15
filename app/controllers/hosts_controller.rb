@@ -94,6 +94,7 @@ class HostsController < ApplicationController
       process_success :success_redirect => @host
     else
       load_vars_for_ajax
+      offer_to_overwrite_conflicts
       process_error
     end
   end
@@ -108,6 +109,7 @@ class HostsController < ApplicationController
       process_success :success_redirect => @host
     else
       load_vars_for_ajax
+      offer_to_overwrite_conflicts
       process_error
     end
   end
@@ -493,6 +495,12 @@ class HostsController < ApplicationController
     else
       params[:search] += " and #{filter}"
     end
+  end
+
+  # if a save failed and the only reason was network conflicts then flag this so that the view
+  # is rendered differently and the next save operation will be forced
+  def offer_to_overwrite_conflicts
+    @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
   end
 
 end
