@@ -4,7 +4,7 @@ class CreateHosts < ActiveRecord::Migration
     # we are only creating the full database if the hosts table doesn't exists, if it does, we assume that store config is already configured
     unless Host.table_exists?
       require 'puppet/rails/database/schema'
-      Puppet[:dbadapter]= ActiveRecord::Base.configurations[Rails.root]["adapter"]
+      Puppet[:dbadapter]= ActiveRecord::Base.configurations[RAILS_ENV]["adapter"]
       Puppet::Rails::Schema.init
       Puppet::Rails.migrate()
     end
