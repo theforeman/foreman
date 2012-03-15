@@ -64,19 +64,21 @@ namespace :puppet do
         puts "Evaluating possible changes to your installation" unless args.batch
         changes = Environment.importClasses
       rescue => e
-        unless args.batch
+        if args.batch
+          Rails.logger.warn "Failed to refresh puppet classes: #{e}"
+        else
           puts "Problems were detected during the evaluation phase"
           puts
           puts e.message.gsub(/<br\/>/, "\n") + "\n"
           puts
           puts "Please fix these issues and try again"
-        else
-          Rails.logger.warn "Failed to refresh puppet classes: #{e}"
         end
         exit
       end
 
-      unless changes["new"].empty? and changes["obsolete"].empty?
+      if changes["new"].empty? and changes["obsolete"].empty?
+        puts "No changes detected" unless args.batch
+      else
         unless args.batch
           puts "Scheduled changes to your environment"
           puts "Create/update environments"
@@ -101,8 +103,8 @@ namespace :puppet do
         errors = ""
         # Apply the filtered changes to the database
         begin
-          changed = {:new => changes["new"], :obsolete => changes["obsolete"] }
-          [:new, :obsolete].each{|kind| changed[kind].each_key{|k| changes[kind.to_s][k] = changes[kind.to_s][k].inspect}}
+          changed = { :new => changes["new"], :obsolete => changes["obsolete"] }
+          [:new, :obsolete].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].inspect } }
           errors = Environment.obsolete_and_new(changed)
         rescue => e
           errors = e.message + "\n" + e.backtrace.join("\n")
@@ -111,7 +113,7 @@ namespace :puppet do
           unless errors.empty?
             puts "Problems were detected during the execution phase"
             puts
-            puts errors.each{|e| e.gsub(/<br\/>/, "\n")} << "\n"
+            puts errors.each { |e| e.gsub(/<br\/>/, "\n") } << "\n"
             puts
             puts "Import failed"
           else
@@ -120,8 +122,6 @@ namespace :puppet do
         else
           Rails.logger.warn "Failed to refresh puppet classes: #{errors}"
         end
-      else
-        puts "No changes detected" unless args.batch
       end
     end
   end

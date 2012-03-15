@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
     return nil if password.to_s.empty?
 
     # user is already in local database
-    if user = find_by_login(login)
+    if (user = find_by_login(login))
       # user has an authentication method and the authentication was successful
       if user.auth_source and user.auth_source.authenticate(login, password)
         logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
@@ -175,7 +175,7 @@ class User < ActiveRecord::Base
     return nil if login.blank? or password.blank?
 
     # user is not yet registered, try to authenticate with available sources
-    if attrs = AuthSource.authenticate(login, password)
+    if (attrs = AuthSource.authenticate(login, password))
       user = new(*attrs)
       user.login = login
       # The default user can't auto create users, we need to change to Admin for this to work
@@ -206,7 +206,7 @@ class User < ActiveRecord::Base
     if login == "admin"
       errors.add :base, "Can't delete internal admin account"
       logger.warn "Unable to delete internal admin account"
-      return false
+      false
     end
   end
 

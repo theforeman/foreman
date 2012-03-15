@@ -36,7 +36,7 @@ class AuthSourceLdap < AuthSource
     return nil if login.blank? || password.blank?
     attrs = []
     # get user's DN
-    if not account.nil? and self.account.include? "$login" then
+    if not account.nil? and self.account.include? "$login"
       logger.debug "LDAP-Auth with User login"
       ldap_con = initialize_ldap_con(self.account.sub("$login", login), password)
     else
@@ -97,7 +97,7 @@ class AuthSourceLdap < AuthSource
   end
 
   def self.get_attr(entry, attr_name)
-    if !attr_name.blank?
+    unless attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end
   end

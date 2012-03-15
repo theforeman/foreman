@@ -1,4 +1,4 @@
-<% if proxy = @host.params["http_proxy"] -%>
+<% if (proxy = @host.params["http_proxy"]) -%>
 http_proxy=<%= proxy %>
 export http_proxy
 https_proxy=<%= proxy %>

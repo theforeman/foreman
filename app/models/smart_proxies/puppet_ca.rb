@@ -16,7 +16,7 @@ class SmartProxies::PuppetCA
       def all(proxy)
         raise "Must specify a Smart Proxy to use" if proxy.nil?
 
-        unless certs = Rails.cache.read("ca_#{proxy.id}")
+        unless (certs = Rails.cache.read("ca_#{proxy.id}"))
           api = ProxyAPI::Puppetca.new({:url => proxy.url})
 
           certs = api.all.map do |name, properties|

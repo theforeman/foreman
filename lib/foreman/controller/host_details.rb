@@ -53,7 +53,7 @@ module Foreman::Controller::HostDetails
         controller.send(:update_hypervisor_details, item, page)
       end
     else
-      return head(:not_found)
+      head(:not_found)
     end
   end
 
@@ -63,7 +63,7 @@ module Foreman::Controller::HostDetails
       item = eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new(params[:#{controller_name.singularize}])")
       render :partial => root + name, :locals => { :item => item }
     else
-      return head(:not_found)
+      head(:not_found)
     end
   end
 

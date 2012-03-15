@@ -93,7 +93,7 @@ class HostgroupsController < ApplicationController
   end
 
   def environment_selected
-    return not_found unless @environment = Environment.find(params[:environment_id]) if params[:environment_id].to_i > 0
+    return not_found unless (@environment = Environment.find(params[:environment_id])) if params[:environment_id].to_i > 0
 
     @hostgroup ||= Hostgroup.new
     @hostgroup.environment = @environment if @environment

@@ -22,7 +22,7 @@ class Role < ActiveRecord::Base
 
   scope :givable, { :conditions => "builtin = 0", :order => 'name' }
   scope :builtin, lambda { |*args|
-    compare = 'not' if args.first == true
+    compare = 'not' if args.first
     { :conditions => "#{compare} builtin = 0" }
   }
 

@@ -77,7 +77,7 @@ module Orchestration::Libvirt
         # we can't ensure uniqueness of MAC using normal rails validations as the mac gets in a later step in the process
         # therefore we must validate its not used already in our db.
         normalize_addresses
-        if other_host = Host.find_by_mac(mac)
+        if (other_host = Host.find_by_mac(mac))
           delLibvirt
           return failure("MAC Address #{mac} is already used by #{other_host}")
         end

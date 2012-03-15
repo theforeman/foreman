@@ -100,7 +100,7 @@ class Subnet < ActiveRecord::Base
     errors.add(:from, "does not belong to subnet")     if from.present? and not self.contains?(f=IPAddr.new(from))
     errors.add(:to, "does not belong to subnet")       if to.present?   and not self.contains?(t=IPAddr.new(to))
     errors.add(:from, "can't be bigger than to range") if from.present? and t.present? and f > t
-    if (from.present? or to.present?)
+    if from.present? or to.present?
       errors.add(:from, "must be specified if to is defined")   if from.blank?
       errors.add(:to,   "must be specified if from is defined") if to.blank?
     end

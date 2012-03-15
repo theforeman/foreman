@@ -9,7 +9,7 @@ module Foreman
         end
 
         def create opts
-          if ((s=Setting.first(:conditions => {:name => (opts[:name])})).nil?)
+          if (s=Setting.first(:conditions => {:name => (opts[:name])})).nil?
             Setting.create!(opts)
           else
             s.update_attribute(:default, opts[:default]) unless s.default == opts[:default]

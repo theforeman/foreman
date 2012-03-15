@@ -19,7 +19,7 @@ class FactsController < ApplicationController
 
   # we currently only support JSON in this controller
   def valid_request?
-    return not_found unless api_request?
+    not_found unless api_request?
   end
 
 end

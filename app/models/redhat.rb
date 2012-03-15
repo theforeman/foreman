@@ -31,7 +31,7 @@ class Redhat < Operatingsystem
     else
       return ""
     end
-    return "su -c 'rpm -Uvh #{medium_uri(host, epel_url)}'"
+    "su -c 'rpm -Uvh #{medium_uri(host, epel_url)}'"
   end
 
   def yumrepo host

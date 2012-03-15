@@ -33,7 +33,7 @@ class Puppetclass < ActiveRecord::Base
   def self.classes2hash classes
     hash = {}
     for klass in classes
-      if mod = klass.module_name
+      if (mod = klass.module_name)
         hash[mod] ||= []
         hash[mod] << klass
       else
@@ -46,12 +46,12 @@ class Puppetclass < ActiveRecord::Base
   # returns module name (excluding of the class name)
   # if class separator does not exists (the "::" chars), then returns the whole class name
   def module_name
-    return (i = name.index("::")) ? name[0..i-1] : name
+    (i = name.index("::")) ? name[0..i-1] : name
   end
 
   # returns class name (excluding of the module name)
   def klass
-    return name.gsub(module_name+"::","")
+    name.gsub(module_name+"::","")
   end
 
   # add sort by class name

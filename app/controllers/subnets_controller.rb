@@ -47,9 +47,9 @@ class SubnetsController < ApplicationController
   # query our subnet dhcp proxy for an unused IP
   def freeip
     not_found and return unless (s=params[:subnet_id].to_i) > 0
-    not_found and return unless subnet = Subnet.find(s)
+    not_found and return unless (subnet = Subnet.find(s))
 
-    if ip = subnet.unused_ip(params[:host_mac])
+    if (ip = subnet.unused_ip(params[:host_mac]))
       respond_to do |format|
         format.html do
           render :update do |page|

@@ -69,7 +69,7 @@ module Net
         e.type     = "dns"
         e.expected = to_s
         e.actual   = conflicts
-        e.message  = "in DNS detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
+        e.message  = "DNS conflict detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
         e
       end
 

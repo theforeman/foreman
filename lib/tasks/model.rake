@@ -35,7 +35,7 @@ end
 def consolidate mappings, dryrun
   mapped = []
   for mapping in  mappings
-    unless rex = mapping.delete("rex")
+    unless (rex = mapping.delete("rex"))
       puts "No regular expression found for #{mapping["name"]}"
       next
     end
@@ -45,10 +45,10 @@ def consolidate mappings, dryrun
     end
     original_models = Model.count
     matcher = %r{#{rex}}
-    if model = Model.find_by_name(mapping["name"])
+    if (model = Model.find_by_name(mapping["name"]))
       puts "Using existing model for #{mapping["name"]}"
       model.update_attributes! mapping unless dryrun
-    elsif model = Model.new(mapping)
+    elsif (model = Model.new(mapping))
       puts "Creating new model #{mapping["name"]}"
     end
     for original in Model.all

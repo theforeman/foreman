@@ -86,7 +86,7 @@ class Hypervisor < ActiveRecord::Base
     connect unless c
     result = yield if block_given?
     disconnect unless c
-    return result
+    result
   end
 
   def connected?

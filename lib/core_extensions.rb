@@ -41,11 +41,11 @@ class ActiveRecord::Base
           record.errors.add :base, "#{record} is used by #{what}"
         end
       end
-      unless record.errors.empty?
+      if record.errors.empty?
+        true
+      else
         @logger.error "You may not destroy #{record.to_label} as it is in use!"
         false
-      else
-        true
       end
     end
   end

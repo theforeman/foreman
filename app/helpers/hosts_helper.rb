@@ -94,7 +94,7 @@ module HostsHelper
   end
 
   def template_path opts = {}
-    if t = @host.configTemplate(opts)
+    if (t = @host.configTemplate(opts))
       link_to t, edit_config_template_path(t)
     else
       "N/A"

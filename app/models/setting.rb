@@ -6,7 +6,7 @@ class Setting < ActiveRecord::Base
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category settings_type }
   validates_presence_of :name, :description
-  validates_presence_of :default, :unless => Proc.new { |s| s.default == false } # broken validator
+  validates_presence_of :default, :unless => Proc.new { |s| !s.default } # broken validator
   validates_uniqueness_of :name
   validates_numericality_of :value, :if => Proc.new {|s| s.settings_type == "integer"}
   validates_numericality_of :value, :if => Proc.new {|s| s.name == "puppet_interval"}, :greater_than => 0
@@ -24,7 +24,7 @@ class Setting < ActiveRecord::Base
   def self.per_page; 20 end # can't use our own settings
 
   def self.[](name)
-    if record = first(:conditions => {:name => name.to_s})
+    if (record = first(:conditions => { :name => name.to_s }))
       record.value
     end
   end

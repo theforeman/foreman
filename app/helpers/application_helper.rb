@@ -135,12 +135,12 @@ module ApplicationHelper
   end
 
   def checked_icon condition
-    return image_tag("toggle_check.png") if condition
+    image_tag("toggle_check.png") if condition
   end
 
   def searchable?
     return false if (SETTINGS[:login] and !User.current )
-    return false if @searchbar == false
+    return false unless @searchbar
     if (controller.action_name == "index") or (defined?(SEARCHABLE_ACTIONS) and (SEARCHABLE_ACTIONS.include?(controller.action_name)))
       controller.respond_to?(:auto_complete_search)
     end

@@ -17,15 +17,15 @@ module Foreman
 
     # provide embedded snippets support as simple erb templates
     def snippets(file)
-      unless ConfigTemplate.where(:name => file, :snippet => true).empty?
-        return snippet(file.gsub(/^_/,""))
-      else
+      if ConfigTemplate.where(:name => file, :snippet => true).empty?
         render :partial => "unattended/snippets/#{file}"
+      else
+        return snippet(file.gsub(/^_/, ""))
       end
     end
 
     def snippet name
-      if template = ConfigTemplate.where(:name => name, :snippet => true).first
+      if (template = ConfigTemplate.where(:name => name, :snippet => true).first)
         logger.debug "rendering snippet #{template.name}"
         begin
           return unattended_render(template.template)

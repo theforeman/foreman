@@ -25,21 +25,21 @@ class Host < Puppet::Rails::Host
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
 
   scope :with_fact, lambda { |fact,value|
-    unless fact.nil? or value.nil?
-      { :joins => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
-                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
-                   :select => "DISTINCT hosts.name, hosts.id", :conditions =>
-                   ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id",value, fact ] }
-    else
+    if fact.nil? or value.nil?
       raise "invalid fact"
+    else
+      { :joins  => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
+                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
+        :select => "DISTINCT hosts.name, hosts.id", :conditions =>
+          ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id", value, fact] }
     end
   }
 
   scope :with_class, lambda { |klass|
-    unless klass.nil?
-      { :joins => :puppetclasses, :select => "hosts.name", :conditions => {:puppetclasses => {:name => klass }} }
-    else
+    if klass.nil?
       raise "invalid class"
+    else
+      { :joins => :puppetclasses, :select => "hosts.name", :conditions => { :puppetclasses => { :name => klass } } }
     end
   }
 
@@ -83,7 +83,7 @@ class Host < Puppet::Rails::Host
       fact_conditions += sanitize_sql_for_conditions ["(hosts.id = fact_values.host_id and fact_values.fact_name_id = ? and fact_values.value #{user_fact.operator} ?)", user_fact.fact_name_id, user_fact.criteria]
       fact_conditions = user_fact.andor == "and" ? "(#{fact_conditions}) and " : "#{fact_conditions} or  "
     end
-    if match = fact_conditions.match(/^(.*).....$/)
+    if (match = fact_conditions.match(/^(.*).....$/))
       fact_conditions = "(#{match[1]})"
     end
 
@@ -103,11 +103,11 @@ class Host < Puppet::Rails::Host
   scope :completer_scope, lambda { my_hosts }
 
   scope :run_distribution, lambda { |fromtime,totime|
-    unless fromtime.nil? or totime.nil?
-      { :joins => "INNER JOIN reports ON reports.host_id = hosts.id",
-        :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
-    else
+    if fromtime.nil? or totime.nil?
       raise "invalid timerange"
+    else
+      { :joins      => "INNER JOIN reports ON reports.host_id = hosts.id",
+        :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
     end
   }
 
@@ -253,11 +253,11 @@ class Host < Puppet::Rails::Host
 
   # returns the list of puppetclasses a host is in.
   def puppetclasses_names
-    return all_puppetclasses.collect {|c| c.name}
+    all_puppetclasses.collect {|c| c.name}
   end
 
   def all_puppetclasses
-    return hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
+    hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
   end
 
   # provide information about each node, mainly used for puppet external nodes
@@ -291,7 +291,7 @@ class Host < Puppet::Rails::Host
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
 
-    return info_hash
+    info_hash
   end
 
   def params
@@ -372,7 +372,7 @@ class Host < Puppet::Rails::Host
     logger.warn "Failed to save #{facts.name}: #{e}"
   end
 
-  def populateFieldsFromFacts facts
+  def populateFieldsFromFacts facts = self.facts_hash
     importer = Facts::Importer.new facts
 
     set_non_empty_values importer, [:domain, :architecture, :operatingsystem, :model]
@@ -405,7 +405,7 @@ class Host < Puppet::Rails::Host
     myklasses= []
     # puppet classes
     nodeinfo["classes"].each do |klass|
-      if pc = Puppetclass.find_by_name(klass)
+      if (pc = Puppetclass.find_by_name(klass))
         myklasses << pc
       else
         error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoring"
@@ -455,12 +455,12 @@ class Host < Puppet::Rails::Host
   # TODO: Merge these two into one method
   # e.g. how many hosts belongs to each os
   # returns sorted hash
-  def self.count_habtm assocication
+  def self.count_habtm association
     output = {}
-    Host.count(:include => assocication.pluralize, :group => "#{assocication}_id").to_a.each do |a|
+    Host.count(:include => association.pluralize, :group => "#{association}_id").to_a.each do |a|
       #Ugly Ugly Ugly - I guess I'm missing something basic here
       if a[0]
-        label = eval(assocication.camelize).send("find",a[0].to_i).to_label
+        label = eval(association.camelize).send("find",a[0].to_i).to_label
         output[label] = a[1]
       end
     end
@@ -477,7 +477,7 @@ class Host < Puppet::Rails::Host
       data[:failed_restarts] << [r.reported_at.to_i*1000, r.failed_restarts ]
       data[:skipped]         << [r.reported_at.to_i*1000, r.skipped ]
     end
-    return data
+    data
   end
 
   def runtime_chart(timerange = 1.day.ago)
@@ -487,13 +487,13 @@ class Host < Puppet::Rails::Host
       data[:config]  << [r.reported_at.to_i*1000, r.config_retrieval]
       data[:runtime] << [r.reported_at.to_i*1000, r.runtime]
     end
-    return data
+    data
   end
 
   def classes_from_storeconfigs
     klasses = resources.all(:conditions => {:restype => "Class"}, :select => :title, :order => :title)
     klasses.map!(&:title).delete(:main)
-    return klasses
+    klasses
   end
 
   def can_be_build?
@@ -504,9 +504,8 @@ class Host < Puppet::Rails::Host
     hash = {}
     fact_values.all(:include => :fact_name).collect do |fact|
       hash[fact.fact_name.name] = fact.value
-      hash
     end
-    return hash
+    hash
   end
 
   def enforce_permissions operation

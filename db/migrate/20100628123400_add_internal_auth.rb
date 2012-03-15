@@ -22,7 +22,7 @@ class AddInternalAuth < ActiveRecord::Migration
   end
 
   def self.down
-    if auth = AuthSourceInternal.first
+    if (auth = AuthSourceInternal.first)
       auth.users.each {|u| u.destroy}
       auth.destroy
     end

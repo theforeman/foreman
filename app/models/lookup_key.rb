@@ -33,7 +33,7 @@ class LookupKey < ActiveRecord::Base
   #TODO: use SQL coalesce to minimize the amount of queries
   def value_for host
     path2matches(host).each do |match|
-      if v = lookup_values.find_by_match(match)
+      if (v = lookup_values.find_by_match(match))
         return v.value
       end
     end
@@ -73,7 +73,7 @@ class LookupKey < ActiveRecord::Base
     # host parameter
     return host.host_params[element] if host.host_params.include?(element)
     # fact attribute
-    if fn = host.fact_names.first(:conditions => {:name => element})
+    if (fn = host.fact_names.first(:conditions => { :name => element }))
       return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
     end
   end

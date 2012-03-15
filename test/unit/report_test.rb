@@ -66,7 +66,7 @@ class ReportTest < ActiveSupport::TestCase
     @r.status={"applied" => 15, "restarted" => 0, "failed" => 0, "failed_restarts" => 0, "skipped" => 0, "pending" => 0}
     @r.save
     assert Report.with("applied",14).include?(@r)
-    assert Report.with("applied",15).include?(@r) == false
+    assert !Report.with("applied", 15).include?(@r)
   end
 
   test "with named scope should return our report with restarted resources" do

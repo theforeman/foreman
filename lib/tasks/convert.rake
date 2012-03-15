@@ -88,7 +88,7 @@ namespace :db do
         print "Converting #{table_name}..."; STDOUT.flush
         # First, delete any old dev data
         DevelopmentModelClass.delete_all
-        while ((models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0)
+        while (models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0
 
           count += models.size
           offset += PAGE_SIZE

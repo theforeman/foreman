@@ -56,7 +56,7 @@ class UnattendedController < ApplicationController
     return head(:not_found) unless template and @host
 
     load_template_vars if template.template_kind.name == 'provision'
-    safe_render template.template and return
+    safe_render template.template
   end
 
   # Returns a valid GPXE config file to kickstart hosts
@@ -147,7 +147,7 @@ class UnattendedController < ApplicationController
   # if it doesn't exists, we'll try to find a local generic template
   # otherwise render the default view
   def unattended_local
-    if config = @host.configTemplate({:kind => @type})
+    if (config = @host.configTemplate({ :kind => @type }))
       logger.debug "rendering DB template #{config.name} - #{@type}"
       safe_render config and return
     end

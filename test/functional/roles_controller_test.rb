@@ -38,7 +38,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'index'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all).sort, [assigns(:roles)].flatten.sort
+    assert_equal Role.all.sort, [assigns(:roles)].flatten.sort
 
     assert_tag :tag => 'a', :attributes => { :href => '/roles/1/edit' },
       :content => 'Manager'
@@ -100,7 +100,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'report'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all).sort, assigns(:roles).sort
+    assert_equal Role.all.sort, assigns(:roles).sort
 
   end
 

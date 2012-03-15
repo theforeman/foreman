@@ -6,8 +6,8 @@
     <div id="<% subnet.to_s %>", class="imported_subnet row">
       <li><strong><%= subnet %></strong> <%= options(@subnets) %></li>
       <span class="subnet_fields" <%= display?(minimal?(@subnets)) %>>
-        <%= fields_for "subnets[]", subnet do |f| -%>
-          <%= render 'fields', :f => f %>
+        <%= fields_for "subnets[]", subnet do |s| -%>
+          <%= render 'fields', :f => s %>
         <% end -%>
       </span>
     </div>

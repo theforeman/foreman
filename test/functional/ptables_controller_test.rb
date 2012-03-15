@@ -6,7 +6,7 @@ class PtablesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_index
+  def test_json_index
     get :index, {:format => "json"}, set_session_user
     ptables = ActiveSupport::JSON.decode(@response.body)
     assert !ptables.empty?

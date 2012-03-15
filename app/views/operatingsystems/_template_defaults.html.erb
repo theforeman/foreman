@@ -2,7 +2,7 @@
   <% if @operatingsystem.new_record? -%>
     <div class="alert-message block-message warning">
       <p><strong>Notice</strong> It is not possible to assign provisioning templates at this stage</p>
-      </p>Please save the Operating System first and try again.</p>
+      <p>Please save the Operating System first and try again.</p>
     </div>
   <% else -%>
     <% if ConfigTemplate.joins(:operatingsystems).where(:id => @operatingsystem.id).empty? -%>

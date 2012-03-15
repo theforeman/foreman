@@ -46,7 +46,7 @@ module ReportCommon
     (type || METRIC).each do |m|
       h[m] = (read_attribute(self.class.report_status) || 0) >> (BIT_NUM*METRIC.index(m)) & MAX
     end
-    return type.nil? ? h : h[type]
+    type.nil? ? h : h[type]
   end
 
 end

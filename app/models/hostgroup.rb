@@ -36,13 +36,13 @@ class Hostgroup < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_groups, lambda {
     user = User.current
-    unless user.admin?
-      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))",user.hostgroups.map(&:id)])
+    if user.admin?
+      conditions = { }
+    else
+      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))", user.hostgroups.map(&:id)])
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
-    else
-      conditions = {}
     end
     {:conditions => conditions}
   }

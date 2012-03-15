@@ -82,7 +82,7 @@ class Environment < ActiveRecord::Base
       # Now we add environments and associations
       for env_str in changed[:new].keys
         env = Environment.find_or_create_by_name env_str
-        if (env.valid? and !env.new_record?)
+        if env.valid? and !env.new_record?
           begin
             pclasses = eval(changed[:new][env_str])
           rescue => e
@@ -91,10 +91,10 @@ class Environment < ActiveRecord::Base
           end
           for pclass in pclasses
             pc = Puppetclass.find_or_create_by_name pclass
-            unless pc.errors.empty?
-              @import_errors += pc.errors.map(&:to_s)
-            else
+            if pc.errors.empty?
               env.puppetclasses << pc
+            else
+              @import_errors += pc.errors.map(&:to_s)
             end
           end
           env.save!

@@ -65,7 +65,7 @@ module Facts
       interfaces = HashWithIndifferentAccess.new
 
       (ifs - EXCLUDED_INTERFACES).each do |int|
-        if ip = facts["ipaddress_#{int}".to_sym] and mac = facts["macaddress_#{int}".to_sym]
+        if (ip = facts["ipaddress_#{int}".to_sym]) and (mac = facts["macaddress_#{int}".to_sym])
           interfaces[int] = { :ip => ip, :mac => mac }
         end
       end

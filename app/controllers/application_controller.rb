@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   # Force a user to login if authentication is enabled
   # Sets User.current to the logged in user, or to admin if logins are not used
   def require_login
-    unless session[:user] and User.current = User.find(session[:user])
+    unless session[:user] and (User.current = User.find(session[:user]))
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
         end
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        unless User.current = User.find_by_login("admin")
+        unless (User.current = User.find_by_login("admin"))
           error "Unable to find internal system admin account - Recreating . . ."
           User.current = User.create_admin
         end
@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    render :text => 'Invalid query', :status => 400 and return
+    render :text => 'Invalid query', :status => 400
   end
 
   def not_found(exception = nil)
@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
       format.yaml { head :status => 404}
       format.yml { head :status => 404}
     end
-    return true
+    true
   end
 
   def api_request?
@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
 
     obj = controller_name.singularize
     # determine if we are searching for a numerical id or plain name
-    cond = "find_by_" + ((id =~ /^\d+$/ && id=id.to_i) ? "id" : "name")
+    cond = "find_by_" + ((id =~ /^\d+$/ && (id=id.to_i)) ? "id" : "name")
     not_found and return unless eval("@#{obj} = #{obj.camelize}.#{cond}(id)")
   end
 
@@ -200,7 +200,7 @@ class ApplicationController < ActionController::Base
       format.xml  { head 403 }
       format.json { head 403 }
     end
-    return false
+    false
   end
 
   # this has to be in the application controller, as the new request (for puppetdoc) url is not controller specific.

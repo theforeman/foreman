@@ -25,13 +25,13 @@ class Report < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
     user = User.current
-    unless user.admin?
-      conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))",Host.my_hosts.map(&:id)])
+    if user.admin?
+      conditions = { }
+    else
+      conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))", Host.my_hosts.map(&:id)])
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
-    else
-      conditions = {}
     end
     {:conditions => conditions}
   }

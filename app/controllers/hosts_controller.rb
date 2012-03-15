@@ -37,7 +37,7 @@ class HostsController < ApplicationController
         # SQL optimizations queries
         @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
         # rendering index page for non index page requests (out of sync hosts etc)
-        render :index if title and @title = title
+        render :index if title and (@title = title)
       end
       # should you ever need more attributes just add to the :only array or specify :methods, :include, :except to the options hash
       format.json { render :json => search.includes(included_associations).to_json({:only => [:name, :id, :hostgroup_id, :operatingsystem_id]}) }
@@ -135,7 +135,7 @@ class HostsController < ApplicationController
       @host.environment = @environment if @environment
       render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
     else
-      return head(:not_found)
+      head(:not_found)
     end
   end
 
@@ -172,7 +172,7 @@ class HostsController < ApplicationController
 
   def setBuild
     forward_request_url
-    if @host.setBuild != false
+    if @host.setBuild
       process_success :success_msg => "Enabled #{@host.name} for rebuild on next boot", :success_redirect => :back
     else
       process_error :redirect => :back, :error_msg => (["Failed to enable #{@host.name} for installation"] + @host.errors.full_messages)
@@ -221,7 +221,7 @@ class HostsController < ApplicationController
       skipped = []
       params[:name].each do |name, value|
         next if value.empty?
-        if host_param = host.host_parameters.find_by_name(name)
+        if (host_param = host.host_parameters.find_by_name(name))
           counter += 1 if host_param.update_attribute(:value, value)
         else
           skipped << name
@@ -328,7 +328,7 @@ class HostsController < ApplicationController
   end
 
   def multiple_puppetrun
-    return deny_access unless Setting[:puppetrun]
+    deny_access unless Setting[:puppetrun]
   end
 
   def update_multiple_puppetrun
@@ -472,7 +472,7 @@ class HostsController < ApplicationController
     else
       error "The following hosts were not #{action}: #{missed_hosts}"
     end
-    redirect_to(hosts_path) and return
+    redirect_to(hosts_path)
   end
 
   # Returns the associations to include when doing a search.
@@ -481,7 +481,7 @@ class HostsController < ApplicationController
   def included_associations(include = [])
     include += [:hostgroup, :domain, :operatingsystem, :environment, :model] unless api_request?
     include += [:fact_values] if User.current.user_facts.any?
-    return include
+    include
   end
 
   # this is required for template generation (such as pxelinux) which is not done via a web request

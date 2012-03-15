@@ -12,9 +12,9 @@ class HostParameter < Parameter
     # We get called again with the operation being set to create
     return true if operation == "edit" and new_record?
 
-    auth = User.current.allowed_to?("#{operation}_params".to_sym) and Host.my_hosts.include?(host)
+    (auth = User.current.allowed_to?("#{operation}_params".to_sym)) and Host.my_hosts.include?(host)
 
     errors.add :base, "You do not have permission to #{operation} this domain" unless auth
-    return auth
+    auth
   end
 end
