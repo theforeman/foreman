@@ -24,9 +24,7 @@ end
 
 gem 'scoped_search', '>= 2.3.6'
 #group :provisioning do
-  gem "safemode", "1.0", :git => "https://github.com/svenfuchs/safemode.git"
-  gem "ruby2ruby"
-  gem "ruby_parser"
+  gem "safemode", "~> 1.0.1"
   gem "virt", ">= 0.2.1"
 #end
 
