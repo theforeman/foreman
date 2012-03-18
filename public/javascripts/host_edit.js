@@ -1,3 +1,37 @@
+function computeResourceSelected(item){
+  var compute = $(item).val();
+  var label = $(item).children(":selected").text();
+  if(compute=='') { //Bare Metal
+    $('#mac_address').show();
+    $('#compute_resource').empty();
+    $('#vm_details').empty();
+    $("#libvirt_tab").hide();
+    $('#host_hypervisor_id').val("");
+    $("#compute_resource_tab").hide();
+  }else if(label == 'Libvirt'){
+    $('#mac_address').hide();
+    $("#libvirt_tab").show();
+    $("#compute_resource_tab").hide();
+    $('#compute_resource').empty();
+  }
+  else {
+    $('#mac_address').hide();
+    $("#libvirt_tab").hide();
+    $('#host_hypervisor_id').val("");
+    $("#compute_resource_tab").show();
+    $('#vm_details').empty();
+    var url = $(item).attr('data-url');
+    $.ajax({
+      type:'post',
+      url: url,
+      data:'compute_resource_id=' + compute,
+      success: function(result){
+         $('#compute_resource').html(result);
+      }
+    })
+  }
+}
+
 function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var type = $(item).attr('data-type');
@@ -28,15 +62,15 @@ function remove_puppet_class(item){
 
 function hostgroup_changed(element) {
   var host_id = $(element).attr('data-host-id');
-  var hostgroup_id = $('*[id*=hostgroup_id]').attr('value');
-  var type = $(element).attr('data-type');
-  if (hostgroup_id == undefined) hostgroup_id = $('#hostgroup_parent_id').attr('value');
+  var type    = $(element).attr('data-type');
+  var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id']);
+  if (attrs["hostgroup_id"] == undefined) attrs["hostgroup_id"] = $('#hostgroup_parent_id').attr('value');
   $('#hostgroup_indicator').show();
   if (!host_id){ // a new host
     $.ajax({
       type:'post',
       url:'/' + type + '/process_hostgroup',
-      data:'hostgroup_id=' + hostgroup_id,
+      data:attrs,
       complete: function(request){
         $('#hostgroup_indicator').hide();
         $('[rel="twipsy"]').twipsy();

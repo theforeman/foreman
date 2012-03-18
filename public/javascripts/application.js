@@ -1,7 +1,7 @@
 $(function() {
   $('.flash.error').hide().each(function(index, item) {
     if ($('.alert-message.error.base').length == 0) {
-      if ($('.modal').length == 0) {
+      if ($('#host-conflicts-modal').length == 0) {
         $.jnotify($(item).text(), { type: "error", sticky: true });
       }
     }
@@ -15,7 +15,6 @@ $(function() {
     $.jnotify($(item).text(), { type: "success", sticky: false });
   });
 });
-
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");

@@ -18,8 +18,8 @@
   <% [["Domain", host.domain], ["IP Address", host.ip], ["Puppet Environment", host.environment], ["Host Architecture", host.arch],
     ["Operating System", host.os], ["Host Group", host.hostgroup], ["Owner", host.owner]].each do |name,value| %>
     <tr class="<%= cycle("even", "odd") -%>">
-        <td><%= name %></td>
-        <td><%= value %></td>
-      </tr>
-    <% end -%>
-  </table>
+      <td><%= name %></td>
+      <td><%= value %></td>
+    </tr>
+  <% end -%>
+</table>

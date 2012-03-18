@@ -23,6 +23,7 @@ Foreman::Application.routes.draw do
         get 'pxe_config'
         put 'toggle_manage'
         post 'environment_selected'
+        put 'power'
       end
       collection do
         get 'show_search'
@@ -58,6 +59,7 @@ Foreman::Application.routes.draw do
         post 'os_selected'
         post 'domain_selected'
         post 'use_image_selected'
+        post 'compute_resource_selected'
       end
 
       constraints(:host_id => /[^\/]+/) do
@@ -218,6 +220,23 @@ Foreman::Application.routes.draw do
     resources :ptables do
       collection do
         get 'auto_complete_search'
+      end
+    end
+
+    resources :compute_resources do
+      member do
+        post 'hardware_profile_selected'
+        post 'cluster_selected'
+      end
+      resources :vms, :controller => "ComputeResources::Vms" do
+        member do
+          put 'power'
+        end
+      end
+      collection do
+        get  'auto_complete_search'
+        post 'provider_selected'
+        put  'test_connection'
       end
     end
 

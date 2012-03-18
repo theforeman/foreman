@@ -13,6 +13,7 @@ module HomeHelper
   def setting_options
     choices = [
       ['Bookmarks',              :bookmarks],
+      ['Compute Resources',      :compute_resources],
       ['Environments',           :environments],
       ['Settings',               :settings],
       ['Global Parameters',      :common_parameters],

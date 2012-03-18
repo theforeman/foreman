@@ -1,24 +1,26 @@
 <%= fields_for item do |f| %>
-  <div id = "vm">
+  <div id="vm">
     <%= selectable_f f, :hypervisor_id, select_hypervisor(item),
-      { :include_blank => "Bare Metal" },
-      { :label => "Provision on", :help_inline => image_tag("spinner.gif", :id => "vm_indicator", :class => "hide"),
-        :onchange => 'hypervisor_selected(this);', "data-type" => controller_name }
+                     { :include_blank => "Select Hypervisor" },
+                     { :label    => "Provision on", :help_inline => image_tag("spinner.gif", :id => "vm_indicator", :class => "hide"),
+                       :onchange => 'hypervisor_selected(this);', "data-type" => controller_name }
     %>
+    <div id="vm_details">
+      <% if @hypervisor ||= item.try(:hypervisor) -%>
 
-    <% if @hypervisor ||= item.try(:hypervisor) -%>
-      <%= selectable_f f, :memory, select_memory(item) %>
-      <%= text_f f, :vcpu, :value => (item.vcpu || @guest.vcpu), :label => "VCPU" %>
-      <%= text_f f, :disk_size, :value => volume_size(item), :help_inline => "in GB" %>
-      <%= selectable_f f, :storage_pool, @hypervisor.storage_pools %>
-      <%= selectable_f f, :network_type, Hypervisor::NETWORK_TYPES %>
-      <% if (interfaces = @hypervisor.interfaces).empty? -%>
-        <%= text_f f, :interface, :help_inline => "Physical Interface on #{@hypervisor}" %>
-      <% else -%>
-        <%= selectable_f f, :interface, interfaces %>
+        <%= selectable_f f, :memory, select_memory(item) %>
+        <%= text_f f, :vcpu, :value => (item.vcpu || @guest.vcpu), :label => "VCPU" %>
+        <%= text_f f, :disk_size, :value => volume_size(item), :help_inline => "in GB" %>
+        <%= selectable_f f, :storage_pool, @hypervisor.storage_pools %>
+        <%= selectable_f f, :network_type, Hypervisor::NETWORK_TYPES %>
+        <% if (interfaces = @hypervisor.interfaces).empty? -%>
+          <%= text_f f, :interface, :help_inline => "Physical Interface on #{@hypervisor}" %>
+        <% else -%>
+          <%= selectable_f f, :interface, interfaces %>
+        <% end -%>
+        <%= checkbox_f f, :powerup, :help_inline => "Power up this instance", :checked => true, :label => "Start?" if type == "host" %>
       <% end -%>
-      <%= checkbox_f f, :powerup, :help_inline => "Power up this instance", :checked => true, :label => "Start?" if type == "host" %>
-    <% end -%>
+    </div>
   </div>
 <% end -%>
 

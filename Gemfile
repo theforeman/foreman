@@ -15,6 +15,8 @@ gem "safemode", "~> 1.0.1"
 
 group :virt do
   gem "virt", ">= 0.2.1"
+  gem "rbovirt", ">= 0.0.8"
+  gem "fog", :git => "https://github.com/fog/fog.git"
 end
 
 # database groups, you would most likely need to use only one of these

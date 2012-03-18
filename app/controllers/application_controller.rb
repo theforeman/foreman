@@ -178,6 +178,14 @@ class ApplicationController < ActionController::Base
     redirect_to login_users_path
   end
 
+  def ajax?
+    request.xhr?
+  end
+
+  def ajax_request
+    return head(:method_not_allowed) unless ajax?
+  end
+
   private
   def detect_notices
     @notices = current_user.notices
@@ -237,23 +245,25 @@ class ApplicationController < ActionController::Base
     else
       hash[:redirect] ||= eval("#{controller_name}_url")
     end
-    hash[:error_msg] ||= hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}
 
     hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}"
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}].flatten
+    hash[:error_msg] = hash[:error_msg].to_a.flatten
     respond_to do |format|
       format.html do
+        hash[:error_msg] = hash[:error_msg].join("<br/>")
         if hash[:render]
-          flash.now[:error] = hash[:error_msg].join("<br/>") unless hash[:error_msg].empty?
+          flash.now[:error] = hash[:error_msg] unless hash[:error_msg].empty?
           render :action => hash[:render]
           return
         elsif hash[:redirect]
-          error(hash[:error_msg].join("<br/>")) unless hash[:error_msg].empty?
+          error(hash[:error_msg]) unless hash[:error_msg].empty?
           redirect_to hash[:redirect]
           return
         end
       end
-      format.json { render :json => {"errors" => hash[:object].errors} , :status => hash[:json_code]}
+      format.json { render :json => {"errors" => hash[:error_msg]} , :status => hash[:json_code]}
     end
   end
 

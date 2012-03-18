@@ -1,0 +1,33 @@
+<% javascript 'compute_resource', 'lookup_keys' %>
+<%= text_f f, :name if controller_name != "hosts" %>
+<% new = @host.nil? || @host.try(:new_record?) %>
+<% clusters = compute_resource.clusters %>
+<%= select_f f, :cluster, clusters, :id, :name, { },
+             { :disabled    => !new, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
+               :onchange    => 'ovirt_clusterSelected(this);',
+               :help_inline => image_tag('spinner.gif', :id => 'cluster_indicator', :class => 'hide').html_safe } %>
+<%= f.hidden_field :cluster if !new %>
+<%= select_f f, :template, compute_resource.hardware_profiles, :id, :name, { :include_blank => true },
+             { :disabled    => !new, :'data-url' => hardware_profile_selected_compute_resource_path(compute_resource),
+               :onchange    => 'ovirt_hwpSelected(this);',
+               :help_inline => image_tag('spinner.gif', :id => 'hwp_indicator', :class => 'hide').html_safe,
+               :help_block  => "Template / Hardware Profile to use"} %>
+<%= f.hidden_field :template if !new %>
+
+<div class='hardware_profile'>
+  <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "mini" %>
+  <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2" %>
+  <div class="children_fields">
+    <%= new_child_fields_template(f, :interfaces, {
+        :object  => compute_resource.new_interface,
+        :partial => 'compute_resources/vms/form/network', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
+    <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
+      <%= f.fields_for :interfaces do |i| %>
+        <%= render 'compute_resources/vms/form/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
+      <% end -%>
+      <%= add_child_link "+", :interfaces, { :class => "info", :title => 'add new network interface' } %>
+    <% end -%>
+  </div>
+</div>
+<% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => "Power ON this machine" } if new %>

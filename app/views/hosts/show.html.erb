@@ -10,6 +10,11 @@
     link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => @host),:disabled => @host.can_be_build?,
                            :title => "Cancel build request for this host")
   end,
+  if @host.compute_resource
+    vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
+    html_opts = vm.ready? ? { :confirm => 'Are you sure?', :class => "btn danger" } : { :class => "btn info" }
+    link_to_if_authorized "Power#{state(vm.ready?)}", hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start), html_opts.merge(:method => :put)
+  end,
   link_to_if_authorized("Run puppet", hash_for_puppetrun_host_path(:id => @host).merge(:auth_action => :edit), :disabled => !Setting[:puppetrun],
                         :title => "Trigger a puppetrun on a node; requires that puppet run is enabled"),
   link_to_if_authorized("All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => @host).merge(:auth_action => :read), :disabled => @host.resources.count == 0,

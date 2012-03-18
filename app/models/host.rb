@@ -10,6 +10,7 @@ class Host < Puppet::Rails::Host
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
   belongs_to :sp_subnet, :class_name => "Subnet"
+  belongs_to :compute_resource
 
   include Hostext::Search
   include HostCommon
@@ -132,12 +133,12 @@ class Host < Puppet::Rails::Host
     include HostTemplateHelpers
 
     validates_uniqueness_of  :ip, :if => Proc.new {|host| host.managed}
-    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed }
+    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed }
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :domain_id
-    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed  }
+    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed  }
 
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
     validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or !host.managed }
@@ -543,7 +544,7 @@ class Host < Puppet::Rails::Host
     assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy})
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet})
-      assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor?
+      assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor? and not compute_resource_id
     end
   end
 
