@@ -8,8 +8,17 @@ gem "acts_as_audited", "2.0.0"
 gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymorphs.git", :ref => '03429a61e511f394e9f96af0c8998268ca99d42b'
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.2.4"
+gem 'scoped_search', '>= 2.3.6'
 gem "puppet"
+gem 'net-ldap'
+gem "safemode", "~> 1.0.1"
 
+group :virt do
+  gem "virt", ">= 0.2.1"
+end
+
+# database groups, you would most likely need to use only one of these
+# to disable the ones you don't want, simple run bundle install --without sqlite mysql mysql2 ...
 group :sqlite do
   gem 'sqlite3'
 end
@@ -18,18 +27,12 @@ group :mysql do
   gem 'mysql'
 end
 
-group :postgresql do
-  gem 'pg'
+group :mysql2 do
+  gem 'mysql2'
 end
 
-gem 'scoped_search', '>= 2.3.6'
-#group :provisioning do
-  gem "safemode", "~> 1.0.1"
-  gem "virt", ">= 0.2.1"
-#end
-
-group :authentication do
-  gem 'net-ldap'
+group :postgresql do
+  gem 'pg'
 end
 
 group :test do
@@ -43,4 +46,10 @@ group :development do
   # To use debugger
   gem "ruby-debug", :platforms => :ruby_18
   gem "ruby-debug19", :platforms => :ruby_19
+end
+
+group :console do
+  gem 'wirb'
+  gem 'hirb-unicode'
+  gem 'awesome_print', :require => 'ap'
 end
