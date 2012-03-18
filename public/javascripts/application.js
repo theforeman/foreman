@@ -35,7 +35,7 @@ function checkAll (id, checked) {
 function toggleCheckboxesBySelector(selector) {
   boxes = $(selector);
   var all_checked = true;
-  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
+  for (i = 0; i < boxes.length; i++) { if (!boxes[i].checked) { all_checked = false; } }
   for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
@@ -82,13 +82,13 @@ $(document).ready(function() {
     callback    : function(value, settings) { $(this).addClass("editable"); },
     onsuccess   :  function(data) {
       var parsed = $.parseJSON(data);
-      var key = $(this).attr('name').split("[")[0]
+      var key = $(this).attr('name').split("[")[0];
       var val = $(this).attr('data-field');
       $(this).html(String(parsed[key][val]));
     },
     onerror     : function(settings, original, xhr) {
       original.reset();
-      var error = $.parseJSON(xhr.responseText)["errors"]
+      var error = $.parseJSON(xhr.responseText)["errors"];
       $.jnotify(error, { type: "error", sticky: true });
     }
   };

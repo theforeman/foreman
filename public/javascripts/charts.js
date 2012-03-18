@@ -50,7 +50,7 @@ $(function(){
 });
 
 function expand_chart(ref){
-  var chart = $(ref)
+  var chart = $(ref);
   if (!chart.hasClass('statistics_pie')){
     chart = $(ref).parent().children('.statistics_pie');
   }
@@ -75,7 +75,7 @@ function get_pie_chart(div, url) {
       .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
       $("#"+div).modal('show');
       $.getJSON(url, function(data) {
-        var ref = "/hosts?search=facts."+data.name+"~~VAL1~"
+        var ref = "/hosts?search=facts." + data.name + "~~VAL1~";
         $("#"+div+"-body").attr('chart-href', ref);
         stat_pie(div+'-body', data.name, data.values,0);
       });
@@ -87,7 +87,7 @@ function stat_pie(name, title, data, border, expandable, show_title) {
   if (show_title == undefined) { show_title = true;}
   if (expandable == undefined) { expandable = false;}
   var top_spacing = 10;
-  if (show_title == false){title=''; top_spacing = 5;}
+  if (!show_title){title=''; top_spacing = 5;}
   new Highcharts.Chart({
     chart: {
       renderTo: name,

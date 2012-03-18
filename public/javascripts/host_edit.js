@@ -11,7 +11,7 @@ function add_puppet_class(item){
   link.attr('data-original-title', 'Click to undo adding this class');
   link.removeClass('ui-icon-plus').addClass('ui-icon-minus').twipsy();
 
-  $('#selected_classes').append(content)
+  $('#selected_classes').append(content);
 
   $("#selected_puppetclass_"+ id).show('highlight', 5000);
   $("#puppetclass_"+ id).hide();

@@ -25,7 +25,7 @@
     present, authentication is performed against the internal Database or a LDAP
     service provided by one or more LDAP servers. 
 
-    <p> Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.<p>
+    <p> Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.</p>
 
     <% if SETTINGS[:login] -%>
       <ul>
@@ -35,7 +35,6 @@
         <li> For Roles and permissions, see the <%= link_to "Roles", roles_path %> page</li>
       </ul>
     <% else -%>
-      </p>
       <p><span class="label notice">Notice</span>
       You would need to enable login in your settings.yml file first and restart foreman
       <p>

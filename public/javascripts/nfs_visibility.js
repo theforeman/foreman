@@ -26,8 +26,8 @@ function toggle_nfs_section(event){
 function check_nfs_section(event){
   var os_has_nfs = event.data;
   if (count_checked_nfs(os_has_nfs) == 0) {
-    $('#medium_media_path').attr("value", "")
-    $('#medium_config_path').attr("value", "")
+    $('#medium_media_path').attr("value", "");
+    $('#medium_config_path').attr("value", "");
     $('#medium_image_path').attr("value", "")
   }
 }

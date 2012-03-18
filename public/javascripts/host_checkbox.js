@@ -39,7 +39,7 @@ function readFromCookie() {
 }
 
 function toggle_actions() {
-  var dropdown = $("#Submit_multiple")
+  var dropdown = $("#Submit_multiple");
   if ($.foremanSelectedHosts.length == 0) {
     dropdown.addClass("disabled");
     dropdown.attr('disabled', 'disabled')
