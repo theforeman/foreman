@@ -141,7 +141,7 @@ class Host < Puppet::Rails::Host
     validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed  }
 
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
-    validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or !host.managed }
+    validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or host.compute? or !host.managed }
     validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new {|host| host.managed}
     validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake)  }
