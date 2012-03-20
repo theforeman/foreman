@@ -1,6 +1,9 @@
 module Foreman::Model
   class Ovirt < ComputeResource
 
+    validates_format_of :url, :with => URI.regexp
+    validates_presence_of :user, :password
+
     def self.model_name
       ComputeResource.model_name
     end

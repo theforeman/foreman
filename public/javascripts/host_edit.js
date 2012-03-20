@@ -231,13 +231,6 @@ function use_image_selected(element){
   });
 }
 
-// return a hash with values of all attributes
-function attribute_hash(attributes){
-  var attrs = {};
-  for (i=0;i < attributes.length; i++) { attrs[attributes[i]] = $('*[id*='+attributes[i]+']').val(); }
-  return attrs;
-}
-
 $(function () {
   $("#host-conflicts-modal").modal({show: "true", backdrop: "static"});
   $('#host-conflicts-modal').click(function(){

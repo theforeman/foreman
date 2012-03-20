@@ -12,7 +12,6 @@ class ComputeResource < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :provider, :in => PROVIDERS
   validates_presence_of :url
-  validates_format_of :url, :with => URI.regexp
   scoped_search :on => :name, :complete_value => :true
   before_save :sanitize_url
   has_many :hosts

@@ -252,3 +252,12 @@ function show_release(element){
     $("#release_name").hide();
   }
 }
+// return a hash with values of all attributes
+function attribute_hash(attributes){
+  var attrs = {};
+  for (i=0;i < attributes.length; i++) {
+    var attr = $('*[id*='+attributes[i]+']');
+    if (attr.size() > 0) { attrs[attributes[i]] = attr.val(); }
+  }
+  return attrs;
+}

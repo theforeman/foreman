@@ -1,6 +1,8 @@
 module Foreman::Model
   class Libvirt < ComputeResource
 
+    validates_format_of :url, :with => URI.regexp
+
     # we default to destroy the VM's stroage as well.
     def destroy_vm uuid, args = {}
       find_vm_by_uuid(uuid).destroy({:destroy_volumes => true}.merge(args))

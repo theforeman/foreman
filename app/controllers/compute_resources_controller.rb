@@ -57,8 +57,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def test_connection
-    @compute_resource ||= ComputeResource.new_provider(:provider => params[:provider],  :url => params[:url],
-                                                       :user     => params[:user], :password => params[:password])
+    @compute_resource ||= ComputeResource.new_provider(params[:provider])
     @compute_resource.test_connection
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }
   end

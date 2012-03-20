@@ -28,27 +28,24 @@ function providerSelected(item)
   });
 }
 
-function testConnection(item)
-{
+function testConnection(item) {
   var target = $(item).attr('data-url');
-  var name = $("#compute_resource_provider").val();
-  var provider = $("#compute_resource_provider").val();
-  var url = $("#compute_resource_url").val();
-  var user = $("#compute_resource_user").val();
-  var password = $("#compute_resource_password").val();
+  var args = {}
+  args["provider"] = attribute_hash(['name', 'provider', 'url', 'user', 'password']);
+
   $('#test_connection_indicator').show();
   $.ajax({
-        type:'put',
-        url: target,
-        data: 'name=' + name + '&provider=' + provider + "&url=" + url + "&user=" + user + "&password=" + password,
-        success: function(result){
-          $('#compute_connection').html($(result).children("#compute_connection"));
-          $('#compute_connection').prepend($(result).children(".alert-message"));
-        },
-        complete: function(result){
-            $('#test_connection_indicator').hide();
-            $('[rel="twipsy"]').twipsy();
-          }
+    type:'put',
+    url:target,
+    data:args,
+    success:function (result) {
+      $('#compute_connection').html($(result).children("#compute_connection"));
+      $('#compute_connection').prepend($(result).children(".alert-message"));
+    },
+    complete:function (result) {
+      $('#test_connection_indicator').hide();
+      $('[rel="twipsy"]').twipsy();
+    }
   });
 }
 
