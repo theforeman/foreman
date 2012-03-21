@@ -20,7 +20,7 @@ class HostsController < ApplicationController
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
-    storeconfig_klasses clone pxe_config toggle_manage power]
+    storeconfig_klasses clone pxe_config toggle_manage power console]
 
   helper :hosts, :reports
 
@@ -204,6 +204,13 @@ class HostsController < ApplicationController
     rescue => e
       process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
     end
+  end
+
+  def console
+    return unless @host.compute_resource
+    @console = @host.compute_resource.console @host.uuid
+  rescue => e
+    process_error :redirect => :back, :error_msg => "Failed to set console: #{e}"
   end
 
   def toggle_manage

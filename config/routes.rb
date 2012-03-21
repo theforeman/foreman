@@ -24,6 +24,7 @@ Foreman::Application.routes.draw do
         put 'toggle_manage'
         post 'environment_selected'
         put 'power'
+        get 'console'
       end
       collection do
         get 'show_search'
@@ -231,6 +232,7 @@ Foreman::Application.routes.draw do
       resources :vms, :controller => "ComputeResources::Vms" do
         member do
           put 'power'
+          get 'console'
         end
       end
       collection do

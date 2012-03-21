@@ -136,6 +136,13 @@ module Foreman::Model
       false
     end
 
+    def console uuid
+       vm = find_vm_by_uuid(uuid)
+       raise "VM is not running!" if vm.status == "down"
+       raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
+       VNCProxy.start :host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket
+    end
+
     private
     def set_interfaces(vm, attrs)
       #first remove all existing interfaces
