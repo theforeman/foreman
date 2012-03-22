@@ -23,11 +23,7 @@ FOREMAN_USE_PASSENGER=${FOREMAN_USE_PASSENGER:-0}
 
 start() {
     echo -n $"Starting $prog: "
-<<<<<<< HEAD
-    daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d > /dev/null
-=======
     daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d > /dev/null
->>>>>>> upstream/develop
     RETVAL=$?
     if [ $RETVAL = 0 ]
     then
