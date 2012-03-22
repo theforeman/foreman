@@ -13,7 +13,6 @@ module HomeHelper
   def setting_options
     choices = [
       ['Bookmarks',              :bookmarks],
-      ['Compute Resources',      :compute_resources],
       ['Environments',           :environments],
       ['Settings',               :settings],
       ['Global Parameters',      :common_parameters],
@@ -25,6 +24,7 @@ module HomeHelper
 
     choices += [
       ['Architectures',          :architectures],
+      ['Compute Resources',      :compute_resources],
       ['Domains',                :domains],
       ['Hardware Models',        :models],
       ['Installation Media',     :media],
