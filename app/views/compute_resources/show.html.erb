@@ -1,0 +1,41 @@
+<%= javascript "compute_resource" %>
+<ul class="tabs" data-tabs="tabs">
+  <li class="active"><a href="#primary">Primary</a></li>
+  <li><a href="#vms">Virtual Machines</a></li>
+</ul>
+
+<div class="tab-content">
+
+  <div class="active" id="primary">
+    <p>
+      <b>Name:</b>
+      <%= @compute_resource.name %>
+    </p>
+
+    <p>
+      <b>Provider:</b>
+      <%= @compute_resource.provider %>
+    </p>
+
+    <p>
+      <b>Description:</b>
+      <%= @compute_resource.description %>
+    </p>
+
+    <p>
+      <b>URL:</b>
+      <%= @compute_resource.url %>
+    </p>
+
+  </div>
+  <div id="vms" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
+    <p id="vms_spinner">
+      <%= image_tag 'spinner.gif' %>
+      Loading Virtual Machines information ...
+    </p>
+  </div>
+
+</div>
+
+<%= link_to 'Edit', edit_compute_resource_path(@compute_resource), :class => "btn" %>
+<%= link_to 'Back', compute_resources_path, :class => "btn" %>

@@ -14,6 +14,7 @@ SETTINGS[:login] ||= SETTINGS[:ldap]
 
 begin
   if SETTINGS[:unattended]
+    Bundler.setup(:virt)
     require 'virt'
     SETTINGS[:libvirt] = true
   else

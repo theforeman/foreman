@@ -70,7 +70,7 @@ module LayoutHelper
 
   def field(f, attr, options = {})
     obj = f.object
-    error = obj.errors[attr]
+    error = obj.errors[attr] if obj.respond_to?(:errors)
     help_inline = content_tag(:span, (error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe), :class => "help-inline")
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "clearfix #{error.empty? ? "" : 'error'}" do

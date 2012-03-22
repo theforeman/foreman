@@ -1,0 +1,17 @@
+
+<%= content_for(:head) { javascript_tag "var INCLUDE_URI = '/javascripts/noVNC/';" } %>
+<%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
+
+<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
+
+  <div id="noVNC_status_bar" class="row" style="margin-bottom:18px;">
+    <div id="noVNC_status" class="span10 label" >Loading</div>
+    <div id="noVNC_buttons">
+      <input type=button value="Ctrl-Alt-Del" id="sendCtrlAltDelButton" class="fr btn" >
+    </div>
+  </div>
+
+  <canvas id="noVNC_canvas" width="640px" height="20px" class="clearfix ca">
+    Canvas not supported.
+  </canvas>
+</div>

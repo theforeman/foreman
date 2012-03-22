@@ -16,6 +16,7 @@ module Orchestration
       include Orchestration::TFTP
       include Orchestration::Puppetca
       include Orchestration::Libvirt
+      include Orchestration::Compute
 
       # save handles both creation and update of hosts
       before_save :on_save

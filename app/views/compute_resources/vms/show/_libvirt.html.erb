@@ -1,0 +1,49 @@
+<% title @vm.name %>
+
+<div class='row'>
+  <div class='span16'>
+    <table class="list zebra-striped">
+      <tr><th colspan="2">Properties</th></tr>
+      <tr>
+        <td>Name</td>
+        <td><%= @vm.name %></td>
+      </tr>
+
+      <tr>
+        <td>Machine Type</td>
+        <td><%= @vm.domain_type %> / <%= @vm.arch %></td>
+      </tr>
+
+      <tr>
+        <td>VCPU(s)</td>
+        <td><%= @vm.cpus %></td>
+      </tr>
+
+      <tr>
+        <td>UUID</td>
+        <td><%= @vm.uuid %></td>
+      </tr>
+      <tr>
+        <td>Memory</td>
+        <td><%= number_to_human_size @vm.max_memory_size*1024 %> <%= "(Allocated: #{number_to_human_size @vm.memory_size*1024})" %></td>
+      </tr>
+
+      <tr>
+        <td>NIC</td>
+        <td><%= "#{@vm.mac}" %></td>
+      </tr>
+      <tr>
+        <td>Disk</td>
+        <td><%= "#{@vm.volume_allocation}GB (#{@vm.volume_pool_name} storage pool - #{@vm.disk_path})"  %></td>
+      </tr>
+
+      <tr>
+        <td>Running on</td>
+        <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "danger" : "success")),
+  display_link_if_authorized("Delete", hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class=>'btn danger'),
+  display_link_if_authorized("Other VMs on #{@compute_resource}", hash_for_compute_resource_vms_path(:compute_resource_id => @compute_resource), :class=>'btn') %>

@@ -4,7 +4,16 @@ require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined?(Bundler)
+  Class.new Rails::Railtie do
+    console do
+      Bundler.require(:console)
+      Wirb.start
+      Hirb.enable
+    end
+  end
+  Bundler.require(:default, Rails.env)
+end
 
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)

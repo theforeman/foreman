@@ -1,12 +1,17 @@
+//on load
 $(function() {
-  $('form a.add_nested_fields').live('click', function() {
+  //set selected tab
+  $('.pill-content .fields').first().addClass('active');
+})
+
+function add_child_node(item) {
     // Setup
-    var assoc   = $(this).attr('data-association');           // Name of child
+    var assoc   = $(item).attr('data-association');           // Name of child
     var content = $('#' + assoc + '_fields_template').html(); // Fields template
 
     // Make the context correct by replacing new_<parents> with the generated ID
     // of each of the parent objects
-    var context = ($(this).closest('.fields').find('input:first').attr('name') || '').replace(new RegExp('\[[a-z]+\]$'), '');
+    var context = ($(item).closest('.fields').find('input:first').attr('name') || '').replace(new RegExp('\[[a-z]+\]$'), '');
 
     // context will be something like this for a brand new form:
     // project[tasks_attributes][new_1255929127459][assignments_attributes][new_1255929128105]
@@ -40,29 +45,24 @@ $(function() {
       $('.pills').prepend(pill);
       field = $('.pill-content').prepend($(content).addClass('active'));
     } else {
-      field = $(content).insertBefore($(this));
+      field = $(content).insertBefore($(item));
     }
-    $(this).closest("form").trigger({type: 'nested:fieldAdded', field: field});
+    $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover({html: true, placement: 'above'});
-    return false;
-  });
+    return new_id;
+};
 
-  //set selected tab on page load
-  $(function(){
-    $('.pill-content .fields').first().addClass('active');
-  })
+function remove_child_node(item) {
+  var hidden_field = $(item).prev('input[type=hidden]')[0];
+  if(hidden_field) {
+    hidden_field.value = '1';
+  }
+  $(item).closest('.fields').hide();
+  if($(item).parent().hasClass('fields')) {
+    $('#pill_' + $(item).closest('.fields').attr('id')).hide();
+    $('.pills li :visible').first().click();
+  }
+  $(item).closest("form").trigger('nested:fieldRemoved');
+  return false;
+}
 
-  $('form a.remove_nested_fields').live('click', function() {
-    var hidden_field = $(this).prev('input[type=hidden]')[0];
-    if(hidden_field) {
-      hidden_field.value = '1';
-    }
-    $(this).closest('.fields').hide();
-    if($(this).parent().hasClass('fields')) {
-      $('#pill_' + $(this).closest('.fields').attr('id')).hide();
-      $('.pills li :visible').first().click();
-    }
-    $(this).closest("form").trigger('nested:fieldRemoved');
-    return false;
-  });
-});

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  url: qemu://stam/system
+  user: MyString
+  password: MyString
+  uuid: MyString
+
+two:
+  name: MyString
+  description: MyString
+  url: MyString
+  user: MyString
+  password: MyString
+  uuid: MyString

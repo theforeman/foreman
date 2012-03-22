@@ -24,6 +24,7 @@ module HomeHelper
 
     choices += [
       ['Architectures',          :architectures],
+      ['Compute Resources',      :compute_resources],
       ['Domains',                :domains],
       ['Hardware Models',        :models],
       ['Installation Media',     :media],

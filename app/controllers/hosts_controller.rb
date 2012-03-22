@@ -7,18 +7,20 @@ class HostsController < ApplicationController
   # actions which don't require authentication and are always treated as the admin user
   ANONYMOUS_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected}
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
   skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
   skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
   skip_before_filter :session_expiry, :update_activity_time, :only => ANONYMOUS_ACTIONS
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
+  before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
-    storeconfig_klasses clone pxe_config toggle_manage]
+    storeconfig_klasses clone pxe_config toggle_manage power console]
 
   helper :hosts, :reports
 
@@ -123,6 +125,11 @@ class HostsController < ApplicationController
   end
 
   # form AJAX methods
+  def compute_resource_selected
+    compute = ComputeResource.find(params[:compute_resource_id]) if params[:compute_resource_id].to_i > 0
+    render :partial => "compute", :locals => {:compute_resource => compute} if compute
+  end
+
   def hostgroup_or_environment_selected
     return head(:method_not_allowed) unless request.xhr?
 
@@ -173,9 +180,9 @@ class HostsController < ApplicationController
   def setBuild
     forward_request_url
     if @host.setBuild
-      process_success :success_msg => "Enabled #{@host.name} for rebuild on next boot", :success_redirect => :back
+      process_success :success_msg => "Enabled #{@host} for rebuild on next boot", :success_redirect => :back
     else
-      process_error :redirect => :back, :error_msg => (["Failed to enable #{@host.name} for installation"] + @host.errors.full_messages)
+      process_error :redirect => :back, :error_msg => "Failed to enable #{@host} for installation: #{@host.errors.full_messages}"
     end
   end
 
@@ -187,12 +194,31 @@ class HostsController < ApplicationController
     end
   end
 
+  def power
+    return unless @host.compute_resource && params[:power_action]
+    action = params[:power_action]
+    vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
+    begin
+      vm.send(action)
+      process_success :success_redirect => :back, :success_msg =>  "#{vm} is now #{vm.ready? ? "running" : "stopped"}"
+    rescue => e
+      process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
+    end
+  end
+
+  def console
+    return unless @host.compute_resource
+    @console = @host.compute_resource.console @host.uuid
+  rescue => e
+    process_error :redirect => :back, :error_msg => "Failed to set console: #{e}"
+  end
+
   def toggle_manage
     if @host.toggle! :managed
       toggle_text = @host.managed ? "" : " no longer"
       process_success :success_msg => "Foreman now#{toggle_text} manages the build cycle for #{@host.name}", :success_redirect => :back
     else
-      process_error   :error_msg   => "Failed to modify the build cycle for #{@host.name}", :redirect => :back
+      process_error   :error_msg   => "Failed to modify the build cycle for #{@host}", :redirect => :back
     end
   end
 
@@ -378,7 +404,9 @@ class HostsController < ApplicationController
 
     @host = Host.new
     @host.hostgroup = @hostgroup
+    @host.compute_resource_id = params[:compute_resource_id] if params[:compute_resource_id].present?
     @host.set_hostgroup_defaults
+
 
     render :update do |page|
       [:environment_id, :puppet_ca_proxy_id, :puppet_proxy_id].each do |field|
@@ -388,7 +416,7 @@ class HostsController < ApplicationController
 
       if SETTINGS[:unattended]
         page['*[id*=root_pass]'].val(@hostgroup.root_pass)
-        if (@hypervisor = @hostgroup.hypervisor)
+        if !@host.compute_resource_id and (@hypervisor = @hostgroup.hypervisor)
           @hypervisor.connect
           # we are in a view context
           controller.send(:update_hypervisor_details, @host, page)
@@ -441,6 +469,14 @@ class HostsController < ApplicationController
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
     @hypervisor      = @host.hypervisor if @host.respond_to?(:hypervisor)
+    if @host.compute_resource_id
+      if params[:host] && params[:host][:compute_attributes]
+        @host.compute_attributes = params[:host][:compute_attributes]
+      else
+        @host.compute_attributes = @host.compute_resource.find_vm_by_uuid(@host.uuid).attributes
+      end
+    end
+
   end
 
   def find_multiple

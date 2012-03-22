@@ -1,0 +1,3 @@
+<%= fields_for "#{type}[compute_attributes]", @host ? @host.compute_object : compute_resource.new_vm do |compute| %>
+  <%= render "compute_resources/vms/form/#{compute_resource.provider.downcase}", :f => compute, :compute_resource => compute_resource %>
+<% end -%>

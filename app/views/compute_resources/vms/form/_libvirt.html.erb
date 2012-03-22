@@ -1,0 +1,6 @@
+<%= text_f f, :name %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, {}, :class => "mini" %>
+<%# selectable_f f, :memory_size, options_for_select(@compute_resource.memory_options.map {|mem| [number_to_human_size(mem*1024), mem]}) %>
+<%= text_f f, :memory_size %>
+<%= text_f f, :network_bridge_name %>
+<%= text_f f, :volume_allocation %>

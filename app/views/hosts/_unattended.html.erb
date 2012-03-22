@@ -2,9 +2,13 @@
   <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
 </div>
 
+<div id="compute_resource">
+  <%= render 'compute', :compute_resource => @host.compute_resource if @host.compute_resource_id %>
+</div>
+
 <div id="network">
   <span id="mac_address">
-    <%= render 'mac', :item => @host unless @hypervisor -%>
+    <%= render 'mac', :item => @host unless @hypervisor or @host.compute_resource_id -%>
   </span>
   <%= render 'common/domain_subnet', :item => @host %>
   <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" , :autocomplete => 'off'%>
