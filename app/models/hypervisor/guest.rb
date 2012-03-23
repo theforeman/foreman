@@ -1,3 +1,4 @@
+require 'virt'
 require 'virt/guest'
 
 class Virt::Guest
