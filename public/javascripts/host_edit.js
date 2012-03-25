@@ -13,6 +13,7 @@ function computeResourceSelected(item){
     $("#libvirt_tab").show();
     $("#compute_resource_tab").hide();
     $('#compute_resource').empty();
+    $(item).children(":selected").val("");
   }
   else {
     $('#mac_address').hide();
