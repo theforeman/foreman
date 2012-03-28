@@ -94,7 +94,7 @@ module ApplicationHelper
     if enable_link
       link_to name, options, html_options
     else
-      link_to_function name, 'void()', html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
+      link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     end
   end
 
