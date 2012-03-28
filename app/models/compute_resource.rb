@@ -1,7 +1,7 @@
 require 'server_interfaces'
 
 class ComputeResource < ActiveRecord::Base
-  PROVIDERS = %w[ Libvirt Ovirt EC2 ]
+  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware ]
   acts_as_audited :except => [:password]
 
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
@@ -39,7 +39,7 @@ class ComputeResource < ActiveRecord::Base
     "#{id}-#{name.parameterize}"
   end
 
-  # retuns a new fog server instance
+  # returns a new fog server instance
   def new_vm attr={}
     client.servers.new vm_instance_defaults.merge(attr)
   end
