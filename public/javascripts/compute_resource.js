@@ -31,7 +31,7 @@ function providerSelected(item)
 function testConnection(item) {
   var target = $(item).attr('data-url');
   var args = {}
-  args["provider"] = attribute_hash(['name', 'provider', 'url', 'user', 'password']);
+  args["provider"] = attribute_hash(['name', 'provider', 'url', 'user', 'password', 'server']);
 
   $('#test_connection_indicator').show();
   $.ajax({

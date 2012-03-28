@@ -1,6 +1,6 @@
 class ComputeResources::VmsController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_vm, :only => [:show, :power]
+  before_filter :find_vm, :only => [:show, :power, :console]
 
   def index
     @vms = @compute_resource.vms.all.to_a.paginate :page => params[:page]
@@ -49,6 +49,14 @@ class ComputeResources::VmsController < ApplicationController
       process_error({ :redirect => compute_resource_vms_path(@compute_resource) })
     end
   end
+
+  def console
+    @console = @compute_resource.console @vm.identity
+    render "hosts/console"
+  rescue => e
+    process_error :redirect => :back, :error_msg => "Failed to set console: #{e}"
+  end
+
 
   private
 

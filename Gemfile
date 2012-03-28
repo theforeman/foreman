@@ -16,7 +16,10 @@ gem "safemode", "~> 1.0.1"
 group :virt do
   gem "virt", ">= 0.2.1"
   gem "rbovirt", ">= 0.0.9"
-  gem "fog", ">= 1.3.0"
+  gem "rbvmomi"
+  # currently fog gem does not include latest vmware requirements
+  gem "fog", :git => "git://github.com/fog/fog.git"
+  #gem "fog", ">= 1.3.2"
 end
 
 # database groups, you would most likely need to use only one of these
