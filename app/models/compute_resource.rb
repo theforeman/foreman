@@ -39,6 +39,14 @@ class ComputeResource < ActiveRecord::Base
     "#{id}-#{name.parameterize}"
   end
 
+  def to_label
+    "#{name} (#{provider_friendly_name})"
+  end
+
+  def provider_friendly_name
+    %w[ Libvirt oVirt EC2 VMWare ][PROVIDERS.index(provider)]
+  end
+
   # returns a new fog server instance
   def new_vm attr={}
     client.servers.new vm_instance_defaults.merge(attr)
@@ -112,6 +120,10 @@ class ComputeResource < ActiveRecord::Base
     super({:except => [:password]}.merge(options))
   end
 
+  def console uuid = nil
+    raise "#{provider} console is not supported at this time"
+  end
+
   protected
 
   def client
@@ -121,4 +133,11 @@ class ComputeResource < ActiveRecord::Base
   def sanitize_url
     self.url.chomp!("/") unless url.empty?
   end
+
+  def random_password
+    n = 8
+    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+    (0...n).map { chars[rand(chars.length)].chr }.join
+  end
+
 end

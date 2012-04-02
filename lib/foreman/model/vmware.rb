@@ -40,7 +40,7 @@ module Foreman::Model
       raise "VM is not running!" unless vm.ready?
       #TOOD port, password
       #NOTE this requires the following port to be open on your ESXi FW
-      values = {:port => unused_vnc_port(vm.hypervisor), :password => vnc_password, :enabled => true}
+      values = {:port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true}
       vm.config_vnc(values)
       VNCProxy.start :host => vm.hypervisor, :host_port => values[:port], :password => values[:password]
     end
@@ -56,12 +56,6 @@ module Foreman::Model
         :vsphere_expected_pubkey_hash => '7bb2a3f661aa96b036db266aaf550f800f5b2235daae356780756eb7469d03e9'
 
       )
-    end
-
-    def vnc_password
-      n = 8
-      chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-      (0...n).map { chars[rand(chars.length)].chr }.join
     end
 
     def unused_vnc_port ip

@@ -469,12 +469,8 @@ class HostsController < ApplicationController
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
     @hypervisor      = @host.hypervisor if @host.respond_to?(:hypervisor)
-    if @host.compute_resource_id
-      if params[:host] && params[:host][:compute_attributes]
-        @host.compute_attributes = params[:host][:compute_attributes]
-      else
-        @host.compute_attributes = @host.compute_resource.find_vm_by_uuid(@host.uuid).attributes
-      end
+    if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
+      @host.compute_attributes = params[:host][:compute_attributes]
     end
 
   end

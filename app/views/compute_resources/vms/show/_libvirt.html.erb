@@ -29,13 +29,22 @@
       </tr>
 
       <tr>
-        <td>NIC</td>
-        <td><%= "#{@vm.mac}" %></td>
+        <td>Display</td>
+        <td><%= @vm.display[:type] %> (<%= @vm.display[:port] %>)</td>
       </tr>
-      <tr>
-        <td>Disk</td>
-        <td><%= "#{@vm.volume_allocation}GB (#{@vm.volume_pool_name} storage pool - #{@vm.disk_path})"  %></td>
-      </tr>
+      <% @vm.nics.each do |nic| -%>
+        <tr>
+          <td>NIC</td>
+          <td><%= "#{nic.bridge} - #{nic.mac} (#{nic.model})" %></td>
+        </tr>
+      <% end -%>
+
+      <% @vm.volumes.each do |vol| -%>
+        <tr>
+          <td>Disk</td>
+          <td><%= "using #{vol.allocation} GB out of #{vol.capacity} GB (#{vol.pool_name} storage pool - #{vol.path})" %></td>
+        </tr>
+      <% end -%>
 
       <tr>
         <td>Running on</td>
@@ -44,6 +53,6 @@
     </table>
   </div>
 </div>
-<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "danger" : "success")),
-  display_link_if_authorized("Delete", hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class=>'btn danger'),
+<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.uuid), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "danger" : "success")),
+  display_link_if_authorized("Delete", hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.uuid).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class=>'btn danger'),
   display_link_if_authorized("Other VMs on #{@compute_resource}", hash_for_compute_resource_vms_path(:compute_resource_id => @compute_resource), :class=>'btn') %>

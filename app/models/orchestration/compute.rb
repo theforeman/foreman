@@ -14,7 +14,14 @@ module Orchestration::Compute
     end
 
     def compute_object
-      compute_resource.new_vm compute_attributes if compute_resource_id.present? && compute_attributes
+      if uuid.present? and compute_resource_id.present?
+        compute_resource.find_vm_by_uuid(uuid) rescue nil
+        # we don't want the fact that we failed to fetch the information to break foreman
+        # this is mostly relevant when the orchestration had a failure, and later on in the ui we try to retrieve the server again.
+        # or when the server was removed not via foreman.
+      elsif compute_resource_id.present? && compute_attributes
+        compute_resource.new_vm compute_attributes
+      end
     end
 
     protected
@@ -67,6 +74,7 @@ module Orchestration::Compute
     def delCompute
       logger.info "Removing Compute instance for #{name}"
       compute_resource.destroy_vm uuid
+      self.uuid = nil
     rescue => e
       failure "Failed to destroy a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end

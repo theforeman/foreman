@@ -23,5 +23,33 @@ module Fog
       @interfaces_attributes = attrs
     end
 
+    # libvirt call these nics, vs interfaces
+    def nics_attributes= attrs
+      @nics_attributes = attrs
+    end
+
+    def volumes_attributes= attrs
+      @volumes_attributes = attrs
+    end
+
+  end
+
+  require 'fog/libvirt/compute'
+  require 'fog/libvirt/models/compute/server'
+  module Compute
+    class Libvirt
+
+      class Server < Fog::Compute::Server
+        # Libvirt expect units in KB, while we use bytes
+        def memory
+          attributes[:memory_size].to_i * 1024
+        end
+
+        def memory=mem
+          attributes[:memory_size] = mem.to_i / 1024 if mem
+        end
+
+      end
+    end
   end
 end

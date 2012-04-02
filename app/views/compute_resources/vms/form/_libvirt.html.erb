@@ -1,6 +1,33 @@
-<%= text_f f, :name %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, {}, :class => "mini" %>
-<%# selectable_f f, :memory_size, options_for_select(@compute_resource.memory_options.map {|mem| [number_to_human_size(mem*1024), mem]}) %>
-<%= text_f f, :memory_size %>
-<%= text_f f, :network_bridge_name %>
-<%= text_f f, :volume_allocation %>
+<% new = f.object && f.object.new? -%>
+<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "mini",:disabled => !new %>
+<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
+
+<!--NICS-->
+<div class="children_fields">
+  <%= new_child_fields_template(f, :nics, {
+      :object  => compute_resource.new_nic,
+      :partial => 'compute_resources/vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
+    <%= f.fields_for :nics do |i| %>
+      <%= render 'compute_resources/vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+    <%= add_child_link "+", :nics, { :class => "info", :title => 'add new network interface' } %>
+  <% end -%>
+</div>
+
+<!--Storage-->
+<div class="children_fields">
+  <%= new_child_fields_template(f, :volumes, {
+      :object  => compute_resource.new_volume,
+      :partial => 'compute_resources/vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "Storage", :id => "storage_volumes", :title => 'Storage' do -%>
+    <%= f.fields_for :volumes do |i| %>
+      <%= render 'compute_resources/vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+    <%= add_child_link "+", :volumes, { :class => "info", :title => 'add new storage volume' } %>
+  <% end -%>
+</div>
+<!--TODO # Move to a helper-->
+<% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => "Power ON this machine" } if new %>

@@ -247,7 +247,7 @@ class ApplicationController < ActionController::Base
     end
 
     hash[:json_code] ||= :unprocessable_entity
-    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}"
+    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}].flatten
     hash[:error_msg] = hash[:error_msg].to_a.flatten
     respond_to do |format|
