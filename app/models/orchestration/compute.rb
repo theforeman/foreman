@@ -74,7 +74,6 @@ module Orchestration::Compute
     def delCompute
       logger.info "Removing Compute instance for #{name}"
       compute_resource.destroy_vm uuid
-      self.uuid = nil
     rescue => e
       failure "Failed to destroy a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end
