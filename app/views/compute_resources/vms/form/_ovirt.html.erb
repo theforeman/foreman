@@ -27,6 +27,16 @@
       <% end -%>
       <%= add_child_link "+", :interfaces, { :class => "info", :title => 'add new network interface' } %>
     <% end -%>
+
+    <%= new_child_fields_template(f, :volumes, {
+            :object  => compute_resource.new_volume,
+            :partial => 'compute_resources/vms/form/volume', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
+    <%= field_set_tag "Volumes", :id => "volumes", :title => 'Volumes' do -%>
+        <%= f.fields_for :volumes do |i| %>
+            <%= render 'compute_resources/vms/form/volume', :f => i, :compute_resource => compute_resource %>
+        <% end -%>
+        <%= add_child_link "+", :volumes, { :class => "info", :title => 'add new volume' } %>
+    <% end -%>
   </div>
 </div>
 <% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>

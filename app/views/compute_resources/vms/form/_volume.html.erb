@@ -1,0 +1,11 @@
+<div class="fields">
+  <% if f.object._delete != '1' -%>
+    <% disabled = (f.object.persisted? == "true" || f.object.persisted? == true) %>
+    <%= text_f f, :size, :disabled => disabled, :class => "span2" %>
+    <%= f.hidden_field :size if disabled %>
+    <%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
+                 { }, :disabled => disabled, :class => "span2",
+                 :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => 'remove volume', :class => 'label important' }) %>
+    <%= f.hidden_field :volume if disabled %>
+  <% end -%>
+</div>

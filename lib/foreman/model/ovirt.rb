@@ -60,6 +60,9 @@ module Foreman::Model
 
     end
 
+    def storage_domains(opts ={})
+      client.storage_domains({:role => 'data'}.merge(opts))
+    end
     def start_vm uuid
       find_vm_by_uuid(uuid).start(:blocking => true)
     end
@@ -88,6 +91,10 @@ module Foreman::Model
 
     def new_interface attr={}
       Fog::Compute::Ovirt::Interface.new(attr)
+    end
+
+    def new_volume attr={}
+      Fog::Compute::Ovirt::Volume.new(attr)
     end
 
     def save_vm uuid, attr
