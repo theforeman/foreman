@@ -93,7 +93,11 @@ Foreman::Application.routes.draw do
     end if SETTINGS[:libvirt]
   end
 
-  resources :settings, :only => [:index, :update]
+  resources :settings, :only => [:index, :update] do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
   resources :common_parameters do
     collection do
       get 'auto_complete_search'
