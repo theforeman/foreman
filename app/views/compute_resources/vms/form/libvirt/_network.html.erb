@@ -1,4 +1,9 @@
 <div class="fields">
-  <%= selectable_f f, :bridge, compute_resource.networks.map(&:name), { }, :class => "span2", :label => "Network",
+  <% if (networks = compute_resource.networks.map(&:name)).empty? -%>,
+    <%= selectable_f f, :bridge, networks.map(&:name), { }, :class => "span2", :label => "Network",
+                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label important' }) %>
+  <% else -%>
+    <%= text_f f, :bridge, :class => "span2", :label => "Network", :help_block => "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)",
                :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label important' }) %>
+  <% end -%>
 </div>

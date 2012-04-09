@@ -43,15 +43,11 @@ module Foreman::Model
     end
 
     def storage_pools
-      client.pools
-    rescue
-      []
+      client.pools rescue []
     end
 
     def networks
-      client.interfaces
-    rescue
-      []
+      client.interfaces rescue []
     end
 
     def new_vm attr={ }
