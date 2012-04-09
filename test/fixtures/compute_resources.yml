@@ -7,11 +7,4 @@ one:
   user: MyString
   password: MyString
   uuid: MyString
-
-two:
-  name: MyString
-  description: MyString
-  url: MyString
-  user: MyString
-  password: MyString
-  uuid: MyString
+  type: Foreman::Model::Libvirt
