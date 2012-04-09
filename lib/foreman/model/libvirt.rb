@@ -116,21 +116,6 @@ module Foreman::Model
       }
     end
 
-    def nested_attributes_for type, opts
-      return unless opts
-      opts.delete("new_#{type}") # delete template
-      # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
-      opts = opts.sort { |l, r| l[0][0] <=> r[0][0] }.map { |e| Hash[e[1]] }
-      opts.map do |k, v|
-        if v[:"_delete"] == '1'
-          nil
-        else
-          v.delete(:"_delete")
-          v.symbolize_keys # convert to symbols deeper hashes
-        end
-      end.compact
-    end
-
     def create_volumes args
       vols = []
       (volumes = args[:volumes]).each do |vol|

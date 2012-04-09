@@ -15,7 +15,7 @@ gem "safemode", "~> 1.0.1"
 
 group :virt do
   gem "virt", ">= 0.2.1"
-  gem "rbovirt", ">= 0.0.9"
+  gem "rbovirt", ">= 0.0.11"
   gem "rbvmomi"
   gem "fog", :git => "git://github.com/fog/fog.git"
   #gem "fog", ">= 1.3.2"

@@ -65,6 +65,7 @@ class ComputeResourcesController < ApplicationController
   def hardware_profile_selected
     compute = @compute_resource.hardware_profile(params[:hwp_id])
     compute.interfaces
+    compute.volumes
     respond_to do |format|
       format.json { render :json => compute }
     end
