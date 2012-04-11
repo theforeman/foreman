@@ -140,4 +140,19 @@ class ComputeResource < ActiveRecord::Base
     (0...n).map { chars[rand(chars.length)].chr }.join
   end
 
+  def nested_attributes_for type, opts
+    return unless opts
+    opts.delete("new_#{type}") # delete template
+                               # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
+    opts = opts.sort { |l, r| l[0][0] <=> r[0][0] }.map { |e| Hash[e[1]] }
+    opts.map do |v|
+      if v[:"_delete"] == '1'
+        nil
+      else
+        v.delete(:"_delete")
+        v.symbolize_keys # convert to symbols deeper hashes
+      end
+    end.compact
+  end
+
 end

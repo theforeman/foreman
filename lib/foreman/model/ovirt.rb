@@ -25,10 +25,6 @@ module Foreman::Model
       client.templates.get(id) || raise(ActiveRecord::RecordNotFound)
     end
 
-    def find_vm_by_uuid uuid
-      client.servers.get(uuid) || raise(ActiveRecord::RecordNotFound)
-    end
-
     def clusters
       client.clusters
     end
@@ -63,17 +59,19 @@ module Foreman::Model
     def storage_domains(opts ={})
       client.storage_domains({:role => 'data'}.merge(opts))
     end
-    def start_vm uuid
+
+    def start_vm(uuid)
       find_vm_by_uuid(uuid).start(:blocking => true)
     end
 
-    def create_vm args = {}
+    def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
       args[:display] = 'VNC'
       vm          = super args
       begin
         set_interfaces(vm, args[:interfaces_attributes])
+        add_volumes(vm, args[:volumes_attributes])
       rescue => e
         destroy_vm vm.id
         raise e
@@ -81,31 +79,37 @@ module Foreman::Model
       vm
     end
 
-    def new_vm attr={}
+    def new_vm(attr={})
       vm = client.servers.new vm_instance_defaults.merge(attr)
       attr[:interfaces_attributes].each do |key, interface|
         vm.interfaces << new_interface(interface) unless (interface[:_delete] =='1' && interface[:id].nil?) || key == 'new_interfaces' #ignore the template
       end if attr[:interfaces_attributes]
+
+      attr[:volumes_attributes].each do |key, volume|
+        vm.volumes << new_volume(volume) unless (volume[:_delete] =='1' && volume[:id].nil?) || key == 'new_volumes' #ignore the template
+      end if attr[:volumes_attributes]
       vm
     end
 
-    def new_interface attr={}
+    def new_interface(attr={})
       Fog::Compute::Ovirt::Interface.new(attr)
     end
 
-    def new_volume attr={}
+    def new_volume(attr={})
       Fog::Compute::Ovirt::Volume.new(attr)
     end
 
-    def save_vm uuid, attr
+    def save_vm(uuid, attr)
       vm = find_vm_by_uuid(uuid)
       vm.attributes.merge!(attr.symbolize_keys)
       update_interfaces(vm, attr[:interfaces_attributes])
+      update_volumes(vm, attr[:volumes_attributes])
       vm.interfaces
+      vm.volumes
       vm.save
     end
 
-    def destroy_vm uuid
+    def destroy_vm(uuid)
       begin
         find_vm_by_uuid(uuid).destroy
       rescue OVIRT::OvirtException => e
@@ -117,7 +121,7 @@ module Foreman::Model
 
     protected
 
-    def bootstrap args
+    def bootstrap(args)
       client.servers.bootstrap vm_instance_defaults.merge(args.to_hash)
     rescue Fog::Errors::Error => e
       errors.add(:base, e.to_s)
@@ -141,14 +145,19 @@ module Foreman::Model
       new_attrs[:interfaces_attributes].each do |key, interface|
         return true if (interface[:id].nil? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
       end if new_attrs[:interfaces_attributes]
+
+      new_attrs[:volumes_attributes].each do |key, volume|
+        return true if (volume[:id].nil? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
+      end if new_attrs[:volumes_attributes]
+
       false
     end
 
-    def console uuid
-       vm = find_vm_by_uuid(uuid)
-       raise "VM is not running!" if vm.status == "down"
-       raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
-       VNCProxy.start :host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket
+    def console(uuid)
+      vm = find_vm_by_uuid(uuid)
+      raise "VM is not running!" if vm.status == "down"
+      raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
+      VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
     end
 
     private
@@ -165,11 +174,28 @@ module Foreman::Model
       vm.interfaces.reload
     end
 
+    def add_volumes(vm, attrs)
+      #add volumes
+      attrs.each do |key, volume|
+        vm.add_volume(volume.merge(:blocking => true)) if volume[:storage_domain] && volume[:_delete] != '1' && key != 'new_volumes'
+      end if attrs
+      vm.volumes.reload
+    end
+
     def update_interfaces(vm, attrs)
       attrs.each do |key, interface|
         unless key == 'new_interfaces' #ignore the template
           vm.destroy_interface(:id => interface[:id]) if interface[:_delete] == '1' && interface[:id]
           vm.add_interface(interface) if interface[:id].nil?
+        end
+      end if attrs
+    end
+
+    def update_volumes(vm, attrs)
+      attrs.each do |key, volume|
+        unless key == 'new_volumes' #ignore the template
+          vm.destroy_volume(:id => volume[:id]) if volume[:_delete] == '1' && volume[:id]
+          vm.add_volume(volume) if volume[:id].nil?
         end
       end if attrs
     end

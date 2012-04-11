@@ -62,7 +62,9 @@ function ovirt_hwpSelected(item){
         $('[id$=_memory]').val(result.memory);
         $('[id$=_cores]').val(result.cores);
         $('#network_interfaces').children('.fields').remove();
-        $.each(result.interfaces, function() {add_network_interface(this);})
+        $.each(result.interfaces, function() {add_network_interface(this);});
+        $('#volumes').children('.fields').remove();
+        $.each(result.volumes, function() {add_volume(this);});
       },
       complete: function(result){
         $('#hwp_indicator').hide();
@@ -72,9 +74,18 @@ function ovirt_hwpSelected(item){
 }
 // fill in the template interfaces.
 function add_network_interface(item){
-  var new_id = add_child_node($(".add_nested_fields"));
+  var new_id = add_child_node($("#network_interfaces .add_nested_fields"));
   $('[id$='+new_id+'_name]').val(item.name);
   $('[id$='+new_id+'_network]').val(item.network);
+}
+
+// fill in the template volumes.
+function add_volume(item){
+  var new_id = add_child_node($("#volumes .add_nested_fields"));
+  $('[id$='+new_id+'_size_gb]').val(item.size_gb).attr('disabled', 'disabled');
+  $('[id$='+new_id+'_storage_domain]').val(item.storage_domain).attr('disabled', 'disabled');
+  $('[id$='+new_id+'_bootable]').attr('checked', item.bootable).attr('disabled', 'disabled');
+  $('[id$='+new_id+'_storage_domain]').next().hide();
 }
 
 function ovirt_clusterSelected(item){

@@ -1,0 +1,12 @@
+<div class="fields">
+  <% if f.object._delete != '1' -%>
+    <% disabled = (f.object.persisted? == "true" || f.object.persisted? == true) %>
+    <%= text_f f, :size_gb,:label => "Size GB", :disabled => disabled, :class => "span2" %>
+    <%= f.hidden_field :size_gb if disabled %>
+    <%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
+                 { },:label => "Storage Domain", :disabled => disabled, :class => "span2",
+                 :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => 'remove volume', :class => 'label important' }) %>
+    <%= f.hidden_field :storage_domain if disabled %>
+    <%= checkbox_f f, :bootable, {:label => "Is Bootable", :checked => (f.object.bootable == 'true'), :help_inline => "Note that only one volume is allowed to be bootable" } %>
+  <% end -%>
+</div>
