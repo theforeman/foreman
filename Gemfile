@@ -28,7 +28,7 @@ group :sqlite do
 end
 
 group :mysql do
-  gem 'mysql'
+  gem 'mysql2'
 end
 
 group :mysql2 do
