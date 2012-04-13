@@ -98,7 +98,7 @@ module Foreman::Model
 
     def client
       # WARNING potential connection leak
-      Thread.current[url] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
+      Thread.current[id] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
     end
 
     def disconnect
@@ -120,7 +120,7 @@ module Foreman::Model
       return unless opts
       opts.delete("new_#{type}") # delete template
       # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
-      opts.sort { |l, r| l[0][0] <=> r[0][0] }.map { |e| Hash[e[1]] }
+      opts = opts.sort { |l, r| l[0][0] <=> r[0][0] }.map { |e| Hash[e[1]] }
       opts.map do |k, v|
         if v[:"_delete"] == '1'
           nil
