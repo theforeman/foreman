@@ -57,7 +57,7 @@ module Foreman::Model
     end
 
     def storage_domains(opts ={})
-      client.storage_domains({:role => 'data'}.merge(opts))
+      client.storage_domains({:role => 'data', :current_datacenter => true}.merge(opts))
     end
 
     def start_vm(uuid)
@@ -81,13 +81,10 @@ module Foreman::Model
 
     def new_vm(attr={})
       vm = client.servers.new vm_instance_defaults.merge(attr)
-      attr[:interfaces_attributes].each do |key, interface|
-        vm.interfaces << new_interface(interface) unless (interface[:_delete] =='1' && interface[:id].nil?) || key == 'new_interfaces' #ignore the template
-      end if attr[:interfaces_attributes]
-
-      attr[:volumes_attributes].each do |key, volume|
-        vm.volumes << new_volume(volume) unless (volume[:_delete] =='1' && volume[:id].nil?) || key == 'new_volumes' #ignore the template
-      end if attr[:volumes_attributes]
+      interfaces = nested_attributes_for :interfaces, attr[:interfaces_attributes]
+      interfaces.map{ |i| vm.interfaces << new_interface(i)}
+      volumes = nested_attributes_for :volumes, attr[:volumes_attributes]
+      volumes.map{ |v| vm.volumes << new_volume(v)}
       vm
     end
 
@@ -168,9 +165,8 @@ module Foreman::Model
         vm.destroy_interface(:id => interface.id, :blocking => true)
       end if vm.interfaces
       #add interfaces
-      attrs.each do |key, interface|
-        vm.add_interface(interface) if interface[:id].nil? && interface[:_delete] != '1' && key != 'new_interfaces'
-      end if attrs
+      opts = nested_attributes_for :interfaces, attrs
+      opts.map{ |i| vm.add_interface(i)}
       vm.interfaces.reload
     end
 
