@@ -7,6 +7,6 @@
                  { },:label => "Storage Domain", :disabled => disabled, :class => "span2",
                  :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => 'remove volume', :class => 'label important' }) %>
     <%= f.hidden_field :storage_domain if disabled %>
-    <%= checkbox_f f, :bootable, {:label => "Is Bootable", :checked => (f.object.bootable == 'true'), :help_inline => "Note that only one volume is allowed to be bootable" } %>
+    <%= checkbox_f f, :bootable, {:label => "Is Bootable", :disabled => disabled, :checked => (f.object.bootable == 'true'), :help_inline => "Note that only one volume is allowed to be bootable" } %>
   <% end -%>
 </div>
