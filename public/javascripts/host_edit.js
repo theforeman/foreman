@@ -123,9 +123,9 @@ function subnet_selected(element){
   if (subnet_id == '' || $('#host_ip').size() == 0) return false;
   // We do not query the proxy if the host_ip field is filled in and contains an
   // IP that is in the selected subnet
-  var drop_text = $(element).text().split("\n")[subnet_id]
+  var drop_text = $(element).children(":selected").text();
   if (drop_text.length !=0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
-    var details = $(element).text().split("\n")[subnet_id].replace(/^[^(]+\(/, "").replace(")","").split("/");
+    var details = drop_text.replace(/^[^(]+\(/, "").replace(")","").split("/");
     if (subnet_contains(details[0], details[1], $('#host_ip').val()))
       return false;
   }
