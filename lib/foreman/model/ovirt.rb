@@ -57,7 +57,7 @@ module Foreman::Model
     end
 
     def storage_domains(opts ={})
-      client.storage_domains({:role => 'data', :current_datacenter => true}.merge(opts))
+      client.storage_domains({:role => 'data'}.merge(opts))
     end
 
     def start_vm(uuid)
@@ -68,10 +68,10 @@ module Foreman::Model
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
       args[:display] = 'VNC'
-      vm          = super args
+      vm = super args
       begin
-        set_interfaces(vm, args[:interfaces_attributes])
-        add_volumes(vm, args[:volumes_attributes])
+        create_interfaces(vm, args[:interfaces_attributes])
+        create_volumes(vm, args[:volumes_attributes])
       rescue => e
         destroy_vm vm.id
         raise e
@@ -158,23 +158,25 @@ module Foreman::Model
     end
 
     private
-    def set_interfaces(vm, attrs)
+    def create_interfaces(vm, attrs)
       #first remove all existing interfaces
       vm.interfaces.each do |interface|
         #The blocking true is a work-around for ovirt bug, it should be removed.
         vm.destroy_interface(:id => interface.id, :blocking => true)
       end if vm.interfaces
       #add interfaces
-      opts = nested_attributes_for :interfaces, attrs
-      opts.map{ |i| vm.add_interface(i)}
+      interfaces = nested_attributes_for :interfaces, attrs
+      interfaces.map{ |i| vm.add_interface(i)}
       vm.interfaces.reload
     end
 
-    def add_volumes(vm, attrs)
+    def create_volumes(vm, attrs)
       #add volumes
-      attrs.each do |key, volume|
-        vm.add_volume(volume.merge(:blocking => true)) if volume[:storage_domain] && volume[:_delete] != '1' && key != 'new_volumes'
-      end if attrs
+      volumes = nested_attributes_for :volumes, attrs
+      #if no volume was set as bootable set the first volume.
+      volumes.first[:bootable] = true if volumes.first && volumes.map{|vol| true if vol[:bootable] == '1'}.compact().empty?
+      #The blocking true is a work-around for ovirt bug, it should be removed.
+      volumes.map{ |vol| vm.add_volume(vol.merge(:blocking => true)) if vol[:storage_domain]}
       vm.volumes.reload
     end
 
