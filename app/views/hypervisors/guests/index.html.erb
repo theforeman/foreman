@@ -1,6 +1,6 @@
 <% title "Guests on #{@hypervisor}" %>
 
-<table class="list">
+<table class="table table-bordered">
   <th> Name </th>
   <th> CPUs </th>
   <th> Memory </th>
@@ -19,8 +19,8 @@
       <td> <%= guest.volume.pool %> </td>
       <td <%= power_class(guest.running?)%>> <%= state(!guest.running?) %> </td>
       <td>
-        <%= power_action guest %>
-        <%= display_link_if_authorized "Delete", hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class => "label important" %>
+        <%= action_buttons(power_action(guest),
+            display_delete_if_authorized(hash_for_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest))) %>
       </td>
     </tr>
   <% end -%>

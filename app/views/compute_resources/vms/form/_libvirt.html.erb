@@ -1,6 +1,6 @@
 <% new = f.object && f.object.new? -%>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "mini",:disabled => !new %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini",:disabled => !new %>
 <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
 
 <!--NICS-->

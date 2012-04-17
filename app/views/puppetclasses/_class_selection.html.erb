@@ -1,11 +1,11 @@
 <div class="row">
   <% if obj.errors[:puppetclasses].any? -%>
-    <div class="alert-message block-message clearfix error base in fade" data-alert = "true">
-      <a class='close' href='#'>×</a>
+    <div class="alert alert-message alert-block alert-error base in fade">
+      <a class='close' href='#' data-dismiss="alert">×</a>
       <%= obj.errors[:puppetclasses].map {|e| "<li>#{e}</li>"}.to_s.html_safe %>
     </div>
   <% end -%>
-  <div class="span4 classes">
+  <div class="span3 classes">
     <h3>Included Classes</h3>
     <%# hidden field to ensure that classes gets removed if none are defined -%>
     <%= hidden_field_tag obj.class.to_s.downcase + "[puppetclass_ids][]" %>
@@ -27,7 +27,7 @@
     </ul>
   </div>
 
-  <div class="span12">
+  <div class="span9 ">
     <h3>Available Classes</h3>
     <div class="row">
       <%= render "puppetclasses/classes",

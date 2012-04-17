@@ -1,7 +1,7 @@
 module LayoutHelper
   def title(page_title, page_header = nil)
     content_for(:title, page_title.to_s)
-    @page_header       = page_header || @content_for_title
+    @page_header       = page_header || @content_for_title || page_title.to_s
   end
 
   def title_actions *elements
@@ -73,9 +73,9 @@ module LayoutHelper
     error = obj.errors[attr] if obj.respond_to?(:errors)
     help_inline = content_tag(:span, (error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe), :class => "help-inline")
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    content_tag :div, :class => "clearfix #{error.empty? ? "" : 'error'}" do
-      f.label(attr, options.delete(:label)).html_safe +
-        content_tag(:div, :class => "input") do
+    content_tag :div, :class => "control-group #{error.empty? ? "" : 'error'}" do
+      f.label(attr, options.delete(:label),:class=>"control-label").html_safe +
+        content_tag(:div, :class => "controls") do
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe
     end
@@ -84,7 +84,7 @@ module LayoutHelper
   def submit_or_cancel f, overwrite = false
     "<br>".html_safe + content_tag(:p, :class => "ra") do
       text    = overwrite ? "Overwrite" : "Submit"
-      options = overwrite ? {:class => "btn danger"} : {:class => "btn primary"}
+      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
       link_to("Cancel", eval("#{controller_name}_path"), :class => "btn") + " " +
       f.submit(text, options)
     end
@@ -92,18 +92,18 @@ module LayoutHelper
 
   def base_errors_for obj
     unless obj.errors[:base].blank?
-      content_tag(:div, :class => "alert-message block-message error base in fade", "data-alert" => true) do
-        "<a class='close' href='#'>×</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.to_s.html_safe
+      content_tag(:div, :class => "alert alert-message alert-block alert-error base in fade") do
+        "<a class='close' href='#' data-dismiss='alert'>×</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.to_s.html_safe
       end
     end
   end
 
   def popover title, msg, options = {}
-    link_to_function title, {:rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+    link_to_function title, {:class => "label label-info", :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
   end
 
    def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"span10 pagination fr")
+    options.merge!(:class=>"span7  pagination")
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
@@ -118,7 +118,22 @@ module LayoutHelper
           :ul, content_tag(
               :li, link_to(html, "#")
           ), :style=>"float: left;"
-      ), :class => "span6 pagination")
+      ), :class => "span4 pagination")
+  end
+
+  def form_for(record_or_name_or_array, *args, &proc)
+    if args.last.is_a?(Hash)
+      args.last[:html] = {:class=>"form-horizontal"}.merge(args.last[:html]||{})
+    else
+      args << {:html=>{:class=>"form-horizontal"}}
+    end
+    super record_or_name_or_array, *args, &proc
+  end
+
+  def icons i
+    content_tag :i, :class=>"icon-#{i}" do
+      yield
+    end
   end
 
 end

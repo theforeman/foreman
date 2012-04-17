@@ -1,7 +1,7 @@
 <%= form_for @bookmark do |f| %>
   <%= base_errors_for @bookmark %>
   <%= text_f f, :name, :value => params[:query].to_s.strip.split(/\s|=|!|~|>|</)[0] %>
-  <%= textarea_f f, :query, :value => params[:query], :class => "xlarge" , :rows=> '3' %>
+  <%= textarea_f f, :query, :value => params[:query], :class => "input-xlarge" , :rows=> '3' %>
   <%= checkbox_f(f, :public, :checked => true) %>
   <%= f.hidden_field :controller, :value => params[:kontroller] %>
   <%= submit_or_cancel f %>

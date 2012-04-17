@@ -1,6 +1,6 @@
 <div id="host-conflicts-modal" class="modal in fade" <%= display(false) %>>
   <div class="modal-header">
-    <a href="#" class="close">&times</a>
+    <a href="#" class="close" data-dismiss="modal">&times</a>
     <h3>Conflicts have been detected</h3>
   </div>
   <div class="modal-body">
@@ -8,14 +8,14 @@
 
     <p> Please review them carefully, if you are certain that they should be removed, please click on overwrite.</p>
 
-    <div class="alert-message block-message">
+    <div class="alert alert-message alert-block base">
       <% @host.errors[:conflict].each do |e| -%>
         <li><%= e %></li>
       <% end -%>
     </div>
 
     <h4>Additionally, we are about to perform the following <%@host.queue.count %> actions</h4>
-    <div class="alert-message block-message info">
+    <div class="alert alert-message alert-block alert-info base">
       <% @host.queue.all.each do |task| -%>
         <li><%= task.name %></li>
       <% end -%>

@@ -1,8 +1,12 @@
 <li class="dropdown <%= class_for_setting_page %>">
-<%= link_to "More", "#", :class => "dropdown-toggle" %>
+<%= link_to ("More" + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown" %>
   <ul class="dropdown-menu">
     <% setting_options.each do |c|-%>
-      <li> <%= display_link_if_authorized c[0], {:controller => c[1], :action => :index} %></li>
+      <% if c[0] == :divider -%>
+            <li class="divider"></li>
+      <% else %>
+        <li> <%= display_link_if_authorized c[0], {:controller => c[1], :action => :index} %></li>
+      <% end -%>
     <% end -%>
   </ul>
 </li>

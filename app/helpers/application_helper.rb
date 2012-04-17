@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label important", :title => "Remove")
+    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label label-important", :title => "Remove")
   end
 
   def trunc text, length
@@ -35,7 +35,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn small info"}) )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn btn-small btn-success"}) )
   end
 
   def toggle_div divs
@@ -70,9 +70,9 @@ module ApplicationHelper
                        :class => "ui-icon ui-icon-plus")
   end
 
-  def check_all_links(form_name)
-    link_to_function("Check all", "checkAll('##{form_name}', true)") +
-    link_to_function("Uncheck all", "checkAll('##{form_name}', false)")
+  def check_all_links(form_name=':checkbox')
+    link_to_function("Check all", "checkAll('#{form_name}', true)") +
+    link_to_function("Uncheck all", "checkAll('#{form_name}', false)")
   end
 
   # Return true if user is authorized for controller/action, otherwise false
@@ -98,6 +98,11 @@ module ApplicationHelper
     end
   end
 
+  def display_delete_if_authorized(options ={}, html_options ={})
+    options = {:auth_action => :destroy}.merge(options)
+    html_options = {:confirm => 'Are you sure?', :method => :delete, :class => 'delete'}.merge(html_options)
+    display_link_if_authorized("Delete", options, html_options)
+  end
   # Display a link if user is authorized, otherwise nothing
   # +name+    : String to be displayed
   # +options+ : Hash containing
@@ -191,6 +196,25 @@ module ApplicationHelper
                   :'chart-labels' => labels.to_a.to_json,
                   :'chart-data'   => data.to_a.to_json
                 }.merge(options))
+  end
+
+  def action_buttons(*args)
+    # the no-buttons code is needed for users with less permissions
+    return unless args
+    args = args.map{|arg| arg unless arg.blank?}.compact
+    return if args.length == 0
+
+    #single button
+    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+
+    #multiple buttons
+    primary = args.delete_at(0)
+    content_tag(:div,:class => "btn-group") do
+      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
+      content_tag(:ul,:class=>"dropdown-menu") do
+        args.map{|option| content_tag(:li,option)}.join(" ").html_safe
+      end
+    end
   end
 
   private

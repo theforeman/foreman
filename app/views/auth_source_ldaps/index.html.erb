@@ -2,7 +2,7 @@
 
 <% title_actions display_link_if_authorized("New Ldap Source", hash_for_new_auth_source_ldap_path), help_path %>
 
-<table class="list">
+<table class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
     <th>Host</th>
@@ -16,7 +16,7 @@
       <td><%=h auth_source_ldap.host %></td>
       <td><%=checked_icon auth_source_ldap.onthefly_register %></td>
       <td><%=checked_icon auth_source_ldap.tls %></td>
-      <td><%= display_link_if_authorized "Delete", hash_for_auth_source_ldap_path(:id => auth_source_ldap, :auth_action => :destroy), :confirm => "Delete #{auth_source_ldap.name}?", :method => :delete %></td>
+      <td><%= display_delete_if_authorized hash_for_auth_source_ldap_path(:id => auth_source_ldap), :confirm => "Delete #{auth_source_ldap.name}?" %></td>
     </tr>
   <% end %>
 </table>

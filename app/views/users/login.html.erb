@@ -1,7 +1,7 @@
 <div class="login-background"></div>
 <div id="login-form">
   <%= form_tag({:action=> "login"}) do %>
-    <table>
+    <table class="table table-bordered">
       <tr>
         <td align="right"><label for="login">Username:</label></td>
         <td align="left"><%= text_field 'login','login' %></td>
@@ -12,7 +12,7 @@
       </tr>
     <tr>
       <td align="left">
-        <input type="submit" value="Login &#187;" id="login" class="btn primary"/>
+        <input type="submit" value="Login &#187;" id="login" class="btn btn-primary"/>
       </td>
     </tr>
   </table>
