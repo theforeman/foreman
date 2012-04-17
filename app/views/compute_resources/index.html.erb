@@ -13,8 +13,8 @@
     <td><%= link_to compute.name, compute %></td>
     <td><%= compute.provider %></td>
     <td>
-      <%= link_to 'Edit', edit_compute_resource_path(compute) %>
-      <%= link_to 'Destroy', compute, :confirm => 'Are you sure?', :method => :delete %>
+      <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute),:class=>"btn btn-small"),
+                         link_to('Delete', compute, :confirm => 'Are you sure?', :method => :delete)) %>
     </td>
   </tr>
 <% end %>

@@ -193,6 +193,23 @@ module ApplicationHelper
                 }.merge(options))
   end
 
+  def action_buttons(*args)
+    # the no-buttons code is needed for users with less permissions
+    return unless args
+    args = args.map{|arg| arg unless arg.blank?}.compact
+    return if args.length == 0
+    #single button
+    return args[0].to_s.sub('>'," class='btn'>").html_safe if args.length == 1
+    #multiple buttons
+    primary = args.delete_at(0)
+    content_tag(:div,:class => "btn-group") do
+      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
+      content_tag(:ul,:class=>"dropdown-menu") do
+        args.map{|option| content_tag(:li,option)}.join(" ").html_safe
+      end
+    end
+  end
+
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"

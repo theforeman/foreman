@@ -15,15 +15,19 @@
       <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
       <td><%=h proxy.url %></td>
       <td><%=h proxy.features.to_sentence %></td>
-      <td class="ra">
-        <% if proxy.features.include? Feature.find_by_name("Puppet CA") -%>
-          <%= display_link_if_authorized "Certificates | ", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy) %>
-          <%= display_link_if_authorized "Autosign | ", hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => proxy) %>
-        <% end -%>
-        <% if SETTINGS[:unattended] and proxy.features.include? Feature.find_by_name("DHCP") -%>
-          <%= display_link_if_authorized "Import Subnets | ", hash_for_import_subnets_path(:smart_proxy_id => proxy) %>
-        <% end -%>
-        <%= display_link_if_authorized "Delete", hash_for_smart_proxy_path(:id => proxy, :auth_action => :destroy), :confirm => "Delete #{proxy.name}?", :method => :delete %>
+      <td>
+        <% ca = proxy.features.include? Feature.find_by_name("Puppet CA") %>
+        <%= action_buttons(
+          if ca
+            display_link_if_authorized("Certificates", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy), :class=>"btn")
+          end,
+          if ca
+            display_link_if_authorized("Autosign", hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => proxy))
+          end,
+          if SETTINGS[:unattended] and proxy.features.include? Feature.find_by_name("DHCP")
+            display_link_if_authorized("Import Subnets", hash_for_import_subnets_path(:smart_proxy_id => proxy),:class => ca ? "" : "btn")
+          end,
+          display_link_if_authorized("Delete", hash_for_smart_proxy_path(:id => proxy, :auth_action => :destroy), :confirm => "Delete #{proxy.name}?", :method => :delete))%>
       </td>
     </tr>
   <% end %>

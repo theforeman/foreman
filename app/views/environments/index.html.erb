@@ -12,14 +12,14 @@
   </tr>
 
   <% for environment in @environments %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td>
         <%= link_to_if_authorized h(environment.name), hash_for_edit_environment_path(:id=> environment.name) %>
       </td>
       <td><%= link_to_if environment.hosts.any?, environment.hosts.size, hosts_path(:search => "environment = #{environment}") %>
-      <td class="ra">
-        <%= link_to "Classes", puppetclasses_path(:search => "environment = #{environment}")%>
-        <%= display_link_if_authorized "Delete", hash_for_environment_path(:id => environment.name, :auth_action => :destroy), :confirm => "Delete #{environment.name}?", :method => :delete %>
+      <td>
+        <%=  action_buttons(link_to("Classes", puppetclasses_path(:search => "environment = #{environment}"), :class=>'btn btn-small'),
+                            display_link_if_authorized("Delete", hash_for_environment_path(:id => environment.name, :auth_action => :destroy), :confirm => "Delete #{environment.name}?", :method => :delete)) %>
       </td>
     </tr>
   <% end %>
