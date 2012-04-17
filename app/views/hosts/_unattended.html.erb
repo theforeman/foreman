@@ -1,12 +1,12 @@
-<div id="virtual_machine">
+<div class="tab-pane" id="virtual_machine">
   <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
 </div>
 
-<div id="compute_resource">
+<div class="tab-pane"  id="compute_resource">
   <%= render 'compute', :compute_resource => @host.compute_resource if @host.compute_resource_id %>
 </div>
 
-<div id="network">
+<div class="tab-pane"  id="network">
   <span id="mac_address">
     <%= render 'mac', :item => @host unless @hypervisor or @host.compute_resource_id -%>
   </span>
@@ -20,7 +20,7 @@
   </span>
 </div>
 
-<div id="os">
+<div class="tab-pane"  id="os">
   <%= render "common/os_selection/initial", { :item=> @host } %>
   <%= textarea_f f, :disk, :class => "xxlarge", :label => 'Custom Disk layout', :rows => "4",
     :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
@@ -30,7 +30,7 @@
   <%= password_f f, :root_pass, :label => "Root Password" %>
 
   <div class="row">
-    <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh", :class => "btn small span2 ra" %> 
-    <div id="templates_info" class="span10"> </div>
+    <%= link_to_function "Provisioning Templates", "template_info('#templates_info','#{template_used_hosts_url}')", :title => "Click to refresh", :class => "btn btn-small span2 ra" %>
+    <div id="templates_info" class="span7"> </div>
   </div>
 </div>

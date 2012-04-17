@@ -1,7 +1,7 @@
 <% @totaltime = metrics.delete('total') %>
 <% metrics.delete_if{ |k,v| v < 0.001 } %>
 <div class="row">
-  <%= pie_chart("metrics" ,"Report Metrics", metrics, :class => "statistics_pie span7")%>
+  <%= pie_chart("metrics" ,"Report Metrics", metrics, :class => "statistics_pie span5")%>
   <%= bar_chart("status" ,"Report Status"," Number of Events", status.keys, status.values, :class => "statistics_bar span5")%>
   <div class="span4">
     <table class='list' style="height: 398px;">

@@ -1,8 +1,8 @@
 <% title @vm.name %>
 
 <div class='row'>
-  <div class='span16'>
-    <table class="list zebra-striped">
+  <div class='span12'>
+    <table class="table table-bordered table-striped">
       <tr><th colspan="2">Properties</th></tr>
       <tr>
         <td>Name</td>
@@ -53,6 +53,6 @@
     </table>
   </div>
 </div>
-<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.uuid), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "danger" : "success")),
-  display_link_if_authorized("Delete", hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.uuid).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class=>'btn danger'),
+<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.uuid), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "btn-danger" : "btn-success")),
+  display_link_if_authorized("Delete", hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.uuid).merge(:auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete, :class=>'btn btn-danger'),
   display_link_if_authorized("Other VMs on #{@compute_resource}", hash_for_compute_resource_vms_path(:compute_resource_id => @compute_resource), :class=>'btn') %>

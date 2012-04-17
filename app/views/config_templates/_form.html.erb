@@ -8,10 +8,10 @@
  </div>
 
  <%= textarea_f f, :template, :class => "span13",
-   :help_block =>"<span class='label notice'>Notice</span> #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
+   :help_block =>"<span class='label label-info'>Notice</span> #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
      :rel => "external"}".html_safe
    %>
- <%= file_field_f f, :template, :help_inline => "<span class='label notice'>upload</span> a template instead".html_safe %>
+ <%= file_field_f f, :template, :help_inline => "<span class='label label-info'>upload</span> a template instead".html_safe %>
 
  <div id="template_associations" <%= display? @config_template.snippet %>>
    <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Operating Systems" %>

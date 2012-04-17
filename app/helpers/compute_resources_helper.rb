@@ -6,12 +6,12 @@ module ComputeResourcesHelper
   end
 
   def vm_power_class s
-    "class='label #{s ? "success" : ""}'"
+    "class='label #{s ? "label-success" : ""}'"
   end
 
   def vm_power_action vm
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)
-    html = vm.ready? ? { :confirm => 'Are you sure?', :class => "label important" } : { :class => "label notice" }
+    html = vm.ready? ? { :confirm => 'Are you sure?', :class => "label label-important" } : { :class => "label label-info" }
 
     display_link_if_authorized "Power#{state(vm.ready?)}", opts, html.merge(:method => :put)
   end

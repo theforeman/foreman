@@ -1,5 +1,6 @@
 .auto_complete_input {
   width: 75%;
+  margin-bottom: 0px !important;
 }
 .ui-autocomplete-loading
 {
@@ -37,10 +38,6 @@
     line-height: 1.5;
 }
 
-.bookmark{
-    margin-bottom: -3px;
-    margin-top: -2px;
-}
 
 html { height: 100%; overflow: auto;}
 body { height: 100%;  }
@@ -331,8 +328,11 @@ table th.small{width:60px; max-width:60px;}
 }
 
 .stats-grid{
-    float:left;padding:4px;margin:0 0 20px 20px;border:1px solid #ddd;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);
+    float:left;margin:0 0 20px 20px;border:1px solid #ddd;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .stats-grid:hover{
     border-color:#0069d6;-webkit-box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);-moz-box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);
 }
+
+table .span0{float:none;width:20px;margin-left:0;}
+#Submit_multiple{ margin-bottom: 0px !important;}

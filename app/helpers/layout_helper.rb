@@ -84,7 +84,7 @@ module LayoutHelper
   def submit_or_cancel f, overwrite = false
     "<br>".html_safe + content_tag(:p, :class => "ra") do
       text    = overwrite ? "Overwrite" : "Submit"
-      options = overwrite ? {:class => "btn danger"} : {:class => "btn primary"}
+      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
       link_to("Cancel", eval("#{controller_name}_path"), :class => "btn") + " " +
       f.submit(text, options)
     end
@@ -119,6 +119,12 @@ module LayoutHelper
               :li, link_to(html, "#")
           ), :style=>"float: left;"
       ), :class => "span6 pagination")
+  end
+
+  def icons i
+    content_tag :i, :class=>"icon-#{i}" do
+      yield
+    end
   end
 
 end

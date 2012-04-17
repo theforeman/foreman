@@ -3,26 +3,26 @@
 <%= form_for @host do |f| %>
   <%= base_errors_for @host %>
 
-  <ul class="tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary">Primary</a></li>
-    <li><a href="#puppet_klasses">Puppet Classes</a></li>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
     <% if SETTINGS[:unattended] and @host.managed -%>
-      <li><a href="#network">Network</a></li>
-      <li><a href="#os">Operating System</a></li>
+      <li><a href="#network" data-toggle="tab">Network</a></li>
+      <li><a href="#os" data-toggle="tab">Operating System</a></li>
       <% if authorized_for("Hypervisors::Guests", :create) -%>
         <% if @host.new_record? and !Hypervisor.first.nil? -%>
-          <li id="libvirt_tab" <%= display? !(params[:host] && params[:host][:hypervisor_id].present?) %>><a href="#virtual_machine">Virtual Machine</a></li>
+          <li id="libvirt_tab" <%= display? !(params[:host] && params[:host][:hypervisor_id].present?) %>><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
         <% end -%>
-        <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource">Virtual Machine</a></li>
+        <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
-    <li><a href="#params">Parameters</a></li>
-    <li><a href="#info">Additional Information</a></li>
+    <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <li><a href="#info" data-toggle="tab">Additional Information</a></li>
   </ul>
 
   <div class="tab-content">
 
-    <div class="active" id="primary">
+    <div class="tab-pane active" id="primary">
       <%= text_f f, :name, :class => "xlarge", :value => name_field(@host) %>
       <% libvirt = Hypervisor.first.nil? ? [] : [OpenStruct.new(:to_label => 'Libvirt')] -%>
       <%= select_f f, :compute_resource_id, libvirt + ComputeResource.all, :id, :to_label,
@@ -39,7 +39,7 @@
       <%= puppet_master_fields f %>
     </div>
 
-    <div id="puppet_klasses">
+    <div class="tab-pane" id="puppet_klasses">
       <% if @environment or @hostgroup -%>
         <%= render 'puppetclasses/class_selection', :obj => @host %>
       <% else -%>
@@ -51,11 +51,11 @@
 
     <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
-    <div id="params">
+    <div class="tab-pane"  id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
     </div>
 
-    <div id="info">
+    <div class="tab-pane"  id="info">
       <% if SETTINGS[:login] -%>
         <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
           [User, Usergroup], :all, :table_name, :id_and_type, :select_title,

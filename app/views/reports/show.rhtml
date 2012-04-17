@@ -1,5 +1,5 @@
 <% title "#{@report.host} - #{time_ago_in_words(@report.reported_at)} ago"%>
-<div class="row ra"><p class="span16"> Reported at <%= @report.reported_at.getlocal %></p></div>
+<div class="row ra"><p class="span12"> Reported at <%= @report.reported_at.getlocal %></p></div>
 <% if @offset > 10 -%>
   <div class="alert-message block-message error" data-alert="close">
     <a class="close" href="#">×</a>

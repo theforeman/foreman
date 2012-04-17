@@ -44,7 +44,7 @@ function testConnection(item) {
     },
     complete:function (result) {
       $('#test_connection_indicator').hide();
-      $('[rel="twipsy"]').twipsy();
+      $('[rel="twipsy"]').tooltip();
     }
   });
 }
@@ -68,7 +68,7 @@ function ovirt_hwpSelected(item){
       },
       complete: function(result){
         $('#hwp_indicator').hide();
-        $('[rel="twipsy"]').twipsy();
+        $('[rel="twipsy"]').tooltip();
       }
     })
 }
@@ -104,7 +104,7 @@ function ovirt_clusterSelected(item){
       },
       complete: function(result){
         $('#cluster_indicator').hide();
-        $('[rel="twipsy"]').twipsy();
+        $('[rel="twipsy"]').tooltip();
       }
     })
 }

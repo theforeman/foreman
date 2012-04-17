@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label important", :title => "Remove")
+    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label label-important", :title => "Remove")
   end
 
   def trunc text, length
@@ -35,7 +35,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn small info"}) )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn btn-small btn-success"}) )
   end
 
   def toggle_div divs

@@ -4,7 +4,7 @@
       <div class="span2 ra">
         Select <%= f.check_box :filter_on_owner %>
       </div>
-      <div class="span10">
+      <div class="span7">
         <%=  contracted_host_list @user -%>
         <%=  expanded_host_list @user -%>
       </div>
@@ -15,7 +15,7 @@
       <div class="span2 ra">
         <%= f.select :domains_andor, [["in domain", "and"], ["plus all", "or"]], {}, :class => "small" %>
       </div>
-      <div class="span10">
+      <div class="span7">
         <%= edit_habtm @user, Domain %>
       </div>
     <% end %>
@@ -25,7 +25,7 @@
       <div class="span2 ra">
         <%= f.select :hostgroups_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "small" %>
       </div>
-      <div class="span10">
+      <div class="span7">
         <%= edit_habtm @user, Hostgroup %>
       </div>
     <% end %>
@@ -35,7 +35,7 @@
       <div class="span2 ra">
         <%= f.select :facts_andor, [["must match", "and"], ["plus all", "or"]], {} ,:class => "small" %>
       </div>
-      <div class="span10">
+      <div class="span7">
         <%= f.fields_for :user_facts do |builder| -%>
           <%= render "user_fact", :f => builder %>
         <% end -%>

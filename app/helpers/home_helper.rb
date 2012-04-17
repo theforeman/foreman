@@ -56,7 +56,7 @@ module HomeHelper
       link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
     end
     out +=  content_tag :li, :class => "dropdown " + class_for_current_page(tab) do
-      link_to("", "#", :class => "dropdown-toggle narrow-left") + menu_dropdown(b)
+      link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret'), "#", :class => "dropdown-toggle narrow-left") + menu_dropdown(b)
     end unless b.empty?
     out
   end

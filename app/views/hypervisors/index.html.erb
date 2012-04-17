@@ -2,7 +2,7 @@
 
 <% title_actions display_link_if_authorized("New Hypervisor", hash_for_new_hypervisor_path) %>
 
-<table class="list">
+<table class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
     <th>Uri</th>
@@ -10,7 +10,7 @@
     <th></th>
   </tr>
   <% for hypervisor in @hypervisors %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%=link_to_if_authorized h(hypervisor), hash_for_hypervisor_path(:id => hypervisor.name) %></td>
       <td><%=h hypervisor.uri %></td>
       <td><%=h hypervisor.kind %></td>

@@ -2,8 +2,9 @@
 <html>
   <head>
     <title> <%= h(yield(:title) || "Foreman") %></title>
-    <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style' %>
-    <%= javascript_include_tag :defaults, 'jquery_ujs', 'jquery-ui', 'highcharts', 'charts', 'jquery.jnotify', 'jquery.jeditable', 'bootstrap-dropdown', 'bootstrap-alerts', 'bootstrap-tabs', 'bootstrap-modal', 'bootstrap-twipsy', 'bootstrap-popover' %>
+    <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style', 'bootstrap-responsive.min' %>
+    <%= javascript_include_tag :defaults, 'jquery_ujs', 'jquery-ui', 'highcharts', 'charts', 'jquery.jnotify', 'jquery.jeditable',
+        'bootstrap.min', 'bootstrap-dropdown', 'bootstrap-alert', 'bootstrap-tab', 'bootstrap-modal', 'bootstrap-tooltip', 'bootstrap-popover' %>
     <%= csrf_meta_tag %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 
@@ -13,8 +14,8 @@
   <body>
     <div id="wrap">
 
-      <div class="topbar" data-dropdown="dropdown">
-        <div class="fill">
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
           <div class="container">
             <%= render 'home/topbar' %>
           </div>
@@ -29,15 +30,15 @@
         <div id="content" class="container">
           <% unless @page_header.blank? -%>
             <div class="row">
-              <h1 class="span16"><%=h @page_header %></h1>
+              <h1 class="span12"><%=h @page_header %></h1>
             </div>
           <% end -%>
           <div class="row">
-            <div class="span8 la fl">
+            <div class= <%= searchable? ? "span6 la fl" : "span4 la fl" %>>
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>
             </div>
-            <div id="title_action" class=<%= searchable? ? "span8" : "span12" %>> <%=h yield(:title_actions) %> </div>
+            <div id="title_action" class=<%= searchable? ? "span6" : "span8" %>> <%=h yield(:title_actions) %> </div>
           </div>
 
           <%= yield -%>
