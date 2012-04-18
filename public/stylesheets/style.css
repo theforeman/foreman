@@ -273,8 +273,8 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 .editable:hover {
   background: url("../images/edit-hover.png") no-repeat scroll 98% 6px #F2F2F2;
 }
-.tab_error {
-  background: #FAE5E3;
+.tab-error {
+  color: #b94a48 !important;
 }
 .smart_var_add_match {
   top: -47px;

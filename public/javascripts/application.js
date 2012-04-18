@@ -196,11 +196,11 @@ $(function() {
 
 // highlight tabs with errors
 $(function(){
-  $(".tab-content").find(".clearfix.error").each(function() {
+  $(".tab-content").find(".control-group.error").each(function() {
     // find each tab id
     var id = $(this).parentsUntil(".tab-content").last().attr("id");
     // now add a class to that tab
-    $("a[href=#"+id+"]").addClass("tab_error");
+    $("a[href=#"+id+"]").addClass("tab-error");
   })
 });
 
