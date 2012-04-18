@@ -98,7 +98,7 @@ module Foreman::Model
 
     def client
       # WARNING potential connection leak
-      Thread.current[id] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
+      Thread.current[url] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
     end
 
     def disconnect
