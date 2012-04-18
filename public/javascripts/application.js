@@ -28,7 +28,7 @@ function add_fields(link, association, content) {
 }
 
 function checkAll (id, checked) {
-  $(id).find(":checkbox:not([disabled='disabled'])").attr('checked',checked);
+  $(id).attr('checked',checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -42,7 +42,7 @@ function toggleRowGroup(el) {
   var tr = $(el).closest('tr');
   var n = tr.next();
   tr.toggleClass('open');
-  while (n != undefined && !n.hasClass('group')) {
+  while (n.length > 0 && !n.hasClass('group')) {
     n.toggle();
     n = n.next();
   }
