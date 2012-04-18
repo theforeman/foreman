@@ -73,9 +73,9 @@ module LayoutHelper
     error = obj.errors[attr] if obj.respond_to?(:errors)
     help_inline = content_tag(:span, (error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe), :class => "help-inline")
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    content_tag :div, :class => "clearfix #{error.empty? ? "" : 'error'}" do
-      f.label(attr, options.delete(:label)).html_safe +
-        content_tag(:div, :class => "input") do
+    content_tag :div, :class => "control-group #{error.empty? ? "" : 'error'}" do
+      f.label(attr, options.delete(:label),:class=>"control-label").html_safe +
+        content_tag(:div, :class => "controls") do
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe
     end
@@ -119,6 +119,15 @@ module LayoutHelper
               :li, link_to(html, "#")
           ), :style=>"float: left;"
       ), :class => "span6 pagination")
+  end
+
+  def form_for(record_or_name_or_array, *args, &proc)
+    if args.last.is_a?(Hash)
+      args.last[:html] = {:class=>"form-horizontal"}.merge(args.last[:html]||{})
+    else
+      args << {:html=>{:class=>"form-horizontal"}}
+    end
+    super record_or_name_or_array, *args, &proc
   end
 
   def icons i

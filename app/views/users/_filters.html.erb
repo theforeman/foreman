@@ -1,41 +1,32 @@
 <div class="user-filter">
-  <div class="row">
+
     <%= field_set_tag "Owned hosts" do %>
-      <div class="span2 ra">
-        Select <%= f.check_box :filter_on_owner %>
-      </div>
-      <div class="span7">
-        <%=  contracted_host_list @user -%>
-        <%=  expanded_host_list @user -%>
-      </div>
+    Select <%= f.check_box :filter_on_owner %>
+
+    <%=  contracted_host_list @user -%>
+    <%=  expanded_host_list @user -%>
     <% end -%>
-  </div>
-  <div class="row">
+
+
     <%= field_set_tag "Domain hosts" do %>
-      <div class="span2 ra">
-        <%= f.select :domains_andor, [["in domain", "and"], ["plus all", "or"]], {}, :class => "small" %>
-      </div>
-      <div class="span7">
+      <%= f.select :domains_andor, [["in domain", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+      <div class="offset1">
         <%= edit_habtm @user, Domain %>
       </div>
     <% end %>
-  </div>
-  <div class="row">
+
+
     <%= field_set_tag "Hostgroup hosts" do %>
-      <div class="span2 ra">
-        <%= f.select :hostgroups_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "small" %>
-      </div>
-      <div class="span7">
+      <%= f.select :hostgroups_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+      <div class="offset1">
         <%= edit_habtm @user, Hostgroup %>
       </div>
     <% end %>
-  </div>
-  <div class="row">
+
+
     <%= field_set_tag "Fact filters" do %>
-      <div class="span2 ra">
-        <%= f.select :facts_andor, [["must match", "and"], ["plus all", "or"]], {} ,:class => "small" %>
-      </div>
-      <div class="span7">
+      <%= f.select :facts_andor, [["must match", "and"], ["plus all", "or"]], {} ,:class => "input-small" %>
+      <div class="offset1">
         <%= f.fields_for :user_facts do |builder| -%>
           <%= render "user_fact", :f => builder %>
         <% end -%>
@@ -44,5 +35,5 @@
         <% end -%>
       </div>
     <% end %>
-  </div>
+
 </div>

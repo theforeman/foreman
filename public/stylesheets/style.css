@@ -336,3 +336,7 @@ table th.small{width:60px; max-width:60px;}
 
 table .span0{float:none;width:20px;margin-left:0;}
 #Submit_multiple{ margin-bottom: 0px !important;}
+
+.inputs-list{
+margin-left:0;margin-bottom:18px;list-style:none;display: inline;
+}
