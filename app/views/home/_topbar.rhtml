@@ -1,33 +1,36 @@
-<ul class="nav">
-  <li><%=image_tag("foreman.png", :class=>"logo") %><h3 class="logo-text">Foreman</h3></li>
-</ul>
-<div class="nav-collapse">
-  <ul class="nav" id="menu">
-    <% if User.current -%>
-        <% my_bookmarks = Bookmark.my_bookmarks %>
-
-        <%= menu 'dashboard',  my_bookmarks %>
-        <%= menu 'hosts',      my_bookmarks %>
-        <%= menu 'reports',    my_bookmarks, hash_for_reports_path.merge(:search => 'eventful = true') %>
-        <%= menu 'facts' ,     my_bookmarks, hash_for_fact_values_path %>
-        <%= menu 'audits',     my_bookmarks, hash_for_audits_path %>
-        <%= menu 'statistics', my_bookmarks %>
-        </ul>
-        <ul class="nav pull-right" id="menu2">
-
-          <% if User.current %>
-              <%= render "home/settings" -%>
-              <% if SETTINGS[:login]%>
-                  <%= render 'home/user_dropdown' %>
-              <% end -%>
-          <% end -%>
-    <% end -%>
-
-    </ul>
-</div>
 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav1">
   <span class="icon-bar"></span>
   <span class="icon-bar"></span>
   <span class="icon-bar"></span>
 </a>
+<a class="btn btn-navbar btn-mini" data-toggle="collapse" data-target=".nav2">
+  <span class="icon-cog icon-white"></span>
+</a>
+<!-- logo -->
+<%=image_tag("foreman.png", :class=>"logo") %><a class="brand logo-text" href="#">Foreman</a>
+<!-- menu -->
+
+  <% if User.current -%>
+  <div class="nav-collapse nav1">
+    <ul class="nav" id="menu">
+      <% my_bookmarks = Bookmark.my_bookmarks %>
+
+      <%= menu 'dashboard',  my_bookmarks %>
+      <%= menu 'hosts',      my_bookmarks %>
+      <%= menu 'reports',    my_bookmarks, hash_for_reports_path.merge(:search => 'eventful = true') %>
+      <%= menu 'facts' ,     my_bookmarks, hash_for_fact_values_path %>
+      <%= menu 'audits',     my_bookmarks, hash_for_audits_path %>
+      <%= menu 'statistics', my_bookmarks %>
+    </ul>
+  </div>
+  <div class="nav-collapse nav2">
+    <ul class="nav pull-right" id="menu2">
+      <%= render "home/settings" -%>
+      <% if SETTINGS[:login]%>
+          <%= render 'home/user_dropdown' %>
+      <% end -%>
+    </ul>
+  </div>
+  <% end -%>
+

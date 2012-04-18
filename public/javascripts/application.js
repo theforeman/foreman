@@ -132,7 +132,7 @@ $(function(){
 $(function() {
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
-  $('.dropdown-toggle').dropdown()
+  $('.dropdown-toggle').dropdown();
 });
 
 function magic_line(id, combo) {
@@ -140,6 +140,9 @@ function magic_line(id, combo) {
 
   $mainNav.append("<li class='magic-line'></li>");
   var $magicLine = $(id + " .magic-line");
+  if ($('[data-toggle=collapse]:visible').length > 0){
+    $magicLine.hide();
+  }else{$magicLine.show();}
   if ( $(".active").size() > 0){
     $magicLine
     .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
@@ -152,6 +155,11 @@ function magic_line(id, combo) {
     .data("origWidth", $magicLine.width());
   }
   $(id + " li").hover(function() {
+    if ($('[data-toggle=collapse]:visible').length > 0){
+      $magicLine.hide();
+      return;
+    }
+    $magicLine.show();
     $el = $(this);
     if ($el.parent().hasClass("dropdown-menu")){
       $el=$el.parent().parent();
@@ -166,10 +174,14 @@ function magic_line(id, combo) {
       width: newWidth
     });
   }, function() {
-    $magicLine.stop().animate({
-      left: $magicLine.data("origLeft"),
-      width: $magicLine.data("origWidth")
-    });
+    if ($('[data-toggle=collapse]:visible').length > 0){
+      $magicLine.hide();
+    }else{
+      $magicLine.stop().animate({
+        left: $magicLine.data("origLeft"),
+        width: $magicLine.data("origWidth")
+      });
+    }
   });
 }
 

@@ -75,8 +75,7 @@ th.underlined {
 }
 
 .logo-text {
-  margin-left: 55px;
-  color: #fff;
+  margin-left: 55px !important;
 }
 
 .narrow-left {
