@@ -1,7 +1,8 @@
 .auto_complete_input {
-  width: 75%;
-  margin-bottom: 0px !important;
+  width: 100%;
+  margin-left: -18px !important;
 }
+
 .ui-autocomplete-loading
 {
     background: white url('../images/spinner.gif') right center no-repeat;
