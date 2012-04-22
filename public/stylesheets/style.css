@@ -1,5 +1,5 @@
 .auto_complete_input {
-  width: 100%;
+  width: 94%;
   margin-left: -18px !important;
 }
 
@@ -9,16 +9,16 @@
 }
 
 .auto_complete_clear{
-    background: url('../images/ui-icons_6da8d5_256x240.png') center no-repeat;
+    background: url('../images/ui-icons_d8e7f3_256x240.png') center no-repeat;
     background-position: -80px -128px;
-    padding: 1px 8px 0 8px;
-    margin-left:-18px;
-    margin-right: 2px;
+    display:inline-block;width:16px;height:16px;line-height:16px;vertical-align:text-top;
+    margin-left:-20px;
 }
-.auto_complete_clear:hover {
-    background: url('../images/ui-icons_217bc0_256x240.png') center no-repeat;
+.auto_complete_clear:hover{
+    background: url('../images/ui-icons_6da8d5_256x240.png');
     background-position: -80px -128px;
 }
+
 .ui-autocomplete-completed {
     color: #aaa;
     font-weight: lighter;

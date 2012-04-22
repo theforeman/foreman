@@ -1,6 +1,6 @@
 <%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search" do %>
   <div class="span4">
-  <%= auto_complete_search(:search, params[:search].try(:squeeze," "), {:placeholder => "Filter ..."},{ :delay => 100, :min_length => -1 }).html_safe %>
+  <%= auto_complete_search(:search, params[:search].try(:squeeze," "), {:placeholder => "Filter ...", :class=>'search-query'},{ :delay => 100, :min_length => -1 }).html_safe %>
   </div>
   <%= display_link_if_authorized icons("bookmark"){""}, {:controller => :bookmarks, :action => :new, :kontroller => controller_name},
         {:'data-controls-modal'=>"bookmarks-modal", :"data-backdrop"=>"static", :id => "bookmark", :class => "btn btn-small", :title => "Bookmark this search"}%>
