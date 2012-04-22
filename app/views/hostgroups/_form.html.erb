@@ -2,22 +2,22 @@
 <%= form_for @hostgroup do |f| %>
   <%= base_errors_for @hostgroup %>
 
-  <ul class="tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary">Primary</a></li>
-    <li><a href="#puppet_klasses">Puppet Classes</a></li>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
     <% if SETTINGS[:unattended] -%>
-      <li><a href="#network">Network</a></li>
-      <li><a href="#os">Operating System</a></li>
+      <li><a href="#network" data-toggle="tab">Network</a></li>
+      <li><a href="#os" data-toggle="tab">Operating System</a></li>
       <% if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
-        <li><a href="#virtual_machine">Virtual Machine</a></li>
+        <li><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
-    <li><a href="#params">Parameters</a></li>
+    <li><a href="#params" data-toggle="tab">Parameters</a></li>
   </ul>
 
   <div class="tab-content">
 
-    <div class="active" id="primary">
+    <div class="tab-pane active" id="primary">
       <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {
                       :onchange => 'hostgroup_changed(this);', "data-type" => controller_name,
                       :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
@@ -27,7 +27,7 @@
       <%= puppet_master_fields f %>
     </div>
 
-    <div id="puppet_klasses">
+    <div class="tab-pane" id="puppet_klasses">
       <% if @environment or @hostgroup.environment -%>
         <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
       <% else -%>
@@ -35,20 +35,20 @@
       <% end -%>
     </div>
 
-    <div id="network">
+    <div class="tab-pane" id="network">
       <%= render 'common/domain_subnet', :item => @hostgroup %>
     </div>
 
-    <div id="os">
+    <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
       <%= password_f f, :root_pass, :label => "Root Password" %>
     </div>
 
-    <div id="virtual_machine">
+    <div class="tab-pane" id="virtual_machine">
       <%= render('common/hypervisor', :item => @hostgroup) %>
     </div>
 
-    <div id="params">
+    <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
   </div>
