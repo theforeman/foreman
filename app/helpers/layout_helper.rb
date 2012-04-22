@@ -1,7 +1,7 @@
 module LayoutHelper
   def title(page_title, page_header = nil)
     content_for(:title, page_title.to_s)
-    @page_header       = page_header || @content_for_title
+    @page_header       = page_header || @content_for_title || page_title.to_s
   end
 
   def title_actions *elements

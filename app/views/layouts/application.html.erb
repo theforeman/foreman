@@ -29,12 +29,12 @@
         <%= render 'common/notice' unless @notices.empty? -%>
         <div id="content" class="container">
           <% unless @page_header.blank? -%>
-            <div class="row">
+            <div class="row control-group">
               <h1 class="span12"><%=h @page_header %></h1>
             </div>
           <% end -%>
           <div class="row">
-            <div class= <%= searchable? ? "span6 la fl" : "span4 la fl" %>>
+            <div class= <%= searchable? ? "span6" : "span4" %>>
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>
             </div>
