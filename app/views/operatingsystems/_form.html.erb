@@ -13,8 +13,8 @@
     <div class="tab-pane active" id="primary">
 
       <%= text_f f, :name, :help_inline => "e.g. RedHat" %>
-      <%= text_f f, :major, :help_inline => "e.g. 6", :class => "small" %>
-      <%= text_f f, :minor, :help_inline => "e.g. 2", :class => "small" %>
+      <%= text_f f, :major, :help_inline => "e.g. 6", :class => "input-small" %>
+      <%= text_f f, :minor, :help_inline => "e.g. 2", :class => "input-small" %>
       <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => "Choose a family"},
         { :label => "OS Family", :help_inline => "The Operating System type", :onchange => 'show_release(this);'}
       %>

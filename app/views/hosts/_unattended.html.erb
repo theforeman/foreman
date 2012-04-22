@@ -22,7 +22,7 @@
 
 <div class="tab-pane"  id="os">
   <%= render "common/os_selection/initial", { :item=> @host } %>
-  <%= textarea_f f, :disk, :class => "xxlarge", :label => 'Custom Disk layout', :rows => "4",
+  <%= textarea_f f, :disk, :class => "input-xxlarge", :label => 'Custom Disk layout', :rows => "4",
     :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
   <% if @host.new_record? -%>
     <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
