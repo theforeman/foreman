@@ -224,19 +224,21 @@ $(function () {
   $('[rel="twipsy"]').tooltip();
 });
 
-function filter_by_level(level){
+function filter_by_level(item){
+  var level = $(item).val();
+
   if(level == 'notice'){
-    $('.label-notice').closest('tr').show();
+    $('.label-info').closest('tr').show();
     $('.label-warning').closest('tr').show();
     $('.label-important').closest('tr').show();
   }
   if(level == 'warning'){
-    $('.label-notice').closest('tr').hide();
+    $('.label-info').closest('tr').hide();
     $('.label-warning').closest('tr').show();
     $('.label-important').closest('tr').show();
   }
   if(level == 'error'){
-    $('.label-notice').closest('tr').hide();
+    $('.label-info  ').closest('tr').hide();
     $('.label-warning').closest('tr').hide();
     $('.label-important').closest('tr').show();
   }
