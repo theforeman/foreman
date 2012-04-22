@@ -103,7 +103,7 @@ module LayoutHelper
   end
 
    def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"span10 pagination fr")
+    options.merge!(:class=>"span7  pagination")
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
@@ -118,7 +118,7 @@ module LayoutHelper
           :ul, content_tag(
               :li, link_to(html, "#")
           ), :style=>"float: left;"
-      ), :class => "span6 pagination")
+      ), :class => "span4 pagination")
   end
 
   def form_for(record_or_name_or_array, *args, &proc)
