@@ -2,21 +2,21 @@
 
 <%= form_for @puppetclass do |f| %>
   <%= base_errors_for @puppetclass %>
-  <ul class="tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary">Primary</a></li>
-    <li><a href="#smart_vars">Smart Variables</a></li>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li><a href="#smart_vars" data-toggle="tab">Smart Variables</a></li>
   </ul>
 
   <div class="tab-content">
 
-    <div class="active" id="primary">
+    <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
 
       <%= multiple_checkboxes f, :environments, @puppetclass, Environment, :label => "Puppet Environments" %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => "Hostgroups" %>
     </div>
 
-    <div id="smart_vars">
+    <div class="tab-pane" id="smart_vars">
       <% if @puppetclass.lookup_keys.empty? -%>
         <div class="alert-message warning" data-alert="close">
           <a class="close" href="#">×</a>
@@ -24,15 +24,15 @@
         </div>
       <% end -%>
       <p class="ra"><%= add_child_link "New Variable", :lookup_keys %></p>
-      <ul class="pills vertical span3" data-tabs="pills">
+      <ul class="nav nav-stacked nav-pills span2" data-tabs="pills">
         <% @puppetclass.lookup_keys.each do |key| -%>
-          <li <%= 'class="active"' if @puppetclass.lookup_keys.first == key%>><a id="pill_<%= key %>" href="#<%= key %>"><%= key %></a></li>
+          <li><a data-toggle="pill" id="pill_<%= key %>" href="#<%= key %>"><%= key %></a></li>
         <% end -%>
       </ul>
 
-      <div class="pill-content span13">
+      <div class="tab-content span8 pill-content">
         <%= f.fields_for :lookup_keys do |lookup_keys_form| %>
-          <%= render 'lookup_keys/fields', :f => lookup_keys_form %>
+          <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
         <% end %>
       </div>
       <%= new_child_fields_template(f, :lookup_keys, {:partial => "lookup_keys/fields"})%>

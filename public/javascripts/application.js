@@ -218,10 +218,7 @@ $(function(){
 });
 
 $(function () {
-  $('a[rel="popover"]').popover({
-    html: true,
-    placement: 'above'
-  });
+  $('a[rel="popover"]').popover();
   $('[rel="twipsy"]').tooltip();
 });
 
