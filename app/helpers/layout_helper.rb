@@ -99,7 +99,7 @@ module LayoutHelper
   end
 
   def popover title, msg, options = {}
-    link_to_function title, {:rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+    link_to_function title, {:class => "badge badge-info", :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
   end
 
    def will_paginate(collection = nil, options = {})
