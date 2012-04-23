@@ -189,16 +189,15 @@ function magic_line(id, combo) {
 
 //add bookmark dialog
 $(function() {
-  $('#bookmarks-modal .primary').click(function(){
+  $('#bookmarks-modal .btn-primary').click(function(){
     $("#bookmark_submit").click();
-  });
-  $('#bookmarks-modal .secondary').click(function(){
-    $('#bookmarks-modal').modal('hide');
   });
   $("#bookmarks-modal").bind('shown', function () {
     var query = encodeURI($("#search").val());
+    var url = $("#bookmark").attr('data-url');
+    $("#bookmarks-modal .modal-body").empty();
     $("#bookmarks-modal .modal-body").append("<span id='loading'>Loading ...</span>");
-    $("#bookmarks-modal .modal-body").load($("#bookmark").attr('href') + '&query=' + query + ' form',
+    $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
                                            function(response, status, xhr) {
                                              $("#loading").hide();
                                              $("#bookmarks-modal .modal-body .btn").hide()
