@@ -203,8 +203,10 @@ module ApplicationHelper
     return unless args
     args = args.map{|arg| arg unless arg.blank?}.compact
     return if args.length == 0
+
     #single button
-    return args[0].to_s.sub('>'," class='btn'>").html_safe if args.length == 1
+    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+
     #multiple buttons
     primary = args.delete_at(0)
     content_tag(:div,:class => "btn-group") do

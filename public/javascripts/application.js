@@ -126,7 +126,7 @@ $(document).ready(function() {
 $(function(){
   $("#title_action a").addClass("btn");
   $("#title_action a[href*='new']").addClass("btn-success");
-  $(".table_action a").addClass("btn btn-small");
+  $('.delete').parent('td').children('a').addClass('btn');
 });
 
 $(function() {
