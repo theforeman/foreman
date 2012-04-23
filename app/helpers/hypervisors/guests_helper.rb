@@ -1,7 +1,7 @@
 module Hypervisors::GuestsHelper
 
   def state s
-    s ? "Off" : " On"
+    s ? " Off" : " On"
   end
 
   def power_class s
@@ -10,7 +10,7 @@ module Hypervisors::GuestsHelper
 
   def power_action guest
     opts = hash_for_power_hypervisor_guest_path(:hypervisor_id => @hypervisor, :id => guest)
-    html =  guest.running? ?  { :confirm => 'Are you sure?', :class => "label label-important" } : { :class => "label label-info" }
+    html =  guest.running? ?  { :confirm => 'Are you sure?', :class => "btn btn-small btn-danger" } : { :class => "btn btn-small btn-info" }
 
     display_link_if_authorized "Power#{state(guest.running?)}" , opts, html.merge(:method => :put)
   end

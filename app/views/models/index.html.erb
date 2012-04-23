@@ -17,7 +17,7 @@
       <td><%=h(model.hardware_model)%></td>
       <td class="ra"><%= link_to_if model.hosts.any?, model.hosts.count, hosts_path(:search=>"model = \"#{model.name}\"") %></td>
       <td class="ra">
-        <%= display_link_if_authorized "Delete", hash_for_model_path(:id => model, :auth_action => :destroy), :confirm => "Delete #{model.name}?", :method => :delete %>
+        <%= display_dalete_if_authorized "Delete", hash_for_model_path(:id => model), :confirm => "Delete #{model.name}?" %>
       </td>
     </tr>
   <% end %>

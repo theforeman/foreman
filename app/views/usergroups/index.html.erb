@@ -14,8 +14,8 @@
       <td><%= link_to_if_authorized h(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id) %></td>
       <td><%= h usergroup.users.map(&:login).to_sentence %></td>
       <td><%= h usergroup.usergroups.map(&:name).to_sentence %></td>
-      <td class="ra">
-        <%= display_link_if_authorized "Delete", hash_for_usergroup_path(:id => usergroup, :auth_action => :destroy), :confirm => "Delete #{usergroup.name}?", :method => :delete %>
+      <td>
+        <%= display_delete_if_authorized hash_for_usergroup_path(:id => usergroup), :confirm => "Delete #{usergroup.name}?" %>
       </td>
     </tr>
   <% end %>

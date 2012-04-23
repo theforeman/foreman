@@ -22,7 +22,7 @@
       <td><%=checked_icon user.admin? %></td>
       <td><%=h last_login_on_column(user)%></td>
       <td><%=h auth_source_column(user)%></td>
-      <td><%= display_link_if_authorized "Delete", hash_for_user_path(:id => user, :auth_action => :destroy), :confirm => "Delete #{user.name}?", :method => :delete %></td>
+      <td><%= display_delete_if_authorized hash_for_user_path(:id => user), :confirm => "Delete #{user.name}?" %></td>
     </tr>
   <% end %>
 </table>

@@ -5,6 +5,7 @@ $(function() {
     if (status == "error") {
       $('#vms_spinner').html("Sorry but there was an error: " + xhr.status + " " + xhr.statusText);
     }
+    $('.dropdown-toggle').dropdown();
   });
 });
 

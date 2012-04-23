@@ -127,7 +127,6 @@ $(function(){
   $("#title_action a").addClass("btn");
   $("#title_action a[href*='new']").addClass("btn-success");
   $(".table_action a").addClass("btn btn-small");
-  $("td a:contains('Delete')").css('color','#b94a48');
 });
 
 $(function() {

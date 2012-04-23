@@ -16,7 +16,7 @@
 <%= render 'metrics', :status => @report.status, :metrics => @report.metrics["time"] if @report.metrics["time"] -%>
 
 <%= title_actions link_to('Back', :back),
-  display_link_if_authorized('Delete', hash_for_report_path(:id => @report, :auth_action => :destroy), :method => :delete),
+  display_delete_if_authorized(hash_for_report_path(:id => @report), :class=> "btn btn-danger"),
   link_to("Host details", @report.host),
   link_to("Other reports for this host", host_reports_path(@report.host))
 %>
