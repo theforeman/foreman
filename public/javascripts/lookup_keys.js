@@ -49,7 +49,7 @@ function add_child_node(item) {
       field = $(content).insertBefore($(item));
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
-    $('a[rel="popover"]').popover({html: true, placement: 'above'});
+    $('a[rel="popover"]').popover();
     return new_id;
 };
 
