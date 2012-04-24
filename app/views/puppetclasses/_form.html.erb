@@ -18,8 +18,8 @@
 
     <div class="tab-pane" id="smart_vars">
       <% if @puppetclass.lookup_keys.empty? -%>
-        <div class="alert-message warning" data-alert="close">
-          <a class="close" href="#">×</a>
+        <div class="alert alert-message alert-warning">
+          <a class="close" href="#" data-dismiss="alert">×</a>
           <p><strong>Help!</strong> What is a <a href=http://theforeman.org/projects/foreman/wiki/Smart_Variables rel="external">Smart variable</a>?</p>
         </div>
       <% end -%>

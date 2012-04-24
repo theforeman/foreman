@@ -1,8 +1,8 @@
 <% title "#{@report.host} - #{time_ago_in_words(@report.reported_at)} ago"%>
 <div class="row ra"><p class="span12"> Reported at <%= @report.reported_at.getlocal %></p></div>
 <% if @offset > 10 -%>
-  <div class="alert-message block-message error" data-alert="close">
-    <a class="close" href="#">×</a>
+  <div class="alert alert-message alert-block alert-error">
+    <a class="close" href="#" data-dismis="alert">×</a>
     <h3>Host time seems to be adrift!</h3>
     Host reported time is <em><%= @report.reported_at %></em> <br/>
     Foreman report creation time is <em><%= @report.created_at %></em> <br/>

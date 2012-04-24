@@ -8,14 +8,14 @@
 
     <p> Please review them carefully, if you are certain that they should be removed, please click on overwrite.</p>
 
-    <div class="alert-message block-message">
+    <div class="alert alert-message alert-block base">
       <% @host.errors[:conflict].each do |e| -%>
         <li><%= e %></li>
       <% end -%>
     </div>
 
     <h4>Additionally, we are about to perform the following <%@host.queue.count %> actions</h4>
-    <div class="alert-message block-message info">
+    <div class="alert alert-message alert-block alert-info base">
       <% @host.queue.all.each do |task| -%>
         <li><%= task.name %></li>
       <% end -%>

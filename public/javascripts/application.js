@@ -1,6 +1,6 @@
 $(function() {
   $('.flash.error').hide().each(function(index, item) {
-    if ($('.alert-message.error.base').length == 0) {
+    if ($('.alert-message.alert-error.base').length == 0) {
       if ($('#host-conflicts-modal').length == 0) {
         $.jnotify($(item).text(), { type: "error", sticky: true });
       }

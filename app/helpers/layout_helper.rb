@@ -92,14 +92,14 @@ module LayoutHelper
 
   def base_errors_for obj
     unless obj.errors[:base].blank?
-      content_tag(:div, :class => "alert-message block-message error base in fade", "data-alert" => true) do
-        "<a class='close' href='#'>×</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.to_s.html_safe
+      content_tag(:div, :class => "alert alert-message alert-block alert-error base in fade") do
+        "<a class='close' href='#' data-dismiss='alert'>×</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.to_s.html_safe
       end
     end
   end
 
   def popover title, msg, options = {}
-    link_to_function title, {:class => "badge badge-info", :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+    link_to_function title, {:class => "label label-info", :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
   end
 
    def will_paginate(collection = nil, options = {})
