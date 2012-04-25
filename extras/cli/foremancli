@@ -182,7 +182,17 @@ def print_response response
       when "yaml"
         YAML.dump(response)
       else
-        (response.first.is_a?(Hash) ? response.map{|o| o.inspect} : response).join("\n")
+        r = response.first
+        if r.is_a?(Hash)
+          # we simply return host list
+          if r.first[0] == "host"
+            response.map{|h| h["host"]["name"]}
+          else
+            response.map{|o| o.inspect}
+          end
+        else
+          response.join("\n")
+        end
       end)
 end
 
