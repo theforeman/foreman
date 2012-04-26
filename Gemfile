@@ -9,7 +9,6 @@ gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymo
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.2.4"
 gem 'scoped_search', '>= 2.3.6'
-gem "puppet"
 gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 

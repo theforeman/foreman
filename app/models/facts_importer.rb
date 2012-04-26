@@ -57,7 +57,7 @@ module Facts
       nil
     end
 
-    EXCLUDED_INTERFACES = %w[lo usb0]
+    EXCLUDED_INTERFACES = %w[lo usb0] unless defined?(EXCLUDED_INTERFACES)
 
     def interfaces
       ifs = facts[:interfaces]
