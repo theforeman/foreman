@@ -1,5 +1,6 @@
 root = File.expand_path(File.dirname(__FILE__) + "/..")
 
+require 'rubygems'
 require 'rails/all'
 
 require 'puppet'
