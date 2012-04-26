@@ -1,5 +1,3 @@
-require File.expand_path('../boot', __FILE__)
-
 root = File.expand_path(File.dirname(__FILE__) + "/..")
 
 require 'rails/all'
@@ -16,6 +14,8 @@ Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
 Puppet.parse_config
 $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 SETTINGS[:login] ||= SETTINGS[:ldap]
+
+require File.expand_path('../boot', __FILE__)
 
 begin
   if SETTINGS[:unattended]
