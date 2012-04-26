@@ -6,4 +6,4 @@ APP_ROOT=`pwd`
 sed -e 's/:login: false/:login: true/' $APP_ROOT/config/settings.yaml.example > $APP_ROOT/config/settings.yaml
 
 # install runtime C libs that are required:
-sudo apt-get install -y libvirt-dev
+sudo apt-get install -y libvirt-dev puppet
