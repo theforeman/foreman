@@ -387,6 +387,7 @@ class Host < Puppet::Rails::Host
       self.environment ||= importer.environment unless importer.environment.blank?
     end
 
+    self.save(:validate => false)
   end
 
   # Called by build link in the list
