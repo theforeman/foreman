@@ -7,7 +7,7 @@
   <% else -%>
     <% if ConfigTemplate.joins(:operatingsystems).where(:id => @operatingsystem.id).empty? -%>
       <div class="alert alert-message alert-warning">
-        <a class="close" href="#" data-dismiss="alert">×</a>
+        <a class="close" href="#" data-dismiss="alert">&times;</a>
         <p><strong>No templates found!</strong> you probably need to configure your <%= link_to "templates", config_templates_path %> first.</p>
       </div>
     <% end -%>
