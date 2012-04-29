@@ -246,7 +246,7 @@ function filter_by_level(item){
     $('.label-warning').closest('tr').hide();
     $('.label-important').closest('tr').show();
   }
-  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh').visible()){
+  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh:visible').size() > 0 ){
     $('#ntsh').show();
   }
   else{
