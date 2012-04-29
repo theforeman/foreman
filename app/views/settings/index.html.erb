@@ -10,7 +10,7 @@
   <% for setting in @settings %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%=h setting.name %></td>
-      <td><%= value(setting) %></td>
+      <td class="setting_value"><%= value(setting) %></td>
       <td><%=h setting.description %></td>
       <td><%=h setting.category %></td>
     </tr>
