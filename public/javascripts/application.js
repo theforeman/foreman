@@ -130,6 +130,12 @@ $(function(){
 });
 
 $(function() {
+  if ($("#login-form").size() > 0) {
+    $("#login_login").focus();
+    $(".logo, .logo-text").hide();
+    return false;
+  }
+
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
   $('.dropdown-toggle').dropdown();

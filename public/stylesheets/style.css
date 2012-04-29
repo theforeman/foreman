@@ -89,18 +89,27 @@ th.underlined {
 
 
 #login-form {
-  text-align: center;
   width: 390px;
   margin: 0 auto;
 }
 
-#login-form table {margin-top:2em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
+#login-form label {
+  font-size: 1.23em !important;
+  display: block;
+  font-weight: bold; color: #507ea1;
+}
+
+#login-form input[type="password"], #login-form input[type="text"] {
+  font-size: 20px;
+  height: 32px;
+  width: 380px;
+}
+
+#login-form {margin-top:2em; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ECF0F3'); /* for IE */
 background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ECF0F3)); /* for webkit browsers */
 background: -moz-linear-gradient(top,  #fff,  #ECF0F3); /* for firefox 3.6+ */
 -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
-#login-form tr td {border: 0px;}
-#login-form label {font-weight: bold; color: #507ea1;}
 
 .login-background{
  background: url(../images/foreman_large.png) no-repeat left top;
