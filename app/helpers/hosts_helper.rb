@@ -40,7 +40,7 @@ module HostsHelper
       short = "S"
     elsif record.error?
       label = "Error"
-      style = "lable-important"
+      style = "label-important"
       short = "E"
     elsif record.changes?
       label = "Active"
