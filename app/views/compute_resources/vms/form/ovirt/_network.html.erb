@@ -7,7 +7,7 @@
     <% selected_cluster ||= clusters.size == 1 ? clusters.first.id : nil %>
     <%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
                  { }, :disabled => disabled, :class => "span2",
-                 :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label important' }) %>
+                 :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
     <%= f.hidden_field :network if disabled %>
   <% end -%>
 </div>

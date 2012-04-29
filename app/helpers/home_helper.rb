@@ -12,9 +12,7 @@ module HomeHelper
 
   def setting_options
     choices = [
-      ['Bookmarks',              :bookmarks],
       ['Environments',           :environments],
-      ['Settings',               :settings],
       ['Global Parameters',      :common_parameters],
       ['Host Groups',            :hostgroups],
       ['Puppet Classes',         :puppetclasses],
@@ -23,8 +21,14 @@ module HomeHelper
     ]
 
     choices += [
-      ['Architectures',          :architectures],
+      [:divider],
       ['Compute Resources',      :compute_resources],
+      ['Hypervisors',            :hypervisors]
+    ] if SETTINGS[:libvirt]
+
+    choices += [
+      [:divider],
+      ['Architectures',          :architectures],
       ['Domains',                :domains],
       ['Hardware Models',        :models],
       ['Installation Media',     :media],
@@ -35,16 +39,23 @@ module HomeHelper
     ] if SETTINGS[:unattended]
 
     choices += [
+      [:divider],
+      ['LDAP Authentication',    :auth_source_ldaps],
       ['Users',                  :users],
       ['User Groups',            :usergroups],
-      ['LDAP Authentication',    :auth_source_ldaps]
     ] if SETTINGS[:login]
+
     choices += [
       ['Roles',                  :roles]
     ] if SETTINGS[:login] and User.current.admin?
-    choices += [['Hypervisors',  :hypervisors]] if SETTINGS[:libvirt]
 
-    choices.sort
+    choices += [
+      [:divider],
+      ['Bookmarks',              :bookmarks],
+      ['Settings',               :settings]
+    ]
+
+    choices
   end
 
 
@@ -56,7 +67,7 @@ module HomeHelper
       link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
     end
     out +=  content_tag :li, :class => "dropdown " + class_for_current_page(tab) do
-      link_to("", "#", :class => "dropdown-toggle narrow-left") + menu_dropdown(b)
+      link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret'), "#", :class => "dropdown-toggle narrow-left") + menu_dropdown(b)
     end unless b.empty?
     out
   end

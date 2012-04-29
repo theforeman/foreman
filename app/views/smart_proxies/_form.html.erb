@@ -1,6 +1,6 @@
 <%= form_for @proxy do |f| %>
   <%= base_errors_for @proxy %>
   <%= text_f(f, :name) %>
-  <%= text_f(f, :url, :label => "URL", :class => "xlarge" ) %>
+  <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
   <%= submit_or_cancel(f) %>
 <% end %>

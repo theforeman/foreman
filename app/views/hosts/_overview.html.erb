@@ -1,16 +1,16 @@
-<table class="list">
+<table class="table table-bordered table-striped table-condensed">
   <tr>
     <th>Details</th>
   </tr>
   <tr>
     <td>
-      <%= link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts" , :class => 'btn small') %>
-      <%= link_to_if_authorized("Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports" , :class => 'btn small') %>
-      <%= link_to("YAML", externalNodes_host_path(:name => @host), :title => "Puppet external nodes YAML dump" , :class => 'btn small') %>
+      <%= link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts" , :class => 'btn btn-small') %>
+      <%= link_to_if_authorized("Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports" , :class => 'btn btn-small') %>
+      <%= link_to("YAML", externalNodes_host_path(:name => @host), :title => "Puppet external nodes YAML dump" , :class => 'btn btn-small') %>
     </td>
   </tr>
 </table>
-<table class="list">
+<table class="table table-bordered table-striped">
   <tr>
     <th>Properties</th>
     <th></th>

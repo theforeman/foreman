@@ -1,13 +1,13 @@
-<div id="templates">
+<div class="tab-pane" id="templates">
   <% if @operatingsystem.new_record? -%>
-    <div class="alert-message block-message warning">
+    <div class="alert alert-message alert-block alert-warning">
       <p><strong>Notice</strong> It is not possible to assign provisioning templates at this stage</p>
       <p>Please save the Operating System first and try again.</p>
     </div>
   <% else -%>
     <% if ConfigTemplate.joins(:operatingsystems).where(:id => @operatingsystem.id).empty? -%>
-      <div class="alert-message warning" data-alert="close">
-        <a class="close" href="#">×</a>
+      <div class="alert alert-message alert-warning">
+        <a class="close" href="#" data-dismiss="alert">×</a>
         <p><strong>No templates found!</strong> you probably need to configure your <%= link_to "templates", config_templates_path %> first.</p>
       </div>
     <% end -%>

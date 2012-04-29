@@ -1,4 +1,4 @@
-<%= text_f f, :url, :label => "URL", :class => "xlarge", :help_block => "e.g. https://ovirt.example.com:8443/api" %>
+<%= text_f f, :url, :label => "URL", :class => "input-xlarge", :help_block => "e.g. https://ovirt.example.com:8443/api" %>
 <%= text_f f, :user %>
 <%= password_f f, :password %>
 <% datacenters = (f.object.uuid.nil? && controller.action_name != 'test_connection')  ? [] : f.object.datacenters rescue []%>

@@ -1,7 +1,8 @@
 //on load
 $(function() {
   //set selected tab
-  $('.pill-content .fields').first().addClass('active');
+  $('.tab-content .fields').first().addClass('active');
+  $('.nav-pills li').first().addClass('active');
 })
 
 function add_child_node(item) {
@@ -40,15 +41,15 @@ function add_child_node(item) {
     content     = content.replace(regexp, "new_" + new_id);
     var field   = '';
     if (assoc == 'lookup_keys') {
-      $('.pills .active, .pill-content .active').removeClass('active');
-      var pill = "<li class='active'><a href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new</a></li>"
-      $('.pills').prepend(pill);
+      $('.nav-pills .active, .pill-content .active').removeClass('active');
+      var pill = "<li class='active'><a data-toggle='pill'  href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new</a></li>"
+      $('.nav-pills').prepend(pill);
       field = $('.pill-content').prepend($(content).addClass('active'));
     } else {
       field = $(content).insertBefore($(item));
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
-    $('a[rel="popover"]').popover({html: true, placement: 'above'});
+    $('a[rel="popover"]').popover();
     return new_id;
 };
 
@@ -60,7 +61,7 @@ function remove_child_node(item) {
   $(item).closest('.fields').hide();
   if($(item).parent().hasClass('fields')) {
     $('#pill_' + $(item).closest('.fields').attr('id')).hide();
-    $('.pills li :visible').first().click();
+    $('.nav-pills li :visible').first().click();
   }
   $(item).closest("form").trigger('nested:fieldRemoved');
   return false;

@@ -20,7 +20,7 @@
         <td><%= h cert.fingerprint %></td>
         <td>
           <%= display_link_if_authorized("Sign", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state]), :method => :put) if cert.state == "pending" %>
-          <%= display_link_if_authorized("Delete", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state]), :confirm => 'Are you sure?', :method => :delete) if cert.state != "revoked"  %>
+          <%= display_delete_if_authorized(hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state])) if cert.state != "revoked"  %>
         </td>
       </tr>
   <% end -%>

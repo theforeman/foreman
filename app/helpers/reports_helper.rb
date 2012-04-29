@@ -28,7 +28,7 @@ module ReportsHelper
   def report_tag level
     tag = case level
           when :notice
-            "notice"
+            "info"
           when :warning
             "warning"
           when :err
@@ -36,7 +36,7 @@ module ReportsHelper
           else
             "default"
           end
-    "class='label #{tag}'"
+    "class='label label-#{tag}'"
   end
 
    def logs_show
@@ -44,7 +44,7 @@ module ReportsHelper
     form_tag @report, :id => 'level_filter', :method => :get do
       content_tag(:span, "Show log messages: ") +
       select(nil, 'level', [['All messages', 'notice'],['Warnings and errors', 'warning'],['Errors only', 'error']],
-             {}, {:class=>"span4", :onchange =>"filter_by_level($(this).val());"})
+             {}, {:class=>"span3", :onchange =>"filter_by_level(this);"})
     end
    end
 end

@@ -1,34 +1,37 @@
 <%= javascript "compute_resource" %>
-<ul class="tabs" data-tabs="tabs">
-  <li class="active"><a href="#primary">Primary</a></li>
-  <li><a href="#vms">Virtual Machines</a></li>
+<ul class="nav nav-tabs" data-tabs="tabs">
+  <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+  <li><a href="#vms" data-toggle="tab">Virtual Machines</a></li>
 </ul>
 
 <div class="tab-content">
 
-  <div class="active" id="primary">
-    <p>
-      <b>Name:</b>
-      <%= @compute_resource.name %>
-    </p>
+  <div class="tab-pane active" id="primary">
+    <table class="table table-bordered table-striped">
+      <th>Details</th>
+      <th></th>
+    <tr>
+      <td>Name</td>
+      <td><%= @compute_resource.name %></td>
+    </tr>
 
-    <p>
-      <b>Provider:</b>
-      <%= @compute_resource.provider %>
-    </p>
+    <tr>
+      <td>Provider</td>
+      <td><%= @compute_resource.provider %></td>
+    </tr>
 
-    <p>
-      <b>Description:</b>
-      <%= @compute_resource.description %>
-    </p>
+    <tr>
+      <td>Description</td>
+      <td><%= @compute_resource.description %></td>
+    </tr>
 
-    <p>
-      <b>URL:</b>
-      <%= @compute_resource.url %>
-    </p>
-
+    <tr>
+      <td>URL</td>
+      <td><%= @compute_resource.url %></td>
+    </tr>
+    </table>
   </div>
-  <div id="vms" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
+  <div id="vms" class="tab-pane" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
     <p id="vms_spinner">
       <%= image_tag 'spinner.gif' %>
       Loading Virtual Machines information ...

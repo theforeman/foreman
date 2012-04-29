@@ -1,8 +1,8 @@
 <% title "#{@report.host} - #{time_ago_in_words(@report.reported_at)} ago"%>
-<div class="row ra"><p class="span16"> Reported at <%= @report.reported_at.getlocal %></p></div>
+<div class="row ra"><p class="span12"> Reported at <%= @report.reported_at.getlocal %></p></div>
 <% if @offset > 10 -%>
-  <div class="alert-message block-message error" data-alert="close">
-    <a class="close" href="#">×</a>
+  <div class="alert alert-message alert-block alert-error">
+    <a class="close" href="#" data-dismis="alert">×</a>
     <h3>Host time seems to be adrift!</h3>
     Host reported time is <em><%= @report.reported_at %></em> <br/>
     Foreman report creation time is <em><%= @report.created_at %></em> <br/>
@@ -16,7 +16,7 @@
 <%= render 'metrics', :status => @report.status, :metrics => @report.metrics["time"] if @report.metrics["time"] -%>
 
 <%= title_actions link_to('Back', :back),
-  display_link_if_authorized('Delete', hash_for_report_path(:id => @report, :auth_action => :destroy), :method => :delete),
+  display_delete_if_authorized(hash_for_report_path(:id => @report), :class=> "btn btn-danger"),
   link_to("Host details", @report.host),
   link_to("Other reports for this host", host_reports_path(@report.host))
 %>

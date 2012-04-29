@@ -4,7 +4,7 @@
       <%= f.collection_select :fact_name_id, FactName.no_timestamp_fact, :id, :name, {}, :class => "medium" %>
     </div>
     <div class="span2">
-      <%= f.select :operator, %w{= !=  > >= < <= }, {}, :class => "small" %>
+      <%= f.select :operator, %w{= !=  > >= < <= }, {}, :class => "input-small" %>
     </div>
     <div class="span5">
       <%= f.text_field :criteria %>

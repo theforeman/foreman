@@ -1,19 +1,22 @@
-<%= form_tag eval("#{controller_name}_path"), :method => "get" do %>
-  <%= auto_complete_search(:search, params[:search].try(:squeeze," "), {:placeholder => "Filter ..."},{ :delay => 100, :min_length => -1 }).html_safe %>
-  <%= display_link_if_authorized image_tag('bookmark.png', :class => "bookmark", :alt => "Bookmark this search"), {:controller => :bookmarks, :action => :new, :kontroller => controller_name}, {:'data-controls-modal'=>"bookmarks-modal", :"data-backdrop"=>"static", :id => "bookmark", :class => "btn small", :title => "Bookmark this search"} %>
-  <%= link_to_function 'Search', "$(this).parent().submit()" , {:id => 'submit_search', :class => 'btn small' } %>
+<%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search" do %>
+  <div class="span4">
+  <%= auto_complete_search(:search, params[:search].try(:squeeze," "), {:placeholder => "Filter ...", :class=>'search-query'},{ :delay => 100, :min_length => -1 }).html_safe %>
+  </div>
+  <%= link_to_function icons("bookmark"){""}, "$('#bookmarks-modal').modal();", {:id => "bookmark", :class => "btn btn-small",
+         :"data-url"=> new_bookmark_path(:kontroller => controller_name), :title => "Bookmark this search"}%>
+  <%= link_to_function "Search", "$(this).parent().submit()" , {:id => 'submit_search', :class => 'btn btn-small' } %>
 <% end -%>
 
 <div id="bookmarks-modal" class="modal hide fade">
   <div class="modal-header">
-    <a href="#" class="close">×</a>
+    <a href="#" class="close" data-dismiss="modal">×</a>
     <h3>Add Bookmark</h3>
   </div>
   <div class="modal-body">
 
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn primary">Submit</a>
-    <a href="#" class="btn secondary">Cancel</a>
+    <a href="#" class="btn btn-primary">Submit</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
   </div>
 </div>
