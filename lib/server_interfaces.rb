@@ -1,4 +1,8 @@
-require 'fog'
+begin
+  require 'fog'
+rescue LoadError
+  Rails.logger.debug "Fog is not installed - unable to manage compute resources"
+end
 
 module Fog
   class Model
@@ -63,4 +67,4 @@ module Fog
       end
     end
   end
-end
+end if defined? Fog
