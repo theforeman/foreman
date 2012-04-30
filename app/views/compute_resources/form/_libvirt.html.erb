@@ -4,6 +4,6 @@
 <% if hypervisor -%>
   <%= f.hidden_field :uuid, :value => hypervisor %>
 <% end -%>
-<%= link_to_function "Test Connection", "testConnection(this)", :class => "btn + #{hypervisor.nil? ? "" : "success"}", :'data-url' => test_connection_compute_resources_path %>
+<%= link_to_function "Test Connection", "testConnection(this)", :class => "btn + #{hypervisor.nil? ? "" : "btn-success"}", :'data-url' => test_connection_compute_resources_path %>
 
 <%= image_tag('spinner.gif', :id => 'test_connection_indicator', :class => 'hide') %>
