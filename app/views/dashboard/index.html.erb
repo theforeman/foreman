@@ -15,7 +15,7 @@
       <td><%= @report[:bad_hosts] %> </td>
     </tr>
     <tr>
-      <td><%=searchable_links "Good Host Reports in the last #{Setting[:puppet_interval]} minutes", "last_report > \"#{Setting[:puppet_interval]} minutes ago\" and status.enabled = true and status.interesting=false" %></td>
+      <td><%=searchable_links "Good Host Reports in the last #{Setting[:puppet_interval]+5} minutes", "last_report > \"#{Setting[:puppet_interval]+5} minutes ago\" and (status.enabled = true or status.applied =true) and status.failed = 0" %></td>
       <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
     </tr>
     <tr>
