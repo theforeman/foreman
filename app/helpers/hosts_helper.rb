@@ -23,7 +23,7 @@ module HostsHelper
   # method that reformat the hostname column by adding the status icons
   def name_column(record)
     if record.build
-      style ="notice"
+      style ="label-info"
       label = "Pending Installation"
       short = "B"
     elsif record.respond_to?(:enabled) && !record.enabled
@@ -36,27 +36,27 @@ module HostsHelper
       short = "N"
     elsif record.no_report
       label = "Out of sync"
-      style = "warning"
+      style = "label-warning"
       short = "S"
     elsif record.error?
       label = "Error"
-      style = "important"
+      style = "label-important"
       short = "E"
     elsif record.changes?
       label = "Active"
-      style = "notice"
+      style = "label-info"
       short = "A"
     elsif record.pending?
       label = "Pending"
-      style = "warning"
+      style = "label-warning"
       short = "P"
     else
       label = "No changes"
-      style = "success"
+      style = "label-success"
       short = "O"
     end
     content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
-      link_to(trunc("  #{record}",36), host_path(record))
+      link_to(trunc("  #{record}",32), host_path(record))
   end
 
   def days_ago time
@@ -109,7 +109,7 @@ module HostsHelper
   def report_status_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span11 host_chart',
+                  :class          => 'span7 host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -124,7 +124,7 @@ module HostsHelper
   def runtime_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span11 host_chart',
+                  :class          => 'span7 host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -138,7 +138,7 @@ module HostsHelper
     form_tag @host, :id => 'days_filter', :method => :get do
       content_tag(:span, "Reports from the last ") +
       select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-            {:selected => @range}, {:class=>"mini", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
+            {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
             " days - #{@host.reports.recent(@range.days.ago).count} reports found"
     end
   end

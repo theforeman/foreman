@@ -1,4 +1,4 @@
-<% title_actions check_all_links('permissions') %>
+<% title_actions check_all_links %>
 
 <%= form_for @role do |f| %>
   <%= base_errors_for @role %>
@@ -7,9 +7,9 @@
 
   <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
   <% perms_by_block.keys.sort.each do |block| %>
-    <div class="clearfix">
-      <%= label_tag 'role[permissions]', block.humanize %>
-      <div class="input">
+    <div class="control-group">
+      <%= label_tag 'role[permissions]', block.humanize,:class=>"control-label" %>
+      <div class="controls">
         <ul class="inputs-list">
           <% perms_by_block[block].each do |permission| %>
             <li>

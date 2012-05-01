@@ -1,35 +1,6 @@
-root = File.expand_path(File.dirname(__FILE__) + "/..")
-
-require 'rubygems'
-require 'rails/all'
-
-require 'puppet'
-require 'puppet/rails'
-# import settings file
-SETTINGS= YAML.load_file("#{root}/config/settings.yaml")
-
-SETTINGS[:version] = File.read(root + "/VERSION").chomp rescue("N/A")
-
-SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
-Puppet[:config] = SETTINGS[:puppetconfdir] || "/etc/puppet/puppet.conf"
-Puppet.parse_config
-$puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
-SETTINGS[:login] ||= SETTINGS[:ldap]
-
 require File.expand_path('../boot', __FILE__)
 
-begin
-  if SETTINGS[:unattended]
-    Bundler.setup(:virt)
-    require 'virt'
-    SETTINGS[:libvirt] = true
-  else
-    SETTINGS[:libvirt] = false
-  end
-rescue LoadError
-  Rails.logger.debug "Libvirt binding are missing - hypervisor management is disabled"
-  SETTINGS[:libvirt] = false
-end
+require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.

@@ -110,7 +110,7 @@ $(function() {
     $('#confirmation-modal').modal({show: "true", backdrop: "static"});
   });
 
-  $('#confirmation-modal .primary').click(function(){
+  $('#confirmation-modal .btn-primary').click(function(){
     $("#confirmation-modal form").submit();
     $('#confirmation-modal').modal('hide');
   });

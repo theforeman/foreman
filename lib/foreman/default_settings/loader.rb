@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'facter'
+require 'puppet'
+
 module Foreman
   module DefaultSettings
     module Loader

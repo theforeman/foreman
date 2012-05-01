@@ -1,6 +1,6 @@
 $(function() {
   $('.flash.error').hide().each(function(index, item) {
-    if ($('.alert-message.error.base').length == 0) {
+    if ($('.alert-message.alert-error.base').length == 0) {
       if ($('#host-conflicts-modal').length == 0) {
         $.jnotify($(item).text(), { type: "error", sticky: true });
       }
@@ -28,7 +28,7 @@ function add_fields(link, association, content) {
 }
 
 function checkAll (id, checked) {
-  $(id).find(":checkbox:not([disabled='disabled'])").attr('checked',checked);
+  $(id).attr('checked',checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -42,7 +42,7 @@ function toggleRowGroup(el) {
   var tr = $(el).closest('tr');
   var n = tr.next();
   tr.toggleClass('open');
-  while (n != undefined && !n.hasClass('group')) {
+  while (n.length > 0 && !n.hasClass('group')) {
     n.toggle();
     n = n.next();
   }
@@ -65,7 +65,7 @@ function template_info(div, url) {
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id,
               function(response, status, xhr) {
                 if (status == "error") {
-                  $(div).html("<p>Sorry but no templates were configured.</p>");
+                  $(div).html("<div class='alert alert-warning'><a class='close' data-di  smiss='alert'>&times;</a><p>Sorry but no templates were configured.</p></div>");
                 }
               });
 }
@@ -125,13 +125,21 @@ $(document).ready(function() {
 // adds buttons classes to all links
 $(function(){
   $("#title_action a").addClass("btn");
-  $("#title_action a[href*='new']").addClass("success");
-  $(".table_action a").addClass("btn small");
+  $("#title_action a[href*='new']").addClass("btn-success");
 });
 
 $(function() {
+  if ($("#login-form").size() > 0) {
+    $("#login_login").focus();
+    $(".logo, .logo-text").hide();
+    return false;
+  }
+
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
+  $('.dropdown-toggle').dropdown();
+  $('.auto_complete_input').addClass ('search-query');
+  $('.auto_complete_clear').addClass ('icon-remove');
 });
 
 function magic_line(id, combo) {
@@ -139,6 +147,9 @@ function magic_line(id, combo) {
 
   $mainNav.append("<li class='magic-line'></li>");
   var $magicLine = $(id + " .magic-line");
+  if ($('[data-toggle=collapse]:visible').length > 0){
+    $magicLine.hide();
+  }else{$magicLine.show();}
   if ( $(".active").size() > 0){
     $magicLine
     .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
@@ -151,6 +162,11 @@ function magic_line(id, combo) {
     .data("origWidth", $magicLine.width());
   }
   $(id + " li").hover(function() {
+    if ($('[data-toggle=collapse]:visible').length > 0){
+      $magicLine.hide();
+      return;
+    }
+    $magicLine.show();
     $el = $(this);
     if ($el.parent().hasClass("dropdown-menu")){
       $el=$el.parent().parent();
@@ -165,25 +181,28 @@ function magic_line(id, combo) {
       width: newWidth
     });
   }, function() {
-    $magicLine.stop().animate({
-      left: $magicLine.data("origLeft"),
-      width: $magicLine.data("origWidth")
-    });
+    if ($('[data-toggle=collapse]:visible').length > 0){
+      $magicLine.hide();
+    }else{
+      $magicLine.stop().animate({
+        left: $magicLine.data("origLeft"),
+        width: $magicLine.data("origWidth")
+      });
+    }
   });
 }
 
 //add bookmark dialog
 $(function() {
-  $('#bookmarks-modal .primary').click(function(){
+  $('#bookmarks-modal .btn-primary').click(function(){
     $("#bookmark_submit").click();
-  });
-  $('#bookmarks-modal .secondary').click(function(){
-    $('#bookmarks-modal').modal('hide');
   });
   $("#bookmarks-modal").bind('shown', function () {
     var query = encodeURI($("#search").val());
+    var url = $("#bookmark").attr('data-url');
+    $("#bookmarks-modal .modal-body").empty();
     $("#bookmarks-modal .modal-body").append("<span id='loading'>Loading ...</span>");
-    $("#bookmarks-modal .modal-body").load($("#bookmark").attr('href') + '&query=' + query + ' form',
+    $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
                                            function(response, status, xhr) {
                                              $("#loading").hide();
                                              $("#bookmarks-modal .modal-body .btn").hide()
@@ -195,39 +214,38 @@ $(function() {
 
 // highlight tabs with errors
 $(function(){
-  $(".tab-content").find(".clearfix.error").each(function() {
+  $(".tab-content").find(".control-group.error").each(function() {
     // find each tab id
     var id = $(this).parentsUntil(".tab-content").last().attr("id");
     // now add a class to that tab
-    $("a[href=#"+id+"]").addClass("tab_error");
+    $("a[href=#"+id+"]").addClass("tab-error");
   })
 });
 
 $(function () {
-  $('a[rel="popover"]').popover({
-    html: true,
-    placement: 'above'
-  });
-  $('[rel="twipsy"]').twipsy();
+  $('a[rel="popover"]').popover();
+  $('[rel="twipsy"]').tooltip();
 });
 
-function filter_by_level(level){
+function filter_by_level(item){
+  var level = $(item).val();
+
   if(level == 'notice'){
-    $('.notice').closest('tr').show();
-    $('.warning').closest('tr').show();
-    $('.important').closest('tr').show();
+    $('.label-info').closest('tr').show();
+    $('.label-warning').closest('tr').show();
+    $('.label-important').closest('tr').show();
   }
   if(level == 'warning'){
-    $('.notice').closest('tr').hide();
-    $('.warning').closest('tr').show();
-    $('.important').closest('tr').show();
+    $('.label-info').closest('tr').hide();
+    $('.label-warning').closest('tr').show();
+    $('.label-important').closest('tr').show();
   }
   if(level == 'error'){
-    $('.notice').closest('tr').hide();
-    $('.warning').closest('tr').hide();
-    $('.important').closest('tr').show();
+    $('.label-info  ').closest('tr').hide();
+    $('.label-warning').closest('tr').hide();
+    $('.label-important').closest('tr').show();
   }
-  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh').visible()){
+  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh:visible').size() > 0 ){
     $('#ntsh').show();
   }
   else{
