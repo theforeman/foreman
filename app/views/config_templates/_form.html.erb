@@ -1,4 +1,4 @@
-<%= javascript 'config_template', 'ace/ace', 'ace/theme-dawn',   'ace/mode-ruby' %>
+<%= javascript 'config_template', 'ace/ace', 'ace/theme-twilight', 'ace/theme-dawn','ace/mode-ruby' %>
 <%= form_for @config_template, :html => { :multipart => true } do |f| %>
   <%= base_errors_for @config_template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -19,9 +19,9 @@
         :help_block =>"<i class='icon-info-sign'></i> Notice #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
         :rel => "external"}".html_safe
       %>
-
-
-      <%= file_field_f f, :template,:class => "template_file", :help_inline => "<i class='icon-info-sign'></i> Selecting a file will override the editor and load the file instead".html_safe %>
+      <%= file_field_f f, :template,:class => "template_file btn span4",
+                       :help_inline => "<a class='label label-important clear_file'>&times<a>".html_safe,
+                       :help_block => "<i class='icon-info-sign'></i> Selecting a file will override the editor and load the file instead".html_safe %>
    </div>
    <div class="tab-pane" id="template_associations">
      <p id="snippet_message" class="alert alert-message" <%=  display? !@config_template.snippet%> >Not relevant for snippet</p>

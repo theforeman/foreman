@@ -16,7 +16,9 @@ $(function() {
   text_area.hide();
 
   var editor = ace.edit("editor1");
-  editor.setTheme("ace/theme/dawn");
+  editor.setTheme("ace/theme/twilight");
+  editor.setShowPrintMargin(false);
+  editor.renderer.setShowGutter(false);
 
   var RubyMode = require("ace/mode/ruby").Mode;
   var session = editor.getSession();
@@ -30,6 +32,14 @@ $(function() {
   });
 
   $(".template_file").on("change", function(){
-      if ($(".template_file").val() != ""){ editor.setReadOnly(true); }
+      if ($(".template_file").val() != ""){ editor.setReadOnly(true); editor.setTheme("ace/theme/dawn"); }
     })
+
+  $(".clear_file").on("click", function(){
+        $(".template_file").val("");
+        editor.setReadOnly(false);
+        editor.setTheme("ace/theme/twilight");
+    false;
+  })
 })
+
