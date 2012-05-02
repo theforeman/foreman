@@ -1,5 +1,7 @@
 class CreateProxyFeatures < ActiveRecord::Migration
 
+  class Feature < ActiveRecord::Base; end
+
   def self.up
     # Create the tables
     create_table :features do |t|

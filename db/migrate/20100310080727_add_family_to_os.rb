@@ -1,4 +1,7 @@
 class AddFamilyToOs < ActiveRecord::Migration
+
+  class Operatingsystem < ActiveRecord::Base; end
+
   def self.up
     add_column :operatingsystems, :family_id, :integer
 

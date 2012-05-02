@@ -1,4 +1,5 @@
 class CreateMedia < ActiveRecord::Migration
+  class Medium < ActiveRecord::Base; end
   def self.up
     create_table :media do |t|
       t.string :name, :limit => 50, :default => "", :null => false

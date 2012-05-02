@@ -1,4 +1,5 @@
 class CreatePtables < ActiveRecord::Migration
+  class Ptable < ActiveRecord::Base; end
   def self.up
     create_table :ptables do |t|
       t.string :name,   :limit => 64, :null => false
@@ -13,7 +14,6 @@ class CreatePtables < ActiveRecord::Migration
       t.references :ptable, :null => false
       t.references :operatingsystem, :null => false
     end
-
 
   end
 
