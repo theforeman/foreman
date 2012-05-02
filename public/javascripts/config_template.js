@@ -32,14 +32,19 @@ $(function() {
   });
 
   $(".template_file").on("change", function(){
-      if ($(".template_file").val() != ""){ editor.setReadOnly(true); editor.setTheme("ace/theme/dawn"); }
-    })
+      if ($(".template_file").val() != ""){
+        editor.setReadOnly(true);
+        editor.setTheme("ace/theme/dawn");
+        $(".template_file").addClass('btn-inverse');
+      }
+  })
 
   $(".clear_file").on("click", function(){
-        $(".template_file").val("");
-        editor.setReadOnly(false);
-        editor.setTheme("ace/theme/twilight");
-    false;
+      $(".template_file").val("");
+      editor.setReadOnly(false);
+      editor.setTheme("ace/theme/twilight");
+      $(".template_file").removeClass('btn-inverse');
+      false;
   })
 })
 
