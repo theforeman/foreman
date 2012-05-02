@@ -97,13 +97,13 @@ OptionParser.new do |opts|
   end
   collections_filterable.each do |collection|
     options[collection] = false
-    opts.on("--#{collection} [filter]", "Retreive a list of #{collection}") do |f|
+    opts.on("--#{collection} [filter]", "Retrieve a list of #{collection}") do |f|
       options[collection] = f || true
     end
   end
   collections.each do |collection|
     options[collection] = false
-    opts.on("--#{collection}", "Retreive a list of #{collection}") do
+    opts.on("--#{collection}", "Retrieve a list of #{collection}") do
       options[collection] = true
     end
   end
@@ -122,7 +122,7 @@ OptionParser.new do |opts|
     puts "     FOREMAN_USER                    Foreman user"
     puts "     FOREMAN_PASSWORD                Foreman password"
     puts ""
-    puts "     CLI options take precendence over ENVIRONMENT VARIABLES"
+    puts "     CLI options take precedence over ENVIRONMENT VARIABLES"
     puts ""
     puts "     FILTERS:"
     puts ""
@@ -182,13 +182,23 @@ def print_response response
       when "yaml"
         YAML.dump(response)
       else
-        (response.first.is_a?(Hash) ? response.map{|o| o.inspect} : response).join("\n")
+        r = response.first
+        if r.is_a?(Hash)
+          # we simply return host list
+          if r.first[0] == "host"
+            response.map{|h| h["host"]["name"]}
+          else
+            response.map{|o| o.inspect}
+          end
+        else
+          response.join("\n")
+        end
       end)
 end
 
 options.each do |collection, filter|
   next unless filter
-  if filter == true
+  if filter
     print_response(get_collection(collection))
   else
     print_response(search_collection(collection, filter))
