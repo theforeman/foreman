@@ -8,13 +8,13 @@ gem "acts_as_audited", "2.0.0"
 gem "has_many_polymorphs", :git => "https://github.com/jystewart/has_many_polymorphs.git", :ref => '03429a61e511f394e9f96af0c8998268ca99d42b'
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.2.4"
-gem 'scoped_search', '>= 2.3.6'
+gem 'scoped_search', '>= 2.3.7'
 gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 
 group :virt do
   gem "virt", ">= 0.2.1"
-  gem "rbovirt", ">= 0.0.11"
+  gem "rbovirt", ">= 0.0.12"
   gem "rbvmomi"
   gem "fog", :git => "git://github.com/fog/fog.git"
   #gem "fog", ">= 1.3.2"
