@@ -23,7 +23,7 @@ if File.exists?(ENV['BUNDLE_GEMFILE'])
       SETTINGS[:libvirt] = false
     end
   rescue LoadError
-    Rails.logger.debug "Libvirt binding are missing - hypervisor management is disabled"
+    warn "Libvirt binding are missing - hypervisor management is disabled"
     SETTINGS[:libvirt] = false
   end
 end
