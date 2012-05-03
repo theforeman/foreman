@@ -14,7 +14,7 @@ module Orchestration::TFTP
   module InstanceMethods
 
     def tftp?
-      !!(subnet and subnet.tftp?)
+      !!(subnet and subnet.tftp?) and managed?
     end
 
     def tftp
