@@ -136,8 +136,8 @@ module LayoutHelper
     end
   end
 
-  def icon_text(i, text="")
-    (content_tag(:i,"", :class=>"icon-#{i}") + " " + text).html_safe
+  def icon_text(i, text="", opts = {})
+    (content_tag(:i,"", :class=>"icon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 
 end
