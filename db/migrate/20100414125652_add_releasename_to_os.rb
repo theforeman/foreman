@@ -1,4 +1,7 @@
 class AddReleasenameToOs < ActiveRecord::Migration
+
+  class Operatingsystem < ActiveRecord::Base; end
+
   def self.up
     add_column :operatingsystems, :release_name, :string, :limit => 64
 

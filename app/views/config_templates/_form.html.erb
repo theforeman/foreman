@@ -1,22 +1,51 @@
+<%= javascript 'config_template', 'ace/ace', 'ace/theme-twilight', 'ace/theme-dawn','ace/mode-ruby' %>
 <%= form_for @config_template, :html => { :multipart => true } do |f| %>
   <%= base_errors_for @config_template %>
-  <%= text_f f, :name %>
-  <%= checkbox_f f, :snippet, :onchange => "$('#kind_selector, #template_associations').toggle(!$('#config_template_snippet').attr('checked'))" %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li><a href="#template_associations" data-toggle="tab">Association</a></li>
+  </ul>
 
-  <div id="kind_selector" <%= display? @config_template.snippet %>>
-    <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)" %>
+
+      <div id="kind_selector" <%= display? @config_template.snippet %>>
+        <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
+      </div>
+
+      <%= textarea_f f, :template, :class => "span10 template_text", :label=>"Template editor",
+        :help_block =>"<i class='icon-info-sign'></i> Notice #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
+        :rel => "external"}".html_safe
+      %>
+      <%= file_field_f f, :template,:class => "template_file btn span4",
+                       :help_inline => "<a class='label label-important clear_file' title='clear file selection'>&times<a>".html_safe,
+                       :help_block => "<i class='icon-info-sign'></i> Selecting a file will override the editor and load the file instead".html_safe %>
+   </div>
+   <div class="tab-pane" id="template_associations">
+     <p id="snippet_message" class="alert alert-message" <%=  display? !@config_template.snippet%> >Not relevant for snippet</p>
+     <div id="association" <%=  display? @config_template.snippet%> >
+     <div class="alert alert-message alert-success">
+        <a class="close" href="#" data-dismiss="alert">&times;</a>
+        <h3>How Templates are determined<br></h3>
+        <p>When editing a Template, you must assign a list of Operating Systems which this
+        Template can be used with. Optionally, you can restrict a template to a list of
+        Hostgroups and/or Environments</p>
+        <p>When a Host requests a template (e.g. during provisioning), Foreman will select
+        the best match from the available templates of that type, in the following order:</p>
+        <ul>
+          <li>Host-group and Environment</li>
+          <li>Host-group only</li>
+          <li>Environment only</li>
+          <li>Operating system default</li>
+        </ul>
+        The final entry, Operating System default, can be set by editing the <%= link_to "Operating System", operatingsystems_path %> page.
+     </div>
+       <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Applicable<br>Operating Systems".html_safe%>
+       <%= render "combinations", :f => f %>
+     </div>
+   </div>
  </div>
-
- <%= textarea_f f, :template, :class => "input-xxlarge",
-   :help_block =>"<span class='label label-info'>Notice</span> #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
-     :rel => "external"}".html_safe
-   %>
- <%= file_field_f f, :template, :help_inline => "<span class='label label-info'>upload</span> a template instead".html_safe %>
-
- <div id="template_associations" <%= display? @config_template.snippet %>>
-   <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Operating Systems" %>
-   <%= render "combinations", :f => f %>
- </div>
-
  <%= submit_or_cancel f %>
 <% end %>

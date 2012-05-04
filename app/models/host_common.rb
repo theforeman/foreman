@@ -25,6 +25,7 @@ module HostCommon
     end
 
     def puppetca?
+      return false if self.respond_to?(:managed?) and !managed?
       !!(puppet_ca_proxy and puppet_ca_proxy.url.present?)
     end
 
@@ -87,7 +88,7 @@ module HostCommon
     # fall back to our puppet proxy in case our puppet ca is not defined/used.
     def check_puppet_ca_proxy_is_required?
       return true if puppet_ca_proxy_id.present? or puppet_proxy_id.blank?
-      if puppet_proxy.features.include?("Puppet CA")
+      if puppet_proxy.features.include?(Feature.find_by_name "Puppet CA")
         self.puppet_ca_proxy ||= puppet_proxy
       end
     rescue
