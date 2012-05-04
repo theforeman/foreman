@@ -86,7 +86,7 @@ case "$1" in
         else
             stop
             start
-            RETVAL?$?
+            RETVAL=$?
         fi
     ;;
     status)
