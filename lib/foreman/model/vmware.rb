@@ -52,9 +52,7 @@ module Foreman::Model
         :provider                     => "vsphere",
         :vsphere_username             => user,
         :vsphere_password             => password,
-        :vsphere_server               => server,
-        :vsphere_expected_pubkey_hash => '7bb2a3f661aa96b036db266aaf550f800f5b2235daae356780756eb7469d03e9'
-
+        :vsphere_server               => server
       )
     end
 
