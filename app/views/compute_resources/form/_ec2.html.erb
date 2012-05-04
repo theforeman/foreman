@@ -3,6 +3,6 @@
 
 <% regions = f.object.regions rescue [] %>
 <%= selectable_f(f, :region, regions, {}, {:label => 'Region', :disabled => regions.empty?,
-                 :help_inline => link_to_function(regions.empty? ? "Load Regions" : "Test Connection", "testConnection(this)", :class => "btn",
+                 :help_inline => link_to_function(regions.empty? ? "Load Regions" : "Test Connection", "testConnection(this)",
+                 :class => "btn + #{regions.empty? ? "" : "btn-success"}",
                  :'data-url' => test_connection_compute_resources_path) + image_tag('spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe }) %>
-
