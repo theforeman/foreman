@@ -12,7 +12,7 @@
     <%= f.fields_for :nics do |i| %>
       <%= render 'compute_resources/vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link "+", :nics, { :class => "info", :title => 'add new network interface' } %>
+    <%= add_child_link "+ Add Interface", :nics, { :class => "info", :title => 'add new network interface' } %>
   <% end -%>
 </div>
 
@@ -25,7 +25,7 @@
     <%= f.fields_for :volumes do |i| %>
       <%= render 'compute_resources/vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link "+", :volumes, { :class => "info", :title => 'add new storage volume' } %>
+    <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new storage volume' } %>
   <% end -%>
 </div>
 <!--TODO # Move to a helper-->

@@ -1,5 +1,5 @@
-<div <%= "id=#{f.object.key || 'new_lookup_keys'} class='tab-pane fields' " %> >
-  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn btn-danger action_btn'} unless controller_name == "lookup_keys" %>
+<div <%= "id=#{f.object.key || 'new_lookup_keys'} class='tab-pane fields well' " %> >
+  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn btn-danger hide'} unless controller_name == "lookup_keys" %>
   <%= text_f f, :key, :label => "Name" %>
   <%= text_f f, :description %>
   <%= text_f f, :default_value, :class => "input-xxlarge", :help_inline => popover("?","value to use when there is no match", :title => "Default Value").html_safe %>
@@ -24,7 +24,7 @@
     <%= f.fields_for :lookup_values do |lookup_values| %>
       <%= render 'lookup_keys/value', :f => lookup_values %>
     <% end %>
-    <%= add_child_link "+", :lookup_values, { :class => "info smart_var_add_match", :title => 'add new matcher / value'} %>
+    <%= add_child_link "+ Add Matcher-Value", :lookup_values, { :title => 'add a new matcher-value pair'} %>
   </div>
   <hr>
 </div>
