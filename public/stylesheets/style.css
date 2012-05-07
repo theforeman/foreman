@@ -105,15 +105,18 @@ th.underlined {
   width: 380px;
 }
 
-#login-form {margin-top:2em; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
+#login-form {margin-top:0em; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ECF0F3'); /* for IE */
 background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ECF0F3)); /* for webkit browsers */
 background: -moz-linear-gradient(top,  #fff,  #ECF0F3); /* for firefox 3.6+ */
 -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
 
 .login-background{
- background: url(../images/foreman_large.png) no-repeat left top;
+ margin-left: auto; margin-right: auto;
  height: 200px;
+ display: block;
+ margin-bottom: -55px;
+ margin-top: -55px;
 }
 
 /***** Flash & error messages ****/
