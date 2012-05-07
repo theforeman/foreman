@@ -1,4 +1,4 @@
-<div class="login-background"></div>
+<%=image_tag("foreman_large.png", :class=>"login-background") %>
 <%= form_tag login_users_path, :id => "login-form", :class => "form-vertical" do %>
   <%= label_tag "login[login]", "Username" %>
   <%= text_field :login, :login %>
