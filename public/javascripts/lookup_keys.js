@@ -1,9 +1,36 @@
 //on load
 $(function() {
-  //set selected tab
-  $('.tab-content .fields').first().addClass('active');
-  $('.nav-pills li').first().addClass('active');
+  //select the first tab
+  $('.nav-pills li a span').hide();
+  select_first_tab();
+  //make the remove variable button visible only on the active pill
+  $('.nav-pills li a').on('click',function(){ show_delete_button(this);});
+  //remove variable click event
+  $('.nav-pills li a span').on('click',function(){ remove_node(this);});
 })
+
+function select_first_tab(){
+  if ($('.nav-pills li').size() > 1){
+    $('.tab-content .fields').first().addClass('active');
+    $('.nav-pills li').first().addClass('active');
+  }
+  $('.nav-pills li.active a span').show('highlight',5  );
+}
+
+function show_delete_button(item){
+  $('.nav-pills li a span:visible').hide();
+  $(item).children("span").show('highlight',5);
+  if($(item).hasClass('label-success') && ($('.nav-pills li').size()>1)){
+    select_first_tab();
+  }
+}
+
+function remove_node(item){
+  $($(item).parent("a").attr("href")).children('.btn-danger').click();
+  var pills = $('.nav-pills li a');
+  if (pills.size() > 1){pills.first().click();}
+  $('.nav-pills li.active a').click();
+}
 
 function add_child_node(item) {
     // Setup
@@ -42,28 +69,30 @@ function add_child_node(item) {
     var field   = '';
     if (assoc == 'lookup_keys') {
       $('.nav-pills .active, .pill-content .active').removeClass('active');
-      var pill = "<li class='active'><a data-toggle='pill'  href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new</a></li>"
+      var pill = "<li class='active'><a onclick='show_delete_button(this);' data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new<span onclick='remove_node(this);' class='label label-important fr'>&times;</span></a></li>"
       $('.nav-pills').prepend(pill);
       field = $('.pill-content').prepend($(content).addClass('active'));
+      $('.nav-pills li.active a').show('highlight', 500);
     } else {
       field = $(content).insertBefore($(item));
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover();
     return new_id;
-};
+}
 
 function remove_child_node(item) {
   var hidden_field = $(item).prev('input[type=hidden]')[0];
   if(hidden_field) {
     hidden_field.value = '1';
   }
+
   $(item).closest('.fields').hide();
   if($(item).parent().hasClass('fields')) {
-    $('#pill_' + $(item).closest('.fields').attr('id')).hide();
-    $('.nav-pills li :visible').first().click();
+    $('#pill_' + $(item).closest('.fields').attr('id')).empty().remove();
   }
   $(item).closest("form").trigger('nested:fieldRemoved');
+
   return false;
 }
 

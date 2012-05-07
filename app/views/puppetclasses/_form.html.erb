@@ -23,11 +23,12 @@
           <p><strong>Help!</strong> What is a <a href=http://theforeman.org/projects/foreman/wiki/Smart_Variables rel="external">Smart variable</a>?</p>
         </div>
       <% end -%>
-      <p class="ra"><%= add_child_link "New Variable", :lookup_keys %></p>
+
       <ul class="nav nav-stacked nav-pills span2" data-tabs="pills">
         <% @puppetclass.lookup_keys.each do |key| -%>
-          <li><a data-toggle="pill" id="pill_<%= key %>" href="#<%= key %>"><%= key %></a></li>
+          <li><a data-toggle="pill" id="pill_<%= key %>" href="#<%= key %>"><%= key %><span class="label label-important fr">&times;</span></a></li>
         <% end -%>
+        <li><%= link_to_function "+ Add Variable", "add_child_node(this);" ,:class=>"label label-success", :"data-association" => :lookup_keys %></li>
       </ul>
 
       <div class="tab-content span8 pill-content">

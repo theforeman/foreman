@@ -25,7 +25,7 @@
       <%= f.fields_for :interfaces do |i| %>
         <%= render 'compute_resources/vms/form/ovirt/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
       <% end -%>
-      <%= add_child_link "+", :interfaces, { :class => "info", :title => 'add new network interface' } %>
+      <%= add_child_link "+ Add Interface", :interfaces, { :class => "info", :title => 'add new network interface' } %>
     <% end -%>
 
     <%= new_child_fields_template(f, :volumes, {
@@ -35,7 +35,7 @@
         <%= f.fields_for :volumes do |i| %>
             <%= render 'compute_resources/vms/form/ovirt/volume', :f => i, :compute_resource => compute_resource %>
         <% end -%>
-        <%= add_child_link "+", :volumes, { :class => "info", :title => 'add new volume' } %>
+        <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new volume' } %>
     <% end -%>
   </div>
 </div>
