@@ -161,7 +161,10 @@ class ApplicationController < ActionController::Base
   end
 
   def session_expiry
-    expire_session if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
+    if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
+      expire_session
+      session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
+    end
   rescue => e
     logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
     expire_session
