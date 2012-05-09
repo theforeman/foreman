@@ -146,20 +146,20 @@ class Puppetclass < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id], :methods => [:lookup_keys]})
+    super({:only => [:name, :id], :include => [:lookup_keys]})
   end
 
   def self.search_by_host(key, operator, value)
     conditions  = "hosts.name #{operator} '#{value_to_sql(operator, value)}'"
     direct      = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'DISTINCT puppetclasses.id').map(&:id)
     indirect    = Hostgroup.all(:conditions => conditions, :joins => [:hosts,:puppetclasses], :select => 'DISTINCT puppetclasses.id').map(&:id)
+    return {:conditions => "1=0"} if direct.blank? && indirect.blank?
 
     opts = ''
     opts += "puppetclasses.id IN(#{direct.join(',')})" unless direct.blank?
     opts += " OR "                                     unless direct.blank? || indirect.blank?
     opts += "hostgroups.id IN(#{indirect.join(',')})"  unless indirect.blank?
-    opts = "puppetclasses.id = 'nil'"                  if direct.blank? && indirect.blank?
-    return {:conditions => opts, :include => :hostgroups}
+    {:conditions => opts, :include => :hostgroups}
   end
 
   def self.value_to_sql(operator, value)
