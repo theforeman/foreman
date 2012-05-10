@@ -20,23 +20,26 @@ module HomeHelper
       ['Smart Proxies',          :smart_proxies]
     ]
 
-    choices += [
-      [:divider],
-      ['Compute Resources',      :compute_resources],
-      ['Hypervisors',            :hypervisors]
-    ] if SETTINGS[:libvirt]
+    if SETTINGS[:unattended]
+      choices += [
+        [:divider],
+        ['Compute Resources',    :compute_resources]
+      ]
 
-    choices += [
-      [:divider],
-      ['Architectures',          :architectures],
-      ['Domains',                :domains],
-      ['Hardware Models',        :models],
-      ['Installation Media',     :media],
-      ['Operating Systems',      :operatingsystems],
-      ['Partition Tables',       :ptables],
-      ['Provisioning Templates', :config_templates],
-      ['Subnets',                :subnets]
-    ] if SETTINGS[:unattended]
+      choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
+
+      choices += [
+        [:divider],
+        ['Architectures',          :architectures],
+        ['Domains',                :domains],
+        ['Hardware Models',        :models],
+        ['Installation Media',     :media],
+        ['Operating Systems',      :operatingsystems],
+        ['Partition Tables',       :ptables],
+        ['Provisioning Templates', :config_templates],
+        ['Subnets',                :subnets]
+      ]
+    end
 
     choices += [
       [:divider],
