@@ -22,9 +22,12 @@ module HomeHelper
 
     choices += [
       [:divider],
-      ['Compute Resources',      :compute_resources],
-      ['Hypervisors',            :hypervisors]
-    ] if SETTINGS[:libvirt]
+      ['Compute Resources',      :compute_resources]
+    ] if SETTINGS[:unattended]
+
+    choices += [
+      ['Hypervisors',            :hypervisor   
+    ] if SETTINGS[:libvirt] and SETTINGS[:unatttended]
 
     choices += [
       [:divider],
