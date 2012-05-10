@@ -22,7 +22,7 @@ module HomeHelper
 
     choices += [
       [:divider],
-      ['Compute Resources',      :compute_resources],
+      ['Compute Resources',      :compute_resources]
     ] if SETTINGS[:unattended]
 
     choices += [
