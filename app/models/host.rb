@@ -75,6 +75,8 @@ class Host < Puppet::Rails::Host
 
   scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
 
+  scope :alerts_enabled, {:conditions => ["enabled = ?", true] }
+
   scope :my_hosts, lambda {
     user                 = User.current
     owner_conditions     = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
