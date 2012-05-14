@@ -19,10 +19,10 @@
 
     <div class="tab-pane active" id="primary">
       <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {
-                      :onchange => 'hostgroup_changed(this);', "data-type" => controller_name,
+                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hosts_path,
                       :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
       <%= text_f f, :name %>
-      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true}, {:onchange => 'update_puppetclasses(this);', :"data-type" => controller_name} %>
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true}, {:onchange => 'update_puppetclasses(this);', :"data-url" => 'environment_selected'} %>
 
       <%= puppet_master_fields f %>
     </div>

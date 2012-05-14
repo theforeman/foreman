@@ -75,7 +75,8 @@ class Report < ActiveRecord::Base
     raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
     logger.info "processing report for #{report.host}"
     begin
-      host = Host.where(["name = ? or certname = ?", report.host, report.host]).first
+      host = Host.find_by_certname report.host
+      host ||= Host.find_by_name report.host
       host ||= Host.new :name => report.host
 
       # parse report metrics

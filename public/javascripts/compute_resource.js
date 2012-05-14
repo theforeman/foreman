@@ -1,11 +1,13 @@
 // AJAX load vm listing
 $(function() {
-  var url = $("#vms").attr('data-url');
-  $('#vms').load(url + ' table', function(response, status, xhr) {
-    if (status == "error") {
-      $('#vms_spinner').html("Sorry but there was an error: " + xhr.status + " " + xhr.statusText);
-    }
-    $('.dropdown-toggle').dropdown();
+  $('#vms, #images_list').each(function() {
+    var url = $(this).attr('data-url');
+    $(this).load(url + ' table', function(response, status, xhr) {
+      if (status == "error") {
+        $(this).closest("#spinner").html("Sorry but there was an error: " + xhr.status + " " + xhr.statusText);
+      }
+      $('.dropdown-toggle').dropdown();
+    });
   });
 });
 

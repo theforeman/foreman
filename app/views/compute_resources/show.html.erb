@@ -2,6 +2,9 @@
 <ul class="nav nav-tabs" data-tabs="tabs">
   <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
   <li><a href="#vms" data-toggle="tab">Virtual Machines</a></li>
+  <% if @compute_resource.capabilities.include?(:image) -%>
+    <li><a href="#images" data-toggle="tab">Images</a></li>
+  <% end -%>
 </ul>
 
 <div class="tab-content">
@@ -32,13 +35,29 @@
     </table>
   </div>
   <div id="vms" class="tab-pane" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
-    <p id="vms_spinner">
+    <p id="spinner">
       <%= image_tag 'spinner.gif' %>
       Loading Virtual Machines information ...
     </p>
   </div>
+  <% if @compute_resource.capabilities.include?(:image) -%>
+    <div id="images" class="tab-pane">
+      <div class="row">
+        <%= display_link_if_authorized("New Image", hash_for_new_compute_resource_image_path(:compute_resource_id => @compute_resource.id), :class => "fr btn btn-success") %>
+      </div>
+      <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource) %>>
+        <p id="spinner">
+          <%= image_tag 'spinner.gif' %>
+          Loading Images information ...
+        </p>
+      </div>
+    </div>
+  <% end -%>
 
 </div>
 
-<%= link_to 'Edit', edit_compute_resource_path(@compute_resource), :class => "btn" %>
-<%= link_to 'Back', compute_resources_path, :class => "btn" %>
+<div class="well">
+  <%= link_to 'Edit', edit_compute_resource_path(@compute_resource), :class => "btn" %>
+  <%= link_to 'Back', compute_resources_path, :class => "btn" %>
+</div>
+

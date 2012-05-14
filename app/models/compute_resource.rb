@@ -15,6 +15,7 @@ class ComputeResource < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => :true
   before_save :sanitize_url
   has_many :hosts
+  has_many :images, :dependent => :destroy
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
@@ -23,6 +24,15 @@ class ComputeResource < ActiveRecord::Base
       return eval("#{STI_PREFIX}::#{p}").new(args) if p.downcase == provider.downcase
     end
     raise "unknown Provider"
+  end
+
+  def capabilities
+    []
+  end
+
+  # attributes that this provider can provide back to the host object
+  def provided_attributes
+    {:uuid => :identity}
   end
 
   def test_connection

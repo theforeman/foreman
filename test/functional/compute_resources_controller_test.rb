@@ -22,7 +22,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       post :create, {:compute_resource => attrs}, set_session_user
     end
 
-    assert_redirected_to compute_resources_path
+    assert_redirected_to compute_resource_url(assigns('compute_resource'))
   end
 
   test "should show compute_resource" do

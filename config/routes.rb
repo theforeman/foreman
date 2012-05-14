@@ -61,6 +61,7 @@ Foreman::Application.routes.draw do
         post 'domain_selected'
         post 'use_image_selected'
         post 'compute_resource_selected'
+        post 'medium_selected'
       end
 
       constraints(:host_id => /[^\/]+/) do
@@ -124,6 +125,7 @@ Foreman::Application.routes.draw do
       post 'os_selected'
       post 'domain_selected'
       post 'use_image_selected'
+      post 'medium_selected'
     end
   end
 
@@ -239,6 +241,7 @@ Foreman::Application.routes.draw do
           get 'console'
         end
       end
+      resources :images
       collection do
         get  'auto_complete_search'
         post 'provider_selected'
@@ -266,5 +269,7 @@ Foreman::Application.routes.draw do
 
   # match for all unattended scripts
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
+
+  resources :tasks, :only => [:show]
 
 end

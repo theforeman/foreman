@@ -172,4 +172,10 @@ module HostsHelper
     fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
     fields
   end
+
+  def possible_images cr, arch = nil, os = nil
+    return cr.images unless controller_name == "hosts"
+    return [] unless arch && os
+    cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
+  end
 end

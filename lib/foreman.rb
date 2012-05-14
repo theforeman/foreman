@@ -4,6 +4,7 @@ require 'foreman/default_settings/loader'
 require 'foreman/renderer'
 require 'foreman/controller'
 require 'net'
+require 'foreman/provision' if SETTINGS[:unattended]
 
 module Foreman
   # generate a UUID

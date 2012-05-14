@@ -4,6 +4,6 @@
     {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]",
       :label => "Operating Systems",
       :disabled => arch_oss.empty? ? true : false,
-      :onchange => 'os_selected(this);', "data-type" => controller_name}
+      :onchange => 'os_selected(this);', :'data-url' => method_path('os_selected')}
   %>
 <% end -%>

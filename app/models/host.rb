@@ -13,13 +13,14 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
   belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
+  belongs_to :image
 
   include Hostext::Search
   include HostCommon
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
-      :params, :hostgroup, :domain, :ip, :mac, :shortname, :architecture, :model, :certname
+      :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture, :model, :certname
   end
 
   attr_reader :cached_host_params, :cached_lookup_keys_params
@@ -138,7 +139,7 @@ class Host < Puppet::Rails::Host
     include Orchestration
     include HostTemplateHelpers
 
-    validates_uniqueness_of  :ip, :if => Proc.new {|host| host.managed}
+    validates_uniqueness_of  :ip, :if => Proc.new {|host| host.require_ip_validation?}
     validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed }
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
@@ -148,7 +149,7 @@ class Host < Puppet::Rails::Host
 
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
     validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or host.compute? or !host.managed }
-    validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new {|host| host.managed}
+    validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
     validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake)  }
     validates_format_of      :sp_mac,    :with => Net::Validations::MAC_REGEXP, :allow_nil => true, :allow_blank => true
@@ -339,7 +340,8 @@ class Host < Puppet::Rails::Host
     facts = YAML::load yaml
     return false unless facts.is_a?(Puppet::Node::Facts)
 
-    h = Host.where(["name = ? or certname = ?", facts.name, facts.name]).first
+    h = Host.find_by_certname facts.name
+    h ||= Host.find_by_name facts.name
     h ||= Host.new :name => facts.name
 
     h.save(:validate => false) if h.new_record?
@@ -504,7 +506,7 @@ class Host < Puppet::Rails::Host
   end
 
   def can_be_build?
-    managed? and SETTINGS[:unattended] ? build == false : false
+    managed? and SETTINGS[:unattended] and capabilities.include?(:build) ? build == false : false
   end
 
   def facts_hash
@@ -594,9 +596,25 @@ class Host < Puppet::Rails::Host
     @overwrite = value == "true"
   end
 
+  def require_ip_validation?
+    managed? and !compute? or (compute? and !compute_resource.provided_attributes.keys.include?(:ip))
+  end
+
   # if certname does not exist, use hostname instead
   def certname
-    super || name
+    read_attribute(:certname) || name
+  end
+
+  def queuename
+    @queuename ||= Foreman.uuid
+  end
+
+  def queuename=(value)
+    @queuename = value
+  end
+
+  def capabilities
+    compute_resource_id ? compute_resource.capabilities : [:build]
   end
 
   private

@@ -2,7 +2,7 @@
   <%= select_f f, :medium_id, os_media, :id, :to_label,
     {:include_blank => os_media.size > 1, :selected => item.medium_id},
     {:id => type + "_medium_id", :name => type + "[medium_id]", :label => "Media", :disabled => os_media.empty?,
-     :onchange => 'medium_selected(this);', "data-type" => controller_name }
+     :onchange => 'medium_selected(this);', :'data-url' =>  method_path('medium_selected'), :'data-type' => controller_name }
   %>
   <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
     {:include_blank => os_ptable.size > 1, :selected => item.ptable_id},
