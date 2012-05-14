@@ -94,3 +94,8 @@ attributes19:
   category: Puppet
   default: true
   description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
+attributes20:
+  name: use_uuid_for_certificates
+  category: Puppet
+  default: false
+  description: "Should Foreman use random UUID's for certificate signing instead of hostnames"

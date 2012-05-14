@@ -80,6 +80,10 @@ module Facts
     def ip
       facts[:ipaddress]
     end
+
+    def certname
+      facts[:clientcert]
+    end
   end
 
 end

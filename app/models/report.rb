@@ -78,10 +78,11 @@ class Report < ActiveRecord::Base
     raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
     logger.info "processing report for #{report.host}"
     begin
-      host = Host.find_or_create_by_name report.host
+      host = Host.where(["name = ? or certname = ?", report.host, report.host]).first
+      host ||= Host.new :name => report.host
 
       # parse report metrics
-      raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
+      raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
       # Is this a pre 2.6.x report format?
       @post265 = report.instance_variables.include?("@report_format")

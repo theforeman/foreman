@@ -8,6 +8,7 @@ common:
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
+  domain: mydomain
 
 unusual:
   name: Unusual

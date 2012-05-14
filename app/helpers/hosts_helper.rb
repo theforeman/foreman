@@ -157,4 +157,18 @@ module HostsHelper
     select(nil, 'templates',options,{:include_blank => true},
            {:onchange =>"if ($('#_templates').val() == '') {return false;}; window.open($('#_templates').val(), $('#_templates option:selected').text(),[width='300',height='400',scrollbars='yes']);"})
   end
+
+  def overview_fields host
+    fields = [
+      ["Domain", host.domain],
+      ["IP Address", host.ip],
+      ["Puppet Environment", host.environment],
+      ["Host Architecture", host.arch],
+      ["Operating System", host.os],
+      ["Host Group", host.hostgroup],
+    ]
+    fields += [["Owner", host.owner]] if SETTINGS[:login]
+    fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
+    fields
+  end
 end

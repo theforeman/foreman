@@ -422,4 +422,29 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.root_pass, Setting.root_pass
   end
 
+  test "should save uuid on managed hosts" do
+    Setting[:use_uuid_for_certificates] = true
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true
+    assert host.valid?
+    assert !host.new_record?
+    assert_not_nil host.certname
+    assert_not_equal host.name, host.certname
+  end
+
+  test "should not save uuid on non managed hosts" do
+    Setting[:use_uuid_for_certificates] = true
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal host.name, host.certname
+  end
+
+  test "should not save uuid when settings disable it" do
+    Setting[:use_uuid_for_certificates] = false
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal host.name, host.certname
+  end
+
 end

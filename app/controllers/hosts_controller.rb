@@ -152,7 +152,8 @@ class HostsController < ApplicationController
   #will return HTML error codes upon failure
 
   def externalNodes
-    @host ||= Host.find_by_name(params[:name]) if params[:name]
+    certname = params[:name]
+    @host ||= Host.where(["name = ? or certname = ?",certname, certname]).first if certname
     not_found and return unless @host
 
     begin

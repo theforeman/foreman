@@ -11,6 +11,7 @@ gem "ancestry", "~> 1.2.4"
 gem 'scoped_search', '>= 2.3.7'
 gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
+gem 'uuidtools'
 
 group :virt do
   gem "virt", ">= 0.2.1"

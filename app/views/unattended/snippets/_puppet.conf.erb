@@ -10,6 +10,6 @@ report = true
 ignoreschedules = true
 daemon = false
 ca_server   = <%= @host.puppet_ca_server %>
-certname    = <%= @host.name %>
+certname    = <%= @host.certname %>
 environment = <%= @host.environment %>
 server      = <%= @host.puppetmaster %>

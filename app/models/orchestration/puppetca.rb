@@ -13,6 +13,7 @@ module Orchestration::Puppetca
     protected
     def initialize_puppetca
       return unless puppetca?
+      return unless Setting[:manage_puppetca]
       @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
       true
     rescue => e
@@ -22,7 +23,7 @@ module Orchestration::Puppetca
     # Removes the host's puppet certificate from the puppetmaster's CA
     def delCertificate
       logger.info "Remove puppet certificate for #{name}"
-      puppetca.del_certificate name
+      puppetca.del_certificate certname
     rescue => e
       failure "Failed to remove #{name}'s puppet certificate: #{proxy_error e}"
     end
@@ -33,7 +34,7 @@ module Orchestration::Puppetca
     # Adds the host's name to the autosign.conf file
     def setAutosign
       logger.info "Adding autosign entry for #{name}"
-      puppetca.set_autosign name
+      puppetca.set_autosign certname
     rescue => e
       failure "Failed to add #{name} to autosign file: #{proxy_error e}"
     end
@@ -41,7 +42,7 @@ module Orchestration::Puppetca
     # Removes the host's name from the autosign.conf file
     def delAutosign
       logger.info "Delete the autosign entry for #{name}"
-      puppetca.del_autosign name
+      puppetca.del_autosign certname
     rescue => e
       failure "Failed to remove #{self} from the autosign file: #{proxy_error e}"
     end
@@ -64,8 +65,6 @@ module Orchestration::Puppetca
         queue.create(:name => "Delete autosign entry for #{self}", :priority => 50,
                      :action => [self, :delAutosign])
       end
-      # name changed? do we want to allow that?
-
     end
 
     def queue_puppetca_destroy
