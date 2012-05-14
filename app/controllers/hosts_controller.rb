@@ -91,7 +91,7 @@ class HostsController < ApplicationController
     @host.managed = true
     forward_request_url
     if @host.save
-      process_success :success_redirect => @host
+      process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
@@ -106,7 +106,7 @@ class HostsController < ApplicationController
   def update
     forward_request_url
     if @host.update_attributes(params[:host])
-      process_success :success_redirect => @host
+      process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
@@ -442,7 +442,8 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    templates = TemplateKind.all.map do |kind|
+    kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
+    templates = kinds.map do |kind|
       ConfigTemplate.find_template({:kind => kind.name, :operatingsystem_id => params[:operatingsystem_id],
                                    :hostgroup_id => params[:hostgroup_id], :environment_id => params[:environment_id]})
     end.compact

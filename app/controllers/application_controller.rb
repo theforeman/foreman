@@ -230,6 +230,8 @@ class ApplicationController < ActionController::Base
     hash[:success_redirect]       ||= eval("#{controller_name}_url")
     hash[:json_code]                = :created if action_name == "create"
 
+    return render :json => {:redirect => hash[:success_redirect]} if hash[:redirect_xhr]
+
     respond_to do |format|
         format.html do
           notice hash[:success_msg]

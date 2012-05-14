@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Foreman
   module Renderer
     def render_safe template, allowed_methods = [], allowed_vars = {}
@@ -46,5 +48,17 @@ module Foreman
       render_safe template, allowed_helpers, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
+
+    def unattended_render_to_temp_file content, prefix = id, options = {}
+      file = ""
+      Tempfile.open(prefix, Rails.root.join('tmp') ) do |f|
+        f.print(unattended_render(content))
+        f.flush
+        f.chmod options[:mode] if options[:mode]
+        file = f
+      end
+      file
+    end
+
   end
 end

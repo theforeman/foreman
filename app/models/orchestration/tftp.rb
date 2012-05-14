@@ -14,7 +14,7 @@ module Orchestration::TFTP
   module InstanceMethods
 
     def tftp?
-      !!(subnet and subnet.tftp?) and managed?
+      !!(subnet and subnet.tftp?) and managed? and capabilities.include?(:build)
     end
 
     def tftp
@@ -29,7 +29,7 @@ module Orchestration::TFTP
       logger.info "Add the TFTP configuration for #{name}"
       tftp.set mac, :pxeconfig => generate_pxe_template
     rescue => e
-      failure "Failed to set TFTP: #{proxy_error e}"
+        failure "Failed to set TFTP: #{proxy_error e}"
     end
 
     # Removes the host from the forward and reverse TFTP zones

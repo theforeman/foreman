@@ -7,4 +7,5 @@
       <p>'<%= @host.name %>' could be deleted. </p>
     </div>
   <% end%>
+  <%= hidden_field_tag 'capabilities', compute_resource.capabilities %>
 <% end -%>

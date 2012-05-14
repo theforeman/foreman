@@ -1,0 +1,41 @@
+
+<%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
+    {:onchange => 'architecture_selected(this);'} %>
+
+<span id="os_select">
+  <%= render 'common/os_selection/architecture', :item => @host %>
+</span>
+
+<div id='provisioning_method' class=<%= @host.capabilities.size > 1 ? '' : 'hide' %> >
+    <%= field(f,:build,:label => 'Provisioning Method') do
+       radio_button_f(f,:build, :value=>'build', :checked=>true, :text=> "Network Based provisioning")+
+       radio_button_f(f,:build, :value=>'image', :text=> "Image Based provisioning")
+    end %>
+</div>
+<div id='network_provisioning'>
+  <% if @host.new_record? -%>
+      <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
+  <% end -%>
+  <span id="media_select">
+    <%= render 'common/os_selection/operatingsystem', :item => @host %>
+  </span>
+
+
+  <%= textarea_f f, :disk, :class => "input-xxlarge", :label => 'Custom Disk layout', :rows => "4",
+           :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
+  <%= password_f f, :root_pass, :label => "Root Password" %>
+</div>
+
+<div id='image_provisioning' class='hide'>
+
+</div>
+<!-- this section is used for displaying the provisioning scripts-->
+<div class="control-group">
+  <div class="control-label"> Provisioning Templates</div>
+  <div class=controls>
+  <%= link_to_function icon_text("refresh", "Resolve"), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn" %>
+  <%=  popover("?", "Display the templates that will be used to provision this host", :title=>"Provisioning Templates") %>
+  </div>
+  <br>
+<div id="templates_info" class="span6 controls"> </div>
+</div>

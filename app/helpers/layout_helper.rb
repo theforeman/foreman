@@ -39,14 +39,25 @@ module LayoutHelper
   end
 
   def checkbox_f(f, attr, options = {})
+    text = options.delete(:help_inline)
     field(f, attr, options) do
-      f.check_box attr, options
+      label_tag('', :class=>'checkbox') do
+      f.check_box(attr, options) + " #{text} "
+      end
     end
   end
 
   def multiple_checkboxes(f, attr, obj, klass, options = {})
     field(f, attr, options) do
       authorized_edit_habtm obj, klass
+    end
+  end
+
+  def radio_button_f(f, attr, options = {})
+    text = options.delete(:text)
+    value = options.delete(:value)
+    label_tag('', :class=>"radio inline") do
+      f.radio_button(attr, value, options) + " #{text} "
     end
   end
 
@@ -69,23 +80,24 @@ module LayoutHelper
   end
 
   def field(f, attr, options = {})
-    obj = f.object
-    error = obj.errors[attr] if obj.respond_to?(:errors)
-    help_inline = content_tag(:span, (error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe), :class => "help-inline")
+    error = f.object.errors[attr] if f.object.respond_to?(:errors)
+    inline = error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe
+    help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "control-group #{error.empty? ? "" : 'error'}" do
-      f.label(attr, options.delete(:label),:class=>"control-label").html_safe +
+      label_tag(attr, options.delete(:label), :class=>"control-label").html_safe +
         content_tag(:div, :class => "controls") do
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe
     end
   end
 
-  def submit_or_cancel f, overwrite = false
+  def submit_or_cancel f, overwrite = false, args = { }
+    args[:cancel_path] ||= eval "#{controller_name}_path"
     content_tag(:div, :class => "form-actions") do
       text    = overwrite ? "Overwrite" : "Submit"
-      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary",:disable_with => 'submitting'}
-      link_to("Cancel", eval("#{controller_name}_path"), :class => "btn") + " " +
+      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+      link_to("Cancel", args[:cancel_path], :class => "btn") + " " +
       f.submit(text, options)
     end
   end

@@ -10,32 +10,25 @@
   <span id="mac_address">
     <%= render 'mac', :item => @host unless @hypervisor or @host.compute_resource_id -%>
   </span>
-  <%= render 'common/domain_subnet', :item => @host %>
-  <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" , :autocomplete => 'off'%>
-  <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" , :autocomplete => 'off'%>
-  <%= text_f f, :sp_ip,  :label => "BMC IP" , :autocomplete => 'off'%>
-  <%= text_f f, :sp_mac, :label => "BMC MAC", :autocomplete => 'off' %>
-  <span id="sp_subnet">
-    <%= render 'sp_subnet', :item => @host %>
-  </span>
+
+  <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
+      {:onchange => 'domain_selected(this);'} %>
+  <% if @host.capabilities.include?(:build) %>
+      <div id='manage_network'>
+        <span id="subnet_select">
+          <%= render 'common/domain', :item => @host %>
+        </span>
+        <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" , :autocomplete => 'off'%>
+        <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" , :autocomplete => 'off'%>
+        <%= text_f f, :sp_ip,  :label => "BMC IP" , :autocomplete => 'off'%>
+        <%= text_f f, :sp_mac, :label => "BMC MAC", :autocomplete => 'off' %>
+        <span id="sp_subnet">
+          <%= render 'sp_subnet', :item => @host %>
+        </span>
+      </div>
+  <% end %>
 </div>
 
 <div class="tab-pane"  id="os">
-  <%= render "common/os_selection/initial", { :item=> @host } %>
-  <%= textarea_f f, :disk, :class => "input-xxlarge", :label => 'Custom Disk layout', :rows => "4",
-    :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
-  <% if @host.new_record? -%>
-    <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
-  <% end -%>
-  <%= password_f f, :root_pass, :label => "Root Password" %>
-
-  <div class="control-group">
-    <div class="control-label"> Provisioning Templates</div>
-    <div class=controls>
-    <%= link_to_function icon_text("refresh", "Resolve"), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn" %>
-    <%=  popover("?", "Display the templates that will be used to provision this host", :title=>"Provisioning Templates") %>
-    </div>
-    <br>
-  <div id="templates_info" class="span6 controls"> </div>
-  </div>
+  <%= render 'operating_system', :host => @host, :f => f %>
 </div>

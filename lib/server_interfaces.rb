@@ -66,5 +66,15 @@ module Fog
 
       end
     end
+    class AWS
+      class Flavor < Fog::Model
+
+        def to_label
+          "#{id} - #{name}"
+        end
+
+      end
+    end
   end
+
 end if defined? Fog

@@ -1,3 +1,5 @@
-<%= text_f f, :flavor_id %>
-<%# text_f f, :image_id %>
+<%= select_f f, :flavor_id, compute_resource.flavors, :id, :to_label %>
+<div id='image_selection'><%= select_f f, :image_id, compute_resource.images, :uuid, :name,{:include_blank =>'Please Select an Image'} %></div>
+<%= selectable_f f, :groups, compute_resource.security_groups, {}, :label => "Security Group"  %>
+<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => "No Preference"} %>
 

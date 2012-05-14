@@ -1,6 +1,6 @@
 <%= fields_for item do |f| %>
   <span id="image_details">
-    <%= checkbox_f f, :use_image, :label => "Build from img?", :onchange => 'use_image_selected(this)', "data-type" => controller_name %>
-    <%= text_f f, :image_file, :disabled => !item.use_image, :class => "input-xxlarge" %>
+    <%= checkbox_f f, :use_image, :label => "OS Image", :help_inline => "Build from OS image", :onchange => 'use_image_selected(this)', "data-type" => controller_name %>
+    <%= text_f f, :image_file, :disabled => !item.use_image, :class => "span6" %>
   </span>
 <% end -%>
