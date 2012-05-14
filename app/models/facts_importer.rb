@@ -15,7 +15,10 @@ module Facts
                     facts[:lsbdistrelease] || facts[:operatingsystemrelease]
                 end
 
-      if orel.present?
+      if os_name == "Archlinux"
+        # Archlinux is rolling release, so it has no release. We use 1.0 always
+        Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, "1", "0"
+      elsif orel.present?
         major, minor = orel.split(".")
         minor        ||= ""
         Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor

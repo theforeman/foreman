@@ -41,9 +41,9 @@ class Operatingsystem < ActiveRecord::Base
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
                'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
                'Suse'    => %r{OpenSuSE}i,
-               'Solaris' => %r{Solaris}i,
-               'Windows' => %r{Windows}i }
-
+               'Windows' => %r{Windows}i,
+               'Archlinux' => %r{Archlinux}i,
+               'Solaris' => %r{Solaris}i }
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type
