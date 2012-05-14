@@ -22,7 +22,7 @@ class DashboardController < ApplicationController
       :active_hosts_ok           => @hosts.recent.with_changes.without_error.count,
       :active_hosts_ok_enabled   => @hosts.recent.with_changes.without_error.alerts_enabled.count,
       :ok_hosts                  => @hosts.recent.successful.count,
-      :ok_hosts_enabled          => @hosts.recent.successful.count,
+      :ok_hosts_enabled          => @hosts.recent.successful.alerts_enabled.count,
       :out_of_sync_hosts         => @hosts.out_of_sync.count,
       :out_of_sync_hosts_enabled => @hosts.out_of_sync.alerts_enabled.count,
       :disabled_hosts            => @hosts.alerts_disabled.count,
