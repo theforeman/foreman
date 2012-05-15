@@ -267,4 +267,6 @@ Foreman::Application.routes.draw do
   # match for all unattended scripts
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
 
+  resources :tasks, :only => [:show]
+
 end

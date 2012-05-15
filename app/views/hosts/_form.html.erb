@@ -1,6 +1,7 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
 <%= render "conflicts" if @host.errors[:conflict].any? %>
-<%= form_for @host do |f| %>
+<%= render "progress" %>
+<%= form_for @host,  :html => {:'data-submit' => 'progress_bar'} do |f| %>
   <%= base_errors_for @host %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -48,6 +49,7 @@
     </div>
 
     <%= f.hidden_field :managed %>
+    <%= f.hidden_field :queuename %>
 
     <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
