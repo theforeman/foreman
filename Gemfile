@@ -13,6 +13,11 @@ gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 gem 'uuidtools'
 
+local_gemfile = File.dirname(__FILE__) + "/Gemfile.local.rb"
+if File.file?(local_gemfile)
+  self.instance_eval(Bundler.read_file(local_gemfile))
+end
+
 group :virt do
   gem "virt", ">= 0.2.1"
   gem "rbovirt", ">= 0.0.12"

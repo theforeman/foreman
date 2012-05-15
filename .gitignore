@@ -7,6 +7,7 @@ db/schema.rb
 config/settings.yaml
 config/email.yaml
 Gemfile.lock
+Gemfile.local.rb
 *.sw?
 .idea
 *.pyc
