@@ -18,12 +18,18 @@ if File.file?(local_gemfile)
   self.instance_eval(Bundler.read_file(local_gemfile))
 end
 
+group :fog do
+  gem "fog", :git => "git://github.com/fog/fog.git"
+  #gem "fog", ">= 1.3.2"
+end
+
+group :vmware do
+  gem "rbvmomi"
+end
+
 group :virt do
   gem "virt", ">= 0.2.1"
   gem "rbovirt", ">= 0.0.12"
-  gem "rbvmomi"
-  gem "fog", :git => "git://github.com/fog/fog.git"
-  #gem "fog", ">= 1.3.2"
 end
 
 # database groups, you would most likely need to use only one of these
