@@ -50,16 +50,19 @@ function submit_host(form){
         window.location.replace(response.redirect);
       }
       else{
-        $("#host-progress-modal").modal('hide');
+        $("#host-progress").hide();
         $('#content').replaceWith($("#content", response));
-        onHostEditLoad();
         onContentLoad();
+        onHostEditLoad();
       }
+    },
+    error: function(response){
+      $('#content').replaceWith($("#content", response.responseText));
     },
     complete: function(response){
       stop_pooling = true;
       $("body").css("cursor", "auto");
-      $("#host-progress-modal").modal('hide');
+      $("#host-progress").hide();
     }
   });
   return false;
@@ -77,18 +80,20 @@ function animate_progress(){
 }
 
 function update_progress(data){
-  var all = $('p',data).size();
-  if (all == 0 || stop_pooling == true) return;
-  var done = $('.icon-check',data).size();
-  $("#host-progress-modal").modal();
-  if($('.icon-remove',data).size() > 0) {
-    $('.progress').removeClass('progress-success');
-    $('.progress').addClass('progress-danger');
+  var task_list_size = $('p',data).size();
+  if (task_list_size == 0 || stop_pooling == true) return;
+
+  var done_tasks = $('.icon-check',data).size();
+  var failed_tasks = $('.icon-remove',data).size();
+  var $progress = $('.progress');
+
+  $("#host-progress").show();
+  if(failed_tasks > 0) {
+    $progress.removeClass('progress-success').addClass('progress-danger');
   }else{
-    $('.progress').removeClass('progress-danger');
-    $('.progress').addClass('progress-success');
+    $progress.removeClass('progress-danger').addClass('progress-success');
   }
-  $('.bar').width(done/all *400);
+  $('.bar').width(done_tasks/task_list_size *$progress.width());
   $('#tasks_progress').replaceWith(data);
 }
 
