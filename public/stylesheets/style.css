@@ -106,17 +106,16 @@ th.underlined {
 }
 
 #login-form {margin-top:0em; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ECF0F3'); /* for IE */
-background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ECF0F3)); /* for webkit browsers */
-background: -moz-linear-gradient(top,  #fff,  #ECF0F3); /* for firefox 3.6+ */
--moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+background: url(../images/foreman_background.png) no-repeat right center;
+}
 
-.login-background{
+.login-large-logo{
  margin-left: auto; margin-right: auto;
- height: 200px;
  display: block;
- margin-bottom: -55px;
- margin-top: -55px;
+ margin-bottom: -30px;
+ margin-top: -30px;
+ padding-right: 170px;
 }
 
 /***** Flash & error messages ****/
