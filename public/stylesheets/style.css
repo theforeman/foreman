@@ -328,3 +328,6 @@ margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 .delete{color: #b94a48 !important;}
 
 .setting_value form { margin: 0 !important;}
+.form-actions{
+    background-color: #f5f5f5;
+}
