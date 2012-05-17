@@ -82,9 +82,9 @@ module LayoutHelper
   end
 
   def submit_or_cancel f, overwrite = false
-    "<br>".html_safe + content_tag(:p, :class => "ra") do
+    content_tag(:div, :class => "form-actions") do
       text    = overwrite ? "Overwrite" : "Submit"
-      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary",:disable_with => 'submitting'}
       link_to("Cancel", eval("#{controller_name}_path"), :class => "btn") + " " +
       f.submit(text, options)
     end
@@ -123,9 +123,9 @@ module LayoutHelper
 
   def form_for(record_or_name_or_array, *args, &proc)
     if args.last.is_a?(Hash)
-      args.last[:html] = {:class=>"form-horizontal"}.merge(args.last[:html]||{})
+      args.last[:html] = {:class=>"form-horizontal well"}.merge(args.last[:html]||{})
     else
-      args << {:html=>{:class=>"form-horizontal"}}
+      args << {:html=>{:class=>"form-horizontal well"}}
     end
     super record_or_name_or_array, *args, &proc
   end
