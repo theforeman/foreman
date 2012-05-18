@@ -1,18 +1,20 @@
 class StatisticsController < ApplicationController
 
   def index
-    @os_count    = Host.count_distribution :operatingsystem
-    @arch_count  = Host.count_distribution :architecture
-    @env_count   = Host.count_distribution :environment
-    @klass_count = Host.count_habtm "puppetclass"
-    @cpu_count   = FactValue.count_each "processorcount"
-    @model_count = FactValue.count_each "manufacturer"
-    @mem_size    = FactValue.mem_average "memorysize"
-    @mem_free    = FactValue.mem_average "memoryfree"
-    @swap_size   = FactValue.mem_average "swapsize"
-    @swap_free   = FactValue.mem_average "swapfree"
-    @mem_totsize = FactValue.mem_sum "memorysize"
-    @mem_totfree = FactValue.mem_sum "memoryfree"
+    my_hosts = User.current.admin? ? Host : Host.my_hosts
+    my_facts = User.current.admin? ? FactValue : FactValue.my_facts
+    @os_count    = my_hosts.count_distribution :operatingsystem
+    @arch_count  = my_hosts.count_distribution :architecture
+    @env_count   = my_hosts.count_distribution :environment
+    @klass_count = my_hosts.count_habtm "puppetclass"
+    @cpu_count   = my_facts.count_each "processorcount"
+    @model_count = my_facts.count_each "manufacturer"
+    @mem_size    = my_facts.mem_average "memorysize"
+    @mem_free    = my_facts.mem_average "memoryfree"
+    @swap_size   = my_facts.mem_average "swapsize"
+    @swap_free   = my_facts.mem_average "swapfree"
+    @mem_totsize = my_facts.mem_sum "memorysize"
+    @mem_totfree = my_facts.mem_sum "memoryfree"
     respond_to do |format|
       format.html
       format.json do
