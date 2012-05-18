@@ -13,6 +13,12 @@ class FactValue < Puppet::Rails::FactValue
   scope :timestamp_facts, :joins => [:fact_name],
               :conditions => ["fact_names.name = ?",:_timestamp]
 
+  scope :my_facts, lambda {
+    my_hosts   = User.current.admin? ? Host : Host.my_hosts
+    conditions = sanitize_sql_for_conditions([" (fact_values.host_id in (?))",fhs = (my_hosts.map(&:id))])
+    {:conditions => conditions}
+  }
+
   scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
   scope :required_fields, { :include => :host }
   default_scope :order => 'LOWER(fact_values.value)'
