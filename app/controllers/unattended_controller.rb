@@ -203,6 +203,11 @@ class UnattendedController < ApplicationController
   def yast_attributes
   end
 
+  def aif_attributes
+    os         = @host.operatingsystem
+    @mediapath = os.mediumpath @host
+  end
+
   private
 
   def safe_render template

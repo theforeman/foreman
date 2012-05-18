@@ -2,13 +2,18 @@ class Archlinux < Operatingsystem
 
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
+  # Simple output of the media url
+  def mediumpath host
+    medium_uri(host).to_s
+  end
+
   # Override the class representation, as this breaks many rails helpers
   def class
     Operatingsystem
   end
 
   def pxe_type
-    "aix" # Fairly pointless as we have to set up NBD separately for now
+    "aif"
   end
 
   def pxedir
