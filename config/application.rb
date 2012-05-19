@@ -61,6 +61,7 @@ module Foreman
     config.session_store :active_record_store
 
     # enables in memory cache store with ttl
-    config.cache_store = TimedCachedStore.new
+    #config.cache_store = TimedCachedStore.new
+    config.cache_store = :file_store, '/tmp'
   end
 end

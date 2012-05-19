@@ -594,7 +594,15 @@ class Host < Puppet::Rails::Host
 
   # if certname does not exist, use hostname instead
   def certname
-    super || name
+    read_attribute(:certname) || name
+  end
+
+  def queuename
+    @queuename ||= Foreman.uuid
+  end
+
+  def queuename=(value)
+    @queuename = value
   end
 
   private

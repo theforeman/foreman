@@ -1,20 +1,39 @@
 $(function() {
-  $('.flash.error').hide().each(function(index, item) {
-    if ($('.alert-message.alert-error.base').length == 0) {
-      if ($('#host-conflicts-modal').length == 0) {
-        $.jnotify($(item).text(), { type: "error", sticky: true });
-      }
-    }
-  });
-
-  $('.flash.warning').hide().each(function(index, item) {
-    $.jnotify($(item).text(), { type: "warning", sticky: true });
-  });
-
-  $('.flash.notice').hide().each(function(index, item) {
-    $.jnotify($(item).text(), { type: "success", sticky: false });
-  });
+  onContentLoad();
 });
+
+function onContentLoad(){
+  $('.flash.error').hide().each(function(index, item) {
+     if ($('.alert-message.alert-error.base').length == 0) {
+       if ($('#host-conflicts-modal').length == 0) {
+         $.jnotify($(item).text(), { type: "error", sticky: true });
+       }
+     }
+   });
+
+   $('.flash.warning').hide().each(function(index, item) {
+     $.jnotify($(item).text(), { type: "warning", sticky: true });
+   });
+
+   $('.flash.notice').hide().each(function(index, item) {
+     $.jnotify($(item).text(), { type: "success", sticky: false });
+   });
+
+  // adds buttons classes to all links
+  $("#title_action a").addClass("btn");
+  $("#title_action a[href*='new']").addClass("btn-success");
+
+  // highlight tabs with errors
+  $(".tab-content").find(".control-group.error").each(function() {
+    var id = $(this).parentsUntil(".tab-content").last().attr("id");
+    $("a[href=#"+id+"]").addClass("tab-error");
+  })
+
+  //set the tooltips
+  $('a[rel="popover"]').popover();
+  $('[rel="twipsy"]').tooltip();
+}
+
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
@@ -122,12 +141,6 @@ $(document).ready(function() {
   });
 });
 
-// adds buttons classes to all links
-$(function(){
-  $("#title_action a").addClass("btn");
-  $("#title_action a[href*='new']").addClass("btn-success");
-});
-
 $(function() {
   if ($("#login-form").size() > 0) {
     $("#login_login").focus();
@@ -209,22 +222,6 @@ $(function() {
                                            });
   });
 
-});
-
-
-// highlight tabs with errors
-$(function(){
-  $(".tab-content").find(".control-group.error").each(function() {
-    // find each tab id
-    var id = $(this).parentsUntil(".tab-content").last().attr("id");
-    // now add a class to that tab
-    $("a[href=#"+id+"]").addClass("tab-error");
-  })
-});
-
-$(function () {
-  $('a[rel="popover"]').popover();
-  $('[rel="twipsy"]').tooltip();
 });
 
 function filter_by_level(item){

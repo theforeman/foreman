@@ -27,10 +27,74 @@ function computeResourceSelected(item){
       url: url,
       data:'compute_resource_id=' + compute,
       success: function(result){
-         $('#compute_resource').html(result);
+        $('#compute_resource').html(result);
       }
     })
   }
+}
+
+var stop_pooling;
+
+function submit_host(form){
+  var url = form.attr("action");
+  stop_pooling = false;
+  $("body").css("cursor", "progress");
+  animate_progress();
+
+  $.ajax({
+    type:'POST',
+    url: url,
+    data: form.serialize(),
+    success: function(response){
+      if(response.redirect){
+        window.location.replace(response.redirect);
+      }
+      else{
+        $("#host-progress").hide();
+        $('#content').replaceWith($("#content", response));
+        onContentLoad();
+        onHostEditLoad();
+      }
+    },
+    error: function(response){
+      $('#content').replaceWith($("#content", response.responseText));
+    },
+    complete: function(response){
+      stop_pooling = true;
+      $("body").css("cursor", "auto");
+      $("#host-progress").hide();
+    }
+  });
+  return false;
+}
+
+function animate_progress(){
+  if (stop_pooling == true) return;
+  setTimeout(function() {
+    var task_id = $('#host_queuename').val();
+    $.get('/tasks/' + task_id, function (response){
+       update_progress(response);
+       animate_progress();
+    })
+  }, 1600);
+}
+
+function update_progress(data){
+  var task_list_size = $('p',data).size();
+  if (task_list_size == 0 || stop_pooling == true) return;
+
+  var done_tasks = $('.icon-check',data).size();
+  var failed_tasks = $('.icon-remove',data).size();
+  var $progress = $('.progress');
+
+  $("#host-progress").show();
+  if(failed_tasks > 0) {
+    $progress.removeClass('progress-success').addClass('progress-danger');
+  }else{
+    $progress.removeClass('progress-danger').addClass('progress-success');
+  }
+  $('.bar').width(done_tasks/task_list_size *$progress.width());
+  $('#tasks_progress').replaceWith(data);
 }
 
 function add_puppet_class(item){
@@ -233,8 +297,17 @@ function use_image_selected(element){
 }
 
 $(function () {
-  $("#host-conflicts-modal").modal({show: "true", backdrop: "static"});
-  $('#host-conflicts-modal').click(function(){
-    $('#host-conflicts-modal').modal('hide');
-  });
+  onHostEditLoad();
 });
+
+function onHostEditLoad(){
+  $("#host-conflicts-modal").modal({show: "true", backdrop: "static"});
+   $('#host-conflicts-modal').click(function(){
+     $('#host-conflicts-modal').modal('hide');
+   });
+  var $form = $("[data-submit='progress_bar']");
+  $form.on('submit', function(){
+    submit_host($form);
+    return false;
+  });
+}

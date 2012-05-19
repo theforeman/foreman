@@ -93,7 +93,7 @@ class HostsController < ApplicationController
     @host.managed = true
     forward_request_url
     if @host.save
-      process_success :success_redirect => @host
+      process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
@@ -108,7 +108,7 @@ class HostsController < ApplicationController
   def update
     forward_request_url
     if @host.update_attributes(params[:host])
-      process_success :success_redirect => @host
+      process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
