@@ -13,8 +13,7 @@ class DashboardController < ApplicationController
 
   private
   def prefetch_data
-    my_hosts = User.current.admin? ? Host : Host.my_hosts
-    @hosts   = my_hosts.search_for(params[:search])
+    @hosts  = Host.my_hosts.search_for(params[:search])
     @report = {
       :total_hosts               => @hosts.count,
       :bad_hosts                 => @hosts.recent.with_error.count,
