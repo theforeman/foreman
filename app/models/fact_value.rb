@@ -14,9 +14,10 @@ class FactValue < Puppet::Rails::FactValue
               :conditions => ["fact_names.name = ?",:_timestamp]
 
   scope :my_facts, lambda {
-    my_hosts   = User.current.admin? ? Host : Host.my_hosts
-    conditions = sanitize_sql_for_conditions([" (fact_values.host_id in (?))",fhs = (my_hosts.map(&:id))])
-    {:conditions => conditions}
+    return { :conditions => "" } if User.current.admin? # Admin can see all hosts
+
+    {:conditions => sanitize_sql_for_conditions(
+      [" (fact_values.host_id in (?))",Host.my_hosts.map(&:id)])}
   }
 
   scope :distinct, { :select => 'DISTINCT "fact_values.value"' }

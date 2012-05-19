@@ -11,9 +11,7 @@ class FactValuesController < ApplicationController
 
   def index
     begin
-      # restrict allowed facts list based on the user permissions
-      my_facts = User.current.admin? ? FactValue : FactValue.my_facts
-      values = my_facts.no_timestamp_facts.search_for(params[:search],:order => params[:order])
+      values = FactValue.my_facts.no_timestamp_facts.search_for(params[:search],:order => params[:order])
     rescue => e
       error e.to_s
       values = FactValue.no_timestamp_facts.search_for ""
