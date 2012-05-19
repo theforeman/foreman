@@ -6,6 +6,7 @@ tmp/
 db/schema.rb
 config/settings.yaml
 config/email.yaml
+config/database.yml
 Gemfile.lock
 *.sw?
 .idea
