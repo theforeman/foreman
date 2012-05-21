@@ -42,7 +42,7 @@ module Net
       def initialize opts={ }
         super(opts)
         self.ip = validate_ip self.ip
-        raise "Must provide a DNS resolver" unless resolver.is_a?(Resolv::DNS)
+        self.resolver ||= Resolv::DNS.new
       end
 
       def destroy

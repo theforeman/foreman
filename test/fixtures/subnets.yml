@@ -6,6 +6,7 @@ one:
    mask: 255.255.255.0
    dhcp: one
    tftp: one
+   dns:  three
 
 two:
    name: two
