@@ -162,6 +162,7 @@ module HostsHelper
     fields = [
       ["Domain", host.domain],
       ["IP Address", host.ip],
+      ["MAC Address", host.mac],
       ["Puppet Environment", host.environment],
       ["Host Architecture", host.arch],
       ["Operating System", host.os],
