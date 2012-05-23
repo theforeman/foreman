@@ -7,24 +7,26 @@
 </div>
 
 <div class="tab-pane"  id="network">
-  <span id="mac_address">
-    <%= render 'mac', :item => @host unless @hypervisor or @host.compute_resource_id -%>
-  </span>
+  <div id="mac_address" <%= display? (@hypervisor or @host.compute_resource_id)%> >
+    <%= text_f f, :mac, :label => "MAC", :help_inline => "MAC address for this host", :autocomplete => 'off' %>
+  </div>
 
   <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
-      {:onchange => 'domain_selected(this);'} %>
+      {:onchange => 'domain_selected(this);', :'data-url' => domain_selected_hosts_path} %>
   <% if @host.capabilities.include?(:build) %>
       <div id='manage_network'>
         <span id="subnet_select">
           <%= render 'common/domain', :item => @host %>
         </span>
         <%= text_f f, :ip, :help_inline => "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you", :label => "IP" , :autocomplete => 'off'%>
-        <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" , :autocomplete => 'off'%>
-        <%= text_f f, :sp_ip,  :label => "BMC IP" , :autocomplete => 'off'%>
-        <%= text_f f, :sp_mac, :label => "BMC MAC", :autocomplete => 'off' %>
-        <span id="sp_subnet">
-          <%= render 'sp_subnet', :item => @host %>
-        </span>
+          <div id="bmc" <%= display? @host.compute_resource_id %> >
+            <%= text_f f, :sp_name, :help_inline => "BMC interface DNS name", :label => "BMC Name" , :autocomplete => 'off'%>
+            <%= text_f f, :sp_ip,  :label => "BMC IP" , :autocomplete => 'off'%>
+            <%= text_f f, :sp_mac, :label => "BMC MAC", :autocomplete => 'off' %>
+            <span id="sp_subnet">
+              <%= render 'sp_subnet', :item => @host %>
+            </span>
+          </div>
       </div>
   <% end %>
 </div>

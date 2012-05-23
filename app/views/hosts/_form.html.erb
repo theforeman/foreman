@@ -32,11 +32,11 @@
          :onchange => 'computeResourceSelected(this);'} if @host.new_record? || @host.compute_resource_id %>
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
         { :include_blank => true},
-        { :onchange => 'hostgroup_changed(this);', :'data-host-id' => @host.id,
+        { :onchange => 'hostgroup_changed(this);' , :'data-url' => process_hostgroup_hosts_path , :'data-host-id' => @host.id,
           :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
 
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
-          {:onchange => 'update_puppetclasses(this);', "data-url" => 'hostgroup_or_environment_selected' } %>
+          {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path } %>
       <%= puppet_master_fields f %>
     </div>
 

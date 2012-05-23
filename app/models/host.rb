@@ -13,6 +13,7 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
   belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
+  belongs_to :image
 
   include Hostext::Search
   include HostCommon
@@ -160,7 +161,7 @@ class Host < Puppet::Rails::Host
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
   after_validation :ensure_assoications
-  before_validation :set_certname, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
+  before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
 
   def to_param
     name
@@ -504,7 +505,7 @@ class Host < Puppet::Rails::Host
   end
 
   def can_be_build?
-    managed? and SETTINGS[:unattended] and  capabilities.include?(:build)  ? build == false : false
+    managed? and SETTINGS[:unattended] and capabilities.include?(:build) ? build == false : false
   end
 
   def facts_hash

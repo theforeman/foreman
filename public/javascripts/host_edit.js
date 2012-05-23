@@ -3,6 +3,7 @@ function computeResourceSelected(item){
   var label = $(item).children(":selected").text();
   if(compute=='') { //Bare Metal
     $('#mac_address').show();
+    $('#bmc').show();
     $('#compute_resource').empty();
     $('#vm_details').empty();
     $("#libvirt_tab").hide();
@@ -19,6 +20,7 @@ function computeResourceSelected(item){
   }
   else {
     $('#mac_address').hide();
+    $('#bmc').hide();
     $("#libvirt_tab").hide();
     $('#host_hypervisor_id').val("");
     $("#compute_resource_tab").show();
@@ -61,6 +63,7 @@ var stop_pooling;
 
 function submit_host(form){
   var url = form.attr("action");
+  $('#host_submit').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
   clear_errors();
@@ -87,6 +90,7 @@ function submit_host(form){
     complete: function(){
       stop_pooling = true;
       $("body").css("cursor", "auto");
+      $('#host_submit').attr('disabled', false);
     }
   });
   return false;
@@ -158,13 +162,14 @@ function remove_puppet_class(item){
 
 function hostgroup_changed(element) {
   var host_id = $(element).attr('data-host-id');
+  var url = $(element).attr('data-url');
   var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id']);
   if (attrs["hostgroup_id"] == undefined) attrs["hostgroup_id"] = $('#hostgroup_parent_id').attr('value');
   $('#hostgroup_indicator').show();
   if (!host_id){ // a new host
     $.ajax({
       type:'post',
-      url:'process_hostgroup',
+      url: url,
       data:attrs,
       complete: function(){
         $('#hostgroup_indicator').hide();
@@ -197,11 +202,12 @@ function update_puppetclasses(element) {
 }
 function hypervisor_selected(element){
   var hypervisor_id = $(element).val();
+  var url = $(element).attr('data-url');
   $('#vm_indicator').show();
   $.ajax({
     data:'hypervisor_id=' + hypervisor_id,
     type:'post',
-    url:'hypervisor_selected',
+    url: url,
     complete: function(){
       $('#vm_indicator').hide();
       if ($('#host_name').size() == 0 ) $('#host_powerup').parent().parent().remove();
@@ -248,10 +254,11 @@ function _to_int(str){
 
 function domain_selected(element){
   var domain_id = $(element).val();
+  var url = $(element).attr('data-url');
   $.ajax({
     data:'domain_id=' + domain_id,
     type:'post',
-    url:'domain_selected',
+    url: url,
     success: function(request) {
       $('#subnet_select').html(request);
     }
@@ -260,10 +267,11 @@ function domain_selected(element){
 
 function architecture_selected(element){
   var architecture_id = $(element).val();
+  var url = $(element).attr('data-url');
   $.ajax({
     data:'architecture_id=' + architecture_id,
     type:'post',
-    url:'architecture_selected',
+    url: url,
     success: function(request) {
       $('#os_select').html(request);
     }
@@ -272,10 +280,11 @@ function architecture_selected(element){
 
 function os_selected(element){
   var os_id = $(element).val();
+  var url = $(element).attr('data-url');
   $.ajax({
     data:'operatingsystem_id=' + os_id,
     type:'post',
-    url:'os_selected',
+    url: url,
     success: function(request) {
       $('#media_select').html(request);
     }
@@ -286,7 +295,7 @@ function update_provisioning_image(){
   var compute_id = $('[id$="_compute_resource_id"]').val();
   var arch_id = $('[id$="_architecture_id"]').val();
   var os_id = $('[id$="_operatingsystem_id"]').val();
-  if((compute_id == "") || (arch_id == "") || (os_id == "")) return;
+  if((compute_id == undefined) || (compute_id == "") || (arch_id == "") || (os_id == "")) return;
   var term = 'operatingsystem=' + os_id + ' architecture=' + arch_id;
   var image_options = $("[id$=compute_attributes_image_id]").empty();
   $.ajax({
@@ -296,13 +305,14 @@ function update_provisioning_image(){
       dataType: 'json',
       success: function(result) {
         $.each(result, function() {
-          image_options.append($("<option />").val(this.image.id).text(this.image.name));
+          image_options.append($("<option />").val(this.image.uuid).text(this.image.name));
         });
       }
     })
 }
 
 function medium_selected(element){
+  var url = $(element).attr('data-url');
   var type = $(element).attr('data-type');
   var obj = (type == "hosts" ? "host" : "hostgroup");
   var attrs = {};
@@ -311,7 +321,7 @@ function medium_selected(element){
   $.ajax({
     data: attrs,
     type:'post',
-    url:'medium_selected',
+    url: url,
     success: function(request) {
       $('#image_details').html(request);
     }
@@ -319,6 +329,7 @@ function medium_selected(element){
 }
 
 function use_image_selected(element){
+  var url = $(element).attr('data-url');
   var type = $(element).attr('data-type');
   var obj = (type == "hosts" ? "host" : "hostgroup");
   var attrs = {};
@@ -327,7 +338,7 @@ function use_image_selected(element){
   $.ajax({
     data: attrs,
     type: 'post',
-    url:  'use_image_selected',
+    url:  url,
     success: function(response) {
       var field = $('*[id*=image_file]');
       if (attrs[obj]["use_image"]) {

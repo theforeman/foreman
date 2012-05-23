@@ -78,7 +78,7 @@ class Foreman::Provision::SSH
       rescue Errno::ECONNREFUSED
         sleep(2)
         retry
-      rescue Net::SSH::AuthenticationFailed, Timeout::Error
+      rescue Timeout::Error
         retry
       end
     end

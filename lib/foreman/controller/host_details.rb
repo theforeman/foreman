@@ -80,7 +80,7 @@ module Foreman::Controller::HostDetails
 
   def update_hypervisor_details item, page
     page['#virtual_machine'].html(render(:partial => "common/hypervisor", :locals => { :item => item }))
-    page << "if ($('#host_mac')) $('#host_mac').parentsUntil('.clearfix').parent().remove()"
+    page << "$('#host_mac').hide()"
     page << "$('#libvirt_tab').show()"
   end
 

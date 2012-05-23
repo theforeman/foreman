@@ -1,18 +1,18 @@
 
 <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
-    {:onchange => 'architecture_selected(this);'} %>
+    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected')} %>
 
 <span id="os_select">
   <%= render 'common/os_selection/architecture', :item => @host %>
 </span>
 
-<div id='provisioning_method' class=<%= @host.capabilities.size > 1 ? '' : 'hide' %> >
-    <%= field(f,:build,:label => 'Provisioning Method') do
-       radio_button_f(f,:build, :value=>'build', :checked=>true, :text=> "Network Based provisioning")+
-       radio_button_f(f,:build, :value=>'image', :text=> "Image Based provisioning")
-    end %>
+<div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
+  <%= field(f,:build,:label => 'Provisioning Method') do
+      radio_button_f(f,:build, :value=>'build', :checked=>true, :text=> "Network Based")+
+        radio_button_f(f,:build, :value=>'image', :text=> "Image Based")
+  end %>
 </div>
-<div id='network_provisioning'>
+<div id='network_provisioning' <%= display? @host.image_id  %> >
   <% if @host.new_record? -%>
       <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
   <% end -%>
@@ -26,7 +26,7 @@
   <%= password_f f, :root_pass, :label => "Root Password" %>
 </div>
 
-<div id='image_provisioning' class='hide'>
+<div id='image_provisioning' <%= display? @host.image_id.nil?  %> >
 
 </div>
 <!-- this section is used for displaying the provisioning scripts-->

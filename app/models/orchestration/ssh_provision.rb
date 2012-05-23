@@ -2,15 +2,14 @@ module Orchestration::SSHProvision
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_reader :image_id
       after_validation :validate_ssh_provisioning, :queue_ssh_provision
-      attr_accessor :image, :template_file, :client
+      attr_accessor :template_file, :client
     end
   end
 
   module InstanceMethods
     def ssh_provision?
-      compute_attributes.present? && !(@image_id = compute_attributes[:image_id]).blank? && capabilities.include?(:image)
+      compute_attributes.present? && !(@image_uuid = compute_attributes[:image_id]).blank? && capabilities.include?(:image)
     end
 
     protected
@@ -27,41 +26,46 @@ module Orchestration::SSHProvision
       queue.create(:name   => "Waiting for #{self} to come online", :priority => 2001,
                    :action => [self, :setSSHWaitForResponse])
       queue.create(:name   => "Enable Certificate generation for #{self}", :priority => 2002,
-                   :action => [self, :setSSHEnableCert])
+                   :action => [self, :setSSHCert])
       queue.create(:name   => "Configuring instance #{self} via SSH", :priority => 2003,
                    :action => [self, :setSSHProvision])
     end
 
-    def  queue_ssh_provision_update
-    end
+    def queue_ssh_provision_update; end
 
     def setSSHProvisionScript
       logger.info "About to start post launch script on #{name}"
-      self.image = Image.find_by_uuid(image_id)
       template   = configTemplate(:kind => "finish")
       @host      = self
       logger.info "generating template to upload to #{name}"
       self.template_file = unattended_render_to_temp_file(template.template)
     end
 
-    def delSSHProvisionScript;
-    end
+    def delSSHProvisionScript; end
 
     def setSSHWaitForResponse
       logger.info "Starting SSH provisioning script - waiting for #{ip} to respond"
       self.client = Foreman::Provision::SSH.new ip, image.username, :template => template_file.path, :uuid => uuid, :key_data => [compute_resource.key_pair.secret]
+
+    rescue => e
+      failure "Failed to login via SSH to #{name}: #{e}", e.backtrace
     end
 
-    def delSSHWaitForResponse;
-    end
+    def delSSHWaitForResponse; end
 
-    def setSSHEnableCert
+    def setSSHCert
       self.handle_ca
       return false if errors.any?
       logger.info "Revoked old certificates and enabled autosign"
     end
 
-    def delSSHEnableCert;
+    def delSSHCert
+      # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
+      if puppetca?
+        respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && delAutosign
+      end
+    rescue => e
+      failure "Failed to remove certificates for #{name}: #{e}", e.backtrace
     end
 
     def setSSHProvision
@@ -79,14 +83,7 @@ module Orchestration::SSHProvision
 
   end
 
-  def delSSHProvision
-    # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
-    if puppetca?
-      respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && delAutosign
-    end
-  rescue => e
-    failure "Failed to remove certificates for #{name}: #{e}", e.backtrace
-  end
+  def delSSHProvision; end
 
   def validate_ssh_provisioning
     return unless ssh_provision?
@@ -95,12 +92,11 @@ module Orchestration::SSHProvision
     unless configTemplate(:kind => "finish")
       status = failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings"
     end
-    unless Image.find_by_uuid(image_id)
-      status &= failure("failed to find instance image #{image_id}")
+    unless (self.image = Image.find_by_uuid(@image_uuid))
+      status &= failure("failed to find instance image #{@image_uuid}")
     end
 
     status
-
   end
 
 end

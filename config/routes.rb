@@ -61,6 +61,7 @@ Foreman::Application.routes.draw do
         post 'domain_selected'
         post 'use_image_selected'
         post 'compute_resource_selected'
+        post 'medium_selected'
       end
 
       constraints(:host_id => /[^\/]+/) do
@@ -124,6 +125,7 @@ Foreman::Application.routes.draw do
       post 'os_selected'
       post 'domain_selected'
       post 'use_image_selected'
+      post 'medium_selected'
     end
   end
 

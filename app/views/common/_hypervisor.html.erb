@@ -3,7 +3,7 @@
     <%= selectable_f f, :hypervisor_id, select_hypervisor(item),
                      { :include_blank => "Select Hypervisor" },
                      { :label    => "Provision on", :help_inline => image_tag("spinner.gif", :id => "vm_indicator", :class => "hide"),
-                       :onchange => 'hypervisor_selected(this);' }
+                       :onchange => 'hypervisor_selected(this);', :'data-url' => method_path('hypervisor_selected') }
     %>
     <div id="vm_details">
       <% if @hypervisor ||= item.try(:hypervisor) -%>

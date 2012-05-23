@@ -162,6 +162,10 @@ module ApplicationHelper
     link_to "Help", :action => "welcome"
   end
 
+  def method_path method
+    eval("#{method}_#{controller_name}_path")
+  end
+
   def edit_textfield(object, property, options={})
     edit_inline(object, property, options.merge({:type => "edit_textfield"}))
   end

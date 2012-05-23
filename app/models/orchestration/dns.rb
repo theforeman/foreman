@@ -14,7 +14,7 @@ module Orchestration::DNS
     end
 
     def reverse_dns?
-      !subnet.nil? and !subnet.dns_proxy.nil? and managed?
+      !subnet.nil? and !subnet.dns_proxy.nil? and managed? and capabilities.include?(:build)
     end
 
     def dns_a_record

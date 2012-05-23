@@ -1,7 +1,10 @@
 <div class="fields">
-  <%= text_f f, :name, :disabled => (not authorized_via_my_scope("host_editing", "edit_params")) %>
-  <%= text_f f, :value, :class => "span7", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")),
-                :help_inline => link_to_remove_fields("remove", f) if authorized_via_my_scope("host_editing", "destroy_params") %>
-
+  <div class="control-group">
+    <%= f.text_field :name, :class => "span2", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Name" %>
+    <%= f.text_field :value, :class => "span9", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Value" %>
+    <span class="help-inline">
+      <%= link_to_remove_fields("remove", f) if authorized_via_my_scope("host_editing", "destroy_params") %>
+    </span>
+  </div>
   <%= f.hidden_field :nested %>
 </div>
