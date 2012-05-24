@@ -65,8 +65,9 @@ module Orchestration
     end
 
     private
+
     def proxy_error e
-      (e.respond_to?(:response) and !e.response.nil?) ? e.response : e
+      e.respond_to?(:message)  ? e.message : e
     end
     # Handles the actual queue
     # takes care for running the tasks in order
