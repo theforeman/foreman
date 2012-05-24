@@ -9,7 +9,7 @@ module Orchestration::SSHProvision
 
   module InstanceMethods
     def ssh_provision?
-      compute_attributes.present? && !(@image_uuid = compute_attributes[:image_id]).blank? && capabilities.include?(:image)
+      compute_attributes.present? && capabilities.include?(:image)
     end
 
     protected
@@ -89,11 +89,14 @@ module Orchestration::SSHProvision
     return unless ssh_provision?
     return if Rails.env == "test"
     status = true
-    unless configTemplate(:kind => "finish")
+    begin
+      configTemplate(:kind => "finish")
+    rescue => e
       status = failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings"
     end
-    unless (self.image = Image.find_by_uuid(@image_uuid))
-      status &= failure("failed to find instance image #{@image_uuid}")
+    image_uuid = compute_attributes[:image_id]
+    unless (self.image = Image.find_by_uuid(image_uuid))
+      status &= failure("Must define an Image to use")
     end
 
     status
