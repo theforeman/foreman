@@ -9,7 +9,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build, :image]
+      [:build]
     end
 
     def provided_attributes

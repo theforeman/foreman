@@ -8,7 +8,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build, :image]
+      [:build]
     end
 
   def find_vm_by_uuid uuid

@@ -96,7 +96,7 @@ module Foreman::Controller::HostDetails
       page['#virtual_machine'].html(render :partial => "common/hypervisor", :locals => { :item => item })
       # you can only select bare metal after you successfully selected a hypervisor before
       page << "if ($('#host_mac').length == 0) {"
-      page['#mac_address'].html(render :partial => "hosts/mac", :locals => {:item => item }) if controller_name == "hosts"
+      page << "$('#host_mac').show()" if controller_name == "hosts"
       page[:host_hypervisor_id].value = ""
       page << " }"
     end
