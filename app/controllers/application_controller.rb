@@ -259,7 +259,7 @@ class ApplicationController < ActionController::Base
           return
         end
       end
-      format.json { render :json => {"errors" => hash[:error_msg]} , :status => hash[:json_code]}
+      format.json { render :json => {"errors" => hash[:object].errors.full_messages} , :status => hash[:json_code]}
     end
   end
 
