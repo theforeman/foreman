@@ -1,20 +1,39 @@
 $(function() {
-  $('.flash.error').hide().each(function(index, item) {
-    if ($('.alert-message.alert-error.base').length == 0) {
-      if ($('#host-conflicts-modal').length == 0) {
-        $.jnotify($(item).text(), { type: "error", sticky: true });
-      }
-    }
-  });
-
-  $('.flash.warning').hide().each(function(index, item) {
-    $.jnotify($(item).text(), { type: "warning", sticky: true });
-  });
-
-  $('.flash.notice').hide().each(function(index, item) {
-    $.jnotify($(item).text(), { type: "success", sticky: false });
-  });
+  onContentLoad();
 });
+
+function onContentLoad(){
+  $('.flash.error').hide().each(function(index, item) {
+     if ($('.alert-message.alert-error.base').length == 0) {
+       if ($('#host-conflicts-modal').length == 0) {
+         $.jnotify($(item).text(), { type: "error", sticky: true });
+       }
+     }
+   });
+
+   $('.flash.warning').hide().each(function(index, item) {
+     $.jnotify($(item).text(), { type: "warning", sticky: true });
+   });
+
+   $('.flash.notice').hide().each(function(index, item) {
+     $.jnotify($(item).text(), { type: "success", sticky: false });
+   });
+
+  // adds buttons classes to all links
+  $("#title_action a").addClass("btn");
+  $("#title_action a[href*='new']").addClass("btn-success");
+
+  // highlight tabs with errors
+  $(".tab-content").find(".control-group.error").each(function() {
+    var id = $(this).parentsUntil(".tab-content").last().attr("id");
+    $("a[href=#"+id+"]").addClass("tab-error");
+  })
+
+  //set the tooltips
+  $('a[rel="popover"]').popover();
+  $('[rel="twipsy"]').tooltip();
+}
+
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
@@ -60,9 +79,10 @@ function template_info(div, url) {
   os_id = $("#host_operatingsystem_id :selected").attr("value");
   env_id = $("#host_environment_id :selected").attr("value");
   hostgroup_id = $("#host_hostgroup_id :selected").attr("value");
+  build = $('input:radio[name$="[build]"]:checked').val();
 
   $(div).html('<img src="/images/spinner.gif" alt="Wait" />');
-  $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id,
+  $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
                   $(div).html("<div class='alert alert-warning'><a class='close' data-di  smiss='alert'>&times;</a><p>Sorry but no templates were configured.</p></div>");
@@ -120,12 +140,6 @@ $(document).ready(function() {
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
-});
-
-// adds buttons classes to all links
-$(function(){
-  $("#title_action a").addClass("btn");
-  $("#title_action a[href*='new']").addClass("btn-success");
 });
 
 $(function() {
@@ -209,22 +223,6 @@ $(function() {
                                            });
   });
 
-});
-
-
-// highlight tabs with errors
-$(function(){
-  $(".tab-content").find(".control-group.error").each(function() {
-    // find each tab id
-    var id = $(this).parentsUntil(".tab-content").last().attr("id");
-    // now add a class to that tab
-    $("a[href=#"+id+"]").addClass("tab-error");
-  })
-});
-
-$(function () {
-  $('a[rel="popover"]').popover();
-  $('[rel="twipsy"]').tooltip();
 });
 
 function filter_by_level(item){

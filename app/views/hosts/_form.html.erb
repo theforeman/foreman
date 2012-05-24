@@ -1,6 +1,7 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
 <%= render "conflicts" if @host.errors[:conflict].any? %>
-<%= form_for @host do |f| %>
+<%= render "progress" %>
+<%= form_for @host,  :html => {:'data-submit' => 'progress_bar'} do |f| %>
   <%= base_errors_for @host %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -31,11 +32,11 @@
          :onchange => 'computeResourceSelected(this);'} if @host.new_record? || @host.compute_resource_id %>
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
         { :include_blank => true},
-        { :onchange => 'hostgroup_changed(this);', :'data-host-id' => @host.id, "data-type" => controller_name,
+        { :onchange => 'hostgroup_changed(this);' , :'data-url' => process_hostgroup_hosts_path , :'data-host-id' => @host.id,
           :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
 
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
-          {:onchange => 'update_puppetclasses(this);', "data-type" => controller_name } %>
+          {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path } %>
       <%= puppet_master_fields f %>
     </div>
 
@@ -48,6 +49,7 @@
     </div>
 
     <%= f.hidden_field :managed %>
+    <%= f.hidden_field :queuename %>
 
     <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 

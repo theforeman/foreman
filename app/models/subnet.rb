@@ -6,6 +6,7 @@ class Subnet < ActiveRecord::Base
   has_many :sps, :class_name => "Host", :foreign_key => 'sp_subnet_id'
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
+  belongs_to :dns,  :class_name => "SmartProxy"
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
   validates_presence_of   :network, :mask, :name
@@ -71,6 +72,15 @@ class Subnet < ActiveRecord::Base
 
   def tftp_proxy attrs = {}
     @tftp_proxy ||= ProxyAPI::TFTP.new({:url => tftp.url}.merge(attrs)) if tftp?
+  end
+
+  # do we support DNS PTR records for this subnet
+  def dns?
+    !!(dns and dns.url and !dns.url.blank?)
+  end
+
+  def dns_proxy attrs = {}
+    @dns_proxy ||= ProxyAPI::DNS.new({:url => dns.url}.merge(attrs)) if dns?
   end
 
   def unused_ip mac = nil

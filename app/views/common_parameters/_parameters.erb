@@ -1,6 +1,6 @@
-<%= field_set_tag "Parameters", :id => "parameters", :title => parameters_title do -%>
+<div id="parameters">
   <%= f.fields_for type do |builder| -%>
     <%= render "common_parameters/parameter", :f => builder %>
   <% end -%>
-  <p><%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields("+ Add Parameter", f, type, "common_parameters/parameter") : "" %></p>
-<% end -%>
+  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields("+ Add Parameter", f, type, "common_parameters/parameter") : "" %>
+</div>

@@ -17,6 +17,7 @@ module Orchestration
       include Orchestration::Puppetca
       include Orchestration::Libvirt
       include Orchestration::Compute
+      include Orchestration::SSHProvision
 
       # save handles both creation and update of hosts
       before_save :on_save
@@ -84,6 +85,8 @@ module Orchestration
         break unless q.failed.empty?
 
         task.status = "running"
+
+        Rails.cache.write(queuename, q.to_json,  :expires_in => 5.minutes)
         begin
           task.status = execute({:action => task.action}) ? "completed" : "failed"
 
@@ -105,15 +108,19 @@ module Orchestration
         end
       end
 
+      Rails.cache.write(queuename, q.to_json,  :expires_in => 5.minutes)
       # if we have no failures - we are done
       return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and orchestration_errors?
 
       logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
+      q.pending.each{ |task| task.status = "canceled" }
+
       # handle errors
       # we try to undo all completed operations and trigger a DB rollback
       (q.completed + q.running).sort.reverse_each do |task|
         begin
           task.status = "rollbacked"
+          Rails.cache.write(queuename, q.to_json,  :expires_in => 5.minutes)
           execute({:action => task.action, :rollback => true})
         rescue => e
           # if the operation failed, we can just report upon it

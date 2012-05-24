@@ -11,7 +11,7 @@ module Orchestration::DHCP
   module InstanceMethods
 
     def dhcp?
-      !subnet.nil? and subnet.dhcp? and managed?
+      !subnet.nil? and subnet.dhcp? and managed? and capabilities.include?(:build)
     end
 
     def sp_dhcp?

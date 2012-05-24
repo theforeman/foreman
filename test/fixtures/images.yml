@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  operatingsystem: centos
+  architecture: x86_64
+  compute_resource: one
+  uuid: string-of-uuid
+  username: root
+
+two:
+  operatingsystem_id: 1
+  architecture_id: 1
+  compute_resource_id: 1
+  uuid: MyString2
+  username: MyString

@@ -7,6 +7,10 @@ module Foreman::Model
       ComputeResource.model_name
     end
 
+    def capabilities
+      [:build, :image]
+    end
+
     #FIXME
     def max_cpu_count
       8

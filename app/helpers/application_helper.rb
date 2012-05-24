@@ -58,7 +58,7 @@ module ApplicationHelper
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
                      :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
-                     :class=>"ui-icon ui-icon-minus", "data-type" => type)
+                     :class=>"ui-icon ui-icon-minus")
   end
 
   def link_to_add_puppetclass klass, type
@@ -160,6 +160,10 @@ module ApplicationHelper
 
   def help_path
     link_to "Help", :action => "welcome"
+  end
+
+  def method_path method
+    eval("#{method}_#{controller_name}_path")
   end
 
   def edit_textfield(object, property, options={})
