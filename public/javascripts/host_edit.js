@@ -85,7 +85,7 @@ function submit_host(form){
       }
     },
     error: function(response){
-      $('#content').replaceWith($("#content", response.responseText));
+      $('#content').html(response.responseText);
     },
     complete: function(){
       stop_pooling = true;
