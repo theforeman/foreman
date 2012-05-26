@@ -198,7 +198,7 @@ end
 
 options.each do |collection, filter|
   next unless filter
-  if filter
+  if filter == true
     print_response(get_collection(collection))
   else
     print_response(search_collection(collection, filter))
