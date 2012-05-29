@@ -11,6 +11,12 @@ module HostsAndHostgroupsHelper
         hash_for_edit_hostgroup_path(:id => group))
   end
 
+  def model_name host
+    name = host.try(:model)
+    name = host.compute_resource.name if host.compute_resource
+    trunc (name, 14)
+  end
+
   def accessible_hostgroups
     hg = (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
     hg.sort

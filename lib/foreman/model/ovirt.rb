@@ -155,11 +155,11 @@ module Foreman::Model
       return true if super(old_attrs, new_attrs)
 
       new_attrs[:interfaces_attributes].each do |key, interface|
-        return true if (interface[:id].nil? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
+        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
       end if new_attrs[:interfaces_attributes]
 
       new_attrs[:volumes_attributes].each do |key, volume|
-        return true if (volume[:id].nil? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
+        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
       end if new_attrs[:volumes_attributes]
 
       false
@@ -182,29 +182,25 @@ module Foreman::Model
     def create_volumes(vm, attrs)
       #add volumes
       volumes = nested_attributes_for :volumes, attrs
-      #if no volume was set as bootable set the first volume.
-      volumes.first[:bootable] = true if volumes.first && volumes.map{|vol| true if vol[:bootable] == '1'}.compact().empty?
       #The blocking true is a work-around for ovirt bug, it should be removed.
-      volumes.map{ |vol| vm.add_volume(vol.merge(:blocking => true)) if vol[:storage_domain]}
+      volumes.map{ |vol| vm.add_volume({:bootable => 'false',:blocking => true}.merge(vol)) if vol[:id].blank?}
       vm.volumes.reload
     end
 
     def update_interfaces(vm, attrs)
-      attrs.each do |key, interface|
-        unless key == 'new_interfaces' #ignore the template
+      interfaces = nested_attributes_for :interfaces, attrs
+      interfaces.each do |interface|
           vm.destroy_interface(:id => interface[:id]) if interface[:_delete] == '1' && interface[:id]
-          vm.add_interface(interface) if interface[:id].nil?
-        end
-      end if attrs
+          vm.add_interface(interface) if interface[:id].blank?
+      end
     end
 
     def update_volumes(vm, attrs)
-      attrs.each do |key, volume|
-        unless key == 'new_volumes' #ignore the template
-          vm.destroy_volume(:id => volume[:id]) if volume[:_delete] == '1' && volume[:id]
-          vm.add_volume(volume) if volume[:id].nil?
-        end
-      end if attrs
+      volumes = nested_attributes_for :volumes, attrs
+      volumes.each do |volume|
+        vm.destroy_volume(:id => volume[:id], :blocking => true) if volume[:_delete] == '1' && volume[:id].present?
+        vm.add_volume({:bootable => 'false',:blocking => true}.merge(volume)) if volume[:id].blank?
+      end
     end
 
   end

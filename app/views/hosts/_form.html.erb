@@ -67,7 +67,9 @@
       <%= checkbox_f f, :enabled, :label => "Alerts Enabled",
         :help_inline => "Include this host within Foreman reporting"
       %>
-      <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => "Hardware Model"} %>
+      <div id='model_name'>
+        <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => "Hardware Model"} unless @host.compute_resource_id%>
+      </div>
       <%= textarea_f f, :comment, :help_block => "Additional information about this host", :class => "input-xxlarge", :rows => "3" %>
     </div>
   </div>

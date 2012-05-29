@@ -19,7 +19,7 @@
       <td class='span3'><%= name_column(host) %> </td>
       <td><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
       <td><%= trunc(host.try(:environment), 14) %></td>
-      <td><%= trunc(host.try(:model), 14) %></td>
+      <td><%= model_name host %></td>
       <td><%= hostgroup_name host.hostgroup, 26 %></td>
       <td><%= last_report_column(host) %></td>
       <td>
