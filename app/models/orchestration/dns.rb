@@ -2,7 +2,7 @@ module Orchestration::DNS
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      after_validation :queue_dns
+      after_validation :dns_conflict_detected?, :queue_dns
       before_destroy :queue_dns_destroy
     end
   end
@@ -73,7 +73,7 @@ module Orchestration::DNS
 
     def queue_dns
       return unless (dns? or reverse_dns?) and errors.empty?
-      queue_remove_dns_conflicts if dns_conflict_detected?
+      queue_remove_dns_conflicts if overwrite?
       new_record? ? queue_dns_create : queue_dns_update
     end
 
@@ -107,20 +107,23 @@ module Orchestration::DNS
       return unless errors.empty?
       return unless overwrite?
       logger.debug "Scheduling DNS conflict removal"
-      queue.create(:name   => "Remove conflicting DNS record for #{self}", :priority => 1,
+      queue.create(:name   => "Remove conflicting DNS record for #{self}", :priority => 0,
                    :action => [self, :del_conflicting_dns_a_record]) if dns? and dns_a_record and dns_a_record.conflicting?
-      queue.create(:name   => "Remove conflicting Reverse DNS record for #{self}", :priority => 1,
+      queue.create(:name   => "Remove conflicting Reverse DNS record for #{self}", :priority => 0,
                    :action => [self, :del_conflicting_dns_ptr_record]) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
 
     end
 
     def dns_conflict_detected?
-      return false unless ip.present? or name.present? or dns?
+      return false if ip.blank? or name.blank?
+      # can't validate anything if dont have an ip-address yet
       return false unless require_ip_validation?
+      # we should only alert on conflicts if overwrite mode is off
       return false if overwrite?
+
       status = true
-      status = failure("DNS A Record #{dns_a_record.conflicts[0]} already exists", nil, :conflict) if dns? and dns_a_record.conflicting?
-      status &= failure("DNS PTR Record #{dns_ptr_record.conflicts[0]} already exists", nil, :conflict) if reverse_dns? and dns_ptr_record.conflicting?
+      status = failure("DNS A Record #{dns_a_record.conflicts[0]} already exists", nil, :conflict) if dns? and dns_a_record and dns_a_record.conflicting?
+      status &= failure("DNS PTR Record #{dns_ptr_record.conflicts[0]} already exists", nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
       status
     end
 

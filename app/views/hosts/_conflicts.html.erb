@@ -14,13 +14,6 @@
       <% end -%>
     </div>
 
-    <h4>Additionally, we are about to perform the following <%@host.queue.count %> actions</h4>
-    <div class="alert alert-message alert-block alert-info base">
-      <% @host.queue.all.each do |task| -%>
-        <li><%= task.name %></li>
-      <% end -%>
-    </div>
-
   </div>
 
   <div class="modal-footer">
