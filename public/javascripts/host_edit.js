@@ -5,6 +5,7 @@ function computeResourceSelected(item){
   if(compute=='') { //Bare Metal
     $('#mac_address').show();
     $('#bmc').show();
+    $("#model_name").show();
     $('#compute_resource').empty();
     $('#vm_details').empty();
     $("#libvirt_tab").hide();
@@ -13,6 +14,8 @@ function computeResourceSelected(item){
     update_capabilities('build');
   }else if(label == 'Libvirt'){
     $('#mac_address').hide();
+    $('#bmc').hide();
+    $("#model_name").show();
     $("#libvirt_tab").show();
     $("#compute_resource_tab").hide();
     $('#compute_resource').empty();
@@ -23,6 +26,7 @@ function computeResourceSelected(item){
     $('#mac_address').hide();
     $('#bmc').hide();
     $("#libvirt_tab").hide();
+    $("#model_name").hide();
     $('#host_hypervisor_id').val("");
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
