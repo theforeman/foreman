@@ -20,20 +20,20 @@
   <div class="children_fields">
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,
-        :partial => 'compute_resources/vms/form/ovirt/network', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
+        :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
     <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
       <%= f.fields_for :interfaces do |i| %>
-        <%= render 'compute_resources/vms/form/ovirt/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
+        <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
       <% end -%>
       <%= add_child_link "+ Add Interface", :interfaces, { :class => "info", :title => 'add new network interface' } %>
     <% end -%>
 
     <%= new_child_fields_template(f, :volumes, {
             :object  => compute_resource.new_volume,
-            :partial => 'compute_resources/vms/form/ovirt/volume', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
+            :partial => 'compute_resources_vms/form/ovirt/volume', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
     <%= field_set_tag "Volumes", :id => "volumes", :title => 'Volumes' do -%>
         <%= f.fields_for :volumes do |i| %>
-            <%= render 'compute_resources/vms/form/ovirt/volume', :f => i, :compute_resource => compute_resource %>
+            <%= render 'compute_resources_vms/form/ovirt/volume', :f => i, :compute_resource => compute_resource %>
         <% end -%>
         <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new volume' } %>
     <% end -%>

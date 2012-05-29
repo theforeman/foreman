@@ -15,8 +15,9 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
   has_many :user_roles
   has_many :roles, :through => :user_roles
-  has_and_belongs_to_many :domains,    :join_table => "user_domains"
-  has_and_belongs_to_many :hostgroups, :join_table => "user_hostgroups"
+  has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
+  has_and_belongs_to_many :domains,           :join_table => "user_domains"
+  has_and_belongs_to_many :hostgroups,        :join_table => "user_hostgroups"
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
 
@@ -36,7 +37,7 @@ class User < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
   before_validation :prepare_password
-  after_destroy Proc.new {|user| user.domains.clear; user.hostgroups.clear}
+  after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
@@ -152,9 +153,10 @@ class User < ActiveRecord::Base
   # Indicates whether the user has host filtering enabled
   # Returns : Boolean
   def filtering?
-    filter_on_owner or
-    domains.any?    or
-    hostgroups.any? or
+    filter_on_owner        or
+    compute_resources.any? or
+    domains.any?           or
+    hostgroups.any?        or
     facts.any?
   end
 

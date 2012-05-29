@@ -7,10 +7,10 @@
 <div class="children_fields">
   <%= new_child_fields_template(f, :nics, {
       :object  => compute_resource.new_nic,
-      :partial => 'compute_resources/vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+      :partial => 'compute_resources_vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
   <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
     <%= f.fields_for :nics do |i| %>
-      <%= render 'compute_resources/vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
+      <%= render 'compute_resources_vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
     <% end -%>
     <%= add_child_link "+ Add Interface", :nics, { :class => "info", :title => 'add new network interface' } %>
   <% end -%>
@@ -20,10 +20,10 @@
 <div class="children_fields">
   <%= new_child_fields_template(f, :volumes, {
       :object  => compute_resource.new_volume,
-      :partial => 'compute_resources/vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+      :partial => 'compute_resources_vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
   <%= field_set_tag "Storage", :id => "storage_volumes", :title => 'Storage' do -%>
     <%= f.fields_for :volumes do |i| %>
-      <%= render 'compute_resources/vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
+      <%= render 'compute_resources_vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
     <% end -%>
     <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new storage volume' } %>
   <% end -%>

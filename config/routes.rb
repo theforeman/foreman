@@ -230,22 +230,26 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :compute_resources do
-      member do
-        post 'hardware_profile_selected'
-        post 'cluster_selected'
-      end
-      resources :vms, :controller => "ComputeResources::Vms" do
+    constraints(:id => /[^\/]+/) do
+      resources :compute_resources do
         member do
-          put 'power'
-          get 'console'
+          post 'hardware_profile_selected'
+          post 'cluster_selected'
         end
-      end
-      resources :images
-      collection do
-        get  'auto_complete_search'
-        post 'provider_selected'
-        put  'test_connection'
+        constraints(:id => /[^\/]+/) do
+          resources :vms, :controller => "compute_resources_vms" do
+            member do
+              put 'power'
+              get 'console'
+            end
+          end
+        end
+        collection do
+          get  'auto_complete_search'
+          post 'provider_selected'
+          put  'test_connection'
+        end
+        resources :images
       end
     end
 

@@ -5,12 +5,14 @@ class DomainParameterTest < ActiveSupport::TestCase
     parameter = DomainParameter.create(:name => "value", :value => "value")
     assert !parameter.save
 
+    setup_user "create"
     domain = Domain.find_or_create_by_name("domain")
     parameter.reference_id = domain.id
     assert parameter.save
   end
 
   test "duplicate names cannot exist in a domain" do
+    setup_user "create"
     parameter1 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.first.id
     parameter2 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.first.id
     assert !parameter2.valid?
@@ -18,6 +20,7 @@ class DomainParameterTest < ActiveSupport::TestCase
   end
 
   test "duplicate names can exist in different domains" do
+    setup_user "create"
     parameter1 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.first.id
     parameter2 = DomainParameter.create :name => "some parameter", :value => "value", :reference_id => Domain.last.id
     assert parameter2.valid?

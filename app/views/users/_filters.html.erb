@@ -16,6 +16,15 @@
       </div>
     <% end %>
 
+    <%= field_set_tag "Compute resources" do %>
+      <div class="control-group">
+        <%= f.select :compute_resources_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+        <div class="offset1">
+          <%= edit_habtm @user, ComputeResource %>
+        </div>
+      </div>
+  <% end %>
+
     <%= field_set_tag "Hostgroup hosts" do %>
       <div class="control-group">
         <%= f.select :hostgroups_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>

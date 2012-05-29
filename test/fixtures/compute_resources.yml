@@ -8,3 +8,21 @@ one:
   password: MyString
   uuid: MyString
   type: Foreman::Model::Libvirt
+
+mycompute:
+  name: mycompute
+  description: mycompute
+  url: test:///default  # test hypervisor URI needed to try listing vms
+  user: MyString
+  password: MyString
+  uuid: mycompute
+  type: Foreman::Model::Libvirt
+
+yourcompute:
+  name: yourcompute
+  description: yourcompute
+  url: test:///default
+  user: MyString
+  password: MyString
+  uuid: yourcompute
+  type: Foreman::Model::Libvirt

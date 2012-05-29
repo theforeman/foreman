@@ -3,7 +3,7 @@
 
 <%= form_tag compute_resource_vms_path(@compute_resource) do %>
   <%= fields_for "vm", @vm do |f| %>
-    <%= render "compute_resources/vms/form/#{@compute_resource.provider.downcase}", :f => f, :compute_resource => @compute_resource %>
+    <%= render "compute_resources_vms/form/#{@compute_resource.provider.downcase}", :f => f, :compute_resource => @compute_resource %>
     <%= submit_tag %>
   <% end %>
 <% end %>

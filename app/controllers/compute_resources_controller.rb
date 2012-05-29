@@ -2,10 +2,16 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   AJAX_REQUESTS = %w{hardware_profile_selected cluster_selected}
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_id, :only => %w{show edit update destroy} + AJAX_REQUESTS
+  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy] + AJAX_REQUESTS
 
   def index
-    values = ComputeResource.search_for(params[:search], :order => params[:order])
+    begin
+      values = ComputeResource.my_compute_resources.search_for(params[:search], :order => params[:order])
+    rescue => e
+      error e.to_s
+      values = ComputeResource.my_compute_resources.search_for ""
+    end
+
     respond_to do |format|
       format.html { @compute_resources = values.paginate :page => params[:page] }
       format.json { render :json => values }
@@ -16,10 +22,19 @@ class ComputeResourcesController < ApplicationController
     @compute_resource = ComputeResource.new
   end
 
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render :json => @compute_resource }
+    end
+  end
+
   def create
     if params[:compute_resource].present? && params[:compute_resource][:provider].present?
       @compute_resource = ComputeResource.new_provider params[:compute_resource]
       if @compute_resource.save
+        # Add the new compute resource to the user's filters
+        @compute_resource.users << User.current
         process_success :success_redirect => @compute_resource
       else
         process_error
@@ -82,5 +97,7 @@ class ComputeResourcesController < ApplicationController
 
   def find_by_id
     @compute_resource = ComputeResource.find(params[:id])
+    not_found and return unless @compute_resource
+    deny_access and return unless ComputeResource.my_compute_resources.include?(@compute_resource)
   end
 end

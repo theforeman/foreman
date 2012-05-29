@@ -8,6 +8,7 @@ class ComputeResource < ActiveRecord::Base
   STI_PREFIX= "Foreman::Model"
 
   include Authorization
+  has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   validates_uniqueness_of :name
   validates_presence_of :provider, :in => PROVIDERS
@@ -17,9 +18,24 @@ class ComputeResource < ActiveRecord::Base
   has_many :hosts
   has_many :images, :dependent => :destroy
 
+  default_scope :order => 'LOWER(compute_resources.name)'
+
+  scope :my_compute_resources, lambda {
+    user = User.current
+    if user.admin?
+      conditions = { }
+    else
+      conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resources.map(&:id)])
+      conditions.sub!(/\s*\(\)\s*/, "")
+      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+    end
+    {:conditions => conditions}
+  }
+
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
-    raise "must provider a provider" unless provider = args[:provider]
+    raise "must provide a provider" unless provider = args[:provider]
     PROVIDERS.each do |p|
       return eval("#{STI_PREFIX}::#{p}").new(args) if p.downcase == provider.downcase
     end
@@ -163,6 +179,24 @@ class ComputeResource < ActiveRecord::Base
         v.symbolize_keys # convert to symbols deeper hashes
       end
     end.compact
+  end
+
+  private
+
+  def enforce_permissions operation
+    # We get called again with the operation being set to create
+    return true if operation == "edit" and new_record?
+    current = User.current
+    if current.allowed_to?("#{operation}_compute_resources".to_sym)
+      # If you can create compute resources then you can create them anywhere
+      return true if operation == "create"
+      # edit or delete
+      if current.allowed_to?("#{operation}_compute_resources".to_sym)
+        return true if ComputeResource.my_compute_resources(current).include? self
+      end
+    end
+    errors.add :base, "You do not have permission to #{operation} this compute resource"
+    false
   end
 
 end

@@ -82,9 +82,10 @@ class Host < Puppet::Rails::Host
     user                 = User.current
     return { :conditions => "" } if user.admin? # Admin can see all hosts
 
-    owner_conditions     = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
-    domain_conditions    = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domains).map(&:id)])
-    hostgroup_conditions = sanitize_sql_for_conditions([" (hosts.hostgroup_id in (?))",(hgs = user.hostgroups).map(&:id)])
+    owner_conditions             = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
+    domain_conditions            = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domains).map(&:id)])
+    compute_resource_conditions  = sanitize_sql_for_conditions([" (hosts.compute_resource_id in (?))",(crs = user.compute_resources).map(&:id)])
+    hostgroup_conditions         = sanitize_sql_for_conditions([" (hosts.hostgroup_id in (?))",(hgs = user.hostgroups).map(&:id)])
 
     fact_conditions = ""
     for user_fact in (ufs = user.user_facts)
@@ -97,10 +98,11 @@ class Host < Puppet::Rails::Host
 
     conditions = ""
     if user.filtering?
-      conditions  = "#{owner_conditions}"                                                                                                            if     user.filter_on_owner
-      (conditions = (user.domains_andor    == "and") ? "(#{conditions}) and #{domain_conditions} "    : "#{conditions} or #{domain_conditions} ")    unless dms.empty?
-      (conditions = (user.hostgroups_andor == "and") ? "(#{conditions}) and #{hostgroup_conditions} " : "#{conditions} or #{hostgroup_conditions} ") unless hgs.empty?
-      (conditions = (user.facts_andor      == "and") ? "(#{conditions}) and #{fact_conditions} "      : "#{conditions} or #{fact_conditions} ")      unless ufs.empty?
+      conditions  = "#{owner_conditions}"                                                                                                                                 if     user.filter_on_owner
+      (conditions = (user.domains_andor           == "and") ? "(#{conditions}) and #{domain_conditions} "           : "#{conditions} or #{domain_conditions} ")           unless dms.empty?
+      (conditions = (user.compute_resources_andor == "and") ? "(#{conditions}) and #{compute_resource_conditions} " : "#{conditions} or #{compute_resource_conditions} ") unless crs.empty?
+      (conditions = (user.hostgroups_andor        == "and") ? "(#{conditions}) and #{hostgroup_conditions} "        : "#{conditions} or #{hostgroup_conditions} ")        unless hgs.empty?
+      (conditions = (user.facts_andor             == "and") ? "(#{conditions}) and #{fact_conditions} "             : "#{conditions} or #{fact_conditions} ")             unless ufs.empty?
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")

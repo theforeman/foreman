@@ -1,4 +1,4 @@
-class ComputeResources::VmsController < ApplicationController
+class ComputeResourcesVmsController < ApplicationController
   before_filter :find_compute_resource
   before_filter :find_vm, :only => [:show, :power, :console]
 
@@ -61,6 +61,7 @@ class ComputeResources::VmsController < ApplicationController
 
   def find_compute_resource
     @compute_resource = ComputeResource.find(params[:compute_resource_id])
+    @compute_resource = ComputeResource.my_compute_resources.find(params[:compute_resource_id]) rescue deny_access
   end
 
   def find_vm

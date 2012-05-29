@@ -23,6 +23,20 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_bookmarks, {:bookmarks => [:destroy]}
   end
 
+  map.security_block :compute_resources do |map|
+    map.permission :view_compute_resources,    {:compute_resources => [:index, :show]}
+    map.permission :create_compute_resources,  {:compute_resources => [:new, :create]}
+    map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update]}
+    map.permission :destroy_compute_resources, {:compute_resources => [:destroy]}
+  end
+
+  map.security_block :compute_resources_vms do |map|
+    map.permission :view_compute_resources_vms,    {:compute_resources_vms => [:index, :show]}
+    map.permission :create_compute_resources_vms,  {:compute_resources_vms => [:create]}
+    map.permission :destroy_compute_resources_vms, {:compute_resources_vms => [:destroy]}
+    map.permission :power_compute_resources_vms,   {:compute_resources_vms => [:power]}
+  end
+
   map.security_block :config_templates do |map|
     map.permission :view_templates,    {:config_templates => [:index, :show]}
     map.permission :create_templates,  {:config_templates => [:new, :create]}
@@ -75,6 +89,8 @@ Foreman::AccessControl.map do |map|
                                       :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage]}
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild]}
+    map.permission :power_hosts,   {:hosts => [:power]}
+    map.permission :console_hosts, {:hosts => [:console]}
   end
 
   map.security_block :host_editing do |map|
