@@ -57,14 +57,14 @@ namespace :puppet do
   namespace :import do
     desc "Update puppet environments and classes. Optional batch flag triggers run with no prompting"
     task :puppet_classes,  [:batch] => :environment do | t, args |
-      args.batch = args.batch == "true"
+      batch = args.batch == "true"
       # Evalute any changes that exist between the database of environments and puppetclasses and
       # the on-disk puppet installation
       begin
-        puts "Evaluating possible changes to your installation" unless args.batch
+        puts "Evaluating possible changes to your installation" unless batch
         changes = Environment.importClasses
       rescue => e
-        if args.batch
+        if batch
           Rails.logger.warn "Failed to refresh puppet classes: #{e}"
         else
           puts "Problems were detected during the evaluation phase"
@@ -77,9 +77,9 @@ namespace :puppet do
       end
 
       if changes["new"].empty? and changes["obsolete"].empty?
-        puts "No changes detected" unless args.batch
+        puts "No changes detected" unless batch
       else
-        unless args.batch
+        unless batch
           puts "Scheduled changes to your environment"
           puts "Create/update environments"
           for env, classes in changes["new"]
@@ -109,7 +109,7 @@ namespace :puppet do
         rescue => e
           errors = e.message + "\n" + e.backtrace.join("\n")
         end
-        unless args.batch
+        unless batch
           unless errors.empty?
             puts "Problems were detected during the execution phase"
             puts
