@@ -29,7 +29,7 @@ class HostsController < ApplicationController
       search = Host.my_hosts.search_for(params[:search],:order => params[:order])
     rescue => e
       error e.to_s
-      search = my_hosts.search_for ''
+      search = Host.my_hosts.search_for ''
     end
       respond_to do |format|
       format.html do
