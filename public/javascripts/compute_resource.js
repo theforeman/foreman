@@ -85,10 +85,25 @@ function add_network_interface(item){
 // fill in the template volumes.
 function add_volume(item){
   var new_id = add_child_node($("#volumes .add_nested_fields"));
-  $('[id$='+new_id+'_size_gb]').val(item.size_gb).attr('disabled', 'disabled');
-  $('[id$='+new_id+'_storage_domain]').val(item.storage_domain).attr('disabled', 'disabled');
-  $('[id$='+new_id+'_bootable]').attr('checked', item.bootable).attr('disabled', 'disabled');
+  disable_element($('[id$='+new_id+'_size_gb]').val(item.size_gb));
+  disable_element($('[id$='+new_id+'_storage_domain]').val(item.storage_domain));
+  disable_element( $('[id$='+new_id+'_bootable_true]').attr('checked', item.bootable));
+  $('[id$='+new_id+'_id]').val(7);
   $('[id$='+new_id+'_storage_domain]').next().hide();
+}
+
+function disable_element(element){
+  element.clone().attr('type','hidden').appendTo(element);
+  element.attr('disabled', 'disabled');
+}
+function bootable_radio(item){
+  var $disabled = $('[id$=_bootable_true]:disabled:checked:visible');
+  $('[id$=_bootable_true]').attr('checked', false);
+  if ($disabled.size() > 0){
+    $disabled.attr('checked', true);
+  } else {
+    $(item).attr('checked', true);
+  }
 }
 
 function ovirt_clusterSelected(item){
