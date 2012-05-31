@@ -20,7 +20,8 @@ class Host < Puppet::Rails::Host
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
-      :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture, :model, :certname
+      :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture, :model, :certname, :capabilities,
+      :provider
   end
 
   attr_reader :cached_host_params, :cached_lookup_keys_params
@@ -617,6 +618,14 @@ class Host < Puppet::Rails::Host
 
   def capabilities
     compute_resource_id ? compute_resource.capabilities : [:build]
+  end
+
+  def provider
+    if compute_resource_id
+      compute_resource.provider_friendly_name
+    else
+      "BareMetal"
+    end
   end
 
   private
