@@ -22,7 +22,8 @@
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hosts_path,
                       :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
       <%= text_f f, :name %>
-      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true}, {:onchange => 'update_puppetclasses(this);', :"data-url" => 'environment_selected'} %>
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
+                   {:onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
 
       <%= puppet_master_fields f %>
     </div>
@@ -31,7 +32,7 @@
       <% if @environment or @hostgroup.environment -%>
         <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
       <% else -%>
-        <p class="alert     alert-message">Please select an Environment first</p>
+        <p class="alert alert-message">Please select an Environment first</p>
       <% end -%>
     </div>
 
