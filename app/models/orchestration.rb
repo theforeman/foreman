@@ -101,7 +101,7 @@ module Orchestration
           failure "DHCP has a lease at #{e}"
         rescue RestClient::Exception => e
           task.status = "failed"
-          failure "#{task.name} task failed with the following error: #{e.response}"
+          failure "#{task.name} task failed with the following error: #{proxy_error e}"
         rescue => e
           task.status = "failed"
           failure "#{task.name} task failed with the following error: #{e}"
