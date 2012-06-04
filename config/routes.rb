@@ -276,4 +276,6 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
+  #Keep this line the last route
+  match '*a', :to => 'errors#routing'
 end

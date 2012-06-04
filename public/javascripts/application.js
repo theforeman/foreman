@@ -282,3 +282,8 @@ function ignore_subnet(item){
  $(item).tooltip('hide');
  $(item).closest('.accordion-group').remove();
 }
+
+function show_rdoc(item){
+  var url = $(item).attr('data-url');
+  window.open(url);
+}
