@@ -277,3 +277,8 @@ function attribute_hash(attributes){
   }
   return attrs;
 }
+
+function ignore_subnet(item){
+ $(item).tooltip('hide');
+ $(item).closest('.accordion-group').remove();
+}

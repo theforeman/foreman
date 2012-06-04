@@ -11,8 +11,8 @@ module ApplicationHelper
     render :partial => 'common/show_habtm', :collection => associations, :as => :association
   end
 
-  def edit_habtm klass, association
-    render :partial => 'common/edit_habtm', :locals =>{ :klass => klass, :associations => association.all.sort.delete_if{|e| e == klass}}
+  def edit_habtm klass, association, prefix=nil
+    render :partial => 'common/edit_habtm', :locals =>{:prefix => prefix, :klass => klass, :associations => association.all.sort.delete_if{|e| e == klass}}
   end
 
   def link_to_remove_fields(name, f)
@@ -119,8 +119,8 @@ module ApplicationHelper
     end
   end
 
-  def authorized_edit_habtm klass, association
-    return edit_habtm(klass, association) if authorized_for params[:controller], params[:action]
+  def authorized_edit_habtm klass, association, prefix=nil
+    return edit_habtm(klass, association, prefix) if authorized_for params[:controller], params[:action]
     show_habtm klass.send(association.name.pluralize.downcase)
   end
 
