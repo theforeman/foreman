@@ -47,7 +47,7 @@ class Operatingsystem < ActiveRecord::Base
                'Solaris' => %r{Solaris}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type
+    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
   end
 
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
