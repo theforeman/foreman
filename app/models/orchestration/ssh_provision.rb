@@ -106,7 +106,8 @@ module Orchestration::SSHProvision
     rescue => e
       status = false
     end
-    failure "No user_data or finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
+    status = false if template.nil? and compute_attributes[:provider] != "EC2"
+    failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
     image_uuid = compute_attributes[:image_id]
     unless (self.image = Image.find_by_uuid(image_uuid))
       status &= failure("Must define an Image to use")
