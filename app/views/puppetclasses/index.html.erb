@@ -18,10 +18,10 @@
       <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass) %></td>
       <td>
         <% for environment in puppetclass.environments -%>
-          <%= link_to_function environment, rdoc_classes_path(environment, puppetclass.name) %>
+          <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
         <% end %>
       </td>
-      <td><%= puppetclass.hostgroups.map {|hg| link_to hg, hostgroup_path(hg)}.to_sentence.html_safe %></td>
+      <td><%= puppetclass.hostgroups.map {|hg| link_to_if_authorized hg, hash_for_edit_hostgroup_path(:id=>hg)}.to_sentence.html_safe %></td>
       <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td>
         <%= link_to puppetclass.lookup_keys.count, puppetclass_lookup_keys_path(puppetclass) %>

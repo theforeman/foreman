@@ -49,7 +49,7 @@ module LayoutHelper
 
   def multiple_checkboxes(f, attr, obj, klass, options = {})
     field(f, attr, options) do
-      authorized_edit_habtm obj, klass
+      authorized_edit_habtm obj, klass, options[:prefix]
     end
   end
 

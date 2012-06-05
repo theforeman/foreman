@@ -224,7 +224,7 @@ div.flash.notice {
     margin-left: 3px;
 }
 
-.imported_subnet, #settings li {
+#settings li {
   list-style-type:none;
   padding:0 0 8px;
 }
@@ -331,3 +331,6 @@ margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 .form-actions{
     background-color: #f5f5f5;
 }
+
+.ignore-subnet{margin-right: 10px;margin-top: -25px;float: right;}
+.tabs-left .nav-tabs>li>a.btn:hover{background:inherit;background-color: #408140;}
