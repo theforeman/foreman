@@ -95,7 +95,7 @@ module Orchestration::Compute
       end
 
       #  Now that we have an IP and other details, force an update before any mischeif happens
-      self.save
+      self.save(:validate => false)
     end
 
     def delComputeDetails; end

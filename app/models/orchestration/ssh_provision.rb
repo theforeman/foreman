@@ -9,7 +9,7 @@ module Orchestration::SSHProvision
 
   module InstanceMethods
     def ssh_provision?
-      compute_attributes.present? && capabilities.include?(:image)
+      compute_attributes.present? && capabilities.include?(:image) && configTemplate(:kind => "finish")
     end
 
     protected
@@ -95,7 +95,7 @@ module Orchestration::SSHProvision
   def delSSHProvision; end
 
   def validate_ssh_provisioning
-    return unless ssh_provision?
+    return unless compute_attributes.present?
     return if Rails.env == "test"
     status = true
     begin
@@ -104,7 +104,7 @@ module Orchestration::SSHProvision
     rescue => e
       status = false
     end
-    status = false if template.nil?
+    status = false if template.nil? and compute_attributes[:provider] != "EC2"
     failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
     image_uuid = compute_attributes[:image_id]
     unless (self.image = Image.find_by_uuid(image_uuid))
