@@ -333,3 +333,4 @@ margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 }
 
 .ignore-subnet{margin-right: 10px;margin-top: -25px;float: right;}
+.tabs-left .nav-tabs>li>a.btn:hover{background:inherit;background-color: #408140;}
