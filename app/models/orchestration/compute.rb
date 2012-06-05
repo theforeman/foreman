@@ -3,14 +3,14 @@ module Orchestration::Compute
     base.send :include, InstanceMethods
     base.class_eval do
       attr_accessor :compute_attributes, :vm, :provision_method
-      after_validation :queue_compute
+      after_validation :validate_compute_provisioning, :queue_compute
       before_destroy :queue_compute_destroy
     end
   end
 
   module InstanceMethods
     def compute?
-      compute_resource_id.present? and compute_attributes.present?
+      compute_resource_id.present? and compute_attributes.present? && capabilities.include?(:image)
     end
 
     def compute_object
@@ -31,13 +31,15 @@ module Orchestration::Compute
     end
 
     def queue_compute_create
-      queue.create(:name   => "Settings up compute instance #{self}", :priority => 1,
+      queue.create(:name   => "Requesting compute instance #{self}", :priority => 1,
+                   :action => [self, :requestCompute])
+      post_queue.create(:name   => "Setting up compute instance #{self}", :priority => 2,
                    :action => [self, :setCompute])
-      queue.create(:name   => "Acquiring IP address for #{self}", :priority => 2,
+      post_queue.create(:name   => "Acquiring IP address for #{self}", :priority => 3,
                    :action => [self, :setComputeIP]) if compute_resource.provided_attributes.keys.include?(:ip)
-      queue.create(:name   => "Querying instance details for #{self}", :priority => 3,
+      post_queue.create(:name   => "Querying instance details for #{self}", :priority => 4,
                    :action => [self, :setComputeDetails])
-      queue.create(:name   => "Power up compute instance #{self}", :priority => 1000,
+      post_queue.create(:name   => "Power up compute instance #{self}", :priority => 1000,
                    :action => [self, :setComputePowerUp]) if compute_attributes[:start] == '1'
     end
 
@@ -54,11 +56,20 @@ module Orchestration::Compute
                    :action => [self, :delCompute])
     end
 
+    def requestCompute
+      logger.info "Requesting a compute instance for #{name}"
+      self.vm = compute_resource.new_vm compute_attributes.merge(:name => name)
+    end
+
     def setCompute
       logger.info "Adding Compute instance for #{name}"
-      self.vm = compute_resource.create_vm compute_attributes.merge(:name => name)
+      template   = ConfigTemplate.find_template (:kind => "user_data", :operatingsystem_id => self.operatingsystem_id,
+                                                 :hostgroup_id => self.hostgroup_id, :environment_id => self.environment_id)
+      @host = self
+      user_data = unattended_render(template.template) if template != nil
+      self.vm = compute_resource.create_vm compute_attributes.merge(:user_data => user_data)
     rescue => e
-      failure "Failed to create a compute #{compute_resource} instance #{name}: #{e.message}\n " + e.backtrace.join("\n ")
+      failure "Failed to create a compute #{compute_resource} instance #{name}: #{e.message}\n " + e.backtrace.join("\n ") 
     end
 
     def setComputeDetails
@@ -82,6 +93,9 @@ module Orchestration::Compute
       else
         failure "failed to save #{name}"
       end
+
+      #  Now that we have an IP and other details, force an update before any mischeif happens
+      self.save(:validate => false)
     end
 
     def delComputeDetails; end
@@ -136,8 +150,21 @@ module Orchestration::Compute
     private
 
     def compute_update_required?
+      return true unless uuid?
       old.compute_attributes = compute_resource.find_vm_by_uuid(uuid).attributes
       compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
+    end 
+
+    def validate_compute_provisioning
+      return unless compute?
+      return if Rails.env == "test"
+      status = true
+      image_uuid = compute_attributes[:image_id]
+      unless (self.image = Image.find_by_uuid(image_uuid))
+        status &= failure("Must define an Image to use")
+      end
+
+      status
     end
 
   end
