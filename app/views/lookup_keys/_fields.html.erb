@@ -1,15 +1,15 @@
-<div <%= "id=#{f.object.key || 'new_lookup_keys'} class='tab-pane fields' " %> >
+<div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')} class='tab-pane fields' " %> >
   <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn btn-danger hide'} unless controller_name == "lookup_keys" %>
   <%= text_f f, :key, :label => "Name" %>
   <%= text_f f, :description %>
-  <%= text_f f, :default_value, :class => "input-xxlarge", :help_inline => popover("?","value to use when there is no match", :title => "Default Value").html_safe %>
+  <%= text_f f, :default_value, :class => "span6", :help_inline => popover("?","value to use when there is no match", :title => "Default Value").html_safe %>
   <%= selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATION_TYPES, f.object.validator_type),
     { :include_blank => "string"},
     { :label => "Type Validator", :class => "medium",
       :help_inline => popover("?","<dl> <dt>String</dt> <dd>everything goes</dd> <dt>Regexp</dt> <dd>regular expression to verify the value</dd>
        <dt>List</dt> <dd>comma seperated values, e.g. 80,443<dd> </dt>", :title => "How values are validated").html_safe}
   %>
-  <%= text_f f, :validator_rule, :label => "Validator constraint", :class => "input-xxlarge",
+  <%= text_f f, :validator_rule, :label => "Validator constraint", :class => "span6",
     :help_inline => popover("?","Values to match Type validator, leave blank if its String", :title => "Validator constraint")%>
   <%= textarea_f f, :path, :rows => "4", :value => f.object.path, :label => "Order",
     :help_inline => popover("?", "The order in which matchers keys are processed, first match wins.<br>
@@ -26,5 +26,4 @@
     <% end %>
     <%= add_child_link "+ Add Matcher-Value", :lookup_values, { :title => 'add a new matcher-value pair'} %>
   </div>
-  <hr>
 </div>
