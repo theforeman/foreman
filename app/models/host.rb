@@ -154,7 +154,7 @@ class Host < Puppet::Rails::Host
     validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or host.compute? or !host.managed }
     validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
     validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
-      :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake)  }
+      :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
     validates_format_of      :sp_mac,    :with => Net::Validations::MAC_REGEXP, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => Net::Validations::IP_REGEXP, :allow_nil => true, :allow_blank => true
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
