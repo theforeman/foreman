@@ -2,7 +2,7 @@ class LookupValue < ActiveRecord::Base
   include Authorization
   belongs_to :lookup_key
   validates_uniqueness_of :match, :scope => :lookup_key_id
-  validates_presence_of :match, :value, :lookup_key_id
+  validates_presence_of :match, :value
   delegate :key, :to => :lookup_key
   validate :validate_range, :validate_list, :validate_regexp, :validate_match
   before_validation :sanitize_match
