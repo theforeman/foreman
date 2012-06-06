@@ -214,15 +214,6 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  # this has to be in the application controller, as the new request (for puppetdoc) url is not controller specific.
-  def no_puppetclass_documentation_handler(exception)
-    if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
-      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
-    else
-      request.local? ? request.rescue_action_locally(exception) : rescue_action_in_public(exception)
-    end
-  end
-
   def process_success hash = {}
     hash[:object]                 ||= eval("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
@@ -277,10 +268,8 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
-    return no_puppetclass_documentation_handler(exception) if exception.is_a?(ActionController::RoutingError)
     logger.warn "Operation FAILED: #{exception}"
     logger.debug Rails.backtrace_cleaner.clean(exception.backtrace).join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
-
 end
