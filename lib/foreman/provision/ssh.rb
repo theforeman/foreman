@@ -76,10 +76,17 @@ class Foreman::Provision::SSH
           ssh.run('pwd')
         end
       rescue Errno::ECONNREFUSED
+        logger.debug "Connection refused for #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Errno::EHOSTUNREACH
+        logger.debug "Host unreachable for #{address}, retrying"
         sleep(2)
         retry
       rescue Timeout::Error
         retry
+      rescue => e
+        logger.debug "SSH error: #{e.message}\n " + e.backtrace.join("\n ")
       end
     end
   end
