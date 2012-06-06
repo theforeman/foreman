@@ -103,7 +103,7 @@ class ComputeResource < ActiveRecord::Base
   def create_vm args = {}
     client.servers.create vm_instance_defaults.merge(args.to_hash)
   rescue Fog::Errors::Error => e
-    errors.add(:base, e.to_s)
+    errors.add(:base, e.message.to_s)
     false
   end
 
