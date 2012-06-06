@@ -105,6 +105,7 @@ class ComputeResource < ActiveRecord::Base
   def create_vm args = {}
     client.servers.create vm_instance_defaults.merge(args.to_hash)
   rescue Fog::Errors::Error => e
+    logger.debug "Fog error: #{e.message}\n " + e.backtrace.join("\n ")
     errors.add(:base, e.message.to_s)
     false
   end
