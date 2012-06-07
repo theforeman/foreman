@@ -20,6 +20,12 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get a preseed finish script with multiple ips in the request header" do
+    @request.env["REMOTE_ADDR"] = [hosts(:ubuntu).ip, '1.2.3.4']
+    get :preseed_finish
+    assert_response :success
+  end
+
   test "should get a preseed" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :preseed

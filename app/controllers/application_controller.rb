@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
-  before_filter :session_expiry, :update_activity_time, :unless => :api_request? if SETTINGS[:login]
+  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
   before_filter :authorize
 
@@ -61,8 +61,8 @@ class ApplicationController < ActionController::Base
           user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
           logger.warn("Failed API authentication request from #{request.remote_ip}") unless user
         # if login delegation authorized and REMOTE_USER not empty, authenticate user without using password
-        elsif (uid=request.env["REMOTE_USER"]).present? and Setting["authorize_login_delegation"]
-          user = User.find_by_login(uid)
+        elsif remote_user_provided?
+          user = User.find_by_login(@remote_user)
           logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
         end
 
@@ -189,6 +189,11 @@ class ApplicationController < ActionController::Base
     return head(:method_not_allowed) unless ajax?
   end
 
+  def remote_user_provided?
+    return false unless Setting["authorize_login_delegation"]
+    (@remote_user = request.env["REMOTE_USER"]).present?
+  end
+
   private
   def detect_notices
     @notices = current_user.notices
@@ -259,7 +264,7 @@ class ApplicationController < ActionController::Base
           return
         end
       end
-      format.json { render :json => {"errors" => hash[:error_msg]} , :status => hash[:json_code]}
+      format.json { render :json => {"errors" => hash[:object].errors.full_messages} , :status => hash[:json_code]}
     end
   end
 

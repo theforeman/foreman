@@ -92,6 +92,8 @@ class UnattendedController < ApplicationController
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
+    ip = ip.split(',').first # in cases where multiple nics/ips exists - see #1619
+
     # search for a mac address in any of the RHN provisioning headers
     # this section is kickstart only relevant
     maclist = []
