@@ -1,15 +1,29 @@
-<%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search" do %>
-  <div class="span4">
-  <%= auto_complete_search(:search, params[:search].try(:squeeze," "), {:placeholder => "Filter ...", :class=>'search-query'},{ :delay => 100, :min_length => -1 }).html_safe %>
-  </div>
-  <%= link_to_function icons("bookmark"){""}, "$('#bookmarks-modal').modal();", {:id => "bookmark", :class => "btn btn-small",
-         :"data-url"=> new_bookmark_path(:kontroller => controller_name), :title => "Bookmark this search"}%>
-  <%= link_to_function "Search", "$(this).parent().submit()" , {:id => 'submit_search', :class => 'btn btn-small' } %>
+<%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search row-fluid" do %>
+    <div class="btn-group">
+      <div class="span4">
+        <%= auto_complete_search(:search, params[:search].try(:squeeze," "),
+                                 {:placeholder => "Filter ..."},
+                                 { :delay => 100, :min_length => -1 }).html_safe %>
+        </div>
+      <button class="btn btn-small" onclick="$('.form-search').submit()" style="margin-left: -12px;"><%= icon_text("search", "Search") %></button>
+      <button class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right">
+        <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>
+        <% bookmarks.each do |bookmark| -%>
+            <li><%= link_to_if_authorized bookmark.name, eval("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
+        <% end -%>
+        <li class="divider"></li>
+        <li><%= link_to_function 'Bookmark this search', "$('#bookmarks-modal').modal();",
+                                 {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
+      </ul>
+    </div>
 <% end -%>
 
 <div id="bookmarks-modal" class="modal hide fade">
   <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">×</a>
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
     <h3>Add Bookmark</h3>
   </div>
   <div class="modal-body">
