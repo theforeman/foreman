@@ -369,8 +369,7 @@ class Host < Puppet::Rails::Host
     respond_to?("merge_facts") ? self.merge_facts(facts.values) : self.setfacts(facts.values)
     save(:validate => false)
 
-    # we want to import other information only if this host was never installed via Foreman
-    populateFieldsFromFacts(facts.values) if installed_at.nil?
+    populateFieldsFromFacts(facts.values)
 
     # we are saving here with no validations, as we want this process to be as fast
     # as possible, assuming we already have all the right settings in Foreman.
