@@ -18,6 +18,8 @@ class Bookmark < ActiveRecord::Base
     {:conditions => conditions}
   }
 
+  scope :controller, lambda{|*args| {:conditions => ["controller = ?", (args.first || '')]}}
+
   def set_default_user
     self.owner ||= User.current
   end
