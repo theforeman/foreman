@@ -38,7 +38,9 @@
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>
             </div>
-            <div id="title_action" class=<%= searchable? ? "span6" : "span8" %>> <%=h yield(:title_actions) %> </div>
+            <div id="title_action" class=<%= "btn-group " + (searchable? ? "span6" : "span8") %>>
+              <div class="fr"><%=h yield(:title_actions) %></div>
+            </div>
           </div>
 
           <%= yield -%>
