@@ -8,6 +8,10 @@ module LayoutHelper
     content_for(:title_actions) { elements.join(" ").html_safe }
   end
 
+  def button_group *elements
+      content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
+  end
+
   def search_bar *elements
     content_for(:search_bar) { elements.join(" ").html_safe }
   end
