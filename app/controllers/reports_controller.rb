@@ -38,14 +38,10 @@ class ReportsController < ApplicationController
   end
 
   def create
-    respond_to do |format|
-      format.yml {
-        if Report.import params.delete("report")
-          render :text => "Imported report", :status => 200 and return
-        else
-          render :text => "Failed to import report", :status => 500
-        end
-      }
+    if Report.import params.delete("report") || request.body
+      render :text => "Imported report", :status => 200 and return
+    else
+      render :text => "Failed to import report", :status => 500
     end
   rescue => e
     render :text => e.to_s, :status => 500
