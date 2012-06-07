@@ -1,7 +1,6 @@
 .auto_complete_input {
-  width: 100%;
-  margin-left: -20px !important;
-  padding-right: 2px;
+  width: 98%;
+  margin-right: -12px;
 }
 
 .ui-autocomplete-loading
@@ -12,8 +11,8 @@
 .auto_complete_clear{
     background: url('../images/ui-icons_888888_256x240.png') center no-repeat;
     background-position: -80px -128px;
-    display:inline-block;width:16px;height:16px;line-height:16px;vertical-align:text-top;
-    margin-left:-20px;
+    display:inline-block;width:12px;height:12px;
+    margin-left:-8px;
 }
 .auto_complete_clear:hover{
     background: url('../images/ui-icons_454545_256x240.png');
@@ -214,9 +213,7 @@ div.flash.notice {
 }
 
 #title_action {
-  float: right;
-  margin-bottom: 18px;
-  text-align: right;
+  margin-top: -9px;
 }
 
 #actions_dropdown {

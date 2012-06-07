@@ -152,7 +152,6 @@ $(function() {
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
   $('.dropdown-toggle').dropdown();
-  $('.auto_complete_clear').addClass ('icon-remove');
 });
 
 function magic_line(id, combo) {

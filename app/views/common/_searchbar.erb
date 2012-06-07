@@ -1,11 +1,11 @@
 <%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search row-fluid" do %>
     <div class="btn-group">
-      <div class="span4">
+      <div class="span8">
         <%= auto_complete_search(:search, params[:search].try(:squeeze," "),
                                  {:placeholder => "Filter ..."},
                                  { :delay => 100, :min_length => -1 }).html_safe %>
         </div>
-      <button class="btn btn-small" onclick="$('.form-search').submit()" style="margin-left: -12px;"><%= icon_text("search", "Search") %></button>
+      <button class="btn btn-small" onclick="$('.form-search').submit()"><%= icon_text("search", "Search") %></button>
       <button class="btn dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
       </button>
