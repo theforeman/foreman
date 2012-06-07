@@ -19,7 +19,7 @@ module HostsAndHostgroupsHelper
 
   def accessible_hostgroups
     hg = (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
-    hg.sort
+    hg.sort{ |l, r| l.to_label <=> r.to_label }
   end
 
   def parent_classes obj
