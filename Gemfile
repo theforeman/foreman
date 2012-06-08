@@ -29,6 +29,9 @@ group :vmware do
   gem "rbvmomi"
 end
 
+# Previous versions collide with Environment model
+gem "ruby_parser", ">= 2.3.1"
+
 group :virt do
   gem "virt", ">= 0.2.1"
   gem "rbovirt", ">= 0.0.12"
