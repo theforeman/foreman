@@ -73,9 +73,10 @@ end
 class String
   def to_gb
     begin
-      value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMG]B?|B))$/i)[1..3]
+      value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]B?|B))$/i)[1..3]
       case unit.to_sym
       when nil, :B, :byte          then (value.to_f / 1000_000_000)
+      when :TB, :T, :terabyte      then (value.to_f * 1000)
       when :GB, :G, :gigabyte      then value.to_f
       when :MB, :M, :megabyte      then (value.to_f / 1000)
       when :KB, :K, :kilobyte, :kB then (value.to_f / 1000_000)
