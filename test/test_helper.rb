@@ -52,3 +52,11 @@ class ActiveSupport::TestCase
     ActiveSupport::TestCase.disable_orchestration
   end
 end
+
+class ActionController::TestCase
+  setup :setup_set_script_name
+
+  def setup_set_script_name
+    @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
+  end
+end
