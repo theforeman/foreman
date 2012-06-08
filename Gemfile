@@ -12,6 +12,9 @@ gem 'scoped_search', '>= 2.3.7'
 gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 
+# Previous versions collide with Environment model
+gem "ruby_parser", ">= 2.3.1"
+
 group :virt do
   gem "virt", ">= 0.2.1"
   gem "rbovirt", ">= 0.0.12"
