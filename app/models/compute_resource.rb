@@ -1,5 +1,4 @@
-require 'server_interfaces'
-
+require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware ].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   acts_as_audited :except => [:password]
