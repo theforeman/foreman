@@ -289,10 +289,6 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
   float: right;
 }
 
-.user-filter fieldset legend{
-  margin-left:-10px;
-}
-
 .pagination ul{ float: right;}
 .modal-loading {
   position: relative;
