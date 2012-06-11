@@ -74,7 +74,9 @@ module Foreman::Model
 
       opts.reject! { |k, v| v.nil? }
 
-      client.servers.new opts
+      vm = client.servers.new opts
+      vm.memory = opts[:memory] if opts[:memory]
+      vm
     end
 
     def create_vm args = { }
