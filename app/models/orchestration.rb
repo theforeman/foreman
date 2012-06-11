@@ -30,15 +30,15 @@ module Orchestration
 
     protected
     def on_save
-      process queue
+      process :queue
     end
 
     def post_commit
-      process post_queue
+      process :post_queue
     end
 
     def on_destroy
-      errors.empty? ? process(queue) : false
+      errors.empty? ? process(:queue) : false
     end
 
     def rollback
@@ -78,9 +78,10 @@ module Orchestration
     # takes care for running the tasks in order
     # if any of them fail, it rollbacks all completed tasks
     # in order not to keep any left overs in our proxies.
-    def process q
+    def process queue_name
       return true if Rails.env == "test"
       # queue is empty - nothing to do.
+      q = send(queue_name)
       return if q.empty?
 
       # process all pending tasks
@@ -90,7 +91,7 @@ module Orchestration
 
         task.status = "running"
 
-        Rails.cache.write(queuename, q.to_json,  :expires_in => 5.minutes)
+        update_cache
         begin
           task.status = execute({:action => task.action}) ? "completed" : "failed"
 
@@ -112,7 +113,7 @@ module Orchestration
         end
       end
 
-      Rails.cache.write(queuename, q.to_json,  :expires_in => 5.minutes)
+      update_cache
       # if we have no failures - we are done
       return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and orchestration_errors?
 
@@ -124,7 +125,7 @@ module Orchestration
       (q.completed + q.running).sort.reverse_each do |task|
         begin
           task.status = "rollbacked"
-          Rails.cache.write(queuename, q.to_json,  :expires_in => 5.minutes)
+          update_cache
           execute({:action => task.action, :rollback => true})
         rescue => e
           # if the operation failed, we can just report upon it
@@ -184,6 +185,10 @@ module Orchestration
 
     def orchestration_errors?
       overwrite? ? errors.are_all_conflicts? : errors.empty?
+    end
+
+    def update_cache
+      Rails.cache.write(queuename, (queue.all + post_queue.all).to_json,  :expires_in => 5.minutes)
     end
 
   end
