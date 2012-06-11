@@ -111,7 +111,7 @@ function clear_errors(){
 function animate_progress(){
   if (stop_pooling == true) return;
   setTimeout(function() {
-    var task_id = $('#host_queuename').val();
+    var task_id = $('#host_progress_report_id').val();
     $.get('/tasks/' + task_id, function (response){
        update_progress(response);
        animate_progress();
