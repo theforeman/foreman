@@ -75,11 +75,11 @@ class String
     begin
       value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]B?|B))$/i)[1..3]
       case unit.to_sym
-      when nil, :B, :byte          then (value.to_f / 1000_000_000)
-      when :TB, :T, :terabyte      then (value.to_f * 1000)
+      when nil, :B, :byte          then (value.to_f / (4**10))
+      when :TB, :T, :terabyte      then (value.to_f * (2**10))
       when :GB, :G, :gigabyte      then value.to_f
-      when :MB, :M, :megabyte      then (value.to_f / 1000)
-      when :KB, :K, :kilobyte, :kB then (value.to_f / 1000_000)
+      when :MB, :M, :megabyte      then (value.to_f / (2**10))
+      when :KB, :K, :kilobyte, :kB then (value.to_f / (3**10))
       else raise "Unknown unit: #{unit.inspect}!"
       end
     rescue
