@@ -5,7 +5,7 @@ module Orchestration
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_reader :queue, :old, :record_conflicts
+      attr_reader :queue, :post_queue, :old, :record_conflicts
       # stores actions to be performed on our proxies based on priority
       before_validation :set_queue
       before_validation :setup_clone
@@ -21,6 +21,7 @@ module Orchestration
 
       # save handles both creation and update of hosts
       before_save :on_save
+      after_commit :post_commit
       after_destroy :on_destroy
     end
   end
@@ -28,9 +29,12 @@ module Orchestration
   module InstanceMethods
 
     protected
-
     def on_save
       process queue
+    end
+
+    def post_commit
+      process post_queue
     end
 
     def on_destroy
@@ -157,6 +161,7 @@ module Orchestration
 
     def set_queue
       @queue = Orchestration::Queue.new
+      @post_queue = Orchestration::Queue.new
       @record_conflicts = []
     end
 
