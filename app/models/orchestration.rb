@@ -188,7 +188,7 @@ module Orchestration
     end
 
     def update_cache
-      Rails.cache.write(queuename, (queue.all + post_queue.all).to_json,  :expires_in => 5.minutes)
+      Rails.cache.write(progress_report_id, (queue.all + post_queue.all).to_json,  :expires_in => 5.minutes)
     end
 
   end

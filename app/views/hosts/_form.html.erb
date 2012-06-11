@@ -50,7 +50,7 @@
     </div>
 
     <%= f.hidden_field :managed %>
-    <%= f.hidden_field :queuename %>
+    <%= f.hidden_field :progress_report_id %>
 
     <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 

@@ -607,12 +607,12 @@ class Host < Puppet::Rails::Host
     read_attribute(:certname) || name
   end
 
-  def queuename
-    @queuename ||= Foreman.uuid
+  def progress_report_id
+    @progress_report_id ||= Foreman.uuid
   end
 
-  def queuename=(value)
-    @queuename = value
+  def progress_report_id=(value)
+    @progress_report_id = value
   end
 
   def capabilities
