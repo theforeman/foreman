@@ -109,7 +109,7 @@ module HostsHelper
   def report_status_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span7 host_chart',
+                  :class          => 'host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -124,7 +124,7 @@ module HostsHelper
   def runtime_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span7 host_chart',
+                  :class          => 'host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -135,7 +135,7 @@ module HostsHelper
 
   def reports_show
     return unless @host.reports.size > 0
-    form_tag @host, :id => 'days_filter', :method => :get do
+    form_tag @host, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
       content_tag(:span, "Reports from the last ") +
       select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
             {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
@@ -149,13 +149,17 @@ module HostsHelper
 
   def show_templates
     return unless SETTINGS[:unattended]
-    return if (templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact).empty?
-    options = templates.map do |t|
-      next if t.template_kind.name == "PXELinux" # we can't render these for now
-      [t.name, url_for({:controller => 'unattended', :action => t.template_kind.name, :spoof => @host.ip})]
-    end.compact
-    select(nil, 'templates',options,{:include_blank => true},
-           {:onchange =>"if ($('#_templates').val() == '') {return false;}; window.open($('#_templates').val(), $('#_templates option:selected').text(),[width='300',height='400',scrollbars='yes']);"})
+    templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
+    return "No Template found" if templates.empty?
+    content_tag :table, :class=>"table table-bordered table-striped" do
+      content_tag(:th, "Template Type") + content_tag(:th) +
+      templates.sort{|t,x| t.template_kind <=> x.template_kind}.map do |tmplt|
+        content_tag :tr do
+          content_tag(:td,  "#{tmplt.template_kind} Template")+
+          content_tag(:td, link_to_if_authorized(tmplt, hash_for_edit_config_template_path(:id => tmplt.to_param), :rel=>"external"))
+        end
+      end.join(" ").html_safe
+    end
   end
 
   def overview_fields host
