@@ -30,23 +30,33 @@
 -%>
 <% content_for(:search_bar) {reports_show} %>
 
-<div class="row">
-  <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
-  <div class="span5"><%= render :partial => "hosts/overview", :locals => { :host => @host } %></div>
-</div>
-<div class="row">
-  <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
-  <div class="span5">
-    <% if SETTINGS[:unattended] and @host.managed? -%>
-      <table class="table table-bordered table-striped table-condensed">
-        <tr><th>Templates</th></tr>
-        <tr><td><%= show_templates -%></td></tr>
-      </table>
-    <% end -%>
-    <% if @report_summary.size == 0 -%>
-      <p>No puppet activity for this host in the last <%= @range %> days</p>
-    <% else -%>
-      <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
-    <% end -%>
+<div class="row-fluid">
+  <div class="span4">
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#properties" data-toggle="tab">Properties</a></li>
+      <li><a href="#metrics" data-toggle="tab">Metrics</a></li>
+      <% if SETTINGS[:unattended] %>
+        <li><a href="#template" data-toggle="tab">Templates</a></li>
+      <% end %>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="properties">
+        <%= render :partial => "hosts/overview", :locals => { :host => @host } %>
+      </div>
+      <div class="tab-pane" id="metrics">
+        <% if @report_summary.size == 0 -%>
+              <p>No puppet activity for this host in the last <%= @range %> days</p>
+            <% else -%>
+              <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
+            <% end -%>
+      </div>
+      <div class="tab-pane" id="template">
+        <%= show_templates -%>
+      </div>
+    </div>
+  </div>
+  <div class="span8">
+    <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
+    <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
   </div>
 </div>
