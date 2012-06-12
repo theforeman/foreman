@@ -2,7 +2,7 @@
   <div class="span4 classes">
     <% group.each do |list| -%>
       <% next if list.nil? %>
-      <ul>
+      <ul class="puppetclass_group">
         <li><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('#pc_#{list.first}').fadeToggle('slow')" %>
           <ul id="pc_<%= list.first %>" style="display: none;">
             <% for klass in list.last.sort -%>
