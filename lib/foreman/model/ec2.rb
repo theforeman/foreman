@@ -79,6 +79,11 @@ module Foreman::Model
       true
     end
 
+    # not supporting update at the moment
+    def update_required?(old_attrs, new_attrs)
+      false
+    end
+
     private
 
     def client

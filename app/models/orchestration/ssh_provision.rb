@@ -71,8 +71,10 @@ module Orchestration::SSHProvision
     def setSSHProvision
       logger.info "SSH connection established to #{ip} - executing template"
       if client.deploy!
-        self.build        = false
-        self.installed_at = Time.now.utc
+        h = Host.find(id)
+        h.build = false
+        h.installed_at = Time.now.utc
+        h.save(:validate => false)
       else
         raise "Provision script had a non zero exit, removing instance"
       end
