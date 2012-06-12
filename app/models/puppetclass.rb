@@ -54,10 +54,6 @@ class Puppetclass < ActiveRecord::Base
     name.gsub(module_name+"::","")
   end
 
-  # add sort by class name
-  def <=>(other)
-    klass <=> other.klass
-  end
 
   # Populates the rdoc tree with information about all the classes in your modules.
   #   Firstly, we prepare the modules tree

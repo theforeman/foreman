@@ -29,6 +29,9 @@
 
   <div class="span8">
     <h3>Available Classes</h3>
+    <div class='control-group'>
+      <input placeholder="Filter classes" class="search-query" onkeyup="filter_puppet_classes(this);" type='text'>
+    </div>
     <div class="row">
       <%= render "puppetclasses/classes",
         :puppetclasses => (obj.is_a?(Host) ? @environment.puppetclasses : Puppetclass.all), :selected_puppet_classes => obj.all_puppetclasses,
