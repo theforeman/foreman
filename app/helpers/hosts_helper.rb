@@ -182,4 +182,44 @@ module HostsHelper
     return [] unless arch && os
     cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
   end
+
+
+  def host_title_actions(host, vm)
+    title_actions(
+        button_group(
+            link_to_if_authorized("Edit", hash_for_edit_host_path(:id => host), :title => "Edit your host"),
+            if host.build
+              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_build?,
+                                    :title                                                                 => "Cancel build request for this host")
+            else
+              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_build?,
+                                    :title                                                       => "Enable rebuild on next host boot",
+                                    :confirm                                                     => "Rebuild #{host} on next reboot?\nThis would also delete all of its current facts and reports")
+            end
+        ),
+        if host.compute_resource_id
+          button_group(
+              if vm
+                html_opts = vm.ready? ? {:confirm => 'Are you sure?', :class => "btn btn-danger"} : {:class => "btn btn-success"}
+                link_to_if_authorized "Power#{state(vm.ready?)}", hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start), html_opts.merge(:method => :put)
+              else
+                link_to("Unknown Power State", '#', :disabled => true, :class => "btn btn-warning")
+              end +
+                  link_to_if_authorized("Console", hash_for_console_host_path(), {:disabled => vm.nil? || !vm.ready?, :class => "btn btn-info"})
+          )
+        end,
+        button_group(
+            link_to_if_authorized("Run puppet", hash_for_puppetrun_host_path(:id => host).merge(:auth_action => :edit),
+                                  :disabled => !Setting[:puppetrun],
+                                  :title => "Trigger a puppetrun on a node; requires that puppet run is enabled"),
+            link_to_if_authorized("All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => host).merge(:auth_action => :read),
+                                  :disabled => host.resources.count == 0,
+                                  :title => "Show all host puppet classes, requires storeconfigs")
+        ),
+        button_group(
+            link_to_if_authorized("Delete", hash_for_host_path(:id => host, :auth_action => :destroy),
+                                  :class => "btn btn-danger", :confirm => 'Are you sure?', :method => :delete)
+        )
+    )
+  end
 end
