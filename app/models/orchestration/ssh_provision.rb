@@ -100,10 +100,8 @@ module Orchestration::SSHProvision
     status = true
     begin
       template = configTemplate(:kind => "finish")
-      logger.debug "The finish template is [#{template.name}]" if template
       status = (template != nil)
       template = configTemplate(:kind => "user_data")
-      logger.debug "The user_data template is [#{template.name}]" if template
       status = status | (template != nil)
     rescue => e
       status = false
