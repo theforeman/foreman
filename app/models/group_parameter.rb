@@ -1,6 +1,6 @@
 class GroupParameter < Parameter
   belongs_to :hostgroup, :foreign_key => :reference_id
-  acts_as_audited :except => [:priority], :parent => :hostgroup
+  audited :except => [:priority], :parent => :hostgroup
   validates_uniqueness_of :name, :scope => :reference_id
 
   private

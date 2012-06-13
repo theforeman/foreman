@@ -123,7 +123,7 @@ class Host < Puppet::Rails::Host
   }
 
   # audit the changes to this model
-  acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
+  audited :except => [:last_report, :puppet_status, :last_compile]
   has_associated_audits
 
   # some shortcuts

@@ -19,7 +19,7 @@ class Hostgroup < ActiveRecord::Base
 
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
-  acts_as_audited
+  audited
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params

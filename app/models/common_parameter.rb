@@ -1,5 +1,5 @@
 class CommonParameter < Parameter
-  acts_as_audited :except => [:priority]
+  audited :except => [:priority]
   validates_uniqueness_of :name
 
   scoped_search :on => :name, :complete_value => :true

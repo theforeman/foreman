@@ -13,14 +13,14 @@
   </tr>
   <% for audit in @audits %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= association_type(audit) %></td>
+      <td><%= associated_type(audit) %></td>
       <td><%= audit_title(audit) %></td>
       <td><%= audit_parent(audit) %></td>
       <td><%= audit.action %></td>
       <td><%= audit.created_at.to_s(:long) %></td>
-      <td><%= changes_column audit.changes %></td>
+      <td><%= changes_column audit.audited_changes %></td>
       <td><%= audit.user_as_string %></td>
-      <td><%= link_to "Details", audit %></td>
+      <td><%= link_to "Details", audit_path(audit) %></td>
     </tr>
   <% end %>
 </table>

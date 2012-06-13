@@ -6,7 +6,7 @@ class Architecture < ActiveRecord::Base
   validates_uniqueness_of :name
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
-  acts_as_audited
+  audited
 
   scoped_search :on => :name, :complete_value => :true
 

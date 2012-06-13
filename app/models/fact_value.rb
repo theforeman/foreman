@@ -29,7 +29,7 @@ class FactValue < Puppet::Rails::FactValue
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
   #
-  # acts_as_audited
+  # audited
 
   # returns the average of all facts
   # required only on facts that return a unit (e.g. MB, GB etc)

@@ -1,6 +1,6 @@
 class OsParameter < Parameter
   belongs_to :operatingsystem, :foreign_key => :reference_id
-  acts_as_audited :except => [:priority], :associated_with => :operatingsystem
+  audited :except => [:priority], :associated_with => :operatingsystem
   validates_uniqueness_of :name, :scope => :reference_id
 
   private
