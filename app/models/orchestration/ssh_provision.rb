@@ -71,10 +71,15 @@ module Orchestration::SSHProvision
     def setSSHProvision
       logger.info "SSH connection established to #{ip} - executing template"
       if client.deploy!
+        # since we are in a after_commit callback, we need to fetch our host again
         h = Host.find(id)
         h.build = false
         h.installed_at = Time.now.utc
+        # calling valiadtions would trigger the whole orchestartion layer again, we don't want it while we are inside an orchestation action ourself.
         h.save(:validate => false)
+        # but it does mean we need to manually remove puppetca autosign, remove this when we no longer part of after_commit callback
+        respond_to?(:initialize_puppetca) && initialize_puppetca && delAutosign if puppetca?
+
       else
         raise "Provision script had a non zero exit, removing instance"
       end
