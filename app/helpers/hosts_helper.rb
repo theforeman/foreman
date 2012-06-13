@@ -109,7 +109,7 @@ module HostsHelper
   def report_status_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span7 host_chart',
+                  :class          => 'host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -124,7 +124,7 @@ module HostsHelper
   def runtime_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span7 host_chart',
+                  :class          => 'host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -135,7 +135,7 @@ module HostsHelper
 
   def reports_show
     return unless @host.reports.size > 0
-    form_tag @host, :id => 'days_filter', :method => :get do
+    form_tag @host, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
       content_tag(:span, "Reports from the last ") +
       select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
             {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
@@ -149,13 +149,17 @@ module HostsHelper
 
   def show_templates
     return unless SETTINGS[:unattended]
-    return if (templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact).empty?
-    options = templates.map do |t|
-      next if t.template_kind.name == "PXELinux" # we can't render these for now
-      [t.name, url_for({:controller => 'unattended', :action => t.template_kind.name, :spoof => @host.ip})]
-    end.compact
-    select(nil, 'templates',options,{:include_blank => true},
-           {:onchange =>"if ($('#_templates').val() == '') {return false;}; window.open($('#_templates').val(), $('#_templates option:selected').text(),[width='300',height='400',scrollbars='yes']);"})
+    templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
+    return "No Template found" if templates.empty?
+    content_tag :table, :class=>"table table-bordered table-striped" do
+      content_tag(:th, "Template Type") + content_tag(:th) +
+      templates.sort{|t,x| t.template_kind <=> x.template_kind}.map do |tmplt|
+        content_tag :tr do
+          content_tag(:td,  "#{tmplt.template_kind} Template")+
+          content_tag(:td, link_to_if_authorized(tmplt, hash_for_edit_config_template_path(:id => tmplt.to_param), :rel=>"external"))
+        end
+      end.join(" ").html_safe
+    end
   end
 
   def overview_fields host
@@ -177,5 +181,45 @@ module HostsHelper
     return cr.images unless controller_name == "hosts"
     return [] unless arch && os
     cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
+  end
+
+
+  def host_title_actions(host, vm)
+    title_actions(
+        button_group(
+            link_to_if_authorized("Edit", hash_for_edit_host_path(:id => host), :title => "Edit your host"),
+            if host.build
+              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_build?,
+                                    :title                                                                 => "Cancel build request for this host")
+            else
+              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_build?,
+                                    :title                                                       => "Enable rebuild on next host boot",
+                                    :confirm                                                     => "Rebuild #{host} on next reboot?\nThis would also delete all of its current facts and reports")
+            end
+        ),
+        if host.compute_resource_id
+          button_group(
+              if vm
+                html_opts = vm.ready? ? {:confirm => 'Are you sure?', :class => "btn btn-danger"} : {:class => "btn btn-success"}
+                link_to_if_authorized "Power#{state(vm.ready?)}", hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start), html_opts.merge(:method => :put)
+              else
+                link_to("Unknown Power State", '#', :disabled => true, :class => "btn btn-warning")
+              end +
+                  link_to_if_authorized("Console", hash_for_console_host_path(), {:disabled => vm.nil? || !vm.ready?, :class => "btn btn-info"})
+          )
+        end,
+        button_group(
+            link_to_if_authorized("Run puppet", hash_for_puppetrun_host_path(:id => host).merge(:auth_action => :edit),
+                                  :disabled => !Setting[:puppetrun],
+                                  :title => "Trigger a puppetrun on a node; requires that puppet run is enabled"),
+            link_to_if_authorized("All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => host).merge(:auth_action => :read),
+                                  :disabled => host.resources.count == 0,
+                                  :title => "Show all host puppet classes, requires storeconfigs")
+        ),
+        button_group(
+            link_to_if_authorized("Delete", hash_for_host_path(:id => host, :auth_action => :destroy),
+                                  :class => "btn btn-danger", :confirm => 'Are you sure?', :method => :delete)
+        )
+    )
   end
 end

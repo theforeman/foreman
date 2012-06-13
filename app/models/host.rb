@@ -689,7 +689,7 @@ class Host < Puppet::Rails::Host
       value = self.send(e.to_sym)
       next if value.blank?
       unless os.send(e.pluralize.to_sym).include?(value)
-        errors.add(e, "#{value} does not belong to #{os} operating system")
+        errors.add("#{e}_id".to_sym, "#{value} does not belong to #{os} operating system")
         status = false
       end
     end if SETTINGS[:unattended] and managed? and os
