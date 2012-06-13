@@ -16,3 +16,6 @@
 # 'start' and 'stop' completely and remind the operator that passenger is in
 # use.
 #FOREMAN_USE_PASSENGER=0
+
+# set to 1 if you're using thin as a server
+#FOREMAN_USE_THIN=0
