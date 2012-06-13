@@ -75,7 +75,7 @@ module Orchestration::SSHProvision
         h = Host.find(id)
         h.build = false
         h.installed_at = Time.now.utc
-        # calling valiadtions would trigger the whole orchestartion layer again, we don't want it while we are inside an orchestation action ourself.
+        # calling validations would trigger the whole orchestration layer again, we don't want it while we are inside an orchestration action ourselves.
         h.save(:validate => false)
         # but it does mean we need to manually remove puppetca autosign, remove this when we no longer part of after_commit callback
         respond_to?(:initialize_puppetca) && initialize_puppetca && delAutosign if puppetca?
