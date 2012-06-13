@@ -98,6 +98,7 @@ module Orchestration::SSHProvision
     status = true
     begin
       template = configTemplate(:kind => "finish")
+      status = (template != nil)
     rescue => e
       status = false
     end
