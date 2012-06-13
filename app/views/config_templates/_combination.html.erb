@@ -1,5 +1,5 @@
 <div class="fields">
-  <%= select_f f, :hostgroup_id, Hostgroup.all, :id, :name, :include_blank => true %>
+  <%= select_f f, :hostgroup_id, Hostgroup.all, :id, :to_label, :include_blank => true %>
   <%= select_f f, :environment_id, Environment.all, :id, :name, {:include_blank => true},
     :help_inline => link_to_remove_fields("remove", f) %>
 </div>
