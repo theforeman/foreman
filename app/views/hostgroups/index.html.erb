@@ -7,7 +7,7 @@
     <th>Name</th>
     <th></th>
   </tr>
-  <% Hostgroup.sort_by_ancestry(@hostgroups).each do |hostgroup| %>
+  <% @hostgroups.sort.each do |hostgroup| %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td> <%= hostgroup_name hostgroup %> </td>
       <td>
