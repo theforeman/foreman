@@ -375,7 +375,7 @@ class HostTest < ActiveSupport::TestCase
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)
     assert !h.valid?
-    assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture]
+    assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture_id]
   end
 
   test "host puppet classes must belong to the host environment" do
