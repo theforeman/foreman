@@ -17,7 +17,7 @@ class HostgroupsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @hostgroups = values.paginate :page => params[:page]
+        @hostgroups = values.sort.paginate :page => params[:page]
       end
       format.json { render :json => values }
     end

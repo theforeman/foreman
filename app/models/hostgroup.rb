@@ -64,6 +64,10 @@ class Hostgroup < ActiveRecord::Base
     ancestors.map{|a| a.name + "/"}.join + name
   end
 
+  def <=>(other)
+    to_label.downcase <=> other.to_label.downcase
+  end
+
   def to_param
     "#{id}-#{to_label.parameterize}"
   end
