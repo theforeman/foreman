@@ -1,1 +1,6 @@
-<%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
+<div class='row'>
+  <%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
+</div>
+<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.id), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "btn-danger" : "btn-success")),
+   display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.id), :class=>'btn btn-danger'),
+   link_to("Back", compute_resource_path(@compute_resource), :class=>'btn') %>

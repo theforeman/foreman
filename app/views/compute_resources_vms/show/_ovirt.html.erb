@@ -1,53 +1,47 @@
 <% title @vm.name %>
+<div class='span12'>
+  <table class="table table-bordered table-striped">
+    <tr><th colspan="2">Properties</th></tr>
+    <tr>
+      <td>Name</td>
+      <td><%= @vm.name %></td>
+    </tr>
 
-<div class='row'>
-  <div class='span16'>
-    <table class="list zebra-striped">
-      <tr><th colspan="2">Properties</th></tr>
-      <tr>
-        <td>Name</td>
-        <td><%= @vm.name %></td>
-      </tr>
+    <tr>
+      <td>VCPU(s)</td>
+      <td><%= @vm.cores %></td>
+    </tr>
 
-      <tr>
-        <td>VCPU(s)</td>
-        <td><%= @vm.cores %></td>
-      </tr>
+    <tr>
+      <td>UUID</td>
+      <td><%= @vm.identity %></td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td><%= number_to_human_size @vm.memory %> </td>
+    </tr>
 
-      <tr>
-        <td>UUID</td>
-        <td><%= @vm.identity %></td>
-      </tr>
-      <tr>
-        <td>Memory</td>
-        <td><%= number_to_human_size @vm.memory %> </td>
-      </tr>
-
-      <tr>
-        <td>Display</td>
-        <td><%= @vm.display[:type] %> (<%= @vm.display[:port] %>)</td>
-      </tr>
-      <% @vm.interfaces.each do |nic| -%>
+    <tr>
+      <td>Display</td>
+      <td><%= @vm.display[:type] %> (<%= @vm.display[:port] %>)</td>
+    </tr>
+    <% @vm.interfaces.each do |nic| -%>
         <tr>
           <td>NIC</td>
           <td><%= "#{nic.name} - #{nic.mac}" %></td>
         </tr>
-      <% end -%>
+    <% end -%>
 
-      <% @vm.volumes.each do |vol| -%>
+    <% @vm.volumes.each do |vol| -%>
         <tr>
           <td>Disk</td>
           <td><%= "using #{number_to_human_size vol.size}" %></td>
         </tr>
-      <% end -%>
+    <% end -%>
 
-      <tr>
-        <td>Running on</td>
-        <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
-      </tr>
-    </table>
-  </div>
+    <tr>
+      <td>Running on</td>
+      <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
+    </tr>
+  </table>
 </div>
-<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.identity), :confirm => 'Are you sure?', :method => :put, :class=>'btn ' + (@vm.ready? ? "danger" : "success")),
-  display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.identity), :class=>'btn danger'),
-  display_link_if_authorized("Other VMs on #{@compute_resource}", hash_for_compute_resource_vms_path(:compute_resource_id => @compute_resource), :class=>'btn') %>
