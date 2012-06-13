@@ -10,7 +10,7 @@ module Orchestration::Compute
 
   module InstanceMethods
     def compute?
-      compute_resource_id.present? and compute_attributes.present?
+      compute_resource_id.present? and compute_attributes.present? && capabilities.include?(:image)
     end
 
     def compute_object
@@ -93,6 +93,9 @@ module Orchestration::Compute
       else
         failure "failed to save #{name}"
       end
+
+      #  Now that we have an IP and other details, force an update before any mischeif happens
+      self.save
     end
 
     def delComputeDetails; end
