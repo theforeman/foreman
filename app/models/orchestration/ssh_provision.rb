@@ -92,7 +92,8 @@ module Orchestration::SSHProvision
     return if Rails.env == "test"
     status = true
     begin
-      configTemplate(:kind => "finish")
+      template = configTemplate(:kind => "finish")
+      status = (template != nil)
     rescue => e
       status = failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings"
     end
