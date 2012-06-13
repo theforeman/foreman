@@ -15,6 +15,8 @@ module Orchestration::SSHProvision
     protected
     def queue_ssh_provision
       return unless ssh_provision? and errors.empty?
+      return unless configTemplate(:kind => "finish")
+      
       new_record? ? queue_ssh_provision_create : queue_ssh_provision_update
     end
 
