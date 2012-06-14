@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.10'
+gem "puppet"
+gem "facter"
 gem "jquery-rails"
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
