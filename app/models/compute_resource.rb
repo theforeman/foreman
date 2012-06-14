@@ -6,6 +6,7 @@ class ComputeResource < ActiveRecord::Base
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
 
+  before_destroy EnsureNotUsedBy.new(:hosts)
   include Authorization
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
