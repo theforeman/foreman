@@ -60,7 +60,7 @@ function expand_chart(ref){
   if($("#"+modal_id).length == 0)
     {
       $('body').append('<div id="' + modal_id + '" class="modal fade"></div>');
-      $("#"+modal_id).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">×</a><h3> ' +title+ ' </h3></div>')
+      $("#"+modal_id).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3> ' +title+ ' </h3></div>')
       .append('<div chart-href='+chart.attr("chart-href")+' id="' + modal_id + '-body" class="fact_chart modal-body">Loading ...</div>');
       $("#"+modal_id).modal('show');
       stat_pie(modal_id+'-body', title, data, 0, false, false)
@@ -71,7 +71,7 @@ function get_pie_chart(div, url) {
   if($("#"+div).length == 0)
     {
       $('body').append('<div id="' + div + '" class="modal fade"></div>');
-      $("#"+div).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">×</a><h3>Fact Chart</h3></div>')
+      $("#"+div).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3>Fact Chart</h3></div>')
       .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
       $("#"+div).modal('show');
       $.getJSON(url, function(data) {

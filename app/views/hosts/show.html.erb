@@ -34,7 +34,7 @@
       <div class="tab-pane" id="vm">
         <%  if @vm %>
           <% @compute_resource = @host.compute_resource %>
-          <%= render "compute_resources_vms/show/#{@host.compute_resource.provider.downcase}" %>
+          <%= render("compute_resources_vms/show/#{@host.compute_resource.provider.downcase}") rescue nil %>
         <% end %>
       </div>
 
