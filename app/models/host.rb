@@ -627,6 +627,10 @@ class Host < Puppet::Rails::Host
     end
   end
 
+  def as_json(options={})
+    super(:methods => [:host_parameters])
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses

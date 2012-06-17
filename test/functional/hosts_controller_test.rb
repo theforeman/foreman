@@ -8,6 +8,20 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
+  def test_show_json
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}, set_session_user
+    json = ActiveSupport::JSON.decode(@response.body)
+    assert_equal host.name, json["host"]["name"]
+  end
+
+  def test_show_json_should_have_nested_host_params
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}, set_session_user
+    json = ActiveSupport::JSON.decode(@response.body)
+    assert json["host"]["host_parameters"].is_a?(Array)
+  end
+
   def test_create_invalid
     Host.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
