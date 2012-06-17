@@ -64,8 +64,16 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
+  def test_destroy_should_fail_with_assoicated_hosts
+    config_template = ConfigTemplate.first
+    delete :destroy, {:id => config_template.to_param}, set_session_user
+    assert_redirected_to config_templates_url
+    assert ConfigTemplate.exists?(config_template.id)
+  end
+
   def test_destroy
     config_template = ConfigTemplate.first
+    config_template.os_default_templates.clear
     delete :destroy, {:id => config_template.to_param}, set_session_user
     assert_redirected_to config_templates_url
     assert !ConfigTemplate.exists?(config_template.id)
@@ -73,6 +81,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
 
   def test_destroy_json
     config_template = ConfigTemplate.first
+    config_template.os_default_templates.clear
     delete :destroy, {:format => "json", :id => config_template.to_param}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
