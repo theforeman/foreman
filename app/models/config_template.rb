@@ -12,6 +12,7 @@ class ConfigTemplate < ActiveRecord::Base
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
   before_save :check_for_snippet_assoications, :remove_trailing_chars
+  before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   default_scope :order => 'LOWER(config_templates.name)'
 
   scoped_search :on => :name,    :complete_value => true, :default_order => true
