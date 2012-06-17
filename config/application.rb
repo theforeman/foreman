@@ -7,9 +7,13 @@ require 'rails/all'
 if defined?(Bundler)
   Class.new Rails::Railtie do
     console do
-      Bundler.require(:console)
-      Wirb.start
-      Hirb.enable
+      begin
+        Bundler.require(:console)
+        Wirb.start
+        Hirb.enable
+      rescue => e
+        # failed to load console helpers..
+      end
     end
   end
   Bundler.require(:default, Rails.env)
