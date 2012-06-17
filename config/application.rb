@@ -6,15 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 if defined?(Bundler)
   Class.new Rails::Railtie do
-    console do
-      begin
-        Bundler.require(:console)
-        Wirb.start
-        Hirb.enable
-      rescue => e
-        # failed to load console helpers..
-      end
-    end
+    console {Foreman.setup_console}
   end
   Bundler.require(:default, Rails.env)
 end
@@ -67,5 +59,15 @@ module Foreman
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
     config.cache_store = :file_store, Rails.root.join("tmp")
+  end
+
+  def self.setup_console
+    Bundler.require(:console)
+    Wirb.start
+    Hirb.enable
+  rescue => e
+    say "Failed to load console gems, startring anyway"
+  ensure
+    puts "For some operations a user must be set, try User.current = User.first"
   end
 end
