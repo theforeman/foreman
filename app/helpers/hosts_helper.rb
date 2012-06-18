@@ -148,15 +148,21 @@ module HostsHelper
   end
 
   def show_templates
-    return unless SETTINGS[:unattended]
+     unless SETTINGS[:unattended] and @host.managed?
+       return content_tag(:div, :class =>"alert") do
+         "Provisioning Support is disabled or this host is not managed"
+       end
+     end
     templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
     return "No Template found" if templates.empty?
     content_tag :table, :class=>"table table-bordered table-striped" do
       content_tag(:th, "Template Type") + content_tag(:th) +
       templates.sort{|t,x| t.template_kind <=> x.template_kind}.map do |tmplt|
         content_tag :tr do
-          content_tag(:td,  "#{tmplt.template_kind} Template")+
-          content_tag(:td, link_to_if_authorized(tmplt, hash_for_edit_config_template_path(:id => tmplt.to_param), :rel=>"external"))
+          content_tag(:td, "#{tmplt.template_kind} Template") +
+            content_tag(:td,
+          link_to_if_authorized(icon_text('pencil'), hash_for_edit_config_template_path(:id => tmplt.to_param), :title => "Edit", :rel=>"external") +
+          link_to(icon_text('eye-open'), url_for(:controller => 'unattended', :action => tmplt.template_kind.name, :spoof => @host.ip), :title => "Review", :"data-provisioning-template" => true ))
         end
       end.join(" ").html_safe
     end

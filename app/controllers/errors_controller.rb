@@ -4,7 +4,7 @@ class ErrorsController < ApplicationController
     if path =~ /puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
       render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
     else
-      render 'common/404'
+      not_found
     end
   end
 end

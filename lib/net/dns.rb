@@ -30,7 +30,7 @@ module Net
             PTRRecord.new attrs
         end
       end
-    rescue Resolv::ResolvError
+    rescue Resolv::ResolvError, SocketError
       nil
     rescue Timeout::Error => e
       raise Net::Error, e

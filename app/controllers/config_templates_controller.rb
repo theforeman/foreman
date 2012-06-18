@@ -2,7 +2,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Renderer
 
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_by_name, :only => [:show, :edit, :update, :destroy]
   before_filter :handle_template_upload, :only => [:create, :update]
 
   def index
@@ -23,6 +23,13 @@ class ConfigTemplatesController < ApplicationController
 
   def new
     @config_template = ConfigTemplate.new
+  end
+
+  def show
+    respond_to do |format|
+      format.html { return not_found }
+      format.json { render :json => @config_template }
+    end
   end
 
   def create

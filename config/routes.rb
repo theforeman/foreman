@@ -190,7 +190,7 @@ Foreman::Application.routes.draw do
           get 'auto_complete_search'
         end
       end
-      resources :config_templates, :except => [:show] do
+      resources :config_templates do
         collection do
           get 'auto_complete_search'
           get 'build_pxe_default'

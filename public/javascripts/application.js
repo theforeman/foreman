@@ -285,3 +285,11 @@ function show_rdoc(item){
   var url = $(item).attr('data-url');
   window.open(url);
 }
+
+// shows provisioning templates in a new window
+$(function() {
+  $('[data-provisioning-template=true]').click(function(){
+    window.open(this.href, [width='300',height='400',scrollbars='yes']);
+    return false;
+  });
+});

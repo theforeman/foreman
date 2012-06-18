@@ -386,8 +386,8 @@ class Host < Puppet::Rails::Host
     importer = Facts::Importer.new facts
 
     set_non_empty_values importer, [:domain, :architecture, :operatingsystem, :model, :certname]
-    set_non_empty_values importer, [:mac, :ip] unless Setting[:ignore_puppet_facts_for_provisioning]
-
+    set_non_empty_values importer, [:mac, :ip] unless managed? and Setting[:ignore_puppet_facts_for_provisioning]
+    normalize_addresses
     if Setting[:update_environment_from_facts]
       set_non_empty_values importer, [:environment]
     else
@@ -625,6 +625,10 @@ class Host < Puppet::Rails::Host
     else
       "BareMetal"
     end
+  end
+
+  def as_json(options={})
+    super(:methods => [:host_parameters])
   end
 
   private

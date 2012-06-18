@@ -512,7 +512,7 @@ class HostsController < ApplicationController
   # If the user has a fact_filter then we need to include :fact_values
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
-    include += [:hostgroup, :domain, :operatingsystem, :environment, :model] unless api_request?
+    include += [:hostgroup, :domain, :operatingsystem, :environment, :model, :host_parameters]
     include += [:fact_values] if User.current.user_facts.any?
     include
   end
