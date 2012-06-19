@@ -8,7 +8,7 @@ module Foreman::Controller::Environments
     rescue => e
       if e.message =~ /puppet feature/i
         error "We did not find a foreman proxy that can provide the information, ensure that you have at least one Proxy with the puppet feature turned on."
-        redirect_to "/" + controller_path and return
+        redirect_to :controller => controller_path and return
       else
         raise e
       end
@@ -18,7 +18,7 @@ module Foreman::Controller::Environments
       render "common/_puppetclasses_or_envs_changed"
     else
       notice "No changes to your environments detected"
-      redirect_to "/" + controller_path
+      redirect_to :controller => controller_path
     end
   end
 
@@ -28,7 +28,7 @@ module Foreman::Controller::Environments
     else
       error "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors.join("<br>")
     end
-    redirect_to "/" + controller_path
+    redirect_to :controller => controller_path
   end
 
 end
