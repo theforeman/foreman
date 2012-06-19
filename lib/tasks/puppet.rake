@@ -56,13 +56,13 @@ namespace :puppet do
   end
   namespace :import do
     desc "Update puppet environments and classes. Optional batch flag triggers run with no prompting"
-    task :puppet_classes,  [:batch] => :environment do | t, args |
+    task :puppet_classes,  [:batch, :envname] => :environment do | t, args |
       batch = args.batch == "true"
       # Evalute any changes that exist between the database of environments and puppetclasses and
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless batch
-        changes = Environment.importClasses
+        changes = Environment.importClasses args.envname
       rescue => e
         if batch
           Rails.logger.warn "Failed to refresh puppet classes: #{e}"
