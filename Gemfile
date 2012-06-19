@@ -29,8 +29,11 @@ group :vmware do
   gem "rbvmomi"
 end
 
-group :virt do
+group :libvirt do
   gem "virt", ">= 0.2.1"
+end
+
+group :ovirt do
   gem "rbovirt", ">= 0.0.12"
 end
 
