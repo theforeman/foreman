@@ -8,4 +8,7 @@ cp $APP_ROOT/config/database.yml.example $APP_ROOT/config/database.yml
 
 # install runtime C libs that are required:
 sudo apt-get install -y libvirt-dev
-echo "gem 'puppet' > $APP_ROOT/Gemfile.local.rb"
+cat > $APP_ROOT/Gemfile.local.rb << EOF
+gem 'facter'
+gem 'puppet'
+EOF

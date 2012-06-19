@@ -17,6 +17,7 @@ gem "ruby_parser", ">= 2.3.1"
 
 local_gemfile = File.dirname(__FILE__) + "/Gemfile.local.rb"
 if File.file?(local_gemfile)
+  puts "adding custom gem files"
   self.instance_eval(Bundler.read_file(local_gemfile))
 end
 
