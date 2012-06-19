@@ -1,5 +1,5 @@
 language: ruby
-bundler_args: --without development
+bundler_args: --without development console
 before_install: ./extras/ci/setup.sh
 before_script: bundle exec rake db:migrate && bundle exec rake db:migrate
 
