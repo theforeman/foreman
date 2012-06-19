@@ -4,7 +4,7 @@ require 'foreman/threadsession'
 class User < ActiveRecord::Base
   include Authorization
   include Foreman::ThreadSession::UserModel
-  audited :except => [:password, :password_hash, :password_salt, :password_confirmation]
+  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
 
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation, :editing_self

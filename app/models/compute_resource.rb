@@ -72,7 +72,7 @@ class ComputeResource < ActiveRecord::Base
   def provider_friendly_name
     list = SETTINGS[:libvirt] ? ["Libvirt"] : []
     list += %w[ oVirt EC2 VMWare ]
-    list[PROVIDERS.index(provider)]
+    list[PROVIDERS.index(provider)] rescue ""
   end
 
   # returns a new fog server instance

@@ -23,7 +23,6 @@ $(function() {
   var RubyMode = require("ace/mode/ruby").Mode;
   var session = editor.getSession();
   session.setMode(new RubyMode());
-//  session.setUseWrapMode(true);
 
   var content = text_area.text();
   session.setValue(content);
@@ -46,5 +45,13 @@ $(function() {
       $(".template_file").removeClass('btn-inverse');
       false;
   })
-})
 
+  if ($('#diffLines').size() >0) {
+    editor.setTheme("ace/theme/clouds");
+    editor.setReadOnly(true);
+    var DiffMode = require("ace/mode/diff").Mode;
+    session.setMode(new DiffMode());
+    var patch = JsDiff.createPatch($('#diffLines').attr('data-file-name'), $('#old').text(), $('#new').text() );
+    session.setValue(patch);
+  }
+});
