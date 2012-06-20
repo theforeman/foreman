@@ -282,6 +282,7 @@ Foreman::Application.routes.draw do
   namespace :api, :defaults => {:format => 'json'} do
     scope :module => :v1, :constraints => ApiConstraints.new(:version => 1, :default => true) do
       resources :bookmarks, :except => [:new, :edit]
+      resources :architectures, :except => [:new, :edit]
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
     end
