@@ -26,7 +26,7 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
   end
 
   test "should show bookmark" do
-    get :show, {:id => :one}, set_session_user
+    get :show, {:id => bookmarks(:one).to_param}, set_session_user
     assert_response :success
   end
 
@@ -45,7 +45,6 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 
   test "should update bookmark" do
     put :update, {:id => bookmarks(:one).to_param, :bookmark => {} }, set_session_user
