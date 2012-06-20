@@ -274,7 +274,7 @@ class ApplicationController < ActionController::Base
 
   def generic_exception(exception)
     logger.warn "Operation FAILED: #{exception}"
-    logger.debug Rails.backtrace_cleaner.clean(exception.backtrace).join("\n")
+    logger.debug exception.backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
 end
