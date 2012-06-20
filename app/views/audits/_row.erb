@@ -1,0 +1,19 @@
+<div class='span11'>
+  <div class='span4'><%=  associated_icon audit %></div>
+  <div class='span8 ra'><%= audit_time audit %></div>
+</div>
+<div class='span11'>
+  <div class='offset4 span8'>
+    <% if audit_login? audit %>
+        <%= audit_user(audit)%> <%=link_to("Logged-in", audit_path(audit))  %>
+    <% else %>
+      <%= audit_user(audit)%> <%= audit_action_name audit%> <%= associated_type audit %> <%=link_to(" #{audit_title audit} ", audit_path(audit))  %>
+    <% end %>
+    <ul>
+      <% details(audit).each do |item| %>
+        <% next if item.nil? or item.to_s.empty? %>
+        <li><%= item %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

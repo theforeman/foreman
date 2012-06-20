@@ -11,7 +11,9 @@ class BookmarksController < ApplicationController
   end
 
   def new
-    @bookmark = Bookmark.new
+    @bookmark            = Bookmark.new
+    @bookmark.name       = params[:query].to_s.strip.split(/\s| = |!|~|>|</)[0]
+    @bookmark.controller = params[:kontroller]
 
     respond_to do |format|
       format.html

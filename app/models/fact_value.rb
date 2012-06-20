@@ -1,11 +1,13 @@
 class FactValue < Puppet::Rails::FactValue
   belongs_to :host #ensures we uses our Host model and not Puppets
   delegate :name, :to => :fact_name
+  has_many :hostgroup, :through => :host
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
   scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
+  scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
 
   scope :no_timestamp_facts, :include => [:fact_name],
               :conditions => ["fact_names.name <> ?",:_timestamp]
@@ -27,7 +29,7 @@ class FactValue < Puppet::Rails::FactValue
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
   #
-  # acts_as_audited
+  # audited
 
   # returns the average of all facts
   # required only on facts that return a unit (e.g. MB, GB etc)

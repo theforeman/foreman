@@ -1,7 +1,7 @@
 class Setting < ActiveRecord::Base
   attr_accessible :name, :value, :description, :category, :settings_type, :default
   # audit the changes to this model
-  acts_as_audited :only => [:value], :on => [:update]
+  audited :only => [:value], :on => [:update]
 
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category settings_type }

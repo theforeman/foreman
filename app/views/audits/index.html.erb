@@ -1,26 +1,9 @@
 <% title "Audits" %>
 
-<table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :changed %></th>
-    <th>Object</th>
-    <th>Parent</th>
-    <th><%= sort :action %></th>
-    <th><%= sort :changed_at, :as => "Changed at" %></th>
-    <th>Changes</th>
-    <th><%= sort :user, :as => "Changed by" %></th>
-    <th></th>
-  </tr>
-  <% for audit in @audits %>
-    <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= association_type(audit) %></td>
-      <td><%= audit_title(audit) %></td>
-      <td><%= audit_parent(audit) %></td>
-      <td><%= audit.action %></td>
-      <td><%= audit.created_at.to_s(:long) %></td>
-      <td><%= changes_column audit.changes %></td>
-      <td><%= audit.user_as_string %></td>
-      <td><%= link_to "Details", audit %></td>
+<table class="table table-striped">
+  <% @audits.each do |audit| %>
+    <tr>
+      <td class="row-fluid"><%= render :partial => 'row', :locals =>{:audit => audit}%></td>
     </tr>
   <% end %>
 </table>

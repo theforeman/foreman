@@ -4,12 +4,13 @@ require 'foreman/threadsession'
 class User < ActiveRecord::Base
   include Authorization
   include Foreman::ThreadSession::UserModel
+  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
 
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation, :editing_self
 
   belongs_to :auth_source
-  has_many :changes, :class_name => 'Audit', :as => :user
+  has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'

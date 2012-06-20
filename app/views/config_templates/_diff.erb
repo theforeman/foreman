@@ -1,0 +1,14 @@
+<%= javascript 'config_template', 'diff', 'ace/ace', 'ace/theme-twilight', 'ace/theme-clouds','ace/mode-ruby', 'ace/mode-diff' %>
+
+<%= text_area_tag "diffLines","" ,:size => "12x30", :class => "span12 template_text", :id => "diffLines", :label=>"Template diff", :'data-file-name' => file_name%>
+
+<div class='hide' id="old">
+  <%= templates[0] %>
+</div>
+
+<div class='hide' id="new">
+  <%= templates[1] %>
+</div>
+
+
+

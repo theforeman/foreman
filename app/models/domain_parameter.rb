@@ -1,6 +1,6 @@
 class DomainParameter < Parameter
   belongs_to :domain, :foreign_key => :reference_id
-  acts_as_audited :except => [:priority], :parent => :domain
+  audited :except => [:priority], :parent => :domain
   validates_uniqueness_of :name, :scope => :reference_id
 
   private

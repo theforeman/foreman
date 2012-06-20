@@ -1,7 +1,7 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware ].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
-  acts_as_audited :except => [:password]
+  audited :except => [:password]
 
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
@@ -72,7 +72,7 @@ class ComputeResource < ActiveRecord::Base
   def provider_friendly_name
     list = SETTINGS[:libvirt] ? ["Libvirt"] : []
     list += %w[ oVirt EC2 VMWare ]
-    list[PROVIDERS.index(provider)]
+    list[PROVIDERS.index(provider)] rescue ""
   end
 
   # returns a new fog server instance

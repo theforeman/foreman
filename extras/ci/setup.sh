@@ -4,7 +4,11 @@ APP_ROOT=`pwd`
 
 # setup basic settings file
 sed -e 's/:login: false/:login: true/' $APP_ROOT/config/settings.yaml.example > $APP_ROOT/config/settings.yaml
+cp $APP_ROOT/config/database.yml.example $APP_ROOT/config/database.yml
 
 # install runtime C libs that are required:
 sudo apt-get install -y libvirt-dev
-gem install puppet # travis use rvm, but we dont want it in our gemfile
+cat > $APP_ROOT/bundler.d/Gemfile.local.rb << EOF
+gem 'facter'
+gem 'puppet'
+EOF

@@ -1,30 +1,60 @@
-<% title "#{@audit.action.camelize} #{association_type @audit} #{audit_title @audit}" %>
+<% title "#{@audit.action.camelize} #{@audit.auditable_type.split("::").last rescue ''} #{audit_title @audit}" %>
 
-<table class="table table-bordered table-striped">
-  <tr>
-    <th>What</th>
-    <th>Parent</th>
-    <th>Old</th>
-    <th>New</th>
-  </tr>
-  <% @audit.audited_changes.each do |name,change| -%>
-    <% next if change.nil? or change.to_s.empty? -%>
-    <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= name.humanize %></td>
-      <td><%= audit_parent @audit %></td>
-      <%# TODO: Refactor this whole code away from here -%>
-      <% record = true if name =~ /.*_id$/ -%>
-      <% if change.is_a?(Array) %>
-        <% change.each do |v| -%>
-          <% v = id_to_label(name,v) if record -%>
-          <td><%= h v %></td>
+<%= title_actions link_to 'Back', :back, :class=>'btn' %>
+<% tmplt =  audit_template?(@audit) %>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <% if tmplt -%>
+      <li class="active"><a href="#tab0" data-toggle="tab">Template Diff</a></li>
+    <% end -%>
+    <li <%= "class='active'" unless tmplt %>><a href="#tab1" data-toggle="tab">Details</a></li>
+    <li class=""><a href="#tab2" data-toggle="tab">History</a></li>
+  </ul>
+  <div class="tab-content">
+    <% if tmplt -%>
+    <div class="tab-pane active" id="tab0">
+       <%= render 'config_templates/diff', :templates => @audit.audited_changes["template"], :file_name => audit_title(@audit) %>
+    </div>
+    <% end %>
+    <div class="tab-pane active" id="tab1">
+      <table class="table table-bordered table-striped">
+        <tr>
+          <th>Item</th>
+          <% if @audit.action == 'update' %>
+              <th>Old</th>
+              <th>New</th>
+          <% else %>
+            <th>Value</th>
+          <% end  %>
+        </tr>
+        <% @audit.audited_changes.each do |name,change| -%>
+            <% next if change.nil? or change.to_s.empty? -%>
+            <% next if name == "template" -%>
+            <tr>
+              <td><%= name.humanize %></td>
+              <% if change.is_a?(Array) %>
+                  <% change.each do |v| -%>
+                      <td><%= id_to_label(name,v) %></td>
+                  <% end -%>
+              <% else -%>
+                  <td><%= id_to_label(name,change) %></td>
+              <% end -%>
+            </tr>
         <% end -%>
-      <% else -%>
-        <% change = id_to_label(name,change) if record -%>
-        <%= change_order(@audit.action, change).map{|v| "<td>#{v}</td>"}.join.html_safe -%>
-      <% end -%>
-    </tr>
-  <% end -%>
-</table>
+      </table>
+    </div>
+    <div class="tab-pane" id="tab2">
+      <table class="table table-striped">
+        <% @history.reverse.each do |version| %>
+            <tr class="row-fluid">
+              <td><%= icon_text('play',nil,:class=>"fl") if @audit.version == version.version %></td>
+              <td><%= render :partial => 'row', :locals =>{:audit => version} %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
 
-<%= link_to 'Back', :back %>
+  </div>
+</div>
+

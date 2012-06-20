@@ -8,7 +8,7 @@ config/settings.yaml
 config/email.yaml
 config/database.yml
 Gemfile.lock
-Gemfile.local.rb
+bundler.d/Gemfile.local.rb
 *.sw?
 .idea
 *.pyc
