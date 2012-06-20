@@ -4,18 +4,18 @@ module Api
       before_filter :find_by_name, :only => [:show, :update, :destroy]
 
       def index
-        @bookmarks = Bookmark.paginate(:page => params[:page])
+        @bookmarks = Bookmark.all
       end
 
       def show
       end
 
       def create
-        respond_with Bookmark.create(params[:bookmark])
+        @bookmark = Bookmark.create(params[:bookmark])
       end
 
       def update
-        respond_with @bookmark.update_attributes(params[:bookmark])
+        @bookmark.update_attributes(params[:bookmark])
       end
 
       def destroy

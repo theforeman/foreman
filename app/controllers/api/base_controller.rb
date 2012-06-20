@@ -2,6 +2,8 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
 
+    before_filter :set_default_response_format
+
     protected
     # searches for an object based on its name and assign it to an instance variable
     # required for models which implement the to_param method
@@ -20,6 +22,10 @@ module Api
     def not_found(exception = nil)
       logger.debug "not found: #{exception}" if exception
       head :status => 404
+    end
+
+    def set_default_response_format
+      request.format = :json if params[:format].nil?
     end
 
   end
