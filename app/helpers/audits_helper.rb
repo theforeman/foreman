@@ -32,7 +32,7 @@ module AuditsHelper
   end
 
   def audit_parent audit
-    audit.associated
+    " / #{audit.associated}" if audit.associated
   end
 
   def details audit
