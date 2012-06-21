@@ -11,15 +11,16 @@ module Api
       end
 
       def create
-        @bookmark = Bookmark.create(params[:bookmark])
+        @bookmark = Bookmark.new(params[:bookmark])
+        process_response @bookmark.save
       end
 
       def update
-        @bookmark.update_attributes(params[:bookmark])
+        process_response @bookmark.update_attributes(params[:bookmark])
       end
 
       def destroy
-        respond_with @bookmark.destroy
+        process_response @bookmark.destroy
       end
 
     end
