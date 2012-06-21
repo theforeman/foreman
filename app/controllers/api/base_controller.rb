@@ -3,6 +3,7 @@ module Api
   class BaseController < ActionController::Base
 
     before_filter :set_default_response_format
+    before_filter :authorize
 
     def process_error hash = {}
       hash[:object] ||= get_resource || raise("Param 'object' was not defined")
@@ -34,9 +35,25 @@ module Api
     end
 
 
-    def request_from_katello_cli?
-       request.headers['User-Agent'].to_s =~ /^katello-cli/
+
+    # Authorize the user for the requested action
+    def authorize(ctrl = params[:controller], action = params[:action])
+      if SETTINGS[:login]
+        User.current = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) } 
+      else
+        # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
+        User.current = User.find_by_login("admin")
+      end
+
+      return true if request.xhr?
+      allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
+      allowed ? true : deny_access
     end
+
+    def deny_access
+      raise("Access disallowed")
+    end
+
 
     protected
     # searches for an object based on its name and assign it to an instance variable
