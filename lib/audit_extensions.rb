@@ -7,7 +7,7 @@ module AuditExtentions
     base.send :include, InstanceMethods
     base.class_eval do
       belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
-      belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Puppet::Rails::Host'"
+      belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Host'"
       belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Hostgroup'"
       belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Parameter'"
       belongs_to :search_templates, :class_name => 'ConfigTemplate', :foreign_key => :auditable_id, :conditions => "auditable_type = 'ConfigTemplate'"
@@ -18,7 +18,7 @@ module AuditExtentions
       scoped_search :on => :audited_changes, :rename => 'changes'
       scoped_search :on => :created_at, :complete_value => true, :rename => :time, :default_order => :desc
       scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
-      scoped_search :on => :auditable_type, :complete_value => { :host => 'Puppet::Rails::Host', :parameter => 'Parameter', :architecture => 'Architecture', :puppetclass => 'Puppetclass', :os => 'Operatingsystem', :hostgroup => 'Hostgroup' }, :rename => :type
+      scoped_search :on => :auditable_type, :complete_value => { :host => 'Host', :parameter => 'Parameter', :architecture => 'Architecture', :puppetclass => 'Puppetclass', :os => 'Operatingsystem', :hostgroup => 'Hostgroup' }, :rename => :type
 
       scoped_search :in => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
       scoped_search :in => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true
