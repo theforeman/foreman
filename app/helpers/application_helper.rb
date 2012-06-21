@@ -205,7 +205,7 @@ module ApplicationHelper
   def action_buttons(*args)
     # the no-buttons code is needed for users with less permissions
     return unless args
-    args = args.map{|arg| arg unless arg.blank?}.compact
+    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
     return if args.length == 0
 
     #single button
@@ -219,6 +219,15 @@ module ApplicationHelper
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
     end
+  end
+
+  def import_proxy_select hash
+    proxies = Environment.find_import_proxies
+    action_buttons(
+        proxies.map do |proxy|
+          display_link_if_authorized("Import from #{proxy.name}", hash.merge(:proxy => proxy))
+        end.flatten
+    )
   end
 
   private

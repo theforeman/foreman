@@ -21,6 +21,7 @@ function onContentLoad(){
 
   // adds buttons classes to all links
   $("#title_action a").addClass("btn");
+  $("#title_action li a").removeClass("btn").addClass("la");
   $("#title_action a[href*='new']").addClass("btn-success");
 
   // highlight tabs with errors
