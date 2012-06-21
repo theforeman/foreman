@@ -17,9 +17,16 @@ class Hostgroup < ActiveRecord::Base
   before_save :remove_duplicated_nested_class
   after_find :deserialize_vm_attributes
 
+  has_many :organization_hostgroups, :dependent => :destroy
+  has_many :organizations, :through => :organization_hostgroups
+
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
   audited
+
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda { Organization.apply_org_scope scoped({}) }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params

@@ -22,6 +22,11 @@ class MediaController < ApplicationController
 
   def create
     @medium = Medium.new(params[:medium])
+    unless User.current.admin?
+      if SETTINGS[:single_org]
+        @medium.organization_ids = [Organization.current.id]
+      end
+    end
     if @medium.save
       process_success
     else

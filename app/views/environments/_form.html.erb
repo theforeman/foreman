@@ -1,5 +1,26 @@
 <%= form_for @environment do |f| %>
   <%= base_errors_for @environment %>
-  <%= text_f f, :name %>
+  <% if User.current.admin? or SETTINGS[:multi_org] %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name %>
+      </div>
+
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @environment, Organization %>
+      </div>
+
+    </div>
+
+  <% else %>
+    <%= text_f f, :name %>
+  <% end %>
+
   <%= submit_or_cancel f %>
 <% end %>

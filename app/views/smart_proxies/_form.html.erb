@@ -1,6 +1,28 @@
 <%= form_for @proxy do |f| %>
   <%= base_errors_for @proxy %>
-  <%= text_f(f, :name) %>
-  <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
+  <% if show_organization_tab? %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab">Smart Proxy</a></li>
+      <% if User.current.admin? %>
+        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% end -%>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+        <%= text_f(f, :name) %>
+        <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
+      </div>
+
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @proxy, Organization %>
+      </div>
+    </div>
+
+  <% else %>
+    <%= text_f(f, :name) %>
+    <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
+  <% end %>
+
   <%= submit_or_cancel(f) %>
 <% end %>

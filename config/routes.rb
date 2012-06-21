@@ -75,6 +75,7 @@ Foreman::Application.routes.draw do
       end
     end
 
+
     resources :bookmarks, :except => [:show]
     resources :lookup_keys, :except => [:new, :create] do
       resources :lookup_values, :only => [:index, :create, :update, :destroy]
@@ -143,6 +144,7 @@ Foreman::Application.routes.draw do
       resources :lookup_keys, :except => [:show, :new, :create]
     end
   end
+
 
   resources :smart_proxies, :except => [:show] do
     constraints(:id => /[^\/]+/) do
@@ -280,6 +282,15 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
- #Keep this line the last route
+  if SETTINGS[:orgs_enabled]
+    resources :organizations do
+      get 'select', :on => :member
+      collection do
+        get  'auto_complete_search'
+      end
+    end
+  end
+
+  #Keep this line the last route
   match '*a', :to => 'errors#routing'
 end

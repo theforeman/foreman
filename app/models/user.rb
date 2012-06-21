@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
+  has_many :usergroup_member, :as => :member
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
@@ -22,6 +23,9 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :hostgroups,        :join_table => "user_hostgroups"
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
+
+  has_many :organization_users, :dependent => :destroy
+  has_many :organizations, :through => :organization_users
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -50,7 +54,7 @@ class User < ActiveRecord::Base
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
   def to_label
-    "#{firstname} #{lastname}"
+    "#{firstname} #{lastname} (#{login})"
   end
   alias_method :name, :to_label
 

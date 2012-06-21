@@ -71,12 +71,13 @@ class UserTest < ActiveSupport::TestCase
     assert !u.save
   end
 
-  test "to_label method should return a firstname and the lastname" do
-    @user.firstname = "Ali Al"
-    @user.lastname = "Salame"
+  test "to_label method should return a firstname and the lastname and username" do
+    firstname = @user.firstname = "Ali Al"
+    lastname = @user.lastname = "Salame"
+    login = @user.login = "foo"
     assert @user.save
 
-    assert_equal "Ali Al Salame", @user.to_label
+    assert_equal "#{firstname} #{lastname} (#{login})", @user.to_label
   end
 
   test "when try to login if password is empty should return nil" do

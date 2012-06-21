@@ -1,12 +1,36 @@
 <%= javascript "compute_resource" %>
-<%= form_for(@compute_resource) do |f| %>
+<%= form_for @compute_resource do |f| %>
   <%= base_errors_for @compute_resource %>
-  <%= text_f f, :name %>
-  <%= selectable_f f, :provider, ComputeResource::PROVIDERS, { :include_blank => "Choose a provider"},
-                   {:disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
-  <%= textarea_f f, :description, :rows => 3 %>
-  <div id='compute_connection'>
-    <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
-  </div>
+
+  <% if show_organization_tab? %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab">Compute Resource</a></li>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name %>
+        <%= selectable_f f, :provider, ComputeResource::PROVIDERS, { :include_blank => "Choose a provider"},
+                         {:disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
+        <%= textarea_f f, :description, :rows => 3 %>
+        <div id='compute_connection'>
+          <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
+        </div>
+      </div>
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @compute_resource, Organization %>
+      </div>
+    </div>
+
+  <% else %>
+    <%= text_f f, :name %>
+    <%= selectable_f f, :provider, ComputeResource::PROVIDERS, { :include_blank => "Choose a provider"},
+                     {:disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
+    <%= textarea_f f, :description, :rows => 3 %>
+    <div id='compute_connection'>
+      <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
+    </div>
+  <% end %>
   <%= submit_or_cancel f %>
 <% end %>

@@ -29,6 +29,14 @@ module Foreman
             end
             Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
             Thread.current[:user] = o
+            unless o.nil?
+              if SETTINGS[:single_org] and not o.admin? and not o.organizations.empty? and not Thread.current[:organization]
+                # default the org to the "first" org
+                Thread.current[:organization] = o.organizations[0]
+              end
+            else
+              Thread.current[:organization] = nil
+            end
           end
 
           # Executes given block on behalf of a different user. Example:
@@ -46,6 +54,34 @@ module Foreman
             self.current = User.find_by_login(login)
             do_block.call
             self.current = old_user
+          end
+        end
+      end
+    end
+
+    # include this in the Organization model object
+    module OrganizationModel
+      def self.included(base)
+        base.class_eval do
+          def self.current
+            if SETTINGS[:single_org]
+              Thread.current[:organization]
+            elsif SETTINGS[:multi_org]
+              User.current.organizations
+            end
+          end
+
+          def self.current=(o)
+            unless SETTINGS[:single_org]
+              raise(ArgumentError, "Cannot set the current organization unless SETTINGS[:single_org] is set to true")
+            end
+            unless o.nil? || o.is_a?(self)
+              raise(ArgumentError, "Unable to set current Organization, exepect class '#{self}', got #{o.inspect}")
+            end
+            unless User.current.admin?
+              Rails.logger.debug "Setting current organization thread-local variable to " + (o.is_a?(Organization) ? o.name : 'nil')
+              Thread.current[:organization] = o
+            end
           end
         end
       end

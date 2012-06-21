@@ -19,8 +19,12 @@ class ComputeResource < ActiveRecord::Base
   has_many :hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
+  has_many :organization_compute_resources, :dependent => :destroy
+  has_many :organizations, :through => :organization_compute_resources
 
-  default_scope :order => 'LOWER(compute_resources.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda { Organization.apply_org_scope order("LOWER(compute_resources.name)") }
 
   scope :my_compute_resources, lambda {
     user = User.current

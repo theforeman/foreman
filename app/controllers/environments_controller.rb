@@ -27,6 +27,11 @@ class EnvironmentsController < ApplicationController
 
   def create
     @environment = Environment.new(params[:environment])
+    unless User.current.admin?
+      if SETTINGS[:single_org]
+        @environment.organization_ids = [Organization.current.id]
+      end
+    end
     if @environment.save
       process_success
     else

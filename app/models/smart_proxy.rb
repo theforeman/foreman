@@ -1,5 +1,5 @@
 class SmartProxy < ActiveRecord::Base
-  attr_accessible :name, :url
+  attr_accessible :name, :url, :organization_ids
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
@@ -7,6 +7,8 @@ class SmartProxy < ActiveRecord::Base
   has_many :domains,    :foreign_key => "dns_id"
   has_many :hosts,      :foreign_key => "puppet_proxy_id"
   has_many :hostgroups, :foreign_key => "puppet_proxy_id"
+  has_many :organization_smart_proxies, :dependent => :destroy
+  has_many :organizations, :through => :organization_smart_proxies
 
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
@@ -18,7 +20,9 @@ class SmartProxy < ActiveRecord::Base
   before_save :sanitize_url, :associate_features
   before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
-  default_scope :order => 'LOWER(smart_proxies.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda { Organization.apply_org_scope order("LOWER(smart_proxies.name)") }
 
   def hostname
     # This will always match as it is validated
@@ -26,7 +30,9 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def to_s
+    feature_names = features.map(&:name).join(", ")
     hostname =~ /^puppet\./ ? "puppet" : hostname
+    "#{hostname}: #{feature_names}"
   end
 
   def to_param

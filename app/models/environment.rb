@@ -6,9 +6,13 @@ class Environment < ActiveRecord::Base
   validates_format_of :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
+  has_many :organization_environments, :dependent => :destroy
+  has_many :organizations, :through => :organization_environments
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  default_scope :order => 'LOWER(environments.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda { Organization.apply_org_scope order("LOWER(environments.name)") }
 
   scoped_search :on => :name, :complete_value => :true
 

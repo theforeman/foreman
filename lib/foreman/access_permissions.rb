@@ -147,6 +147,14 @@ Foreman::AccessControl.map do |map|
                    :operatingsystems => [:destroy], :"api/v1/operatingsystems" => [:destroy]
   end
 
+  map.security_block :organizations do |map|
+    map.permission :view_organizations,       {:organizations => [:index, :show]}
+    map.permission :create_organizations,     {:organizations => [:new, :create]}
+    map.permission :edit_organizations,       {:organizations => [:edit, :update]}
+    map.permission :destroy_organizations,    {:organizations => [:destroy]}
+    map.permission :select_organization,      {:organizations => [:select]}
+  end
+
   map.security_block :partition_tables do |map|
     map.permission :view_ptables,    {:ptables => [:index, :show]}
     map.permission :create_ptables,  {:ptables => [:new, :create]}
