@@ -7,7 +7,8 @@
     <% if audit_login? audit %>
         <%= audit_user(audit)%> <%=link_to("Logged-in", audit_path(audit))  %>
     <% else %>
-      <%= audit_user(audit)%> <%= audit_action_name audit%> <%= associated_type audit %> <%=link_to(" #{audit_title audit} ", audit_path(audit))  %>
+      <%= audit_user(audit)%> <%= audit_action_name audit%> <%= associated_type audit %>
+        <%=link_to(audit_title(audit), audit_path(audit)) %> <%= audit_parent(audit) %>
     <% end %>
     <ul>
       <% details(audit).each do |item| %>

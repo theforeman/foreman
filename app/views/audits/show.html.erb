@@ -1,4 +1,4 @@
-<% title "#{@audit.action.camelize} #{@audit.auditable_type.split("::").last rescue ''} #{audit_title @audit}" %>
+<% title "#{@audit.action.camelize} #{associated_type @audit} #{audit_title @audit} - #{audit_parent @audit}" %>
 
 <%= title_actions link_to 'Back', :back, :class=>'btn' %>
 <% tmplt =  audit_template?(@audit) %>

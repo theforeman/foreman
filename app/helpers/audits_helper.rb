@@ -119,6 +119,7 @@ module AuditsHelper
   def associated_type audit
     type_name = audit.auditable_type.split("::").last rescue ''
     type_name ="Puppet Class" if type_name == "HostClass"
+    type_name ="#{audit.associated_type}-#{type_name}" if type_name == "Parameter"
     type_name.underscore.titleize
   end
 
