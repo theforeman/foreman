@@ -293,3 +293,22 @@ $(function() {
     return false;
   });
 });
+function update_puppetclasses(element) {
+  var host_id = $(element).attr('data-host-id');
+  var env_id = $('*[id*=environment_id]').attr('value');
+  var url = $(element).attr('data-url');
+  var hostgroup_id = $('*[id*=hostgroup_id]').attr('value');
+  if (env_id == "") return;
+  $.ajax({
+    type: 'post',
+    url:  url,
+    data:'host_id=' + host_id + '&hostgroup_id=' + hostgroup_id + '&environment_id=' + env_id,
+    success: function(request) {
+      $('#puppet_klasses').html(request);
+    },
+    complete: function() {
+      $('#hostgroup_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
+    }
+  })
+}
