@@ -56,6 +56,7 @@ class Domain < ActiveRecord::Base
   # return the primary name server for our domain based on DNS lookup
   # it first searches for SOA record, if it failed it will search for NS records
   def nameservers
+    return [] if Setting.query_local_nameservers
     dns = Resolv::DNS.new
     ns = dns.getresources(name, Resolv::DNS::Resource::IN::SOA).collect {|r| r.mname.to_s}
     ns = dns.getresources(name, Resolv::DNS::Resource::IN::NS).collect {|r| r.name.to_s} if ns.empty?

@@ -43,8 +43,8 @@ module Foreman
               set('ssl_ca_file',  "SSL CA file that Foreman will use to communicate with its proxies", Puppet.settings[:localcacert]),
               set('ssl_priv_key', "SSL Private Key file that Foreman will use to communicate with its proxies", Puppet.settings[:hostprivkey]),
               set('manage_puppetca', "Should Foreman automate certificate signing upon provisioning new host", true),
-              set('use_uuid_for_certificates', "Should Foreman use random UUID's for certificate signing instead of hostnames", false),
-              set('ignore_puppet_facts_for_provisioning', "Does not update ipaddress and MAC values from Puppet facts", false)
+              set('ignore_puppet_facts_for_provisioning', "Does not update ipaddress and MAC values from Puppet facts", false),
+              set('query_local_nameservers', "Should Foreman query the locally configured name server or the SOA/NS authorities", false)
             ].each { |s| create s.update(:category => "Provisioning")}
 
             [
@@ -59,6 +59,7 @@ module Foreman
               set('Default_variables_Lookup_Path', "The Default path in which Foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"]),
               set('Enable_Smart_Variables_in_ENC', "Should the smart variables be exposed via the ENC yaml output?", true),
               set('enc_environment', "Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)", true),
+              set('use_uuid_for_certificates', "Should Foreman use random UUID's for certificate signing instead of hostnames", false),
               set('update_environment_from_facts', "Should Foreman update a host's environment from its facts", false)
             ].compact.each { |s| create s.update(:category => "Puppet")}
           end
