@@ -124,7 +124,19 @@ class Hostgroup < ActiveRecord::Base
     write_attribute :vm_defaults, v.to_yaml
   end
 
+  # no need to store anything in the db if the password is our default
+  def root_pass
+    read_attribute(:root_pass) || nested_root_pw
+  end
+
   private
+
+  def nested_root_pw
+    ancestors.each do |a|
+      return a.root_pass unless a.root_pass.blank?
+    end
+    nil
+  end
 
   def serialize_vm_attributes
     hash = {}
