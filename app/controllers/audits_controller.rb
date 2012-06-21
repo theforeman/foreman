@@ -1,4 +1,5 @@
-require 'lib/audit_extensions'
+require 'audit_extensions'
+
 class AuditsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   def index
