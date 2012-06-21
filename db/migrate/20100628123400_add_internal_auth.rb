@@ -6,12 +6,12 @@ class AddInternalAuth < ActiveRecord::Migration
     User.reset_column_information
 
     user = User.find_or_create_by_login(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => "root@#{Facter.domain}")
-    user.update_attribute :admin, true
+    user.admin = true
     src  = AuthSourceInternal.find_or_create_by_type "AuthSourceInternal"
     src.update_attribute :name, "Internal"
     user.auth_source = src
     user.password="changeme"
-    if user.save
+    if user.save_without_auditing
       say "****************************************************************************************"
       say "The newly created internal account named admin has been allocated a password of 'changeme'"
       say "Set this to something else in the settings/users page"
