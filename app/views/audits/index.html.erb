@@ -1,12 +1,6 @@
 <% title "Audits" %>
 
-<table class="table table-striped">
-  <% @audits.each do |audit| %>
-    <tr>
-      <td class="row-fluid"><%= render :partial => 'row', :locals =>{:audit => audit}%></td>
-    </tr>
-  <% end %>
-</table>
+<%= render :partial => 'list', :locals =>{:audits => @audits}%>
 
 <%= page_entries_info @audits %>
 <%= will_paginate @audits %>

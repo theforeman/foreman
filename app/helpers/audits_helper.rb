@@ -21,18 +21,16 @@ module AuditsHelper
   end
 
   def audit_title audit
-    type_name = associated_type audit
+    type_name = audited_type audit
     if type_name == "Puppet Class"
       "#{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}"
     else
-      audit.revision.to_label
+      name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
+      name += " / #{audit.associated_name}" if audit.associated_id and !audit.associated_name.blank?
+      name
     end
   rescue
     ""
-  end
-
-  def audit_parent audit
-    " / #{audit.associated}" if audit.associated
   end
 
   def details audit
@@ -79,9 +77,9 @@ module AuditsHelper
   end
 
   def audit_user audit
-    username=audit.user_as_string.to_s.gsub('User', '')
-    login = audit.user_as_string.login rescue username
-    link_to icon_text('user', username), hash_for_audits_path(:search => "user = #{login}") if audit.user_as_string
+    username = audit.username.gsub('User', '') unless audit.username.nil?
+    login    = audit.user.login rescue username.to_s.downcase
+    link_to icon_text('user', username), hash_for_audits_path(:search => "user = #{login}") if login
   end
 
   def audit_time audit
@@ -89,38 +87,46 @@ module AuditsHelper
                 { :'data-original-title' => audit.created_at.to_s(:long), :rel => 'twipsy' }
   end
 
-  def associated_icon audit
-    style = 'label label-info'
+  def audited_icon audit
+    style = 'label-info'
     style = case audit.action
               when 'create'
-                'label label-success'
+                'label-success'
               when 'update'
-                'label label-info'
+                'label-info'
               when 'destroy'
-                'label label-important'
+                'label-important'
               else
-                'label'
+                ''
             end if main_object? audit
+    style += " label"
 
-    type   = associated_type audit
+    type   = audited_type(audit)
     symbol = case type
                when "Host"
-                 icon_text('hdd', type)
+                 'hdd'
                when "Hostgroup"
-                 icon_text('tasks', type)
+                 'tasks'
                when "User"
-                 icon_text('user', type)
+                 'user'
                else
-                 icon_text('cog', type)
+                 'cog'
              end
-    content_tag(:b, symbol, :class => style)
+    content_tag(:b, icon_text(symbol, type, :class => 'icon-white'), :class => style)
   end
 
-  def associated_type audit
-    type_name = audit.auditable_type.split("::").last rescue ''
-    type_name ="Puppet Class" if type_name == "HostClass"
-    type_name ="#{audit.associated_type}-#{type_name}" if type_name == "Parameter"
+  def audited_type audit
+    type_name = audit.auditable_type
+    type_name = "Puppet Class" if type_name == "HostClass"
+    type_name = "#{audit.associated_type || 'Global'}-#{type_name}" if type_name == "Parameter"
     type_name.underscore.titleize
+  end
+
+  def audit_remote_address audit
+    return if audit.remote_address.empty?
+    content_tag :span, :style => 'color:#999;' do
+      "(" + audit.remote_address + ")"
+    end
   end
 
   private
