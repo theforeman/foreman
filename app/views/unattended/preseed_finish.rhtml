@@ -1,5 +1,5 @@
 cat > /etc/puppet/puppet.conf << EOF
-<%= snippets "puppet.conf" -%>
+<%= snippets "puppet.conf" %>
 EOF
 /bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
 /bin/touch /etc/puppet/namespaceauth.conf 
