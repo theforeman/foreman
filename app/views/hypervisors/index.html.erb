@@ -2,6 +2,8 @@
 
 <% title_actions display_link_if_authorized("New Hypervisor", hash_for_new_hypervisor_path) %>
 
+<%= alert(:text => "Hypervisors are now <b>depreciated</b> in favour of #{link_to "Compute Resources", compute_resources_path}, please don't use it unless you have to", :class => 'alert-block')%>
+
 <table class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
