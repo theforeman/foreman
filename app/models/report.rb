@@ -66,7 +66,7 @@ class Report < ActiveRecord::Base
   end
 
   def runtime
-    (metrics[:time][:total] || metrics[:time].values.sum).round_with_precision(2) rescue 0
+    (metrics[:time][:total] || metrics[:time].values.sum).round(2) rescue 0
   end
 
   #imports a YAML report into database
