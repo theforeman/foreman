@@ -21,18 +21,16 @@ module AuditsHelper
   end
 
   def audit_title audit
-    type_name = associated_type audit
+    type_name = audited_type audit
     if type_name == "Puppet Class"
       "#{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}"
     else
-      audit.revision.to_label
+      name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
+      name = "#{name} / #{audit.associated_name}" if audit.associated_id
+      name
     end
   rescue
     ""
-  end
-
-  def audit_parent audit
-    " / #{audit.associated}" if audit.associated
   end
 
   def details audit
@@ -89,7 +87,7 @@ module AuditsHelper
                 { :'data-original-title' => audit.created_at.to_s(:long), :rel => 'twipsy' }
   end
 
-  def associated_icon audit
+  def audited_icon audit
     style = 'label label-info'
     style = case audit.action
               when 'create'
@@ -102,24 +100,24 @@ module AuditsHelper
                 'label'
             end if main_object? audit
 
-    type   = associated_type audit
+    type   = audited_type(audit)
     symbol = case type
                when "Host"
-                 icon_text('hdd', type)
+                 icon_text('hdd', type, :class=>'icon-white')
                when "Hostgroup"
-                 icon_text('tasks', type)
+                 icon_text('tasks', type, :class=>'icon-white')
                when "User"
-                 icon_text('user', type)
+                 icon_text('user', type, :class=>'icon-white')
                else
-                 icon_text('cog', type)
+                 icon_text('cog', type, :class=>'icon-white')
              end
     content_tag(:b, symbol, :class => style)
   end
 
-  def associated_type audit
-    type_name = audit.auditable_type.split("::").last rescue ''
+  def audited_type audit
+    type_name = audit.auditable_type
     type_name ="Puppet Class" if type_name == "HostClass"
-    type_name ="#{audit.associated_type}-#{type_name}" if type_name == "Parameter"
+    type_name ="#{audit.associated_type || 'Global'}-#{type_name}" if type_name == "Parameter"
     type_name.underscore.titleize
   end
 
