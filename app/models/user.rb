@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   validates_length_of :login, :maximum => 30
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i, :allow_nil => true
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
-  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
+  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
