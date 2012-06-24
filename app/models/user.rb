@@ -216,7 +216,7 @@ class User < ActiveRecord::Base
 
   def ensure_admin_is_not_renamed
     if login_changed? and login_was == "admin"
-      errors.add :login, "Can't rename internal #{login} account to #{login_was}"
+      errors.add :login, "Can't rename internal protected <b>admin</b> account to #{login}".html_safe
     end
   end
 end
