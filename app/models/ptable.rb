@@ -13,8 +13,9 @@ class Ptable < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   default_scope :order => 'LOWER(ptables.name)'
 
-  scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :name, :complete_value => true, :default_order => true
   scoped_search :on => :layout, :complete_value => false
+  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
   def as_json(options={})
     options ||= {}
