@@ -10,6 +10,8 @@ one:
   user_id:
   version: "1"
   associated_id: "272"
+  auditable_type: "Host"
+  auditable_id: hosts(:one).id
   audited_changes: |
     ---
     architecture_id:

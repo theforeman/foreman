@@ -11,6 +11,6 @@ class AuditsController < ApplicationController
 
   def show
     @audit = Audit.find(params[:id])
-    @history = Audit.where(:auditable_id => @audit.auditable_id, :auditable_type => @audit.auditable_type)
+    @history = Audit.descending.where(:auditable_id => @audit.auditable_id, :auditable_type => @audit.auditable_type)
   end
 end

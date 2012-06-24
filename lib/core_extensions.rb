@@ -28,6 +28,14 @@ class ActiveRecord::Base
     )
   end
 
+  def update_multiple_attribute(attributes)
+    connection.update(
+      "UPDATE #{self.class.table_name} SET " +
+      attributes.map{|key, value| " #{key.to_s} = #{value} "}.join(', ') +
+      "WHERE #{self.class.primary_key} = #{id}",
+      "#{self.class.name} Attribute Update"
+    )
+  end
   # ActiveRecord Callback class
   class EnsureNotUsedBy
     attr_reader :klasses, :logger
