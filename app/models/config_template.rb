@@ -1,6 +1,7 @@
 class ConfigTemplate < ActiveRecord::Base
   include Authorization
   audited
+  self.auditing_enabled = !defined?(Rake)
   attr_accessible :name, :template, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystem_ids
   validates_presence_of :name, :template
   validates_presence_of :template_kind_id, :unless => Proc.new {|t| t.snippet }
