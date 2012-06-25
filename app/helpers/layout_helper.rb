@@ -156,4 +156,25 @@ module LayoutHelper
     (content_tag(:i,"", :class=>"icon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 
+  def alert opts = {}
+    opts[:close] ||= true
+    opts[:header] ||= "Warning!"
+    opts[:text] ||= "Alert"
+    content_tag :div, :class => "alert #{opts[:class]}" do
+      result = "".html_safe
+      result += alert_close if opts[:close]
+      result += alert_header(opts[:header])
+      result += opts[:text].html_safe
+      result
+    end
+  end
+
+  def alert_header text
+  "<h4 class='alert-heading'>#{text}</h4>".html_safe
+  end
+
+  def alert_close
+    "<a class='close' href='#' data-dismiss='alert'>&times;</a>".html_safe
+  end
+
 end

@@ -1,8 +1,6 @@
 <% title "Puppet classes" %>
 
-<% title_actions display_link_if_authorized("New Puppetclass", hash_for_new_puppetclass_path),
-  display_link_if_authorized("Import new puppet classes and environments", hash_for_import_environments_puppetclasses_path)
-%>
+<% title_actions import_proxy_select(hash_for_import_environments_puppetclasses_path), button_group(display_link_if_authorized("New Puppetclass", hash_for_new_puppetclass_path)) %>
 
 <table class="table table-bordered table-striped">
   <tr>

@@ -8,8 +8,8 @@ d-i console-setup/layoutcode string us
 
 # Network configuration
 d-i netcfg/choose_interface select auto
-d-i netcfg/get_hostname string <%= @host.name %>
-d-i netcfg/get_domain string <%= @host.domain.name %>
+d-i netcfg/get_hostname string <%= @host %>
+d-i netcfg/get_domain string <%= @host.domain %>
 d-i netcfg/wireless_wep string
 
 d-i hw-detect/load_firmware boolean true

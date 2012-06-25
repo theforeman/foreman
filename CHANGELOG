@@ -1,3 +1,699 @@
+2012-06-21	Amos Benari <abenari@redhat.com>
+	* audit with association.
+	* fixes #1686 Puppet class and environment import works only on the first smart-proxy
+
+2012-06-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1687 ensure that audit errors do not break db migrations
+	* make sure tests can run independtily
+	* fixes #1586 -Root password inheritance doesn't seem to work properly
+	* fixes #1697 - hostgroup class listing showed all classes regardless of environment
+	* fixes #1544 - Updating a host fails if you cannot reach the SOA nameservers
+
+2012-06-21	David Swift <dswift@pccowboy.com>
+	* Update gemfile to rails 3.0.15, for mysql users, per https://github.com/rails/rails/issues/6717
+
+2012-06-20	Ohad Levy <ohadlevy@gmail.com>
+	* and added the missed tests
+	* wip audits upgrade
+	* [CI] travis new ruby version cant use libvirt packaged bin, ignoring for now
+	* [CI] put bundler extra file in the new place
+	* make bundler a bit more packaging friendly.
+	* fixes #1691 - allow searching for fact values for hosts inside a hostgroup
+	* ensure we print the whole trace to the debug log in cases of failures
+	* fixes 1692 - bookmark edit dialog, did not allow to save / update bookmark name
+
+2012-06-20	Amos Benari <abenari@redhat.com>
+	* audit as twitter and versions for template.
+
+2012-06-19	Ohad Levy <ohadlevy@gmail.com>
+	* [CI] hopefully now travis will behave
+	* [CI] more guess work, travis, you don't make it easy
+	* [CI] typo in ci script
+	* [CI] ensure that we have a database.yml file
+	* [CI] added puppet to local gem file that CI can run
+	* break down ovirt and libvirt to their own bundler group
+
+2012-06-18	Florent Castelli <orphis@spotify.com>
+	* Fixes puppetclasses search with pg database
+
+2012-06-17	Ohad Levy <ohadlevy@gmail.com>
+	* improve SQL queries for host API requests
+	* allow to consume provisioning templates via JSON, show method was missing
+	* ensure that  API calls get correct 404 error
+	* we don't change mac/ip by default
+	* fixes #1115 Host parameters are not available via the API
+	* add a test to ensure that assoicated template oss are failing to delete the template
+	* add more frendily error messages upon console failure
+	* Allow to run rails console even if the support gems are not installed
+	* don't allow to delete a provisioning template when its assigned to an OS default template
+
+2012-06-15	Ohad Levy <ohadlevy@gmail.com>
+	* [ec2] added the ability to create multiple security groups
+	* ensure that facter mac addressed and formatted correctly when imported into foreman
+
+2012-06-14	Ohad Levy <ohadlevy@gmail.com>
+	* ensure that you can't delete a compute resource while its used - fixes #1683
+	* make DNS lookup not fail on socket errors
+	* update rails version to include all recent CVE
+	* minor fixes to host show page
+
+2012-06-13	Ohad Levy <ohadlevy@gmail.com>
+	* minor test failure - missed that
+	* ptable, arch and medium errors where not always visible in the UI when saving a host
+	* code comments typos
+	* ensure that autosign entries are removed when using ssh based provisioning.
+
+2012-06-13	Amos Benari <abenari@redhat.com>
+	* added vm tab
+	* host show folded into tabs.
+
+2012-06-13	Steve Traylen <steve.traylen@cern.ch>
+	* fixes #1678 - nested hostgroup selector for templates.
+
+2012-06-13	David Swift <dswift@pccowboy.com>
+	* configTemplate returns nil if a template is not found
+
+2012-06-12	Amos Benari <abenari@redhat.com>
+	* added classes-filter to the puppet classes selection page. fixed the selected classes sort.
+
+2012-06-12	Ohad Levy <ohadlevy@gmail.com>
+	* Since ssh script now runs post commit, we can not update any attributes within the save method
+	* allow to store long queries as a bookmark
+
+2012-06-11	jmccann <jacob.m.mccann@usps.gov>
+	* fixes #1676 have memory size use factors of 1024
+
+2012-06-11	Amos Benari <abenari@redhat.com>
+	* renamed the parameter queuename to progress_report_id to reflect the fact that we now have multiple queues in a single progress report.
+	* progress reports both queues
+	* moved ssh provisioning to post transaction queue
+	* fixed ui issues caused by moving to new css (bootstrap and jquery-ui)
+
+2012-06-11	Ohad Levy <ohadlevy@gmail.com>
+	* ensure that we don't upgrade debians arch incorrectly - refs #1670
+
+2012-06-10	Amos Benari <abenari@redhat.com>
+	* moved to bootstrap 2.04
+	* title action buttons as a group.
+	* fixes #1389 Add bookmark support for pages which are not in the main dialog
+	* fixes #1192 Class display not sorted in nested hostgroup
+
+2012-06-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1667 - restrcutre fog extensions code
+
+2012-06-08	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #69 from jmccann/1656-add_TB_support
+
+2012-06-08	Jacob McCann <jacob.m.mccann@usps.gov>
+	* fixes #1656 add support for systems with terabytes of memory
+
+2012-06-08	Ivan Necas <inecas@redhat.com>
+	* fixes #1673 - Foreman doesn't work with ruby_parser 2.0.6
+
+2012-06-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes an incorrect warning about non assigned templates per OS
+	* fixes #1648 - User filter on hostgroup could extend to new sub hostgroup.
+	* fixes #1619 - X-Forwarded-For multiple IPs
+	* fixes #1650 - Session expiration prevent HTTP authentication delegation
+	* fixes #1657 - Support Puppet http reports processor
+	* fixes #1668 - Paramaters should be text fields.
+	* fixes #1670 - Model / OS on "Hosts" page not getting updated properly
+
+2012-06-07	Florent Castelli <orphis@spotify.com>
+	* Send error messages through JSON instead of just {"errors":[]}
+
+2012-06-07	David Swift <dswift@pccowboy.com>
+	* [EC2] Adds retry on host not available, add some useful debugging.
+
+2012-06-06	Amos Benari <abenari@redhat.com>
+	* smart vars looks sharper.
+	* fixes #1351 New smart variable and match cannot be entered at same time.
+	* fixes #1572
+
+2012-06-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixed useless warning
+	* when libvirt is not enabled, compute resource provider name is incorrect.
+
+2012-06-06	David Swift <dswift@pccowboy.com>
+	* fix error in validation for new compute hosts
+
+2012-06-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1669 - epel is now a snippet.
+
+2012-06-03	Amos Benari <abenari@redhat.com>
+	* fixes #1575 error 404 on dhcp proxy
+
+2012-06-03	James Bailey <jim@freesolutions.net>
+	* fixes #1605 - typo thier
+
+2012-05-31	Amos Benari <abenari@redhat.com>
+	* fixes #1664 hostgroup-selected for edit host is broken.
+
+2012-05-31	Ohad Levy <ohadlevy@gmail.com>
+	* Add compute resource attributes to provisioning templates refs #1223
+
+2012-05-30	Olivier Favre <olivier@yakaz.com>
+	* fixes #1597 - Restrict compute resources access by user
+
+2012-05-29	Amos Benari <abenari@redhat.com>
+	* model index and form fixes. show copute provider in the model column is applicable.
+	* minor visual fixes to the compute resource view.
+	* fixed ui for adding and removing ovirt volumes. when creating a vm from template, if there was an error in the form. the vm volumes didnot display correctly. adding and removing volumes in the same submit action did not function well too.
+
+2012-05-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixes incorrect DNS conflict detection
+	* incorrect usage of my hosts scope while processing a error in displaying host list
+	* adds ec2 provisioning support fixes #1223
+
+2012-05-26	Brian Gupta <brian.gupta@brandorr.com>
+	* Merge pull request #58 from bgupta/cli-fixfiltering
+	* Fixed filtering for filterable collections.
+
+2012-05-25	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #49 from bgupta/bundler-updates
+
+2012-05-24	Trey Dockendorf <treydock@gmail.com>
+	* mysql2 gem dependency version fix. This is the error generated without the specificiation of '< 0.3'
+
+2012-05-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1575 - incorrect error message is shown
+
+2012-05-23	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Refactor my_hosts and my_facts scopes to include auth checks
+	* Fix privacy leaks in stats, facts, and dashboard - fixes #1582
+
+2012-05-22	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1645 - Show host's MAC address in host details
+
+2012-05-21	Olivier Favre <olivier@yakaz.com>
+	* Fix class to input parameter naming
+
+2012-05-19	Greg Sutcliffe <gsutcliffe@ibahn.com>
+	* Add AIF pxe type - refs #1620
+
+2012-05-19	Amos Benari <abenari@redhat.com>
+	* added well to all forms.
+	* login with water-mark.
+
+2012-05-19	Brian Gupta <brian.gupta@brandorr.com>
+	* fixes #1624 - Moved database.yml to database.yml.example
+
+2012-05-15	Brian Gupta <brian.gupta@brandorr.com>
+	* Updated bundler groups in Gemfile to separate vmware, fog and libvirt/ovirt. Fixes #1622
+	* Added bundler support for Gemfile.local.rb to support local customizations. Fixed #1623
+	* Dashboard "Good hosts" should exclude "pending" hosts, refs #1617
+
+2012-05-15	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* fixes #1620 - Basic support for Archlinux
+
+2012-05-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #137 - Better support for non-hostname certnames
+
+2012-05-14	Brian Gupta <brian.gupta@brandorr.com>
+	* Changes to dashboard statistics. Fixes #1617
+
+2012-05-10	Brian Gupta <brian.gupta@brandorr.com>
+	* Compute Resource menu was shown only if libvirt bindings were installed
+
+2012-05-09	Amos Benari <abenari@redhat.com>
+	* fixes #1610 - exdception in the ui when editing a deleted vm.
+
+2012-05-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1609 - REST API calls /hosts/:id/puppetclasses fails for hosts with same class assigned directly and through host group
+	* fixes #1606 - foreman returns to main screen after session expiry
+
+2012-05-08	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1503, ensures that puppet proxy is not required if you are not provisioning
+
+2012-05-08	Amos Benari <abenari@redhat.com>
+	* UI fixed error in provisioning template, edit page.
+
+2012-05-07	Amos Benari <abenari@redhat.com>
+	* fixes #1603 - Login Screen improvments
+	* UI - more explicit button description for the add child node.
+
+2012-05-04	Jim Perrin <jperrin@gmail.com>
+	* init script typo
+
+2012-05-04	Greg Blomquist <gblomqui@redhat.com>
+	* refs #1589 - Remove hardcoded vmware vsphere_expected_pubkey_hash
+	* fixes #1595: show success on test connection
+
+2012-05-03	Ohad Levy <ohadlevy@gmail.com>
+	* Rails logger does not exists at this stage, removing
+	* fixes #1600 - records are deleted even though host is not Managed
+	* Merge pull request #38 from abenari/may03
+	* [UI] minor changes to ldap page.
+
+2012-05-03	Romain Vrignaud <romain@yakaz.com>
+	* Fixes #1596 Add back button of console page.
+
+2012-05-03	Amos Benari <abenari@redhat.com>
+	* fixed a bug in the host-group truncation function.
+	* new releases of my favorites gems.
+
+2012-05-02	Amos Benari <abenari@redhat.com>
+	* added ace code editor to the provisioning template edit page.
+
+2012-05-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1566 - Puppet CA set incorrectly when only one proxy is defined
+	* refs #402 - ensures that noops reports are shown currectly on all DB's (pg, mysql and sqlite)
+	* fixes #1568 - PG
+
+2012-04-30	Ohad Levy <ohadlevy@gmail.com>
+	* fix certificates and autosign list views
+	* fail gracefully if fog is not installed
+	* [UI] minor fixes refs bootstrap upgrade
+	* ensure rubygems are loaded in case facter / puppet are installed as a gem
+
+2012-04-30	Brian Gupta <brian.gupta@brandorr.com>
+	* Fixed link for Good hosts on dashboard to match stats query
+	* Fixed reported stats on dashboard for good_hosts and reports_missing in text table
+
+2012-04-29	Ohad Levy <ohadlevy@gmail.com>
+	* [UI] - make sure settings intput fields do not resize incorecctly upon inline edit
+	* [UI] typo - fixed red highlighting for hosts with errors
+	* [UI] minor fixes to reports show page
+	* clean up login screen
+	* cleanups to rails 3 boot process
+
+2012-04-29	Amos Benari <abenari@redhat.com>
+	* [UI] removed delete button in indexes.
+	* [UI] users filter page space after field-set.
+	* [UI] templates button in host form.
+	* updates UI to bootstrap v2
+
+2012-04-27	Jim Perrin <jperrin@gmail.com>
+	* fixes #1254 - initial support to pxeboot windows
+
+2012-04-26	Ohad Levy <ohadlevy@gmail.com>
+	* since travis use rvm and we don't want puppet gem in our gem file..
+	* debian platform puppet is still considered a as a gem
+	* ensure that bundler loads after our custom gem requirements
+	* ensures that puppet packages are installed in our CI
+	* removed puppet from Gem file requirement
+	* make sure foreman doesnt blow up when running without libvirt / virt gems
+	* ensure facts importer works correctly also when importing from a report / rake task
+
+2012-04-25	Ohad Levy <ohadlevy@gmail.com>
+	* ensures populate hosts rake task can run correctly
+
+2012-04-25	Brian Gupta <brian.gupta@brandorr.com>
+	* foremancli changes to support change in default host list API behavior.
+
+2012-04-18	Ohad Levy <ohadlevy@gmail.com>
+	* added basic ovirt vm show page, minor fixes in compute resource level
+
+2012-04-17	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #34 from tjikkun/develop
+
+2012-04-16	Amos Benari <abenari@redhat.com>
+	* fixes #1574 - ovirt - add remove and show volumes
+
+2012-04-16	Sander Hoentjen <s.hoentjen@oxilion.nl>
+	* FIX suggestion of ip when subnet id is not the same as array index
+
+2012-04-13	Ohad Levy <ohadlevy@gmail.com>
+	* minor ordering issue for nics/disks when creating libvirt instances, refs #1452
+
+2012-04-09	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1452 - cant change values while in orcehstation as its already a frozen hash
+	* refs #1452 - fixed incorrect condition
+	* refs #1452 - fixed incorrect condition
+	* refs #1452 improved libvirt on debian handling
+	* fixed failing test due to wrong fixture
+	* fixes #1452 use fog for libvirt management
+	* settings search autocompleter route was missing
+
+2012-03-28	Ohad Levy <ohadlevy@gmail.com>
+	* Merge branch 'vmware' into develop
+	* first go at vmware integeration refs #955
+	* ensure valid invalid JS is created when user has no access
+
+2012-03-25	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that libvirt hosts do not have a compute_resource_id
+	* hard coding vnc display for now, as we don't support spice display just yet.
+
+2012-03-23	Jason Antman <jason@jasonantman.com>
+	* fix for undefined constant virt error when running
+
+2012-03-22	Ohad Levy <ohadlevy@gmail.com>
+	* Compute / Virtual DC should only work when unattended is enabled
+	* Official fog gem supports ovirt, no more need for git
+
+2012-03-21	Ohad Levy <ohadlevy@gmail.com>
+	* Adds VNC support within the browser
+
+2012-03-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes minor ovirt validation bug
+	* Add Connection testing for EC2 compute
+
+2012-03-19	Amos Benari <abenari@redhat.com>
+	* fixes #1540 added suport for provisioning on ovirt/rhvem using fog.
+
+2012-03-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1538 - allow to search hosts based on their puppet master
+	* cleanup unused file
+	* fixing subnet import that was broken after rails3 upgrade
+	* startup file and migrate updated to 0.5
+	* Gemfile cleanups + adding some nicer console output
+	* minor code syntax cleanup
+
+2012-03-16	Ohad Levy <ohadlevy@gmail.com>
+	* safemode is now a gem, removing git and required gems.
+
+2012-03-15	Ohad Levy <ohadlevy@gmail.com>
+	* improve mac regexp, refs #1273
+	* fixes wrong code smell
+	* code smell
+	* Fixes #944 - clear network conflicts
+
+2012-03-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1129 Summary Puppet Report - require_ssl, thanks to craig.white@ttiltd.com
+	* fixes #1471 - Shouldn't have the option to specify the "Puppet Master Proxy" when not using foreman for host provisioning.
+	* refs #1524 - fixed incorrect syntax
+	* fixes #1535 - incorrect server response when authentication fails upon API request
+	* expose puppet_ca settings to puppet.
+	* refs #1503 better handling of migrating to puppet proxies
+	* fixes #808 - Add smart-proxy puppetrun to foreman
+	* fixes #1533 - depreciate usage of puppetrun or a tftp server without a proxy
+	* refs #1530 - ensure enc_environment is in a fixture
+	* removed depericiated warnings
+	* fixes #1503 - When creating a host, it should be possible to define a Puppet CA and a Puppet Master to use
+
+2012-03-14	Corey Osman <corey@logicminds.biz>
+	* fixes #1524 Add more attributes to JSON host index
+
+2012-03-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1530 - Disabling puppet env in ENC is now a configurable.
+
+2012-03-12	Mikael Fridh <frimik@gmail.com>
+	* fixes #1528 - tidy up the default settings loader.
+
+2012-03-12	Ohad Levy <ohadlevy@gmail.com>
+	* removed failing tests in travis
+	* refactor - added an importing class for puppet facts
+
+2012-03-12	Alexander Chuzhoy <sashac88@hotmail.com>
+	* Signed-off-by: Alexander Chuzhoy <sashac88@hotmail.com>
+
+2012-03-12	Corey Osman <corey@logicminds.biz>
+	* fixes #1525 - add ancestry (parent group) in json output for hostgroup
+
+2012-03-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1522 - search based on params sometimes fails
+
+2012-03-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes the anonying bug has_many_polymorphs, using older version that works for now
+
+2012-02-28	Fecn <j.conner@ucl.ac.uk>
+	* Update app/views/reports/show.rhtml
+
+2012-02-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1511 - EPEL repo has changed
+
+2012-02-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1509 - Foreman should use the proxy to import puppet classes
+
+2012-02-23	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1324 remove debugging code
+
+2012-02-23	Greg Sutcliffe <gsutcliffe@ibahn.com>
+	* fixes #1324 - Separate permssions on hosts from permissions for objects within hosts.
+
+2012-02-21	Ohad Levy <ohadlevy@gmail.com>
+	* updated out of date files
+	* updated git2relase script to point to new repo path. removed foreman installer as a submodule
+
+2012-02-20	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1173 - another leftover
+
+2012-02-19	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1173 - remove unneed files
+	* fixes #1497 - unable to recover from dhcp failures
+	* fixes #1173 - remove legacy query interface
+	* fixes typos in foreman cli
+
+2012-02-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1460 - add an option to upload provisioning templates
+
+2012-02-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1491 - Fail to import new classes
+
+2012-01-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1479 - Chosing an environment, does not update puppet class list
+	* fixed issues with newer version of virt, reusing the newer gem
+
+2012-01-30	Ohad Levy <ohadlevy@gmail.com>
+	* refs #963 - ensure that we reset the feature list each time
+
+2012-01-29	Ohad Levy <ohadlevy@gmail.com>
+	* rolled back to virt 0.1. due to issues with current virt gem
+	* hypervisors should not be making any connections during tests
+	* fixes #1476 - toggling between bare metal to an hypervisor renders js errors
+	* fixes #1456 - renaming the admin account should not be allowed
+	* fixes #1308 - error when trying to cancel build.
+	* fixes #1265 - Parition tables can't access @host
+	* fixes #1191 - removes duplicated classes when nesting hostgroups
+	* fixes #1175 - PXELinux does not render with spoof
+	* fixes #1144 - Cannot search for parameters in Domains
+	* fixes #963 - can't add a smart proxy which doesn't support any feature
+
+2012-01-29	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #1472 - make init script passenger-aware (redhat)
+
+2012-01-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1469 - vlan field missing in subnets
+	* fixes a couple of html rendering errors in views
+
+2012-01-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes a couple of broken tests + show full error trace in development mode.
+
+2012-01-22	Ohad Levy <ohadlevy@gmail.com>
+	* default settings are not loading during db:migrate, just calling it twice to ensure they are loaded into the db
+	* added db migration
+	* fixeds to ci script
+	* fixeds to ci script
+	* added a custom script for ci
+	* added libvirt native c libs to CI
+	* virt now includes the correct libvirt gems requirement.
+	* Adding travis-CI
+
+2012-01-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1451 - Host creation fails if ":tftp_servername:" is set in proxy-settings
+
+2012-01-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1392 - change root password back to system wide defaults
+
+2012-01-16	Jim Perrin <jperrin@gmail.com>
+	* rhel6 is released, remove the beta hack
+
+2012-01-16	Frank Sweetser <fs@WPI.EDU>
+	* Fix typo (where -> were)
+
+2012-01-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1436 - error while removing puppet classes
+	* fixes #1341 - tftp templates can now use @host as well.
+	* fixes #1401 -  smart proxies filtering. will not remember the selected filter once an operation was selected
+	* fixes #1446 - expire idle web sessions
+
+2012-01-11	theforemanuser123 <oliver_weinmann@gmx.de>
+	* fixes #1437 Solaris Deployment fix
+
+2012-01-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1376 - Unattended installation without TFTP integration
+	* fixes #1399 - Hostgroups not attaching to Nodes
+	* fixes #1433 - Edit multiple Parameters (Operation FAILED: undefined method `reference_id_is')
+	* fixes #1281 - assingn more than one domains to a subnet
+	* fixes #768 - Add the option to use existing DHCP reservations
+
+2012-01-08	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1313 ensure all host names are lowercased
+	* fixes #1432 - subnet gateway infos only saved when fill gateway and dns fields
+
+2012-01-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1434 - Status page is broken
+
+2012-01-05	Trey Dockendorf <treydock@gmail.com>
+	* fixes #1361 -- Add gateway and dns fields to Subnets
+
+2012-01-03	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1417 - update puppet classes broken
+
+2012-01-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1410 - update git2release script to use bundle
+	* refs #1367 - a better version of our gemfiles, not perfect yet.
+	* refs #1422, wrong field name
+	* fixes #1426 - Foreman should not fail if dns domain has no SOA or NS records
+	* fixes #1423 - Hardware model field should be mandatory when selecting Sparc architecture
+	* fixes #1422 - Media is greyed out when creating Solaris hosts
+
+2012-01-03	theforemanuser123 <oliver_weinmann@gmx.de>
+	* fixes #1176 - SLES still did not display correct minor version
+
+2012-01-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1421 - expose subnet ranges for automatic IP address allocations
+
+2011-12-31	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #1420 - bootserver ip lookup fails when not managing DNS
+
+2011-12-31	Corey Osman <corey@logicminds.biz>
+	* fixes #1418 Add json call to retrieve bookmarks
+
+2011-12-29	Amos Benari <abenari@redhat.com>
+	* fixed dashboard pie colors.
+	* fixes #1414 - pie is over cooked in chrome.
+
+2011-12-29	Ohad Levy <ohadlevy@gmail.com>
+	* domain was missing the relationship to a hostgroup
+	* fixes #1176 - SLES (SUSE) operatingsystem not displaying minor version
+
+2011-12-28	Jochen Schalanda <jochen@schalanda.name>
+	* Added conditional gem dependency declaration for ruby-debug/ruby-debug19
+
+2011-12-27	Ohad Levy <ohadlevy@gmail.com>
+	* "Updated RPM SPEC file to the version used to build 0.4.1"
+
+2011-12-26	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1316 - Postgres DB Error while run rake db:migrate
+
+2011-12-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1356 - Stop hosts from being visible if your filter doesn't permit it
+	* Updated puppet modules references
+	* javascript simple indetation fixes.
+	* fixes #1411 - hostgroup ajax actions are mostly broken
+
+2011-12-25	Greg Sutcliffe <gsutcliffe@ibahn.com>
+	* Don't show reports from hosts not in a User's filter refs #1356
+
+2011-12-25	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* fixes #1374 - Overwriting of valid IP when subnet selected
+
+2011-12-22	Ohad Levy <ohadlevy@gmail.com>
+	* updated foreman installer submodule
+
+2011-12-20	Ohad Levy <ohadlevy@gmail.com>
+	* remove all leftovers from git submodules
+	* refs #1406 - missed html_safe on 500 error page
+	* Revert "Fixes #593 - Separate log file for facts and reports"
+	* Revert "Fixes #944 - clear network conflicts"
+	* Revert "fixes typo - refs #944"
+
+2011-12-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes typo - refs #944
+	* fixes #1406 - excpetion errors are not showin in the UI
+
+2011-12-19	Romain Vrignaud <romain@yakaz.com>
+	* fixes #1300 Add support of HTTP Auth with REMOTE_USER env variable
+
+2011-12-19	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* Fixes #593 - Separate log file for facts and reports
+	* Fixes #944 - clear network conflicts
+
+2011-12-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1396 - Add puppet classes to Hostgroups is broken
+
+2011-12-13	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #1385 - <%= @host.architecture %> macro
+
+2011-12-09	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* fixes #1386 - resuse dns
+
+2011-12-08	Paul Kelly <paul.ian.kelly@googlemail.com>
+	* fixes #1381 - nextServer should be handled internally as an IP address not a hostname
+	* fixes #1378 - RestClient
+
+2011-12-08	Mikael Fridh <mfridh@marinsoftware.com>
+	* foreman #1384 - hardware model links unquoted.
+
+2011-12-05	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1334 - Add Run Puppet to multi host action in the hosts page
+
+2011-12-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1368 - mac field is not visible in host edit page
+	* fixes #1357 - Provisioning Snippets broken after rails3 upgrade
+
+2011-12-04	Amos Benari <abenari@redhat.com>
+	* fixed error on expanding chart that doesn't have link assosiated with it. see the memory charts on the statistics page.
+	* make manufactor links case insensetive.
+	* fixes #1304 re issue the fix as it seemed to get only half merged
+	* fixes #1239 hosts un-check all doesn't work
+
+2011-11-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #402 -  Add noops/pending to metric handling, and provide pending hosts for dashboard views.
+	* WIP rails3 migration
+
+2011-11-28	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1333 -Destroy vs Delete inconsitent naming
+
+2011-11-28	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* fixes #1355 - Ability to Search Users by Role
+
+2011-11-28	Amos Benari <abenari@redhat.com>
+	* fixes #1152 - eventful should not include skipped.
+	* fixes #1321 add click event to the facts and stats pie chart. The click event redirect to the relevant hosts search that match the clicked slice.
+	* better text trncating in hosts list
+	* removed the order from hostgroup because it mess the ancestors list.
+	* coloring all the 'new' buttons in green.
+
+2011-11-22	Amos Benari <abenari@redhat.com>
+	* fixes #1336 - hostlist looks wrong in firefox
+	* fixes #1335 - invalid value for Integer: "0xstraylen"
+
+2011-11-22	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1293 - error when trying to view puppet certificates
+
+2011-11-20	Andrew Elwell <Andrew.Elwell@gmail.com>
+	* fixes #1248 - Added icon and auto detection support for Scientific Linux CERN (SLC)
+
+2011-11-20	Romain Vrignaud <romain@yakaz.com>
+	* fixes #1337 with return if user.nil?
+
+2011-11-20	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1332 'setting puppet_interval to zero gives division by zero in the dashboard'
+
+2011-11-16	Tim Speetjens <tim.speetjens@gmail.com>
+	* Fixes #1250 - register restart failures correctly for reports from puppet > 2.6
+
+2011-11-16	Frank Sweetser <fs@WPI.EDU>
+	* <%= @host.architecture %> not available in templates
+
+2011-11-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes wrong upstream project rename
+
+2011-11-15	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* fixes #1323 - Check host.managed before rendering templates on host page
+
+2011-11-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1320 - Subnet import fails on ruby 1.85
+
+2011-11-14	Amos Benari <abenari@redhat.com>
+	* fixes #1314 'More' dropdown entries does not get populated correctly
+	* fixes #1303 - Column widths for long text in 0.4
+	* disabled links are now disabled buttons as they should.
+	* fixes #1292 Searching hosts with parameters produces and SQL error
+
+2011-11-14	Tim Speetjens <tim.speetjens@gmail.com>
+	* Fixes #1305 - out of sync state takes precedence over error state in host list
+
+2011-11-14	Jeff Palmer <jpalmer@voalte.com>
+	* fixes #1318 - the Bulk change host groups should have a sorted/ordered list.
+
+2011-11-10	Amos Benari <abenari@redhat.com>
+	* dashboard pie has links to the relevant hosts filter page.
+	* statistics pie is now a thumbnail that expand in a modal dialog.
+
+2011-11-10	Florian Koch <florian.koch1981@googlemail.com>
+	* fixes #1309 - add dashes '-' to allowed class names
+
+2011-11-08	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #12 from joschi/foreman-0.4_deb
+	* updated external libs
+	* version bump to 0.4
+
+2011-11-08	Jochen Schalanda <jochen@schalanda.name>
+	* Updated Debian package specification after release of Foreman 0.4
+
 2011-11-08	Florian Koch <florian.koch1981@googlemail.com>
 	* fixes #1299 foreman don't remove the () from puppet class names
 

@@ -9,7 +9,7 @@
     <%= text_f f, :config_path, :class => "input-xxlarge", :help_inline => "The NFS path to the jumpstart control files." %>
     <%= text_f f, :image_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the image directory." %>
   </span>
-  <%= multiple_checkboxes f, :operatingsystems, @medium, Operatingsystem, :label => 'Operating Systems' %>
+  <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => "Operating System Family" } %>
 
   <%= submit_or_cancel f %>
 <% end %>

@@ -409,6 +409,7 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:redhat)
     pw = h.root_pass
     h.root_pass = "token"
+    h.hostgroup = nil
     assert h.save
     assert_not_equal pw, h.root_pass
   end
@@ -420,6 +421,27 @@ class HostTest < ActiveSupport::TestCase
     h.root_pass = ""
     assert h.save
     assert_equal h.root_pass, Setting.root_pass
+  end
+
+  test "should use hostgroup root password" do
+    h = hosts(:redhat)
+    h.root_pass = nil
+    h.hostgroup = hostgroups(:common)
+    assert h.save
+    h.hostgroup.update_attribute(:root_pass, "abc")
+    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+  end
+
+  test "should use a nested hostgroup parent root password" do
+    h = hosts(:redhat)
+    h.root_pass = nil
+    h.hostgroup = hg = hostgroups(:common)
+    assert h.save
+    hg.parent = hostgroups(:unusual)
+    hg.root_pass = nil
+    hg.parent.update_attribute(:root_pass, "abc")
+    hg.save
+    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
   end
 
   test "should save uuid on managed hosts" do

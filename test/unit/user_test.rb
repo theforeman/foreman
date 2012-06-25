@@ -159,4 +159,9 @@ class UserTest < ActiveSupport::TestCase
     assert !u.save
   end
 
+  test "email domains with a single word should be allowed" do
+    u = User.new :auth_source => auth_sources(:one), :login => "root", :mail => "foo@localhost"
+    assert u.save
+  end
+
 end

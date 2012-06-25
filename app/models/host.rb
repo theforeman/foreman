@@ -553,7 +553,7 @@ class Host < Puppet::Rails::Host
     return unless hostgroup
     assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy})
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet})
+      assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable subnet})
       assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor? and not compute_resource_id
     end
   end
@@ -629,6 +629,11 @@ class Host < Puppet::Rails::Host
 
   def as_json(options={})
     super(:methods => [:host_parameters])
+  end
+
+  # no need to store anything in the db if the password is our default
+  def root_pass
+    read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
   end
 
   private

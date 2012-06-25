@@ -23,8 +23,8 @@
       </div>
 
       <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture %>
-      <%= multiple_checkboxes f, :ptables, @operatingsystem, Ptable, :label => "Partition tables" %>
-      <%= multiple_checkboxes f, :media, @operatingsystem, Medium, :label => "Installation media" %>
+      <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => "Partition tables" %>
+      <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => "Installation media" %>
     </div>
 
     <%= render('template_defaults', :f => f) if SETTINGS[:unattended] -%>

@@ -115,7 +115,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
 #    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
 #    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_new_env1[value*="a"]'
     post :obsolete_and_new,
@@ -134,7 +134,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
     #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env1[value*="d"]'
     post :obsolete_and_new,
@@ -153,7 +153,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin {Environment.create(:name => "env3")}
     #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env3'
     post :obsolete_and_new,
@@ -201,7 +201,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
     FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml.test_bak" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml"
     FileUtils.cp Rails.root.to_s + "/test/functional/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml"
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     FileUtils.rm_f Rails.root.to_s + "/config/ignored_environments.yml"
     FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml.test_bak", Rails.root.to_s + "/config/ignored_environments.yml" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml.test_bak"
 

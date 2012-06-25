@@ -135,5 +135,13 @@ class DomainTest < ActiveSupport::TestCase
     assert !record.save
   end
 
+  test "should query local nameservers when enabled" do
+    Setting['query_local_nameservers'] = true
+    assert Domain.first.nameservers.empty?
+  end
+
+  test "should query remote nameservers" do
+    assert Domain.first.nameservers.empty?
+  end
 end
 

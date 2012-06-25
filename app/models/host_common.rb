@@ -40,11 +40,6 @@ module HostCommon
       puppet_ca_proxy.to_s
     end
 
-    # no need to store anything in the db if the password is our default
-    def root_pass
-      read_attribute(:root_pass) || Setting[:root_pass]
-    end
-
     # If the host/hostgroup has a medium then use the path from there
     # Else if the host/hostgroup's operatingsystem has only one media then use the image_path from that as this is automatically displayed when there is only one item
     # Else we cannot provide a default and it is cut and paste time

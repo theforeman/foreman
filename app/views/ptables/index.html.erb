@@ -4,13 +4,15 @@
 <table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name %></th>
+    <th>Family</th>
     <th>Operating systems</th>
     <th></th>
   </tr>
   <% for ptable in @ptables %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=link_to_if_authorized h(ptable.name), hash_for_edit_ptable_path(:id => ptable.id) %></td>
-      <td><%=h ptable.operatingsystems.to_sentence %></td>
+      <td><%= link_to_if_authorized ptable, hash_for_edit_ptable_path(:id => ptable.id) %></td>
+      <td><%= ptable.os_family %></td>
+      <td><%= ptable.operatingsystems.to_sentence %></td>
       <td>
         <%= display_delete_if_authorized hash_for_ptable_path(:id => ptable), :confirm => "Delete #{ptable.name}?"%>
       </td>

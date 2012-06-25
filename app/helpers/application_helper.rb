@@ -205,7 +205,7 @@ module ApplicationHelper
   def action_buttons(*args)
     # the no-buttons code is needed for users with less permissions
     return unless args
-    args = args.map{|arg| arg unless arg.blank?}.compact
+    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
     return if args.length == 0
 
     #single button

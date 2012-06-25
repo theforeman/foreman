@@ -21,7 +21,12 @@ module Facts
       elsif orel.present?
         major, minor = orel.split(".")
         minor        ||= ""
-        Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
+        os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
+        if os_name[/debian|ubuntu/i] or os.family == 'Debian'
+          os.release_name = facts[:lsbdistcodename]
+          os.save
+        end
+        os
       else
         Operatingsystem.find_or_create_by_name os_name
       end

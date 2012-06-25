@@ -6,14 +6,16 @@
   <tr>
     <th><%= sort :name %></th>
     <th><%= sort :path %></th>
+    <th>Family</th>
     <th>Operating systems</th>
     <th></th>
   </tr>
   <% for medium in @media %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to_if_authorized h(medium), hash_for_edit_medium_path(:id => medium.id) %></td>
-      <td><%=h medium.path %></td>
-      <td><%=h medium.operatingsystems.to_sentence %></td>
+      <td><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium.id) %></td>
+      <td><%= medium.path %></td>
+      <td><%= medium.os_family %></td>
+      <td><%= medium.operatingsystems.to_sentence %></td>
       <td>
         <%= display_delete_if_authorized hash_for_medium_path(:id => medium), :confirm => "Delete #{medium.name}?" %>
       </td>

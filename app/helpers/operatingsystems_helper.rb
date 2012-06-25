@@ -30,4 +30,9 @@ module OperatingsystemsHelper
     "#{icon(record, opts)} #{record}".html_safe
   end
 
+  def os_habtm_family type, obj
+    result = type.where(:os_family => obj.family)
+    result.empty? ? type : result
+  end
+
 end

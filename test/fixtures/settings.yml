@@ -99,3 +99,8 @@ attributes20:
   category: Puppet
   default: false
   description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
+attributes21:
+  name: query_local_nameservers
+  category: Provisioning
+  default: false
+  description: "Should Foreman query the locally configured name server or the SOA/NS authorities"

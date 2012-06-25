@@ -18,7 +18,9 @@ class Medium < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   default_scope :order => 'LOWER(media.name)'
-  scoped_search :on => [:name, :path], :complete_value => :true
+  scoped_search :on => :name, :complete_value => :true, :default_order => true
+  scoped_search :on => :path, :complete_value => :true
+  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
   def as_json(options={})
     options ||= {}

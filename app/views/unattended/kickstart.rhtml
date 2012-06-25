@@ -1,17 +1,15 @@
 install
 <%= @mediapath %>
 lang en_US.UTF-8
-<%= "langsupport --default en_US.UTF-8 en_GB.UTF-8 en_US.UTF-8\n" if @osver < 5 -%>
-<%= "mouse generic3usb --device input/mice\n" if @osver == 3 -%>
-<%= "selinux --disabled\n" if @osver != 3 -%>
+selinux --permissive
 keyboard us
 skipx
 network --bootproto <%= @static ? "static" : "dhcp" %> --hostname <%= @host %>
 rootpw --iscrypted <%= root_pass %>
-firewall --disabled
-authconfig --useshadow --enablemd5 <%= @osver != 3 and @osver != 4 ? '--disablenis' : '' %>
-timezone <%= @osver >= 5 ? 'Europe/London' : 'UTC' %>
-bootloader --location=mbr --append="nofb quiet splash=quiet <%=ks_console%>" <%= grub_pass %>
+firewall --service=ssh
+authconfig --useshadow --enablemd5
+timezone UTC
+bootloader --location=mbr --append="nofb quiet splash=quiet --md5pass=<%= root_pass %>"
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
 <% else -%>
@@ -20,43 +18,38 @@ bootloader --location=mbr --append="nofb quiet splash=quiet <%=ks_console%>" <%=
 text
 reboot
 
-%packages <% if @osver < 5 %> --resolvedeps <% end %>
+%packages --excludedocs --nobase
 ntp
-<% if @osver == 5 -%>
-@core
-@base
-<% elsif @osver == 4 -%>
-device-mapper-multipath
-<% elsif @osver == 3 and @arch == "i386" -%>
-ethereal
-<% end -%>
+wget
+@Core
+
 <% if @dynamic -%>
 %pre
 <%= @host.diskLayout %>
 <% end -%>
 
 %post
+logger "Starting anaconda <%= @host %> postinstall"
+
 #changing to VT 3 that we can see whats going on....
 /usr/bin/chvt 3
 #update local time
 echo "updating system time"
-/usr/sbin/ntpdate -sub ntp
+/usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "ntp" %>
 /usr/sbin/hwclock --systohc
 
-logger "Starting anaconda <%= @host %> postinstall"
-
 # install epel if we can
-<%= @epel -%>
+<%= snippet epel %>
 
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
 
-# and add the puppet and ruby-shadow package
+# and add the puppet package
 yum -t -y -e 0 install puppet
 
 echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
-<%= snippets "puppet.conf" -%>
+<%= snippets "puppet.conf" %>
 EOF
 
 # Setup puppet to run on system reboot
