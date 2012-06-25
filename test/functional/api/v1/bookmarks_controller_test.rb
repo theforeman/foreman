@@ -20,20 +20,24 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
 
 
   test "should get index" do
-    get :index, {}, set_session_user
+    as_user :admin do
+      get :index, {}
+    end
     assert_response :success
     assert_not_nil assigns(:bookmarks)
   end
 
   test "should show bookmark" do
-    get :show, {:id => bookmarks(:one).to_param}, set_session_user
+    as_user :admin do
+      get :show, {:id => bookmarks(:one).to_param}
+    end
     assert_response :success
   end
 
   test "should create bookmark" do
     User.current = users(:one)
     assert_difference('Bookmark.count') do
-      post :create, {:bookmark => simple_bookmark}, set_session_user
+      post :create, {:bookmark => simple_bookmark}
     end
     assert_response :success
   end
@@ -41,19 +45,23 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
   test "should create bookmark with a dot" do
     User.current = users(:one)
     assert_difference('Bookmark.count') do
-      post :create, {:bookmark => dot_bookmark}, set_session_user
+      post :create, {:bookmark => dot_bookmark}
     end
     assert_response :success
   end
 
   test "should update bookmark" do
-    put :update, {:id => bookmarks(:one).to_param, :bookmark => {} }, set_session_user
+    as_user :admin do 
+      put :update, {:id => bookmarks(:one).to_param, :bookmark => {} }
+    end
     assert_response :success
   end
 
   test "should destroy bookmark" do
-    assert_difference('Bookmark.count', -1) do
-      delete :destroy, {:id => bookmarks(:one).to_param}, set_session_user
+    as_user :admin do
+      assert_difference('Bookmark.count', -1) do
+        delete :destroy, {:id => bookmarks(:one).to_param}
+      end
     end
     assert_response :success
   end

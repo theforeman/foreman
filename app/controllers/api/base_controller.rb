@@ -4,17 +4,21 @@ module Api
 
     before_filter :set_default_response_format
     before_filter :authorize
-
+    
     def process_error hash = {}
-      hash[:object] ||= get_resource || raise("Param 'object' was not defined")
-
+      
       hash[:json_code] ||= :unprocessable_entity
       
-      errors = if hash[:object].respond_to?(:errors)
-        logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" 
-        hash[:object].errors.full_messages
+      errors = if hash[:error]
+        hash[:error]
       else
-        raise("Object has to respond to errors")
+        hash[:object] ||= get_resource || raise("No error to process")
+        if hash[:object].respond_to?(:errors)
+          logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" 
+          hash[:object].errors.full_messages
+        else
+          raise("No error to process")
+        end
       end
 
       render :json => {"errors" => errors} , :status => hash[:json_code]
@@ -38,20 +42,29 @@ module Api
 
     # Authorize the user for the requested action
     def authorize(ctrl = params[:controller], action = params[:action])
+
       if SETTINGS[:login]
-        User.current = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) } 
+        unless User.current
+          user_to_login = nil
+          if result = authenticate_with_http_basic { |u, p| user_to_login = u; User.try_to_login(u, p) } 
+            User.current = result
+          else
+            process_error({:error => "Unable to authenticate user %s" % user_to_login, :json_code => :unauthorized})
+            return false
+          end
+        end
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
         User.current = User.find_by_login("admin")
       end
 
-      return true if request.xhr?
       allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
       allowed ? true : deny_access
     end
 
     def deny_access
-      raise("Access disallowed")
+      process_error({:error => "Access denied", :json_code => :unauthorized})
+      return false
     end
 
 

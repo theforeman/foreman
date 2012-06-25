@@ -23,6 +23,14 @@ class ActiveSupport::TestCase
     SETTINGS[:login] ? {:user => User.find_by_login("admin").id, :expires_at => 5.minutes.from_now} : {}
   end
 
+  def as_user user
+    saved_user   = User.current
+    User.current = users(user)
+    result = yield
+    User.current = saved_user
+    result
+  end
+
   def as_admin
     saved_user   = User.current
     User.current = users(:admin)
