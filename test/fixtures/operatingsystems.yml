@@ -41,3 +41,9 @@ suse:
   major: 11
   minor: 4
   type: Suse
+
+no_hosts_os:
+  name: NoHosts
+  major: 1
+  minor: 1
+  type: Redhat
