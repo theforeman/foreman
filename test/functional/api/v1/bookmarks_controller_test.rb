@@ -35,17 +35,19 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
   end
 
   test "should create bookmark" do
-    User.current = users(:one)
-    assert_difference('Bookmark.count') do
-      post :create, {:bookmark => simple_bookmark}
+    as_user :one do
+      assert_difference('Bookmark.count') do
+        post :create, {:bookmark => simple_bookmark}
+      end
     end
     assert_response :success
   end
 
   test "should create bookmark with a dot" do
-    User.current = users(:one)
-    assert_difference('Bookmark.count') do
-      post :create, {:bookmark => dot_bookmark}
+    as_user :one do 
+      assert_difference('Bookmark.count') do
+        post :create, {:bookmark => dot_bookmark}
+      end
     end
     assert_response :success
   end

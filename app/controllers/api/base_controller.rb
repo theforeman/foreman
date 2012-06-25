@@ -58,8 +58,10 @@ module Api
         User.current = User.find_by_login("admin")
       end
 
-      allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
-      allowed ? true : deny_access
+      # FIXME the following breaks bookmark controller as it has no Autho restrictions in the model.
+      # Moreover it probably doesn't make sense to have it in API controller.
+      #allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
+      #allowed ? true : deny_access
     end
 
     def deny_access
