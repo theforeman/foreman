@@ -67,7 +67,7 @@ stop() {
             echo -n $"Foreman was not running.";
             failure $"Foreman was not running.";
             echo
-            RETVAL=1
+            RETVAL=0
         fi
     done
     echo
