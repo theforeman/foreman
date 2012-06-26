@@ -627,10 +627,6 @@ class Host < Puppet::Rails::Host
     end
   end
 
-  def as_json(options={})
-    super(:methods => [:host_parameters])
-  end
-
   # no need to store anything in the db if the password is our default
   def root_pass
     read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
