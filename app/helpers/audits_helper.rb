@@ -77,9 +77,9 @@ module AuditsHelper
   end
 
   def audit_user audit
-    username=audit.user_as_string.to_s.gsub('User', '')
-    login = audit.user_as_string.login rescue username
-    link_to icon_text('user', username), hash_for_audits_path(:search => "user = #{login}") if audit.user_as_string
+    username = audit.username.gsub('User', '')
+    login    = audit.user.login rescue username.downcase
+    link_to icon_text('user', username), hash_for_audits_path(:search => "user = #{login}") if login
   end
 
   def audit_time audit
@@ -88,30 +88,31 @@ module AuditsHelper
   end
 
   def audited_icon audit
-    style = 'label label-info'
+    style = 'label-info'
     style = case audit.action
-              when 'create'
-                'label label-success'
-              when 'update'
-                'label label-info'
-              when 'destroy'
-                'label label-important'
-              else
-                'label'
-            end if main_object? audit
+           when 'create'
+             'label-success'
+           when 'update'
+             'label-info'
+           when 'destroy'
+             'label-important'
+           else
+              ''
+         end if main_object? audit
+    style += " label"
 
     type   = audited_type(audit)
     symbol = case type
-               when "Host"
-                 icon_text('hdd', type, :class=>'icon-white')
-               when "Hostgroup"
-                 icon_text('tasks', type, :class=>'icon-white')
-               when "User"
-                 icon_text('user', type, :class=>'icon-white')
-               else
-                 icon_text('cog', type, :class=>'icon-white')
+                when "Host"
+                  'hdd'
+                when "Hostgroup"
+                  'tasks'
+                when "User"
+                  'user'
+                else
+                  'cog'
              end
-    content_tag(:b, symbol, :class => style)
+    content_tag(:b, icon_text(symbol, type, :class=>'icon-white'), :class => style)
   end
 
   def audited_type audit
