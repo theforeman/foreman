@@ -5,23 +5,30 @@ module Api
     before_filter :set_default_response_format
     before_filter :authorize
     
-    def process_error hash = {}
+    respond_to :json
+
+    def process_error options = {}
       
-      hash[:json_code] ||= :unprocessable_entity
+      options[:json_code] ||= :unprocessable_entity
       
-      errors = if hash[:error]
-        hash[:error]
+      errors = if options[:error]
+        options[:error]
       else
-        hash[:object] ||= get_resource || raise("No error to process")
-        if hash[:object].respond_to?(:errors)
-          logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" 
-          hash[:object].errors.full_messages
+        options[:object] ||= get_resource || raise("No error to process")
+        if options[:object].respond_to?(:errors)
+          logger.info "Failed to save: #{options[:object].errors.full_messages.join(", ")}" 
+          options[:object].errors.full_messages
         else
           raise("No error to process")
         end
       end
 
-      render :json => {"errors" => errors} , :status => hash[:json_code]
+      # set 403 status on permission errors
+      if errors.any? { |error| error =~ /You do not have permission/ }
+        options[:json_code] = :forbidden
+      end
+
+      render :json => {"errors" => errors} , :status => options[:json_code]
     end
 
     def get_resource 
