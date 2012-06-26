@@ -28,7 +28,7 @@ module AuditExtentions
       scoped_search :in => :search_hostgroups, :on => :name, :complete_value => true, :rename => :hostgroup, :only_explicit => true
       scoped_search :in => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
 
-      before_save :ensure_username
+      before_save :ensure_username, :ensure_audtiable_and_associated_name
       after_validation :fix_auditable_type
 
     end
@@ -45,6 +45,11 @@ module AuditExtentions
       self.auditable_type = "Host"         if self.auditable_type == "Puppet::Rails::Host"
       self.associated_type = "Host"        if self.associated_type == "Puppet::Rails::Host"
       self.auditable_type = auditable.type if self.auditable_type == "ComputeResource"
+    end
+
+    def ensure_audtiable_and_associated_name
+      self.auditable_name  ||= self.auditable.try(:to_label)
+      self.associated_name ||= self.associated.try(:to_label)
     end
   end
 end
