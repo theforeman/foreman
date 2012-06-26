@@ -11,7 +11,7 @@ module Foreman::Model
     end
 
     def provided_attributes
-      super.merge({ :ip => :public_ip_address })
+      super.merge({ :ip => :public_ip_address, :ec2_private_ip => :private_ip_address })
     end
 
     def self.model_name

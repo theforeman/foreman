@@ -180,6 +180,7 @@ module HostsHelper
     ]
     fields += [["Owner", host.owner]] if SETTINGS[:login]
     fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
+    fields += [["EC2 Internal IP", host.ec2_private_ip]] if (host.compute_resource_id.present? and host.provider == "EC2")
     fields
   end
 
