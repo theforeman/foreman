@@ -77,9 +77,9 @@ module AuditsHelper
   end
 
   def audit_user audit
-    username = audit.username.gsub('User', '') unless audit.username.nil?
-    login    = audit.user.login rescue username.to_s.downcase
-    link_to icon_text('user', username), hash_for_audits_path(:search => "user = #{login}") if login
+    return if audit.username.nil?
+    login = audit.user.login rescue nil # aliasing the user method sometimes yields strings
+    link_to(icon_text('user', audit.username.gsub('User', '')), hash_for_audits_path(:search => login ? "user = #{login}" : "username = \"#{audit.username}\""))
   end
 
   def audit_time audit
