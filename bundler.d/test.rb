@@ -3,4 +3,6 @@ group :test do
   gem 'shoulda'
   gem 'rr'
   gem 'rake'
+  gem 'redcarpet'
+  gem 'single_test'
 end
