@@ -281,6 +281,9 @@ Foreman::Application.routes.draw do
   resources :tasks, :only => [:show]
 
   #### API Namespace from here downwards ####
+
+  restapi
+
   namespace :api, :defaults => {:format => 'json'} do
     scope :module => :v1, :constraints => ApiConstraints.new(:version => 1, :default => true) do
       resources :bookmarks, :except => [:new, :edit]

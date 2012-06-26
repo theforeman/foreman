@@ -2,39 +2,38 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
 
-    before_filter :set_default_response_format
-    before_filter :authorize
-    
+    before_filter :set_default_response_format, :authorize
+
     respond_to :json
 
-    def process_error options = {}
-      
+    def process_error options = { }
+
       options[:json_code] ||= :unprocessable_entity
-      
+
       errors = if options[:error]
-        options[:error]
-      else
-        options[:object] ||= get_resource || raise("No error to process")
-        if options[:object].respond_to?(:errors)
-          logger.info "Failed to save: #{options[:object].errors.full_messages.join(", ")}" 
-          options[:object].errors.full_messages
-        else
-          raise("No error to process")
-        end
-      end
+                 options[:error]
+               else
+                 options[:object] ||= get_resource || raise("No error to process")
+                 if options[:object].respond_to?(:errors)
+                   #TODO JSON resposne should include the real errors, not the pretty full messages
+                   logger.info "Failed to save: #{options[:object].errors.full_messages.join(", ")}"
+                   options[:object].errors.full_messages
+                 else
+                   raise("No error to process")
+                 end
+               end
 
       # set 403 status on permission errors
       if errors.any? { |error| error =~ /You do not have permission/ }
         options[:json_code] = :forbidden
       end
 
-      render :json => {"errors" => errors} , :status => options[:json_code]
+      render :json => { "errors" => errors }, :status => options[:json_code]
     end
 
-    def get_resource 
+    def get_resource
       instance_variable_get(:"@#{controller_name.singularize}")
     end
-
 
     def process_response condition, response = nil
       if condition
@@ -45,18 +44,16 @@ module Api
       end
     end
 
-
-
     # Authorize the user for the requested action
     def authorize(ctrl = params[:controller], action = params[:action])
 
       if SETTINGS[:login]
         unless User.current
           user_to_login = nil
-          if result = authenticate_with_http_basic { |u, p| user_to_login = u; User.try_to_login(u, p) } 
+          if result = authenticate_with_http_basic { |u, p| user_to_login = u; User.try_to_login(u, p) }
             User.current = result
           else
-            process_error({:error => "Unable to authenticate user %s" % user_to_login, :json_code => :unauthorized})
+            process_error({ :error => "Unable to authenticate user %s" % user_to_login, :json_code => :unauthorized })
             return false
           end
         end
@@ -72,10 +69,9 @@ module Api
     end
 
     def deny_access
-      process_error({:error => "Access denied", :json_code => :unauthorized})
-      return false
+      process_error({ :error => "Access denied", :json_code => :unauthorized })
+      false
     end
-
 
     protected
     # searches for an object based on its name and assign it to an instance variable
