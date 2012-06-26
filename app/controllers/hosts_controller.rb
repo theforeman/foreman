@@ -64,7 +64,7 @@ class HostsController < ApplicationController
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
       format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
-      format.json { render :json => @host }
+      format.json { render :json => @host.to_json({:methods => [:host_parameters]}) }
     end
   end
 
