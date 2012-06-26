@@ -44,7 +44,7 @@ stop() {
         echo -n $"Foreman was not running.";
         failure $"Foreman was not running.";
         echo
-        return 1
+        return 0
     fi
     echo
     return $RETVAL
