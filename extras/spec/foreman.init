@@ -13,17 +13,37 @@ if [ -f /etc/sysconfig/foreman ]; then
 fi
 
 prog=foreman
+THIN=/usr/bin/thin
 RETVAL=0
 FOREMAN_PORT=${FOREMAN_PORT:-3000}
 FOREMAN_USER=${FOREMAN_USER:-foreman}
 FOREMAN_HOME=${FOREMAN_HOME:-/usr/share/foreman}
 FOREMAN_ENV=${FOREMAN_ENV:-production}
-FOREMAN_PID=${FOREMAN_PID:-${FOREMAN_HOME}/tmp/pids/server.pid}
 FOREMAN_USE_PASSENGER=${FOREMAN_USE_PASSENGER:-0}
+FOREMAN_USE_THIN=${FOREMAN_USE_THIN:-0}
+
+if [[ -z $FOREMAN_PID ]]
+then
+    if [[ $FOREMAN_USE_THIN = 1 ]]
+    then
+        FOREMAN_PID=${FOREMAN_HOME}/tmp/pids/thin.*.pid
+    else
+        FOREMAN_PID=${FOREMAN_HOME}/tmp/pids/server.pid
+    fi
+fi
 
 start() {
     echo -n $"Starting $prog: "
-    daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d > /dev/null
+    if [[ $FOREMAN_USE_THIN = 1 ]]
+    then
+        $THIN start --user ${FOREMAN_USER} \
+            --environment $FOREMAN_ENV \
+            --group ${FOREMAN_USER} \
+            --config /etc/foreman/thin.yml \
+            --rackup "${FOREMAN_HOME}/config.ru"
+    else
+        daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d ${FOREMAN_EXTRA_ARGS} > /dev/null
+    fi
     RETVAL=$?
     if [ $RETVAL = 0 ]
     then
@@ -37,15 +57,19 @@ start() {
 }
 stop() {
     echo -n $"Stopping $prog: "
-    if [ -f ${FOREMAN_PID} ]; then
-        killproc -p ${FOREMAN_PID}
-        RETVAL=$?
-    else
-        echo -n $"Foreman was not running.";
-        failure $"Foreman was not running.";
-        echo
-        return 1
-    fi
+    RETVAL=0
+    for PID in $FOREMAN_PID
+    do
+        if [ -f ${PID} ]; then
+            killproc -p ${PID}
+            RESULT=$? && [[ $RETVAL = 0 ]] && RETVAL=$RESULT
+        else
+            echo -n $"Foreman was not running.";
+            failure $"Foreman was not running.";
+            echo
+            RETVAL=0
+        fi
+    done
     echo
     return $RETVAL
 }
@@ -96,10 +120,15 @@ case "$1" in
             echo -n " is running under passenger"
             echo_passed
             echo
+            RETVAL=1
         else
-		status -p $FOREMAN_PID
+            for PID in $FOREMAN_PID
+            do
+                RETVAL=${RETVAL:-0}
+                status -p $PID
+            done
         fi
-        RETVAL=$?
+        RETVAL=${RETVAL:-1}
     ;;
     condrestart)
         if [ -f ${FOREMAN_HOME}/tmp/pids/server.pid ]; then
