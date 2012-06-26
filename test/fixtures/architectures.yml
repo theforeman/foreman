@@ -5,6 +5,6 @@ x86_64:
 
 sparc:
   name: sparc
-#
-# two:
-#   column: value
+
+s390:
+  name: s390
