@@ -431,9 +431,9 @@ class HostsController < ApplicationController
 
         if @domain
           page['*[id*=domain_id]'].val(@domain.id)
-          if @subnet
+          if @domain.subnets.any?
             page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
-            page['#host_subnet_id'].val(@subnet.id).change
+            page['#host_subnet_id'].val(@subnet.id).change if @subnet
             page['#sp_subnet'].html(render(:partial => 'hosts/sp_subnet', :locals => {:item => @host}))
           end
         end
