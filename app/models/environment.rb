@@ -19,23 +19,26 @@ class Environment < ActiveRecord::Base
   class << self
 
     # returns an hash of all puppet environments and their relative paths
-    def puppetEnvs proxy = nil
+    def puppetEnvs(proxy = nil, envname = nil)
       #TODO: think of a better way to model multiple puppet proxies
       url = (proxy || find_import_proxies.first).try(:url)
       raise "Can't find a valid Foreman Proxy with a Puppet feature" if url.blank?
       proxy = ProxyAPI::Puppet.new :url => url
-      HashWithIndifferentAccess[proxy.environments.map { |e| [e, proxy.classes(e)] }]
+      environments = (envname.nil?) ? proxy.environments : [envname]
+      HashWithIndifferentAccess[environments.map { |e| [e, proxy.classes(e)] }]
     end
 
     # Imports all Environments and classes from Puppet modules
-    def importClasses proxy_id
+    def importClasses(proxy_id, envname = nil)
       # Build two hashes representing the on-disk and in-database, env to classes associations
       # Create a representation of the puppet configuration where the environments are hash keys and the classes are sorted lists
-      disk_tree         = puppetEnvs SmartProxy.find(proxy_id)
+      disk_tree         = puppetEnvs(proxy_id ? SmartProxy.find(proxy_id) : nil, envname)
       disk_tree.default = []
 
       # Create a representation of the foreman configuration where the environments are hash keys and the classes are sorted lists
-      db_tree           = HashWithIndifferentAccess[Environment.all.map { |e| [e.name, e.puppetclasses.select(:name).map(&:name)] }]
+      # envname allows to short-circuit exploration of all environments
+      environments = (envname.nil?) ? Environment.all : [Environment.find_by_name(envname)].compact
+      db_tree           = HashWithIndifferentAccess[environments.map { |e| [e.name, e.puppetclasses.select(:name).map(&:name)] }]
       db_tree.default   = []
 
       changes = { "new" => { }, "obsolete" => { } }
