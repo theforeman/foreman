@@ -2,7 +2,7 @@ class Bookmark < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
   attr_accessible :name, :controller, :query, :public
 
-  validates_uniqueness_of :name, :unless => Proc.new{|b| Bookmark.my_bookmarks(:conditions => {:name => b.name}).empty?}
+  validates_uniqueness_of :name, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates_presence_of :name
   validates_format_of :controller, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
   validates_presence_of :query
