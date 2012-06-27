@@ -3,7 +3,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Renderer
 
   before_filter :find_by_name, :only => [:show, :edit, :update, :destroy]
-  before_filter :handle_template_upload, :only => [:create, :update]
+  before_filter :handle_template_upload, :set_comment, :only => [:create, :update]
 
   def index
     begin
@@ -42,6 +42,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def edit
+    @history = Audit.descending.where(:auditable_id => @config_template.id, :auditable_type => 'ConfigTemplate')
   end
 
   def update
@@ -50,6 +51,11 @@ class ConfigTemplatesController < ApplicationController
     else
       process_error
     end
+  end
+
+  def revision
+    audit = Audit.find(params[:version])
+    render :json => audit.revision.template
   end
 
   def destroy
@@ -137,6 +143,9 @@ class ConfigTemplatesController < ApplicationController
     url_for :only_path => false, :action => :template, :controller => :unattended, :id => template.name, :hostgroup => hostgroup.name
   end
 
+  def set_comment
+    @config_template.audit_comment = params[:config_template][:audit_comment] if params[:config_template]
+  end
   # convert the file upload into a simple string to save in our db.
   def handle_template_upload
     return unless params[:config_template] and (t=params[:config_template][:template])

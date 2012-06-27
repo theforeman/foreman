@@ -194,6 +194,7 @@ Foreman::Application.routes.draw do
         collection do
           get 'auto_complete_search'
           get 'build_pxe_default'
+          get 'revision'
         end
       end
     end
