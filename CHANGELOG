@@ -1,13 +1,61 @@
-2012-06-21	Amos Benari <abenari@redhat.com>
-	* audit with association.
-	* fixes #1686 Puppet class and environment import works only on the first smart-proxy
+2012-06-27	Ohad Levy <ohadlevy@gmail.com>
+	* added commit comment, history and preview to the template editor.
+	* refs #1586 - ensures that hostgroup hierarchy order is processed correctly
+	* facter sometime send wrong mac address with bonded nics,
+	* ensure that migration script is a bit more rubost for audit uses, refs #1700
+	* fixes #1707 - db:migrate fail on in bookmark.rb with ruby1.9
+	* update to latest released version of fog
+	* fixes #1686 - can't choose subnet when domain comes from hostgroup
+	* refs #1586 - no need to copy hostgroup root pw
+
+2012-06-26	Corey Osman <corey@logicminds.biz>
+	* Merge pull request #89 from logicminds/1710
+	* fixes #1710 - Hosts json index function returns too much
+
+2012-06-26	Ohad Levy <ohadlevy@gmail.com>
+	* minor fixing to audits search link, closes #1700
+	* removed depericated option
+	* Merge pull request #86 from iNecas/stop-with-zero
+
+2012-06-26	Amos Benari <abenari@redhat.com>
+	* fixes #1700 audit page performance improved
+
+2012-06-26	Ivan Necas <inecas@redhat.com>
+	* Stopping service when not running is considered success
+
+2012-06-25	Corey Osman <corey@logicminds.biz>
+	* Merge pull request #84 from logicminds/1703
+	* fixes 1703 - add ok hosts as bookmark
+
+2012-06-24	Amos Benari <abenari@redhat.com>
+	* fixes #1642 Puppet Runtime chart shows nothing.
+
+2012-06-24	Romain Vrignaud <romain@yakaz.com>
+	* fixes #1702 Use https instead of git for fog gem checkout
+
+2012-06-24	Ohad Levy <ohadlevy@gmail.com>
+	* incorrect error message shown when trying to rename the admin account
+	* auto updaet debian / ubuntu release names from facts.
+	* Added OS Family attribute to Partition Tables and Installation Medium
+	* update default provisioning templates
+	* added usage warning when using hypervisors
+	* added alert layout helper
+	* [CI] another try for libvirt and travis
+	* Do not enable auditing while executing rake tasks / migrations
+	* fixes #1613 - Email address format validation preventing admin user creation
 
 2012-06-21	Ohad Levy <ohadlevy@gmail.com>
+	* remove references to old class names
+	* bupmed version 1.0 RC1
 	* fixes #1687 ensure that audit errors do not break db migrations
 	* make sure tests can run independtily
 	* fixes #1586 -Root password inheritance doesn't seem to work properly
 	* fixes #1697 - hostgroup class listing showed all classes regardless of environment
 	* fixes #1544 - Updating a host fails if you cannot reach the SOA nameservers
+
+2012-06-21	Amos Benari <abenari@redhat.com>
+	* audit with association.
+	* fixes #1686 Puppet class and environment import works only on the first smart-proxy
 
 2012-06-21	David Swift <dswift@pccowboy.com>
 	* Update gemfile to rails 3.0.15, for mysql users, per https://github.com/rails/rails/issues/6717
