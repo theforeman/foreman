@@ -415,7 +415,6 @@ class HostsController < ApplicationController
       page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
 
       if SETTINGS[:unattended]
-        page['*[id*=root_pass]'].val(@hostgroup.root_pass)
         if !@host.compute_resource_id and (@hypervisor = @hostgroup.hypervisor)
           @hypervisor.connect
           # we are in a view context
