@@ -132,7 +132,7 @@ class Hostgroup < ActiveRecord::Base
   private
 
   def nested_root_pw
-    ancestors.each do |a|
+    Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
       return a.root_pass unless a.root_pass.blank?
     end
     nil
