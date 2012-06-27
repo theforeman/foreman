@@ -17,7 +17,7 @@
        <%= render 'config_templates/diff', :templates => @audit.audited_changes["template"], :file_name => audit_title(@audit) %>
     </div>
     <% end %>
-    <div class="tab-pane active" id="tab1">
+    <div <%= tmplt ? "class='tab-pane'" : "class='tab-pane active'" %> id="tab1">
       <table class="table table-bordered table-striped">
         <tr>
           <th>Item</th>

@@ -329,3 +329,27 @@ margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 .tabs-left .nav-tabs>li>a.btn:hover{background:inherit;background-color: #408140;}
 .ace_editor{border: 2px solid #eee;}
 .audit-content{border-bottom: 1px solid #ccc; padding-bottom: 9px; margin-bottom: 9px; margin-top: 9px; }
+.tab-pane{min-height: 420px;}
+
+.subnav {
+height: 36px;
+background-color: #EEE;
+background-repeat: repeat-x;
+background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#eeeeee',GradientType=0 );
+background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+border: 1px solid #E5E5E5;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+.subnav ul { margin-top: 7px;margin-bottom: 0;}
+.subnav ul li { list-style-type: none; margin: 0; display: inline-block;}
+.subnav ul a { display: inline-block; padding: 2px 8px; font-size: 11px;
+  font-weight: bold; text-decoration: none; color: #666;border: 1px solid transparent;
+  border-radius: 10px;
+}
