@@ -13,6 +13,14 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_show_json
+    get :show, {:id => ConfigTemplate.first.to_param, :format => "json"}, set_session_user
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert !template.empty?
+    assert_response :success
+    assert_equal template["config_template"]["name"], ConfigTemplate.first.name
+  end
+
   def test_new
     get :new, {}, set_session_user
     assert_template 'new'
@@ -96,5 +104,28 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     get :build_pxe_default, {}, set_session_user
 
     assert_redirected_to config_templates_path
+  end
+
+  def test_audit_comment
+    ConfigTemplate.auditing_enabled = true
+    ConfigTemplate.any_instance.stubs(:valid?).returns(true)
+    put :update, {:id => ConfigTemplate.first.to_param, :format => :json,
+                  :config_template => {:audit_comment => "aha", :template => "tmp" }}, set_session_user
+    assert_response :success
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert !template.empty?
+    assert_equal "aha", ConfigTemplate.first.audits.last.comment
+  end
+
+  def test_history_in_edit
+    ConfigTemplate.auditing_enabled = true
+    ConfigTemplate.any_instance.stubs(:valid?).returns(true)
+    template = ConfigTemplate.first
+    template.template = template.template.upcase
+    assert template.save
+    assert_equal template.audits.count, 1
+    get :edit, {:id => template.to_param}, set_session_user
+
+    assert @response.body.grep('audit-content')
   end
 end

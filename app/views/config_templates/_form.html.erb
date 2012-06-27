@@ -42,7 +42,7 @@
         </div>
         <div class="tab-pane" id="history">
           <div class='controls'>
-            <% if defined?(@history) %>
+            <% if @history.try(:any?) %>
               <% @history.each do |audit| %>
                 <% next unless audit_template? audit %>
                 <div class='row'>
