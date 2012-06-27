@@ -84,7 +84,7 @@ module Facts
 
     # TODO: Remove these method once interfaces management is enabled
     def mac
-      facts[:macaddress]
+      facts[:macaddress] == "00:00:00:00:00:00" ? nil : facts[:macaddress]
     end
 
     def ip
