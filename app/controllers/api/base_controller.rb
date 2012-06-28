@@ -2,12 +2,11 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
 
-    before_filter :set_default_response_format, :authorize
+    before_filter :set_default_response_format, :authorize, :set_resource_params
 
     respond_to :json
 
-    def process_error options = { }
-
+    def process_error(options = { })
       options[:json_code] ||= :unprocessable_entity
 
       errors = if options[:error]
@@ -31,11 +30,8 @@ module Api
       render :json => { "errors" => errors }, :status => options[:json_code]
     end
 
-    def get_resource
-      instance_variable_get(:"@#{controller_name.singularize}")
-    end
 
-    def process_response condition, response = nil
+    def process_response(condition, response = nil)
       if condition
         response ||= get_resource
         respond_with response
@@ -53,7 +49,7 @@ module Api
           if result = authenticate_with_http_basic { |u, p| user_to_login = u; User.try_to_login(u, p) }
             User.current = result
           else
-            process_error({ :error => "Unable to authenticate user %s" % user_to_login, :json_code => :unauthorized })
+            process_error :error => "Unable to authenticate user %s" % user_to_login, :json_code => :unauthorized
             return false
           end
         end
@@ -62,30 +58,48 @@ module Api
         User.current = User.find_by_login("admin")
       end
 
-      # FIXME the following breaks bookmark controller as it has no Autho restrictions in the model.
-      # Moreover it probably doesn't make sense to have it in API controller.
-      #allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
-      #allowed ? true : deny_access
+      User.current.allowed_to?(:controller => ctrl.gsub(/::/, "_").underscore, :action => action) or deny_access
     end
 
     def deny_access
-      process_error({ :error => "Access denied", :json_code => :unauthorized })
+      process_error :error => "Access denied", :json_code => :forbidden
       false
     end
 
+    def get_resource
+      instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
+    end
+
+    def resource_name
+      controller_name.singularize
+    end
+
+    def resource_class
+      @resource_class ||= resource_name.camelize.constantize
+    end
+
     protected
-    # searches for an object based on its name and assign it to an instance variable
+    # searches for a resource based on its name and assign it to an instance variable
     # required for models which implement the to_param method
     #
     # example:
-    # @host = Host.find_by_name params[:id]
-    def find_by_name
-      not_found and return if (id = params[:id]).blank?
+    # @host = Host.find_resource params[:id]
+    def find_resource
+      finder, key = case
+                      when (id = params[:"#{resource_name}_id"]).present?
+                        [:find_by_id, id]
+                      when (name = params[:"#{resource_name}_name"]).present?
+                        [:find_by_name, name]
+                      else
+                        [nil, nil]
+                    end
+      resource = resource_class.send(finder, key) if finder
 
-      obj = controller_name.singularize
-      # determine if we are searching for a numerical id or plain name
-      cond = "find_by_" + ((id =~ /^\d+$/ && (id=id.to_i)) ? "id" : "name")
-      not_found and return unless eval("@#{obj} = #{obj.camelize}.#{cond}(id)")
+      if finder && resource
+        return instance_variable_set(:"@#{resource_name}", resource)
+      else
+        not_found and return false
+      end
     end
 
     def not_found(exception = nil)
@@ -95,6 +109,14 @@ module Api
 
     def set_default_response_format
       request.format = :json if params[:format].nil?
+    end
+
+    # store params[:id] under correct predicable key
+    def set_resource_params
+      if (id_or_name = params.delete(:id))
+        suffix                                = id_or_name =~ /^\d+$/ ? 'id' : 'name'
+        params[:"#{resource_name}_#{suffix}"] = id_or_name
+      end
     end
 
   end

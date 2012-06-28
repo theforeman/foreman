@@ -31,12 +31,8 @@ class ActiveSupport::TestCase
     result
   end
 
-  def as_admin
-    saved_user   = User.current
-    User.current = users(:admin)
-    result = yield
-    User.current = saved_user
-    result
+  def as_admin &block
+    as_user :admin, &block
   end
 
   def unattended?
