@@ -81,7 +81,7 @@ function template_info(div, url) {
   os_id = $("#host_operatingsystem_id :selected").attr("value");
   env_id = $("#host_environment_id :selected").attr("value");
   hostgroup_id = $("#host_hostgroup_id :selected").attr("value");
-  build = $('input:radio[name$="[build]"]:checked').val();
+  build = $('input:radio[name$="[provision_method]"]:checked').val();
 
   $(div).html('<img src="/images/spinner.gif" alt="Wait" />');
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
