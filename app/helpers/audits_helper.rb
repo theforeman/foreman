@@ -83,7 +83,7 @@ module AuditsHelper
   end
 
   def audit_time audit
-    content_tag :span, audit.created_at.to_s(:short),
+    content_tag :span, time_ago_in_words(audit.created_at) + " ago",
                 { :'data-original-title' => audit.created_at.to_s(:long), :rel => 'twipsy' }
   end
 
