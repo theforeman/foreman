@@ -51,7 +51,7 @@ class FactValue < Puppet::Rails::FactValue
   def self.count_each(fact)
     hash = {}
     all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}).each do |fv|
-      value = fv.value.strip.humanize
+      value = fv.value
       if hash[value].nil?
         hash[value] = 1
       else
