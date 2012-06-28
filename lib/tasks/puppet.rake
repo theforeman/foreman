@@ -55,17 +55,32 @@ namespace :puppet do
     end
   end
   namespace :import do
-    desc "Update puppet environments and classes. Optional batch flag triggers run with no prompting"
+    desc "
+    Update puppet environments and classes. Optional batch flag triggers run with no prompting\nUse proxy=<proxy name> to import from or get the first one by default"
     task :puppet_classes,  [:batch] => :environment do | t, args |
       args.batch = args.batch == "true"
-      # Evalute any changes that exist between the database of environments and puppetclasses and
+
+      proxies = Environment.find_import_proxies
+      if proxies.empty?
+        puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
+        exit 1
+      end
+      if ENV["proxy"]
+        proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
+        unless proxy.is_a?(SmartProxy)
+          puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+          exit 1
+        end
+      end
+      proxy ||= proxies.first
+      # Evaluate any changes that exist between the database of environments and puppetclasses and
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless args.batch
-        changes = Environment.importClasses
+        changes = Environment.importClasses proxy.id
       rescue => e
         if args.batch
-          Rails.logger.warn "Failed to refresh puppet classes: #{e}"
+          Rails.logger.error "Failed to refresh puppet classes: #{e}"
         else
           puts "Problems were detected during the evaluation phase"
           puts
@@ -73,7 +88,7 @@ namespace :puppet do
           puts
           puts "Please fix these issues and try again"
         end
-        exit
+        exit 1
       end
 
       if changes["new"].empty? and changes["obsolete"].empty?
