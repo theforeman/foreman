@@ -164,4 +164,9 @@ class UserTest < ActiveSupport::TestCase
     assert u.save
   end
 
+  test "email with whitespaces should be stripped" do
+    u = User.create! :auth_source => auth_sources(:one), :login => "boo", :mail => "b oo@localhost "
+    assert_equal u.mail, "boo@localhost"
+  end
+
 end

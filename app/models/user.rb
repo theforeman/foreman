@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
-  before_validation :prepare_password
+  before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
   scoped_search :on => :login, :complete_value => :true
@@ -193,6 +193,10 @@ class User < ActiveRecord::Base
       end
       user
     end
+  end
+
+  def normalize_mail
+    self.mail.gsub!(/\s/,'') unless mail.blank?
   end
 
   protected
