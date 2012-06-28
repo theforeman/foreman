@@ -11,7 +11,7 @@ class Api::V1::OperatingsystemsControllerTest < ActionController::TestCase
 
 
   test "should get index" do
-    as_user :one do
+    as_user :admin do
       get :index, {}
     end
     assert_response :success
@@ -19,7 +19,7 @@ class Api::V1::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should show os" do
-    as_user :one do
+    as_user :admin do
       get :show, {:id => operatingsystems(:redhat).to_param}
     end
     assert_response :success
