@@ -79,8 +79,8 @@ class HostsController < ApplicationController
     load_vars_for_ajax
     new.puppetclasses = @host.puppetclasses
     # Clone any parameters as well
-    @host.host_parameters.each{|param| new.host_parameters << param.clone}
-    flash[:warning] = "The following fields will need reviewing"
+    @host.host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value)}
+    flash[:warning] = "The marked fields will need reviewing"
     new.valid?
     @host = new
     render :action => :new
