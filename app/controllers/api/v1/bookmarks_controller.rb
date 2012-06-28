@@ -1,7 +1,7 @@
 module Api
   module V1
     class BookmarksController < BaseController
-      before_filter :find_by_name, :only => [:show, :update, :destroy]
+      before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", "List all bookmarks."
       def index
@@ -14,9 +14,9 @@ module Api
 
       api :POST, "/bookmarks/", "Create a bookmark."
       param :bookmark, Hash, :required => true do
-          param :name, String, :required => true
-          param :controller, String, :required => true
-          param :query, String, :required => true
+        param :name, String, :required => true
+        param :controller, String, :required => true
+        param :query, String, :required => true
       end
       def create
         @bookmark = Bookmark.new(params[:bookmark])
@@ -25,9 +25,9 @@ module Api
 
       api :PUT, "/bookmarks/:id/", "Update a bookmark."
       param :bookmark, Hash, :required => true do
-          param :name, String
-          param :controller, String
-          param :query, String
+        param :name, String
+        param :controller, String
+        param :query, String
       end
       def update
         process_response @bookmark.update_attributes(params[:bookmark])
@@ -41,4 +41,7 @@ module Api
     end
   end
 end
+
+
+
 
