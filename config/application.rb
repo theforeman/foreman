@@ -66,7 +66,7 @@ module Foreman
     Wirb.start
     Hirb.enable
   rescue => e
-    say "Failed to load console gems, startring anyway"
+    warn "Failed to load console gems, startring anyway"
   ensure
     puts "For some operations a user must be set, try User.current = User.first"
   end
