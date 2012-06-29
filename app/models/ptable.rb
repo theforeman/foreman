@@ -8,7 +8,6 @@ class Ptable < ActiveRecord::Base
   has_and_belongs_to_many :operatingsystems
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates_uniqueness_of :name
-  validates_uniqueness_of :layout
   validates_presence_of :layout
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   default_scope :order => 'LOWER(ptables.name)'
