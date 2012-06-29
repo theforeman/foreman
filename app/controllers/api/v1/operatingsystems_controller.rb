@@ -1,6 +1,6 @@
 module Api
   module V1
-    class OperatingsystemsController < BaseController
+    class OperatingsystemsController < V1::BaseController
 
       resource_description do
         name 'Operating systems'
