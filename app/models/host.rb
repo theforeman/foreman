@@ -668,6 +668,9 @@ class Host < Puppet::Rails::Host
     # it and let the validations to produce an error
     return if name.empty?
 
+    # Remove whitespace
+    self.name.gsub!(/\s/,'')
+
     if domain.nil? and name.match(/\./)
       # try to assign the domain automatically based on our existing domains from the host FQDN
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
