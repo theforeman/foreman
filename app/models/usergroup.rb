@@ -1,4 +1,3 @@
-require 'user'
 class Usergroup < ActiveRecord::Base
   include Authorization
   has_many_polymorphs :members, :from => [:usergroups, :users ], :as => :member,

@@ -1,6 +1,6 @@
-error = locals[:error]
+exception = locals[:exception]
 
-object error => :error
+object exception => :error
 
 attributes :message, :backtrace
-node(:class) { error.class.to_s }
+node(:class) { exception.class.to_s }

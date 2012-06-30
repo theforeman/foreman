@@ -8,7 +8,7 @@ module Api
 
     rescue_from StandardError, :with => lambda { |error|
       Rails.logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
-      render_error 'standard_error', :status => 500, :locals => { :error => error }
+      render_error 'standard_error', :status => 500, :locals => { :exception => error }
     }
 
     def get_resource
@@ -37,9 +37,14 @@ module Api
       end
     end
 
-    def process_response(condition, response = get_resource)
-      if condition
+    def process_success(response = nil)
+        response ||= get_resource
         respond_with response
+    end
+
+    def process_response(condition, response = nil)
+      if condition
+        process_success response
       else
         process_resource_error
       end
@@ -70,8 +75,8 @@ module Api
       User.current.allowed_to?(:controller => ctrl.gsub(/::/, "_").underscore, :action => action) or deny_access
     end
 
-    def deny_access
-      render_error 'access_denied', :status => :forbidden
+    def deny_access(details = nil)
+      render_error 'access_denied', :status => :forbidden, :locals => { :details => details }
       false
     end
 
@@ -107,7 +112,7 @@ module Api
     # store params[:id] under correct predicable key
     def set_resource_params
       if (id_or_name = params.delete(:id))
-        suffix                                = id_or_name =~ /^\d+$/ ? 'id' : 'name'
+        suffix  = (id_or_name.is_a?(Fixnum) || id_or_name =~ /^\d+$/) ? 'id' : 'name'
         params[:"#{resource_name}_#{suffix}"] = id_or_name
       end
     end
