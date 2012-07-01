@@ -230,16 +230,19 @@ function filter_by_level(item){
 
   if(level == 'notice'){
     $('.label-info').closest('tr').show();
+    $('.label-default').closest('tr').show();
     $('.label-warning').closest('tr').show();
     $('.label-important').closest('tr').show();
   }
   if(level == 'warning'){
     $('.label-info').closest('tr').hide();
+    $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').show();
     $('.label-important').closest('tr').show();
   }
   if(level == 'error'){
-    $('.label-info  ').closest('tr').hide();
+    $('.label-info').closest('tr').hide();
+    $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').hide();
     $('.label-important').closest('tr').show();
   }
