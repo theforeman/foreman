@@ -23,6 +23,7 @@ module Api
         param :major, String, :required => true
         param :minor, String, :required => true
       end
+
       def create
         @operatingsystem = Operatingsystem.new(params[:operatingsystem])
         process_response @operatingsystem.save
