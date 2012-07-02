@@ -138,10 +138,10 @@ class UnattendedController < ApplicationController
     # We don't do anything if we are in spoof mode.
     return true if @spoof
 
-    # This should terminate the before_filter and the action. We do not return a HTTP error otherwise this text will
-    # probably not get written into the provisioning file for later post mortum inspection.
-    # We can be sure that Anaconda and Suninstall will choke on this build configuration :-)
-    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!") unless @host.handle_ca
+    # This should terminate the before_filter and the action. We return a HTTP
+    # error so the installer knows something is wrong. This is tested with
+    # Anaconda, but maybe Suninstall will choke on it.
+    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!", :status => 500) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
