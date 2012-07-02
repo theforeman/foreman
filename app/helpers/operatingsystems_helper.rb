@@ -16,6 +16,8 @@ module OperatingsystemsHelper
       "Centos"
     when /scientific/i
       "Scientific"
+    when /archlinux/i
+      "Archlinux"
     when /SLC/i
       "SLC"
     else
