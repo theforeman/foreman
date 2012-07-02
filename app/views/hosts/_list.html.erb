@@ -2,26 +2,26 @@
 <% title header ||= "" %>
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
-    <th class="ca span0"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
-    <th class='span3'><%= sort :name %></th>
-    <th><%= sort :os, :as => "Operating<br>System" %></th>
-    <th><%= sort :environment %></th>
-    <th><%= sort :model %></th>
-    <th><%= sort :hostgroup, :as => "Host Group" %></th>
-    <th><%= sort :last_report %></th>
+    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
+    <th class=''><%= sort :name %></th>
+    <th class="hidden-phone"><%= sort :os, :as => "Operating<br>System" %></th>
+    <th class="hidden-phone"><%= sort :environment %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => "Host Group" %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :last_report %></th>
     <th></th>
   </tr>
   <% hosts.each do |host| -%>
     <tr>
-      <td class="ca span0">
+      <td class="ca">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
-      <td class='span3'><%= name_column(host) %> </td>
-      <td><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
-      <td><%= trunc(host.try(:environment), 14) %></td>
-      <td><%= model_name host %></td>
-      <td><%= hostgroup_name host.hostgroup, 26 %></td>
-      <td><%= last_report_column(host) %></td>
+      <td class=''><%= name_column(host) %> </td>
+      <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
+      <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
+      <td class="hidden-tablet hidden-phone"><%= model_name host %></td>
+      <td class="hidden-tablet hidden-phone"><%= hostgroup_name host.hostgroup, 26 %></td>
+      <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
       <td>
         <%= action_buttons(
                     display_link_if_authorized("Edit Host", hash_for_edit_host_path(:id => host), :class=>"btn btn-small"),
