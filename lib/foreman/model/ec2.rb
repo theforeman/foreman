@@ -81,7 +81,7 @@ module Foreman::Model
 
     # not supporting update at the moment
     def update_required?(old_attrs, new_attrs)
-      false
+      super(old_attrs, new_attrs)
     end
 
     private
