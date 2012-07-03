@@ -1,6 +1,6 @@
 module Api
   module V1
-    class BookmarksController < BaseController
+    class BookmarksController < V1::BaseController
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", "List all bookmarks."
