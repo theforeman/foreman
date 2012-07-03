@@ -199,9 +199,13 @@ class HostsController < ApplicationController
     action = params[:power_action]
     vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
     begin
+      @host.compute_attributes = vm.attributes.clone
       vm.send(action)
+      vm.wait_for { vm.state == "#{(action == "start") ? "running" : "stopped"}" }
+      @host.save
       process_success :success_redirect => :back, :success_msg =>  "#{vm} is now #{vm.ready? ? "running" : "stopped"}"
     rescue => e
+logger.info e.backtrace
       process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
     end
   end

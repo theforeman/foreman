@@ -138,7 +138,9 @@ class ComputeResource < ActiveRecord::Base
 
   def update_required?(old_attrs, new_attrs)
     old_attrs.merge(new_attrs) do |k,old_v,new_v|
-      update_required?(old_v, new_v) if old_v.is_a?(Hash)
+      if old_v.is_a?(Hash)
+        return true if update_required?(old_v, new_v)
+      end
       return true unless old_v == new_v
       new_v
     end
