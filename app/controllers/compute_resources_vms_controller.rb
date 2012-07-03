@@ -34,10 +34,10 @@ class ComputeResourcesVmsController < ApplicationController
 
     if (@vm.send(action) rescue false)
       state = @vm.ready? ? "running" : "stopped"
-      notice "#{@vm} is now #{state}"
+      notice "#{@vm.Tags.get("Name")} is now #{state}"
       redirect_to compute_resource_vms_path(params[:compute_resource_id])
     else
-      error "failed to #{action} #{@vm}"
+      error "failed to #{action} #{@vm.Tags.get("Name")}"
       redirect_to :back
     end
   end
