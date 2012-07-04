@@ -60,18 +60,18 @@ module HomeHelper
 
     #prevent adjacent dividers
     last_item = nil
-    choices.map! do |item|
+    choices = choices.map! do |item|
       if item == [:divider]
         if last_item
           last_item = nil
-          content_tag(:li, "", :class=>"divider")
+          item
         end
       elsif authorized_for(item[1], :index)
         last_item = item
-        content_tag(:li,link_to( link_to(item[0], {:controller => item[1], :action => :index})))
+        item
       end
     end.compact
-    choices.pop if (choices.last.to_s =~ /divider/)
+    choices.pop if (choices.last == [:divider])
     choices
   end
 
