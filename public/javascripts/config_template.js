@@ -2,11 +2,18 @@ var $editor
 
 $(function() {
   var template_text = $(".template_text");
-  if (template_text.size() >0) { create_editor(template_text) };
-  if ($('.diffMode').size() >0) {
-    set_diff_mode(template_text);
-  } else {
-    set_edit_mode(template_text);
+  if ($.browser.msie && $.browser.version.slice(0,1) < 9) {
+    $('.subnav').hide();
+    if ($('.diffMode').size() >0) {
+      IE_diff_mode(template_text);
+    }
+  }else{
+    if (template_text.size() >0 ) { create_editor(template_text) };
+    if ($('.diffMode').size() >0) {
+      set_diff_mode(template_text);
+    } else {
+      set_edit_mode(template_text);
+    }
   }
 
   $(".template_file").on("change", function(){
@@ -93,6 +100,12 @@ function set_diff_mode(item){
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
   $(session).off('change');
   session.setValue(patch);
+}
+
+function IE_diff_mode(item){
+  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
+  item.val(patch);
+  item.attr('readOnly', true);
 }
 
 function revert_template(item){
