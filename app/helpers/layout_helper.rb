@@ -115,7 +115,7 @@ module LayoutHelper
   end
 
   def popover title, msg, options = {}
-    link_to_function title, {:class => "label label-info", :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+    link_to_function icon_text("info-sign"), { :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
   end
 
    def will_paginate(collection = nil, options = {})

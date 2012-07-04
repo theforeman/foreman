@@ -309,8 +309,7 @@ class Host < Puppet::Rails::Host
     @cached_host_params = nil
   end
 
-  def host_params
-    return cached_host_params unless cached_host_params.blank?
+  def host_inherited_params
     hp = {}
     # read common parameters
     CommonParameter.all.each {|p| hp.update Hash[p.name => p.value] }
@@ -320,6 +319,12 @@ class Host < Puppet::Rails::Host
     operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
     hp.update hostgroup.parameters unless hostgroup.nil?
+    hp
+  end
+
+  def host_params
+    return cached_host_params unless cached_host_params.blank?
+    hp = host_inherited_params
     # and now read host parameters, override if required
     host_parameters.each {|p| hp.update Hash[p.name => p.value] }
     @cached_host_params = hp

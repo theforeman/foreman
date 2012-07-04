@@ -17,7 +17,7 @@
         <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
-    <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <li><a href="#params" id='params-tab' <%= "data-url='#{current_parameters_hosts_path}'" %> data-toggle="tab">Parameters</a></li>
     <li><a href="#info" data-toggle="tab">Additional Information</a></li>
   </ul>
 
@@ -55,6 +55,11 @@
     <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
     <div class="tab-pane"  id="params">
+      <h6>Included Parameters via inheritance</h6>
+      <p></p>
+      <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params } %>
+      <h6>Host Parameters</h6>
+      <p></p>
       <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
     </div>
 

@@ -1,9 +1,12 @@
 <div class="fields">
-  <div class="control-group">
-    <%= f.text_field :name, :class => "span2", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Name" %>
+  <div class="control-group <%= 'error' if f.object.errors.any? %>">
+    <%= f.text_field(:name,  :class => "span2",  :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Name").html_safe %>
     <%= f.text_field :value, :class => "span9", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Value" %>
     <span class="help-inline">
       <%= link_to_remove_fields("remove", f) if authorized_via_my_scope("host_editing", "destroy_params") %>
+    </span>
+    <span class="help-block">
+      <%= f.object.errors.full_messages.to_sentence %>
     </span>
   </div>
   <%= f.hidden_field :nested %>

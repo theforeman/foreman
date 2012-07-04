@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label label-important", :title => "Remove")
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => "Remove Parameter")
   end
 
   def trunc text, length

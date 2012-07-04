@@ -353,3 +353,7 @@ border-radius: 4px;
   font-weight: bold; text-decoration: none; color: #666;border: 1px solid transparent;
   border-radius: 10px;
 }
+
+.override-param{
+  text-decoration: line-through;
+}
