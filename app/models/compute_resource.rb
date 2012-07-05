@@ -1,7 +1,8 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware ].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
-  audited :except => [:password]
+  audited :except => [:password, :attrs]
+  serialize :attrs, Hash
 
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
@@ -17,6 +18,7 @@ class ComputeResource < ActiveRecord::Base
   before_save :sanitize_url
   has_many :hosts
   has_many :images, :dependent => :destroy
+  before_validation :set_attributes_hash
 
   default_scope :order => 'LOWER(compute_resources.name)'
 
@@ -200,6 +202,10 @@ class ComputeResource < ActiveRecord::Base
     end
     errors.add :base, "You do not have permission to #{operation} this compute resource"
     false
+  end
+
+  def set_attributes_hash
+    self.attrs ||= {}
   end
 
 end
