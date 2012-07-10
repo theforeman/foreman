@@ -1,6 +1,6 @@
 module Api
   module V1
-    class ArchitecturesController < BaseController
+    class ArchitecturesController < V1::BaseController
       include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
