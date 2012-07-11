@@ -108,7 +108,8 @@ class UnattendedController < ApplicationController
     end
 
     # we try to match first based on the MAC, falling back to the IP
-    conditions = (!maclist.empty? ? {:mac => maclist} : {:ip => ip})
+    conditions = maclist.empty? ? {:ip => ip} : [ "lower(mac) IN (?)", maclist.map(&:downcase) ]
+
     @host = Host.first(:include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
     unless @host
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
