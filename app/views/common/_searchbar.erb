@@ -1,11 +1,13 @@
 <%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search row-fluid" do %>
-    <div class="btn-group">
-      <div class="span8">
+    <div class="btn-toolbar btn-toolbar-condensed">
+    <div class="btn-group span12">
+      <div class="span9">
         <%= auto_complete_search(:search, params[:search].try(:squeeze," "),
                                  {:placeholder => "Filter ..."},
                                  { :delay => 100, :min_length => -1 }).html_safe %>
         </div>
-      <button class="btn btn-small" onclick="$('.form-search').submit()"><%= icon_text("search", "Search") %></button>
+      <button class="btn btn-small hidden-tablet" onclick="$('.form-search').submit()"><%= icon_text("search", "Search") %></button>
+      <button class="btn btn-small visible-tablet" onclick="$('.form-search').submit()"><%= icon_text("search", "") %></button>
       <button class="btn dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
       </button>
@@ -18,6 +20,7 @@
         <li><%= link_to_function 'Bookmark this search', "$('#bookmarks-modal').modal();",
                                  {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
       </ul>
+    </div>
     </div>
 <% end -%>
 
