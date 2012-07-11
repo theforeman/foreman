@@ -6,7 +6,7 @@
        <% if item == [:divider]  %>
          <%= content_tag(:li, "", :class=>"divider") %>
        <% else %>
-         <%= content_tag(:li,link_to( link_to(item[0], {:controller => item[1], :action => :index}))) %>
+         <%= content_tag(:li, link_to(item[0], {:controller => item[1], :action => :index})) %>
        <% end -%>
     <% end -%>
   </ul>

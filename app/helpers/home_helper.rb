@@ -60,7 +60,7 @@ module HomeHelper
 
     #prevent adjacent dividers
     last_item = nil
-    choices = choices.map! do |item|
+    choices = choices.map do |item|
       if item == [:divider]
         if last_item
           last_item = nil
