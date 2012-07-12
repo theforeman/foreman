@@ -24,6 +24,7 @@ function onContentLoad(){
   $("#title_action li a").removeClass("btn").addClass("la");
   $("#title_action span").removeClass("btn").addClass("btn-group");
   $("#title_action a[href*='new']").addClass("btn-success");
+  $('*[title]').tooltip();
 
   // highlight tabs with errors
   $(".tab-content").find(".control-group.error").each(function() {
