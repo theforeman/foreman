@@ -70,7 +70,7 @@ module Orchestration::Compute
                                                  :hostgroup_id => self.hostgroup_id, :environment_id => self.environment_id)
       @host = self
       user_data = unattended_render(template.template) if template != nil
-      self.vm = compute_resource.create_vm compute_attributes.merge(:user_data => user_data)
+      self.vm = compute_resource.create_vm compute_attributes.merge(:name => name, :user_data => user_data)
     rescue => e
       failure "Failed to create a compute #{compute_resource} instance #{name}: #{e.message}\n " + e.backtrace.join("\n ") 
     end
