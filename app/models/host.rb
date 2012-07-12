@@ -147,7 +147,7 @@ class Host < Puppet::Rails::Host
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :domain_id
+    validates_presence_of    :domain_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed  }
 
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
