@@ -6,12 +6,7 @@
 <% else -%>
   <%= form_tag update_multiple_parameters_hosts_path({:host_ids => params[:host_ids]}) do %>
     <% for param in @parameters %>
-      <div class="clearfix">
-        <%= label_tag :name, param.name %>
-        <div class=input>
-          <%= text_field :name, param.name, :class => "input-xxlarge" %>
-        </div>
-      </div>
+      <%= text_field :name, param.name, :class => "input-xxlarge", :placeholder => param.name %>
     <% end %>
   <% end %>
 <% end %>

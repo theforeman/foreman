@@ -39,12 +39,12 @@ function readFromCookie() {
 }
 
 function toggle_actions() {
-  var dropdown = $("#Submit_multiple");
+  var dropdown = $("#submit_multiple a");
   if ($.foremanSelectedHosts.length == 0) {
-    dropdown.addClass("disabled");
-    dropdown.attr('disabled', 'disabled')
+    dropdown.addClass("disabled hide");
+    dropdown.attr('disabled', 'disabled');
   } else {
-    dropdown.removeClass("disabled");
+    dropdown.removeClass("disabled hide");
     dropdown.removeAttr('disabled');
   }
 }
@@ -102,12 +102,19 @@ function toggle_multiple_ok_button(elem){
 
 // updates the form URL based on the action selection
 $(function() {
-  $('#Submit_multiple').change(function(){
-    if ($.foremanSelectedHosts.length == 0 || $(this).val()==''){ return false }
-    var title =  $('#Submit_multiple option:selected').text() + " - The following hosts are about to be changed";
+  $('#submit_multiple a').click(function(){
+    if ($.foremanSelectedHosts.length == 0) { return false }
+    var title = $(this).attr('data-original-title') + ' - The following hosts are about to be changed';
+    var url = $(this).attr('href') + "?" + $.param({host_ids: $.foremanSelectedHosts});
     $('#confirmation-modal .modal-header h3').text(title);
     $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/images/spinner.gif'>");
     $('#confirmation-modal').modal({show: "true", backdrop: "static"});
+    $("#confirmation-modal .modal-body").load(url + " #content",
+        function(response, status, xhr) {
+          $("#loading").hide();
+          $('#submit_multiple').val('');
+        });
+    return false;
   });
 
   $('#confirmation-modal .btn-primary').click(function(){
@@ -119,14 +126,6 @@ $(function() {
     $('#confirmation-modal').modal('hide');
   });
 
-  $("#confirmation-modal").bind('shown', function () {
-    var url = $('#Submit_multiple').val() + "?" + $.param({host_ids: $.foremanSelectedHosts});
-    $("#confirmation-modal .modal-body").load(url + " #content",
-                                              function(response, status, xhr) {
-                                                $("#loading").hide();
-                                                $('#Submit_multiple').val('');
-                                              });
-  });
 });
 
 function update_counter(id) {

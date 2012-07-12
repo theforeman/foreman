@@ -73,19 +73,22 @@ module HostsHelper
 
   def multiple_actions_select
     actions = [
-      ['Select Actions', ''],
-      ['Change Group', select_multiple_hostgroup_hosts_path],
-      ['Change Environment', select_multiple_environment_hosts_path],
-      ['Edit Parameters', multiple_parameters_hosts_path],
-      ['Delete Hosts', multiple_destroy_hosts_path],
-      ['Disable Notifications', multiple_disable_hosts_path],
-      ['Enable Notifications', multiple_enable_hosts_path],
+      ['Change Group', select_multiple_hostgroup_hosts_path, 'pencil'],
+      ['Change Environment', select_multiple_environment_hosts_path, 'chevron-right'],
+      ['Edit Parameters', multiple_parameters_hosts_path, 'edit'],
+      ['Delete Hosts', multiple_destroy_hosts_path, 'trash'],
+      ['Disable Notifications', multiple_disable_hosts_path, 'eye-close'],
+      ['Enable Notifications', multiple_enable_hosts_path, 'bullhorn'],
     ]
-    actions.insert(1, ['Build Hosts', multiple_build_hosts_path]) if SETTINGS[:unattended]
-    actions <<  ['Run Puppet', multiple_puppetrun_hosts_path] if Setting[:puppetrun]
+    actions.insert(1, ['Build Hosts', multiple_build_hosts_path, 'fast-forward']) if SETTINGS[:unattended]
+    actions <<  ['Run Puppet', multiple_puppetrun_hosts_path, 'play'] if Setting[:puppetrun]
 
-    select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple",
-      :class => "medium", :title => "Perform Actions on multiple hosts"
+    content_tag :span, :id => 'submit_multiple', :class => 'fl' do
+      actions.map do |action|
+        link_to(icon_text(action[2]), action[1], :title => action[0])
+      end.join(' ').html_safe
+    end
+
   end
 
   def date ts=nil
