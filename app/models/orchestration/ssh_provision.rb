@@ -100,14 +100,22 @@ module Orchestration::SSHProvision
     status = true
     begin
       template = configTemplate(:kind => "finish")
+<<<<<<< HEAD
       status = (template != nil)
 <<<<<<< HEAD
       template = configTemplate(:kind => "user_data")
+=======
+      logger.debug "The finish template is [#{template.name}]" if template
+      status = (template != nil)
+      template = configTemplate(:kind => "user_data")
+      logger.debug "The user_data template is [#{template.name}]" if template
+>>>>>>> bb4b283fb1435d64b28583cb589dc2b1f5afa963
       status = status | (template != nil)
     rescue => e
       status = false
     end
     failure "No user_data or finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
+<<<<<<< HEAD
 =======
     rescue => e
       status = false
@@ -115,6 +123,8 @@ module Orchestration::SSHProvision
     status = false if template.nil? and compute_attributes[:provider] != "EC2"
     failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
 >>>>>>> fix error in validation for new compute hosts
+=======
+>>>>>>> bb4b283fb1435d64b28583cb589dc2b1f5afa963
     image_uuid = compute_attributes[:image_id]
     unless (self.image = Image.find_by_uuid(image_uuid))
       status &= failure("Must define an Image to use")
