@@ -1,0 +1,9 @@
+#
+#  Prevent latest packages from being installed
+#
+- [ sed, -ie, 's/releasever/\#releasever/', /etc/yum.conf ]
+#
+# make it a bit easier for RHEL packages to install
+#
+- [ sh, -c, "echo \"6\" > /etc/yum/vars/releasever" ]
+- [ sh, -c, "echo \"2011.09\" > /etc/yum/vars/amznreleasever" ]

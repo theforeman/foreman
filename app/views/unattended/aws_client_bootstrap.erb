@@ -1,0 +1,36 @@
+#cloud-config
+repo_releasever: 2011.09
+repo_upgrade: none
+repo_update: false
+
+repo_additions:
+<%= snippet("puppetlabs.repo.cloud-config") %>
+<%= snippet("rpmforge.repo.cloud-config") %>
+<%= snippet("amazon.repo.cloud-config") %>
+
+packages:
+ - cloud-init
+ - augeas-libs
+ - ruby-1.8.7.352-1.8.amzn1
+ - ruby-irb-1.8.7.352-1.8.amzn1
+ - ruby-rdoc-1.8.7.352-1.8.amzn1
+ - rubygems
+ - ruby-shadow
+ - ruby-augeas
+ - aws-amitools-ec2
+ - libselinux-ruby
+ - dmidecode
+ - pciutils
+ - facter
+ - ruby-shadow
+ - puppet
+
+
+runcmd:
+<%= snippet("AWS_tweaks") %>
+- [ sh, -c, 'echo -e "<%= snippet("puppet.client.oneline") %>" > /etc/puppet/puppet.conf' ]
+- [ groupmod, -g, 502, ec2-user ]
+- [ ln, -s, /usr/lib64/ruby/site_ruby/1.8/x86_64-linux/shadow.so, /usr/lib/ruby/site_ruby/1.8/ ]
+- [ /usr/sbin/puppetd, --config, /etc/puppet/puppet.conf, -o, --tags, no_such_tag, --server, '<%= @host.puppetmaster %>', --no-daemonize ]
+- [ sync ]
+

@@ -1,0 +1,1 @@
+[main]\nvardir = /var/lib/puppet\nlogdir = /var/log/puppet\nrundir = /var/run/puppet\nssldir = \$vardir/ssl\n\n[agent]\npluginsync = true\nreport = true\nignoreschedules = true\ndaemon = false\nca_server   = <%= @host.puppet_ca_server %>\ncertname    = <%= @host.certname %>\nenvironment = <%= @host.environment %>\nserver      = <%= @host.puppetmaster %>\n
