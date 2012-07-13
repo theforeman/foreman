@@ -43,7 +43,10 @@ module Orchestration::Compute
 
     def queue_compute_update
       return unless compute_update_required?
+      self.vm = compute_resource.find_vm_by_uuid uuid
       logger.debug("Detected a change is required for Compute resource")
+      queue.create(:name   => "Updating instance details for #{self}", :priority => 3,
+                   :action => [self, (vm.ready? ? :setComputePowerUp : :delComputePowerUp)])
       queue.create(:name   => "Compute resource update for #{old}", :priority => 7,
                    :action => [self, :setComputeUpdate])
     end
@@ -72,12 +75,18 @@ module Orchestration::Compute
           value = vm.send(fog_attr)
           self.send("#{foreman_attr}=", value)
 
-          if value.blank? or (other_host = Host.send("find_by_#{foreman_attr}", value))
+          #  In a busy world, this might introduce a race condition whereby two hosts *could* get the
+          # same value.  However, the chance of that is small, and this check allows me to save duplicating 
+          # the entire function just to pickup the IP change
+          #
+          other_host = (value.blank? ? "" : Host.send("find_by_#{foreman_attr}", value))
+          if value.blank? or (other_host and other_host != self)
             delCompute
             return failure("#{foreman_attr} #{value} is already used by #{other_host}") if other_host
             return failure("#{foreman_attr} value is blank!")
           end
         end
+        self.ip = (self.vm.dns_name.blank? ? "" : Resolv.getaddress(self.vm.dns_name))
         true
       else
         failure "failed to save #{name}"
@@ -88,11 +97,12 @@ module Orchestration::Compute
 
     def setComputeIP
       attrs = compute_resource.provided_attributes
-      if attrs.keys.include?(:ip)
+      if vm and attrs.keys.include?(:ip)
         logger.info "waiting for instance to acquire ip address"
         vm.wait_for { self.send(attrs[:ip]) }
       end
     rescue => e
+      logger.error e.backtrace.join("\n")
       failure "Failed to get IP for #{name}: #{e}", e.backtrace
     end
 
@@ -107,21 +117,36 @@ module Orchestration::Compute
 
     def setComputePowerUp
       logger.info "Powering up Compute instance for #{name}"
-      compute_resource.start_vm uuid
+      setComputeIP
+      setComputeDetails
     rescue => e
       failure "Failed to power up a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end
 
     def delComputePowerUp
       logger.info "Powering down Compute instance for #{name}"
-      compute_resource.stop_vm uuid
+      if vm
+        attrs = compute_resource.provided_attributes
+        normalize_addresses if attrs.keys.include?(:mac) or attrs.keys.include?(:ip)
+
+        attrs.each do |foreman_attr, fog_attr |
+          # we can't ensure uniqueness of #foreman_attr using normal rails validations as that gets in a later step in the process
+          # therefore we must validate its not used already in our db.
+          value = vm.send(fog_attr)
+          self.send("#{foreman_attr}=", value)
+        end
+        self.ip = (self.vm.dns_name.blank? ? "" : Resolv.getaddress(self.vm.dns_name))
+        true
+      else
+        failure "failed to save #{name}"
+      end
     rescue => e
       failure "Failed to stop compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end
 
     def setComputeUpdate
       logger.info "Update Compute instance for #{name}"
-      compute_resource.save_vm uuid, compute_attributes
+       # Fog will not re-save a compute inshance, so nothing is really done here
     rescue => e
       failure "Failed to update a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end
