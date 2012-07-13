@@ -1,0 +1,19 @@
+- source: rpmforge
+  filename: rpmforge.repo
+  name: 'RHEL $releasever - RPMforge.net - dag'
+  baseurl: 'http://apt.sw.be/redhat/el6/en/$basearch/rpmforge'
+  enabled: 1
+  gpgcheck: 0
+  priority: 1
+- source: rpmforge-extras
+  filename: rpmforge-extras.repo
+  name: 'RHEL $releasever - RPMforge.net - extras'
+  baseurl: 'http://apt.sw.be/redhat/el6/en/$basearch/extras'
+  enabled: 0
+  gpgcheck: 0
+- source: rpmforge-testing
+  filename: rpmforge-testing.repo
+  name: 'RHEL $releasever - RPMforge.net - testing'
+  baseurl: 'http://apt.sw.be/redhat/el6/en/$basearch/testing'
+  enabled: 0
+  gpgcheck: 0
