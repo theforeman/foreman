@@ -1,8 +1,8 @@
 class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
   def self.up
-    add_column :audits, :auditable_name, :string unless column_exists? :audits, :auditable_name
+    add_column :audits, :auditable_name, :string  unless column_exists? :audits, :auditable_name
     add_column :audits, :associated_name, :string unless column_exists? :audits, :associated_name
-    add_index :audits, :id unless index_exists? :audits, :id
+    add_index :audits, :id                        unless index_exists?  :audits, :id
     Audit.reset_column_information
     say "About to review all audits, this may take a while..."
     Audit.includes(:user, :auditable, :associated).find_in_batches do |audits|
@@ -22,8 +22,8 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :audits, :id
-    remove_column :audits, :associated_name
-    remove_column :audits, :auditable_name
+    remove_index :audits, :id               if  index_exists?  :audits, :id
+    remove_column :audits, :associated_name if  column_exists? :audits, :associated_name
+    remove_column :audits, :auditable_name  if  column_exists? :audits, :auditable_name
   end
 end
