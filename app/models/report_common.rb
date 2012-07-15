@@ -43,7 +43,7 @@ module ReportCommon
   def status(type = nil)
     raise "invalid type #{type}" if type and not METRIC.include?(type)
     h = {}
-    (type || METRIC).each do |m|
+    (type.is_a?(String) ? [type] : METRIC).each do |m|
       h[m] = (read_attribute(self.class.report_status) || 0) >> (BIT_NUM*METRIC.index(m)) & MAX
     end
     type.nil? ? h : h[type]
