@@ -1,4 +1,46 @@
+2012-07-15	Ohad Levy <ohadlevy@gmail.com>
+	* [UI] ensure that tooltip and popover dont happen at the same time
+	* minimal fix for unexplained db migrations failures, refs #1736
+	* fixes #1751 - ReportCommon#status fails on ruby 1.9
+
+2012-07-15	Amos Benari <abenari@redhat.com>
+	* fixes #1726 Template editor doesn't seem to work with IE
+
+2012-07-12	Ohad Levy <ohadlevy@gmail.com>
+	* [UI] convert all titles to tooltips
+	* dont enforce host domain validations on non managed hosts
+	* [UI] - convert all bulk operations into buttons
+
+2012-07-12	Amos Benari <abenari@redhat.com>
+	* fixes #1746 selecting a cluster in oVirt remove subnet and ip from the network tab in new/edit host
+	* fixes #1747 host selected puppet classes are afected by the classes filter.
+
+2012-07-12	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Update first-run splash page with a note about Smart Proxies, fixes #1721
+
+2012-07-11	Ohad Levy <ohadlevy@gmail.com>
+	* adds missing EC2 propetries view
+	* [UI] - added missing label classes
+	* remove unneded hidden links in the more tab
+	* fixes #1737 - make sure mac based matching are case insensetive
+	* fixes #1743 - auditing RC2 breaks foreman, forcing RC1 for now
+
+2012-07-11	Amos Benari <abenari@redhat.com>
+	* use file reader for the config template file upload.
+	* fixed dropdown location for action button and bookmark.
+
+2012-07-10	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that compute resources are shown in the host form only if provisioning is enabled
+
+2012-07-05	Amos Benari <abenari@redhat.com>
+	* fixes #1730 broken ui when errors and help inline.
+	* fixes #1729 safer migration code.
+
+2012-07-05	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1589, ensure that vmware public key is automaticilly imported when testing connection
+
 2012-07-04	Ohad Levy <ohadlevy@gmail.com>
+	* 1.0RC3 released
 	* fixes parameters whitespace validations
 
 2012-07-04	Amos Benari <abenari@redhat.com>
