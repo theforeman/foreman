@@ -136,7 +136,7 @@ function revert_template(item){
     complete: function(res) {
       $('#primary_tab').click();
       if ($.browser.msie && $.browser.version.slice(0,1) < 10){
-        $('.template_text').text(res.responseText);
+        $('.template_text').val(res.responseText);
       } else {
         $('#new').text(res.responseText);
         set_edit_mode($('.template_text'));
