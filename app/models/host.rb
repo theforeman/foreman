@@ -637,6 +637,18 @@ class Host < Puppet::Rails::Host
     read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
   end
 
+  def clone
+    new = super
+    new.puppetclasses = puppetclasses
+    # Clone any parameters as well
+    host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
+    # clear up the system specific attributes
+    [:name, :mac, :ip, :uuid, :certname, :last_report, :sp_mac, :sp_ip, :sp_name, :puppet_status, ].each do |attr|
+      new.send "#{attr}=", nil
+    end
+    new
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
