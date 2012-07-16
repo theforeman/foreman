@@ -151,12 +151,22 @@ module HostsHelper
   end
 
   def show_templates
-     unless SETTINGS[:unattended] and @host.managed?
-       return content_tag(:div, :class =>"alert") do
-         "Provisioning Support is disabled or this host is not managed"
-       end
-     end
-    templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
+    unless SETTINGS[:unattended] and @host.managed?
+      return content_tag(:div, :class =>"alert") do
+        "Provisioning Support is disabled or this host is not managed"
+      end
+    end
+    begin
+      templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
+    rescue => e
+      return case e.to_s
+      when "Must provide an operating systems"
+        "Unable to find templates As this Host has no Operating System"
+      else
+        e.to_s
+      end
+    end
+
     return "No Template found" if templates.empty?
     content_tag :table, :class=>"table table-bordered table-striped" do
       content_tag(:th, "Template Type") + content_tag(:th) +
