@@ -1,8 +1,24 @@
 object false
 child(:links => "links") do
-  node(:status) { api_status_path }
 
-  %w(bookmarks architectures operatingsystems).each do |name|
-    node(name.to_sym) { send :"api_#{name}_path" }
+  # gather index methods of resources
+  index_method_description_apis = Restapi.app.resource_descriptions.map do |name, resource_description|
+    if (description = Restapi.method_descriptions["#{name}#index"])
+      description.apis.first
+    end
+  end.compact
+
+  # add additional actions
+  %w(home#status).each do |additional_action|
+    if (description = Restapi.app.method_descriptions[additional_action]) and
+        (api = description.apis.first)
+      index_method_description_apis << api
+    end
+  end
+
+  # render links
+  index_method_description_apis.each do |api|
+    url, description = api.api_url, api.short_description
+    node(description) { url }
   end
 end
