@@ -46,7 +46,7 @@ module Foreman
     #config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
 
     # Disable fieldWithErrors divs
-    config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}" }
+    config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
