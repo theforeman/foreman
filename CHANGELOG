@@ -1,4 +1,16 @@
+2012-07-17	Amos Benari <abenari@redhat.com>
+	* fixes #1753 - Showing a modal from an AJAX request that returns a full-blown HTML page clears the page
+	* fixes #1726 Template editor doesn't seem to work with IE
+
+2012-07-17	Ohad Levy <ohadlevy@gmail.com>
+	* basic openstack support
+	* [UI] fixes drop downs not showing up correctly when viewing a page with errors
+	* fixes #1736 - fixes odd errors with db migrate
+	* fixes #1752 - fixes clone from keeping internal data (such as vm external uuid).
+	* [UI] don't fail the hosts show page if the host has no OS assigned.
+
 2012-07-15	Ohad Levy <ohadlevy@gmail.com>
+	* bump RC4
 	* [UI] ensure that tooltip and popover dont happen at the same time
 	* minimal fix for unexplained db migrations failures, refs #1736
 	* fixes #1751 - ReportCommon#status fails on ruby 1.9
