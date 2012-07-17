@@ -7,7 +7,6 @@ module Foreman::Model
     delegate :flavors, :to => :client
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
-    delegate :images, :to => :client
 
     validates_presence_of :user, :password
 
