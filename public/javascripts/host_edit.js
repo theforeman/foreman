@@ -67,7 +67,7 @@ function update_capabilities(capabilities){
 var stop_pooling;
 
 function submit_host(form){
-  var url = form.attr("action");
+  var url = window.location.pathname.replace(/\/edit|\/new/,'');
   $('#host_submit').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
