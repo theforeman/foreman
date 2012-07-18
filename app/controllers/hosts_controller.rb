@@ -442,7 +442,7 @@ logger.info e.backtrace
   end
 
   def template_used
-    kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
+    kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish'), TemplateKind.find_by_name('user_data')] : TemplateKind.all
     templates = kinds.map do |kind|
       ConfigTemplate.find_template({:kind => kind.name, :operatingsystem_id => params[:operatingsystem_id],
                                    :hostgroup_id => params[:hostgroup_id], :environment_id => params[:environment_id]})
