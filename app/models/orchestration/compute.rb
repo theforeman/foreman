@@ -130,7 +130,8 @@ module Orchestration::Compute
         normalize_addresses if attrs.keys.include?(:mac) or attrs.keys.include?(:ip)
 
         attrs.each do |foreman_attr, fog_attr |
-          # we can't ensure uniqueness of #foreman_attr using normal rails validations as that gets in a later step in the process
+          # we can't ensure uniqueness of #foreman_attr using normal rails validations
+          # as that gets in a later step in the process
           # therefore we must validate its not used already in our db.
           value = vm.send(fog_attr)
           self.send("#{foreman_attr}=", value)
@@ -146,7 +147,7 @@ module Orchestration::Compute
 
     def setComputeUpdate
       logger.info "Update Compute instance for #{name}"
-       # Fog will not re-save a compute inshance, so nothing is really done here
+       # Fog will not re-save a compute instance, so nothing is really done here
     rescue => e
       failure "Failed to update a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end
