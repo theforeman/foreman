@@ -7,7 +7,7 @@ class HostsController < ApplicationController
   # actions which don't require authentication and are always treated as the admin user
   ANONYMOUS_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters}
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
   skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
   skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
@@ -70,16 +70,12 @@ class HostsController < ApplicationController
 
   def new
     @host = Host.new :managed => true
-    @host.host_parameters.build
   end
 
   # Clone the host
   def clone
     new = @host.clone
     load_vars_for_ajax
-    new.puppetclasses = @host.puppetclasses
-    # Clone any parameters as well
-    @host.host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value)}
     flash[:warning] = "The marked fields will need reviewing"
     new.valid?
     @host = new
@@ -453,6 +449,11 @@ logger.info e.backtrace
     end.compact
     return not_found if templates.empty?
     render :partial => "provisioning", :locals => {:templates => templates}
+  end
+
+  def current_parameters
+    @host = Host.new params['host']
+    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params}
   end
 
   private

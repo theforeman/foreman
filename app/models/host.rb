@@ -147,7 +147,7 @@ class Host < Puppet::Rails::Host
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :domain_id
+    validates_presence_of    :domain_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed  }
 
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
@@ -309,8 +309,7 @@ class Host < Puppet::Rails::Host
     @cached_host_params = nil
   end
 
-  def host_params
-    return cached_host_params unless cached_host_params.blank?
+  def host_inherited_params
     hp = {}
     # read common parameters
     CommonParameter.all.each {|p| hp.update Hash[p.name => p.value] }
@@ -320,6 +319,12 @@ class Host < Puppet::Rails::Host
     operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
     hp.update hostgroup.parameters unless hostgroup.nil?
+    hp
+  end
+
+  def host_params
+    return cached_host_params unless cached_host_params.blank?
+    hp = host_inherited_params
     # and now read host parameters, override if required
     host_parameters.each {|p| hp.update Hash[p.name => p.value] }
     @cached_host_params = hp
@@ -632,6 +637,18 @@ class Host < Puppet::Rails::Host
     read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
   end
 
+  def clone
+    new = super
+    new.puppetclasses = puppetclasses
+    # Clone any parameters as well
+    host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
+    # clear up the system specific attributes
+    [:name, :mac, :ip, :uuid, :certname, :last_report, :sp_mac, :sp_ip, :sp_name, :puppet_status, ].each do |attr|
+      new.send "#{attr}=", nil
+    end
+    new
+  end
+
   private
   # align common mac and ip address input
   def normalize_addresses
@@ -667,6 +684,9 @@ class Host < Puppet::Rails::Host
     # no hostname was given or a domain was selected, since this is before validation we need to ignore
     # it and let the validations to produce an error
     return if name.empty?
+
+    # Remove whitespace
+    self.name.gsub!(/\s/,'')
 
     if domain.nil? and name.match(/\./)
       # try to assign the domain automatically based on our existing domains from the host FQDN

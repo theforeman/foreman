@@ -85,7 +85,8 @@ module LayoutHelper
 
   def field(f, attr, options = {})
     error = f.object.errors[attr] if f.object.respond_to?(:errors)
-    inline = error.empty? ? options.delete(:help_inline) : error.to_sentence.html_safe
+    inline = options.delete(:help_inline)
+    inline = error.to_sentence.html_safe unless error.empty?
     help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "control-group #{error.empty? ? "" : 'error'}" do
@@ -115,7 +116,7 @@ module LayoutHelper
   end
 
   def popover title, msg, options = {}
-    link_to_function title, {:class => "label label-info", :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+    link_to_function icon_text("info-sign"), { :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
   end
 
    def will_paginate(collection = nil, options = {})

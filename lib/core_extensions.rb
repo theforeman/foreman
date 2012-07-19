@@ -21,21 +21,22 @@ class ActiveRecord::Base
 
   def update_single_attribute(attribute, value)
     connection.update(
-      "UPDATE #{self.class.table_name} " +
-      "SET #{attribute.to_s} = #{value} " +
-      "WHERE #{self.class.primary_key} = #{id}",
+      "UPDATE #{self.class.quoted_table_name} SET " +
+      "#{connection.quote_column_name(attribute.to_s)} = #{quote_value(value)} " +
+      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
       "#{self.class.name} Attribute Update"
     )
   end
 
   def update_multiple_attribute(attributes)
     connection.update(
-      "UPDATE #{self.class.table_name} SET " +
-      attributes.map{|key, value| " #{key.to_s} = #{value} "}.join(', ') +
-      "WHERE #{self.class.primary_key} = #{id}",
+      "UPDATE #{self.class.quoted_table_name} SET " +
+      attributes.map{|key, value| " #{connection.quote_column_name(key.to_s)} = #{quote_value(value)} " }.join(', ') +
+      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
       "#{self.class.name} Attribute Update"
     )
   end
+
   # ActiveRecord Callback class
   class EnsureNotUsedBy
     attr_reader :klasses, :logger
@@ -67,6 +68,10 @@ class ActiveRecord::Base
 
   def self.unconfigured?
     first.nil?
+  end
+
+  def self.per_page
+    Setting.entries_per_page rescue 20
   end
 
 end

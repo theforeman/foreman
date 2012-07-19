@@ -310,7 +310,6 @@ select{padding: initial;}
 }
 
 table .span0{float:none;width:20px;margin-left:0;}
-#Submit_multiple{ margin-bottom: 0px !important;}
 
 .inputs-list{
 margin-left:0;margin-bottom:18px;list-style:none;display: inline;
@@ -353,3 +352,8 @@ border-radius: 4px;
   font-weight: bold; text-decoration: none; color: #666;border: 1px solid transparent;
   border-radius: 10px;
 }
+
+.override-param{
+  text-decoration: line-through;
+}
+.btn-toolbar-condensed{margin: 0;}

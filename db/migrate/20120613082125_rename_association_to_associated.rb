@@ -4,10 +4,12 @@ class RenameAssociationToAssociated < ActiveRecord::Migration
       remove_index :audits, :name => 'association_index'
     end
 
-    rename_column :audits, :association_id, :associated_id
-    rename_column :audits, :association_type, :associated_type
+    rename_column :audits, :association_id, :associated_id     if column_exists? :audits, :association_id
+    rename_column :audits, :association_type, :associated_type if column_exists? :audits, :association_type
 
-    add_index :audits, [:associated_id, :associated_type], :name => 'associated_index'
+    unless index_exists? :audits, [:association_id, :association_type], :name => 'association_index'
+      add_index :audits, [:associated_id, :associated_type], :name => 'associated_index'
+    end
   end
 
   def self.down

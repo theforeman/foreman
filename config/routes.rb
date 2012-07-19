@@ -53,6 +53,7 @@ Foreman::Application.routes.draw do
         get 'out_of_sync'
         get 'errors'
         get 'disabled'
+        post 'current_parameters'
         post 'process_hostgroup'
         post 'hostgroup_or_environment_selected'
         post 'hypervisor_selected'

@@ -1,103 +1,95 @@
 <%= javascript 'config_template', 'ace/ace', 'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/mode-diff',
                'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs' %>
 <%= form_for @config_template, :html => { :multipart => true } do |f| %>
-  <%= base_errors_for @config_template %>
-  <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
-    <li><a href="#template_associations" data-toggle="tab">Association</a></li>
-  </ul>
+    <%= base_errors_for @config_template %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab">Primary</a></li>
+      <li><a href="#template_associations" data-toggle="tab">Association</a></li>
+      <li><a id='history_tab' href="#history" data-toggle="tab">History</a></li>
+    </ul>
 
-  <div class="tab-content">
-    <div class="tab-pane active" id="primary">
-      <%= text_f f, :name %>
-      <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)" %>
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name %>
+        <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)" %>
 
-      <div id="kind_selector" <%= display? @config_template.snippet %>>
-        <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
-      </div>
-      <ul class="controls nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a id='edit_template_tab' href="#edit" data-toggle="tab">Edit</a></li>
-        <li><a href="#file_upload" data-toggle="tab">File Upload</a></li>
-        <li><a id='history_tab' href="#history" data-toggle="tab">History</a></li>
-      </ul>
-
-      <div class="tab-content">
-        <div class="tab-pane active" id="edit">
-          <%= alert :class => 'controls alert-success', :header => '',
-                    :text  => icon_text("info-sign", ('Note: ' + link_to('Useful template functions and macros',
-                                                                         'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros', :rel => 'external')).html_safe) %>
-          <div class='controls subnav'>
-            <ul class='span9'>
-              <li><%= link_to_function('Code', "set_code()") %></li>
-              <li><%= link_to_function('Preview', "set_preview()") %></li>
-              <li class="fr"><%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => 'Key Binding'), :class => 'span1') %></li>
-            </ul>
-          </div>
-          <%= textarea_f f, :template, :class => "span10 template_text", :label => "Template editor", :'data-file-name' => @config_template.name %>
+        <div id="kind_selector" <%= display? @config_template.snippet %>>
+          <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
         </div>
-        <div class="tab-pane" id="file_upload">
-          <%= alert :class => 'controls alert-success', :header => '', :text => icon_text("info-sign", " Selecting a file will override the editor and load the file instead") %>
-          <%= file_field_f f, :template, :class => "template_file span4",
-                           :help_inline         => "<a class='label label-important clear_file' title='clear file selection'>&times</a>".html_safe %>
-        </div>
-        <div class="tab-pane" id="history">
-          <div class='controls'>
-            <% if @history.try(:any?) %>
-              <% @history.each do |audit| %>
-                <% next unless audit_template? audit %>
-                <div class='row'>
-                  <div class='offset1 span6'>
-                    <b><%= audit_user(audit) %> <%= audit.comment %></b>
-                  </div>
-                  <div class='span2 ra'><h6><%= audit_time audit %></h6></div>
-                  <div class='offset1 span8 audit-content'>
-                    <%= link_to_function icon_text("retweet", "Revert"), "revert_template(this)", :'data-url' => revision_config_templates_url, :'data-version' => audit.id %>
-                    <%= link_to icon_text("eye-open", "Show Diff"), audit_path(audit) %>
-                  </div>
-                </div>
-              <% end -%>
-            <% else -%>
-              <%= alert :header => 'No History Found', :text => 'Save something and try again' %>
-            <% end %>
-          </div>
-        </div>
-      </div>
 
-      <%= textarea_f f, :audit_comment, :class => "span10", :rows => 3, :label => "Audit Comment",
-                     :help_block               => icon_text("info-sign", "The Audit Comment field is saved with the template auditing to document the template changes") %>
-    </div>
-
-    <div class="tab-pane" id="template_associations">
-      <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> >Not relevant for
-        snippet</p>
-
-      <div id="association" <%= display? @config_template.snippet %> >
-        <div class="alert alert-message alert-success">
-          <a class="close" href="#" data-dismiss="alert">&times;</a>
-
-          <h3>How Templates are determined<br></h3>
-
-          <p>When editing a Template, you must assign a list of Operating Systems which this
-            Template can be used with. Optionally, you can restrict a template to a list of
-            Hostgroups and/or Environments</p>
-
-          <p>When a Host requests a template (e.g. during provisioning), Foreman will select
-            the best match from the available templates of that type, in the following order:</p>
-          <ul>
-            <li>Host-group and Environment</li>
-            <li>Host-group only</li>
-            <li>Environment only</li>
-            <li>Operating system default</li>
+        <%= alert :class => 'controls alert-success', :header => '',
+                  :text  => icon_text("info-sign", ('Note: ' + link_to('Useful template functions and macros',
+                                                                       'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros', :rel => 'external')).html_safe) %>
+        <div class='controls subnav'>
+          <ul class='span9'>
+            <li><%= link_to_function('Code', "set_code()") %></li>
+            <li><%= link_to_function('Preview', "set_preview()") %></li>
+            <li class="fr"><%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => 'Key Binding'), :class => 'span1') %></li>
           </ul>
-          The final entry, Operating System default, can be set by editing
-          the <%= link_to "Operating System", operatingsystems_path %> page.
         </div>
-        <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Applicable<br>Operating Systems".html_safe %>
-        <%= render "combinations", :f => f %>
+        <%= textarea_f f, :template, :class => "span10 template_text", :label => "Template editor", :'data-file-name' => @config_template.name %>
+
+
+        <%= file_field_f f, :template, :class => "template_file span4",
+                         :help_block  => "Selecting a file will override the editor and load the file instead" %>
+        <%= textarea_f f, :audit_comment, :class => "span10", :rows => 3, :label => "Audit Comment",
+                       :help_block => "The Audit Comment field is saved with the template auditing to document the template changes" %>
+      </div>
+      <div class="tab-pane" id="history">
+        <div class='controls'>
+          <% if @history.try(:any?) %>
+              <% @history.each do |audit| %>
+                  <% next unless audit_template? audit %>
+                  <div class='row'>
+                    <div class='span6'>
+                      <b><%= audit_user(audit) %> <%= audit.comment %></b>
+                    </div>
+                    <div class='span2 ra'><h6><%= audit_time audit %></h6></div>
+                    <div class='span8 audit-content'>
+                      <%= link_to_function icon_text("retweet", "Revert"), "revert_template(this)", :'data-url' => revision_config_templates_url, :'data-version' => audit.id %>
+                      <%= link_to icon_text("eye-open", "Show Diff"), audit_path(audit) %>
+                    </div>
+                  </div>
+              <% end -%>
+          <% else -%>
+              <%= alert :header => 'No History Found', :text => 'Save something and try again' %>
+          <% end %>
+        </div>
+      </div>
+
+
+
+      <div class="tab-pane" id="template_associations">
+        <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> >Not relevant for
+          snippet</p>
+
+        <div id="association" <%= display? @config_template.snippet %> >
+          <div class="alert alert-message alert-success">
+            <a class="close" href="#" data-dismiss="alert">&times;</a>
+
+            <h3>How Templates are determined<br></h3>
+
+            <p>When editing a Template, you must assign a list of Operating Systems which this
+              Template can be used with. Optionally, you can restrict a template to a list of
+              Hostgroups and/or Environments</p>
+
+            <p>When a Host requests a template (e.g. during provisioning), Foreman will select
+              the best match from the available templates of that type, in the following order:</p>
+            <ul>
+              <li>Host-group and Environment</li>
+              <li>Host-group only</li>
+              <li>Environment only</li>
+              <li>Operating system default</li>
+            </ul>
+            The final entry, Operating System default, can be set by editing
+            the <%= link_to "Operating System", operatingsystems_path %> page.
+          </div>
+          <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Applicable<br>Operating Systems".html_safe %>
+          <%= render "combinations", :f => f %>
+        </div>
       </div>
     </div>
-  </div>
-  <%= submit_or_cancel f %>
+    <%= submit_or_cancel f %>
 <% end %>
 <div class='hide' id="old"> <%= @config_template.template %></div>
 <div class='hide' id="new"> <%= @config_template.template %></div>

@@ -2,5 +2,5 @@
   <%= text_f f, :match, :class => "span6",
     :help_inline => popover("?", "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>", :title => "Matcher")
   %>
-  <%= text_f f, :value, :class => "span6", :help_inline => remove_child_link("X", f, {:title => 'remove value', :class=> 'label label-important'}) %>
+  <%= text_f f, :value, :class => "span6", :help_inline => remove_child_link(icon_text("remove"), f, {:title => 'remove value'}) %>
 </div>

@@ -13,7 +13,7 @@ module PuppetclassesAndEnvironmentsHelper
 
   def import_proxy_select hash
     proxies = Environment.find_import_proxies
-    action_buttons(
+    toolbar_action_buttons(
       proxies.map do |proxy|
         display_link_if_authorized("Import from #{proxy.name}", hash.merge(:proxy => proxy))
       end.flatten

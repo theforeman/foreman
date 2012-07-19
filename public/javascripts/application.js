@@ -34,18 +34,35 @@ function onContentLoad(){
   //set the tooltips
   $('a[rel="popover"]').popover();
   $('[rel="twipsy"]').tooltip();
+  $('*[title]').not('*[rel]').tooltip();
 }
 
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
   $(link).closest(".fields").hide();
+  mark_params_override();
+}
+
+function mark_params_override(){
+  $('#inherited_parameters .override-param').removeClass('override-param');
+  $('#inherited_parameters span').show();
+  $('#parameters').find('[id$=_name]:visible').each(function(){
+    var param_name = $(this);
+    $('#inherited_parameters').find('[id^=name_]').each(function(){
+      if (param_name.val() == $(this).val()){
+        $(this).addClass('override-param');
+        $(this).next().addClass('override-param')
+        $(this).next().next('span').hide();
+      }
+    })
+  })
 }
 
 function add_fields(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
-  $(link).parent().before(content.replace(regexp, new_id));
+  $(link).before(content.replace(regexp, new_id));
 }
 
 function checkAll (id, checked) {
@@ -310,6 +327,7 @@ function update_puppetclasses(element) {
     data:'host_id=' + host_id + '&hostgroup_id=' + hostgroup_id + '&environment_id=' + env_id,
     success: function(request) {
       $('#puppet_klasses').html(request);
+      reload_params();
     },
     complete: function() {
       $('#hostgroup_indicator').hide();

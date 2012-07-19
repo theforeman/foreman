@@ -2,6 +2,7 @@ module Foreman::Model
   class Vmware < ComputeResource
 
     validates_presence_of :user, :password, :server
+    before_create :update_public_key
 
     def self.model_name
       ComputeResource.model_name
@@ -26,7 +27,7 @@ module Foreman::Model
 
     def test_connection
       super
-      errors[:server] and errors[:user].empty? and errors[:password] and datacenters
+      errors[:server] and errors[:user].empty? and errors[:password] and update_public_key and datacenters
     rescue => e
       errors[:base] << e.message
     end
@@ -51,12 +52,32 @@ module Foreman::Model
 
     private
 
+    def update_public_key
+      return unless pubkey_hash.blank?
+      client
+    rescue => e
+      if e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
+        self.pubkey_hash = $1
+      else
+        raise e
+      end
+    end
+
+    def pubkey_hash
+      attrs[:pubkey_hash]
+    end
+
+    def pubkey_hash= key
+      attrs[:pubkey_hash] = key
+    end
+
     def client
       @client ||= ::Fog::Compute.new(
         :provider                     => "vsphere",
         :vsphere_username             => user,
         :vsphere_password             => password,
-        :vsphere_server               => server
+        :vsphere_server               => server,
+        :vsphere_expected_pubkey_hash => pubkey_hash
       )
     end
 

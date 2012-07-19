@@ -115,7 +115,7 @@ function ovirt_clusterSelected(item){
       url: url,
       data:'cluster_id=' + cluster,
       success: function(result){
-        var network_options = $("[id$=_network]").empty();
+        var network_options = $("select[id$=_network]").empty();
         $.each(result, function() {
           network_options.append($("<option />").val(this.id).text(this.name));
         });

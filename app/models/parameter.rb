@@ -3,11 +3,12 @@ class Parameter < ActiveRecord::Base
   include Authorization
 
   validates_presence_of   :name, :value
-  validates_format_of     :name, :value, :with => /^.*\S$/, :message => "can't be blank or contain trailing white space"
+  validates_format_of     :name,  :without => /\s/, :message => "can't contain white spaces"
 
   validates_presence_of :reference_id, :message => "parameters require an associated domain, host or hostgroup", :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
   attr_accessor :nested
+  before_validation :strip_whitespaces
   after_initialize :set_priority
 
   PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :os_parameter => 2, :group_parameter => 3 , :host_parameter => 4}
@@ -18,6 +19,7 @@ class Parameter < ActiveRecord::Base
       params.each { |param| param.update_attribute(:priority, param.priority) }
     end
   end
+
   private
 
   def set_priority
@@ -25,4 +27,8 @@ class Parameter < ActiveRecord::Base
     self.priority = PRIORITY[t.to_s.underscore.to_sym] unless t.blank?
   end
 
+  def strip_whitespaces
+    self.name.strip!  unless name.blank?
+    self.value.strip! unless value.blank?
+  end
 end

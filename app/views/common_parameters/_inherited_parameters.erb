@@ -1,0 +1,11 @@
+<div id='inherited_parameters'>
+  <% inherited_parameters.each do |name,value| -%>
+    <div class="control-group">
+      <%= text_field_tag "name_#{name}", name,    :class => "span2", :disabled => true %>
+      <%= text_field_tag "value_#{value}", value, :class => "span9", :disabled => true %>
+      <span class="help-inline">
+        <%= link_to_function(icon_text("random"), "override_param(this)", :title => "Override this value") if authorized_via_my_scope("host_editing", "create_params") %>
+      </span>
+    </div>
+  <% end -%>
+</div>

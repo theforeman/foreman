@@ -2,8 +2,12 @@
 <% choices = setting_options %>
 <%= link_to ("More" + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown" unless choices.empty?%>
   <ul class="dropdown-menu">
-    <% choices.each do |choice|-%>
-      <%= choice  %>
+    <% choices.each do |item|-%>
+       <% if item == [:divider]  %>
+         <%= content_tag(:li, "", :class=>"divider") %>
+       <% else %>
+         <%= content_tag(:li, link_to(item[0], {:controller => item[1], :action => :index})) %>
+       <% end -%>
     <% end -%>
   </ul>
 </li>

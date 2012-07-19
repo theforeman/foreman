@@ -67,7 +67,7 @@ function update_capabilities(capabilities){
 var stop_pooling;
 
 function submit_host(form){
-  var url = form.attr("action");
+  var url = window.location.pathname.replace(/\/edit|\/new/,'');
   $('#host_submit').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
@@ -139,12 +139,12 @@ function update_progress(data){
 
 function filter_puppet_classes(item){
   var term = $(item).val().trim();
-  $('li.puppetclass.hide').addClass('hide-me');
+  $('.puppetclass_group li.puppetclass.hide').addClass('hide-me');
   if (term.length > 0) {
-    $('li.puppetclass').removeClass('filter-marker').hide();
-    $('li.puppetclass:not(.hide-me, .selected-marker) span:contains('+term+')').parent('li').addClass('filter-marker').show();
+    $('.puppetclass_group li.puppetclass').removeClass('filter-marker').hide();
+    $('.puppetclass_group li.puppetclass:not(.hide-me, .selected-marker) span:contains('+term+')').parent('li').addClass('filter-marker').show();
   } else{
-    $('li.puppetclass:not(.hide-me, .selected-marker)').addClass('filter-marker').show();
+    $('.puppetclass_group li.puppetclass:not(.hide-me, .selected-marker)').addClass('filter-marker').show();
   }
   var groups = $('li.filter-marker').closest('.puppetclass_group');
   $('.puppetclass_group').hide();
@@ -196,6 +196,7 @@ function hostgroup_changed(element) {
         $('#hostgroup_indicator').hide();
         $('[rel="twipsy"]').tooltip();
         update_provisioning_image();
+        reload_params();
       }
     })
   } else { // edit host
@@ -265,6 +266,7 @@ function domain_selected(element){
     url: url,
     success: function(request) {
       $('#subnet_select').html(request);
+      reload_params();
     }
   })
 }
@@ -291,6 +293,7 @@ function os_selected(element){
     url: url,
     success: function(request) {
       $('#media_select').html(request);
+      reload_params();
     }
   });
   update_provisioning_image();
@@ -357,6 +360,25 @@ function use_image_selected(element){
   });
 }
 
+function override_param(item){
+  var param = $(item).closest('.control-group');
+  var n = param.find('[id^=name_]').val();
+  var v = param.find('[id^=value_]').val();
+
+  param.closest('.tab-pane').find('.btn-success').click();
+  var new_param = param.closest('.tab-pane').find('[id*=host_host_parameters]:visible').last().parent();
+  new_param.find('[id$=_name]').val(n);
+  new_param.find('[id$=_value]').val(v);
+  mark_params_override();
+}
+
+function reload_params(){
+  var url = $('#params-tab').attr('data-url');
+  var data ={};
+  data['host'] = attribute_hash(['domain_id', 'operatingsystem_id', 'hostgroup_id']);
+  $('#inherited_parameters').load(url + ' #inherited_parameters', data,function(){mark_params_override()});
+}
+
 $(function () {
   onHostEditLoad();
 });
@@ -382,4 +404,5 @@ function onHostEditLoad(){
   });
 
   $('#image_selection').appendTo($('#image_provisioning'));
+  $('#params-tab').on('shown', function(){mark_params_override()});
 }

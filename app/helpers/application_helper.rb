@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label label-important", :title => "Remove")
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => "Remove Parameter")
   end
 
   def trunc text, length
@@ -203,6 +203,12 @@ module ApplicationHelper
   end
 
   def action_buttons(*args)
+    content_tag(:div, :class => "btn-toolbar btn-toolbar-condensed") do
+      toolbar_action_buttons args
+    end
+  end
+
+  def toolbar_action_buttons(*args)
     # the no-buttons code is needed for users with less permissions
     return unless args
     args = args.flatten.map{|arg| arg unless arg.blank?}.compact
@@ -213,6 +219,7 @@ module ApplicationHelper
 
     #multiple buttons
     primary = args.delete_at(0)
+
     content_tag(:div,:class => "btn-group") do
       primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
       content_tag(:ul,:class=>"dropdown-menu") do

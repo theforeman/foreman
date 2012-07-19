@@ -1,4 +1,6 @@
 class AddTableBookmarks < ActiveRecord::Migration
+  class Bookmark < ActiveRecord::Base; end
+
   def self.up
     create_table :bookmarks, :force => true do |t|
       t.column :name, :string

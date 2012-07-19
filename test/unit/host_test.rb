@@ -469,4 +469,11 @@ class HostTest < ActiveSupport::TestCase
     assert_equal host.name, host.certname
   end
 
+  test "all whitespace should be removed from hostname" do
+    host = Host.create :name => "my host 1	", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal "myhost1.mydomain.net", host.name
+  end
+
 end

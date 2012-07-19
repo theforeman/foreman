@@ -1,4 +1,112 @@
+2012-07-17	Amos Benari <abenari@redhat.com>
+	* fixes #1753 - Showing a modal from an AJAX request that returns a full-blown HTML page clears the page
+	* fixes #1726 Template editor doesn't seem to work with IE
+
+2012-07-17	Ohad Levy <ohadlevy@gmail.com>
+	* basic openstack support
+	* [UI] fixes drop downs not showing up correctly when viewing a page with errors
+	* fixes #1736 - fixes odd errors with db migrate
+	* fixes #1752 - fixes clone from keeping internal data (such as vm external uuid).
+	* [UI] don't fail the hosts show page if the host has no OS assigned.
+
+2012-07-15	Ohad Levy <ohadlevy@gmail.com>
+	* bump RC4
+	* [UI] ensure that tooltip and popover dont happen at the same time
+	* minimal fix for unexplained db migrations failures, refs #1736
+	* fixes #1751 - ReportCommon#status fails on ruby 1.9
+
+2012-07-15	Amos Benari <abenari@redhat.com>
+	* fixes #1726 Template editor doesn't seem to work with IE
+
+2012-07-12	Ohad Levy <ohadlevy@gmail.com>
+	* [UI] convert all titles to tooltips
+	* dont enforce host domain validations on non managed hosts
+	* [UI] - convert all bulk operations into buttons
+
+2012-07-12	Amos Benari <abenari@redhat.com>
+	* fixes #1746 selecting a cluster in oVirt remove subnet and ip from the network tab in new/edit host
+	* fixes #1747 host selected puppet classes are afected by the classes filter.
+
+2012-07-12	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Update first-run splash page with a note about Smart Proxies, fixes #1721
+
+2012-07-11	Ohad Levy <ohadlevy@gmail.com>
+	* adds missing EC2 propetries view
+	* [UI] - added missing label classes
+	* remove unneded hidden links in the more tab
+	* fixes #1737 - make sure mac based matching are case insensetive
+	* fixes #1743 - auditing RC2 breaks foreman, forcing RC1 for now
+
+2012-07-11	Amos Benari <abenari@redhat.com>
+	* use file reader for the config template file upload.
+	* fixed dropdown location for action button and bookmark.
+
+2012-07-10	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that compute resources are shown in the host form only if provisioning is enabled
+
+2012-07-05	Amos Benari <abenari@redhat.com>
+	* fixes #1730 broken ui when errors and help inline.
+	* fixes #1729 safer migration code.
+
+2012-07-05	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1589, ensure that vmware public key is automaticilly imported when testing connection
+
+2012-07-04	Ohad Levy <ohadlevy@gmail.com>
+	* 1.0RC3 released
+	* fixes parameters whitespace validations
+
+2012-07-04	Amos Benari <abenari@redhat.com>
+	* fixes more menu issues
+	* fixes #1165 add inherited params display and override option to the host form.
+	* fixes #1726 ie support for edit template (with a simple text-box).
+	* fixes the more menu bug
+
+2012-07-03	Ohad Levy <ohadlevy@gmail.com>
+	* avoid breaking mysql migration from an empty db
+
+2012-07-03	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #1716 - remove whitespace from hostname
+
+2012-07-02	Greg Sutcliffe <gsutcliffe@ibahn.com>
+	* Add Archlinux logo back to hosts page
+
+2012-07-02	Amos Benari <abenari@redhat.com>
+	* host list page fixed for smart-phones and tablet screen sizes.
+	* fixes #1240 more menu fixed for users with no permitions.
+	* top navigation bar looks correct on tablet and smart-phone screen size.
+
+2012-07-02	Ivan Necas <inecas@redhat.com>
+	* fixes #1463 - let Foreman run on a sub path
+
+2012-07-02	Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+	* Return a HTTP 500 when we fail on handle_ca (fixes #1725)
+
+2012-07-01	Ohad Levy <ohadlevy@gmail.com>
+	* make sure that info messages are not shown when filtering is enabled refs #1634
+	* missing syntax
+
+2012-06-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixed wrong test - refs #1677
+	* disk layout should really not be unique.
+
+2012-06-29	Roberto <roberto_moral@cable.comcast.com>
+	* Fixed migrations for mysql2
+
+2012-06-28	Amos Benari <abenari@redhat.com>
+	* fixes #1563 problem cloning host in latest develop
+	* fixes #1677 - Fact pie chart alters fact strings to lower case
+	* fixes #1712 When Ec2 provisioning, resolve button shouldn't show pxe nor provisioning template.
+	* audit time ago in words.
+
+2012-06-28	Ohad Levy <ohadlevy@gmail.com>
+	* dont fail if console bundler group is not installed
+	* fixes #1638 - remove whitespaces for user email instead of validation error
+	* fixes #1715 - rake puppet:import:puppet_classes[batch] stopped working
+	* fixes #1714 allowing users with build permissions to access the submit multiple
+
 2012-06-27	Ohad Levy <ohadlevy@gmail.com>
+	* minor fix and added a few tests to ensure config templates works correctly
+	* 1.0RC2
 	* added commit comment, history and preview to the template editor.
 	* refs #1586 - ensures that hostgroup hierarchy order is processed correctly
 	* facter sometime send wrong mac address with bonded nics,
