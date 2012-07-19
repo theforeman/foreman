@@ -119,7 +119,7 @@ module Orchestration::DHCP
         logger.debug("Detected a changed required for DHCP record")
         queue.create(:name => "Remove DHCP Settings for #{old}", :priority => 5,
                      :action => [old, :del_dhcp]) if old.dhcp?
-        queue.create(:name   => "Create DHCP Settings for #{self}", :priority => 10,
+        queue.create(:name   => "Create DHCP Settings for #{self}", :priority => 9,
                      :action => [self, :set_dhcp]) if dhcp?
       end
 
@@ -127,7 +127,7 @@ module Orchestration::DHCP
         logger.debug("Detected a changed required for BMC DHCP record")
         queue.create(:name   => "Remove DHCP Settings for #{old.sp_name}", :priority => 5,
                      :action => [old, :del_sp_dhcp]) if old.sp_dhcp?
-        queue.create(:name   => "Create DHCP Settings for #{sp_name}", :priority => 15,
+        queue.create(:name   => "Create DHCP Settings for #{sp_name}", :priority => 14,
                      :action => [self, :set_sp_dhcp]) if sp_dhcp?
       end
     end
