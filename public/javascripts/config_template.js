@@ -14,6 +14,9 @@ $(function() {
     } else {
       set_edit_mode(template_text);
     }
+    $('#config_template_submit').on('click', function(){
+       set_edit_mode( $(".template_text"));
+    })
   }
 
   $(".template_file").on("change", function(evt){
