@@ -44,7 +44,8 @@ module Foreman
               set('ssl_priv_key', "SSL Private Key file that Foreman will use to communicate with its proxies", Puppet.settings[:hostprivkey]),
               set('manage_puppetca', "Should Foreman automate certificate signing upon provisioning new host", true),
               set('ignore_puppet_facts_for_provisioning', "Does not update ipaddress and MAC values from Puppet facts", false),
-              set('query_local_nameservers', "Should Foreman query the locally configured name server or the SOA/NS authorities", false)
+              set('query_local_nameservers', "Should Foreman query the locally configured name server or the SOA/NS authorities", false),
+              set('default_libvirt_interface', "Default interface to bind libvirt NICs to (default: virbr0)", "virbr0")
             ].each { |s| create s.update(:category => "Provisioning")}
 
             [
