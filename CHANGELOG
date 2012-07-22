@@ -1,4 +1,5 @@
 2012-07-22	Ohad Levy <ohadlevy@gmail.com>
+	* 1.0
 	* couple of test fixes after upgrading to a newer mocha/shoulda
 	* [refactor] - simple method to display ec2 instance name, instead of using tags everywhere
 
