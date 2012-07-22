@@ -3,25 +3,32 @@
 module Foreman::Controller::Environments
 
   def import_environments
-    @changed = Environment.importClasses
+    begin
+      @changed = Environment.importClasses params[:proxy]
+    rescue => e
+      if e.message =~ /puppet feature/i
+        error "We did not find a foreman proxy that can provide the information, ensure that you have at least one Proxy with the puppet feature turned on."
+        redirect_to :controller => controller_path and return
+      else
+        raise e
+      end
+    end
+
     if @changed["new"].size > 0 or @changed["obsolete"].size > 0
-      render :partial => "common/puppetclasses_or_envs_changed", :layout => true
+      render "common/_puppetclasses_or_envs_changed"
     else
       notice "No changes to your environments detected"
-      redirect_to "/" + controller_path
+      redirect_to :controller => controller_path
     end
-  rescue Exception => e
-    error e
-    redirect_to "/" + controller_path
   end
 
   def obsolete_and_new
     if (errors = ::Environment.obsolete_and_new(params[:changed])).empty?
-      notice "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+      notice "Successfully updated environments and puppetclasses from the on-disk puppet installation"
     else
       error "Failed to update the environments and puppetclasses from the on-disk puppet installation<br/>" + errors.join("<br>")
     end
-    redirect_to "/" + controller_path
+    redirect_to :controller => controller_path
   end
 
 end

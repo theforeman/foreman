@@ -30,7 +30,7 @@ module Net
             PTRRecord.new attrs
         end
       end
-    rescue Resolv::ResolvError
+    rescue Resolv::ResolvError, SocketError
       nil
     rescue Timeout::Error => e
       raise Net::Error, e
@@ -42,11 +42,7 @@ module Net
       def initialize opts={ }
         super(opts)
         self.ip = validate_ip self.ip
-        raise "Must provide a DNS resolver" unless resolver.is_a?(Resolv::DNS)
-      end
-
-      def to_s
-        "#{hostname}/#{ip}"
+        self.resolver ||= Resolv::DNS.new
       end
 
       def destroy
@@ -61,11 +57,11 @@ module Net
         raise "Abstract class"
       end
 
-      protected
-
       def dns_lookup ip_or_name
         DNS.lookup(ip_or_name, proxy, resolver)
       end
+
+      protected
 
       def generate_conflict_error
         logger.warn "Conflicting DNS #{type} record for #{to_s} detected"

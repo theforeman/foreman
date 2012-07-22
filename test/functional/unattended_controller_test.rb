@@ -20,6 +20,12 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get a preseed finish script with multiple ips in the request header" do
+    @request.env["REMOTE_ADDR"] = [hosts(:ubuntu).ip, '1.2.3.4']
+    get :preseed_finish
+    assert_response :success
+  end
+
   test "should get a preseed" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :preseed
@@ -44,12 +50,12 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should provide pxe config for redhat" do
-    get :pxe_kickstart_config, {:host_id => hosts(:redhat).name}
+    get :pxe_kickstart_config, {:spoof => hosts(:redhat).ip}, set_session_user
     assert_response :success
   end
 
   test "should provide pxe config for debian" do
-    get :pxe_debian_config, {:host_id => hosts(:ubuntu).name}
+    get :pxe_debian_config, {:spoof => hosts(:ubuntu).ip}, set_session_user
     assert_response :success
   end
 

@@ -1,4 +1,4 @@
-<table class="list zebra-striped">
+<table class="table table-bordered table-striped">
   <tr>
     <% unless params[:host_id] -%>
       <th><%= sort :host %></th>
@@ -9,6 +9,7 @@
     <th class="small"><%= sort :failed %></th>
     <th class="small"><%= sort :failed_restarts, :as => "Restart<br>Failures" %></th>
     <th class="small"><%= sort :skipped %></th>
+    <th class="small"><%= sort :pending %></th>
     <th class="small"></th>
   </tr>
   <% for report in @reports %>
@@ -17,13 +18,14 @@
         <td><%= link_to h(report.host), host_reports_path(report.host) %></td>
       <% end -%>
       <td><%= reported_at_column(report) %></td>
-      <td><%= report_event_column(report.applied, "notice") %></td>
-      <td><%= report_event_column(report.restarted, "notice") %></td>
-      <td><%= report_event_column(report.failed, "important") %></td>
-      <td><%= report_event_column(report.failed_restarts, "warning") %></td>
-      <td><%= report_event_column(report.skipped, "notice") %></td>
+      <td><%= report_event_column(report.applied, "label-info") %></td>
+      <td><%= report_event_column(report.restarted, "label-info") %></td>
+      <td><%= report_event_column(report.failed, "label-important") %></td>
+      <td><%= report_event_column(report.failed_restarts, "label-warning") %></td>
+      <td><%= report_event_column(report.skipped, "label-info") %></td>
+      <td><%= report_event_column(report.pending, "label-info") %></td>
       <td align="right">
-        <%= display_link_if_authorized "Destroy", hash_for_report_path(:id => report.id, :auth_action => :destroy), :confirm => "Delete report for #{report.host.name}?", :method => :delete %>
+        <%= display_delete_if_authorized hash_for_report_path(:id => report.id), :confirm => "Delete report for #{report.host.name}?" %>
       </td>
     </tr>
   <% end %>

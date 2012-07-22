@@ -1,0 +1,26 @@
+<% title "Images" %>
+
+<% title_actions display_link_if_authorized("New Image", hash_for_new_compute_resource_image_path) %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name %></th>
+    <th>Operating System</th>
+    <th>Username</th>
+    <th>UUID</th>
+    <th></th>
+  </tr>
+  <% @images.each do |image| %>
+  <tr>
+    <td><%= image.name %></td>
+    <td><%= image.operatingsystem %></td>
+    <td><%= image.username %></td>
+    <td><%= image.uuid %></td>
+    <td><%= action_buttons(link_to('Edit', edit_compute_resource_image_path(@compute_resource, image), :class => "btn"),
+     link_to('Destroy', [@compute_resource, image], :confirm => 'Are you sure?', :method => :delete)) %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= page_entries_info @images %>
+<%= will_paginate     @images %>

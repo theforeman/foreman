@@ -4,6 +4,7 @@ require 'uri'
 class Operatingsystem < ActiveRecord::Base
   include Authorization
   has_many :hosts
+  has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
   has_and_belongs_to_many :architectures
@@ -23,9 +24,9 @@ class Operatingsystem < ActiveRecord::Base
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   before_save :deduce_family
-  acts_as_audited
+  audited
   default_scope :order => 'LOWER(operatingsystems.name)'
 
   scoped_search :on => :name, :complete_value => :true
@@ -39,13 +40,14 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
 
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
-               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific}i,
+               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
                'Suse'    => %r{OpenSuSE}i,
+               'Windows' => %r{Windows}i,
+               'Archlinux' => %r{Archlinux}i,
                'Solaris' => %r{Solaris}i }
 
-
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type
+    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
   end
 
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
@@ -159,6 +161,11 @@ class Operatingsystem < ActiveRecord::Base
     raise "Attempting to construct a operatingsystem image filename but #{family} cannot be built from an image"
   end
 
+  # If this OS family requires access to its media via NFS
+  def require_nfs_access_to_medium
+    false
+  end
+
   private
   def deduce_family
     if self.family.blank?
@@ -184,8 +191,4 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  # If this OS family requires access to its media via NFS
-  def require_nfs_access_to_medium
-    false
-  end
 end

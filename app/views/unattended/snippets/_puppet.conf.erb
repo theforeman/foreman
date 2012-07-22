@@ -3,14 +3,13 @@ vardir = /var/lib/puppet
 logdir = /var/log/puppet
 rundir = /var/run/puppet
 ssldir = \$vardir/ssl
-pluginsource = puppet://\$server/plugins
-environments = <%= @host.environment %>
 
-[puppetd]
-factsync = true
-report = true
+[agent]
+pluginsync      = true
+report          = true
 ignoreschedules = true
-daemon = false
-certname = <%= @host.name %>
-environment = <%= @host.environment %>
-server = <%= @host.puppetmaster %>
+daemon          = false
+ca_server       = <%= @host.puppet_ca_server %>
+certname        = <%= @host.certname %>
+environment     = <%= @host.environment %>
+server          = <%= @host.puppetmaster %>

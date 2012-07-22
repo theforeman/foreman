@@ -5,15 +5,13 @@ class FactValuesController < ApplicationController
   skip_before_filter :require_login,             :only => :create
   skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
+  skip_before_filter :session_expiry, :update_activity_time, :only => :create
   before_filter :set_admin_user, :only => :create
   before_filter :setup_search_options, :only => :index
 
-  # avoids storing the facts data in the log files
-  filter_parameter_logging :facts
-
   def index
     begin
-      values = FactValue.no_timestamp_facts.search_for(params[:search],:order => params[:order])
+      values = FactValue.my_facts.no_timestamp_facts.search_for(params[:search],:order => params[:order])
     rescue => e
       error e.to_s
       values = FactValue.no_timestamp_facts.search_for ""

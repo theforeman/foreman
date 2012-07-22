@@ -6,7 +6,7 @@ class SubnetTest < ActiveSupport::TestCase
     @subnet = Subnet.new
     @attrs = {  :network= => "123.123.123.1",
       :mask= => "255.255.255.0",
-      :domain= => Domain.first,
+      :domains= => [domains(:mydomain)],
       :name= => "valid" }
   end
 
@@ -36,12 +36,12 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "mask should have ip format" do
     @subnet.mask = "asf.fwe6.we6s.q1"
-    set_attr(:network=, :domain=, :name=)
+    set_attr(:network=, :domains=, :name=)
     assert !@subnet.save
   end
 
   test "network should be unique" do
-    set_attr(:network=, :mask=, :domain=, :name=)
+    set_attr(:network=, :mask=, :domains=, :name=)
     @subnet.save
 
     other_subnet = Subnet.create(:network => "123.123.123.1", :mask => "255.255.255.0")
@@ -54,7 +54,8 @@ class SubnetTest < ActiveSupport::TestCase
     other_subnet = Subnet.create( :mask => "111.111.111.1",
                                  :network => "255.255.252.0",
                                  :name => "valid",
-                                 :domain_id => @domain.id )
+                                 :domains => [@domain] )
+    other_subnet.valid?
     assert !other_subnet.save
   end
 
@@ -65,7 +66,7 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should find the subnet by ip" do
-    set_attr(:network=, :mask=, :domain=, :name=)
+    set_attr(:network=, :mask=, :domains=, :name=)
     assert @subnet.save
     assert_equal @subnet, Subnet.subnet_for("123.123.123.1")
   end
@@ -79,7 +80,7 @@ class SubnetTest < ActiveSupport::TestCase
   def create_a_domain_with_the_subnet
     @domain = Domain.find_or_create_by_name("domain")
     set_attr(:network=, :mask=, :name=)
-    @subnet.domain_id = @domain.id
+    @subnet.domains = [@domain]
     @subnet.save
   end
 
@@ -96,14 +97,14 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "user with create permissions should be able to create" do
     setup_user "create"
-    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0", :domain => Domain.first
+    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
     assert record.valid?
     assert !record.new_record?
   end
 
   test "user with view permissions should not be able to create" do
     setup_user "view"
-    record =  Subnet.create :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0", :domain => Domain.first
+    record =  Subnet.create :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
     assert record.valid?
     assert record.new_record?
   end
@@ -112,7 +113,7 @@ class SubnetTest < ActiveSupport::TestCase
     setup_user "destroy"
     record = subnets(:two)
     as_admin do
-      record.domain = nil
+      record.domains = []
       record.hosts.clear
     end
     assert record.destroy
@@ -138,11 +139,39 @@ class SubnetTest < ActiveSupport::TestCase
     record      =  Subnet.first
     record.name = "renamed"
     as_admin do
-      record.domain = domains(:unuseddomain)
+      record.domains = [domains(:unuseddomain)]
     end
     assert !record.save
     assert record.valid?
   end
 
-end
+  test "from cant be bigger than to range" do
+    s      = subnets(:one)
+    s.to   = "2.3.4.15"
+    s.from = "2.3.4.17"
+    assert !s.save
+  end
 
+  test "should be able to save ranges" do
+    s=subnets(:one)
+    s.from = "2.3.4.15"
+    s.to   = "2.3.4.17"
+    assert s.save
+  end
+
+  test "should not be able to save ranges if they dont belong to the subnet" do
+    s=subnets(:one)
+    s.from = "2.3.3.15"
+    s.to   = "2.3.4.17"
+    assert !s.save
+  end
+
+  test "should not be able to save ranges if one of them is missing" do
+    s=subnets(:one)
+    s.from = "2.3.4.15"
+    assert !s.save
+    s.to   = "2.3.4.17"
+    assert s.save
+  end
+
+end

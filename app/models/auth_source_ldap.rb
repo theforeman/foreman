@@ -27,10 +27,7 @@ class AuthSourceLdap < AuthSource
   validates_numericality_of :port, :only_integer => true
 
   before_validation :strip_ldap_attributes
-
-  def after_initialize
-    self.port = 389 if self.port == 0
-  end
+  after_initialize  :set_defaults
 
   # Loads the LDAP info for a user and authenticates the user with their password
   # Returns : Array of Strings.
@@ -39,7 +36,7 @@ class AuthSourceLdap < AuthSource
     return nil if login.blank? || password.blank?
     attrs = []
     # get user's DN
-    if not account.nil? and self.account.include? "$login" then
+    if not account.nil? and self.account.include? "$login"
       logger.debug "LDAP-Auth with User login"
       ldap_con = initialize_ldap_con(self.account.sub("$login", login), password)
     else
@@ -100,9 +97,13 @@ class AuthSourceLdap < AuthSource
   end
 
   def self.get_attr(entry, attr_name)
-    if !attr_name.blank?
+    unless attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end
   end
-end
 
+  def set_defaults
+    self.port ||= 389
+  end
+
+end

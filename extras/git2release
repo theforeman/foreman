@@ -3,14 +3,17 @@
 
 cd /tmp
 rm -rf foreman
-git clone git://github.com/ohadlevy/foreman.git foreman
+git clone git://github.com/theforeman/foreman.git foreman --branch develop
 cd foreman
 git submodule init
 git submodule update
+bundle install --path vendor --without development test
 
 rm -rf `find -name ".git*"`
 rm -rf vendor/rails/railties/guides
-rake gems:refresh_specs
+rm -rf `find -name test -type d`
+rm -rf `find -name spec -type d`
+rm -rf `find -name "*.gem"`
 cd /tmp
 
 tar cv foreman | bzip2 -9 > /tmp/foreman-$1.tar.bz2

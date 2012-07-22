@@ -4,14 +4,9 @@
   Sorry, these hosts do not have parameters assigned to them, you must add them first.
   <p><%= link_to "Back to host list", hosts_path %></p>
 <% else -%>
-  <% form_tag update_multiple_parameters_hosts_path({:host_ids => params[:host_ids]}) do %>
+  <%= form_tag update_multiple_parameters_hosts_path({:host_ids => params[:host_ids]}) do %>
     <% for param in @parameters %>
-      <div class="clearfix">
-        <%= label_tag :name, param.name %>
-        <div class=input>
-          <%= text_field :name, param.name, :class => "xxlarge" %>
-        </div>
-      </div>
+      <%= text_field :name, param.name, :class => "input-xxlarge", :placeholder => param.name %>
     <% end %>
   <% end %>
 <% end %>

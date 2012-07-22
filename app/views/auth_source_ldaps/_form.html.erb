@@ -1,25 +1,23 @@
-<% title_actions link_to("Documentation", "http://theforeman.org/projects/foreman/wiki/LDAP_Authentication", :rel => "external") %>
+<% title_actions link_to(icon_text("question-sign", "Documentation", :class => "icon-white"), "http://theforeman.org/projects/foreman/wiki/LDAP_Authentication", :rel => "external", :class => "btn-info") %>
 
-<% form_for @auth_source_ldap do |f| %>
+<%= form_for @auth_source_ldap do |f| %>
   <%= base_errors_for @auth_source_ldap %>
 
   <%= text_f f, :name %>
   <%= text_f f, :host %>
   <%= text_f f, :port %>
   <%= checkbox_f f, :tls, :label => "LDAPS" %>
-  <%= text_f f, :account, :help_inline =>"Use this account to authenticate,<i>optional</i>" %>
-  <%= password_f f, :account_password, :onfocus => "this.value='';", :help_inline => "Use this account to authenticate, <i>optional</i>" %>
-  <%= text_f f, :base_dn, :label => "basedn", :class => "xxlarge" %>
-  <%= checkbox_f f, :onthefly_register, :label => "On-the-fly user creation", :onchange => "$('#on_the_fly_attrs').toggle($('#auth_source_ldap_onthefly_register').attr('checked'))",
+  <%= text_f f, :account, :help_inline =>"Use this account to authenticate,<i>optional</i>".html_safe %>
+  <%= password_f f, :account_password, :onfocus => "this.value='';", :help_inline => "Use this account to authenticate, <i>optional</i>".html_safe %>
+  <%= text_f f, :base_dn, :label => "basedn", :class => "input-xxlarge" %>
+  <%= checkbox_f f, :onthefly_register, :label => "On-the-fly user creation",
     :help_inline => "LDAP user will have his Foreman account automatically created the first time he logs into Foreman" %>
-  <div id="on_the_fly_attrs" <%= display?(!on_the_fly?(@auth_source_ldap)) %>>
-    <% field_set_tag("Attributes for on the fly user creation") do %>
-      <%= text_f f, :attr_login, :help_inline => "e.g. uid" %>
-      <%= text_f f, :attr_firstname, :help_inline => "e.g. givenName" %>
-      <%= text_f f, :attr_lastname, :help_inline => "e.g. sn" %>
-      <%= text_f f, :attr_mail, :help_inline => "e.g. mail" %>
-    <% end -%>
-  </div>
+  <%= field_set_tag("LDAP Attributes mapping") do %>
+    <%= text_f f, :attr_login, :help_inline => "e.g. uid" %>
+    <%= text_f f, :attr_firstname, :help_inline => "e.g. givenName" %>
+    <%= text_f f, :attr_lastname, :help_inline => "e.g. sn" %>
+    <%= text_f f, :attr_mail, :help_inline => "e.g. mail" %>
+  <% end -%>
 
   <%= submit_or_cancel f %>
 <% end %>

@@ -1,18 +1,18 @@
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
+require 'foreman/controller/auto_complete_search'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
-  rescue_from Exception, :with => :generic_exception
+  rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
   # standard layout to all controllers
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
-  before_filter :authorize, :except => :login
+  before_filter :authorize
 
   def welcome
     @searchbar = true
@@ -52,22 +52,34 @@ class ApplicationController < ActionController::Base
   # Force a user to login if authentication is enabled
   # Sets User.current to the logged in user, or to admin if logins are not used
   def require_login
-    unless session[:user] and User.current = User.find(session[:user])
+    unless session[:user] and (User.current = User.find(session[:user]))
       # User is not found or first login
-      if SETTINGS[:login] and SETTINGS[:login] == true
+      if SETTINGS[:login]
         # authentication is enabled
         if api_request?
           # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
           user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          User.current = user.is_a?(User) ? user : nil
-          logger.warn("Failed authentcation from #{request.remote_ip} #{user}") if User.current.nil?
+          logger.warn("Failed API authentication request from #{request.remote_ip}") unless user
+        # if login delegation authorized and REMOTE_USER not empty, authenticate user without using password
+        elsif remote_user_provided?
+          user = User.find_by_login(@remote_user)
+          logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        end
+
+        if user.is_a?(User)
+          logger.info("Authorized user #{user.login}(#{user.to_label})")
+          User.current = user
+          session[:user] = User.current.id unless api_request?
           return !User.current.nil?
         end
-        session[:original_uri] = request.request_uri # keep the old request uri that we can redirect later on
-        redirect_to login_users_path and return
+
+        unless api_request?
+          session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
+          redirect_to login_users_path and return
+        end
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        unless User.current = User.find_by_login("admin")
+        unless (User.current = User.find_by_login("admin"))
           error "Unable to find internal system admin account - Recreating . . ."
           User.current = User.create_admin
         end
@@ -76,13 +88,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # this method is returns the active user which gets used to puplate the audits table
+  # this method is returns the active user which gets used to populate the audits table
   def current_user
     User.current
   end
 
   def invalid_request
-    render :text => 'Invalid query', :status => 400 and return
+    render :text => 'Invalid query', :status => 400
   end
 
   def not_found(exception = nil)
@@ -93,7 +105,7 @@ class ApplicationController < ActionController::Base
       format.yaml { head :status => 404}
       format.yml { head :status => 404}
     end
-    return true
+    true
   end
 
   def api_request?
@@ -117,7 +129,7 @@ class ApplicationController < ActionController::Base
 
     obj = controller_name.singularize
     # determine if we are searching for a numerical id or plain name
-    cond = "find_by_" + ((id =~ /^\d+$/ && id=id.to_i) ? "id" : "name")
+    cond = "find_by_" + ((id =~ /^\d+$/ && (id=id.to_i)) ? "id" : "name")
     not_found and return unless eval("@#{obj} = #{obj.camelize}.#{cond}(id)")
   end
 
@@ -127,6 +139,10 @@ class ApplicationController < ActionController::Base
 
   def error error
     flash[:error] = error
+  end
+
+  def warning warning
+    flash[:warning] = warning
   end
 
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
@@ -142,6 +158,40 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+  end
+
+  def session_expiry
+    if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
+      expire_session
+      session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
+    end
+  rescue => e
+    logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
+    expire_session
+  end
+
+  def update_activity_time
+    session[:expires_at] = Setting.idle_timeout.minutes.from_now.utc
+  end
+
+  def expire_session
+    logger.info "Session for #{current_user} is expired."
+    reset_session
+    flash[:warning] = "Your session has expired, please login again"
+    redirect_to login_users_path
+  end
+
+  def ajax?
+    request.xhr?
+  end
+
+  def ajax_request
+    return head(:method_not_allowed) unless ajax?
+  end
+
+  def remote_user_provided?
+    return false unless Setting["authorize_login_delegation"]
+    (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
   private
@@ -166,16 +216,7 @@ class ApplicationController < ActionController::Base
       format.xml  { head 403 }
       format.json { head 403 }
     end
-    return false
-  end
-
-  # this has to be in the application controller, as the new request (for puppetdoc) url is not controller specific.
-  def no_puppetclass_documentation_handler(exception)
-    if exception.message =~ /No route matches "\/puppet\/rdoc\/([^\/]+)\/classes\/(.+?)\.html/
-      render :template => "puppetclasses/no_route", :locals => {:environment => $1, :name => $2.gsub("/","::")}, :layout => false
-    else
-      local_request? ? rescue_action_locally(exception) : rescue_action_in_public(exception)
-    end
+    false
   end
 
   def process_success hash = {}
@@ -184,6 +225,8 @@ class ApplicationController < ActionController::Base
     hash[:success_msg]            ||= "Successfully #{action_name.pluralize.sub(/es$/,"ed").sub(/ys$/, "yed")} #{hash[:object_name]}."
     hash[:success_redirect]       ||= eval("#{controller_name}_url")
     hash[:json_code]                = :created if action_name == "create"
+
+    return render :json => {:redirect => hash[:success_redirect]} if hash[:redirect_xhr]
 
     respond_to do |format|
         format.html do
@@ -203,23 +246,25 @@ class ApplicationController < ActionController::Base
     else
       hash[:redirect] ||= eval("#{controller_name}_url")
     end
-    hash[:error_msg] ||= hash[:object].errors.on_base.to_a
 
     hash[:json_code] ||= :unprocessable_entity
-    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}"
+    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}].flatten
+    hash[:error_msg] = hash[:error_msg].to_a.flatten
     respond_to do |format|
       format.html do
+        hash[:error_msg] = hash[:error_msg].join("<br/>")
         if hash[:render]
-          flash.now[:error] = hash[:error_msg].join("<br/>") unless hash[:error_msg].empty?
+          flash.now[:error] = hash[:error_msg] unless hash[:error_msg].empty?
           render :action => hash[:render]
           return
         elsif hash[:redirect]
-          error(hash[:error_msg].join("<br/>")) unless hash[:error_msg].empty?
+          error(hash[:error_msg]) unless hash[:error_msg].empty?
           redirect_to hash[:redirect]
           return
         end
       end
-      format.json { render :json => {"errors" => hash[:object].errors} , :status => hash[:json_code]}
+      format.json { render :json => {"errors" => hash[:object].errors.full_messages} , :status => hash[:json_code]}
     end
   end
 
@@ -228,10 +273,8 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
-    return no_puppetclass_documentation_handler(exception) if exception.is_a?(ActionController::RoutingError)
-    logger.warn exception
-    logger.warn exception.application_backtrace.join("\n")
+    logger.warn "Operation FAILED: #{exception}"
+    logger.debug exception.backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
-
 end

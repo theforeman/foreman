@@ -16,23 +16,23 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   test "duplicate names cannot exist in a hostgroup" do
-    parameter1 = GroupParameter.create :name => "some parameter", :value => "value", :reference_id => Hostgroup.first.id
-    parameter2 = GroupParameter.create :name => "some parameter", :value => "value", :reference_id => Hostgroup.first.id
+    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => Hostgroup.first.id
+    parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => Hostgroup.first.id
     assert !parameter2.valid?
     assert  parameter2.errors.full_messages[0] == "Name has already been taken"
   end
 
   test "duplicate names can exist in different hostgroups" do
-    parameter1 = GroupParameter.create :name => "some parameter", :value => "value", :reference_id => Hostgroup.first.id
-    parameter2 = GroupParameter.create :name => "some parameter", :value => "value", :reference_id => Hostgroup.last.id
+    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => Hostgroup.first.id
+    parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => Hostgroup.last.id
     assert parameter2.valid?
   end
 
-  def setup_user operation
+  def setup_user operation, type = "hostgroups"
     @one = users(:one)
     as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_hostgroups"
-      role.permissions = ["#{operation}_hostgroups".to_sym]
+      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+      role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles = [role]
       @one.hostgroups = []
       @one.save!
@@ -41,7 +41,7 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   test "user with create permissions should be able to create when permitted" do
-    setup_user "create"
+    setup_user "create", "params"
     as_admin do
       @one.hostgroups = [hostgroups(:common)]
     end
@@ -61,7 +61,7 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   test "user with create permissions should be able to create when unconstrained" do
-    setup_user "create"
+    setup_user "create", "params"
     as_admin do
       @one.hostgroups = []
     end
@@ -78,7 +78,7 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
+    setup_user "destroy", "params"
     record =  GroupParameter.first
     assert record.destroy
     assert record.frozen?
@@ -92,7 +92,7 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   test "user with edit permissions should be able to edit" do
-    setup_user "edit"
+    setup_user "edit", "params"
     record      =  GroupParameter.first
     record.name = "renamed"
     assert record.save

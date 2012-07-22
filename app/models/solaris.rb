@@ -83,7 +83,6 @@ class Solaris < Operatingsystem
     true
   end
 
-
   def jumpstart_params host, vendor
     # root server and install server are always the same under Foreman
     server_name = host.medium.media_host

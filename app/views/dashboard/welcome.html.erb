@@ -1,5 +1,6 @@
 <div id="welcome">
   <h1> Welcome </h1>
+  <p>
     Before you can use Foreman for the first time there are a few tasks that must be performed. You must decide how you
     wish to use the software, and update the primary settings file
     <b>config/settings.yaml</b> and the <%= link_to "settings", settings_path %> to indicate your selections.
@@ -12,7 +13,17 @@
     turn on unattended mode operation in which Foreman
     creates and manages the configuration files necessary to completely configure a new host. When operating in
     unattended mode Foreman will require more information,
-    so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and thier clones), see <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external">here</a> for more details.
+    so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external">here</a> for more details.
+  </p>
+
+  <h2> Create a Smart Proxy </h2>
+
+  <p>
+    If you're planning to do anything more than just handle reports, you'll be in need of a smart proxy - either on this machine or elsewhere on your network. You can find details of how to set up the proxy at <a href=http://theforeman.org/projects/foreman/wiki/Smart-Proxy_Installation rel="external">Smart-Proxy Installation</a>
+
+    <p><span class="label label-important">Important</span>
+      Once installed you should head over to <a href=smart_proxies>Smart Proxies</a> to point Foreman at it
+    </p>
   </p>
 
   <h2>User Authentication</h2>
@@ -22,9 +33,9 @@
     is performing the task. If you wish to track the actions of a
     particular user then it is possible to use an additional authentication stage and provide a user account. At
     present, authentication is performed against the internal Database or a LDAP
-    service provided by one or more LDAP servers. 
+    service provided by one or more LDAP servers.
 
-    <p> Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.<p>
+    <p> Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.</p>
 
     <% if SETTINGS[:login] -%>
       <ul>
@@ -34,11 +45,10 @@
         <li> For Roles and permissions, see the <%= link_to "Roles", roles_path %> page</li>
       </ul>
     <% else -%>
-      </p>
-      <p><span class="label notice">Notice</span>
+      <p><span class="label label-info">Notice</span>
       You would need to enable login in your settings.yml file first and restart foreman
-      <p>
-      <p><span class="label important">Important</span>
+      </p>
+      <p><span class="label label-important">Important</span>
       the default username and password are <b>admin</b> and <b>changeme</b>
       </p>
     <% end -%>
@@ -73,6 +83,6 @@
 
   <p>You may also find the <a href=http://theforeman.org/projects/foreman/wiki/Howtos rel="external">Howtos</a> useful.</p>
 
-  <p><span class="label notice">Notice</span> This page will self destruct once data comes in.</p>
+  <p><span class="label label-info">Notice</span> This page will self destruct once data comes in.</p>
 
 </div>

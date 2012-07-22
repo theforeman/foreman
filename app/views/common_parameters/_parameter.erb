@@ -1,16 +1,13 @@
 <div class="fields">
-  <div class="clearfix">
-    <%= f.label :name %>
-    <div class="input">
-      <%= f.text_field :name %>
-    </div>
-  </div>
-  <div class="clearfix">
-    <%= f.label :value %>
-    <div class="input">
-      <%= f.text_field :value, :class => "span10" %>
-      <%= authorized_via_my_scope(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
-    </div>
+  <div class="control-group <%= 'error' if f.object.errors.any? %>">
+    <%= f.text_field(:name,  :class => "span2",  :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Name").html_safe %>
+    <%= f.text_field :value, :class => "span9", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Value" %>
+    <span class="help-inline">
+      <%= link_to_remove_fields("remove", f) if authorized_via_my_scope("host_editing", "destroy_params") %>
+    </span>
+    <span class="help-block">
+      <%= f.object.errors.full_messages.to_sentence %>
+    </span>
   </div>
   <%= f.hidden_field :nested %>
 </div>

@@ -1,18 +1,20 @@
 <% title "Partition tables" %>
 <% title_actions display_link_if_authorized("New Partition table layout", hash_for_new_ptable_path), help_path %>
 
-<table class="list">
+<table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name %></th>
+    <th>Family</th>
     <th>Operating systems</th>
     <th></th>
   </tr>
   <% for ptable in @ptables %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=link_to_if_authorized h(ptable.name), hash_for_edit_ptable_path(:id => ptable.id) %></td>
-      <td><%=h ptable.operatingsystems.to_sentence %></td>
-      <td class="ra">
-        <%= display_link_if_authorized "Destroy", hash_for_ptable_path(:id => ptable, :auth_action => :destroy), :confirm => "Delete #{ptable.name}?", :method => :delete %>
+      <td><%= link_to_if_authorized ptable, hash_for_edit_ptable_path(:id => ptable.id) %></td>
+      <td><%= ptable.os_family %></td>
+      <td><%= ptable.operatingsystems.to_sentence %></td>
+      <td>
+        <%= display_delete_if_authorized hash_for_ptable_path(:id => ptable), :confirm => "Delete #{ptable.name}?"%>
       </td>
     </tr>
   <% end %>

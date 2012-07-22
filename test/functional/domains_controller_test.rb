@@ -64,6 +64,7 @@ class DomainsControllerTest < ActionController::TestCase
   def test_destroy
     domain = Domain.first
     domain.hosts.clear
+    domain.hostgroups.clear
     domain.subnets.clear
     delete :destroy, {:id => domain.name}, set_session_user
     assert_redirected_to domains_url
@@ -73,11 +74,12 @@ class DomainsControllerTest < ActionController::TestCase
   def test_destroy_json
     domain = Domain.first
     domain.hosts.clear
+    domain.hostgroups.clear
     domain.subnets.clear
     delete :destroy, {:format => "json", :id => domain.name}, set_session_user
     domain = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !Domain.exists?(domain['id'])
+    assert !Domain.exists?(:name => domain['id'])
   end
 
   def setup_user

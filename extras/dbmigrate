@@ -3,7 +3,7 @@ USERNAME=$(/usr/bin/id -un)
 WANTED_USER=${1:-'foreman'}
 
 if [ $USERNAME = $WANTED_USER ]; then
-  cd && /usr/bin/rake db:migrate RAILS_ENV=production
+  cd && bundle exec /usr/bin/rake db:migrate RAILS_ENV=production
 else
   echo "$0 has to be run as user ${WANTED_USER}!"
   exit 1

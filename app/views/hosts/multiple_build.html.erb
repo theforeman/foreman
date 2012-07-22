@@ -1,5 +1,5 @@
 <%= render 'selected_hosts', :hosts => @hosts %>
 
-<% form_tag submit_multiple_build_hosts_path({:host_ids => params[:host_ids]}) do -%>
-  <span class="label notice">Provision</span> these hosts for a build operation on next boot
+<%= form_tag submit_multiple_build_hosts_path({:host_ids => params[:host_ids]}) do -%>
+  <span class="label label-info">Provision</span> these hosts for a build operation on next boot
 <% end %>

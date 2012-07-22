@@ -1,43 +1,44 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
-<table class="list zebra-striped fixed-width" >
+<table class="table table-bordered table-striped table-condensed" >
   <tr>
-    <th class="ca tbl-column1"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
-    <th class="tbl-column3"><%= sort :name %></th>
-    <th><%= sort :os, :as => "Operating system" %></th>
-    <th><%= sort :environment %></th>
-    <th class="tbl-column2"><%= sort :model %></th>
-    <th><%= sort :hostgroup, :as => "Host Group" %></th>
-    <th><%= sort :last_report %></th>
+    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
+    <th class=''><%= sort :name %></th>
+    <th class="hidden-phone"><%= sort :os, :as => "Operating<br>System" %></th>
+    <th class="hidden-phone"><%= sort :environment %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => "Host Group" %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :last_report %></th>
     <th></th>
   </tr>
   <% hosts.each do |host| -%>
     <tr>
-      <td class="ca tbl-column1">
+      <td class="ca">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
-      <td class="tbl-column3"> <%= name_column(host) %> </td>
-      <td><%= icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
-      <td><%= h host.try(:environment) %></td>
-      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.try(:model)%>" ><%= h host.try(:model) %></td>
-      <td><%= hostgroup_name host.hostgroup %></td>
-      <td><%= last_report_column(host) %></td>
+      <td class=''><%= name_column(host) %> </td>
+      <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
+      <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
+      <td class="hidden-tablet hidden-phone"><%= model_name host %></td>
+      <td class="hidden-tablet hidden-phone"><%= hostgroup_name host.hostgroup, 26 %></td>
+      <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
       <td>
-        <%= display_link_if_authorized 'Edit', hash_for_edit_host_path(:id => host) %>
-        <%= display_link_if_authorized 'Clone', hash_for_clone_host_path(:id => host) %>
-        <%= display_link_if_authorized 'Delete', hash_for_host_path(:id => host, :auth_action => :destroy), :confirm => "Delete #{host.name}?", :method => :delete, :action => :destroy %>
+        <%= action_buttons(
+                    display_link_if_authorized("Edit Host", hash_for_edit_host_path(:id => host), :class=>"btn btn-small"),
+                    display_link_if_authorized("Clone", hash_for_clone_host_path(:id => host)),
+                    display_delete_if_authorized(hash_for_host_path(:id => host), :confirm => "Delete #{host.name}?", :action => :destroy))%>
       </td>
     </tr>
   <% end -%>
 </table>
 <div id="confirmation-modal" class="modal hide fade">
   <div class="modal-header">
-    <a href="#" class="close">×</a>
+    <a href="#" class="close" data-dismiss="modal">×</a>
     <h3>Please Confirm</h3>
   </div>
   <div class="modal-body"></div>
   <div class="modal-footer">
-    <a href="#" class="btn primary">Submit</a>
+    <a href="#" class="btn btn-primary">Submit</a>
     <a href="#" class="btn secondary">Cancel</a>
   </div>
 </div>

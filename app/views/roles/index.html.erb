@@ -2,7 +2,7 @@
 <% title_actions link_to("New role", new_role_path),
    link_to_if_authorized("Permissions report", :action => 'report') %>
 
-<table class="list">
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th><%= sort :name, :as => "Role" %></th>
@@ -16,10 +16,8 @@
           <%= content_tag(role.builtin? ? 'em' : 'span', link_to_if_authorized(role.name, :action => 'edit', :id => role)) %>
         </td>
         <td class="buttons">
-          <%= display_link_if_authorized("Delete", hash_for_role_path(:id => role, :auth_action => :destroy),
-                                    :method => :delete,
-                                    :confirm => "Delete #{role.name}?",
-                                    :class => 'icon icon-del') unless role.builtin?
+          <%= display_delete_if_authorized(hash_for_role_path(:id => role),
+                                    :confirm => "Delete #{role.name}?") unless role.builtin?
           %>
         </td>
       </tr>

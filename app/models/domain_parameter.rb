@@ -1,6 +1,6 @@
 class DomainParameter < Parameter
   belongs_to :domain, :foreign_key => :reference_id
-  acts_as_audited :except => [:priority], :parent => :domain
+  audited :except => [:priority], :associated_with => :domain
   validates_uniqueness_of :name, :scope => :reference_id
 
   private
@@ -16,7 +16,7 @@ class DomainParameter < Parameter
       end
     end
 
-    errors.add_to_base "You do not have permission to #{operation} this domain parameter"
+    errors.add :base, "You do not have permission to #{operation} this domain parameter"
     false
   end
 end

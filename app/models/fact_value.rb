@@ -1,26 +1,35 @@
 class FactValue < Puppet::Rails::FactValue
   belongs_to :host #ensures we uses our Host model and not Puppets
   delegate :name, :to => :fact_name
+  has_many :hostgroup, :through => :host
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
   scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
+  scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
 
-  named_scope :no_timestamp_facts, :include => [:fact_name],
+  scope :no_timestamp_facts, :include => [:fact_name],
               :conditions => ["fact_names.name <> ?",:_timestamp]
 
-  named_scope :timestamp_facts, :joins => [:fact_name],
+  scope :timestamp_facts, :joins => [:fact_name],
               :conditions => ["fact_names.name = ?",:_timestamp]
 
-  named_scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
-  named_scope :required_fields, { :include => :host }
+  scope :my_facts, lambda {
+    return { :conditions => "" } if User.current.admin? # Admin can see all hosts
+
+    {:conditions => sanitize_sql_for_conditions(
+      [" (fact_values.host_id in (?))",Host.my_hosts.map(&:id)])}
+  }
+
+  scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
+  scope :required_fields, { :include => :host }
   default_scope :order => 'LOWER(fact_values.value)'
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
   #
-  # acts_as_audited
+  # audited
 
   # returns the average of all facts
   # required only on facts that return a unit (e.g. MB, GB etc)
@@ -28,12 +37,12 @@ class FactValue < Puppet::Rails::FactValue
   def self.mem_average(fact)
     total, count = to_gb(fact)
     return 0 if count == 0
-    (total / count).round_with_precision(1)
+    (total / count).round(1)
   end
 
   # returns the rounded total of memory fact values (e.g. MB, GB etc)
   def self.mem_sum(fact)
-    to_gb(fact).first.round_with_precision(1)
+    to_gb(fact).first.to_f.round(1)
   rescue
     0
   end
@@ -42,7 +51,7 @@ class FactValue < Puppet::Rails::FactValue
   def self.count_each(fact)
     hash = {}
     all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}).each do |fv|
-      value = fv.value.strip.humanize
+      value = fv.value
       if hash[value].nil?
         hash[value] = 1
       else

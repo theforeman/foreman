@@ -11,12 +11,18 @@ module ApplicationHelper
     render :partial => 'common/show_habtm', :collection => associations, :as => :association
   end
 
-  def edit_habtm klass, association
-    render :partial => 'common/edit_habtm', :locals =>{ :klass => klass, :associations => association.all.sort.delete_if{|e| e == klass}}
+  def edit_habtm klass, association, prefix=nil
+    render :partial => 'common/edit_habtm', :locals =>{:prefix => prefix, :klass => klass, :associations => association.all.sort.delete_if{|e| e == klass}}
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function("x", "remove_fields(this)", :class => "label important", :title => "Remove")
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => "Remove Parameter")
+  end
+
+  def trunc text, length
+    text = text.to_s
+    options = text.size > length ? {:'data-original-title'=>text, :rel=>'twipsy'} : {}
+    content_tag(:span, truncate(text, :length => length), options).html_safe
   end
 
   # Creates a link to a javascript function that creates field entries for the association on the web page
@@ -29,7 +35,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"), options.merge({:class => "btn small info"}) )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn btn-small btn-success"}) )
   end
 
   def toggle_div divs
@@ -41,32 +47,32 @@ module ApplicationHelper
         page << "if ($('#{div}').is(':visible')) {"
         page[div].hide()
         page << "} else {"
-        page[div].BlindDown :duration => 0.1
+        page[div].show
         page << "}"
       end
     end
   end
 
   def link_to_remove_puppetclass klass
-    link_to_function "",:class=>"ui-icon ui-icon-minus" do |page|
-      page["selected_puppetclass_#{klass.id}"].remove
-      #TODO if the class is already selected, removing it will not add it to the avail class list
-      page << "if ($('puppetclass_#{klass.id}')) {"
-      page["puppetclass_#{klass.id}"].show
-      page << "}"
-    end
+    options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
+    content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
+    link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
+                     :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
+                     :class=>"ui-icon ui-icon-minus")
   end
 
   def link_to_add_puppetclass klass, type
-    # link to remote is faster than inline js when having many classes
-    link_to_remote "",
-      {:url => assign_puppetclass_path(klass, :type => type),
-      :position => {:after => {:success => "selected_classes" }}},{:class=>"ui-icon ui-icon-plus"}
+    options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
+    content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
+    link_to_function("", "add_puppet_class(this)",
+                       'data-class-id' => klass.id, 'data-type' => type,
+                       'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
+                       :class => "ui-icon ui-icon-plus")
   end
 
-  def check_all_links(form_name)
-    link_to_function("Check all", "checkAll('##{form_name}', true)") +
-    link_to_function("Uncheck all", "checkAll('##{form_name}', false)")
+  def check_all_links(form_name=':checkbox')
+    link_to_function("Check all", "checkAll('#{form_name}', true)") +
+    link_to_function("Uncheck all", "checkAll('#{form_name}', false)")
   end
 
   # Return true if user is authorized for controller/action, otherwise false
@@ -88,10 +94,15 @@ module ApplicationHelper
     if enable_link
       link_to name, options, html_options
     else
-      link_to_function name, 'void()', html_options.merge!(:class => 'disabled', :disabled => true)
+      link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     end
   end
 
+  def display_delete_if_authorized(options ={}, html_options ={})
+    options = {:auth_action => :destroy}.merge(options)
+    html_options = {:confirm => 'Are you sure?', :method => :delete, :class => 'delete'}.merge(html_options)
+    display_link_if_authorized("Delete", options, html_options)
+  end
   # Display a link if user is authorized, otherwise nothing
   # +name+    : String to be displayed
   # +options+ : Hash containing
@@ -108,8 +119,8 @@ module ApplicationHelper
     end
   end
 
-  def authorized_edit_habtm klass, association
-    return edit_habtm(klass, association) if authorized_for params[:controller], params[:action]
+  def authorized_edit_habtm klass, association, prefix=nil
+    return edit_habtm(klass, association, prefix) if authorized_for params[:controller], params[:action]
     show_habtm klass.send(association.name.pluralize.downcase)
   end
 
@@ -129,13 +140,15 @@ module ApplicationHelper
   end
 
   def checked_icon condition
-    return image_tag("toggle_check.png") if condition
+    image_tag("toggle_check.png") if condition
   end
 
   def searchable?
     return false if (SETTINGS[:login] and !User.current )
-    return false if @searchbar == false
-    (controller.action_name == "index") && (controller.respond_to?(:auto_complete_search)) rescue false
+    return false unless @searchbar
+    if (controller.action_name == "index") or (defined?(SEARCHABLE_ACTIONS) and (SEARCHABLE_ACTIONS.include?(controller.action_name)))
+      controller.respond_to?(:auto_complete_search)
+    end
   end
 
   def auto_complete_search(method, val,tag_options = {}, completion_options = {})
@@ -146,7 +159,11 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to "Help", :action => "help"
+    link_to "Help", :action => "welcome"
+  end
+
+  def method_path method
+    eval("#{method}_#{controller_name}_path")
   end
 
   def edit_textfield(object, property, options={})
@@ -162,12 +179,14 @@ module ApplicationHelper
   end
 
   def pie_chart name, title, data, options = {}
+    link_to_function(content_tag(:h4,title,:class=>'ca'), "expand_chart(this)") +
     content_tag(:div, nil,
                 { :id             => name,
                   :class          => 'statistics_pie',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
-                  :'chart-data'   => data.to_a.to_json
+                  :'chart-data'   => data.to_a.to_json,
+                  :'chart-href'   => options[:search] ? "/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
                 }.merge(options))
   end
 
@@ -181,6 +200,32 @@ module ApplicationHelper
                   :'chart-labels' => labels.to_a.to_json,
                   :'chart-data'   => data.to_a.to_json
                 }.merge(options))
+  end
+
+  def action_buttons(*args)
+    content_tag(:div, :class => "btn-toolbar btn-toolbar-condensed") do
+      toolbar_action_buttons args
+    end
+  end
+
+  def toolbar_action_buttons(*args)
+    # the no-buttons code is needed for users with less permissions
+    return unless args
+    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
+    return if args.length == 0
+
+    #single button
+    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+
+    #multiple buttons
+    primary = args.delete_at(0)
+
+    content_tag(:div,:class => "btn-group") do
+      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
+      content_tag(:ul,:class=>"dropdown-menu") do
+        args.map{|option| content_tag(:li,option)}.join(" ").html_safe
+      end
+    end
   end
 
   private

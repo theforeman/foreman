@@ -1,4 +1,4 @@
-require_dependency 'hypervisor/guest'
+require 'hypervisor/guest'
 
 class Hypervisors::GuestsController < ApplicationController
   before_filter :find_hypervisor

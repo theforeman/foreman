@@ -1,3 +1,5 @@
+require 'facts_importer'
+
 class Host < Puppet::Rails::Host
   include Authorization
   include ReportCommon
@@ -10,84 +12,98 @@ class Host < Puppet::Rails::Host
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
   belongs_to :sp_subnet, :class_name => "Subnet"
+  belongs_to :compute_resource
+  belongs_to :image
 
   include Hostext::Search
   include HostCommon
 
-  class Jail < Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
-      :params, :hostgroup, :domain, :ip, :mac, :shortname
+  class Jail < ::Safemode::Jail
+    allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :url_for_boot,
+      :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture, :model, :certname, :capabilities,
+      :provider
   end
 
   attr_reader :cached_host_params, :cached_lookup_keys_params
 
-  named_scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
-  named_scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
+  scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
+  scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
 
-  named_scope :with_fact, lambda { |fact,value|
-    unless fact.nil? or value.nil?
-      { :joins => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
-                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
-                   :select => "DISTINCT hosts.name, hosts.id", :conditions =>
-                   ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id",value, fact ] }
-    else
+  scope :with_fact, lambda { |fact,value|
+    if fact.nil? or value.nil?
       raise "invalid fact"
-    end
-  }
-
-  named_scope :with_class, lambda { |klass|
-    unless klass.nil?
-      { :joins => :puppetclasses, :select => "hosts.name", :conditions => {:puppetclasses => {:name => klass }} }
     else
-      raise "invalid class"
+      { :joins  => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
+                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
+        :select => "DISTINCT hosts.name, hosts.id", :conditions =>
+          ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id", value, fact] }
     end
   }
 
-  named_scope :with_error, { :conditions => "(puppet_status > 0) and
+  scope :with_class, lambda { |klass|
+    if klass.nil?
+      raise "invalid class"
+    else
+      { :joins => :puppetclasses, :select => "hosts.name", :conditions => { :puppetclasses => { :name => klass } } }
+    end
+  }
+
+  scope :with_error, { :conditions => "(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )"
   }
 
-  named_scope :without_error, { :conditions =>
+  scope :without_error, { :conditions =>
     "((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
      ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)"
   }
 
-  named_scope :with_changes, { :conditions => "(puppet_status > 0) and
+  scope :with_changes, { :conditions => "(puppet_status > 0) and
     ( ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )"
   }
 
-  named_scope :without_changes, { :conditions =>
+  scope :without_changes, { :conditions =>
     "((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
      ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)"
   }
 
-  named_scope :successful, lambda { without_changes.without_error.scope(:find)}
+  scope :with_pending_changes,    { :conditions =>
+    "(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)" }
+  scope :without_pending_changes, { :conditions =>
+    "((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)" }
 
-  named_scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
+  scope :successful, lambda { without_changes.without_error.without_pending_changes}
 
-  named_scope :my_hosts, lambda {
+  scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
+
+  scope :alerts_enabled, {:conditions => ["enabled = ?", true] }
+
+  scope :my_hosts, lambda {
     user                 = User.current
-    owner_conditions     = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
-    domain_conditions    = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domains).map(&:id)])
-    hostgroup_conditions = sanitize_sql_for_conditions([" (hosts.hostgroup_id in (?))",(hgs = user.hostgroups).map(&:id)])
+    return { :conditions => "" } if user.admin? # Admin can see all hosts
+
+    owner_conditions             = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
+    domain_conditions            = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domains).map(&:id)])
+    compute_resource_conditions  = sanitize_sql_for_conditions([" (hosts.compute_resource_id in (?))",(crs = user.compute_resources).map(&:id)])
+    hostgroup_conditions         = sanitize_sql_for_conditions([" (hosts.hostgroup_id in (?))",(hgs = user.hostgroups).map(&:id)])
 
     fact_conditions = ""
     for user_fact in (ufs = user.user_facts)
       fact_conditions += sanitize_sql_for_conditions ["(hosts.id = fact_values.host_id and fact_values.fact_name_id = ? and fact_values.value #{user_fact.operator} ?)", user_fact.fact_name_id, user_fact.criteria]
       fact_conditions = user_fact.andor == "and" ? "(#{fact_conditions}) and " : "#{fact_conditions} or  "
     end
-    if match = fact_conditions.match(/^(.*).....$/)
+    if (match = fact_conditions.match(/^(.*).....$/))
       fact_conditions = "(#{match[1]})"
     end
 
     conditions = ""
     if user.filtering?
-      conditions  = "#{owner_conditions}"                                                                                                            if     user.filter_on_owner
-      (conditions = (user.domains_andor    == "and") ? "(#{conditions}) and #{domain_conditions} "    : "#{conditions} or #{domain_conditions} ")    unless dms.empty?
-      (conditions = (user.hostgroups_andor == "and") ? "(#{conditions}) and #{hostgroup_conditions} " : "#{conditions} or #{hostgroup_conditions} ") unless hgs.empty?
-      (conditions = (user.facts_andor      == "and") ? "(#{conditions}) and #{fact_conditions} "      : "#{conditions} or #{fact_conditions} ")      unless ufs.empty?
+      conditions  = "#{owner_conditions}"                                                                                                                                 if     user.filter_on_owner
+      (conditions = (user.domains_andor           == "and") ? "(#{conditions}) and #{domain_conditions} "           : "#{conditions} or #{domain_conditions} ")           unless dms.empty?
+      (conditions = (user.compute_resources_andor == "and") ? "(#{conditions}) and #{compute_resource_conditions} " : "#{conditions} or #{compute_resource_conditions} ") unless crs.empty?
+      (conditions = (user.hostgroups_andor        == "and") ? "(#{conditions}) and #{hostgroup_conditions} "        : "#{conditions} or #{hostgroup_conditions} ")        unless hgs.empty?
+      (conditions = (user.facts_andor             == "and") ? "(#{conditions}) and #{fact_conditions} "             : "#{conditions} or #{fact_conditions} ")             unless ufs.empty?
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
@@ -95,19 +111,20 @@ class Host < Puppet::Rails::Host
     {:conditions => conditions}
   }
 
-  named_scope :completer_scope, lambda { my_hosts.scope(:find) }
+  scope :completer_scope, lambda { my_hosts }
 
-  named_scope :run_distribution, lambda { |fromtime,totime|
-    unless fromtime.nil? or totime.nil?
-      { :joins => "INNER JOIN reports ON reports.host_id = hosts.id",
-        :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
-    else
+  scope :run_distribution, lambda { |fromtime,totime|
+    if fromtime.nil? or totime.nil?
       raise "invalid timerange"
+    else
+      { :joins      => "INNER JOIN reports ON reports.host_id = hosts.id",
+        :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
     end
   }
 
   # audit the changes to this model
-  acts_as_audited :except => [:last_report, :puppet_status, :last_compile]
+  audited :except => [:last_report, :puppet_status, :last_compile]
+  has_associated_audits
 
   # some shortcuts
   alias_attribute :os, :operatingsystem
@@ -117,36 +134,37 @@ class Host < Puppet::Rails::Host
 
   validates_uniqueness_of  :name
   validates_presence_of    :name, :environment_id
+  validate :is_name_downcased?
+
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
     include HostTemplateHelpers
 
-    validates_uniqueness_of  :ip, :if => Proc.new {|host| host.managed}
-    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed }
+    validates_uniqueness_of  :ip, :if => Proc.new {|host| host.require_ip_validation?}
+    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed }
     validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
     validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :domain_id
-    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or !host.managed  }
+    validates_presence_of    :domain_id, :if => Proc.new {|host| host.managed}
+    validates_presence_of    :mac, :unless => Proc.new { |host| host.hypervisor? or host.compute? or !host.managed  }
 
     validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
-    validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or !host.managed }
-    validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :ptable, :message => "cant be blank unless a custom partition has been defined",
-      :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake)  }
+    validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.hypervisor_id or host.compute? or !host.managed }
+    validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
+    validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
+      :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
     validates_format_of      :sp_mac,    :with => Net::Validations::MAC_REGEXP, :allow_nil => true, :allow_blank => true
     validates_format_of      :sp_ip,     :with => Net::Validations::IP_REGEXP, :allow_nil => true, :allow_blank => true
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
+
+    validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
   after_validation :ensure_assoications
-
-  def set_default_user
-    self.owner ||= User.current
-  end
+  before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
 
   def to_param
     name
@@ -187,14 +205,8 @@ class Host < Puppet::Rails::Host
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
-    self.build = false
+    self.build        = false
     self.installed_at = Time.now.utc if installed
-    # If this save fails then an exception is raised and further actions are not processed
-    unless Rails.env == "test"
-      # Disallow any auto signing for our host.
-      GW::Puppetca.disable name unless puppetca? or not Setting[:manage_puppetca]
-      GW::Tftp.remove mac unless respond_to?(:tftp?) and tftp?
-    end
     self.save
   rescue => e
     logger.warn "Failed to set Build on #{self}: #{e}"
@@ -214,14 +226,12 @@ class Host < Puppet::Rails::Host
     return true unless Setting[:manage_puppetca]
     if puppetca?
       respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
-    else
-      # Legacy CA handling
-      GW::Puppetca.clean(name) && GW::Puppetca.sign(name)
     end
   end
 
   # returns the host correct disk layout, custom or common
   def diskLayout
+    @host = self
     pxe_render((disk.empty? ? ptable.layout : disk).gsub("\r",""))
   end
 
@@ -251,11 +261,11 @@ class Host < Puppet::Rails::Host
 
   # returns the list of puppetclasses a host is in.
   def puppetclasses_names
-    return all_puppetclasses.collect {|c| c.name}
+    all_puppetclasses.collect {|c| c.name}
   end
 
   def all_puppetclasses
-    return hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
+    hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
   end
 
   # provide information about each node, mainly used for puppet external nodes
@@ -264,10 +274,13 @@ class Host < Puppet::Rails::Host
     # Static parameters
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
-    param["puppetmaster"] = puppetmaster.to_s
+    param["puppetmaster"] = puppetmaster
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
-    param["root_pw"]      = root_pass if SETTINGS[:unattended]
+    if SETTINGS[:unattended]
+      param["root_pw"]      = root_pass
+      param["puppet_ca"]    = puppet_ca_server if puppetca?
+    end
     param["comment"]      = comment unless comment.blank?
     param["foreman_env"]  = environment.to_s unless environment.nil? or environment.name.nil?
     if SETTINGS[:login] and owner
@@ -284,9 +297,9 @@ class Host < Puppet::Rails::Host
     info_hash = {}
     info_hash['classes'] = self.puppetclasses_names
     info_hash['parameters'] = param
-    info_hash['environment'] = param["foreman_env"]
+    info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
 
-    return info_hash
+    info_hash
   end
 
   def params
@@ -296,8 +309,7 @@ class Host < Puppet::Rails::Host
     @cached_host_params = nil
   end
 
-  def host_params
-    return cached_host_params unless cached_host_params.blank?
+  def host_inherited_params
     hp = {}
     # read common parameters
     CommonParameter.all.each {|p| hp.update Hash[p.name => p.value] }
@@ -307,6 +319,12 @@ class Host < Puppet::Rails::Host
     operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
     hp.update hostgroup.parameters unless hostgroup.nil?
+    hp
+  end
+
+  def host_params
+    return cached_host_params unless cached_host_params.blank?
+    hp = host_inherited_params
     # and now read host parameters, override if required
     host_parameters.each {|p| hp.update Hash[p.name => p.value] }
     @cached_host_params = hp
@@ -330,8 +348,11 @@ class Host < Puppet::Rails::Host
     facts = YAML::load yaml
     return false unless facts.is_a?(Puppet::Node::Facts)
 
-    h=find_or_create_by_name(facts.name)
-    h.save(false) if h.new_record?
+    h = Host.find_by_certname facts.name
+    h ||= Host.find_by_name facts.name
+    h ||= Host.new :name => facts.name
+
+    h.save(:validate => false) if h.new_record?
     h.importFacts(facts)
   end
 
@@ -351,61 +372,34 @@ class Host < Puppet::Rails::Host
     self.last_compile = time
     # save all other facts - pre 0.25 it was called setfacts
     respond_to?("merge_facts") ? self.merge_facts(facts.values) : self.setfacts(facts.values)
-    save(false)
+    save(:validate => false)
 
-    # we want to import other information only if this host was never installed via Foreman
-    populateFieldsFromFacts if installed_at.nil?
+    populateFieldsFromFacts(facts.values)
 
     # we are saving here with no validations, as we want this process to be as fast
     # as possible, assuming we already have all the right settings in Foreman.
     # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
     # TODO: if it was installed by Foreman and there is a mismatch,
     # we should probably send out an alert.
-    return self.save(false)
+    return self.save(:validate => false)
 
   rescue Exception => e
     logger.warn "Failed to save #{facts.name}: #{e}"
   end
 
-  def fv name
-    v=fact_values.first(:select => "fact_values.value", :joins => :fact_name,
-                        :conditions => "fact_names.name = '#{name}'")
-    v.value unless v.nil?
-  end
+  def populateFieldsFromFacts facts = self.facts_hash
+    importer = Facts::Importer.new facts
 
-  def populateFieldsFromFacts
-    unless Setting[:ignore_puppet_facts_for_provisioning]
-      self.mac = fv(:macaddress).downcase unless fv(:macaddress).blank?
-      self.ip = fv(:ipaddress) if ip.nil?
-    end
-    self.domain = Domain.find_or_create_by_name fv(:domain) unless fv(:domain).empty?
-    # On solaris architecture fact is harwareisa
-    if myarch=fv(:architecture) || fv(:hardwareisa)
-      self.arch=Architecture.find_or_create_by_name myarch unless myarch.empty?
-    end
-
-    # by default, puppet doesn't store an env name in the database
-    env = fv(:environment) || Setting[:default_puppet_environment]
+    set_non_empty_values importer, [:domain, :architecture, :operatingsystem, :model, :certname]
+    set_non_empty_values importer, [:mac, :ip] unless managed? and Setting[:ignore_puppet_facts_for_provisioning]
+    normalize_addresses
     if Setting[:update_environment_from_facts]
-      self.environment = Environment.find_or_create_by_name env
+      set_non_empty_values importer, [:environment]
     else
-      self.environment ||= Environment.find_or_create_by_name env
+      self.environment ||= importer.environment unless importer.environment.blank?
     end
 
-    os_name = fv(:operatingsystem)
-    if orel = fv(:lsbdistrelease) || fv(:operatingsystemrelease)
-      major, minor = orel.split(".")
-      minor ||= ""
-      self.os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
-    end
-
-    unless self.model
-      modelname = fv(:productname) || fv(:model) || (fv(:is_virtual) == "true" ? fv(:virtual) : nil)
-      self.model = Model.find_or_create_by_name(modelname.strip) unless modelname.empty?
-    end
-
-    # again we are saving without validations as input is required (e.g. partition tables)
-    self.save(false)
+    self.save(:validate => false)
   end
 
   # Called by build link in the list
@@ -416,12 +410,6 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
-
-    # ensures that the legacy TFTP code is not called when using a smart proxy.
-    unless respond_to?(:tftp?) and tftp?
-      return false unless GW::Tftp.create([mac, os.to_s.gsub(" ","-"), arch.name, serial])
-    end
-
     self.build = true
     self.save
     errors.empty?
@@ -433,7 +421,7 @@ class Host < Puppet::Rails::Host
     myklasses= []
     # puppet classes
     nodeinfo["classes"].each do |klass|
-      if pc = Puppetclass.find_by_name(klass)
+      if (pc = Puppetclass.find_by_name(klass))
         myklasses << pc
       else
         error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoring"
@@ -483,12 +471,12 @@ class Host < Puppet::Rails::Host
   # TODO: Merge these two into one method
   # e.g. how many hosts belongs to each os
   # returns sorted hash
-  def self.count_habtm assocication
+  def self.count_habtm association
     output = {}
-    Host.count(:include => assocication.pluralize, :group => "#{assocication}_id").to_a.each do |a|
+    Host.count(:include => association.pluralize, :group => "#{association}_id").to_a.each do |a|
       #Ugly Ugly Ugly - I guess I'm missing something basic here
       if a[0]
-        label = eval(assocication.camelize).send("find",a[0].to_i).to_label
+        label = eval(association.camelize).send("find",a[0].to_i).to_label
         output[label] = a[1]
       end
     end
@@ -505,7 +493,7 @@ class Host < Puppet::Rails::Host
       data[:failed_restarts] << [r.reported_at.to_i*1000, r.failed_restarts ]
       data[:skipped]         << [r.reported_at.to_i*1000, r.skipped ]
     end
-    return data
+    data
   end
 
   def runtime_chart(timerange = 1.day.ago)
@@ -515,26 +503,25 @@ class Host < Puppet::Rails::Host
       data[:config]  << [r.reported_at.to_i*1000, r.config_retrieval]
       data[:runtime] << [r.reported_at.to_i*1000, r.runtime]
     end
-    return data
+    data
   end
 
   def classes_from_storeconfigs
     klasses = resources.all(:conditions => {:restype => "Class"}, :select => :title, :order => :title)
     klasses.map!(&:title).delete(:main)
-    return klasses
+    klasses
   end
 
   def can_be_build?
-    managed? and SETTINGS[:unattended] ? build == false : false
+    managed? and SETTINGS[:unattended] and capabilities.include?(:build) ? build == false : false
   end
 
   def facts_hash
     hash = {}
     fact_values.all(:include => :fact_name).collect do |fact|
       hash[fact.fact_name.name] = fact.value
-      hash
     end
-    return hash
+    hash
   end
 
   def enforce_permissions operation
@@ -555,7 +542,7 @@ class Host < Puppet::Rails::Host
         (!current.hostgroups.empty? and current.hostgroups.include?(hostgroup))
       end
     end
-    errors.add_to_base "You do not have permission to #{operation} this host"
+    errors.add :base, "You do not have permission to #{operation} this host"
     false
   end
 
@@ -569,10 +556,10 @@ class Host < Puppet::Rails::Host
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment domain puppetmaster_name puppetproxy})
+    assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy})
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable root_pass subnet})
-      assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor?
+      assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable subnet})
+      assign_hostgroup_attributes(Vm::PROPERTIES) if hostgroup.hypervisor? and not compute_resource_id
     end
   end
 
@@ -593,6 +580,73 @@ class Host < Puppet::Rails::Host
   rescue => e
     logger.warn "Failed to fetch rundeck info for #{to_s}: #{e}"
     {}
+  end
+
+  def puppetrun!
+    unless puppet_proxy.present?
+      errors.add(:base, "no puppet proxy defined - cant continue")
+      logger.warn "unable to execute puppet run, no puppet proxies defined"
+      return false
+    end
+    ProxyAPI::Puppet.new({:url => puppet_proxy.url}).run fqdn
+  rescue => e
+    errors.add(:base, "failed to execute puppetrun: #{e}")
+    false
+  end
+
+  def overwrite?
+    @overwrite ||= false
+  end
+
+  # We have to coerce the value back to boolean. It is not done for us by the framework.
+  def overwrite=(value)
+    @overwrite = value == "true"
+  end
+
+  def require_ip_validation?
+    managed? and !compute? or (compute? and !compute_resource.provided_attributes.keys.include?(:ip))
+  end
+
+  # if certname does not exist, use hostname instead
+  def certname
+    read_attribute(:certname) || name
+  end
+
+  def progress_report_id
+    @progress_report_id ||= Foreman.uuid
+  end
+
+  def progress_report_id=(value)
+    @progress_report_id = value
+  end
+
+  def capabilities
+    compute_resource_id ? compute_resource.capabilities : [:build]
+  end
+
+  def provider
+    if compute_resource_id
+      compute_resource.provider_friendly_name
+    else
+      "BareMetal"
+    end
+  end
+
+  # no need to store anything in the db if the password is our default
+  def root_pass
+    read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
+  end
+
+  def clone
+    new = super
+    new.puppetclasses = puppetclasses
+    # Clone any parameters as well
+    host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
+    # clear up the system specific attributes
+    [:name, :mac, :ip, :uuid, :certname, :last_report, :sp_mac, :sp_ip, :sp_name, :puppet_status, ].each do |attr|
+      new.send "#{attr}=", nil
+    end
+    new
   end
 
   private
@@ -631,6 +685,9 @@ class Host < Puppet::Rails::Host
     # it and let the validations to produce an error
     return if name.empty?
 
+    # Remove whitespace
+    self.name.gsub!(/\s/,'')
+
     if domain.nil? and name.match(/\./)
       # try to assign the domain automatically based on our existing domains from the host FQDN
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
@@ -657,7 +714,7 @@ class Host < Puppet::Rails::Host
       value = self.send(e.to_sym)
       next if value.blank?
       unless os.send(e.pluralize.to_sym).include?(value)
-        errors.add(e, "#{value} does not belong to #{os} operating system")
+        errors.add("#{e}_id".to_sym, "#{value} does not belong to #{os} operating system")
         status = false
       end
     end if SETTINGS[:unattended] and managed? and os
@@ -680,4 +737,35 @@ class Host < Puppet::Rails::Host
   def self.report_status
     "puppet_status"
   end
+
+  def is_name_downcased?
+    return unless name.present?
+    errors.add(:name, "must be downcase") unless name == name.downcase
+  end
+
+  # converts a name into ip address using DNS.
+  # if we are managing DNS, we can query the correct DNS server
+  # otherwise, use normal systems dns settings to resolv
+  def to_ip_address name_or_ip
+    return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
+    return dns_ptr_record.dns_lookup(name_or_ip).ip if dns_ptr_record
+    # fall back to normal dns resolution
+    domain.resolver.getaddress(name_or_ip).to_s
+  end
+
+  def set_non_empty_values importer, methods
+    methods.each do |attr|
+      value = importer.send(attr)
+      self.send("#{attr}=", value) unless value.blank?
+    end
+  end
+
+  def set_default_user
+    self.owner ||= User.current
+  end
+
+  def set_certname
+    self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
+  end
+
 end

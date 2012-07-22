@@ -2,7 +2,7 @@
 <% search_bar "Filter #{state_filter}" %>
 <% title_actions display_link_if_authorized("Autosign Entries", hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => @proxy)) %>
 
-<table class='list'>
+<table class='table table-bordered table-striped table-condensed'>
   <tr>
     <th>Certificate Name</th>
     <th>State</th>
@@ -19,12 +19,12 @@
         <td><%= time_column cert.expires_at, :tense => :future %></td>
         <td><%= h cert.fingerprint %></td>
         <td>
-          <%= display_link_if_authorized("Sign", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert), :method => :put) if cert.state == "pending" %>
-          <%= display_link_if_authorized("Destroy", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert), :confirm => 'Are you sure?', :method => :delete) if cert.state != "revoked"  %>
+          <%= display_link_if_authorized("Sign", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state]), :method => :put) if cert.state == "pending" %>
+          <%= display_delete_if_authorized(hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state])) if cert.state != "revoked"  %>
         </td>
       </tr>
   <% end -%>
 </table>
 
-<%= page_entries_info @certificates, :entry_name => "Puppet Certificates"  %>
+<%= page_entries_info @certificates, :model => "Puppet Certificates"  %>
 <%= will_paginate @certificates %>

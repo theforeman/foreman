@@ -6,17 +6,18 @@ class Ptable < ActiveRecord::Base
   include Authorization
   has_many :hosts
   has_and_belongs_to_many :operatingsystems
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   validates_uniqueness_of :name
-  validates_uniqueness_of :layout
   validates_presence_of :layout
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   default_scope :order => 'LOWER(ptables.name)'
 
-  scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :name, :complete_value => true, :default_order => true
   scoped_search :on => :layout, :complete_value => false
+  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
   def as_json(options={})
+    options ||= {}
     super({:only => [:name, :id]}.merge(options))
   end
 

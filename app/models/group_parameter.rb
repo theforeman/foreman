@@ -1,6 +1,6 @@
 class GroupParameter < Parameter
   belongs_to :hostgroup, :foreign_key => :reference_id
-  acts_as_audited :except => [:priority], :parent => :hostgroup
+  audited :except => [:priority], :associated_with => :hostgroup
   validates_uniqueness_of :name, :scope => :reference_id
 
   private
@@ -10,13 +10,13 @@ class GroupParameter < Parameter
 
     current = User.current
 
-    if current.allowed_to?("#{operation}_hostgroups".to_sym)
+    if current.allowed_to?("#{operation}_params".to_sym)
       if current.hostgroups.empty? or current.hostgroups.include? hostgroup
         return true
       end
     end
 
-    errors.add_to_base "You do not have permission to #{operation} this group parameter"
+    errors.add :base, "You do not have permission to #{operation} this group parameter"
     false
   end
 end

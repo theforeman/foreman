@@ -16,12 +16,14 @@ class Medium < ActiveRecord::Base
     :with => VALID_NFS_PATH, :message => "does not appear to be a valid nfs mount path",
     :if => Proc.new { |m| m.respond_to? :media_path }
 
-  alias_attribute :os, :operatingsystem
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   default_scope :order => 'LOWER(media.name)'
-  scoped_search :on => [:name, :path], :complete_value => :true
+  scoped_search :on => :name, :complete_value => :true, :default_order => true
+  scoped_search :on => :path, :complete_value => :true
+  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
   def as_json(options={})
+    options ||= {}
     super({:only => [:name, :id]}.merge(options))
   end
 

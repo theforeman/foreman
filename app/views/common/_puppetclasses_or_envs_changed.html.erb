@@ -1,21 +1,21 @@
 <% title "Changed environments and puppet classes" -%>
-<% form_tag '/environments/obsolete_and_new' do -%>
+<%= form_tag "/#{controller_path}/obsolete_and_new" do -%>
   <fieldset>
     <legend>Accept these environment changes found in puppet? </legend>
       <table>
         <th>Environment</th><th>Operation</th><th>Classes</th>
         <% for kind in ["new", "obsolete"] -%>
-          <% unless (envs = @changed.send(:[], kind)).empty? -%>
+          <% unless (envs = @changed[kind]).empty? -%>
             <% for env in envs.keys.sort -%>
               <tr class="<%= cycle("even", "odd")-%>" >
                 <td>
-                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed.send(:[], kind)[env].to_json, true %>
+                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, true %>
                   <%= env -%>
                 </td>
                 <td>
                   <%= kind == "new" ? "Add:" : "Remove:" -%>
                 </td>
-                <% pcs = @changed.send(:[], kind)[env] -%>
+                <% pcs = @changed[kind][env] -%>
                 <td>
                   <%= class_update_text pcs, env %>
                 </td>
@@ -26,6 +26,7 @@
     </table>
   </fieldset>
   <div>
-    <%= submit_tag "Update" -%> or <%= link_to "Cancel", environments_path -%>
+    <%= link_to "Cancel","/" + controller_path, :class => "btn" %>
+    <%= submit_tag "Update", :class => "btn btn-primary" %>
   </div>
 <% end -%>

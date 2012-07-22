@@ -1,14 +1,9 @@
-<% fields_for item do |f| %>
+<%= fields_for item do |f| %>
   <%= select_f f, :operatingsystem_id, arch_oss, :id, :to_label,
     {:selected => item.operatingsystem_id, :include_blank => true},
     {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]",
       :label => "Operating Systems",
-      :disabled => arch_oss.empty? ? true : false }
-  %>
-
-  <%= observe_field type + "_operatingsystem_id",
-    :url => { :action => :os_selected },
-    :update => :operatingsystem_select,
-    :with => :operatingsystem_id
+      :disabled => arch_oss.empty? ? true : false,
+      :onchange => 'os_selected(this);', :'data-url' => method_path('os_selected')}
   %>
 <% end -%>

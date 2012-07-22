@@ -49,7 +49,7 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-      :subnet => subnets(:one), :architecture => architectures(:x86_64),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
@@ -58,7 +58,7 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from yaml stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    assert true == h.importFacts(YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))))
+    assert h.importFacts(YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))))
   end
 
   test "should import facts from yaml of a new host" do
@@ -76,14 +76,14 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
     assert host.valid?
   end
 
   test "should save if ptable is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
     assert !host.new_record?
   end
@@ -91,15 +91,15 @@ class HostTest < ActiveSupport::TestCase
   test "should save if disk is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
     assert !host.new_record?
   end
 
   test "should not save if IP is not in the right subnet" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
-        :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :managed => true,
+        :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
       assert !host.valid?
     end
   end
@@ -110,7 +110,7 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
       :architecture => architectures(:x86_64), :environment => environments(:global_puppetmaster), :disk => "aaa",
-      :puppetproxy => smart_proxies(:puppetmaster)
+      :puppet_proxy => smart_proxies(:puppetmaster)
 
     # dummy external node info
     nodeinfo = {"environment" => "global_puppetmaster",
@@ -193,7 +193,7 @@ class HostTest < ActiveSupport::TestCase
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.09",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
-                       :architecture => architectures(:x86_64), :environment => environments(:production),
+                       :architecture => architectures(:x86_64), :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster),
                        :subnet => subnets(:one), :disk => "empty partition")
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
@@ -205,7 +205,7 @@ class HostTest < ActiveSupport::TestCase
       @one.roles = [Role.find_by_name("Create hosts")]
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.11",
-                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
+                       :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),  :puppet_proxy => smart_proxies(:puppetmaster),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
                        :subnet => subnets(:one), :disk => "empty partition")
     assert !host.new_record?
@@ -222,7 +222,7 @@ class HostTest < ActiveSupport::TestCase
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
                        :subnet => subnets(:one),
-                       :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
+                       :disk => "empty partition", :hostgroup => hostgroups(:common))
     assert !host.new_record?
     assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -237,7 +237,7 @@ class HostTest < ActiveSupport::TestCase
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
                        :architecture => architectures(:x86_64), :environment => environments(:production),
                        :subnet => subnets(:one),
-                       :disk => "empty partition", :hostgroup => Hostgroup.find_by_name("Common"))
+                       :disk => "empty partition", :hostgroup => hostgroups(:common))
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -343,7 +343,8 @@ class HostTest < ActiveSupport::TestCase
       FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => 1)
     end
     assert_difference('Model.count') do
-      h.populateFieldsFromFacts
+    facts = YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+      h.populateFieldsFromFacts facts.values
     end
   end
 
@@ -374,7 +375,7 @@ class HostTest < ActiveSupport::TestCase
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)
     assert !h.valid?
-    assert_match /does not belong to #{h.os} operating system/, h.errors[:architecture]
+    assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture_id]
   end
 
   test "host puppet classes must belong to the host environment" do
@@ -384,16 +385,95 @@ class HostTest < ActiveSupport::TestCase
     h.puppetclasses << pc
     assert !h.environment.puppetclasses.include?(pc)
     assert !h.valid?
-    assert_match /does not belong to the #{h.environment} environment/, h.errors[:puppetclasses]
+    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
   test "when changing host environment, its puppet classes should be verified" do
     h = hosts(:one)
-    h.puppetclasses << puppetclasses(:one)
+    pc = puppetclasses(:one)
+    h.puppetclasses << pc
     assert h.save
     h.environment = environments(:testing)
     assert !h.save
-    assert_match /does not belong to the #{h.environment} environment/, h.errors[:puppetclasses]
+    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
+  end
+
+  test "name should be lowercase" do
+    h = hosts(:redhat)
+    assert h.valid?
+    h.name.upcase!
+    assert !h.valid?
+  end
+
+  test "should allow to save root pw" do
+    h = hosts(:redhat)
+    pw = h.root_pass
+    h.root_pass = "token"
+    h.hostgroup = nil
+    assert h.save
+    assert_not_equal pw, h.root_pass
+  end
+
+  test "should allow to revert to default root pw" do
+    h = hosts(:redhat)
+    h.root_pass = "token"
+    assert h.save
+    h.root_pass = ""
+    assert h.save
+    assert_equal h.root_pass, Setting.root_pass
+  end
+
+  test "should use hostgroup root password" do
+    h = hosts(:redhat)
+    h.root_pass = nil
+    h.hostgroup = hostgroups(:common)
+    assert h.save
+    h.hostgroup.update_attribute(:root_pass, "abc")
+    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+  end
+
+  test "should use a nested hostgroup parent root password" do
+    h = hosts(:redhat)
+    h.root_pass = nil
+    h.hostgroup = hg = hostgroups(:common)
+    assert h.save
+    hg.parent = hostgroups(:unusual)
+    hg.root_pass = nil
+    hg.parent.update_attribute(:root_pass, "abc")
+    hg.save
+    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+  end
+
+  test "should save uuid on managed hosts" do
+    Setting[:use_uuid_for_certificates] = true
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true
+    assert host.valid?
+    assert !host.new_record?
+    assert_not_nil host.certname
+    assert_not_equal host.name, host.certname
+  end
+
+  test "should not save uuid on non managed hosts" do
+    Setting[:use_uuid_for_certificates] = true
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal host.name, host.certname
+  end
+
+  test "should not save uuid when settings disable it" do
+    Setting[:use_uuid_for_certificates] = false
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal host.name, host.certname
+  end
+
+  test "all whitespace should be removed from hostname" do
+    host = Host.create :name => "my host 1	", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal "myhost1.mydomain.net", host.name
   end
 
 end

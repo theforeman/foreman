@@ -43,7 +43,7 @@ class ArchitectureTest < ActiveSupport::TestCase
 
     host = hosts(:one)
     host.architecture = architecture
-    host.save(false)
+    host.save(:validate => false)
 
     assert !architecture.destroy
   end

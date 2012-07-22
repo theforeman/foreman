@@ -7,14 +7,14 @@ module Orchestration::TFTP
       before_destroy :queue_tftp_destroy
 
       # required for pxe template url helpers
-      include ActionController::UrlWriter
+      include Rails.application.routes.url_helpers
     end
   end
 
   module InstanceMethods
 
     def tftp?
-      !!(subnet and subnet.tftp?)
+      !!(subnet and subnet.tftp?) and managed? and capabilities.include?(:build)
     end
 
     def tftp
@@ -66,7 +66,7 @@ module Orchestration::TFTP
       return unless operatingsystem
       return if Rails.env == "test"
       if configTemplate({:kind => operatingsystem.template_kind}).nil? and configTemplate({:kind => "gPXE"}).nil?
-        failure "No #{operatingsystem.template_kind} templates where found for this host, make sure you define at least one in your #{os} settings"
+        failure "No #{operatingsystem.template_kind} templates were found for this host, make sure you define at least one in your #{os} settings"
       end
     end
 
@@ -77,6 +77,8 @@ module Orchestration::TFTP
       prefix   = operatingsystem.pxe_prefix(arch)
       @kernel = os.kernel(arch)
       @initrd = os.initrd(arch)
+      # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
+      @host = self
       pxe_render configTemplate({:kind => os.template_kind}).template
     rescue => e
       failure "Failed to generate #{os.template_kind} template: #{e}"

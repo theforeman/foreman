@@ -21,29 +21,41 @@ class ActiveRecord::Base
 
   def update_single_attribute(attribute, value)
     connection.update(
-      "UPDATE #{self.class.table_name} " +
-      "SET #{attribute.to_s} = #{value} " +
-      "WHERE #{self.class.primary_key} = #{id}",
+      "UPDATE #{self.class.quoted_table_name} SET " +
+      "#{connection.quote_column_name(attribute.to_s)} = #{quote_value(value)} " +
+      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
       "#{self.class.name} Attribute Update"
     )
   end
-  class Ensure_not_used_by
-    def initialize(*attribute)
+
+  def update_multiple_attribute(attributes)
+    connection.update(
+      "UPDATE #{self.class.quoted_table_name} SET " +
+      attributes.map{|key, value| " #{connection.quote_column_name(key.to_s)} = #{quote_value(value)} " }.join(', ') +
+      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
+      "#{self.class.name} Attribute Update"
+    )
+  end
+
+  # ActiveRecord Callback class
+  class EnsureNotUsedBy
+    attr_reader :klasses, :logger
+    def initialize *attribute
       @klasses = attribute
-      @logger  = RAILS_DEFAULT_LOGGER
+      @logger  = Rails.logger
     end
 
     def before_destroy(record)
-      for klass in @klasses
-        for what in eval "record.#{klass.to_s}"
-          record.errors.add_to_base(record.to_label + " is used by " + what.to_s)
+      klasses.each do |klass|
+        record.send(klass.to_sym).each do |what|
+          record.errors.add :base, "#{record} is used by #{what}"
         end
       end
-      unless record.errors.empty?
-        @logger.error "You may not destroy #{record.to_label} as it is in use!"
-        false
-      else
+      if record.errors.empty?
         true
+      else
+        logger.error "You may not destroy #{record.to_label} as it is in use!"
+        false
       end
     end
   end
@@ -54,12 +66,12 @@ class ActiveRecord::Base
   alias_attribute :to_label, :name
   alias_attribute :to_s, :to_label
 
-  def self.per_page
-    Setting["entries_per_page"]
-  end
-
   def self.unconfigured?
     first.nil?
+  end
+
+  def self.per_page
+    Setting.entries_per_page rescue 20
   end
 
 end
@@ -73,12 +85,13 @@ end
 class String
   def to_gb
     begin
-      value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMG]B?|B))$/i)[1..3]
+      value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]B?|B))$/i)[1..3]
       case unit.to_sym
-      when nil, :B, :byte          then (value.to_f / 1000_000_000)
+      when nil, :B, :byte          then (value.to_f / (4**10))
+      when :TB, :T, :terabyte      then (value.to_f * (2**10))
       when :GB, :G, :gigabyte      then value.to_f
-      when :MB, :M, :megabyte      then (value.to_f / 1000)
-      when :KB, :K, :kilobyte, :kB then (value.to_f / 1000_000)
+      when :MB, :M, :megabyte      then (value.to_f / (2**10))
+      when :KB, :K, :kilobyte, :kB then (value.to_f / (3**10))
       else raise "Unknown unit: #{unit.inspect}!"
       end
     rescue
@@ -86,16 +99,9 @@ class String
     end
   end
 end
-module ActionView::Helpers::ActiveRecordHelper
-  def error_messages_for_with_customisation(*params)
-    if flash[:error_customisation]
-      if params[-1].is_a? Hash
-        params[-1].update flash[:error_customisation]
-      else
-        params << flash[:error_customisation]
-      end
-    end
-    error_messages_for_without_customisation(*params)
+
+class ActiveModel::Errors
+  def are_all_conflicts?
+    self[:conflict].count == self.count
   end
-  alias_method_chain :error_messages_for, :customisation
 end

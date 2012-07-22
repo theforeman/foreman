@@ -1,24 +1,24 @@
-<% form_for @user do |f| %>
+<%= form_for @user, :html=>{:class=>"form-horizontal"} do |f| %>
   <%= base_errors_for @user %>
 
-  <ul class="tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary">Primary</a></li>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
     <% unless @editing_self %>
-      <li><a href="#filters">Filters</a></li>
+      <li><a href="#filters" data-toggle="tab">Filters</a></li>
     <% end -%>
   </ul>
 
   <div class="tab-content">
-    <div class="active" id="primary">
+    <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :login %>
+      <%= text_f f, :login, :disabled => f.object.login == "admin" %>
       <%= text_f f, :firstname, :label => "First Name" %>
       <%= text_f f, :lastname, :label => "Last Name" %>
       <%= text_f f, :mail %>
 
       <% unless @editing_self -%>
-        <%= select_f f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, :include_blank => true,
-          :label => "Authorized by"
+        <%= select_f f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
+          :label => "Authorized by"}, {:onchange => 'auth_source_selected()'}
         %>
       <% end -%>
 
@@ -27,19 +27,16 @@
         <%= password_f f, :password_confirmation, :label => "Verify" %>
       </div>
       <% unless @editing_self -%>
-        <%= checkbox_f f, :admin, :label => "Administrator" %>
+      <%= checkbox_f f, :admin, :label => "Administrator" %>
+      <%= multiple_checkboxes f, :roles, @user, Role.givable %>
+    </div>
 
-        <%= multiple_checkboxes f, :roles, @user, Role.givable %>
-      </div>
-
-      <div id="filters">
-        <%= render("filters", :f => f) %>
-      </div>
+    <div class="tab-pane" id="filters">
+      <%= render("filters", :f => f) %>
+    </div>
 
     <% end %>
   </div>
   <%= submit_or_cancel f %>
 <% end -%>
-<%= observe_field(:user_auth_source_id,
-                  :url => {:action => :auth_source_selected},
-                  :with => 'auth_source_id') %>
+

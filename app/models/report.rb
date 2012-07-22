@@ -13,19 +13,31 @@ class Report < ActiveRecord::Base
   scoped_search :in => :sources,  :on => :value,                         :rename => :resource
 
   scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported
-  scoped_search :on => :status,      :complete_value => {:true => true, :false => false}, :rename => :eventful
+  scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
 
   scoped_search :on => :status, :offset => METRIC.index("applied"),         :word_size => BIT_NUM, :rename => :applied
   scoped_search :on => :status, :offset => METRIC.index("restarted"),       :word_size => BIT_NUM, :rename => :restarted
   scoped_search :on => :status, :offset => METRIC.index("failed"),          :word_size => BIT_NUM, :rename => :failed
   scoped_search :on => :status, :offset => METRIC.index("failed_restarts"), :word_size => BIT_NUM, :rename => :failed_restarts
   scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
+  scoped_search :on => :status, :offset => METRIC.index("pending"),         :word_size => BIT_NUM, :rename => :pending
+
+  # returns reports for hosts in the User's filter set
+  scope :my_reports, lambda {
+    return { :conditions => "" } if User.current.admin? # Admin can see all hosts
+
+    conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))", Host.my_hosts.map(&:id)])
+    conditions.sub!(/\s*\(\)\s*/, "")
+    conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+    conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+    {:conditions => conditions}
+  }
 
   # returns recent reports
-  named_scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
+  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)], :order => "reported_at"} }
 
   # with_changes
-  named_scope :interesting, {:conditions => "status != 0"}
+  scope :interesting, {:conditions => "status != 0"}
 
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
@@ -54,7 +66,7 @@ class Report < ActiveRecord::Base
   end
 
   def runtime
-    (metrics[:time][:total] || metrics[:time].values.sum).round_with_precision(2) rescue 0
+    (metrics[:time][:total] || metrics[:time].values.sum).round(2) rescue 0
   end
 
   #imports a YAML report into database
@@ -63,10 +75,12 @@ class Report < ActiveRecord::Base
     raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
     logger.info "processing report for #{report.host}"
     begin
-      host = Host.find_or_create_by_name report.host
+      host = Host.find_by_certname report.host
+      host ||= Host.find_by_name report.host
+      host ||= Host.new :name => report.host
 
       # parse report metrics
-      raise "Invalid report: can't find metrics information for #{report.host} at #{report.id}" if report.metrics.nil?
+      raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
       # Is this a pre 2.6.x report format?
       @post265 = report.instance_variables.include?("@report_format")
@@ -87,7 +101,7 @@ class Report < ActiveRecord::Base
       # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
       # 2. We want this to be fast and light on the db.
       # at this point, the report is important, not as much of the host
-      host.save_with_validation(false)
+      host.save(:validate => false)
 
       # and save our report
       r = self.create!(:host => host, :reported_at => report.time.utc, :status => st, :metrics => self.m2h(report.metrics))
@@ -196,7 +210,7 @@ class Report < ActiveRecord::Base
       logger.warn "#{report.host} is disabled - skipping." and return if host.disabled?
 
       logger.debug "error detected, checking if we need to send an email alert"
-      HostMailer.deliver_error_state(self) if Setting[:failed_report_email_notification]
+      HostMailer.error_state(self).deliver if Setting[:failed_report_email_notification]
       # add here more actions - e.g. snmp alert etc
     end
   rescue => e
@@ -208,6 +222,14 @@ class Report < ActiveRecord::Base
     false
   end
 
+  def as_json(options={})
+    {:report =>
+      { :reported_at => reported_at, :status => status,
+        :host => host.name, :metrics => metrics, :logs => logs.all(:include => [:source, :message]),
+        :id => id, :summary => summaryStatus
+      },
+    }
+  end
   private
 
   # Converts metrics form Puppet report into a hash
@@ -281,6 +303,14 @@ class Report < ActiveRecord::Base
       else
         { :type => "total", :name => :changes}
       end
+    when "failed_restarts"
+      if @pre26
+        { :type => "resources", :name => metric}
+      else
+        { :type => "resources", :name => "failed_to_restart"}
+      end
+    when "pending"
+      { :type => "events", :name => "noop" }
     else
       { :type => "resources", :name => metric}
     end
@@ -294,7 +324,7 @@ class Report < ActiveRecord::Base
     return true if operation == "create"
     return true if operation == "destroy" and User.current.allowed_to?(:destroy_reports)
 
-    errors.add_to_base "You do not have permission to #{operation} this report"
+    errors.add :base, "You do not have permission to #{operation} this report"
     false
   end
 
@@ -302,15 +332,6 @@ class Report < ActiveRecord::Base
     return "Failed"   if error?
     return "Modified" if changes?
     return "Success"
-  end
-
-  def as_json(options={})
-    {:report =>
-      { :reported_at => reported_at, :status => status,
-        :host => host.name, :metrics => metrics, :logs => logs.all(:include => [:source, :message]),
-        :id => id, :summary => summaryStatus
-      },
-    }
   end
 
   # puppet report status table column name

@@ -1,40 +1,47 @@
 <% javascript 'charts' %>
 <% title @host.to_label, icon(@host.os) + @host.to_label %>
 
-<% title_actions link_to_if_authorized("Edit", hash_for_edit_host_path(:id => @host), :title => "Edit your host"),
-  unless @host.build
-    link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => @host), :disabled => !@host.can_be_build?,
-                          :title => "Enable rebuild on next host boot",
-                          :confirm => "Rebuild #{@host} on next reboot?\nThis would also delete all of its current facts and reports")
-  else
-    link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => @host),:disabled => @host.can_be_build?,
-                           :title => "Cancel build request for this host")
-  end,
-  link_to_if_authorized("Run puppet", hash_for_puppetrun_host_path(:id => @host).merge(:auth_action => :edit), :disabled => !Setting[:puppetrun],
-                        :title => "Trigger a puppetrun on a node; requires that puppet run is enabled"),
-  link_to_if_authorized("All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => @host).merge(:auth_action => :read), :disabled => @host.resources.count == 0,
-                        :title => "Show all host puppet classes, requires storeconfigs"),
-  link_to_if_authorized("Delete", hash_for_host_path(:id => @host, :auth_action => :destroy), :confirm => 'Are you sure?', :method => :delete)
--%>
+<% @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid) rescue nil %>
+<%= host_title_actions(@host, @vm) %>
 <% content_for(:search_bar) {reports_show} %>
 
-<div class="row">
-  <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
-  <div class="span5"><%= render :partial => "hosts/overview", :locals => { :host => @host } %></div>
-</div>
-<div class="row">
-  <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
-  <div class="span5">
-    <% if SETTINGS[:unattended] -%>
-      <table class="list">
-        <tr><th>Templates</th></tr>
-        <tr><td><%= show_templates -%></td></tr>
-      </table>
-    <% end -%>
-    <% if @report_summary.size == 0 -%>
-      <p>No puppet activity for this host in the last <%= @range %> days</p>
-    <% else -%>
-      <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
-    <% end -%>
+<div class="row-fluid">
+  <div class="span4">
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#properties" data-toggle="tab">Properties</a></li>
+      <li><a href="#metrics" data-toggle="tab">Metrics</a></li>
+      <% if SETTINGS[:unattended] %>
+        <li><a href="#template" data-toggle="tab">Templates</a></li>
+      <% end %>
+      <%  if @vm %>
+          <li><a href="#vm" data-toggle="tab">Virtual Machine</a></li>
+      <% end %>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="properties">
+        <%= render :partial => "hosts/overview", :locals => { :host => @host } %>
+      </div>
+      <div class="tab-pane" id="metrics">
+        <% if @report_summary.size == 0 -%>
+            <p>No puppet activity for this host in the last <%= @range %> days</p>
+        <% else -%>
+            <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
+        <% end -%>
+      </div>
+      <div class="tab-pane" id="template">
+        <%= show_templates -%>
+      </div>
+      <div class="tab-pane" id="vm">
+        <%  if @vm %>
+          <% @compute_resource = @host.compute_resource %>
+          <%= render("compute_resources_vms/show/#{@host.compute_resource.provider.downcase}") rescue nil %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+  <div class="span8">
+    <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
+    <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
   </div>
 </div>

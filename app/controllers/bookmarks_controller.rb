@@ -2,15 +2,18 @@ class BookmarksController < ApplicationController
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
-    @bookmarks = Bookmark.all.paginate(:page => params[:page])
+    @bookmarks = Bookmark.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html
+      format.json { render :json => @bookmarks }
     end
   end
 
   def new
-    @bookmark = Bookmark.new
+    @bookmark            = Bookmark.new
+    @bookmark.name       = params[:query].to_s.strip.split(/\s| = |!|~|>|</)[0]
+    @bookmark.controller = params[:kontroller]
 
     respond_to do |format|
       format.html

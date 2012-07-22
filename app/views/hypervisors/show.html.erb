@@ -2,8 +2,8 @@
 
 <% fields = %w{cores cpus memory mhz model nodes sockets threads} -%>
 <div class='row'>
-  <div class='span16'>
-<table class="list zebra-striped">
+  <div class='span12'>
+<table class="table table-bordered table-striped">
   <tr><th colspan="2">Properties</th></tr>
   <% fields.each do |key| -%>
     <tr>
@@ -20,5 +20,5 @@
 </div>
 <br>
 
-<%= link_to "Guests", hypervisor_guests_path(@hypervisor), :class => "btn primary" %>
+<%= link_to "Guests", hypervisor_guests_path(@hypervisor), :class => "btn btn-primary" %>
 <%= link_to "Back", hypervisors_path, :class => "btn" %>

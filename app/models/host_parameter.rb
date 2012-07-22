@@ -1,6 +1,6 @@
 class HostParameter < Parameter
   belongs_to :host, :foreign_key => :reference_id
-  acts_as_audited :except => [:priority], :parent => :host
+  audited :except => [:priority], :associated_with => :host
   validates_uniqueness_of :name, :scope => :reference_id
 
   def to_s
@@ -9,9 +9,12 @@ class HostParameter < Parameter
 
   private
   def enforce_permissions operation
-  # We get called again with the operation being set to create
-  return true if operation == "edit" and new_record?
+    # We get called again with the operation being set to create
+    return true if operation == "edit" and new_record?
 
-  self.host.enforce_permissions operation
+    (auth = User.current.allowed_to?("#{operation}_params".to_sym)) and Host.my_hosts.include?(host)
+
+    errors.add :base, "You do not have permission to #{operation} this domain" unless auth
+    auth
   end
 end

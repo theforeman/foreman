@@ -1,10 +1,8 @@
 <% title "Puppet classes" %>
 
-<% title_actions display_link_if_authorized("New Puppetclass", hash_for_new_puppetclass_path),
-  display_link_if_authorized("Import new puppet classes and environments", hash_for_import_environments_puppetclasses_path)
-%>
+<% title_actions import_proxy_select(hash_for_import_environments_puppetclasses_path), button_group(display_link_if_authorized("New Puppetclass", hash_for_new_puppetclass_path)) %>
 
-<table class="list">
+<table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name %></th>
     <th><%= sort :environment, :as => "Environments" %> and documentation</th>
@@ -18,16 +16,16 @@
       <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass) %></td>
       <td>
         <% for environment in puppetclass.environments -%>
-          <%= link_to h(environment), "#", :onclick => rdoc_classes_path(environment, puppetclass.name) %>
+          <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
         <% end %>
       </td>
-      <td><%= puppetclass.hostgroups.map {|hg| link_to hg, hostgroup_path(hg)}.to_sentence %></td>
+      <td><%= puppetclass.hostgroups.map {|hg| link_to_if_authorized hg, hash_for_edit_hostgroup_path(:id=>hg)}.to_sentence.html_safe %></td>
       <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td>
         <%= link_to puppetclass.lookup_keys.count, puppetclass_lookup_keys_path(puppetclass) %>
       </td>
-      <td class="ra">
-        <%= display_link_if_authorized "Destroy", hash_for_puppetclass_path(:id => puppetclass, :auth_action => :destroy), :confirm => "Delete #{puppetclass.name}?", :method => :delete %>
+      <td>
+        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass), :confirm => "Delete #{puppetclass.name}?" %>
       </td>
     </tr>
   <% end %>

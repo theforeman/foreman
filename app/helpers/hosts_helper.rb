@@ -23,7 +23,7 @@ module HostsHelper
   # method that reformat the hostname column by adding the status icons
   def name_column(record)
     if record.build
-      style ="notice"
+      style ="label-info"
       label = "Pending Installation"
       short = "B"
     elsif record.respond_to?(:enabled) && !record.enabled
@@ -34,25 +34,29 @@ module HostsHelper
       label = "No reports"
       style = ""
       short = "N"
-    elsif record.error?
-      label = "Error"
-      style = "important"
-      short = "E"
     elsif record.no_report
       label = "Out of sync"
-      style = "warning"
+      style = "label-warning"
       short = "S"
+    elsif record.error?
+      label = "Error"
+      style = "label-important"
+      short = "E"
     elsif record.changes?
       label = "Active"
-      style = "notice"
+      style = "label-info"
       short = "A"
+    elsif record.pending?
+      label = "Pending"
+      style = "label-warning"
+      short = "P"
     else
       label = "No changes"
-      style = "success"
+      style = "label-success"
       short = "O"
     end
     content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
-      link_to(" " + record.shortname, host_path(record),{:rel=>"twipsy", :"data-original-title"=>record})
+      link_to(trunc("  #{record}",32), host_path(record))
   end
 
   def days_ago time
@@ -69,18 +73,22 @@ module HostsHelper
 
   def multiple_actions_select
     actions = [
-      ['Select Actions', ''],
-      ['Change Group', select_multiple_hostgroup_hosts_path],
-      ['Change Environment', select_multiple_environment_hosts_path],
-      ['Edit Parameters', multiple_parameters_hosts_path],
-      ['Delete Hosts', multiple_destroy_hosts_path],
-      ['Disable Notifications', multiple_disable_hosts_path],
-      ['Enable Notifications', multiple_enable_hosts_path],
+      ['Change Group', select_multiple_hostgroup_hosts_path, 'pencil'],
+      ['Change Environment', select_multiple_environment_hosts_path, 'chevron-right'],
+      ['Edit Parameters', multiple_parameters_hosts_path, 'edit'],
+      ['Delete Hosts', multiple_destroy_hosts_path, 'trash'],
+      ['Disable Notifications', multiple_disable_hosts_path, 'eye-close'],
+      ['Enable Notifications', multiple_enable_hosts_path, 'bullhorn'],
     ]
-    actions.insert(1, ['Build Hosts', multiple_build_hosts_path]) if SETTINGS[:unattended]
+    actions.insert(1, ['Build Hosts', multiple_build_hosts_path, 'fast-forward']) if SETTINGS[:unattended]
+    actions <<  ['Run Puppet', multiple_puppetrun_hosts_path, 'play'] if Setting[:puppetrun]
 
-    select_tag "Multiple Actions", options_for_select(actions), :id => "Submit_multiple",
-      :class => "medium", :title => "Perform Actions on multiple hosts"
+    content_tag :span, :id => 'submit_multiple', :class => 'fl' do
+      actions.map do |action|
+        link_to(icon_text(action[2]), action[1], :title => action[0])
+      end.join(' ').html_safe
+    end
+
   end
 
   def date ts=nil
@@ -89,7 +97,7 @@ module HostsHelper
   end
 
   def template_path opts = {}
-    if t = @host.configTemplate(opts)
+    if (t = @host.configTemplate(opts))
       link_to t, edit_config_template_path(t)
     else
       "N/A"
@@ -101,18 +109,10 @@ module HostsHelper
     session[:selected].include?(host.id.to_s)
   end
 
-  def update_details_from_hostgroup
-    return nil unless @host.new_record?
-    remote_function(:url => { :action => "process_hostgroup" },
-                    :method => :post, :loading => "$('#indicator1').show()",
-                    :complete => "$('#indicator1').hide()",
-                    :with => "'hostgroup_id=' + value")
-  end
-
   def report_status_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span11 host_chart',
+                  :class          => 'host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -127,7 +127,7 @@ module HostsHelper
   def runtime_chart name, title, subtitle, data, options = {}
     content_tag(:div, nil,
                 { :id             => name,
-                  :class          => 'span11 host_chart',
+                  :class          => 'host_chart',
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-subtitle'  => subtitle,
@@ -138,12 +138,11 @@ module HostsHelper
 
   def reports_show
     return unless @host.reports.size > 0
-    form_tag @host, :id => 'days_filter', :method => :get do
-      content_tag(:p, {}) { "Reports from the last " +
-        select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-               {:selected => @range}, {:class=>"mini", :onchange =>"$('#days_filter').submit();$(this).disabled();"}) +
-               " days - #{@host.reports.recent(@range.days.ago).count} reports found"
-      }
+    form_tag @host, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
+      content_tag(:span, "Reports from the last ") +
+      select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
+            {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
+            " days - #{@host.reports.recent(@range.days.ago).count} reports found"
     end
   end
 
@@ -152,13 +151,94 @@ module HostsHelper
   end
 
   def show_templates
-    return unless SETTINGS[:unattended]
-    return if (templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact).empty?
-    options = templates.map do |t|
-      next if t.template_kind.name == "PXELinux" # we can't render these for now
-      [t.name, url_for({:controller => 'unattended', :action => t.template_kind.name, :spoof => @host.ip})]
-    end.compact
-    select(nil, 'templates',options,{:include_blank => true},
-           {:onchange =>"if ($('#_templates').val() == '') {return false;}; window.open($('#_templates').val(), $('#_templates option:selected').text(),[width='300',height='400',scrollbars='yes']);"})
+    unless SETTINGS[:unattended] and @host.managed?
+      return content_tag(:div, :class =>"alert") do
+        "Provisioning Support is disabled or this host is not managed"
+      end
+    end
+    begin
+      templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
+    rescue => e
+      return case e.to_s
+      when "Must provide an operating systems"
+        "Unable to find templates As this Host has no Operating System"
+      else
+        e.to_s
+      end
+    end
+
+    return "No Template found" if templates.empty?
+    content_tag :table, :class=>"table table-bordered table-striped" do
+      content_tag(:th, "Template Type") + content_tag(:th) +
+      templates.sort{|t,x| t.template_kind <=> x.template_kind}.map do |tmplt|
+        content_tag :tr do
+          content_tag(:td, "#{tmplt.template_kind} Template") +
+            content_tag(:td,
+          link_to_if_authorized(icon_text('pencil'), hash_for_edit_config_template_path(:id => tmplt.to_param), :title => "Edit", :rel=>"external") +
+          link_to(icon_text('eye-open'), url_for(:controller => 'unattended', :action => tmplt.template_kind.name, :spoof => @host.ip), :title => "Review", :"data-provisioning-template" => true ))
+        end
+      end.join(" ").html_safe
+    end
+  end
+
+  def overview_fields host
+    fields = [
+      ["Domain", host.domain],
+      ["IP Address", host.ip],
+      ["MAC Address", host.mac],
+      ["Puppet Environment", host.environment],
+      ["Host Architecture", host.arch],
+      ["Operating System", host.os],
+      ["Host Group", host.hostgroup],
+    ]
+    fields += [["Owner", host.owner]] if SETTINGS[:login]
+    fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
+    fields
+  end
+
+  def possible_images cr, arch = nil, os = nil
+    return cr.images unless controller_name == "hosts"
+    return [] unless arch && os
+    cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
+  end
+
+
+  def host_title_actions(host, vm)
+    title_actions(
+        button_group(
+            link_to_if_authorized("Edit", hash_for_edit_host_path(:id => host), :title => "Edit your host"),
+            if host.build
+              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_build?,
+                                    :title                                                                 => "Cancel build request for this host")
+            else
+              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_build?,
+                                    :title                                                       => "Enable rebuild on next host boot",
+                                    :confirm                                                     => "Rebuild #{host} on next reboot?\nThis would also delete all of its current facts and reports")
+            end
+        ),
+        if host.compute_resource_id
+          button_group(
+              if vm
+                html_opts = vm.ready? ? {:confirm => 'Are you sure?', :class => "btn btn-danger"} : {:class => "btn btn-success"}
+                link_to_if_authorized "Power#{state(vm.ready?)}", hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start), html_opts.merge(:method => :put)
+              else
+                link_to("Unknown Power State", '#', :disabled => true, :class => "btn btn-warning")
+              end +
+                  link_to_if_authorized("Console", hash_for_console_host_path(), {:disabled => vm.nil? || !vm.ready?, :class => "btn btn-info"})
+          )
+        end,
+        button_group(
+            link_to_if_authorized("Run puppet", hash_for_puppetrun_host_path(:id => host).merge(:auth_action => :edit),
+                                  :disabled => !Setting[:puppetrun],
+                                  :title => "Trigger a puppetrun on a node; requires that puppet run is enabled"),
+            link_to_if_authorized("All Puppet Classes", hash_for_storeconfig_klasses_host_path(:id => host).merge(:auth_action => :read),
+                                  :disabled => host.resources.count == 0,
+                                  :title => "Show all host puppet classes, requires storeconfigs")
+        ),
+        button_group(
+            link_to_if_authorized("Delete", hash_for_host_path(:id => host, :auth_action => :destroy),
+                                  :class => "btn btn-danger", :confirm => 'Are you sure?', :method => :delete)
+        )
+    )
   end
 end

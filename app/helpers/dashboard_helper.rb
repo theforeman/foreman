@@ -15,11 +15,13 @@ module DashboardHelper
   end
 
   def render_overview report, options = {}
-    data = [[:Active,    report[:active_hosts]],
-            [:Error, report[:bad_hosts]],
-            [:OK, report[:ok_hosts]],
-            [:'Out of sync', report[:out_of_sync_hosts]],
-            [:'No report', report[:reports_missing]]]
+    data = [[:Active,    report[:active_hosts_ok_enabled]],
+            [:Error, report[:bad_hosts_enabled]],
+            [:OK, report[:ok_hosts_enabled]],
+            [:'Pending changes', report[:pending_hosts_enabled]],
+            [:'Out of sync', report[:out_of_sync_hosts_enabled]],
+            [:'No report', report[:reports_missing]],
+            [:'Notification disabled', report[:disabled_hosts]]]
     pie_chart 'overview', 'Puppet Clients Activity Overview', data, options
   end
 
@@ -31,4 +33,10 @@ module DashboardHelper
               data[:counter],
               options
   end
+
+  def searchable_links name, search
+    search += " and #{params[:search]}" unless params[:search].blank?
+    link_to name, hosts_path(:search => search)
+  end
+
 end

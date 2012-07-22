@@ -1,10 +1,10 @@
 class AddDefaultPxeMenuTemplate < ActiveRecord::Migration
   def self.up
-    ConfigTemplate.create(
+    ConfigTemplate.without_auditing {ConfigTemplate.create(
       :name                => "PXE Default File",
       :template_kind_id    => TemplateKind.find_by_name("PXELinux"),
       :operatingsystem_ids => [],
-      :template            => File.read("#{RAILS_ROOT}/app/views/unattended/pxe_default.erb"))
+      :template            => File.read("#{Rails.root}/app/views/unattended/pxe_default.erb"))}
   end
 
   def self.down

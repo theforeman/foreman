@@ -1,0 +1,21 @@
+<% title "Listing compute resources" %>
+<% title_actions display_link_if_authorized("New Compute Resource", hash_for_new_compute_resource_path), help_path %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name %></th>
+    <th><%= sort :type %></th>
+    <th></th>
+  </tr>
+
+<% @compute_resources.each do |compute| %>
+  <tr>
+    <td><%= link_to compute.name, compute %></td>
+    <td><%= compute.provider %></td>
+    <td>
+      <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute),:class=>"btn btn-small"),
+                         link_to('Delete', compute, :confirm => 'Are you sure?', :method => :delete)) %>
+    </td>
+  </tr>
+<% end %>
+</table>

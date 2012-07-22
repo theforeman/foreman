@@ -1,12 +1,12 @@
 class SmartProxy < ActiveRecord::Base
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
-  # maybe with a perdefine sql
+  # maybe with a predefined sql
   has_and_belongs_to_many :features
   has_many :subnets,    :foreign_key => "dhcp_id"
   has_many :domains,    :foreign_key => "dns_id"
-  has_many :hosts,      :foreign_key => "puppetproxy_id"
-  has_many :hostgroups, :foreign_key => "puppetproxy_id"
+  has_many :hosts,      :foreign_key => "puppet_proxy_id"
+  has_many :hostgroups, :foreign_key => "puppet_proxy_id"
 
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
@@ -16,7 +16,7 @@ class SmartProxy < ActiveRecord::Base
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
-  before_destroy Ensure_not_used_by.new(:subnets, :domains, :hosts, :hostgroups)
+  before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
   default_scope :order => 'LOWER(smart_proxies.name)'
 
@@ -54,16 +54,18 @@ class SmartProxy < ActiveRecord::Base
 
     name_map = SmartProxy.name_map
     reason = false
+    self.features.clear
     begin
       reply = ProxyAPI::Features.new(:url => url).features
-      self.features = reply.map{|f| name_map[f]} unless reply.empty?
+      if reply.is_a?(Array) and reply.any?
+        self.features = reply.map{|f| name_map[f]}
+      else
+        errors.add :base, "No features found on this proxy, please make sure you enable at least one feature"
+      end
     rescue => e
-      reason = e.message
+      errors.add :base, "Unable to communicate with the proxy: #{e}"
+      errors.add :base, "Please check the proxy is configured and running on the host before saving."
     end
-    unless reply
-      errors.add_to_base "Unable to communicate with the proxy: #{reason}"
-      errors.add_to_base "Please check the proxy is configured and running on the host before saving."
-    end
-    !reply.empty?
+    features.any?
   end
 end

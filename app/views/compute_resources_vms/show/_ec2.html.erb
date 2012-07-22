@@ -1,0 +1,19 @@
+<% title @vm %>
+<div class='span12'>
+  <table class="table table-bordered table-striped">
+    <tr><th colspan="2">Properties</th></tr>
+
+    <%= prop :availability_zone %>
+    <%= prop :public_ip_address %>
+    <%= prop :dns_name, "DNS name" %>
+    <%= prop :private_ip_address %>
+    <%= prop :private_dns_name %>
+    <%= prop :kernel_id %>
+    <%= prop :state %>
+    <%= prop :created_at, "Created" %>
+    <%= prop :root_device_type %>
+    <%= prop :image_id %>
+    <%= prop :flavor_id %>
+    <%= prop :groups, "Security Groups" %>
+  </table>
+</div>

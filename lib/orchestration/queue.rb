@@ -4,7 +4,7 @@ module Orchestration
   class Queue
 
     attr_reader :items
-    STATUS = %w[ pending running failed completed rollbacked conflict ]
+    STATUS = %w[ pending running failed completed rollbacked conflict canceled]
 
     def initialize
       @items = []
@@ -37,6 +37,10 @@ module Orchestration
 
     def clear
       @items = [] && true
+    end
+
+    def to_json
+      all.to_json
     end
 
     STATUS.each do |s|

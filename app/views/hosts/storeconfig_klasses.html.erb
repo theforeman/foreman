@@ -1,6 +1,6 @@
 <% title "All Puppet Classes for #{@host}" %>
 <ul>
-  <% for klass in @host.classes_from_storeconfigs -%>
+  <% @host.classes_from_storeconfigs.each do |klass| -%>
     <li><%= h klass %></li>
   <% end -%>
 </ul>

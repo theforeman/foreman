@@ -20,9 +20,9 @@ class Role < ActiveRecord::Base
   BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2
 
-  named_scope :givable, { :conditions => "builtin = 0", :order => 'name' }
-  named_scope :builtin, lambda { |*args|
-    compare = 'not' if args.first == true
+  scope :givable, { :conditions => "builtin = 0", :order => 'name' }
+  scope :builtin, lambda { |*args|
+    compare = 'not' if args.first
     { :conditions => "#{compare} builtin = 0" }
   }
 
@@ -110,13 +110,13 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a user
   def self.find_all_givable
-    find(:all, :conditions => {:builtin => 0}, :order => 'name')
+    all(:conditions => {:builtin => 0}, :order => 'name')
   end
 
   # Return the builtin 'default user' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.default_user
-    default_user_role = find(:first, :conditions => {:builtin => BUILTIN_DEFAULT_USER})
+    default_user_role = first(:conditions => {:builtin => BUILTIN_DEFAULT_USER})
     if default_user_role.nil?
       default_user_role = create(:name => 'Default user') do |role|
         role.builtin = BUILTIN_DEFAULT_USER
@@ -129,7 +129,7 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS})
+    anonymous_role = first(:conditions => {:builtin => BUILTIN_ANONYMOUS})
     if anonymous_role.nil?
       anonymous_role = create(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS
@@ -149,8 +149,8 @@ private
   end
 
   def check_deletable
-    errors.add_to_base "Role is in use" if users.any?
-    errors.add_to_base "Can't delete builtin role" if builtin?
+    errors.add :base, "Role is in use" if users.any?
+    errors.add :base, "Can't delete builtin role" if builtin?
     errors.empty?
   end
 end

@@ -1,22 +1,8 @@
-<div class="login-background"></div>
-<div id="login-form">
-  <% form_tag({:action=> "login"}) do %>
-    <table>
-      <tr>
-        <td align="right"><label for="login">Username:</label></td>
-        <td align="left"><%= text_field 'login','login' %></td>
-      </tr>
-      <tr>
-        <td align="right"><label for="password">Password:</label></td>
-        <td align="left"><%= password_field 'login','password' %></td>
-      </tr>
-    <tr>
-      <td align="left">
-        <input type="submit" value="Login &#187;" id="login" class="btn primary"/>
-      </td>
-    </tr>
-  </table>
+<%=image_tag("foreman_large.png", :class=>"login-large-logo") %>
+<%= form_tag login_users_path, :id => "login-form", :class => "form-vertical" do %>
+  <%= label_tag "login[login]", "Username" %>
+  <%= text_field :login, :login %>
+  <%= label_tag "login[password]", "Password" %>
+  <%= password_field_tag "login[password]" %>
+  <%= submit_tag("Login &#187;".html_safe, :class => "btn btn-primary fr", :disable_with => "Please wait...") %>
 <% end %>
-<%= javascript_tag '$("#login_login").focus();' %>
-<%= javascript_tag '$(".logo, .logo-text").hide();' %>
-</div>

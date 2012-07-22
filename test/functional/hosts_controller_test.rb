@@ -8,6 +8,20 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
+  def test_show_json
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}, set_session_user
+    json = ActiveSupport::JSON.decode(@response.body)
+    assert_equal host.name, json["host"]["name"]
+  end
+
+  def test_show_json_should_have_nested_host_params
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}, set_session_user
+    json = ActiveSupport::JSON.decode(@response.body)
+    assert json["host"]["host_parameters"].is_a?(Array)
+  end
+
   def test_create_invalid
     Host.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
@@ -56,7 +70,8 @@ class HostsControllerTest < ActionController::TestCase
           :architecture => architectures(:x86_64),
           :environment => environments(:production),
           :subnet => subnets(:one),
-          :disk => "empty partition"
+          :disk => "empty partition",
+          :puppet_proxy => smart_proxies(:puppetmaster)
         }
       }, set_session_user
     end
@@ -74,7 +89,9 @@ class HostsControllerTest < ActionController::TestCase
           :architecture => architectures(:x86_64),
           :environment => environments(:production),
           :subnet => subnets(:one),
-          :disk => "empty partition"
+          :disk => "empty partition",
+          :puppet_proxy => smart_proxies(:puppetmaster)
+
         }
       }, set_session_user
     end
@@ -91,14 +108,6 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should update host" do
-    put :update, { :commit => "Update", :id => @host.name, :host => {:disk => "ntfs"} }, set_session_user
-    @host = Host.find(@host)
-    assert_equal @host.disk, "ntfs"
-  end
-
-  test "should update host when using textual puppetmaster" do
-    as_admin {@host.update_attributes :puppetproxy_id => nil, :puppetmaster_name => "puppet"}
-    assert @host.valid?
     put :update, { :commit => "Update", :id => @host.name, :host => {:disk => "ntfs"} }, set_session_user
     @host = Host.find(@host)
     assert_equal @host.disk, "ntfs"
@@ -138,16 +147,8 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
-
-  test "externalNodes should render 404 when no params are given" do
-    User.current = nil
-    get :externalNodes
-    assert_response :missing
-    assert_template 'common/404'
-  end
-
   test "externalNodes should render correctly when format text/html is given" do
-    get :externalNodes, {:name => @host.name}, set_session_user
+    get :externalNodes, {:name => @host.name}
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
@@ -182,12 +183,6 @@ class HostsControllerTest < ActionController::TestCase
     assert flash[:error] =~ /Failed to enable #{@host} for installation/
   end
 
-  test "query in .yml format should return host.to_yml" do
-    User.current=nil
-    get :query, {:format => "yml"}
-    assert_template :text => @host.to_yaml
-  end
-
   def test_clone
     get :clone, {:id => Host.first.name}, set_session_user
     assert_template 'new'
@@ -215,12 +210,12 @@ class HostsControllerTest < ActionController::TestCase
     setup_user_and_host "Edit"
     as_admin do
       @one.domains  = [domains(:mydomain)]
-      @host1.domain = domains(:mydomain)
-      @host2.domain = domains(:yourdomain)
+      @host1.update_attribute(:domain, domains(:mydomain))
+      @host2.update_attribute(:domain, domains(:yourdomain))
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert @response.body =~ /#{@host1.shortname}/
+    assert_contains @response.body, /#{@host1.shortname}/
   end
 
   test 'user with edit host rights and domain is set should fail to view host2' do
@@ -230,7 +225,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.domain = domains(:mydomain)
       @host2.domain = domains(:yourdomain)
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
@@ -245,7 +240,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body =~ /#{@host1.name}/
   end
@@ -260,7 +255,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
@@ -274,7 +269,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body =~ /#{@host1.name}/
   end
@@ -288,7 +283,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
@@ -301,7 +296,7 @@ class HostsControllerTest < ActionController::TestCase
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
       UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body =~ /#{@host1.name}/
   end
@@ -314,20 +309,20 @@ class HostsControllerTest < ActionController::TestCase
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
       UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
     end
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert @response.body !~ /#{@host2.name}/
   end
 
   test 'user with view host rights should fail to edit host' do
     setup_user_and_host "View"
-    get :edit, {:id => @host1.id}
-    assert @response.status == '403 Forbidden'
+    get :edit, {:id => @host1.id}, set_session_user.merge(:user => @one.id)
+    assert_equal @response.status, 403
   end
 
   test 'user with view host rights should should succeed in viewing hosts' do
     setup_user_and_host "View"
-    get :index
+    get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
   end
 
@@ -360,7 +355,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
-    host_names = %w{temp.yourdomain.net myname.mydomain.net }
+    host_names = %w{temp.yourdomain.net my5name.mydomain.net }
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
       host = Host.find_by_name name
@@ -388,12 +383,13 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "user with edit host rights with update environments should change environments" do
+    @request.env['HTTP_REFERER'] = hosts_path
     setup_multiple_environments
     assert @host1.environment == environments(:production)
     assert @host2.environment == environments(:production)
     post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => environments(:global_puppetmaster).id}},
-      { :user => User.first.id}
+      set_session_user.merge(:user => User.first.id)
     assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
     assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
   end
@@ -404,7 +400,7 @@ class HostsControllerTest < ActionController::TestCase
     @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
     post :update_multiple_parameters,
       {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
-      {:user => User.first.id}
+      set_session_user.merge(:user => User.first.id)
     assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
@@ -417,12 +413,18 @@ class HostsControllerTest < ActionController::TestCase
   test "should get active" do
     get :active, {}, set_session_user
     assert_response :success
-    assert_template :partial => "list"
+    assert_template :partial => "_list"
     assert_template 'index'
   end
 
   test "should get out of sync" do
     get :out_of_sync, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+  end
+
+  test "should get pending" do
+    get :pending, {}, set_session_user
     assert_response :success
     assert_template 'index'
   end
@@ -477,15 +479,16 @@ class HostsControllerTest < ActionController::TestCase
   def initialize_host
     User.current = users(:admin)
     disable_orchestration
-    @host = Host.create :name => "myfullhost",
-      :mac             => "aabbecddeeff",
-      :ip              => "2.3.4.99",
-      :domain          => domains(:mydomain),
-      :operatingsystem => operatingsystems(:redhat),
-      :architecture    => architectures(:x86_64),
-      :environment     => environments(:production),
-      :subnet          => subnets(:one),
-      :disk            => "empty partition",
-      :puppetproxy     => smart_proxies(:puppetmaster)
+    @host = Host.create(:name => "myfullhost",
+                        :mac             => "aabbecddeeff",
+                        :ip              => "2.3.4.99",
+                        :domain          => domains(:mydomain),
+                        :operatingsystem => operatingsystems(:redhat),
+                        :architecture    => architectures(:x86_64),
+                        :environment     => environments(:production),
+                        :subnet          => subnets(:one),
+                        :disk            => "empty partition",
+                        :puppet_proxy    => smart_proxies(:puppetmaster)
+                       )
   end
 end

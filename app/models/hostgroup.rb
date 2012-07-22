@@ -10,16 +10,16 @@ class Hostgroup < ActiveRecord::Base
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :hosts
-  before_destroy Ensure_not_used_by.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations
   before_save :serialize_vm_attributes
-
-  default_scope :order => 'LOWER(hostgroups.name)'
+  before_save :remove_duplicated_nested_class
+  after_find :deserialize_vm_attributes
 
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
-  acts_as_audited
+  audited
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -32,6 +32,20 @@ class Hostgroup < ActiveRecord::Base
     scoped_search :in => :medium,            :on => :name, :complete_value => :true, :rename => "medium"
     scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
   end
+
+  # returns reports for hosts in the User's filter set
+  scope :my_groups, lambda {
+    user = User.current
+    if user.admin?
+      conditions = { }
+    else
+      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))", user.hostgroups.map(&:id)])
+      conditions.sub!(/\s*\(\)\s*/, "")
+      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+    end
+    {:conditions => conditions}
+  }
 
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
@@ -55,7 +69,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]}.merge(options))
+    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id, :ancestry], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]})
   end
 
   def hostgroup
@@ -110,11 +124,19 @@ class Hostgroup < ActiveRecord::Base
     write_attribute :vm_defaults, v.to_yaml
   end
 
-  def after_find
-    deserialize_vm_attributes
+  # no need to store anything in the db if the password is our default
+  def root_pass
+    read_attribute(:root_pass) || nested_root_pw
   end
 
   private
+
+  def nested_root_pw
+    Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
+      return a.root_pass unless a.root_pass.blank?
+    end
+    nil
+  end
 
   def serialize_vm_attributes
     hash = {}
@@ -130,6 +152,10 @@ class Hostgroup < ActiveRecord::Base
     Vm::PROPERTIES.each do |attr|
       eval("@#{attr} = hash[attr.to_s]") if hash.has_key?(attr.to_s)
     end
+  end
+
+  def remove_duplicated_nested_class
+    self.puppetclasses -= ancestors.map(&:puppetclasses).flatten
   end
 
 end

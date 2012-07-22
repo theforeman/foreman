@@ -16,15 +16,15 @@ class SmartProxies::PuppetCA
       def all(proxy)
         raise "Must specify a Smart Proxy to use" if proxy.nil?
 
-        unless certs = Rails.cache.read("ca_#{proxy.id}")
+        unless (certs = Rails.cache.read("ca_#{proxy.id}"))
           api = ProxyAPI::Puppetca.new({:url => proxy.url})
 
           certs = api.all.map do |name, properties|
-            new([name, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
+            new([name.strip, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
           end.compact
 
           # save our CA details for 5 seconds
-          Rails.cache.write("ca_#{proxy.id}", certs, {:expires_in  => 1.minute })
+          Rails.cache.write("ca_#{proxy.id}", certs, {:expires_in  => 1.minute }) if Rails.env.production?
         end
         certs
       end
@@ -45,19 +45,19 @@ class SmartProxies::PuppetCA
   def sign
     raise "unable to sign a non pending certificate" unless state == "pending"
     proxy = SmartProxy.find(smart_proxy_id)
-    Rails.cache.delete("ca_#{proxy.id}")
+    Rails.cache.delete("ca_#{proxy.id}") if Rails.env.production?
     ProxyAPI::Puppetca.new({:url => proxy.url}).sign_certificate name
   end
 
   def destroy
     proxy = SmartProxy.find(smart_proxy_id)
-    Rails.cache.delete("ca_#{proxy.id}")
+    Rails.cache.delete("ca_#{proxy.id}") if Rails.env.production?
     ProxyAPI::Puppetca.new({:url => proxy.url}).del_certificate name
   end
 
-  def to_param; name; end
+  def to_param; name end
 
-  def to_s; name; end
+  def to_s; name end
 
   def <=> other
     self.name <=> other.name

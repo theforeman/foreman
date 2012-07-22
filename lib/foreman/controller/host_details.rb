@@ -27,20 +27,11 @@ module Foreman::Controller::HostDetails
 
   def use_image_selected
     item = item_object
-    iname = item_name
-    render(:update) do |page|
-      if item.use_image
-        page["##{iname}_image_file"].value = item.image_file || item.default_image_file
-        page["##{iname}_image_file"].attr('disabled', false)
-      else
-        page["##{iname}_image_file"].value = ""
-        page["##{iname}_image_file"].attr('disabled', true)
-      end
-    end
+    render :json => {:use_image => item.use_image, :image_file => item.image_file}
   end
 
   def hypervisor_selected
-    hypervisor_id = params["#{item_name}_hypervisor_id".to_sym].to_i
+    hypervisor_id = params["hypervisor_id"].to_i
 
     # bare metal selected
     hypervisor_defaults and return if hypervisor_id == 0
@@ -56,13 +47,13 @@ module Foreman::Controller::HostDetails
         hypervisor_defaults(e.to_s) and return
       end
 
-      @guest = Virt::Guest.new({ :name => (item.try(:name) || "new-#{Time.now.to_i}") })
+      @guest = @hypervisor.host.create_guest({ :name => (item.try(:name) || "new-#{Time.now.to_i}") })
 
       render :update do |page|
         controller.send(:update_hypervisor_details, item, page)
       end
     else
-      return head(:not_found)
+      head(:not_found)
     end
   end
 
@@ -72,7 +63,7 @@ module Foreman::Controller::HostDetails
       item = eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new(params[:#{controller_name.singularize}])")
       render :partial => root + name, :locals => { :item => item }
     else
-      return head(:not_found)
+      head(:not_found)
     end
   end
 
@@ -88,8 +79,9 @@ module Foreman::Controller::HostDetails
   end
 
   def update_hypervisor_details item, page
-    page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => item }
-    page << "if ($('#host_mac')) $('#host_mac').parentsUntil('.clearfix').parent().remove()"
+    page['#virtual_machine'].html(render(:partial => "common/hypervisor", :locals => { :item => item }))
+    page << "$('#host_mac').hide()"
+    page << "$('#libvirt_tab').show()"
   end
 
   def disconnect_from_hypervisor
@@ -101,10 +93,10 @@ module Foreman::Controller::HostDetails
     render :update do |page|
       item = controller.send(:item_object)
       page.alert(msg) if msg
-      page.replace_html :virtual_machine, :partial => "common/hypervisor", :locals => { :item => item }
+      page['#virtual_machine'].html(render :partial => "common/hypervisor", :locals => { :item => item })
       # you can only select bare metal after you successfully selected a hypervisor before
       page << "if ($('#host_mac').length == 0) {"
-      page.replace_html :mac_address, :partial => "hosts/mac", :locals => {:item => item } if controller_name == "hosts"
+      page << "$('#host_mac').show()" if controller_name == "hosts"
       page[:host_hypervisor_id].value = ""
       page << " }"
     end

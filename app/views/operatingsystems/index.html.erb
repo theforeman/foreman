@@ -1,7 +1,7 @@
 <% title "Operating systems" %>
 <% title_actions display_link_if_authorized("New Operatingsystem", hash_for_new_operatingsystem_path) %>
 
-<table class="list">
+<table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name %></th>
     <th>Hosts</th>
@@ -12,11 +12,11 @@
       <td><%= link_to_if_authorized(os_name(operatingsystem), hash_for_edit_operatingsystem_path(:id => operatingsystem.id)) %></td>
       <td class="ra"><%= link_to @counter[operatingsystem.id] || 0, hosts_path(:search => "os = #{operatingsystem.name}") %></td>
       <td class="ra">
-        <%= display_link_if_authorized "Destroy", hash_for_operatingsystem_path(:id => operatingsystem, :auth_action => :destroy), :confirm => "Delete #{operatingsystem.fullname}?", :method => :delete %>
+        <%= display_delete_if_authorized hash_for_operatingsystem_path(:id => operatingsystem), :confirm => "Delete #{operatingsystem.fullname}?" %>
       </td>
     </tr>
   <% end %>
 </table>
 
-<%= page_entries_info @operatingsystems, :entry_name => "operating system" %>
+<%= page_entries_info @operatingsystems, :model => "operating system" %>
 <%= will_paginate @operatingsystems %>

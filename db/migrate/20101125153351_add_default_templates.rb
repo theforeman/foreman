@@ -7,39 +7,39 @@ class AddDefaultTemplates < ActiveRecord::Migration
           :name                => "Kickstart Default",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Redhat.all.map(&:id),
-          :template            => File.read("#{RAILS_ROOT}/app/views/unattended/kickstart.rhtml"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/kickstart.rhtml"))
         ConfigTemplate.create(
           :name                => "Preseed Default",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Debian.all.map(&:id),
-          :template            => File.read("#{RAILS_ROOT}/app/views/unattended/preseed.rhtml"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/preseed.rhtml"))
       when /finish/
         ConfigTemplate.create(
           :name                => "Preseed Default Finish",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Debian.all.map(&:id),
-          :template            => File.read("#{RAILS_ROOT}/app/views/unattended/preseed_finish.rhtml"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/preseed_finish.rhtml"))
       when /pxelinux/i
         ConfigTemplate.create(
           :name                => "Kickstart default PXElinux",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Redhat.all.map(&:id),
-          :template            => File.read("#{RAILS_ROOT}/app/views/unattended/pxe_kickstart_config.erb"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/pxe_kickstart_config.erb"))
         ConfigTemplate.create(
           :name                => "Preseed default PXElinux",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Debian.all.map(&:id),
-          :template            => File.read("#{RAILS_ROOT}/app/views/unattended/pxe_debian_config.erb"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/pxe_debian_config.erb"))
       when /gpxe/i
         ConfigTemplate.create(
           :name                => "Kickstart default gPXE",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Redhat.all.map(&:id),
-          :template            => File.read("#{RAILS_ROOT}/app/views/unattended/gpxe_kickstart_config.erb"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/gpxe_kickstart_config.erb"))
       end
 
     end
-    Dir["#{RAILS_ROOT}/app/views/unattended/snippets/*"].each do |snippet|
+    Dir["#{Rails.root}/app/views/unattended/snippets/*"].each do |snippet|
       ConfigTemplate.create(
         :name     => snippet.gsub(/.*_/,"").gsub(".erb",""),
         :template => File.read(snippet),

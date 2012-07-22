@@ -1,80 +1,283 @@
-ActionController::Routing::Routes.draw do |map|
-  map.root :controller => "dashboard"
+Foreman::Application.routes.draw do
+  #ENC requests goes here
+  match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
+  post "reports/create"
+  post "fact_values/create"
 
-  map.connect ':controller/help', :action => 'welcome'
-
-  map.resources :reports,  :collection => { :auto_complete_search => :get }
-  map.connect "node/:name", :controller => 'hosts', :action => 'externalNodes',
-    :requirements => { :name => /[^\.][\w\.-]+/ }
-  map.resources :hosts,
-    :requirements => {:id => /[^\/]+/},
-    :member => { :report => :get, :clone => :get, :toggle_manage => :put,
-      :environment_selected => :post, :architecture_selected => :post, :os_selected => :post,
-      :storeconfig_klasses => :get, :externalNodes => :get, :setBuild => :get, :cancelBuild => :get,
-      :puppetrun => :get, :facts => :get, :pxe_config => :get },
-    :collection => { :show_search => :get, :multiple_actions => :get, :multiple_parameters => :get,
-      :update_multiple_parameters => :post, :select_multiple_hostgroup => :get,
-      :update_multiple_hostgroup => :post, :select_multiple_environment => :get, :update_multiple_environment => :post,
-      :multiple_destroy => :get, :submit_multiple_destroy => :post, :multiple_build => :get, :submit_multiple_build => :post,
-      :reset_multiple => :get, :multiple_disable => :get, :submit_multiple_disable => :post,
-      :multiple_enable => :get, :submit_multiple_enable => :post, :auto_complete_search => :get, :template_used => :get,
-      :query => :get, :active => :get, :out_of_sync => :get, :errors => :get, :disabled => :get } do |hosts|
-    hosts.resources :reports, :requirements => {:host_id => /[^\/]+/}, :only => [:index, :show]
-    hosts.resources :facts, :requirements => {:host_id => /[^\/]+/}, :only => :index, :controller => :fact_values
-    hosts.resources :puppetclasses, :requirements => {:host_id => /[^\/]+/}, :only => :index
-    hosts.resources :lookup_keys, :requirements => {:host_id => /[^\/]+/}, :only => :show
+  resources :reports, :only => [:index, :show, :destroy, :create] do
+    collection do
+      get 'auto_complete_search'
+    end
   end
-  map.dashboard '/dashboard', :controller => 'dashboard'
-  map.dashboard_auto_completer '/dashboard/auto_complete_search', :controller => 'hosts', :action => :auto_complete_search
-  map.statistics '/statistics', :controller => 'statistics'
-  map.resources :notices, :only => :destroy
-  map.resources :audits, :collection => {:auto_complete_search => :get}
+
+  match '(:controller)/help', :action => 'welcome', :as => "help"
+  constraints(:id => /[^\/]+/) do
+    resources :hosts do
+      member do
+        get 'clone'
+        get 'storeconfig_klasses'
+        get 'externalNodes'
+        get 'setBuild'
+        get 'cancelBuild'
+        get 'puppetrun'
+        get 'pxe_config'
+        put 'toggle_manage'
+        post 'environment_selected'
+        put 'power'
+        get 'console'
+      end
+      collection do
+        get 'show_search'
+        get 'multiple_actions'
+        get 'multiple_parameters'
+        post 'update_multiple_parameters'
+        get 'select_multiple_hostgroup'
+        post 'update_multiple_hostgroup'
+        get 'select_multiple_environment'
+        post 'update_multiple_environment'
+        get 'multiple_puppetrun'
+        post 'update_multiple_puppetrun'
+        get 'multiple_destroy'
+        post 'submit_multiple_destroy'
+        get 'multiple_build'
+        post 'submit_multiple_build'
+        get 'reset_multiple'
+        get 'multiple_disable'
+        post 'submit_multiple_disable'
+        get 'multiple_enable'
+        post 'submit_multiple_enable'
+        get 'auto_complete_search'
+        get 'template_used'
+        get 'active'
+        get 'pending'
+        get 'out_of_sync'
+        get 'errors'
+        get 'disabled'
+        post 'current_parameters'
+        post 'process_hostgroup'
+        post 'hostgroup_or_environment_selected'
+        post 'hypervisor_selected'
+        post 'architecture_selected'
+        post 'os_selected'
+        post 'domain_selected'
+        post 'use_image_selected'
+        post 'compute_resource_selected'
+        post 'medium_selected'
+      end
+
+      constraints(:host_id => /[^\/]+/) do
+        resources :reports       ,:only => [:index, :show]
+        resources :facts         ,:only => :index, :controller => :fact_values
+        resources :puppetclasses ,:only => :index
+        resources :lookup_keys   ,:only => :show
+      end
+    end
+
+    resources :bookmarks, :except => [:show]
+    resources :lookup_keys, :except => [:new, :create] do
+      resources :lookup_values, :only => [:index, :create, :update, :destroy]
+    end
+
+    resources :facts, :only => [:index, :show] do
+      constraints(:id => /[^\/]+/) do
+        resources :values, :only => :index, :controller => :fact_values, :as => "host_fact_values"
+      end
+    end
+
+    resources :hypervisors do
+      constraints(:id => /[^\/]+/) do
+        resources :guests, :controller => "Hypervisors::Guests", :except => [:edit] do
+          member do
+            put 'power'
+          end
+        end
+      end
+    end if SETTINGS[:libvirt]
+  end
+
+  resources :settings, :only => [:index, :update] do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
+  resources :common_parameters do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
+  resources :environments do
+    collection do
+      get 'import_environments'
+      post 'obsolete_and_new'
+      get 'auto_complete_search'
+    end
+  end
+
+  resources :hostgroups do
+    member do
+      get 'nest'
+      get 'clone'
+    end
+    collection do
+      get 'auto_complete_search'
+      post 'environment_selected'
+      post 'hypervisor_selected'
+      post 'architecture_selected'
+      post 'os_selected'
+      post 'domain_selected'
+      post 'use_image_selected'
+      post 'medium_selected'
+    end
+  end
+
+  resources :puppetclasses do
+    collection do
+      get 'import_environments'
+      post 'obsolete_and_new'
+      get 'auto_complete_search'
+    end
+    constraints(:id => /[^\/]+/) do
+      resources :hosts
+      resources :lookup_keys, :except => [:show, :new, :create]
+    end
+  end
+
+  resources :smart_proxies, :except => [:show] do
+    constraints(:id => /[^\/]+/) do
+      resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :update, :destroy]
+      resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy]
+    end
+  end
+
+  resources :fact_values, :only => [:index] do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
+
+  resources :notices, :only => :destroy
+  resources :audits do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
+
   if SETTINGS[:login]
-    map.resources :usergroups
-    map.resources :users, :collection => {:login => [:get, :post], :logout => :get, :auth_source_selected => :get, :auto_complete_search => :get}
-    map.resources :roles, :collection => {:report => [:get, :post], :auto_complete_search => :get}
+    resources :usergroups
+    resources :users do
+      collection do
+        get 'login'
+        post 'login'
+        get 'logout'
+        get 'auth_source_selected'
+        get 'auto_complete_search'
+      end
+    end
+    resources :roles do
+      collection do
+        get 'report'
+        post 'report'
+        get 'auto_complete_search'
+      end
+    end
+
+    resources :auth_source_ldaps
   end
 
   if SETTINGS[:unattended]
-    map.resources :domains, :requirements => {:id => /[^\/]+/}, :collection => {:auto_complete_search => :get}
-    map.resources :operatingsystems, :member => {:bootfiles => :get}, :collection => {:auto_complete_search => :get}
-    map.resources :media, :collection => {:auto_complete_search => :get}
-    map.resources :models, :collection => {:auto_complete_search => :get}
-    map.resources :architectures, :collection => {:auto_complete_search => :get}
-    map.resources :ptables, :collection => {:auto_complete_search => :get}
-    map.resources :config_templates, :except => [:show], :collection => { :auto_complete_search => :get }, :requirements => { :id => /[^\/]+/ }
-    map.resources :subnets, :except => [:show], :collection => {:auto_complete_search => :get, :import => :get, :create_multiple => :post}
-    map.connect 'unattended/template/:id/:hostgroup', :controller =>  "unattended", :action => "template"
+    constraints(:id => /[^\/]+/) do
+      resources :domains do
+        collection do
+          get 'auto_complete_search'
+        end
+      end
+      resources :config_templates do
+        collection do
+          get 'auto_complete_search'
+          get 'build_pxe_default'
+          get 'revision'
+        end
+      end
+    end
+
+    resources :operatingsystems do
+      member do
+        get 'bootfiles'
+      end
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+    resources :media do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
+    resources :models do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
+    resources :architectures do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
+    resources :ptables do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
+    constraints(:id => /[^\/]+/) do
+      resources :compute_resources do
+        member do
+          post 'hardware_profile_selected'
+          post 'cluster_selected'
+        end
+        constraints(:id => /[^\/]+/) do
+          resources :vms, :controller => "compute_resources_vms" do
+            member do
+              put 'power'
+              get 'console'
+            end
+          end
+        end
+        collection do
+          get  'auto_complete_search'
+          post 'provider_selected'
+          put  'test_connection'
+        end
+        resources :images
+      end
+    end
+
+    resources :subnets, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+        get 'import'
+        post 'create_multiple'
+        post 'freeip'
+      end
+    end
+
+    match 'unattended/template/:id/:hostgroup', :to => "unattended#template"
   end
 
-  map.resources :lookup_keys, :except => [:new, :create], :requirements => {:id => /[^\/]+/} do |keys|
-    keys.resources :lookup_values, :only => [:index, :create, :update, :destroy]
-  end
-  map.resources :puppetclasses, :member => { :assign => :post }, :collection => {:import_environments => :get, :auto_complete_search => :get} do |pc|
-    pc.resources :hosts, :requirements => {:id => /[^\/]+/}
-    pc.resources :lookup_keys, :except => [:show, :new, :create], :requirements => {:id => /[^\/]+/}
-  end
-  map.resources :hostgroups, :member => { :nest => :get, :clone => :get }, :collection => { :auto_complete_search => :get }
-  map.resources :common_parameters, :collection => {:auto_complete_search => :get}
-  map.resources :environments, :collection => {:import_environments => :get, :obsolete_and_new => :post, :auto_complete_search => :get}
-  map.resources :fact_values, :only => [:create, :index], :collection => { :auto_complete_search => :get }
-  map.resources :facts, :only => [:index, :show], :requirements => {:id => /[^\/]+/} do |facts|
-    facts.resources :values, :requirements => {:id => /[^\/]+/}, :only => :index, :controller => :fact_values
-  end
-  map.resources :auth_source_ldaps
-  map.resources :smart_proxies, :except => [:show] do |proxy|
-    proxy.resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :update, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
-    proxy.resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy], :requirements => { :id => /[^\.][\w\.-]+/ }
-  end
-  map.resources :hypervisors, :requirements => { :id => /[^\/]+/ } do |hypervisor|
-    hypervisor.resources :guests, :controller => "Hypervisors::Guests", :except => [:edit],
-      :member => {:power => :put}, :requirements => { :id => /[^\.][\w\.-]+/ }
-  end if SETTINGS[:libvirt]
-  map.resources :bookmarks, :except => [:show], :requirements => { :id => /[^\/]+/ }
-  map.resources :settings, :only => [:index, :update]
-  map.connect '/status', :controller => "home", :action => "status"
+  root :to => 'dashboard#index'
+  match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
+  match 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
+  match 'statistics', :to => 'statistics#index', :as => "statistics"
+  match 'status', :to => 'home#status', :as => "status"
 
-  #default
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  # match for all unattended scripts
+  match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
+
+  resources :tasks, :only => [:show]
+
+  #Keep this line the last route
+  match '*a', :to => 'errors#routing'
 end

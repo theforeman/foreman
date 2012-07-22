@@ -42,8 +42,8 @@ class DomainTest < ActiveSupport::TestCase
   test "should not destroy if it contains subnets" do
 
     as_admin do
-      Subnet.create!  :network => "123.123.123.1", :mask => "255.255.255.0",
-                      :domain => @domain, :name => "test subnet"
+      Subnet.create! :network => "123.123.123.1", :mask => "255.255.255.0",
+                     :domains => [@domain], :name => "test subnet"
     end
     assert !@domain.destroy
     assert_match /is used by/, @domain.errors.full_messages.join("\n")
@@ -108,8 +108,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
-    record =  Domain.first
-    record.subnets.clear
+    record = domains(:useless)
     assert record.destroy
     assert record.frozen?
   end
@@ -136,5 +135,13 @@ class DomainTest < ActiveSupport::TestCase
     assert !record.save
   end
 
+  test "should query local nameservers when enabled" do
+    Setting['query_local_nameservers'] = true
+    assert Domain.first.nameservers.empty?
+  end
+
+  test "should query remote nameservers" do
+    assert Domain.first.nameservers.empty?
+  end
 end
 

@@ -6,7 +6,7 @@ module HostTemplateHelpers
     operatingsystem.interpolate_medium_vars(operatingsystem.media_path(medium, domain), architecture.name, operatingsystem)
   end
 
-  # Calculates the jumpstart's path in relation to the domain and convert host to an IP
+  # Calculates the jumpstart path in relation to the domain and convert host to an IP
   def jumpstart_path
     operatingsystem.jumpstart_path medium, domain
   end

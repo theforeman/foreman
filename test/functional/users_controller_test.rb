@@ -81,7 +81,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should delete different user" do
     user = users(:one)
-    delete :destroy, {:id => user}, {:user => users(:admin)}
+    delete :destroy, {:id => user}, set_session_user.merge(:user => users(:admin))
     assert_redirected_to users_url
     assert !User.exists?(user.id)
   end
@@ -91,10 +91,10 @@ class UsersControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = users_path
     user = users(:one)
     user.update_attribute :admin, true
-    delete :destroy, {:id => user.id}, {:user => user.id}
+    delete :destroy, {:id => user.id}, set_session_user.merge(:user => user.id)
     assert_redirected_to users_url
     assert User.exists?(user)
-    assert @response.flash[:notice] == "You are currently logged in, suicidal?"
+    assert @request.flash[:notice] == "You are currently logged in, suicidal?"
   end
 
   test "should recreate the admin account" do
@@ -110,6 +110,7 @@ class UsersControllerTest < ActionController::TestCase
     User.current = users :admin
     user = User.find_by_login("one")
     @request.session[:user] = user.id
+    @request.session[:expires_at] = 5.minutes.from_now
     user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
     user.save!
   end
@@ -117,7 +118,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'user with viewer rights should fail to edit a user' do
     setup_users
     get :edit, {:id => User.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing users' do

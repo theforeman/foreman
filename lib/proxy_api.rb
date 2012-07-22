@@ -6,7 +6,7 @@ require 'net'
 module ProxyAPI
 
   class Resource
-    attr_reader :url, :user, :password
+    attr_reader :url
 
     def initialize(args)
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
@@ -31,7 +31,7 @@ module ProxyAPI
       @resource = RestClient::Resource.new(url, connect_params)
     end
 
-    def logger; RAILS_DEFAULT_LOGGER; end
+    def logger; Rails.logger; end
 
     private
 
@@ -42,7 +42,7 @@ module ProxyAPI
     # TODO: add error message handling
     def parse response
       if response and response.code >= 200 and response.code < 300
-        return response.body.size > 2 ? JSON.parse(response.body) : true
+        return response.body.present? ? JSON.parse(response.body) : true
       else
         false
       end
@@ -62,14 +62,12 @@ module ProxyAPI
     end
 
     # Perform POST operation with the supplied payload on the supplied path
-    def post payload, path
-      path ||= ""
+    def post payload, path = ""
       @resource[path].post payload
     end
 
     # Perform PUT operation with the supplied payload on the supplied path
-    def put payload, path
-      path ||= ""
+    def put payload, path = ""
       @resource[path].put payload
     end
 
@@ -79,6 +77,32 @@ module ProxyAPI
     end
   end
 
+  class Puppet < Resource
+    def initialize args
+      @url  = args[:url] + "/puppet"
+      super args
+    end
+
+    def environments
+      parse(get "environments")
+    end
+
+    def environment env
+      parse(get "environments/#{env}")
+    end
+
+    def classes env
+      return if env.blank?
+      parse(get "environments/#{env}/classes").map { |k| k.keys.first }
+    rescue RestClient::ResourceNotFound
+      []
+    end
+
+    def run hosts
+      parse(post({:nodes => hosts}, "run"))
+    end
+
+  end
   class Puppetca < Resource
     def initialize args
       @url  = args[:url] + "/puppet/ca"
@@ -86,8 +110,7 @@ module ProxyAPI
     end
 
     def autosign
-      result = parse(get "autosign")
-      result == true ? [] : result
+      parse(get "autosign")
     end
 
     def set_autosign certname
@@ -145,8 +168,13 @@ module ProxyAPI
       parse get(subnet)
     end
 
-    def unused_ip subnet
-      parse get("#{subnet}/unused_ip")
+    def unused_ip subnet, mac = nil
+      params = {}
+      params.merge!({:mac => mac}) if mac.present?
+
+      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? and subnet.to.present?
+      params = "?" + params.map{|e| e.join("=")}.join("&") if params.any?
+      parse get("#{subnet.network}/unused_ip#{params}")
     end
 
     # Retrieves a DHCP entry
@@ -247,8 +275,7 @@ module ProxyAPI
 
     # returns the TFTP boot server for this proxy
     def bootServer
-      response = parse get("serverName")
-      if response and response["serverName"] and !response["serverName"].blank?
+      if (response = parse(get("serverName"))) and response["serverName"].present?
         return response["serverName"]
       end
       false

@@ -2,7 +2,9 @@
 
 <% title_actions display_link_if_authorized("New Hypervisor", hash_for_new_hypervisor_path) %>
 
-<table class="list">
+<%= alert(:text => "Hypervisors are now <b>depreciated</b> in favour of #{link_to "Compute Resources", compute_resources_path}, please don't use it unless you have to", :class => 'alert-block')%>
+
+<table class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
     <th>Uri</th>
@@ -10,14 +12,15 @@
     <th></th>
   </tr>
   <% for hypervisor in @hypervisors %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%=link_to_if_authorized h(hypervisor), hash_for_hypervisor_path(:id => hypervisor.name) %></td>
       <td><%=h hypervisor.uri %></td>
       <td><%=h hypervisor.kind %></td>
       <td>
-        <%= display_link_if_authorized "Guests", hash_for_hypervisor_guests_path(:hypervisor_id => hypervisor.name) %>
-        <%= display_link_if_authorized "Edit",   hash_for_edit_hypervisor_path(:id => hypervisor.name) %>
-        <%= display_link_if_authorized "Destroy", hash_for_hypervisor_path(:id => hypervisor.name, :auth_action => :destroy), :confirm => "Delete #{hypervisor.name}?", :method => :delete %>
+        <%= action_buttons(
+                    display_link_if_authorized("Guests", hash_for_hypervisor_guests_path(:hypervisor_id => hypervisor.name), :class=>"btn btn-small"),
+                    display_link_if_authorized("Edit",   hash_for_edit_hypervisor_path(:id => hypervisor.name)),
+                    display_delete_if_authorized(hash_for_hypervisor_path(:id => hypervisor.name), :confirm => "Delete #{hypervisor.name}?"))%>
       </td>
     </tr>
   <% end %>

@@ -12,9 +12,7 @@ module HomeHelper
 
   def setting_options
     choices = [
-      ['Bookmarks',              :bookmarks],
       ['Environments',           :environments],
-      ['Settings',               :settings],
       ['Global Parameters',      :common_parameters],
       ['Host Groups',            :hostgroups],
       ['Puppet Classes',         :puppetclasses],
@@ -22,30 +20,60 @@ module HomeHelper
       ['Smart Proxies',          :smart_proxies]
     ]
 
-    choices += [
-      ['Architectures',          :architectures],
-      ['Domains',                :domains],
-      ['Hardware Models',        :models],
-      ['Installation Media',     :media],
-      ['Operating Systems',      :operatingsystems],
-      ['Partition Tables',       :ptables],
-      ['Provisioning Templates', :config_templates],
-      ['Subnets',                :subnets]
-    ] if SETTINGS[:unattended]
+    if SETTINGS[:unattended]
+      choices += [
+        [:divider],
+        ['Compute Resources',    :compute_resources]
+      ]
+
+      choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
+
+      choices += [
+        [:divider],
+        ['Architectures',          :architectures],
+        ['Domains',                :domains],
+        ['Hardware Models',        :models],
+        ['Installation Media',     :media],
+        ['Operating Systems',      :operatingsystems],
+        ['Partition Tables',       :ptables],
+        ['Provisioning Templates', :config_templates],
+        ['Subnets',                :subnets]
+      ]
+    end
 
     choices += [
+      [:divider],
+      ['LDAP Authentication',    :auth_source_ldaps],
       ['Users',                  :users],
       ['User Groups',            :usergroups],
-      ['LDAP Authentication',    :auth_source_ldaps]
     ] if SETTINGS[:login]
+
     choices += [
       ['Roles',                  :roles]
     ] if SETTINGS[:login] and User.current.admin?
-    choices += [['Hypervisors',  :hypervisors]] if SETTINGS[:libvirt]
 
-    choices.sort
+    choices += [
+      [:divider],
+      ['Bookmarks',              :bookmarks],
+      ['Settings',               :settings]
+    ]
+
+    #prevent adjacent dividers
+    last_item = nil
+    choices = choices.map do |item|
+      if item == [:divider]
+        if last_item
+          last_item = nil
+          item
+        end
+      elsif authorized_for(item[1], :index)
+        last_item = item
+        item
+      end
+    end.compact
+    choices.pop if (choices.last == [:divider])
+    choices
   end
-
 
   def menu(tab, myBookmarks ,path = nil)
     path ||= eval("hash_for_#{tab}_path")
@@ -54,8 +82,8 @@ module HomeHelper
     out = content_tag :li, :class => class_for_current_page(tab) do
       link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
     end
-    out +=  content_tag :li, :class => "dropdown " + class_for_current_page(tab) do
-      link_to("", "#", :class => "dropdown-toggle narrow-left") + menu_dropdown(b)
+    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone " + class_for_current_page(tab) do
+      link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret hidden-phone hidden-tablet'), "#", :class => "dropdown-toggle narrow-left hidden-phone hidden-tablet") + menu_dropdown(b)
     end unless b.empty?
     out
   end

@@ -83,4 +83,24 @@ attributes17:
   name: update_environment_from_facts
   category: Puppet
   default: false
-  description: Foreman will update a host's environment from its facts
+  description: Foreman will update a hosts environment from its facts
+attributes18:
+  name: idle_timeout
+  category: General
+  default: 5
+  description: idle timeout
+attributes19:
+  name: enc_environment
+  category: Puppet
+  default: true
+  description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
+attributes20:
+  name: use_uuid_for_certificates
+  category: Puppet
+  default: false
+  description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
+attributes21:
+  name: query_local_nameservers
+  category: Provisioning
+  default: false
+  description: "Should Foreman query the locally configured name server or the SOA/NS authorities"

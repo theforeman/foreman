@@ -2,17 +2,17 @@ class UnattendedController < ApplicationController
   layout nil
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.name_like("pxelinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.name_like("pxegrub").map(&:name)
-  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.name_like("gpxe").map(&:name)
+  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","pxelinux").map(&:name)
+  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.where("name LIKE ?", "pxegrub").map(&:name)
+  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.where("name LIKE ?", "gpxe").map(&:name)
   CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.name_like("provision").map(&:name)
+  PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.where("name LIKE ?", "provision").map(&:name)
   # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.name_like("finish").map(&:name)
+  FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
-  skip_before_filter :require_ssl, :require_login, :authorize
+  skip_before_filter :require_ssl, :require_login, :authorize, :session_expiry, :update_activity_time
 
   # require logged in user to see templates in spoof mode
   before_filter do |c|
@@ -20,10 +20,11 @@ class UnattendedController < ApplicationController
   end
 
   # We want to find out our requesting host
-  before_filter :get_host_details,:allowed_to_install?, :except => PXE_CONFIG_URLS + [:template]
+  before_filter :get_host_details, :allowed_to_install?, :except => :template
   before_filter :handle_ca, :only => PROVISION_URLS
   # load "helper" variables to be available in the templates
   before_filter :load_template_vars, :only => PROVISION_URLS
+  before_filter :pxe_config, :only => CONFIG_URLS
   # all of our requests should be returned in text/plain
   after_filter :set_content_type
   before_filter :set_admin_user, :only => :built
@@ -55,7 +56,7 @@ class UnattendedController < ApplicationController
     return head(:not_found) unless template and @host
 
     load_template_vars if template.template_kind.name == 'provision'
-    safe_render template.template and return
+    safe_render template.template
   end
 
   # Returns a valid GPXE config file to kickstart hosts
@@ -91,6 +92,8 @@ class UnattendedController < ApplicationController
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
+    ip = ip.split(',').first # in cases where multiple nics/ips exists - see #1619
+
     # search for a mac address in any of the RHN provisioning headers
     # this section is kickstart only relevant
     maclist = []
@@ -105,7 +108,8 @@ class UnattendedController < ApplicationController
     end
 
     # we try to match first based on the MAC, falling back to the IP
-    conditions = (!maclist.empty? ? {:mac => maclist} : {:ip => ip})
+    conditions = maclist.empty? ? {:ip => ip} : [ "lower(mac) IN (?)", maclist.map(&:downcase) ]
+
     @host = Host.first(:include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
     unless @host
       logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
@@ -135,10 +139,10 @@ class UnattendedController < ApplicationController
     # We don't do anything if we are in spoof mode.
     return true if @spoof
 
-    # This should terminate the before_filter and the action. We do not return a HTTP error otherwise this text will
-    # probably not get written into the provisioning file for later post mortum inspection.
-    # We can be sure that Anaconda and Suninstall will choke on this build configuration :-)
-    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!") unless @host.handle_ca
+    # This should terminate the before_filter and the action. We return a HTTP
+    # error so the installer knows something is wrong. This is tested with
+    # Anaconda, but maybe Suninstall will choke on it.
+    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!", :status => 500) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
@@ -146,12 +150,12 @@ class UnattendedController < ApplicationController
   # if it doesn't exists, we'll try to find a local generic template
   # otherwise render the default view
   def unattended_local
-    if config = @host.configTemplate({:kind => @type})
+    if (config = @host.configTemplate({ :kind => @type }))
       logger.debug "rendering DB template #{config.name} - #{@type}"
       safe_render config and return
     end
     type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
-    render :template => type if File.exists?("#{RAILS_ROOT}/app/views/#{type}.rhtml")
+    render :template => type if File.exists?("#{Rails.root}/app/views/#{type}.rhtml")
   end
 
   def set_content_type
@@ -202,6 +206,11 @@ class UnattendedController < ApplicationController
   def yast_attributes
   end
 
+  def aif_attributes
+    os         = @host.operatingsystem
+    @mediapath = os.mediumpath @host
+  end
+
   private
 
   def safe_render template
@@ -216,7 +225,7 @@ class UnattendedController < ApplicationController
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template) %>" and return
+      render :inline => "<%= unattended_render(@unsafe_template).html_safe %>" and return
     rescue Exception => exc
       msg = "There was an error rendering the " + template_name + " template: "
       render :text => msg + exc.message, :status => 500 and return

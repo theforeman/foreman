@@ -1,35 +1,43 @@
 <% title 'Overview' %>
 <div id='dashboard'>
   <p>Generated at <%= Time.now.to_s(:short) %></p>
-  <table class="list">
+  <table id='links-tbl' class="table table-striped table-bordered">
     <tr>
       <th>Description</th>
       <th>Data</th>
     </tr>
-    <tr class="even">
-      <td>Good Host Reports in the last <%= Setting[:puppet_interval] %> minutes</td>
-      <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
+    <tr>
+      <td><%= searchable_links 'Hosts that had performed modifications without error', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)" %></td>
+      <td><%= @report[:active_hosts_ok_enabled] %> </td>
     </tr>
-    <tr class="odd">
-      <td><%= link_to 'Hosts that had performed modifications', active_hosts_path %></td>
-      <td><%= @report[:active_hosts] %> </td>
+    <tr>
+      <td><%= searchable_links 'Hosts in Error State', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0) and status.enabled = true" %></td>
+      <td><%= @report[:bad_hosts_enabled] %> </td>
     </tr>
-    <tr class="even">
-      <td><%= link_to 'Out Of Sync Hosts', out_of_sync_hosts_path %></td>
-      <td><%= @report[:out_of_sync_hosts] %> </td>
+    <tr>
+      <td><%=searchable_links "Good Host Reports in the last #{Setting[:puppet_interval]+5} minutes", "last_report > \"#{Setting[:puppet_interval]+5} minutes ago\" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0" %></td>
+      <td> <%= "#{@report[:ok_hosts_enabled]}  / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
     </tr>
-    <tr class="odd">
-      <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
-      <td><%= @report[:bad_hosts] %> </td>
+    <tr>
+      <td><%= searchable_links 'Hosts that had pending changes', 'status.pending > 0 and status.enabled = true' %></td>
+      <td><%= @report[:pending_hosts_enabled] %> </td>
     </tr>
-    <tr class="even">
-      <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>
+    <tr>
+      <td><%= searchable_links 'Out Of Sync Hosts', "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true" %></td>
+      <td><%= @report[:out_of_sync_hosts_enabled] %> </td>
+    </tr>
+    <tr>
+      <td><%= searchable_links 'Hosts With No Reports', "not has last_report and status.enabled = true" %></td>
+      <td><%= @report[:reports_missing] %> </td>
+    </tr>
+    <tr>
+      <td><%= searchable_links 'Hosts With Alerts Disabled', "status.enabled = false" %></td>
       <td><%= @report[:disabled_hosts] %> </td>
     </tr>
   </table>
   <div id='dashboard-charts' class='row'>
-    <%= render_overview(@report, :class => 'statistics_pie span8') %>
-    <%= render_run_distribution(count_reports(@hosts), :class => 'statistics_bar span8') %>
+    <%= render_overview(@report, :class => 'statistics_pie span6') %>
+    <%= render_run_distribution(count_reports(@hosts), :class => 'statistics_bar span6') %>
   </div>
 </div>
 

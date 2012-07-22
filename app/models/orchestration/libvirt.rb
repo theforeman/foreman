@@ -19,9 +19,9 @@ module Orchestration::Libvirt
     def initialize_libvirt
       return unless libvirt?
       (@hypervisor = Hypervisor.find(hypervisor_id)).connect
-      @guest = Virt::Guest.new({:name => name, :memory => memory, :arch => architecture.name,
-                               :vcpu => vcpu, :pool => storage_pool, :size => disk_size,
-                               :device => interface, :type => network_type})
+      @guest = @hypervisor.host.create_guest({:name => name, :memory => memory, :arch => architecture.name,
+                                              :vcpu => vcpu, :pool => storage_pool, :size => disk_size,
+                                              :device => interface, :type => network_type})
     rescue => e
       failure "Failed to initialize the Libvirt connection: #{e}"
     end
@@ -77,7 +77,7 @@ module Orchestration::Libvirt
         # we can't ensure uniqueness of MAC using normal rails validations as the mac gets in a later step in the process
         # therefore we must validate its not used already in our db.
         normalize_addresses
-        if other_host = Host.find_by_mac(mac)
+        if (other_host = Host.find_by_mac(mac))
           delLibvirt
           return failure("MAC Address #{mac} is already used by #{other_host}")
         end

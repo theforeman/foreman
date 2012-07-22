@@ -1,20 +1,8 @@
 module OperatingsystemsHelper
   include CommonParametersHelper
 
-  # displays release name on debian based distributions on operating system edit page.
-  def show_release
-    update_page do |page|
-      page << "if (value == 'Debian' || value == 'Solaris') {"
-      page[:release_name].show
-      page[:release_name].highlight
-      page << "} else {"
-      page[:release_name].hide
-      page << "}"
-    end
-  end
-
   def icon record, opts = {}
-    return "" if record.blank? or record.name.blank? or record.family.blank?
+    return "" if record.blank? or record.name.blank?
     family = case record.name
     when /fedora/i
       "Fedora"
@@ -28,7 +16,12 @@ module OperatingsystemsHelper
       "Centos"
     when /scientific/i
       "Scientific"
+    when /archlinux/i
+      "Archlinux"
+    when /SLC/i
+      "SLC"
     else
+      return "" if record.family.blank?
       record.family
     end
 
@@ -36,7 +29,12 @@ module OperatingsystemsHelper
   end
 
   def os_name record, opts = {}
-    "#{icon(record, opts)} #{h(record)}"
+    "#{icon(record, opts)} #{record}".html_safe
+  end
+
+  def os_habtm_family type, obj
+    result = type.where(:os_family => obj.family)
+    result.empty? ? type : result
   end
 
 end

@@ -100,24 +100,22 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin do
       ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
       for name in ["env1", "env2"] do
-        e = Environment.create(:name => name)
+        e = Environment.create!(:name => name)
         e.puppetclasses += [Puppetclass.find_by_name("a"), Puppetclass.find_by_name("b"), Puppetclass.find_by_name("c")]
       end
     end
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    Environment.expects(:puppetEnvs).returns(:env1              => "/etc/puppet/env/muc",
-                                             :env2              => "/etc/puppet/env/muc"
-                                            ).at_least_once
-    Puppetclass.expects(:scanForClasses).returns(["a", "b", "c"]).at_least_once
+    envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
+    Environment.expects(:puppetEnvs).returns(envs).at_least_once
   end
 
   test "should handle disk environment containing additional classes" do
     setup_import_classes
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
-    #db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
-    #disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+#    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
+#    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_new_env1[value*="a"]'
     post :obsolete_and_new,
@@ -127,7 +125,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert flash[:notice] = "Successfully updated environments and puppetclasses from the on-disk puppet installation"
     assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
   end
   test "should handle disk environment containing less classes" do
@@ -136,7 +134,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
     #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env1[value*="d"]'
     post :obsolete_and_new,
@@ -155,7 +153,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin {Environment.create(:name => "env3")}
     #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env3'
     post :obsolete_and_new,
@@ -165,7 +163,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert flash[:notice] = "Successfully updated environments and puppetclasses from the on-disk puppet installation"
     assert Environment.find_by_name("env3").puppetclasses.map(&:name).sort == []
   end
 
@@ -178,7 +176,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
       assert host.errors.empty?
       assert Environment.find_by_name("env1").hosts.count > 0
     end
-    get :import_environments, {}, set_session_user # We need this to stop failures about number of calls. It is not really part of the test.
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user # We need this to stop failures about number of calls. It is not really part of the test.
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
     post :obsolete_and_new,
       {"changed"=>
@@ -196,14 +194,14 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       Environment.create :name => "env3"
-      Environment.delete :name => "env1"
+      Environment.delete_all(:name => "env1")
     end
     #db_tree   of {                         , "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
 
     FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml.test_bak" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml"
     FileUtils.cp Rails.root.to_s + "/test/functional/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml"
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     FileUtils.rm_f Rails.root.to_s + "/config/ignored_environments.yml"
     FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml.test_bak", Rails.root.to_s + "/config/ignored_environments.yml" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml.test_bak"
 
@@ -217,13 +215,13 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit an environment' do
     setup_user
-    get :edit, {:id => Environment.first.id}
-    assert @response.status == '403 Forbidden'
+    get :edit, {:id => environments(:production).name}, set_session_user.merge(:user => users(:one).id)
+    assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing environments' do
     setup_user
-    get :index
+    get :index, {}, set_session_user
     assert_response :success
   end
 end

@@ -12,13 +12,13 @@ class FactValueTest < ActiveSupport::TestCase
 #  end
 
   test "should return the count of each fact" do
-    h = {"Some value"=>1}
+    h = {"some value"=>1}
     assert_equal h, FactValue.count_each("my_facting_name")
 
     #Now creating a new fact value
     @other_host = hosts(:two)
     other_fact_value = FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
-    h["Some value"] = 2
+    h["some value"] = 2
     assert_equal h, FactValue.count_each("my_facting_name")
   end
 end

@@ -1,19 +1,15 @@
-<% fields_for item do |f| %>
-  <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, :include_blank => true %>
+<%= fields_for item do |f| %>
+  <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
+    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected')} %>
 
   <span id="host_os">
-    <span id="architecture_select">
+    <span id="os_select">
       <%= render 'common/os_selection/architecture', :item => item %>
     </span>
 
-    <span id="operatingsystem_select">
+    <span id="media_select">
       <%= render 'common/os_selection/operatingsystem', :item => item %>
     </span>
 
   </span>
 <% end -%>
-
-<%= observe_field(type + "_architecture_id",
-                  :url => { :action => :architecture_selected},
-                  :update => :architecture_select, :id => item.id,
-                  :with => :architecture_id) %>

@@ -9,17 +9,22 @@ module Hostext
         scoped_search :on => :last_report,   :complete_value => true
         scoped_search :on => :ip,            :complete_value => true
         scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
-        scoped_search :on => :puppet_status, :complete_value => {:true => true, :false => false}, :rename => :'status.interesting'
+        scoped_search :on => :puppet_status, :offset => 0, :word_size => Report::BIT_NUM*4, :complete_value => {:true => true, :false => false}, :rename => :'status.interesting'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("applied"),         :word_size => Report::BIT_NUM, :rename => :'status.applied'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("restarted"),       :word_size => Report::BIT_NUM, :rename => :'status.restarted'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("failed"),          :word_size => Report::BIT_NUM, :rename => :'status.failed'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("failed_restarts"), :word_size => Report::BIT_NUM, :rename => :'status.failed_restarts'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("skipped"),         :word_size => Report::BIT_NUM, :rename => :'status.skipped'
+        scoped_search :on => :puppet_status, :offset => Report::METRIC.index("pending"),         :word_size => Report::BIT_NUM, :rename => :'status.pending'
 
         scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
         scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
         scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
         scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
+        scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
+        scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
+        scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
+        scoped_search :in => :image, :on => :name, :complete_value => true
 
         scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
         scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
@@ -51,7 +56,7 @@ module Hostext
 
         def self.search_by_puppetclass(key, operator, value)
           conditions  = "puppetclasses.name #{operator} '#{value_to_sql(operator, value)}'"
-          hosts       = Host.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
+          hosts       = Host.my_hosts.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
           host_groups = Hostgroup.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hostgroups.id').map(&:id)
 
           opts = ''
@@ -98,7 +103,7 @@ module Hostext
                 conditions << "hosts.id = #{param.reference_id}"
             end
           end
-          conditions.join(' OR ')
+          conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"
         end
 
         def self.value_to_sql(operator, value)

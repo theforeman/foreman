@@ -1,16 +1,18 @@
+require 'foreman/controller/host_details'
+
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  filter_parameter_logging :root_pass
   before_filter :find_hostgroup, :only => [:show, :edit, :update, :destroy, :clone]
 
   def index
     begin
-      values = Hostgroup.search_for(params[:search],:order => params[:order])
+      my_groups = User.current.admin? ? Hostgroup : Hostgroup.my_groups
+      values = my_groups.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = Hostgroup.search_for ""
+      values = my_groups.search_for ""
     end
 
     respond_to do |format|
@@ -49,6 +51,8 @@ class HostgroupsController < ApplicationController
   end
 
   def show
+    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
+    not_found and return unless auth
     respond_to do |format|
       format.json { render :json => @hostgroup }
     end
@@ -57,6 +61,8 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
     if @hostgroup.save
+      # Add the new hostgroup to the user's filters
+      @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
       process_success
     else
       load_vars_for_ajax
@@ -65,6 +71,8 @@ class HostgroupsController < ApplicationController
   end
 
   def edit
+    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
+    not_found and return unless auth
     load_vars_for_ajax
   end
 
@@ -87,7 +95,7 @@ class HostgroupsController < ApplicationController
   end
 
   def environment_selected
-    return not_found unless @environment = Environment.find(params[:environment_id]) if params[:environment_id].to_i > 0
+    return not_found unless (@environment = Environment.find(params[:environment_id])) if params[:environment_id].to_i > 0
 
     @hostgroup ||= Hostgroup.new
     @hostgroup.environment = @environment if @environment

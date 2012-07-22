@@ -1,7 +1,7 @@
-<% charts.in_groups(3,nil) do |ch| -%>
-  <div class="row">
-    <% ch.each do |c| -%>
-      <div class="span-one-third"><%= c %></div>
-    <% end -%>
+<div class="grid">
+<% charts.each do |ch| -%>
+  <div class="clear-fix stats-grid">
+    <%= content_tag(:div, ch, :class=>"thumbnail") %>
   </div>
 <% end -%>
+</div>

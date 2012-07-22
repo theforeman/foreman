@@ -1,14 +1,17 @@
 class ChangeFamilyInOs < ActiveRecord::Migration
+
+  class Operatingsystem < ActiveRecord::Base; end
+
   def self.up
     add_column :operatingsystems, :type, :string, :limit => 16
     add_index :operatingsystems, :type
 
     Operatingsystem.reset_column_information
 
-    families = Operatingsystem.families
+    families = ["Debian", "Redhat", "Solaris", "Suse", "Windows"]
 
     ok = true
-    for os in Operatingsystem.all
+    Operatingsystem.all.each do |os|
       if os.family_id
         say "Converting #{os.family_id} into #{families[os.family_id]}"
         os.update_attribute :type, families[os.family_id]

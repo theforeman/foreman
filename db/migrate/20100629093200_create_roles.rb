@@ -2,15 +2,15 @@ class CreateRoles  < ActiveRecord::Migration
   def self.up
     add_column :users, :role_id, :integer
     create_table "roles", :force => true do |t|
-      t.column "name",        :string,  :limit => 30
-      t.column "builtin",     :integer
-      t.column "permissions", :text
+      t.string "name", :limit => 30
+      t.integer "builtin"
+      t.text "permissions"
     end
 
     create_table :user_roles do |t|
-      t.column :user_id, :integer
-      t.column :role_id, :integer
-      t.columm :inherited_from, :integer
+      t.integer :user_id
+      t.integer :role_id
+      t.integer :inherited_from
     end
 
   end

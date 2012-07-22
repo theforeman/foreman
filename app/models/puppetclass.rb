@@ -13,10 +13,10 @@ class Puppetclass < ActiveRecord::Base
   validates_presence_of :name
   validates_associated :environments
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
-  acts_as_audited
+  audited
 
-  before_destroy Ensure_not_used_by.new(:hosts)
-  before_destroy Ensure_not_used_by.new(:hostgroups)
+  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hostgroups)
   default_scope :order => 'LOWER(puppetclasses.name)'
 
   scoped_search :on => :name, :complete_value => :true
@@ -29,28 +29,11 @@ class Puppetclass < ActiveRecord::Base
     name
   end
 
-  # Scans a directory path for puppet classes
-  # +paths+ : String containing a colon separated module path
-  # returns
-  # Array of Strings containing puppet class names
-  def self.scanForClasses(paths)
-    klasses=Array.new
-    for path in paths.split(":")
-      Dir.glob("#{path}/*/manifests/**/*.pp").each do |manifest|
-        File.read(manifest).each_line do |line|
-          klass=line.match(/^class\s+([\w:]*)/)
-	  klasses << klass[1] if klass
-        end
-      end
-    end
-    return klasses.uniq
-  end
-
   # returns a hash containing modules and associated classes
   def self.classes2hash classes
     hash = {}
     for klass in classes
-      if mod = klass.module_name
+      if (mod = klass.module_name)
         hash[mod] ||= []
         hash[mod] << klass
       else
@@ -63,25 +46,14 @@ class Puppetclass < ActiveRecord::Base
   # returns module name (excluding of the class name)
   # if class separator does not exists (the "::" chars), then returns the whole class name
   def module_name
-    return (i = name.index("::")) ? name[0..i-1] : name
+    (i = name.index("::")) ? name[0..i-1] : name
   end
 
   # returns class name (excluding of the module name)
   def klass
-    return name.gsub(module_name+"::","")
+    name.gsub(module_name+"::","")
   end
 
-  # add sort by class name
-  def <=>(other)
-    klass <=> other.klass
-  end
-
-  # Retrieve the manifest dir from the puppet configuration
-  # Returns: String
-  def self.manifestdir
-    ps =  Puppet.settings.instance_variable_get(:@values)
-    ps[:main][:manifestdir] || ps[:puppetmasterd][:manifestdir] || ps[:puppetd][:manifestdir] || Puppet.settings[:manifestdir] || "/etc/puppet/manifests"
-  end
 
   # Populates the rdoc tree with information about all the classes in your modules.
   #   Firstly, we prepare the modules tree
@@ -148,13 +120,13 @@ class Puppetclass < ActiveRecord::Base
   # If your 'live' manifests and modules can be parsed by puppetdoc
   # then you do not need to do this step. (Unfortunately some sites have circular
   # symlinks which have to be removed.)
-  # If the executable RAILS_ROOT/script/rdoc_prepare_script exists then it is run
+  # If the executable Rails,root/script/rdoc_prepare_script exists then it is run
   # and passed a list of all directory paths in all environments.
   # It should return the directory into which it has copied the cleaned modules"
   def self.prepare_rdoc root
     debug, verbose = false, false
 
-    prepare_script = Pathname.new(RAILS_ROOT) + "script/rdoc_prepare_script.rb"
+    prepare_script = Pathname.new(Rails.root) + "script/rdoc_prepare_script.rb"
     if prepare_script.executable?
       dirs = Environment.puppetEnvs.values.join(":").split(":").uniq.sort.join(" ")
       puts "Running #{prepare_script} #{dirs}" if debug
@@ -170,20 +142,20 @@ class Puppetclass < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id], :methods => [:lookup_keys]}.merge(options))
+    super({:only => [:name, :id], :include => [:lookup_keys]})
   end
 
   def self.search_by_host(key, operator, value)
     conditions  = "hosts.name #{operator} '#{value_to_sql(operator, value)}'"
-    direct      = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'DISTINCT puppetclasses.id').map(&:id)
+    direct      = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'puppetclasses.id').map(&:id).uniq
     indirect    = Hostgroup.all(:conditions => conditions, :joins => [:hosts,:puppetclasses], :select => 'DISTINCT puppetclasses.id').map(&:id)
+    return {:conditions => "1=0"} if direct.blank? && indirect.blank?
 
     opts = ''
     opts += "puppetclasses.id IN(#{direct.join(',')})" unless direct.blank?
     opts += " OR "                                     unless direct.blank? || indirect.blank?
     opts += "hostgroups.id IN(#{indirect.join(',')})"  unless indirect.blank?
-    opts = "puppetclasses.id = 'nil'"                  if direct.blank? && indirect.blank?
-    return {:conditions => opts, :include => :hostgroups}
+    {:conditions => opts, :include => :hostgroups}
   end
 
   def self.value_to_sql(operator, value)
