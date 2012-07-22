@@ -79,6 +79,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "cannot be destroyed when in use by a host" do
+    disable_orchestration
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
     @h1  = hosts(:one)
     @h1.update_attributes :owner => @ug1
