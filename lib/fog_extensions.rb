@@ -9,6 +9,8 @@ begin
   require 'fog/aws'
   require 'fog/aws/models/compute/flavor'
   Fog::Compute::AWS::Flavor.send(:include, FogExtensions::AWS::Flavor)
+  require 'fog/aws/models/compute/server'
+  Fog::Compute::AWS::Server.send(:include, FogExtensions::AWS::Server)
 
   require 'fog/libvirt'
   require 'fog/libvirt/models/compute/server'
