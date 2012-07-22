@@ -34,7 +34,7 @@ class Report < ActiveRecord::Base
   }
 
   # returns recent reports
-  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
+  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)], :order => "reported_at"} }
 
   # with_changes
   scope :interesting, {:conditions => "status != 0"}
