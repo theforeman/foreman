@@ -5,7 +5,7 @@ task :mail_patches do
     end
 
     # Create all of the patches
-    sh "git format-patch -C -M -s -n --subject-prefix='PATCH/foreman' origin/0.4-stable"
+    sh "git format-patch -C -M -s -n --subject-prefix='PATCH/foreman' origin/develop"
 
     # If we've got more than one patch, add --compose
     compose = Dir.glob("00*.patch").length > 1 ? "--compose" : ""

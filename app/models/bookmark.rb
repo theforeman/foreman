@@ -10,9 +10,9 @@ class Bookmark < ActiveRecord::Base
   before_validation :set_default_user
 
   named_scope :my_bookmarks, lambda {
-    user = User.current
-    return {} unless SETTINGS[:login] and !user.nil?
+    return {} unless SETTINGS[:login]
 
+    user       = User.current
     conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id in (?) AND bookmarks.owner_type = 'Usergroup') OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.my_usergroups.map(&:id), user.id])
     {:conditions => conditions}
   }

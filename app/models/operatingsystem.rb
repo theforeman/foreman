@@ -39,7 +39,7 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
 
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
-               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
+               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific}i,
                'Suse'    => %r{OpenSuSE}i,
                'Solaris' => %r{Solaris}i }
 

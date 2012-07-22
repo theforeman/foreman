@@ -20,7 +20,7 @@ class SmartProxies::PuppetCA
           api = ProxyAPI::Puppetca.new({:url => proxy.url})
 
           certs = api.all.map do |name, properties|
-            new([name.strip, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
+            new([name, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
           end.compact
 
           # save our CA details for 5 seconds

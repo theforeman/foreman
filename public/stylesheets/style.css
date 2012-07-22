@@ -182,8 +182,9 @@ table.list td {
   border: solid 1px #f00;
 }
 .statistics_pie.small{
-  width: 290px;
-  height: 250px;
+  width: 320px;
+  height: 275px;
+  padding-bottom: 4px;
 }
 .page_title{
   font-size: 20px;
@@ -313,9 +314,8 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 .pills.vertical:parent{clear:both;}
 
 .fixed-width{table-layout:fixed;}
-select{padding: initial;}
 
-[class*="tbl-column"]{ overflow: hidden; white-space: nowrap; padding: 0;}
+[class*="tbl-column"]{ overflow: hidden; white-space: nowrap;}
 table th.small{width:60px; max-width:60px;}
 .tbl-column1{width:40px; max-width:40px;}
 .tbl-column2{width:100px; max-width:100px;}

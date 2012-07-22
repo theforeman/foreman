@@ -61,11 +61,11 @@ module Net
         raise "Abstract class"
       end
 
+      protected
+
       def dns_lookup ip_or_name
         DNS.lookup(ip_or_name, proxy, resolver)
       end
-
-      protected
 
       def generate_conflict_error
         logger.warn "Conflicting DNS #{type} record for #{to_s} detected"

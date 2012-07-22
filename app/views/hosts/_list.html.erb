@@ -3,12 +3,12 @@
 <table class="list zebra-striped fixed-width" >
   <tr>
     <th class="ca tbl-column1"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
-    <th class="tbl-column4"><%= sort :name %></th>
-    <th class="tbl-column2"><%= sort :os, :as => "Operating<br>System" %></th>
-    <th class="tbl-column2"><%= sort :environment %></th>
+    <th class="tbl-column3"><%= sort :name %></th>
+    <th><%= sort :os, :as => "Operating system" %></th>
+    <th><%= sort :environment %></th>
     <th class="tbl-column2"><%= sort :model %></th>
-    <th class="tbl-column3"><%= sort :hostgroup, :as => "Host Group" %></th>
-    <th class="tbl-column2"><%= sort :last_report %></th>
+    <th><%= sort :hostgroup, :as => "Host Group" %></th>
+    <th><%= sort :last_report %></th>
     <th></th>
   </tr>
   <% hosts.each do |host| -%>
@@ -16,12 +16,12 @@
       <td class="ca tbl-column1">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
-      <td class="tbl-column4"> <%= name_column(host) %> </td>
-      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.os %>"><%= icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
-      <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.try(:environment) %>"><%= h host.try(:environment) %></td>
+      <td class="tbl-column3"> <%= name_column(host) %> </td>
+      <td><%= icon(host.os, :size => "18x18", :title => host.os.to_s) + " " + host.os.to_s if host.os %></td>
+      <td><%= h host.try(:environment) %></td>
       <td class="tbl-column2" rel="twipsy" data-original-title="<%= host.try(:model)%>" ><%= h host.try(:model) %></td>
-      <td class="tbl-column3" rel="twipsy" data-original-title="<%= host.hostgroup %>" ><%= hostgroup_name host.hostgroup %></td>
-      <td class="tbl-column2"><%= last_report_column(host) %></td>
+      <td><%= hostgroup_name host.hostgroup %></td>
+      <td><%= last_report_column(host) %></td>
       <td>
         <%= display_link_if_authorized 'Edit', hash_for_edit_host_path(:id => host) %>
         <%= display_link_if_authorized 'Clone', hash_for_clone_host_path(:id => host) %>

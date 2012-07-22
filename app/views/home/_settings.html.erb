@@ -2,7 +2,7 @@
 <%= link_to "More", "#", :class => "dropdown-toggle" %>
   <ul class="dropdown-menu">
     <% setting_options.each do |c|-%>
-      <li> <%= display_link_if_authorized c[0], {:controller => c[1], :action => :index} %></li>
+      <li> <%= display_link_if_authorized c[0], :controller => c[1] %></li>
     <% end -%>
   </ul>
 </li>

@@ -1,30 +1,26 @@
 <% title 'Overview' %>
 <div id='dashboard'>
   <p>Generated at <%= Time.now.to_s(:short) %></p>
-  <table id='links-tbl' class="list">
+  <table class="list">
     <tr>
       <th>Description</th>
       <th>Data</th>
+    </tr>
+    <tr class="even">
+      <td>Good Host Reports in the last <%= Setting[:puppet_interval] %> minutes</td>
+      <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
     </tr>
     <tr class="odd">
       <td><%= link_to 'Hosts that had performed modifications', active_hosts_path %></td>
       <td><%= @report[:active_hosts] %> </td>
     </tr>
     <tr class="even">
-      <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
-      <td><%= @report[:bad_hosts] %> </td>
-    </tr>
-    <tr class="odd">
-      <td><%=link_to "Good Host Reports in the last #{Setting[:puppet_interval]}  minutes", "hosts?search=last_report+>+'#{Setting[:puppet_interval]} minutes ago'+and+status.enabled+%3D+true+and+status.interesting++%3D+false"%></td>
-      <td> <%= "#{@report[:good_hosts]} / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
-    </tr>
-    <tr class="even">
       <td><%= link_to 'Out Of Sync Hosts', out_of_sync_hosts_path %></td>
       <td><%= @report[:out_of_sync_hosts] %> </td>
     </tr>
     <tr class="odd">
-      <td><%= link_to 'Hosts With No Reports', 'hosts?search=not+has+last_report' %></td>
-      <td><%= @report[:reports_missing] %> </td>
+      <td><%= link_to 'Hosts in Error State', errors_hosts_path %></td>
+      <td><%= @report[:bad_hosts] %> </td>
     </tr>
     <tr class="even">
       <td><%= link_to 'Hosts With Alerts Disabled', disabled_hosts_path %></td>

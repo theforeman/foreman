@@ -34,14 +34,14 @@ module HostsHelper
       label = "No reports"
       style = ""
       short = "N"
-    elsif record.no_report
-      label = "Out of sync"
-      style = "warning"
-      short = "S"
     elsif record.error?
       label = "Error"
       style = "important"
       short = "E"
+    elsif record.no_report
+      label = "Out of sync"
+      style = "warning"
+      short = "S"
     elsif record.changes?
       label = "Active"
       style = "notice"
@@ -52,7 +52,7 @@ module HostsHelper
       short = "O"
     end
     content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
-      link_to("  #{record}", host_path(record),{:rel=>"twipsy", :"data-original-title"=>record})
+      link_to(" " + record.shortname, host_path(record),{:rel=>"twipsy", :"data-original-title"=>record})
   end
 
   def days_ago time
