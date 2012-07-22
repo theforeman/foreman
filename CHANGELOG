@@ -1,13 +1,40 @@
-2012-07-17	Amos Benari <abenari@redhat.com>
-	* fixes #1753 - Showing a modal from an AJAX request that returns a full-blown HTML page clears the page
-	* fixes #1726 Template editor doesn't seem to work with IE
+2012-07-22	Ohad Levy <ohadlevy@gmail.com>
+	* couple of test fixes after upgrading to a newer mocha/shoulda
+	* [refactor] - simple method to display ec2 instance name, instead of using tags everywhere
+
+2012-07-22	Amos Benari <abenari@redhat.com>
+	* fixes #1738 Puppet Runtime charts look very messed up.
+
+2012-07-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1765 - changing a conflicting IP address might lead to losing DNS or DHCP records
+	* require_nfs_access method should not be a private method.
+
+2012-07-19	Amos Benari <abenari@redhat.com>
+	* fixes #1768 Template edition if submit during preview: the patch is saved.
+	* fixes #1767 opera bootstrap transition fixed.
+
+2012-07-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1764 changing per_page setting would update only after a restart
+
+2012-07-18	Amos Benari <abenari@redhat.com>
+	* [UI] added meta tag headers to support tablet and phone display size correctly
+
+2012-07-18	Corey Osman <corey@logicminds.biz>
+	* Bug #1763 - new version of mocha breaks testing
+	* Bug #1762 - bundler test.rb should require specific version of shoulda
 
 2012-07-17	Ohad Levy <ohadlevy@gmail.com>
+	* Openstack images should show foreman defined images
+	* 1.0RC5
 	* basic openstack support
 	* [UI] fixes drop downs not showing up correctly when viewing a page with errors
 	* fixes #1736 - fixes odd errors with db migrate
 	* fixes #1752 - fixes clone from keeping internal data (such as vm external uuid).
 	* [UI] don't fail the hosts show page if the host has no OS assigned.
+
+2012-07-17	Amos Benari <abenari@redhat.com>
+	* fixes #1753 - Showing a modal from an AJAX request that returns a full-blown HTML page clears the page
+	* fixes #1726 Template editor doesn't seem to work with IE
 
 2012-07-15	Ohad Levy <ohadlevy@gmail.com>
 	* bump RC4
