@@ -196,10 +196,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :users do |map|
-    map.permission :view_users,    {:users => [:index, :show]}
-    map.permission :create_users,  {:users => [:new, :create]}
-    map.permission :edit_users,    {:users => [:edit, :update]}
-    map.permission :destroy_users, {:users => [:destroy]}
+    map.permission :view_users,    
+                   :users => [:index, :show], :"api/v1/users" => [:index, :show]
+    map.permission :create_users,  
+                   :users => [:new, :create], :"api/v1/users" => [:new, :create]
+    map.permission :edit_users,    
+                   :users => [:edit, :update], :"api/v1/users" => [:edit, :update]
+    map.permission :destroy_users, 
+                   :users => [:destroy], :"api/v1/users" => [:destroy]
   end
 
   map.security_block :settings_menu do |map|
