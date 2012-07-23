@@ -1,4 +1,4 @@
-Restapi.configure do |config|
+Apipie.configure do |config|
   config.app_name = "Foreman"
   config.app_info = "The Foreman is aimed to be a single address for all machines life cycle management."
   config.copyright = ""
@@ -9,11 +9,11 @@ Restapi.configure do |config|
   config.use_cache = false #Rails.env.production?
   config.validate = false
   config.reload_controllers = true
-  config.markup = Restapi::Markup::Markdown.new
+  config.markup = Apipie::Markup::Markdown.new
 end
 
 # special type of validator: we say that it's not specified
-class UndefValidator < Restapi::Validator::BaseValidator
+class UndefValidator < Apipie::Validator::BaseValidator
 
   def validate(value)
     true
@@ -30,19 +30,19 @@ class UndefValidator < Restapi::Validator::BaseValidator
   end
 end
 
-class Restapi::Validator::TypeValidator
+class Apipie::Validator::TypeValidator
   def description
     @type.name
   end
 end
 
-class Restapi::Validator::HashValidator
+class Apipie::Validator::HashValidator
   def description
     "Hash"
   end
 end
 
-class NumberValidator < Restapi::Validator::BaseValidator
+class NumberValidator < Apipie::Validator::BaseValidator
 
   def validate(value)
     value.to_s =~ /^(0|[1-9]\d*)$/
@@ -63,7 +63,7 @@ class NumberValidator < Restapi::Validator::BaseValidator
   end
 end
 
-class IdentifierValidator < Restapi::Validator::BaseValidator
+class IdentifierValidator < Apipie::Validator::BaseValidator
 
   def validate(value)
     value = value.to_s
@@ -85,7 +85,7 @@ class IdentifierValidator < Restapi::Validator::BaseValidator
   end
 end
 
-class BooleanValidator < Restapi::Validator::BaseValidator
+class BooleanValidator < Apipie::Validator::BaseValidator
 
   def validate(value)
     %w[true false].include?(value.to_s)
