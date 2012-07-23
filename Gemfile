@@ -12,7 +12,7 @@ gem 'scoped_search', '>= 2.3.7'
 gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 gem 'uuidtools'
-gem "restapi", :git => "git://github.com/Katello/rails-restapi.git", :branch => "katello"
+gem "apipie-rails", ">= 0.0.7"
 gem 'rabl'
 # Previous versions collide with Environment model
 gem "ruby_parser", ">= 2.3.1"
