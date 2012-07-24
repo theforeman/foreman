@@ -1,6 +1,6 @@
 <%= text_f f, :url, :label => "Authentication URL", :class => "input-xlarge", :help_block => "e.g. http://openstack:5000/v2.0/tokens" %>
-<%= text_f f, :user, :label => "Access Key" %>
-<%= password_f f, :password, :label => "Secret Key" %>
+<%= text_f f, :user, :label => "Username" %>
+<%= password_f f, :password, :label => "Password" %>
 
 <% tenants = f.object.tenants rescue [] %>
 <%= selectable_f(f, :tenant, tenants, {}, {:label => 'Tenant', :disabled => tenants.empty?,
