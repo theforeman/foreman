@@ -6,10 +6,11 @@ Apipie.configure do |config|
   config.api_controllers_matcher = "#{Rails.root}/app/controllers/api/v1/*.rb"
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
-  config.use_cache = false #Rails.env.production?
+  config.use_cache = Rails.env.production?
   config.validate = false
-  config.reload_controllers = true
-  config.markup = Apipie::Markup::Markdown.new
+  config.force_dsl = true
+  config.reload_controllers = Rails.env.development?
+  config.markup = Apipie::Markup::Markdown.new if Rails.env.development?
 end
 
 # special type of validator: we say that it's not specified
