@@ -38,8 +38,8 @@ module Api
     end
 
     def process_success(response = nil)
-        response ||= get_resource
-        respond_with response
+      response ||= get_resource
+      respond_with response
     end
 
     def process_response(condition, response = nil)
@@ -50,29 +50,20 @@ module Api
       end
     end
 
-    # Authorize the user for the requested action
-    def authorize(ctrl = params[:controller], action = params[:action])
+    def authorize
+      auth = Api::Authorization.new self
 
-      if SETTINGS[:login]
-        unless User.current
-          user_login = nil
-          result     = authenticate_with_http_basic do |u, p|
-            user_login = u
-            User.try_to_login(u, p)
-          end
-          if result
-            User.current = result
-          else
-            render_error 'unauthorized', :status => :unauthorized, :locals => { :user_login => user_login }
-            return false
-          end
-        end
-      else
-        # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        User.current = User.find_by_login("admin")
+      unless auth.authenticate
+        render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => auth.user_login })
+        return false
       end
 
-      User.current.allowed_to?(:controller => ctrl.gsub(/::/, "_").underscore, :action => action) or deny_access
+      unless auth.authorize
+        deny_access
+        return false
+      end
+
+      return true
     end
 
     def deny_access(details = nil)
@@ -112,7 +103,7 @@ module Api
     # store params[:id] under correct predicable key
     def set_resource_params
       if (id_or_name = params.delete(:id))
-        suffix  = (id_or_name.is_a?(Fixnum) || id_or_name =~ /^\d+$/) ? 'id' : 'name'
+        suffix                                = (id_or_name.is_a?(Fixnum) || id_or_name =~ /^\d+$/) ? 'id' : 'name'
         params[:"#{resource_name}_#{suffix}"] = id_or_name
       end
     end
