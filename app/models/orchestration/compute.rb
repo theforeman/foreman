@@ -160,9 +160,17 @@ module Orchestration::Compute
 
     def setComputeUpdate
       logger.info "Update Compute instance for #{name}"
-       # Fog will not re-save a compute inshance, so nothing is really done here
+      compute_resource.save_vm uuid, compute_attributes
+       # In some cases, Fog will not re-save a compute instance, so trap for this as being OK:
+       #  Checking on the message is a kludge, hopefully fog will throw a well-defined
+       #  exception sometime later.
+
     rescue => e
-      failure "Failed to update a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      if e.message =~ /resaving an existing object/i
+        logger.info "This provider does not support update, continuing on."
+      else  
+        failure "Failed to update a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      end
     end
 
     def delComputeUpdate
