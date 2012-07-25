@@ -130,6 +130,10 @@ class UsersController < ApplicationController
   def authorize(ctrl = params[:controller], action = params[:action])
     # Editing self is true when the user is granted access to just their own account details
 
+    if action == 'auto_complete_search' and User.current.allowed_to?({:controller => ctrl, :action => 'index'})
+      return true
+    end
+
     self.editing_self = false
     return true if User.current.allowed_to?({:controller => ctrl, :action => action})
     if (action =~ /edit|update/ and params[:id].to_i == User.current.id)
