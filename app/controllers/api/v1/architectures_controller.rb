@@ -31,7 +31,7 @@ module Api
         process_response @architecture.update_attributes(params[:architecture])
       end
 
-      api :DELETE, "/architecturess/:id/", "Delete an architecture."
+      api :DELETE, "/architectures/:id/", "Delete an architecture."
       def destroy
         process_response @architecture.destroy
       end

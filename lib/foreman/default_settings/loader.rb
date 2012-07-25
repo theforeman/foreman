@@ -62,6 +62,11 @@ module Foreman
               set('use_uuid_for_certificates', "Should Foreman use random UUID's for certificate signing instead of hostnames", false),
               set('update_environment_from_facts', "Should Foreman update a host's environment from its facts", false)
             ].compact.each { |s| create s.update(:category => "Puppet")}
+
+            [ set('oauth_active', "Should foreman use OAuth for authorization in API", false),
+              set('consumer_key', "OAuth consumer key", 'katello'),
+              set('consumer_secret', "OAuth consumer secret", 'shhhh')
+            ].compact.each { |s| create s.update(:category => "OAuth")}
           end
           true
         end
