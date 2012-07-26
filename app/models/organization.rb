@@ -29,12 +29,12 @@ class Organization < ActiveRecord::Base
 
   def self.apply_org_scope scope
     if SETTINGS[:orgs_enabled] and not User.current.admin?
-      org_ids = Organization.current
-      org_ids = [org_ids] unless org_ids.is_a? Array
-      if org_ids.any?
-        org_ids = org_ids.map(&:id)
-        scope = scope.joins(:organizations).where("organizations.id in (?)", org_ids)
-      end
+      org_ids = [Organization.current].flatten
+      # the join with organizations should exclude all objects not in the user's
+      # current org(s) ... if the user has no current org, then the user will
+      # see no objects as a result of this join
+      org_ids = org_ids.any? ? org_ids.map(&:id) : nil
+      scope = scope.joins(:organizations).where("organizations.id in (?)", org_ids)
     end
     scope
   end
