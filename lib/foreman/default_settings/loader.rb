@@ -64,9 +64,9 @@ module Foreman
             ].compact.each { |s| create s.update(:category => "Puppet")}
 
             [ set('oauth_active', "Should foreman use OAuth for authorization in API", false),
-              set('consumer_key', "OAuth consumer key", 'katello'),
-              set('consumer_secret', "OAuth consumer secret", 'shhhh')
-            ].compact.each { |s| create s.update(:category => "OAuth")}
+              set('oauth_consumer_key', "OAuth consumer key", 'katello'),
+              set('oauth_consumer_secret', "OAuth consumer secret", 'shhhh')
+            ].compact.each { |s| create s.update(:category => "Auth")}
           end
           true
         end
