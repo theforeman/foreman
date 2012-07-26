@@ -195,9 +195,13 @@ class HostsController < ApplicationController
     action = params[:power_action]
     vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
     begin
+      @host.compute_attributes = vm.attributes.clone
       vm.send(action)
+      vm.wait_for { vm.state == "#{(action == "start") ? "running" : "stopped"}" }
+      @host.save
       process_success :success_redirect => :back, :success_msg =>  "#{vm} is now #{vm.ready? ? "running" : "stopped"}"
     rescue => e
+logger.info e.backtrace
       process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
     end
   end
@@ -438,7 +442,7 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
+    kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish'), TemplateKind.find_by_name('user_data')] : TemplateKind.all
     templates = kinds.map do |kind|
       ConfigTemplate.find_template({:kind => kind.name, :operatingsystem_id => params[:operatingsystem_id],
                                    :hostgroup_id => params[:hostgroup_id], :environment_id => params[:environment_id]})

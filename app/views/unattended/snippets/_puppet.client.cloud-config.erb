@@ -1,0 +1,17 @@
+puppet:
+  conf:
+    main:
+      vardir: "/var/lib/puppet"
+      logdir: "/var/log/puppet"
+      rundir: "/var/run/puppet"
+      ssldir: '\$vardir/ssl'
+    agent:
+      pluginsync: "true"
+      report: "true"
+      ignoreschedules: "true"
+      daemon: "false"
+      ca_server: "<%= @host.puppet_ca_server %>"
+      certname: "<%= @host.certname %>"
+      environment: "<%= @host.environment %>"
+      server: "<%= @host.puppetmaster %>"
+      
