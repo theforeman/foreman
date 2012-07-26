@@ -476,7 +476,7 @@ class Host < Puppet::Rails::Host
     counter = Host.count(:include => association.pluralize, :group => "#{association}_id")
     # returns {:id => count...}
     #Puppetclass.find(counter.keys.compact)...
-    Hash[eval("#{association.camelize}.find(#{counter.keys.compact.join(',')})").map {|i| [i.to_label, counter[i.id]]}]
+    Hash[eval(association.camelize).send(:find, counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
   end
 
   def resources_chart(timerange = 1.day.ago)

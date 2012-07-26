@@ -12,7 +12,7 @@
 <!-- menu -->
 
 <% if User.current -%>
-  <% cache("tabs_and_title_bookmarks_for_#{User.current}") do %>
+  <% cache("tabs_and_title_records-#{User.current.id}") do %>
     <div class="nav-collapse nav1">
       <ul class="nav" id="menu">
         <% my_bookmarks = Bookmark.my_bookmarks %>
