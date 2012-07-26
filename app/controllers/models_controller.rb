@@ -4,7 +4,10 @@ class ModelsController < ApplicationController
   def index
     values = Model.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @models = values.paginate :page => params[:page] }
+      format.html do
+        @models  = values.paginate :page => params[:page]
+        @counter = Host.count(:group => :model_id, :conditions => {:model_id => @models})
+      end
       format.json { render :json => values }
     end
   end

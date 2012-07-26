@@ -4,7 +4,7 @@
     <title> <%= h(yield(:title) || "Foreman") %></title>
     <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style', 'bootstrap-responsive.min' %>
     <%= javascript_include_tag :defaults, 'jquery_ujs', 'jquery-ui', 'highcharts', 'charts', 'jquery.jnotify', 'jquery.jeditable',
-        'bootstrap.min', 'bootstrap-dropdown', 'bootstrap-alert', 'bootstrap-tab', 'bootstrap-modal', 'bootstrap-tooltip', 'bootstrap-popover', 'bootstrap-collapse' %>
+      'bootstrap.min' %>
     <%= csrf_meta_tag %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
     <meta name="apple-mobile-web-app-capable" content="yes">

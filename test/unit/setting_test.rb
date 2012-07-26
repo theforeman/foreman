@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class SettingTest < ActiveSupport::TestCase
+
+  def setup
+    Setting.cache.clear
+  end
+
 # commenting out due a failure in our CI
   # def test_settings_should_save_complex_types
   #   assert (Setting.create(:name => "foo", :value => [1,2,3,'b'], :default => ['b',"b"], :description => "test foo" ))
@@ -54,7 +59,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_boolean_values_should_have_setting_type_for_false
-    assert Setting.create(:name => "oo", :default => false, :description => "test foo")
+    assert Setting.create!(:name => "oo", :default => false, :description => "test foo")
     assert_equal "boolean", Setting.find_by_name("oo").settings_type
     assert_equal false, Setting["oo"]
   end

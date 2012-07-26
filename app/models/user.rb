@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
+  has_many :usergroup_member, :as => :member
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
@@ -144,7 +145,6 @@ class User < ActiveRecord::Base
   def allowed_to?(action, options={})
     return true if admin?
     return true if editing_self
-    return false if roles.empty?
     roles.detect {|role| role.allowed_to?(action)}.present?
   end
 
