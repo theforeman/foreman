@@ -14,7 +14,7 @@ class AddExampleUserDataScripts < ActiveRecord::Migration
 
     %w[_puppet.client.cloud-config.erb _puppetlabs.repo.cloud-config.erb _rpmforge.repo.cloud-config.erb _amazon.repo.cloud-config.erb _AWS_tweaks.erb _puppet.client.oneline.erb].each do |snippet|
       ConfigTemplate.create(
-        :name     => snippet.gsub(/.*_/,"").gsub(".erb",""),
+        :name     => snippet.gsub(/.*\/_/,"").gsub(".erb",""),
         :template => File.read("#{Rails.root}/app/views/unattended/snippets/#{snippet}"),
         :snippet  => true)
     end
