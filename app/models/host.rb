@@ -473,14 +473,10 @@ class Host < Puppet::Rails::Host
   # returns sorted hash
   def self.count_habtm association
     output = {}
-    Host.count(:include => association.pluralize, :group => "#{association}_id").to_a.each do |a|
-      #Ugly Ugly Ugly - I guess I'm missing something basic here
-      if a[0]
-        label = eval(association.camelize).send("find",a[0].to_i).to_label
-        output[label] = a[1]
-      end
-    end
-    output
+    counter = Host.count(:include => association.pluralize, :group => "#{association}_id")
+    # returns {:id => count...}
+    #Puppetclass.find(counter.keys.compact)...
+    Hash[eval("#{association.camelize}.find(#{counter.keys.compact.join(',')})").map {|i| [i.to_label, counter[i.id]]}]
   end
 
   def resources_chart(timerange = 1.day.ago)

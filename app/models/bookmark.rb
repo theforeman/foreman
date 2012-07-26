@@ -14,7 +14,7 @@ class Bookmark < ActiveRecord::Base
     return {} unless SETTINGS[:login] and !user.nil?
 
     user       = User.current
-    conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id in (?) AND bookmarks.owner_type = 'Usergroup') OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.my_usergroups.map(&:id), user.id])
+    conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
     {:conditions => conditions}
   }
 

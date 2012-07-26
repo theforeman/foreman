@@ -14,7 +14,7 @@
       <td>
         <%= link_to_if_authorized h(environment.name), hash_for_edit_environment_path(:id=> environment.name) %>
       </td>
-      <td><%= link_to_if environment.hosts.any?, environment.hosts.size, hosts_path(:search => "environment = #{environment}") %>
+      <td><%= link_to @counter[environment.id] || 0, hosts_path(:search => "environment = #{environment}") %>
       <td>
         <%=  action_buttons(link_to("Classes", puppetclasses_path(:search => "environment = #{environment}"), :class=>'btn btn-small'),
                             display_delete_if_authorized(hash_for_environment_path(:id => environment.name), :confirm => "Delete #{environment.name}?")) %>

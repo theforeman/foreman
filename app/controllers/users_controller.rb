@@ -1,10 +1,8 @@
 class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  skip_before_filter :require_login, :only => [:login, :logout]
-  skip_before_filter :authorize, :only => [:login, :logout]
-  skip_before_filter :session_expiry, :update_activity_time, :only => [:login, :logout]
-  after_filter :update_activity_time, :only => :login
+  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :only => [:login, :logout]
+  after_filter       :update_activity_time, :only => :login
 
   attr_accessor :editing_self
 

@@ -9,7 +9,10 @@ class EnvironmentsController < ApplicationController
   def index
     values = Environment.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @environments = values.paginate :page => params[:page] }
+      format.html do
+        @environments = values.paginate :page => params[:page]
+        @counter      = Host.count(:group => :environment_id, :conditions => {:environment_id => @environments})
+      end
       format.json { render :json => values.as_json }
     end
   end

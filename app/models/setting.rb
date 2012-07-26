@@ -24,14 +24,17 @@ class Setting < ActiveRecord::Base
   def self.per_page; 20 end # can't use our own settings
 
   def self.[](name)
-    if (record = first(:conditions => { :name => name.to_s }))
-      record.value
+    name = name.to_s
+    cache.fetch name do
+      where(:name => name).first.try(:value)
     end
   end
 
   def self.[]=(name, value)
-    record = find_or_create_by_name name.to_s
+    name   = name.to_s
+    record = find_or_create_by_name name
     record.value = value
+    cache.delete(name)
     record.save!
   end
 
@@ -51,6 +54,7 @@ class Setting < ActiveRecord::Base
 
   def value= val
     v = (val.nil? or val == default) ?  nil : val.to_yaml
+    self.class.cache.delete(name.to_s)
     write_attribute :value, v
   end
 
@@ -71,6 +75,10 @@ class Setting < ActiveRecord::Base
   alias_method :default_before_type_cast, :default
 
   private
+
+  def self.cache
+    Rails.cache
+  end
 
   def save_as_settings_type
     return true unless settings_type.nil?

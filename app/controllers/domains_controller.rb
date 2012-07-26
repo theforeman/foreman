@@ -5,7 +5,10 @@ class DomainsController < ApplicationController
   def index
     values = Domain.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @domains = values.paginate :page => params[:page], :include => 'hosts' }
+      format.html do
+        @domains = values.paginate :page => params[:page]
+        @counter = Host.count(:group => :domain_id, :conditions => {:domain_id => @domains})
+      end
       format.json { render :json => values }
     end
   end
