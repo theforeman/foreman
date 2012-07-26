@@ -54,7 +54,7 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :domains do |map|
     map.permission :view_domains,       {:domains => [:index, :show]}
-    map.permission :create_domain,      {:domains => [:new, :create]}
+    map.permission :create_domains,     {:domains => [:new, :create]}
     map.permission :edit_domains,       {:domains => [:edit, :update]}
     map.permission :destroy_domains,    {:domains => [:destroy]}
   end
