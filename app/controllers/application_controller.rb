@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
-  cache_sweeper :topbar_sweeper
+  cache_sweeper :topbar_sweeper, :unless => :api_request?
 
   def welcome
     @searchbar = true
