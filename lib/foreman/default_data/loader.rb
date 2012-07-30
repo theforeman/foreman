@@ -81,7 +81,7 @@ module Foreman
                 :view_usergroups,
                 :view_users,
                 :view_audit_logs,
-                :access_organizations]
+                :select_organizations]
             end
 
             siteman = Role.where(:name => "Site manager").empty? ? Role.create(:name => "Site manager") : Role.where(:name => "Site manager")[0]

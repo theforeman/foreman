@@ -1,4 +1,4 @@
---- 
+---
 #your default puppet server - can be overridden in the host level
 #if none specified, plain "puppet" will be used.
 #:puppet_server: puppet
@@ -6,3 +6,13 @@
 :puppetconfdir: /etc/puppet/puppet.conf
 :login: false
 :require_ssl: false
+
+# Organization settings
+# single_org means that users will have to select a specific org in foreman and
+# be limited to the system objects in the select org ... users can still belong
+# to multiple orgs in single_org mode
+:single_org: false
+# multi_org means that users will be able to see all system objects across all
+# their orgs without having to choose a specific organization ... is mutually
+# exclusive with single_org
+:multi_org: false
