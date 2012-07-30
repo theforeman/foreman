@@ -19,7 +19,7 @@ class Redhat < Operatingsystem
 
   # installs the epel repo
   def epel host
-    epel_url = "http://download.fedoraproject.org/pub/epel/$major/$arch/epel-release-$os.noarch.rpm"
+    epel_url = "http://dl.fedoraproject.org/pub/epel/$major/$arch/epel-release-$os.noarch.rpm"
 
     case host.operatingsystem.major
     when "4"
