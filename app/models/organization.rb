@@ -38,4 +38,13 @@ class Organization < ActiveRecord::Base
     end
     scope
   end
+
+
+  def self.when_single_org
+    unless User.current.admin?
+      if SETTINGS[:single_org]
+        yield if block_given?
+      end
+    end
+  end
 end

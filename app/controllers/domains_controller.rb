@@ -23,10 +23,8 @@ class DomainsController < ApplicationController
 
   def create
     @domain = Domain.new(params[:domain])
-    unless User.current.admin?
-      if SETTINGS[:single_org]
-        @domain.organization_ids = [Organization.current.id]
-      end
+    Organization.when_single_org do
+      @domain.organization_ids = [Organization.current.id]
     end
     if @domain.save
       process_success

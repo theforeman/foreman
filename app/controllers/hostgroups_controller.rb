@@ -60,10 +60,8 @@ class HostgroupsController < ApplicationController
 
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
-    unless User.current.admin?
-      if SETTINGS[:single_org]
-        @hostgroup.organization_ids = [Organization.current.id]
-      end
+    Organization.when_single_org do
+      @hostgroup.organization_ids = [Organization.current.id]
     end
     if @hostgroup.save
       # Add the new hostgroup to the user's filters

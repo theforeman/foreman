@@ -12,10 +12,8 @@ class SmartProxiesController < ApplicationController
 
   def create
     @proxy = SmartProxy.new(params[:smart_proxy])
-    unless User.current.admin?
-      if SETTINGS[:single_org]
-        @proxy.organization_ids = [Organization.current.id]
-      end
+    Orgnaization.when_single_org do
+      @proxy.organization_ids = [Organization.current.id]
     end
     if @proxy.save
       process_success :object => @proxy

@@ -32,10 +32,8 @@ class ComputeResourcesController < ApplicationController
   def create
     if params[:compute_resource].present? && params[:compute_resource][:provider].present?
       @compute_resource = ComputeResource.new_provider params[:compute_resource]
-      unless User.current.admin?
-        if SETTINGS[:single_org]
-          @compute_resource.organization_ids = [Organization.current.id]
-        end
+      Organization.when_single_org do
+        @compute_resource.organization_ids = [Organization.current.id]
       end
       if @compute_resource.save
         # Add the new compute resource to the user's filters
