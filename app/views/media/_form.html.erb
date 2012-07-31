@@ -10,6 +10,7 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
+  <% end%>
         <%= text_f f, :name %>
         <%= text_f f, :path, :class => "input-xxlarge", :help_block => "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
           for example <em>http://mirror.averse.net/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>.".html_safe %>
@@ -21,20 +22,11 @@
         <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => "Operating System Family" } %>
       </div>
 
+  <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
         <%= multiple_checkboxes f, :organizations, @medium, Organization %>
       </div>
     </div>
-  <% else %>
-    <%= text_f f, :name %>
-    <%= text_f f, :path, :class => "input-xxlarge", :help_block => "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
-      for example <em>http://mirror.averse.net/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>.".html_safe %>
-    <span id="nfs-section" <%= display?(!@medium.operatingsystems.map(&:require_nfs_access_to_medium).any?) %>>
-      <%= text_f f, :media_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the media." %>
-      <%= text_f f, :config_path, :class => "input-xxlarge", :help_inline => "The NFS path to the jumpstart control files." %>
-      <%= text_f f, :image_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the image directory." %>
-    </span>
-    <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => "Operating System Family" } %>
   <% end %>
 
   <%= submit_or_cancel f %>

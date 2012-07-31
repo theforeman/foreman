@@ -38,9 +38,11 @@
       <%= render("filters", :f => f) %>
     </div>
 
+    <% if show_organization_tab? and not @user.admin? %>
     <div class="tab-pane" id="organizations">
       <%= multiple_checkboxes f, :organizations, @user, Organization %>
     </div>
+    <% end -%>
 
     <% end %>
   </div>

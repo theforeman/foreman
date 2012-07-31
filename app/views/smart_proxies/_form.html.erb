@@ -10,18 +10,16 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
+  <% end %>
         <%= text_f(f, :name) %>
         <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
+  <% if show_organization_tab? %>
       </div>
 
       <div class="tab-pane" id="organizations">
         <%= multiple_checkboxes f, :organizations, @proxy, Organization %>
       </div>
     </div>
-
-  <% else %>
-    <%= text_f(f, :name) %>
-    <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
   <% end %>
 
   <%= submit_or_cancel(f) %>
