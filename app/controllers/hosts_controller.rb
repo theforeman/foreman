@@ -85,6 +85,9 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(params[:host])
     @host.managed = true
+    Organization.when_single_org do
+      @host.organization_ids = [Organization.current.id]
+    end
     forward_request_url
     if @host.save
       process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
