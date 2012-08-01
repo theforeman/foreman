@@ -24,7 +24,11 @@ class Domain < ActiveRecord::Base
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
-  default_scope lambda { Organization.apply_org_scope order("LOWER(domains.name)") }
+  default_scope lambda {
+    Organization.with_org_scope do
+      select("DISTINCT domains.*").order("LOWER(domains.name)")
+    end
+  }
 
   class Jail < Safemode::Jail
     allow :name, :fullname

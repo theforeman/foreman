@@ -24,7 +24,11 @@ class ComputeResource < ActiveRecord::Base
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
-  default_scope lambda { Organization.apply_org_scope order("LOWER(compute_resources.name)") }
+  default_scope lambda {
+    Organization.with_org_scope do
+      select("DISTINCT compute_resources.*").order("LOWER(compute_resources.name)")
+    end
+  }
 
   scope :my_compute_resources, lambda {
     user = User.current

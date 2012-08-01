@@ -21,7 +21,11 @@ class Medium < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
-  default_scope lambda { Organization.apply_org_scope order("LOWER(media.name)") }
+  default_scope lambda {
+    Organization.with_org_scope do
+      select("DISTINCT media.*").order("LOWER(media.name)")
+    end
+  }
   scoped_search :on => :name, :complete_value => :true, :default_order => true
   scoped_search :on => :path, :complete_value => :true
   scoped_search :on => :os_family, :rename => "family", :complete_value => :true

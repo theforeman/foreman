@@ -22,7 +22,11 @@ class SmartProxy < ActiveRecord::Base
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
-  default_scope lambda { Organization.apply_org_scope order("LOWER(smart_proxies.name)") }
+  default_scope lambda {
+    Organization.with_org_scope do
+      select("DISTINCT smart_proxies.*").order("LOWER(smart_proxies.name)")
+    end
+  }
 
   def hostname
     # This will always match as it is validated
