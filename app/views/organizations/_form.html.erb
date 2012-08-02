@@ -10,6 +10,7 @@
     <li><a href="#domains" data-toggle="tab">Domains</a></li>
     <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
     <li><a href="#environments" data-toggle="tab">Environments</a></li>
+    <li><a href="#puppetclasses" data-toggle="tab">Puppet Classes</a></li>
 
   </ul>
 
@@ -44,6 +45,10 @@
 
     <div class="tab-pane" id="environments">
       <%= multiple_checkboxes f, :environments, @organization, Environment %>
+    </div>
+
+    <div class="tab-pane" id="puppetclasses">
+      <%= multiple_checkboxes f, :puppetclasses, @organization, Puppetclass %>
     </div>
   </div>
 
