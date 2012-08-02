@@ -5,7 +5,7 @@
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
     <li><a href="#smart_vars" data-toggle="tab">Smart Variables</a></li>
-    <% if User.current.admin? or SETTINGS[:multi_org] %><li><a href="#organizations" data-toggle="tab">Organizations</a></li><% end %>
+    <% if show_organization_tab? %><li><a href="#organizations" data-toggle="tab">Organizations</a></li><% end %>
   </ul>
 
   <div class="tab-content">
