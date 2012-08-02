@@ -5,7 +5,7 @@
   <%= base_errors_for @host %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab">Host</a></li>
     <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
     <% if SETTINGS[:unattended] and @host.managed -%>
       <li><a href="#network" data-toggle="tab">Network</a></li>

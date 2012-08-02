@@ -2,7 +2,7 @@
 <% title @compute_resource.name %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
-  <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+  <li class="active"><a href="#primary" data-toggle="tab">Compute Resource</a></li>
   <li><a href="#vms" data-toggle="tab">Virtual Machines</a></li>
   <% if @compute_resource.capabilities.include?(:image) -%>
     <li><a href="#images" data-toggle="tab">Images</a></li>
