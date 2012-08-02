@@ -1,7 +1,7 @@
 <%= form_for @operatingsystem do |f| %>
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab">Operating System</a></li>
     <li><a href="#params" data-toggle="tab">Parameters</a></li>
     <% if SETTINGS[:unattended] -%>
       <li><a href="#templates" data-toggle="tab">Templates</a></li>
