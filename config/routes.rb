@@ -1,3 +1,5 @@
+require 'api_constraints'
+
 Foreman::Application.routes.draw do
   #ENC requests goes here
   match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
@@ -278,6 +280,6 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
-  #Keep this line the last route
+ #Keep this line the last route
   match '*a', :to => 'errors#routing'
 end

@@ -70,7 +70,8 @@ class HostsControllerTest < ActionController::TestCase
           :architecture => architectures(:x86_64),
           :environment => environments(:production),
           :subnet => subnets(:one),
-          :disk => "empty partition"
+          :disk => "empty partition",
+          :puppet_proxy => smart_proxies(:puppetmaster)
         }
       }, set_session_user
     end
@@ -88,7 +89,9 @@ class HostsControllerTest < ActionController::TestCase
           :architecture => architectures(:x86_64),
           :environment => environments(:production),
           :subnet => subnets(:one),
-          :disk => "empty partition"
+          :disk => "empty partition",
+          :puppet_proxy => smart_proxies(:puppetmaster)
+
         }
       }, set_session_user
     end
@@ -352,7 +355,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
-    host_names = %w{temp.yourdomain.net myname.mydomain.net }
+    host_names = %w{temp.yourdomain.net my5name.mydomain.net }
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
       host = Host.find_by_name name

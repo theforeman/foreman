@@ -143,12 +143,7 @@ class Environment < ActiveRecord::Base
     end
 
     def find_import_proxies
-      if (f = Feature.where(:name => "Puppet"))
-        if !f.empty? and (proxies=f.first.smart_proxies)
-          return proxies
-        end
-      end
-      []
+      SmartProxy.joins(:features).where(:features => {:name => 'Puppet'})
     end
   end
 

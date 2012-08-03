@@ -12,8 +12,11 @@ gem 'scoped_search', '>= 2.3.7'
 gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 gem 'uuidtools'
+gem "apipie-rails", ">= 0.0.7"
+gem 'rabl'
 # Previous versions collide with Environment model
 gem "ruby_parser", ">= 2.3.1"
+gem 'oauth'
 
 Dir["#{File.dirname(__FILE__)}/bundler.d/*.rb"].each do |bundle|
  # puts "adding custom gem file #{bundle}"

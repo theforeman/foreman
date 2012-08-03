@@ -17,7 +17,8 @@ class PuppetclassesController < ApplicationController
     respond_to do |format|
       format.html do
         @puppetclasses = values.paginate :page => params[:page], :include => [:environments, :hostgroups]
-        @counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses}})
+        @host_counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses}})
+        @keys_counter = LookupKey.count(:group => :puppetclass_id, :conditions => {:puppetclass_id => @puppetclasses})
       end
       format.json { render :json => Puppetclass.classes2hash(values.all(:select => "name, id")) }
     end

@@ -31,7 +31,14 @@ module Authorization
     return true if User.current and User.current.allowed_to?("#{operation}_#{klasses}".to_sym)
 
     errors.add :base, "You do not have permission to #{operation} this #{klass}"
+    @permission_failed = operation
     false
+  end
+
+  # @return false or name of failed operation
+  def permission_failed?
+    return false unless @permission_failed
+    @permission_failed
   end
 
   private

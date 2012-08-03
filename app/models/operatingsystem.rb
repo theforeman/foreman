@@ -161,6 +161,11 @@ class Operatingsystem < ActiveRecord::Base
     raise "Attempting to construct a operatingsystem image filename but #{family} cannot be built from an image"
   end
 
+  # If this OS family requires access to its media via NFS
+  def require_nfs_access_to_medium
+    false
+  end
+
   private
   def deduce_family
     if self.family.blank?
@@ -186,8 +191,4 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  # If this OS family requires access to its media via NFS
-  def require_nfs_access_to_medium
-    false
-  end
 end

@@ -70,6 +70,10 @@ class ActiveRecord::Base
     first.nil?
   end
 
+  def self.per_page
+    Setting.entries_per_page rescue 20
+  end
+
 end
 
 module ExemptedFromLogging

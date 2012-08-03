@@ -3,6 +3,7 @@ require 'test_helper'
 class MediumTest < ActiveSupport::TestCase
   setup do
     User.current = User.find_by_login "admin"
+    disable_orchestration
   end
 
   test "name can't be blank" do

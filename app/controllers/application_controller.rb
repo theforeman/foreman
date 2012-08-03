@@ -11,8 +11,10 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
-  before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
+  before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
+
+  cache_sweeper :topbar_sweeper, :unless => :api_request?
 
   def welcome
     @searchbar = true
@@ -171,7 +173,7 @@ class ApplicationController < ActionController::Base
   end
 
   def update_activity_time
-    session[:expires_at] = Setting.idle_timeout.minutes.from_now.utc
+    session[:expires_at] = Setting[:idle_timeout].minutes.from_now.utc
   end
 
   def expire_session
@@ -277,4 +279,5 @@ class ApplicationController < ActionController::Base
     logger.debug exception.backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
+
 end
