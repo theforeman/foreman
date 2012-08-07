@@ -14,6 +14,13 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get a kickstart even if we are behind a loadbalancer" do
+    @request.env["HTTP_X_FORWARDED_FOR"] = hosts(:redhat).ip
+    @request.env["REMOTE_ADDR"] = "127.0.0.1"
+    get :kickstart
+    assert_response :success
+  end
+
   test "should get a preseed finish script" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :preseed_finish
