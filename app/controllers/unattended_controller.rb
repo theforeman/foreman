@@ -88,7 +88,7 @@ class UnattendedController < ApplicationController
     if params.has_key? "spoof"
       ip = params.delete("spoof")
       @spoof = true
-    elsif (ip = request.env['REMOTE_ADDR']) =~ /127.0.0/
+    elsif (ip = request.env['REMOTE_ADDR']) =~ Regexp.new(Setting[:remote_addr])
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
