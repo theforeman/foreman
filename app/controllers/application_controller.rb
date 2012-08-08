@@ -58,14 +58,17 @@ class ApplicationController < ActionController::Base
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
-        if api_request?
-          # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
-          user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          logger.warn("Failed API authentication request from #{request.remote_ip}") unless user
-        # if login delegation authorized and REMOTE_USER not empty, authenticate user without using password
-        elsif remote_user_provided?
+
+        # If REMOTE_USER is provided by the web server then
+        # authenticate the user without using password.
+        if remote_user_provided?
           user = User.find_by_login(@remote_user)
           logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        # Else, fall back to the standard authentication mechanism,
+        # only if it's an API request.
+        elsif api_request?
+          user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
+          logger.warn("Failed Basic Auth authentication request from #{request.remote_ip}") unless user
         end
 
         if user.is_a?(User)
@@ -193,6 +196,7 @@ class ApplicationController < ActionController::Base
 
   def remote_user_provided?
     return false unless Setting["authorize_login_delegation"]
+    return false if api_request? and not Setting["authorize_login_delegation_api"]
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
