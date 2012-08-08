@@ -17,8 +17,8 @@ class Hostgroup < ActiveRecord::Base
   before_save :remove_duplicated_nested_class
   after_find :deserialize_vm_attributes
 
-  has_many :organization_hostgroups, :dependent => :destroy
-  has_many :organizations, :through => :organization_hostgroups
+  has_many :taxonomy_hostgroups, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_hostgroups
 
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
@@ -27,7 +27,7 @@ class Hostgroup < ActiveRecord::Base
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
-    Organization.with_org_scope do
+    Taxonomy.with_taxonomy_scope do
       select("DISTINCT hostgroups.*")
     end
   }

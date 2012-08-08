@@ -29,8 +29,8 @@ class PuppetclassesController < ApplicationController
 
   def create
     @puppetclass = Puppetclass.new(params[:puppetclass])
-    Organization.when_single_org do
-      @puppetclass.organization_ids = [Organization.current.id]
+    Taxonomy.when_single_taxonomy do
+      @puppetclass.taxonomy_ids = [Taxonomy.current.id]
     end
     if @puppetclass.save
       notice "Successfully created puppetclass."

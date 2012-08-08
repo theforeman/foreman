@@ -1,29 +1,29 @@
-class OrganizationsController < ApplicationController
+class TaxonomiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :find_by_name, :only => %w{show edit update destroy select}
 
   def index
-    orgs = Organization.search_for(params[:search], :order => params[:order])
+    taxonomies = Taxonomy.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @organizations = orgs.paginate :page => params[:page] }
-      format.json { render :json => orgs }
+      format.html { @taxonomies = taxonomies.paginate :page => params[:page] }
+      format.json { render :json => taxonomies }
     end
   end
 
   def new
-    @organization = Organization.new
+    @taxonomy = Taxonomy.new
   end
 
   def show
     respond_to do |format|
       format.html
-      format.json { render :json => @organization }
+      format.json { render :json => @taxonomy }
     end
   end
 
   def create
-    @organization = Organization.new(params[:organization])
-    if @organization.save
+    @taxonomy = Taxonomy.new(params[:organization])
+    if @taxonomy.save
       process_success
     else
       process_error
@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    if @organization.update_attributes(params[:organization])
+    if @taxonomy.update_attributes(params[:organization])
       process_success
     else
       process_error
@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    if @organization.destroy
+    if @taxonomy.destroy
       process_success
     else
       process_error
@@ -50,7 +50,7 @@ class OrganizationsController < ApplicationController
   end
 
   def select
-    Organization.current = @organization
+    Taxonomy.current = @taxonomy
     redirect_back_or_to root_url
   end
 end

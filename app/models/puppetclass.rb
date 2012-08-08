@@ -9,8 +9,8 @@ class Puppetclass < ActiveRecord::Base
   has_many :lookup_keys, :inverse_of => :puppetclass
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
 
-  has_many :organization_puppetclasses, :dependent => :destroy
-  has_many :organizations, :through => :organization_puppetclasses
+  has_many :taxonomy_puppetclasses, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_puppetclasses
 
   validates_uniqueness_of :name
   validates_presence_of :name

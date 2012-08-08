@@ -14,8 +14,9 @@ class Host < Puppet::Rails::Host
   belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
   belongs_to :image
-  has_many :organization_hosts, :dependent => :destroy
-  has_many :organizations, :through => :organization_hosts
+
+  has_many :taxonomy_hosts, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_hosts
 
   include Hostext::Search
   include HostCommon
@@ -29,7 +30,7 @@ class Host < Puppet::Rails::Host
   attr_reader :cached_host_params, :cached_lookup_keys_params
 
   default_scope lambda {
-    Organization.with_org_scope do
+    Taxonomy.with_taxonomy_scope do
       select("DISTINCT hosts.*")
     end
   }

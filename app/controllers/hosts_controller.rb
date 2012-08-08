@@ -85,8 +85,8 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(params[:host])
     @host.managed = true
-    Organization.when_single_org do
-      @host.organization_ids = [Organization.current.id]
+    Taxonomy.when_single_taxonomy do
+      @host.taxonomy_ids = [Taxonomy.current.id]
     end
     forward_request_url
     if @host.save

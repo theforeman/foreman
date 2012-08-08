@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
 
-  has_many :organization_users, :dependent => :destroy
-  has_many :organizations, :through => :organization_users
+  has_many :taxonomy_users, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_users
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 

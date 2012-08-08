@@ -11,8 +11,8 @@ class Domain < ActiveRecord::Base
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_and_belongs_to_many :users, :join_table => "user_domains"
-  has_many :organization_domains, :dependent => :destroy
-  has_many :organizations, :through => :organization_domains
+  has_many :taxonomy_domains, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_domains
 
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
@@ -25,7 +25,7 @@ class Domain < ActiveRecord::Base
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
-    Organization.with_org_scope do
+    Taxonomy.with_taxonomy_scope do
       select("DISTINCT domains.*").order("LOWER(domains.name)")
     end
   }

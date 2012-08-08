@@ -2,8 +2,8 @@ class Medium < ActiveRecord::Base
   include Authorization
   has_and_belongs_to_many :operatingsystems
   has_many :hosts
-  has_many :organization_media, :dependent => :destroy
-  has_many :organizations, :through => :organization_media
+  has_many :taxonomy_media, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_media
 
   # We need to include $ in this as $arch, $release, can be in this string
   VALID_NFS_PATH=/^([\w\d\.]+):(\/[\w\d\/\$\.]+)$/
@@ -22,7 +22,7 @@ class Medium < ActiveRecord::Base
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
-    Organization.with_org_scope do
+    Taxonomy.with_taxonomy_scope do
       select("DISTINCT media.*").order("LOWER(media.name)")
     end
   }

@@ -12,8 +12,8 @@ class SmartProxiesController < ApplicationController
 
   def create
     @proxy = SmartProxy.new(params[:smart_proxy])
-    Orgnaization.when_single_org do
-      @proxy.organization_ids = [Organization.current.id]
+    Taxonomy.when_single_taxonomy do
+      @proxy.taxonomy_ids = [Taxonomy.current.id]
     end
     if @proxy.save
       process_success :object => @proxy

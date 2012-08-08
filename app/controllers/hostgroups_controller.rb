@@ -60,8 +60,8 @@ class HostgroupsController < ApplicationController
 
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
-    Organization.when_single_org do
-      @hostgroup.organization_ids = [Organization.current.id]
+    Taxonomy.when_single_taxonomy
+      @hostgroup.taxonomy_ids = [Taxonomy.current.id]
     end
     if @hostgroup.save
       # Add the new hostgroup to the user's filters

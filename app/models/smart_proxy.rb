@@ -7,8 +7,8 @@ class SmartProxy < ActiveRecord::Base
   has_many :domains,    :foreign_key => "dns_id"
   has_many :hosts,      :foreign_key => "puppet_proxy_id"
   has_many :hostgroups, :foreign_key => "puppet_proxy_id"
-  has_many :organization_smart_proxies, :dependent => :destroy
-  has_many :organizations, :through => :organization_smart_proxies
+  has_many :taxonomy_smart_proxies, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_smart_proxies
 
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
@@ -23,7 +23,7 @@ class SmartProxy < ActiveRecord::Base
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
-    Organization.with_org_scope do
+    Taxonomy.with_taxonomy_scope do
       select("DISTINCT smart_proxies.*").order("LOWER(smart_proxies.name)")
     end
   }

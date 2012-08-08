@@ -60,27 +60,27 @@ module Foreman
     end
 
     # include this in the Organization model object
-    module OrganizationModel
+    module TaxonomyModel
       def self.included(base)
         base.class_eval do
           def self.current
             if SETTINGS[:single_org]
-              Thread.current[:organization]
+              Thread.current[:taxonomy]
             elsif SETTINGS[:multi_org]
-              User.current.organizations
+              User.current.taxonomies
             end
           end
 
           def self.current=(o)
             unless SETTINGS[:single_org]
-              raise(ArgumentError, "Cannot set the current organization unless SETTINGS[:single_org] is set to true")
+              raise(ArgumentError, "Cannot set the current taxonomy unless SETTINGS[:single_org] is set to true")
             end
             unless o.nil? || o.is_a?(self)
-              raise(ArgumentError, "Unable to set current Organization, exepect class '#{self}', got #{o.inspect}")
+              raise(ArgumentError, "Unable to set current taxonomy, expected class '#{self}', got #{o.inspect}")
             end
             unless User.current.admin?
-              Rails.logger.debug "Setting current organization thread-local variable to " + (o.is_a?(Organization) ? o.name : 'nil')
-              Thread.current[:organization] = o
+              Rails.logger.debug "Setting current taxonomy thread-local variable to " + (o.is_a?(Taxonomy) ? o.name : 'nil')
+              Thread.current[:taxonomy] = o
             end
           end
         end

@@ -19,13 +19,13 @@ class ComputeResource < ActiveRecord::Base
   has_many :hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
-  has_many :organization_compute_resources, :dependent => :destroy
-  has_many :organizations, :through => :organization_compute_resources
+  has_many :taxonomy_compute_resources, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_compute_resources
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
-    Organization.with_org_scope do
+    Taxonomy.with_taxonomy_scope
       select("DISTINCT compute_resources.*").order("LOWER(compute_resources.name)")
     end
   }
