@@ -19,12 +19,15 @@ Foreman::Application.routes.draw do
           get 'revision'
         end
       end
+      constraints(:id => /[^\/]+/) do
+        resources :domains, :except => [:new, :edit]
+      end
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
       match '*other', :to => 'home#route_error'
     end
-#
+
   end
 
 end
