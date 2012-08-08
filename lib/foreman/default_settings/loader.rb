@@ -65,7 +65,8 @@ module Foreman
 
             [ set('oauth_active', "Should foreman use OAuth for authorization in API", false),
               set('oauth_consumer_key', "OAuth consumer key", 'katello'),
-              set('oauth_consumer_secret', "OAuth consumer secret", 'shhhh')
+              set('oauth_consumer_secret', "OAuth consumer secret", 'shhhh'),
+              set('oauth_map_users', "Should foreman map users by username in request-header", true)
             ].compact.each { |s| create s.update(:category => "Auth")}
           end
           true

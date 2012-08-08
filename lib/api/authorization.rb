@@ -49,8 +49,11 @@ module Api
       end
 
       if OAuth::Signature.verify(controller.request, :consumer_secret => Setting['oauth_consumer_secret'])
-        # TODO find user by header
-        return User.find_by_login("admin")
+        User.find_by_login(if Setting['oauth_map_users']
+                             controller.request.headers['foreman_user']
+                           else
+                             "admin"
+                           end)
       else
         return nil
       end
