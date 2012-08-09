@@ -38,7 +38,7 @@ echo "updating system time"
 /usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "ntp" %>
 /usr/sbin/hwclock --systohc
 
-# install epel if we can
+# install 'epel' if we can
 <%= snippet epel %>
 
 # update all the base packages from the updates repository
