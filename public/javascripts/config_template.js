@@ -15,7 +15,7 @@ $(function() {
       set_edit_mode(template_text);
     }
     $('#config_template_submit').on('click', function(){
-       set_edit_mode( $(".template_text"));
+      if($('.diffMode').size() >0){ set_edit_mode( $(".template_text")); }
     })
   }
 

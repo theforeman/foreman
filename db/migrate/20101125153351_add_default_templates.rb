@@ -41,7 +41,7 @@ class AddDefaultTemplates < ActiveRecord::Migration
     end
     Dir["#{Rails.root}/app/views/unattended/snippets/*"].each do |snippet|
       ConfigTemplate.create(
-        :name     => snippet.gsub(/.*_/,"").gsub(".erb",""),
+        :name     => snippet.gsub(/.*\/_/,"").gsub(".erb",""),
         :template => File.read(snippet),
         :snippet  => true)
     end
