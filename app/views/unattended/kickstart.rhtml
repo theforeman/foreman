@@ -39,7 +39,7 @@ echo "updating system time"
 /usr/sbin/hwclock --systohc
 
 # install epel if we can
-<%= snippet epel %>
+<%= snippet 'epel' %>
 
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
