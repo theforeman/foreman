@@ -16,3 +16,5 @@
 # their orgs without having to choose a specific organization ... is mutually
 # exclusive with single_org
 :multi_org: false
+
+:resource_groups_enabled: true

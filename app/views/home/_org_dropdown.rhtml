@@ -1,9 +1,0 @@
-<li class="dropdown">
-  <%= link_to ((Organization.current.name.upcase rescue("Select")) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => 'Current Organization' %>
-  <ul class="dropdown-menu">
-    <li class='navbar-text ca'>Organizations</li>
-    <% User.current.organizations.each do |org| %>
-      <li><%= link_to(org.name, select_organization_path(org)) %></li>
-    <% end -%>
-  </ul>
-</li>
