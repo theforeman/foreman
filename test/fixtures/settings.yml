@@ -104,3 +104,8 @@ attributes21:
   category: Provisioning
   default: false
   description: "Should Foreman query the locally configured name server or the SOA/NS authorities"
+attributes22:
+  name: remote_addr
+  category: Provisioning
+  default: "127.0.0"
+  description: "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"

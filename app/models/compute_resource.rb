@@ -39,7 +39,7 @@ class ComputeResource < ActiveRecord::Base
   def self.new_provider args
     raise "must provide a provider" unless provider = args[:provider]
     PROVIDERS.each do |p|
-      return eval("#{STI_PREFIX}::#{p}").new(args) if p.downcase == provider.downcase
+      return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
     raise "unknown Provider"
   end
