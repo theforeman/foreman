@@ -446,6 +446,46 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
+        are set, authentication should succeed w/o valid session cookies" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = true
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response :success
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "if only authorize_login_delegation is set, REMOTE_USER should be
+        ignored for API requests" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = false
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response 401
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "if both authorize_login_delegation{,_api} are unset,
+        REMOTE_USER should ignored in all cases" do
+    Setting[:authorize_login_delegation] = false
+    Setting[:authorize_login_delegation_api] = false
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response 401
+    get :show, {:id => host.to_param}
+    assert_redirected_to "/users/login"
+  end
+
+  def set_remote_user_to user
+    @request.env['REMOTE_USER'] = user.login
+  end
+
   def test_submit_multiple_build
     assert !hosts(:one).build
     assert !hosts(:two).build

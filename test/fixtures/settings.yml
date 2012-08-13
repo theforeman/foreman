@@ -109,3 +109,13 @@ attributes22:
   category: Provisioning
   default: "127.0.0"
   description: "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+attributes23:
+  name: authorize_login_delegation
+  category: General
+  default: false
+  description: "Authorize login delegation with REMOTE_USER environment variable"
+attributes24:
+  name: authorize_login_delegation_api
+  category: General
+  default: false
+  description: "Authorize login delegation with REMOTE_USER environment variable for API calls"
