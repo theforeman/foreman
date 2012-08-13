@@ -18,7 +18,7 @@ class Dashboard
 
   def self.data(filter)
     dashboard = Dashboard.new(filter)
-    return dashboard.fetch_data
+    return dashboard.data
   end
 
   private

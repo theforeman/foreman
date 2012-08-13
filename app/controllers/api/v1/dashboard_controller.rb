@@ -4,7 +4,6 @@ module Api
     class DashboardController  < BaseController
       include Foreman::Controller::AutoCompleteSearch
 
-
       param :search, String, :desc => "filter results", :required => false
       api :GET, "/dashboard/", "Get Dashboard results"
       def index
