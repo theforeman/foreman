@@ -14,16 +14,32 @@ module Api
 
       end
 
-      def new
-        @medium = Medium.new
-      end
-
       api :POST, "/medium/", "Create a medium."
+      param :medium, Hash, :required => true do
+        param :name, String, :required => true, :desc => "Name of media"
+        param :path, String, :required => true, :desc => "The path to the medium, can be a URL or a valid NFS server
+            (exclusive of the architecture). for example http://mirror.averse.net/centos/$version/os/$arch
+            where $arch will be substituted for the host's actual OS architecture and $version, $major and $minor
+            will be substituted for the version of the operating system. Solaris and Debian media may
+            also use $release."
+        param :os_family, String, :require => false, :desc => "The family that the operating system belongs to.
+          Available families: #{Operatingsystem.families}"
+      end
       def create
         @medium = Medium.new(params[:medium])
         process_response @medium.save
       end
 
+      param :medium, Hash, :required => true do
+        param :name, String, :required => false, :desc => "Name of media"
+        param :path, String, :required => false, :desc => "The path to the medium, can be a URL or a valid NFS server
+                  (exclusive of the architecture). for example http://mirror.averse.net/centos/$version/os/$arch
+                  where $arch will be substituted for the host's actual OS architecture and $version, $major and $minor
+                  will be substituted for the version of the operating system. Solaris and Debian media may
+                  also use $release."
+        param :os_family, String, :require => false, :desc => "The family that the operating system belongs to.
+                Available families: #{Operatingsystem.families}"
+      end
       api :PUT, "/media/:id/", "Update a medium."
       def update
         process_response @medium.update_attributes(params[:medium])

@@ -1,13 +1,7 @@
 require 'test_helper'
 
 class Api::V1::MediaControllerTest < ActionController::TestCase
-  def user_one_as_anonymous_viewer
-    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-  end
 
-  def user_one_as_manager
-    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Manager')]
-  end
 
   new_medium = {
       :name => "new medium",
