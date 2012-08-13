@@ -17,6 +17,7 @@ class Api::V1::DashboardControllerTest < ActionController::TestCase
     end
     assert_response :success
     dashboard = ActiveSupport::JSON.decode(@response.body)
+    assert.
     assert !dashboard.empty?
   end
 

@@ -4,6 +4,7 @@ module Api
       include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
+      param :search, String, :desc => "filter results", :required => false
       api :GET, "/media/", "List all media."
       def index
         @media = Medium.search_for(params[:search], :order => params[:order])
