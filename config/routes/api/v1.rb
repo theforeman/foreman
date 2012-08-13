@@ -11,6 +11,12 @@ Foreman::Application.routes.draw do
           get 'bootfiles'
         end
       end
+      resources :config_templates, :except => [:new, :edit] do
+        collection do
+          get 'build_pxe_default'
+          get 'revision'
+        end
+      end
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
