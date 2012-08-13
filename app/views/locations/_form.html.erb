@@ -1,0 +1,44 @@
+<%= form_for @location do |f| %>
+  <%= base_errors_for @location %>
+
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Location</a></li>
+    <li><a href="#users" data-toggle="tab">Users</a></li>
+    <li><a href="#smart_proxies" data-toggle="tab">Smart Proxies</a></li>
+    <li><a href="#compute_resources" data-toggle="tab">Compute Resources</a></li>
+    <li><a href="#media" data-toggle="tab">Installation Media</a></li>
+    <li><a href="#domains" data-toggle="tab">Domains</a></li>
+    <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
+    <li><a href="#environments" data-toggle="tab">Environments</a></li>
+    <li><a href="#puppetclasses" data-toggle="tab">Puppet Classes</a></li>
+
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name, :class => "input-xlarge" %>
+    </div>
+
+    <div class="tab-pane" id="users">
+      <%= multiple_checkboxes f, :users, @location, User.where("admin = 'f'") %>
+    </div>
+
+    <div class="tab-pane" id="smart_proxies">
+      <%= multiple_checkboxes f, :smart_proxies, @location, SmartProxy %>
+    </div>
+
+    <div class="tab-pane" id="domains">
+      <%= multiple_checkboxes f, :domains, @location, Domain %>
+    </div>
+
+    <div class="tab-pane" id="hostgroups">
+      <%= multiple_checkboxes f, :hostgroups, @location, Hostgroup %>
+    </div>
+
+    <div class="tab-pane" id="puppetclasses">
+      <%= multiple_checkboxes f, :puppetclasses, @location, Puppetclass %>
+    </div>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

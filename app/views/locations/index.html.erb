@@ -1,0 +1,18 @@
+<% title "Locations" %>
+
+<% title_actions display_link_if_authorized("New Locations", hash_for_new_location_path), help_path %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name %></th>
+    <th></th>
+  </tr>
+  <% @locations.each do |location| %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to_if_authorized location.name, hash_for_edit_location_path(:id => location)%></td>
+      <td class="buttons"><%= display_delete_if_authorized hash_for_location_path(:id => location), :confirm => "Delete #{location.name}?" %></td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @locations %>
+<%= will_paginate     @locations %>
