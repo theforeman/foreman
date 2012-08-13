@@ -1,0 +1,3 @@
+class Resourcegroup < Taxonomy
+
+end

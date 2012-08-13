@@ -2,8 +2,18 @@ class ResourcegroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   def index
+    begin
+      # TODO: Get the resource groups that belong to the current user
+      resourcegroups = User.current.admin? ? Resourcegroup : Resourcegroup
+      values = resourcegroups.search_for(params[:search], :order => params[:order])
+    rescue => e
+      error e.to_s
+    end
+
     respond_to do |format|
-      format.html { @locations = Location.all }
+      format.html do
+        @resourcegroups = values.paginate :page => params[:page]
+      end
     end
   end
 

@@ -1,8 +1,8 @@
-<%= form_for @organization do |f| %>
-  <%= base_errors_for @organization %>
+<%= form_for @resourcegroup do |f| %>
+  <%= base_errors_for @resourcegroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Organization</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab">Resource Group</a></li>
     <li><a href="#users" data-toggle="tab">Users</a></li>
     <li><a href="#smart_proxies" data-toggle="tab">Smart Proxies</a></li>
     <li><a href="#compute_resources" data-toggle="tab">Compute Resources</a></li>
@@ -20,35 +20,23 @@
     </div>
 
     <div class="tab-pane" id="users">
-      <%= multiple_checkboxes f, :users, @organization, User.where("admin = 'f'") %>
+      <%= multiple_checkboxes f, :users, @resourcegroup, User.where("admin = 'f'") %>
     </div>
 
     <div class="tab-pane" id="smart_proxies">
-      <%= multiple_checkboxes f, :smart_proxies, @organization, SmartProxy %>
-    </div>
-
-    <div class="tab-pane" id="compute_resources">
-      <%= multiple_checkboxes f, :compute_resources, @organization, ComputeResource %>
-    </div>
-
-    <div class="tab-pane" id="media">
-      <%= multiple_checkboxes f, :media, @organization, Medium %>
+      <%= multiple_checkboxes f, :smart_proxies, @resourcegroup, SmartProxy %>
     </div>
 
     <div class="tab-pane" id="domains">
-      <%= multiple_checkboxes f, :domains, @organization, Domain %>
+      <%= multiple_checkboxes f, :domains, @resourcegroup, Domain %>
     </div>
 
     <div class="tab-pane" id="hostgroups">
-      <%= multiple_checkboxes f, :hostgroups, @organization, Hostgroup %>
-    </div>
-
-    <div class="tab-pane" id="environments">
-      <%= multiple_checkboxes f, :environments, @organization, Environment %>
+      <%= multiple_checkboxes f, :hostgroups, @resourcegroup, Hostgroup %>
     </div>
 
     <div class="tab-pane" id="puppetclasses">
-      <%= multiple_checkboxes f, :puppetclasses, @organization, Puppetclass %>
+      <%= multiple_checkboxes f, :puppetclasses, @resourcegroup, Puppetclass %>
     </div>
   </div>
 
