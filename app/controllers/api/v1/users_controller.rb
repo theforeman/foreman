@@ -19,14 +19,16 @@ module Api
         Adds role 'Anonymous' to the user by default
       DOC
       param :user, Hash, :required => true do
-          param :login, String, :required => true
-          param :firstname, String, :required => false
-          param :lastname, String, :required => false
-          param :mail, String, :required => true
-          param :admin, :bool, :required => false, :desc => "Is an admin account?"
+        param :login, String, :required => true
+        param :firstname, String, :required => false
+        param :lastname, String, :required => false
+        param :mail, String, :required => true
+        param :admin, :bool, :required => false, :desc => "Is an admin account?"
+        param :password, String, :required => true
+        param :auth_source_id, Integer, :required => true
       end
       def create
-        @user = User.new(params[:user])
+        @user       = User.new(params[:user])
         @user.admin = params[:user][:admin]
         if @user.save
           @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
@@ -42,11 +44,12 @@ module Api
         Only admin can set admin account.
       DOC
       param :user, Hash, :required => true do
-          param :login, String, :required => false
-          param :firstname, String, :required => false
-          param :lastname, String, :required => false
-          param :mail, String, :required => false
-          param :admin, :bool, :required => false, :desc => "Is an admin account?"
+        param :login, String, :required => false
+        param :firstname, String, :required => false
+        param :lastname, String, :required => false
+        param :mail, String, :required => false
+        param :admin, :bool, :required => false, :desc => "Is an admin account?"
+        param :password, String, :required => true
       end
       def update
         admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil
