@@ -15,7 +15,9 @@ module Api
       include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/domains/", "List of all domains"
+      api :GET, "/domains/", "List of domains"
+      param :search, String, :desc => "Filter results"
+      param :order, String, :desc => "Sort results"
       def index
         @domains = Domain.search_for(params[:search], :order => params[:order])
       end
@@ -34,6 +36,7 @@ module Api
         param :name, String, :required => true, :desc => "The full DNS Domain name"
         param :fullname, String, :required => false, :desc => "Full name describing the domain"
         param :dns_id, :number, :required => false, :desc => "DNS Proxy to use within this domain"
+        param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
       end
       def create
         @domain = Domain.new(params[:domain])
@@ -45,6 +48,7 @@ module Api
         param :name, String, :required => true, :desc => "The full DNS Domain name"
         param :fullname, String, :required => false, :desc => "Full name describing the domain"
         param :dns_id, :number, :required => false, :desc => "DNS Proxy to use within this domain"
+        param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
       end
       def update
         process_response @domain.update_attributes(params[:domain])
