@@ -1,4 +1,4 @@
-class CreateOrganizationEnvironments < ActiveRecord::Migration
+class CreateTaxonomyEnvironments < ActiveRecord::Migration
   def self.up
     create_table :organization_environments do |t|
       t.integer :organization_id
