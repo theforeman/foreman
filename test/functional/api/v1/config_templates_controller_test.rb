@@ -79,13 +79,12 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should build pxe menu" do
 
-    ProxyAPI::TFTP.any_instance.stubs(:create_default_menu).returns(true)
+    ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
     ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
 
     as_user :admin do
       get :build_pxe_default
     end
-    puts @response.body
 
     assert_response 200
   end
