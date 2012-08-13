@@ -6,6 +6,8 @@ Foreman::Application.routes.draw do
       resources :bookmarks, :except => [:new, :edit]
       resources :architectures, :except => [:new, :edit]
       resources :users, :except => [:new, :edit]
+      resources :dashboard, :only => [:index]
+      resources :media, :except => [:new, :edit]
       resources :operatingsystems, :except => [:new, :edit] do
         member do
           get 'bootfiles'

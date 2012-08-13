@@ -39,4 +39,6 @@ module DashboardHelper
     link_to name, hosts_path(:search => search)
   end
 
+
+
 end
