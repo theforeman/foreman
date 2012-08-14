@@ -25,7 +25,6 @@ module Api
         param :mail, String, :required => true
         param :admin, :bool, :required => false, :desc => "Is an admin account?"
         param :password, String, :required => true
-        param :password_confirmation, String, :required => true
         param :auth_source_id, Integer, :required => true
       end
       def create
@@ -51,7 +50,6 @@ module Api
         param :mail, String, :required => false
         param :admin, :bool, :required => false, :desc => "Is an admin account?"
         param :password, String, :required => true
-        param :password_confirmation, String, :required => true
       end
       def update
         admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil
