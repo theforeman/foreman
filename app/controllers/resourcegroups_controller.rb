@@ -17,8 +17,12 @@ class ResourcegroupsController < ApplicationController
     end
   end
 
-  def create
+  def new
     @resourcegroup = Resourcegroup.new
+  end
+
+  def create
+    @resourcegroup = Resourcegroup.new(params[:resourcegroup])
 
     if @resourcegroup.save
       process_success

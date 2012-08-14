@@ -20,4 +20,35 @@ class LocationsController < ApplicationController
   def new
     @location = Location.new
   end
+
+  def create
+    @location = Location.new(params[:location])
+
+    if @location.save
+      process_success
+    else
+      process_error
+    end
+  end
+
+  def show
+    respond_to do |format|
+      format.json { render :json => @location }
+    end
+  end
+
+  def edit
+  end
+
+  def destroy
+    if @location.destroy
+      process_success
+    else
+      process_error
+    end
+  end
+
+  def load_vars_for_ajax
+    return unless @location
+  end
 end
