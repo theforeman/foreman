@@ -49,6 +49,10 @@ class LookupKey < ActiveRecord::Base
     write_attribute(:path, v)
   end
 
+  def as_json(options={})
+    super({:only => [:key, :description, :default_value, :id]}.merge(options))
+  end
+
   private
 
   # Generate possible lookup values type matches to a given host
@@ -115,10 +119,6 @@ class LookupKey < ActiveRecord::Base
   def validate_list
     return true unless (validator_type == 'list')
     errors.add(:default_value, "not in list") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
-  end
-
-  def as_json(options={})
-    super({:only => [:key, :description, :default_value, :id]}.merge(options))
   end
 
 end
