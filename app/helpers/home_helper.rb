@@ -8,10 +8,6 @@ module HomeHelper
     SETTINGS[:multi_org] or (SETTINGS[:orgs_enabled] && (User.current.admin? || authorized_for(:organizations, :index)))
   end
 
-  def show_resource_groups_tab?
-    SETTINGS[:resource_groups_enabled] && (User.current.admin? || authorized_keys(:resource_groups, :index))
-  end
-
   def class_for_setting_page
    if setting_options.map{|o| o[1]}.include? controller_name.to_sym
      "active"
