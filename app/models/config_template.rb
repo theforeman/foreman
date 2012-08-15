@@ -80,20 +80,23 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def self.build_pxe_default(renderer)
-    if (proxies = Subnet.all.map(&:tftp).uniq.compact).empty?
+    if (proxies = SmartProxy.tftp_proxies).empty?
       error_msg = "No TFTP proxies defined, can't continue"
     end
 
     if (default_template = ConfigTemplate.find_by_name("PXE Default File")).nil?
       error_msg = "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
-    else
+    end
+
+    if error_msg.empty?
       begin
-        @profiles = pxe_default_combos
-        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
+        profiles = pxe_default_combos
+        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => profiles})
       rescue => e
         error_msg = "failed to process template: #{e}"
       end
     end
+
     return [422, error_msg] unless error_msg.empty?
 
     error_msgs = []
@@ -102,7 +105,7 @@ class ConfigTemplate < ActiveRecord::Base
         tftp = ProxyAPI::TFTP.new(:url => proxy.url)
         tftp.create_default({:menu => menu})
 
-        @profiles.each do |combo|
+        profiles.each do |combo|
           combo[:hostgroup].operatingsystem.pxe_files(combo[:hostgroup].medium, combo[:hostgroup].architecture).each do |bootfile_info|
             for prefix, path in bootfile_info do
               tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)

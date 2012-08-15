@@ -1,7 +1,6 @@
 module Api
   module V1
     class ConfigTemplatesController < V1::BaseController
-      include Foreman::Controller::AutoCompleteSearch
       include Foreman::Renderer
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
@@ -9,9 +8,10 @@ module Api
 
       api :GET, "/config_templates/", "List templates"
       param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
+      param :order,  String, :desc => "sort results"
       def index
-        @config_templates = ConfigTemplate.search_for(params[:search], :order => params[:order])
+        @config_templates = ConfigTemplate.search_for(params[:search], :order => params[:order]).
+          includes(:operatingsystems, :template_combinations, :template_kind)
       end
 
       api :GET, "/config_templates/:id", "Show template details"
@@ -25,7 +25,8 @@ module Api
         param :snippet, :bool
         param :audit_comment, String
         param :template_kind_id, :number, :desc => "not relevant for snippet"
-        param 'template_combinations_attributes', Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
       def create
         @config_template = ConfigTemplate.new(params[:config_template])
@@ -39,7 +40,8 @@ module Api
         param :snippet, :bool
         param :audit_comment, String
         param :template_kind_id, :number, :desc => "not relevant for snippet"
-        param 'template_combinations_attributes', Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
       def update
         process_response @config_template.update_attributes(params[:config_template])
