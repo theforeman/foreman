@@ -145,7 +145,7 @@ class ConfigTemplate < ActiveRecord::Base
   # generated for
   def self.pxe_default_combos
     combos = []
-    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").each do |template|
+    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
         if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium
