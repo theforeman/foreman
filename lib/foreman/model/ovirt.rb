@@ -12,6 +12,10 @@ module Foreman::Model
       [:build]
     end
 
+    def supports_update?
+      true
+    end
+
     def provided_attributes
       super.merge({:mac => :mac})
     end

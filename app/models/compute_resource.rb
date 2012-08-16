@@ -155,6 +155,11 @@ class ComputeResource < ActiveRecord::Base
     raise "#{provider} console is not supported at this time"
   end
 
+  # by default, our compute providers do not support updating an existing instance
+  def supports_update?
+    false
+  end
+
   protected
 
   def client
