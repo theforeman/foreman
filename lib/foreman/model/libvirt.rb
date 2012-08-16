@@ -11,6 +11,10 @@ module Foreman::Model
       [:build]
     end
 
+    def supports_update?
+      false
+    end
+    
   def find_vm_by_uuid uuid
     client.servers.get(uuid)
   rescue ::Libvirt::RetrieveError => e

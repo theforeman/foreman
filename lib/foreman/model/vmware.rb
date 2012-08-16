@@ -12,6 +12,10 @@ module Foreman::Model
       [:build, :image]
     end
 
+    def supports_update?
+      false
+    end
+
     #FIXME
     def max_cpu_count
       8
