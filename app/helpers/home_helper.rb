@@ -33,7 +33,8 @@ module HomeHelper
       choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
 
       choices += [ [:divider] ]
-      choices += [ ['Tenants', :tenants] ]
+      choices += [ ['Tenants', :tenants] ] if SETTINGS[:tenants_enabled]
+      choices += [ ['Locations', :locations] ] if SETTINGS[:locations_enabled]
 
       choices += [
         ['Architectures',          :architectures],

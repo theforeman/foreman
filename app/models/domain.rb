@@ -25,6 +25,9 @@ class Domain < ActiveRecord::Base
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
+    Taxonomy.with_taxonomy_scope do
+      select("DISTINCT domains.*").order("LOWER(domains.name)")
+    end
   }
 
   class Jail < Safemode::Jail
