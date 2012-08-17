@@ -1,0 +1,39 @@
+<%= form_for @tenant do |f| %>
+  <%= base_errors_for @tenant %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">Tenant</a></li>
+
+    <% if SETTINGS[:unattended] %>
+      <li><a href="#network" data-toggle="tab">Network</a></li>
+      <li><a href="#os" data-toggle="tab">Operating System</a></li>
+      <% if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
+        <li><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
+      <% end %>
+    <% end %>
+    <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name, :class => "input-xlarge" %>
+   </div>
+
+  <div class="tab-pane" id="network">
+  </div>
+
+   <div class="tab-pane" id="params">
+     <%= render "common_parameters/parameters", { :f => f, :type => :taxonomy_parameters } %>
+   </div>
+
+   <div class="tab-pane" id="locations">
+
+   </div>
+
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

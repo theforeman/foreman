@@ -33,8 +33,7 @@ module HomeHelper
       choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
 
       choices += [ [:divider] ]
-      choices += [ ['Locations',  :locations] ] if show_organization_tab?
-      choices += [ ['Resource Groups', :resourcegroups] ]
+      choices += [ ['Tenants', :tenants] ]
 
       choices += [
         ['Architectures',          :architectures],

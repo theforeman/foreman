@@ -1,0 +1,18 @@
+<% title "Tenants" %>
+
+<% title_actions display_link_if_authorized("New Tenant", hash_for_new_tenant_path), help_path %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name %></th>
+    <th></th>
+  </tr>
+  <% @tenants.each do |tenant| %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to_if_authorized tenant.name, hash_for_edit_tenant_path(:id => tenant)%></td>
+      <td class="buttons"><%= display_delete_if_authorized hash_for_tenant_path(:id => tenant), :confirm => "Delete #{tenant.name}?" %></td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @tenants %>
+<%= will_paginate     @tenants %>

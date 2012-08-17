@@ -22,6 +22,8 @@ class Taxonomy < ActiveRecord::Base
   has_many :environments, :through => :taxonomy_environments
   has_many :taxonomy_puppetclasses, :dependent => :destroy
   has_many :puppetclasses, :through => :taxonomy_puppetclasses
+  has_many :taxonomy_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  accepts_nested_attributes_for :taxonomy_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
 
   scoped_search :on => :name, :complete_value => true
 

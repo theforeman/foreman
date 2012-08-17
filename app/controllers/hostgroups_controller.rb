@@ -60,7 +60,7 @@ class HostgroupsController < ApplicationController
 
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
-    Taxonomy.when_single_taxonomy
+    Taxonomy.when_single_taxonomy do
       @hostgroup.taxonomy_ids = [Taxonomy.current.id]
     end
     if @hostgroup.save
@@ -118,5 +118,4 @@ class HostgroupsController < ApplicationController
     @domain          = @hostgroup.domain
     @hypervisor      = @hostgroup.hypervisor
   end
-
 end

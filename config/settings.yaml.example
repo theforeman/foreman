@@ -17,5 +17,5 @@
 # exclusive with single_org
 :multi_org: false
 
-:locations_enabled: false
-:tenants_enabled: false
+:locations_enabled: true
+:tenants_enabled: true
