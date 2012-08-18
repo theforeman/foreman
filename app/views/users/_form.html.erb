@@ -6,9 +6,15 @@
     <% unless @editing_self %>
       <li><a href="#filters" data-toggle="tab">Filters</a></li>
     <% end -%>
-    <% if show_organization_tab? and not @user.admin? %>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
-    <% end -%>
+
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+
+    <% if show_tenant_tab? %>
+      <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
+    <% end %>
+
   </ul>
 
   <div class="tab-content">
@@ -38,11 +44,17 @@
       <%= render("filters", :f => f) %>
     </div>
 
-    <% if show_organization_tab? and not @user.admin? %>
-    <div class="tab-pane" id="organizations">
-      <%= multiple_checkboxes f, :organizations, @user, Organization %>
-    </div>
-    <% end -%>
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+       <%= multiple_checkboxes f, :locations, @user, Location %>
+     </div>
+    <% end -%>s
+
+    <% if show_tenant_tab? %>
+      <div class="tab-pane" id="tenants">
+        <%= multiple_checkboxes f, :tenants, @user, Tenant %>
+      </div>
+    <% end %>
 
     <% end %>
   </div>

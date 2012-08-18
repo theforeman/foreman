@@ -1,9 +1,14 @@
 <%= form_for @environment do |f| %>
   <%= base_errors_for @environment %>
-  <% if User.current.admin? or SETTINGS[:multi_org] %>
+  <% if show_location_tab? or show_tenant_tab? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+      <% if show_tenant_tab? %>
+        <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
+      <% end %>
     </ul>
 
     <div class="tab-content">
@@ -12,10 +17,17 @@
         <%= text_f f, :name %>
       </div>
 
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @environment, Organization %>
-      </div>
+      <% if show_location_tab? %>
+        <div class="tab-pane" id="locations">
+          <%= multiple_checkboxes f, :locations, @environment, Location %>
+        </div>
+      <% end %>
 
+      <% if show_tenant_tab? %>
+        <div class="tab-pane" id="tenants">
+          <%= multiple_checkboxes f, :tenants, @environment, Tenant %>
+        </div>
+      <% end %>
     </div>
 
   <% else %>

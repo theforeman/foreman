@@ -5,7 +5,6 @@
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
     <li><a href="#smart_vars" data-toggle="tab">Smart Variables</a></li>
-    <% if show_organization_tab? %><li><a href="#organizations" data-toggle="tab">Organizations</a></li><% end %>
   </ul>
 
   <div class="tab-content">
@@ -42,13 +41,6 @@
       <%= new_child_fields_template(f, :lookup_keys, {:partial => "lookup_keys/fields"})%>
     </div>
 
-    <% if show_organization_tab? %>
-    <div class="tab-pane" id="organizations">
-        <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @puppetclass, Organization %>
-        </div>
-    </div>
-    <% end %>
     <%= submit_or_cancel f %>
   </div>
 <% end %>

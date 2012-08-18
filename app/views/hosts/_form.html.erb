@@ -19,8 +19,11 @@
     <% end -%>
     <li><a href="#params" id='params-tab' <%= "data-url='#{current_parameters_hosts_path}'" %> data-toggle="tab">Parameters</a></li>
     <li><a href="#info" data-toggle="tab">Additional Information</a></li>
-    <% if User.current.admin? or SETTINGS[:multi_org] %>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+    <% if show_tenant_tab? %>
+      <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
     <% end %>
   </ul>
 
@@ -81,12 +84,21 @@
       </div>
       <%= textarea_f f, :comment, :help_block => "Additional information about this host", :class => "input-xxlarge", :rows => "3" %>
     </div>
+
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+        <%= multiple_checkboxes f, :locations, @host, Location %>
+      </div>
+    <% end %>
+
+    <% if show_tenant_tab? %>
+      <div class="tab-pane" id="tenants">
+        <%= multiple_checkboxes f, :tenants, @host, Tenant %>
+      </div>
+    <% end %>
+
   </div>
-  <% if User.current.admin? or SETTINGS[:multi_org] %>
-    <div class="tab-pane" id="organizations">
-      <%= multiple_checkboxes f, :organizations, @host, Organization %>
-    </div>
-  <% end %>
+
   <%= f.hidden_field :overwrite? %>
   <%= submit_or_cancel f, @host.overwrite? %>
 <% end %>

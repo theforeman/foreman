@@ -1,11 +1,15 @@
 <%= form_for @proxy do |f| %>
   <%= base_errors_for @proxy %>
-  <% if show_organization_tab? %>
+  <% if show_location_tab? or show_tenant_tab? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Smart Proxy</a></li>
-      <% if User.current.admin? %>
-        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
-      <% end -%>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+
+      <% if show_tenant_tab? %>
+        <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
+      <% end %>
     </ul>
 
     <div class="tab-content">
@@ -13,14 +17,22 @@
   <% end %>
         <%= text_f(f, :name) %>
         <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
-  <% if show_organization_tab? %>
+  <% if show_location_tab? or show_tenant_tab? %>
       </div>
 
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @proxy, Organization %>
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+        <%= multiple_checkboxes f, :locations, @proxy, Location %>
       </div>
+    <% end %>
+
+    <% if show_tenant_tab? %>
+      <div class="tab-pane" id="tenants">
+        <%= multiple_checkboxes f, :tenants, @proxy, Tenant %>
+      </div>
+    <% end %>
     </div>
   <% end %>
 
-  <%= submit_or_cancel(f) %>
+  <%= submit_or_cancel f %>
 <% end %>

@@ -23,9 +23,10 @@ class DomainsController < ApplicationController
 
   def create
     @domain = Domain.new(params[:domain])
-    Taxonomy.when_single_taxonomy
+    Taxonomy.when_single_taxonomy do
       @domain.taxonomy_ids = [Taxonomy.current.id]
     end
+
     if @domain.save
       process_success
     else
@@ -51,5 +52,4 @@ class DomainsController < ApplicationController
       process_error
     end
   end
-
 end

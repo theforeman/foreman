@@ -2,10 +2,15 @@
 <%= form_for @compute_resource do |f| %>
   <%= base_errors_for @compute_resource %>
 
-  <% if show_organization_tab? %>
+  <% if show_location_tab? or show_tenant_tab? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Compute Resource</a></li>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+      <% if show_tenant_tab? %>
+        <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
+      <% end %>
     </ul>
 
     <div class="tab-content">
@@ -18,11 +23,19 @@
         <div id='compute_connection'>
           <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
         </div>
-  <% if show_organization_tab? %>
+    <% if show_location_tab? or show_tenant_tab? %>
       </div>
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @compute_resource, Organization %>
-      </div>
+      <% if show_location_tab? %>
+        <div class="tab-pane" id="locations">
+          <%= multiple_checkboxes f, :locations, @compute_resource, Location %>
+        </div>
+      <% end %>
+
+     <% if show_tenant_tab? %>
+        <div class="tab-pane" id="tenants">
+          <%= multiple_checkboxes f, :tenants, @compute_resource, Tenant %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 

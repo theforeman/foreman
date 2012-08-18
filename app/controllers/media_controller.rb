@@ -22,7 +22,7 @@ class MediaController < ApplicationController
 
   def create
     @medium = Medium.new(params[:medium])
-    Taxonomy.when_single_taxonomy
+    Taxonomy.when_single_taxonomy do
       @medium.taxonomy_ids = [Taxonomy.current.id]
     end
     if @medium.save
@@ -55,5 +55,4 @@ class MediaController < ApplicationController
   def find_medium
     @medium = Medium.find(params[:id])
   end
-
 end

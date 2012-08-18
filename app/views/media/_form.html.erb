@@ -2,10 +2,15 @@
 <%= form_for @medium do |f| %>
   <%= base_errors_for @medium %>
 
-  <% if show_organization_tab? %>
+  <% if show_location_tab? or show_tenant_tab? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Medium</a></li>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+      <% if show_tenant_tab? %>
+        <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
+      <% end %>
     </ul>
 
     <div class="tab-content">
@@ -22,15 +27,27 @@
         <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => "Operating System Family" } %>
       </div>
 
-  <% if show_organization_tab? %>
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @medium, Organization %>
-      </div>
+
+    <% if show_location_tab? or show_tenant_tab? %>
+      <% if show_location_tab? %>
+        <div class="tab-pane" id="locations">
+          <%= multiple_checkboxes f, :locations, @medium, Location %>
+        </div>
+      <% end %>
+
+      <% if show_tenant_tab? %>
+        <div class="tab-pane" id="tenants">
+          <%= multiple_checkboxes f, :tenants, @medium, Tenant %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= submit_or_cancel f %>
+
     </div>
+
   <% end %>
 
-  <%= submit_or_cancel f %>
-<% end %>
 <script type="text/javascript" charset="utf-8">
   nfs_section_visibility([<%= Operatingsystem.all.map(&:require_nfs_access_to_medium).join(", ") %>])
 </script>
