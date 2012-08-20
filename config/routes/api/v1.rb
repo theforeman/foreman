@@ -19,6 +19,7 @@ Foreman::Application.routes.draw do
           get 'revision'
         end
       end
+      resources :environments, :except => [:new, :edit]
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
