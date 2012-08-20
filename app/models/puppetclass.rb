@@ -77,7 +77,7 @@ class Puppetclass < ActiveRecord::Base
       modulepaths = relocated ? path.split(":").map{|p| root + p}.join(":") : path
 
       # Identify and prepare the output directory
-      out = doc_root + env.id2name
+      out = doc_root + env
       out.rmtree if out.directory?
 
       replacement = "<div id=\\\"validator-badges\\\"><small><a href=\\\"/puppet/rdoc/#{env}/\\\">[Browser]</a></small>"
