@@ -27,7 +27,7 @@ module DashboardHelper
 
   def render_run_distribution data, options = {}
     bar_chart "run_distribution",
-              "Run Distribution in the last #{Setting[:puppet_interval]} minutes",
+              "Run Distribution in the last #{time_ago_in_words((Setting[:puppet_interval]).minutes.ago)}",
               "Number Of Clients",
               data[:labels],
               data[:counter],
