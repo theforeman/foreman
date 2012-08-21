@@ -7,6 +7,7 @@ node do |template|
   unless template.snippet?
     glue :template_kind do
       attributes :name => :kind
+      attributes :id => :kind_id
     end
     child :template_combinations => :template_combinations do
       attributes :id, :environment_id, :hostgroup_id
