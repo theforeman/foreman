@@ -380,7 +380,7 @@ class HostsController < ApplicationController
 
   def out_of_sync
     merge_search_filter("last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true")
-    index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval] + 5} minutes"
+    index "Hosts which didn't run puppet in the last #{time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago)}"
   end
 
   def disabled
