@@ -36,6 +36,8 @@ module HomeHelper
       choices += [ ['Tenants', :tenants] ] if SETTINGS[:tenants_enabled]
       choices += [ ['Locations', :locations] ] if SETTINGS[:locations_enabled]
 
+      choices += [ [:divider ] ] if (SETTINGS[:tenants_enabled] or SETTINGS[:locations_enabled])
+
       choices += [
         ['Architectures',          :architectures],
         ['Domains',                :domains],
