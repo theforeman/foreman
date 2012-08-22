@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class LocationTest < ActiveSupport::TestCase
+class TenantTest < ActiveSupport::TestCase
   test 'it should not save without an empty name' do
     tenant = Tenant.new
     assert !tenant.save

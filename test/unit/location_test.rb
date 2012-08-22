@@ -1,14 +1,6 @@
 require 'test_helper'
 
 class LocationTest < ActiveSupport::TestCase
-  def setup
-    User.current = users(:admin)
-  end
-
-  def setup_user operation
-    super operation, "location"
-  end
-
   test 'it should not save without an empty name' do
     location = Location.new
     assert !location.save
