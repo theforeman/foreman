@@ -23,7 +23,7 @@ class LocationTest < ActiveSupport::TestCase
   test 'it should not save another location with the same name' do
     location = Location.new
     location.name = "location1"
-    assert org.save
+    assert location.save
 
     second_location = Location.new
     second_location.name = "location1"
