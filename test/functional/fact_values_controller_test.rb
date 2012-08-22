@@ -5,6 +5,8 @@ class FactValuesControllerTest < ActionController::TestCase
     Pathname.new("#{Rails.root}/test/fixtures/brslc022.facts.yaml").read
   end
 
+  fixtures
+
   def test_index
     get :index, {}, set_session_user
     assert_response :success
@@ -35,7 +37,7 @@ class FactValuesControllerTest < ActionController::TestCase
     factvalues =  ActiveSupport::JSON.decode(@response.body)
     assert_equal "fact = kernelversion", @request.params[:search]
     assert factvalues.is_a?(Hash)
-    assert ["kernelversion"], factvalues.values.map(&:keys).uniq
+    assert_equal [["kernelversion"]], factvalues.values.map(&:keys).uniq
     assert_response :success
   end
 
