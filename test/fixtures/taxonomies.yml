@@ -1,0 +1,11 @@
+location1:
+  name: "Location 1"
+
+location2:
+  name: "Location 2"
+
+tenant1:
+  name: "Tenant 1"
+
+tenant2:
+  name: "Tenant 2"
