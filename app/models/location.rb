@@ -1,3 +1,2 @@
 class Location < Taxonomy
-
 end
