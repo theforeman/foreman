@@ -1,10 +1,11 @@
 class SmartProxy < ActiveRecord::Base
-  ProxyFeatures = %w[ TFTP DNS DHCP Puppetca Puppet]
+  ProxyFeatures = %w[ TFTP DNS DHCP Puppetca Puppet Squid ]
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
   has_many :subnets,    :foreign_key => "dhcp_id"
+  has_many :subnets,    :foreign_key => "squid_proxy_id"
   has_many :domains,    :foreign_key => "dns_id"
   has_many :hosts,      :foreign_key => "puppet_proxy_id"
   has_many :hostgroups, :foreign_key => "puppet_proxy_id"
@@ -41,11 +42,20 @@ class SmartProxy < ActiveRecord::Base
       "dns"      => Feature.find_by_name("DNS"),
       "dhcp"     => Feature.find_by_name("DHCP"),
       "puppetca" => Feature.find_by_name("Puppet CA"),
-      "puppet"   => Feature.find_by_name("Puppet")
+      "puppet"   => Feature.find_by_name("Puppet"),
+      "squid"    => Feature.find_by_name("Squid")
     }
   end
 
+  def warning
+    @text
+  end
+
   private
+
+  def warning=(t)
+    @text = t
+  end
 
   def sanitize_url
     self.url.chomp!("/") unless url.empty?
@@ -61,6 +71,21 @@ class SmartProxy < ActiveRecord::Base
       reply = ProxyAPI::Features.new(:url => url).features
       if reply.is_a?(Array) and reply.any?
         self.features = reply.map{|f| name_map[f]}
+
+        # If it doesn't do the "Squid" feature, then it is
+        # invalid as a squid_proxy_id. This should maybe be
+        # done with a relationship somehow instead.
+        if self.features.none? {|f| f.name == 'Squid'}
+          subnets = Subnet.find(:all, :conditions => { :squid_proxy_id => self.id })
+          if !subnets.empty?
+            list = subnets.map { |s| s.name }.join(", ")
+            self.warning = "This proxy no longer has the Squid feature, so it was removed from any subnets where it was the Squid proxy: #{list}"
+            subnets.each do |subnet|
+              subnet.squid_proxy_id = nil
+              subnet.save
+            end
+          end
+        end
       else
         errors.add :base, "No features found on this proxy, please make sure you enable at least one feature"
       end

@@ -125,6 +125,19 @@ class UnattendedController < ApplicationController
       head(:conflict) and return
     end
     logger.info "Found #{@host}"
+
+    # Now, get the subnet the host is on.
+    # Then, get the Squid proxy for that subnet, if there is one.
+    # If there is, then we'll use it to set http_proxy et al.
+    if @host.subnet_id
+      subnet      = Subnet.find( @host.subnet_id )
+      # If there is an ID in subnet.squid_proxy_id,
+      # then we know it is a smart-proxy with the Squid feature
+      if subnet.squid_proxy_id
+        smart_proxy = SmartProxy.find( subnet.squid_proxy_id )
+        @squid_url  = smart_proxy.url # for use in the unattended views
+      end
+    end
   end
 
   def allowed_to_install?

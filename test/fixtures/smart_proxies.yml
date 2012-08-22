@@ -10,6 +10,11 @@ three:
   name: DNS Proxy
   url: http://else.where:4567
 
+four:
+  name: Squid Proxy
+  url: http://squid.localdomain
+  features: squid
+
 puppetmaster:
   name: Puppetmaster Proxy
   url: http://else.where:4567

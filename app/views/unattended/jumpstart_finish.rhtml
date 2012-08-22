@@ -47,5 +47,5 @@ then
 fi
 /usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server puppet --no-daemonize
 echo "Informing Foreman that we are built"
-/opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url %>
+<%= @squid_url ? "http_proxy=#{ @squid_url } " : "" %>/opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url %>
 exit 0

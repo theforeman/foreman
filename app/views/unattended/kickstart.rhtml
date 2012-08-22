@@ -67,5 +67,5 @@ sync
 
 # Inform the build system that we are done.
 echo "Informing Foreman that we are built"
-wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+<%= @squid_url ? "http_proxy=#{ @squid_url } " : "" %>wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 exit 0
