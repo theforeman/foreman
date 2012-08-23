@@ -1,7 +1,7 @@
 class CreateTaxonomyEnvironments < ActiveRecord::Migration
   def self.up
-    create_table :organization_environments do |t|
-      t.integer :organization_id
+    create_table :taxonomy_environments do |t|
+      t.integer :taxonomy_id
       t.integer :environment_id
 
       t.timestamps
@@ -9,6 +9,6 @@ class CreateTaxonomyEnvironments < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :organization_environments
+    drop_table :taxonomy_environments
   end
 end
