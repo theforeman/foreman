@@ -126,6 +126,6 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_equal template.audits.count, 1
     get :edit, {:id => template.to_param}, set_session_user
 
-    assert @response.body.grep('audit-content')
+    assert @response.body.match('audit-content')
   end
 end
