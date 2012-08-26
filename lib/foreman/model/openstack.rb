@@ -22,6 +22,10 @@ module Foreman::Model
       [:image]
     end
 
+    def supports_update?
+      false
+    end
+    
     def test_connection
       super
       errors[:user].empty? and errors[:password] and tenants

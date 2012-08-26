@@ -22,6 +22,10 @@ module Foreman::Model
       [:image]
     end
 
+    def supports_update?
+      false
+    end
+
     def find_vm_by_uuid uuid
       client.servers.get(uuid)
     rescue Fog::Compute::AWS::Error

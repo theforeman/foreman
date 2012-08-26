@@ -121,7 +121,11 @@ module Orchestration::Compute
 
     def setComputeUpdate
       logger.info "Update Compute instance for #{name}"
-      compute_resource.save_vm uuid, compute_attributes
+      if compute_resource.supports_update?
+        compute_resource.save_vm uuid, compute_attributes
+      else
+        true
+      end
     rescue => e
       failure "Failed to update a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
     end
