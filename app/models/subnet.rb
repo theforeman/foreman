@@ -7,6 +7,7 @@ class Subnet < ActiveRecord::Base
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"
+  belongs_to :squid_proxy, :class_name => "SmartProxy"
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
   validates_presence_of   :network, :mask, :name

@@ -292,4 +292,28 @@ module ProxyAPI
     end
 
   end
+
+  class Squid < Resource
+    def initialize args
+      @url = args[:url] + "/squid"
+      super args
+    end
+
+    # Adds an IP to the Squid configuration, permitting proxied access to Foreman
+    # [+args+] : Hash containing
+    #    :host => String containing the hostname
+    # Returns  : Boolean status
+    def add host
+      parse( post({:host => host}, 'add') )
+    end
+
+    # Deletes a Squid configuration entry
+    # [+args+] : Hash contining
+    #    :host => String containing the hostname
+    # Returns : Boolean status
+    def delete host
+      parse( post({:host => host}, 'rm') )
+    end
+  end
+
 end

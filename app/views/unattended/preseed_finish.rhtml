@@ -4,4 +4,4 @@ EOF
 /bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
 /bin/touch /etc/puppet/namespaceauth.conf 
 /usr/sbin/puppetd --config /etc/puppet/puppet.conf --onetime --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
-/usr/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
+<%= @squid_url ? "http_proxy=#{ @squid_url } " : "" %>/usr/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>

@@ -25,7 +25,9 @@ class SmartProxiesController < ApplicationController
 
   def update
     @proxy = SmartProxy.find(params[:id])
+
     if @proxy.update_attributes(params[:smart_proxy])
+      flash[:warning] = @proxy.warning if @proxy.warning
       process_success :object => @proxy
     else
       process_error :object => @proxy

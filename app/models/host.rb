@@ -201,6 +201,38 @@ class Host < Puppet::Rails::Host
     FactValue.delete_all("host_id = #{id}")
   end
 
+  def addToSquidACL
+    if self.subnet_id
+      subnet = Subnet.find( self.subnet_id )
+      if subnet.squid_proxy_id
+        smart_proxy = SmartProxy.find( subnet.squid_proxy_id )
+        begin
+          ProxyAPI::Squid.new(:url => smart_proxy.url).add( self.ip )
+        rescue => e
+          error = "Failed to add #{self.ip} to the Squid ACL at #{smart_proxy.url}: #{e}"
+          logger.warn error
+          errors.add :base, error
+        end
+      end
+    end
+  end
+
+  def removeFromSquidACL
+    if self.subnet_id
+      subnet = Subnet.find( self.subnet_id )
+      if subnet.squid_proxy_id
+        smart_proxy = SmartProxy.find( subnet.squid_proxy_id )
+        begin
+          ProxyAPI::Squid.new(:url => smart_proxy.url).delete( self.ip )
+        rescue => e
+          error = "Failed to remove #{self.ip} from the Squid ACL at #{smart_proxy.url}: #{e}"
+          logger.warn error
+          errors.add :base, error
+        end
+      end
+    end
+  end
+
   # Called from the host build post install process to indicate that the base build has completed
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
@@ -208,6 +240,7 @@ class Host < Puppet::Rails::Host
     self.build        = false
     self.installed_at = Time.now.utc if installed
     self.save
+    removeFromSquidACL
   rescue => e
     logger.warn "Failed to set Build on #{self}: #{e}"
     false
@@ -407,9 +440,11 @@ class Host < Puppet::Rails::Host
   # The boot link and autosign entry are created
   # Any existing puppet certificates are deleted
   # Any facts are discarded
+  # If the host's subnet has a squid proxy, the host is added to the ACL
   def setBuild
     clearFacts
     clearReports
+    addToSquidACL
     self.build = true
     self.save
     errors.empty?
