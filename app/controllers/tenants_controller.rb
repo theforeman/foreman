@@ -33,10 +33,12 @@ class TenantsController < ApplicationController
   end
 
   def edit
-    @tenant = Tenant.find(params[:tenant])
+    @tenant = Tenant.find(params[:id])
   end
 
   def update
+    @tenant = Tenant.find(params[:id])
+
     if @tenant.update_attributes(params[:tenant])
       process_success
     else

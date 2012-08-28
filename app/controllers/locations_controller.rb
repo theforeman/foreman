@@ -38,9 +38,22 @@ class LocationsController < ApplicationController
   end
 
   def edit
+    @location = Location.find(params[:id])
+  end
+
+  def update
+    @location = Location.find(params[:id])
+
+    if @location.update_attributes(params[:location])
+      process_success
+    else
+      process_error
+    end
   end
 
   def destroy
+    @location = Location.find(params[:id])
+
     if @location.destroy
       process_success
     else
