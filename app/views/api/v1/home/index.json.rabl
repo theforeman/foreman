@@ -19,6 +19,6 @@ child(:links => "links") do
   # render links
   index_method_description_apis.each do |api|
     url, description = api.api_url, api.short_description
-    node(description) { url }
+    node(description.chomp(".")) { url }
   end
 end

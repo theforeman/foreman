@@ -155,6 +155,11 @@ class ComputeResource < ActiveRecord::Base
     raise "#{provider} console is not supported at this time"
   end
 
+  # by default, our compute providers do not support updating an existing instance
+  def supports_update?
+    false
+  end
+
   protected
 
   def client
@@ -197,7 +202,7 @@ class ComputeResource < ActiveRecord::Base
       return true if operation == "create"
       # edit or delete
       if current.allowed_to?("#{operation}_compute_resources".to_sym)
-        return true if ComputeResource.my_compute_resources(current).include? self
+        return true if ComputeResource.my_compute_resources.include? self
       end
     end
     errors.add :base, "You do not have permission to #{operation} this compute resource"

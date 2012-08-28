@@ -28,15 +28,18 @@ class FactValuesController < ApplicationController
   end
 
   def create
+    imported = Host.importHostAndFacts params.delete("facts")
     respond_to do |format|
       format.yml {
-        if Host.importHostAndFacts params.delete("facts")
+        if imported
           render :text => "Imported facts", :status => 200 and return
         else
           render :text => "Failed to import facts", :status => 400
         end
       }
     end
+  rescue Psych::SyntaxError
+    render :text => "Failed to import facts", :status => 400
   end
 
 end

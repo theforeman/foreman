@@ -3,6 +3,11 @@
 productname:
   name: productname
   id: 1
+
+kernelversion:
+  name: kernelversion
+  id:   2
+
 #
 # two:
 #   column: value

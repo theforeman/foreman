@@ -8,6 +8,7 @@ Foreman::Application.routes.draw do
       resources :users, :except => [:new, :edit]
       resources :dashboard, :only => [:index]
       resources :media, :except => [:new, :edit]
+      resources :environments, :except => [:new, :edit]
       resources :operatingsystems, :except => [:new, :edit] do
         member do
           get 'bootfiles'
@@ -19,12 +20,15 @@ Foreman::Application.routes.draw do
           get 'revision'
         end
       end
+      constraints(:id => /[^\/]+/) do
+        resources :domains, :except => [:new, :edit]
+      end
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
       match '*other', :to => 'home#route_error'
     end
-#
+
   end
 
 end
