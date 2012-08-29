@@ -1,6 +1,6 @@
 <%= form_for @environment do |f| %>
   <%= base_errors_for @environment %>
-  <% if show_location_tab? or show_tenant_tab? %>
+  <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
       <% if show_location_tab? %>

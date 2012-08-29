@@ -2,7 +2,7 @@
 <%= form_for @compute_resource do |f| %>
   <%= base_errors_for @compute_resource %>
 
-  <% if show_location_tab? or show_tenant_tab? %>
+  <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Compute Resource</a></li>
       <% if show_location_tab? %>
@@ -23,7 +23,7 @@
         <div id='compute_connection'>
           <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
         </div>
-    <% if show_location_tab? or show_tenant_tab? %>
+    <% if show_taxonomy_tabs? %>
       </div>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">

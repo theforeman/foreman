@@ -2,7 +2,7 @@
 <%= form_for @medium do |f| %>
   <%= base_errors_for @medium %>
 
-  <% if show_location_tab? or show_tenant_tab? %>
+  <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab">Medium</a></li>
       <% if show_location_tab? %>
@@ -28,7 +28,7 @@
       </div>
 
 
-    <% if show_location_tab? or show_tenant_tab? %>
+    <% if show_taxonomy_tabs? %>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
           <%= multiple_checkboxes f, :locations, @medium, Location %>
