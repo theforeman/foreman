@@ -23,6 +23,9 @@ Foreman::Application.routes.draw do
       constraints(:id => /[^\/]+/) do
         resources :domains, :except => [:new, :edit]
       end
+      resources :subnets, :except => [:new, :edit] do
+        post 'freeip', :on => :collection
+      end
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
