@@ -9,8 +9,11 @@
   </tr>
   <% @tenants.each do |tenant| %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to_if_authorized tenant.name, hash_for_edit_tenant_path(:id => tenant.id)%></td>
-      <td class="buttons"><%= display_delete_if_authorized hash_for_tenant_path(:id => tenant.id), :confirm => "Delete #{tenant.name}?" %></td>
+      <td><%= link_to tenant.to_label, edit_tenant_path(tenant) %></td>
+      <td>
+        <%= action_buttons(link_to('Edit', edit_tenant_path(tenant), :class => "btn btn-small"),
+                                           link_to('Delete', :method => :destroy, :class => "btn btn-danger")) %>
+      </td>
     </tr>
   <% end %>
 </table>

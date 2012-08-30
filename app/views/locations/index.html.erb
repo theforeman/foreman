@@ -7,10 +7,14 @@
     <th><%= sort :name %></th>
     <th></th>
   </tr>
+
   <% @locations.each do |location| %>
     <tr class="<%= cycle("even", "odd") -%>">
-      <td><%= link_to_if_authorized location.name, hash_for_edit_location_path(:id => location.id)%></td>
-      <td class="buttons"><%= display_delete_if_authorized hash_for_location_path(:id => location.id), :confirm => "Delete #{location.name}?" %></td>
+      <td><%= link_to location.to_label, edit_location_path(location) %></td>
+      <td>
+        <%= action_buttons(link_to('Edit', edit_location_path(location), :class => "btn btn-small"),
+                                           link_to('Delete', :method => :destroy, :class => "btn btn-danger")) %>
+      </td>
     </tr>
   <% end %>
 </table>
