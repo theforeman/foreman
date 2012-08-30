@@ -282,8 +282,8 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
-  resources :locations, :controller => "taxonomies" if SETTINGS[:locations_enabled]
-  resources :tenants, :controller => "taxonomies" if SETTINGS[:tenants_enabled]
+  resources :locations if SETTINGS[:locations_enabled]
+  resources :tenants if SETTINGS[:tenants_enabled]
 
   #Keep this line the last route
   match '*a', :to => 'errors#routing'
