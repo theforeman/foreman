@@ -31,6 +31,13 @@ class Taxonomy < ActiveRecord::Base
     name
   end
 
+  # There is an issue in _edit_habtm.erb where the taxonomies method gets
+  # called on each subclass of taxonomies in order to map associations. This
+  # little definition fixes that problem by returning the current class.
+  def taxonomies
+    self.class.name
+  end
+
 
   def self.with_taxonomy_scope
     if SETTINGS[:orgs_enabled]
