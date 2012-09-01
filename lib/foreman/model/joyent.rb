@@ -64,7 +64,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       {
-        :flavor_id => "m1.small",
+        :memory => "512",
         :name      => "foreman-#{Foreman.uuid}",
         :datacenter => "us-east-1"
       }
