@@ -1,17 +1,10 @@
 module Foreman::Model
   class Joyent < ComputeResource
-    has_one :key_pair, :foreign_key => :compute_resource_id
 
     validates_presence_of :user, :password
-    after_create :setup_key_pair
-    after_destroy :destroy_key_pair
 
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"
-    end
-
-    def provided_attributes
-      super.merge({ :ip => :public_ip_address })
     end
 
     def self.model_name
