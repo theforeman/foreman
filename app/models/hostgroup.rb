@@ -69,7 +69,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :id, :ancestry], :methods => [:label, :classes, :parameters].concat(Vm::PROPERTIES), :include => [:environment]})
+    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :environment_id, :id, :ancestry], :methods => [:label, :parameters, :puppetclass_ids].concat(Vm::PROPERTIES)})
   end
 
   def hostgroup
@@ -81,13 +81,11 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def classes
-    klasses = []
-    ids = ancestor_ids
-    ids << id unless new_record? or self.frozen?
-    Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :puppetclasses)).each do |hg|
-      klasses << hg.puppetclasses
-    end
-    klasses.flatten.sort.uniq
+    Puppetclass.joins(:hostgroups).where(:hostgroups => {:id => path_ids})
+  end
+
+  def puppetclass_ids
+    classes.reorder('').pluck(:id)
   end
 
   # returns self and parent parameters as a hash
@@ -95,7 +93,10 @@ class Hostgroup < ActiveRecord::Base
     hash = {}
     ids = ancestor_ids
     ids << id unless new_record? or self.frozen?
-    Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :group_parameters)).each do |hg|
+    # need to pull out the hostgroups to ensure they are sorted first,
+    # otherwise we might be overwriting the hash in the wrong order.
+    groups = ids.size == 1 ? [self] : Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :group_parameters))
+    groups.each do |hg|
       hg.group_parameters.each {|p| hash[p.name] = p.value }
     end
     hash
@@ -134,7 +135,7 @@ class Hostgroup < ActiveRecord::Base
   def nested_root_pw
     Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
       return a.root_pass unless a.root_pass.blank?
-    end
+    end if ancestry.present?
     nil
   end
 
