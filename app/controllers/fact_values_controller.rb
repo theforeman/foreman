@@ -38,8 +38,9 @@ class FactValuesController < ApplicationController
         end
       }
     end
-  rescue Psych::SyntaxError
-    render :text => "Failed to import facts", :status => 400
+  rescue => e
+    logger.warn "Failed to import facts: #{e}"
+    render :text => "Failed to import facts: #{e}", :status => 400
   end
 
 end

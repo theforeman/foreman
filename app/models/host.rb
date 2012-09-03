@@ -346,35 +346,50 @@ class Host < Puppet::Rails::Host
 
   def self.importHostAndFacts yaml
     facts = YAML::load yaml
-    return false unless facts.is_a?(Puppet::Node::Facts)
+    case facts
+      when Puppet::Node::Facts
+        certname = facts.values["certname"]
+        name     = facts.values["fqdn"]
+        values   = facts.values
+      when Hash
+        certname = facts["certname"]
+        name     = facts["fqdn"]
+        values   = facts
+        return raise("invalid facts hash") unless name and values
+      else
+        return raise("Invalid Facts, much be a Puppet::Node::Facts or a Hash")
+    end
 
-    h = Host.find_by_certname facts.name
-    h ||= Host.find_by_name facts.name
-    h ||= Host.new :name => facts.name
+    if name == certname
+      h = Host.find_by_name name
+    else
+      h = Host.find_by_certname certname
+    end
+    h ||= Host.new :name => name
 
     h.save(:validate => false) if h.new_record?
-    h.importFacts(facts)
+    h.importFacts(name, values)
   end
 
   # import host facts, required when running without storeconfigs.
   # expect a Puppet::Node::Facts
-  def importFacts facts
-    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+  def importFacts name, facts
 
     # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
     raise "Host is pending for Build" if build
-    time = facts.values[:_timestamp]
+    time = facts[:_timestamp]
     time = time.to_time if time.is_a?(String)
 
     # we are not doing anything we already processed this fact (or a newer one)
-    return true unless last_compile.nil? or (last_compile + 1.minute < time)
-
-    self.last_compile = time
+    if time
+      return true unless last_compile.nil? or (last_compile + 1.minute < time)
+      self.last_compile = time
+    end
     # save all other facts - pre 0.25 it was called setfacts
-    respond_to?("merge_facts") ? self.merge_facts(facts.values) : self.setfacts(facts.values)
+    respond_to?("merge_facts") ? self.merge_facts(facts) : self.setfacts(facts)
     save(:validate => false)
 
-    populateFieldsFromFacts(facts.values)
+    populateFieldsFromFacts(facts)
 
     # we are saving here with no validations, as we want this process to be as fast
     # as possible, assuming we already have all the right settings in Foreman.
@@ -384,7 +399,7 @@ class Host < Puppet::Rails::Host
     return self.save(:validate => false)
 
   rescue Exception => e
-    logger.warn "Failed to save #{facts.name}: #{e}"
+    logger.warn "Failed to save #{name}: #{e}"
   end
 
   def populateFieldsFromFacts facts = self.facts_hash
