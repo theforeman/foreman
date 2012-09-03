@@ -9,9 +9,9 @@
 <%= text_f f, :vlanid, :help_inline => "Optional: VLAN ID for this subnet", :label => "VLAN" %>
 <%= multiple_checkboxes f, :domain, f.object, Domain, :help_inline => "Domains in which this subnet is part", :prefix=>f.object_name %>
 
-<%= select_f f, :dhcp_id, Feature.find_by_name("DHCP").smart_proxies, :id, :name, :include_blank => "None", 
+<%= select_f f, :dhcp_id, SmartProxy.dhcp_proxies, :id, :name, :include_blank => "None",
   :help_inline => "DHCP Proxy to use within this subnet", :label => "DHCP Proxy" %>
-<%= select_f f, :tftp_id, Feature.find_by_name("TFTP").smart_proxies, :id, :name, :include_blank => "None",
+<%= select_f f, :tftp_id, SmartProxy.tftp_proxies, :id, :name, :include_blank => "None",
   :help_inline => "TFTP Proxy to use within this subnet", :label => "TFTP Proxy" %>
-<%= select_f f, :dns_id, Feature.find_by_name("DNS").smart_proxies, :id, :name, :include_blank => "None",
+<%= select_f f, :dns_id, SmartProxy.dns_proxies, :id, :name, :include_blank => "None",
              :help_inline => "DNS Proxy to use within this subnet", :label => "DNS Proxy" %>

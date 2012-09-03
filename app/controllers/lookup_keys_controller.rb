@@ -13,7 +13,7 @@ class LookupKeysController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @lookup_keys = values.paginate(:page => params[:page], :include => [:lookup_values, :puppetclass])
+        @lookup_keys = values.paginate(:page => params[:page], :include => [:puppetclass])
       end
       format.json { render :json => values}
     end

@@ -4,7 +4,7 @@ class SubnetsController < ApplicationController
   def index
     values = Subnet.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @subnets = values.paginate :page => params[:page] }
+      format.html { @subnets = values.includes(:domains, :dhcp).paginate :page => params[:page] }
       format.json { render :json => values }
     end
   end
