@@ -364,6 +364,7 @@ class Host < Puppet::Rails::Host
       h = Host.find_by_name name
     else
       h = Host.find_by_certname certname
+      h ||= Host.find_by_name name
     end
     h ||= Host.new :name => name
 
