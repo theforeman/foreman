@@ -28,7 +28,9 @@ class FactValuesControllerTest < ActionController::TestCase
 
   def test_create_valid_facter_yaml_output
     User.current = nil
-    post :create, {:facts => Facter.to_hash.to_yaml, :format => "yml"}
+    facts = Facter.to_hash
+    assert_instance_of Hash, facts
+    post :create, {:facts => facts.to_yaml, :format => "yml"}
     assert_response :success
   end
 
