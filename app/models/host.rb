@@ -360,7 +360,7 @@ class Host < Puppet::Rails::Host
         return raise("Invalid Facts, much be a Puppet::Node::Facts or a Hash")
     end
 
-    if name == certname
+    if name == certname or certname.nil?
       h = Host.find_by_name name
     else
       h = Host.find_by_certname certname
