@@ -163,7 +163,7 @@ class Host < Puppet::Rails::Host
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
-  after_validation :ensure_assoications
+  after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
 
   def to_param
@@ -720,7 +720,7 @@ class Host < Puppet::Rails::Host
   end
 
   # checks if the host association is a valid association for this host
-  def ensure_assoications
+  def ensure_associations
     status = true
     %w{ ptable medium architecture}.each do |e|
       value = self.send(e.to_sym)
