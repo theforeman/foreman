@@ -122,11 +122,13 @@ Foreman::AccessControl.map do |map|
     map.permission :power_hypervisors_guests,   {:hypervisors_guests => [:power]}
   end
 
-  map.security_block :locations do |map|
-    map.permission :view_locations, {:locations =>  [:index, :show]}
-    map.permission :create_locations, {:locations => [:new, :create]}
-    map.permission :edit_locations, {:locations => [:edit, :update]}
-    map.permission :destroy_locations, {:locations => [:destroy]}
+  if SETTINGS[:locations_enabled]
+    map.security_block :locations do |map|
+      map.permission :view_locations, {:locations =>  [:index, :show]}
+      map.permission :create_locations, {:locations => [:new, :create]}
+      map.permission :edit_locations, {:locations => [:edit, :update]}
+      map.permission :destroy_locations, {:locations => [:destroy]}
+    end
   end
 
   map.security_block :media do |map|
@@ -195,11 +197,13 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_subnets, {:subnets => [:destroy]}
   end
 
-  map.security_block :tenants do |map|
-    map.permission :view_tenants, {:tenants => [:index, :show]}
-    map.permission :create_tenants, {:tenants => [:new, :create]}
-    map.permission :edit_tenants, {:tenants => [:edit, :update]}
-    map.permission :destroy_tenants, {:tenant => [:destroy]}
+  if SETTINGS[:tenants_enabled]
+    map.security_block :tenants do |map|
+      map.permission :view_tenants, {:tenants => [:index, :show]}
+      map.permission :create_tenants, {:tenants => [:new, :create]}
+      map.permission :edit_tenants, {:tenants => [:edit, :update]}
+      map.permission :destroy_tenants, {:tenant => [:destroy]}
+    end
   end
 
   map.security_block :usergroups do |map|

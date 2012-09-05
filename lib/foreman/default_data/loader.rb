@@ -63,6 +63,7 @@ module Foreman
                 :view_hypervisors,
                 :view_domains,
                 :view_operatingsystems,
+                :view_locations,
                 :view_media,
                 :view_models,
                 :view_environments,
@@ -78,10 +79,10 @@ module Foreman
                 :view_smart_proxies,
                 :view_subnets,
                 :view_statistics,
+                :view_tenants,
                 :view_usergroups,
                 :view_users,
-                :view_audit_logs,
-                :select_organizations]
+                :view_audit_logs]
             end
 
             siteman = Role.where(:name => "Site manager").empty? ? Role.create(:name => "Site manager") : Role.where(:name => "Site manager")[0]
@@ -152,6 +153,8 @@ module Foreman
                 :view_reports,
                 :view_subnets,
                 :view_facts,
+                :view_locations,
+                :view_tenants,
                 :view_statistics]
             end
             if reset or Role.anonymous.permissions.empty?
