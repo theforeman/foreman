@@ -26,6 +26,14 @@
       <%= multiple_checkboxes f, :smart_proxies, @location, SmartProxy %>
     </div>
 
+    <div class="tab-pane" id="compute_resources">
+      <%= multiple_checkboxes f, :compute_resources, @location, ComputeResource %>
+    </div>
+
+    <div class="tab-pane" id="media">
+      <%= multiple_checkboxes f, :media, @location, Medium %>
+    </div>
+
     <div class="tab-pane" id="domains">
       <%= multiple_checkboxes f, :domains, @location, Domain %>
     </div>

@@ -2,19 +2,14 @@
   <%= base_errors_for @tenant %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab">Tenant</a></li>
-
-    <% if SETTINGS[:unattended] %>
-      <li><a href="#network" data-toggle="tab">Network</a></li>
-      <li><a href="#os" data-toggle="tab">Operating System</a></li>
-      <% if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
-        <li><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
-      <% end %>
-    <% end %>
-    <li><a href="#params" data-toggle="tab">Parameters</a></li>
-    <% if show_location_tab? %>
-      <li><a href="#locations" data-toggle="tab">Locations</a></li>
-    <% end %>
-
+    <li><a href="#users" data-toggle="tab">Users</a></li>
+    <li><a href="#smart_proxies" data-toggle="tab">Smart Proxies</a></li>
+    <li><a href="#compute_resources" data-toggle="tab">Compute Resources</a></li>
+    <li><a href="#media" data-toggle="tab">Media</a></li>
+    <li><a href="#domains" data-toggle="tab">Domains</a></li>
+    <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
+    <li><a href="#puppetclasses" data-toggle="tab">Puppet Classes</a></li>
+    <li><a href="#locations" data-toggle="tab">Locations</a></li>
   </ul>
 
   <div class="tab-content">
@@ -22,17 +17,36 @@
       <%= text_f f, :name, :class => "input-xlarge" %>
    </div>
 
-  <div class="tab-pane" id="network">
+  <div class="tab-pane" id="users">
+    <%= multiple_checkboxes f, :users, @tenant, User.where("admin = 'f'") %>
   </div>
 
-   <div class="tab-pane" id="params">
-     <%= render "common_parameters/parameters", { :f => f, :type => :taxonomy_parameters } %>
-   </div>
+  <div class="tab-pane" id="smart_proxies">
+    <%= multiple_checkboxes f, :smart_proxies, @tenant, SmartProxy %>
+  </div>
 
-   <div class="tab-pane" id="locations">
-     <%= multiple_checkboxes f, :locations, @tenant, Location %>
-   </div>
+  <div class="tab-pane" id="compute_resources">
+    <%= multiple_checkboxes f, :compute_resources, @tenant, ComputeResource %>
+  </div>
 
+  <div class="tab-pane" id="media">
+    <%= multiple_checkboxes f, :media, @tenant, Medium %>
+  </div>
+
+  <div class="tab-pane" id="domains">
+    <%= multiple_checkboxes f, :domains, @tenant, Domain %>
+  </div>
+
+  <div class="tab-pane" id="hostgroups">
+    <%= multiple_checkboxes f, :hostgroups, @tenant, Hostgroup %>
+  </div>
+
+  <div class="tab-pane" id="puppetclasses">
+    <%= multiple_checkboxes f, :puppetclasses, @tenant, Puppetclass %>
+  </div>
+
+  <div class="tab-pane" id="locations">
+    <%= multiple_checkboxes f, :locations, @tenant, Location %>
   </div>
 
   <%= submit_or_cancel f %>
