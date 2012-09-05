@@ -1,5 +1,5 @@
 <%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => 'Flavor' %>
-<div id='image_selection'><%= select_f f, :image_ref, compute_resource.images, :id, :name, {:include_blank =>'Please Select an Image'}, :label => "Image" %></div>
+<div id='image_selection'><%= select_f f, :image_ref, compute_resource.images, :uuid, :name, {:include_blank =>'Please Select an Image'}, :label => "Image" %></div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name %>
 
 <%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => "Security Group"  %>
