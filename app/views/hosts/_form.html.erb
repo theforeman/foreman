@@ -87,13 +87,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @host, Location %>
+        <%= select_f f, :location_ids, Location.all, :id, :to_label, { :include_blank => true }, { :label => "Location" } %>
       </div>
     <% end %>
 
     <% if show_tenant_tab? %>
       <div class="tab-pane" id="tenants">
-        <%= multiple_checkboxes f, :tenants, @host, Tenant %>
+        <%= select_f f, :tenant_ids, Tenant.all, :id, :to_label, { :include_blank => true }, { :label => "Tenants" } %>
       </div>
     <% end %>
 

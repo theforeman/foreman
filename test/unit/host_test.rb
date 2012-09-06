@@ -476,4 +476,30 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost1.mydomain.net", host.name
   end
 
+  test "assign a host to a location" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "New York"
+
+    host.location_ids = location.id
+    assert host.save!
+  end
+
+  test "assign a host to a tenant" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    tenant = Tenant.create :name => "Hosting client 1"
+
+    host.tenant_ids = tenant.id
+    assert host.save!
+  end
+
+  test "assign a host to both a location and a tenant" do
+    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "Tel Aviv"
+    tenant = Tenant.create :name => "Hosting client 1"
+
+    host.location_ids = location.id
+    host.tenant_ids = tenant.id
+
+    assert host.save!
+  end
 end
