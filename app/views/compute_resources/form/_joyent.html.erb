@@ -1,8 +1,8 @@
 <%= text_f f, :user, :label => "Username" %>
 <%= password_f f, :password, :label => "Password" %>
 
-<% regions = f.object.regions rescue [] %>
-<%= selectable_f(f, :region, regions, {}, {:label => 'Datacenter', :disabled => regions.empty?,
-                 :help_inline => link_to_function(regions.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",
-                 :class => "btn + #{regions.empty? ? "" : "btn-success"}",
+<% regions = f.object.datacenters rescue [] %>
+<%= selectable_f(f, :region, regions, {}, {:label => 'Datacenter', :disabled => datacenters.empty?,
+                 :help_inline => link_to_function(datacenters.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",
+                 :class => "btn + #{datacenters.empty? ? "" : "btn-success"}",
                  :'data-url' => test_connection_compute_resources_path) + image_tag('spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe }) %>

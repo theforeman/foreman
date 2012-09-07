@@ -29,14 +29,14 @@ module Foreman::Model
       super(args)
     end
 
-    def datacenter
+    def datacenters
       return [] if user.blank? or password.blank?
-      @regions ||= client.receive_datacenters.body["datacenters"].map { |r| r["datacenter"] }
+      @datacenters ||= client.list_datacenters.body.keys.map { |r| r["datacenter"].to_s}
     end
 
     def test_connection
       super
-      errors[:user].empty? and errors[:password] and regions
+      errors[:user].empty? and errors[:password] and datacenters
     rescue Fog::Compute::Joyent::Error => e
       errors[:base] << e.message
     end
