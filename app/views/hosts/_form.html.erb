@@ -19,12 +19,6 @@
     <% end -%>
     <li><a href="#params" id='params-tab' <%= "data-url='#{current_parameters_hosts_path}'" %> data-toggle="tab">Parameters</a></li>
     <li><a href="#info" data-toggle="tab">Additional Information</a></li>
-    <% if show_location_tab? %>
-      <li><a href="#locations" data-toggle="tab">Locations</a></li>
-    <% end %>
-    <% if show_tenant_tab? %>
-      <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
-    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -45,6 +39,8 @@
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
           {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path } %>
       <%= puppet_master_fields f %>
+    <% if show_location_tab? %><%= select_f f, :location_ids, Location.all, :id, :to_label, { :include_blank => true }, { :label => "Location" } %><% end %>
+    <% if show_tenant_tab?  %><%= select_f f, :tenant_ids, Tenant.all, :id, :to_label, { :include_blank => true }, { :label => "Tenant" } %><% end %>
     </div>
 
     <div class="tab-pane" id="puppet_klasses">
@@ -84,18 +80,6 @@
       </div>
       <%= textarea_f f, :comment, :help_block => "Additional information about this host", :class => "input-xxlarge", :rows => "3" %>
     </div>
-
-    <% if show_location_tab? %>
-      <div class="tab-pane" id="locations">
-        <%= select_f f, :location_ids, Location.all, :id, :to_label, { :include_blank => true }, { :label => "Location" } %>
-      </div>
-    <% end %>
-
-    <% if show_tenant_tab? %>
-      <div class="tab-pane" id="tenants">
-        <%= select_f f, :tenant_ids, Tenant.all, :id, :to_label, { :include_blank => true }, { :label => "Tenants" } %>
-      </div>
-    <% end %>
 
   </div>
 
