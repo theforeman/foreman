@@ -18,6 +18,13 @@ gem 'rabl'
 gem "ruby_parser", ">= 2.3.1"
 gem 'oauth'
 
+group :test, :development do
+  #needed by hudson
+  gem 'ci_reporter', '>= 1.6.3'
+  gem 'gettext', '>= 1.9.3', :require => false
+end
+
+
 Dir["#{File.dirname(__FILE__)}/bundler.d/*.rb"].each do |bundle|
  # puts "adding custom gem file #{bundle}"
   self.instance_eval(Bundler.read_file(bundle))
