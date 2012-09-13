@@ -4,10 +4,10 @@
     <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
     <li><a href="#params" data-toggle="tab">Parameters</a></li>
     <% if show_location_tab? %>
-      <li><a href="#locations">Locations</a></li>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
     <% end %>
     <% if show_tenant_tab? %>
-      <li><a href="#tenants">Tenants</a></li>
+      <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
     <% end %>
   </ul>
 
@@ -26,11 +26,13 @@
     </div>
 
     <% if show_location_tab? %>
-      <%= multiple_checkboxes f, :locations, @domain, Location %>
+      <div class="tab-pane" id="locations">
+        <%= multiple_checkboxes f, :locations, @domain, Location %>
+      </div>
     <% end %>
 
     <% if show_tenant_tab? %>
-      <div class="tab-pane" id="locations">
+      <div class="tab-pane" id="tenants">
         <%= multiple_checkboxes f, :tenants, @domain, Tenant %>
       </div>
     <% end %>
