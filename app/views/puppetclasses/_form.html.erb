@@ -27,7 +27,6 @@
         <ul class="nav nav-tabs smart-var-tabs span2" data-tabs="pills">
           <% @puppetclass.lookup_keys.each do |key| -%>
               <li><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="label label-important fr">&times;</span></a></li>
-            <li><a data-toggle="tab" id="pill">Test</a></li>
           <% end -%>
           <li><%= link_to_function "+ Add Variable", "add_child_node(this);" ,:class=>"btn btn-success",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
         </ul>
