@@ -8,7 +8,7 @@ cp $APP_ROOT/config/database.yml.example $APP_ROOT/config/database.yml
 
 # install runtime C libs that are required:
 if [ -e /etc/redhat-release ]; then
-  sudo yum install libvirt-devel
+  sudo yum install -y libvirt-devel
 else
   sudo apt-get update
   sudo apt-get install -y libvirt-dev
