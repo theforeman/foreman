@@ -19,8 +19,6 @@ gem "ruby_parser", ">= 2.3.1"
 gem 'oauth'
 
 group :test, :development do
-  #needed by hudson
-  gem 'ci_reporter', '>= 1.6.3'
   gem 'gettext', '>= 1.9.3', :require => false
 end
 
