@@ -5,4 +5,5 @@ group :test do
   gem 'rake'
   gem 'redcarpet'
   gem 'single_test'
+  gem 'ci_reporter', '>= 1.6.3'
 end
