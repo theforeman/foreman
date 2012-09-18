@@ -1,4 +1,4 @@
-class Tenant < Taxonomy
+class Organization < Taxonomy
   def to_param
     "#{id.to_s.parameterize}"
   end

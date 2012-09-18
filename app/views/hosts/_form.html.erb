@@ -30,7 +30,7 @@
         { :include_blank => 'Bare Metal' },
         {:label => "Deploy on", :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path ,
          :onchange => 'computeResourceSelected(this);'} if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
-      <% if show_tenant_tab?  %><%= select_f f, :tenant_ids, Tenant.all, :id, :to_label, { :include_blank => true }, { :label => "Tenant" } %><% end %>
+      <% if show_organization_tab?  %><%= select_f f, :organization_ids, Organization.all, :id, :to_label, { :include_blank => true }, { :label => "Organization" } %><% end %>
       <% if show_location_tab? %><%= select_f f, :location_ids, Location.all, :id, :to_label, { :include_blank => true }, { :label => "Location" } %><% end %>
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
         { :include_blank => true},

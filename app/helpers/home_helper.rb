@@ -4,10 +4,6 @@ module HomeHelper
     controller_name.gsub(/_.*/,"s") == tab ? "active" : ""
   end
 
-  def show_organization_tab?
-    SETTINGS[:multi_org] or (SETTINGS[:orgs_enabled] && (User.current.admin? || authorized_for(:organizations, :index)))
-  end
-
   def class_for_setting_page
    if setting_options.map{|o| o[1]}.include? controller_name.to_sym
      "active"
@@ -33,10 +29,10 @@ module HomeHelper
       choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
 
       choices += [ [:divider] ]
-      choices += [ ['Tenants', :tenants] ] if SETTINGS[:tenants_enabled]
+      choices += [ ['Tenants', :tenants] ] if SETTINGS[:organizations_enabled]
       choices += [ ['Locations', :locations] ] if SETTINGS[:locations_enabled]
 
-      choices += [ [:divider ] ] if (SETTINGS[:tenants_enabled] or SETTINGS[:locations_enabled])
+      choices += [ [:divider ] ] if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
 
       choices += [
         ['Architectures',          :architectures],

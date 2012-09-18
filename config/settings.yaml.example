@@ -20,4 +20,4 @@
 # You must restart the Rack server after changing either of these values
 # because they are cached at startup.
 :locations_enabled: false
-:tenants_enabled: false
+:organizations_enabled: false
