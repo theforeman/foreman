@@ -78,10 +78,10 @@ manager:
     - :edit_locations
     - :create_locations
     - :destroy_locations
-    - :view_tenants
-    - :edit_tenants
-    - :create_tenants
-    - :destroy_tenants
+    - :view_organizations
+    - :edit_organizations
+    - :create_organizations
+    - :destroy_organizations
 
 edit_partition_tables:
   name: Edit partition tables
@@ -136,7 +136,7 @@ viewer:
     - :view_reports
     - :access_settings
     - :view_statistics
-    - :view_tenants
+    - :view_organizations
     - :view_usergroups
     - :view_users
 

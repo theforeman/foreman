@@ -11,8 +11,8 @@
       <li><a href="#locations" data-toggle="tab">Locations</a></li>
     <% end %>
 
-    <% if show_tenant_tab? %>
-      <li><a href="#tenants" data-toggle="tab">Tenants</a></li>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
     <% end %>
 
   </ul>
@@ -50,9 +50,9 @@
      </div>
     <% end -%>
 
-    <% if show_tenant_tab? %>
-      <div class="tab-pane" id="tenants">
-        <%= multiple_checkboxes f, :tenants, @user, Tenant %>
+    <% if show_organization_tab? %>
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @user, Organization %>
       </div>
     <% end %>
 

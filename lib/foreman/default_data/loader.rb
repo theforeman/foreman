@@ -79,7 +79,7 @@ module Foreman
                 :view_smart_proxies,
                 :view_subnets,
                 :view_statistics,
-                :view_tenants,
+                :view_organizations,
                 :view_usergroups,
                 :view_users,
                 :view_audit_logs]
@@ -154,7 +154,7 @@ module Foreman
                 :view_subnets,
                 :view_facts,
                 :view_locations,
-                :view_tenants,
+                :view_organizations,
                 :view_statistics]
             end
             if reset or Role.anonymous.permissions.empty?

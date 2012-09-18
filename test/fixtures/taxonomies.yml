@@ -4,8 +4,8 @@ location1:
 location2:
   name: "Location 2"
 
-tenant1:
-  name: "Tenant 1"
+organization1:
+  name: "Organization 1"
 
-tenant2:
-  name: "Tenant 2"
+organization2:
+  name: "Organization 2"

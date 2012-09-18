@@ -197,12 +197,12 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_subnets, {:subnets => [:destroy]}
   end
 
-  if SETTINGS[:tenants_enabled]
-    map.security_block :tenants do |map|
-      map.permission :view_tenants, {:tenants => [:index, :show]}
-      map.permission :create_tenants, {:tenants => [:new, :create]}
-      map.permission :edit_tenants, {:tenants => [:edit, :update]}
-      map.permission :destroy_tenants, {:tenant => [:destroy]}
+  if SETTINGS[:organizations_enabled]
+    map.security_block :organizations do |map|
+      map.permission :view_organizations, {:organizations => [:index, :show]}
+      map.permission :create_organizations, {:organizations => [:new, :create]}
+      map.permission :edit_organizations, {:organizations => [:edit, :update]}
+      map.permission :destroy_organizations, {:organizations => [:destroy]}
     end
   end
 

@@ -283,7 +283,7 @@ Foreman::Application.routes.draw do
   resources :tasks, :only => [:show]
 
   resources :locations if SETTINGS[:locations_enabled]
-  resources :tenants if SETTINGS[:tenants_enabled]
+  resources :organizations if SETTINGS[:organizations_enabled]
 
   #Keep this line the last route
   match '*a', :to => 'errors#routing'
