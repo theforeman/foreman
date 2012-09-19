@@ -13,7 +13,7 @@ class OrganizationsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @organization = values.paginate :page => params[:page]
+        @organizations = values.paginate :page => params[:page]
       end
     end
   end
@@ -39,7 +39,7 @@ class OrganizationsController < ApplicationController
   def update
     @organization = Organization.find(params[:id])
 
-    if @organzation.update_attributes(params[:organization])
+    if @organization.update_attributes(params[:organization])
       process_success
     else
       process_error
