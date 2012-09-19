@@ -1,5 +1,5 @@
 class SmartProxy < ActiveRecord::Base
-  attr_accessible :name, :url, :organization_ids
+  attr_accessible :name, :url, :taxonomy_ids
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
