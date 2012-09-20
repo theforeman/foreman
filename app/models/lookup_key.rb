@@ -37,7 +37,7 @@ class LookupKey < ActiveRecord::Base
   default_scope :order => 'LOWER(lookup_keys.key)'
 
   def to_param
-    key
+    "#{id}-#{key}"
   end
 
   def to_s
