@@ -1,4 +1,4 @@
-class Foreman::ImportedPuppetClass
+class Foreman::ImporterPuppetclass
   attr_reader :name, :module, :parameters
 
   def initialize opts = { }

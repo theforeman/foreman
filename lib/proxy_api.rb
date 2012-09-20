@@ -94,7 +94,7 @@ module ProxyAPI
     def classes env
       return if env.blank?
       pcs = parse(get "environments/#{env}/classes")
-      Hash[pcs.map { |k| [k.keys.first, Foreman::ImportedPuppetClass.new(k.values.first)] }]
+      Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     rescue RestClient::ResourceNotFound
       []
     end

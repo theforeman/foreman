@@ -61,7 +61,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
          "module" => "apache"
        }
      }]
-    Hash[pcs.map { |k| [k.keys.first, Foreman::ImportedPuppetClass.new(k.values.first)] }]
+    Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
   end
 
 end
