@@ -153,7 +153,7 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => @host.info.to_yaml.gsub("\n","<br/>") }
+        format.html { render :text => "<pre>#{@host.info.to_yaml}</pre>" }
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue
