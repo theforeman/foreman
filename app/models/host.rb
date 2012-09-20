@@ -24,7 +24,7 @@ class Host < Puppet::Rails::Host
       :provider
   end
 
-  attr_reader :cached_host_params, :cached_lookup_keys_params
+  attr_reader :cached_host_params
 
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
@@ -294,8 +294,14 @@ class Host < Puppet::Rails::Host
     end
     param.update self.params
 
+    classes = if Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
+                lookup_keys_class_params
+              else
+                self.puppetclasses_names
+              end
+
     info_hash = {}
-    info_hash['classes'] = self.puppetclasses_names
+    info_hash['classes'] = classes
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
 
@@ -328,20 +334,6 @@ class Host < Puppet::Rails::Host
     # and now read host parameters, override if required
     host_parameters.each {|p| hp.update Hash[p.name => p.value] }
     @cached_host_params = hp
-  end
-
-  def lookup_keys_params
-    return cached_lookup_keys_params unless cached_lookup_keys_params.blank?
-    p = {}
-    # lookup keys
-    if Setting["Enable_Smart_Variables_in_ENC"]
-      klasses  = puppetclasses.map(&:id)
-      klasses += hostgroup.classes.map(&:id) if hostgroup
-      LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
-        p[k.to_s] = k.value_for(self)
-      end unless klasses.empty?
-    end
-    @cached_lookup_keys_params = p
   end
 
   def self.importHostAndFacts yaml
@@ -662,6 +654,32 @@ class Host < Puppet::Rails::Host
   end
 
   private
+  def lookup_keys_params
+    return {} unless Setting["Enable_Smart_Variables_in_ENC"]
+
+    p = {}
+    klasses = all_puppetclasses.map(&:id).flatten
+    LookupKey.where(:puppetclass_id => klasses ).each do |k|
+      p[k.to_s] = k.value_for(self)
+    end unless klasses.empty?
+    p
+  end
+
+  def lookup_keys_class_params
+    p={}
+    classes = all_puppetclasses
+    keys    = EnvironmentClass.parameters_for_class(classes.map(&:id), environment_id).group_by(&:puppetclass_id)
+    classes.each do |klass|
+      p[klass.name] = nil
+      keys[klass.id].map(&:lookup_key).each do |lookup_key|
+        p[klass.name] ||= {}
+        value = lookup_key.value_for(self)
+        p[klass.name].merge!({lookup_key.key => value})
+      end if keys[klass.id]
+    end
+    p
+  end
+
   # align common mac and ip address input
   def normalize_addresses
     # a helper for variable scoping

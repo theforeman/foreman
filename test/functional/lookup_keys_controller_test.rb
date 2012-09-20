@@ -8,7 +8,7 @@ class LookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, {:id => lookup_keys(:one).to_param, :puppetclass_id => puppetclasses(:one).id}, set_session_user
+    get :edit, {:id => lookup_keys(:one).to_param}, set_session_user
     assert_response :success
   end
 

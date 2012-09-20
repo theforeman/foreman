@@ -14,3 +14,11 @@ two:
   validator_rule: 443,8443
   puppetclass : one
   default_value: 443
+
+three:
+  key: ssl
+  validator_type: Boolean
+  validator_rule:
+  default_value: true
+  override: true
+  is_param: true

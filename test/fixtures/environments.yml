@@ -2,7 +2,6 @@
 
 production:
   name: production
-  puppetclasses: one
 
 global_puppetmaster:
   name: global_puppetmaster
