@@ -54,12 +54,13 @@ class LookupKey < ActiveRecord::Base
   end
 
   def path
-    read_attribute(:path) || array2path(Setting["Default_variables_Lookup_Path"])
+    path = read_attribute(:path)
+    path.blank? ? array2path(Setting["Default_variables_Lookup_Path"]) : path
   end
 
   def path=(v)
-    return if v == array2path(Setting["Default_variables_Lookup_Path"])
-    write_attribute(:path, v)
+    using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
+    write_attribute(:path, using_default ? nil : v)
   end
 
   def default_value_before_type_cast

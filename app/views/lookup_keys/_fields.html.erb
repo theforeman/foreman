@@ -46,7 +46,7 @@
            <dt>JSON</dt> <dd>Any valid JSON input.</dd>
            </dl>", :title => "How values are validated").html_safe}
   %>
-  <%= textarea_f f, :path, :rows => "4", :label => "Order",
+  <%= textarea_f f, :path, :rows => :auto, :label => "Order", :value => f.object.path,
     :help_inline => popover("?", "The order in which matchers keys are processed, first match wins.<br>
     You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code>
     would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>", :title => "The order in which values are resolved").html_safe
