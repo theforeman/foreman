@@ -30,8 +30,14 @@ module LayoutHelper
     end
   end
 
+  def line_count (f, attr)
+    rows = f.object.try(attr).to_s.lines.count rescue 1
+    rows == 0 ? 1 : rows
+  end
+
   def textarea_f(f, attr, options = {})
     field(f, attr, options) do
+      options[:rows] = line_count(f, attr) if options[:rows] == :auto
       f.text_area attr, options
     end
   end
@@ -43,10 +49,12 @@ module LayoutHelper
   end
 
   def checkbox_f(f, attr, options = {})
-    text = options.delete(:help_inline)
+    text = options.delete(:help_text)
+    inline = options.delete(:help_inline)
     field(f, attr, options) do
       label_tag('', :class=>'checkbox') do
-      f.check_box(attr, options) + " #{text} "
+        help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
+        f.check_box(attr, options) + " #{text} " + help_inline.html_safe
       end
     end
   end
