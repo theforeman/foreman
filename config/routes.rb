@@ -57,6 +57,8 @@ Foreman::Application.routes.draw do
         get 'disabled'
         post 'current_parameters'
         post 'process_hostgroup'
+        post 'process_organization'
+        post 'process_location'
         post 'hostgroup_or_environment_selected'
         post 'hypervisor_selected'
         post 'architecture_selected'

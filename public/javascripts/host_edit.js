@@ -185,6 +185,7 @@ function hostgroup_changed(element) {
   var host_id = $(element).attr('data-host-id');
   var url = $(element).attr('data-url');
   var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id']);
+  console.log(element);
   if (attrs["hostgroup_id"] == undefined) attrs["hostgroup_id"] = $('#hostgroup_parent_id').attr('value');
   $('#hostgroup_indicator').show();
   if (!host_id){ // a new host
@@ -204,6 +205,39 @@ function hostgroup_changed(element) {
   }
 }
 
+function organization_changed(element) {
+  var organization_id = $(element).val();
+  var url = $(element).attr('data-url');
+  $('#organization_indicator').show();
+  var organization_hash = attribute_hash(['organization_id']);
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: organization_hash,
+    complete: function() {
+      $('#organization_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
+      reload_params();
+    }
+  })
+}
+
+function location_changed(element) {
+  var location_id = $(element).val();
+  var url = $(element).attr('data-url');
+  $('#location_indicator').show();
+  var location_hash = attribute_hash(['location_id']);
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: location_hash,
+    complete: function() {
+      $('#location_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
+      reload_params();
+    }
+  })
+}
 
 function hypervisor_selected(element){
   var hypervisor_id = $(element).val();
