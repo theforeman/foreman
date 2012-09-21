@@ -14,6 +14,7 @@ class Host < Puppet::Rails::Host
   belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
   belongs_to :image
+  has_one :token, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
 
   include Hostext::Search
   include HostCommon
@@ -205,6 +206,7 @@ class Host < Puppet::Rails::Host
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
+    Token.delete_all(:host_id => id)
     self.build        = false
     self.installed_at = Time.now.utc if installed
     self.save
@@ -418,6 +420,10 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
+    if Setting[:token_duration] != 0
+      self.create_token(:value => Foreman.uuid,
+                        :expires => Time.now.utc + Setting[:token_duration].minutes)
+    end
     self.build = true
     self.save
     errors.empty?

@@ -14,7 +14,8 @@ module Foreman
 
     #returns the URL for Foreman Built status (when a host has finished the OS installation)
     def foreman_url(action = "built")
-      url_for :only_path => false, :controller => "unattended", :action => action
+      url_for :only_path => false, :controller => "unattended", :action => action,
+              :token => (@host.token.value unless @host.token.nil?)
     end
 
     # provide embedded snippets support as simple erb templates

@@ -92,23 +92,28 @@ class UnattendedController < ApplicationController
       ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
     end
 
-    ip = ip.split(',').first # in cases where multiple nics/ips exists - see #1619
+    if params.has_key? "token"
+      token = params.delete("token")
+      host_id = Token.find_host_id_by_token(token)
+      conditions = { :id => host_id }
+    else
+      ip = ip.split(',').first # in cases where multiple nics/ips exists - see #1619
 
-    # search for a mac address in any of the RHN provisioning headers
-    # this section is kickstart only relevant
-    maclist = []
-    unless request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].nil?
-      begin
-        request.env.keys.each do | header |
-          maclist << request.env[header].split[1].downcase.strip if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/
+      # search for a mac address in any of the RHN provisioning headers
+      # this section is kickstart only relevant
+      maclist = []
+      unless request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].nil?
+        begin
+          request.env.keys.each do | header |
+            maclist << request.env[header].split[1].downcase.strip if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/
+          end
+        rescue => e
+          logger.info "unknown RHN_PROVISIONING header #{e}"
         end
-      rescue => e
-        logger.info "unknown RHN_PROVISIONING header #{e}"
       end
+      # we try to match first based on the MAC, falling back to the IP
+      conditions = maclist.empty? ? {:ip => ip} : [ "lower(mac) IN (?)", maclist.map(&:downcase) ]
     end
-
-    # we try to match first based on the MAC, falling back to the IP
-    conditions = maclist.empty? ? {:ip => ip} : [ "lower(mac) IN (?)", maclist.map(&:downcase) ]
 
     @host = Host.first(:include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
     unless @host
