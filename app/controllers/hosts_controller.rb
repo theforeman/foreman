@@ -440,6 +440,33 @@ class HostsController < ApplicationController
     end
   end
 
+  # The logic inside this method should be dry'ed up since there is so much
+  # overlap with process_hostgroup and process_location.
+  def process_organization
+    @organization = Organization.find(params[:organization_id]) unless params[:organization_id].nil?
+    return head(:not_found) unless Organization.find(params[:organization_id])
+
+    @host = Host.new
+    @host.organization_id = params[:organization_id]
+
+    render :update do |page|
+      page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:item => @host}))
+    end
+  end
+
+  def process_location
+    @location = Location.find(params[:location_id]) unless params[:location_id].nil?
+    return head(:not_found) unless @location
+
+    @host = Host.new
+    @host.location_id = params[:location_id]
+
+    render :update do |page|
+      page['#puppetklasses'].html(render(:parial => 'puppetclasses/class_selection', :locals => {:item => @host}))
+    end
+  end
+
+
   def template_used
     kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
     templates = kinds.map do |kind|
