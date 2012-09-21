@@ -46,7 +46,8 @@ module Foreman
               set('manage_puppetca', "Should Foreman automate certificate signing upon provisioning new host", true),
               set('ignore_puppet_facts_for_provisioning', "Does not update ipaddress and MAC values from Puppet facts", false),
               set('query_local_nameservers', "Should Foreman query the locally configured name server or the SOA/NS authorities", false),
-              set('remote_addr', "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here", "127.0.0")
+              set('remote_addr', "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here", "127.0.0"),
+              set('token_duration', "Time in minutes installation tokens should be valid for, 0 to disable", 0)
             ].each { |s| create s.update(:category => "Provisioning")}
 
             [

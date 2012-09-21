@@ -476,4 +476,39 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost1.mydomain.net", host.name
   end
 
+  # Token tests
+
+  test "built should clean tokens" do
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now)
+    assert_equal Token.all.size, 1
+    h.built(false)
+    assert_equal Token.all.size, 0
+  end
+
+  test "built should clean tokens even when tokens are disabled" do
+    Setting[:token_duration] = 0
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now)
+    assert_equal Token.all.size, 1
+    h.built(false)
+    assert_equal Token.all.size, 0
+  end
+
+  test "hosts should be able to retrieve their token if one exists" do
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    assert_equal Token.first, h.token
+  end
+
+  test "token should return false when tokens are disabled or invalid" do
+    Setting[:token_duration] = 0
+    h = hosts(:one)
+    assert_equal h.token, nil
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    assert_equal h.token, nil
+  end
+
 end
