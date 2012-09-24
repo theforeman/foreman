@@ -353,6 +353,18 @@ border-radius: 4px;
   border-radius: 10px;
 }
 
+.no-taxonomies a {
+  color: white;
+}
+
+.no-taxonomies .alert {
+  margin-bottom: 7px;
+}
+
+.no-taxonomies button.btn.btn-large {
+  margin-left: 11px;
+}
+
 .override-param{
   text-decoration: line-through;
 }

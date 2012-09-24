@@ -26,9 +26,14 @@
   </div>
   <div class="nav-collapse nav2">
     <ul class="nav pull-right" id="menu2">
-      <% if SETTINGS[:single_org] and not User.current.admin? %>
-        <%= render 'home/org_dropdown' %>
-      <% end -%>
+      <% if SETTINGS[:login] %>
+        <% if SETTINGS[:locations_enabled] %>
+          <%= render 'home/location_dropdown' %>
+        <% end -%>
+        <% if SETTINGS[:organizations_enabled] %>
+          <%= render 'home/organization_dropdown' %>
+        <% end %>
+      <% end %>
       <%= render "home/settings" -%>
       <% if SETTINGS[:login]%>
           <%= render 'home/user_dropdown' %>
