@@ -3,6 +3,7 @@
 one:
   key: port
   path:
+  key_type: Integer
   validator_type:
   puppetclass : one
   default_value: 80
@@ -10,6 +11,7 @@ one:
 two:
   key: ssl_port
   path:
+  key_type: Integer
   validator_type: list
   validator_rule: 443,8443
   puppetclass : one
@@ -17,7 +19,7 @@ two:
 
 three:
   key: ssl
-  validator_type: Boolean
+  key_type: Boolean
   validator_rule:
   default_value: true
   override: true

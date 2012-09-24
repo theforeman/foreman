@@ -1,7 +1,8 @@
 class LookupKey < ActiveRecord::Base
   include Authorization
 
-  VALIDATION_TYPES = %w( string boolean integer real array hash yaml json )
+  KEY_TYPES = %w( string boolean integer real array hash yaml json )
+  VALIDATOR_TYPES = %w( regexp list )
 
   TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON', 'yes', 'YES', 'y', 'Y'].to_set
   FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF', 'no', 'NO', 'n', 'N'].to_set
@@ -24,13 +25,16 @@ class LookupKey < ActiveRecord::Base
   validates_uniqueness_of :key, :unless => Proc.new{|p| p.is_param?}
   validates_presence_of :key
   validates_presence_of :puppetclass_id, :unless => Proc.new {|k| k.is_param?}
-  validates_inclusion_of :validator_type, :in => VALIDATION_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
+  validates_inclusion_of :validator_type, :in => VALIDATOR_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
+  validates_inclusion_of :key_type, :in => KEY_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
+  validate :validate_list, :validate_regexp
   validates_associated :lookup_values
   validate :ensure_type
 
   before_save :sanitize_path
 
   scoped_search :on => :key, :complete_value => true, :default_order => true
+  scoped_search :on => :override, :complete_value => {:true => true, :false => false}
   scoped_search :in => :param_class, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
@@ -220,6 +224,16 @@ class LookupKey < ActiveRecord::Base
     if puppetclass_id.present? and is_param?
       self.errors.add(:base, 'Global variable or class Parameter, not both')
     end
+  end
+
+  def validate_regexp
+    return true unless (validator_type == 'regexp')
+    errors.add(:default_value, "is invalid") and return false unless (default_value =~ /#{validator_rule}/)
+  end
+
+  def validate_list
+    return true unless (validator_type == 'list')
+    errors.add(:default_value, "#{default_value} is not one of #{validator_rule}") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
   end
 
 end

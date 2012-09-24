@@ -12,8 +12,7 @@
 
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
-
-      <%= multiple_checkboxes f, :environments, @puppetclass, Environment, :label => "Puppet Environments" %>
+      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :label=> 'Puppet Environments', :disabled => true %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => "Hostgroups" %>
     </div>
 
@@ -24,20 +23,28 @@
             <p><strong>This Puppet class has no parameters in its signature.</strong><br>
                 To update the class signature, go to the Puppet Classes page and select 'Import'.</p>
           </div>
-      <% end -%>
-      <div class="tabbable tabs-left">
-        <ul class="nav nav-tabs smart-var-tabs span2" data-tabs="pills">
-          <% @puppetclass.class_params.each do |key| -%>
-              <li data-used-environments=<%= key.environments.map(&:to_s).to_json %>><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="label label-important fr">&times;</span></a></li>
-          <% end -%>
-        </ul>
+      <% else -%>
+          <div class="control-group">
+            <label class="control-label">Filter By Environment</label>
+            <div class="controls">
+              <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
+                             :include_blank => "All - (Not filtered)", :onchange=>'filterByEnvironment(this)'%>
+            </div>
+          </div>
+          <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs smart-var-tabs span2" data-tabs="pills">
+              <% @puppetclass.class_params.each do |key| -%>
+                  <li data-used-environments=<%= key.environments.map(&:to_s).to_json %>><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="label label-important fr">&times;</span></a></li>
+              <% end -%>
+            </ul>
 
-        <div class="tab-content span9 smart-var-content">
-          <%= f.fields_for :class_params do |lookup_keys_form| %>
-              <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
-          <% end %>
-        </div>
-      </div>
+            <div class="tab-content span9 smart-var-content">
+              <%= f.fields_for :class_params do |lookup_keys_form| %>
+                  <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
+              <% end %>
+            </div>
+          </div>
+      <% end -%>
     </div>
     <div class="tab-pane" id="smart_vars">
       <% if @puppetclass.lookup_keys.empty? -%>

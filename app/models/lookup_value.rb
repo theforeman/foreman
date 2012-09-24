@@ -6,6 +6,7 @@ class LookupValue < ActiveRecord::Base
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
   before_validation :validate_and_cast_value
+  validate :validate_list, :validate_regexp
 
   serialize :value
 
@@ -43,9 +44,19 @@ class LookupValue < ActiveRecord::Base
       self.value = lookup_key.cast_validate_value self.value
       true
     rescue
-      errors.add(:value, "is invalid #{lookup_key.validator_type}")
+      errors.add(:value, "is invalid #{lookup_key.key_type}")
       false
     end
+  end
+
+  def validate_regexp
+    return true unless (lookup_key.validator_type == 'regexp')
+    errors.add(:value, "is invalid") and return false unless (value =~ /#{lookup_key.validator_rule}/)
+  end
+
+  def validate_list
+    return true unless (lookup_key.validator_type == 'list')
+    errors.add(:value, "#{value} is not one of #{lookup_key.validator_rule}") and return false unless lookup_key.validator_rule.split(LookupKey::KEY_DELM).map(&:strip).include?(value)
   end
 
 end

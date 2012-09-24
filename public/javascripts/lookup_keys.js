@@ -107,10 +107,24 @@ function toggleMandatory(item){
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var mandatory = $(item).closest('.fields').find("[id$='_required']");
+  var type_field = $(item).closest('.fields').find("[id$='_key_type']");
+  var validator_type_field = $(item).closest('.fields').find("[id$='_validator_type']");
   var default_value_field = $(item).closest('.fields').find("[id$='_default_value']");
   var override_value_div = $(item).closest('.fields').find("[id$='lookup_key_override_value']");
 
   mandatory.attr('disabled', override ? null : 'disabled');
+  type_field.attr('disabled', override ? null : 'disabled');
+  validator_type_field.attr('disabled', override ? null : 'disabled');
   default_value_field.attr('disabled', override ? null : 'disabled' );
   override_value_div.toggle(override);
+}
+
+function filterByEnvironment(item){
+  if ($(item).val()=="") {
+    $('ul.smart-var-tabs li[data-used-environments] a').removeClass('grey');
+    return;
+  }
+  var selected = $(item).find('option:selected').text();
+  $('ul.smart-var-tabs li[data-used-environments] a').addClass('grey');
+  $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('grey');
 }
