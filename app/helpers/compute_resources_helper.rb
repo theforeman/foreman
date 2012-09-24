@@ -15,7 +15,15 @@ module ComputeResourcesHelper
 
     display_link_if_authorized "Power#{vm_state(vm.ready?)}", opts, html.merge(:method => :put)
   end
+                                                                   
+  def vm_pause_action vm
+    opts = hash_for_pause_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)
+    html_options = {:method => :put, :class => 'pause'}
 
+    message = vm.state == 'ACTIVE' ? 'Pause' : 'Unpause'
+    display_link_if_authorized "#{message}", opts, html_options
+  end
+                                                                   
   def memory_options max_memory
     gb = 1024*1024*1024
     opts = [0.25, 0.5, 0.75, 1, 2, 4, 8, 16]
