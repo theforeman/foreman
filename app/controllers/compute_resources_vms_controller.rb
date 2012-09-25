@@ -79,10 +79,20 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def console
-    @console = @compute_resource.console @vm.identity
-    render "hosts/console"
-  rescue => e
-    process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
+    if @compute_resource.type == "Foreman::Model::Openstack"
+      openstack_vnc_console
+    else
+      begin
+        @console = @compute_resource.console @vm.identity
+        render "hosts/console"
+      rescue => e 
+        process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
+      end
+    end
+  end
+
+  def openstack_vnc_console
+    redirect_to @compute_resource.console(@vm.id)
   end
 
   private

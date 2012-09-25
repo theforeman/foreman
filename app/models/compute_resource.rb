@@ -152,7 +152,12 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise "#{provider} console is not supported at this time"
+    raise "#{provider} console is not supported at this time" unless provider == 'Openstack'
+
+    if provider == 'Openstack'
+      vm = find_vm_by_uuid(uuid)
+      vm.connection.get_vnc_console(uuid, 'novnc').body['console']['url']
+    end
   end
 
   # by default, our compute providers do not support updating an existing instance
