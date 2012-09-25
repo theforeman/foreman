@@ -3,7 +3,7 @@ module Orchestration::Compute
     base.send :include, InstanceMethods
     base.class_eval do
       attr_accessor :compute_attributes, :vm, :provision_method
-      after_validation :queue_compute
+      after_validation :validate_compute_provisioning, :queue_compute
       before_destroy :queue_compute_destroy
     end
   end
@@ -56,7 +56,11 @@ module Orchestration::Compute
 
     def setCompute
       logger.info "Adding Compute instance for #{name}"
-      self.vm = compute_resource.create_vm compute_attributes.merge(:name => name)
+      if (self.image.iam_role != "")
+        self.vm = compute_resource.create_vm compute_attributes.merge(:name => name, :iam_instance_profile_name => self.image.iam_role)
+      else
+        self.vm = compute_resource.create_vm compute_attributes.merge(:name => name)
+      end
     rescue => e
       failure "Failed to create a compute #{compute_resource} instance #{name}: #{e.message}\n " + e.backtrace.join("\n ")
     end
@@ -139,6 +143,11 @@ module Orchestration::Compute
       return false unless compute_resource.supports_update?
       old.compute_attributes = compute_resource.find_vm_by_uuid(uuid).attributes
       compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
+    end
+
+    def validate_compute_provisioning
+      image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
+      self.image = Image.find_by_uuid(image_uuid)
     end
 
   end
