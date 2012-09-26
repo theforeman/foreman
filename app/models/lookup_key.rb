@@ -72,7 +72,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def value_before_type_cast val
-    case validator_type.to_sym
+    case key_type.to_sym
       when :json
         val = JSON.dump val
       when :yaml, :hash
@@ -80,13 +80,13 @@ class LookupKey < ActiveRecord::Base
         val.sub! /\A---\s*$\n/, ''
       when  :array
         val = val.inspect
-    end unless validator_type.blank?
+    end unless key_type.blank?
     val
   end
 
   # Returns the casted value, or raises a TypeError
   def cast_validate_value value
-    method = "cast_value_#{validator_type}".to_sym
+    method = "cast_value_#{key_type}".to_sym
     return value unless self.respond_to? method, true
     self.send(method, value) rescue raise TypeError
   end
