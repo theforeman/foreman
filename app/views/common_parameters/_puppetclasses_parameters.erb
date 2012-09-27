@@ -1,0 +1,7 @@
+<div id="puppetclasses_parameters">
+  <%= f.fields_for :lookup_values do |builder| -%>
+    <%= render "common_parameters/puppetclass_parameter", :f => builder %>
+  <% end -%>
+  <%# Hidden button to add an override, used from javascript only -%>
+  <%= authorized_via_my_scope('host_editing', 'create_params') ? link_to_add_fields('+ Override a Puppetclass Parameter', f, :lookup_values, 'common_parameters/puppetclass_parameter', :class => 'hide') : '' %>
+</div>

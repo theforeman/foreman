@@ -35,7 +35,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn btn-small btn-success"}) )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-small btn-success") )
   end
 
   def toggle_div divs
@@ -53,21 +53,36 @@ module ApplicationHelper
     end
   end
 
-  def link_to_remove_puppetclass klass
+  def link_to_remove_puppetclass klass, host
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
                      :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
+                     :'data-url' => parameters_puppetclass_path( :id => klass.id),
+                     :'data-host-id' => host.id,
                      :class=>"ui-icon ui-icon-minus")
   end
 
-  def link_to_add_puppetclass klass, type
+  def link_to_add_puppetclass klass, host, type
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("", "add_puppet_class(this)",
-                       'data-class-id' => klass.id, 'data-type' => type,
-                       'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
+                       :'data-class-id' => klass.id, 'data-type' => type,
+                       :'data-url' => parameters_puppetclass_path( :id => klass.id),
+                       :'data-host-id' => host.try(:id),
+                       :'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
                        :class => "ui-icon ui-icon-plus")
+  end
+
+  def add_html_classes options, classes
+    options = options.dup unless options.nil?
+    options ||= {}
+    options[:class] = options[:class].dup if options.has_key? :class
+    options[:class] ||= []
+    options[:class] = options[:class].split /\s+/ if options[:class].is_a? String
+    classes = classes.split /\s+/ if classes.is_a? String
+    options[:class] += classes
+    options
   end
 
   def check_all_links(form_name=':checkbox')

@@ -16,6 +16,10 @@ class Host < Puppet::Rails::Host
   belongs_to :image
   has_one :token, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
 
+  has_many :lookup_values, :finder_sql => Proc.new { normalize_hostname; %Q{ SELECT lookup_values.* FROM lookup_values WHERE (lookup_values.match = 'fqdn=#{fqdn}') } }, :dependent => :destroy
+  # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
+  accepts_nested_attributes_for :lookup_values
+
   include Hostext::Search
   include HostCommon
 
@@ -165,9 +169,27 @@ class Host < Puppet::Rails::Host
     validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
   end
 
-  before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
+  before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
   after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+
+  # Replacement of accepts_nested_attributes_for :lookup_values,
+  # to work around the lack of `host_id` column in lookup_values.
+  def lookup_values_attributes= lookup_values_attributes
+    lookup_values_attributes.each_value do |attribute|
+      attr = attribute.dup
+      if attr.has_key? :id
+        lookup_value = lookup_values.find attr.delete(:id)
+        if lookup_value
+          mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
+          lookup_value.attributes = attr
+          mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
+        end
+      elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
+        lookup_values.build(attr)
+      end
+    end
+  end
 
   def to_param
     name
@@ -331,16 +353,16 @@ class Host < Puppet::Rails::Host
     @cached_host_params = nil
   end
 
-  def host_inherited_params
+  def host_inherited_params include_source = false
     hp = {}
     # read common parameters
-    CommonParameter.all.each {|p| hp.update Hash[p.name => p.value] }
+    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :common} : p.value] }
     # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => p.value] } unless domain.nil?
+    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :domain} : p.value] } unless domain.nil?
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => p.value] } unless operatingsystem.nil?
+    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
-    hp.update hostgroup.parameters unless hostgroup.nil?
+    hp.update hostgroup.parameters(include_source) unless hostgroup.nil?
     hp
   end
 
@@ -740,7 +762,7 @@ class Host < Puppet::Rails::Host
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
     else
       # if our host is in short name, append the domain name
-      if !new_record? and changed_attributes.keys.include? "domain_id"
+      if !new_record? and changed_attributes['domain_id'].present?
         old_domain = Domain.find(changed_attributes["domain_id"])
         self.name.gsub(old_domain.to_s,"")
       end
@@ -815,5 +837,8 @@ class Host < Puppet::Rails::Host
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
   end
 
+  def force_lookup_value_matcher
+    lookup_values.each { |v| v.match = "fqdn=#{fqdn}" }
+  end
 
 end

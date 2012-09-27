@@ -89,7 +89,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   # returns self and parent parameters as a hash
-  def parameters
+  def parameters include_source = false
     hash = {}
     ids = ancestor_ids
     ids << id unless new_record? or self.frozen?
@@ -97,7 +97,7 @@ class Hostgroup < ActiveRecord::Base
     # otherwise we might be overwriting the hash in the wrong order.
     groups = ids.size == 1 ? [self] : Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :group_parameters))
     groups.each do |hg|
-      hg.group_parameters.each {|p| hash[p.name] = p.value }
+      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :hostgroup} : p.value }
     end
     hash
   end
