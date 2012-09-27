@@ -1,37 +1,75 @@
-<% if @console[:proxy_port] -%>
-  <%= content_for(:head) { javascript_tag "var INCLUDE_URI = '/javascripts/noVNC/';" } %>
-  <%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
+<% @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid) rescue nil %>
+<% if @vm.display[:type] == "spice" -%>
+  <% @address = @vm.display[:address] %>
+  <% @secure_port = @vm.display[:secure_port] %>
+  <% @ticket = @vm.ticket %>
 
-  <div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
+  <% @ca_url = @host.compute_resource[:url] %>
+  <% @ca_url["/api"]= "/ca.crt" %>
+  <% @ca_url[":8443"]= ":8080" %>
+  <% @cacert = Net::HTTP.get(URI.parse(@ca_url)) %>
 
-    <div id="noVNC_status_bar" class="row" style="margin-bottom:18px;">
-      <div id="noVNC_status" class="span7 label" >Loading</div>
-      <div id="noVNC_buttons">
-        <input type=button value="Ctrl-Alt-Del" id="sendCtrlAltDelButton" class="fr btn" >
-      </div>
-      <%= link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host" , :class => 'fr btn') if @host %>
-    </div>
-
-    <canvas id="noVNC_canvas" width="640px" height="20px" class="clearfix ca">
-      Canvas not supported.
-    </canvas>
-  </div>
-
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <title>SPICE Console</title>
+  <script type="text/javascript">
+          function connectvm()
+          {
+                  var pluginobj = document.embeds[0];
+                  pluginobj.hostIP = String("<%= @address %>");
+                  pluginobj.SecurePort = String("<%= @secure_port %>");
+                  pluginobj.Password = String("<%= @ticket %>");
+		  pluginobj.TrustStore = String("<%= @cacert.gsub!(/\n/, '\\n') %>");
+                  pluginobj.SSLChannels = String("all");
+                  pluginobj.fullScreen = false;
+                  pluginobj.connect();
+        }
+  </script>
+  </head>
+  <body onLoad='connectvm();'>
+      	<embed type="application/x-spice" height=0 width=0>
+<br><br>
+</body>
+</html>
+ 
 <% else -%>
-  <div class="row">
-    <% search_bar "Generated #{time_ago_in_words @console['timestamp']} ago" %>
-    <% title_actions link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host" , :class => 'fr btn') %>
-    <% title "Console output for #{@host}" %>
-  </div>
-  <% if @host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes) -%>
-    <div class='alert'>
-      <a class="close" href="#" data-dismiss="alert">&times;</a>
-      Console output may be out of date
+  <% if @console[:proxy_port] -%>
+    <%= content_for(:head) { javascript_tag "var INCLUDE_URI = '/javascripts/noVNC/';" } %>
+    <%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
+  
+    <div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
+  
+      <div id="noVNC_status_bar" class="row" style="margin-bottom:18px;">
+        <div id="noVNC_status" class="span7 label" >Loading</div>
+        <div id="noVNC_buttons">
+          <input type=button value="Ctrl-Alt-Del" id="sendCtrlAltDelButton" class="fr btn" >
+        </div>
+        <%= link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host" , :class => 'fr btn') if @host %>
+      </div>
+  
+      <canvas id="noVNC_canvas" width="640px" height="20px" class="clearfix ca">
+        Canvas not supported.
+     </canvas>
     </div>
+
+  <% else -%>
+    <div class="row">
+      <% search_bar "Generated #{time_ago_in_words @console['timestamp']} ago" %>
+      <% title_actions link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host" , :class => 'fr btn') %>
+      <% title "Console output for #{@host}" %>
+    </div>
+    <% if @host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes) -%>
+      <div class='alert'>
+        <a class="close" href="#" data-dismiss="alert">&times;</a>
+        Console output may be out of date
+      </div>
+    <% end -%>
+    <pre class="pre-scrollable">
+      <code>
+        <%= @console['output'] %>
+      </code>
+    </pre>
   <% end -%>
-  <pre class="pre-scrollable">
-    <code>
-      <%= @console['output'] %>
-    </code>
-  </pre>
 <% end -%>
+
