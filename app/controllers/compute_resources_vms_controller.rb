@@ -30,25 +30,10 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def power
-    (power_openstack and return) if @vm.class == Fog::Compute::OpenStack::Server
-
     action = @vm.ready? ? :stop : :start
 
     if (@vm.send(action) rescue false)
       state = @vm.ready? ? "running" : "stopped"
-      notice "#{@vm.name} is now #{state}"
-      redirect_to compute_resource_vms_path(params[:compute_resource_id])
-    else
-      error "failed to #{action} #{@vm.name}"
-      redirect_to :back
-    end
-  end
- 
-  def power_openstack
-    action = @vm.state == 'ACTIVE' ? :suspend_server : :resume_server 
-
-    if (@vm.connection.send(action, @vm.id) rescue false)
-      state = action == :suspend_server ? 'stopped' : 'running'
       notice "#{@vm.name} is now #{state}"
       redirect_to compute_resource_vms_path(params[:compute_resource_id])
     else
