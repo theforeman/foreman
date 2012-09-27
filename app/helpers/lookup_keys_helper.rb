@@ -55,12 +55,58 @@ module LookupKeysHelper
   end
 
   def validator_type_selector f
-     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES, f.object.validator_type),{:include_blank => true},
+     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES, f.object.validator_type),{:include_blank => "None"},
                 { :disabled => (f.object.is_param && !f.object.override), :label => "Validator Type", :class => "medium",
+                  :onchange => 'validatorTypeSelected(this)',
                   :help_inline => popover("?","<dl>
                 <dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>
                 <dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>
                 </dl>", :title => "Validation types").html_safe}
-   end
+  end
+
+  def value_origin host, key
+    infos = { :used_matcher => nil }
+    key.value_for host, :obs_matcher_block => Proc.new { |h| infos = h }, :skip_fqdn => true
+    origin = infos[:used_matcher] || '(default value)'
+    origin.gsub(/=.*$/,'')
+  end
+
+  def overridable_lookup_keys klass, host
+    klass.class_params.override.where(:environment_classes => {:environment_id => host.environment_id}) + klass.lookup_keys
+  end
+
+  def key_with_diagnostic host, key
+     errors = Set.new
+     value = key.value_for host, :skip_fqdn => true
+     original_value = key.value_before_type_cast value
+     new_value = key.value_for host
+
+     diagnostic_class = []
+     diagnostic_helper = popover("Additional info", "<b>Description:</b> #{key.description}<br>
+                                                     <b>Type:</b> #{key.key_type}<br>
+                                                     <b>Matcher:</b> #{value_origin(host, key)}")
+     if new_value.blank? && !new_value.is_a?(FalseClass)
+       if key.required
+         diagnostic_class << 'error'
+         diagnostic_helper = popover('No value error', "Required parameter without value.<br/><b>Please override!</b>
+                                                        <br><br><b>Description:</b>: #{key.description}")
+       else
+         diagnostic_class << 'warning'
+         diagnostic_helper = popover('No value warning', "Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i>
+                                                         <br><br><b>Description:</b> #{key.description}")
+       end
+     end
+     if errors.size > 0
+       diagnostic_class.delete 'warning'
+       diagnostic_class << 'error'
+       diagnostic_helper = popover('Fact error', 'One or more unknown facts were encountered during evaluation:<ul>' + errors.sort.map {|v| "<li>#{v}</li>" }.join + '</ul>')
+     end
+     content_tag :div, :class => ['control-group', 'condensed'] + diagnostic_class do
+      row_count = original_value.to_s.lines.count rescue 1
+      text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
+                    :class => ['span5'], :'data-property' => 'value', :disabled => true) +
+      content_tag(:span, :class => "help-inline") { diagnostic_helper }
+     end
+  end
 
 end

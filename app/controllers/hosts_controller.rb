@@ -449,7 +449,12 @@ class HostsController < ApplicationController
 
   def current_parameters
     @host = Host.new params['host']
-    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params}
+    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params(true)}
+  end
+
+  def puppetclass_parameters
+    @host = Host.new params['host']
+    render :partial => "puppetclasses/classes_parameters", :locals => { :obj => @host}
   end
 
   private
