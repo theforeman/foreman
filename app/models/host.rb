@@ -24,7 +24,7 @@ class Host < Puppet::Rails::Host
       :provider
   end
 
-  attr_reader :cached_host_params, :cached_lookup_keys_params
+  attr_reader :cached_host_params
 
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
@@ -163,7 +163,7 @@ class Host < Puppet::Rails::Host
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
-  after_validation :ensure_assoications
+  after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
 
   def to_param
@@ -294,8 +294,14 @@ class Host < Puppet::Rails::Host
     end
     param.update self.params
 
+    classes = if Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
+                lookup_keys_class_params
+              else
+                self.puppetclasses_names
+              end
+
     info_hash = {}
-    info_hash['classes'] = self.puppetclasses_names
+    info_hash['classes'] = classes
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
 
@@ -330,51 +336,53 @@ class Host < Puppet::Rails::Host
     @cached_host_params = hp
   end
 
-  def lookup_keys_params
-    return cached_lookup_keys_params unless cached_lookup_keys_params.blank?
-    p = {}
-    # lookup keys
-    if Setting["Enable_Smart_Variables_in_ENC"]
-      klasses  = puppetclasses.map(&:id)
-      klasses += hostgroup.classes.map(&:id) if hostgroup
-      LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
-        p[k.to_s] = k.value_for(self)
-      end unless klasses.empty?
-    end
-    @cached_lookup_keys_params = p
-  end
-
   def self.importHostAndFacts yaml
     facts = YAML::load yaml
-    return false unless facts.is_a?(Puppet::Node::Facts)
+    case facts
+      when Puppet::Node::Facts
+        certname = facts.values["certname"]
+        name     = facts.values["fqdn"]
+        values   = facts.values
+      when Hash
+        certname = facts["certname"]
+        name     = facts["fqdn"]
+        values   = facts
+        return raise("invalid facts hash") unless name and values
+      else
+        return raise("Invalid Facts, much be a Puppet::Node::Facts or a Hash")
+    end
 
-    h = Host.find_by_certname facts.name
-    h ||= Host.find_by_name facts.name
-    h ||= Host.new :name => facts.name
+    if name == certname or certname.nil?
+      h = Host.find_by_name name
+    else
+      h = Host.find_by_certname certname
+      h ||= Host.find_by_name name
+    end
+    h ||= Host.new :name => name
 
     h.save(:validate => false) if h.new_record?
-    h.importFacts(facts)
+    h.importFacts(name, values)
   end
 
   # import host facts, required when running without storeconfigs.
   # expect a Puppet::Node::Facts
-  def importFacts facts
-    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+  def importFacts name, facts
 
     # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
     raise "Host is pending for Build" if build
-    time = facts.values[:_timestamp]
+    time = facts[:_timestamp]
     time = time.to_time if time.is_a?(String)
 
     # we are not doing anything we already processed this fact (or a newer one)
-    return true unless last_compile.nil? or (last_compile + 1.minute < time)
-
-    self.last_compile = time
+    if time
+      return true unless last_compile.nil? or (last_compile + 1.minute < time)
+      self.last_compile = time
+    end
     # save all other facts - pre 0.25 it was called setfacts
-    respond_to?("merge_facts") ? self.merge_facts(facts.values) : self.setfacts(facts.values)
+    respond_to?("merge_facts") ? self.merge_facts(facts) : self.setfacts(facts)
     save(:validate => false)
 
-    populateFieldsFromFacts(facts.values)
+    populateFieldsFromFacts(facts)
 
     # we are saving here with no validations, as we want this process to be as fast
     # as possible, assuming we already have all the right settings in Foreman.
@@ -384,7 +392,7 @@ class Host < Puppet::Rails::Host
     return self.save(:validate => false)
 
   rescue Exception => e
-    logger.warn "Failed to save #{facts.name}: #{e}"
+    logger.warn "Failed to save #{name}: #{e}"
   end
 
   def populateFieldsFromFacts facts = self.facts_hash
@@ -503,7 +511,7 @@ class Host < Puppet::Rails::Host
   end
 
   def classes_from_storeconfigs
-    klasses = resources.all(:conditions => {:restype => "Class"}, :select => :title, :order => :title)
+    klasses = resources.all(:conditions => 'restype = "Class" AND title != "main" AND title != "Settings"', :select => :title, :order => :title)
     klasses.map!(&:title).delete(:main)
     klasses
   end
@@ -646,6 +654,32 @@ class Host < Puppet::Rails::Host
   end
 
   private
+  def lookup_keys_params
+    return {} unless Setting["Enable_Smart_Variables_in_ENC"]
+
+    p = {}
+    klasses = all_puppetclasses.map(&:id).flatten
+    LookupKey.where(:puppetclass_id => klasses ).each do |k|
+      p[k.to_s] = k.value_for(self)
+    end unless klasses.empty?
+    p
+  end
+
+  def lookup_keys_class_params
+    p={}
+    classes = all_puppetclasses
+    keys    = EnvironmentClass.parameters_for_class(classes.map(&:id), environment_id).group_by(&:puppetclass_id)
+    classes.each do |klass|
+      p[klass.name] = nil
+      keys[klass.id].map(&:lookup_key).each do |lookup_key|
+        p[klass.name] ||= {}
+        value = lookup_key.value_for(self)
+        p[klass.name].merge!({lookup_key.key => value})
+      end if keys[klass.id]
+    end
+    p
+  end
+
   # align common mac and ip address input
   def normalize_addresses
     # a helper for variable scoping
@@ -704,7 +738,7 @@ class Host < Puppet::Rails::Host
   end
 
   # checks if the host association is a valid association for this host
-  def ensure_assoications
+  def ensure_associations
     status = true
     %w{ ptable medium architecture}.each do |e|
       value = self.send(e.to_sym)

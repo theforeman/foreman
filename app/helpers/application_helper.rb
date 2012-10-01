@@ -159,7 +159,7 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to "Help", :action => "welcome"
+    link_to "Help", :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
   def method_path method

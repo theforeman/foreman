@@ -1,3 +1,14 @@
+#
+# Convert/transfer data from production => development.    This facilitates
+# a conversion one database adapter type to another (say postgres -> mysql )
+#
+# WARNING 1: this script deletes all development data and replaces it with
+#            production data
+#
+# WARNING 2: This script assumes it is the only user updating either database.
+#            Database integrity could be corrupted if other users where
+#            writing to the databases.
+#
 # Usage:  rake db:convert:prod2dev
 #
 # It assumes the development database has a schema identical to the production
@@ -11,7 +22,6 @@
 #
 # The master repository for this script is at github:
 #    http://github.com/face/rails_db_convert_using_adapters/tree/master
-#
 #
 # Author: Rama McIntosh
 #         Matson Systems, Inc.
@@ -54,33 +64,33 @@ PAGE_SIZE=10000
 
 namespace :db do
   namespace :convert do
-    desc 'Convert/import production data to development.   DANGER Deletes all data in the development database.
-          Assumes both schemas are already migrated. Optional parameters: access this table for this many records'
-    task :prod2dev, [:table, :records] => :environment do |t, args|
+    desc 'Convert/import production data to development.   DANGER Deletes all data in the development database.   Assumes both schemas are already migrated.'
+    task :prod2dev => :environment do
 
       # We need unique classes so ActiveRecord can hash different connections
       # We do not want to use the real Model classes because any business
       # rules will likely get in the way of a database transfer
       class ProductionModelClass < ActiveRecord::Base
+        # disable STI
+        self.inheritance_column = :_type_disabled
       end
       class DevelopmentModelClass < ActiveRecord::Base
+        # disable STI
+        self.inheritance_column = :_type_disabled
       end
 
-      skip_tables = ["schema_info", "schema_migrations", "hosts_backup"]
       ActiveRecord::Base.establish_connection(:production)
-      if args.table
-        tables = [args.table]
-      else
-        tables = ActiveRecord::Base.connection.tables - skip_tables
-      end
+      skip_tables = ["schema_info", "schema_migrations"]
+      (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
+        time = Time.now
 
-      tables.each do |table_name|
-
+        ProductionModelClass.establish_connection(:production)
         ProductionModelClass.set_table_name(table_name)
-        DevelopmentModelClass.set_table_name(table_name)
-        DevelopmentModelClass.establish_connection(:development)
-        DevelopmentModelClass.reset_column_information
         ProductionModelClass.reset_column_information
+
+        DevelopmentModelClass.establish_connection(:development)
+        DevelopmentModelClass.set_table_name(table_name)
+        DevelopmentModelClass.reset_column_information
         DevelopmentModelClass.record_timestamps = false
 
         # Page through the data in case the table is too large to fit in RAM
@@ -88,7 +98,7 @@ namespace :db do
         print "Converting #{table_name}..."; STDOUT.flush
         # First, delete any old dev data
         DevelopmentModelClass.delete_all
-        while (models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0
+        while ((models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0)
 
           count += models.size
           offset += PAGE_SIZE
@@ -96,14 +106,21 @@ namespace :db do
           # Now, write out the prod data to the dev db
           DevelopmentModelClass.transaction do
             models.each do |model|
-              new_model = DevelopmentModelClass.new(model.attributes)
+
+              new_model = DevelopmentModelClass.new()
+
+              model.attributes.each do |key, value|
+                new_model[key] = value rescue nil
+              end
+
+              # don't miss the type attribute when using single-table-inheritance
+              new_model[:type] = model[:type] if model[:type].present?
               new_model.id = model.id
               new_model.save(:validate => false)
             end
           end
-          break if args.records and args.records.to_i > offset
         end
-        print "#{count} records converted\n"
+        print "#{count} records converted in #{Time.now - time} seconds\n"
       end
     end
   end

@@ -78,6 +78,9 @@ Foreman::Application.routes.draw do
     resources :bookmarks, :except => [:show]
     resources :lookup_keys, :except => [:new, :create] do
       resources :lookup_values, :only => [:index, :create, :update, :destroy]
+      collection do
+        get 'auto_complete_search'
+      end
     end
 
     resources :facts, :only => [:index, :show] do

@@ -16,7 +16,7 @@ class ConfigTemplatesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @config_templates = values.paginate(:page => params[:page], :include => [:template_kind, :environments,:hostgroups, :template_combinations])
+        @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
       end
       format.json { render :json => values}
     end

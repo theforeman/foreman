@@ -65,6 +65,8 @@ class UsersController < ApplicationController
     else
       process_error
     end
+    # make sure users cache are expired (assuming some permissions changed etc)
+    expire_fragment("tabs_and_title_records-#{@user.id}")
     User.current.editing_self = false if editing_self
   end
 
@@ -103,6 +105,7 @@ class UsersController < ApplicationController
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout
+    expire_fragment("tabs_and_title_records-#{User.current.id}") if User.current
     session[:user] = @user = User.current = nil
     if flash[:notice] or flash[:error]
       flash.keep

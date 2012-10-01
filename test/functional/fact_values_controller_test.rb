@@ -20,9 +20,17 @@ class FactValuesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
-  def test_create_valid
+  def test_create_valid_puppet_node_facts_object
     User.current = nil
     post :create, {:facts => fact_fixture, :format => "yml"}
+    assert_response :success
+  end
+
+  def test_create_valid_facter_yaml_output
+    User.current = nil
+    facts = Facter.to_hash
+    assert_instance_of Hash, facts
+    post :create, {:facts => facts.to_yaml, :format => "yml"}
     assert_response :success
   end
 

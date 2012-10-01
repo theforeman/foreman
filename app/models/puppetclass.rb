@@ -1,6 +1,7 @@
 class Puppetclass < ActiveRecord::Base
   include Authorization
-  has_and_belongs_to_many :environments
+  has_many :environment_classes, :dependent => :destroy
+  has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
   has_and_belongs_to_many :hostgroups
   has_many :host_classes, :dependent => :destroy
@@ -8,10 +9,12 @@ class Puppetclass < ActiveRecord::Base
 
   has_many :lookup_keys, :inverse_of => :puppetclass
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
-
+  # param classes
+  has_many :class_params, :through => :environment_classes, :uniq => true,
+    :class_name => 'LookupKey', :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
+  accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
   validates_presence_of :name
-  validates_associated :environments
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
   audited
 
@@ -23,7 +26,9 @@ class Puppetclass < ActiveRecord::Base
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
+  scoped_search :in => :class_params, :on => :key, :complete_value => :true
 
+  scope :not_in_any_environment, includes(:environment_classes).where(:environment_classes => {:environment_id => nil})
 
   def to_param
     name
@@ -53,7 +58,6 @@ class Puppetclass < ActiveRecord::Base
   def klass
     name.gsub(module_name+"::","")
   end
-
 
   # Populates the rdoc tree with information about all the classes in your modules.
   #   Firstly, we prepare the modules tree

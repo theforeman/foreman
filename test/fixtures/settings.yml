@@ -119,3 +119,8 @@ attributes24:
   category: General
   default: false
   description: "Authorize login delegation with REMOTE_USER environment variable for API calls"
+attributes25:
+  name: Parametrized_Classes_in_ENC
+  category: Puppet
+  default: false
+  description: "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?"

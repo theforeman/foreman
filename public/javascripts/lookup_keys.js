@@ -35,7 +35,9 @@ function remove_node(item){
 function add_child_node(item) {
     // Setup
     var assoc   = $(item).attr('data-association');           // Name of child
-    var content = $('#' + assoc + '_fields_template').html(); // Fields template
+    var template_class = '.' + assoc + '_fields_template';
+    var content = $(item).parent().find(template_class).html(); // Fields template
+    if (content == undefined) {content = $(template_class).html()};
 
     // Make the context correct by replacing new_<parents> with the generated ID
     // of each of the parent objects
@@ -68,11 +70,11 @@ function add_child_node(item) {
     content     = content.replace(regexp, "new_" + new_id);
     var field   = '';
     if (assoc == 'lookup_keys') {
-      $('.smart-var-tabs .active, .smart-var-content .active').removeClass('active');
+      $('#smart_vars .smart-var-tabs .active, #smart_vars .smart-var-content .active').removeClass('active');
       var pill = "<li class='active'><a onclick='show_delete_button(this);' data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new<span onclick='remove_node(this);' class='label label-important fr'>&times;</span></a></li>"
-      $('.smart-var-tabs').prepend(pill);
-      field = $('.smart-var-content').prepend($(content).addClass('active'));
-      $('.smart-var-tabs li.active a').show('highlight', 500);
+      $('#smart_vars .smart-var-tabs').prepend(pill);
+      field = $('#smart_vars .smart-var-content').prepend($(content).addClass('active'));
+      $('#smart_vars .smart-var-tabs li.active a').show('highlight', 500);
     } else {
       field = $(content).insertBefore($(item));
     }
@@ -96,3 +98,33 @@ function remove_child_node(item) {
   return false;
 }
 
+function toggleMandatory(item){
+  var mandatory = $(item).is(':checked');
+  var override = $(item).closest('.fields').find("[id$='_override']");
+  override.attr('disabled', mandatory ? 'disabled' :  null );
+}
+
+function toggleOverrideValue(item) {
+  var override = $(item).is(':checked');
+  var mandatory = $(item).closest('.fields').find("[id$='_required']");
+  var type_field = $(item).closest('.fields').find("[id$='_key_type']");
+  var validator_type_field = $(item).closest('.fields').find("[id$='_validator_type']");
+  var default_value_field = $(item).closest('.fields').find("[id$='_default_value']");
+  var override_value_div = $(item).closest('.fields').find("[id$='lookup_key_override_value']");
+
+  mandatory.attr('disabled', override ? null : 'disabled');
+  type_field.attr('disabled', override ? null : 'disabled');
+  validator_type_field.attr('disabled', override ? null : 'disabled');
+  default_value_field.attr('disabled', override ? null : 'disabled' );
+  override_value_div.toggle(override);
+}
+
+function filterByEnvironment(item){
+  if ($(item).val()=="") {
+    $('ul.smart-var-tabs li[data-used-environments] a').removeClass('grey');
+    return;
+  }
+  var selected = $(item).find('option:selected').text();
+  $('ul.smart-var-tabs li[data-used-environments] a').addClass('grey');
+  $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('grey');
+}
