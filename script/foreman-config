@@ -3,9 +3,21 @@
 require 'optparse'
 options = {}
 defaults = {:foreman_path => "/usr/share/foreman",
-            :environment => "production"}
+            :environment => "production",
+            :keys => [],
+            :key_values => {}}
 
 options.merge!(defaults)
+
+def set_options_key_value(options, value)
+  unless options.has_key?(:key)
+    STDERR.puts("Key has to be specified first")
+    exit 2
+  end
+  options[:keys] << options[:key]
+  options[:key_values][options[:key]] = value
+  options.delete(:key)
+end
 
 parser = OptionParser.new do |opt|
   opt.banner = <<BANNER
@@ -22,13 +34,13 @@ BANNER
   opt.on("-v",
          "--value VALUE",
          "Set the value. The key must be specified. Complex values (hashes, arrays) are expected to be JSON encoded.") do |val|
-    options[:value] = val
+    set_options_key_value(options, val)
   end
 
   opt.on("-u",
          "--unset",
          "Unset the key. The key must be specified") do
-    options[:unset] = true
+    set_options_key_value(options, :unset)
   end
 
   opt.on("-h", "--help", "Show help and exit") do 
@@ -51,12 +63,6 @@ end
 
 parser.parse!
 
-if options.has_key?(:value) && !options.has_key?(:key)
-  STDERR.puts "A key must be specified"
-  exit 1
-end
-
-# load Rails environment
 # suppress warnings (such as some featuer being disabled)
 verbosity=$VERBOSE
 $VERBOSE=nil
@@ -68,11 +74,11 @@ require File.expand_path("config/application", options[:foreman_path])
 
 Rails.application.require_environment!
 
-# get verbose level back
-$VERBOSE=verbosity
-
 require 'json'
 require 'yaml'
+
+# get verbose level back
+$VERBOSE=verbosity
 
 def complex_type?(type)
   ["hash", "array"].include? type
@@ -97,19 +103,24 @@ def format_value(type, value)
 end
 
 # show all settings
-unless options.has_key?(:key)
+if options.has_key?(:key)
+  setting = Setting.find_by_name(options[:key])
+  puts format_value(setting.settings_type, setting.value)
+elsif options[:key_values].any?
+  options[:keys].each do |key|
+    value = options[:key_values][key]
+    setting = Setting.find_by_name(key)
+    if value == :unset
+      setting.value = nil
+    else
+      value = typecast_value(setting.settings_type, value)
+      setting.value = value
+    end
+    setting.save! if setting.changed?
+    puts format_value(setting.settings_type, setting.value)
+  end
+else
   Setting.all.each do |setting|
     puts "#{setting.name}: #{format_value(setting.settings_type, setting.value)}"
   end
-else
-  setting = Setting.find_by_name(options[:key])
-
-  if options[:value]
-    value = typecast_value(setting.settings_type, options[:value])
-    setting.value = value
-  elsif options[:unset]
-    setting.value = nil
-  end
-  setting.save! if setting.changed?
-  puts format_value(setting.settings_type, setting.value)
 end
