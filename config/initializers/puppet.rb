@@ -1,3 +1,12 @@
+# This unfortunately has to get called before the "require 'puppet'".
+require 'active_support/dependencies'
+module ActiveSupport
+  module Dependencies
+    def unhook!
+    end
+  end
+end
+
 require 'puppet'
 require 'puppet/rails'
 Puppet.parse_config
