@@ -9,7 +9,6 @@ end
 
 require 'puppet'
 require 'puppet/rails'
-Puppet.parse_config
 $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 
 class Resource < Puppet::Rails::Resource
