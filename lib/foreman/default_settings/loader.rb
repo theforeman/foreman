@@ -21,6 +21,9 @@ module Foreman
         end
 
         def load(reset=false)
+          if Puppet::PUPPETVERSION.to_i >= 3
+            Puppet.settings.initialize_global_settings(SETTINGS[:puppetconfdir])
+          end
 
           # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
           Setting.first rescue return

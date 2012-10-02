@@ -1,6 +1,15 @@
+require 'active_support/dependencies'
+ActiveSupport::Dependencies.unhook!
+
 require 'puppet'
 require 'puppet/rails'
-Puppet.parse_config
+
+ActiveSupport::Dependencies.hook!
+
+if Puppet::PUPPETVERSION.to_i < 3
+  Puppet.parse_config
+end
+
 $puppet = Puppet.settings.instance_variable_get(:@values) if Rails.env == "test"
 
 class Resource < Puppet::Rails::Resource
