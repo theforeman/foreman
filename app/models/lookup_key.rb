@@ -63,6 +63,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def path=(v)
+    return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
     write_attribute(:path, using_default ? nil : v)
   end
