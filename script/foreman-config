@@ -2,7 +2,7 @@
 
 require 'optparse'
 options = {}
-defaults = {:foreman_path => "/usr/share/foreman",
+defaults = {:foreman_path => File.expand_path("../..", __FILE__),
             :environment => "production",
             :keys => [],
             :key_values => {}}
