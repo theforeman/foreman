@@ -32,7 +32,7 @@
          :onchange => 'computeResourceSelected(this);'} if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
 
       <% if show_organization_tab?  %>
-        <%= select_f f, :organization_ids, Organization.all, :id, :to_label,
+        <%= select_f f, :organization_id, Organization.all, :id, :to_label,
           { :include_blank => true },
           { :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
           :'data-url' => process_organization_hosts_path,
@@ -40,7 +40,7 @@
       <% end %>
 
       <% if show_location_tab? %>
-        <%= select_f f, :location_ids, Location.all, :id, :to_label,
+        <%= select_f f, :location_id, Location.all, :id, :to_label,
           { :include_blank => true},
           { :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
             :'data-url' => process_location_hosts_path,

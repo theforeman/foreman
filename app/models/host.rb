@@ -14,6 +14,8 @@ class Host < Puppet::Rails::Host
   belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
   belongs_to :image
+  has_one :location
+  has_one :organization
 
   has_many :taxonomy_hosts, :dependent => :destroy
   has_many :taxonomies, :through => :taxonomy_hosts

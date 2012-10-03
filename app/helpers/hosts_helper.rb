@@ -191,8 +191,8 @@ module HostsHelper
       ["Operating System", host.os],
       ["Host Group", host.hostgroup],
     ]
-    fields += [["Location", Location.find(host.location_ids).name]] unless host.location_ids.nil?
-    fields += [["Organization", Organization.find(host.organization_ids).name]] unless host.organization_ids.nil?
+    fields += [["Location", Location.find(host.location_id).name]] unless host.location_id.nil?
+    fields += [["Organization", Organization.find(host.organization_id).name]] unless host.organization_id.nil?
     fields += [["Owner", host.owner]] if SETTINGS[:login]
     fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
     fields
