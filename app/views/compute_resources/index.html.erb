@@ -11,7 +11,7 @@
 <% @compute_resources.each do |compute| %>
   <tr>
     <td><%= link_to compute.name, compute %></td>
-    <td><%= compute.provider %></td>
+    <td><%= compute.provider_friendly_name %></td>
     <td>
       <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute),:class=>"btn btn-small"),
                          link_to('Delete', compute, :confirm => 'Are you sure?', :method => :delete)) %>
