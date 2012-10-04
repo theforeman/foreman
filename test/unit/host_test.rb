@@ -480,25 +480,39 @@ class HostTest < ActiveSupport::TestCase
     host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     location = Location.create :name => "New York"
 
-    host.location_ids = location.id
+    host.location_id = location.id
     assert host.save!
+  end
+
+  test "update a host's location" do
+    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    original_location = Location.create :name => "New York"
+
+    host.location_id = original_location.id
+    assert host.save!
+    assert host.location_id = original_location.id
+
+    new_location = Location.create :name => "Los Angeles"
+    host.location_id = new_location.id
+    assert host.save!
+    assert host.location_id = new_location.id
   end
 
   test "assign a host to a tenant" do
     host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    tenant = Tenant.create :name => "Hosting client 1"
+    organization = Organization.create :name => "Hosting client 1"
 
-    host.tenant_ids = tenant.id
+    host.organization_id = organization.id
     assert host.save!
   end
 
   test "assign a host to both a location and a tenant" do
     host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     location = Location.create :name => "Tel Aviv"
-    tenant = Tenant.create :name => "Hosting client 1"
+    organization = Organization.create :name => "Hosting client 1"
 
-    host.location_ids = location.id
-    host.tenant_ids = tenant.id
+    host.location_id = location.id
+    host.organization_id = organization.id
 
     assert host.save!
   end
