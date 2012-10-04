@@ -12,6 +12,7 @@ module Api
     }
 
     rescue_from Apipie::ParamError, :with => lambda { |error|
+      Rails.logger.info "#{error.message} (#{error.class})"
       render_error 'param_error', :status => :bad_request, :locals => { :exception => error }
     }
 
