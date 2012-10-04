@@ -19,21 +19,21 @@ class TokenTest < ActiveSupport::TestCase
 
   test "a token expires when set to expire" do
     expiry = Time.now
-    t = Token.new :value => "aaaaaa", :expires => expiry
+    t      = Token.new :value => "aaaaaa", :expires => expiry
     assert_equal t.expires, expiry
   end
 
   test "a host can create a token" do
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
-    assert_equal Token.first.value,"aaaaaa"
+    assert_equal Token.first.value, "aaaaaa"
     assert_equal Token.first.host_id, h.id
   end
 
   test "a token can be matched to a host" do
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
-    assert_equal Token.find_host_id_by_token("aaaaaa"), h.id
+    assert_equal h, Host.for_token("aaaaaa").first
   end
 
   test "a host can delete its token" do
@@ -41,7 +41,7 @@ class TokenTest < ActiveSupport::TestCase
     h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     assert_instance_of Token, h.token
     h.token=nil
-    assert_nil h.token
+    assert Token.where(:value => "aaaaaa", :host_id => h.id).empty?
   end
 
   test "a host cannot delete tokens for other hosts" do
@@ -54,4 +54,13 @@ class TokenTest < ActiveSupport::TestCase
     assert_equal Token.all.size, 1
   end
 
+  test "all expired tokens should be removed" do
+    h1 = hosts(:one)
+    h2 = hosts(:two)
+    h1.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
+    h2.create_token(:value => "bbbbbb", :expires => Time.now - 1.minutes)
+    assert_equal Token.count, 2
+    h1.send(:expire_tokens) # access a private method
+    assert_equal 0, Token.count
+  end
 end

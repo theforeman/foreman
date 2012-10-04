@@ -123,6 +123,8 @@ class Host < Puppet::Rails::Host
     end
   }
 
+  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }) }
+
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile]
   has_associated_audits
@@ -206,7 +208,9 @@ class Host < Puppet::Rails::Host
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
-    Token.delete_all(:host_id => id)
+
+    # delete all expired tokens
+    expire_tokens
     self.build        = false
     self.installed_at = Time.now.utc if installed
     self.save
@@ -802,6 +806,11 @@ class Host < Puppet::Rails::Host
 
   def set_certname
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
+  end
+
+  def expire_tokens
+    # this clean up other hosts as well, but reduce the need for another task to cleanup tokens.
+    Token.delete_all(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id])
   end
 
 end
