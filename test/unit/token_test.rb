@@ -60,7 +60,8 @@ class TokenTest < ActiveSupport::TestCase
     h1.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     h2.create_token(:value => "bbbbbb", :expires => Time.now - 1.minutes)
     assert_equal Token.count, 2
-    h1.send(:expire_tokens) # access a private method
+    h1.expire_tokens
     assert_equal 0, Token.count
   end
+
 end

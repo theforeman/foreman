@@ -204,13 +204,23 @@ class Host < Puppet::Rails::Host
     FactValue.delete_all("host_id = #{id}")
   end
 
+  def set_token
+    return unless Setting[:token_duration] != 0
+    self.create_token(:value => Foreman.uuid,
+                      :expires => Time.now.utc + Setting[:token_duration].minutes)
+  end
+
+  def expire_tokens
+    # this clean up other hosts as well, but reduce the need for another task to cleanup tokens.
+    Token.delete_all(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id])
+  end
+
   # Called from the host build post install process to indicate that the base build has completed
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
 
     # delete all expired tokens
-    expire_tokens
     self.build        = false
     self.installed_at = Time.now.utc if installed
     self.save
@@ -424,10 +434,7 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
-    if Setting[:token_duration] != 0
-      self.create_token(:value => Foreman.uuid,
-                        :expires => Time.now.utc + Setting[:token_duration].minutes)
-    end
+
     self.build = true
     self.save
     errors.empty?
@@ -808,9 +815,5 @@ class Host < Puppet::Rails::Host
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
   end
 
-  def expire_tokens
-    # this clean up other hosts as well, but reduce the need for another task to cleanup tokens.
-    Token.delete_all(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id])
-  end
 
 end

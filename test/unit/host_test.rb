@@ -483,7 +483,7 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.all.size, 1
-    h.built(false)
+    h.expire_tokens
     assert_equal Token.all.size, 0
   end
 
@@ -492,7 +492,7 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.all.size, 1
-    h.built(false)
+    h.expire_tokens
     assert_equal Token.all.size, 0
   end
 
