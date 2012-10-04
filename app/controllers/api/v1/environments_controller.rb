@@ -11,6 +11,7 @@ module Api
       end
 
       api :GET, "/environments/:id/", "Show an environment."
+      param :id, String, :required => true
       def show
       end
 
@@ -24,6 +25,7 @@ module Api
       end
 
       api :PUT, "/environments/:id/", "Update an environment."
+      param :id, String, :required => true
       param :environment, Hash, :required => true do
         param :name, String
       end
@@ -32,6 +34,7 @@ module Api
       end
 
       api :DELETE, "/environments/:id/", "Delete an environment."
+      param :id, String, :required => true
       def destroy
         process_response @environment.destroy
       end
