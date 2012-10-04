@@ -5,12 +5,15 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/users/", "List all users."
+      param :search, String, :desc => "filter results"
+      param :order,  String, :desc => "sort results"
       def index
         @users = User.search_for(params[:search], :order => params[:order]).
             paginate :page => params[:page]
       end
 
       api :GET, "/users/:id/", "Show an user."
+      param :id, :number, :required => true
       def show
       end
 
@@ -43,6 +46,7 @@ module Api
         Adds role 'Anonymous' to the user if it is not already present.
         Only admin can set admin account.
       DOC
+      param :id, :number, :required => true
       param :user, Hash, :required => true do
         param :login, String, :required => false
         param :firstname, String, :required => false
@@ -71,6 +75,7 @@ module Api
       end
 
       api :DELETE, "/users/:id/", "Delete an user."
+      param :id, :number, :required => true
       def destroy
         if @user == User.current
           deny_access "You are trying to delete your own account"
