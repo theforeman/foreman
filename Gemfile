@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.15'
+gem 'rails', '3.0.17'
 gem "jquery-rails"
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
