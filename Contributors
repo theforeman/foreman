@@ -1,62 +1,75 @@
-Contributors (sorted alphabetically)
-
-Alexander Chuzhoy <sashac88@hotmail.com>
-Amos Benari <abenari@redhat.com>
-Andrew Elwell <Andrew.Elwell@gmail.com>
-Ashay Humane <ashay.humane@gmail.com>
-Brian Gupta <brian.gupta@brandorr.com>
-Corey Osman <corey@logicminds.biz>
-D. Johnson <fenris02@fedoraproject.org>
-David Swift <dswift@pccowboy.com>
-Eric Shamow <eshamow@campina.advance.net>
-Eric Shamow <eshamow@colossus.advance.net>
-Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
-Fecn <j.conner@ucl.ac.uk>
-Florent Castelli <orphis@spotify.com>
-Florian Ernst <fe@LF.net>
-Florian Koch <florian.koch1981@googlemail.com>
-Frank Sweetser <fs@WPI.EDU>
-Frank Sweetser <fs@wpi.edu>
-Greg Blomquist <gblomqui@redhat.com>
-Greg Sutcliffe <greg.sutcliffe@gmail.com>
-Greg Sutcliffe <gsutcliffe@ibahn.com>
-Ivan Necas <inecas@redhat.com>
-Jacob McCann <jacob.m.mccann@usps.gov>
-James Bailey <jim@freesolutions.net>
-Jason Antman <jason@jasonantman.com>
-Jason E. Rist <jrist@redhat.com>
-Jeff Palmer <jpalmer@voalte.com>
-Jim Perrin <jperrin@gmail.com>
-Jochen Schalanda <jochen.schalanda@detasad.com.sa>
-Jochen Schalanda <jochen@schalanda.name>
-Jon Fautley <jon@dead.li>
-José Luis Escalante <joeloui@ubuntuJoe.(none)>
-Juan Manuel <jmperez@atlantis.(none)>
-Justin Sherrill <jsherril@redhat.com>
-Kai Stian Olstad <kai.stian.olstad@gmail.com>
-Leandro Marcucci <leanucci@gmail.com>
-Lucas Tolchinsky <ltolchinsky@vurbiatechnologies.com>
-Lukas Zapletal <lzap+git@redhat.com>
-Marcello de Sousa <foreman-dev@area151.com>
-Martin Englund <martin.englund@sun.com>
-Mikael Fridh <frimik@gmail.com>
-Mikael Fridh <mfridh@marinsoftware.com>
 Ohad Levy <ohadlevy@gmail.com>
-Ohad Levy <ohadlevy@redhat.com>
-Olivier Favre <olivier@yakaz.com>
+Amos Benari <abenari@redhat.com>
+Lucas Tolchinsky <ltolchinsky@vurbiatechnologies.com>
 Paul Kelly <paul.ian.kelly@googlemail.com>
 Paul Kelly <pikelly@blueyonder.co.uk>
+Jochen Schalanda <jochen@schalanda.name>
+Frank Sweetser <fs@wpi.edu>
+José Luis Escalante <joeloui@ubuntuJoe.(none)>
+Brian Gupta <brian.gupta@brandorr.com>
+Corey Osman <corey@logicminds.biz>
+Juan Manuel <jmperez@atlantis.(none)>
+Justin Sherrill <jsherril@redhat.com>
+Jochen Schalanda <jochen.schalanda@detasad.com.sa>
+Florian Koch <florian.koch1981@googlemail.com>
+Sam Kottler <shk@redhat.com>
+Marcello de Sousa <foreman-dev@area151.com>
+Greg Sutcliffe <greg.sutcliffe@gmail.com>
+David Swift <dswift@pccowboy.com>
+Tim Speetjens <tim.speetjens@gmail.com>
+Martin Bačovský <mbacovsk@redhat.com>
+Ashay Humane <ashay.humane@gmail.com>
+Greg Sutcliffe <gsutcliffe@ibahn.com>
+Tomas Strachota <tstrachota@redhat.com>
+Sam Kottler <sam@kottlerdevelopment.com>
+Romain Vrignaud <romain@yakaz.com>
+Petr Chalupa <pchalupa@redhat.com>
+Ohad Levy <ohadlevy@redhat.com>
+Mikael Fridh <mfridh@marinsoftware.com>
+Martin Englund <martin.englund@sun.com>
+Dmitri Dolguikh <dmitri@appliedlogic.ca>
+Steve Traylen <steve.traylen@cern.ch>
+Pavel Pokorný <pajkycz@gmail.com>
+Jim Perrin <jperrin@gmail.com>
+Ivan Necas <inecas@redhat.com>
+Frank Sweetser <fs@WPI.EDU>
+Eric Shamow <eshamow@campina.advance.net>
+Trey Dockendorf <treydock@gmail.com>
+theforemanuser123 <oliver_weinmann@gmx.de>
+Telmo <telmox@gmail.com>
+Olivier Favre <olivier@yakaz.com>
+Mikael Fridh <frimik@gmail.com>
+Greg Blomquist <gblomqui@redhat.com>
+Florent Castelli <orphis@spotify.com>
+D. Johnson <fenris02@fedoraproject.org>
+cyberkov <admin@cyberkov.at>
+Todd Zullinger <tmz@pobox.com>
+Sander Hoentjen <s.hoentjen@oxilion.nl>
+Romain Vrignaud <rvrignaud@gmail.com>
 Roberto <roberto_moral@cable.comcast.com>
 Roberto M <telmox@gmail.com>
-Romain Vrignaud <romain@yakaz.com>
-Romain Vrignaud <rvrignaud@gmail.com>
-Sander Hoentjen <s.hoentjen@oxilion.nl>
-Steve Traylen <steve.traylen@cern.ch>
-Telmo <telmox@gmail.com>
-Tim Speetjens <tim.speetjens@gmail.com>
-Todd Zullinger <tmz@pobox.com>
-Trey Dockendorf <treydock@gmail.com>
-jmccann <jacob.m.mccann@usps.gov>
-mattmoran76@gmail.com <mattmoran76@gmail.com>
+Raphaël Pinson <raphink@gmail.com>
+Petr Chalupa (Pitr) <git@pitr.ch>
+Nacho Barrientos <nacho.barrientos@cern.ch>
 motyla <motyla@gmail.com>
-theforemanuser123 <oliver_weinmann@gmx.de>
+mattmoran76@gmail.com <mattmoran76@gmail.com>
+Lukas Zapletal <lzap+git@redhat.com>
+Lee Lowder <llowder@oreillyauto.com>
+Leandro Marcucci <leanucci@gmail.com>
+Kai Stian Olstad <kai.stian.olstad@gmail.com>
+Jon Fautley <jon@dead.li>
+jmccann <jacob.m.mccann@usps.gov>
+Jeff Palmer <jpalmer@voalte.com>
+Jason E. Rist <jrist@redhat.com>
+Jason Antman <jason@jasonantman.com>
+James Bailey <jim@freesolutions.net>
+Jacob McCann <jacob.m.mccann@usps.gov>
+Gustavo Soares Souza <gustavosouza@corp.globo.com>
+Florian Ernst <fe@LF.net>
+Fecn <j.conner@ucl.ac.uk>
+Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+Eric Shamow <eshamow@colossus.advance.net>
+Endre Karlson <endre.karlson@gmail.com>
+Brad P. Crochet <brad@redhat.com>
+Andrew Elwell <Andrew.Elwell@gmail.com>
+Alexander Chuzhoy <sashac88@hotmail.com>
