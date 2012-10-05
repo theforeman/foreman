@@ -22,6 +22,7 @@ module Api
       end
 
       api :GET, "/domains/:id/", "Show a domain."
+      param :id, String, :required => true
       def show
       end
 
@@ -43,6 +44,7 @@ module Api
       end
 
       api :PUT, "/domains/:id/", "Update a domain."
+      param :id, String, :required => true
       param :domain, Hash, :required => true do
         param :name, String, :required => true, :desc => "The full DNS Domain name"
         param :fullname, String, :required => false, :desc => "Full name describing the domain"
@@ -54,6 +56,7 @@ module Api
       end
 
       api :DELETE, "/domains/:id/", "Delete a domain."
+      param :id, String, :required => true
       def destroy
         process_response @domain.destroy
       end

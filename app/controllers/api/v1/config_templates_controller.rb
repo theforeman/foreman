@@ -15,6 +15,7 @@ module Api
       end
 
       api :GET, "/config_templates/:id", "Show template details"
+      param :id, String, :required => true
       def show
       end
 
@@ -34,6 +35,7 @@ module Api
       end
 
       api :PUT, "/config_templates/:id", "Update a template"
+      param :id, String, :required => true
       param :config_template, Hash, :required => true do
         param :name, String, :required => true, :desc => "template name"
         param :template, [String, File], :required => true
@@ -55,6 +57,7 @@ module Api
       end
 
       api :DELETE, "/config_templates/:id", "Delete a template"
+      param :id, String, :required => true
       def destroy
         process_response @config_template.destroy
       end

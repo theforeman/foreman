@@ -6,6 +6,10 @@ module Api
 
     respond_to :json
 
+    after_filter do
+      logger.debug "Body: #{response.body}"
+    end
+
     rescue_from StandardError, :with => lambda { |error|
       Rails.logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
       render_error 'standard_error', :status => 500, :locals => { :exception => error }
@@ -83,7 +87,13 @@ module Api
     # example:
     # @host = Host.find_resource params[:id]
     def find_resource
-      resource = resource_class.find_by_id params[:id]
+      possible_keys = %w(id name login)
+      resource      = possible_keys.find do |key|
+        method = "find_by_#{key}"
+        resource_class.respond_to?(method) and
+            (resource = resource_class.send method, params[:id]) and
+            break resource
+      end
 
       if resource
         return instance_variable_set(:"@#{resource_name}", resource)

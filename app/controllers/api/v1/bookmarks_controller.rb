@@ -9,6 +9,7 @@ module Api
       end
 
       api :GET, "/bookmarks/:id/", "Show a bookmark."
+      param :id, String, :required => true
       def show
       end
 
@@ -24,6 +25,7 @@ module Api
       end
 
       api :PUT, "/bookmarks/:id/", "Update a bookmark."
+      param :id, String, :required => true
       param :bookmark, Hash, :required => true do
         param :name, String
         param :controller, String
@@ -34,6 +36,7 @@ module Api
       end
 
       api :DELETE, "/bookmarks/:id/", "Delete a bookmark."
+      param :id, String, :required => true
       def destroy
         process_response @bookmark.destroy
       end
