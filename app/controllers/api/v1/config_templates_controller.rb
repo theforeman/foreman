@@ -8,10 +8,10 @@ module Api
 
       api :GET, "/config_templates/", "List templates"
       param :search, String, :desc => "filter results"
-      param :order,  String, :desc => "sort results"
+      param :order, String, :desc => "sort results"
       def index
         @config_templates = ConfigTemplate.search_for(params[:search], :order => params[:order]).
-          includes(:operatingsystems, :template_combinations, :template_kind)
+            includes(:operatingsystems, :template_combinations, :template_kind)
       end
 
       api :GET, "/config_templates/:id", "Show template details"
@@ -22,11 +22,12 @@ module Api
       api :POST, "/config_templates/", "Create a template"
       param :config_template, Hash, :required => true do
         param :name, String, :required => true, :desc => "template name"
-        param :template, [String, File], :required => true
-        param :snippet, :bool
-        param :audit_comment, String
-        param :template_kind_id, :number, :desc => "not relevant for snippet"
-        param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :template, String, :required => true
+        param :snippet, :bool, :allow_nil => true
+        param :audit_comment, String, :allow_nil => true
+        param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
+        param :template_combinations_attributes, Array,
+              :desc => "Array of template combinations (hostgroup_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
       def create
@@ -78,7 +79,7 @@ module Api
 
       def default_template_url template, hostgroup
         url_for :only_path => false, :action => :template, :controller => :unattended,
-          :id => template.name, :hostgroup => hostgroup.name
+                :id        => template.name, :hostgroup => hostgroup.name
       end
 
     end

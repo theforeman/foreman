@@ -49,8 +49,8 @@ module Api
       param :id, String, :required => true
       param :user, Hash, :required => true do
         param :login, String, :required => false
-        param :firstname, String, :required => false
-        param :lastname, String, :required => false
+        param :firstname, String, :allow_nil => true, :required => false
+        param :lastname, String, :allow_nil => true, :required => false
         param :mail, String, :required => false
         param :admin, :bool, :required => false, :desc => "Is an admin account?"
         param :password, String, :required => true

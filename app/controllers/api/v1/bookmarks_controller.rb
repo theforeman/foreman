@@ -27,9 +27,9 @@ module Api
       api :PUT, "/bookmarks/:id/", "Update a bookmark."
       param :id, String, :required => true
       param :bookmark, Hash, :required => true do
-        param :name, String
-        param :controller, String
-        param :query, String
+        param :name, String, :allow_nil => true
+        param :controller, String, :allow_nil => true
+        param :query, String, :allow_nil => true
       end
       def update
         process_response @bookmark.update_attributes(params[:bookmark])
