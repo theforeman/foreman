@@ -1,5 +1,4 @@
 class Taxonomy < ActiveRecord::Base
-  include Foreman::ThreadSession::TaxonomyModel
   audited
   has_associated_audits
 

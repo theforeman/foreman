@@ -27,16 +27,9 @@ module Foreman
             unless o.nil? || o.is_a?(self)
               raise(ArgumentError, "Unable to set current User, expected class '#{self}', got #{o.inspect}")
             end
+
             Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
             Thread.current[:user] = o
-            unless o.nil?
-              if SETTINGS[:single_org] and not o.admin? and not o.organizations.empty? and not Thread.current[:organization]
-                # default the org to the "first" org
-                Thread.current[:organization] = o.organizations[0]
-              end
-            else
-              Thread.current[:organization] = nil
-            end
           end
 
           # Executes given block on behalf of a different user. Example:
@@ -60,31 +53,43 @@ module Foreman
     end
 
     # include this in the Organization model object
-    module TaxonomyModel
+    # this needs to be DRY'ed up.
+    module OrganizationModel
       def self.included(base)
         base.class_eval do
-          def self.current
-            if SETTINGS[:single_org]
-              Thread.current[:taxonomy]
-            elsif SETTINGS[:multi_org]
-              User.current.taxonomies
-            end
-          end
-
-          def self.current=(o)
-            unless SETTINGS[:single_org]
-              raise(ArgumentError, "Cannot set the current taxonomy unless SETTINGS[:single_org] is set to true")
-            end
+          def self.current=(organization)
             unless o.nil? || o.is_a?(self)
-              raise(ArgumentError, "Unable to set current taxonomy, expected class '#{self}', got #{o.inspect}")
+              raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{o.inspect}")
             end
             unless User.current.admin?
-              Rails.logger.debug "Setting current taxonomy thread-local variable to " + (o.is_a?(Taxonomy) ? o.name : 'nil')
-              Thread.current[:taxonomy] = o
+              Rails.logger.debug "Setting current organization thread-local variable to " + (o.is_a?(Organization) ? o.name : 'nil')
+              Thread.current[:organization] = o
             end
           end
         end
       end
     end
+
+    module LocationModel
+      def self.included(base)
+        base.class_eval do
+          def self.current
+            User.current.locations
+          end
+
+          def self.current=(location)
+            unless location.nil? || location.is_a?(self)
+              raise(ArgumentError, "Unable to set current locaiton, expected class '#{self}'. got #{location.inspect}")
+            end
+
+            unless User.current.admin?
+              Rails.logger.debug "Setting current location thread-local variable to " + (location.is_a?(Location) ? location.name : 'nil')
+              Thread.current[:location] = location
+            end
+          end
+        end
+      end
+    end
+
   end
 end
