@@ -11,8 +11,8 @@ class Domain < ActiveRecord::Base
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_and_belongs_to_many :users, :join_table => "user_domains"
-  has_many :taxonomy_domains, :dependent => :destroy
-  has_many :taxonomies, :through => :taxonomy_domains
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_domains", :class_name => "Taxonomy"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_domains", :class_name => "Taxonomy"
 
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
@@ -32,6 +32,10 @@ class Domain < ActiveRecord::Base
 
   class Jail < Safemode::Jail
     allow :name, :fullname
+  end
+
+  def taxonomies
+    "taxonomies"
   end
 
   def to_param

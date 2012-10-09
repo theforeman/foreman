@@ -1,6 +1,6 @@
 class CreateTaxonomyHostgroups < ActiveRecord::Migration
   def self.up
-    create_table :taxonomy_hostgroups do |t|
+    create_table :taxonomy_hostgroups, :id => false do |t|
       t.integer :taxonomy_id
       t.integer :hostgroup_id
 

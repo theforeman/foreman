@@ -1,6 +1,6 @@
 class CreateTaxonomyDomains < ActiveRecord::Migration
   def self.up
-    create_table :taxonomy_domains do |t|
+    create_table :taxonomy_domains, :id => false do |t|
       t.integer :taxonomy_id
       t.integer :domain_id
 

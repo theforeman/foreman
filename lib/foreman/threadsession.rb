@@ -57,10 +57,15 @@ module Foreman
     module OrganizationModel
       def self.included(base)
         base.class_eval do
+          def self.current
+            User.current.organizations
+          end
+
           def self.current=(organization)
             unless o.nil? || o.is_a?(self)
               raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{o.inspect}")
             end
+
             unless User.current.admin?
               Rails.logger.debug "Setting current organization thread-local variable to " + (o.is_a?(Organization) ? o.name : 'nil')
               Thread.current[:organization] = o

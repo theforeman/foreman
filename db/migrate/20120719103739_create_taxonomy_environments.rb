@@ -1,6 +1,6 @@
 class CreateTaxonomyEnvironments < ActiveRecord::Migration
   def self.up
-    create_table :taxonomy_environments do |t|
+    create_table :taxonomy_environments, :id => false do |t|
       t.integer :taxonomy_id
       t.integer :environment_id
 
