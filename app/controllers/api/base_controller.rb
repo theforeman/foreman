@@ -87,8 +87,7 @@ module Api
     # example:
     # @host = Host.find_resource params[:id]
     def find_resource
-      possible_keys = %w(id name login)
-      resource      = possible_keys.find do |key|
+      resource = resource_identifying_attributes.find do |key|
         method = "find_by_#{key}"
         resource_class.respond_to?(method) and
             (resource = resource_class.send method, params[:id]) and
@@ -101,6 +100,10 @@ module Api
         render_error 'not_found', :status => :not_found and
             return false
       end
+    end
+
+    def resource_identifying_attributes
+      %w(id name)
     end
 
     def set_default_response_format
