@@ -5,12 +5,15 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", "List all architectures."
+      param :search, String, :desc => "filter results"
+      param :order,  String, :desc => "sort results"
       def index
         @architectures = Architecture.search_for(params[:search], :order => params[:order]).
             paginate(:page => params[:page], :include => :operatingsystems)
       end
 
       api :GET, "/architectures/:id/", "Show an architecture."
+      param :id, :identifier, :required => true
       def show
       end
 
@@ -24,6 +27,7 @@ module Api
       end
 
       api :PUT, "/architectures/:id/", "Update an architecture."
+      param :id, String, :required => true
       param :architecture, Hash, :required => true do
         param :name, String
       end
@@ -32,6 +36,7 @@ module Api
       end
 
       api :DELETE, "/architectures/:id/", "Delete an architecture."
+      param :id, String, :required => true
       def destroy
         process_response @architecture.destroy
       end
