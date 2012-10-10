@@ -123,7 +123,7 @@ class Host < Puppet::Rails::Host
     end
   }
 
-  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }) }
+  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).select('hosts.*') }
 
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile]
