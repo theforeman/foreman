@@ -180,7 +180,7 @@ create_hosts:
     - :create_hosts
 
 none_compute_resources:
-  name: No right on compute resources and vms
+  name: No rights
   id: "10"
   builtin: "0"
   permissions: |
