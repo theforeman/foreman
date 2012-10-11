@@ -38,7 +38,7 @@ class LookupKey < ActiveRecord::Base
   scoped_search :in => :param_class, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
-  default_scope :order => 'LOWER(lookup_keys.key)'
+  default_scope :order => 'lookup_keys.key'
 
   def to_param
     "#{id}-#{key}"
