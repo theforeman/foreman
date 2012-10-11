@@ -71,6 +71,9 @@ class ActiveRecord::Base
   end
 
   def self.per_page
+    # defined?(Rake) prevents the failure of db:migrate for postgresql
+    # don't query settings table if in rake
+    return 20 if defined?(Rake)
     Setting.entries_per_page rescue 20
   end
 end
