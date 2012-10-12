@@ -19,13 +19,13 @@
 
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <%= multiple_checkboxes f, :locations, @environment, Location %>
+          <%= multiple_checkboxes f, :locations, @environment, Location, { :prefix => "environment" } %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @environment, Organization %>
+          <%= multiple_checkboxes f, :organizations, @environment, Organization, { :prefix => "environment" } %>
         </div>
       <% end %>
     </div>

@@ -6,8 +6,9 @@ class Environment < ActiveRecord::Base
   validates_format_of :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
-  has_many :taxonomy_environments, :dependent => :destroy
-  has_many :taxonomies, :through => :taxonomy_environments
+
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_environments", :class_name => "Taxonomy"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_environments", :class_name => "Taxonomy"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   # with proc support, default_scope can no longer be chained
@@ -22,6 +23,10 @@ class Environment < ActiveRecord::Base
 
   def to_param
     name
+  end
+
+  def taxonomies
+    "taxonomies"
   end
 
   class << self
