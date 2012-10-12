@@ -39,14 +39,28 @@ module Api
     end
 
     def oauth
-      unless Setting['oauth_active'] &&
-        (OAuth::RequestProxy.proxy(controller.request).oauth_consumer_key == Setting['oauth_consumer_key'])
+      unless Setting['oauth_active']
+        Rails.logger.debug 'Trying to authenticate with OAuth, but OAuth is not active'
+        return nil
+      end
+
+      unless (incoming_key = OAuth::RequestProxy.proxy(controller.request).oauth_consumer_key) ==
+          Setting['oauth_consumer_key']
+        Rails.logger.debug "oauth_consumer_key should be '#{Setting['oauth_consumer_key']}'" <<
+                               "but was '#{incoming_key}'"
         return nil
       end
 
       if OAuth::Signature.verify(controller.request, :consumer_secret => Setting['oauth_consumer_secret'])
-        User.find_by_login(Setting['oauth_map_users'] ? controller.request.headers['foreman_user'] : "admin")
+        if Setting['oauth_map_users']
+          User.find_by_login(user = controller.request.headers['foreman_user']).tap do |obj|
+            Rails.logger.debug "Oauth: maping to user '#{user}' failed" if obj.nil?
+          end
+        else
+          User.find_by_login 'admin'
+        end
       else
+        Rails.logger.debug "OAuth signature verification failed."
         return nil
       end
     end
