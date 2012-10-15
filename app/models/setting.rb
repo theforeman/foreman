@@ -13,7 +13,7 @@ class Setting < ActiveRecord::Base
   validates_inclusion_of :value, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
   validates_inclusion_of :settings_type, :in => TYPES, :allow_nil => true, :allow_blank => true
   before_validation :fix_types
-  before_save :save_as_settings_type
+  before_save :save_as_settings_type, :ensure_values_not_zero
   validate :validate_attributes
   default_scope :order => 'LOWER(settings.name)'
 
@@ -88,6 +88,16 @@ class Setting < ActiveRecord::Base
     else
       self.settings_type = "integer" if default.is_a?(Integer)
       self.settings_type = "boolean" if default.is_a?(TrueClass) or default.is_a?(FalseClass)
+    end
+  end
+
+  def ensure_values_not_zero
+    # set value to default if zero or negative
+    # id => 4, name => entries_per_page - if zero, error FloatDomainError Infinity
+    # id => 7, name => idle_timeout - if zero,user is logged out immediately
+    # id => 18, name => puppet_interval
+    if [4,7,18].include?(self.id) && self.value <= 0
+      self.value = self.default
     end
   end
 
