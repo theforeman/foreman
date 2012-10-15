@@ -70,4 +70,38 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal true, Setting["oo"]
   end
 
+  test "idle_timeout should not be zero" do
+    setting = Setting.find_by_name('idle_timeout')
+    if setting
+      setting.value = 0
+    else
+      setting = Setting.new(:name => 'idle_timeout', :value => 0, :default => 60 )
+    end
+
+    assert setting.invalid?
+    assert_equal "must be greater than 0", setting.errors[:value].join('; ')
+  end
+
+  test "entries_per_page should not be zero" do
+    setting = Setting.find_by_name('entries_per_page')
+    if setting
+      setting.value = 0
+    else
+      setting = Setting.new(:name => 'entries_per_page', :value => 0, :default => 20 )
+    end
+    assert setting.invalid?
+    assert_equal "must be greater than 0", setting.errors[:value].join('; ')
+  end
+
+  test "puppet_interval should not be zero" do
+    setting = Setting.find_by_name('puppet_interval')
+    if setting
+      setting.value = 0
+    else
+      setting = Setting.new(:name => 'puppet_interval', :value => 0, :default => 30 )
+    end
+    assert setting.invalid?
+    assert_equal "must be greater than 0", setting.errors[:value].join('; ')
+  end
+
 end
