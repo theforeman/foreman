@@ -17,7 +17,7 @@
         <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
-    <li><a href="#params" id='params-tab' <%= "data-url='#{current_parameters_hosts_path}'" %> data-toggle="tab">Parameters</a></li>
+    <li><a href="#params" id='params-tab' data-url='<%= "#{current_parameters_hosts_path}" %>' data-toggle="tab">Parameters</a></li>
     <li><a href="#info" data-toggle="tab">Additional Information</a></li>
   </ul>
 
