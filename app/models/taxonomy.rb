@@ -5,6 +5,8 @@ class Taxonomy < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  belongs_to :user
+
   has_many :taxonomy_users, :dependent => :destroy
   has_many :users, :through => :taxonomy_users
   has_many :taxonomy_smart_proxies, :dependent => :destroy
@@ -23,9 +25,6 @@ class Taxonomy < ActiveRecord::Base
   has_many :puppetclasses, :through => :taxonomy_puppetclasses
   has_many :taxonomy_subnets, :dependent => :destroy
   has_many :subnets, :through => :taxonomy_subnets
-
-  has_many :taxonomy_parameters, :dependent => :destroy, :foreign_key => :reference_id
-  accepts_nested_attributes_for :taxonomy_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
 
   scoped_search :on => :name, :complete_value => true
 
