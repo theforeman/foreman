@@ -10,7 +10,7 @@ class Environment < ActiveRecord::Base
   has_many :template_combinations
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  default_scope :order => 'LOWER(environments.name)'
+  default_scope :order => 'environments.name'
 
   scoped_search :on => :name, :complete_value => :true
 

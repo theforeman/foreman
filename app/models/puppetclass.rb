@@ -20,7 +20,7 @@ class Puppetclass < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   before_destroy EnsureNotUsedBy.new(:hostgroups)
-  default_scope :order => 'LOWER(puppetclasses.name)'
+  default_scope :order => 'puppetclasses.name'
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
