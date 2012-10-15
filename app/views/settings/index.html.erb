@@ -1,21 +1,29 @@
 <% title "Settings" %>
-
-<table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :name %></th>
-    <th>Value</th>
-    <th>Description</th>
-    <th><%= sort :category %></th>
-  </tr>
-  <% for setting in @settings %>
-    <tr class="<%= cycle("even", "odd") -%>">
-      <td><%=h setting.name %></td>
-      <td class="setting_value"><%= value(setting) %></td>
-      <td><%=h setting.description %></td>
-      <td><%=h setting.category %></td>
-    </tr>
+<ul class="nav nav-tabs" data-tabs="tabs">
+  <% @settings.group_by(&:category).each do |category, setting| %>
+    <li class='<%= category == @settings.first.category ? "active" : ""%>'>
+      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= "#{category}" %></a>
+    </li>
   <% end %>
-</table>
+</ul>
+<div class="tab-content">
+  <% @settings.group_by(&:category).each do |category, setting| %>
+      <div class='<%= category == @settings.first.category ? "tab-pane active" : "tab-pane" %>' id='<%= category %>' >
+        <table class="table table-bordered table-striped">
+          <tr>
+            <th><%= sort :name %></th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <% setting.each do |item| %>
+            <tr>
+              <td><%=h item.name %></td>
+              <td class="setting_value"><%= value(item) %></td>
+              <td><%=h item.description %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+  <% end %>
+</div>
 
-<%= page_entries_info @settings %>
-<%= will_paginate     @settings %>
