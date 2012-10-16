@@ -62,14 +62,12 @@ module Foreman
           end
 
           def self.current=(organization)
-            unless o.nil? || o.is_a?(self)
-              raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{o.inspect}")
+            unless organization.nil? || organization.is_a?(self)
+              raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
             end
 
-            unless User.current.admin?
-              Rails.logger.debug "Setting current organization thread-local variable to " + (o.is_a?(Organization) ? o.name : 'nil')
-              Thread.current[:organization] = o
-            end
+            Rails.logger.debug "Setting current organization thread-local variable to " + (organization.is_a?(Organization) ? organization.name : 'nil')
+            Thread.current[:organization] = organization.name
           end
         end
       end
@@ -87,10 +85,8 @@ module Foreman
               raise(ArgumentError, "Unable to set current locaiton, expected class '#{self}'. got #{location.inspect}")
             end
 
-            unless User.current.admin?
-              Rails.logger.debug "Setting current location thread-local variable to " + (location.is_a?(Location) ? location.name : 'nil')
-              Thread.current[:location] = location
-            end
+            Rails.logger.debug "Setting current location thread-local variable to " + (location.is_a?(Location) ? location.name : 'nil')
+            Thread.current[:location] = location
           end
         end
       end
