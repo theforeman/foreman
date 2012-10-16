@@ -3,12 +3,11 @@ class SettingsController < ApplicationController
   before_filter :require_admin
 
   def index
-    values = Setting.search_for(params[:search], :order => params[:order])
+    @settings = Setting.search_for(params[:search])
     respond_to do |format|
       format.html do
-        @settings = values.paginate(:page => params[:page])
       end
-      format.json { render :json => values.all}
+      format.json { render :json => @settings.all}
     end
   end
 
