@@ -7,6 +7,7 @@
     <li><a href="#compute_resources" data-toggle="tab">Compute Resources</a></li>
     <li><a href="#media" data-toggle="tab">Media</a></li>
     <li><a href="#domains" data-toggle="tab">Domains</a></li>
+    <li><a href="#environments" data-toggle="tab">Environments</a></li>
     <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
     <li><a href="#puppetclasses" data-toggle="tab">Puppet Classes</a></li>
     <li><a href="#locations" data-toggle="tab">Locations</a></li>
@@ -35,6 +36,10 @@
 
   <div class="tab-pane" id="domains">
     <%= multiple_checkboxes f, :domains, @organization, Domain, { :prefix => "organization" } %>
+  </div>
+
+  <div class="tab-pane" id="environments">
+    <%= multiple_checkboxes f, :environments, @organization, Environment, { :prefix => "organization" } %>
   </div>
 
   <div class="tab-pane" id="hostgroups">
