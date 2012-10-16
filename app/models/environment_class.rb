@@ -4,6 +4,7 @@ class EnvironmentClass < ActiveRecord::Base
   belongs_to :lookup_key
   validates_uniqueness_of :lookup_key_id,  :scope => [:environment_id, :puppetclass_id]
   validates_presence_of :puppetclass_id, :environment_id
+  audited
 
   scope :parameters_for_class, lambda {|puppetclasses_ids, environment_id|
       all_parameters_for_class(puppetclasses_ids, environment_id).where(:lookup_keys => {:override => true})
@@ -22,4 +23,10 @@ class EnvironmentClass < ActiveRecord::Base
   def self.key_in_environment(env, puppetclass,  lookup_key)
     EnvironmentClass.where(:environment_id => env, :puppetclass_id => puppetclass, :lookup_key_id => lookup_key ).first
   end
+
+  def name
+    # name is required for audited
+    "#{puppetclass.name}-#{environment.name}"
+  end
+
 end
