@@ -3,7 +3,6 @@ group :test do
   gem 'shoulda', "=3.0.1"
   gem 'rr'
   gem 'rake'
-  gem 'redcarpet'
   gem 'single_test'
   gem 'ci_reporter', '>= 1.6.3'
 end
