@@ -5,11 +5,12 @@ class Setting < ActiveRecord::Base
 
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category settings_type }
+  NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page }
   validates_presence_of :name, :description
   validates_presence_of :default, :unless => Proc.new { |s| !s.default } # broken validator
   validates_uniqueness_of :name
   validates_numericality_of :value, :if => Proc.new {|s| s.settings_type == "integer"}
-  validates_numericality_of :value, :if => Proc.new {|s| s.name == "puppet_interval"}, :greater_than => 0
+  validates_numericality_of :value, :if => Proc.new {|s| NONZERO_ATTRS.include?(s.name) }, :greater_than => 0
   validates_inclusion_of :value, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
   validates_inclusion_of :settings_type, :in => TYPES, :allow_nil => true, :allow_blank => true
   before_validation :fix_types
