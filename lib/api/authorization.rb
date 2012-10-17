@@ -12,7 +12,7 @@ module Api
       unless SETTINGS[:login]
         # We assume we always have a user logged in,
         # if authentication is disabled, the user is the build-in admin account.
-        User.current = User.find_by_login("admin")
+        User.current = User.admin
       else
         authorization_method = oauth? ? :oauth : :http_basic
         User.current       ||= send(authorization_method) || (return false)
@@ -52,12 +52,13 @@ module Api
       end
 
       if OAuth::Signature.verify(controller.request, :consumer_secret => Setting['oauth_consumer_secret'])
-        if Setting['oauth_map_users']
-          User.find_by_login(user = controller.request.headers['foreman_user']).tap do |obj|
+        user_name = controller.request.headers['foreman_user']
+        if Setting['oauth_map_users'] && user_name != 'admin'
+          User.find_by_login(user_name).tap do |obj|
             Rails.logger.debug "Oauth: maping to user '#{user}' failed" if obj.nil?
           end
         else
-          User.find_by_login 'admin'
+          User.admin
         end
       else
         Rails.logger.debug "OAuth signature verification failed."
