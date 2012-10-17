@@ -20,7 +20,7 @@
         <% end %>
       </td>
       <td><%= puppetclass.hostgroups.map {|hg| link_to_if_authorized hg, hash_for_edit_hostgroup_path(:id=>hg)}.to_sentence.html_safe %></td>
-      <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
+      <td><%= link_to puppetclass.count_hosts, hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td><%= @keys_counter[puppetclass.name] || 0 %> </td>
       <td>
         <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass), :confirm => "Delete #{puppetclass.name}?" %>
