@@ -60,13 +60,14 @@ class LookupKey < ActiveRecord::Base
   def value_for host, options = {}
     skip_fqdn = options[:skip_fqdn] || false
     obs_matcher_block = options[:obs_matcher_block]
-    used_matcher = nil
+
     path2matches(host).each do |match|
-      if (v = lookup_values.find_by_match(match)) and not (skip_fqdn and match =~ /^fqdn=/)
+      next if skip_fqdn and match =~ /^fqdn\s*=/
+      if (v = lookup_values.find_by_match(match))
         obs_matcher_block.call({:host => host, :used_matcher => match, :value => v.value}) if obs_matcher_block
         return v.value
       end
-    end if override && lookup_values.any?
+    end if (!is_param || (is_param && override)) && lookup_values.any?
     default_value
   end
 
