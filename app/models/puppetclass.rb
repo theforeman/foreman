@@ -2,8 +2,10 @@ class Puppetclass < ActiveRecord::Base
   include Authorization
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
-  has_and_belongs_to_many :operatingsystems
-  has_and_belongs_to_many :hostgroups
+  has_many :operatingsystems_puppetclasses, :dependent => :destroy
+  has_many :operatingsystems, :through => :operatingsystems_puppetclasses
+  has_many :hostgroups_puppetclasses, :dependent => :destroy
+  has_many :hostgroups, :through => :hostgroups_puppetclasses
   has_many :host_classes, :dependent => :destroy
   has_many :hosts, :through => :host_classes
 
@@ -169,4 +171,26 @@ class Puppetclass < ActiveRecord::Base
     return "%#{value}%"
   end
 
+  def count_hosts
+    #get number of hosts in host_classes for cases where host goes not belong to hostgroup
+    cnt1 =  self.hosts.length
+
+    if hostgroup_ids.empty?
+      cnt1
+    else
+      #get hostgroup_ids for puppetclass
+      array_hostgroup_ids = self.hostgroup_ids
+
+      #add hostgroup idss that are descendents of hostgroups for puppetclass
+      hostgroups.each do |hostgroup|
+        array_hostgroup_ids << hostgroup.descendant_ids
+      end
+
+      #get hosts part of hostgroup_ids
+      cnt2 =  Host.where(:hostgroup_id => array_hostgroup_ids).length
+
+      cnt1 + cnt2
+    end
+
+  end
 end

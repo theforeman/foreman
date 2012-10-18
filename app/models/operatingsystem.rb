@@ -8,7 +8,8 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
   has_and_belongs_to_many :architectures
-  has_and_belongs_to_many :puppetclasses
+  has_many :operatingsystems_puppetclasses, :dependent => :destroy
+  has_many :puppetclasses, :through => :operatingsystems_puppetclasses
   has_and_belongs_to_many :config_templates
   has_many :os_default_templates, :dependent => :destroy
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
