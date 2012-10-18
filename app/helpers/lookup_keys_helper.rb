@@ -64,7 +64,7 @@ module LookupKeysHelper
                 </dl>", :title => "Validation types").html_safe}
   end
 
-  def value_origin host, key
+  def used_matcher host, key
     infos = { :used_matcher => nil }
     key.value_for host, :obs_matcher_block => Proc.new { |h| infos = h }, :skip_fqdn => true
     origin = infos[:used_matcher] || '(default value)'
@@ -84,7 +84,7 @@ module LookupKeysHelper
      diagnostic_class = []
      diagnostic_helper = popover("Additional info", "<b>Description:</b> #{key.description}<br>
                                                      <b>Type:</b> #{key.key_type}<br>
-                                                     <b>Matcher:</b> #{value_origin(host, key)}")
+                                                     <b>Matcher:</b> #{used_matcher(host, key)}")
      if new_value.blank? && !new_value.is_a?(FalseClass)
        if key.required
          diagnostic_class << 'error'
