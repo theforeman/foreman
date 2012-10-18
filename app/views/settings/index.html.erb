@@ -8,7 +8,7 @@
 </ul>
 <div class="tab-content">
   <% @settings.group_by(&:category).each do |category, setting| %>
-      <div class='<%= category == @settings.first.category ? "tab-pane active" : "tab-pane" %>' id='<%= category %>' >
+      <div class="tab-pane <%= "active" if category == @settings.first.category  %>" id='<%= category %>' >
         <table class="table table-bordered table-striped">
           <tr>
             <th>Name</th>

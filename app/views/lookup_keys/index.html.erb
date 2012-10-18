@@ -9,12 +9,10 @@
   </tr>
 
 <% @lookup_keys.each do |lookup_key| %>
-  <tr class="<%= cycle("even", "odd") -%>">
+  <tr>
     <td><%= link_to_if_authorized h(lookup_key.key), hash_for_edit_lookup_key_path(:id => lookup_key) %></td>
-
-    <td>
-      <% puppet_class = lookup_key.param_class %>
-      <%= link_to_if_authorized h(puppet_class), hash_for_edit_puppetclass_path(:id => puppet_class) if puppet_class %></td>
+    <% puppet_class = lookup_key.param_class %>
+    <td><%= link_to_if_authorized h(puppet_class), hash_for_edit_puppetclass_path(:id => puppet_class) if puppet_class %></td>
     <td><%=h lookup_key.lookup_values.count %></td>
     <td><%= display_delete_if_authorized hash_for_lookup_key_path(:id => lookup_key), :confirm => "Delete #{lookup_key.key}?" %></td>
   </tr>

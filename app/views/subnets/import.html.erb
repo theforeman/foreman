@@ -12,7 +12,7 @@
         <a class="accordion-toggle" data-toggle="collapse" data-parent='#accordion1' href="<%= '#'+id %>" data-original-title='review' rel='twipsy' > <%= subnet %> </a>
         <%= link_to_function "x", "ignore_subnet(this)", :'data-original-title'=> 'ignore subnet', :rel=>'twipsy', :class => "label ignore-subnet" %>
       </div>
-      <div id="<%= id %>" class="<%= display_all ? 'accordion-body collapse in' : 'accordion-body collapse' %>" >
+      <div id="<%= id %>" class="accordion-body collapse <%= 'in' if display_all %>" >
         <div class="accordion-inner">
           <%= fields_for "subnets[]", subnet do |s| -%>
               <%= render 'fields', :f => s %>

@@ -9,7 +9,7 @@
     <th></th>
   </tr>
   <% @autosign.each do |cert| -%>
-      <tr class="<%= cycle("even", "odd") -%>">
+      <tr>
         <td><%= h cert%> </td>
         <td>
           <%= display_delete_if_authorized hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert) %>

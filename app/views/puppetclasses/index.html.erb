@@ -12,7 +12,7 @@
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass) %></td>
       <td>
         <% puppetclass.environments.uniq.each do |environment| -%>

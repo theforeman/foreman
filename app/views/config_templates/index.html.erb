@@ -8,7 +8,7 @@
 
 <table class="table table-bordered table-striped">
   <tr>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
     <th><%= sort :name %></th>
     <th>Hostgroup / Environment</th>
     <th><%= sort :kind %></th>
@@ -16,7 +16,7 @@
     <th></th>
   </tr>
   <% for config_template in @config_templates %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%= link_to_if_authorized h(config_template), hash_for_edit_config_template_path(:id => config_template.to_param) %></td>
       <td><%= combination config_template %></td>
       <td><%= config_template.try(:template_kind) %></td>
