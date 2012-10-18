@@ -9,7 +9,7 @@
     <th></th>
   </tr>
   <% for domain in @domains %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%= link_to_if_authorized h(domain.fullname.empty? ? domain.name : domain.fullname), hash_for_edit_domain_path(:id => domain.name)%></td>
       <td><%= link_to @counter[domain.id] || 0, hosts_path(:search => "domain = #{domain}") %>
       <td><%= display_delete_if_authorized hash_for_domain_path(:id => domain), :confirm => "Delete #{domain.name}?" %></td>

@@ -10,7 +10,7 @@
     <th>Reported at</th>
   </tr>
   <% for fact_value in @fact_values %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <% unless params[:host_id] -%>
         <td>
           <% if fact_value.host -%>
