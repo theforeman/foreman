@@ -104,4 +104,32 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "must be greater than 0", setting.errors[:value].join('; ')
   end
 
+  def test_returns_value_from_cache
+    assert Setting.create!(:name => "test_cache", :default => 1, :description => "test foo")
+    Setting.test_cache = 2
+    assert_equal Setting.test_cache, Setting.find_by_name('test_cache').value
+    assert_equal Rails.cache.read('test_cache'), Setting.find_by_name('test_cache').value
+
+  end
+
+  def test_boolean_false_returns_from_cache
+    assert Setting.find_or_create_by_name(:name => "enc_environment", :default => true, :description => "test false")
+    #setter method, deletes cache
+    Setting.enc_environment = false
+    #first time getter method, write the cache
+    assert_equal Setting.enc_environment, false
+    #second time getter method, reads from the cache
+    assert_equal Setting.enc_environment, Setting.find_by_name('enc_environment').value
+  end
+
+  def test_boolean_true_returns_from_cache
+    assert Setting.find_or_create_by_name(:name => "enc_environment", :default => true, :description => "test true")
+    #setter method, deletes cache
+    Setting.enc_environment = true
+    #first time getter method, write the cache
+    assert_equal Setting.enc_environment, true
+    #second time getter method, reads from the cache
+    assert_equal Setting.enc_environment, Setting.find_by_name('enc_environment').value
+  end
+
 end

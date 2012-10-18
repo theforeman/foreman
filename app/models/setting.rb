@@ -26,8 +26,14 @@ class Setting < ActiveRecord::Base
 
   def self.[](name)
     name = name.to_s
-    cache.fetch name do
-      where(:name => name).first.try(:value)
+
+    cache_value = Rails.cache.read(name)
+    if cache_value.nil?
+       value = where(:name => name).first.try(:value)
+       cache.write(name, value)
+       return value
+    else
+       cache_value
     end
   end
 
