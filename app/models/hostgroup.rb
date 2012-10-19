@@ -3,7 +3,8 @@ class Hostgroup < ActiveRecord::Base
   include Authorization
   include HostCommon
   include Vm
-  has_and_belongs_to_many :puppetclasses
+  has_many :hostgroup_classes, :dependent => :destroy
+  has_many :puppetclasses, :through => :hostgroup_classes
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
   validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
