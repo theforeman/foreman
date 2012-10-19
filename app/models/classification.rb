@@ -84,7 +84,7 @@ class Classification
     matches = []
     possible_value_orders.each do |rule|
       match = []
-      rule.each do |element|
+      rule.each_line do |element|
         match << "#{element}#{LookupKey::EQ_DELM}#{attr_to_value(element)}"
       end
       matches << match.join(LookupKey::KEY_DELM)

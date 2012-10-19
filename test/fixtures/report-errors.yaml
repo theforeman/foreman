@@ -17,9 +17,7 @@ metrics:
     basedir: /var/lib/puppet/rrd/my.sol.client.com
     label: Time
     name: time
-    rrd: !ruby/object:RRDtool 
-      rrdname: /var/lib/puppet/rrd/my.sol.client.com/time.rrd
-    values: 
+    values:
     - - :config_retrieval
       - Config retrieval
       - 6.98906397819519
@@ -30,9 +28,7 @@ metrics:
     basedir: /var/lib/puppet/rrd/my.sol.client.com
     label: Resources
     name: resources
-    rrd: !ruby/object:RRDtool 
-      rrdname: /var/lib/puppet/rrd/my.sol.client.com/resources.rrd
-    values: 
+    values:
     - - :failed_restarts
       - Failed restarts
       - 0
@@ -61,9 +57,7 @@ metrics:
     basedir: /var/lib/puppet/rrd/my.sol.client.com
     label: Changes
     name: changes
-    rrd: !ruby/object:RRDtool 
-      rrdname: /var/lib/puppet/rrd/my.sol.client.com/changes.rrd
-    values: 
+    values:
     - - :total
       - Total
       - 0

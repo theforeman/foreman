@@ -11,12 +11,11 @@ gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.3"
 gem 'scoped_search', '>= 2.4'
 gem 'net-ldap'
-gem "safemode", "~> 1.0.1"
+gem "safemode", "~> 1.1.0"
+gem 'ruby_parser', '~> 3.0.0'
 gem 'uuidtools'
 gem "apipie-rails", ">= 0.0.12"
 gem 'rabl', '>= 0.7.5'
-# Previous versions collide with Environment model
-gem "ruby_parser", ">= 2.3.1"
 gem 'oauth'
 
 Dir["#{File.dirname(__FILE__)}/bundler.d/*.rb"].each do |bundle|

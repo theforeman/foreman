@@ -40,7 +40,7 @@ module ApplicationHelper
 
   def toggle_div divs
     update_page do |page|
-      (divs.is_a?(Array) ? divs : divs.to_s).each do |div|
+      (divs.is_a?(Array) ? divs : divs.to_s).each_line do |div|
         # add jquery '#div' to the div if its missing
         div = div.to_s
         div = "##{div}" if div[0] != "#"
