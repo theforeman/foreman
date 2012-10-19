@@ -67,3 +67,6 @@ class ActionController::TestCase
     @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
 end
+
+Apipie.configuration.validate = false
+

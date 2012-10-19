@@ -38,10 +38,10 @@ module Api
       api :PUT, "/config_templates/:id", "Update a template"
       param :id, String, :required => true
       param :config_template, Hash, :required => true do
-        param :name, String, :required => true, :desc => "template name"
-        param :template, [String, File], :required => true
+        param :name, String, :desc => "template name"
+        param :template, String
         param :snippet, :bool
-        param :audit_comment, String
+        param :audit_comment, String, :allow_nil => true
         param :template_kind_id, :number, :desc => "not relevant for snippet"
         param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
