@@ -41,7 +41,7 @@ class FactValuesController < ApplicationController
         }
       end
     end
-  rescue => e
+  rescue Exception => e
     logger.warn "Failed to import facts: #{e}"
     render :text => "Failed to import facts: #{e}", :status => 400
   end

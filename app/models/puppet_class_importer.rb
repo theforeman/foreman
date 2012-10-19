@@ -44,13 +44,13 @@ class PuppetClassImporter
   def obsolete_and_new changes = { }
     return if changes.empty?
     changes.values.map(&:keys).flatten.uniq.each do |env_name|
-      if changes['new'] and changes['new'][env_name].try(:any?) # we got new classes
+      if changes['new'] and changes['new'][env_name].try(:>, '') # we got new classes
         add_classes_to_foreman(env_name, JSON.parse(changes['new'][env_name]))
       end
-      if changes['obsolete'] and changes['obsolete'][env_name].try(:any?) # we need to remove classes
+      if changes['obsolete'] and changes['obsolete'][env_name].try(:>, '') # we need to remove classes
         remove_classes_from_foreman(env_name, JSON.parse(changes['obsolete'][env_name]))
       end
-      if changes['updated'] and changes['updated'][env_name].try(:any?) # we need to update classes
+      if changes['updated'] and changes['updated'][env_name].try(:>, '') # we need to update classes
         update_classes_in_foreman(env_name, JSON.parse(changes['updated'][env_name]))
       end
     end
