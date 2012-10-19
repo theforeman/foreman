@@ -1,18 +1,20 @@
 require "rest_client"
 require "json"
 require "uri"
-require 'net'
+
 
 module ProxyAPI
 
   class Resource
     attr_reader :url
+    attr_accessor :connect_params
 
     def initialize(args)
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
 
       # Each request is limited to 60 seconds
-      connect_params = {:timeout => 60, :open_timeout => 10, :headers => { :accept => :json }}
+      connect_params = {:timeout => 60, :open_timeout => 10, :headers => { :accept => :json },
+                        :user => args[:user], :password => args[:password]}
 
       # We authenticate only if we are using SSL
       if url.match(/^https/i)
@@ -28,13 +30,24 @@ module ProxyAPI
           :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
         ) unless Rails.env == "test"
       end
-      @resource = RestClient::Resource.new(url, connect_params)
+    end
+
+    def resource
+      # Required in order to ability to mock the resource
+      @resource ||= RestClient::Resource.new(url, connect_params)
+    end
+
+    # Sets the credentials in the connection parameters, creates new resource when called
+    # Since there is now other way to set the credential
+    def set_credentials(username, password)
+      connect_params[:user]     = username
+      connect_params[:password] = password
+      @resource                 = nil
     end
 
     def logger; Rails.logger; end
 
     private
-
     # Decodes the JSON response if no HTTP error has been detected
     # If an HTTP error is received then the error message is saves into @error
     # Returns: Response, if the operation is GET, or true for POST, PUT and DELETE.
@@ -52,28 +65,28 @@ module ProxyAPI
     end
 
     # Perform GET operation on the supplied path
-    def get path = nil
+    def get path = nil, payload = {}
       # This ensures that an extra "/" is not generated
       if path
-        @resource[URI.escape(path)].get
+        resource[URI.escape(path)].get payload
       else
-        @resource.get
+        resource.get payload
       end
     end
 
     # Perform POST operation with the supplied payload on the supplied path
     def post payload, path = ""
-      @resource[path].post payload
+      resource[path].post payload
     end
 
     # Perform PUT operation with the supplied payload on the supplied path
     def put payload, path = ""
-      @resource[path].put payload
+      resource[path].put payload
     end
 
     # Perform DELETE operation on the supplied path
     def delete path
-      @resource[path].delete
+      resource[path].delete
     end
   end
 
@@ -239,6 +252,113 @@ module ProxyAPI
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
       return true
+    end
+  end
+
+  class BMC < Resource
+
+    def initialize args
+      @url = args[:url] + "/bmc"
+      super args
+    end
+
+    # gets a list of supported providers
+    def providers
+      parse get("providers")
+    end
+
+    # gets a list of supported providers installed on the proxy
+    def providers_installed
+      parse get("providers/installed")
+    end
+
+    # Perform a boot operation on the bmc device
+    def boot args
+      valid_boot_devices = %w[disk cdrom pxe bios]
+      # valid additional arguments args[:reboot] = true|false, args[:persistent] = true|false
+      #  put "/bmc/:host/chassis/config/?:function?/?:action?" do
+      case args[:function]
+        when "bootdevice"
+          if valid_boot_devices.include?(args[:device])
+            parse put(args, "/chassis/config/#{args[:function]}/#{args[:device]}")
+          else
+            raise NoMethodError
+          end
+        else
+          raise NoMethodError
+      end
+    end
+
+    # Perform a power operation on the bmc device
+    def power args
+      # get "/bmc/:host/chassis/power/:action"
+      # put "/bmc/:host/chassis/power/:action"
+      case args[:action]
+        when "on?", "off?", "status"
+          args[:action].chop! if args[:action].include?('?')
+          parse get("/chassis/power/#{args[:action]}", args)
+        when "on", "off", "cycle", "soft"
+          parse put(args, "/chassis/power/#{args[:action]}")
+        else
+          raise NoMethodError
+      end
+    end
+
+    # perform an identify operation on the bmc device
+    def identify args
+      # get "/bmc/:host/chassis/identify/:action"
+      # put "/bmc/:host/chassis/identify/:action"
+      case args[:action]
+        when "status"
+          parse get("/chassis/identify/#{args[:action]}", args)
+        when "on", "off"
+          parse put(args, "/chassis/identify/#{args[:action]}")
+        else
+          raise NoMethodError
+      end
+
+    end
+
+    # perform a lan get operation on the bmc device
+    def lan args
+      # get "/bmc/:host/lan/:action"
+      case args[:action]
+        when "ip", "netmask", "mac", "gateway"
+          parse get("/lan/#{args[:action]}", args)
+        else
+          raise NoMethodError
+      end
+    end
+
+    private
+
+    def method_missing(method, *args, &block)
+      begin
+        super(method, *args, &block)
+      rescue NoMethodError
+        margs = args.first
+        farg  = method.to_s.split('_')
+        # method must contain 2 parts, ie: power_on, boot_disk
+        raise NoMethodError unless farg.length == 2
+
+        case farg.first
+          when "power"
+            margs[:action] = farg.last
+            power(margs)
+          when "boot"
+            margs[:function] = "bootdevice"
+            margs[:device]   = farg.last
+            boot(margs)
+          when "identify"
+            margs[:action] = farg.last
+            identify(margs)
+          when "lan"
+            margs[:action] = farg.last
+            lan(margs)
+          else
+            raise NoMethodError
+        end
+      end
     end
   end
 
