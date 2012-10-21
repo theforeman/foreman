@@ -32,7 +32,7 @@ class ComputeResource < ActiveRecord::Base
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
     end
-    {:conditions => conditions}
+    where(conditions).reorder('type, name')
   }
 
   # allows to create a specific compute class based on the provider.
