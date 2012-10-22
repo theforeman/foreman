@@ -26,13 +26,11 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name, :class => "input-xlarge", :value => name_field(@host) %>
 
-      <h1>Locations: <%= User.current.inspect %></h1>
-
       <% if show_organization_tab?  %>
         <%= select_f f, :organization_id, Organization.all, :id, :to_label,
           { :include_blank => true },
           { :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
-          :'data-url' => process_organization_hosts_path, :selected => Organization.current,
+          :'data-url' => process_organization_hosts_path, :selected => User.current.organization,
           :help_inline => image_tag('spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
       <% end %>
 
@@ -40,7 +38,7 @@
         <%= select_f f, :location_id, Location.all, :id, :to_label,
           { :include_blank => true},
           { :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
-            :'data-url' => process_location_hosts_path, :selected => "Zurich",
+            :'data-url' => process_location_hosts_path, :selected => User.current.location,
             :help_inline => image_tag('spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
       <% end %>
 
