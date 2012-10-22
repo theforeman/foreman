@@ -20,7 +20,7 @@ class DomainsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.json { render :json => @domain }
+      format.json { render :json => @domain.to_json({:methods => [:domain_parameters]}) }
     end
   end
 
