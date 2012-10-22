@@ -46,7 +46,7 @@
   </div>
 
   <div class="tab-pane" id="locations">
-    <%= multiple_checkboxes f, :locations, @organization, Location, { :prefix => "organization" } %>
+    <%= multiple_checkboxes f, :locations, @organization, Location %>
   </div>
 
   <%= submit_or_cancel f %>

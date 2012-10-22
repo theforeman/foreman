@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
 
-  has_many :taxonomy_users, :dependent => :destroy
-  has_many :taxonomies, :through => :taxonomy_users
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_users"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_users"
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -52,6 +52,8 @@ class User < ActiveRecord::Base
   scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
   scoped_search :on => :last_login_on, :complete_value => :true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
+  scoped_search :on => :locations, :complete_value => true
+  scoped_search :on => :organizations, :complete_value => true
 
   def to_label
     "#{firstname} #{lastname} (#{login})"
@@ -60,6 +62,9 @@ class User < ActiveRecord::Base
 
   def to_param
     "#{id}-#{login.parameterize}"
+  end
+
+  def taxonomies
   end
 
   def <=>(other)

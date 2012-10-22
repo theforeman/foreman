@@ -55,6 +55,11 @@ class LocationsController < ApplicationController
     end
   end
 
+  def select
+    Location.current = Location.find(params[:id])
+    redirect_back_or_to root_url
+  end
+
   def load_vars_for_ajax
     return unless @location
   end

@@ -284,8 +284,23 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
-  resources :locations if SETTINGS[:locations_enabled]
-  resources :organizations if SETTINGS[:organizations_enabled]
+  if SETTINGS[:locations_enabled]
+    resources :locations do
+      get 'select', :on => :member
+      collection do
+	get 'auto_complete_search'
+      end
+    end
+  end
+
+  if SETTINGS[:organizations_enabled]
+    resources :organizations do
+      get 'select', :on => :member
+      collection do
+	get 'auto_complete_search'
+      end
+    end
+  end
 
   #Keep this line the last route
   match '*a', :to => 'errors#routing'

@@ -1,7 +1,7 @@
 <li class="dropdown">
-  <%= link_to ((Location.current.name.upcase rescue("Location")) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => 'Current Location' %>
+  <%= link_to ((Location.current.name rescue("Locations")) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => 'Current Location' %>
   <ul class="dropdown-menu">
-    <% if User.current.taxonomies.where(:type => "Location").count == 0 %>
+    <% if Location.all.count == 0 %>
       <div class="no-taxonomies">
         <div class="alert">
           <button type="button" class="close" data-dismiss="alert">×</button>
@@ -10,7 +10,7 @@
         <button class="btn btn-large btn-primary" type="button"><%= link_to "New Location", :controller => "locations", :action => "new" %></button>
       </div>
     <% else %>
-      <% User.current.taxonomies.where(:type => "Location").each do |location| %>
+      <% Location.all.each do |location| %>
         <li><%= link_to(location.name, select_location_path(location)) %></li>
       <% end -%>
     <% end %>

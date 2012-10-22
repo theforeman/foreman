@@ -33,11 +33,11 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    @organization = Organization.find(params[:id])
+    find_organization
   end
 
   def update
-    @organization = Organization.find(params[:id])
+    find_organization
 
     if @organization.update_attributes(params[:organization])
       process_success
@@ -47,13 +47,16 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    @organization = Organization.find(params[:id])
-
     if @organization.destroy
       process_success
     else
       process_error
     end
+  end
+
+  def select
+    Organization.current = find_organization
+    redirect_back_or_to root_url
   end
 
   private

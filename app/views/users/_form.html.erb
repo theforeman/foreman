@@ -44,18 +44,6 @@
       <%= render("filters", :f => f) %>
     </div>
 
-    <% if show_location_tab? %>
-      <div class="tab-pane" id="locations">
-       <%= multiple_checkboxes f, :locations, @user, Location %>
-     </div>
-    <% end -%>
-
-    <% if show_organization_tab? %>
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @user, Organization %>
-      </div>
-    <% end %>
-
     <% end %>
   </div>
   <%= submit_or_cancel f %>

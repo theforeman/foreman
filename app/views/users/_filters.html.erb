@@ -34,6 +34,22 @@
       </div>
   <% end %>
 
+  <%= field_set_tag "Organization hosts" do %>
+    <div class="control-group">
+      <%= f.select :organizations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+      <div class="offset1">
+      </div>
+    </div>
+  <% end -%>
+
+  <%= field_set_tag "Location hosts" do %>
+    <div class="control-group">
+      <%= f.select :locations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+      <div class="offset1">
+      </div>
+    </div>
+  <% end -%>
+
   <%= field_set_tag "Fact filters" do %>
       <div class="control-group">
         <%= f.select :facts_andor, [["must match", "and"], ["plus all", "or"]], {} ,:class => "input-small" %>

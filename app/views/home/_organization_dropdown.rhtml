@@ -1,7 +1,7 @@
 <li class="dropdown">
-  <%= link_to ((Organization.current.name.upcase rescue("Organization")) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => 'Current Location' %>
+  <%= link_to ((Organization.current.name ) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Organization" %>
   <ul class="dropdown-menu">
-    <% if User.current.taxonomies.where(:type => "Organization").count == 0 %>
+    <% if Organization.all.count == 0 %>
       <div class="no-taxonomies">
         <div class="alert">
           <button type="button" class="close" data-dismiss="alert">×</button>
@@ -10,9 +10,9 @@
         <button class="btn btn-large btn-primary" type="button"><%= link_to "New Organization", :controller => "organizations", :action => "new" %></button>
       </div>
     <% else %>
-      <% User.current.taxonomies.where(:type => "Organization").each do |organization| %>
-        <li><%= link_to(organization.name, select_organization_path(organization)) %></li>
-      <% end -%>
+      <% Organization.all.each do |organization| %>
+	<li><%= link_to(organization.name, select_organization_path(organization)) %>
+      <% end %>
     <% end %>
   </ul>
 </li>
