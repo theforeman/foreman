@@ -55,7 +55,7 @@ module Api
         user_name = controller.request.headers['foreman_user']
         if Setting['oauth_map_users'] && user_name != 'admin'
           User.find_by_login(user_name).tap do |obj|
-            Rails.logger.warn "Oauth: maping to user '#{user}' failed" if obj.nil?
+            Rails.logger.warn "Oauth: maping to user '#{user_name}' failed" if obj.nil?
           end
         else
           User.admin
