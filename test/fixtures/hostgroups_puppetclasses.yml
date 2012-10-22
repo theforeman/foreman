@@ -1,0 +1,7 @@
+common-one:
+  hostgroup: common
+  puppetclass: one
+
+common-two:
+  hostgroup: common
+  puppetclass: two

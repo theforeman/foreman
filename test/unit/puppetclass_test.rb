@@ -87,4 +87,10 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test "count hosts for puppet class" do
+    puppet_class =  puppetclasses(:one)
+    #puppetclasses(:one) is on hosts(:one) through host_classes and two more hosts that are in hostgroups(:common)
+    assert_equal 3, puppet_class.count_hosts
+  end
+
 end

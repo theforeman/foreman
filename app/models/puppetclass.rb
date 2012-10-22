@@ -173,10 +173,10 @@ class Puppetclass < ActiveRecord::Base
 
   def count_hosts
     #get number of hosts in host_classes for cases where host goes not belong to hostgroup
-    cnt1 =  self.hosts.length
+    cnt_hosts =  self.hosts.length
 
     if hostgroup_ids.empty?
-      cnt1
+      cnt_hosts
     else
       #get hostgroup_ids for puppetclass
       array_hostgroup_ids = self.hostgroup_ids
@@ -187,9 +187,9 @@ class Puppetclass < ActiveRecord::Base
       end
 
       #get hosts part of hostgroup_ids
-      cnt2 =  Host.where(:hostgroup_id => array_hostgroup_ids).length
+      cnt_hosts_in_hostgroups =  Host.where(:hostgroup_id => array_hostgroup_ids).length
 
-      cnt1 + cnt2
+      cnt_hosts + cnt_hosts_in_hostgroups
     end
 
   end
