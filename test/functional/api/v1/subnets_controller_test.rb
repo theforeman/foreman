@@ -10,6 +10,12 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
 
   end
 
+  def test_show
+    as_admin { get :show, {:id => Subnet.first.id } }
+    assert_response :success
+    assert_not_nil assigns(:subnet)
+  end
+
   def test_create_invalid
     as_admin { post :create }
     assert_response :unprocessable_entity
@@ -40,7 +46,8 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
     assert Subnet.exists?(subnet.id)
   end
 
-  def test_destroy_json
+  def test_destroy
+    Domain.delete_all
     subnet = Subnet.first
     subnet.hosts.clear
     as_admin { delete :destroy, {:id => subnet.id} }

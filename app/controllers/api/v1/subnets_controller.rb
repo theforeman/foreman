@@ -53,6 +53,11 @@ module Api
         process_response @subnet.update_attributes(params[:subnet])
       end
 
+      api :GET, '/subnets/:id', 'Show a subnet'
+      param :id, String, :desc => 'Subnet numeric identifier', :required => true
+      def show
+      end
+
       api :DELETE, '/subnets/:id', 'Delete a subnet'
       param :id, String, :desc => 'Subnet numeric identifier', :required => true
       def destroy
