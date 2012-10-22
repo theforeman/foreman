@@ -13,7 +13,6 @@ module Api
       api :GET, "/environments/:id/", "Show an environment."
       param :id, String, :required => true
       def show
-        #@environment is returned by before_filter :find_resource
       end
 
       api :POST, "/environments/", "Create an environment."
