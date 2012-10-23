@@ -27,9 +27,8 @@ class EnvironmentsController < ApplicationController
 
   def create
     @environment = Environment.new(params[:environment])
-    Taxonomy.when_single_taxonomy do
-      @environment.taxonomy_ids = [Taxonomy.current.id]
-    end
+    @environment.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @environment.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
     if @environment.save
       process_success
     else

@@ -41,7 +41,7 @@ class Taxonomy < ActiveRecord::Base
 
 
   def self.with_taxonomy_scope
-    if SETTINGS[:orgs_enabled]
+    if (SETTINGS[:locations_enabled] and SETTINGS[:organizations_enabled])
       # the join with organizations should exclude all objects not in the user's
       # current org(s) ... if the user has no current org, then the user will
       # see no objects as a result of this join
@@ -57,11 +57,11 @@ class Taxonomy < ActiveRecord::Base
   end
 
 
-  def self.when_single_taxonomy
-    unless User.current.admin?
-      if SETTINGS[:single_org]
-        yield if block_given?
-      end
-    end
+  def self.locations_enabled
+    SETTINGS[:locations_enabled]
+  end
+
+  def self.organizations_enabled
+    SETTINGS[:organizations_enabled]
   end
 end

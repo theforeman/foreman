@@ -22,9 +22,8 @@ class MediaController < ApplicationController
 
   def create
     @medium = Medium.new(params[:medium])
-    Taxonomy.when_single_taxonomy do
-      @medium.taxonomy_ids = [Taxonomy.current.id]
-    end
+    @medium.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @medium.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
     if @medium.save
       process_success
     else

@@ -60,9 +60,8 @@ class HostgroupsController < ApplicationController
 
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
-    Taxonomy.when_single_taxonomy do
-      @hostgroup.taxonomy_ids = [Taxonomy.current.id]
-    end
+    @hostgroup.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @hostgroup.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
     if @hostgroup.save
       # Add the new hostgroup to the user's filters
       @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)

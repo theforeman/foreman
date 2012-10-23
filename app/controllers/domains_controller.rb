@@ -23,9 +23,8 @@ class DomainsController < ApplicationController
 
   def create
     @domain = Domain.new(params[:domain])
-    Taxonomy.when_single_taxonomy do
-      @domain.taxonomy_ids = [Taxonomy.current.id]
-    end
+    @domain.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @domain.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
 
     if @domain.save
       process_success

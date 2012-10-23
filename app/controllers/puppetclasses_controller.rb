@@ -29,9 +29,8 @@ class PuppetclassesController < ApplicationController
 
   def create
     @puppetclass = Puppetclass.new(params[:puppetclass])
-    Taxonomy.when_single_taxonomy do
-      @puppetclass.taxonomy_ids = [Taxonomy.current.id]
-    end
+    @puppetclass.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @puppetclass.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
     if @puppetclass.save
       notice "Successfully created puppetclass."
       redirect_to puppetclasses_url

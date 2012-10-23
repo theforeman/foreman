@@ -85,9 +85,8 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(params[:host])
     @host.managed = true
-    Taxonomy.when_single_taxonomy do
-      @host.taxonomy_ids = [Taxonomy.current.id]
-    end
+    @host.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @host.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
     forward_request_url
     if @host.save
       process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
