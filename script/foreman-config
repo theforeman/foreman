@@ -74,6 +74,8 @@ require File.expand_path("config/application", options[:foreman_path])
 
 Rails.application.require_environment!
 
+Foreman::Application.config.logger = Logger.new("#{Rails.root}/log/foreman-config.log")
+
 require 'json'
 require 'yaml'
 
