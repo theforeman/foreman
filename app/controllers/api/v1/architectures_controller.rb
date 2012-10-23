@@ -7,7 +7,7 @@ module Api
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
       def index
-        @architectures = Architecture.includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+        @architectures = Architecture.includes(:operatingsystems).search_for(params[:search], :order => params[:order])
       end
 
       api :GET, "/architectures/:id/", "Show an architecture."

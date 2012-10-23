@@ -16,7 +16,6 @@ class ArchitecturesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html { invalid_request }
       format.json { render :json => @architecture }
     end
   end
