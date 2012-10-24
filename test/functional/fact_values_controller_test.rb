@@ -41,7 +41,9 @@ class FactValuesControllerTest < ActionController::TestCase
   end
 
   test 'show nested fact json' do
-    get :index, {:format => "json", :fact_id => "kernelversion"}, set_session_user
+    as_user :admin do
+      get :index, {:format => "json", :fact_id => "kernelversion"}, set_session_user
+    end
     factvalues =  ActiveSupport::JSON.decode(@response.body)
     assert_equal "fact = kernelversion", @request.params[:search]
     assert factvalues.is_a?(Hash)

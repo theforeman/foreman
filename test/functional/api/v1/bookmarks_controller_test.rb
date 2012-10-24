@@ -4,24 +4,24 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
 
 
   bookmark_base = {
-    :public => false, 
+    :public     => false,
     :controller => "hosts"
   }
 
   simple_bookmark = bookmark_base.merge({
-    :name => "foo-bar", 
-    :query => "bar"
-  })
+                                          :name  => "foo-bar",
+                                          :query => "bar"
+                                        })
 
   dot_bookmark = bookmark_base.merge({
-    :name => "facts.architecture", 
-    :query => " facts.architecture = x86_64"
-  })
+                                       :name  => "facts.architecture",
+                                       :query => " facts.architecture = x86_64"
+                                     })
 
 
   test "should get index" do
     as_user :admin do
-      get :index, {}
+      get :index, { }
     end
     assert_response :success
     assert_not_nil assigns(:bookmarks)
@@ -29,15 +29,17 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
 
   test "should show bookmark" do
     as_user :admin do
-      get :show, {:id => bookmarks(:one).to_param}
+      get :show, { :id => bookmarks(:one).to_param }
     end
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
   test "should create bookmark" do
     as_user :admin do
       assert_difference('Bookmark.count') do
-        post :create, {:bookmark => simple_bookmark}
+        post :create, { :bookmark => simple_bookmark }
       end
     end
     assert_response :success
@@ -46,15 +48,15 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
   test "should create bookmark with a dot" do
     as_user :admin do
       assert_difference('Bookmark.count') do
-        post :create, {:bookmark => dot_bookmark}
+        post :create, { :bookmark => dot_bookmark }
       end
     end
     assert_response :success
   end
 
   test "should update bookmark" do
-    as_user :admin do 
-      put :update, {:id => bookmarks(:one).to_param, :bookmark => {} }
+    as_user :admin do
+      put :update, { :id => bookmarks(:one).to_param, :bookmark => { } }
     end
     assert_response :success
   end
@@ -62,7 +64,7 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
   test "should destroy bookmark" do
     as_user :admin do
       assert_difference('Bookmark.count', -1) do
-        delete :destroy, {:id => bookmarks(:one).to_param}
+        delete :destroy, { :id => bookmarks(:one).to_param }
       end
     end
     assert_response :success

@@ -3,10 +3,12 @@ module Api
     class HomeController < V1::BaseController
 
       api :GET, "/", "Show available links."
+
       def index
       end
 
       api :GET, "/status/", "Show status."
+
       def status
       end
 

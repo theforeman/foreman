@@ -11,3 +11,7 @@ ubuntu:
 suse:
   name: suse default
   layout: "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>"
+
+four:
+  name: four
+  layout: "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>"

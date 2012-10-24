@@ -91,7 +91,7 @@ class LookupKey < ActiveRecord::Base
         val = JSON.dump val
       when :yaml, :hash
         val = YAML.dump val
-        val.sub! /\A---\s*$\n/, ''
+        val.sub!(/\A---\s*$\n/, '')
       when  :array
         val = val.inspect
     end unless key_type.blank?

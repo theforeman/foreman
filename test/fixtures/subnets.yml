@@ -14,3 +14,10 @@ two:
    mask: 255.255.255.0
    dhcp: one
    tftp: two
+
+three:
+   name: three
+   network: 3.3.4.3
+   mask: 255.255.255.0
+   dhcp: one
+   tftp: two
