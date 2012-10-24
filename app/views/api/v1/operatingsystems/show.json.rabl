@@ -2,11 +2,11 @@ object @operatingsystem
 attributes :id, :name, :major, :minor, :family, :release_name
 
 child :media do
-    attributes :id, :name, :path, :media_path, :config_path, :image_path, :os_family
+    extends "api/v1/media/show"
 end
 
 child :architectures do
-    attributes :id, :name
+    extends "api/v1/architectures/show"
 end
 
 child :ptables do
