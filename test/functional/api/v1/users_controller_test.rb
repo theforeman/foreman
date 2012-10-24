@@ -2,17 +2,29 @@ require 'test_helper'
 
 class Api::V1::UsersControllerTest < ActionController::TestCase
 
+  valid_attrs = { :login => "johnsmith" }
+
   test "should get index" do
     as_user :admin do
-      get :index, {}
+      get :index, { }
     end
     assert_response :success
   end
 
+  test "should show individual record" do
+    as_user :admin do
+      get :show, { :id => users(:one).to_param }
+    end
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
+
   test "should update user" do
     as_user :admin do
       user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-      put :update, { :id => user.id, :user => {:login => "johnsmith"} }
+      put :update, { :id => user.id, :user => valid_attrs }
       assert_response :success
 
       mod_user = User.find_by_id(user.id)
@@ -26,7 +38,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
       assert user.roles =([roles(:anonymous)])
 
-      put :update, { :id => user.id, :user => {:login => "johnsmith"} }
+      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
       assert_response :success
 
       mod_user = User.find_by_id(user.id)
@@ -38,11 +50,11 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
   test "should set password" do
     as_user :admin do
-      user = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
+      user          = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
       user.password = "changeme"
       assert user.save
 
-      put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" }}
+      put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
       assert_response :success
 
       mod_user = User.find_by_id(user.id)
@@ -53,15 +65,15 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
   test "should detect password validation mismatches" do
     as_user :admin do
-      user = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
+      user          = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
       user.password = "changeme"
       assert user.save
 
-      put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" }}
+      put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
       assert_response :unprocessable_entity
 
       mod_user = User.find_by_id(user.id)
-      assert  mod_user.matching_password?("changeme")
+      assert mod_user.matching_password?("changeme")
     end
   end
 
@@ -93,7 +105,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   end
 
   def user_one_as_anonymous_viewer
-     users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a user' do
@@ -104,7 +116,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
       user.save
     end
     as_user :one do
-      put :update, { :id => user.id, :user => {:login => "johnsmith"} }
+      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
       assert_response :forbidden
     end
   end

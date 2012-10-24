@@ -2,5 +2,10 @@
 
 kernelversion:
   value:        2.6.9
-  fact_name_id: 2
-  host_id:      1
+  fact_name:    kernelversion
+  host:         one
+
+ipaddress:
+  value:        10.0.19.33
+  fact_name:    ipaddress
+  host:         one

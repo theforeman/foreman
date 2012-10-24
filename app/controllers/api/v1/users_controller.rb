@@ -1,18 +1,21 @@
 module Api
   module V1
-    class UsersController < BaseController
-      include Foreman::Controller::AutoCompleteSearch
+    class UsersController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
-      param :order,  String, :desc => "sort results"
+      param :order, String, :desc => "sort results"
+      param :page, String, :desc => "paginate results"
+      param :per_page, String, :desc => "number of entries per request"
+
       def index
-        @users = User.search_for(params[:search], :order => params[:order])
+        @users = User.search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/users/:id/", "Show an user."
       param :id, String, :required => true
+
       def show
         @user
       end
@@ -30,6 +33,7 @@ module Api
         param :password, String, :required => true
         param :auth_source_id, Integer, :required => true
       end
+
       def create
         @user       = User.new(params[:user])
         @user.admin = params[:user][:admin]
@@ -55,6 +59,7 @@ module Api
         param :admin, :bool, :required => false, :desc => "Is an admin account?"
         param :password, String, :required => true
       end
+
       def update
         admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil
         # Remove keys for restricted variables when the user is editing their own account
@@ -76,6 +81,7 @@ module Api
 
       api :DELETE, "/users/:id/", "Delete an user."
       param :id, String, :required => true
+
       def destroy
         if @user == User.current
           deny_access "You are trying to delete your own account"

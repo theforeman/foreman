@@ -14,3 +14,4 @@ bundler.d/Gemfile.local.rb
 *.pyc
 public/apipie-cache
 .DS_Store
+foreman_client

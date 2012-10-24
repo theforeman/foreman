@@ -46,8 +46,7 @@ module Api
 
       unless (incoming_key = OAuth::RequestProxy.proxy(controller.request).oauth_consumer_key) ==
           Setting['oauth_consumer_key']
-        Rails.logger.warn "oauth_consumer_key should be '#{Setting['oauth_consumer_key']}'" <<
-                               "but was '#{incoming_key}'"
+        Rails.logger.warn "oauth_consumer_key should be '#{Setting['oauth_consumer_key']}' but was '#{incoming_key}'"
         return nil
       end
 

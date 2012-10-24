@@ -241,6 +241,13 @@ class Report < ActiveRecord::Base
       },
     }
   end
+
+  def summaryStatus
+    return "Failed"   if error?
+    return "Modified" if changes?
+    return "Success"
+  end
+
   private
 
   # Converts metrics form Puppet report into a hash
@@ -339,12 +346,6 @@ class Report < ActiveRecord::Base
 
     errors.add :base, "You do not have permission to #{operation} this report"
     false
-  end
-
-  def summaryStatus
-    return "Failed"   if error?
-    return "Modified" if changes?
-    return "Success"
   end
 
   # puppet report status table column name
