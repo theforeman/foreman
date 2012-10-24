@@ -16,4 +16,8 @@ class Token < ActiveRecord::Base
 
   validates_presence_of :value, :host_id, :expires
 
+  def to_s
+    value
+  end
+
 end
