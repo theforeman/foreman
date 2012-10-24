@@ -6,6 +6,8 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
     subnets = ActiveSupport::JSON.decode(@response.body)
     assert subnets.is_a?(Array)
     assert_response :success
+    assert !subnets.empty?
+
   end
 
   def test_create_invalid
