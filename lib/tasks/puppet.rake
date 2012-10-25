@@ -60,7 +60,7 @@ namespace :puppet do
     task :puppet_classes,  [:batch] => :environment do | t, args |
       args.batch = args.batch == "true"
 
-      proxies = Environment.find_import_proxies
+      proxies = SmartProxy.puppet_proxies
       if proxies.empty?
         puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
         exit 1

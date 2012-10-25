@@ -11,10 +11,11 @@
 <%=image_tag("foreman.png", :class=>"logo") %><a class="brand logo-text" href="#">Foreman</a>
 <!-- menu -->
 
-  <% if User.current -%>
-  <div class="nav-collapse nav1">
-    <ul class="nav" id="menu">
-      <% my_bookmarks = Bookmark.my_bookmarks %>
+<% if User.current -%>
+  <% cache("tabs_and_title_records-#{User.current.id}") do %>
+    <div class="nav-collapse nav1">
+      <ul class="nav" id="menu">
+        <% my_bookmarks = Bookmark.my_bookmarks %>
 
       <%= menu 'dashboard',  my_bookmarks %>
       <%= menu 'hosts',      my_bookmarks %>
@@ -36,8 +37,9 @@
       <% end %>
       <%= render "home/settings" -%>
       <% if SETTINGS[:login]%>
-          <%= render 'home/user_dropdown' %>
+        <%= render 'home/user_dropdown' %>
       <% end -%>
     </ul>
-  </div>
+    </div>
   <% end -%>
+<% end -%>

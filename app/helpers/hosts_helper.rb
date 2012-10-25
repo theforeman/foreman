@@ -147,6 +147,7 @@ module HostsHelper
   end
 
   def name_field host
+    return if host.name.blank?
     (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
   end
 

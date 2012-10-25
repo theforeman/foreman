@@ -369,3 +369,19 @@ border-radius: 4px;
   text-decoration: line-through;
 }
 .btn-toolbar-condensed{margin: 0;}
+
+.grey{color: #d3d3d3 !important;}
+.control-group.condensed{margin-bottom: 0;}
+.control-group.condensed textarea {
+    border-color: #f5f5f5;
+    background-color: #f5f5f5;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    resize: none;
+    cursor: text;
+    autoResize()
+}
+
+.control-group.condensed.error textarea{border-color: #b94a48;}
+.control-group.condensed.warning textarea{border-color: #c09853;}

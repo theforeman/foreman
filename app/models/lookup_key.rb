@@ -1,52 +1,112 @@
 class LookupKey < ActiveRecord::Base
+  include Authorization
 
-  VALIDATION_TYPES = %w( regexp list )
+  KEY_TYPES = %w( string boolean integer real array hash yaml json )
+  VALIDATOR_TYPES = %w( regexp list )
+
+  TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON', 'yes', 'YES', 'y', 'Y'].to_set
+  FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF', 'no', 'NO', 'n', 'N'].to_set
 
   KEY_DELM = ","
   EQ_DELM  = "="
 
+  serialize :default_value
+
   belongs_to :puppetclass
+  has_many :environment_classes, :dependent => :destroy
+  has_many :environments, :through => :environment_classes, :uniq => true
+  has_one :param_class, :through => :environment_classes, :class_name => 'Puppetclass', :source => :puppetclass
+
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
-  validates_uniqueness_of :key
-  validates_presence_of :key, :puppetclass_id
-  validates_inclusion_of :validator_type, :in => VALIDATION_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
-  validate :validate_range_rule, :validate_range, :validate_list, :validate_regexp
+
+  before_validation :validate_and_cast_default_value
+
+  validates_uniqueness_of :key, :unless => Proc.new{|p| p.is_param?}
+  validates_presence_of :key
+  validates_presence_of :puppetclass_id, :unless => Proc.new {|k| k.is_param?}
+  validates_inclusion_of :validator_type, :in => VALIDATOR_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
+  validates_inclusion_of :key_type, :in => KEY_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
+  validate :validate_list, :validate_regexp
   validates_associated :lookup_values
+  validate :ensure_type
 
   before_save :sanitize_path
 
   scoped_search :on => :key, :complete_value => true, :default_order => true
-  scoped_search :in => :puppetclass, :on => :name, :rename => :puppetclass, :complete_value => true
+  scoped_search :on => :override, :complete_value => {:true => true, :false => false}
+  scoped_search :in => :param_class, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
-  default_scope :order => 'LOWER(lookup_keys.key)'
+  default_scope :order => 'lookup_keys.key'
+  scope :override, where(:override => true)
 
   def to_param
-    key
+    "#{id}-#{key}"
   end
 
   def to_s
     key
   end
 
-  #TODO: use SQL coalesce to minimize the amount of queries
-  def value_for host
+  # params:
+  #   +host: The considered Host instance.
+  #   +options+: A hash containing the following, optional keys:
+  #   +obs_matcher_block+: Callback to notify with extra information.
+  #                        It is given a hash having the following structure:
+  #                        +{ :host => #<Host>, :used_matched => "fact=value", :value => #<Value> }+
+  #     +skip_fqdn+: Boolean value indicating whether to skip the fqdn matcher. Defaults to false.
+  #                  Useful to give the previous value, prior to an eventual override.
+  def value_for host, options = {}
+    skip_fqdn = options[:skip_fqdn] || false
+    obs_matcher_block = options[:obs_matcher_block]
     path2matches(host).each do |match|
+      next if skip_fqdn and match =~ /^fqdn\s*=/
       if (v = lookup_values.find_by_match(match))
+        obs_matcher_block.call({:host => host, :used_matcher => match, :value => v.value}) if obs_matcher_block
         return v.value
       end
-    end
+    end if (!is_param || (is_param && override)) && lookup_values.any?
     default_value
   end
 
   def path
-    read_attribute(:path) || array2path(Setting["Default_variables_Lookup_Path"])
+    path = read_attribute(:path)
+    path.blank? ? array2path(Setting["Default_variables_Lookup_Path"]) : path
   end
 
   def path=(v)
-    return if v == array2path(Setting["Default_variables_Lookup_Path"])
-    write_attribute(:path, v)
+    return unless v
+    using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
+    write_attribute(:path, using_default ? nil : v)
+  end
+
+  def default_value_before_type_cast
+    value_before_type_cast default_value
+  end
+
+  def value_before_type_cast val
+    case key_type.to_sym
+      when :json
+        val = JSON.dump val
+      when :yaml, :hash
+        val = YAML.dump val
+        val.sub! /\A---\s*$\n/, ''
+      when  :array
+        val = val.inspect
+    end unless key_type.blank?
+    val
+  end
+
+  # Returns the casted value, or raises a TypeError
+  def cast_validate_value value
+    method = "cast_value_#{key_type}".to_sym
+    return value unless self.respond_to? method, true
+    self.send(method, value) rescue raise TypeError
+  end
+
+  def as_json(options={})
+    super({:only => [:key, :is_param, :required, :override, :description, :default_value, :id]}.merge(options))
   end
 
   private
@@ -90,11 +150,6 @@ class LookupKey < ActiveRecord::Base
     self.path = path.tr("\s","").downcase unless path.blank?
   end
 
-  def validate_range_rule
-    return true unless (validator_type == 'range')
-    self.errors.add(:validator_rule, "is invalid") and return false unless validator_rule =~ /^(\d|"[a-z]"|'[a-z]')+\.\.(\d|"[b-z]"|'[b-z]')+$/
-  end
-
   def array2path array
     raise "invalid path" unless array.is_a?(Array)
     array.map do |sub_array|
@@ -102,23 +157,97 @@ class LookupKey < ActiveRecord::Base
     end.join("\n")
   end
 
+
+  def validate_and_cast_default_value
+    return true if default_value.nil?
+    begin
+      self.default_value = cast_validate_value self.default_value
+      true
+    rescue
+      errors.add(:default_value, "is invalid")
+      false
+    end
+  end
+
+  def cast_value_boolean value
+    return true if TRUE_VALUES.include? value
+    return false if FALSE_VALUES.include? value
+    raise TypeError
+  end
+
+  def cast_value_integer value
+    return value.to_i if value.is_a?(Numeric)
+
+    if value.is_a?(String)
+      if value =~ /^0x[0-9a-f]+$/i
+        value.to_i(16)
+      elsif value =~ /^0[0-7]+$/
+        value.to_i(8)
+      elsif value =~ /^-?\d+$/
+        value.to_i
+      else
+        raise TypeError
+      end
+    end
+  end
+
+  def cast_value_real value
+    return value if value.is_a? Numeric
+    if value.is_a?(String)
+      if value =~ /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?$/
+        value.to_f
+      else
+        cast_value_integer value
+      end
+    end
+  end
+
+  def load_yaml_or_json value
+    return value unless value.is_a? String
+    begin
+      JSON.load value
+    rescue
+      YAML.load value
+    end
+  end
+
+  def cast_value_array value
+    return value if value.is_a? Array
+    return value.to_a if not value.is_a? String and value.is_a? Enumerable
+    value = load_yaml_or_json value
+    raise TypeError unless value.is_a? Array
+    value
+  end
+
+  def cast_value_hash value
+    return value if value.is_a? Hash
+    value = load_yaml_or_json value
+    raise TypeError unless value.is_a? Hash
+    value
+  end
+
+  def cast_value_yaml value
+    value = YAML.load value
+  end
+
+  def cast_value_json value
+    value = JSON.load value
+  end
+
+  def ensure_type
+    if puppetclass_id.present? and is_param?
+      self.errors.add(:base, 'Global variable or class Parameter, not both')
+    end
+  end
+
   def validate_regexp
     return true unless (validator_type == 'regexp')
     errors.add(:default_value, "is invalid") and return false unless (default_value =~ /#{validator_rule}/)
   end
 
-  def validate_range
-    return true unless (validator_type == 'range')
-    errors.add(:default_value, "not within range #{validator_rule}") and return false unless eval(validator_rule).include?(default_value)
-  end
-
   def validate_list
     return true unless (validator_type == 'list')
-    errors.add(:default_value, "not in list") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
-  end
-
-  def as_json(options={})
-    super({:only => [:key, :description, :default_value, :id]}.merge(options))
+    errors.add(:default_value, "#{default_value} is not one of #{validator_rule}") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
   end
 
 end

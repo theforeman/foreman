@@ -67,7 +67,8 @@ function update_capabilities(capabilities){
 var stop_pooling;
 
 function submit_host(form){
-  var url = window.location.pathname.replace(/\/edit|\/new/,'');
+  var url = window.location.pathname.replace(/\/edit$|\/new$/,'');
+  if(/\/clone$/.test(window.location.pathname)){ url = '/hosts'; }
   $('#host_submit').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
@@ -169,6 +170,8 @@ function add_puppet_class(item){
 
   $("#selected_puppetclass_"+ id).show('highlight', 5000);
   $("#puppetclass_"+ id).addClass('selected-marker').hide();
+
+  load_puppet_class_parameters(link);
 }
 
 function remove_puppet_class(item){
@@ -177,8 +180,36 @@ function remove_puppet_class(item){
   $('#puppetclass_' + id).closest('.puppetclass_group').show();
   $('#selected_puppetclass_' + id).children('a').tooltip('hide');
   $('#selected_puppetclass_' + id).remove();
+  $('#puppetclass_' + id + '_params_loading').remove();
+  $('[id^="puppetclass_' + id + '_params\\["]').remove();
+  $('#params-tab').removeClass("tab-error");
+  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
 
   return false;
+}
+
+function load_puppet_class_parameters(item) {
+  var id = $(item).attr('data-class-id');
+  if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
+  if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
+
+  var url = $(item).attr('data-url');
+  var data = $("[data-submit='progress_bar']").serialize();
+
+  if (url == undefined) return; // no parameters
+  var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
+      '<td colspan="5"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
+  $('#inherited_puppetclasses_parameters').append(placeholder);
+  $.ajax({
+    url: url,
+    data: data,
+    success: function(result, textstatus, xhr) {
+      var params = $(result);
+      placeholder.replaceWith(params);
+      params.find('a[rel="popover"]').popover();
+      if (params.find('.error').length > 0) $('#params-tab').addClass('tab-error');
+    }
+  });
 }
 
 function hostgroup_changed(element) {
@@ -395,22 +426,57 @@ function use_image_selected(element){
 }
 
 function override_param(item){
-  var param = $(item).closest('.control-group');
-  var n = param.find('[id^=name_]').val();
+  var param = $(item).closest('tr');
+  var n = param.find('[id^=name_]').text();
   var v = param.find('[id^=value_]').val();
 
-  param.closest('.tab-pane').find('.btn-success').click();
+  $('#parameters').find('.btn-success').click();
   var new_param = param.closest('.tab-pane').find('[id*=host_host_parameters]:visible').last().parent();
   new_param.find('[id$=_name]').val(n);
   new_param.find('[id$=_value]').val(v);
   mark_params_override();
 }
 
+function override_class_param(item){
+  var param = $(item).closest('tr[id^="puppetclass_"][id*="_params\\["][id$="\\]"]');
+  var id = param.attr('id').replace(/puppetclass_\d+_params\[(\d+)\]/, '$1')
+  var c = param.find('[data-property=class]').text();
+  var n = param.find('[data-property=name]').text();
+  var v = param.find('[data-property=value]').val();
+  var t = param.find('[data-property=type]').text();
+
+  $('#puppetclasses_parameters').find('.btn-success').click();
+  var new_param = param.closest('.tab-pane').find('[id*=host_lookup_values]:visible').last().parent();
+  new_param.find('[data-property=lookup_key_id]').val(id);
+  new_param.find('[data-property=class]').val(c);
+  new_param.find('[data-property=name]').val(n);
+  new_param.find('[data-property=value]').val(v);
+  new_param.find('[data-property=type]').val(t);
+  mark_params_override();
+}
+
 function reload_params(){
   var url = $('#params-tab').attr('data-url');
-  var data ={};
-  data['host'] = attribute_hash(['domain_id', 'operatingsystem_id', 'hostgroup_id']);
-  $('#inherited_parameters').load(url + ' #inherited_parameters', data,function(){mark_params_override()});
+  var data = $("[data-submit='progress_bar']").serialize();
+  load_with_placeholder('inherited_parameters', url, data)
+
+  var url2 = $('#params-tab').attr('data-url2');
+  load_with_placeholder('inherited_puppetclasses_parameters', url2, data)
+}
+
+function load_with_placeholder(target, url, data){
+  var placeholder = $('<tr id="' + target + '_loading" >'+
+            '<td colspan="4"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
+        $('#' + target + ' tbody').replaceWith(placeholder);
+        $.ajax({
+          url: url,
+          data: data,
+          success:
+            function(result, textstatus, xhr) {
+              placeholder.closest('#' + target ).replaceWith($(result));
+              mark_params_override()
+            }
+        });
 }
 
 $(function () {

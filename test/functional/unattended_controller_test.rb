@@ -14,6 +14,13 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get a kickstart even if we are behind a loadbalancer" do
+    @request.env["HTTP_X_FORWARDED_FOR"] = hosts(:redhat).ip
+    @request.env["REMOTE_ADDR"] = "127.0.0.1"
+    get :kickstart
+    assert_response :success
+  end
+
   test "should get a preseed finish script" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :preseed_finish
@@ -100,6 +107,23 @@ class UnattendedControllerTest < ActionController::TestCase
  test "requesting a template that does not exist should fail" do
     get :template, {:id => "kdsfjlkasjdfkl", :hostgroup => "Common"}
     assert_response :not_found
+  end
+
+  test "hosts with unknown ip and valid token should render a template" do
+    Setting[:token_duration] = 30
+    @request.env["REMOTE_ADDR"] = '127.0.0.1'
+    hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+    get :preseed, {'token' => hosts(:ubuntu).token.value }
+    assert_response :success
+  end
+
+  test "template should contain tokens when tokens enabled and present for the host" do
+    Setting[:token_duration] = 30
+    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
+    hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+    template = get :preseed
+    expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_tokenised_template")
+    assert_equal template.body, expected
   end
 
 end

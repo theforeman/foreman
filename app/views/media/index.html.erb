@@ -11,7 +11,7 @@
     <th></th>
   </tr>
   <% for medium in @media %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium.id) %></td>
       <td><%= medium.path %></td>
       <td><%= medium.os_family %></td>

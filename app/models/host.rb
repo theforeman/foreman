@@ -14,11 +14,18 @@ class Host < Puppet::Rails::Host
   belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
   belongs_to :image
+
   has_one :location
   has_one :organization
 
   has_many :taxonomy_hosts, :dependent => :destroy
   has_many :taxonomies, :through => :taxonomy_hosts
+
+  has_one :token, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
+
+  has_many :lookup_values, :finder_sql => Proc.new { normalize_hostname; %Q{ SELECT lookup_values.* FROM lookup_values WHERE (lookup_values.match = 'fqdn=#{fqdn}') } }, :dependent => :destroy
+  # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
+  accepts_nested_attributes_for :lookup_values
 
   include Hostext::Search
   include HostCommon
@@ -26,10 +33,10 @@ class Host < Puppet::Rails::Host
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
-      :model, :certname, :capabilities, :provider
+      :model, :certname, :capabilities, :provider, :subnet, :token
   end
 
-  attr_reader :cached_host_params, :cached_lookup_keys_params
+  attr_reader :cached_host_params
 
   default_scope lambda {
     Taxonomy.with_taxonomy_scope do
@@ -133,6 +140,8 @@ class Host < Puppet::Rails::Host
     end
   }
 
+  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).select('hosts.*') }
+
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile]
   has_associated_audits
@@ -173,9 +182,27 @@ class Host < Puppet::Rails::Host
     validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
   end
 
-  before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname
-  after_validation :ensure_assoications
+  before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
+  after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+
+  # Replacement of accepts_nested_attributes_for :lookup_values,
+  # to work around the lack of `host_id` column in lookup_values.
+  def lookup_values_attributes= lookup_values_attributes
+    lookup_values_attributes.each_value do |attribute|
+      attr = attribute.dup
+      if attr.has_key? :id
+        lookup_value = lookup_values.find attr.delete(:id)
+        if lookup_value
+          mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
+          lookup_value.attributes = attr
+          mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
+        end
+      elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
+        lookup_values.build(attr)
+      end
+    end
+  end
 
   def to_param
     name
@@ -212,10 +239,23 @@ class Host < Puppet::Rails::Host
     FactValue.delete_all("host_id = #{id}")
   end
 
+  def set_token
+    return unless Setting[:token_duration] != 0
+    self.create_token(:value => Foreman.uuid,
+                      :expires => Time.now.utc + Setting[:token_duration].minutes)
+  end
+
+  def expire_tokens
+    # this clean up other hosts as well, but reduce the need for another task to cleanup tokens.
+    Token.delete_all(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id])
+  end
+
   # Called from the host build post install process to indicate that the base build has completed
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
+
+    # delete all expired tokens
     self.build        = false
     self.installed_at = Time.now.utc if installed
     self.save
@@ -305,8 +345,14 @@ class Host < Puppet::Rails::Host
     end
     param.update self.params
 
+    classes = if Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
+                lookup_keys_class_params
+              else
+                self.puppetclasses_names
+              end
+
     info_hash = {}
-    info_hash['classes'] = self.puppetclasses_names
+    info_hash['classes'] = classes
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
 
@@ -320,16 +366,16 @@ class Host < Puppet::Rails::Host
     @cached_host_params = nil
   end
 
-  def host_inherited_params
+  def host_inherited_params include_source = false
     hp = {}
     # read common parameters
-    CommonParameter.all.each {|p| hp.update Hash[p.name => p.value] }
+    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :common} : p.value] }
     # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => p.value] } unless domain.nil?
+    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :domain} : p.value] } unless domain.nil?
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => p.value] } unless operatingsystem.nil?
+    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
-    hp.update hostgroup.parameters unless hostgroup.nil?
+    hp.update hostgroup.parameters(include_source) unless hostgroup.nil?
     hp
   end
 
@@ -341,51 +387,53 @@ class Host < Puppet::Rails::Host
     @cached_host_params = hp
   end
 
-  def lookup_keys_params
-    return cached_lookup_keys_params unless cached_lookup_keys_params.blank?
-    p = {}
-    # lookup keys
-    if Setting["Enable_Smart_Variables_in_ENC"]
-      klasses  = puppetclasses.map(&:id)
-      klasses += hostgroup.classes.map(&:id) if hostgroup
-      LookupKey.all(:conditions => {:puppetclass_id =>klasses.flatten } ).each do |k|
-        p[k.to_s] = k.value_for(self)
-      end unless klasses.empty?
-    end
-    @cached_lookup_keys_params = p
-  end
-
   def self.importHostAndFacts yaml
     facts = YAML::load yaml
-    return false unless facts.is_a?(Puppet::Node::Facts)
+    case facts
+      when Puppet::Node::Facts
+        certname = facts.values["certname"]
+        name     = facts.values["fqdn"]
+        values   = facts.values
+      when Hash
+        certname = facts["certname"]
+        name     = facts["fqdn"]
+        values   = facts
+        return raise("invalid facts hash") unless name and values
+      else
+        return raise("Invalid Facts, much be a Puppet::Node::Facts or a Hash")
+    end
 
-    h = Host.find_by_certname facts.name
-    h ||= Host.find_by_name facts.name
-    h ||= Host.new :name => facts.name
+    if name == certname or certname.nil?
+      h = Host.find_by_name name
+    else
+      h = Host.find_by_certname certname
+      h ||= Host.find_by_name name
+    end
+    h ||= Host.new :name => name
 
     h.save(:validate => false) if h.new_record?
-    h.importFacts(facts)
+    h.importFacts(name, values)
   end
 
   # import host facts, required when running without storeconfigs.
   # expect a Puppet::Node::Facts
-  def importFacts facts
-    raise "invalid Fact" unless facts.is_a?(Puppet::Node::Facts)
+  def importFacts name, facts
 
     # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
     raise "Host is pending for Build" if build
-    time = facts.values[:_timestamp]
+    time = facts[:_timestamp]
     time = time.to_time if time.is_a?(String)
 
     # we are not doing anything we already processed this fact (or a newer one)
-    return true unless last_compile.nil? or (last_compile + 1.minute < time)
-
-    self.last_compile = time
+    if time
+      return true unless last_compile.nil? or (last_compile + 1.minute < time)
+      self.last_compile = time
+    end
     # save all other facts - pre 0.25 it was called setfacts
-    respond_to?("merge_facts") ? self.merge_facts(facts.values) : self.setfacts(facts.values)
+    respond_to?("merge_facts") ? self.merge_facts(facts) : self.setfacts(facts)
     save(:validate => false)
 
-    populateFieldsFromFacts(facts.values)
+    populateFieldsFromFacts(facts)
 
     # we are saving here with no validations, as we want this process to be as fast
     # as possible, assuming we already have all the right settings in Foreman.
@@ -395,7 +443,7 @@ class Host < Puppet::Rails::Host
     return self.save(:validate => false)
 
   rescue Exception => e
-    logger.warn "Failed to save #{facts.name}: #{e}"
+    logger.warn "Failed to save #{name}: #{e}"
   end
 
   def populateFieldsFromFacts facts = self.facts_hash
@@ -421,6 +469,7 @@ class Host < Puppet::Rails::Host
   def setBuild
     clearFacts
     clearReports
+
     self.build = true
     self.save
     errors.empty?
@@ -484,14 +533,10 @@ class Host < Puppet::Rails::Host
   # returns sorted hash
   def self.count_habtm association
     output = {}
-    Host.count(:include => association.pluralize, :group => "#{association}_id").to_a.each do |a|
-      #Ugly Ugly Ugly - I guess I'm missing something basic here
-      if a[0]
-        label = eval(association.camelize).send("find",a[0].to_i).to_label
-        output[label] = a[1]
-      end
-    end
-    output
+    counter = Host.count(:include => association.pluralize, :group => "#{association}_id")
+    # returns {:id => count...}
+    #Puppetclass.find(counter.keys.compact)...
+    Hash[eval(association.camelize).send(:find, counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
   end
 
   def resources_chart(timerange = 1.day.ago)
@@ -518,7 +563,7 @@ class Host < Puppet::Rails::Host
   end
 
   def classes_from_storeconfigs
-    klasses = resources.all(:conditions => {:restype => "Class"}, :select => :title, :order => :title)
+    klasses = resources.all(:conditions => 'restype = "Class" AND title != "main" AND title != "Settings"', :select => :title, :order => :title)
     klasses.map!(&:title).delete(:main)
     klasses
   end
@@ -661,6 +706,32 @@ class Host < Puppet::Rails::Host
   end
 
   private
+  def lookup_keys_params
+    return {} unless Setting["Enable_Smart_Variables_in_ENC"]
+
+    p = {}
+    klasses = all_puppetclasses.map(&:id).flatten
+    LookupKey.where(:puppetclass_id => klasses ).each do |k|
+      p[k.to_s] = k.value_for(self)
+    end unless klasses.empty?
+    p
+  end
+
+  def lookup_keys_class_params
+    p={}
+    classes = all_puppetclasses
+    keys    = EnvironmentClass.parameters_for_class(classes.map(&:id), environment_id).group_by(&:puppetclass_id)
+    classes.each do |klass|
+      p[klass.name] = nil
+      keys[klass.id].map(&:lookup_key).each do |lookup_key|
+        p[klass.name] ||= {}
+        value = lookup_key.value_for(self)
+        p[klass.name].merge!({lookup_key.key => value})
+      end if keys[klass.id]
+    end
+    p
+  end
+
   # align common mac and ip address input
   def normalize_addresses
     # a helper for variable scoping
@@ -704,7 +775,7 @@ class Host < Puppet::Rails::Host
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
     else
       # if our host is in short name, append the domain name
-      if !new_record? and changed_attributes.keys.include? "domain_id"
+      if !new_record? and changed_attributes['domain_id'].present?
         old_domain = Domain.find(changed_attributes["domain_id"])
         self.name.gsub(old_domain.to_s,"")
       end
@@ -719,7 +790,7 @@ class Host < Puppet::Rails::Host
   end
 
   # checks if the host association is a valid association for this host
-  def ensure_assoications
+  def ensure_associations
     status = true
     %w{ ptable medium architecture}.each do |e|
       value = self.send(e.to_sym)
@@ -777,6 +848,10 @@ class Host < Puppet::Rails::Host
 
   def set_certname
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
+  end
+
+  def force_lookup_value_matcher
+    lookup_values.each { |v| v.match = "fqdn=#{fqdn}" }
   end
 
 end

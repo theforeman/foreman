@@ -58,7 +58,7 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from yaml stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    assert h.importFacts(YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))))
+    assert h.importFacts("sinn1636.lan", YAML::load_file(File.expand_path(File.dirname(__FILE__) + "/facts.yml")).values)
   end
 
   test "should import facts from yaml of a new host" do
@@ -515,5 +515,39 @@ class HostTest < ActiveSupport::TestCase
     host.organization_id = organization.id
 
     assert host.save!
+  end
+
+  # Token tests
+  test "built should clean tokens" do
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now)
+    assert_equal Token.all.size, 1
+    h.expire_tokens
+    assert_equal Token.all.size, 0
+  end
+
+  test "built should clean tokens even when tokens are disabled" do
+    Setting[:token_duration] = 0
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now)
+    assert_equal Token.all.size, 1
+    h.expire_tokens
+    assert_equal Token.all.size, 0
+  end
+
+  test "hosts should be able to retrieve their token if one exists" do
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    assert_equal Token.first, h.token
+  end
+
+  test "token should return false when tokens are disabled or invalid" do
+    Setting[:token_duration] = 0
+    h = hosts(:one)
+    assert_equal h.token, nil
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    assert_equal h.token, nil
   end
 end

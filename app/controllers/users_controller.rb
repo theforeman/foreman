@@ -1,10 +1,8 @@
 class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  skip_before_filter :require_login, :only => [:login, :logout]
-  skip_before_filter :authorize, :only => [:login, :logout]
-  skip_before_filter :session_expiry, :update_activity_time, :only => [:login, :logout]
-  after_filter :update_activity_time, :only => :login
+  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :only => [:login, :logout]
+  after_filter       :update_activity_time, :only => :login
 
   attr_accessor :editing_self
 
@@ -67,6 +65,8 @@ class UsersController < ApplicationController
     else
       process_error
     end
+    # make sure users cache are expired (assuming some permissions changed etc)
+    expire_fragment("tabs_and_title_records-#{@user.id}")
     User.current.editing_self = false if editing_self
   end
 
@@ -105,6 +105,7 @@ class UsersController < ApplicationController
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout
+    expire_fragment("tabs_and_title_records-#{User.current.id}") if User.current
     session[:user] = @user = User.current = nil
     if flash[:notice] or flash[:error]
       flash.keep
@@ -129,6 +130,10 @@ class UsersController < ApplicationController
 
   def authorize(ctrl = params[:controller], action = params[:action])
     # Editing self is true when the user is granted access to just their own account details
+
+    if action == 'auto_complete_search' and User.current.allowed_to?({:controller => ctrl, :action => 'index'})
+      return true
+    end
 
     self.editing_self = false
     return true if User.current.allowed_to?({:controller => ctrl, :action => action})

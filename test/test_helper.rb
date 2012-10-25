@@ -1,13 +1,13 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'ap'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
+
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
@@ -21,7 +21,7 @@ class ActiveSupport::TestCase
   end
 
   def set_session_user
-    SETTINGS[:login] ? {:user => User.find_by_login("admin").id, :expires_at => 5.minutes.from_now} : {}
+    SETTINGS[:login] ? {:user => User.admin.id, :expires_at => 5.minutes.from_now} : {}
   end
 
   def as_user user
@@ -78,3 +78,5 @@ class ActionController::TestCase
     @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
 end
+
+Apipie.configuration.validate = false

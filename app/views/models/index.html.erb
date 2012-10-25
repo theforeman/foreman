@@ -11,11 +11,11 @@
     <th></th>
   </tr>
   <% for model in @models %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%=link_to_if_authorized h(model.name), hash_for_edit_model_path(:id => model)%></td>
       <td><%=h(model.vendor_class)%></td>
       <td><%=h(model.hardware_model)%></td>
-      <td class="ra"><%= link_to_if model.hosts.any?, model.hosts.count, hosts_path(:search=>"model = \"#{model.name}\"") %></td>
+      <td class="ra"><%= link_to @counter[model.id] || 0, hosts_path(:search => "model = \"#{model}\"") %></td>
       <td class="ra">
         <%= display_delete_if_authorized hash_for_model_path(:id => model), :confirm => "Delete #{model.name}?" %>
       </td>

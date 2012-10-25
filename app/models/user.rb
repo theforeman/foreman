@@ -84,6 +84,10 @@ class User < ActiveRecord::Base
     user
   end
 
+  def self.admin
+    find_by_login 'admin' or create_admin
+  end
+
   # Tries to find the user in the DB and then authenticate against their authentication source
   # If the user is not in the DB then try to login the user on each available athentication source
   # If this succeeds then copy the user's details from the authentication source into the User table
@@ -153,7 +157,6 @@ class User < ActiveRecord::Base
   def allowed_to?(action, options={})
     return true if admin?
     return true if editing_self
-    return false if roles.empty?
     roles.detect {|role| role.allowed_to?(action)}.present?
   end
 

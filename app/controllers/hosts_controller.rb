@@ -155,7 +155,7 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => @host.info.to_yaml.gsub("\n","<br/>") }
+        format.html { render :text => "<pre>#{@host.info.to_yaml}</pre>" }
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue
@@ -382,7 +382,7 @@ class HostsController < ApplicationController
 
   def out_of_sync
     merge_search_filter("last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true")
-    index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval] + 5} minutes"
+    index "Hosts which didn't run puppet in the last #{view_context.time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago)}"
   end
 
   def disabled
@@ -478,7 +478,12 @@ class HostsController < ApplicationController
 
   def current_parameters
     @host = Host.new params['host']
-    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params}
+    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params(true)}
+  end
+
+  def puppetclass_parameters
+    @host = Host.new params['host']
+    render :partial => "puppetclasses/classes_parameters", :locals => { :obj => @host}
   end
 
   private
@@ -541,7 +546,7 @@ class HostsController < ApplicationController
   # If the user has a fact_filter then we need to include :fact_values
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
-    include += [:hostgroup, :domain, :operatingsystem, :environment, :model, :host_parameters]
+    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
     include += [:fact_values] if User.current.user_facts.any?
     include
   end

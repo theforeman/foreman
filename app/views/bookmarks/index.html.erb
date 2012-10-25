@@ -10,7 +10,7 @@
     <th></th>
   </tr>
   <% for bookmark in @bookmarks %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%= link_to_if_authorized(h(bookmark.name), hash_for_edit_bookmark_path(:id => bookmark.name)) %></td>
       <td><%=h bookmark.query %></td>
       <td><%=h bookmark.controller %></td>

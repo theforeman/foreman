@@ -6,4 +6,5 @@ group :test do
   gem 'single_test'
   gem "ruby-debug", :platforms => :ruby_18
   gem "ruby-debug19", :platforms => :ruby_19
+  gem 'ci_reporter', '>= 1.6.3'
 end

@@ -5,12 +5,12 @@ one:
    network: 2.3.4.0
    mask: 255.255.255.0
    dhcp: one
-   tftp: one
-   dns:  three
+   tftp: two
+   dns: three
 
 two:
    name: two
    network: 3.3.4.0
    mask: 255.255.255.0
    dhcp: one
-   tftp: one
+   tftp: two

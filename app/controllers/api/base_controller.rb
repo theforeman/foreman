@@ -2,13 +2,22 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
 
-    before_filter :set_default_response_format, :authorize, :set_resource_params
+    before_filter :set_default_response_format, :authorize
 
     respond_to :json
+
+    after_filter do
+      logger.debug "Body: #{response.body}"
+    end
 
     rescue_from StandardError, :with => lambda { |error|
       Rails.logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
       render_error 'standard_error', :status => 500, :locals => { :exception => error }
+    }
+
+    rescue_from Apipie::ParamError, :with => lambda { |error|
+      Rails.logger.info "#{error.message} (#{error.class})"
+      render_error 'param_error', :status => :bad_request, :locals => { :exception => error }
     }
 
     def get_resource
@@ -38,8 +47,8 @@ module Api
     end
 
     def process_success(response = nil)
-        response ||= get_resource
-        respond_with response
+      response ||= get_resource
+      respond_with response
     end
 
     def process_response(condition, response = nil)
@@ -50,34 +59,30 @@ module Api
       end
     end
 
-    # Authorize the user for the requested action
-    def authorize(ctrl = params[:controller], action = params[:action])
+    def authorize
+      auth = Api::Authorization.new self
 
-      if SETTINGS[:login]
-        unless User.current
-          user_login = nil
-          result     = authenticate_with_http_basic do |u, p|
-            user_login = u
-            User.try_to_login(u, p)
-          end
-          if result
-            User.current = result
-          else
-            render_error 'unauthorized', :status => :unauthorized, :locals => { :user_login => user_login }
-            return false
-          end
-        end
-      else
-        # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        User.current = User.find_by_login("admin")
+      unless auth.authenticate
+        render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => auth.user_login })
+        return false
       end
 
-      User.current.allowed_to?(:controller => ctrl.gsub(/::/, "_").underscore, :action => action) or deny_access
+      unless auth.authorize
+        deny_access
+        return false
+      end
+
+      true
     end
 
     def deny_access(details = nil)
       render_error 'access_denied', :status => :forbidden, :locals => { :details => details }
       false
+    end
+
+    # possible keys that should be used to find the resource
+    def resource_identifying_attributes
+      %w(id name)
     end
 
     # searches for a resource based on its name and assign it to an instance variable
@@ -86,35 +91,22 @@ module Api
     # example:
     # @host = Host.find_resource params[:id]
     def find_resource
-      finder, key = case
-                      when (id = params[:"#{resource_name}_id"]).present?
-                        ['id', id]
-                      when (name = params[:"#{resource_name}_name"]).present?
-                        ['name', name]
-                      else
-                        [nil, nil]
-                    end
-
-      resource = resource_class.send(:"find_by_#{finder}", key) if finder
+      resource = resource_identifying_attributes.find do |key|
+        method = "find_by_#{key}"
+        resource_class.respond_to?(method) and
+            (resource = resource_class.send method, params[:id]) and
+            break resource
+      end
 
       if resource
         return instance_variable_set(:"@#{resource_name}", resource)
       else
-        render_error 'not_found', :status => :not_found, :locals => { :finder => finder, :key => key } and
-            return false
+        render_error 'not_found', :status => :not_found and return false
       end
     end
 
     def set_default_response_format
-      request.format = :json if params[:format].nil?
-    end
-
-    # store params[:id] under correct predicable key
-    def set_resource_params
-      if (id_or_name = params.delete(:id))
-        suffix  = (id_or_name.is_a?(Fixnum) || id_or_name =~ /^\d+$/) ? 'id' : 'name'
-        params[:"#{resource_name}_#{suffix}"] = id_or_name
-      end
+      request.format = :json if params[:format].blank?
     end
 
     def api_version

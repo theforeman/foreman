@@ -11,4 +11,12 @@ module CommonParametersHelper
     "Parameters that would be associated with hosts in this #{type}"
   end
 
+  def parameter_value_field value
+    content_tag :div, :class => "control-group condensed"  do
+      text_area_tag("value_#{value[:value]}", value[:value], :rows => (value[:value].to_s.lines.count || 1 rescue 1),
+                    :class => "span5", :disabled => true) +
+      content_tag(:span, :class => "help-inline") { popover("Additional info", "<b>Source:</b> #{value[:source]}")}
+    end
+  end
+
 end

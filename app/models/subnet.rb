@@ -23,6 +23,10 @@ class Subnet < ActiveRecord::Base
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
 
+  class Jail < ::Safemode::Jail
+    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :vlanid
+  end
+
   # Subnets are displayed in the form of their network network/network mask
   def to_label
     "#{network}/#{cidr}"

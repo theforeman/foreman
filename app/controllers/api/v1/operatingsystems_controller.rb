@@ -9,11 +9,14 @@ module Api
       before_filter :find_resource, :only => %w{show edit update destroy bootfiles}
 
       api :GET, "/operatingsystems/", "List all operating systems."
+      param :search, String, :desc => "filter results", :required => false
+      param :order, String, :desc => "sort results", :required => false, :desc => "for example, name ASC, or name DESC"
       def index
-        @operatingsystems = Operatingsystem.all
+        @operatingsystems = Operatingsystem.search_for(params[:search], :order => params[:order])
       end
 
       api :GET, "/operatingsystems/:id/", "Show an OS."
+      param :id, String, :required => true
       def show
       end
 
@@ -29,6 +32,7 @@ module Api
       end
 
       api :PUT, "/operatingsystems/:id/", "Update an OS."
+      param :id, String, :required => true
       param :operatingsystem, Hash, :required => true do
         param :name, /\A(\S+)\Z/
         param :major, String
@@ -39,11 +43,13 @@ module Api
       end
 
       api :DELETE, "/operatingsystems/:id/", "Delete a bookmark."
+      param :id, String, :required => true
       def destroy
         process_response @operatingsystem.destroy
       end
 
       api :GET, "/operatingsystems/:id/bootfiles/", "List boot files an OS."
+      param :id, String, :required => true
       param :medium, String
       param :architecture, String
       def bootfiles
