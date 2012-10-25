@@ -4,7 +4,7 @@ class Medium < ActiveRecord::Base
   has_many :hosts
 
   # We need to include $ in this as $arch, $release, can be in this string
-  VALID_NFS_PATH=/^([\w\d\.]+):(\/[\w\d\/\$\.]+)$/
+  VALID_NFS_PATH=/^([-\w\d\.]+):(\/[\w\d\/\$\.]+)$/
   validates_uniqueness_of :name
   validates_uniqueness_of :path
   validates_presence_of :name, :path
