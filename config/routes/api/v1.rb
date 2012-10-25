@@ -26,6 +26,8 @@ Foreman::Application.routes.draw do
       resources :subnets, :except => [:new, :edit] do
         post 'freeip', :on => :collection
       end
+      resources :auth_source_ldaps, :except => [:new, :edit]
+      resources :compute_resources, :except => [:new, :edit]
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"

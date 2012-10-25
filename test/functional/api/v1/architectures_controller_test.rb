@@ -18,6 +18,9 @@ class Api::V1::ArchitecturesControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_not_nil assigns(:architectures)
+    architectures = ActiveSupport::JSON.decode(@response.body)
+    assert !architectures.empty?
+
   end
 
   test "should show architecture" do
