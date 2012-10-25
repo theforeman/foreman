@@ -28,6 +28,7 @@ Foreman::Application.routes.draw do
       end
       resources :auth_source_ldaps, :except => [:new, :edit]
       resources :compute_resources, :except => [:new, :edit]
+      resources :common_parameters, :except => [:new, :edit]
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
