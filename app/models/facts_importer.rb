@@ -39,8 +39,14 @@ module Facts
     end
 
     def architecture
+      os_name = facts[:operatingsystem]
       # On solaris architecture fact is harwareisa
-      name = facts[:hardwareisa] || facts[:architecture]
+      name = case os_name
+               when /(sunos|solaris)/i
+                 facts[:hardwareisa]
+               else
+                 facts[:architecture] || facts[:hardwareisa]
+               end
       # ensure that we convert debian legacy to standard
       name = "x86_64" if name == "amd64"
       Architecture.find_or_create_by_name name unless name.blank?
