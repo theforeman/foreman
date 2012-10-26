@@ -77,7 +77,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal h.mac, h.old.mac
     assert_equal h.name, h.old.name
     assert_equal h.subnet, h.old.subnet
-    assert h.queue.items.empty?
+    assert h.queue.items.select {|x| x.action.last =~ /dhcp/ }.empty?
   end
 
   test "existing host should not change any bmc dhcp settings" do
@@ -87,7 +87,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal h.sp_mac, h.old.sp_mac
     assert_equal h.sp_name, h.old.sp_name
     assert_equal h.sp_subnet, h.old.sp_subnet
-    assert h.queue.items.empty?
+    assert h.queue.items.select {|x| x.action.last =~ /sp_dhcp/ }.empty?
   end
 
   test "when an existing host change its ip address, its dhcp record should be updated" do
