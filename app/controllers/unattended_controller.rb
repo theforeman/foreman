@@ -196,6 +196,7 @@ class UnattendedController < ApplicationController
       @install_type = "initial_install"
       @system_type  = "standalone"
       @cluster      = "SUNWCreq"
+      @packages     = "SUNWgzip"
       @locale       = "C"
     end
     @disk = @host.diskLayout
