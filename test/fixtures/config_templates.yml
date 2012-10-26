@@ -40,3 +40,9 @@ pxe_default:
    template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ksdevice=bootif network kssendmac
    template_kind: pxelinux
    operatingsystems: centos5_3, redhat
+
+pxe_local_default:
+   name: PXE Localboot Default
+   template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
+   template_kind: pxelinux
+   operatingsystems: centos5_3, redhat

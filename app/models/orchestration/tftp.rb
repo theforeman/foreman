@@ -79,7 +79,11 @@ module Orchestration::TFTP
       @initrd = os.initrd(arch)
       # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
       @host = self
-      pxe_render configTemplate({:kind => os.template_kind}).template
+      if build?
+        pxe_render configTemplate({:kind => os.template_kind}).template
+      else
+        pxe_render ConfigTemplate.find_by_name("PXE Localboot Default").template
+      end
     rescue => e
       failure "Failed to generate #{os.template_kind} template: #{e}"
     end
@@ -92,34 +96,31 @@ module Orchestration::TFTP
     end
 
     def queue_tftp_create
-      return unless build
       queue.create(:name => "TFTP Settings for #{self}", :priority => 20,
                    :action => [self, :setTFTP])
+      return unless build
       queue.create(:name => "Fetch TFTP boot files for #{self}", :priority => 25,
                    :action => [self, :setTFTPBootFiles])
     end
 
     def queue_tftp_update
       set_tftp = false
-      if build?
-        # we switched to build mode
-        set_tftp = true unless old.build?
-        # medium or arch changed
-        set_tftp = true if old.medium != medium or old.arch != arch
-        # operating system changed
-        set_tftp = true if os and old.os and (old.os.name != os.name or old.os != os)
-        # MAC address changed
-        if mac != old.mac
-          set_tftp = true
-          # clean up old TFTP reservation file
-          if old.tftp?
-            queue.create(:name => "Remove old TFTP Settings for #{old}", :priority => 19,
-                         :action => [old, :delTFTP])
-          end
+      # we switched build mode
+      set_tftp = true unless old.build? != build?
+      # medium or arch changed
+      set_tftp = true if old.medium != medium or old.arch != arch
+      # operating system changed
+      set_tftp = true if os and old.os and (old.os.name != os.name or old.os != os)
+      # MAC address changed
+      if mac != old.mac
+        set_tftp = true
+        # clean up old TFTP reservation file
+        if old.tftp?
+          queue.create(:name => "Remove old TFTP Settings for #{old}", :priority => 19,
+                       :action => [old, :delTFTP])
         end
       end
       queue_tftp_create  if set_tftp
-      queue_tftp_destroy if !build? and old.build?
     end
 
     def queue_tftp_destroy
