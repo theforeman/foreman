@@ -38,6 +38,7 @@ module Facts
     end
 
     def architecture
+      os_name = facts[:operatingsystem]
       # On solaris architecture fact is harwareisa
       name = case os_name
                when /(sunos|solaris)/i
