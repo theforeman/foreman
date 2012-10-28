@@ -19,6 +19,8 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
       get :show, {:id => environments(:production).to_param}
     end
     assert_response :success
+    env = ActiveSupport::JSON.decode(@response.body)
+    assert !env.empty?
   end
 
   test "should create environment" do
@@ -32,7 +34,10 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
 
   test "should update environment" do
     as_user :admin do
-      put :update, {:id => environments(:production).to_param, :environment => {} }
+      assert_no_difference('Environment.count') do
+        put :update, {:id => environments(:production).to_param, :environment => {:name => "staging"} }
+      end
+      assert_nil Environment.find_by_name('production')
     end
     assert_response :success
   end
