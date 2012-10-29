@@ -30,7 +30,7 @@ module Foreman
             [
               set('administrator', "The default administrator email address", "root@#{domain}"),
               set('foreman_url',   "The hostname where your Foreman instance is reachable", "foreman.#{domain}"),
-              set('email_replay_address', "The email reply address for emails that Foreman is sending", "Foreman-noreply@#{domain}"),
+              set('email_reply_address', "The email reply address for emails that Foreman is sending", "Foreman-noreply@#{domain}"),
               set('entries_per_page', "The amount of records shown per page in Foreman", 20),
               set('authorize_login_delegation',"Authorize login delegation with REMOTE_USER environment variable",false),
               set('authorize_login_delegation_api',"Authorize login delegation with REMOTE_USER environment variable for API calls too",false),
