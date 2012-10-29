@@ -24,6 +24,7 @@ class FactValue < Puppet::Rails::FactValue
 
   scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
   scope :required_fields, includes(:host, :fact_name)
+  scope :facts_counter, lambda {|value, name_id| where(:value => value, :fact_name_id => name_id) }
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data

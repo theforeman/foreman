@@ -3,6 +3,7 @@ class ComputeResource < ActiveRecord::Base
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
