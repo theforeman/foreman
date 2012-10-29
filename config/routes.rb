@@ -119,6 +119,13 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
+  resources :fact_trends,    :controller => "trends", :type => "FactTrend"
+  resources :foreman_trends, :controller => "trends", :type => "ForemanTrends"
+  resources :trends do
+    collection do
+      post 'count'
+    end
+  end
 
   resources :hostgroups do
     member do

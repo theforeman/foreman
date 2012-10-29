@@ -1,0 +1,29 @@
+<% title "Trends" %>
+
+<% title_actions display_link_if_authorized("Add Trend Counter", hash_for_new_trend_path),
+   display_link_if_authorized("Run Counters", hash_for_count_trends_path, :action => "count", :method => :post)%>
+<% if @trends.empty? -%>
+    <div class="alert alert-message alert-info">
+      <a class="close" href="#" data-dismiss="alert">&times;</a>
+      <p><strong>No Trend Counter Defined.</strong></p>
+      <p>To define trend counters, use the Add Trend Counter button.<br>
+         To start collecting trend data, set a cron job to execute 'rake trends:counter' every 30 minutes.</p>
+    </div>
+<%end%>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th class='span10'>Name</th>
+    <th class='span2'>Action</th>
+  </tr>
+  <% @trends.each do |trend|  %>
+      <tr>
+        <td><%= link_to trend.type_name.capitalize, trend_path(:id => trend), :title => "Show Trends"  %></td>
+        <td>
+          <%= action_buttons(
+                 display_link_if_authorized("Edit",hash_for_edit_trend_path(:id => trend), :class=>"btn"),
+                 display_delete_if_authorized(hash_for_trend_path(:id => trend),:confirm => "Delete all the trend history for #{trend.type_name.capitalize}?"))%>
+        </td>
+      </tr>
+  <% end %>
+</table>
