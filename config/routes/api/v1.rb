@@ -5,10 +5,13 @@ Foreman::Application.routes.draw do
     scope :module => :v1, :constraints => ApiConstraints.new(:version => 1, :default => true) do
       
       resources :architectures, :except => [:new, :edit]
+      resources :audits, :only => [:index, :show]
       resources :auth_source_ldaps, :except => [:new, :edit]
       resources :bookmarks, :except => [:new, :edit]
       resources :common_parameters, :except => [:new, :edit]
-      resources :compute_resources, :except => [:new, :edit]
+      resources :compute_resources, :except => [:new, :edit] do
+        resources :images, :except => [:new, :edit]
+      end
       resources :config_templates, :except => [:new, :edit] do
         collection do
           get 'build_pxe_default'
@@ -20,9 +23,9 @@ Foreman::Application.routes.draw do
         resources :domains, :except => [:new, :edit]
       end
       resources :environments, :except => [:new, :edit]
+      resources :fact_values, :except => [:new, :edit]
       resources :hostgroups, :except => [:new, :edit]
       resources :hosts, :except => [:new, :edit]
-      resources :images, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
       resources :media, :except => [:new, :edit]
       resources :models, :except => [:new, :edit]
@@ -34,6 +37,7 @@ Foreman::Application.routes.draw do
       resources :ptables, :except => [:new, :edit]
       resources :puppetclasses, :except => [:new, :edit]
       resources :roles, :except => [:new, :edit]
+      resources :reports, :only => [:index, :show]
       resources :settings, :except => [:new, :edit]
       resources :smart_proxies, :except => [:new, :edit]
       resources :subnets, :except => [:new, :edit] do

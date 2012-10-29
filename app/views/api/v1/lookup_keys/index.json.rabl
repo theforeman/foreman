@@ -1,3 +1,3 @@
-collection @settings
+collection @lookup_keys
 
-extends "api/v1/settings/show"
+extends "api/v1/lookup_keys/show"

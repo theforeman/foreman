@@ -1,3 +1,4 @@
 object @compute_resource
 
-attributes :id, :name, :description, :url, :user, :password, :uuid, :type, :attrs, :created_at, :updated_at
+#password not included
+attributes :id, :name, :description, :url, :user, :uuid, :type, :attrs, :created_at, :updated_at
