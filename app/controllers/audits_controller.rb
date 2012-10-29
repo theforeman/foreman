@@ -1,19 +1,51 @@
-require 'audit_extensions'
-
-class AuditsController < ApplicationController
+class ArchitecturesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-
-  before_filter :setup_search_options, :only => :index
+  before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
-    Audit.unscoped { @audits = Audit.search_for(params[:search], :order => params[:order]).paginate :page => params[:page] }
-  rescue => e
-    error e.to_s
-    @audits = Audit.search_for('', :order => params[:order]).paginate :page => params[:page]
+    values = Architecture.search_for(params[:search], :order => params[:order])
+    respond_to do |format|
+      format.html { @architectures = values.paginate(:page => params[:page], :include => :operatingsystems) }
+      format.json { render :json => values }
+    end
+  end
+
+  def new
+    @architecture = Architecture.new
   end
 
   def show
-    @audit = Audit.find(params[:id])
-    @history = Audit.descending.where(:auditable_id => @audit.auditable_id, :auditable_type => @audit.auditable_type)
+    respond_to do |format|
+      format.json { render :json => @architecture }
+    end
   end
+
+  def create
+    @architecture = Architecture.new(params[:architecture])
+    if @architecture.save
+      process_success
+    else
+      process_error
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @architecture.update_attributes(params[:architecture])
+      process_success
+    else
+      process_error
+    end
+  end
+
+  def destroy
+    if @architecture.destroy
+      process_success
+    else
+      process_error
+    end
+  end
+
 end
