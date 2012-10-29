@@ -119,6 +119,11 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
+  resources :trends do
+    collection do
+      post 'count'
+    end
+  end
 
   resources :hostgroups do
     member do

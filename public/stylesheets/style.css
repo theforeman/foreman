@@ -195,6 +195,10 @@ div.flash.notice {
   height: 320px;
   margin-bottom: 20px;
 }
+.trend_chart{
+  height: 480px;
+  margin-bottom: 20px;
+}
 
 #hostclasses, .classes li, .classes li a {
   list-style-type: none;
@@ -359,6 +363,9 @@ border-radius: 4px;
 .btn-toolbar-condensed{margin: 0;}
 
 .grey{color: #d3d3d3 !important;}
+.black{
+    color: #000 !important;
+}
 .control-group.condensed{margin-bottom: 0;}
 .control-group.condensed textarea {
     border-color: #f5f5f5;
