@@ -1,3 +1,3 @@
-collection @settings
+collection @images
 
-extends "api/v1/settings/show"
+extends "api/v1/images/show"

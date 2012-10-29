@@ -61,7 +61,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def to_label
-    return unless name
+    ret::urn unless name
     return name if ancestry.empty?
     ancestors.map{|a| a.name + "/"}.join + name
   end

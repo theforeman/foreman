@@ -1,5 +1,3 @@
 object @lookup_key
 
-attributes :name, :id
-
-
+attributes :key, :is_param, :required, :override, :description, :default_value, :id

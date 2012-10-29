@@ -1,6 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
+  id: 1
   name: MyString
   description: MyString
   url: qemu://stam/system
@@ -10,6 +11,7 @@ one:
   type: Foreman::Model::Libvirt
 
 mycompute:
+  id: 2
   name: mycompute
   description: mycompute
   url: test:///default  # test hypervisor URI needed to try listing vms
@@ -19,6 +21,7 @@ mycompute:
   type: Foreman::Model::Libvirt
 
 yourcompute:
+  id: 3
   name: yourcompute
   description: yourcompute
   url: test:///default

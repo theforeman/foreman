@@ -7,7 +7,7 @@ module Api
       param :search, String, :desc => "Filter results"
       param :order, String, :desc => "Sort results"
       def index
-        @hosts = Host.search_for(params[:search], :order => params[:order])
+        @hosts = Host.my_hosts.search_for(params[:search],:order => params[:order])
       end
 
       api :GET, "/hosts/:id/", "Show an host."
@@ -38,6 +38,7 @@ module Api
       def destroy
         process_response @host.destroy
       end
+
     end
   end
 end

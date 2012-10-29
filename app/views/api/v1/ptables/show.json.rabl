@@ -1,4 +1,4 @@
-object @setting
+object @ptable
 
 attributes :name, :id
 

@@ -1,3 +1,3 @@
 collection @hosts
 
-extends "api/v1/hosts/show"
+attributes :name, :id, :hostgroup_id, :operatingsystem_id
