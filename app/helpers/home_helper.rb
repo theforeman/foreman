@@ -1,13 +1,7 @@
 module HomeHelper
 
-  def class_for_current_page(tab)
-    controller_name.gsub(/_.*/,"s") == tab ? "active" : ""
-  end
-
   def class_for_setting_page
-   if setting_options.map{|o| o[1]}.include? controller_name.to_sym
-     "active"
-   end
+    setting_options.map{|o| o[1]}.include?(controller_name.to_sym) ? "active" : ""
   end
 
   def setting_options
@@ -50,7 +44,7 @@ module HomeHelper
 
     choices += [
       ['Roles',                  :roles]
-    ] if SETTINGS[:login] and User.current.admin?
+    ] if SETTINGS[:login] && User.current && User.current.admin?
 
     choices += [
       [:divider],
@@ -79,10 +73,10 @@ module HomeHelper
     path ||= eval("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
     b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
-    out = content_tag :li, :class => class_for_current_page(tab) do
+    out = content_tag :li, :id => "menu_tab_#{tab}" do
       link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
     end
-    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone " + class_for_current_page(tab) do
+    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone "  do
       link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret hidden-phone hidden-tablet'), "#", :class => "dropdown-toggle narrow-left hidden-phone hidden-tablet") + menu_dropdown(b)
     end unless b.empty?
     out
