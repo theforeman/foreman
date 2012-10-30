@@ -54,7 +54,7 @@ class Role < ActiveRecord::Base
   def permissions=(perms)
     perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
-  end                                                                                    .
+  end
 
   def add_permission!(*perms)
     self.permissions = [] unless permissions.is_a?(Array)
