@@ -7,7 +7,6 @@ module Facts
     end
 
     def operatingsystem
-      os_name = facts[:operatingsystem]
       orel    = case os_name
                   when /(suse|sles)/i
                     facts[:operatingsystemrelease]
@@ -40,7 +39,12 @@ module Facts
 
     def architecture
       # On solaris architecture fact is harwareisa
-      name = facts[:architecture] || facts[:hardwareisa]
+      name = case os_name
+               when /(sunos|solaris)/i
+                 facts[:hardwareisa]
+               else
+                 facts[:architecture] || facts[:hardwareisa]
+               end
       # ensure that we convert debian legacy to standard
       name = "x86_64" if name == "amd64"
       Architecture.find_or_create_by_name name unless name.blank?
@@ -93,6 +97,12 @@ module Facts
 
     def certname
       facts[:clientcert]
+    end
+
+    private
+
+    def os_name
+      facts[:operatingsystem]
     end
   end
 
