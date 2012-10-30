@@ -9,6 +9,16 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show individual record" do
+    as_user :admin do
+      get :show, {:id => users(:one).to_param}
+    end
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
+
   test "should update user" do
     as_user :admin do
       user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)

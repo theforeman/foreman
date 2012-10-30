@@ -9,8 +9,12 @@ Foreman::Application.routes.draw do
       resources :auth_source_ldaps, :except => [:new, :edit]
       resources :bookmarks, :except => [:new, :edit]
       resources :common_parameters, :except => [:new, :edit]
-      resources :compute_resources, :except => [:new, :edit] do
-        resources :images, :except => [:new, :edit]
+      constraints(:id => /[^\/]+/) do
+        resources :domains, :except => [:new, :edit]
+        resources :hosts, :except => [:new, :edit]
+        resources :compute_resources, :except => [:new, :edit] do
+          resources :images, :except => [:new, :edit]
+        end
       end
       resources :config_templates, :except => [:new, :edit] do
         collection do
@@ -19,13 +23,9 @@ Foreman::Application.routes.draw do
         end
       end
       resources :dashboard, :only => [:index]
-      constraints(:id => /[^\/]+/) do
-        resources :domains, :except => [:new, :edit]
-      end
       resources :environments, :except => [:new, :edit]
       resources :fact_values, :except => [:new, :edit]
       resources :hostgroups, :except => [:new, :edit]
-      resources :hosts, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
       resources :media, :except => [:new, :edit]
       resources :models, :except => [:new, :edit]

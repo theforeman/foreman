@@ -19,6 +19,8 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
       get :show, {:id => environments(:production).to_param}
     end
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
   test "should create environment" do

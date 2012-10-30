@@ -17,6 +17,8 @@ class Api::V1::AuthSourceLdapsControllerTest < ActionController::TestCase
       get :show, {:id => auth_sources(:one).to_param}
     end
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
 end

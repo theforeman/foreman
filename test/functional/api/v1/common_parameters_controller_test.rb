@@ -17,6 +17,8 @@ class Api::V1::CommonParametersControllerTest < ActionController::TestCase
       get :show, {:id => parameters(:common).to_param}
     end
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
 end

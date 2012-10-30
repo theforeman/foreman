@@ -20,8 +20,9 @@ class Api::V1::DomainsControllerTest < ActionController::TestCase
     as_user :admin do
       post :create, {:domain => {:name => "domain.net"}}
     end
-    domain = ActiveSupport::JSON.decode(@response.body)
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
   test "should not update invalid domain" do

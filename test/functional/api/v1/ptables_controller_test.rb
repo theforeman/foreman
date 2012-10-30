@@ -12,7 +12,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
     assert !ptables.empty?
   end
 
-  test "should show architecture" do
+  test "should show individual record" do
     as_user :admin do
       get :show, {:id => ptables(:one).to_param}
     end
