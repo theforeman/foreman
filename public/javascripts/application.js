@@ -185,7 +185,9 @@ $(function() {
     $(".logo, .logo-text").hide();
     return false;
   }
-
+  $("[id^='menu_tab_']").removeClass('active');
+  $('#menu_tab_settings').addClass($('#current_tab').attr('data-settings'));
+  $('#menu_tab_'+$('#current_tab').attr('data-controller')).addClass('active').next('.dropdown').addClass('active');
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
   $('.dropdown-toggle').dropdown();
@@ -201,7 +203,7 @@ function magic_line(id, combo) {
   }else{$magicLine.show();}
   if ( $(".active").size() > 0){
     $magicLine
-    .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
+    .width($(id +" .active").width() + $(id + " .dropdown.active").width() * combo)
     .css("left", $(".active").position().left)
     .data("origLeft", $magicLine.position().left)
     .data("origWidth", $magicLine.width());
