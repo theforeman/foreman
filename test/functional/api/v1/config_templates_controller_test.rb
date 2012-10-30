@@ -15,9 +15,9 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     as_user :admin do
       get :show, {:id => ConfigTemplate.first.to_param}
     end
+    assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert !template.empty?
-    assert_response :success
     assert_equal template["config_template"]["name"], ConfigTemplate.first.name
   end
 

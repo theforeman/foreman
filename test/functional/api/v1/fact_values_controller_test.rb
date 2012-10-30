@@ -11,4 +11,14 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
     fact_values = ActiveSupport::JSON.decode(@response.body)
     assert !fact_values.empty?
   end
+
+  test "should show individual record" do
+    as_user :admin do
+      get :show, {:id => fact_values(:kernelversion).to_param}
+    end
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
 end

@@ -24,6 +24,9 @@ class Api::V1::OperatingsystemsControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_not_nil assigns(:operatingsystem)
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+
   end
 
   test "should create os" do

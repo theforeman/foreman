@@ -23,11 +23,13 @@ class Api::V1::ArchitecturesControllerTest < ActionController::TestCase
 
   end
 
-  test "should show architecture" do
+  test "should show individual record" do
     as_user :admin do
       get :show, {:id => architectures(:x86_64).to_param}
     end
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
   test "should create architecture" do
