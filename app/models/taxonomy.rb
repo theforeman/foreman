@@ -45,7 +45,7 @@ class Taxonomy < ActiveRecord::Base
       # the join with organizations should exclude all objects not in the user's
       # current org(s) ... if the user has no current org, then the user will
       # see no objects as a result of this join
-      taxonomy_ids = [Taxonomy.current].flatten
+      taxonomy_ids = Taxonomy.respond_to?('current') ? Taxonomy.current : []
       taxonomy_ids = taxonomy_ids.any? ? taxonomy_ids.map(&:id) : nil
       scope = yield
       scope = scope.joins(:taxonomies).where("taxonomies.id in (?)", taxonomy_ids)
