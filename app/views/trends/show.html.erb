@@ -1,0 +1,32 @@
+<% title "Trends for #{@title}" %>
+<% content_for(:search_bar){ trend_days_filter } %>
+
+<%= trend_chart 'trend_graph', "#{@title}", "last #{@range} days", trend_data(@trends, @range.days.ago) %>
+
+<table class="table" >
+  <% head = @hosts ? "Hosts" : "Values" %>
+  <th colspan="4"><%= head %></th>
+  <tr>
+    <% list = @hosts.nil? ? @trends : @hosts %>
+    <% list.in_groups(4, false) do |group| %>
+        <div class="span3">
+          <td>
+            <% group.each do |item| -%>
+                <ul class="base">
+                  <li>
+                    <% opts = item.name? ? item.name : item.fact_value %>
+                    <% if @hosts %>
+                      <%= link_to(opts, host_path(:id => opts), :title => "Show Host") %>
+                    <% else %>
+                      <%= link_to opts, trend_path(:id => item.id, 
+                                                   :search => "facts.#{item.fact_name} = \"#{item.fact_value}\""), 
+                                                   :title => "Trend Details" %>
+                    <% end %>
+                  </li>
+                </ul>
+            <% end -%>
+          </td>
+        </div>
+    <% end -%>
+  </tr>
+</table>

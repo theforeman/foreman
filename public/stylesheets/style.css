@@ -195,6 +195,10 @@ div.flash.notice {
   height: 320px;
   margin-bottom: 20px;
 }
+.trend_chart{
+  height: 480px;
+  margin-bottom: 20px;
+}
 
 #hostclasses, .classes li, .classes li a {
   list-style-type: none;
