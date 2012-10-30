@@ -10,10 +10,15 @@ class TrendsController < ApplicationController
 
   def show
     trend = Trend.find(params[:id])
-
-    opts = trend.is_a?(FactTrend) ? {:trendable_id => trend.trendable_id} : {}
-    @trends= Trend.has_value.where(opts.merge(:trendable_type => trend.trendable_type))
-    @title = "#{trend.type_name.camelcase}"
+    if trend.fact_value == nil
+      opts = trend.is_a?(FactTrend) ? {:trendable_id => trend.trendable_id} : {}
+      @trends= Trend.has_value.where(opts.merge(:trendable_type => trend.trendable_type))
+      @title = "#{trend.type_name.camelcase}"
+    else # Display Single Trend
+      @trends= Trend.has_value.where(:id => trend.id)
+      @hosts = trend.is_a?(FactTrend) ? FactValue.my_facts.no_timestamp_facts.search_for(params[:search]).required_fields : trend.trendable.hosts
+      @title = "#{trend.type_name.camelcase} - #{trend.fact_value}"
+    end
     @range = (params["range"].empty? ? 30 : params["range"].to_i)
   end
 
@@ -58,5 +63,4 @@ class TrendsController < ApplicationController
     TrendImporter.update!
     redirect_to trends_url
   end
-
 end

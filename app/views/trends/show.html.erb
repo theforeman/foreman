@@ -4,18 +4,23 @@
 <%= trend_chart 'trend_graph', "#{@title}", "last #{@range} days", trend_data(@trends, @range.days.ago) %>
 
 <table class="table" >
-  <th colspan="4">Values</th>
+  <% head = @hosts ? "Hosts" : "Values" %>
+  <th colspan="4"><%= head %></th>
   <tr>
-    <% @trends.in_groups(4, false) do |group| %>
+    <% list = @hosts.nil? ? @trends : @hosts %>
+    <% list.in_groups(4, false) do |group| %>
         <div class="span3">
           <td>
-            <% group.each do |trend| -%>
+            <% group.each do |item| -%>
                 <ul class="base">
                   <li>
-                    <% if trend.is_a? FactTrend %>
-                      <%= link_to_if_authorized trend, hash_for_edit_trend_path(:id => trend), :title => "Edit Fact Display Name" %>
+                    <% opts = item.name? ? item.name : item.fact_value %>
+                    <% if @hosts %>
+                      <%= link_to(opts, host_path(:id => opts), :title => "Show Host") %>
                     <% else %>
-                      <%=  trend %>
+                      <%= link_to opts, trend_path(:id => item.id, 
+                                                   :search => "facts.#{item.fact_name} = \"#{item.fact_value}\""), 
+                                                   :title => "Trend Details" %>
                     <% end %>
                   </li>
                 </ul>
