@@ -87,11 +87,6 @@ th.underlined {
 }
 
 
-#login-form {
-  width: 390px;
-  margin: 0 auto;
-}
-
 #login-form label {
   font-size: 1.23em !important;
   display: block;
@@ -104,16 +99,18 @@ th.underlined {
   width: 380px;
 }
 
-#login-form {margin-top:0em; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
--moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
-background: url(../images/foreman_background.png) no-repeat right center;
+#login-form {
+ width: 390px;
+ margin-top:150px; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
+ -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+ background: url(../images/foreman_background.png) no-repeat right center;
 }
 
 .login-large-logo{
- margin-left: auto; margin-right: auto;
+ margin-left: -40px; margin-right: auto;
  display: block;
- margin-bottom: -30px;
- margin-top: -30px;
+ margin-bottom: 50px;
+ margin-top: -170px;
  padding-right: 170px;
 }
 
