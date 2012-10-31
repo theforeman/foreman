@@ -9,8 +9,8 @@ class Environment < ActiveRecord::Base
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
 
-  has_and_belongs_to_many :locations, :join_table => "taxonomy_environments", :class_name => "Taxonomy"
-  has_and_belongs_to_many :organizations, :join_table => "taxonomy_environments", :class_name => "Taxonomy"
+  has_many :taxonomy_environment, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_environment
 
   before_destroy EnsureNotUsedBy.new(:hosts)
 

@@ -19,8 +19,7 @@ class ApplicationController < ActionController::Base
   def welcome
     @searchbar = true
     klass = controller_name == "dashboard" ? "Host" : controller_name.camelize.singularize
-    eval "#{klass}" rescue nil # We must force an autoload of the model class
-    if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?"
+    if (klass.constantize.first.nil? rescue false)
       @searchbar = false
       render :welcome rescue nil and return
     end

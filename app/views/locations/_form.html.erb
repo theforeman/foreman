@@ -10,7 +10,6 @@
     <li><a href="#domains" data-toggle="tab">Domains</a></li>
     <li><a href="#environments" data-toggle="tab">Environments</a></li>
     <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
-    <li><a href="#puppetclasses" data-toggle="tab">Puppet Classes</a></li>
     <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
   </ul>
 
@@ -20,39 +19,35 @@
     </div>
 
     <div class="tab-pane" id="users">
-      <%= multiple_checkboxes f, :users, @location, User.where("admin = 'f'"), { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :users, @location, User.except_admin, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="smart_proxies">
-      <%= multiple_checkboxes f, :smart_proxies, @location, SmartProxy, { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :smart_proxies, @location, SmartProxy.unscoped, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="compute_resources">
-      <%= multiple_checkboxes f, :compute_resources, @location, ComputeResource, { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :compute_resources, @location, ComputeResource.unscoped, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="media">
-      <%= multiple_checkboxes f, :media, @location, Medium, { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :media, @location, Medium.unscoped, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="domains">
-      <%= multiple_checkboxes f, :domains, @location, Domain, { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :domains, @location, Domain.unscoped, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="environments">
-      <%= multiple_checkboxes f, :environments, @location, Environment, { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :environments, @location, Environment.unscoped, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="hostgroups">
-      <%= multiple_checkboxes f, :hostgroups, @location, Hostgroup, { :prefix => "location" } %>
-    </div>
-
-    <div class="tab-pane" id="puppetclasses">
-      <%= multiple_checkboxes f, :puppetclasses, @location, Puppetclass, { :prefix => "location" } %>
+      <%= multiple_checkboxes f, :hostgroups, @location, Hostgroup.unscoped, { :prefix => "location" } %>
     </div>
 
     <div class="tab-pane" id="organizations">
-      <%= multiple_checkboxes f, :organizations, @location, Organization %>
+      <%= multiple_checkboxes f, :organizations, @location, Organization.unscoped %>
     </div>
   </div>
 

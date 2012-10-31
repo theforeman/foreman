@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :locations, :join_table => "taxonomy_users"
   has_and_belongs_to_many :organizations, :join_table => "taxonomy_users"
+  scope :except_admin, where(:admin => false)
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 

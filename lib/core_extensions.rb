@@ -67,7 +67,7 @@ class ActiveRecord::Base
   alias_attribute :to_s, :to_label
 
   def self.unconfigured?
-    scoped.reorder('').limit(1).pluck(self.base_class.primary_key).nil?
+    scoped.first.nil?
   end
 
   def self.per_page

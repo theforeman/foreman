@@ -18,8 +18,8 @@ class Hostgroup < ActiveRecord::Base
   before_save :remove_duplicated_nested_class
   after_find :deserialize_vm_attributes
 
-  has_and_belongs_to_many :locations, :join_table => "taxonomy_hostgroups", :class_name => "Taxonomy"
-  has_and_belongs_to_many :organizations, :join_table => "taxonomy_hostgroups", :class_name => "Taxonomy"
+  has_many :taxonomy_hostgroup, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_hostgroup
 
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
