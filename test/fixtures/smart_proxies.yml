@@ -15,3 +15,7 @@ puppetmaster:
   name: Puppetmaster Proxy
   url: http://else.where:4567
   features: puppet, 'puppet ca'
+
+four:
+  name: Unused Proxy
+  url: http://else.where:4567

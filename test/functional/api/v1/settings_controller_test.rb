@@ -21,4 +21,12 @@ class Api::V1::SettingsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+    test "should update setting" do
+    as_user :admin do
+      put :update, {:id => settings(:attributes1).to_param, :setting => {} }
+    end
+    assert_response :success
+  end
+
+
 end

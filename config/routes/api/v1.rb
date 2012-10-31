@@ -37,8 +37,8 @@ Foreman::Application.routes.draw do
       resources :ptables, :except => [:new, :edit]
       resources :puppetclasses, :except => [:new, :edit]
       resources :roles, :except => [:new, :edit]
-      resources :reports, :only => [:index, :show]
-      resources :settings, :except => [:new, :edit]
+      resources :reports, :only => [:index, :show, :destroy]
+      resources :settings, :only => [:index, :show, :update]
       resources :smart_proxies, :except => [:new, :edit]
       resources :subnets, :except => [:new, :edit] do
         post 'freeip', :on => :collection

@@ -21,4 +21,14 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should destroy report" do
+    as_user :admin do
+      assert_difference('Ptable.count', -1) do
+        delete :destroy, {:id => reports(:report).to_param}
+      end
+    end
+    assert_response :success
+  end
+
+
 end

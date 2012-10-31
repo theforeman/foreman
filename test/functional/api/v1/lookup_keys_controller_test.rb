@@ -2,6 +2,8 @@ require 'test_helper'
 
 class Api::V1::LookupKeysControllerTest < ActionController::TestCase
 
+  valid_attrs = { :name => 'Bighost', :environment_id => Environment.first.id }
+
   test "should get index" do
     as_user :admin do
       get :index, {}
@@ -19,6 +21,31 @@ class Api::V1::LookupKeysControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
+  end
+
+  test "should create lookup_key" do
+    as_user :admin do
+      assert_difference('LookupKey.count') do
+        post :create, {:lookup_key => valid_attrs}
+      end
+    end
+    assert_response :success
+  end
+
+  test "should update lookup_key" do
+    as_user :admin do
+      put :update, {:id => lookup_keys(:one).to_param, :lookup_key => {} }
+    end
+    assert_response :success
+  end
+
+  test "should destroy lookup_keys" do
+    as_user :admin do
+      assert_difference('LookupKey.count', -1) do
+        delete :destroy, {:id => lookup_keys(:one).to_param}
+      end
+    end
+    assert_response :success
   end
 
 end

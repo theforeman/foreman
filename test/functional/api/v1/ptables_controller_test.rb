@@ -2,6 +2,8 @@ require 'test_helper'
 
 class Api::V1::PtablesControllerTest < ActionController::TestCase
 
+  valid_attrs = {:name => 'ptable_test', :layout => 'd-i partman-auto/disk'}
+
   test "should get index" do
     as_user :admin do
       get :index, {}
@@ -19,6 +21,31 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
+  end
+
+  test "should create ptable" do
+    as_user :admin do
+      assert_difference('Ptable.count') do
+        post :create, {:ptable => valid_attrs}
+      end
+    end
+    assert_response :success
+  end
+
+  test "should update ptable" do
+    as_user :admin do
+      put :update, {:id => ptables(:one).to_param, :ptable => {} }
+    end
+    assert_response :success
+  end
+
+  test "should destroy ptables" do
+    as_user :admin do
+      assert_difference('Ptable.count', -1) do
+        delete :destroy, {:id => ptables(:one).to_param}
+      end
+    end
+    assert_response :success
   end
 
 
