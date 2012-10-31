@@ -27,7 +27,8 @@ module HostTemplateHelpers
   def foreman_url(action = "provision")
     url_for :only_path => false, :controller => "unattended",
             :action => action,
-            :host => (Setting[:foreman_url].blank? ? request_url : Setting[:foreman_url]),
+            :host => Setting[:foreman_url] || request_url,
+            :protocol  => 'http',
             :token => (@host.token.value unless @host.token.nil?)
   end
 end
