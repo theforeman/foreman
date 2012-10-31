@@ -10,12 +10,16 @@ class CreateTrends < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :type
-    add_index [:trendable_type, :trendable_id]
-    add_index :fact_value
+    add_index :trends, :type
+    add_index :trends, [:trendable_type, :trendable_id]
+    add_index :trends, :fact_value
   end
 
   def self.down
+    remove_index :trends, :type
+    remove_index :trends, [:trendable_type, :trendable_id]
+    remove_index :trends, :fact_value
+
     drop_table :trends
   end
 end

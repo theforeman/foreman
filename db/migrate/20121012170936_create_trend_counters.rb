@@ -6,10 +6,11 @@ class CreateTrendCounters < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :trend_id
+    add_index :trend_counters, :trend_id
   end
 
   def self.down
+    remove_index :trend_counters, :trend_id
     drop_table :trend_counters
   end
 end
