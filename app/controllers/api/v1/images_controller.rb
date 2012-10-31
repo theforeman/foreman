@@ -4,16 +4,50 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :find_compute_resource
 
-      api :GET, "/images/", "List all images."
+      api :GET, "/compute_resources/:id/images/", "List all images for compute resource."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
       def index
         @images = @compute_resource.images.search_for(params[:search], :order => params[:order])
       end
 
-      api :GET, "/images/:id/", "Show an image."
+      api :GET, "/compute_resources/:id/images/:id/", "Show an image."
       param :id, :identifier, :required => true
       def show
+      end
+
+      api :POST, "/compute_resources/:id/images/", "Create a image."
+      param :image, Hash, :required => true do
+        param :name, String, :required => true
+        param :username, String, :required => true
+        param :uuid, String, :required => true
+        param :compute_resource_id, String, :required => true
+        param :architecture_id, String, :required => true
+        param :operatingsystem_id, String, :required => true
+      end
+      def create
+        @image =  @compute_resource.images.new(params[:image])
+        process_response @image.save
+      end
+
+      api :PUT, "/images/:id/", "Update a image."
+      param :id, String, :required => true
+      param :image, Hash, :required => true do
+        param :name, String, :required => true
+        param :username, String, :required => true
+        param :uuid, String, :required => true
+        param :compute_resource_id, String, :required => true
+        param :architecture_id, String, :required => true
+        param :operatingsystem_id, String, :required => true
+      end
+      def update
+        process_response @image.update_attributes(params[:image])
+      end
+
+      api :DELETE, "/images/:id/", "Delete an image."
+      param :id, String, :required => true
+      def destroy
+        process_response @image.destroy
       end
 
       private

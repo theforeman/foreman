@@ -15,25 +15,31 @@ module Api
       def show
       end
 
-      api :POST, "/models/", "Create an model."
+      api :POST, "/models/", "Create a model."
       param :model, Hash, :required => true do
         param :name, String, :required => true
+        param :info, String, :required => false
+        param :vendor_class, String, :required => false
+        param :hardware_model, String, :required => false
       end
       def create
         @model = Model.new(params[:model])
         process_response @model.save
       end
 
-      api :PUT, "/models/:id/", "Update an model."
+      api :PUT, "/models/:id/", "Update a model."
       param :id, String, :required => true
       param :model, Hash, :required => true do
-        param :name, String
+        param :name, String, :required => true
+        param :info, String, :required => false
+        param :vendor_class, String, :required => false
+        param :hardware_model, String, :required => false
       end
       def update
         process_response @model.update_attributes(params[:model])
       end
 
-      api :DELETE, "/models/:id/", "Delete an model."
+      api :DELETE, "/models/:id/", "Delete a model."
       param :id, String, :required => true
       def destroy
         process_response @model.destroy

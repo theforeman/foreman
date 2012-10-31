@@ -25,7 +25,9 @@ module Api
         param :name, /\A(\S+)\Z/, :required => true
         param :major, String, :required => true
         param :minor, String, :required => true
-      end
+        param :family, String
+        param :release_name, String
+     end
       def create
         @operatingsystem = Operatingsystem.new(params[:operatingsystem])
         process_response @operatingsystem.save
@@ -37,12 +39,14 @@ module Api
         param :name, /\A(\S+)\Z/
         param :major, String
         param :minor, String
+        param :family, String
+        param :release_name, String
       end
       def update
         process_response @operatingsystem.update_attributes(params[:operatingsystem])
       end
 
-      api :DELETE, "/operatingsystems/:id/", "Delete a bookmark."
+      api :DELETE, "/operatingsystems/:id/", "Delete an OS."
       param :id, String, :required => true
       def destroy
         process_response @operatingsystem.destroy

@@ -1,7 +1,7 @@
 module Api
   module V1
     class SettingsController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update}
 
       api :GET, "/settings/", "List all settings."
       param :search, String, :desc => "Filter results"
@@ -15,20 +15,15 @@ module Api
       def show
       end
 
-      api :PUT, "/settings/:id/", "Update an setting."
+      api :PUT, "/settings/:id/", "Update a setting."
       param :id, String, :required => true
       param :setting, Hash, :required => true do
-        param :name, String
+        param :value, String, :required => true
       end
       def update
         process_response @setting.update_attributes(params[:setting])
       end
 
-      api :DELETE, "/settings/:id/", "Delete an setting."
-      param :id, String, :required => true
-      def destroy
-        process_response @setting.destroy
-      end
     end
   end
 end

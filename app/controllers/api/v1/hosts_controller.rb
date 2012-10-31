@@ -19,6 +19,20 @@ module Api
       api :POST, "/hosts/", "Create a host."
       param :host, Hash, :required => true do
         param :name, String, :required => true
+        param :environment_id, String, :required => true
+        param :operatingsystem_id, String, :required => false
+        param :architecture_id, String, :required => false
+        param :medium_id, String, :required => false
+        param :ptable_id, String, :required => false
+        param :subnet_id, String, :required => false
+        param :sp_subnet_id, String, :required => false
+        param :model_id_id, String, :required => false
+        param :hostgroup_id, String, :required => false
+        param :owner_id, String, :required => false
+        param :puppet_ca_proxy_id, String, :required => false
+        param :puppet_proxy_id, String, :required => false
+        param :image_id, String, :required => false
+        param :host_parameters_attributes, Array, :required => false
       end
       def create
         @host = Host.new(params[:host])
@@ -28,7 +42,21 @@ module Api
       api :PUT, "/hosts/:id/", "Update a host."
       param :id, String, :required => true
       param :host, Hash, :required => true do
-        param :name, String
+        param :name, String, :required => true
+        param :environment_id, String, :required => true
+        param :operatingsystem_id, String, :required => false
+        param :architecture_id, String, :required => false
+        param :medium_id, String, :required => false
+        param :ptable_id, String, :required => false
+        param :subnet_id, String, :required => false
+        param :sp_subnet_id, String, :required => false
+        param :model_id_id, String, :required => false
+        param :hostgroup_id, String, :required => false
+        param :owner_id, String, :required => false
+        param :puppet_ca_proxy_id, String, :required => false
+        param :puppet_proxy_id, String, :required => false
+        param :image_id, String, :required => false
+        param :host_parameters_attributes, Array, :required => false
       end
       def update
         process_response @host.update_attributes(params[:host])

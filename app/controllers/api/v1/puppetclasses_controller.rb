@@ -17,6 +17,30 @@ module Api
       def show
       end
 
+      api :POST, "/puppetclasses/", "Create a puppetclass."
+      param :puppetclass, Hash, :required => true do
+        param :name, String, :required => true
+      end
+      def create
+        @puppetclass = Puppetclass.new(params[:puppetclass])
+        process_response @puppetclass.save
+      end
+
+      api :PUT, "/puppetclasses/:id/", "Update a puppetclass."
+      param :id, String, :required => true
+      param :puppetclass, Hash, :required => true do
+        param :name, String, :required => true
+      end
+      def update
+        process_response @puppetclass.update_attributes(params[:puppetclass])
+      end
+
+      api :DELETE, "/puppetclasses/:id/", "Delete a puppetclass."
+      param :id, String, :required => true
+      def destroy
+        process_response @puppetclass.destroy
+      end
+
     end
   end
 end

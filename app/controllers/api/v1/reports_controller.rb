@@ -15,6 +15,13 @@ module Api
       def show
       end
 
+      api :DELETE, "/ptables/:id/", "Delete a report."
+      param :id, String, :required => true
+      def destroy
+        process_response @report.destroy
+      end
+
+
       def summaryStatus
         return "Failed"   if error?
         return "Modified" if changes?

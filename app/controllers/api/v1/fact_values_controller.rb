@@ -12,11 +12,12 @@ module Api
         @fact_values = values.all(:include => [:fact_name, :host])
       end
 
-      api :GET, "/fact_values/:id/", "Show an audit."
+      api :GET, "/fact_values/:id/", "Show a fact value."
       param :id, :identifier, :required => true
       def show
       end
 
+      #Read-Only.  No create, update, destroy
     end
   end
 end
