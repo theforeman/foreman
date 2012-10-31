@@ -30,6 +30,8 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def power
+    (power_openstack and return) if @vm.class == Fog::Compute::OpenStack::Server
+
     action = @vm.ready? ? :stop : :start
 
     if (@vm.send(action) rescue false)

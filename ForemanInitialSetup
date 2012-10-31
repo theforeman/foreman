@@ -1,0 +1,33 @@
+#!/bin/sh
+echo "\033[1mForeman: \033[0m"
+echo "\033[1mThis script sets up your foreman installation automatically \033[0m"
+
+echo "gem 'puppet'" > bundler.d/local-gems.rb
+gem install bundle
+bundle install --without mysql mysql2 sqlite test --path vendor
+
+echo 
+echo "\033[1m Copying default settings.yaml \033[0m"
+cp config/settings.yaml.example config/settings.yaml
+if [ -f config/settings.yaml ]
+  then
+    echo "\033[1m Success \033[0m"
+fi                                  
+echo 
+echo "\033[1m Copying default database.yml \033[0m"
+cp config/database.yml.example config/database.yml
+if [ -f config/database.yml ]
+  then
+    echo "\033[1m Success \033[0m"
+fi                            
+
+echo 
+echo "\033[1m Migrating the database... \033[0m"
+rake db:migrate
+echo 
+echo "\033[1m Preparing test database... \033[0m"
+echo ""
+rake db:test:prepare
+echo ""
+echo "\033[1m DONE. Run rails s to start foreman \033[0m"
+echo "If you get an error 'sqlite' not found, add gem 'sqlite3-ruby', :require => 'sqlite3' to Gemfile"
