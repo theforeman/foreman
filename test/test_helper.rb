@@ -21,7 +21,7 @@ class ActiveSupport::TestCase
   end
 
   def set_session_user
-    SETTINGS[:login] ? {:user => User.find_by_login("admin").id, :expires_at => 5.minutes.from_now} : {}
+    SETTINGS[:login] ? {:user => User.admin.id, :expires_at => 5.minutes.from_now} : {}
   end
 
   def as_user user
@@ -67,3 +67,5 @@ class ActionController::TestCase
     @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
 end
+
+Apipie.configuration.validate = false

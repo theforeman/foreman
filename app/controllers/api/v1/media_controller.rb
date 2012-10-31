@@ -29,6 +29,7 @@ eos
       end
 
       api :GET, "/media/:id/", "Show a medium."
+      param :id, String, :required => true
       def show
       end
 
@@ -43,16 +44,18 @@ eos
         process_response @medium.save
       end
 
+      param :id, String, :required => true
       param :medium, Hash, :required => true do
         param :name, String, :required => false, :desc => "Name of media"
         param :path, String, :required => false, :desc => PATH_INFO
-        param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
+        param :os_family, String, :require => false, :allow_nil => true, :desc => OS_FAMILY_INFO
       end
       api :PUT, "/media/:id/", "Update a medium."
       def update
         process_response @medium.update_attributes(params[:medium])
       end
 
+      param :id, String, :required => true
       api :DELETE, "/media/:id/", "Delete a medium."
       def destroy
         process_response @medium.destroy

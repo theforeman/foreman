@@ -2,6 +2,9 @@ require 'audit_extensions'
 
 class AuditsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+
+  before_filter :setup_search_options, :only => :index
+
   def index
     Audit.unscoped { @audits = Audit.search_for(params[:search], :order => params[:order]).paginate :page => params[:page] }
   rescue => e

@@ -1,7 +1,6 @@
+See http://theforeman.org for additional information.
 
-See http://theforeman.org for additional information
-
-for more info, contact us at ohadlevy@gmail.com (ohadlevy at #theforeman), or pikelly@blueyonder.co.uk
+For more info, contact us at ohadlevy@gmail.com (ohadlevy at #theforeman), or pikelly@blueyonder.co.uk.
 
 Copyright (c) 2009-2012 Ohad Levy and Paul Kelly
 

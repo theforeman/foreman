@@ -33,6 +33,16 @@ $(function(){
     runtime_chart(name, title, subtitle, data_runtime, data_config);
   });
 
+  $("#trend_graph").each(function(index, element){
+    var el = $(element);
+    var name = el.attr('chart-name');
+    var title = el.attr('chart-title');
+    var subtitle = el.attr('chart-subtitle');
+    var data_hostcount = $.parseJSON(el.attr('chart-data-hostcount'));
+
+    trend_chart(name, title, subtitle, data_hostcount);
+  });
+
   $("#resource_graph").each(function(index, element){
     var el = $(element);
     var name = el.attr('chart-name');
@@ -322,9 +332,8 @@ function report_status_chart(name, title, subtitle, data_failed, data_failed_res
       data: data_restarted
     }]
   });
-
-
 }
+
 function runtime_chart (name, title, subtitle, data_runtime, data_config) {
   chart = new Highcharts.Chart({
     chart: {
@@ -406,5 +415,84 @@ function runtime_chart (name, title, subtitle, data_runtime, data_config) {
       name: 'Config Retrieval',
       data: data_config
     }]
+  });
+}
+
+function trend_chart (name, title, subtitle, trend_data) {
+  chart = new Highcharts.Chart({
+    chart: {
+      renderTo: name,
+      defaultSeriesType: 'area',
+      zoomType: 'x',
+      margin: [ 50, 30, 130, 70],
+      borderColor: '#909090',
+      borderWidth: 1,
+      backgroundColor: {
+        linearGradient: [0, 0, 0, 300],
+        stops: [
+          [0, '#ffffff'],
+          [1, '#EDEDED']
+        ]}
+    },
+    title: {
+      text: title,
+      style: {color: '#000000'},
+      x: -20 //center
+    },
+    subtitle: {
+      text: subtitle,
+      x: -20
+    },
+    credits: {
+      enabled: false
+    },
+    xAxis: {
+      type: 'datetime',
+      labels: {
+        rotation: -45,
+        align: 'right',
+        style: {
+          font: 'normal 13px Verdana, sans-serif'
+        }
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Number of Hosts'
+      },
+      min: 0
+    },
+    tooltip: {
+      formatter: function() {
+        return '<b>'+ this.series.name + ': ' + this.y + '</b><br/>'+
+          Highcharts.dateFormat('%e. %b %H:%M', this.x)  ;
+      }
+    },
+    legend: {
+      enabled: true,
+      layout: 'horizontal',
+      align: 'bottom',
+      verticalAlign: 'bottom',
+      x: 10,
+      y: -10,
+      borderWidth: 0
+    },
+    plotOptions: {
+      area: {
+        lineWidth: 1,
+        stacking: 'normal',
+        marker: {
+          enabled: false,
+          symbol: 'circle',
+          radius: 2,
+          states: {
+            hover: {
+              enabled: true
+            }
+          }
+        }
+      }
+    },
+    series: trend_data
   });
 }

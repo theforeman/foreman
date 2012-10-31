@@ -12,7 +12,7 @@ module Api
       unless SETTINGS[:login]
         # We assume we always have a user logged in,
         # if authentication is disabled, the user is the build-in admin account.
-        User.current = User.find_by_login("admin")
+        User.current = User.admin
       else
         authorization_method = oauth? ? :oauth : :http_basic
         User.current       ||= send(authorization_method) || (return false)
@@ -39,14 +39,29 @@ module Api
     end
 
     def oauth
-      unless Setting['oauth_active'] &&
-        (OAuth::RequestProxy.proxy(controller.request).oauth_consumer_key == Setting['oauth_consumer_key'])
+      unless Setting['oauth_active']
+        Rails.logger.warn 'Trying to authenticate with OAuth, but OAuth is not active'
+        return nil
+      end
+
+      unless (incoming_key = OAuth::RequestProxy.proxy(controller.request).oauth_consumer_key) ==
+          Setting['oauth_consumer_key']
+        Rails.logger.warn "oauth_consumer_key should be '#{Setting['oauth_consumer_key']}'" <<
+                               "but was '#{incoming_key}'"
         return nil
       end
 
       if OAuth::Signature.verify(controller.request, :consumer_secret => Setting['oauth_consumer_secret'])
-        User.find_by_login(Setting['oauth_map_users'] ? controller.request.headers['foreman_user'] : "admin")
+        user_name = controller.request.headers['foreman_user']
+        if Setting['oauth_map_users'] && user_name != 'admin'
+          User.find_by_login(user_name).tap do |obj|
+            Rails.logger.warn "Oauth: maping to user '#{user_name}' failed" if obj.nil?
+          end
+        else
+          User.admin
+        end
       else
+        Rails.logger.warn "OAuth signature verification failed."
         return nil
       end
     end

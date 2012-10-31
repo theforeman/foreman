@@ -10,6 +10,8 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_not_nil assigns(:environments)
+    envs = ActiveSupport::JSON.decode(@response.body)
+    assert !envs.empty?
   end
 
   test "should show environment" do

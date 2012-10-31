@@ -12,16 +12,16 @@
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass) %></td>
       <td>
-        <% for environment in puppetclass.environments -%>
+        <% puppetclass.environments.uniq.each do |environment| -%>
           <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
         <% end %>
       </td>
       <td><%= puppetclass.hostgroups.map {|hg| link_to_if_authorized hg, hash_for_edit_hostgroup_path(:id=>hg)}.to_sentence.html_safe %></td>
       <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
-      <td><%= link_to @keys_counter[puppetclass.id] || 0, puppetclass_lookup_keys_path(puppetclass) %> </td>
+      <td><%= @keys_counter[puppetclass.name] || 0 %> </td>
       <td>
         <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass), :confirm => "Delete #{puppetclass.name}?" %>
       </td>

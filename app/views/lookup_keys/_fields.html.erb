@@ -1,29 +1,44 @@
-<div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')} class='tab-pane fields' " %> >
+
+<div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')%>' class='tab-pane fields' >
+  <% is_param = f.object.is_param -%>
+
+  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label=> 'Puppet Environments', :disabled=>true) if is_param%>
+
   <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn btn-danger hide'} unless controller_name == "lookup_keys" %>
-  <%= text_f f, :key, :label => "Name" %>
-  <%= text_f f, :description %>
-  <%= text_f f, :default_value, :class => "span6", :help_inline => popover("?","value to use when there is no match", :title => "Default Value").html_safe %>
-  <%= selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATION_TYPES, f.object.validator_type),
-    { :include_blank => "string"},
-    { :label => "Type Validator", :class => "medium",
-      :help_inline => popover("?","<dl> <dt>String</dt> <dd>everything goes</dd> <dt>Regexp</dt> <dd>regular expression to verify the value</dd>
-       <dt>List</dt> <dd>comma seperated values, e.g. 80,443<dd> </dt>", :title => "How values are validated").html_safe}
-  %>
-  <%= text_f f, :validator_rule, :label => "Validator constraint", :class => "span6",
-    :help_inline => popover("?","Values to match Type validator, leave blank if its String", :title => "Validator constraint")%>
-  <%= textarea_f f, :path, :rows => "4", :value => f.object.path, :label => "Order",
-    :help_inline => popover("?", "The order in which matchers keys are processed, first match wins.<br>
+  <%= text_f f, :key, :label => "Name", :disabled => f.object.is_param %>
+  <%= f.hidden_field :key if is_param %>
+  <%= textarea_f f, :description, :rows => :auto, :class=> "span6" %>
+
+  <%= show_puppet_class f %>
+  <%= checkbox_f(f, :override, :label => "Override", :onchange=>'toggleOverrideValue(this)',
+                    :help_inline => popover("?", "Whether the smart-variable should override the Puppet class default value.",
+                    :title => "Override Value")) if is_param%>
+
+  <%= param_type_selector f  %>
+  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :class => "span6", :rows => :auto, :help_inline => popover("?","value to use when there is no match", :title => "Default Value") %>
+  <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> <%= "style='display:none;'" if (f.object.is_param && !f.object.override) %>>
+    <legend>Optional Input Validator</legend>
+    <%= checkbox_f(f, :required, :disabled => !f.object.override,
+                      :help_inline => popover("?", "If checked, will raise an error if there is no default value and no matcher provide a value.",
+                      :title => "Required Parameter")) if is_param %>
+    <%= validator_type_selector f  %>
+    <%= text_f f, :validator_rule, :disabled => f.object.validator_type.blank? %>
+
+    <legend>Override Value For Specific Hosts</legend>
+    <%= textarea_f f, :path, :rows => :auto, :label => "Order", :value => f.object.path,
+                   :help_inline => popover("?", "The order in which matchers keys are processed, first match wins.<br>
     You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code>
     would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>", :title => "The order in which values are resolved").html_safe
-  %>
+    %>
 
-  <%# the following field is required to see child validations %>
-  <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
-  <div class="children_fields">
-    <%= new_child_fields_template(f, :lookup_values, {:partial => "lookup_keys/value"}) %>
-    <%= f.fields_for :lookup_values do |lookup_values| %>
-      <%= render 'lookup_keys/value', :f => lookup_values %>
-    <% end %>
-    <%= add_child_link "+ Add Matcher-Value", :lookup_values, { :title => 'add a new matcher-value pair'} %>
+    <%# the following field is required to see child validations %>
+    <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
+    <div class="children_fields">
+      <%= new_child_fields_template(f, :lookup_values, {:partial => "lookup_keys/value"}) %>
+      <%= f.fields_for :lookup_values do |lookup_values| %>
+          <%= render 'lookup_keys/value', :f => lookup_values %>
+      <% end %>
+      <%= add_child_link "+ Add Matcher-Value", :lookup_values, { :title => 'add a new matcher-value pair'} %>
+    </div>
   </div>
 </div>

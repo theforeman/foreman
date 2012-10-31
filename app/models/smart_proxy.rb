@@ -1,5 +1,5 @@
 class SmartProxy < ActiveRecord::Base
-  ProxyFeatures = %w[ TFTP DNS DHCP Puppetca Puppet]
+  ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
@@ -38,6 +38,7 @@ class SmartProxy < ActiveRecord::Base
   def self.name_map
     {
       "tftp"     => Feature.find_by_name("TFTP"),
+      "bmc"      => Feature.find_by_name("BMC"),
       "dns"      => Feature.find_by_name("DNS"),
       "dhcp"     => Feature.find_by_name("DHCP"),
       "puppetca" => Feature.find_by_name("Puppet CA"),

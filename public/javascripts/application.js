@@ -37,7 +37,6 @@ function onContentLoad(){
   $('*[title]').not('*[rel]').tooltip();
 }
 
-
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
   $(link).closest(".fields").hide();
@@ -50,13 +49,32 @@ function mark_params_override(){
   $('#parameters').find('[id$=_name]:visible').each(function(){
     var param_name = $(this);
     $('#inherited_parameters').find('[id^=name_]').each(function(){
-      if (param_name.val() == $(this).val()){
+      if (param_name.val() == $(this).text()){
         $(this).addClass('override-param');
-        $(this).next().addClass('override-param')
-        $(this).next().next('span').hide();
+        $(this).closest('tr').find('textarea').addClass('override-param')
+        $(this).closest('tr').find('[data-tag=override]').hide();
       }
     })
   })
+  $('#inherited_puppetclasses_parameters .override-param').removeClass('override-param');
+  $('#inherited_puppetclasses_parameters [data-tag=override]').show();
+  $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
+    var klass = $(this).val();
+    var name = $(this).siblings('[data-property=name]').val();
+    $('#inherited_puppetclasses_parameters [id^="puppetclass_"][id*="_params\\["][id$="\\]"]').each(function(){
+      var param = $(this);
+      if (param.find('[data-property=class]').text() == klass && param.find('[data-property=name]').text() == name) {
+        param.find('.error').removeClass('error');
+        param.find('.warning').removeClass('warning');
+        param.addClass('override-param');
+        param.find('input, textarea').addClass('override-param');
+        param.find('[data-tag=override]').hide();
+      }
+    });
+  });
+  $('#params-tab').removeClass("tab-error");
+  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  $('a[rel="popover"]').popover();
 }
 
 function add_fields(link, association, content) {
@@ -167,7 +185,9 @@ $(function() {
     $(".logo, .logo-text").hide();
     return false;
   }
-
+  $("[id^='menu_tab_']").removeClass('active');
+  $('#menu_tab_settings').addClass($('#current_tab').attr('data-settings'));
+  $('#menu_tab_'+$('#current_tab').attr('data-controller')).addClass('active').next('.dropdown').addClass('active');
   magic_line("#menu" , 1);
   magic_line("#menu2", 0);
   $('.dropdown-toggle').dropdown();
@@ -183,7 +203,7 @@ function magic_line(id, combo) {
   }else{$magicLine.show();}
   if ( $(".active").size() > 0){
     $magicLine
-    .width($(id +" .active").width() + $(id + " .active.dropdown").width() * combo)
+    .width($(id +" .active").width() + $(id + " .dropdown.active").width() * combo)
     .css("left", $(".active").position().left)
     .data("origLeft", $magicLine.position().left)
     .data("origWidth", $magicLine.width());
@@ -315,6 +335,7 @@ $(function() {
     return false;
   });
 });
+
 function update_puppetclasses(element) {
   var host_id = $(element).attr('data-host-id');
   var env_id = $('*[id*=environment_id]').attr('value');
