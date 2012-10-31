@@ -6,6 +6,15 @@
     <% unless @editing_self %>
       <li><a href="#filters" data-toggle="tab">Filters</a></li>
     <% end -%>
+
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    <% end %>
+
   </ul>
 
   <div class="tab-content">
@@ -39,4 +48,3 @@
   </div>
   <%= submit_or_cancel f %>
 <% end -%>
-

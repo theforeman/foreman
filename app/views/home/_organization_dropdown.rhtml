@@ -1,0 +1,18 @@
+<li class="dropdown">
+  <%= link_to ((Organization.current.name ) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Organization" %>
+  <ul class="dropdown-menu">
+    <% if show_add_organization_button? %>
+      <div class="no-taxonomies">
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          There aren't any organizations yet.
+        </div>
+        <button class="btn btn-large btn-primary" type="button"><%= link_to "New Organization", :controller => "organizations", :action => "new" %></button>
+      </div>
+    <% else %>
+      <% Organization.all.each do |organization| %>
+        <li><%= link_to(organization.name, select_organization_path(organization)) %>
+      <% end %>
+    <% end %>
+  </ul>
+</li>

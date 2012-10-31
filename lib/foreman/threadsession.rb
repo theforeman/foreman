@@ -27,6 +27,7 @@ module Foreman
             unless o.nil? || o.is_a?(self)
               raise(ArgumentError, "Unable to set current User, expected class '#{self}', got #{o.inspect}")
             end
+
             Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
             Thread.current[:user] = o
           end
@@ -50,5 +51,46 @@ module Foreman
         end
       end
     end
+
+    # include this in the Organization model object
+    # this needs to be DRY'ed up.
+    module OrganizationModel
+      def self.included(base)
+        base.class_eval do
+          def self.current
+            User.current.organizations
+          end
+
+          def self.current=(organization)
+            unless organization.nil? || organization.is_a?(self)
+              raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
+            end
+
+            Rails.logger.debug "Setting current organization thread-local variable to " + (organization.is_a?(Organization) ? organization.name : 'nil')
+            Thread.current[:organization] = organization
+          end
+        end
+      end
+    end
+
+    module LocationModel
+      def self.included(base)
+        base.class_eval do
+          def self.current
+            User.current.location
+          end
+
+          def self.current=(location)
+            unless location.nil? || location.is_a?(self)
+              raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
+            end
+
+            Rails.logger.debug "Setting current location thread-local variable to " + (location.is_a?(Location) ? location.name : 'nil')
+            Thread.current[:location] = location
+          end
+        end
+      end
+    end
+
   end
 end

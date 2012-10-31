@@ -1,4 +1,4 @@
---- 
+---
 #your default puppet server - can be overridden in the host level
 #if none specified, plain "puppet" will be used.
 #:puppet_server: puppet
@@ -6,3 +6,8 @@
 :puppetconfdir: /etc/puppet/puppet.conf
 :login: false
 :require_ssl: false
+
+# You must restart the Rack server after changing either of these values
+# because they are cached at startup.
+:locations_enabled: false
+:organizations_enabled: false

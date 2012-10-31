@@ -19,8 +19,18 @@ class ComputeResource < ActiveRecord::Base
   has_many :hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_compute_resources", :class_name => "Taxonomy"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_compute_resources", :class_name => "Taxonomy"
+  has_many :taxonomy_compute_resources, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_compute_resources
 
-  default_scope :order => 'LOWER(compute_resources.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    Taxonomy.with_taxonomy_scope do
+      select("DISTINCT compute_resources.*").order("LOWER(compute_resources.name)")
+    end
+  }
 
   scope :my_compute_resources, lambda {
     user = User.current

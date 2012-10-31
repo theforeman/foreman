@@ -11,6 +11,8 @@ class Domain < ActiveRecord::Base
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_and_belongs_to_many :users, :join_table => "user_domains"
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_domains", :class_name => "Taxonomy"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_domains", :class_name => "Taxonomy"
 
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
@@ -20,10 +22,20 @@ class Domain < ActiveRecord::Base
   scoped_search :on => [:name, :fullname], :complete_value => true
   scoped_search :in => :domain_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
-  default_scope :order => 'LOWER(domains.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    Taxonomy.with_taxonomy_scope do
+      select("DISTINCT domains.*").order("LOWER(domains.name)")
+    end
+  }
 
   class Jail < Safemode::Jail
     allow :name, :fullname
+  end
+
+  def taxonomies
+    "taxonomies"
   end
 
   def to_param

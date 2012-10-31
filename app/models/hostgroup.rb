@@ -18,9 +18,20 @@ class Hostgroup < ActiveRecord::Base
   before_save :remove_duplicated_nested_class
   after_find :deserialize_vm_attributes
 
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_hostgroups", :class_name => "Taxonomy"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_hostgroups", :class_name => "Taxonomy"
+
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
   audited
+
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    Taxonomy.with_taxonomy_scope do
+      select("DISTINCT hostgroups.*")
+    end
+  }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -54,6 +65,10 @@ class Hostgroup < ActiveRecord::Base
   end
 
   #TODO: add a method that returns the valid os for a hostgroup
+  #
+  def taxonomies
+    "taxonomies"
+  end
 
   def all_puppetclasses
     classes

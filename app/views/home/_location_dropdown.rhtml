@@ -1,0 +1,18 @@
+<li class="dropdown">
+  <%= link_to ((Location.current.name rescue("Locations")) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => 'Current Location' %>
+  <ul class="dropdown-menu">
+    <% if show_add_location_button? %>
+      <div class="no-taxonomies">
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          There aren't any locations yet.
+        </div>
+        <button class="btn btn-large btn-primary" type="button"><%= link_to "New Location", :controller => "locations", :action => "new" %></button>
+      </div>
+    <% else %>
+      <% Location.all.each do |location|p %>
+        <li><%= link_to(location.name, select_location_path(location)) %></li>
+      <% end -%>
+    <% end %>
+  </ul>
+</li>

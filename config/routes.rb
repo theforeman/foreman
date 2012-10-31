@@ -58,6 +58,8 @@ Foreman::Application.routes.draw do
         get 'current_parameters'
         get 'puppetclass_parameters'
         post 'process_hostgroup'
+        post 'process_organization'
+        post 'process_location'
         post 'hostgroup_or_environment_selected'
         post 'hypervisor_selected'
         post 'architecture_selected'
@@ -76,6 +78,7 @@ Foreman::Application.routes.draw do
         resources :lookup_keys   ,:only => :show
       end
     end
+
 
     resources :bookmarks, :except => [:show]
     resources :lookup_keys, :except => [:new, :create] do
@@ -151,6 +154,7 @@ Foreman::Application.routes.draw do
       resources :lookup_keys, :except => [:show, :new, :create]
     end
   end
+
 
   resources :smart_proxies, :except => [:show] do
     constraints(:id => /[^\/]+/) do
@@ -288,6 +292,24 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
- #Keep this line the last route
+  if SETTINGS[:locations_enabled]
+    resources :locations do
+      get 'select', :on => :member
+      collection do
+	get 'auto_complete_search'
+      end
+    end
+  end
+
+  if SETTINGS[:organizations_enabled]
+    resources :organizations do
+      get 'select', :on => :member
+      collection do
+	get 'auto_complete_search'
+      end
+    end
+  end
+
+  #Keep this line the last route
   match '*a', :to => 'errors#routing'
 end

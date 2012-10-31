@@ -1,6 +1,6 @@
 class SmartProxy < ActiveRecord::Base
   ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
-  attr_accessible :name, :url
+  attr_accessible :name, :url, :taxonomy_ids
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
@@ -8,6 +8,8 @@ class SmartProxy < ActiveRecord::Base
   has_many :domains,    :foreign_key => "dns_id"
   has_many :hosts,      :foreign_key => "puppet_proxy_id"
   has_many :hostgroups, :foreign_key => "puppet_proxy_id"
+  has_many :taxonomy_smart_proxies, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_smart_proxies
 
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
@@ -19,7 +21,13 @@ class SmartProxy < ActiveRecord::Base
   before_save :sanitize_url, :associate_features
   before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
-  default_scope :order => 'LOWER(smart_proxies.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    Taxonomy.with_taxonomy_scope do
+      select("DISTINCT smart_proxies.*").order("LOWER(smart_proxies.name)")
+    end
+  }
   ProxyFeatures.each {|f| scope "#{f.downcase}_proxies".to_sym, where(:features => {:name => f}).joins(:features) }
 
   def hostname
@@ -28,7 +36,9 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def to_s
+    feature_names = features.map(&:name).join(", ")
     hostname =~ /^puppet\./ ? "puppet" : hostname
+    "#{hostname}: #{feature_names}"
   end
 
   def to_param

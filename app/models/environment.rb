@@ -9,13 +9,27 @@ class Environment < ActiveRecord::Base
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
 
+  has_and_belongs_to_many :locations, :join_table => "taxonomy_environments", :class_name => "Taxonomy"
+  has_and_belongs_to_many :organizations, :join_table => "taxonomy_environments", :class_name => "Taxonomy"
+
   before_destroy EnsureNotUsedBy.new(:hosts)
-  default_scope :order => 'environments.name'
+
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    Taxonomy.with_taxonomy_scope do
+      select("DISTINCT environments.*").order("LOWER(environments.name)")
+    end
+  }
 
   scoped_search :on => :name, :complete_value => :true
 
   def to_param
     name
+  end
+
+  def taxonomies
+    "taxonomies"
   end
 
   class << self

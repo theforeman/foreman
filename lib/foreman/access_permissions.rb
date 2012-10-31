@@ -54,7 +54,7 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :domains do |map|
     map.permission :view_domains,       {:domains => [:index, :show]}
-    map.permission :create_domain,      {:domains => [:new, :create]}
+    map.permission :create_domains,      {:domains => [:new, :create]}
     map.permission :edit_domains,       {:domains => [:edit, :update]}
     map.permission :destroy_domains,    {:domains => [:destroy]}
   end
@@ -122,6 +122,15 @@ Foreman::AccessControl.map do |map|
     map.permission :power_hypervisors_guests,   {:hypervisors_guests => [:power]}
   end
 
+  if SETTINGS[:locations_enabled]
+    map.security_block :locations do |map|
+      map.permission :view_locations, {:locations =>  [:index, :show]}
+      map.permission :create_locations, {:locations => [:new, :create]}
+      map.permission :edit_locations, {:locations => [:edit, :update]}
+      map.permission :destroy_locations, {:locations => [:destroy]}
+    end
+  end
+
   map.security_block :media do |map|
     map.permission :view_media,    {:media => [:index, :show]}
     map.permission :create_media,  {:media => [:new, :create]}
@@ -186,6 +195,15 @@ Foreman::AccessControl.map do |map|
     map.permission :create_subnets,  {:subnets => [:new, :create]}
     map.permission :edit_subnets,    {:subnets => [:edit, :update]}
     map.permission :destroy_subnets, {:subnets => [:destroy]}
+  end
+
+  if SETTINGS[:organizations_enabled]
+    map.security_block :organizations do |map|
+      map.permission :view_organizations, {:organizations => [:index, :show]}
+      map.permission :create_organizations, {:organizations => [:new, :create]}
+      map.permission :edit_organizations, {:organizations => [:edit, :update]}
+      map.permission :destroy_organizations, {:organizations => [:destroy]}
+    end
   end
 
   map.security_block :usergroups do |map|

@@ -26,6 +26,9 @@ class DomainsController < ApplicationController
 
   def create
     @domain = Domain.new(params[:domain])
+    @domain.locations_ids = [Location.current.id] if Taxonomy.locations_enabled
+    @domain.organization_ids = [Organization.current.id] if Taxonomy.organizations_enabled
+
     if @domain.save
       process_success
     else
@@ -51,5 +54,4 @@ class DomainsController < ApplicationController
       process_error
     end
   end
-
 end
