@@ -13,6 +13,30 @@ module Api
       def show
       end
 
+      api :POST, "/usergroups/", "Create a usergroup."
+      param :usergroup, Hash, :required => true do
+        param :name, String, :required => true
+      end
+      def create
+        @usergroup = Usergroup.new(params[:usergroup])
+        process_response @usergroup.save
+      end
+
+      api :PUT, "/usergroups/:id/", "Update a usergroup."
+      param :id, String, :required => true
+      param :usergroup, Hash, :required => true do
+        param :name, String, :required => true
+      end
+      def update
+        process_response @usergroup.update_attributes(params[:usergroup])
+      end
+
+      api :DELETE, "/usergroups/:id/", "Delete a usergroup."
+      param :id, String, :required => true
+      def destroy
+        process_response @usergroup.destroy
+      end
+
     end
   end
 end
