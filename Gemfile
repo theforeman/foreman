@@ -13,7 +13,7 @@ gem 'net-ldap'
 gem "safemode", "~> 1.0.1"
 gem 'uuidtools'
 gem "apipie-rails", ">= 0.0.12"
-gem 'rabl'
+gem 'rabl', '>= 0.7.5'
 # Previous versions collide with Environment model
 gem "ruby_parser", ">= 2.3.1"
 gem 'oauth'
