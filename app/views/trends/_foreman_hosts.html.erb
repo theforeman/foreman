@@ -1,0 +1,13 @@
+<% @hosts.in_groups(4, false) do |group| %>
+  <div class="span3">
+    <td>
+      <% group.each do |host| -%>
+        <ul class="base">
+          <li>
+            <%= link_to(host, host_path(:host_id => host), :title => "Show Host") %>
+          </li>
+        </ul>
+      <% end %>
+    </td>
+  </div>
+<% end -%>

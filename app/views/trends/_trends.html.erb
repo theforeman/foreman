@@ -1,0 +1,23 @@
+<% @trends.in_groups(4, false) do |group| %>
+  <div class="span3">
+    <td>
+      <% group.each do |trend| -%>
+        <ul class="base">
+          <li>
+            <% opts = trend.name? ? trend.name : trend.fact_value %>
+            <table class="table table-condensed table-layout: fixed">
+              <tr>
+                <td style="width: 80%; border-top: none" >
+                  <%= link_to opts, trend_path(:id => trend.id, :search => "facts.#{trend.fact_name} = \"#{trend.fact_value}\""), :title => "Details" %>
+                </td>
+                <td style="width: 20%; border-top: none">
+                  <% unless trend.trend_counters.blank? %><%= trend.trend_counters.last.count %><% end %>
+                </td>
+              </tr>
+            </table>
+          </li>
+        </ul>
+      <% end %>
+    </td>
+  </div>
+<% end -%>

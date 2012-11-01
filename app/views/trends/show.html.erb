@@ -1,27 +1,18 @@
 <% title "Trends for #{trend_title(@trend)}" %>
 <% content_for(:search_bar) { trend_days_filter } %>
 
-<%= trend_chart 'trend_graph', "#{trend_title(@trend)}", "last #{range} days", chart_data(@trend, range.days.ago) %>
+<%= trend_chart 'trend_graph', "#{trend_title(@trend)}", "last #{range} days", chart_data(@trends, range.days.ago) %>
 
 <table class="table">
-  <th colspan="4">Values</th>
+  <% head = @hosts ? "Hosts" : "Values" %>
+  <th colspan="4"><%= head %></th>
   <tr>
-    <% @trend.values.includes(:trendable).in_groups(4, false) do |group| %>
-      <div class="span3">
-        <td>
-          <% group.each do |trend| -%>
-            <ul class="base">
-              <li>
-                <% if trend.is_a? FactTrend %>
-                  <%= link_to_if_authorized trend, hash_for_edit_trend_path(:id => trend), :title => "Edit Fact Display Name" %>
-                <% else %>
-                  <%= trend %>
-                <% end %>
-              </li>
-            </ul>
-          <% end -%>
-        </td>
-      </div>
-    <% end -%>
+    <% if @hosts && @trend.is_a?(FactTrend) %>
+      <%= render 'fact_hosts' %>
+    <% elsif @hosts %>
+      <%= render 'foreman_hosts' %>
+    <% else %>
+      <%= render 'trends' %>
+    <% end %>
   </tr>
 </table>

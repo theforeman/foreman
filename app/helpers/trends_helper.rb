@@ -36,9 +36,9 @@ module TrendsHelper
   end
 
   def chart_data trend, from = 30.day.ago, to = Time.now
-    values = trend.values
+    values = trend
     labels = {}
-    values.includes(:trendable).each {|v| labels[v.id] = v.to_label}
+    values.each {|v| labels[v.id] = v.to_label}
 
     values.includes(:trend_counters).where(["trend_counters.created_at > ?", from]).order("trend_counters.created_at").map do |value|
       data =  value.trend_counters.map { |t|  [t.created_at.to_i*1000, t.count]  }
