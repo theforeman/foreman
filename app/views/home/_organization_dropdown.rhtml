@@ -1,5 +1,5 @@
 <li class="dropdown">
-  <%= link_to ((Organization.current.name ) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Organization" %>
+  <%= link_to ((Organization.current.nil? ? "All" : Organization.current.to_s) + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Organization" %>
   <ul class="dropdown-menu">
     <% if show_add_organization_button? %>
       <div class="no-taxonomies">

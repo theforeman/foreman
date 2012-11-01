@@ -30,7 +30,7 @@
         <%= select_f f, :organization_id, Organization.all, :id, :to_label,
           { :include_blank => true },
           { :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
-          :'data-url' => process_organization_hosts_path, :selected => User.current.organization,
+          :'data-url' => process_organization_hosts_path, :selected => Organization.my_orgs,
           :help_inline => image_tag('spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
       <% end %>
 
@@ -38,7 +38,7 @@
         <%= select_f f, :location_id, Location.all, :id, :to_label,
           { :include_blank => true},
           { :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
-            :'data-url' => process_location_hosts_path, :selected => User.current.location,
+            :'data-url' => process_location_hosts_path, :selected => Location.my_locations,
             :help_inline => image_tag('spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
       <% end %>
 

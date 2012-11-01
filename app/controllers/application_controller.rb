@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   # standard layout to all controllers
   helper 'layout'
 
-  before_filter :require_ssl, :require_login
+  before_filter :require_ssl, :require_login, :set_taxonomy
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
@@ -278,6 +278,11 @@ class ApplicationController < ActionController::Base
     logger.warn "Operation FAILED: #{exception}"
     logger.debug exception.backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
+  end
+
+  def set_taxonomy
+    Organization.current = Organization.find(session[:org_id])  if session[:org_id]
+    Location.current = Organization.find(session[:location_id]) if session[:location_id]
   end
 
 end

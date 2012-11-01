@@ -15,11 +15,8 @@ class Host < Puppet::Rails::Host
   belongs_to :compute_resource
   belongs_to :image
 
-  has_one :location
-  has_one :organization
-
-  has_many :taxonomy_hosts, :dependent => :destroy
-  has_many :taxonomies, :through => :taxonomy_hosts
+  belongs_to :location
+  belongs_to :organization
 
   has_one :token, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
 
@@ -39,10 +36,9 @@ class Host < Puppet::Rails::Host
   attr_reader :cached_host_params
 
   default_scope lambda {
-    Taxonomy.with_taxonomy_scope do
-      select("DISTINCT hosts.*")
-    end
-  }
+      org = Organization.current
+      where(:organization_id => org.id) if org
+    }
 
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }

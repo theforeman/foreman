@@ -19,8 +19,7 @@ class ComputeResource < ActiveRecord::Base
   has_many :hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
-  has_and_belongs_to_many :locations, :join_table => "taxonomy_compute_resources", :class_name => "Taxonomy"
-  has_and_belongs_to_many :organizations, :join_table => "taxonomy_compute_resources", :class_name => "Taxonomy"
+
   has_many :taxonomy_compute_resources, :dependent => :destroy
   has_many :taxonomies, :through => :taxonomy_compute_resources
 
