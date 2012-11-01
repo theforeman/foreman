@@ -20,8 +20,12 @@ module Api
       param :host, Hash, :required => true do
         param :name, String, :required => true
         param :environment_id, String, :required => true
+        param :ip, String, :required => true
+        param :mac, String, :required => true
+        param :architecture_id, String, :required => true
+        param :domain_id, String, :required => true
+        param :puppet_proxy_id, String, :required => true
         param :operatingsystem_id, String, :required => false
-        param :architecture_id, String, :required => false
         param :medium_id, String, :required => false
         param :ptable_id, String, :required => false
         param :subnet_id, String, :required => false
@@ -30,12 +34,13 @@ module Api
         param :hostgroup_id, String, :required => false
         param :owner_id, String, :required => false
         param :puppet_ca_proxy_id, String, :required => false
-        param :puppet_proxy_id, String, :required => false
         param :image_id, String, :required => false
         param :host_parameters_attributes, Array, :required => false
       end
       def create
         @host = Host.new(params[:host])
+        @host.managed = true
+        forward_request_url
         process_response @host.save
       end
 
@@ -44,8 +49,12 @@ module Api
       param :host, Hash, :required => true do
         param :name, String, :required => true
         param :environment_id, String, :required => true
+        param :ip, String, :required => true
+        param :mac, String, :required => true
+        param :architecture_id, String, :required => true
+        param :domain_id, String, :required => true
+        param :puppet_proxy_id, String, :required => true
         param :operatingsystem_id, String, :required => false
-        param :architecture_id, String, :required => false
         param :medium_id, String, :required => false
         param :ptable_id, String, :required => false
         param :subnet_id, String, :required => false
@@ -54,7 +63,6 @@ module Api
         param :hostgroup_id, String, :required => false
         param :owner_id, String, :required => false
         param :puppet_ca_proxy_id, String, :required => false
-        param :puppet_proxy_id, String, :required => false
         param :image_id, String, :required => false
         param :host_parameters_attributes, Array, :required => false
       end
@@ -67,6 +75,14 @@ module Api
       def destroy
         process_response @host.destroy
       end
+
+      private
+
+      # this is required for template generation (such as pxelinux) which is not done via a web request
+      def forward_request_url
+        @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+      end
+
 
     end
   end
