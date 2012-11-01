@@ -85,7 +85,8 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
       assert_response :forbidden
 
       response = ActiveSupport::JSON.decode(@response.body)
-      assert response['error']['details'] == "You are trying to delete your own account"
+      assert response['details'] == "You are trying to delete your own account"
+      assert response['message'] == "Access denied"
       assert User.exists?(user)
 
     end
