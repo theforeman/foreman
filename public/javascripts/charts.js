@@ -474,8 +474,20 @@ function trend_chart (name, title, subtitle, trend_data) {
       align: 'bottom',
       verticalAlign: 'bottom',
       x: 10,
-      y: -10,
-      borderWidth: 0
+      y: 0,
+      borderWidth: 0,
+      maxHeight: 72,
+      navigation: {
+        activeColor: '#3E576F',
+        animation: true,
+        arrowSize: 12,
+        inactiveColor: '#CCC',
+        style: {
+          fontWeight: 'bold',
+          color: '#333',
+          fontSize: '12px'
+        }
+      }
     },
     plotOptions: {
       area: {
