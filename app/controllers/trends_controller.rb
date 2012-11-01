@@ -2,7 +2,7 @@ class TrendsController < ApplicationController
   before_filter :find_trend, :only => %w{show edit update destroy}
 
   def index
-    @trends = Trend.group(:trendable_type, :fact_name).where(:fact_value => nil).includes(:trendable).paginate(:page => params[:page])
+    @trends = Trend.types.includes(:trendable).sort_by {|e| e.type_name.downcase }.paginate(:page => params[:page])
   end
 
   def new
@@ -23,7 +23,8 @@ class TrendsController < ApplicationController
   end
 
   def update
-    if @trend.update_attributes(params[:trend])
+  @trends = Trend.update(params[:trend].keys, params[:trend].values).reject { |p| p.errors.empty? }
+  if @trends.empty?
       process_success
     else
       process_error
@@ -49,7 +50,7 @@ class TrendsController < ApplicationController
 
   private
   def find_trend
-    @trend = Trend.includes(:trendable).find(params[:id])
+    @trend = Trend.find(params[:id])
   end
 
 end

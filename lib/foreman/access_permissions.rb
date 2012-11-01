@@ -230,4 +230,10 @@ Foreman::AccessControl.map do |map|
     map.permission :view_statistics,  {:statistics  => [:index, :show]}
   end
 
+  map.security_block :trends do |map|
+    map.permission :view_trends,    {:trends => [:index, :show]}
+    map.permission :create_trends,  {:trends => [:new, :create]}
+    map.permission :edit_trends,    {:trends => [:edit, :update]}
+    map.permission :destroy_trends, {:trends => [:destroy]}
+  end
 end

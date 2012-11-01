@@ -32,7 +32,11 @@ module TrendsHelper
   end
 
   def trend_title trend
-    trend.type_name.camelcase
+    if trend.fact_value.blank?
+      trend.type_name.camelcase
+    else
+      "#{trend.type_name.camelcase} - #{trend.name}"
+    end
   end
 
   def chart_data trend, from = 30.day.ago, to = Time.now
