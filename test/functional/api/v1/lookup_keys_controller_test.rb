@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::LookupKeysControllerTest < ActionController::TestCase
 
-  valid_attrs = { :name => 'Bighost', :environment_id => Environment.first.id }
+  valid_attrs = { :key => 'testkey', :is_param => true }
 
   test "should get index" do
     as_user :admin do
