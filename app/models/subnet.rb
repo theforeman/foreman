@@ -18,6 +18,9 @@ class Subnet < ActiveRecord::Base
   default_scope :order => 'priority'
   validate :validate_ranges
 
+  has_many :taxonomy_subnet, :dependent => :destroy
+  has_many :taxonomies, :through => :taxonomy_subnet
+
   before_destroy EnsureNotUsedBy.new(:hosts, :sps)
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
