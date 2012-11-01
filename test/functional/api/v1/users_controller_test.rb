@@ -2,6 +2,8 @@ require 'test_helper'
 
 class Api::V1::UsersControllerTest < ActionController::TestCase
 
+  valid_attrs = {:login => "johnsmith"}
+  
   test "should get index" do
     as_user :admin do
       get :index, {}
@@ -22,7 +24,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   test "should update user" do
     as_user :admin do
       user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-      put :update, { :id => user.id, :user => {:login => "johnsmith"} }
+      put :update, { :id => user.id, :user => valid_attrs }
       assert_response :success
 
       mod_user = User.find_by_id(user.id)
