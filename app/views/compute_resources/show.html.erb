@@ -38,6 +38,8 @@
       Loading Virtual Machines information ...
     </p>
   </div>
+  <%= title_actions(display_link_if_authorized("New VM", hash_for_new_compute_resource_vm_path(:compute_resource_id => @compute_resource.id), :class => "btn btn-success btn-newvm")) %>
+  <br/>
   <% if @compute_resource.capabilities.include?(:image) -%>
     <div id="images" class="tab-pane">
       <%= title_actions(display_link_if_authorized("New Image", hash_for_new_compute_resource_image_path(:compute_resource_id => @compute_resource.id), :class => "btn btn-success")) %>

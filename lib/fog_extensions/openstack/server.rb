@@ -32,6 +32,13 @@ module FogExtensions
         connection.security_groups.all
       end
 
+      def list_images
+        image_names = {}
+        connection.list_images.body['images'].each { |image| image_names[image['id']] = image['name']} 
+
+        image_names
+      end
+
     end
   end
 end

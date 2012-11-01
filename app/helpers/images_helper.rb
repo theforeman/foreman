@@ -1,8 +1,5 @@
 module ImagesHelper
-  def openstack_list_of_images
-    hash = {}
-    ComputeResource.first.vms.first.connection.list_images.body['images'].each { |image| hash[image['id']] = image['name']}   
-
-    hash
+  def openstack_list_of_images(compute_resource)
+    compute_resource.vms.first.list_images
   end
 end

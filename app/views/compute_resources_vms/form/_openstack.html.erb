@@ -1,6 +1,6 @@
 <%= text_f   f, :name, :label => 'Name' %>
 <%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => 'Flavor' %>
-<%= select_f f, :image_ref, openstack_list_of_images, :first, :last %>
+<%= select_f f, :image_ref, openstack_list_of_images(compute_resource), :first, :last %>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name %>
 
 <%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => "Security Group"  %>
