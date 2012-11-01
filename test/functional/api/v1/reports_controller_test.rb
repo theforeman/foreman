@@ -23,7 +23,7 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
 
   test "should destroy report" do
     as_user :admin do
-      assert_difference('Ptable.count', -1) do
+      assert_difference('Report.count', -1) do
         delete :destroy, {:id => reports(:report).to_param}
       end
     end

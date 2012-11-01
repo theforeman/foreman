@@ -2,16 +2,16 @@
 
 one:
   key: port
-  path:
-  key_type: Integer
+  path: fqdn
+  key_type: integer
   validator_type:
-  puppetclass : one
   default_value: 80
+  is_param: true
 
 two:
   key: ssl_port
-  path:
-  key_type: Integer
+  path: fqdn
+  key_type: integer
   validator_type: list
   validator_rule: 443,8443
   puppetclass : one

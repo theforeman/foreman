@@ -27,7 +27,7 @@ module Api
       end
       def create
         @image =  @compute_resource.images.new(params[:image])
-        process_response @image.save
+        process_response @image.save, @compute_resource
       end
 
       api :PUT, "/images/:id/", "Update a image."

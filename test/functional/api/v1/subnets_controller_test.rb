@@ -41,10 +41,19 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
   test "should destroy subnets" do
     as_user :admin do
       assert_difference('Subnet.count', -1) do
-        delete :destroy, {:id => subnets(:one).to_param}
+        delete :destroy, {:id => subnets(:three).to_param}
       end
     end
     assert_response :success
+  end
+
+  test "should NOT destroy subnet that is in use" do
+    as_user :admin do
+      assert_difference('Subnet.count', 0) do
+        delete :destroy, {:id => subnets(:one).to_param}
+      end
+    end
+    assert_response :unprocessable_entity
   end
 
 

@@ -54,7 +54,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
         delete :destroy, {:id => smart_proxies(:three).to_param}
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
   end
 
 end

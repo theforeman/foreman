@@ -39,10 +39,19 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should destroy ptables" do
+  test "should NOT destroy ptable in use" do
+    as_user :admin do
+      assert_difference('Ptable.count', -0) do
+        delete :destroy, {:id => ptables(:one).to_param}
+      end
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should destroy ptable that is NOT in use" do
     as_user :admin do
       assert_difference('Ptable.count', -1) do
-        delete :destroy, {:id => ptables(:one).to_param}
+        delete :destroy, {:id => ptables(:four).to_param}
       end
     end
     assert_response :success

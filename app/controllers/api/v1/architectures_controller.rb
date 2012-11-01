@@ -19,6 +19,7 @@ module Api
       api :POST, "/architectures/", "Create an architecture."
       param :architecture, Hash, :required => true do
         param :name, String, :required => true
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
       def create
         @architecture = Architecture.new(params[:architecture])
