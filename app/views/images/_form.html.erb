@@ -7,7 +7,7 @@
   <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
   <%= text_f f, :username, :value => @image.username || "root", :help_inline => "The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc" %>
   <% if @compute_resource.type == 'Foreman::Model::Openstack' %>
-  <%= select_f f, :uuid, openstack_list_of_images, :first, :last %>
+  <%= select_f f, :uuid, openstack_list_of_images(@compute_resource), :first, :last %>
   <% else %>
   <%= text_f f, :uuid, :label => "Image ID", :help_inline => "Image ID as provided by the compute resource, e.g. ami-.." %>
   <% end %>

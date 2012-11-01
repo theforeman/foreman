@@ -30,8 +30,6 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def power
-    (power_openstack and return) if @vm.class == Fog::Compute::OpenStack::Server
-
     action = @vm.ready? ? :stop : :start
 
     if (@vm.send(action) rescue false)
@@ -66,20 +64,12 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def console
-    if @compute_resource.type == "Foreman::Model::Openstack"
-      openstack_vnc_console
-    else
-      begin
-        @console = @compute_resource.console @vm.identity
-        render "hosts/console"
-      rescue => e 
-        process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
-      end
+    begin
+      @console = @compute_resource.console @vm.identity
+      @console.is_a?(String) ? redirect_to(@console) : render("hosts/console")
+    rescue => e 
+      process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
     end
-  end
-
-  def openstack_vnc_console
-    redirect_to @compute_resource.console(@vm.id)
   end
 
   private
