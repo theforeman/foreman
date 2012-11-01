@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-productname:
-  name: productname
-  id: 1
-
-kernelversion:
-  name: kernelversion
-  id:   2
