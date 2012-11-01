@@ -104,6 +104,9 @@ class HostsController < ApplicationController
   def update
     forward_request_url
     if @host.update_attributes(params[:host])
+      org = Organization.find(params[:host][:organization_id]) if params[:host][:organization_id]
+      Organization.current = org
+      session[:org_id] = org.id
       process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
       load_vars_for_ajax

@@ -21,8 +21,6 @@ class Taxonomy < ActiveRecord::Base
   has_many :hostgroups, :through => :taxonomy_hostgroups
   has_many :taxonomy_environments, :dependent => :destroy
   has_many :environments, :through => :taxonomy_environments
-  has_many :taxonomy_puppetclasses, :dependent => :destroy
-  has_many :puppetclasses, :through => :taxonomy_puppetclasses
   has_many :taxonomy_subnets, :dependent => :destroy
   has_many :subnets, :through => :taxonomy_subnets
 
@@ -39,7 +37,6 @@ class Taxonomy < ActiveRecord::Base
     self.class.name
   end
 
-
   def self.with_taxonomy_scope
     if (SETTINGS[:locations_enabled] and SETTINGS[:organizations_enabled])
       # the join with organizations should exclude all objects not in the user's
@@ -48,6 +45,7 @@ class Taxonomy < ActiveRecord::Base
       taxonomy_ids = Taxonomy.respond_to?('current') ? Taxonomy.current : []
       taxonomy_ids = taxonomy_ids.any? ? taxonomy_ids.map(&:id) : nil
       scope = yield
+      return scope if taxonomy_ids.empty?
       scope = scope.joins(:taxonomies).where("taxonomies.id in (?)", taxonomy_ids)
 
       # by default, joins result in readonly records; override
@@ -63,5 +61,9 @@ class Taxonomy < ActiveRecord::Base
 
   def self.organizations_enabled
     SETTINGS[:organizations_enabled]
+  end
+
+  def self.default
+    find_or_create_by_name "Default"
   end
 end

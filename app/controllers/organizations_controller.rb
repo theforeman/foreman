@@ -1,6 +1,8 @@
 class OrganizationsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
+  before_filter :find_organization, :only => %w{edit update destroy select}
+
   def index
     begin
       # TODO: Get the resource groups that belong to the current user
@@ -33,12 +35,9 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    find_organization
   end
 
   def update
-    find_organization
-
     if @organization.update_attributes(params[:organization])
       process_success
     else
@@ -55,7 +54,8 @@ class OrganizationsController < ApplicationController
   end
 
   def select
-    Organization.current = find_organization
+    Organization.current = @organization
+    session[:org_id] = @organization.id
     redirect_back_or_to root_url
   end
 

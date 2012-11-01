@@ -1,6 +1,8 @@
 class LocationsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
+  before_filter :find_location, :only => %w{edit update destroy select}
+
   def index
     begin
       # TODO: Get the locations that belong to the current user
@@ -32,12 +34,9 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    @location = Location.find(params[:id])
   end
 
   def update
-    @location = Location.find(params[:id])
-
     if @location.update_attributes(params[:location])
       process_success
     else
@@ -46,8 +45,6 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    @location = Location.find(params[:id])
-
     if @location.destroy
       process_success
     else
@@ -56,11 +53,17 @@ class LocationsController < ApplicationController
   end
 
   def select
-    Location.current = Location.find(params[:id])
+    Location.current = @location
+    session[:org_id] = @location.id
     redirect_back_or_to root_url
   end
 
   def load_vars_for_ajax
     return unless @location
+  end
+
+  private
+  def find_location
+    @location = Location.find(params[:id])
   end
 end

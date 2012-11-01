@@ -58,7 +58,7 @@ module Foreman
       def self.included(base)
         base.class_eval do
           def self.current
-            User.current.organizations
+            Thread.current[:organization]
           end
 
           def self.current=(organization)
@@ -66,7 +66,7 @@ module Foreman
               raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
             end
 
-            Rails.logger.debug "Setting current organization thread-local variable to " + (organization.is_a?(Organization) ? organization.name : 'nil')
+            Rails.logger.debug "Setting current organization thread-local variable to #{organization}"
             Thread.current[:organization] = organization
           end
         end
@@ -77,7 +77,7 @@ module Foreman
       def self.included(base)
         base.class_eval do
           def self.current
-            User.current.location
+            Thread.current[:location]
           end
 
           def self.current=(location)
@@ -85,7 +85,7 @@ module Foreman
               raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
             end
 
-            Rails.logger.debug "Setting current location thread-local variable to " + (location.is_a?(Location) ? location.name : 'nil')
+            Rails.logger.debug "Setting current location thread-local variable to #{location}"
             Thread.current[:location] = location
           end
         end
