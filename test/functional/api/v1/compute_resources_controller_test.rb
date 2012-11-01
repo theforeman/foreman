@@ -26,7 +26,7 @@ class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
   test "should create compute_resource" do
     as_user :admin do
       assert_difference('ComputeResource.count', 1) do
-        post :create, {:bookmark => valid_attrs}
+        post :create, {:compute_resource => valid_attrs}
       end
     end
     assert_response :success
@@ -35,19 +35,10 @@ class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
   test "should destroy compute_resource" do
     as_user :admin do
       assert_difference('ComputeResource.count', -1) do
-        delete :destroy, {:id => compute_resources(:one).to_param}
+        delete :destroy, {:id => compute_resources(:yourcompute).id}
       end
     end
     assert_response :success
-  end
-
-  test "should not destroy compute_resource that is in use with hosts" do
-    as_user :admin do
-      assert_difference('ComputeResource.count', 0) do
-        delete :destroy, {:id => compute_resources(:yourcompute).to_param}
-      end
-    end
-    assert_response :unprocessable_entity
   end
 
 end

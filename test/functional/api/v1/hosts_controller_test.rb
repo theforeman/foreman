@@ -2,7 +2,16 @@ require 'test_helper'
 
 class Api::V1::HostsControllerTest < ActionController::TestCase
 
-  valid_attrs = { :name => 'Bighost', :environment_id => Environment.first.id }
+  valid_attrs = { :name => 'testhost11', 
+                  :environment_id => Environment.first.id,
+                  :domain_id => Domain.first.id,
+                  :ip => '10.0.0.20', 
+                  :mac => '52:53:00:1e:85:93',
+                  :architecture_id => Architecture.first.id,
+                  :operatingsystem_id => Operatingsystem.first.id,
+                  :puppet_proxy_id => 7,
+                  :managed => true
+  }
 
   test "should get index" do
     as_user :admin do
@@ -25,7 +34,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should create host" do
     as_user :admin do
-      assert_difference('Host.count') do
+      assert_difference('Host.count', 1) do
         post :create, {:host => valid_attrs}
       end
     end
