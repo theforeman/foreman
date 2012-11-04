@@ -30,6 +30,7 @@ module Api
       param :id, String, :required => true
       param :architecture, Hash, :required => true do
         param :name, String
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
       def update
         process_response @architecture.update_attributes(params[:architecture])

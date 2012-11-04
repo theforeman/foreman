@@ -1,5 +1,5 @@
 object @architecture
 
-attributes :name, :id
+attributes :name, :id, :operatingsystem_ids
 
 
