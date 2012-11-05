@@ -4,6 +4,7 @@ require 'foreman/threadsession'
 class User < ActiveRecord::Base
   include Authorization
   include Foreman::ThreadSession::UserModel
+  include Taxonomix
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
   self.auditing_enabled = !defined?(Rake)
 
@@ -23,6 +24,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :hostgroups,        :join_table => "user_hostgroups"
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
+
+  scope :except_admin, where(:admin => false)
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -54,7 +57,7 @@ class User < ActiveRecord::Base
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
   def to_label
-    "#{firstname} #{lastname}"
+    "#{firstname} #{lastname} (#{login})"
   end
   alias_method :name, :to_label
 
@@ -171,7 +174,9 @@ class User < ActiveRecord::Base
     compute_resources.any? or
     domains.any?           or
     hostgroups.any?        or
-    facts.any?
+    facts.any?             or
+    locations.any?         or
+    organizations.any?
   end
 
   private

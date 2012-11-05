@@ -1,0 +1,20 @@
+<li class="dropdown">
+  <% orgs_count = Organization.my_organizations.count  %>
+  <%= organization_dropdown orgs_count %>
+  <ul class="dropdown-menu">
+    <% if show_add_organization_button? orgs_count %>
+      <div class="no-taxonomies">
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          There aren't any organizations yet.
+        </div>
+        <button class="btn btn-primary" type="button"><%= link_to "New Organization", :controller => "organizations", :action => "new" %></button>
+      </div>
+    <% elsif orgs_count > 1 %>
+      <li><%= link_to('All', clear_organizations_path) %></li>
+      <% Organization.my_organizations.each do |organization| %>
+        <li><%= link_to(organization.name, select_organization_path(organization)) %>
+      <% end %>
+    <% end %>
+  </ul>
+</li>

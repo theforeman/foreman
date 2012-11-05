@@ -6,11 +6,11 @@
       <li>
       <%= content_tag_for :label, association do %>
         <%= check_box_tag(
-          "#{prefix || klass.class.table_name.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]",
-          association.id, klass.send(association.class.table_name).map(&:id).include?(association.id))
+          "#{prefix || klass.class.model_name.downcase}[#{ActiveModel::Naming.singular(association)}_ids][]",
+          association.id, klass.send(ActiveModel::Naming.plural(association)).map(&:id).include?(association.id))
         %>
         <%= contract association %>
-        <%= hidden_field_tag "#{prefix || klass.class.table_name.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]" %>
+        <%= hidden_field_tag "#{prefix || klass.class.model_name.downcase}[#{ActiveModel::Naming.singular(association)}_ids][]" %>
       <% end -%>
       </li>
     <% end -%>

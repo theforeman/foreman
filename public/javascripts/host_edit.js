@@ -182,7 +182,7 @@ function load_puppet_class_parameters(item) {
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
 
   var url = $(item).attr('data-url');
-  var data = $("[data-submit='progress_bar']").serialize();
+  var data = $("form").serialize();
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
@@ -203,7 +203,7 @@ function load_puppet_class_parameters(item) {
 function hostgroup_changed(element) {
   var host_id = $(element).attr('data-host-id');
   var url = $(element).attr('data-url');
-  var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id']);
+  var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id', 'organization_id', 'location_id']);
   if (attrs["hostgroup_id"] == undefined) attrs["hostgroup_id"] = $('#hostgroup_parent_id').attr('value');
   $('#hostgroup_indicator').show();
   if (!host_id){ // a new host
@@ -223,6 +223,48 @@ function hostgroup_changed(element) {
   }
 }
 
+function organization_changed(element) {
+  var url = $(element).attr('data-url');
+  var data = $('form').serialize().replace('method=put', 'method=post');
+  $('#organization_indicator').show();
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: data,
+    success: function(response) {
+      $('#organization_indicator').hide();
+      $('form').html(response);
+      onContentLoad();
+      onHostEditLoad();
+    },
+    complete: function(){
+      $('#organization_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
+    }
+  })
+}
+
+function location_changed(element) {
+  var url = $(element).attr('data-url');
+  var data = $('form').serialize().replace('method=put', 'method=post');
+  $('#location_indicator').show();
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: data,
+    success: function(response) {
+      $('#location_indicator').hide();
+      $('form').html(response);
+      onContentLoad();
+      onHostEditLoad();
+    },
+    complete: function(){
+      $('#location_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
+    }
+  })
+}
+
 function subnet_selected(element){
   var subnet_id = $(element).val();
   if (subnet_id == '' || $('#host_ip').size() == 0) return;
@@ -234,7 +276,7 @@ function subnet_selected(element){
     if (subnet_contains(details[0], details[1], $('#host_ip').val()))
       return;
   }
-  var attrs = attribute_hash(["subnet_id", "host_mac"]);
+  var attrs = attribute_hash(["subnet_id", "host_mac", 'organization_id', 'location_id']);
   $('#subnet_indicator').show();
   $.ajax({
     data: attrs,
@@ -261,10 +303,10 @@ function _to_int(str){
 }
 
 function domain_selected(element){
-  var domain_id = $(element).val();
+  var attrs   = attribute_hash(['domain_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
   $.ajax({
-    data:'domain_id=' + domain_id,
+    data: attrs,
     type:'post',
     url: url,
     success: function(request) {
@@ -275,10 +317,10 @@ function domain_selected(element){
 }
 
 function architecture_selected(element){
-  var architecture_id = $(element).val();
+  var attrs   = attribute_hash(['architecture_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
   $.ajax({
-    data:'architecture_id=' + architecture_id,
+    data: attrs,
     type:'post',
     url: url,
     success: function(request) {
@@ -288,10 +330,11 @@ function architecture_selected(element){
 }
 
 function os_selected(element){
+  var attrs   = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id']);
   var os_id = $(element).val();
   var url = $(element).attr('data-url');
   $.ajax({
-    data:'operatingsystem_id=' + os_id,
+    data: attrs,
     type:'post',
     url: url,
     success: function(request) {

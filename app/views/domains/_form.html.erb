@@ -3,6 +3,12 @@
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab">Domain</a></li>
     <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -18,6 +24,18 @@
     <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :domain_parameters } %>
     </div>
+
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+        <%= multiple_checkboxes f, :locations, @domain, Location %>
+      </div>
+    <% end %>
+
+    <% if show_organization_tab? %>
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @domain, Organization %>
+      </div>
+    <% end %>
 
   </div>
 

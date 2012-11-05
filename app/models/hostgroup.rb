@@ -1,6 +1,7 @@
 class Hostgroup < ActiveRecord::Base
   has_ancestry :orphan_strategy => :rootify
   include Authorization
+  include Taxonomix
   include HostCommon
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes
@@ -19,6 +20,10 @@ class Hostgroup < ActiveRecord::Base
   alias_attribute :label, :to_label
   audited
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda { with_taxonomy_scope }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -52,6 +57,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   #TODO: add a method that returns the valid os for a hostgroup
+  #
 
   def all_puppetclasses
     classes

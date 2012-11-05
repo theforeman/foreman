@@ -1,4 +1,5 @@
 class SmartProxy < ActiveRecord::Base
+  include Taxonomix
   ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
@@ -19,7 +20,13 @@ class SmartProxy < ActiveRecord::Base
   before_save :sanitize_url, :associate_features
   before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
-  default_scope :order => 'LOWER(smart_proxies.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("LOWER(smart_proxies.name)")
+    end
+  }
   ProxyFeatures.each {|f| scope "#{f.downcase}_proxies".to_sym, where(:features => {:name => f}).joins(:features) }
 
   def hostname

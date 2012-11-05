@@ -1,6 +1,7 @@
 require 'ipaddr'
 class Subnet < ActiveRecord::Base
   include Authorization
+  include Taxonomix
   has_many :hosts
   # sps = Service processors / ilom boards etc
   has_many :sps, :class_name => "Host", :foreign_key => 'sp_subnet_id'
@@ -15,8 +16,14 @@ class Subnet < ActiveRecord::Base
   validates_format_of     :network, :mask,                        :with => Net::Validations::IP_REGEXP
   validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true, :allow_nil => true
   validate :name_should_be_uniq_across_domains
-  default_scope :order => 'priority'
+
   validate :validate_ranges
+
+  default_scope lambda {
+    with_taxonomy_scope do
+      order('priority')
+    end
+  }
 
   before_destroy EnsureNotUsedBy.new(:hosts, :sps)
 

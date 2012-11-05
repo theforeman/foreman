@@ -1,5 +1,6 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
+  include Taxonomix
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
@@ -21,7 +22,13 @@ class ComputeResource < ActiveRecord::Base
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
 
-  default_scope :order => 'LOWER(compute_resources.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      select("DISTINCT compute_resources.*").order("LOWER(compute_resources.name)")
+    end
+  }
 
   scope :my_compute_resources, lambda {
     user = User.current

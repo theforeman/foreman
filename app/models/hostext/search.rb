@@ -30,6 +30,9 @@ module Hostext
         scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
         scoped_search :in => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
+        scoped_search :in => :location, :on => :name, :rename => :location, :complete_value => true
+        scoped_search :in => :organization, :on => :name, :rename => :organization, :complete_value => true
+
         if SETTINGS[:unattended]
           scoped_search :in => :subnet,      :on => :network, :complete_value => true, :rename => :subnet
           scoped_search :on => :mac,           :complete_value => true
