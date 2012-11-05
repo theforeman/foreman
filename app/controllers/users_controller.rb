@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
-  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :only => [:login, :logout]
+  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :only => [:login, :logout]
   after_filter       :update_activity_time, :only => :login
 
   attr_accessor :editing_self

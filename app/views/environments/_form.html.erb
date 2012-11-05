@@ -1,5 +1,38 @@
 <%= form_for @environment do |f| %>
   <%= base_errors_for @environment %>
-  <%= text_f f, :name %>
+  <% if show_taxonomy_tabs? %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name %>
+      </div>
+
+      <% if show_location_tab? %>
+        <div class="tab-pane" id="locations">
+          <%= multiple_checkboxes f, :locations, @environment, Location, { :prefix => "environment" } %>
+        </div>
+      <% end %>
+
+      <% if show_organization_tab? %>
+        <div class="tab-pane" id="organizations">
+          <%= multiple_checkboxes f, :organizations, @environment, Organization, { :prefix => "environment" } %>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <%= text_f f, :name %>
+  <% end %>
+
   <%= submit_or_cancel f %>
 <% end %>

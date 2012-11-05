@@ -36,6 +36,17 @@ class ActiveSupport::TestCase
     as_user :admin, &block
   end
 
+  def setup_user operation, type=""
+    @one = users(:one)
+    as_admin do
+      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+      role.permissions = ["#{operation}_#{type}".to_sym]
+      @one.roles = [role]
+      @one.save!
+    end
+    User.current = @one
+  end
+
   def unattended?
     SETTINGS[:unattended].nil? or SETTINGS[:unattended]
   end

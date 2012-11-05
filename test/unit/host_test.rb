@@ -467,8 +467,48 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost1.mydomain.net", host.name
   end
 
-  # Token tests
+  test "assign a host to a location" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "New York"
 
+    host.location_id = location.id
+    assert host.save!
+  end
+
+  test "update a host's location" do
+    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    original_location = Location.create :name => "New York"
+
+    host.location_id = original_location.id
+    assert host.save!
+    assert host.location_id = original_location.id
+
+    new_location = Location.create :name => "Los Angeles"
+    host.location_id = new_location.id
+    assert host.save!
+    assert host.location_id = new_location.id
+  end
+
+  test "assign a host to a tenant" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    organization = Organization.create :name => "Hosting client 1"
+
+    host.organization_id = organization.id
+    assert host.save!
+  end
+
+  test "assign a host to both a location and a tenant" do
+    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "Tel Aviv"
+    organization = Organization.create :name => "Hosting client 1"
+
+    host.location_id = location.id
+    host.organization_id = organization.id
+
+    assert host.save!
+  end
+
+  # Token tests
   test "built should clean tokens" do
     Setting[:token_duration] = 30
     h = hosts(:one)
@@ -501,5 +541,4 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     assert_equal h.token, nil
   end
-
 end

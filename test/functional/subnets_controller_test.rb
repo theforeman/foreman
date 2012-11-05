@@ -71,6 +71,7 @@ class SubnetsControllerTest < ActionController::TestCase
   def test_destroy
     subnet = Subnet.first
     subnet.hosts.clear
+    subnet.sps.clear
     delete :destroy, {:id => subnet}, set_session_user
     assert_redirected_to subnets_url
     assert !Subnet.exists?(subnet.id)
@@ -79,6 +80,7 @@ class SubnetsControllerTest < ActionController::TestCase
   def test_destroy_json
     subnet = Subnet.first
     subnet.hosts.clear
+    subnet.sps.clear
     delete :destroy, {:format => "json", :id => subnet}, set_session_user
     subnet = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok

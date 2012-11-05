@@ -5,6 +5,7 @@ class FactValuesController < ApplicationController
   skip_before_filter :require_login,             :only => :create
   skip_before_filter :authorize,                 :only => :create
   skip_before_filter :verify_authenticity_token, :only => :create
+  skip_before_filter :set_taxonomy,              :only => :create
   skip_before_filter :session_expiry, :update_activity_time, :only => :create
   before_filter :set_admin_user, :only => :create
   before_filter :setup_search_options, :only => :index

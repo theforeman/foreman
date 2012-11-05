@@ -1,5 +1,6 @@
 class Medium < ActiveRecord::Base
   include Authorization
+  include Taxonomix
   has_and_belongs_to_many :operatingsystems
   has_many :hosts
 
@@ -17,7 +18,13 @@ class Medium < ActiveRecord::Base
     :if => Proc.new { |m| m.respond_to? :media_path }
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  default_scope :order => 'LOWER(media.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("LOWER(media.name)")
+    end
+  }
   scoped_search :on => :name, :complete_value => :true, :default_order => true
   scoped_search :on => :path, :complete_value => :true
   scoped_search :on => :os_family, :rename => "family", :complete_value => :true

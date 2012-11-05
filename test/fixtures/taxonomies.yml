@@ -1,0 +1,15 @@
+location1:
+  name: "Location 1"
+  type: "Location"
+
+location2:
+  name: "Location 2"
+  type: "Location"
+
+organization1:
+  name: "Organization 1"
+  type: "Organization"
+
+organization2:
+  name: "Organization 2"
+  type: "Organization"

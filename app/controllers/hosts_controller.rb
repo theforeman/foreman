@@ -11,6 +11,7 @@ class HostsController < ApplicationController
   skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
   skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
   skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
+  skip_before_filter :set_taxonomy, :only => ANONYMOUS_ACTIONS
   skip_before_filter :session_expiry, :update_activity_time, :only => ANONYMOUS_ACTIONS
   before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
@@ -101,12 +102,14 @@ class HostsController < ApplicationController
 
   def update
     forward_request_url
-    if @host.update_attributes(params[:host])
-      process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
-    else
-      load_vars_for_ajax
-      offer_to_overwrite_conflicts
-      process_error
+    Taxonomy.no_taxonomy_scope do
+      if @host.update_attributes(params[:host])
+        process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
+      else
+        load_vars_for_ajax
+        offer_to_overwrite_conflicts
+        process_error
+      end
     end
   end
 
@@ -127,16 +130,21 @@ class HostsController < ApplicationController
   def hostgroup_or_environment_selected
     return head(:method_not_allowed) unless request.xhr?
 
-    @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
-    @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
-    @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
-    if @environment or @hostgroup
-      @host ||= Host.new
-      @host.hostgroup   = @hostgroup if @hostgroup
-      @host.environment = @environment if @environment
-      render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
-    else
-      head(:not_found)
+    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
+    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
+    Taxonomy.as_taxonomy @organization, @location do
+
+      @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
+      @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
+      @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
+      if @environment or @hostgroup
+        @host ||= Host.new
+        @host.hostgroup   = @hostgroup if @hostgroup
+        @host.environment = @environment if @environment
+        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
+      else
+        head(:not_found)
+      end
     end
   end
 
@@ -392,43 +400,61 @@ class HostsController < ApplicationController
     @hostgroup = Hostgroup.find(params[:hostgroup_id]) if params[:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
-    @architecture    = @hostgroup.architecture
-    @operatingsystem = @hostgroup.operatingsystem
-    @environment     = @hostgroup.environment
-    @domain          = @hostgroup.domain
-    @subnet          = @hostgroup.subnet
+    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
+    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
+    Taxonomy.as_taxonomy @organization, @location do
 
-    @host = Host.new
-    @host.hostgroup = @hostgroup
-    @host.compute_resource_id = params[:compute_resource_id] if params[:compute_resource_id].present?
-    @host.set_hostgroup_defaults
+      @architecture    = @hostgroup.architecture
+      @operatingsystem = @hostgroup.operatingsystem
+      @environment     = @hostgroup.environment
+      @domain          = @hostgroup.domain
+      @subnet          = @hostgroup.subnet
+
+      @host = Host.new
+      @host.hostgroup = @hostgroup
+      @host.compute_resource_id = params[:compute_resource_id] if params[:compute_resource_id].present?
+      @host.set_hostgroup_defaults
 
 
-    render :update do |page|
-      [:environment_id, :puppet_ca_proxy_id, :puppet_proxy_id].each do |field|
-        page["*[id*=#{field}]"].val(@hostgroup.send(field)) if @hostgroup.send(field).present?
-      end
-      page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
-
-      if SETTINGS[:unattended]
-        if @architecture
-          page['#os_select'].html(render(:partial => 'common/os_selection/architecture', :locals => {:item => @host}))
-          page['#*[id*=architecture_id]'].val(@architecture.id)
+      render :update do |page|
+        [:environment_id, :puppet_ca_proxy_id, :puppet_proxy_id].each do |field|
+          page["*[id*=#{field}]"].val(@hostgroup.send(field)) if @hostgroup.send(field).present?
         end
+        page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
 
-        page['#media_select'].html(render(:partial => 'common/os_selection/operatingsystem', :locals => {:item => @host})) if @operatingsystem
+        if SETTINGS[:unattended]
+          if @architecture
+            page['#os_select'].html(render(:partial => 'common/os_selection/architecture', :locals => {:item => @host}))
+            page['#*[id*=architecture_id]'].val(@architecture.id)
+          end
 
-        if @domain
-          page['*[id*=domain_id]'].val(@domain.id)
-          if @domain.subnets.any?
-            page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
-            page['#host_subnet_id'].val(@subnet.id).change if @subnet
-            page['#sp_subnet'].html(render(:partial => 'hosts/sp_subnet', :locals => {:item => @host}))
+          page['#media_select'].html(render(:partial => 'common/os_selection/operatingsystem', :locals => {:item => @host})) if @operatingsystem
+
+          if @domain
+            page['*[id*=domain_id]'].val(@domain.id)
+            if @domain.subnets.any?
+              page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
+              page['#host_subnet_id'].val(@subnet.id).change if @subnet
+              page['#sp_subnet'].html(render(:partial => 'hosts/sp_subnet', :locals => {:item => @host}))
+            end
           end
         end
       end
     end
   end
+
+  def process_taxonomy
+    location = organization = nil
+    organization = Organization.find(params[:host][:organization_id]) unless params[:host][:organization_id].empty?
+    location = Location.find(params[:host][:location_id]) unless params[:host][:location_id].empty?
+    return head(:not_found) unless location || organization
+
+    @host = Host.new(params[:host])
+    Taxonomy.as_taxonomy organization, location do
+      render :partial => "form"
+    end
+  end
+
 
   def template_used
     kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
@@ -462,6 +488,7 @@ class HostsController < ApplicationController
 
   def load_vars_for_ajax
     return unless @host
+
     @environment     = @host.environment
     @architecture    = @host.architecture
     @domain          = @host.domain
@@ -470,7 +497,6 @@ class HostsController < ApplicationController
     if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
       @host.compute_attributes = params[:host][:compute_attributes]
     end
-
   end
 
   def find_multiple

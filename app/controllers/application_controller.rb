@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
-  before_filter :require_mail
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
+  before_filter :set_taxonomy, :require_mail
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
@@ -21,8 +21,7 @@ class ApplicationController < ActionController::Base
   def welcome
     @searchbar = true
     klass = controller_name == "dashboard" ? "Host" : controller_name.camelize.singularize
-    eval "#{klass}" rescue nil # We must force an autoload of the model class
-    if eval "defined?(#{klass}) and #{klass}.respond_to?(:unconfigured?) and #{klass}.unconfigured?"
+    if (klass.constantize.first.nil? rescue false)
       @searchbar = false
       render :welcome rescue nil and return
     end
@@ -56,7 +55,7 @@ class ApplicationController < ActionController::Base
   # Force a user to login if authentication is enabled
   # Sets User.current to the logged in user, or to admin if logins are not used
   def require_login
-    unless session[:user] and (User.current = User.find(session[:user]))
+    unless session[:user] and (User.current = User.unscoped.find(session[:user]))
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
@@ -64,7 +63,7 @@ class ApplicationController < ActionController::Base
         # If REMOTE_USER is provided by the web server then
         # authenticate the user without using password.
         if remote_user_provided?
-          user = User.find_by_login(@remote_user)
+          user = User.unscoped.find_by_login(@remote_user)
           logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
         # Else, fall back to the standard authentication mechanism,
         # only if it's an API request.
@@ -288,6 +287,32 @@ class ApplicationController < ActionController::Base
     logger.warn "Operation FAILED: #{exception}"
     logger.debug exception.backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
+  end
+
+  def set_taxonomy
+    return if User.current.nil?
+
+    if SETTINGS[:organizations_enabled]
+      orgs = Organization.my_organizations
+      Organization.current = if orgs.count == 1
+                               orgs.first
+                             elsif session[:org_id]
+                               orgs.find(session[:org_id])
+                             else
+                               nil
+                             end
+    end
+
+    if SETTINGS[:locations_enabled]
+      locations = Location.my_locations
+      Location.current = if locations.count == 1
+                           locations.first
+                         elsif session[:location_id]
+                           locations.find(session[:location_id])
+                         else
+                           nil
+                         end
+    end
   end
 
 end

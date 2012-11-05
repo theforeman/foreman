@@ -1,0 +1,6 @@
+<% title_actions link_to("New Location", new_location_path) %>
+<% title "Location configuration" %>
+<div id="welcome">
+  <p>Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed.</p>
+  <p>For example, there might be a data center in London and one in Virginia; these are locations. Locations also work nicely when used in tandem with <%= link_to("organizations", :controller => "organizations", :action => "index") %>.</p>
+</div>
