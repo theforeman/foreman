@@ -1,4 +1,38 @@
+2012-08-09	Endre Karlson <endre.karlson@gmail.com>
+	* Quote 'epel' - snippet name.
+
+2012-08-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1793 - Better handle case when a domain has no DNS proxy set
+	* ensures that progress bar json encoding does not contain the object itself
+
+2012-07-31	Sam Kottler <sam@kottlerdevelopment.com>
+	* Fixes #1789 - Parent hostgroup name is truncated when its sub-group is a sub-string of the parent hostgroup name
+
+2012-07-31	Amos Benari <abenari@redhat.com>
+	* fixes #1781 - clone host can fail
+	* fixes #1778 - Provisioning Templates editor does not always save
+
+2012-07-30	Sam Kottler <sam@kottlerdevelopment.com>
+	* Fixes #1780 - changes EPEL url from download.fedoraproject.org to dl.fedoraproject.org
+
+2012-07-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1792 - error on json output of usergroups
+
+2012-07-27	David Swift <dswift@pccowboy.com>
+	* fixes #1783 - Default template set  incorrect snippet names if snippet name uses underscore
+
+2012-07-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1781 - clone host can fail
+	* fixes #1778 - Provisioning Templates editor does not always save
+
+2012-07-25	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that auto completer for users search works even when you are not an admin
+
+2012-07-24	Ohad Levy <ohadlevy@gmail.com>
+	* ensure no extra white spaces are added to the provisioning templates editor
+
 2012-07-22	Ohad Levy <ohadlevy@gmail.com>
+	* updated version file
 	* 1.0
 	* couple of test fixes after upgrading to a newer mocha/shoulda
 	* [refactor] - simple method to display ec2 instance name, instead of using tags everywhere
