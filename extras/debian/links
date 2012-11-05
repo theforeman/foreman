@@ -1,7 +1,0 @@
-etc/foreman/database.yml	usr/share/foreman/config/database.yml
-etc/foreman/email.yaml		usr/share/foreman/config/email.yaml
-etc/foreman/settings.yaml	usr/share/foreman/config/settings.yaml
-var/cache/foreman		usr/share/foreman/tmp
-var/lib/foreman/db		usr/share/foreman/db
-var/log/foreman			usr/share/foreman/log
-var/lib/foreman/public		usr/share/foreman/public

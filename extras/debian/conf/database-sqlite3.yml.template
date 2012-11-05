@@ -1,4 +1,0 @@
-production:
-  adapter: _DBC_DBTYPE_
-  database: _DBC_BASEPATH_/_DBC_DBNAME_
-  encoding: utf8
