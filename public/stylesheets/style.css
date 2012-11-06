@@ -243,6 +243,14 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 .magic-line { position: absolute; top: 0px; left: 0; width: 100px; height: 2px; background: red; }
 .menu-dropdown {text-transform: capitalize;}
 
+.dropdown.active {
+  background-color: #222;
+}
+
+.dropdown .caret {
+  margin-left: 6px;
+}
+
 .fact_chart {
   height: 400px !important;
   width: 560px !important;
