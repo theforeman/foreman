@@ -1,0 +1,6 @@
+---
+:base_url: http://0.0.0.0:3000
+:enable_validations: false
+:oauth:
+  :consumer_key: consumer
+  :consumer_secret: shhhh
