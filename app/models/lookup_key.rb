@@ -38,7 +38,8 @@ class LookupKey < ActiveRecord::Base
   scoped_search :in => :param_class, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
-  default_scope :order => 'LOWER(lookup_keys.key)'
+  default_scope :order => 'lookup_keys.key'
+  scope :override, where(:override => true)
 
   def to_param
     "#{id}-#{key}"
@@ -48,12 +49,24 @@ class LookupKey < ActiveRecord::Base
     key
   end
 
-  def value_for host
+  # params:
+  #   +host: The considered Host instance.
+  #   +options+: A hash containing the following, optional keys:
+  #   +obs_matcher_block+: Callback to notify with extra information.
+  #                        It is given a hash having the following structure:
+  #                        +{ :host => #<Host>, :used_matched => "fact=value", :value => #<Value> }+
+  #     +skip_fqdn+: Boolean value indicating whether to skip the fqdn matcher. Defaults to false.
+  #                  Useful to give the previous value, prior to an eventual override.
+  def value_for host, options = {}
+    skip_fqdn = options[:skip_fqdn] || false
+    obs_matcher_block = options[:obs_matcher_block]
     path2matches(host).each do |match|
+      next if skip_fqdn and match =~ /^fqdn\s*=/
       if (v = lookup_values.find_by_match(match))
+        obs_matcher_block.call({:host => host, :used_matcher => match, :value => v.value}) if obs_matcher_block
         return v.value
       end
-    end if lookup_values.any?
+    end if (!is_param || (is_param && override)) && lookup_values.any?
     default_value
   end
 
@@ -63,6 +76,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def path=(v)
+    return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
     write_attribute(:path, using_default ? nil : v)
   end
@@ -72,7 +86,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def value_before_type_cast val
-    case validator_type.to_sym
+    case key_type.to_sym
       when :json
         val = JSON.dump val
       when :yaml, :hash
@@ -80,13 +94,13 @@ class LookupKey < ActiveRecord::Base
         val.sub! /\A---\s*$\n/, ''
       when  :array
         val = val.inspect
-    end unless validator_type.blank?
+    end unless key_type.blank?
     val
   end
 
   # Returns the casted value, or raises a TypeError
   def cast_validate_value value
-    method = "cast_value_#{validator_type}".to_sym
+    method = "cast_value_#{key_type}".to_sym
     return value unless self.respond_to? method, true
     self.send(method, value) rescue raise TypeError
   end

@@ -109,4 +109,30 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test "hosts with unknown ip and valid token should render a template" do
+    Setting[:token_duration] = 30
+    @request.env["REMOTE_ADDR"] = '127.0.0.1'
+    hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+    get :preseed, {'token' => hosts(:ubuntu).token.value }
+    assert_response :success
+  end
+
+  test "template should contain tokens when tokens enabled and present for the host" do
+    Setting[:token_duration] = 30
+    Setting[:foreman_url]    = "test.host"
+    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
+    hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+    template = get :preseed
+    expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_tokenised_template")
+    assert_equal template.body, expected
+  end
+
+  test "template should not contain https when ssl enabled" do
+    @request.env["HTTPS"] = "on"
+    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
+    template = get :preseed
+    expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_http_preseed_template")
+    assert_equal template.body, expected
+  end
+
 end

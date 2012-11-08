@@ -8,8 +8,8 @@
     <% if tmplt -%>
       <li class="active"><a href="#tab0" data-toggle="tab">Template Diff</a></li>
     <% end -%>
-    <li <%= "class='active'" unless tmplt %>><a href="#tab1" data-toggle="tab">Details</a></li>
-    <li class=""><a href="#tab2" data-toggle="tab">History</a></li>
+    <li class='<%= "active" unless tmplt %>' ><a href="#tab1" data-toggle="tab">Details</a></li>
+    <li><a href="#tab2" data-toggle="tab">History</a></li>
   </ul>
   <div class="tab-content">
     <% if tmplt -%>
@@ -17,7 +17,7 @@
        <%= render 'config_templates/diff', :templates => @audit.audited_changes["template"], :file_name => audit_title(@audit) %>
     </div>
     <% end %>
-    <div <%= tmplt ? "class='tab-pane'" : "class='tab-pane active'" %> id="tab1">
+    <div class='tab-pane <%= "active" unless tmplt%>' id="tab1">
       <table class="table table-bordered table-striped">
         <tr>
           <th>Item</th>

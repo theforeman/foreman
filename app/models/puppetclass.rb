@@ -3,7 +3,8 @@ class Puppetclass < ActiveRecord::Base
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
-  has_and_belongs_to_many :hostgroups
+  has_many :hostgroup_classes, :dependent => :destroy
+  has_many :hostgroups, :through => :hostgroup_classes
   has_many :host_classes, :dependent => :destroy
   has_many :hosts, :through => :host_classes
 
@@ -20,7 +21,7 @@ class Puppetclass < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   before_destroy EnsureNotUsedBy.new(:hostgroups)
-  default_scope :order => 'LOWER(puppetclasses.name)'
+  default_scope :order => 'puppetclasses.name'
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"

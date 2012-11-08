@@ -11,7 +11,7 @@
     <th></th>
   </tr>
   <% for auth_source_ldap in @auth_source_ldaps %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%=link_to_if_authorized h(auth_source_ldap.name), hash_for_edit_auth_source_ldap_path(:id => auth_source_ldap.id) %></td>
       <td><%=h auth_source_ldap.host %></td>
       <td><%=checked_icon auth_source_ldap.onthefly_register %></td>

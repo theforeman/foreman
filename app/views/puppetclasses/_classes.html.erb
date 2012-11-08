@@ -11,7 +11,7 @@
               <% else -%>
                 <% style = selected_puppet_classes.include?(klass) ? "hide" : "#{cycle('even', 'odd')}" %>
                 <%= content_tag_for :li, klass, :class=> style do %>
-                  <%= link_to_add_puppetclass(klass, type) %>
+                  <%= link_to_add_puppetclass(klass, @host, type) %>
                 <% end -%>
               <% end -%>
             <% end -%>

@@ -41,6 +41,13 @@ class PuppetclassesController < ApplicationController
   def edit
   end
 
+  # form AJAX methods
+  def parameters
+    puppetclass = Puppetclass.find(params[:id])
+    host = Host.new(params[:host])
+    render :partial => "puppetclasses/class_parameters", :locals => {:klass => puppetclass, :host => host}
+  end
+
   def update
     if @puppetclass.update_attributes(params[:puppetclass])
       notice "Successfully updated puppetclass."

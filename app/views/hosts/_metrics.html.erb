@@ -4,7 +4,7 @@
     <th></th>
   </tr>
     <% report_summary.each do |name, value| -%>
-        <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td> <%= name %> </td>
       <% style = (name =~ /failed|failed_restart/ and value > 0) ? "label label-important" : ""-%>
       <td><p class="<%= style %>"> <%= value %> </p></td>

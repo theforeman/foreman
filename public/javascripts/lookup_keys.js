@@ -98,12 +98,6 @@ function remove_child_node(item) {
   return false;
 }
 
-function toggleMandatory(item){
-  var mandatory = $(item).is(':checked');
-  var override = $(item).closest('.fields').find("[id$='_override']");
-  override.attr('disabled', mandatory ? 'disabled' :  null );
-}
-
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var mandatory = $(item).closest('.fields').find("[id$='_required']");
@@ -127,4 +121,10 @@ function filterByEnvironment(item){
   var selected = $(item).find('option:selected').text();
   $('ul.smart-var-tabs li[data-used-environments] a').addClass('grey');
   $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('grey');
+}
+
+function validatorTypeSelected(item){
+  var validatorType = $(item).val();
+  var validator_rule_field = $(item).closest('.fields').find("[id$='_validator_rule']");
+  validator_rule_field.attr('disabled', validatorType == "" ? 'disabled' : null);
 }

@@ -11,7 +11,7 @@
     <th></th>
   </tr>
   <% for proxy in @proxies %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
       <td><%=h proxy.url %></td>
       <td><%=h proxy.features.to_sentence %></td>

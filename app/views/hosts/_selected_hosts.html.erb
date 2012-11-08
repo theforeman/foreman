@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <% hosts.each do |host| -%>
-          <tr class="<%= cycle("even", "odd") -%>">
+          <tr>
             <td><%=h host %> </td>
             <td><%=h host.try(:hostgroup) %></td>
             <td><%=h host.try(:environment) %></td>

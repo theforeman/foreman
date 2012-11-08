@@ -100,7 +100,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should recreate the admin account" do
     return true unless SETTINGS[:login]
     return true unless SETTINGS[:login] == false
-    User.find_by_login("admin").delete # Of course we only use destroy in the codebase
+    User.admin.delete # Of course we only use destroy in the codebase
     assert User.find_by_login("admin").nil?
     get :index, {}, {:user => nil}
     assert !User.find_by_login("admin").nil?

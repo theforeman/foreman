@@ -9,7 +9,7 @@ rootpw --iscrypted <%= root_pass %>
 firewall --service=ssh
 authconfig --useshadow --enablemd5
 timezone UTC
-bootloader --location=mbr --append="nofb quiet splash=quiet --md5pass=<%= root_pass %>"
+bootloader --location=mbr --append="nofb quiet splash=quiet" --md5pass=<%= root_pass %>
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
 <% else -%>

@@ -3,7 +3,8 @@ class Hostgroup < ActiveRecord::Base
   include Authorization
   include HostCommon
   include Vm
-  has_and_belongs_to_many :puppetclasses
+  has_many :hostgroup_classes, :dependent => :destroy
+  has_many :puppetclasses, :through => :hostgroup_classes
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
   validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
@@ -20,6 +21,7 @@ class Hostgroup < ActiveRecord::Base
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
   audited
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -89,7 +91,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   # returns self and parent parameters as a hash
-  def parameters
+  def parameters include_source = false
     hash = {}
     ids = ancestor_ids
     ids << id unless new_record? or self.frozen?
@@ -97,7 +99,7 @@ class Hostgroup < ActiveRecord::Base
     # otherwise we might be overwriting the hash in the wrong order.
     groups = ids.size == 1 ? [self] : Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :group_parameters))
     groups.each do |hg|
-      hg.group_parameters.each {|p| hash[p.name] = p.value }
+      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :hostgroup} : p.value }
     end
     hash
   end

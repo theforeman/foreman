@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  trend_id: 1
+  count: 1
+
+two:
+  trend_id: 1
+  count: 1

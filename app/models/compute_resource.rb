@@ -3,6 +3,7 @@ class ComputeResource < ActiveRecord::Base
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
@@ -32,7 +33,7 @@ class ComputeResource < ActiveRecord::Base
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
     end
-    {:conditions => conditions}
+    where(conditions).reorder('type, name')
   }
 
   # allows to create a specific compute class based on the provider.

@@ -1,3 +1,3 @@
 object false
 
-node(:message) { "Resource #{controller.resource_name} not found by #{locals[:finder]} with value '#{locals[:key]}'" }
+node(:message) { "Resource #{controller.resource_name} not found by id '#{controller.params[:id]}'" }

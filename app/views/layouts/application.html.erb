@@ -35,11 +35,11 @@
             </div>
           <% end -%>
           <div class="row">
-            <div class= <%= searchable? ? "span6" : "span4" %>>
+            <div class="<%= searchable? ? "span6" : "span4" %>">
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>&nbsp;
             </div>
-            <div id="title_action" class=<%= searchable? ? "span6" : "span8" %>>
+            <div id="title_action" class="<%= searchable? ? "span6" : "span8" %>">
               <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
             </div>
           </div>

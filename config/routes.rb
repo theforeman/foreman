@@ -55,7 +55,8 @@ Foreman::Application.routes.draw do
         get 'out_of_sync'
         get 'errors'
         get 'disabled'
-        post 'current_parameters'
+        get 'current_parameters'
+        get 'puppetclass_parameters'
         post 'process_hostgroup'
         post 'hostgroup_or_environment_selected'
         post 'hypervisor_selected'
@@ -69,6 +70,7 @@ Foreman::Application.routes.draw do
 
       constraints(:host_id => /[^\/]+/) do
         resources :reports       ,:only => [:index, :show]
+        resources :audits        ,:only => :index
         resources :facts         ,:only => :index, :controller => :fact_values
         resources :puppetclasses ,:only => :index
         resources :lookup_keys   ,:only => :show
@@ -117,6 +119,11 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
+  resources :trends do
+    collection do
+      post 'count'
+    end
+  end
 
   resources :hostgroups do
     member do
@@ -140,6 +147,9 @@ Foreman::Application.routes.draw do
       get 'import_environments'
       post 'obsolete_and_new'
       get 'auto_complete_search'
+    end
+    member do
+      get 'parameters'
     end
     constraints(:id => /[^\/]+/) do
       resources :hosts

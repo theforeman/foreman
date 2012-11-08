@@ -21,7 +21,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     if unattended?
       h = hosts(:one)
       as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
-      h.request_url = "ahost.com:3000"
+      Setting[:foreman_url] = "ahost.com:3000"
 
       template = h.send(:generate_pxe_template).split("~")
       expected = File.open(Pathname.new(__FILE__).parent + "pxe_template").readlines.map(&:strip)

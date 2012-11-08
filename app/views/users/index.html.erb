@@ -14,7 +14,7 @@
     <th></th>
   </tr>
   <% for user in @users %>
-    <tr class="<%= cycle("even", "odd")-%>" >
+    <tr>
       <td><%=link_to_if_authorized h(user.login), hash_for_edit_user_path(:id => user) %></td>
       <td><%=h user.firstname %></td>
       <td><%=h user.lastname %></td>

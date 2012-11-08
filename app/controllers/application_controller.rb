@@ -84,10 +84,7 @@ class ApplicationController < ActionController::Base
         end
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        unless (User.current = User.find_by_login("admin"))
-          error "Unable to find internal system admin account - Recreating . . ."
-          User.current = User.create_admin
-        end
+        User.current = User.admin
         session[:user] = User.current.id unless api_request?
       end
     end
@@ -121,7 +118,7 @@ class ApplicationController < ActionController::Base
   # its required for actions which are not authenticated by default
   # such as unattended notifications coming from an OS, or fact and reports creations
   def set_admin_user
-    User.current = User.find_by_login("admin")
+    User.current = User.admin
   end
 
   # searches for an object based on its name and assign it to an instance variable
