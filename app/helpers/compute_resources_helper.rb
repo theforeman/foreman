@@ -6,7 +6,7 @@ module ComputeResourcesHelper
   end
 
   def vm_power_class s
-    "class='label #{s ? "label-success" : ""}'"
+    "class='label #{s ? "label-success" : ""}'".html_safe
   end
 
   def vm_power_action vm
