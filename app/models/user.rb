@@ -26,16 +26,19 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
+  validates :mail, :format => { :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})$/i },
+                   :length => { :maximum => 60 },
+                   :allow_blank => true
+  validates :mail, :presence => true, :on => :update
+
   validates_uniqueness_of :login, :message => "already exists"
-  validates_presence_of :login, :mail, :auth_source_id
+  validates_presence_of :login, :auth_source_id
   validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
   validates_length_of :login, :maximum => 30
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i, :allow_nil => true
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
-  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})$/i, :allow_nil => true
-  validates_length_of :mail, :maximum => 60, :allow_nil => true
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed

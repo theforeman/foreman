@@ -10,9 +10,11 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :require_mail
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
+
 
   cache_sweeper :topbar_sweeper, :unless => :api_request?
 
@@ -87,6 +89,13 @@ class ApplicationController < ActionController::Base
         User.current = User.admin
         session[:user] = User.current.id unless api_request?
       end
+    end
+  end
+
+  def require_mail
+    if User.current && User.current.mail.blank?
+      notice "Mail is Required"
+      redirect_to edit_user_path(:id => User.current)
     end
   end
 
