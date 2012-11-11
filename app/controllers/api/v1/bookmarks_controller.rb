@@ -18,6 +18,7 @@ module Api
         param :name, String, :required => true
         param :controller, String, :required => true
         param :query, String, :required => true
+        param :public, String, "true/false boolean field"
       end
       def create
         @bookmark = Bookmark.new(params[:bookmark])
@@ -30,6 +31,7 @@ module Api
         param :name, String, :allow_nil => true
         param :controller, String, :allow_nil => true
         param :query, String, :allow_nil => true
+        param :public, String, "true/false boolean field"
       end
       def update
         process_response @bookmark.update_attributes(params[:bookmark])

@@ -17,6 +17,17 @@ module Api
       api :POST, "/auth_source_ldaps/", "Create an auth_source_ldap."
       param :auth_source_ldap, Hash, :required => true do
         param :name, String, :required => true
+        param :host, String
+        param :port, String
+        param :account, String
+        param :base_dn, String
+        param :account_password, String
+        param :attr_login, String
+        param :attr_firstname, String
+        param :attr_lastname, String
+        param :attr_mail, String
+        param :onthefly_register, String
+        param :tls, String, :desc => "Boolean value True/False"
       end
       def create
         @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
@@ -26,7 +37,18 @@ module Api
       api :PUT, "/auth_source_ldaps/:id/", "Update an auth_source_ldap."
       param :id, String, :required => true
       param :auth_source_ldap, Hash, :required => true do
-        param :name, String
+        param :name, String, :required => true
+        param :host, String
+        param :port, String
+        param :account, String
+        param :base_dn, String
+        param :account_password, String
+        param :attr_login, String
+        param :attr_firstname, String
+        param :attr_lastname, String
+        param :attr_mail, String
+        param :onthefly_register, String
+        param :tls, Boolean
       end
       def update
         process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])
@@ -37,8 +59,6 @@ module Api
       def destroy
         process_response @auth_source_ldap.destroy
       end
-
-
 
     end
   end

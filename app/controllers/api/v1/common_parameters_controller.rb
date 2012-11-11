@@ -18,6 +18,7 @@ module Api
       api :POST, "/common_parameters/", "Create a common_parameter"
       param :common_parameter, Hash, :required => true do
         param :name, String, :required => true
+        param :value, String
       end
       def create
         @common_parameter= CommonParameter.new(params[:common_parameter])
@@ -27,9 +28,8 @@ module Api
       api :PUT, "/common_parameters/:id/", "Update a common_parameter"
       param :id, String, :required => true
       param :common_parameter, Hash, :required => true do
-        param :name, String, :allow_nil => true
-        param :controller, String, :allow_nil => true
-        param :query, String, :allow_nil => true
+        param :name, String, :required => true
+        param :value, String
       end
       def update
         process_response @common_parameter.update_attributes(params[:common_parameter])
