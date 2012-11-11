@@ -30,7 +30,6 @@ module Api
         param :server, String, :desc => "for Vmware"
       end
       def create
-        #debugger
           if params[:compute_resource].present? && params[:compute_resource][:provider].present?
             @compute_resource = ComputeResource.new_provider params[:compute_resource]
             # Add the new compute resource to the user's filters
