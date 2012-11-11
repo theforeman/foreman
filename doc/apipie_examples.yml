@@ -34,8 +34,8 @@
       response_data: 
         architecture: 
           id: 501905020
-          name: i386
           operatingsystem_ids: []
+          name: i386
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -44,7 +44,10 @@
       path: /api/architectures/s390
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        architecture: 
+          id: 381564594
+          name: s390
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -54,32 +57,32 @@
       request_data: 
       response_data: 
         architecture: 
+          full_messages: 
+            - x86_64 is used by otherfullhost
+            - x86_64 is used by dhcp.mydomain.net
+            - x86_64 is used by temp-02.useless.net
+            - x86_64 is used by myfullname.mydomain.net
+            - x86_64 is used by anotherfullhost
+            - x86_64 is used by temp01.yourdomain.net
+            - x86_64 is used by sdhcp.mydomain.net
+            - x86_64 is used by suse01.yourdomain.net
+            - x86_64 is used by temp.yourdomain.net
+            - x86_64 is used by my5name.mydomain.net
+            - x86_64 is used by temp-01.yourdomain.net
           id: 501905019
           errors: 
             base: 
-              - x86_64 is used by temp01.yourdomain.net
-              - x86_64 is used by myfullname.mydomain.net
-              - x86_64 is used by anotherfullhost
-              - x86_64 is used by temp-01.yourdomain.net
-              - x86_64 is used by suse01.yourdomain.net
-              - x86_64 is used by sdhcp.mydomain.net
               - x86_64 is used by otherfullhost
-              - x86_64 is used by temp.yourdomain.net
-              - x86_64 is used by my5name.mydomain.net
               - x86_64 is used by dhcp.mydomain.net
               - x86_64 is used by temp-02.useless.net
-          full_messages: 
-            - x86_64 is used by temp01.yourdomain.net
-            - x86_64 is used by myfullname.mydomain.net
-            - x86_64 is used by anotherfullhost
-            - x86_64 is used by temp-01.yourdomain.net
-            - x86_64 is used by suse01.yourdomain.net
-            - x86_64 is used by sdhcp.mydomain.net
-            - x86_64 is used by otherfullhost
-            - x86_64 is used by temp.yourdomain.net
-            - x86_64 is used by my5name.mydomain.net
-            - x86_64 is used by dhcp.mydomain.net
-            - x86_64 is used by temp-02.useless.net
+              - x86_64 is used by myfullname.mydomain.net
+              - x86_64 is used by anotherfullhost
+              - x86_64 is used by temp01.yourdomain.net
+              - x86_64 is used by sdhcp.mydomain.net
+              - x86_64 is used by suse01.yourdomain.net
+              - x86_64 is used by temp.yourdomain.net
+              - x86_64 is used by my5name.mydomain.net
+              - x86_64 is used by temp-01.yourdomain.net
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -91,20 +94,20 @@
       response_data: 
         - architecture: 
             id: 381564594
-            name: s390
             operatingsystem_ids: []
-        - architecture: 
-            id: 501905019
-            name: x86_64
-            operatingsystem_ids: 
-              - 331303656
-              - 1073012828
-              - 309172073
+            name: s390
         - architecture: 
             id: 331892513
-            name: sparc
             operatingsystem_ids: 
               - 442321401
+            name: sparc
+        - architecture: 
+            id: 501905019
+            operatingsystem_ids: 
+              - 309172073
+              - 331303656
+              - 1073012828
+            name: x86_64
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -115,20 +118,20 @@
       response_data: 
         - architecture: 
             id: 381564594
-            name: s390
             operatingsystem_ids: []
-        - architecture: 
-            id: 501905019
-            name: x86_64
-            operatingsystem_ids: 
-              - 331303656
-              - 1073012828
-              - 309172073
+            name: s390
         - architecture: 
             id: 331892513
-            name: sparc
             operatingsystem_ids: 
               - 442321401
+            name: sparc
+        - architecture: 
+            id: 501905019
+            operatingsystem_ids: 
+              - 309172073
+              - 331303656
+              - 1073012828
+            name: x86_64
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -140,11 +143,11 @@
       response_data: 
         architecture: 
           id: 501905019
-          name: x86_64
           operatingsystem_ids: 
             - 309172073
             - 1073012828
             - 331303656
+          name: x86_64
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -154,7 +157,10 @@
       query: 
       request_data: 
         architecture: {}
-      response_data: {}
+      response_data: 
+        architecture: 
+          id: 501905019
+          name: x86_64
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -163,7 +169,10 @@
       query: 
       request_data: 
         architecture: {}
-      response_data: {}
+      response_data: 
+        architecture: 
+          id: 501905019
+          name: x86_64
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -173,9 +182,8 @@
       request_data: 
         architecture: {}
       response_data: 
-        error: 
-          details: 
-          message: Access denied
+        message: Access denied
+        details: 
       code: "403"
       show_in_doc: 0
       recorded: true
@@ -186,24 +194,24 @@
       request_data: 
       response_data: 
         - audit: 
-            associated_id: 272
-            id: 1
-            auditable_type: Host
-            remote_address: 
-            associated_type: Host
-            user_type: 
-            auditable_id: 0
-            user_id: 
-            created_at: 2009-12-14T08:01:17Z
-            comment: 
-            associated_name: 
-            auditable_name: 
-            version: 1
             action: update
+            associated_name: 
             audited_changes: 
               architecture_id: 
                 - 10463
                 - 10466
+            version: 1
+            user_type: 
+            auditable_id: 0
+            auditable_type: Host
+            remote_address: 
+            user_id: 
+            associated_type: Host
+            comment: 
+            auditable_name: 
+            id: 1
+            associated_id: 272
+            created_at: 2009-12-14T08:01:17Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -214,24 +222,24 @@
       request_data: 
       response_data: 
         audit: 
-          associated_id: 272
-          id: 1
-          auditable_type: Host
-          remote_address: 
-          associated_type: Host
-          user_type: 
-          auditable_id: 0
-          user_id: 
-          created_at: 2009-12-14T08:01:17Z
-          comment: 
-          associated_name: 
-          auditable_name: 
-          version: 1
           action: update
+          associated_name: 
           audited_changes: 
             architecture_id: 
               - 10463
               - 10466
+          version: 1
+          user_type: 
+          auditable_id: 0
+          auditable_type: Host
+          remote_address: 
+          associated_type: Host
+          user_id: 
+          comment: 
+          auditable_name: 
+          id: 1
+          associated_id: 272
+          created_at: 2009-12-14T08:01:17Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -241,25 +249,25 @@
       query: 
       request_data: 
         auth_source_ldap: 
-          name: ldap2
           host: ldap2
+          name: ldap2
       response_data: 
         auth_source_ldap: 
-          id: 980190963
           base_dn: 
-          updated_at: 2012-11-11T08:07:52Z
+          updated_at: 2012-11-11T12:16:15Z
+          attr_lastname: 
+          onthefly_register: false
+          host: ldap2
+          attr_mail: 
+          account: 
+          id: 980190963
+          tls: false
+          attr_firstname: 
+          created_at: 2012-11-11T12:16:15Z
           port: 389
           name: ldap2
           attr_login: 
           account_password: 
-          account: 
-          tls: false
-          onthefly_register: false
-          attr_lastname: 
-          created_at: 2012-11-11T08:07:52Z
-          attr_mail: 
-          attr_firstname: 
-          host: ldap2
       code: "201"
       show_in_doc: 1
       recorded: true
@@ -268,7 +276,23 @@
       path: /api/auth_source_ldaps/980190962
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        auth_source_ldap: 
+          base_dn: "dn=x,dn=y"
+          updated_at: 2012-11-11T12:16:14Z
+          attr_lastname: sn
+          onthefly_register: true
+          host: ldap
+          attr_mail: mail
+          account: 
+          id: 980190962
+          tls: true
+          attr_firstname: givenName
+          created_at: 2012-11-11T12:16:14Z
+          port: 123
+          name: ldap
+          attr_login: uid
+          account_password: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -279,20 +303,20 @@
       request_data: 
       response_data: 
         - auth_source_ldap: 
-            id: 980190962
             base_dn: "dn=x,dn=y"
+            attr_lastname: sn
+            type: AuthSourceLdap
+            host: ldap
+            attr_mail: mail
+            onthefly_register: true
+            account: 
+            id: 980190962
+            tls: true
+            attr_firstname: givenName
             name: ldap
             port: 123
             attr_login: uid
             account_password: 
-            account: 
-            tls: true
-            attr_lastname: sn
-            onthefly_register: true
-            attr_mail: mail
-            attr_firstname: givenName
-            type: AuthSourceLdap
-            host: ldap
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -303,20 +327,20 @@
       request_data: 
       response_data: 
         auth_source_ldap: 
-          id: 980190962
           base_dn: "dn=x,dn=y"
+          attr_lastname: sn
+          type: AuthSourceLdap
+          host: ldap
+          attr_mail: mail
+          onthefly_register: true
+          account: 
+          id: 980190962
+          tls: true
+          attr_firstname: givenName
           name: ldap
           port: 123
           attr_login: uid
           account_password: 
-          account: 
-          tls: true
-          attr_lastname: sn
-          onthefly_register: true
-          attr_mail: mail
-          attr_firstname: givenName
-          type: AuthSourceLdap
-          host: ldap
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -326,7 +350,23 @@
       query: 
       request_data: 
         auth_source_ldap: {}
-      response_data: {}
+      response_data: 
+        auth_source_ldap: 
+          base_dn: "dn=x,dn=y"
+          updated_at: 2012-11-11T12:16:14Z
+          attr_lastname: sn
+          onthefly_register: true
+          host: ldap
+          attr_mail: mail
+          account: 
+          id: 980190962
+          tls: true
+          attr_firstname: givenName
+          created_at: 2012-11-11T12:16:14Z
+          port: 123
+          name: ldap
+          attr_login: uid
+          account_password: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -336,22 +376,22 @@
       query: 
       request_data: 
         bookmark: 
-          name: foo-bar
-          query: bar
-          controller: hosts
           public: false
+          controller: hosts
+          query: bar
+          name: foo-bar
       response_data: 
         bookmark: 
-          id: 980190963
+          public: false
+          owner_type: User
           user: 
             name: Admin User
             login: admin
             email: admin@someware.com
-          name: foo-bar
-          query: bar
-          owner_type: User
-          public: false
           controller: hosts
+          id: 980190963
+          query: bar
+          name: foo-bar
           owner_id: 135138680
       code: "200"
       show_in_doc: 1
@@ -361,22 +401,22 @@
       query: 
       request_data: 
         bookmark: 
-          name: facts.architecture
-          query: " facts.architecture = x86_64"
-          controller: hosts
           public: false
+          controller: hosts
+          query: " facts.architecture = x86_64"
+          name: facts.architecture
       response_data: 
         bookmark: 
-          id: 980190964
+          public: false
+          owner_type: User
           user: 
             name: Admin User
             login: admin
             email: admin@someware.com
-          name: facts.architecture
-          query: " facts.architecture = x86_64"
-          owner_type: User
-          public: false
           controller: hosts
+          id: 980190964
+          query: " facts.architecture = x86_64"
+          name: facts.architecture
           owner_id: 135138680
       code: "200"
       show_in_doc: 0
@@ -386,7 +426,15 @@
       path: /api/bookmarks/foo
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        bookmark: 
+          public: true
+          owner_type: 
+          controller: hosts
+          id: 980190962
+          query: foo=boo
+          owner_id: 
+          name: foo
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -397,22 +445,22 @@
       request_data: 
       response_data: 
         - bookmark: 
-            id: 298486374
-            name: bar
-            "": 
-            query: bar=car
-            owner_type: 
             public: false
+            owner_type: 
             controller: hosts
+            id: 298486374
+            query: bar=car
+            "": 
+            name: bar
             owner_id: 
         - bookmark: 
-            id: 980190962
-            name: foo
-            "": 
-            query: foo=boo
-            owner_type: 
             public: true
+            owner_type: 
             controller: hosts
+            id: 980190962
+            query: foo=boo
+            "": 
+            name: foo
             owner_id: 
       code: "200"
       show_in_doc: 1
@@ -424,13 +472,13 @@
       request_data: 
       response_data: 
         bookmark: 
-          id: 980190962
-          name: foo
-          "": 
-          query: foo=boo
-          owner_type: 
           public: true
+          owner_type: 
           controller: hosts
+          id: 980190962
+          query: foo=boo
+          "": 
+          name: foo
           owner_id: 
       code: "200"
       show_in_doc: 1
@@ -443,15 +491,15 @@
         bookmark: {}
       response_data: 
         bookmark: 
-          id: 980190962
+          public: true
           user: 
             name: Admin User
             login: admin
             email: admin@someware.com
-          name: foo
-          query: foo=boo
-          public: true
           controller: hosts
+          id: 980190962
+          query: foo=boo
+          name: foo
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -461,13 +509,13 @@
       query: 
       request_data: 
         common_parameter: 
-          name: special_key
           value: "123"
+          name: special_key
       response_data: 
         common_parameter: 
           id: 767575239
-          name: special_key
           value: "123"
+          name: special_key
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -476,7 +524,11 @@
       path: /api/common_parameters/636252244
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        common_parameter: 
+          value: myvalue
+          id: 636252244
+          name: test
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -488,8 +540,8 @@
       response_data: 
         - common_parameter: 
             id: 636252244
-            name: test
             value: myvalue
+            name: test
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -501,8 +553,8 @@
       response_data: 
         common_parameter: 
           id: 636252244
-          name: test
           value: myvalue
+          name: test
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -512,7 +564,11 @@
       query: 
       request_data: 
         common_parameter: {}
-      response_data: {}
+      response_data: 
+        common_parameter: 
+          value: myvalue
+          id: 636252244
+          name: test
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -522,19 +578,19 @@
       query: 
       request_data: 
         compute_resource: 
-          name: special_compute
-          url: eu-west1
           provider: EC2
+          url: eu-west1
+          name: special_compute
       response_data: 
         compute_resource: 
-          id: 4
-          user: 
-          name: special_compute
-          updated_at: 2012-11-11T08:07:52Z
-          description: 
-          url: eu-west1
-          created_at: 2012-11-11T08:07:52Z
+          updated_at: 2012-11-11T12:16:15Z
           provider: EC2
+          user: 
+          description: 
+          id: 4
+          url: eu-west1
+          created_at: 2012-11-11T12:16:15Z
+          name: special_compute
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -543,7 +599,17 @@
       path: /api/compute_resources/3
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        compute_resource: 
+          updated_at: 2012-11-11T12:16:14Z
+          user: MyString
+          description: yourcompute
+          url: test:///default
+          id: 3
+          attrs: 
+          created_at: 2012-11-11T12:16:14Z
+          name: yourcompute
+          uuid: yourcompute
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -554,32 +620,32 @@
       request_data: 
       response_data: 
         - compute_resource: 
-            id: 2
+            updated_at: 2012-11-11T12:16:14Z
+            provider: Libvirt
             user: MyString
-            name: mycompute
-            updated_at: 2012-11-11T08:07:51Z
             description: mycompute
+            id: 2
             url: test:///default
-            created_at: 2012-11-11T08:07:51Z
-            provider: Libvirt
+            created_at: 2012-11-11T12:16:14Z
+            name: mycompute
         - compute_resource: 
-            id: 1
+            updated_at: 2012-11-11T12:16:14Z
+            provider: Libvirt
             user: MyString
-            name: MyString
-            updated_at: 2012-11-11T08:07:51Z
             description: MyString
+            id: 1
             url: qemu://stam/system
-            created_at: 2012-11-11T08:07:51Z
-            provider: Libvirt
+            created_at: 2012-11-11T12:16:14Z
+            name: MyString
         - compute_resource: 
-            id: 3
-            user: MyString
-            name: yourcompute
-            updated_at: 2012-11-11T08:07:51Z
-            description: yourcompute
-            url: test:///default
-            created_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             provider: Libvirt
+            user: MyString
+            description: yourcompute
+            id: 3
+            url: test:///default
+            created_at: 2012-11-11T12:16:14Z
+            name: yourcompute
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -590,14 +656,14 @@
       request_data: 
       response_data: 
         compute_resource: 
-          id: 1
-          user: MyString
-          name: MyString
-          updated_at: 2012-11-11T08:07:51Z
-          description: MyString
-          url: qemu://stam/system
-          created_at: 2012-11-11T08:07:51Z
+          updated_at: 2012-11-11T12:16:14Z
           provider: Libvirt
+          user: MyString
+          description: MyString
+          id: 1
+          url: qemu://stam/system
+          created_at: 2012-11-11T12:16:14Z
+          name: MyString
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -616,18 +682,18 @@
       query: 
       request_data: 
         config_template: 
-          name: RandomName
-          template: This is a test template
           template_kind_id: 1
+          template: This is a test template
+          name: RandomName
       response_data: 
         config_template: 
+          template_combinations: []
           id: 1007981702
-          name: RandomName
           audit_comment: 
           "": []
-          template: This is a test template
-          template_combinations: []
           snippet: false
+          name: RandomName
+          template: This is a test template
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -637,18 +703,18 @@
       request_data: {}
       response_data: 
         config_template: 
-          id: 
-          errors: 
-            name: 
-              - can't be blank
-            template: 
-              - can't be blank
-            template_kind_id: 
-              - can't be blank
           full_messages: 
             - Name can't be blank
             - Template can't be blank
             - Template kind can't be blank
+          id: 
+          errors: 
+            template_kind_id: 
+              - can't be blank
+            template: 
+              - can't be blank
+            name: 
+              - can't be blank
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -657,7 +723,12 @@
       path: /api/config_templates/centos5_3_pxelinux
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        config_template: 
+          id: 1007981701
+          snippet: 
+          template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+          name: centos5_3_pxelinux
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -667,12 +738,12 @@
       request_data: 
       response_data: 
         config_template: 
+          full_messages: 
+            - "centos5_3_pxelinux is used by centos 5.3 - "
           id: 1007981701
           errors: 
             base: 
               - "centos5_3_pxelinux is used by centos 5.3 - "
-          full_messages: 
-            - "centos5_3_pxelinux is used by centos 5.3 - "
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -683,11 +754,9 @@
       request_data: 
       response_data: 
         - config_template: 
-            id: 1007981701
-            name: centos5_3_pxelinux
-            audit_comment: 
-            template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
             template_combinations: []
+            id: 1007981701
+            audit_comment: 
             snippet: false
             operatingsystems: 
               - operatingsystem: 
@@ -696,16 +765,16 @@
               - operatingsystem: 
                   id: 1073012828
                   name: Redhat 6.1
+            name: centos5_3_pxelinux
+            template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
         - config_template: 
-            id: 104314179
-            name: MyFinish
-            audit_comment: 
-            template: MyFinish
             template_combinations: 
               - template_combination: 
                   hostgroup_id: 
                   id: 113629430
                   environment_id: 334344675
+            id: 104314179
+            audit_comment: 
             snippet: false
             operatingsystems: 
               - operatingsystem: 
@@ -714,12 +783,12 @@
               - operatingsystem: 
                   id: 1073012828
                   name: Redhat 6.1
+            name: MyFinish
+            template: MyFinish
         - config_template: 
-            id: 981457253
-            name: MyScript
-            audit_comment: 
-            template: MyText
             template_combinations: []
+            id: 981457253
+            audit_comment: 
             snippet: false
             operatingsystems: 
               - operatingsystem: 
@@ -728,16 +797,16 @@
               - operatingsystem: 
                   id: 1073012828
                   name: Redhat 6.1
-        - config_template: 
-            id: 943779058
-            name: MyString
-            audit_comment: 
+            name: MyScript
             template: MyText
+        - config_template: 
             template_combinations: 
               - template_combination: 
                   hostgroup_id: 636252244
                   id: 980190962
                   environment_id: 334344675
+            id: 943779058
+            audit_comment: 
             snippet: false
             operatingsystems: 
               - operatingsystem: 
@@ -746,11 +815,9 @@
               - operatingsystem: 
                   id: 1073012828
                   name: Redhat 6.1
-        - config_template: 
-            id: 269958254
-            name: MyString2
-            audit_comment: 
+            name: MyString
             template: MyText
+        - config_template: 
             template_combinations: 
               - template_combination: 
                   hostgroup_id: 636252244
@@ -760,6 +827,8 @@
                   hostgroup_id: 0
                   id: 298486374
                   environment_id: 
+            id: 269958254
+            audit_comment: 
             snippet: false
             operatingsystems: 
               - operatingsystem: 
@@ -768,12 +837,12 @@
               - operatingsystem: 
                   id: 1073012828
                   name: Redhat 6.1
+            name: MyString2
+            template: MyText
         - config_template: 
+            template_combinations: []
             id: 352050261
-            name: PXE Default File
             audit_comment: 
-            template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
-            template_combinations: []
             snippet: false
             operatingsystems: 
               - operatingsystem: 
@@ -782,17 +851,19 @@
               - operatingsystem: 
                   id: 1073012828
                   name: Redhat 6.1
+            name: PXE Default File
+            template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
         - config_template: 
-            id: 684651467
-            name: PXE Default Menu
-            audit_comment: 
-            template: FOO
             template_combinations: []
+            id: 684651467
+            audit_comment: 
             snippet: false
             operatingsystems: 
               - operatingsystem: 
                   id: 309172073
                   name: centos 5.3
+            name: PXE Default Menu
+            template: FOO
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -803,11 +874,9 @@
       request_data: 
       response_data: 
         config_template: 
+          template_combinations: []
           id: 1007981701
           audit_comment: 
-          name: centos5_3_pxelinux
-          template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
-          template_combinations: []
           snippet: false
           operatingsystems: 
             - operatingsystem: 
@@ -816,6 +885,8 @@
             - operatingsystem: 
                 id: 1073012828
                 name: Redhat 6.1
+          name: centos5_3_pxelinux
+          template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -827,7 +898,12 @@
         config_template: 
           audit_comment: aha
           template: tmp
-      response_data: {}
+      response_data: 
+        config_template: 
+          id: 1007981701
+          snippet: 
+          template: tmp
+          name: centos5_3_pxelinux
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -839,12 +915,12 @@
           name: ""
       response_data: 
         config_template: 
+          full_messages: 
+            - Name can't be blank
           id: 1007981701
           errors: 
             name: 
               - can't be blank
-          full_messages: 
-            - Name can't be blank
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -854,7 +930,12 @@
       request_data: 
         config_template: 
           template: blah
-      response_data: {}
+      response_data: 
+        config_template: 
+          id: 1007981701
+          snippet: 
+          template: blah
+          name: centos5_3_pxelinux
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -864,23 +945,23 @@
       query: ""
       request_data: 
       response_data: 
-        good_hosts: 0
-        ok_hosts_enabled: 0
-        ok_hosts: 0
-        good_hosts_enabled: 0
-        active_hosts: 0
-        percentage: 0
         bad_hosts: 0
-        pending_hosts: 0
+        active_hosts: 0
         disabled_hosts: 0
-        out_of_sync_hosts_enabled: 0
-        active_hosts_ok_enabled: 0
-        pending_hosts_enabled: 0
         out_of_sync_hosts: 0
-        total_hosts: 12
+        ok_hosts_enabled: 0
         reports_missing: 12
+        pending_hosts_enabled: 0
+        out_of_sync_hosts_enabled: 0
         active_hosts_ok: 0
+        percentage: 0
+        active_hosts_ok_enabled: 0
+        total_hosts: 12
         bad_hosts_enabled: 0
+        ok_hosts: 0
+        good_hosts: 0
+        pending_hosts: 0
+        good_hosts_enabled: 0
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -906,12 +987,12 @@
           fullname: ""
       response_data: 
         domain: 
+          full_messages: 
+            - Name can't be blank
           id: 
           errors: 
             name: 
               - can't be blank
-          full_messages: 
-            - Name can't be blank
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -920,7 +1001,10 @@
       path: /api/domains/mydomain.net
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        domain: 
+          id: 22495316
+          name: mydomain.net
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -933,23 +1017,23 @@
         - domain: 
             id: 22495316
             fullname: 
-            name: mydomain.net
             dns_id: 113629430
+            name: mydomain.net
         - domain: 
             id: 759776763
             fullname: somewhare that is never used
-            name: unused.net
             dns_id: 113629430
+            name: unused.net
         - domain: 
             id: 229305443
             fullname: 
-            name: useless.net
             dns_id: 
+            name: useless.net
         - domain: 
             id: 589326610
             fullname: somewhere in yourdomain
-            name: yourdomain.net
             dns_id: 113629430
+            name: yourdomain.net
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -960,10 +1044,10 @@
       request_data: 
       response_data: 
         domain: 
-          fullname: 
           id: 22495316
-          name: mydomain.net
+          fullname: 
           dns_id: 113629430
+          name: mydomain.net
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -976,12 +1060,12 @@
           name: ""
       response_data: 
         domain: 
+          full_messages: 
+            - Name can't be blank
           id: 22495316
           errors: 
             name: 
               - can't be blank
-          full_messages: 
-            - Name can't be blank
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -991,7 +1075,10 @@
       request_data: 
         domain: 
           name: domain.new
-      response_data: {}
+      response_data: 
+        domain: 
+          id: 22495316
+          name: domain.new
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1014,7 +1101,10 @@
       path: /api/environments/testing
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        environment: 
+          id: 687036937
+          name: testing
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1054,7 +1144,10 @@
       query: 
       request_data: 
         environment: {}
-      response_data: {}
+      response_data: 
+        environment: 
+          id: 334344675
+          name: production
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1074,24 +1167,26 @@
       request_data: 
       response_data: 
         error: 
+          message: "FactValue#name delegated to fact_name.name, but fact_name is nil: #<FactValue id: 203397686, value: \"2.6.9\", fact_name_id: 2, host_id: 1, updated_at: \"2012-11-11 12:16:14\", created_at: \"2012-11-11 12:16:14\">"
+          class: RuntimeError
           backtrace: 
             - /home/jmagen/foreman/app/models/fact_value.rb:6:in `name'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/helpers.rb:16:in `__send__'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/helpers.rb:16:in `data_object_attribute'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:67:in `attribute'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:38:in `compile_hash'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:37:in `each_pair'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:37:in `compile_hash'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:21:in `build'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:142:in `cache_results'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:20:in `build'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:48:in `to_hash'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:60:in `to_json'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:36:in `send'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:36:in `render'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:272:in `cache_results'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:36:in `render'
-            - /home/jmagen/foreman/app/views/api/v1/fact_values/show.json.rabl:1:in `_app_views_api_v__fact_values_show_json_rabl__15291575_70337514633560_0'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/helpers.rb:16:in `__send__'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/helpers.rb:16:in `data_object_attribute'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:67:in `attribute'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:38:in `compile_hash'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:37:in `each_pair'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:37:in `compile_hash'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:21:in `build'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:142:in `cache_results'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/builder.rb:20:in `build'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/engine.rb:49:in `to_hash'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/engine.rb:61:in `to_json'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/engine.rb:37:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/engine.rb:37:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/engine.rb:275:in `cache_results'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.6/lib/rabl/engine.rb:37:in `render'
+            - /home/jmagen/foreman/app/views/api/v1/fact_values/show.json.rabl:1:in `_app_views_api_v__fact_values_show_json_rabl__877542300_69817691302560_0'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/template.rb:135:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/template.rb:135:in `render'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
@@ -1124,13 +1219,13 @@
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1695416125__process_action__273106838__callbacks'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3715'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__391217292__process_action__220356818__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3728'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3715'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1695416125__process_action__273106838__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3728'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__391217292__process_action__220356818__callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
@@ -1171,8 +1266,6 @@
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
-          class: RuntimeError
-          message: "FactValue#name delegated to fact_name.name, but fact_name is nil: #<FactValue id: 203397686, value: \"2.6.9\", fact_name_id: 2, host_id: 1, updated_at: \"2012-11-11 08:07:51\", created_at: \"2012-11-11 08:07:51\">"
       code: "500"
       show_in_doc: 0
       recorded: true
@@ -1185,16 +1278,16 @@
           name: TestHostgroup
       response_data: 
         hostgroup: 
-          id: 866317116
-          label: TestHostgroup
-          name: TestHostgroup
-          environment_id: 
-          parameters: {}
           domain_id: 
+          parameters: {}
           puppetclass_ids: []
-          operatingsystem_id: 
-          ancestry: 
+          label: TestHostgroup
+          id: 866317116
           subnet_id: 
+          environment_id: 
+          name: TestHostgroup
+          ancestry: 
+          operatingsystem_id: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1203,7 +1296,25 @@
       path: /api/hostgroups/636252244-common
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        hostgroup: 
+          domain_id: 22495316
+          parameters: {}
+          memory: 
+          puppetclass_ids: []
+          disk_size: 
+          vcpu: 
+          network_type: 
+          label: Common
+          interface: 
+          id: 636252244
+          storage_pool: 
+          hypervisor_id: 
+          subnet_id: 
+          environment_id: 334344675
+          name: Common
+          ancestry: 
+          operatingsystem_id: 309172073
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1214,40 +1325,40 @@
       request_data: 
       response_data: 
         - hostgroup: 
-            id: 866317115
-            label: Unusual
-            name: Unusual
-            environment_id: 
-            parameters: {}
             domain_id: 
+            parameters: {}
             puppetclass_ids: []
-            operatingsystem_id: 
-            ancestry: 
+            label: db
+            id: 603241515
             subnet_id: 
-        - hostgroup: 
-            id: 636252244
-            label: Common
-            name: Common
             environment_id: 334344675
+            name: db
+            ancestry: 
+            operatingsystem_id: 309172073
+        - hostgroup: 
+            domain_id: 22495316
             parameters: 
               group1: group1
-            domain_id: 22495316
             puppetclass_ids: 
               - 980190962
-            operatingsystem_id: 309172073
-            ancestry: 
+            label: Common
+            id: 636252244
             subnet_id: 
-        - hostgroup: 
-            id: 603241515
-            label: db
-            name: db
             environment_id: 334344675
-            parameters: {}
-            domain_id: 
-            puppetclass_ids: []
-            operatingsystem_id: 309172073
+            name: Common
             ancestry: 
+            operatingsystem_id: 309172073
+        - hostgroup: 
+            domain_id: 
+            parameters: {}
+            puppetclass_ids: []
+            label: Unusual
+            id: 866317115
             subnet_id: 
+            environment_id: 
+            name: Unusual
+            ancestry: 
+            operatingsystem_id: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1258,18 +1369,18 @@
       request_data: 
       response_data: 
         hostgroup: 
-          label: Common
-          id: 636252244
-          name: Common
-          environment_id: 334344675
+          domain_id: 22495316
           parameters: 
             group1: group1
-          domain_id: 22495316
           puppetclass_ids: 
             - 980190962
-          operatingsystem_id: 309172073
-          ancestry: 
+          label: Common
+          id: 636252244
           subnet_id: 
+          environment_id: 334344675
+          ancestry: 
+          name: Common
+          operatingsystem_id: 309172073
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1279,7 +1390,27 @@
       query: 
       request_data: 
         hostgroup: {}
-      response_data: {}
+      response_data: 
+        hostgroup: 
+          domain_id: 22495316
+          parameters: 
+            group1: group1
+          memory: 
+          puppetclass_ids: 
+            - 980190962
+          disk_size: 
+          vcpu: 
+          network_type: 
+          label: Common
+          interface: 
+          id: 636252244
+          storage_pool: 
+          hypervisor_id: 
+          subnet_id: 
+          environment_id: 334344675
+          name: Common
+          ancestry: 
+          operatingsystem_id: 309172073
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1290,6 +1421,8 @@
       request_data: 
       response_data: 
         error: 
+          message: undefined method `capabilities' for nil:NilClass
+          class: NoMethodError
           backtrace: 
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/whiny_nil.rb:48:in `method_missing'
             - /home/jmagen/foreman/app/models/host.rb:667:in `capabilities'
@@ -1312,13 +1445,13 @@
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1221052154__process_action__1187683999__callbacks'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3721'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1759464391__process_action__783805820__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3734'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3721'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1221052154__process_action__1187683999__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3734'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1759464391__process_action__783805820__callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
@@ -1361,8 +1494,6 @@
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
-          class: NoMethodError
-          message: undefined method `capabilities' for nil:NilClass
       code: "500"
       show_in_doc: 1
       recorded: true
@@ -1442,52 +1573,52 @@
       request_data: 
       response_data: 
         host: 
-          last_compile: 
-          image_id: 
+          domain_id: 22495316
+          last_freshcheck: 
+          enabled: true
+          build: false
           hostgroup_id: 
-          id: 980190962
-          ip: 2.3.4.1
-          sp_ip: ""
-          name: my5name.mydomain.net
-          updated_at: 2012-11-11T08:07:51Z
-          disk: 
-          ptable_id: 980190962
-          compute_resource_id: 980190962
-          use_image: 
-          architecture_id: 501905019
-          environment_id: 334344675
-          model_id: 
-          puppet_status: 0
-          installed_at: 
+          updated_at: 2012-11-11T12:16:14Z
+          certname: my5name.mydomain.net
           serial: 
+          medium_id: 
+          root_pass: xybxa6JUkz63w
+          image_id: 
+          ptable_id: 980190962
+          sp_subnet_id: 
+          owner_type: 
+          comment: 
           puppet_ca_proxy_id: 
-          uuid: 
-          mac: aabbCCddeeee
+          image_file: ""
           environment: 
             environment: 
               id: 334344675
               name: production
-          enabled: true
-          last_freshcheck: 
-          medium_id: 
-          puppet_proxy_id: 182953976
           managed: true
-          last_report: 
-          created_at: 2012-11-11T08:07:51Z
-          comment: 
-          root_pass: xybxa6JUkz63w
-          build: false
-          domain_id: 22495316
-          certname: my5name.mydomain.net
-          sp_subnet_id: 
-          owner_type: 
-          operatingsystem_id: 1073012828
+          id: 980190962
+          ip: 2.3.4.1
+          architecture_id: 501905019
+          compute_resource_id: 980190962
           subnet_id: 980190962
-          sp_mac: ""
-          image_file: ""
-          source_file_id: 
-          owner_id: 
+          sp_ip: ""
+          created_at: 2012-11-11T12:16:14Z
           sp_name: ""
+          use_image: 
+          environment_id: 334344675
+          installed_at: 
+          name: my5name.mydomain.net
+          source_file_id: 
+          disk: 
+          model_id: 
+          puppet_status: 0
+          owner_id: 
+          puppet_proxy_id: 182953976
+          last_report: 
+          uuid: 
+          operatingsystem_id: 1073012828
+          sp_mac: ""
+          mac: aabbCCddeeee
+          last_compile: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1499,6 +1630,8 @@
         host: {}
       response_data: 
         error: 
+          message: undefined method `capabilities' for nil:NilClass
+          class: NoMethodError
           backtrace: 
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/whiny_nil.rb:48:in `method_missing'
             - /home/jmagen/foreman/app/models/host.rb:667:in `capabilities'
@@ -1534,13 +1667,13 @@
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1221052154__process_action__1340879191__callbacks'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3724'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1759464391__process_action__796286581__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3737'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3724'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1221052154__process_action__1340879191__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3737'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1759464391__process_action__796286581__callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
@@ -1581,8 +1714,6 @@
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
-          class: NoMethodError
-          message: undefined method `capabilities' for nil:NilClass
       code: "500"
       show_in_doc: 1
       recorded: true
@@ -1591,7 +1722,17 @@
       path: /api/compute_resources/1/images/980190962
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        image: 
+          updated_at: 2012-11-11T12:16:14Z
+          id: 980190962
+          compute_resource_id: 980190962
+          architecture_id: 501905019
+          created_at: 2012-11-11T12:16:14Z
+          name: centos-1
+          uuid: string-of-uuid
+          username: root
+          operatingsystem_id: 219689787
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1602,15 +1743,15 @@
       request_data: 
       response_data: 
         - image: 
+            updated_at: 2012-11-11T12:16:14Z
             id: 298486374
-            name: centos-2
-            updated_at: 2012-11-11T08:07:51Z
-            compute_resource_id: 1
             architecture_id: 1
-            uuid: MyString2
-            created_at: 2012-11-11T08:07:51Z
-            username: MyString
+            compute_resource_id: 1
+            created_at: 2012-11-11T12:16:14Z
+            name: centos-2
             operatingsystem_id: 1
+            uuid: MyString2
+            username: MyString
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1621,15 +1762,15 @@
       request_data: 
       response_data: 
         image: 
+          updated_at: 2012-11-11T12:16:14Z
           id: 980190962
-          name: centos-1
-          updated_at: 2012-11-11T08:07:51Z
-          compute_resource_id: 980190962
           architecture_id: 501905019
+          compute_resource_id: 980190962
+          created_at: 2012-11-11T12:16:14Z
+          name: centos-1
           uuid: string-of-uuid
-          created_at: 2012-11-11T08:07:51Z
-          username: root
           operatingsystem_id: 219689787
+          username: root
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1639,7 +1780,17 @@
       query: 
       request_data: 
         image: {}
-      response_data: {}
+      response_data: 
+        image: 
+          updated_at: 2012-11-11T12:16:14Z
+          id: 980190962
+          compute_resource_id: 980190962
+          architecture_id: 501905019
+          created_at: 2012-11-11T12:16:14Z
+          name: centos-1
+          uuid: string-of-uuid
+          username: root
+          operatingsystem_id: 219689787
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1653,13 +1804,13 @@
           key: testkey
       response_data: 
         lookup_key: 
-          id: 980190963
+          is_param: true
+          default_value: 
+          key: testkey
           description: 
           required: false
-          default_value: 
-          is_param: true
+          id: 980190963
           override: false
-          key: testkey
       code: "201"
       show_in_doc: 1
       recorded: true
@@ -1668,7 +1819,15 @@
       path: /api/lookup_keys/980190962-port
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        lookup_key: 
+          is_param: true
+          default_value: "80"
+          key: port
+          description: 
+          required: false
+          id: 980190962
+          override: false
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1679,29 +1838,29 @@
       request_data: 
       response_data: 
         - lookup_key: 
-            id: 980190962
-            description: 
-            required: false
+            is_param: true
             default_value: "80"
-            is_param: true
-            override: false
+            description: 
             key: port
-        - lookup_key: 
-            id: 113629430
-            description: 
             required: false
-            default_value: t
-            is_param: true
-            override: true
-            key: ssl
-        - lookup_key: 
-            id: 298486374
-            description: 
-            required: false
-            default_value: "443"
-            is_param: false
+            id: 980190962
             override: false
+        - lookup_key: 
+            is_param: true
+            default_value: t
+            description: 
+            key: ssl
+            required: false
+            id: 113629430
+            override: true
+        - lookup_key: 
+            is_param: false
+            default_value: "443"
+            description: 
             key: ssl_port
+            required: false
+            id: 298486374
+            override: false
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1712,13 +1871,13 @@
       request_data: 
       response_data: 
         lookup_key: 
-          id: 980190962
-          description: 
-          required: false
-          default_value: "80"
           is_param: true
-          override: false
+          default_value: "80"
+          description: 
           key: port
+          required: false
+          id: 980190962
+          override: false
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1728,7 +1887,15 @@
       query: 
       request_data: 
         lookup_key: {}
-      response_data: {}
+      response_data: 
+        lookup_key: 
+          is_param: true
+          default_value: 80
+          key: port
+          description: 
+          required: false
+          id: 980190962
+          override: false
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1752,7 +1919,10 @@
       path: /api/media/338446587
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        medium: 
+          id: 338446587
+          name: unused
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1763,40 +1933,40 @@
       request_data: 
       response_data: 
         - medium: 
+            image_path: 
             id: 980190962
+            media_path: 
             path: http://mirror.averse.net/centos/6.0/os/$arch
             name: CentOS 5.4
             config_path: 
-            media_path: 
-            image_path: 
         - medium: 
+            image_path: 
             id: 859751735
+            media_path: 
             path: http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss
             name: OpenSuse Mirror
             config_path: 
-            media_path: 
-            image_path: 
         - medium: 
+            image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
             id: 442321401
+            media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
             path: http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch
             name: Solaris 10
             config_path: brsla01:/vol/jumpstart
-            media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
-            image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
         - medium: 
+            image_path: 
             id: 1011586618
+            media_path: 
             path: http://sg.archive.ubuntu.com
             name: Ubuntu Mirror
             config_path: 
-            media_path: 
-            image_path: 
         - medium: 
+            image_path: 
             id: 338446587
+            media_path: 
             path: http://nothing.intersting.com
             name: unused
             config_path: 
-            media_path: 
-            image_path: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1807,12 +1977,12 @@
       request_data: 
       response_data: 
         medium: 
-          path: http://mirror.averse.net/centos/6.0/os/$arch
+          image_path: 
           id: 980190962
+          media_path: 
+          path: http://mirror.averse.net/centos/6.0/os/$arch
           name: CentOS 5.4
           config_path: 
-          media_path: 
-          image_path: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1822,7 +1992,10 @@
       query: 
       request_data: 
         name: CentOS 5.4
-      response_data: {}
+      response_data: 
+        medium: 
+          id: 980190962
+          name: CentOS 5.4
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1836,12 +2009,12 @@
       response_data: 
         model: 
           hardware_model: 
-          info: 
-          id: 980190963
-          updated_at: 2012-11-11T08:07:56Z
-          name: new model
+          updated_at: 2012-11-11T12:16:19Z
           vendor_class: 
-          created_at: 2012-11-11T08:07:56Z
+          id: 980190963
+          info: 
+          created_at: 2012-11-11T12:16:19Z
+          name: new model
       code: "201"
       show_in_doc: 1
       recorded: true
@@ -1850,7 +2023,15 @@
       path: /api/models/980190962
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        model: 
+          hardware_model: 
+          updated_at: 2012-11-11T12:16:14Z
+          vendor_class: 
+          id: 980190962
+          info: Virtual Machine
+          created_at: 2012-11-11T12:16:14Z
+          name: KVM
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1862,20 +2043,20 @@
       response_data: 
         - model: 
             hardware_model: 
+            updated_at: 2012-11-11T12:16:14Z
+            vendor_class: 
             id: 980190962
+            created_at: 2012-11-11T12:16:14Z
             info: Virtual Machine
             name: KVM
-            updated_at: 2012-11-11T08:07:51Z
-            vendor_class: 
-            created_at: 2012-11-11T08:07:51Z
         - model: 
             hardware_model: SUN4U
+            updated_at: 2012-11-11T12:16:14Z
+            vendor_class: Sun-Fire-V210
             id: 139037058
+            created_at: 2012-11-11T12:16:14Z
             info: 
             name: SUN V210
-            updated_at: 2012-11-11T08:07:51Z
-            vendor_class: Sun-Fire-V210
-            created_at: 2012-11-11T08:07:51Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1887,12 +2068,12 @@
       response_data: 
         model: 
           hardware_model: 
+          updated_at: 2012-11-11T12:16:14Z
+          vendor_class: 
           id: 980190962
+          created_at: 2012-11-11T12:16:14Z
           info: Virtual Machine
           name: KVM
-          updated_at: 2012-11-11T08:07:51Z
-          vendor_class: 
-          created_at: 2012-11-11T08:07:51Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1902,7 +2083,15 @@
       query: 
       request_data: 
         name: KVM
-      response_data: {}
+      response_data: 
+        model: 
+          hardware_model: 
+          updated_at: 2012-11-11T12:16:14Z
+          vendor_class: 
+          id: 980190962
+          info: Virtual Machine
+          created_at: 2012-11-11T12:16:14Z
+          name: KVM
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1912,19 +2101,19 @@
       query: 
       request_data: 
         operatingsystem: 
-          major: "1"
           minor: "2"
           name: awsome_os
+          major: "1"
       response_data: 
         operatingsystem: 
-          id: 1073012829
-          minor: "2"
-          major: "1"
-          name: awsome_os
-          "": []
-          family: 
           release_name: 
           type: 
+          minor: "2"
+          id: 1073012829
+          "": []
+          name: awsome_os
+          major: "1"
+          family: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1937,14 +2126,14 @@
           name: awsome_os
       response_data: 
         operatingsystem: 
+          full_messages: 
+            - Major Operating System version is required
+            - Major is not a number
           id: 
           errors: 
             major: 
               - Operating System version is required
               - is not a number
-          full_messages: 
-            - Major Operating System version is required
-            - Major is not a number
       code: "422"
       show_in_doc: 0
       recorded: true
@@ -1953,7 +2142,14 @@
       path: /api/operatingsystems/775246587
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        operatingsystem: 
+          architectures: []
+          config_templates: []
+          ptables: []
+          id: 775246587
+          name: NoHosts 1.1
+          media: []
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -1967,45 +2163,20 @@
             architectures: 
               - architecture: 
                   id: 501905019
-                  name: x86_64
                   operatingsystem_ids: 
                     - 309172073
                     - 1073012828
                     - 331303656
-            id: 309172073
-            minor: "3"
-            major: "5"
-            name: centos
-            os_default_templates: 
-              - os_default_template: 
-                  id: 281110143
-                  config_template_id: 1007981701
-                  template_kind_id: 710512633
-              - os_default_template: 
-                  id: 113629430
-                  config_template_id: 981457253
-                  template_kind_id: 478250810
-              - os_default_template: 
-                  id: 298486374
-                  config_template_id: 269958254
-                  template_kind_id: 983253650
-              - os_default_template: 
-                  id: 980190962
-                  config_template_id: 943779058
-                  template_kind_id: 158998239
-            family: Redhat
-            ptables: 
-              - ptable: 
-                  id: 980190962
-                  name: default
+                  name: x86_64
             release_name: 
+            type: Redhat
+            minor: "3"
+            id: 309172073
             config_templates: 
               - config_template: 
-                  id: 1007981701
-                  name: centos5_3_pxelinux
-                  audit_comment: 
-                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
                   template_combinations: []
+                  id: 1007981701
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2014,16 +2185,16 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
+                  name: centos5_3_pxelinux
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
               - config_template: 
-                  id: 104314179
-                  name: MyFinish
-                  audit_comment: 
-                  template: MyFinish
                   template_combinations: 
                     - template_combination: 
                         hostgroup_id: 
                         id: 113629430
                         environment_id: 334344675
+                  id: 104314179
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2032,12 +2203,12 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
+                  name: MyFinish
+                  template: MyFinish
               - config_template: 
-                  id: 981457253
-                  name: MyScript
-                  audit_comment: 
-                  template: MyText
                   template_combinations: []
+                  id: 981457253
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2046,16 +2217,16 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
-              - config_template: 
-                  id: 943779058
-                  name: MyString
-                  audit_comment: 
+                  name: MyScript
                   template: MyText
+              - config_template: 
                   template_combinations: 
                     - template_combination: 
                         hostgroup_id: 636252244
                         id: 980190962
                         environment_id: 334344675
+                  id: 943779058
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2064,11 +2235,9 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
-              - config_template: 
-                  id: 269958254
-                  name: MyString2
-                  audit_comment: 
+                  name: MyString
                   template: MyText
+              - config_template: 
                   template_combinations: 
                     - template_combination: 
                         hostgroup_id: 636252244
@@ -2078,6 +2247,8 @@
                         hostgroup_id: 0
                         id: 298486374
                         environment_id: 
+                  id: 269958254
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2086,12 +2257,12 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
+                  name: MyString2
+                  template: MyText
               - config_template: 
+                  template_combinations: []
                   id: 352050261
-                  name: PXE Default File
                   audit_comment: 
-                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
-                  template_combinations: []
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2100,71 +2271,87 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
+                  name: PXE Default File
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
               - config_template: 
-                  id: 684651467
-                  name: PXE Default Menu
-                  audit_comment: 
-                  template: FOO
                   template_combinations: []
+                  id: 684651467
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
                         id: 309172073
                         name: centos 5.3
-            type: Redhat
+                  name: PXE Default Menu
+                  template: FOO
+            ptables: 
+              - ptable: 
+                  id: 980190962
+                  name: default
+            name: centos
+            os_default_templates: 
+              - os_default_template: 
+                  template_kind_id: 710512633
+                  id: 281110143
+                  config_template_id: 1007981701
+              - os_default_template: 
+                  template_kind_id: 478250810
+                  id: 113629430
+                  config_template_id: 981457253
+              - os_default_template: 
+                  template_kind_id: 983253650
+                  id: 298486374
+                  config_template_id: 269958254
+              - os_default_template: 
+                  template_kind_id: 158998239
+                  id: 980190962
+                  config_template_id: 943779058
             media: 
               - medium: 
+                  image_path: 
                   id: 980190962
+                  media_path: 
                   path: http://mirror.averse.net/centos/6.0/os/$arch
                   name: CentOS 5.4
                   config_path: 
-                  media_path: 
-                  image_path: 
-        - operatingsystem: 
-            id: 775246587
-            minor: "1"
-            major: "1"
-            name: NoHosts
-            "": []
+            major: "5"
             family: Redhat
+        - operatingsystem: 
             release_name: 
             type: Redhat
-        - operatingsystem: 
-            id: 859751735
-            minor: "4"
-            major: "11"
-            name: OpenSuse
+            minor: "1"
+            id: 775246587
             "": []
-            family: Suse
+            name: NoHosts
+            major: "1"
+            family: Redhat
+        - operatingsystem: 
             release_name: 
             type: Suse
+            minor: "4"
+            id: 859751735
+            "": []
+            name: OpenSuse
+            major: "11"
+            family: Suse
         - operatingsystem: 
             architectures: 
               - architecture: 
                   id: 501905019
-                  name: x86_64
                   operatingsystem_ids: 
                     - 309172073
                     - 1073012828
                     - 331303656
-            id: 1073012828
-            minor: "1"
-            major: "6"
-            name: Redhat
-            "": []
-            family: Redhat
-            ptables: 
-              - ptable: 
-                  id: 980190962
-                  name: default
+                  name: x86_64
             release_name: 
+            type: Redhat
+            minor: "1"
+            id: 1073012828
             config_templates: 
               - config_template: 
-                  id: 1007981701
-                  name: centos5_3_pxelinux
-                  audit_comment: 
-                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
                   template_combinations: []
+                  id: 1007981701
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2173,16 +2360,16 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
+                  name: centos5_3_pxelinux
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
               - config_template: 
-                  id: 104314179
-                  name: MyFinish
-                  audit_comment: 
-                  template: MyFinish
                   template_combinations: 
                     - template_combination: 
                         hostgroup_id: 
                         id: 113629430
                         environment_id: 334344675
+                  id: 104314179
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2191,12 +2378,12 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
+                  name: MyFinish
+                  template: MyFinish
               - config_template: 
-                  id: 981457253
-                  name: MyScript
-                  audit_comment: 
-                  template: MyText
                   template_combinations: []
+                  id: 981457253
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2205,16 +2392,16 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
-              - config_template: 
-                  id: 943779058
-                  name: MyString
-                  audit_comment: 
+                  name: MyScript
                   template: MyText
+              - config_template: 
                   template_combinations: 
                     - template_combination: 
                         hostgroup_id: 636252244
                         id: 980190962
                         environment_id: 334344675
+                  id: 943779058
+                  audit_comment: 
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2223,11 +2410,9 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
-              - config_template: 
-                  id: 269958254
-                  name: MyString2
-                  audit_comment: 
+                  name: MyString
                   template: MyText
+              - config_template: 
                   template_combinations: 
                     - template_combination: 
                         hostgroup_id: 636252244
@@ -2237,20 +2422,8 @@
                         hostgroup_id: 0
                         id: 298486374
                         environment_id: 
-                  snippet: false
-                  operatingsystems: 
-                    - operatingsystem: 
-                        id: 309172073
-                        name: centos 5.3
-                    - operatingsystem: 
-                        id: 1073012828
-                        name: Redhat 6.1
-              - config_template: 
-                  id: 352050261
-                  name: PXE Default File
+                  id: 269958254
                   audit_comment: 
-                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
-                  template_combinations: []
                   snippet: false
                   operatingsystems: 
                     - operatingsystem: 
@@ -2259,67 +2432,90 @@
                     - operatingsystem: 
                         id: 1073012828
                         name: Redhat 6.1
-            type: Redhat
+                  name: MyString2
+                  template: MyText
+              - config_template: 
+                  template_combinations: []
+                  id: 352050261
+                  audit_comment: 
+                  snippet: false
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: PXE Default File
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+            ptables: 
+              - ptable: 
+                  id: 980190962
+                  name: default
+            "": []
+            name: Redhat
             media: 
               - medium: 
+                  image_path: 
                   id: 980190962
+                  media_path: 
                   path: http://mirror.averse.net/centos/6.0/os/$arch
                   name: CentOS 5.4
                   config_path: 
-                  media_path: 
-                  image_path: 
+            major: "6"
+            family: Redhat
         - operatingsystem: 
             architectures: 
               - architecture: 
                   id: 331892513
-                  name: sparc
                   operatingsystem_ids: 
                     - 442321401
-            id: 442321401
-            minor: "10"
-            major: "5"
-            name: Solaris
-            "": []
-            family: Solaris
+                  name: sparc
             release_name: hw0910
             type: Solaris
+            minor: "10"
+            id: 442321401
+            "": []
+            name: Solaris
             media: 
               - medium: 
+                  image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
                   id: 442321401
+                  media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
                   path: http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch
                   name: Solaris 10
                   config_path: brsla01:/vol/jumpstart
-                  media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
-                  image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
+            major: "5"
+            family: Solaris
         - operatingsystem: 
             architectures: 
               - architecture: 
                   id: 501905019
-                  name: x86_64
                   operatingsystem_ids: 
                     - 309172073
                     - 1073012828
                     - 331303656
-            id: 331303656
+                  name: x86_64
+            release_name: 
+            type: Debian
             minor: "10"
-            major: "10"
-            name: Ubuntu
-            "": []
-            family: Debian
+            id: 331303656
             ptables: 
               - ptable: 
                   id: 1011586618
                   name: ubuntu default
-            release_name: 
-            type: Debian
+            "": []
+            name: Ubuntu
             media: 
               - medium: 
+                  image_path: 
                   id: 1011586618
+                  media_path: 
                   path: http://sg.archive.ubuntu.com
                   name: Ubuntu Mirror
                   config_path: 
-                  media_path: 
-                  image_path: 
+            major: "10"
+            family: Debian
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -2333,29 +2529,24 @@
           architectures: 
             - architecture: 
                 id: 501905019
-                name: x86_64
                 operatingsystem_ids: 
                   - 309172073
                   - 1073012828
                   - 331303656
-          id: 1073012828
+                name: x86_64
+          release_name: 
+          type: Redhat
           minor: "1"
-          major: "6"
-          name: Redhat
-          "": []
-          family: Redhat
+          id: 1073012828
           ptables: 
             - ptable: 
                 id: 980190962
                 name: default
-          release_name: 
           config_templates: 
             - config_template: 
-                id: 1007981701
-                name: centos5_3_pxelinux
-                audit_comment: 
-                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
                 template_combinations: []
+                id: 1007981701
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2364,16 +2555,16 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: Redhat 6.1
+                name: centos5_3_pxelinux
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
             - config_template: 
-                id: 104314179
-                name: MyFinish
-                audit_comment: 
-                template: MyFinish
                 template_combinations: 
                   - template_combination: 
                       hostgroup_id: 
                       id: 113629430
                       environment_id: 334344675
+                id: 104314179
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2382,12 +2573,12 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: Redhat 6.1
+                name: MyFinish
+                template: MyFinish
             - config_template: 
-                id: 981457253
-                name: MyScript
-                audit_comment: 
-                template: MyText
                 template_combinations: []
+                id: 981457253
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2396,16 +2587,16 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: Redhat 6.1
-            - config_template: 
-                id: 943779058
-                name: MyString
-                audit_comment: 
+                name: MyScript
                 template: MyText
+            - config_template: 
                 template_combinations: 
                   - template_combination: 
                       hostgroup_id: 636252244
                       id: 980190962
                       environment_id: 334344675
+                id: 943779058
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2414,11 +2605,9 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: Redhat 6.1
-            - config_template: 
-                id: 269958254
-                name: MyString2
-                audit_comment: 
+                name: MyString
                 template: MyText
+            - config_template: 
                 template_combinations: 
                   - template_combination: 
                       hostgroup_id: 636252244
@@ -2428,20 +2617,8 @@
                       hostgroup_id: 0
                       id: 298486374
                       environment_id: 
-                snippet: false
-                operatingsystems: 
-                  - operatingsystem: 
-                      id: 309172073
-                      name: centos 5.3
-                  - operatingsystem: 
-                      id: 1073012828
-                      name: Redhat 6.1
-            - config_template: 
-                id: 352050261
-                name: PXE Default File
+                id: 269958254
                 audit_comment: 
-                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
-                template_combinations: []
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2450,15 +2627,34 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: Redhat 6.1
-          type: Redhat
+                name: MyString2
+                template: MyText
+            - config_template: 
+                template_combinations: []
+                id: 352050261
+                audit_comment: 
+                snippet: false
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: PXE Default File
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+          "": []
+          name: Redhat
           media: 
             - medium: 
+                image_path: 
                 id: 980190962
+                media_path: 
                 path: http://mirror.averse.net/centos/6.0/os/$arch
                 name: CentOS 5.4
                 config_path: 
-                media_path: 
-                image_path: 
+          family: Redhat
+          major: "6"
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -2474,29 +2670,20 @@
           architectures: 
             - architecture: 
                 id: 501905019
-                name: x86_64
                 operatingsystem_ids: 
                   - 309172073
                   - 1073012828
                   - 331303656
-          id: 1073012828
-          minor: "1"
-          major: "6"
-          name: new_name
-          "": []
-          family: Redhat
-          ptables: 
-            - ptable: 
-                id: 980190962
-                name: default
+                name: x86_64
           release_name: 
+          type: Redhat
+          minor: "1"
+          id: 1073012828
           config_templates: 
             - config_template: 
-                id: 1007981701
-                name: centos5_3_pxelinux
-                audit_comment: 
-                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
                 template_combinations: []
+                id: 1007981701
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2505,16 +2692,16 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: new_name 6.1
+                name: centos5_3_pxelinux
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
             - config_template: 
-                id: 104314179
-                name: MyFinish
-                audit_comment: 
-                template: MyFinish
                 template_combinations: 
                   - template_combination: 
                       hostgroup_id: 
                       id: 113629430
                       environment_id: 334344675
+                id: 104314179
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2523,12 +2710,12 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: new_name 6.1
+                name: MyFinish
+                template: MyFinish
             - config_template: 
-                id: 981457253
-                name: MyScript
-                audit_comment: 
-                template: MyText
                 template_combinations: []
+                id: 981457253
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2537,16 +2724,16 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: new_name 6.1
-            - config_template: 
-                id: 943779058
-                name: MyString
-                audit_comment: 
+                name: MyScript
                 template: MyText
+            - config_template: 
                 template_combinations: 
                   - template_combination: 
                       hostgroup_id: 636252244
                       id: 980190962
                       environment_id: 334344675
+                id: 943779058
+                audit_comment: 
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2555,11 +2742,9 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: new_name 6.1
-            - config_template: 
-                id: 269958254
-                name: MyString2
-                audit_comment: 
+                name: MyString
                 template: MyText
+            - config_template: 
                 template_combinations: 
                   - template_combination: 
                       hostgroup_id: 636252244
@@ -2569,20 +2754,8 @@
                       hostgroup_id: 0
                       id: 298486374
                       environment_id: 
-                snippet: false
-                operatingsystems: 
-                  - operatingsystem: 
-                      id: 309172073
-                      name: centos 5.3
-                  - operatingsystem: 
-                      id: 1073012828
-                      name: new_name 6.1
-            - config_template: 
-                id: 352050261
-                name: PXE Default File
+                id: 269958254
                 audit_comment: 
-                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
-                template_combinations: []
                 snippet: false
                 operatingsystems: 
                   - operatingsystem: 
@@ -2591,15 +2764,38 @@
                   - operatingsystem: 
                       id: 1073012828
                       name: new_name 6.1
-          type: Redhat
+                name: MyString2
+                template: MyText
+            - config_template: 
+                template_combinations: []
+                id: 352050261
+                audit_comment: 
+                snippet: false
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: PXE Default File
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+          ptables: 
+            - ptable: 
+                id: 980190962
+                name: default
+          "": []
+          name: new_name
           media: 
             - medium: 
+                image_path: 
                 id: 980190962
+                media_path: 
                 path: http://mirror.averse.net/centos/6.0/os/$arch
                 name: CentOS 5.4
                 config_path: 
-                media_path: 
-                image_path: 
+          major: "6"
+          family: Redhat
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -2625,20 +2821,20 @@
       request_data: 
       response_data: 
         ptable: 
-          id: 980190962
-          errors: 
-            base: 
-              - default is used by temp01.yourdomain.net
-              - default is used by sdhcp.mydomain.net
-              - default is used by temp.yourdomain.net
-              - default is used by my5name.mydomain.net
-              - default is used by dhcp.mydomain.net
           full_messages: 
+            - default is used by dhcp.mydomain.net
             - default is used by temp01.yourdomain.net
             - default is used by sdhcp.mydomain.net
             - default is used by temp.yourdomain.net
             - default is used by my5name.mydomain.net
-            - default is used by dhcp.mydomain.net
+          id: 980190962
+          errors: 
+            base: 
+              - default is used by dhcp.mydomain.net
+              - default is used by temp01.yourdomain.net
+              - default is used by sdhcp.mydomain.net
+              - default is used by temp.yourdomain.net
+              - default is used by my5name.mydomain.net
       code: "422"
       show_in_doc: 1
       recorded: true
@@ -2646,7 +2842,10 @@
       path: /api/ptables/281110143
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        ptable: 
+          id: 281110143
+          name: four
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -2689,7 +2888,10 @@
       query: 
       request_data: 
         ptable: {}
-      response_data: {}
+      response_data: 
+        ptable: 
+          id: 980190962
+          name: default
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2713,7 +2915,12 @@
       path: /api/puppetclasses/base
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        puppetclass: 
+          id: 980190962
+          name: base
+          lookup_keys: 
+            - id: 298486374
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2724,17 +2931,17 @@
       request_data: 
       response_data: 
         openstruct: 
-          apache: 
-            - puppetclass: 
-                id: 298486374
-                name: apache
-                lookup_keys: []
           base: 
             - puppetclass: 
                 id: 980190962
                 name: base
                 lookup_keys: 
                   - id: 298486374
+          apache: 
+            - puppetclass: 
+                id: 298486374
+                name: apache
+                lookup_keys: []
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2749,13 +2956,13 @@
           name: base
           lookup_keys: 
             - lookup_key: 
-                id: 298486374
+                is_param: false
+                default_value: "443"
+                key: ssl_port
                 description: 
                 required: false
-                default_value: "443"
-                is_param: false
+                id: 298486374
                 override: false
-                key: ssl_port
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2765,7 +2972,12 @@
       query: 
       request_data: 
         puppetclass: {}
-      response_data: {}
+      response_data: 
+        puppetclass: 
+          id: 980190962
+          name: base
+          lookup_keys: 
+            - id: 298486374
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2774,7 +2986,36 @@
       path: /api/reports/70219655
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        report: 
+          metrics: 
+            changes: {}
+            resources: 
+              total: 33
+            events: 
+              total: 0
+            time: 
+              mailalias: 0.000283
+              cron: 0.000419
+              config_retrieval: 16.3637869358063
+              schedule: 0.00083
+              filebucket: 0.000171
+              exec: 0.000299
+              package: 0.003989
+              file: 0.007025
+              service: 0.149739
+          host: my5name.mydomain.net
+          id: 70219655
+          logs: []
+          summary: Success
+          status: 
+            pending: 0
+            failed_restarts: 0
+            applied: 0
+            skipped: 0
+            restarted: 0
+            failed: 0
+          reported_at: 2012-11-04T12:16:14Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2785,34 +3026,34 @@
       request_data: 
       response_data: 
         - report: 
-            id: 70219655
-            "": []
-            logs: []
-            reported_at: 2012-11-04T08:07:51Z
             metrics: 
               changes: {}
               resources: 
                 total: 33
               time: 
-                package: 0.003989
-                file: 0.007025
-                filebucket: 0.000171
-                service: 0.149739
-                schedule: 0.00083
-                cron: 0.000419
-                exec: 0.000299
-                config_retrieval: 16.3637869358063
                 mailalias: 0.000283
+                config_retrieval: 16.3637869358063
+                cron: 0.000419
+                filebucket: 0.000171
+                schedule: 0.00083
+                exec: 0.000299
+                file: 0.007025
+                package: 0.003989
+                service: 0.149739
               events: 
                 total: 0
+            id: 70219655
+            logs: []
+            summary: Success
+            "": []
             status: 
-              restarted: 0
               pending: 0
+              failed_restarts: 0
               skipped: 0
               applied: 0
+              restarted: 0
               failed: 0
-              failed_restarts: 0
-            summary: Success
+            reported_at: 2012-11-04T12:16:14Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2823,34 +3064,34 @@
       request_data: 
       response_data: 
         report: 
-          id: 70219655
-          "": []
-          logs: []
-          reported_at: 2012-11-04T08:07:51Z
           metrics: 
             changes: {}
             resources: 
               total: 33
             time: 
-              package: 0.003989
-              file: 0.007025
-              filebucket: 0.000171
-              service: 0.149739
-              schedule: 0.00083
-              cron: 0.000419
-              exec: 0.000299
-              config_retrieval: 16.3637869358063
               mailalias: 0.000283
+              config_retrieval: 16.3637869358063
+              cron: 0.000419
+              filebucket: 0.000171
+              schedule: 0.00083
+              exec: 0.000299
+              file: 0.007025
+              package: 0.003989
+              service: 0.149739
             events: 
               total: 0
+          id: 70219655
+          logs: []
+          summary: Success
+          "": []
           status: 
-            restarted: 0
             pending: 0
+            failed_restarts: 0
             skipped: 0
             applied: 0
+            restarted: 0
             failed: 0
-            failed_restarts: 0
-          summary: Success
+          reported_at: 2012-11-04T12:16:14Z
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2863,10 +3104,10 @@
           name: staff
       response_data: 
         role: 
-          id: 11
-          name: staff
           builtin: 0
           permissions: []
+          id: 11
+          name: staff
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -2875,195 +3116,8 @@
       path: /api/roles/1
       query: ""
       request_data: 
-      response_data: {}
-      code: "200"
-      show_in_doc: 1
-      recorded: true
-  roles#index: 
-    - verb: !ruby/sym GET
-      path: /api/roles
-      query: ""
-      request_data: 
-      response_data: 
-        - role: 
-            id: 6
-            name: Default user
-            builtin: 1
-            permissions: 
-              - view_hosts
-              - view_puppetclasses
-              - view_hostgroups
-              - view_domains
-              - view_oses
-              - view_media
-              - view_models
-              - view_environments
-              - view_architectures
-              - view_ptables
-              - view_globals
-              - view_external_variables
-              - view_authenticators
-              - access_settings
-              - access_dashboard
-              - view_reports
-              - view_facts
-              - view_statistics
-        - role: 
-            id: 3
-            name: View hosts
-            builtin: 0
-            permissions: 
-              - view_hosts
-        - role: 
-            id: 10
-            name: No rights
-            builtin: 0
-            permissions: []
-        - role: 
-            id: 9
-            name: Create hosts
-            builtin: 0
-            permissions: 
-              - create_hosts
-        - role: 
-            id: 2
-            name: Edit partition tables
-            builtin: 0
-            permissions: 
-              - view_ptables
-              - create_ptables
-              - edit_ptables
-              - destroy_ptables
-        - role: 
-            id: 8
-            name: Destroy hosts
-            builtin: 0
-            permissions: 
-              - destroy_hosts
-        - role: 
-            id: 5
-            name: Viewer
-            builtin: 0
-            permissions: 
-              - view_architectures
-              - view_audit_logs
-              - view_authenticators
-              - access_dashboard
-              - view_domains
-              - view_environments
-              - view_external_variables
-              - view_facts
-              - view_globals
-              - view_hostgroups
-              - view_hosts
-              - view_media
-              - view_models
-              - view_operatingsystems
-              - view_ptables
-              - view_puppetclasses
-              - view_reports
-              - access_settings
-              - view_statistics
-              - view_usergroups
-              - view_users
-        - role: 
-            id: 1
-            name: Manager
-            builtin: 0
-            permissions: 
-              - view_architectures
-              - create_architectures
-              - edit_architectures
-              - destroy_architectures
-              - view_authenticators
-              - create_authenticators
-              - edit_authenticators
-              - destroy_authenticators
-              - view_environments
-              - create_environments
-              - edit_environments
-              - destroy_environments
-              - import_environments
-              - view_external_variables
-              - create_external_variables
-              - edit_external_variables
-              - destroy_external_variables
-              - view_domains
-              - create_domain
-              - edit_domains
-              - destroy_domains
-              - view_globals
-              - create_globals
-              - edit_globals
-              - destroy_globals
-              - view_hostgroups
-              - create_hostgroups
-              - edit_hostgroups
-              - destroy_hostgroups
-              - view_hosts
-              - create_hosts
-              - edit_hosts
-              - destroy_hosts
-              - view_media
-              - create_media
-              - edit_media
-              - destroy_media
-              - view_models
-              - create_models
-              - edit_models
-              - destroy_models
-              - view_operatingsystems
-              - create_operatingsystems
-              - edit_operatingsystems
-              - destroy_operatingsystems
-              - view_ptables
-              - create_ptables
-              - edit_ptables
-              - destroy_ptables
-              - view_puppetclasses
-              - create_puppetclasses
-              - edit_puppetclasses
-              - destroy_puppetclasses
-              - import_puppetclasses
-              - view_usergroups
-              - create_usergroups
-              - edit_usergroups
-              - destroy_usergroups
-              - view_users
-              - create_users
-              - edit_users
-              - destroy_users
-              - access_settings
-              - access_dashboard
-              - view_reports
-              - destroy_reports
-              - view_facts
-              - view_audit_logs
-              - view_statistics
-        - role: 
-            id: 4
-            name: Edit hosts
-            builtin: 0
-            permissions: 
-              - edit_hosts
-        - role: 
-            id: 7
-            name: Anonymous
-            builtin: 2
-            permissions: 
-              - view_hosts
-      code: "200"
-      show_in_doc: 0
-      recorded: true
-  roles#show: 
-    - verb: !ruby/sym GET
-      path: /api/roles/1
-      query: ""
-      request_data: 
       response_data: 
         role: 
-          id: 1
-          name: Manager
           builtin: 0
           permissions: 
             - view_architectures
@@ -3135,6 +3189,267 @@
             - view_facts
             - view_audit_logs
             - view_statistics
+          id: 1
+          name: Manager
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  roles#index: 
+    - verb: !ruby/sym GET
+      path: /api/roles
+      query: ""
+      request_data: 
+      response_data: 
+        - role: 
+            builtin: 0
+            permissions: 
+              - create_hosts
+            id: 9
+            name: Create hosts
+        - role: 
+            builtin: 0
+            permissions: 
+              - edit_hosts
+            id: 4
+            name: Edit hosts
+        - role: 
+            builtin: 1
+            permissions: 
+              - view_hosts
+              - view_puppetclasses
+              - view_hostgroups
+              - view_domains
+              - view_oses
+              - view_media
+              - view_models
+              - view_environments
+              - view_architectures
+              - view_ptables
+              - view_globals
+              - view_external_variables
+              - view_authenticators
+              - access_settings
+              - access_dashboard
+              - view_reports
+              - view_facts
+              - view_statistics
+            id: 6
+            name: Default user
+        - role: 
+            builtin: 0
+            permissions: 
+              - destroy_hosts
+            id: 8
+            name: Destroy hosts
+        - role: 
+            builtin: 0
+            permissions: 
+              - view_ptables
+              - create_ptables
+              - edit_ptables
+              - destroy_ptables
+            id: 2
+            name: Edit partition tables
+        - role: 
+            builtin: 0
+            permissions: 
+              - view_architectures
+              - create_architectures
+              - edit_architectures
+              - destroy_architectures
+              - view_authenticators
+              - create_authenticators
+              - edit_authenticators
+              - destroy_authenticators
+              - view_environments
+              - create_environments
+              - edit_environments
+              - destroy_environments
+              - import_environments
+              - view_external_variables
+              - create_external_variables
+              - edit_external_variables
+              - destroy_external_variables
+              - view_domains
+              - create_domain
+              - edit_domains
+              - destroy_domains
+              - view_globals
+              - create_globals
+              - edit_globals
+              - destroy_globals
+              - view_hostgroups
+              - create_hostgroups
+              - edit_hostgroups
+              - destroy_hostgroups
+              - view_hosts
+              - create_hosts
+              - edit_hosts
+              - destroy_hosts
+              - view_media
+              - create_media
+              - edit_media
+              - destroy_media
+              - view_models
+              - create_models
+              - edit_models
+              - destroy_models
+              - view_operatingsystems
+              - create_operatingsystems
+              - edit_operatingsystems
+              - destroy_operatingsystems
+              - view_ptables
+              - create_ptables
+              - edit_ptables
+              - destroy_ptables
+              - view_puppetclasses
+              - create_puppetclasses
+              - edit_puppetclasses
+              - destroy_puppetclasses
+              - import_puppetclasses
+              - view_usergroups
+              - create_usergroups
+              - edit_usergroups
+              - destroy_usergroups
+              - view_users
+              - create_users
+              - edit_users
+              - destroy_users
+              - access_settings
+              - access_dashboard
+              - view_reports
+              - destroy_reports
+              - view_facts
+              - view_audit_logs
+              - view_statistics
+            id: 1
+            name: Manager
+        - role: 
+            builtin: 0
+            permissions: []
+            id: 10
+            name: No rights
+        - role: 
+            builtin: 0
+            permissions: 
+              - view_architectures
+              - view_audit_logs
+              - view_authenticators
+              - access_dashboard
+              - view_domains
+              - view_environments
+              - view_external_variables
+              - view_facts
+              - view_globals
+              - view_hostgroups
+              - view_hosts
+              - view_media
+              - view_models
+              - view_operatingsystems
+              - view_ptables
+              - view_puppetclasses
+              - view_reports
+              - access_settings
+              - view_statistics
+              - view_usergroups
+              - view_users
+            id: 5
+            name: Viewer
+        - role: 
+            builtin: 0
+            permissions: 
+              - view_hosts
+            id: 3
+            name: View hosts
+        - role: 
+            builtin: 2
+            permissions: 
+              - view_hosts
+            id: 7
+            name: Anonymous
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  roles#show: 
+    - verb: !ruby/sym GET
+      path: /api/roles/1
+      query: ""
+      request_data: 
+      response_data: 
+        role: 
+          builtin: 0
+          permissions: 
+            - view_architectures
+            - create_architectures
+            - edit_architectures
+            - destroy_architectures
+            - view_authenticators
+            - create_authenticators
+            - edit_authenticators
+            - destroy_authenticators
+            - view_environments
+            - create_environments
+            - edit_environments
+            - destroy_environments
+            - import_environments
+            - view_external_variables
+            - create_external_variables
+            - edit_external_variables
+            - destroy_external_variables
+            - view_domains
+            - create_domain
+            - edit_domains
+            - destroy_domains
+            - view_globals
+            - create_globals
+            - edit_globals
+            - destroy_globals
+            - view_hostgroups
+            - create_hostgroups
+            - edit_hostgroups
+            - destroy_hostgroups
+            - view_hosts
+            - create_hosts
+            - edit_hosts
+            - destroy_hosts
+            - view_media
+            - create_media
+            - edit_media
+            - destroy_media
+            - view_models
+            - create_models
+            - edit_models
+            - destroy_models
+            - view_operatingsystems
+            - create_operatingsystems
+            - edit_operatingsystems
+            - destroy_operatingsystems
+            - view_ptables
+            - create_ptables
+            - edit_ptables
+            - destroy_ptables
+            - view_puppetclasses
+            - create_puppetclasses
+            - edit_puppetclasses
+            - destroy_puppetclasses
+            - import_puppetclasses
+            - view_usergroups
+            - create_usergroups
+            - edit_usergroups
+            - destroy_usergroups
+            - view_users
+            - create_users
+            - edit_users
+            - destroy_users
+            - access_settings
+            - access_dashboard
+            - view_reports
+            - destroy_reports
+            - view_facts
+            - view_audit_logs
+            - view_statistics
+          id: 1
+          name: Manager
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3144,7 +3459,81 @@
       query: 
       request_data: 
         role: {}
-      response_data: {}
+      response_data: 
+        role: 
+          builtin: 0
+          permissions: 
+            - view_architectures
+            - create_architectures
+            - edit_architectures
+            - destroy_architectures
+            - view_authenticators
+            - create_authenticators
+            - edit_authenticators
+            - destroy_authenticators
+            - view_environments
+            - create_environments
+            - edit_environments
+            - destroy_environments
+            - import_environments
+            - view_external_variables
+            - create_external_variables
+            - edit_external_variables
+            - destroy_external_variables
+            - view_domains
+            - create_domain
+            - edit_domains
+            - destroy_domains
+            - view_globals
+            - create_globals
+            - edit_globals
+            - destroy_globals
+            - view_hostgroups
+            - create_hostgroups
+            - edit_hostgroups
+            - destroy_hostgroups
+            - view_hosts
+            - create_hosts
+            - edit_hosts
+            - destroy_hosts
+            - view_media
+            - create_media
+            - edit_media
+            - destroy_media
+            - view_models
+            - create_models
+            - edit_models
+            - destroy_models
+            - view_operatingsystems
+            - create_operatingsystems
+            - edit_operatingsystems
+            - destroy_operatingsystems
+            - view_ptables
+            - create_ptables
+            - edit_ptables
+            - destroy_ptables
+            - view_puppetclasses
+            - create_puppetclasses
+            - edit_puppetclasses
+            - destroy_puppetclasses
+            - import_puppetclasses
+            - view_usergroups
+            - create_usergroups
+            - edit_usergroups
+            - destroy_usergroups
+            - view_users
+            - create_users
+            - edit_users
+            - destroy_users
+            - access_settings
+            - access_dashboard
+            - view_reports
+            - destroy_reports
+            - view_facts
+            - view_audit_logs
+            - view_statistics
+          id: 1
+          name: Manager
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3155,273 +3544,273 @@
       request_data: 
       response_data: 
         - setting: 
-            default: root@some.host.fqdn
-            id: 333972760
-            name: administrator
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: General
             description: The Default administrator email address
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 333972760
             value: root@some.host.fqdn
+            created_at: 2012-11-11T12:16:14Z
+            name: administrator
+            default: root@some.host.fqdn
+            settings_type: 
         - setting: 
-            default: f
-            id: 737268150
-            name: authorize_login_delegation
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: General
             description: Authorize login delegation with REMOTE_USER environment variable
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 737268150
             value: f
-        - setting: 
+            created_at: 2012-11-11T12:16:14Z
+            name: authorize_login_delegation
             default: f
-            id: 898974743
-            name: authorize_login_delegation_api
-            updated_at: 2012-11-11T08:07:51Z
+            settings_type: 
+        - setting: 
+            updated_at: 2012-11-11T12:16:14Z
             category: General
             description: Authorize login delegation with REMOTE_USER environment variable for API calls
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 898974743
             value: f
+            created_at: 2012-11-11T12:16:14Z
+            name: authorize_login_delegation_api
+            default: f
+            settings_type: 
         - setting: 
-            default: production
-            id: 489917738
-            name: default_puppet_environment
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: The Puppet environment foreman would default to in case it can't auto detect it
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 489917738
             value: production
+            created_at: 2012-11-11T12:16:14Z
+            name: default_puppet_environment
+            default: production
+            settings_type: 
         - setting: 
-            default: 
-              - fqdn
-              - hostgroup
-              - os
-              - domain
-            id: 515381208
-            name: Default_variables_Lookup_Path
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: The Default path in which foreman resolves host specific variables
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 515381208
             value: 
               - fqdn
               - hostgroup
               - os
               - domain
+            created_at: 2012-11-11T12:16:14Z
+            name: Default_variables_Lookup_Path
+            default: 
+              - fqdn
+              - hostgroup
+              - os
+              - domain
+            settings_type: 
         - setting: 
-            default: /home/olevy/git/foreman/public/puppet/rdoc
-            id: 785572700
-            name: document_root
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Document root where puppetdoc files should be created
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 785572700
             value: /home/olevy/git/foreman/public/puppet/rdoc
+            created_at: 2012-11-11T12:16:14Z
+            name: document_root
+            default: /home/olevy/git/foreman/public/puppet/rdoc
+            settings_type: 
         - setting: 
-            default: t
-            id: 537488238
-            name: enc_environment
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 537488238
             value: t
+            created_at: 2012-11-11T12:16:14Z
+            name: enc_environment
+            default: t
+            settings_type: 
         - setting: 
-            default: 20
-            id: 817264379
-            name: entries_per_page
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: General
             description: The amount of records shown per page in foreman
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 817264379
             value: 20
+            created_at: 2012-11-11T12:16:14Z
+            name: entries_per_page
+            default: 20
+            settings_type: 
         - setting: 
-            default: false
-            id: 14451317
-            name: failed_report_email_notification
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Enable Email Alerts per each failed puppet report
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 14451317
             value: false
+            created_at: 2012-11-11T12:16:14Z
+            name: failed_report_email_notification
+            default: false
+            settings_type: 
         - setting: 
-            default: http://foreman.some.host.fqdn
-            id: 182539440
-            name: foreman_url
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: General
             description: The URL Foreman should point to in emails etc
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 182539440
             value: http://foreman.some.host.fqdn
+            created_at: 2012-11-11T12:16:14Z
+            name: foreman_url
+            default: http://foreman.some.host.fqdn
+            settings_type: 
         - setting: 
-            default: 5
-            id: 386817023
-            name: idle_timeout
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: General
             description: idle timeout
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 386817023
             value: 5
+            created_at: 2012-11-11T12:16:14Z
+            name: idle_timeout
+            default: 5
+            settings_type: 
         - setting: 
-            default: t
-            id: 700393283
-            name: manage_puppetca
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: Should Foreman manage host certificates when provisioning hosts
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 700393283
             value: t
+            created_at: 2012-11-11T12:16:14Z
+            name: manage_puppetca
+            default: t
+            settings_type: 
         - setting: 
-            default: /etc/puppet/modules
-            id: 433443793
-            name: modulepath
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: The Puppet default module path in case that Foreman can't auto detect it
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 433443793
             value: /etc/puppet/modules
+            created_at: 2012-11-11T12:16:14Z
+            name: modulepath
+            default: /etc/puppet/modules
+            settings_type: 
         - setting: 
-            default: f
-            id: 43152518
-            name: Parametrized_Classes_in_ENC
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 43152518
             value: f
+            created_at: 2012-11-11T12:16:14Z
+            name: Parametrized_Classes_in_ENC
+            default: f
+            settings_type: 
         - setting: 
-            default: 30
-            id: 708099507
-            name: puppet_interval
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Puppet interval in minutes
-            settings_type: integer
-            created_at: 2012-11-11T08:07:51Z
+            id: 708099507
             value: 30
+            created_at: 2012-11-11T12:16:14Z
+            name: puppet_interval
+            default: 30
+            settings_type: integer
         - setting: 
-            default: puppet
-            id: 937145060
-            name: puppet_server
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Default Puppet Server hostname
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 937145060
             value: puppet
+            created_at: 2012-11-11T12:16:14Z
+            name: puppet_server
+            default: puppet
+            settings_type: 
         - setting: 
-            default: f
-            id: 100642973
-            name: query_local_nameservers
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: Should Foreman query the locally configured name server or the SOA/NS authorities
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 100642973
             value: f
+            created_at: 2012-11-11T12:16:14Z
+            name: query_local_nameservers
+            default: f
+            settings_type: 
         - setting: 
-            default: 127.0.0
-            id: 485941537
-            name: remote_addr
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 485941537
             value: 127.0.0
+            created_at: 2012-11-11T12:16:14Z
+            name: remote_addr
+            default: 127.0.0
+            settings_type: 
         - setting: 
-            default: xybxa6JUkz63w
-            id: 1038509113
-            name: root_pass
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: Default root password on provisioned hosts default is 123123
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 1038509113
             value: xybxa6JUkz63w
+            created_at: 2012-11-11T12:16:14Z
+            name: root_pass
+            default: xybxa6JUkz63w
+            settings_type: 
         - setting: 
-            default: true
-            id: 595784092
-            name: safemode_render
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: Enable safe mode config templates rendinging(recommended)
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 595784092
             value: true
+            created_at: 2012-11-11T12:16:14Z
+            name: safemode_render
+            default: true
+            settings_type: 
         - setting: 
-            default: /var/lib/puppet/ssl/certs/ca.pem
-            id: 227315895
-            name: ssl_ca_file
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: SSL CA file that foreman would use to communicate with its proxies
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 227315895
             value: /var/lib/puppet/ssl/certs/ca.pem
+            created_at: 2012-11-11T12:16:14Z
+            name: ssl_ca_file
+            default: /var/lib/puppet/ssl/certs/ca.pem
+            settings_type: 
         - setting: 
-            default: /var/lib/puppet/ssl/certs/some.host.fqdn
-            id: 344310031
-            name: ssl_certificate
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: SSL Certificate path that foreman would use to communicate with its proxies
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 344310031
             value: /var/lib/puppet/ssl/certs/some.host.fqdn
+            created_at: 2012-11-11T12:16:14Z
+            name: ssl_certificate
+            default: /var/lib/puppet/ssl/certs/some.host.fqdn
+            settings_type: 
         - setting: 
-            default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
-            id: 982229024
-            name: ssl_priv_key
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: SSL Private Key file that foreman would use to communicate with its proxies
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 982229024
             value: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
+            created_at: 2012-11-11T12:16:14Z
+            name: ssl_priv_key
+            default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
+            settings_type: 
         - setting: 
-            default: 0
-            id: 619638516
-            name: token_duration
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Provisioning
             description: "Time in minutes installation tokens should be valid for, 0 to disable"
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 619638516
             value: 0
+            created_at: 2012-11-11T12:16:14Z
+            name: token_duration
+            default: 0
+            settings_type: 
         - setting: 
-            default: f
-            id: 129058412
-            name: update_environment_from_facts
-            updated_at: 2012-11-11T08:07:51Z
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Foreman will update a hosts environment from its facts
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 129058412
             value: f
-        - setting: 
+            created_at: 2012-11-11T12:16:14Z
+            name: update_environment_from_facts
             default: f
-            id: 855146510
-            name: use_uuid_for_certificates
-            updated_at: 2012-11-11T08:07:51Z
+            settings_type: 
+        - setting: 
+            updated_at: 2012-11-11T12:16:14Z
             category: Puppet
             description: Should Foreman use random UUID's for certificate signing instead of hostnames
-            settings_type: 
-            created_at: 2012-11-11T08:07:51Z
+            id: 855146510
             value: f
+            created_at: 2012-11-11T12:16:14Z
+            name: use_uuid_for_certificates
+            default: f
+            settings_type: 
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -3432,15 +3821,15 @@
       request_data: 
       response_data: 
         setting: 
-          default: root@some.host.fqdn
-          id: 333972760
-          name: administrator
-          updated_at: 2012-11-11T08:07:51Z
+          updated_at: 2012-11-11T12:16:14Z
           category: General
           description: The Default administrator email address
-          settings_type: 
-          created_at: 2012-11-11T08:07:51Z
+          id: 333972760
           value: root@some.host.fqdn
+          created_at: 2012-11-11T12:16:14Z
+          name: administrator
+          default: root@some.host.fqdn
+          settings_type: 
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3450,7 +3839,17 @@
       query: 
       request_data: 
         setting: {}
-      response_data: {}
+      response_data: 
+        setting: 
+          updated_at: 2012-11-11T12:16:14Z
+          category: General
+          description: The Default administrator email address
+          value: root@some.host.fqdn
+          id: 333972760
+          created_at: 2012-11-11T12:16:14Z
+          name: administrator
+          settings_type: 
+          default: root@some.host.fqdn
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3460,15 +3859,15 @@
       query: 
       request_data: 
         smart_proxy: 
-          name: master02
           url: http://server:8443
+          name: master02
       response_data: 
         smart_proxy: 
-          id: 980190963
-          updated_at: 2012-11-11T08:07:58Z
-          name: master02
+          updated_at: 2012-11-11T12:16:21Z
           url: http://server:8443
-          created_at: 2012-11-11T08:07:58Z
+          id: 980190963
+          created_at: 2012-11-11T12:16:21Z
+          name: master02
       code: "201"
       show_in_doc: 1
       recorded: true
@@ -3477,7 +3876,13 @@
       path: /api/smart_proxies/281110143-unused-proxy
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        smart_proxy: 
+          updated_at: 2012-11-11T12:16:14Z
+          url: http://else.where:4567
+          id: 281110143
+          created_at: 2012-11-11T12:16:14Z
+          name: Unused Proxy
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3487,11 +3892,13 @@
       request_data: 
       response_data: 
         error: 
+          message: "undefined method `permission_failed?' for #<SmartProxy:0x7eff6594eee8>"
+          class: NoMethodError
           backtrace: 
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activemodel-3.0.17/lib/active_model/attribute_methods.rb:392:in `method_missing'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/attribute_methods.rb:46:in `method_missing'
             - /home/jmagen/foreman/app/controllers/api/base_controller.rb:42:in `process_resource_error'
-            - /home/jmagen/foreman/app/controllers/api/base_controller.rb:58:in `process_response'
+            - /home/jmagen/foreman/app/controllers/api/base_controller.rb:59:in `process_response'
             - /home/jmagen/foreman/app/controllers/api/v1/smart_proxies_controller.rb:39:in `destroy'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `call'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `destroy'
@@ -3500,13 +3907,13 @@
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1809233044__process_action__1187683999__callbacks'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3771'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1177370318__process_action__783805820__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3784'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3771'
-            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1809233044__process_action__1187683999__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3784'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1177370318__process_action__783805820__callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
@@ -3549,8 +3956,6 @@
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
             - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
             - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
-          class: NoMethodError
-          message: "undefined method `permission_failed?' for #<SmartProxy:0x7ff17507e888>"
       code: "500"
       show_in_doc: 0
       recorded: true
@@ -3561,35 +3966,35 @@
       request_data: 
       response_data: 
         - smart_proxy: 
+            updated_at: 2012-11-11T12:16:14Z
             id: 980190962
-            name: DHCP Proxy
-            updated_at: 2012-11-11T08:07:51Z
             url: https://somewhere.net:8443
-            created_at: 2012-11-11T08:07:51Z
+            created_at: 2012-11-11T12:16:14Z
+            name: DHCP Proxy
         - smart_proxy: 
+            updated_at: 2012-11-11T12:16:14Z
             id: 113629430
+            url: http://else.where:4567
+            created_at: 2012-11-11T12:16:14Z
             name: DNS Proxy
-            updated_at: 2012-11-11T08:07:51Z
-            url: http://else.where:4567
-            created_at: 2012-11-11T08:07:51Z
         - smart_proxy: 
+            updated_at: 2012-11-11T12:16:14Z
             id: 182953976
+            url: http://else.where:4567
+            created_at: 2012-11-11T12:16:14Z
             name: Puppetmaster Proxy
-            updated_at: 2012-11-11T08:07:51Z
-            url: http://else.where:4567
-            created_at: 2012-11-11T08:07:51Z
         - smart_proxy: 
+            updated_at: 2012-11-11T12:16:14Z
             id: 298486374
-            name: TFTP Proxy
-            updated_at: 2012-11-11T08:07:51Z
             url: http://somewhere.else
-            created_at: 2012-11-11T08:07:51Z
+            created_at: 2012-11-11T12:16:14Z
+            name: TFTP Proxy
         - smart_proxy: 
+            updated_at: 2012-11-11T12:16:14Z
             id: 281110143
-            name: Unused Proxy
-            updated_at: 2012-11-11T08:07:51Z
             url: http://else.where:4567
-            created_at: 2012-11-11T08:07:51Z
+            created_at: 2012-11-11T12:16:14Z
+            name: Unused Proxy
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3600,11 +4005,11 @@
       request_data: 
       response_data: 
         smart_proxy: 
+          updated_at: 2012-11-11T12:16:14Z
           id: 980190962
-          name: DHCP Proxy
-          updated_at: 2012-11-11T08:07:51Z
           url: https://somewhere.net:8443
-          created_at: 2012-11-11T08:07:51Z
+          created_at: 2012-11-11T12:16:14Z
+          name: DHCP Proxy
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3614,7 +4019,13 @@
       query: 
       request_data: 
         smart_proxy: {}
-      response_data: {}
+      response_data: 
+        smart_proxy: 
+          updated_at: 2012-11-11T12:16:14Z
+          url: https://somewhere.net:8443
+          id: 980190962
+          created_at: 2012-11-11T12:16:14Z
+          name: DHCP Proxy
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3624,28 +4035,28 @@
       query: 
       request_data: 
         subnet: 
+          mask: 255.255.255.0
           name: QA2
           network: 10.35.2.27
-          mask: 255.255.255.0
       response_data: 
         subnet: 
-          dhcp_id: 
-          id: 980190963
-          name: QA2
-          dns_secondary: 
           dns_primary: 
-          from: 
+          tftp_id: 
           gateway: 
           to: 
-          priority: 
-          tftp_id: 
+          mask: 255.255.255.0
+          tftp: 
+          dhcp_id: 
+          dhcp: 
+          id: 980190963
+          domain_ids: []
           dns: 
           vlanid: 
-          domain_ids: []
+          priority: 
           dns_id: 
-          tftp: 
-          mask: 255.255.255.0
-          dhcp: 
+          name: QA2
+          from: 
+          dns_secondary: 
           network: 10.35.2.27
       code: "200"
       show_in_doc: 1
@@ -3657,32 +4068,32 @@
       request_data: 
       response_data: 
         subnet: 
+          full_messages: 
+            - 2.3.4.0/24 is used by otherfullhost
+            - 2.3.4.0/24 is used by dhcp.mydomain.net
+            - 2.3.4.0/24 is used by anotherfullhost
+            - 2.3.4.0/24 is used by sol10host
+            - 2.3.4.0/24 is used by temp01.yourdomain.net
+            - 2.3.4.0/24 is used by sdhcp.mydomain.net
+            - 2.3.4.0/24 is used by suse01.yourdomain.net
+            - 2.3.4.0/24 is used by temp.yourdomain.net
+            - 2.3.4.0/24 is used by my5name.mydomain.net
+            - 2.3.4.0/24 is used by temp-01.yourdomain.net
+            - 2.3.4.0/24 is used by sdhcp.mydomain.net
           id: 980190962
           errors: 
             base: 
-              - 2.3.4.0/24 is used by temp01.yourdomain.net
+              - 2.3.4.0/24 is used by otherfullhost
+              - 2.3.4.0/24 is used by dhcp.mydomain.net
               - 2.3.4.0/24 is used by anotherfullhost
               - 2.3.4.0/24 is used by sol10host
-              - 2.3.4.0/24 is used by temp-01.yourdomain.net
-              - 2.3.4.0/24 is used by suse01.yourdomain.net
+              - 2.3.4.0/24 is used by temp01.yourdomain.net
               - 2.3.4.0/24 is used by sdhcp.mydomain.net
-              - 2.3.4.0/24 is used by otherfullhost
+              - 2.3.4.0/24 is used by suse01.yourdomain.net
               - 2.3.4.0/24 is used by temp.yourdomain.net
               - 2.3.4.0/24 is used by my5name.mydomain.net
-              - 2.3.4.0/24 is used by dhcp.mydomain.net
+              - 2.3.4.0/24 is used by temp-01.yourdomain.net
               - 2.3.4.0/24 is used by sdhcp.mydomain.net
-          full_messages: 
-            - 2.3.4.0/24 is used by temp01.yourdomain.net
-            - 2.3.4.0/24 is used by anotherfullhost
-            - 2.3.4.0/24 is used by sol10host
-            - 2.3.4.0/24 is used by temp-01.yourdomain.net
-            - 2.3.4.0/24 is used by suse01.yourdomain.net
-            - 2.3.4.0/24 is used by sdhcp.mydomain.net
-            - 2.3.4.0/24 is used by otherfullhost
-            - 2.3.4.0/24 is used by temp.yourdomain.net
-            - 2.3.4.0/24 is used by my5name.mydomain.net
-            - 2.3.4.0/24 is used by dhcp.mydomain.net
-            - 2.3.4.0/24 is used by sdhcp.mydomain.net
       code: "422"
       show_in_doc: 1
       recorded: true
@@ -3690,7 +4101,24 @@
       path: /api/subnets/113629430
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        subnet: 
+          dns_primary: 
+          updated_at: 2012-11-11T12:16:14Z
+          tftp_id: 298486374
+          to: 
+          gateway: 
+          mask: 255.255.255.0
+          dhcp_id: 980190962
+          vlanid: 
+          id: 113629430
+          priority: 
+          dns_id: 
+          created_at: 2012-11-11T12:16:14Z
+          name: three
+          from: 
+          dns_secondary: 
+          network: 3.3.4.3
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -3701,84 +4129,84 @@
       request_data: 
       response_data: 
         - subnet: 
-            dhcp_id: 980190962
-            id: 113629430
-            name: three
-            dns_secondary: 
             dns_primary: 
-            from: 
+            tftp_id: 298486374
             gateway: 
             to: 
-            priority: 
-            tftp_id: 298486374
-            dns: 
-            vlanid: 
-            domain_ids: []
-            dns_id: 
+            mask: 255.255.255.0
             tftp: 
+              url: http://somewhere.else
               id: 298486374
               name: TFTP Proxy
-              url: http://somewhere.else
-            mask: 255.255.255.0
+            dhcp_id: 980190962
             dhcp: 
+              url: https://somewhere.net:8443
               id: 980190962
               name: DHCP Proxy
-              url: https://somewhere.net:8443
+            id: 113629430
+            domain_ids: []
+            dns: 
+            vlanid: 
+            priority: 
+            dns_id: 
+            name: three
+            from: 
+            dns_secondary: 
             network: 3.3.4.3
         - subnet: 
-            dhcp_id: 980190962
-            id: 298486374
-            name: two
-            dns_secondary: 
             dns_primary: 
-            from: 
+            tftp_id: 298486374
             gateway: 
             to: 
-            priority: 
-            tftp_id: 298486374
-            dns: 
-            vlanid: 
+            mask: 255.255.255.0
+            tftp: 
+              url: http://somewhere.else
+              id: 298486374
+              name: TFTP Proxy
+            dhcp_id: 980190962
+            dhcp: 
+              url: https://somewhere.net:8443
+              id: 980190962
+              name: DHCP Proxy
+            id: 298486374
             domain_ids: 
               - 534821992
+            dns: 
+            vlanid: 
+            priority: 
             dns_id: 
-            tftp: 
-              id: 298486374
-              name: TFTP Proxy
-              url: http://somewhere.else
-            mask: 255.255.255.0
-            dhcp: 
-              id: 980190962
-              name: DHCP Proxy
-              url: https://somewhere.net:8443
+            name: two
+            from: 
+            dns_secondary: 
             network: 3.3.4.0
         - subnet: 
-            dhcp_id: 980190962
-            id: 980190962
-            name: one
-            dns_secondary: 
             dns_primary: 
-            from: 
+            tftp_id: 298486374
             gateway: 
             to: 
-            priority: 
-            tftp_id: 298486374
-            dns: 
-              id: 113629430
-              name: DNS Proxy
-              url: http://else.where:4567
-            vlanid: 
-            domain_ids: 
-              - 822172901
-            dns_id: 113629430
+            mask: 255.255.255.0
             tftp: 
+              url: http://somewhere.else
               id: 298486374
               name: TFTP Proxy
-              url: http://somewhere.else
-            mask: 255.255.255.0
+            dhcp_id: 980190962
             dhcp: 
+              url: https://somewhere.net:8443
               id: 980190962
               name: DHCP Proxy
-              url: https://somewhere.net:8443
+            id: 980190962
+            domain_ids: 
+              - 822172901
+            dns: 
+              url: http://else.where:4567
+              id: 113629430
+              name: DNS Proxy
+            vlanid: 
+            priority: 
+            dns_id: 113629430
+            name: one
+            from: 
+            dns_secondary: 
             network: 2.3.4.0
       code: "200"
       show_in_doc: 1
@@ -3790,34 +4218,34 @@
       request_data: 
       response_data: 
         subnet: 
-          dhcp_id: 980190962
-          id: 980190962
-          dns_secondary: 
-          name: one
           dns_primary: 
-          from: 
+          tftp_id: 298486374
           gateway: 
           to: 
-          priority: 
-          tftp_id: 298486374
-          dns: 
-            id: 113629430
-            name: DNS Proxy
-            url: http://else.where:4567
-          domain_ids: 
-            - 822172901
-          vlanid: 
-          dns_id: 113629430
+          mask: 255.255.255.0
+          dhcp_id: 980190962
           tftp: 
+            url: http://somewhere.else
             id: 298486374
             name: TFTP Proxy
-            url: http://somewhere.else
-          mask: 255.255.255.0
-          network: 2.3.4.0
           dhcp: 
+            url: https://somewhere.net:8443
             id: 980190962
             name: DHCP Proxy
-            url: https://somewhere.net:8443
+          id: 980190962
+          domain_ids: 
+            - 822172901
+          dns: 
+            url: http://else.where:4567
+            id: 113629430
+            name: DNS Proxy
+          vlanid: 
+          priority: 
+          dns_id: 113629430
+          name: one
+          from: 
+          dns_secondary: 
+          network: 2.3.4.0
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3829,33 +4257,33 @@
         subnet: {}
       response_data: 
         subnet: 
-          dhcp_id: 980190962
-          id: 980190962
-          name: one
-          dns_secondary: 
           dns_primary: 
-          from: 
+          tftp_id: 298486374
           gateway: 
           to: 
-          priority: 
-          tftp_id: 298486374
-          dns: 
-            id: 113629430
-            name: DNS Proxy
-            url: http://else.where:4567
-          vlanid: 
-          domain_ids: 
-            - 822172901
-          dns_id: 113629430
+          mask: 255.255.255.0
           tftp: 
+            url: http://somewhere.else
             id: 298486374
             name: TFTP Proxy
-            url: http://somewhere.else
-          mask: 255.255.255.0
+          dhcp_id: 980190962
           dhcp: 
+            url: https://somewhere.net:8443
             id: 980190962
             name: DHCP Proxy
-            url: https://somewhere.net:8443
+          id: 980190962
+          domain_ids: 
+            - 822172901
+          dns: 
+            url: http://else.where:4567
+            id: 113629430
+            name: DNS Proxy
+          vlanid: 
+          priority: 
+          dns_id: 113629430
+          name: one
+          from: 
+          dns_secondary: 
           network: 2.3.4.0
       code: "200"
       show_in_doc: 1
@@ -3879,7 +4307,10 @@
       path: /api/usergroups/980190962
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        usergroup: 
+          id: 980190962
+          name: MyString
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3916,7 +4347,10 @@
       query: 
       request_data: 
         usergroup: {}
-      response_data: {}
+      response_data: 
+        usergroup: 
+          id: 980190962
+          name: MyString
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3925,7 +4359,26 @@
       path: /api/users/980190962
       query: ""
       request_data: 
-      response_data: {}
+      response_data: 
+        user: 
+          last_login_on: 2009-10-12T21:50:04Z
+          hostgroups_andor: or
+          updated_at: 2012-11-11T12:16:14Z
+          firstname: One
+          password_hash: 
+          auth_source_id: 980190962
+          role_id: 
+          password_salt: 
+          id: 980190962
+          domains_andor: or
+          admin: false
+          compute_resources_andor: or
+          filter_on_owner: 
+          created_at: 2012-11-11T12:16:14Z
+          mail: userone@someware.com
+          login: one
+          lastname: User
+          facts_andor: or
       code: "200"
       show_in_doc: 1
       recorded: true
@@ -3934,9 +4387,8 @@
       query: ""
       request_data: 
       response_data: 
-        error: 
-          details: You are trying to delete your own account
-          message: Access denied
+        message: Access denied
+        details: You are trying to delete your own account
       code: "403"
       show_in_doc: 0
       recorded: true
@@ -3947,107 +4399,107 @@
       request_data: 
       response_data: 
         - user: 
-            auth_source_id: 200482051
-            id: 200482051
-            "": []
-            role_id: 
-            firstname: test
-            mail: testuser@someware.com
-            admin: false
+            last_login_on: 2009-10-12T21:50:04Z
             auth_source_internal: 
               base_dn: 
+              type: AuthSourceInternal
+              attr_lastname: 
+              onthefly_register: false
+              attr_mail: 
+              host: 
+              account: 
               id: 200482051
+              attr_firstname: 
+              tls: false
+              attr_login: 
               port: 
               name: Internal
               account_password: 
-              attr_login: 
-              account: 
-              onthefly_register: false
-              attr_lastname: 
-              tls: false
-              type: AuthSourceInternal
-              attr_firstname: 
-              attr_mail: 
-              host: 
-            last_login_on: 2009-10-12T21:50:04Z
+            firstname: test
+            auth_source_id: 200482051
+            role_id: 
+            id: 200482051
+            admin: false
+            "": []
+            mail: testuser@someware.com
             login: test
             lastname: User
         - user: 
+            last_login_on: 2009-10-12T21:50:04Z
+            firstname: Admin
             auth_source_id: 980190962
-            id: 135138680
-            "": []
-            role_id: 
             auth_source_ldap: 
               base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+              attr_lastname: sn
+              onthefly_register: true
+              attr_mail: mail
+              host: ldap
+              account: 
               id: 980190962
+              attr_firstname: givenName
+              tls: true
+              attr_login: uid
               port: 123
               name: ldap
               account_password: 
-              attr_login: uid
-              account: 
-              onthefly_register: true
-              attr_lastname: sn
-              tls: true
-              type: AuthSourceLdap
-              attr_firstname: givenName
-              attr_mail: mail
-              host: ldap
-            firstname: Admin
-            mail: admin@someware.com
+            role_id: 
+            id: 135138680
             admin: true
-            last_login_on: 2009-10-12T21:50:04Z
+            "": []
+            mail: admin@someware.com
             login: admin
             lastname: User
         - user: 
+            last_login_on: 2009-10-12T21:50:04Z
+            firstname: Two
             auth_source_id: 980190962
-            id: 298486374
-            "": []
-            role_id: 
             auth_source_ldap: 
               base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+              attr_lastname: sn
+              onthefly_register: true
+              attr_mail: mail
+              host: ldap
+              account: 
               id: 980190962
+              attr_firstname: givenName
+              tls: true
+              attr_login: uid
               port: 123
               name: ldap
               account_password: 
-              attr_login: uid
-              account: 
-              onthefly_register: true
-              attr_lastname: sn
-              tls: true
-              type: AuthSourceLdap
-              attr_firstname: givenName
-              attr_mail: mail
-              host: ldap
-            firstname: Two
-            mail: usertwo@someware.com
+            role_id: 
+            id: 298486374
             admin: false
-            last_login_on: 2009-10-12T21:50:04Z
+            "": []
+            mail: usertwo@someware.com
             login: two
             lastname: User
         - user: 
+            last_login_on: 2009-10-12T21:50:04Z
+            firstname: One
             auth_source_id: 980190962
-            id: 980190962
-            "": []
-            role_id: 
             auth_source_ldap: 
               base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+              attr_lastname: sn
+              onthefly_register: true
+              attr_mail: mail
+              host: ldap
+              account: 
               id: 980190962
+              attr_firstname: givenName
+              tls: true
+              attr_login: uid
               port: 123
               name: ldap
               account_password: 
-              attr_login: uid
-              account: 
-              onthefly_register: true
-              attr_lastname: sn
-              tls: true
-              type: AuthSourceLdap
-              attr_firstname: givenName
-              attr_mail: mail
-              host: ldap
-            firstname: One
-            mail: userone@someware.com
+            role_id: 
+            id: 980190962
             admin: false
-            last_login_on: 2009-10-12T21:50:04Z
+            "": []
+            mail: userone@someware.com
             login: one
             lastname: User
       code: "200"
@@ -4059,97 +4511,114 @@
       request_data: 
       response_data: 
         - user: 
-            auth_source_id: 200482051
-            id: 200482051
-            "": []
-            role_id: 
-            firstname: test
-            mail: testuser@someware.com
-            admin: false
+            last_login_on: 2009-10-12T21:50:04Z
             auth_source_internal: 
               base_dn: 
+              type: AuthSourceInternal
+              attr_lastname: 
+              onthefly_register: false
+              attr_mail: 
+              host: 
+              account: 
               id: 200482051
+              attr_firstname: 
+              tls: false
+              attr_login: 
               port: 
               name: Internal
               account_password: 
-              attr_login: 
-              account: 
-              onthefly_register: false
-              attr_lastname: 
-              tls: false
-              type: AuthSourceInternal
-              attr_firstname: 
-              attr_mail: 
-              host: 
-            last_login_on: 2009-10-12T21:50:04Z
+            firstname: test
+            auth_source_id: 200482051
+            role_id: 
+            id: 200482051
+            admin: false
+            "": []
+            mail: testuser@someware.com
             login: test
             lastname: User
         - user: 
+            last_login_on: 2009-10-12T21:50:04Z
+            firstname: Admin
             auth_source_id: 980190962
-            id: 135138680
-            "": []
-            role_id: 
             auth_source_ldap: 
               base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+              attr_lastname: sn
+              onthefly_register: true
+              attr_mail: mail
+              host: ldap
+              account: 
               id: 980190962
+              attr_firstname: givenName
+              tls: true
+              attr_login: uid
               port: 123
               name: ldap
               account_password: 
-              attr_login: uid
-              account: 
-              onthefly_register: true
-              attr_lastname: sn
-              tls: true
-              type: AuthSourceLdap
-              attr_firstname: givenName
-              attr_mail: mail
-              host: ldap
-            firstname: Admin
-            mail: admin@someware.com
+            role_id: 
+            id: 135138680
             admin: true
-            last_login_on: 2009-10-12T21:50:04Z
+            "": []
+            mail: admin@someware.com
             login: admin
             lastname: User
         - user: 
+            last_login_on: 2009-10-12T21:50:04Z
+            firstname: Two
             auth_source_id: 980190962
-            id: 298486374
-            "": []
-            role_id: 
             auth_source_ldap: 
               base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+              attr_lastname: sn
+              onthefly_register: true
+              attr_mail: mail
+              host: ldap
+              account: 
               id: 980190962
+              attr_firstname: givenName
+              tls: true
+              attr_login: uid
               port: 123
               name: ldap
               account_password: 
-              attr_login: uid
-              account: 
-              onthefly_register: true
-              attr_lastname: sn
-              tls: true
-              type: AuthSourceLdap
-              attr_firstname: givenName
-              attr_mail: mail
-              host: ldap
-            firstname: Two
-            mail: usertwo@someware.com
+            role_id: 
+            id: 298486374
             admin: false
-            last_login_on: 2009-10-12T21:50:04Z
+            "": []
+            mail: usertwo@someware.com
             login: two
             lastname: User
         - user: 
+            last_login_on: 2009-10-12T21:50:04Z
+            firstname: One
             auth_source_id: 980190962
-            id: 980190962
+            auth_source_ldap: 
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+              attr_lastname: sn
+              onthefly_register: true
+              attr_mail: mail
+              host: ldap
+              account: 
+              id: 980190962
+              attr_firstname: givenName
+              tls: true
+              attr_login: uid
+              port: 123
+              name: ldap
+              account_password: 
             role_id: 
+            id: 980190962
+            admin: false
+            mail: userone@someware.com
             roles: 
               - role: 
-                  id: 7
-                  name: Anonymous
                   builtin: 2
                   permissions: 
                     - view_hosts
+                  id: 7
+                  name: Anonymous
               - role: 
-                  id: 5
-                  name: Viewer
                   builtin: 0
                   permissions: 
                     - view_architectures
@@ -4173,25 +4642,8 @@
                     - view_statistics
                     - view_usergroups
                     - view_users
-            auth_source_ldap: 
-              base_dn: "dn=x,dn=y"
-              id: 980190962
-              port: 123
-              name: ldap
-              account_password: 
-              attr_login: uid
-              account: 
-              onthefly_register: true
-              attr_lastname: sn
-              tls: true
-              type: AuthSourceLdap
-              attr_firstname: givenName
-              attr_mail: mail
-              host: ldap
-            firstname: One
-            mail: userone@someware.com
-            admin: false
-            last_login_on: 2009-10-12T21:50:04Z
+                  id: 5
+                  name: Viewer
             login: one
             lastname: User
       code: "200"
@@ -4204,29 +4656,29 @@
       request_data: 
       response_data: 
         user: 
+          last_login_on: 2009-10-12T21:50:04Z
+          firstname: One
           auth_source_id: 980190962
-          id: 980190962
-          "": []
-          role_id: 
           auth_source_ldap: 
             base_dn: "dn=x,dn=y"
+            type: AuthSourceLdap
+            attr_lastname: sn
+            onthefly_register: true
+            attr_mail: mail
+            host: ldap
+            account: 
             id: 980190962
+            attr_firstname: givenName
+            tls: true
+            attr_login: uid
             port: 123
             name: ldap
             account_password: 
-            attr_login: uid
-            account: 
-            onthefly_register: true
-            attr_lastname: sn
-            tls: true
-            type: AuthSourceLdap
-            attr_firstname: givenName
-            attr_mail: mail
-            host: ldap
-          mail: userone@someware.com
-          firstname: One
+          role_id: 
+          id: 980190962
           admin: false
-          last_login_on: 2009-10-12T21:50:04Z
+          "": []
+          mail: userone@someware.com
           login: one
           lastname: User
       code: "200"
@@ -4243,12 +4695,12 @@
           login: johnsmith
       response_data: 
         user: 
+          full_messages: 
+            - Password doesn't match confirmation
           id: 980190963
           errors: 
             password: 
               - doesn't match confirmation
-          full_messages: 
-            - Password doesn't match confirmation
       code: "422"
       show_in_doc: 1
       recorded: true
@@ -4258,7 +4710,26 @@
       request_data: 
         user: 
           login: johnsmith
-      response_data: {}
+      response_data: 
+        user: 
+          last_login_on: 
+          hostgroups_andor: or
+          updated_at: 2012-11-11T12:16:22Z
+          firstname: 
+          password_hash: 
+          auth_source_id: 980190962
+          role_id: 
+          password_salt: 
+          id: 980190964
+          domains_andor: or
+          admin: 
+          compute_resources_andor: or
+          filter_on_owner: 
+          created_at: 2012-11-11T12:16:22Z
+          mail: foo@bar.com
+          login: johnsmith
+          lastname: 
+          facts_andor: or
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -4270,7 +4741,26 @@
           password_confirmation: dummy
           password: dummy
           login: johnsmith
-      response_data: {}
+      response_data: 
+        user: 
+          last_login_on: 
+          hostgroups_andor: or
+          updated_at: 2012-11-11T12:16:22Z
+          firstname: john
+          password_hash: 889489ae0976e071f8701e7e97c89ba2efd7d931
+          auth_source_id: 200482051
+          role_id: 
+          password_salt: cb62ffc663712005f48f3faa6a3b05a23c506ff0
+          id: 980190965
+          domains_andor: or
+          admin: 
+          compute_resources_andor: or
+          filter_on_owner: 
+          created_at: 2012-11-11T12:16:22Z
+          mail: foo@bar.com
+          login: johnsmith
+          lastname: smith
+          facts_andor: or
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -4280,7 +4770,26 @@
       request_data: 
         user: 
           login: johnsmith
-      response_data: {}
+      response_data: 
+        user: 
+          last_login_on: 
+          hostgroups_andor: or
+          updated_at: 2012-11-11T12:16:22Z
+          firstname: 
+          password_hash: 
+          auth_source_id: 980190962
+          role_id: 
+          password_salt: 
+          id: 980190966
+          domains_andor: or
+          admin: 
+          compute_resources_andor: or
+          filter_on_owner: 
+          created_at: 2012-11-11T12:16:22Z
+          mail: foo@bar.com
+          login: johnsmith
+          lastname: 
+          facts_andor: or
       code: "200"
       show_in_doc: 0
       recorded: true
@@ -4291,9 +4800,8 @@
         user: 
           login: johnsmith
       response_data: 
-        error: 
-          details: 
-          message: Access denied
+        message: Access denied
+        details: 
       code: "403"
       show_in_doc: 0
       recorded: true

@@ -180,22 +180,22 @@
           <pre class="prettyprint">POST /api/operatingsystems
 {
   &quot;operatingsystem&quot;: {
-    &quot;minor&quot;: &quot;2&quot;,
     &quot;major&quot;: &quot;1&quot;,
+    &quot;minor&quot;: &quot;2&quot;,
     &quot;name&quot;: &quot;awsome_os&quot;
   }
 }
 200
 {
   &quot;operatingsystem&quot;: {
-    &quot;release_name&quot;: null,
-    &quot;minor&quot;: &quot;2&quot;,
     &quot;major&quot;: &quot;1&quot;,
+    &quot;id&quot;: 1073012829,
+    &quot;minor&quot;: &quot;2&quot;,
     &quot;family&quot;: null,
     &quot;&quot;: [],
+    &quot;type&quot;: null,
     &quot;name&quot;: &quot;awsome_os&quot;,
-    &quot;id&quot;: 1073012829,
-    &quot;type&quot;: null
+    &quot;release_name&quot;: null
   }
 }</pre>
 
@@ -481,7 +481,16 @@
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/operatingsystems/775246587
 200
-{}</pre>
+{
+  &quot;operatingsystem&quot;: {
+    &quot;media&quot;: [],
+    &quot;id&quot;: 775246587,
+    &quot;architectures&quot;: [],
+    &quot;ptables&quot;: [],
+    &quot;config_templates&quot;: [],
+    &quot;name&quot;: &quot;NoHosts 1.1&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

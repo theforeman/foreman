@@ -60,15 +60,15 @@
 [
   {
     &quot;image&quot;: {
-      &quot;operatingsystem_id&quot;: 1,
-      &quot;username&quot;: &quot;MyString&quot;,
       &quot;compute_resource_id&quot;: 1,
-      &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
-      &quot;architecture_id&quot;: 1,
-      &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
-      &quot;name&quot;: &quot;centos-2&quot;,
+      &quot;id&quot;: 298486374,
       &quot;uuid&quot;: &quot;MyString2&quot;,
-      &quot;id&quot;: 298486374
+      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+      &quot;architecture_id&quot;: 1,
+      &quot;username&quot;: &quot;MyString&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+      &quot;operatingsystem_id&quot;: 1,
+      &quot;name&quot;: &quot;centos-2&quot;
     }
   }
 ]</pre>
@@ -147,15 +147,15 @@
 200
 {
   &quot;image&quot;: {
-    &quot;operatingsystem_id&quot;: 219689787,
-    &quot;username&quot;: &quot;root&quot;,
     &quot;compute_resource_id&quot;: 980190962,
-    &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
-    &quot;architecture_id&quot;: 501905019,
-    &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
-    &quot;name&quot;: &quot;centos-1&quot;,
+    &quot;id&quot;: 980190962,
     &quot;uuid&quot;: &quot;string-of-uuid&quot;,
-    &quot;id&quot;: 980190962
+    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;architecture_id&quot;: 501905019,
+    &quot;username&quot;: &quot;root&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;operatingsystem_id&quot;: 219689787,
+    &quot;name&quot;: &quot;centos-1&quot;
   }
 }</pre>
 
@@ -364,7 +364,19 @@
   &quot;image&quot;: {}
 }
 200
-{}</pre>
+{
+  &quot;image&quot;: {
+    &quot;compute_resource_id&quot;: 980190962,
+    &quot;id&quot;: 980190962,
+    &quot;uuid&quot;: &quot;string-of-uuid&quot;,
+    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;architecture_id&quot;: 501905019,
+    &quot;username&quot;: &quot;root&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;operatingsystem_id&quot;: 219689787,
+    &quot;name&quot;: &quot;centos-1&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>
@@ -532,7 +544,19 @@
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/compute_resources/1/images/980190962
 200
-{}</pre>
+{
+  &quot;image&quot;: {
+    &quot;compute_resource_id&quot;: 980190962,
+    &quot;id&quot;: 980190962,
+    &quot;uuid&quot;: &quot;string-of-uuid&quot;,
+    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;architecture_id&quot;: 501905019,
+    &quot;username&quot;: &quot;root&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;operatingsystem_id&quot;: 219689787,
+    &quot;name&quot;: &quot;centos-1&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

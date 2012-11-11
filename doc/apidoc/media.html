@@ -60,52 +60,52 @@
 [
   {
     &quot;medium&quot;: {
+      &quot;image_path&quot;: null,
       &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
-      &quot;config_path&quot;: null,
-      &quot;image_path&quot;: null,
       &quot;media_path&quot;: null,
-      &quot;name&quot;: &quot;CentOS 5.4&quot;,
-      &quot;id&quot;: 980190962
+      &quot;id&quot;: 980190962,
+      &quot;config_path&quot;: null,
+      &quot;name&quot;: &quot;CentOS 5.4&quot;
     }
   },
   {
     &quot;medium&quot;: {
+      &quot;image_path&quot;: null,
       &quot;path&quot;: &quot;http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss&quot;,
-      &quot;config_path&quot;: null,
-      &quot;image_path&quot;: null,
       &quot;media_path&quot;: null,
-      &quot;name&quot;: &quot;OpenSuse Mirror&quot;,
-      &quot;id&quot;: 859751735
+      &quot;id&quot;: 859751735,
+      &quot;config_path&quot;: null,
+      &quot;name&quot;: &quot;OpenSuse Mirror&quot;
     }
   },
   {
     &quot;medium&quot;: {
-      &quot;path&quot;: &quot;http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
-      &quot;config_path&quot;: &quot;brsla01:/vol/jumpstart&quot;,
       &quot;image_path&quot;: &quot;brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/&quot;,
+      &quot;path&quot;: &quot;http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
       &quot;media_path&quot;: &quot;brsla01:/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
-      &quot;name&quot;: &quot;Solaris 10&quot;,
-      &quot;id&quot;: 442321401
+      &quot;id&quot;: 442321401,
+      &quot;config_path&quot;: &quot;brsla01:/vol/jumpstart&quot;,
+      &quot;name&quot;: &quot;Solaris 10&quot;
     }
   },
   {
     &quot;medium&quot;: {
+      &quot;image_path&quot;: null,
       &quot;path&quot;: &quot;http://sg.archive.ubuntu.com&quot;,
-      &quot;config_path&quot;: null,
-      &quot;image_path&quot;: null,
       &quot;media_path&quot;: null,
-      &quot;name&quot;: &quot;Ubuntu Mirror&quot;,
-      &quot;id&quot;: 1011586618
+      &quot;id&quot;: 1011586618,
+      &quot;config_path&quot;: null,
+      &quot;name&quot;: &quot;Ubuntu Mirror&quot;
     }
   },
   {
     &quot;medium&quot;: {
-      &quot;path&quot;: &quot;http://nothing.intersting.com&quot;,
-      &quot;config_path&quot;: null,
       &quot;image_path&quot;: null,
+      &quot;path&quot;: &quot;http://nothing.intersting.com&quot;,
       &quot;media_path&quot;: null,
-      &quot;name&quot;: &quot;unused&quot;,
-      &quot;id&quot;: 338446587
+      &quot;id&quot;: 338446587,
+      &quot;config_path&quot;: null,
+      &quot;name&quot;: &quot;unused&quot;
     }
   }
 ]</pre>
@@ -184,12 +184,12 @@
 200
 {
   &quot;medium&quot;: {
-    &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
-    &quot;config_path&quot;: null,
     &quot;image_path&quot;: null,
+    &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
     &quot;media_path&quot;: null,
-    &quot;name&quot;: &quot;CentOS 5.4&quot;,
-    &quot;id&quot;: 980190962
+    &quot;id&quot;: 980190962,
+    &quot;config_path&quot;: null,
+    &quot;name&quot;: &quot;CentOS 5.4&quot;
   }
 }</pre>
 
@@ -255,8 +255,8 @@
 201
 {
   &quot;medium&quot;: {
-    &quot;name&quot;: &quot;new medium&quot;,
-    &quot;id&quot;: 1011586619
+    &quot;id&quot;: 1011586619,
+    &quot;name&quot;: &quot;new medium&quot;
   }
 }</pre>
 
@@ -385,7 +385,12 @@ will be substituted for the version of the operating system.</p>
   &quot;name&quot;: &quot;CentOS 5.4&quot;
 }
 200
-{}</pre>
+{
+  &quot;medium&quot;: {
+    &quot;id&quot;: 980190962,
+    &quot;name&quot;: &quot;CentOS 5.4&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>
@@ -525,7 +530,12 @@ will be substituted for the version of the operating system.</p>
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/media/338446587
 200
-{}</pre>
+{
+  &quot;medium&quot;: {
+    &quot;id&quot;: 338446587,
+    &quot;name&quot;: &quot;unused&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

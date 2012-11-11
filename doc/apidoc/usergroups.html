@@ -60,14 +60,14 @@
 [
   {
     &quot;usergroup&quot;: {
-      &quot;name&quot;: &quot;MyString&quot;,
-      &quot;id&quot;: 980190962
+      &quot;id&quot;: 980190962,
+      &quot;name&quot;: &quot;MyString&quot;
     }
   },
   {
     &quot;usergroup&quot;: {
-      &quot;name&quot;: &quot;MyString2&quot;,
-      &quot;id&quot;: 298486374
+      &quot;id&quot;: 298486374,
+      &quot;name&quot;: &quot;MyString2&quot;
     }
   }
 ]</pre>
@@ -100,8 +100,8 @@
 200
 {
   &quot;usergroup&quot;: {
-    &quot;name&quot;: &quot;MyString&quot;,
-    &quot;id&quot;: 980190962
+    &quot;id&quot;: 980190962,
+    &quot;name&quot;: &quot;MyString&quot;
   }
 }</pre>
 
@@ -166,8 +166,8 @@
 201
 {
   &quot;usergroup&quot;: {
-    &quot;name&quot;: &quot;test_usergroup&quot;,
-    &quot;id&quot;: 980190963
+    &quot;id&quot;: 980190963,
+    &quot;name&quot;: &quot;test_usergroup&quot;
   }
 }</pre>
 
@@ -244,7 +244,12 @@
   &quot;usergroup&quot;: {}
 }
 200
-{}</pre>
+{
+  &quot;usergroup&quot;: {
+    &quot;id&quot;: 980190962,
+    &quot;name&quot;: &quot;MyString&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>
@@ -332,7 +337,12 @@
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/usergroups/980190962
 200
-{}</pre>
+{
+  &quot;usergroup&quot;: {
+    &quot;id&quot;: 980190962,
+    &quot;name&quot;: &quot;MyString&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

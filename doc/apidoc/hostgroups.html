@@ -60,48 +60,48 @@
 [
   {
     &quot;hostgroup&quot;: {
-      &quot;operatingsystem_id&quot;: null,
-      &quot;environment_id&quot;: null,
       &quot;subnet_id&quot;: null,
-      &quot;name&quot;: &quot;Unusual&quot;,
+      &quot;id&quot;: 603241515,
+      &quot;puppetclass_ids&quot;: [],
+      &quot;label&quot;: &quot;db&quot;,
       &quot;parameters&quot;: {},
-      &quot;id&quot;: 866317115,
-      &quot;domain_id&quot;: null,
-      &quot;label&quot;: &quot;Unusual&quot;,
       &quot;ancestry&quot;: null,
-      &quot;puppetclass_ids&quot;: []
+      &quot;environment_id&quot;: 334344675,
+      &quot;domain_id&quot;: null,
+      &quot;operatingsystem_id&quot;: 309172073,
+      &quot;name&quot;: &quot;db&quot;
     }
   },
   {
     &quot;hostgroup&quot;: {
-      &quot;operatingsystem_id&quot;: 309172073,
-      &quot;environment_id&quot;: 334344675,
       &quot;subnet_id&quot;: null,
-      &quot;name&quot;: &quot;Common&quot;,
+      &quot;id&quot;: 636252244,
+      &quot;puppetclass_ids&quot;: [
+        980190962
+      ],
+      &quot;label&quot;: &quot;Common&quot;,
       &quot;parameters&quot;: {
         &quot;group1&quot;: &quot;group1&quot;
       },
-      &quot;id&quot;: 636252244,
-      &quot;domain_id&quot;: 22495316,
-      &quot;label&quot;: &quot;Common&quot;,
       &quot;ancestry&quot;: null,
-      &quot;puppetclass_ids&quot;: [
-        980190962
-      ]
+      &quot;environment_id&quot;: 334344675,
+      &quot;domain_id&quot;: 22495316,
+      &quot;operatingsystem_id&quot;: 309172073,
+      &quot;name&quot;: &quot;Common&quot;
     }
   },
   {
     &quot;hostgroup&quot;: {
-      &quot;operatingsystem_id&quot;: 309172073,
-      &quot;environment_id&quot;: 334344675,
       &quot;subnet_id&quot;: null,
-      &quot;name&quot;: &quot;db&quot;,
+      &quot;id&quot;: 866317115,
+      &quot;puppetclass_ids&quot;: [],
+      &quot;label&quot;: &quot;Unusual&quot;,
       &quot;parameters&quot;: {},
-      &quot;id&quot;: 603241515,
-      &quot;domain_id&quot;: null,
-      &quot;label&quot;: &quot;db&quot;,
       &quot;ancestry&quot;: null,
-      &quot;puppetclass_ids&quot;: []
+      &quot;environment_id&quot;: null,
+      &quot;domain_id&quot;: null,
+      &quot;operatingsystem_id&quot;: null,
+      &quot;name&quot;: &quot;Unusual&quot;
     }
   }
 ]</pre>
@@ -180,20 +180,20 @@
 200
 {
   &quot;hostgroup&quot;: {
-    &quot;operatingsystem_id&quot;: 309172073,
-    &quot;environment_id&quot;: 334344675,
     &quot;subnet_id&quot;: null,
-    &quot;name&quot;: &quot;Common&quot;,
+    &quot;id&quot;: 636252244,
+    &quot;puppetclass_ids&quot;: [
+      980190962
+    ],
+    &quot;label&quot;: &quot;Common&quot;,
     &quot;parameters&quot;: {
       &quot;group1&quot;: &quot;group1&quot;
     },
-    &quot;id&quot;: 636252244,
-    &quot;domain_id&quot;: 22495316,
-    &quot;label&quot;: &quot;Common&quot;,
     &quot;ancestry&quot;: null,
-    &quot;puppetclass_ids&quot;: [
-      980190962
-    ]
+    &quot;environment_id&quot;: 334344675,
+    &quot;domain_id&quot;: 22495316,
+    &quot;operatingsystem_id&quot;: 309172073,
+    &quot;name&quot;: &quot;Common&quot;
   }
 }</pre>
 
@@ -258,16 +258,16 @@
 200
 {
   &quot;hostgroup&quot;: {
-    &quot;operatingsystem_id&quot;: null,
-    &quot;environment_id&quot;: null,
     &quot;subnet_id&quot;: null,
-    &quot;name&quot;: &quot;TestHostgroup&quot;,
-    &quot;parameters&quot;: {},
     &quot;id&quot;: 866317116,
-    &quot;domain_id&quot;: null,
+    &quot;puppetclass_ids&quot;: [],
     &quot;label&quot;: &quot;TestHostgroup&quot;,
+    &quot;parameters&quot;: {},
     &quot;ancestry&quot;: null,
-    &quot;puppetclass_ids&quot;: []
+    &quot;environment_id&quot;: null,
+    &quot;domain_id&quot;: null,
+    &quot;operatingsystem_id&quot;: null,
+    &quot;name&quot;: &quot;TestHostgroup&quot;
   }
 }</pre>
 
@@ -488,7 +488,31 @@
   &quot;hostgroup&quot;: {}
 }
 200
-{}</pre>
+{
+  &quot;hostgroup&quot;: {
+    &quot;subnet_id&quot;: null,
+    &quot;id&quot;: 636252244,
+    &quot;disk_size&quot;: null,
+    &quot;storage_pool&quot;: null,
+    &quot;interface&quot;: null,
+    &quot;puppetclass_ids&quot;: [
+      980190962
+    ],
+    &quot;label&quot;: &quot;Common&quot;,
+    &quot;memory&quot;: null,
+    &quot;hypervisor_id&quot;: null,
+    &quot;network_type&quot;: null,
+    &quot;parameters&quot;: {
+      &quot;group1&quot;: &quot;group1&quot;
+    },
+    &quot;ancestry&quot;: null,
+    &quot;environment_id&quot;: 334344675,
+    &quot;vcpu&quot;: null,
+    &quot;domain_id&quot;: 22495316,
+    &quot;operatingsystem_id&quot;: 309172073,
+    &quot;name&quot;: &quot;Common&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>
@@ -720,7 +744,27 @@
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/hostgroups/636252244-common
 200
-{}</pre>
+{
+  &quot;hostgroup&quot;: {
+    &quot;subnet_id&quot;: null,
+    &quot;id&quot;: 636252244,
+    &quot;disk_size&quot;: null,
+    &quot;storage_pool&quot;: null,
+    &quot;interface&quot;: null,
+    &quot;puppetclass_ids&quot;: [],
+    &quot;label&quot;: &quot;Common&quot;,
+    &quot;memory&quot;: null,
+    &quot;hypervisor_id&quot;: null,
+    &quot;network_type&quot;: null,
+    &quot;parameters&quot;: {},
+    &quot;ancestry&quot;: null,
+    &quot;environment_id&quot;: 334344675,
+    &quot;vcpu&quot;: null,
+    &quot;domain_id&quot;: 22495316,
+    &quot;operatingsystem_id&quot;: 309172073,
+    &quot;name&quot;: &quot;Common&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

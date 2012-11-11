@@ -42,7 +42,14 @@
     <h2>Examples</h2>
       <pre class="prettyprint">DELETE /api/config_templates/centos5_3_pxelinux
 200
-{}</pre>
+{
+  &quot;config_template&quot;: {
+    &quot;id&quot;: 1007981701,
+    &quot;snippet&quot;: null,
+    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;,
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+  }
+}</pre>
 
 
 

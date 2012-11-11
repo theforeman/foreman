@@ -6,7 +6,7 @@ module Api
       raise error unless resourceful?
 
       if !get? && !post?
-      	#return resource instead of default :no_contentfor PUT and DELETE
+      	#return resource instead of default :no_contentfor PUT, PATCH, and DELETE
       	display resource
       else
         super

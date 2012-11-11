@@ -129,32 +129,32 @@
 200
 {
   &quot;user&quot;: {
-    &quot;admin&quot;: false,
-    &quot;role_id&quot;: null,
-    &quot;login&quot;: &quot;one&quot;,
-    &quot;last_login_on&quot;: &quot;2009-10-12T21:50:04Z&quot;,
-    &quot;&quot;: [],
-    &quot;id&quot;: 980190962,
     &quot;mail&quot;: &quot;userone@someware.com&quot;,
-    &quot;auth_source_id&quot;: 980190962,
-    &quot;lastname&quot;: &quot;User&quot;,
-    &quot;firstname&quot;: &quot;One&quot;,
+    &quot;id&quot;: 980190962,
     &quot;auth_source_ldap&quot;: {
-      &quot;attr_firstname&quot;: &quot;givenName&quot;,
-      &quot;account_password&quot;: null,
-      &quot;host&quot;: &quot;ldap&quot;,
-      &quot;onthefly_register&quot;: true,
-      &quot;attr_mail&quot;: &quot;mail&quot;,
-      &quot;attr_login&quot;: &quot;uid&quot;,
       &quot;account&quot;: null,
-      &quot;name&quot;: &quot;ldap&quot;,
-      &quot;port&quot;: 123,
-      &quot;attr_lastname&quot;: &quot;sn&quot;,
+      &quot;attr_firstname&quot;: &quot;givenName&quot;,
       &quot;id&quot;: 980190962,
+      &quot;account_password&quot;: null,
+      &quot;port&quot;: 123,
+      &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
       &quot;tls&quot;: true,
+      &quot;attr_login&quot;: &quot;uid&quot;,
+      &quot;host&quot;: &quot;ldap&quot;,
+      &quot;attr_lastname&quot;: &quot;sn&quot;,
+      &quot;onthefly_register&quot;: true,
       &quot;type&quot;: &quot;AuthSourceLdap&quot;,
-      &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;
-    }
+      &quot;name&quot;: &quot;ldap&quot;,
+      &quot;attr_mail&quot;: &quot;mail&quot;
+    },
+    &quot;last_login_on&quot;: &quot;2009-10-12T21:50:04Z&quot;,
+    &quot;lastname&quot;: &quot;User&quot;,
+    &quot;auth_source_id&quot;: 980190962,
+    &quot;&quot;: [],
+    &quot;role_id&quot;: null,
+    &quot;firstname&quot;: &quot;One&quot;,
+    &quot;login&quot;: &quot;one&quot;,
+    &quot;admin&quot;: false
   }
 }</pre>
 
@@ -389,6 +389,7 @@ Only admin can set admin account.</p>
 422
 {
   &quot;user&quot;: {
+    &quot;id&quot;: 980190963,
     &quot;errors&quot;: {
       &quot;password&quot;: [
         &quot;doesn&#x27;t match confirmation&quot;
@@ -396,8 +397,7 @@ Only admin can set admin account.</p>
     },
     &quot;full_messages&quot;: [
       &quot;Password doesn&#x27;t match confirmation&quot;
-    ],
-    &quot;id&quot;: 980190963
+    ]
   }
 }</pre>
 
@@ -568,7 +568,28 @@ Only admin can set admin account.</p>
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/users/980190962
 200
-{}</pre>
+{
+  &quot;user&quot;: {
+    &quot;compute_resources_andor&quot;: &quot;or&quot;,
+    &quot;filter_on_owner&quot;: null,
+    &quot;password_salt&quot;: null,
+    &quot;facts_andor&quot;: &quot;or&quot;,
+    &quot;mail&quot;: &quot;userone@someware.com&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;last_login_on&quot;: &quot;2009-10-12T21:50:04Z&quot;,
+    &quot;lastname&quot;: &quot;User&quot;,
+    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;auth_source_id&quot;: 980190962,
+    &quot;password_hash&quot;: null,
+    &quot;hostgroups_andor&quot;: &quot;or&quot;,
+    &quot;role_id&quot;: null,
+    &quot;firstname&quot;: &quot;One&quot;,
+    &quot;domains_andor&quot;: &quot;or&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;login&quot;: &quot;one&quot;,
+    &quot;admin&quot;: false
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

@@ -43,11 +43,23 @@
       <pre class="prettyprint">PUT /api/domains/mydomain.net
 {
   &quot;domain&quot;: {
-    &quot;name&quot;: &quot;domain.new&quot;
+    &quot;name&quot;: &quot;&quot;
   }
 }
-200
-{}</pre>
+422
+{
+  &quot;domain&quot;: {
+    &quot;id&quot;: 22495316,
+    &quot;errors&quot;: {
+      &quot;name&quot;: [
+        &quot;can&#x27;t be blank&quot;
+      ]
+    },
+    &quot;full_messages&quot;: [
+      &quot;Name can&#x27;t be blank&quot;
+    ]
+  }
+}</pre>
 
 
 

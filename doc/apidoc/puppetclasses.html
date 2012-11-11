@@ -62,22 +62,22 @@
     &quot;base&quot;: [
       {
         &quot;puppetclass&quot;: {
+          &quot;id&quot;: 980190962,
           &quot;lookup_keys&quot;: [
             {
               &quot;id&quot;: 298486374
             }
           ],
-          &quot;name&quot;: &quot;base&quot;,
-          &quot;id&quot;: 980190962
+          &quot;name&quot;: &quot;base&quot;
         }
       }
     ],
     &quot;apache&quot;: [
       {
         &quot;puppetclass&quot;: {
+          &quot;id&quot;: 298486374,
           &quot;lookup_keys&quot;: [],
-          &quot;name&quot;: &quot;apache&quot;,
-          &quot;id&quot;: 298486374
+          &quot;name&quot;: &quot;apache&quot;
         }
       }
     ]
@@ -158,21 +158,21 @@
 200
 {
   &quot;puppetclass&quot;: {
+    &quot;id&quot;: 980190962,
     &quot;lookup_keys&quot;: [
       {
         &quot;lookup_key&quot;: {
+          &quot;required&quot;: false,
           &quot;override&quot;: false,
+          &quot;id&quot;: 298486374,
           &quot;key&quot;: &quot;ssl_port&quot;,
           &quot;default_value&quot;: &quot;443&quot;,
-          &quot;id&quot;: 298486374,
-          &quot;is_param&quot;: false,
           &quot;description&quot;: null,
-          &quot;required&quot;: false
+          &quot;is_param&quot;: false
         }
       }
     ],
-    &quot;name&quot;: &quot;base&quot;,
-    &quot;id&quot;: 980190962
+    &quot;name&quot;: &quot;base&quot;
   }
 }</pre>
 
@@ -237,9 +237,9 @@
 201
 {
   &quot;puppetclass&quot;: {
+    &quot;id&quot;: 980190963,
     &quot;lookup_keys&quot;: [],
-    &quot;name&quot;: &quot;test_puppetclass&quot;,
-    &quot;id&quot;: 980190963
+    &quot;name&quot;: &quot;test_puppetclass&quot;
   }
 }</pre>
 
@@ -316,7 +316,17 @@
   &quot;puppetclass&quot;: {}
 }
 200
-{}</pre>
+{
+  &quot;puppetclass&quot;: {
+    &quot;id&quot;: 980190962,
+    &quot;lookup_keys&quot;: [
+      {
+        &quot;id&quot;: 298486374
+      }
+    ],
+    &quot;name&quot;: &quot;base&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>
@@ -404,7 +414,17 @@
         <h3>Examples</h3>
           <pre class="prettyprint">DELETE /api/puppetclasses/base
 200
-{}</pre>
+{
+  &quot;puppetclass&quot;: {
+    &quot;id&quot;: 980190962,
+    &quot;lookup_keys&quot;: [
+      {
+        &quot;id&quot;: 298486374
+      }
+    ],
+    &quot;name&quot;: &quot;base&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>

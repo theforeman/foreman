@@ -42,7 +42,17 @@
     <h2>Examples</h2>
       <pre class="prettyprint">DELETE /api/bookmarks/foo
 200
-{}</pre>
+{
+  &quot;bookmark&quot;: {
+    &quot;owner_id&quot;: null,
+    &quot;query&quot;: &quot;foo=boo&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;owner_type&quot;: null,
+    &quot;public&quot;: true,
+    &quot;controller&quot;: &quot;hosts&quot;,
+    &quot;name&quot;: &quot;foo&quot;
+  }
+}</pre>
 
 
 
