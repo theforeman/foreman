@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source
-  # If the user is not in the DB then try to login the user on each available athentication source
+  # If the user is not in the DB then try to login the user on each available authentication source
   # If this succeeds then copy the user's details from the authentication source into the User table
   # Returns : User object OR nil
   def self.try_to_login(login, password)
@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
       if user.auth_source and user.auth_source.authenticate(login, password)
         logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
       else
-        logger.debug "Failed to authenicate #{user} against #{user.auth_source} authentication source"
+        logger.debug "Failed to authenticate #{user} against #{user.auth_source} authentication source"
         user = nil
       end
     else
@@ -192,7 +192,7 @@ class User < ActiveRecord::Base
 
     # user is not yet registered, try to authenticate with available sources
     if (attrs = AuthSource.authenticate(login, password))
-      user = new(*attrs)
+      user = new(attrs)
       user.login = login
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as "admin" do
