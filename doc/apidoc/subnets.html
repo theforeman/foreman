@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li><a href='../apidoc.html'>Foreman</a><span class='divider'>/</span></li>
+  <li class='active'>Subnets</li>
+</ul>
+
+<div class='page-header'>
+  <h1>
+    Subnets<br>
+    <small></small>
+  </h1>
+</div>
+
+
+
+<div class='accordion' id='accordion'>
+
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/subnets/index.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-index'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /api/subnets
+          </a><br>
+          <small>List of subnets</small>
+        </h2>
+    </div>
+
+
+    <div id='description-index' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">GET /api/subnets
+200
+[
+  {
+    &quot;subnet&quot;: {
+      &quot;dns_id&quot;: null,
+      &quot;tftp_id&quot;: 298486374,
+      &quot;priority&quot;: null,
+      &quot;gateway&quot;: null,
+      &quot;dhcp&quot;: {
+        &quot;name&quot;: &quot;DHCP Proxy&quot;,
+        &quot;id&quot;: 980190962,
+        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;
+      },
+      &quot;mask&quot;: &quot;255.255.255.0&quot;,
+      &quot;tftp&quot;: {
+        &quot;name&quot;: &quot;TFTP Proxy&quot;,
+        &quot;id&quot;: 298486374,
+        &quot;url&quot;: &quot;http://somewhere.else&quot;
+      },
+      &quot;domain_ids&quot;: [],
+      &quot;dns_primary&quot;: null,
+      &quot;from&quot;: null,
+      &quot;network&quot;: &quot;3.3.4.3&quot;,
+      &quot;dhcp_id&quot;: 980190962,
+      &quot;vlanid&quot;: null,
+      &quot;name&quot;: &quot;three&quot;,
+      &quot;to&quot;: null,
+      &quot;id&quot;: 113629430,
+      &quot;dns&quot;: null,
+      &quot;dns_secondary&quot;: null
+    }
+  },
+  {
+    &quot;subnet&quot;: {
+      &quot;dns_id&quot;: null,
+      &quot;tftp_id&quot;: 298486374,
+      &quot;priority&quot;: null,
+      &quot;gateway&quot;: null,
+      &quot;dhcp&quot;: {
+        &quot;name&quot;: &quot;DHCP Proxy&quot;,
+        &quot;id&quot;: 980190962,
+        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;
+      },
+      &quot;mask&quot;: &quot;255.255.255.0&quot;,
+      &quot;tftp&quot;: {
+        &quot;name&quot;: &quot;TFTP Proxy&quot;,
+        &quot;id&quot;: 298486374,
+        &quot;url&quot;: &quot;http://somewhere.else&quot;
+      },
+      &quot;domain_ids&quot;: [
+        534821992
+      ],
+      &quot;dns_primary&quot;: null,
+      &quot;from&quot;: null,
+      &quot;network&quot;: &quot;3.3.4.0&quot;,
+      &quot;dhcp_id&quot;: 980190962,
+      &quot;vlanid&quot;: null,
+      &quot;name&quot;: &quot;two&quot;,
+      &quot;to&quot;: null,
+      &quot;id&quot;: 298486374,
+      &quot;dns&quot;: null,
+      &quot;dns_secondary&quot;: null
+    }
+  },
+  {
+    &quot;subnet&quot;: {
+      &quot;dns_id&quot;: 113629430,
+      &quot;tftp_id&quot;: 298486374,
+      &quot;priority&quot;: null,
+      &quot;gateway&quot;: null,
+      &quot;dhcp&quot;: {
+        &quot;name&quot;: &quot;DHCP Proxy&quot;,
+        &quot;id&quot;: 980190962,
+        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;
+      },
+      &quot;mask&quot;: &quot;255.255.255.0&quot;,
+      &quot;tftp&quot;: {
+        &quot;name&quot;: &quot;TFTP Proxy&quot;,
+        &quot;id&quot;: 298486374,
+        &quot;url&quot;: &quot;http://somewhere.else&quot;
+      },
+      &quot;domain_ids&quot;: [
+        822172901
+      ],
+      &quot;dns_primary&quot;: null,
+      &quot;from&quot;: null,
+      &quot;network&quot;: &quot;2.3.4.0&quot;,
+      &quot;dhcp_id&quot;: 980190962,
+      &quot;vlanid&quot;: null,
+      &quot;name&quot;: &quot;one&quot;,
+      &quot;to&quot;: null,
+      &quot;id&quot;: 980190962,
+      &quot;dns&quot;: {
+        &quot;name&quot;: &quot;DNS Proxy&quot;,
+        &quot;id&quot;: 113629430,
+        &quot;url&quot;: &quot;http://else.where:4567&quot;
+      },
+      &quot;dns_secondary&quot;: null
+    }
+  }
+]</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>search </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Filter results</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>order </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Sort results</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/subnets/create.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-create'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /api/subnets
+          </a><br>
+          <small>Create a subnet</small>
+        </h2>
+    </div>
+
+
+    <div id='description-create' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">POST /api/subnets
+{
+  &quot;subnet&quot;: {
+    &quot;mask&quot;: &quot;255.255.255.0&quot;,
+    &quot;network&quot;: &quot;10.35.2.27&quot;,
+    &quot;name&quot;: &quot;QA2&quot;
+  }
+}
+200
+{
+  &quot;subnet&quot;: {
+    &quot;dns_id&quot;: null,
+    &quot;tftp_id&quot;: null,
+    &quot;priority&quot;: null,
+    &quot;gateway&quot;: null,
+    &quot;dhcp&quot;: null,
+    &quot;mask&quot;: &quot;255.255.255.0&quot;,
+    &quot;tftp&quot;: null,
+    &quot;domain_ids&quot;: [],
+    &quot;dns_primary&quot;: null,
+    &quot;from&quot;: null,
+    &quot;network&quot;: &quot;10.35.2.27&quot;,
+    &quot;dhcp_id&quot;: null,
+    &quot;vlanid&quot;: null,
+    &quot;name&quot;: &quot;QA2&quot;,
+    &quot;to&quot;: null,
+    &quot;id&quot;: 980190963,
+    &quot;dns&quot;: null,
+    &quot;dns_secondary&quot;: null
+  }
+}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>subnet </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be a Hash
+    </td>
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Subnet name</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[network] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Subnet network</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[mask] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Netmask for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[gateway] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Primary DNS for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dns_primary] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Primary DNS for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dns_secondary] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Secondary DNS for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[from] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Starting IP Address for IP auto suggestion</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[to] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Ending IP Address for IP auto suggestion</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[vlanid] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>VLAN ID for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[domain_ids] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Domains in which this subnet is part</p>
+
+        <br>
+        Value: Must be Array
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dhcp_id] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>DHCP Proxy to use within this subnet</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[tftp_id] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>TFTP Proxy to use within this subnet</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dns_id] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>DNS Proxy to use within this subnet</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/subnets/update.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-update'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            PUT /api/subnets/:id
+          </a><br>
+          <small>Update a subnet</small>
+        </h2>
+    </div>
+
+
+    <div id='description-update' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">PUT /api/subnets/980190962
+{
+  &quot;subnet&quot;: {}
+}
+200
+{
+  &quot;subnet&quot;: {
+    &quot;dns_id&quot;: 113629430,
+    &quot;tftp_id&quot;: 298486374,
+    &quot;priority&quot;: null,
+    &quot;gateway&quot;: null,
+    &quot;dhcp&quot;: {
+      &quot;name&quot;: &quot;DHCP Proxy&quot;,
+      &quot;id&quot;: 980190962,
+      &quot;url&quot;: &quot;https://somewhere.net:8443&quot;
+    },
+    &quot;mask&quot;: &quot;255.255.255.0&quot;,
+    &quot;tftp&quot;: {
+      &quot;name&quot;: &quot;TFTP Proxy&quot;,
+      &quot;id&quot;: 298486374,
+      &quot;url&quot;: &quot;http://somewhere.else&quot;
+    },
+    &quot;domain_ids&quot;: [
+      822172901
+    ],
+    &quot;dns_primary&quot;: null,
+    &quot;from&quot;: null,
+    &quot;network&quot;: &quot;2.3.4.0&quot;,
+    &quot;dhcp_id&quot;: 980190962,
+    &quot;vlanid&quot;: null,
+    &quot;name&quot;: &quot;one&quot;,
+    &quot;to&quot;: null,
+    &quot;id&quot;: 980190962,
+    &quot;dns&quot;: {
+      &quot;name&quot;: &quot;DNS Proxy&quot;,
+      &quot;id&quot;: 113629430,
+      &quot;url&quot;: &quot;http://else.where:4567&quot;
+    },
+    &quot;dns_secondary&quot;: null
+  }
+}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Subnet numeric identifier</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>subnet </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be a Hash
+    </td>
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Subnet name</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[network] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Subnet network</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[mask] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Netmask for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[gateway] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>Primary DNS for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dns_primary] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>Primary DNS for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dns_secondary] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>Secondary DNS for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[from] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>Starting IP Address for IP auto suggestion</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[to] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>Ending IP Address for IP auto suggestion</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[vlanid] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>VLAN ID for this subnet</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[domain_ids] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>Domains in which this subnet is part</p>
+
+        <br>
+        Value: Must be Array
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dhcp_id] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>DHCP Proxy to use within this subnet</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[tftp_id] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>TFTP Proxy to use within this subnet</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>subnet[dns_id] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      <p>DNS Proxy to use within this subnet</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/subnets/destroy.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-destroy'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /api/subnets/:id
+          </a><br>
+          <small>Delete a subnet</small>
+        </h2>
+    </div>
+
+
+    <div id='description-destroy' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">DELETE /api/subnets/980190962
+422
+{
+  &quot;subnet&quot;: {
+    &quot;errors&quot;: {
+      &quot;base&quot;: [
+        &quot;2.3.4.0/24 is used by temp01.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by anotherfullhost&quot;,
+        &quot;2.3.4.0/24 is used by sol10host&quot;,
+        &quot;2.3.4.0/24 is used by temp-01.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by suse01.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;,
+        &quot;2.3.4.0/24 is used by otherfullhost&quot;,
+        &quot;2.3.4.0/24 is used by temp.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by my5name.mydomain.net&quot;,
+        &quot;2.3.4.0/24 is used by dhcp.mydomain.net&quot;,
+        &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;
+      ]
+    },
+    &quot;full_messages&quot;: [
+      &quot;2.3.4.0/24 is used by temp01.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by anotherfullhost&quot;,
+      &quot;2.3.4.0/24 is used by sol10host&quot;,
+      &quot;2.3.4.0/24 is used by temp-01.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by suse01.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;,
+      &quot;2.3.4.0/24 is used by otherfullhost&quot;,
+      &quot;2.3.4.0/24 is used by temp.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by my5name.mydomain.net&quot;,
+      &quot;2.3.4.0/24 is used by dhcp.mydomain.net&quot;,
+      &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;
+    ],
+    &quot;id&quot;: 980190962
+  }
+}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Subnet numeric identifier</p>
+
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/subnets/freeip.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-freeip'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /api/subnets/freeip
+          </a><br>
+          <small>Query subnet DHCP proxy for an unused IP</small>
+        </h2>
+    </div>
+
+
+    <div id='description-freeip' class='collapse accordion-body'>
+      
+
+
+
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>subnet_id </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be a number.
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>host_mac </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
+          </tbody>
+        </table>
+    </div>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer>  
+</footer>
+  </div>
+  <script type='text/javascript' src='../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

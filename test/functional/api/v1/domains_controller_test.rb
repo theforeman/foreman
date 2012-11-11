@@ -34,19 +34,19 @@ class Api::V1::DomainsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
-  test "should not update invalid domain" do
-    as_user :admin do
-      put :update, {:id => Domain.first.to_param, :domain => {:name => ""}}
-    end
-    assert_response :unprocessable_entity
-  end
-
   test "should update valid domain" do
     as_user :admin do
       put :update, {:id => Domain.first.to_param, :domain => {:name => "domain.new"}}
     end
     assert_equal "domain.new", Domain.first.name
     assert_response :success
+  end
+
+  test "should not update invalid domain" do
+    as_user :admin do
+      put :update, {:id => Domain.first.to_param, :domain => {:name => ""}}
+    end
+    assert_response :unprocessable_entity
   end
 
   test "should destroy domain" do

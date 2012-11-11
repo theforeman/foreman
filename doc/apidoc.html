@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li class='active'><a href='./apidoc.html'>Foreman</a></li>
+</ul>
+
+<div><p>The Foreman is aimed to be a single address for all machines life cycle management.</p>
+</div>
+
+<h1 class='page-header'>Resources</h1>
+
+  <h2>
+    <a href='./apidoc/architectures.html'>Architectures</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/architectures/index.html'>GET /api/architectures</a></td>
+            <td width='60%'>List all architectures.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/architectures/show.html'>GET /api/architectures/:id</a></td>
+            <td width='60%'>Show an architecture.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/architectures/create.html'>POST /api/architectures</a></td>
+            <td width='60%'>Create an architecture.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/architectures/update.html'>PUT /api/architectures/:id</a></td>
+            <td width='60%'>Update an architecture.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/architectures/destroy.html'>DELETE /api/architectures/:id</a></td>
+            <td width='60%'>Delete an architecture.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/audits.html'>Audits</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/audits/index.html'>GET /api/audits</a></td>
+            <td width='60%'>List all audits.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/audits/show.html'>GET /api/audits/:id</a></td>
+            <td width='60%'>Show an audit.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/auth_source_ldaps.html'>Auth source ldaps</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/auth_source_ldaps/index.html'>GET /api/auth_source_ldaps</a></td>
+            <td width='60%'>List all authsource ldaps</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/auth_source_ldaps/show.html'>GET /api/auth_source_ldaps/:id</a></td>
+            <td width='60%'>Show an authsource ldap.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/auth_source_ldaps/create.html'>POST /api/auth_source_ldaps</a></td>
+            <td width='60%'>Create an auth_source_ldap.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/auth_source_ldaps/update.html'>PUT /api/auth_source_ldaps/:id</a></td>
+            <td width='60%'>Update an auth_source_ldap.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/auth_source_ldaps/destroy.html'>DELETE /api/auth_source_ldaps/:id</a></td>
+            <td width='60%'>Delete an auth_source_ldap.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/bookmarks.html'>Bookmarks</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/bookmarks/index.html'>GET /api/bookmarks</a></td>
+            <td width='60%'>List all bookmarks.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/bookmarks/show.html'>GET /api/bookmarks/:id</a></td>
+            <td width='60%'>Show a bookmark.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/bookmarks/create.html'>POST /api/bookmarks</a></td>
+            <td width='60%'>Create a bookmark.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/bookmarks/update.html'>PUT /api/bookmarks/:id</a></td>
+            <td width='60%'>Update a bookmark.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/bookmarks/destroy.html'>DELETE /api/bookmarks/:id</a></td>
+            <td width='60%'>Delete a bookmark.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/common_parameters.html'>Common parameters</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/common_parameters/index.html'>GET /api/common_parameters</a></td>
+            <td width='60%'>List all common parameters.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/common_parameters/show.html'>GET /api/common_parameters/:id</a></td>
+            <td width='60%'>Show a common parameter.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/common_parameters/create.html'>POST /api/common_parameters</a></td>
+            <td width='60%'>Create a common_parameter</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/common_parameters/update.html'>PUT /api/common_parameters/:id</a></td>
+            <td width='60%'>Update a common_parameter</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/common_parameters/destroy.html'>DELETE /api/common_parameters/:id</a></td>
+            <td width='60%'>Delete a common_parameter</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/compute_resources.html'>Compute resources</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/compute_resources/index.html'>GET /api/compute_resources</a></td>
+            <td width='60%'>List all compute resources.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/compute_resources/show.html'>GET /api/compute_resources/:id</a></td>
+            <td width='60%'>Show an compute resource.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/compute_resources/create.html'>POST /api/compute_resources</a></td>
+            <td width='60%'>Create a compute resource.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/compute_resources/update.html'>PUT /api/compute_resources/:id</a></td>
+            <td width='60%'>Update a compute resource.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/compute_resources/destroy.html'>DELETE /api/compute_resources/:id</a></td>
+            <td width='60%'>Delete a compute resource.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/config_templates.html'>Config templates</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/config_templates/index.html'>GET /api/config_templates</a></td>
+            <td width='60%'>List templates</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/config_templates/show.html'>GET /api/config_templates/:id</a></td>
+            <td width='60%'>Show template details</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/config_templates/create.html'>POST /api/config_templates</a></td>
+            <td width='60%'>Create a template</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/config_templates/update.html'>PUT /api/config_templates/:id</a></td>
+            <td width='60%'>Update a template</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/config_templates/revision.html'>GET /api/config_templates/revision</a></td>
+            <td width='60%'></td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/config_templates/destroy.html'>DELETE /api/config_templates/:id</a></td>
+            <td width='60%'>Delete a template</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/config_templates/build_pxe_default.html'>GET /api/config_templates/build_pxe_default</a></td>
+            <td width='60%'>Change the default PXE menu on all configured TFTP servers</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/dashboard.html'>Dashboard</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/dashboard/index.html'>GET /api/dashboard</a></td>
+            <td width='60%'>Get Dashboard results</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/domains.html'>Domains</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/domains/index.html'>GET /api/domains</a></td>
+            <td width='60%'>List of domains</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/domains/show.html'>GET /api/domains/:id</a></td>
+            <td width='60%'>Show a domain.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/domains/create.html'>POST /api/domains</a></td>
+            <td width='60%'>Create a domain.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/domains/update.html'>PUT /api/domains/:id</a></td>
+            <td width='60%'>Update a domain.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/domains/destroy.html'>DELETE /api/domains/:id</a></td>
+            <td width='60%'>Delete a domain.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/environments.html'>Environments</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/environments/index.html'>GET /api/environments</a></td>
+            <td width='60%'>List all environments.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/environments/show.html'>GET /api/environments/:id</a></td>
+            <td width='60%'>Show an environment.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/environments/create.html'>POST /api/environments</a></td>
+            <td width='60%'>Create an environment.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/environments/update.html'>PUT /api/environments/:id</a></td>
+            <td width='60%'>Update an environment.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/environments/destroy.html'>DELETE /api/environments/:id</a></td>
+            <td width='60%'>Delete an environment.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/fact_values.html'>Fact values</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/fact_values/index.html'>GET /api/fact_values</a></td>
+            <td width='60%'>List all fact values.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/fact_values/show.html'>GET /api/fact_values/:id</a></td>
+            <td width='60%'>Show a fact value.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/home.html'>Home</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/home/index.html'>GET /api</a></td>
+            <td width='60%'>Show available links.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/home/status.html'>GET /api/status</a></td>
+            <td width='60%'>Show status.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/hostgroups.html'>Hostgroups</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/hostgroups/index.html'>GET /api/hostgroups</a></td>
+            <td width='60%'>List all hostgroups.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hostgroups/show.html'>GET /api/hostgroups/:id</a></td>
+            <td width='60%'>Show a hostgroup.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hostgroups/create.html'>POST /api/hostgroups</a></td>
+            <td width='60%'>Create an hostgroup.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hostgroups/update.html'>PUT /api/hostgroups/:id</a></td>
+            <td width='60%'>Update an hostgroup.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hostgroups/destroy.html'>DELETE /api/hostgroups/:id</a></td>
+            <td width='60%'>Delete an hostgroup.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/hosts.html'>Hosts</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/hosts/index.html'>GET /api/hosts</a></td>
+            <td width='60%'>List all hosts.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hosts/show.html'>GET /api/hosts/:id</a></td>
+            <td width='60%'>Show a host.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hosts/create.html'>POST /api/hosts</a></td>
+            <td width='60%'>Create a host.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hosts/update.html'>PUT /api/hosts/:id</a></td>
+            <td width='60%'>Update a host.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/hosts/destroy.html'>DELETE /api/hosts/:id</a></td>
+            <td width='60%'>Delete an host.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/images.html'>Images</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/images/index.html'>GET /api/compute_resources/:id/images</a></td>
+            <td width='60%'>List all images for compute resource.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/images/show.html'>GET /api/compute_resources/:id/images/:id</a></td>
+            <td width='60%'>Show an image.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/images/create.html'>POST /api/compute_resources/:id/images</a></td>
+            <td width='60%'>Create a image.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/images/update.html'>PUT /api/images/:id</a></td>
+            <td width='60%'>Update a image.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/images/destroy.html'>DELETE /api/images/:id</a></td>
+            <td width='60%'>Delete an image.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/lookup_keys.html'>Lookup keys</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/lookup_keys/index.html'>GET /api/lookup_keys</a></td>
+            <td width='60%'>List all lookup_keys.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/lookup_keys/show.html'>GET /api/lookup_keys/:id</a></td>
+            <td width='60%'>Show a lookup key.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/lookup_keys/create.html'>POST /api/lookup_keys</a></td>
+            <td width='60%'>Create a lookup key.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/lookup_keys/update.html'>PUT /api/lookup_keys/:id</a></td>
+            <td width='60%'>Update a lookup key.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/lookup_keys/destroy.html'>DELETE /api/lookup_keys/:id</a></td>
+            <td width='60%'>Delete a lookup key.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/media.html'>Media</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/media/index.html'>GET /api/media</a></td>
+            <td width='60%'>List all media.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/media/show.html'>GET /api/media/:id</a></td>
+            <td width='60%'>Show a medium.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/media/create.html'>POST /api/medium</a></td>
+            <td width='60%'>Create a medium.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/media/update.html'>PUT /api/media/:id</a></td>
+            <td width='60%'>Update a medium.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/media/destroy.html'>DELETE /api/media/:id</a></td>
+            <td width='60%'>Delete a medium.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/models.html'>Models</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/models/index.html'>GET /api/models</a></td>
+            <td width='60%'>List all models.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/models/show.html'>GET /api/models/:id</a></td>
+            <td width='60%'>Show a model.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/models/create.html'>POST /api/models</a></td>
+            <td width='60%'>Create a model.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/models/update.html'>PUT /api/models/:id</a></td>
+            <td width='60%'>Update a model.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/models/destroy.html'>DELETE /api/models/:id</a></td>
+            <td width='60%'>Delete a model.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/operatingsystems.html'>Operating systems</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/operatingsystems/index.html'>GET /api/operatingsystems</a></td>
+            <td width='60%'>List all operating systems.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/operatingsystems/show.html'>GET /api/operatingsystems/:id</a></td>
+            <td width='60%'>Show an OS.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/operatingsystems/create.html'>POST /api/operatingsystems</a></td>
+            <td width='60%'>Create an OS.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/operatingsystems/update.html'>PUT /api/operatingsystems/:id</a></td>
+            <td width='60%'>Update an OS.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/operatingsystems/destroy.html'>DELETE /api/operatingsystems/:id</a></td>
+            <td width='60%'>Delete an OS.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/operatingsystems/bootfiles.html'>GET /api/operatingsystems/:id/bootfiles</a></td>
+            <td width='60%'>List boot files an OS.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/ptables.html'>Ptables</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/ptables/index.html'>GET /api/ptables</a></td>
+            <td width='60%'>List all ptables.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/ptables/show.html'>GET /api/ptables/:id</a></td>
+            <td width='60%'>Show a ptable.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/ptables/create.html'>POST /api/ptables</a></td>
+            <td width='60%'>Create a ptable.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/ptables/update.html'>PUT /api/ptables/:id</a></td>
+            <td width='60%'>Update a ptable.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/ptables/destroy.html'>DELETE /api/ptables/:id</a></td>
+            <td width='60%'>Delete a ptable.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/puppetclasses.html'>Puppetclasses</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/puppetclasses/index.html'>GET /api/puppetclasses</a></td>
+            <td width='60%'>List all puppetclasses.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/puppetclasses/show.html'>GET /api/puppetclasses/:id</a></td>
+            <td width='60%'>Show a puppetclass.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/puppetclasses/create.html'>POST /api/puppetclasses</a></td>
+            <td width='60%'>Create a puppetclass.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/puppetclasses/update.html'>PUT /api/puppetclasses/:id</a></td>
+            <td width='60%'>Update a puppetclass.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/puppetclasses/destroy.html'>DELETE /api/puppetclasses/:id</a></td>
+            <td width='60%'>Delete a puppetclass.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/reports.html'>Reports</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/reports/index.html'>GET /api/reports</a></td>
+            <td width='60%'>List all reports.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/reports/show.html'>GET /api/reports/:id</a></td>
+            <td width='60%'>Show a report.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/reports/destroy.html'>DELETE /api/ptables/:id</a></td>
+            <td width='60%'>Delete a report.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/roles.html'>Roles</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/roles/index.html'>GET /api/roles</a></td>
+            <td width='60%'>List all roles.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/roles/show.html'>GET /api/roles/:id</a></td>
+            <td width='60%'>Show an role.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/roles/create.html'>POST /api/roles</a></td>
+            <td width='60%'>Create an role.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/roles/update.html'>PUT /api/roles/:id</a></td>
+            <td width='60%'>Update an role.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/roles/destroy.html'>DELETE /api/roles/:id</a></td>
+            <td width='60%'>Delete an role.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/settings.html'>Settings</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/settings/index.html'>GET /api/settings</a></td>
+            <td width='60%'>List all settings.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/settings/show.html'>GET /api/settings/:id</a></td>
+            <td width='60%'>Show an setting.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/settings/update.html'>PUT /api/settings/:id</a></td>
+            <td width='60%'>Update a setting.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/smart_proxies.html'>Smart proxies</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/smart_proxies/index.html'>GET /api/smart_proxies</a></td>
+            <td width='60%'>List all smart_proxies.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/smart_proxies/show.html'>GET /api/smart_proxies/:id</a></td>
+            <td width='60%'>Show a smart proxy.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/smart_proxies/create.html'>POST /api/smart_proxies</a></td>
+            <td width='60%'>Create a smart proxy.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/smart_proxies/update.html'>PUT /api/smart_proxies/:id</a></td>
+            <td width='60%'>Update a smart proxy.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/smart_proxies/destroy.html'>DELETE /api/smart_proxies/:id</a></td>
+            <td width='60%'>Delete a smart_proxy.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/subnets.html'>Subnets</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/subnets/index.html'>GET /api/subnets</a></td>
+            <td width='60%'>List of subnets</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/subnets/create.html'>POST /api/subnets</a></td>
+            <td width='60%'>Create a subnet</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/subnets/update.html'>PUT /api/subnets/:id</a></td>
+            <td width='60%'>Update a subnet</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/subnets/destroy.html'>DELETE /api/subnets/:id</a></td>
+            <td width='60%'>Delete a subnet</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/subnets/freeip.html'>POST /api/subnets/freeip</a></td>
+            <td width='60%'>Query subnet DHCP proxy for an unused IP</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/usergroups.html'>Usergroups</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/usergroups/index.html'>GET /api/usergroups</a></td>
+            <td width='60%'>List all usergroups.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/usergroups/show.html'>GET /api/usergroups/:id</a></td>
+            <td width='60%'>Show a usergroup.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/usergroups/create.html'>POST /api/usergroups</a></td>
+            <td width='60%'>Create a usergroup.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/usergroups/update.html'>PUT /api/usergroups/:id</a></td>
+            <td width='60%'>Update a usergroup.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/usergroups/destroy.html'>DELETE /api/usergroups/:id</a></td>
+            <td width='60%'>Delete a usergroup.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/users.html'>Users</a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td><a href='./apidoc/users/index.html'>GET /api/users</a></td>
+            <td width='60%'>List all users.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/users/show.html'>GET /api/users/:id</a></td>
+            <td width='60%'>Show an user.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/users/create.html'>POST /api/users</a></td>
+            <td width='60%'>Create an user.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/users/update.html'>PUT /api/users/:id</a></td>
+            <td width='60%'>Update an user.</td>
+          </tr>
+          <tr>
+            <td><a href='./apidoc/users/destroy.html'>DELETE /api/users/:id</a></td>
+            <td width='60%'>Delete an user.</td>
+          </tr>
+    </tbody>
+  </table>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer>  
+</footer>
+  </div>
+  <script type='text/javascript' src='./apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

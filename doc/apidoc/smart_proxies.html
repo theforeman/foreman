@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li><a href='../apidoc.html'>Foreman</a><span class='divider'>/</span></li>
+  <li class='active'>Smart proxies</li>
+</ul>
+
+<div class='page-header'>
+  <h1>
+    Smart proxies<br>
+    <small></small>
+  </h1>
+</div>
+
+
+
+<div class='accordion' id='accordion'>
+
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/smart_proxies/index.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-index'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /api/smart_proxies
+          </a><br>
+          <small>List all smart_proxies.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-index' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">GET /api/smart_proxies
+200
+[
+  {
+    &quot;smart_proxy&quot;: {
+      &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;name&quot;: &quot;DHCP Proxy&quot;,
+      &quot;id&quot;: 980190962,
+      &quot;url&quot;: &quot;https://somewhere.net:8443&quot;
+    }
+  },
+  {
+    &quot;smart_proxy&quot;: {
+      &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;name&quot;: &quot;DNS Proxy&quot;,
+      &quot;id&quot;: 113629430,
+      &quot;url&quot;: &quot;http://else.where:4567&quot;
+    }
+  },
+  {
+    &quot;smart_proxy&quot;: {
+      &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;name&quot;: &quot;Puppetmaster Proxy&quot;,
+      &quot;id&quot;: 182953976,
+      &quot;url&quot;: &quot;http://else.where:4567&quot;
+    }
+  },
+  {
+    &quot;smart_proxy&quot;: {
+      &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;name&quot;: &quot;TFTP Proxy&quot;,
+      &quot;id&quot;: 298486374,
+      &quot;url&quot;: &quot;http://somewhere.else&quot;
+    }
+  },
+  {
+    &quot;smart_proxy&quot;: {
+      &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+      &quot;name&quot;: &quot;Unused Proxy&quot;,
+      &quot;id&quot;: 281110143,
+      &quot;url&quot;: &quot;http://else.where:4567&quot;
+    }
+  }
+]</pre>
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/smart_proxies/show.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-show'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /api/smart_proxies/:id
+          </a><br>
+          <small>Show a smart proxy.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-show' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">GET /api/smart_proxies/980190962-dhcp-proxy
+200
+{
+  &quot;smart_proxy&quot;: {
+    &quot;created_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-11T08:07:51Z&quot;,
+    &quot;name&quot;: &quot;DHCP Proxy&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;url&quot;: &quot;https://somewhere.net:8443&quot;
+  }
+}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be an identifier, string from 2 to 128 characters containting only alphanumeric characters, space, &#x27;_&#x27;, &#x27;-&#x27; with no leading or trailing space..
+    </td>
+  </tr>
+
+  
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/smart_proxies/create.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-create'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /api/smart_proxies
+          </a><br>
+          <small>Create a smart proxy.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-create' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">POST /api/smart_proxies
+{
+  &quot;smart_proxy&quot;: {
+    &quot;name&quot;: &quot;master02&quot;,
+    &quot;url&quot;: &quot;http://server:8443&quot;
+  }
+}
+201
+{
+  &quot;smart_proxy&quot;: {
+    &quot;created_at&quot;: &quot;2012-11-11T08:07:58Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-11T08:07:58Z&quot;,
+    &quot;name&quot;: &quot;master02&quot;,
+    &quot;id&quot;: 980190963,
+    &quot;url&quot;: &quot;http://server:8443&quot;
+  }
+}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>smart_proxy </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be a Hash
+    </td>
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>smart_proxy[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>smart_proxy[url] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/smart_proxies/update.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-update'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            PUT /api/smart_proxies/:id
+          </a><br>
+          <small>Update a smart proxy.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-update' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">PUT /api/smart_proxies/980190962-dhcp-proxy
+{
+  &quot;smart_proxy&quot;: {}
+}
+200
+{}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>smart_proxy </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be a Hash
+    </td>
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>smart_proxy[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>smart_proxy[url] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
+
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/smart_proxies/destroy.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-destroy'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /api/smart_proxies/:id
+          </a><br>
+          <small>Delete a smart_proxy.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-destroy' class='collapse accordion-body'>
+      
+
+
+
+        <h3>Examples</h3>
+          <pre class="prettyprint">DELETE /api/smart_proxies/281110143-unused-proxy
+200
+{}</pre>
+
+        <h3>Params</h3>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Param name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
+          </tbody>
+        </table>
+    </div>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer>  
+</footer>
+  </div>
+  <script type='text/javascript' src='../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

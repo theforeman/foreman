@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../../apidoc.html'>Foreman</a>
+    <span class='divider'>/</span>
+  </li>
+  <li>
+    <a href='../../apidoc/reports.html'>Reports</a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>show</li>
+</ul>
+
+  <div class='page-header'>
+    <h1>
+      GET /api/reports/:id<br>
+      <small>Show a report.</small>
+    </h1>
+  </div>
+
+<div>
+
+  
+
+    <h2>Examples</h2>
+      <pre class="prettyprint">GET /api/reports/70219655
+200
+{
+  &quot;report&quot;: {
+    &quot;status&quot;: {
+      &quot;pending&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;restarted&quot;: 0,
+      &quot;applied&quot;: 0,
+      &quot;skipped&quot;: 0,
+      &quot;failed_restarts&quot;: 0
+    },
+    &quot;logs&quot;: [],
+    &quot;&quot;: [],
+    &quot;summary&quot;: &quot;Success&quot;,
+    &quot;id&quot;: 70219655,
+    &quot;reported_at&quot;: &quot;2012-11-04T08:07:51Z&quot;,
+    &quot;metrics&quot;: {
+      &quot;changes&quot;: {},
+      &quot;events&quot;: {
+        &quot;total&quot;: 0
+      },
+      &quot;time&quot;: {
+        &quot;mailalias&quot;: 0.000283,
+        &quot;service&quot;: 0.149739,
+        &quot;exec&quot;: 0.000299,
+        &quot;schedule&quot;: 0.00083,
+        &quot;config_retrieval&quot;: 16.3637869358063,
+        &quot;file&quot;: 0.007025,
+        &quot;package&quot;: 0.003989,
+        &quot;cron&quot;: 0.000419,
+        &quot;filebucket&quot;: 0.000171
+      },
+      &quot;resources&quot;: {
+        &quot;total&quot;: 33
+      }
+    }
+  }
+}</pre>
+
+
+
+    <h2>Params</h2>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>Param name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be an identifier, string from 2 to 128 characters containting only alphanumeric characters, space, &#x27;_&#x27;, &#x27;-&#x27; with no leading or trailing space..
+    </td>
+  </tr>
+
+  
+
+      </tbody>
+    </table>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer>  
+</footer>
+  </div>
+  <script type='text/javascript' src='../../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

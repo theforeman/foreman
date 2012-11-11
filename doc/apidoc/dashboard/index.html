@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../../apidoc.html'>Foreman</a>
+    <span class='divider'>/</span>
+  </li>
+  <li>
+    <a href='../../apidoc/dashboard.html'>Dashboard</a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>index</li>
+</ul>
+
+  <div class='page-header'>
+    <h1>
+      GET /api/dashboard<br>
+      <small>Get Dashboard results</small>
+    </h1>
+  </div>
+
+<div>
+
+  
+
+    <h2>Examples</h2>
+      <pre class="prettyprint">GET /api/dashboard
+200
+{
+  &quot;active_hosts_ok&quot;: 0,
+  &quot;out_of_sync_hosts_enabled&quot;: 0,
+  &quot;percentage&quot;: 0,
+  &quot;ok_hosts&quot;: 0,
+  &quot;reports_missing&quot;: 12,
+  &quot;active_hosts&quot;: 0,
+  &quot;bad_hosts_enabled&quot;: 0,
+  &quot;good_hosts&quot;: 0,
+  &quot;pending_hosts_enabled&quot;: 0,
+  &quot;ok_hosts_enabled&quot;: 0,
+  &quot;bad_hosts&quot;: 0,
+  &quot;good_hosts_enabled&quot;: 0,
+  &quot;disabled_hosts&quot;: 0,
+  &quot;out_of_sync_hosts&quot;: 0,
+  &quot;active_hosts_ok_enabled&quot;: 0,
+  &quot;pending_hosts&quot;: 0,
+  &quot;total_hosts&quot;: 12
+}</pre>
+
+
+
+    <h2>Params</h2>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>Param name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>search </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>filter results</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
+      </tbody>
+    </table>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer>  
+</footer>
+  </div>
+  <script type='text/javascript' src='../../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>
