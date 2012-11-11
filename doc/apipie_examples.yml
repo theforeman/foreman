@@ -1,0 +1,4291 @@
+--- 
+  apipies#index: 
+    - verb: !ruby/sym GET
+      path: /apidoc/domains/show.html
+      query: 
+      request_data: 
+      response_data: 
+      code: 200
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym GET
+      path: /apidoc/domains/show.html
+      query: 
+      request_data: 
+      response_data: 
+      code: 200
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym GET
+      path: /apidoc/domains/destroy.html
+      query: 
+      request_data: 
+      response_data: 
+      code: 200
+      show_in_doc: 0
+      recorded: true
+  architectures#create: 
+    - verb: !ruby/sym POST
+      path: /api/architectures
+      query: 
+      request_data: 
+        architecture: 
+          name: i386
+      response_data: 
+        architecture: 
+          operatingsystem_ids: []
+          id: 501905020
+          name: i386
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  architectures#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/architectures/s390
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym DELETE
+      path: /api/architectures/x86_64
+      query: ""
+      request_data: 
+      response_data: 
+        architecture: 
+          errors: 
+            base: 
+              - x86_64 is used by suse01.yourdomain.net
+              - x86_64 is used by temp-02.useless.net
+              - x86_64 is used by myfullname.mydomain.net
+              - x86_64 is used by anotherfullhost
+              - x86_64 is used by temp-01.yourdomain.net
+              - x86_64 is used by temp01.yourdomain.net
+              - x86_64 is used by otherfullhost
+              - x86_64 is used by sdhcp.mydomain.net
+              - x86_64 is used by dhcp.mydomain.net
+              - x86_64 is used by temp.yourdomain.net
+              - x86_64 is used by my5name.mydomain.net
+          id: 501905019
+          full_messages: 
+            - x86_64 is used by suse01.yourdomain.net
+            - x86_64 is used by temp-02.useless.net
+            - x86_64 is used by myfullname.mydomain.net
+            - x86_64 is used by anotherfullhost
+            - x86_64 is used by temp-01.yourdomain.net
+            - x86_64 is used by temp01.yourdomain.net
+            - x86_64 is used by otherfullhost
+            - x86_64 is used by sdhcp.mydomain.net
+            - x86_64 is used by dhcp.mydomain.net
+            - x86_64 is used by temp.yourdomain.net
+            - x86_64 is used by my5name.mydomain.net
+      code: "422"
+      show_in_doc: 0
+      recorded: true
+  architectures#index: 
+    - verb: !ruby/sym GET
+      path: /api/architectures
+      query: ""
+      request_data: 
+      response_data: 
+        - architecture: 
+            operatingsystem_ids: 
+              - 442321401
+            id: 331892513
+            name: sparc
+        - architecture: 
+            operatingsystem_ids: 
+              - 331303656
+              - 309172073
+              - 1073012828
+            id: 501905019
+            name: x86_64
+        - architecture: 
+            operatingsystem_ids: []
+            id: 381564594
+            name: s390
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym GET
+      path: /api/architectures
+      query: ""
+      request_data: 
+      response_data: 
+        - architecture: 
+            operatingsystem_ids: 
+              - 442321401
+            id: 331892513
+            name: sparc
+        - architecture: 
+            operatingsystem_ids: 
+              - 331303656
+              - 309172073
+              - 1073012828
+            id: 501905019
+            name: x86_64
+        - architecture: 
+            operatingsystem_ids: []
+            id: 381564594
+            name: s390
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  architectures#show: 
+    - verb: !ruby/sym GET
+      path: /api/architectures/x86_64
+      query: ""
+      request_data: 
+      response_data: 
+        architecture: 
+          operatingsystem_ids: 
+            - 309172073
+            - 1073012828
+            - 331303656
+          id: 501905019
+          name: x86_64
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  architectures#update: 
+    - verb: !ruby/sym PUT
+      path: /api/architectures/x86_64
+      query: 
+      request_data: 
+        architecture: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/architectures/x86_64
+      query: 
+      request_data: 
+        architecture: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/architectures/x86_64
+      query: 
+      request_data: 
+        architecture: {}
+      response_data: 
+        error: 
+          details: 
+          message: Access denied
+      code: "403"
+      show_in_doc: 0
+      recorded: true
+  audits#index: 
+    - verb: !ruby/sym GET
+      path: /api/audits
+      query: ""
+      request_data: 
+      response_data: 
+        - audit: 
+            user_id: 
+            audited_changes: 
+              architecture_id: 
+                - 10463
+                - 10466
+            user_type: 
+            associated_name: 
+            created_at: 2009-12-14 08:01:17.000000 +00:00
+            auditable_type: Host
+            associated_id: 272
+            version: 1
+            id: 1
+            auditable_id: 0
+            remote_address: 
+            comment: 
+            auditable_name: 
+            action: update
+            associated_type: Host
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  audits#show: 
+    - verb: !ruby/sym GET
+      path: /api/audits/1
+      query: ""
+      request_data: 
+      response_data: 
+        audit: 
+          user_id: 
+          audited_changes: 
+            architecture_id: 
+              - 10463
+              - 10466
+          user_type: 
+          associated_name: 
+          created_at: 2009-12-14 08:01:17.000000 +00:00
+          auditable_type: Host
+          associated_id: 272
+          version: 1
+          id: 1
+          auditable_id: 0
+          remote_address: 
+          comment: 
+          auditable_name: 
+          action: update
+          associated_type: Host
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  auth_source_ldaps#create: 
+    - verb: !ruby/sym POST
+      path: /api/auth_source_ldaps
+      query: 
+      request_data: 
+        auth_source_ldap: 
+          host: ldap2
+          name: ldap2
+      response_data: 
+        auth_source_ldap: 
+          account: 
+          onthefly_register: false
+          host: ldap2
+          attr_mail: 
+          port: 389
+          created_at: 2012-11-08 14:56:26.000000 +00:00
+          tls: false
+          attr_lastname: 
+          id: 980190963
+          name: ldap2
+          account_password: 
+          attr_login: 
+          attr_firstname: 
+          updated_at: 2012-11-08 14:56:26.000000 +00:00
+          base_dn: 
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  auth_source_ldaps#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/auth_source_ldaps/980190962
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  auth_source_ldaps#index: 
+    - verb: !ruby/sym GET
+      path: /api/auth_source_ldaps
+      query: ""
+      request_data: 
+      response_data: 
+        - auth_source_ldap: 
+            account: 
+            onthefly_register: true
+            host: ldap
+            attr_mail: mail
+            port: 123
+            tls: true
+            attr_lastname: sn
+            id: 980190962
+            name: ldap
+            account_password: 
+            attr_login: uid
+            attr_firstname: givenName
+            base_dn: "dn=x,dn=y"
+            type: AuthSourceLdap
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  auth_source_ldaps#show: 
+    - verb: !ruby/sym GET
+      path: /api/auth_source_ldaps/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        auth_source_ldap: 
+          account: 
+          onthefly_register: true
+          host: ldap
+          attr_mail: mail
+          port: 123
+          tls: true
+          attr_lastname: sn
+          id: 980190962
+          name: ldap
+          account_password: 
+          attr_login: uid
+          attr_firstname: givenName
+          base_dn: "dn=x,dn=y"
+          type: AuthSourceLdap
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  auth_source_ldaps#update: 
+    - verb: !ruby/sym PUT
+      path: /api/auth_source_ldaps/980190962
+      query: 
+      request_data: 
+        auth_source_ldap: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  bookmarks#create: 
+    - verb: !ruby/sym POST
+      path: /api/bookmarks
+      query: 
+      request_data: 
+        bookmark: 
+          query: bar
+          public: false
+          name: foo-bar
+          controller: hosts
+      response_data: 
+        bookmark: 
+          owner_type: User
+          user: 
+            email: admin@someware.com
+            login: admin
+            name: Admin User
+          query: bar
+          owner_id: 135138680
+          id: 980190963
+          public: false
+          name: foo-bar
+          controller: hosts
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym POST
+      path: /api/bookmarks
+      query: 
+      request_data: 
+        bookmark: 
+          query: " facts.architecture = x86_64"
+          public: false
+          name: facts.architecture
+          controller: hosts
+      response_data: 
+        bookmark: 
+          owner_type: User
+          user: 
+            email: admin@someware.com
+            login: admin
+            name: Admin User
+          query: " facts.architecture = x86_64"
+          owner_id: 135138680
+          id: 980190964
+          public: false
+          name: facts.architecture
+          controller: hosts
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  bookmarks#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/bookmarks/foo
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  bookmarks#index: 
+    - verb: !ruby/sym GET
+      path: /api/bookmarks
+      query: ""
+      request_data: 
+      response_data: 
+        - bookmark: 
+            owner_type: 
+            query: bar=car
+            "": 
+            owner_id: 
+            id: 298486374
+            public: false
+            name: bar
+            controller: hosts
+        - bookmark: 
+            owner_type: 
+            query: foo=boo
+            "": 
+            owner_id: 
+            id: 980190962
+            public: true
+            name: foo
+            controller: hosts
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  bookmarks#show: 
+    - verb: !ruby/sym GET
+      path: /api/bookmarks/foo
+      query: ""
+      request_data: 
+      response_data: 
+        bookmark: 
+          owner_type: 
+          query: foo=boo
+          "": 
+          owner_id: 
+          id: 980190962
+          public: true
+          name: foo
+          controller: hosts
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  bookmarks#update: 
+    - verb: !ruby/sym PUT
+      path: /api/bookmarks/foo
+      query: 
+      request_data: 
+        bookmark: {}
+      response_data: 
+        bookmark: 
+          user: 
+            email: admin@someware.com
+            login: admin
+            name: Admin User
+          query: foo=boo
+          id: 980190962
+          public: true
+          name: foo
+          controller: hosts
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  common_parameters#create: 
+    - verb: !ruby/sym POST
+      path: /api/common_parameters
+      query: 
+      request_data: 
+        common_parameter: 
+          value: "123"
+          name: special_key
+      response_data: 
+        common_parameter: 
+          value: "123"
+          id: 767575239
+          name: special_key
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  common_parameters#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/common_parameters/636252244
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  common_parameters#index: 
+    - verb: !ruby/sym GET
+      path: /api/common_parameters
+      query: ""
+      request_data: 
+      response_data: 
+        - common_parameter: 
+            value: myvalue
+            id: 636252244
+            name: test
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  common_parameters#show: 
+    - verb: !ruby/sym GET
+      path: /api/common_parameters/636252244
+      query: ""
+      request_data: 
+      response_data: 
+        common_parameter: 
+          value: myvalue
+          id: 636252244
+          name: test
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  common_parameters#update: 
+    - verb: !ruby/sym PUT
+      path: /api/common_parameters/636252244
+      query: 
+      request_data: 
+        common_parameter: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  compute_resources#create: 
+    - verb: !ruby/sym POST
+      path: /api/compute_resources
+      query: 
+      request_data: 
+        compute_resource: 
+          url: eu-west1
+          name: special_compute
+          provider: EC2
+      response_data: 
+        compute_resource: 
+          user: 
+          description: 
+          url: eu-west1
+          created_at: 2012-11-08 14:56:26.000000 +00:00
+          id: 4
+          name: special_compute
+          updated_at: 2012-11-08 14:56:26.000000 +00:00
+          provider: EC2
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  compute_resources#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/compute_resources/3
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  compute_resources#index: 
+    - verb: !ruby/sym GET
+      path: /api/compute_resources
+      query: ""
+      request_data: 
+      response_data: 
+        - compute_resource: 
+            user: MyString
+            description: mycompute
+            url: test:///default
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 2
+            name: mycompute
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+            provider: Libvirt
+        - compute_resource: 
+            user: MyString
+            description: MyString
+            url: qemu://stam/system
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 1
+            name: MyString
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+            provider: Libvirt
+        - compute_resource: 
+            user: MyString
+            description: yourcompute
+            url: test:///default
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 3
+            name: yourcompute
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+            provider: Libvirt
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  compute_resources#show: 
+    - verb: !ruby/sym GET
+      path: /api/compute_resources/1-mystring
+      query: ""
+      request_data: 
+      response_data: 
+        compute_resource: 
+          user: MyString
+          description: MyString
+          url: qemu://stam/system
+          created_at: 2012-11-08 14:56:25.000000 +00:00
+          id: 1
+          name: MyString
+          updated_at: 2012-11-08 14:56:25.000000 +00:00
+          provider: Libvirt
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  config_templates#build_pxe_default: 
+    - verb: !ruby/sym GET
+      path: /api/config_templates/build_pxe_default
+      query: ""
+      request_data: 
+      response_data: PXE Default file has been deployed to all Smart Proxies
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  config_templates#create: 
+    - verb: !ruby/sym POST
+      path: /api/config_templates
+      query: 
+      request_data: 
+        config_template: 
+          template_kind_id: 1
+          name: RandomName
+          template: This is a test template
+      response_data: 
+        config_template: 
+          snippet: false
+          "": []
+          template_combinations: []
+          id: 1007981702
+          name: RandomName
+          template: This is a test template
+          audit_comment: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym POST
+      path: /api/config_templates
+      query: 
+      request_data: {}
+      response_data: 
+        config_template: 
+          errors: 
+            template_kind_id: 
+              - can't be blank
+            name: 
+              - can't be blank
+            template: 
+              - can't be blank
+          id: 
+          full_messages: 
+            - Name can't be blank
+            - Template can't be blank
+            - Template kind can't be blank
+      code: "422"
+      show_in_doc: 0
+      recorded: true
+  config_templates#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/config_templates/centos5_3_pxelinux
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym DELETE
+      path: /api/config_templates/centos5_3_pxelinux
+      query: ""
+      request_data: 
+      response_data: 
+        config_template: 
+          errors: 
+            base: 
+              - "centos5_3_pxelinux is used by centos 5.3 - "
+          id: 1007981701
+          full_messages: 
+            - "centos5_3_pxelinux is used by centos 5.3 - "
+      code: "422"
+      show_in_doc: 0
+      recorded: true
+  config_templates#index: 
+    - verb: !ruby/sym GET
+      path: /api/config_templates
+      query: ""
+      request_data: 
+      response_data: 
+        - config_template: 
+            snippet: false
+            template_combinations: []
+            id: 1007981701
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+              - operatingsystem: 
+                  id: 1073012828
+                  name: Redhat 6.1
+            name: centos5_3_pxelinux
+            template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+            audit_comment: 
+        - config_template: 
+            snippet: false
+            template_combinations: 
+              - template_combination: 
+                  hostgroup_id: 
+                  id: 113629430
+                  environment_id: 334344675
+            id: 104314179
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+              - operatingsystem: 
+                  id: 1073012828
+                  name: Redhat 6.1
+            name: MyFinish
+            template: MyFinish
+            audit_comment: 
+        - config_template: 
+            snippet: false
+            template_combinations: []
+            id: 981457253
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+              - operatingsystem: 
+                  id: 1073012828
+                  name: Redhat 6.1
+            name: MyScript
+            template: MyText
+            audit_comment: 
+        - config_template: 
+            snippet: false
+            template_combinations: 
+              - template_combination: 
+                  hostgroup_id: 636252244
+                  id: 980190962
+                  environment_id: 334344675
+            id: 943779058
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+              - operatingsystem: 
+                  id: 1073012828
+                  name: Redhat 6.1
+            name: MyString
+            template: MyText
+            audit_comment: 
+        - config_template: 
+            snippet: false
+            template_combinations: 
+              - template_combination: 
+                  hostgroup_id: 636252244
+                  id: 281110143
+                  environment_id: 334344675
+              - template_combination: 
+                  hostgroup_id: 0
+                  id: 298486374
+                  environment_id: 
+            id: 269958254
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+              - operatingsystem: 
+                  id: 1073012828
+                  name: Redhat 6.1
+            name: MyString2
+            template: MyText
+            audit_comment: 
+        - config_template: 
+            snippet: false
+            template_combinations: []
+            id: 352050261
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+              - operatingsystem: 
+                  id: 1073012828
+                  name: Redhat 6.1
+            name: PXE Default File
+            template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+            audit_comment: 
+        - config_template: 
+            snippet: false
+            template_combinations: []
+            id: 684651467
+            operatingsystems: 
+              - operatingsystem: 
+                  id: 309172073
+                  name: centos 5.3
+            name: PXE Default Menu
+            template: FOO
+            audit_comment: 
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  config_templates#show: 
+    - verb: !ruby/sym GET
+      path: /api/config_templates/centos5_3_pxelinux
+      query: ""
+      request_data: 
+      response_data: 
+        config_template: 
+          snippet: false
+          template_combinations: []
+          id: 1007981701
+          operatingsystems: 
+            - operatingsystem: 
+                id: 309172073
+                name: centos 5.3
+            - operatingsystem: 
+                id: 1073012828
+                name: Redhat 6.1
+          name: centos5_3_pxelinux
+          template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+          audit_comment: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  config_templates#update: 
+    - verb: !ruby/sym PUT
+      path: /api/config_templates/centos5_3_pxelinux
+      query: 
+      request_data: 
+        config_template: 
+          template: tmp
+          audit_comment: aha
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/config_templates/centos5_3_pxelinux
+      query: 
+      request_data: 
+        config_template: 
+          name: ""
+      response_data: 
+        config_template: 
+          errors: 
+            name: 
+              - can't be blank
+          id: 1007981701
+          full_messages: 
+            - Name can't be blank
+      code: "422"
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/config_templates/centos5_3_pxelinux
+      query: 
+      request_data: 
+        config_template: 
+          template: blah
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  dashboard#index: 
+    - verb: !ruby/sym GET
+      path: /api/dashboard
+      query: ""
+      request_data: 
+      response_data: 
+        percentage: 0
+        active_hosts: 0
+        ok_hosts_enabled: 0
+        total_hosts: 12
+        disabled_hosts: 0
+        ok_hosts: 0
+        active_hosts_ok: 0
+        good_hosts: 0
+        pending_hosts_enabled: 0
+        out_of_sync_hosts: 0
+        out_of_sync_hosts_enabled: 0
+        reports_missing: 12
+        good_hosts_enabled: 0
+        bad_hosts: 0
+        bad_hosts_enabled: 0
+        pending_hosts: 0
+        active_hosts_ok_enabled: 0
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  domains#create: 
+    - verb: !ruby/sym POST
+      path: /api/domains
+      query: 
+      request_data: 
+        domain: 
+          name: domain.net
+      response_data: 
+        domain: 
+          id: 759776764
+          name: domain.net
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym POST
+      path: /api/domains
+      query: 
+      request_data: 
+        domain: 
+          fullname: ""
+      response_data: 
+        domain: 
+          errors: 
+            name: 
+              - can't be blank
+          id: 
+          full_messages: 
+            - Name can't be blank
+      code: "422"
+      show_in_doc: 0
+      recorded: true
+  domains#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/domains/mydomain.net
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  domains#index: 
+    - verb: !ruby/sym GET
+      path: /domains
+      query: 
+      request_data: 
+      response_data: 
+        - domain: 
+            id: 11
+            name: levmedia.co.il
+        - domain: 
+            id: 10
+            name: qa.lab.tlv.redhat.com
+        - domain: 
+            id: 6
+            name: sat.lab.tlv.redhat.com
+        - domain: 
+            id: 2
+            name: tlv.redhat.com
+      code: 200
+      show_in_doc: 1
+      recorded: true
+  domains#show: 
+    - verb: !ruby/sym GET
+      path: /api/domains/mydomain.net
+      query: ""
+      request_data: 
+      response_data: 
+        domain: 
+          fullname: 
+          id: 22495316
+          name: mydomain.net
+          dns_id: 113629430
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  domains#update: 
+    - verb: !ruby/sym PUT
+      path: /api/domains/mydomain.net
+      query: 
+      request_data: 
+        domain: 
+          name: ""
+      response_data: 
+        domain: 
+          errors: 
+            name: 
+              - can't be blank
+          id: 22495316
+          full_messages: 
+            - Name can't be blank
+      code: "422"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/domains/mydomain.net
+      query: 
+      request_data: 
+        domain: 
+          name: domain.new
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  environments#create: 
+    - verb: !ruby/sym POST
+      path: /api/environments
+      query: 
+      request_data: 
+        environment: 
+          name: Development
+      response_data: 
+        environment: 
+          id: 687036938
+          name: Development
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  environments#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/environments/testing
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  environments#index: 
+    - verb: !ruby/sym GET
+      path: /api/environments
+      query: ""
+      request_data: 
+      response_data: 
+        - environment: 
+            id: 153855663
+            name: global_puppetmaster
+        - environment: 
+            id: 334344675
+            name: production
+        - environment: 
+            id: 687036937
+            name: testing
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  environments#show: 
+    - verb: !ruby/sym GET
+      path: /api/environments/production
+      query: ""
+      request_data: 
+      response_data: 
+        environment: 
+          id: 334344675
+          name: production
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  environments#update: 
+    - verb: !ruby/sym PUT
+      path: /api/environments/production
+      query: 
+      request_data: 
+        environment: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  fact_values#index: 
+    - verb: !ruby/sym GET
+      path: /api/fact_values
+      query: ""
+      request_data: 
+      response_data: []
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  fact_values#show: 
+    - verb: !ruby/sym GET
+      path: /api/fact_values/203397686
+      query: ""
+      request_data: 
+      response_data: 
+        error: 
+          class: RuntimeError
+          message: "FactValue#name delegated to fact_name.name, but fact_name is nil: #<FactValue id: 203397686, value: \"2.6.9\", fact_name_id: 2, host_id: 1, updated_at: \"2012-11-08 14:56:25\", created_at: \"2012-11-08 14:56:25\">"
+          backtrace: 
+            - /home/jmagen/foreman/app/models/fact_value.rb:6:in `name'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/helpers.rb:16:in `__send__'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/helpers.rb:16:in `data_object_attribute'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:67:in `attribute'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:38:in `compile_hash'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:37:in `each_pair'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:37:in `compile_hash'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:21:in `build'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:142:in `cache_results'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/builder.rb:20:in `build'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:48:in `to_hash'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:60:in `to_json'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:36:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:36:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:272:in `cache_results'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/rabl-0.7.2/lib/rabl/engine.rb:36:in `render'
+            - /home/jmagen/foreman/app/views/api/v1/fact_values/show.json.rabl:1:in `_app_views_api_v__fact_values_show_json_rabl___1399834125_70131877564400_0'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/template.rb:135:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/template.rb:135:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/template.rb:127:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/render/rendering.rb:59:in `_render_template'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/render/rendering.rb:56:in `_render_template'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_view/render/rendering.rb:26:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:115:in `_render_template'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:109:in `render_to_body'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:102:in `render_to_string'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:93:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:17:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:40:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:40:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:39:in `render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__389662777__process_action__631304950__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3715'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3715'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__389662777__process_action__631304950__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `run_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rescue.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:119:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:41:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/testing.rb:12:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/oauth-0.4.7/lib/oauth/client/action_controller_request.rb:15:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:414:in `process_without_api_recording'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/extractor/recorder.rb:112:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:47:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:352:in `get'
+            - /home/jmagen/foreman/test/functional/api/v1/fact_values_controller_test.rb:17:in `test_should_show_individual_record'
+            - ./test/test_helper.rb:30:in `as_user'
+            - /home/jmagen/foreman/test/functional/api/v1/fact_values_controller_test.rb:16:in `test_should_show_individual_record'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `__send__'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `run'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:439:in `_run_setup_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:65:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
+      code: "500"
+      show_in_doc: 0
+      recorded: true
+  hostgroups#create: 
+    - verb: !ruby/sym POST
+      path: /api/hostgroups
+      query: 
+      request_data: 
+        hostgroup: 
+          name: TestHostgroup
+      response_data: 
+        hostgroup: 
+          puppetclass_ids: []
+          label: TestHostgroup
+          id: 866317116
+          parameters: {}
+          name: TestHostgroup
+          operatingsystem_id: 
+          domain_id: 
+          environment_id: 
+          subnet_id: 
+          ancestry: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hostgroups#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/hostgroups/636252244-common
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hostgroups#index: 
+    - verb: !ruby/sym GET
+      path: /api/hostgroups
+      query: ""
+      request_data: 
+      response_data: 
+        - hostgroup: 
+            puppetclass_ids: []
+            label: Unusual
+            id: 866317115
+            parameters: {}
+            name: Unusual
+            operatingsystem_id: 
+            domain_id: 
+            environment_id: 
+            subnet_id: 
+            ancestry: 
+        - hostgroup: 
+            puppetclass_ids: []
+            label: db
+            id: 603241515
+            parameters: {}
+            name: db
+            operatingsystem_id: 309172073
+            domain_id: 
+            environment_id: 334344675
+            subnet_id: 
+            ancestry: 
+        - hostgroup: 
+            puppetclass_ids: 
+              - 980190962
+            label: Common
+            id: 636252244
+            parameters: 
+              group1: group1
+            name: Common
+            operatingsystem_id: 309172073
+            domain_id: 22495316
+            environment_id: 334344675
+            subnet_id: 
+            ancestry: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hostgroups#show: 
+    - verb: !ruby/sym GET
+      path: /api/hostgroups/636252244-common
+      query: ""
+      request_data: 
+      response_data: 
+        hostgroup: 
+          puppetclass_ids: 
+            - 980190962
+          label: Common
+          id: 636252244
+          parameters: 
+            group1: group1
+          name: Common
+          operatingsystem_id: 309172073
+          domain_id: 22495316
+          environment_id: 334344675
+          subnet_id: 
+          ancestry: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hostgroups#update: 
+    - verb: !ruby/sym PUT
+      path: /api/hostgroups/636252244-common
+      query: 
+      request_data: 
+        hostgroup: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hosts#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/hosts/my5name.mydomain.net
+      query: ""
+      request_data: 
+      response_data: 
+        error: 
+          class: NoMethodError
+          message: undefined method `capabilities' for nil:NilClass
+          backtrace: 
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/whiny_nil.rb:48:in `method_missing'
+            - /home/jmagen/foreman/app/models/host.rb:667:in `capabilities'
+            - /home/jmagen/foreman/app/models/orchestration/dns.rb:17:in `reverse_dns?'
+            - /home/jmagen/foreman/app/models/orchestration/dns.rb:103:in `queue_dns_destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:460:in `_run_destroy_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/callbacks.rb:256:in `destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:235:in `destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:292:in `with_transaction_returning_status'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/connection_adapters/abstract/database_statements.rb:139:in `transaction'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:207:in `transaction'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:290:in `with_transaction_returning_status'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:235:in `destroy'
+            - /home/jmagen/foreman/app/models/orchestration.rb:69:in `destroy'
+            - /home/jmagen/foreman/app/controllers/api/v1/hosts_controller.rb:76:in `destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `call'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1886589425__process_action__1045315448__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3721'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3721'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1886589425__process_action__1045315448__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `run_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rescue.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:119:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:41:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/testing.rb:12:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/oauth-0.4.7/lib/oauth/client/action_controller_request.rb:15:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:414:in `process_without_api_recording'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/extractor/recorder.rb:112:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:47:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:367:in `delete'
+            - /home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:55:in `test_should_destroy_hosts'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/assertions.rb:42:in `assert_difference'
+            - /home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:54:in `test_should_destroy_hosts'
+            - ./test/test_helper.rb:30:in `as_user'
+            - /home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:53:in `test_should_destroy_hosts'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `__send__'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `run'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:439:in `_run_setup_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:65:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
+      code: "500"
+      show_in_doc: 1
+      recorded: true
+  hosts#index: 
+    - verb: !ruby/sym GET
+      path: /api/hosts
+      query: ""
+      request_data: 
+      response_data: 
+        - host: 
+            hostgroup_id: 
+            id: 55602819
+            name: anotherfullhost
+            operatingsystem_id: 1073012828
+        - host: 
+            hostgroup_id: 
+            id: 219245707
+            name: dhcp.mydomain.net
+            operatingsystem_id: 1073012828
+        - host: 
+            hostgroup_id: 
+            id: 980190962
+            name: my5name.mydomain.net
+            operatingsystem_id: 1073012828
+        - host: 
+            hostgroup_id: 
+            id: 1053842695
+            name: myfullname.mydomain.net
+            operatingsystem_id: 309172073
+        - host: 
+            hostgroup_id: 
+            id: 661942085
+            name: otherfullhost
+            operatingsystem_id: 1073012828
+        - host: 
+            hostgroup_id: 
+            id: 500757383
+            name: sdhcp.mydomain.net
+            operatingsystem_id: 1073012828
+        - host: 
+            hostgroup_id: 
+            id: 715054938
+            name: sol10host
+            operatingsystem_id: 442321401
+        - host: 
+            hostgroup_id: 
+            id: 859751735
+            name: suse01.yourdomain.net
+            operatingsystem_id: 859751735
+        - host: 
+            hostgroup_id: 
+            id: 1011586618
+            name: temp-01.yourdomain.net
+            operatingsystem_id: 331303656
+        - host: 
+            hostgroup_id: 
+            id: 1073012828
+            name: temp01.yourdomain.net
+            operatingsystem_id: 1073012828
+        - host: 
+            hostgroup_id: 
+            id: 3666571
+            name: temp-02.useless.net
+            operatingsystem_id: 331303656
+        - host: 
+            hostgroup_id: 
+            id: 298486374
+            name: temp.yourdomain.net
+            operatingsystem_id: 309172073
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hosts#show: 
+    - verb: !ruby/sym GET
+      path: /api/hosts/my5name.mydomain.net
+      query: ""
+      request_data: 
+      response_data: 
+        host: 
+          sp_name: ""
+          installed_at: 
+          owner_type: 
+          sp_subnet_id: 
+          source_file_id: 
+          environment: 
+            environment: 
+              id: 334344675
+              name: production
+          root_pass: xybxa6JUkz63w
+          last_compile: 
+          mac: aabbCCddeeee
+          compute_resource_id: 980190962
+          disk: 
+          enabled: true
+          sp_mac: ""
+          sp_ip: ""
+          use_image: 
+          puppet_status: 0
+          puppet_proxy_id: 182953976
+          created_at: 2012-11-08 14:56:25.000000 +00:00
+          build: false
+          hostgroup_id: 
+          owner_id: 
+          architecture_id: 501905019
+          ip: 2.3.4.1
+          id: 980190962
+          last_report: 
+          serial: 
+          name: my5name.mydomain.net
+          operatingsystem_id: 1073012828
+          puppet_ca_proxy_id: 
+          last_freshcheck: 
+          uuid: 
+          certname: my5name.mydomain.net
+          domain_id: 22495316
+          comment: 
+          managed: true
+          ptable_id: 980190962
+          environment_id: 334344675
+          model_id: 
+          image_id: 
+          subnet_id: 980190962
+          updated_at: 2012-11-08 14:56:25.000000 +00:00
+          medium_id: 
+          image_file: ""
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  hosts#update: 
+    - verb: !ruby/sym PUT
+      path: /api/hosts/my5name.mydomain.net
+      query: 
+      request_data: 
+        host: {}
+      response_data: 
+        error: 
+          class: NoMethodError
+          message: undefined method `capabilities' for nil:NilClass
+          backtrace: 
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/whiny_nil.rb:48:in `method_missing'
+            - /home/jmagen/foreman/app/models/host.rb:667:in `capabilities'
+            - /home/jmagen/foreman/app/models/orchestration/dns.rb:17:in `reverse_dns?'
+            - /home/jmagen/foreman/app/models/orchestration/dns.rb:126:in `dns_conflict_detected?'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:463:in `_run_validation_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activemodel-3.0.17/lib/active_model/validations/callbacks.rb:67:in `run_validations!'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activemodel-3.0.17/lib/active_model/validations.rb:179:in `valid?'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/validations.rb:55:in `valid?'
+            - /home/jmagen/foreman/app/models/orchestration.rb:61:in `valid?'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/validations.rb:75:in `perform_validations'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/validations.rb:43:in `save'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/attribute_methods/dirty.rb:21:in `save'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:240:in `save'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:292:in `with_transaction_returning_status'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/connection_adapters/abstract/database_statements.rb:139:in `transaction'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:207:in `transaction'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:290:in `with_transaction_returning_status'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:240:in `save'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:251:in `rollback_active_record_state!'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:239:in `save'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/persistence.rb:134:in `update_attributes'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:292:in `with_transaction_returning_status'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/connection_adapters/abstract/database_statements.rb:139:in `transaction'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:207:in `transaction'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:290:in `with_transaction_returning_status'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/persistence.rb:132:in `update_attributes'
+            - /home/jmagen/foreman/app/controllers/api/v1/hosts_controller.rb:70:in `update'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `call'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `update'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1886589425__process_action__40735023__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3724'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3724'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1886589425__process_action__40735023__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `run_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rescue.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:119:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:41:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/testing.rb:12:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/oauth-0.4.7/lib/oauth/client/action_controller_request.rb:15:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:414:in `process_without_api_recording'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/extractor/recorder.rb:112:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:47:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:362:in `put'
+            - /home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:47:in `test_should_update_host'
+            - ./test/test_helper.rb:30:in `as_user'
+            - /home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:46:in `test_should_update_host'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `__send__'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `run'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:439:in `_run_setup_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:65:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
+      code: "500"
+      show_in_doc: 1
+      recorded: true
+  images#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/compute_resources/1/images/980190962
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  images#index: 
+    - verb: !ruby/sym GET
+      path: /api/compute_resources/1/images
+      query: ""
+      request_data: 
+      response_data: 
+        - image: 
+            compute_resource_id: 1
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            architecture_id: 1
+            id: 298486374
+            name: centos-2
+            operatingsystem_id: 1
+            uuid: MyString2
+            username: MyString
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  images#show: 
+    - verb: !ruby/sym GET
+      path: /api/compute_resources/1/images/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        image: 
+          compute_resource_id: 980190962
+          created_at: 2012-11-08 14:56:25.000000 +00:00
+          architecture_id: 501905019
+          id: 980190962
+          name: centos-1
+          operatingsystem_id: 219689787
+          uuid: string-of-uuid
+          username: root
+          updated_at: 2012-11-08 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  images#update: 
+    - verb: !ruby/sym PUT
+      path: /api/compute_resources/1/images/980190962
+      query: 
+      request_data: 
+        image: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  lookup_keys#create: 
+    - verb: !ruby/sym POST
+      path: /api/lookup_keys
+      query: 
+      request_data: 
+        lookup_key: 
+          is_param: true
+          key: testkey
+      response_data: 
+        lookup_key: 
+          required: false
+          is_param: true
+          override: false
+          description: 
+          default_value: 
+          id: 980190963
+          key: testkey
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  lookup_keys#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/lookup_keys/980190962-port
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  lookup_keys#index: 
+    - verb: !ruby/sym GET
+      path: /api/lookup_keys
+      query: ""
+      request_data: 
+      response_data: 
+        - lookup_key: 
+            required: false
+            is_param: true
+            override: false
+            description: 
+            default_value: "80"
+            id: 980190962
+            key: port
+        - lookup_key: 
+            required: false
+            is_param: true
+            override: true
+            description: 
+            default_value: t
+            id: 113629430
+            key: ssl
+        - lookup_key: 
+            required: false
+            is_param: false
+            override: false
+            description: 
+            default_value: "443"
+            id: 298486374
+            key: ssl_port
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  lookup_keys#show: 
+    - verb: !ruby/sym GET
+      path: /api/lookup_keys/980190962-port
+      query: ""
+      request_data: 
+      response_data: 
+        lookup_key: 
+          required: false
+          is_param: true
+          override: false
+          description: 
+          default_value: "80"
+          id: 980190962
+          key: port
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  lookup_keys#update: 
+    - verb: !ruby/sym PUT
+      path: /api/lookup_keys/980190962-port
+      query: 
+      request_data: 
+        lookup_key: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  media#create: 
+    - verb: !ruby/sym POST
+      path: /api/media
+      query: 
+      request_data: 
+        medium: 
+          path: http://www.newmedium.com/
+          name: new medium
+      response_data: 
+        medium: 
+          id: 1011586619
+          name: new medium
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  media#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/media/338446587
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  media#index: 
+    - verb: !ruby/sym GET
+      path: /api/media
+      query: ""
+      request_data: 
+      response_data: 
+        - medium: 
+            path: http://mirror.averse.net/centos/6.0/os/$arch
+            media_path: 
+            config_path: 
+            id: 980190962
+            name: CentOS 5.4
+            image_path: 
+        - medium: 
+            path: http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss
+            media_path: 
+            config_path: 
+            id: 859751735
+            name: OpenSuse Mirror
+            image_path: 
+        - medium: 
+            path: http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch
+            media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
+            config_path: brsla01:/vol/jumpstart
+            id: 442321401
+            name: Solaris 10
+            image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
+        - medium: 
+            path: http://sg.archive.ubuntu.com
+            media_path: 
+            config_path: 
+            id: 1011586618
+            name: Ubuntu Mirror
+            image_path: 
+        - medium: 
+            path: http://nothing.intersting.com
+            media_path: 
+            config_path: 
+            id: 338446587
+            name: unused
+            image_path: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  media#show: 
+    - verb: !ruby/sym GET
+      path: /api/media/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        medium: 
+          path: http://mirror.averse.net/centos/6.0/os/$arch
+          media_path: 
+          config_path: 
+          id: 980190962
+          name: CentOS 5.4
+          image_path: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  media#update: 
+    - verb: !ruby/sym PUT
+      path: /api/media/980190962
+      query: 
+      request_data: 
+        name: CentOS 5.4
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  models#create: 
+    - verb: !ruby/sym POST
+      path: /api/models
+      query: 
+      request_data: 
+        model: 
+          name: new model
+      response_data: 
+        model: 
+          info: 
+          created_at: 2012-11-08 14:56:29.000000 +00:00
+          id: 980190963
+          name: new model
+          updated_at: 2012-11-08 14:56:29.000000 +00:00
+          hardware_model: 
+          vendor_class: 
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  models#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/models/980190962
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  models#index: 
+    - verb: !ruby/sym GET
+      path: /api/models
+      query: ""
+      request_data: 
+      response_data: 
+        - model: 
+            info: Virtual Machine
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 980190962
+            name: KVM
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+            hardware_model: 
+            vendor_class: 
+        - model: 
+            info: 
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 139037058
+            name: SUN V210
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+            hardware_model: SUN4U
+            vendor_class: Sun-Fire-V210
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  models#show: 
+    - verb: !ruby/sym GET
+      path: /api/models/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        model: 
+          info: Virtual Machine
+          created_at: 2012-11-08 14:56:25.000000 +00:00
+          id: 980190962
+          name: KVM
+          updated_at: 2012-11-08 14:56:25.000000 +00:00
+          hardware_model: 
+          vendor_class: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  models#update: 
+    - verb: !ruby/sym PUT
+      path: /api/models/980190962
+      query: 
+      request_data: 
+        name: KVM
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  operatingsystems#create: 
+    - verb: !ruby/sym POST
+      path: /api/operatingsystems
+      query: 
+      request_data: 
+        operatingsystem: 
+          minor: "2"
+          name: awsome_os
+          major: "1"
+      response_data: 
+        operatingsystem: 
+          "": []
+          minor: "2"
+          release_name: 
+          id: 1073012829
+          name: awsome_os
+          major: "1"
+          family: 
+          type: 
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym POST
+      path: /api/operatingsystems
+      query: 
+      request_data: 
+        operatingsystem: 
+          minor: "2"
+          name: awsome_os
+      response_data: 
+        operatingsystem: 
+          errors: 
+            major: 
+              - Operating System version is required
+              - is not a number
+          id: 
+          full_messages: 
+            - Major Operating System version is required
+            - Major is not a number
+      code: "422"
+      show_in_doc: 0
+      recorded: true
+  operatingsystems#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/operatingsystems/775246587
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  operatingsystems#index: 
+    - verb: !ruby/sym GET
+      path: /api/operatingsystems
+      query: ""
+      request_data: 
+      response_data: 
+        - operatingsystem: 
+            os_default_templates: 
+              - os_default_template: 
+                  template_kind_id: 478250810
+                  id: 113629430
+                  config_template_id: 981457253
+              - os_default_template: 
+                  template_kind_id: 710512633
+                  id: 281110143
+                  config_template_id: 1007981701
+              - os_default_template: 
+                  template_kind_id: 983253650
+                  id: 298486374
+                  config_template_id: 269958254
+              - os_default_template: 
+                  template_kind_id: 158998239
+                  id: 980190962
+                  config_template_id: 943779058
+            minor: "3"
+            config_templates: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 1007981701
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: centos5_3_pxelinux
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: 
+                    - template_combination: 
+                        hostgroup_id: 
+                        id: 113629430
+                        environment_id: 334344675
+                  id: 104314179
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyFinish
+                  template: MyFinish
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 981457253
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyScript
+                  template: MyText
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: 
+                    - template_combination: 
+                        hostgroup_id: 636252244
+                        id: 980190962
+                        environment_id: 334344675
+                  id: 943779058
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyString
+                  template: MyText
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: 
+                    - template_combination: 
+                        hostgroup_id: 636252244
+                        id: 281110143
+                        environment_id: 334344675
+                    - template_combination: 
+                        hostgroup_id: 0
+                        id: 298486374
+                        environment_id: 
+                  id: 269958254
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyString2
+                  template: MyText
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 352050261
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: PXE Default File
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 684651467
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                  name: PXE Default Menu
+                  template: FOO
+                  audit_comment: 
+            release_name: 
+            id: 309172073
+            architectures: 
+              - architecture: 
+                  operatingsystem_ids: 
+                    - 309172073
+                    - 1073012828
+                    - 331303656
+                  id: 501905019
+                  name: x86_64
+            media: 
+              - medium: 
+                  path: http://mirror.averse.net/centos/6.0/os/$arch
+                  media_path: 
+                  config_path: 
+                  id: 980190962
+                  name: CentOS 5.4
+                  image_path: 
+            name: centos
+            major: "5"
+            family: Redhat
+            ptables: 
+              - ptable: 
+                  id: 980190962
+                  name: default
+            type: Redhat
+        - operatingsystem: 
+            "": []
+            minor: "1"
+            release_name: 
+            id: 775246587
+            name: NoHosts
+            major: "1"
+            family: Redhat
+            type: Redhat
+        - operatingsystem: 
+            "": []
+            minor: "4"
+            release_name: 
+            id: 859751735
+            name: OpenSuse
+            major: "11"
+            family: Suse
+            type: Suse
+        - operatingsystem: 
+            "": []
+            minor: "1"
+            config_templates: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 1007981701
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: centos5_3_pxelinux
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: 
+                    - template_combination: 
+                        hostgroup_id: 
+                        id: 113629430
+                        environment_id: 334344675
+                  id: 104314179
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyFinish
+                  template: MyFinish
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 981457253
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyScript
+                  template: MyText
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: 
+                    - template_combination: 
+                        hostgroup_id: 636252244
+                        id: 980190962
+                        environment_id: 334344675
+                  id: 943779058
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyString
+                  template: MyText
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: 
+                    - template_combination: 
+                        hostgroup_id: 636252244
+                        id: 281110143
+                        environment_id: 334344675
+                    - template_combination: 
+                        hostgroup_id: 0
+                        id: 298486374
+                        environment_id: 
+                  id: 269958254
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: MyString2
+                  template: MyText
+                  audit_comment: 
+              - config_template: 
+                  snippet: false
+                  template_combinations: []
+                  id: 352050261
+                  operatingsystems: 
+                    - operatingsystem: 
+                        id: 309172073
+                        name: centos 5.3
+                    - operatingsystem: 
+                        id: 1073012828
+                        name: Redhat 6.1
+                  name: PXE Default File
+                  template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+                  audit_comment: 
+            release_name: 
+            id: 1073012828
+            architectures: 
+              - architecture: 
+                  operatingsystem_ids: 
+                    - 309172073
+                    - 1073012828
+                    - 331303656
+                  id: 501905019
+                  name: x86_64
+            media: 
+              - medium: 
+                  path: http://mirror.averse.net/centos/6.0/os/$arch
+                  media_path: 
+                  config_path: 
+                  id: 980190962
+                  name: CentOS 5.4
+                  image_path: 
+            name: Redhat
+            major: "6"
+            family: Redhat
+            ptables: 
+              - ptable: 
+                  id: 980190962
+                  name: default
+            type: Redhat
+        - operatingsystem: 
+            "": []
+            minor: "10"
+            release_name: hw0910
+            id: 442321401
+            architectures: 
+              - architecture: 
+                  operatingsystem_ids: 
+                    - 442321401
+                  id: 331892513
+                  name: sparc
+            media: 
+              - medium: 
+                  path: http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch
+                  media_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch
+                  config_path: brsla01:/vol/jumpstart
+                  id: 442321401
+                  name: Solaris 10
+                  image_path: brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/
+            name: Solaris
+            major: "5"
+            family: Solaris
+            type: Solaris
+        - operatingsystem: 
+            "": []
+            minor: "10"
+            release_name: 
+            id: 331303656
+            architectures: 
+              - architecture: 
+                  operatingsystem_ids: 
+                    - 309172073
+                    - 1073012828
+                    - 331303656
+                  id: 501905019
+                  name: x86_64
+            media: 
+              - medium: 
+                  path: http://sg.archive.ubuntu.com
+                  media_path: 
+                  config_path: 
+                  id: 1011586618
+                  name: Ubuntu Mirror
+                  image_path: 
+            name: Ubuntu
+            major: "10"
+            family: Debian
+            ptables: 
+              - ptable: 
+                  id: 1011586618
+                  name: ubuntu default
+            type: Debian
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  operatingsystems#show: 
+    - verb: !ruby/sym GET
+      path: /api/operatingsystems/1073012828
+      query: ""
+      request_data: 
+      response_data: 
+        operatingsystem: 
+          "": []
+          minor: "1"
+          config_templates: 
+            - config_template: 
+                snippet: false
+                template_combinations: []
+                id: 1007981701
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: centos5_3_pxelinux
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: 
+                  - template_combination: 
+                      hostgroup_id: 
+                      id: 113629430
+                      environment_id: 334344675
+                id: 104314179
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: MyFinish
+                template: MyFinish
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: []
+                id: 981457253
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: MyScript
+                template: MyText
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: 
+                  - template_combination: 
+                      hostgroup_id: 636252244
+                      id: 980190962
+                      environment_id: 334344675
+                id: 943779058
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: MyString
+                template: MyText
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: 
+                  - template_combination: 
+                      hostgroup_id: 636252244
+                      id: 281110143
+                      environment_id: 334344675
+                  - template_combination: 
+                      hostgroup_id: 0
+                      id: 298486374
+                      environment_id: 
+                id: 269958254
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: MyString2
+                template: MyText
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: []
+                id: 352050261
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: Redhat 6.1
+                name: PXE Default File
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+                audit_comment: 
+          release_name: 
+          id: 1073012828
+          architectures: 
+            - architecture: 
+                operatingsystem_ids: 
+                  - 309172073
+                  - 1073012828
+                  - 331303656
+                id: 501905019
+                name: x86_64
+          media: 
+            - medium: 
+                path: http://mirror.averse.net/centos/6.0/os/$arch
+                media_path: 
+                config_path: 
+                id: 980190962
+                name: CentOS 5.4
+                image_path: 
+          name: Redhat
+          major: "6"
+          family: Redhat
+          ptables: 
+            - ptable: 
+                id: 980190962
+                name: default
+          type: Redhat
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  operatingsystems#update: 
+    - verb: !ruby/sym PUT
+      path: /api/operatingsystems/1073012828
+      query: 
+      request_data: 
+        operatingsystem: 
+          name: new_name
+      response_data: 
+        operatingsystem: 
+          "": []
+          minor: "1"
+          config_templates: 
+            - config_template: 
+                snippet: false
+                template_combinations: []
+                id: 1007981701
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: centos5_3_pxelinux
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ks=<%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: 
+                  - template_combination: 
+                      hostgroup_id: 
+                      id: 113629430
+                      environment_id: 334344675
+                id: 104314179
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: MyFinish
+                template: MyFinish
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: []
+                id: 981457253
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: MyScript
+                template: MyText
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: 
+                  - template_combination: 
+                      hostgroup_id: 636252244
+                      id: 980190962
+                      environment_id: 334344675
+                id: 943779058
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: MyString
+                template: MyText
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: 
+                  - template_combination: 
+                      hostgroup_id: 636252244
+                      id: 281110143
+                      environment_id: 334344675
+                  - template_combination: 
+                      hostgroup_id: 0
+                      id: 298486374
+                      environment_id: 
+                id: 269958254
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: MyString2
+                template: MyText
+                audit_comment: 
+            - config_template: 
+                snippet: false
+                template_combinations: []
+                id: 352050261
+                operatingsystems: 
+                  - operatingsystem: 
+                      id: 309172073
+                      name: centos 5.3
+                  - operatingsystem: 
+                      id: 1073012828
+                      name: new_name 6.1
+                name: PXE Default File
+                template: default linux~label linux~kernel <%= @kernel %>~append initrd=<%= @initrd %> ksdevice=bootif network kssendmac
+                audit_comment: 
+          release_name: 
+          id: 1073012828
+          architectures: 
+            - architecture: 
+                operatingsystem_ids: 
+                  - 309172073
+                  - 1073012828
+                  - 331303656
+                id: 501905019
+                name: x86_64
+          media: 
+            - medium: 
+                path: http://mirror.averse.net/centos/6.0/os/$arch
+                media_path: 
+                config_path: 
+                id: 980190962
+                name: CentOS 5.4
+                image_path: 
+          name: new_name
+          major: "6"
+          family: Redhat
+          ptables: 
+            - ptable: 
+                id: 980190962
+                name: default
+          type: Redhat
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  ptables#create: 
+    - verb: !ruby/sym POST
+      path: /api/ptables
+      query: 
+      request_data: 
+        ptable: 
+          name: ptable_test
+          layout: d-i partman-auto/disk
+      response_data: 
+        ptable: 
+          id: 1011586619
+          name: ptable_test
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  ptables#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/ptables/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        ptable: 
+          errors: 
+            base: 
+              - default is used by temp01.yourdomain.net
+              - default is used by sdhcp.mydomain.net
+              - default is used by dhcp.mydomain.net
+              - default is used by temp.yourdomain.net
+              - default is used by my5name.mydomain.net
+          id: 980190962
+          full_messages: 
+            - default is used by temp01.yourdomain.net
+            - default is used by sdhcp.mydomain.net
+            - default is used by dhcp.mydomain.net
+            - default is used by temp.yourdomain.net
+            - default is used by my5name.mydomain.net
+      code: "422"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym DELETE
+      path: /api/ptables/281110143
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  ptables#index: 
+    - verb: !ruby/sym GET
+      path: /api/ptables
+      query: ""
+      request_data: 
+      response_data: 
+        - ptable: 
+            id: 980190962
+            name: default
+        - ptable: 
+            id: 281110143
+            name: four
+        - ptable: 
+            id: 859751735
+            name: suse default
+        - ptable: 
+            id: 1011586618
+            name: ubuntu default
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  ptables#show: 
+    - verb: !ruby/sym GET
+      path: /api/ptables/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        ptable: 
+          id: 980190962
+          name: default
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  ptables#update: 
+    - verb: !ruby/sym PUT
+      path: /api/ptables/980190962
+      query: 
+      request_data: 
+        ptable: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  puppetclasses#create: 
+    - verb: !ruby/sym POST
+      path: /api/puppetclasses
+      query: 
+      request_data: 
+        puppetclass: 
+          name: test_puppetclass
+      response_data: 
+        puppetclass: 
+          id: 980190963
+          name: test_puppetclass
+          lookup_keys: []
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  puppetclasses#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/puppetclasses/base
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  puppetclasses#index: 
+    - verb: !ruby/sym GET
+      path: /api/puppetclasses
+      query: ""
+      request_data: 
+      response_data: 
+        openstruct: 
+          apache: 
+            - puppetclass: 
+                id: 298486374
+                name: apache
+                lookup_keys: []
+          base: 
+            - puppetclass: 
+                id: 980190962
+                name: base
+                lookup_keys: 
+                  - id: 298486374
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  puppetclasses#show: 
+    - verb: !ruby/sym GET
+      path: /api/puppetclasses/base
+      query: ""
+      request_data: 
+      response_data: 
+        puppetclass: 
+          id: 980190962
+          name: base
+          lookup_keys: 
+            - lookup_key: 
+                required: false
+                is_param: false
+                override: false
+                description: 
+                default_value: "443"
+                id: 298486374
+                key: ssl_port
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  puppetclasses#update: 
+    - verb: !ruby/sym PUT
+      path: /api/puppetclasses/base
+      query: 
+      request_data: 
+        puppetclass: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  reports#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/reports/70219655
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  reports#index: 
+    - verb: !ruby/sym GET
+      path: /api/reports
+      query: ""
+      request_data: 
+      response_data: 
+        - report: 
+            metrics: 
+              changes: {}
+              resources: 
+                total: 33
+              events: 
+                total: 0
+              time: 
+                exec: 0.000299
+                package: 0.003989
+                file: 0.007025
+                service: 0.149739
+                mailalias: 0.000283
+                config_retrieval: 16.3637869358063
+                schedule: 0.00083
+                filebucket: 0.000171
+                cron: 0.000419
+            "": []
+            summary: Success
+            id: 70219655
+            logs: []
+            status: 
+              applied: 0
+              restarted: 0
+              pending: 0
+              failed: 0
+              skipped: 0
+              failed_restarts: 0
+            reported_at: 2012-11-01 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  reports#show: 
+    - verb: !ruby/sym GET
+      path: /api/reports/70219655
+      query: ""
+      request_data: 
+      response_data: 
+        report: 
+          metrics: 
+            changes: {}
+            resources: 
+              total: 33
+            events: 
+              total: 0
+            time: 
+              exec: 0.000299
+              package: 0.003989
+              file: 0.007025
+              service: 0.149739
+              mailalias: 0.000283
+              config_retrieval: 16.3637869358063
+              schedule: 0.00083
+              filebucket: 0.000171
+              cron: 0.000419
+          "": []
+          summary: Success
+          id: 70219655
+          logs: []
+          status: 
+            applied: 0
+            restarted: 0
+            pending: 0
+            failed: 0
+            skipped: 0
+            failed_restarts: 0
+          reported_at: 2012-11-01 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  roles#create: 
+    - verb: !ruby/sym POST
+      path: /api/roles
+      query: 
+      request_data: 
+        role: 
+          name: staff
+      response_data: 
+        role: 
+          builtin: 0
+          id: 11
+          name: staff
+          permissions: []
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  roles#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/roles/1
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  roles#index: 
+    - verb: !ruby/sym GET
+      path: /api/roles
+      query: ""
+      request_data: 
+      response_data: 
+        - role: 
+            builtin: 0
+            id: 8
+            name: Destroy hosts
+            permissions: 
+              - destroy_hosts
+        - role: 
+            builtin: 2
+            id: 7
+            name: Anonymous
+            permissions: 
+              - view_hosts
+        - role: 
+            builtin: 0
+            id: 5
+            name: Viewer
+            permissions: 
+              - view_architectures
+              - view_audit_logs
+              - view_authenticators
+              - access_dashboard
+              - view_domains
+              - view_environments
+              - view_external_variables
+              - view_facts
+              - view_globals
+              - view_hostgroups
+              - view_hosts
+              - view_media
+              - view_models
+              - view_operatingsystems
+              - view_ptables
+              - view_puppetclasses
+              - view_reports
+              - access_settings
+              - view_statistics
+              - view_usergroups
+              - view_users
+        - role: 
+            builtin: 0
+            id: 9
+            name: Create hosts
+            permissions: 
+              - create_hosts
+        - role: 
+            builtin: 0
+            id: 3
+            name: View hosts
+            permissions: 
+              - view_hosts
+        - role: 
+            builtin: 0
+            id: 10
+            name: No rights
+            permissions: []
+        - role: 
+            builtin: 1
+            id: 6
+            name: Default user
+            permissions: 
+              - view_hosts
+              - view_puppetclasses
+              - view_hostgroups
+              - view_domains
+              - view_oses
+              - view_media
+              - view_models
+              - view_environments
+              - view_architectures
+              - view_ptables
+              - view_globals
+              - view_external_variables
+              - view_authenticators
+              - access_settings
+              - access_dashboard
+              - view_reports
+              - view_facts
+              - view_statistics
+        - role: 
+            builtin: 0
+            id: 2
+            name: Edit partition tables
+            permissions: 
+              - view_ptables
+              - create_ptables
+              - edit_ptables
+              - destroy_ptables
+        - role: 
+            builtin: 0
+            id: 1
+            name: Manager
+            permissions: 
+              - view_architectures
+              - create_architectures
+              - edit_architectures
+              - destroy_architectures
+              - view_authenticators
+              - create_authenticators
+              - edit_authenticators
+              - destroy_authenticators
+              - view_environments
+              - create_environments
+              - edit_environments
+              - destroy_environments
+              - import_environments
+              - view_external_variables
+              - create_external_variables
+              - edit_external_variables
+              - destroy_external_variables
+              - view_domains
+              - create_domain
+              - edit_domains
+              - destroy_domains
+              - view_globals
+              - create_globals
+              - edit_globals
+              - destroy_globals
+              - view_hostgroups
+              - create_hostgroups
+              - edit_hostgroups
+              - destroy_hostgroups
+              - view_hosts
+              - create_hosts
+              - edit_hosts
+              - destroy_hosts
+              - view_media
+              - create_media
+              - edit_media
+              - destroy_media
+              - view_models
+              - create_models
+              - edit_models
+              - destroy_models
+              - view_operatingsystems
+              - create_operatingsystems
+              - edit_operatingsystems
+              - destroy_operatingsystems
+              - view_ptables
+              - create_ptables
+              - edit_ptables
+              - destroy_ptables
+              - view_puppetclasses
+              - create_puppetclasses
+              - edit_puppetclasses
+              - destroy_puppetclasses
+              - import_puppetclasses
+              - view_usergroups
+              - create_usergroups
+              - edit_usergroups
+              - destroy_usergroups
+              - view_users
+              - create_users
+              - edit_users
+              - destroy_users
+              - access_settings
+              - access_dashboard
+              - view_reports
+              - destroy_reports
+              - view_facts
+              - view_audit_logs
+              - view_statistics
+        - role: 
+            builtin: 0
+            id: 4
+            name: Edit hosts
+            permissions: 
+              - edit_hosts
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  roles#show: 
+    - verb: !ruby/sym GET
+      path: /api/roles/1
+      query: ""
+      request_data: 
+      response_data: 
+        role: 
+          builtin: 0
+          id: 1
+          name: Manager
+          permissions: 
+            - view_architectures
+            - create_architectures
+            - edit_architectures
+            - destroy_architectures
+            - view_authenticators
+            - create_authenticators
+            - edit_authenticators
+            - destroy_authenticators
+            - view_environments
+            - create_environments
+            - edit_environments
+            - destroy_environments
+            - import_environments
+            - view_external_variables
+            - create_external_variables
+            - edit_external_variables
+            - destroy_external_variables
+            - view_domains
+            - create_domain
+            - edit_domains
+            - destroy_domains
+            - view_globals
+            - create_globals
+            - edit_globals
+            - destroy_globals
+            - view_hostgroups
+            - create_hostgroups
+            - edit_hostgroups
+            - destroy_hostgroups
+            - view_hosts
+            - create_hosts
+            - edit_hosts
+            - destroy_hosts
+            - view_media
+            - create_media
+            - edit_media
+            - destroy_media
+            - view_models
+            - create_models
+            - edit_models
+            - destroy_models
+            - view_operatingsystems
+            - create_operatingsystems
+            - edit_operatingsystems
+            - destroy_operatingsystems
+            - view_ptables
+            - create_ptables
+            - edit_ptables
+            - destroy_ptables
+            - view_puppetclasses
+            - create_puppetclasses
+            - edit_puppetclasses
+            - destroy_puppetclasses
+            - import_puppetclasses
+            - view_usergroups
+            - create_usergroups
+            - edit_usergroups
+            - destroy_usergroups
+            - view_users
+            - create_users
+            - edit_users
+            - destroy_users
+            - access_settings
+            - access_dashboard
+            - view_reports
+            - destroy_reports
+            - view_facts
+            - view_audit_logs
+            - view_statistics
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  roles#update: 
+    - verb: !ruby/sym PUT
+      path: /api/roles/1
+      query: 
+      request_data: 
+        role: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  settings#index: 
+    - verb: !ruby/sym GET
+      path: /api/settings
+      query: ""
+      request_data: 
+      response_data: 
+        - setting: 
+            value: root@some.host.fqdn
+            default: root@some.host.fqdn
+            category: General
+            description: The Default administrator email address
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 333972760
+            name: administrator
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: f
+            default: f
+            category: General
+            description: Authorize login delegation with REMOTE_USER environment variable
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 737268150
+            name: authorize_login_delegation
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: f
+            default: f
+            category: General
+            description: Authorize login delegation with REMOTE_USER environment variable for API calls
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 898974743
+            name: authorize_login_delegation_api
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: production
+            default: production
+            category: Puppet
+            description: The Puppet environment foreman would default to in case it can't auto detect it
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 489917738
+            name: default_puppet_environment
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: 
+              - fqdn
+              - hostgroup
+              - os
+              - domain
+            default: 
+              - fqdn
+              - hostgroup
+              - os
+              - domain
+            category: Puppet
+            description: The Default path in which foreman resolves host specific variables
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 515381208
+            name: Default_variables_Lookup_Path
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: /home/olevy/git/foreman/public/puppet/rdoc
+            default: /home/olevy/git/foreman/public/puppet/rdoc
+            category: Puppet
+            description: Document root where puppetdoc files should be created
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 785572700
+            name: document_root
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: t
+            default: t
+            category: Puppet
+            description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 537488238
+            name: enc_environment
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: 20
+            default: 20
+            category: General
+            description: The amount of records shown per page in foreman
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 817264379
+            name: entries_per_page
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: false
+            default: false
+            category: Puppet
+            description: Enable Email Alerts per each failed puppet report
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 14451317
+            name: failed_report_email_notification
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: http://foreman.some.host.fqdn
+            default: http://foreman.some.host.fqdn
+            category: General
+            description: The URL Foreman should point to in emails etc
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 182539440
+            name: foreman_url
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: 5
+            default: 5
+            category: General
+            description: idle timeout
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 386817023
+            name: idle_timeout
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: t
+            default: t
+            category: Provisioning
+            description: Should Foreman manage host certificates when provisioning hosts
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 700393283
+            name: manage_puppetca
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: /etc/puppet/modules
+            default: /etc/puppet/modules
+            category: Puppet
+            description: The Puppet default module path in case that Foreman can't auto detect it
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 433443793
+            name: modulepath
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: f
+            default: f
+            category: Puppet
+            description: Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 43152518
+            name: Parametrized_Classes_in_ENC
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: 30
+            default: 30
+            category: Puppet
+            description: Puppet interval in minutes
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 708099507
+            name: puppet_interval
+            settings_type: integer
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: puppet
+            default: puppet
+            category: Puppet
+            description: Default Puppet Server hostname
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 937145060
+            name: puppet_server
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: f
+            default: f
+            category: Provisioning
+            description: Should Foreman query the locally configured name server or the SOA/NS authorities
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 100642973
+            name: query_local_nameservers
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: 127.0.0
+            default: 127.0.0
+            category: Provisioning
+            description: "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 485941537
+            name: remote_addr
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: xybxa6JUkz63w
+            default: xybxa6JUkz63w
+            category: Provisioning
+            description: Default root password on provisioned hosts default is 123123
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 1038509113
+            name: root_pass
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: true
+            default: true
+            category: Provisioning
+            description: Enable safe mode config templates rendinging(recommended)
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 595784092
+            name: safemode_render
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: /var/lib/puppet/ssl/certs/ca.pem
+            default: /var/lib/puppet/ssl/certs/ca.pem
+            category: Provisioning
+            description: SSL CA file that foreman would use to communicate with its proxies
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 227315895
+            name: ssl_ca_file
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: /var/lib/puppet/ssl/certs/some.host.fqdn
+            default: /var/lib/puppet/ssl/certs/some.host.fqdn
+            category: Provisioning
+            description: SSL Certificate path that foreman would use to communicate with its proxies
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 344310031
+            name: ssl_certificate
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
+            default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
+            category: Provisioning
+            description: SSL Private Key file that foreman would use to communicate with its proxies
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 982229024
+            name: ssl_priv_key
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: 0
+            default: 0
+            category: Provisioning
+            description: "Time in minutes installation tokens should be valid for, 0 to disable"
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 619638516
+            name: token_duration
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: f
+            default: f
+            category: Puppet
+            description: Foreman will update a hosts environment from its facts
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 129058412
+            name: update_environment_from_facts
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - setting: 
+            value: f
+            default: f
+            category: Puppet
+            description: Should Foreman use random UUID's for certificate signing instead of hostnames
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 855146510
+            name: use_uuid_for_certificates
+            settings_type: 
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  settings#show: 
+    - verb: !ruby/sym GET
+      path: /api/settings/333972760
+      query: ""
+      request_data: 
+      response_data: 
+        setting: 
+          value: root@some.host.fqdn
+          default: root@some.host.fqdn
+          category: General
+          description: The Default administrator email address
+          created_at: 2012-11-08 14:56:25.000000 +00:00
+          id: 333972760
+          name: administrator
+          settings_type: 
+          updated_at: 2012-11-08 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  settings#update: 
+    - verb: !ruby/sym PUT
+      path: /api/settings/333972760
+      query: 
+      request_data: 
+        setting: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  smart_proxies#create: 
+    - verb: !ruby/sym POST
+      path: /api/smart_proxies
+      query: 
+      request_data: 
+        smart_proxy: 
+          url: http://server:8443
+          name: master02
+      response_data: 
+        smart_proxy: 
+          url: http://server:8443
+          created_at: 2012-11-08 14:56:31.000000 +00:00
+          id: 980190963
+          name: master02
+          updated_at: 2012-11-08 14:56:31.000000 +00:00
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  smart_proxies#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/smart_proxies/281110143-unused-proxy
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym DELETE
+      path: /api/smart_proxies/113629430-dns-proxy
+      query: ""
+      request_data: 
+      response_data: 
+        error: 
+          class: NoMethodError
+          message: "undefined method `permission_failed?' for #<SmartProxy:0x7f91b32f7500>"
+          backtrace: 
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activemodel-3.0.17/lib/active_model/attribute_methods.rb:392:in `method_missing'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/attribute_methods.rb:46:in `method_missing'
+            - /home/jmagen/foreman/app/controllers/api/base_controller.rb:42:in `process_resource_error'
+            - /home/jmagen/foreman/app/controllers/api/base_controller.rb:58:in `process_response'
+            - /home/jmagen/foreman/app/controllers/api/v1/smart_proxies_controller.rb:39:in `destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `call'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `destroy'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1935780875__process_action__1045315448__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3771'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3771'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1935780875__process_action__1045315448__callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `run_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rescue.rb:17:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:119:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:41:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/testing.rb:12:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/oauth-0.4.7/lib/oauth/client/action_controller_request.rb:15:in `process_with_new_base_test'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:414:in `process_without_api_recording'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/extractor/recorder.rb:112:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:47:in `process'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:367:in `delete'
+            - /home/jmagen/foreman/test/functional/api/v1/smart_proxies_controller_test.rb:54:in `test_should_not_destroy_smart_proxy_that_is_in_use'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/assertions.rb:42:in `assert_difference'
+            - /home/jmagen/foreman/test/functional/api/v1/smart_proxies_controller_test.rb:53:in `test_should_not_destroy_smart_proxy_that_is_in_use'
+            - ./test/test_helper.rb:30:in `as_user'
+            - /home/jmagen/foreman/test/functional/api/v1/smart_proxies_controller_test.rb:52:in `test_should_not_destroy_smart_proxy_that_is_in_use'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `__send__'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `run'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:439:in `_run_setup_callbacks'
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:65:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+            - /home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279
+            - /home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21
+      code: "500"
+      show_in_doc: 0
+      recorded: true
+  smart_proxies#index: 
+    - verb: !ruby/sym GET
+      path: /api/smart_proxies
+      query: ""
+      request_data: 
+      response_data: 
+        - smart_proxy: 
+            url: https://somewhere.net:8443
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 980190962
+            name: DHCP Proxy
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - smart_proxy: 
+            url: http://else.where:4567
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 113629430
+            name: DNS Proxy
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - smart_proxy: 
+            url: http://else.where:4567
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 182953976
+            name: Puppetmaster Proxy
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - smart_proxy: 
+            url: http://somewhere.else
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 298486374
+            name: TFTP Proxy
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+        - smart_proxy: 
+            url: http://else.where:4567
+            created_at: 2012-11-08 14:56:25.000000 +00:00
+            id: 281110143
+            name: Unused Proxy
+            updated_at: 2012-11-08 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  smart_proxies#show: 
+    - verb: !ruby/sym GET
+      path: /api/smart_proxies/980190962-dhcp-proxy
+      query: ""
+      request_data: 
+      response_data: 
+        smart_proxy: 
+          url: https://somewhere.net:8443
+          created_at: 2012-11-08 14:56:25.000000 +00:00
+          id: 980190962
+          name: DHCP Proxy
+          updated_at: 2012-11-08 14:56:25.000000 +00:00
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  smart_proxies#update: 
+    - verb: !ruby/sym PUT
+      path: /api/smart_proxies/980190962-dhcp-proxy
+      query: 
+      request_data: 
+        smart_proxy: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  subnets#create: 
+    - verb: !ruby/sym POST
+      path: /api/subnets
+      query: 
+      request_data: 
+        subnet: 
+          mask: 255.255.255.0
+          name: QA2
+          network: 10.35.2.27
+      response_data: 
+        subnet: 
+          domain_ids: []
+          mask: 255.255.255.0
+          from: 
+          dhcp: 
+          tftp: 
+          priority: 
+          dhcp_id: 
+          dns: 
+          vlanid: 
+          dns_primary: 
+          id: 980190963
+          to: 
+          dns_id: 
+          name: QA2
+          tftp_id: 
+          gateway: 
+          dns_secondary: 
+          network: 10.35.2.27
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  subnets#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/subnets/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        subnet: 
+          errors: 
+            base: 
+              - 2.3.4.0/24 is used by sol10host
+              - 2.3.4.0/24 is used by suse01.yourdomain.net
+              - 2.3.4.0/24 is used by anotherfullhost
+              - 2.3.4.0/24 is used by temp-01.yourdomain.net
+              - 2.3.4.0/24 is used by temp01.yourdomain.net
+              - 2.3.4.0/24 is used by otherfullhost
+              - 2.3.4.0/24 is used by sdhcp.mydomain.net
+              - 2.3.4.0/24 is used by dhcp.mydomain.net
+              - 2.3.4.0/24 is used by temp.yourdomain.net
+              - 2.3.4.0/24 is used by my5name.mydomain.net
+              - 2.3.4.0/24 is used by sdhcp.mydomain.net
+          id: 980190962
+          full_messages: 
+            - 2.3.4.0/24 is used by sol10host
+            - 2.3.4.0/24 is used by suse01.yourdomain.net
+            - 2.3.4.0/24 is used by anotherfullhost
+            - 2.3.4.0/24 is used by temp-01.yourdomain.net
+            - 2.3.4.0/24 is used by temp01.yourdomain.net
+            - 2.3.4.0/24 is used by otherfullhost
+            - 2.3.4.0/24 is used by sdhcp.mydomain.net
+            - 2.3.4.0/24 is used by dhcp.mydomain.net
+            - 2.3.4.0/24 is used by temp.yourdomain.net
+            - 2.3.4.0/24 is used by my5name.mydomain.net
+            - 2.3.4.0/24 is used by sdhcp.mydomain.net
+      code: "422"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym DELETE
+      path: /api/subnets/113629430
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  subnets#index: 
+    - verb: !ruby/sym GET
+      path: /api/subnets
+      query: ""
+      request_data: 
+      response_data: 
+        - subnet: 
+            domain_ids: []
+            mask: 255.255.255.0
+            from: 
+            dhcp: 
+              url: https://somewhere.net:8443
+              id: 980190962
+              name: DHCP Proxy
+            tftp: 
+              url: http://somewhere.else
+              id: 298486374
+              name: TFTP Proxy
+            priority: 
+            dhcp_id: 980190962
+            dns: 
+            vlanid: 
+            dns_primary: 
+            id: 113629430
+            to: 
+            dns_id: 
+            name: three
+            tftp_id: 298486374
+            gateway: 
+            dns_secondary: 
+            network: 3.3.4.3
+        - subnet: 
+            domain_ids: 
+              - 534821992
+            mask: 255.255.255.0
+            from: 
+            dhcp: 
+              url: https://somewhere.net:8443
+              id: 980190962
+              name: DHCP Proxy
+            tftp: 
+              url: http://somewhere.else
+              id: 298486374
+              name: TFTP Proxy
+            priority: 
+            dhcp_id: 980190962
+            dns: 
+            vlanid: 
+            dns_primary: 
+            id: 298486374
+            to: 
+            dns_id: 
+            name: two
+            tftp_id: 298486374
+            gateway: 
+            dns_secondary: 
+            network: 3.3.4.0
+        - subnet: 
+            domain_ids: 
+              - 822172901
+            mask: 255.255.255.0
+            from: 
+            dhcp: 
+              url: https://somewhere.net:8443
+              id: 980190962
+              name: DHCP Proxy
+            tftp: 
+              url: http://somewhere.else
+              id: 298486374
+              name: TFTP Proxy
+            priority: 
+            dhcp_id: 980190962
+            dns: 
+              url: http://else.where:4567
+              id: 113629430
+              name: DNS Proxy
+            vlanid: 
+            dns_primary: 
+            id: 980190962
+            to: 
+            dns_id: 113629430
+            name: one
+            tftp_id: 298486374
+            gateway: 
+            dns_secondary: 
+            network: 2.3.4.0
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  subnets#show: 
+    - verb: !ruby/sym GET
+      path: /api/subnets/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        subnet: 
+          domain_ids: 
+            - 822172901
+          mask: 255.255.255.0
+          from: 
+          dhcp: 
+            url: https://somewhere.net:8443
+            id: 980190962
+            name: DHCP Proxy
+          tftp: 
+            url: http://somewhere.else
+            id: 298486374
+            name: TFTP Proxy
+          priority: 
+          dhcp_id: 980190962
+          dns: 
+            url: http://else.where:4567
+            id: 113629430
+            name: DNS Proxy
+          vlanid: 
+          dns_primary: 
+          id: 980190962
+          to: 
+          name: one
+          dns_id: 113629430
+          tftp_id: 298486374
+          gateway: 
+          dns_secondary: 
+          network: 2.3.4.0
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  subnets#update: 
+    - verb: !ruby/sym PUT
+      path: /api/subnets/980190962
+      query: 
+      request_data: 
+        subnet: {}
+      response_data: 
+        subnet: 
+          domain_ids: 
+            - 822172901
+          mask: 255.255.255.0
+          from: 
+          dhcp: 
+            url: https://somewhere.net:8443
+            id: 980190962
+            name: DHCP Proxy
+          tftp: 
+            url: http://somewhere.else
+            id: 298486374
+            name: TFTP Proxy
+          priority: 
+          dhcp_id: 980190962
+          dns: 
+            url: http://else.where:4567
+            id: 113629430
+            name: DNS Proxy
+          vlanid: 
+          dns_primary: 
+          id: 980190962
+          to: 
+          dns_id: 113629430
+          name: one
+          tftp_id: 298486374
+          gateway: 
+          dns_secondary: 
+          network: 2.3.4.0
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  usergroups#create: 
+    - verb: !ruby/sym POST
+      path: /api/usergroups
+      query: 
+      request_data: 
+        usergroup: 
+          name: test_usergroup
+      response_data: 
+        usergroup: 
+          id: 980190963
+          name: test_usergroup
+      code: "201"
+      show_in_doc: 1
+      recorded: true
+  usergroups#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/usergroups/980190962
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  usergroups#index: 
+    - verb: !ruby/sym GET
+      path: /api/usergroups
+      query: ""
+      request_data: 
+      response_data: 
+        - usergroup: 
+            id: 980190962
+            name: MyString
+        - usergroup: 
+            id: 298486374
+            name: MyString2
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  usergroups#show: 
+    - verb: !ruby/sym GET
+      path: /api/usergroups/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        usergroup: 
+          id: 980190962
+          name: MyString
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  usergroups#update: 
+    - verb: !ruby/sym PUT
+      path: /api/usergroups/980190962
+      query: 
+      request_data: 
+        usergroup: {}
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  users#destroy: 
+    - verb: !ruby/sym DELETE
+      path: /api/users/980190962
+      query: ""
+      request_data: 
+      response_data: {}
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym DELETE
+      path: /api/users/980190962
+      query: ""
+      request_data: 
+      response_data: 
+        error: 
+          details: You are trying to delete your own account
+          message: Access denied
+      code: "403"
+      show_in_doc: 0
+      recorded: true
+  users#index: 
+    - verb: !ruby/sym GET
+      path: /api/users
+      query: ""
+      request_data: 
+      response_data: 
+        - user: 
+            admin: false
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: test
+            firstname: test
+            auth_source_id: 200482051
+            id: 200482051
+            mail: testuser@someware.com
+            role_id: 
+            auth_source_internal: 
+              account: 
+              onthefly_register: false
+              host: 
+              attr_mail: 
+              port: 
+              tls: false
+              attr_lastname: 
+              id: 200482051
+              name: Internal
+              account_password: 
+              attr_login: 
+              attr_firstname: 
+              base_dn: 
+              type: AuthSourceInternal
+        - user: 
+            admin: true
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: admin
+            firstname: Admin
+            auth_source_id: 980190962
+            id: 135138680
+            mail: admin@someware.com
+            role_id: 
+            auth_source_ldap: 
+              account: 
+              onthefly_register: true
+              host: ldap
+              attr_mail: mail
+              port: 123
+              tls: true
+              attr_lastname: sn
+              id: 980190962
+              name: ldap
+              account_password: 
+              attr_login: uid
+              attr_firstname: givenName
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+        - user: 
+            admin: false
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: two
+            firstname: Two
+            auth_source_id: 980190962
+            id: 298486374
+            mail: usertwo@someware.com
+            role_id: 
+            auth_source_ldap: 
+              account: 
+              onthefly_register: true
+              host: ldap
+              attr_mail: mail
+              port: 123
+              tls: true
+              attr_lastname: sn
+              id: 980190962
+              name: ldap
+              account_password: 
+              attr_login: uid
+              attr_firstname: givenName
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+        - user: 
+            admin: false
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: one
+            firstname: One
+            auth_source_id: 980190962
+            id: 980190962
+            mail: userone@someware.com
+            role_id: 
+            auth_source_ldap: 
+              account: 
+              onthefly_register: true
+              host: ldap
+              attr_mail: mail
+              port: 123
+              tls: true
+              attr_lastname: sn
+              id: 980190962
+              name: ldap
+              account_password: 
+              attr_login: uid
+              attr_firstname: givenName
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym GET
+      path: /api/users
+      query: ""
+      request_data: 
+      response_data: 
+        - user: 
+            admin: false
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: test
+            firstname: test
+            auth_source_id: 200482051
+            id: 200482051
+            mail: testuser@someware.com
+            role_id: 
+            auth_source_internal: 
+              account: 
+              onthefly_register: false
+              host: 
+              attr_mail: 
+              port: 
+              tls: false
+              attr_lastname: 
+              id: 200482051
+              name: Internal
+              account_password: 
+              attr_login: 
+              attr_firstname: 
+              base_dn: 
+              type: AuthSourceInternal
+        - user: 
+            admin: true
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: admin
+            firstname: Admin
+            auth_source_id: 980190962
+            id: 135138680
+            mail: admin@someware.com
+            role_id: 
+            auth_source_ldap: 
+              account: 
+              onthefly_register: true
+              host: ldap
+              attr_mail: mail
+              port: 123
+              tls: true
+              attr_lastname: sn
+              id: 980190962
+              name: ldap
+              account_password: 
+              attr_login: uid
+              attr_firstname: givenName
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+        - user: 
+            admin: false
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            "": []
+            lastname: User
+            login: two
+            firstname: Two
+            auth_source_id: 980190962
+            id: 298486374
+            mail: usertwo@someware.com
+            role_id: 
+            auth_source_ldap: 
+              account: 
+              onthefly_register: true
+              host: ldap
+              attr_mail: mail
+              port: 123
+              tls: true
+              attr_lastname: sn
+              id: 980190962
+              name: ldap
+              account_password: 
+              attr_login: uid
+              attr_firstname: givenName
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+        - user: 
+            admin: false
+            roles: 
+              - role: 
+                  builtin: 2
+                  id: 7
+                  name: Anonymous
+                  permissions: 
+                    - view_hosts
+              - role: 
+                  builtin: 0
+                  id: 5
+                  name: Viewer
+                  permissions: 
+                    - view_architectures
+                    - view_audit_logs
+                    - view_authenticators
+                    - access_dashboard
+                    - view_domains
+                    - view_environments
+                    - view_external_variables
+                    - view_facts
+                    - view_globals
+                    - view_hostgroups
+                    - view_hosts
+                    - view_media
+                    - view_models
+                    - view_operatingsystems
+                    - view_ptables
+                    - view_puppetclasses
+                    - view_reports
+                    - access_settings
+                    - view_statistics
+                    - view_usergroups
+                    - view_users
+            last_login_on: 2009-10-12 21:50:04.000000 +00:00
+            lastname: User
+            login: one
+            firstname: One
+            auth_source_id: 980190962
+            id: 980190962
+            mail: userone@someware.com
+            role_id: 
+            auth_source_ldap: 
+              account: 
+              onthefly_register: true
+              host: ldap
+              attr_mail: mail
+              port: 123
+              tls: true
+              attr_lastname: sn
+              id: 980190962
+              name: ldap
+              account_password: 
+              attr_login: uid
+              attr_firstname: givenName
+              base_dn: "dn=x,dn=y"
+              type: AuthSourceLdap
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+  users#show: 
+    - verb: !ruby/sym GET
+      path: /api/users/980190962-one
+      query: ""
+      request_data: 
+      response_data: 
+        user: 
+          admin: false
+          last_login_on: 2009-10-12 21:50:04.000000 +00:00
+          "": []
+          lastname: User
+          login: one
+          firstname: One
+          auth_source_id: 980190962
+          id: 980190962
+          mail: userone@someware.com
+          role_id: 
+          auth_source_ldap: 
+            account: 
+            onthefly_register: true
+            host: ldap
+            attr_mail: mail
+            port: 123
+            tls: true
+            attr_lastname: sn
+            id: 980190962
+            name: ldap
+            account_password: 
+            attr_login: uid
+            attr_firstname: givenName
+            base_dn: "dn=x,dn=y"
+            type: AuthSourceLdap
+      code: "200"
+      show_in_doc: 1
+      recorded: true
+  users#update: 
+    - verb: !ruby/sym PUT
+      path: /api/users/980190963
+      query: 
+      request_data: 
+        user: 
+          password_confirmation: DUMMY
+          login: johnsmith
+          password: dummy
+      response_data: 
+        user: 
+          errors: 
+            password: 
+              - doesn't match confirmation
+          id: 980190963
+          full_messages: 
+            - Password doesn't match confirmation
+      code: "422"
+      show_in_doc: 1
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/users/980190964
+      query: 
+      request_data: 
+        user: 
+          login: johnsmith
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/users/980190965
+      query: 
+      request_data: 
+        user: 
+          password_confirmation: dummy
+          login: johnsmith
+          password: dummy
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/users/980190966
+      query: 
+      request_data: 
+        user: 
+          login: johnsmith
+      response_data: {}
+      code: "200"
+      show_in_doc: 0
+      recorded: true
+    - verb: !ruby/sym PUT
+      path: /api/users/980190967
+      query: 
+      request_data: 
+        user: 
+          login: johnsmith
+      response_data: 
+        error: 
+          details: 
+          message: Access denied
+      code: "403"
+      show_in_doc: 0
+      recorded: true

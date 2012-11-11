@@ -9,6 +9,15 @@ class Api::V1::DomainsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:domains)
   end
 
+  test "should show domain" do
+    as_user :admin do
+      get :show, {:id => Domain.first.to_param}
+    end
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
   test "should not create invalid domain" do
     as_user :admin do
       post :create, {:domain => {:fullname => ""}}

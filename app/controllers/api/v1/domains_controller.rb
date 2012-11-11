@@ -22,7 +22,7 @@ module Api
       end
 
       api :GET, "/domains/:id/", "Show a domain."
-      param :id, String, :required => true
+      param :id, String, :required => true, :desc => "May be numerical id or domain name"
       def show
       end
 
