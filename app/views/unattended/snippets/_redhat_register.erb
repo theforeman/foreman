@@ -1,16 +1,36 @@
 # Red Hat Registration Snippet
-<% if @host.params["activation_key"] -%>
+#
+# Usage, set these params:
+#   spacewalk_type = "site"     (local Spacewalk/Satellite server)
+#                  = "hosted"   (RHN hosted)
+#   spacewalk_host = <hostname> (hostname of Spacewalk server, optional for
+#                                RHN hosted)
+#   activation_key = <key>      (activation key string)
+#
+
+<%
+if @host.params["activation_key"]
+    type = @host.params["spacewalk_type"] || "hosted"
+-%>
 # Discovered Activation Key <%= @host.params["activation_key"] %>
-satellite_hostname="spacewalk.tradition.int"
 rhn_activation_key="<%= @host.params["activation_key"] -%>"
+
+<% if type == "site" -%>
+satellite_hostname="<%= @host.params["spacewalk_host"] -%>"
 rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
+<% else -%>
+satellite_hostname="<%= @host.params["spacewalk_host"] || "xmlrpc.rhn.redhat.com" -%>"
+rhn_cert_file="RHNS-CA-CERT"
+<% end -%>
 
 echo "Registering to RHN Satellite at [$satellite_hostname]"
 echo "Using Registration Key [$rhn_activation_key]"
 
+<% if type == "site" -%>
 # Obtain our RHN Satellite Certificate
 echo "Obtaining RHN SSL certificate"
 wget http://$satellite_hostname/pub/$rhn_cert_file -O /usr/share/rhn/$rhn_cert_file
+<% end -%>
 
 # Update our up2date configuration file
 echo "Updating SSL CA Certificate to /usr/share/rhn/$rhn_cert_file"
