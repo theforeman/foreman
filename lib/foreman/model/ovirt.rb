@@ -16,8 +16,8 @@ module Foreman::Model
       true
     end
 
-    def provided_attributes
-      super.merge({:mac => :mac})
+    def provided_attributes host
+      super(host).merge({:mac => :mac})
     end
 
     #FIXME

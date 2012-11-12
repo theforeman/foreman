@@ -10,8 +10,8 @@ module Foreman::Model
 
     validates_presence_of :user, :password
 
-    def provided_attributes
-      super.merge({ :ip => :public_ip_address })
+    def provided_attributes host
+      super(host).merge({ :ip => :public_ip_address })
     end
 
     def self.model_name
