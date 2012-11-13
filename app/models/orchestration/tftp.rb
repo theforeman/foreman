@@ -2,7 +2,6 @@ module Orchestration::TFTP
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_accessor :request_url
       after_validation :validate_tftp, :queue_tftp
       before_destroy :queue_tftp_destroy
 

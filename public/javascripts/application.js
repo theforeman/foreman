@@ -356,3 +356,8 @@ function update_puppetclasses(element) {
     }
   })
 }
+
+// generates an absolute, needed in case of running Foreman from a subpath
+function foreman_url(path) {
+  return URL_PREFIX + path;
+}

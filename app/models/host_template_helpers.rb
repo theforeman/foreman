@@ -27,8 +27,17 @@ module HostTemplateHelpers
   def foreman_url(action = "provision")
     url_for :only_path => false, :controller => "unattended",
             :action => action,
-            :host => Setting[:foreman_url] || request_url,
-            :protocol  => 'http',
             :token => (@host.token.value unless @host.token.nil?)
   end
+
+  attr_writer(:url_options)
+
+  # used by url_for to generate the path correctly
+  def url_options
+    url_options = @url_options || {}
+    url_options[:protocol] = "http://"
+    url_options[:host] = Setting[:foreman_url] if Setting[:foreman_url]
+    url_options
+  end
+
 end

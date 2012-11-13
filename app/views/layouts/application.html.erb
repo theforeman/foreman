@@ -7,6 +7,7 @@
       'bootstrap.min' %>
     <%= csrf_meta_tag %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+    <%= javascript_tag "var URL_PREFIX = '#{request.script_name}';" %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0;" />
     <%= yield(:head) %>

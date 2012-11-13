@@ -56,7 +56,7 @@ var stop_pooling;
 
 function submit_host(form){
   var url = window.location.pathname.replace(/\/edit$|\/new$/,'');
-  if(/\/clone$/.test(window.location.pathname)){ url = '/hosts'; }
+  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/hosts'); }
   $('#host_submit').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
@@ -279,7 +279,7 @@ function subnet_selected(element){
   $.ajax({
     data: attrs,
     type:'post',
-    url:'/subnets/freeip',
+    url: foreman_url('/subnets/freeip'),
     complete: function(){$('#subnet_indicator').hide()}
   })
 }
@@ -352,7 +352,7 @@ function update_provisioning_image(){
   $.ajax({
       data:'search=' + encodeURIComponent(term),
       type:'get',
-      url:'/compute_resources/'+compute_id+'/images',
+      url: foreman_url('/compute_resources/'+compute_id+'/images'),
       dataType: 'json',
       success: function(result) {
         $.each(result, function() {
