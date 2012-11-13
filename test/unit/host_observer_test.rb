@@ -24,7 +24,7 @@ class HostObserverTest < ActiveSupport::TestCase
       host = Host.create! :name => "foo", :mac => "aabbeeddccff", :ip => "2.3.4.244", :managed => true,
         :build => true, :architecture => architectures(:x86_64), :environment => Environment.first, :puppet_proxy_id => 1,
         :domain => Domain.first, :operatingsystem => operatingsystems(:centos5_3), :subnet => subnets(:one),
-        :request_url => 'http://foreman'
+        :url_options => {:host => 'foreman', :protocol => "http://"}
     end
 
     assert host.token.try(:value).present?

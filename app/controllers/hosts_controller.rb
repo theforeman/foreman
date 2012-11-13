@@ -86,7 +86,7 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(params[:host])
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
-    forward_request_url
+    forward_url_options
     if @host.save
       process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
@@ -101,7 +101,7 @@ class HostsController < ApplicationController
   end
 
   def update
-    forward_request_url
+    forward_url_options
     Taxonomy.no_taxonomy_scope do
       if @host.update_attributes(params[:host])
         process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
@@ -182,7 +182,7 @@ class HostsController < ApplicationController
   end
 
   def setBuild
-    forward_request_url
+    forward_url_options
     if @host.setBuild
       process_success :success_msg => "Enabled #{@host} for rebuild on next boot", :success_redirect => :back
     else
@@ -317,7 +317,7 @@ class HostsController < ApplicationController
 
   def submit_multiple_build
     @hosts.delete_if do |host|
-      host.request_url = request.host_with_port if host.respond_to?(:request_url)
+      forward_url_options(host)
       host.setBuild
     end
 
@@ -541,8 +541,8 @@ class HostsController < ApplicationController
   end
 
   # this is required for template generation (such as pxelinux) which is not done via a web request
-  def forward_request_url
-    @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+  def forward_url_options(host = @host)
+    host.url_options = url_options if @host.respond_to?(:url_options)
   end
 
   def merge_search_filter filter
