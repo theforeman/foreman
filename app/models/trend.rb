@@ -3,7 +3,7 @@ class Trend < ActiveRecord::Base
   belongs_to :trendable, :polymorphic => true
   has_many :trend_counters, :dependent => :destroy
 
-  scope :has_value, where('fact_value IS NOT NULL').order("LOWER(fact_value)")
+  scope :has_value, where('fact_value IS NOT NULL')
   scope :types, where('fact_value IS NULL')
 
   after_save :create_values, :if => lambda{ |o|  o.fact_value == nil }
