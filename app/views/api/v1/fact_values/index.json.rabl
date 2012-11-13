@@ -1,3 +1,5 @@
 collection @fact_values
 
-extends "api/v1/fact_values/show"
+@hash_fact_values.keys.each do |key|
+	attribute key.to_sym
+end

@@ -8,8 +8,9 @@ module Api
       param :order,  String, :desc => "sort results"
       def index
         values = Puppetclass.search_for(params[:search], :order => params[:order])
-        @hash_puppetclasses = Puppetclass.classes2hash(values.all(:select => "name, id"))
-        @puppetclasses = OpenStruct.new(@hash_puppetclasses)
+        @puppetclasses = Puppetclass.classes2hash(values.all(:select => "name, id"))
+        render :json => @puppetclasses
+
       end
 
       api :GET, "/puppetclasses/:id/", "Show a puppetclass."

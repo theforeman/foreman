@@ -45,15 +45,14 @@ Only admin can set admin account.</p>
       <pre class="prettyprint">PUT /api/users/980190963
 {
   &quot;user&quot;: {
-    &quot;password&quot;: &quot;dummy&quot;,
+    &quot;password_confirmation&quot;: &quot;DUMMY&quot;,
     &quot;login&quot;: &quot;johnsmith&quot;,
-    &quot;password_confirmation&quot;: &quot;DUMMY&quot;
+    &quot;password&quot;: &quot;dummy&quot;
   }
 }
 422
 {
   &quot;user&quot;: {
-    &quot;id&quot;: 980190963,
     &quot;errors&quot;: {
       &quot;password&quot;: [
         &quot;doesn&#x27;t match confirmation&quot;
@@ -61,7 +60,8 @@ Only admin can set admin account.</p>
     },
     &quot;full_messages&quot;: [
       &quot;Password doesn&#x27;t match confirmation&quot;
-    ]
+    ],
+    &quot;id&quot;: 980190963
   }
 }</pre>
 

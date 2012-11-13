@@ -8,8 +8,8 @@ module Api
       param :order,  String, :desc => "sort results"
       def index
         values = FactValue.my_facts.no_timestamp_facts.search_for(params[:search],:order => params[:order])
-        #@fact_values = FactValue.build_facts_hash(values.all(:include => [:fact_name, :host]))
-        @fact_values = values.all(:include => [:fact_name, :host])
+        @fact_values = FactValue.build_facts_hash(values.all(:include => [:fact_name, :host]))
+        render :json => @fact_values
       end
 
     end

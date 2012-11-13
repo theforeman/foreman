@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
 
-  valid_attrs = {:name => 'special_compute', :provider => 'EC2', :url => 'eu-west1'}
+  valid_attrs = {:name => 'special_compute', :provider => 'EC2', :url => 'eu-west1', :user => 'user@example.com', :password => 'secret'}
 
   test "should get index" do
     as_user :admin do
@@ -23,22 +23,5 @@ class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
-  test "should create compute_resource" do
-    as_user :admin do
-      assert_difference('ComputeResource.count', 1) do
-        post :create, {:compute_resource => valid_attrs}
-      end
-    end
-    assert_response :success
-  end
-
-  test "should destroy compute_resource" do
-    as_user :admin do
-      assert_difference('ComputeResource.count', -1) do
-        delete :destroy, {:id => compute_resources(:yourcompute).id}
-      end
-    end
-    assert_response :success
-  end
 
 end

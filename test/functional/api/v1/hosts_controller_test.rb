@@ -44,7 +44,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should update host" do
     as_user :admin do
-      put :update, {:id => hosts(:one).to_param, :host => {} }
+      put :update, {:id => hosts(:two).to_param, :host => {} }
     end
     assert_response :success
   end

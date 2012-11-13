@@ -60,52 +60,52 @@
 [
   {
     &quot;medium&quot;: {
+      &quot;config_path&quot;: null,
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
+      &quot;name&quot;: &quot;CentOS 5.4&quot;,
       &quot;media_path&quot;: null,
       &quot;id&quot;: 980190962,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;CentOS 5.4&quot;
+      &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;
     }
   },
   {
     &quot;medium&quot;: {
+      &quot;config_path&quot;: null,
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss&quot;,
+      &quot;name&quot;: &quot;OpenSuse Mirror&quot;,
       &quot;media_path&quot;: null,
       &quot;id&quot;: 859751735,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;OpenSuse Mirror&quot;
+      &quot;path&quot;: &quot;http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss&quot;
     }
   },
   {
     &quot;medium&quot;: {
+      &quot;config_path&quot;: &quot;brsla01:/vol/jumpstart&quot;,
       &quot;image_path&quot;: &quot;brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/&quot;,
-      &quot;path&quot;: &quot;http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
+      &quot;name&quot;: &quot;Solaris 10&quot;,
       &quot;media_path&quot;: &quot;brsla01:/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
       &quot;id&quot;: 442321401,
-      &quot;config_path&quot;: &quot;brsla01:/vol/jumpstart&quot;,
-      &quot;name&quot;: &quot;Solaris 10&quot;
+      &quot;path&quot;: &quot;http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch&quot;
     }
   },
   {
     &quot;medium&quot;: {
+      &quot;config_path&quot;: null,
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://sg.archive.ubuntu.com&quot;,
+      &quot;name&quot;: &quot;Ubuntu Mirror&quot;,
       &quot;media_path&quot;: null,
       &quot;id&quot;: 1011586618,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;Ubuntu Mirror&quot;
+      &quot;path&quot;: &quot;http://sg.archive.ubuntu.com&quot;
     }
   },
   {
     &quot;medium&quot;: {
+      &quot;config_path&quot;: null,
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://nothing.intersting.com&quot;,
+      &quot;name&quot;: &quot;unused&quot;,
       &quot;media_path&quot;: null,
       &quot;id&quot;: 338446587,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;unused&quot;
+      &quot;path&quot;: &quot;http://nothing.intersting.com&quot;
     }
   }
 ]</pre>
@@ -184,12 +184,12 @@
 200
 {
   &quot;medium&quot;: {
+    &quot;config_path&quot;: null,
     &quot;image_path&quot;: null,
-    &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
+    &quot;name&quot;: &quot;CentOS 5.4&quot;,
     &quot;media_path&quot;: null,
     &quot;id&quot;: 980190962,
-    &quot;config_path&quot;: null,
-    &quot;name&quot;: &quot;CentOS 5.4&quot;
+    &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;
   }
 }</pre>
 
@@ -248,15 +248,15 @@
           <pre class="prettyprint">POST /api/media
 {
   &quot;medium&quot;: {
-    &quot;path&quot;: &quot;http://www.newmedium.com/&quot;,
-    &quot;name&quot;: &quot;new medium&quot;
+    &quot;name&quot;: &quot;new medium&quot;,
+    &quot;path&quot;: &quot;http://www.newmedium.com/&quot;
   }
 }
 201
 {
   &quot;medium&quot;: {
-    &quot;id&quot;: 1011586619,
-    &quot;name&quot;: &quot;new medium&quot;
+    &quot;name&quot;: &quot;new medium&quot;,
+    &quot;id&quot;: 1011586619
   }
 }</pre>
 
@@ -387,8 +387,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;medium&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;CentOS 5.4&quot;
+    &quot;name&quot;: &quot;CentOS 5.4&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -532,8 +532,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;medium&quot;: {
-    &quot;id&quot;: 338446587,
-    &quot;name&quot;: &quot;unused&quot;
+    &quot;name&quot;: &quot;unused&quot;,
+    &quot;id&quot;: 338446587
   }
 }</pre>
 

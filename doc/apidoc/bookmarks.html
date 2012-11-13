@@ -60,26 +60,26 @@
 [
   {
     &quot;bookmark&quot;: {
-      &quot;owner_id&quot;: null,
-      &quot;query&quot;: &quot;bar=car&quot;,
-      &quot;id&quot;: 298486374,
-      &quot;owner_type&quot;: null,
-      &quot;public&quot;: false,
-      &quot;&quot;: null,
       &quot;controller&quot;: &quot;hosts&quot;,
-      &quot;name&quot;: &quot;bar&quot;
+      &quot;owner_id&quot;: null,
+      &quot;public&quot;: false,
+      &quot;owner_type&quot;: null,
+      &quot;&quot;: null,
+      &quot;name&quot;: &quot;bar&quot;,
+      &quot;id&quot;: 298486374,
+      &quot;query&quot;: &quot;bar=car&quot;
     }
   },
   {
     &quot;bookmark&quot;: {
-      &quot;owner_id&quot;: null,
-      &quot;query&quot;: &quot;foo=boo&quot;,
-      &quot;id&quot;: 980190962,
-      &quot;owner_type&quot;: null,
-      &quot;public&quot;: true,
-      &quot;&quot;: null,
       &quot;controller&quot;: &quot;hosts&quot;,
-      &quot;name&quot;: &quot;foo&quot;
+      &quot;owner_id&quot;: null,
+      &quot;public&quot;: true,
+      &quot;owner_type&quot;: null,
+      &quot;&quot;: null,
+      &quot;name&quot;: &quot;foo&quot;,
+      &quot;id&quot;: 980190962,
+      &quot;query&quot;: &quot;foo=boo&quot;
     }
   }
 ]</pre>
@@ -112,14 +112,14 @@
 200
 {
   &quot;bookmark&quot;: {
-    &quot;owner_id&quot;: null,
-    &quot;query&quot;: &quot;foo=boo&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;owner_type&quot;: null,
-    &quot;public&quot;: true,
-    &quot;&quot;: null,
     &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;name&quot;: &quot;foo&quot;
+    &quot;owner_id&quot;: null,
+    &quot;public&quot;: true,
+    &quot;owner_type&quot;: null,
+    &quot;&quot;: null,
+    &quot;name&quot;: &quot;foo&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;query&quot;: &quot;foo=boo&quot;
   }
 }</pre>
 
@@ -178,27 +178,27 @@
           <pre class="prettyprint">POST /api/bookmarks
 {
   &quot;bookmark&quot;: {
-    &quot;query&quot;: &quot;bar&quot;,
-    &quot;public&quot;: false,
     &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;name&quot;: &quot;foo-bar&quot;
+    &quot;public&quot;: false,
+    &quot;name&quot;: &quot;foo-bar&quot;,
+    &quot;query&quot;: &quot;bar&quot;
   }
 }
 200
 {
   &quot;bookmark&quot;: {
-    &quot;owner_id&quot;: 135138680,
-    &quot;query&quot;: &quot;bar&quot;,
-    &quot;id&quot;: 980190963,
-    &quot;owner_type&quot;: &quot;User&quot;,
-    &quot;public&quot;: false,
     &quot;controller&quot;: &quot;hosts&quot;,
+    &quot;owner_id&quot;: 135138680,
+    &quot;public&quot;: false,
+    &quot;owner_type&quot;: &quot;User&quot;,
+    &quot;name&quot;: &quot;foo-bar&quot;,
+    &quot;id&quot;: 980190963,
     &quot;user&quot;: {
       &quot;email&quot;: &quot;admin@someware.com&quot;,
-      &quot;login&quot;: &quot;admin&quot;,
-      &quot;name&quot;: &quot;Admin User&quot;
+      &quot;name&quot;: &quot;Admin User&quot;,
+      &quot;login&quot;: &quot;admin&quot;
     },
-    &quot;name&quot;: &quot;foo-bar&quot;
+    &quot;query&quot;: &quot;bar&quot;
   }
 }</pre>
 
@@ -274,6 +274,23 @@
   </tr>
 
   
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>bookmark[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>true/false boolean field</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
 
 
           </tbody>
@@ -309,16 +326,16 @@
 200
 {
   &quot;bookmark&quot;: {
-    &quot;query&quot;: &quot;foo=boo&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;public&quot;: true,
     &quot;controller&quot;: &quot;hosts&quot;,
+    &quot;public&quot;: true,
+    &quot;name&quot;: &quot;foo&quot;,
+    &quot;id&quot;: 980190962,
     &quot;user&quot;: {
       &quot;email&quot;: &quot;admin@someware.com&quot;,
-      &quot;login&quot;: &quot;admin&quot;,
-      &quot;name&quot;: &quot;Admin User&quot;
+      &quot;name&quot;: &quot;Admin User&quot;,
+      &quot;login&quot;: &quot;admin&quot;
     },
-    &quot;name&quot;: &quot;foo&quot;
+    &quot;query&quot;: &quot;foo=boo&quot;
   }
 }</pre>
 
@@ -410,6 +427,23 @@
   </tr>
 
   
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>bookmark[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>true/false boolean field</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
 
 
           </tbody>
@@ -442,13 +476,13 @@
 200
 {
   &quot;bookmark&quot;: {
-    &quot;owner_id&quot;: null,
-    &quot;query&quot;: &quot;foo=boo&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;owner_type&quot;: null,
-    &quot;public&quot;: true,
     &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;name&quot;: &quot;foo&quot;
+    &quot;owner_id&quot;: null,
+    &quot;public&quot;: true,
+    &quot;owner_type&quot;: null,
+    &quot;name&quot;: &quot;foo&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;query&quot;: &quot;foo=boo&quot;
   }
 }</pre>
 

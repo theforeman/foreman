@@ -129,26 +129,26 @@
 200
 {
   &quot;config_template&quot;: {
+    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;,
+    &quot;template_combinations&quot;: [],
+    &quot;audit_comment&quot;: null,
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;,
+    &quot;id&quot;: 1007981701,
+    &quot;snippet&quot;: false,
     &quot;operatingsystems&quot;: [
       {
         &quot;operatingsystem&quot;: {
-          &quot;id&quot;: 309172073,
-          &quot;name&quot;: &quot;centos 5.3&quot;
+          &quot;name&quot;: &quot;centos 5.3&quot;,
+          &quot;id&quot;: 309172073
         }
       },
       {
         &quot;operatingsystem&quot;: {
-          &quot;id&quot;: 1073012828,
-          &quot;name&quot;: &quot;Redhat 6.1&quot;
+          &quot;name&quot;: &quot;Redhat 6.1&quot;,
+          &quot;id&quot;: 1073012828
         }
       }
-    ],
-    &quot;id&quot;: 1007981701,
-    &quot;template_combinations&quot;: [],
-    &quot;snippet&quot;: false,
-    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;,
-    &quot;audit_comment&quot;: null,
-    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+    ]
   }
 }</pre>
 
@@ -207,21 +207,21 @@
           <pre class="prettyprint">POST /api/config_templates
 {
   &quot;config_template&quot;: {
-    &quot;template_kind_id&quot;: 1,
     &quot;template&quot;: &quot;This is a test template&quot;,
-    &quot;name&quot;: &quot;RandomName&quot;
+    &quot;name&quot;: &quot;RandomName&quot;,
+    &quot;template_kind_id&quot;: 1
   }
 }
 200
 {
   &quot;config_template&quot;: {
-    &quot;id&quot;: 1007981702,
-    &quot;template_combinations&quot;: [],
-    &quot;snippet&quot;: false,
-    &quot;&quot;: [],
     &quot;template&quot;: &quot;This is a test template&quot;,
+    &quot;template_combinations&quot;: [],
     &quot;audit_comment&quot;: null,
-    &quot;name&quot;: &quot;RandomName&quot;
+    &quot;&quot;: [],
+    &quot;name&quot;: &quot;RandomName&quot;,
+    &quot;id&quot;: 1007981702,
+    &quot;snippet&quot;: false
   }
 }</pre>
 
@@ -403,10 +403,10 @@
 200
 {
   &quot;config_template&quot;: {
-    &quot;id&quot;: 1007981701,
-    &quot;snippet&quot;: null,
     &quot;template&quot;: &quot;tmp&quot;,
-    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;,
+    &quot;id&quot;: 1007981701,
+    &quot;snippet&quot;: null
   }
 }</pre>
 
@@ -651,10 +651,10 @@
 200
 {
   &quot;config_template&quot;: {
-    &quot;id&quot;: 1007981701,
-    &quot;snippet&quot;: null,
     &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;,
-    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;,
+    &quot;id&quot;: 1007981701,
+    &quot;snippet&quot;: null
   }
 }</pre>
 

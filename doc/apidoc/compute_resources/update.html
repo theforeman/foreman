@@ -86,8 +86,8 @@
     <td>
       <strong>compute_resource[name] </strong><br>
       <small>
-        optional
-        , nil allowed
+        required
+        
       </small>
     </td>
     <td>
@@ -102,8 +102,42 @@
     <td>
       <strong>compute_resource[provider] </strong><br>
       <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Providers include Libvirt, Ovirt, EC2, Vmware, Openstack</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[url] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>URL for Libvirt, Ovirt, and Openstack</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[description] </strong><br>
+      <small>
         optional
-        , nil allowed
+        
       </small>
     </td>
     <td>
@@ -116,14 +150,100 @@
   
   <tr style='background-color:rgb(250,250,250);'>
     <td>
-      <strong>compute_resource[url] </strong><br>
+      <strong>compute_resource[user] </strong><br>
       <small>
         optional
-        , nil allowed
+        
       </small>
     </td>
     <td>
-      
+      <p>Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2.</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[uuid] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for Ovirt, Vmware Datacenter</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[region] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for EC2 only</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[tenant] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for Openstack only</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[server] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for Vmware</p>
+
         <br>
         Value: Must be String
     </td>

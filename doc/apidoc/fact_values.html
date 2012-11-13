@@ -57,9 +57,12 @@
         <h3>Examples</h3>
           <pre class="prettyprint">GET /api/fact_values
 200
-[
-
-]</pre>
+{
+  &quot;my5name.mydomain.net&quot;: {
+    &quot;ipaddress&quot;: &quot;212.16.19.33&quot;,
+    &quot;kernalversion&quot;: &quot;2.6.9&quot;
+  }
+}</pre>
 
         <h3>Params</h3>
         <table class='table'>
@@ -100,58 +103,6 @@
 
         <br>
         Value: Must be String
-    </td>
-  </tr>
-
-  
-
-          </tbody>
-        </table>
-    </div>
-    <hr>
-    <div class='pull-right small'>
-      <a href='../apidoc/fact_values/show.html'> >>> </a>
-    </div>
-    <div>
-        <h2>
-          <a href='#description-show'
-           class='accordion-toggle'
-           data-toggle='collapse'
-           data-parent='#accordion'>
-            GET /api/fact_values/:id
-          </a><br>
-          <small>Show a fact value.</small>
-        </h2>
-    </div>
-
-
-    <div id='description-show' class='collapse accordion-body'>
-      
-
-
-
-
-        <h3>Params</h3>
-        <table class='table'>
-          <thead>
-            <tr>
-              <th>Param name</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-              <tr style='background-color:rgb(255,255,255);'>
-    <td>
-      <strong>id </strong><br>
-      <small>
-        required
-        
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be an identifier, string from 2 to 128 characters containting only alphanumeric characters, space, &#x27;_&#x27;, &#x27;-&#x27; with no leading or trailing space..
     </td>
   </tr>
 

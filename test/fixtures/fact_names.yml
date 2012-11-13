@@ -1,2 +1,5 @@
-one:
+kernalversion:
+  name:        kernalversion
+
+ipaddress:
   name:        ipaddress
