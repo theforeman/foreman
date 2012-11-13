@@ -60,20 +60,20 @@
 [
   {
     &quot;auth_source_ldap&quot;: {
-      &quot;attr_mail&quot;: &quot;mail&quot;,
-      &quot;account_password&quot;: null,
-      &quot;onthefly_register&quot;: true,
-      &quot;attr_firstname&quot;: &quot;givenName&quot;,
       &quot;tls&quot;: true,
-      &quot;attr_login&quot;: &quot;uid&quot;,
-      &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+      &quot;account&quot;: null,
       &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+      &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+      &quot;port&quot;: 123,
+      &quot;account_password&quot;: null,
+      &quot;name&quot;: &quot;ldap&quot;,
+      &quot;attr_firstname&quot;: &quot;givenName&quot;,
       &quot;host&quot;: &quot;ldap&quot;,
       &quot;attr_lastname&quot;: &quot;sn&quot;,
-      &quot;account&quot;: null,
-      &quot;name&quot;: &quot;ldap&quot;,
       &quot;id&quot;: 980190962,
-      &quot;port&quot;: 123
+      &quot;onthefly_register&quot;: true,
+      &quot;attr_login&quot;: &quot;uid&quot;,
+      &quot;attr_mail&quot;: &quot;mail&quot;
     }
   }
 ]</pre>
@@ -106,20 +106,20 @@
 200
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;attr_mail&quot;: &quot;mail&quot;,
-    &quot;account_password&quot;: null,
-    &quot;onthefly_register&quot;: true,
-    &quot;attr_firstname&quot;: &quot;givenName&quot;,
     &quot;tls&quot;: true,
-    &quot;attr_login&quot;: &quot;uid&quot;,
-    &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+    &quot;account&quot;: null,
     &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+    &quot;port&quot;: 123,
+    &quot;account_password&quot;: null,
+    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_firstname&quot;: &quot;givenName&quot;,
     &quot;host&quot;: &quot;ldap&quot;,
     &quot;attr_lastname&quot;: &quot;sn&quot;,
-    &quot;account&quot;: null,
-    &quot;name&quot;: &quot;ldap&quot;,
     &quot;id&quot;: 980190962,
-    &quot;port&quot;: 123
+    &quot;onthefly_register&quot;: true,
+    &quot;attr_login&quot;: &quot;uid&quot;,
+    &quot;attr_mail&quot;: &quot;mail&quot;
   }
 }</pre>
 
@@ -178,28 +178,28 @@
           <pre class="prettyprint">POST /api/auth_source_ldaps
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;host&quot;: &quot;ldap2&quot;,
-    &quot;name&quot;: &quot;ldap2&quot;
+    &quot;name&quot;: &quot;ldap2&quot;,
+    &quot;host&quot;: &quot;ldap2&quot;
   }
 }
 201
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;attr_mail&quot;: null,
-    &quot;account_password&quot;: null,
-    &quot;onthefly_register&quot;: false,
-    &quot;attr_firstname&quot;: null,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:25Z&quot;,
     &quot;tls&quot;: false,
-    &quot;attr_login&quot;: null,
-    &quot;base_dn&quot;: null,
-    &quot;host&quot;: &quot;ldap2&quot;,
-    &quot;created_at&quot;: &quot;2012-11-13T13:49:21Z&quot;,
-    &quot;attr_lastname&quot;: null,
-    &quot;updated_at&quot;: &quot;2012-11-13T13:49:21Z&quot;,
     &quot;account&quot;: null,
+    &quot;base_dn&quot;: null,
+    &quot;port&quot;: 389,
+    &quot;account_password&quot;: null,
     &quot;name&quot;: &quot;ldap2&quot;,
+    &quot;attr_firstname&quot;: null,
+    &quot;host&quot;: &quot;ldap2&quot;,
+    &quot;attr_lastname&quot;: null,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:25Z&quot;,
     &quot;id&quot;: 980190963,
-    &quot;port&quot;: 389
+    &quot;onthefly_register&quot;: false,
+    &quot;attr_login&quot;: null,
+    &quot;attr_mail&quot;: null
   }
 }</pre>
 
@@ -455,21 +455,21 @@
 200
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;attr_mail&quot;: &quot;mail&quot;,
-    &quot;account_password&quot;: null,
-    &quot;onthefly_register&quot;: true,
-    &quot;attr_firstname&quot;: &quot;givenName&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;tls&quot;: true,
-    &quot;attr_login&quot;: &quot;uid&quot;,
-    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
-    &quot;host&quot;: &quot;ldap&quot;,
-    &quot;created_at&quot;: &quot;2012-11-13T13:49:20Z&quot;,
-    &quot;attr_lastname&quot;: &quot;sn&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-13T13:49:20Z&quot;,
     &quot;account&quot;: null,
+    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;port&quot;: 123,
+    &quot;account_password&quot;: null,
     &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_firstname&quot;: &quot;givenName&quot;,
+    &quot;host&quot;: &quot;ldap&quot;,
+    &quot;attr_lastname&quot;: &quot;sn&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;id&quot;: 980190962,
-    &quot;port&quot;: 123
+    &quot;onthefly_register&quot;: true,
+    &quot;attr_login&quot;: &quot;uid&quot;,
+    &quot;attr_mail&quot;: &quot;mail&quot;
   }
 }</pre>
 
@@ -738,21 +738,21 @@
 200
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;attr_mail&quot;: &quot;mail&quot;,
-    &quot;account_password&quot;: null,
-    &quot;onthefly_register&quot;: true,
-    &quot;attr_firstname&quot;: &quot;givenName&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;tls&quot;: true,
-    &quot;attr_login&quot;: &quot;uid&quot;,
-    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
-    &quot;host&quot;: &quot;ldap&quot;,
-    &quot;created_at&quot;: &quot;2012-11-13T13:49:20Z&quot;,
-    &quot;attr_lastname&quot;: &quot;sn&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-13T13:49:20Z&quot;,
     &quot;account&quot;: null,
+    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;port&quot;: 123,
+    &quot;account_password&quot;: null,
     &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_firstname&quot;: &quot;givenName&quot;,
+    &quot;host&quot;: &quot;ldap&quot;,
+    &quot;attr_lastname&quot;: &quot;sn&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;id&quot;: 980190962,
-    &quot;port&quot;: 123
+    &quot;onthefly_register&quot;: true,
+    &quot;attr_login&quot;: &quot;uid&quot;,
+    &quot;attr_mail&quot;: &quot;mail&quot;
   }
 }</pre>
 

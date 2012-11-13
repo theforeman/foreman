@@ -57,9 +57,7 @@
   <ul>
       <li><a href='#compute_resources-index'>index</a></li>
       <li><a href='#compute_resources-show'>show</a></li>
-      <li><a href='#compute_resources-create'>create</a></li>
       <li><a href='#compute_resources-update'>update</a></li>
-      <li><a href='#compute_resources-destroy'>destroy</a></li>
   </ul>
   <h4><a href='#config_templates'>Config templates</a></h4>
   <ul>
@@ -94,7 +92,6 @@
   <h4><a href='#fact_values'>Fact values</a></h4>
   <ul>
       <li><a href='#fact_values-index'>index</a></li>
-      <li><a href='#fact_values-show'>show</a></li>
   </ul>
   <h4><a href='#home'>Home</a></h4>
   <ul>
@@ -281,29 +278,29 @@
 [
   {
     &quot;architecture&quot;: {
-      &quot;operatingsystem_ids&quot;: [],
-      &quot;id&quot;: 381564594,
-      &quot;name&quot;: &quot;s390&quot;
-    }
-  },
-  {
-    &quot;architecture&quot;: {
       &quot;operatingsystem_ids&quot;: [
         442321401
       ],
-      &quot;id&quot;: 331892513,
-      &quot;name&quot;: &quot;sparc&quot;
+      &quot;name&quot;: &quot;sparc&quot;,
+      &quot;id&quot;: 331892513
+    }
+  },
+  {
+    &quot;architecture&quot;: {
+      &quot;operatingsystem_ids&quot;: [],
+      &quot;name&quot;: &quot;s390&quot;,
+      &quot;id&quot;: 381564594
     }
   },
   {
     &quot;architecture&quot;: {
       &quot;operatingsystem_ids&quot;: [
-        309172073,
+        1073012828,
         331303656,
-        1073012828
+        309172073
       ],
-      &quot;id&quot;: 501905019,
-      &quot;name&quot;: &quot;x86_64&quot;
+      &quot;name&quot;: &quot;x86_64&quot;,
+      &quot;id&quot;: 501905019
     }
   }
 ]</pre>
@@ -391,8 +388,8 @@
       1073012828,
       331303656
     ],
-    &quot;id&quot;: 501905019,
-    &quot;name&quot;: &quot;x86_64&quot;
+    &quot;name&quot;: &quot;x86_64&quot;,
+    &quot;id&quot;: 501905019
   }
 }</pre>
 
@@ -462,8 +459,8 @@
 {
   &quot;architecture&quot;: {
     &quot;operatingsystem_ids&quot;: [],
-    &quot;id&quot;: 501905020,
-    &quot;name&quot;: &quot;i386&quot;
+    &quot;name&quot;: &quot;i386&quot;,
+    &quot;id&quot;: 501905020
   }
 }</pre>
 
@@ -563,8 +560,8 @@
 200
 {
   &quot;architecture&quot;: {
-    &quot;id&quot;: 501905019,
-    &quot;name&quot;: &quot;x86_64&quot;
+    &quot;name&quot;: &quot;x86_64&quot;,
+    &quot;id&quot;: 501905019
   }
 }</pre>
 
@@ -677,8 +674,8 @@
 200
 {
   &quot;architecture&quot;: {
-    &quot;id&quot;: 381564594,
-    &quot;name&quot;: &quot;s390&quot;
+    &quot;name&quot;: &quot;s390&quot;,
+    &quot;id&quot;: 381564594
   }
 }</pre>
 
@@ -760,26 +757,26 @@
 [
   {
     &quot;audit&quot;: {
-      &quot;auditable_id&quot;: 0,
       &quot;associated_id&quot;: 272,
-      &quot;id&quot;: 1,
-      &quot;auditable_name&quot;: null,
-      &quot;user_id&quot;: null,
-      &quot;auditable_type&quot;: &quot;Host&quot;,
-      &quot;version&quot;: 1,
-      &quot;created_at&quot;: &quot;2009-12-14T08:01:17Z&quot;,
       &quot;audited_changes&quot;: {
         &quot;architecture_id&quot;: [
           10463,
           10466
         ]
       },
-      &quot;associated_name&quot;: null,
       &quot;user_type&quot;: null,
-      &quot;action&quot;: &quot;update&quot;,
-      &quot;comment&quot;: null,
       &quot;associated_type&quot;: &quot;Host&quot;,
-      &quot;remote_address&quot;: null
+      &quot;comment&quot;: null,
+      &quot;version&quot;: 1,
+      &quot;action&quot;: &quot;update&quot;,
+      &quot;auditable_name&quot;: null,
+      &quot;auditable_id&quot;: 0,
+      &quot;created_at&quot;: &quot;2009-12-14T08:01:17Z&quot;,
+      &quot;id&quot;: 1,
+      &quot;associated_name&quot;: null,
+      &quot;remote_address&quot;: null,
+      &quot;user_id&quot;: null,
+      &quot;auditable_type&quot;: &quot;Host&quot;
     }
   }
 ]</pre>
@@ -862,26 +859,26 @@
 200
 {
   &quot;audit&quot;: {
-    &quot;auditable_id&quot;: 0,
     &quot;associated_id&quot;: 272,
-    &quot;id&quot;: 1,
-    &quot;auditable_name&quot;: null,
-    &quot;user_id&quot;: null,
-    &quot;auditable_type&quot;: &quot;Host&quot;,
-    &quot;version&quot;: 1,
-    &quot;created_at&quot;: &quot;2009-12-14T08:01:17Z&quot;,
     &quot;audited_changes&quot;: {
       &quot;architecture_id&quot;: [
         10463,
         10466
       ]
     },
-    &quot;associated_name&quot;: null,
     &quot;user_type&quot;: null,
-    &quot;action&quot;: &quot;update&quot;,
-    &quot;comment&quot;: null,
     &quot;associated_type&quot;: &quot;Host&quot;,
-    &quot;remote_address&quot;: null
+    &quot;comment&quot;: null,
+    &quot;version&quot;: 1,
+    &quot;action&quot;: &quot;update&quot;,
+    &quot;auditable_name&quot;: null,
+    &quot;auditable_id&quot;: 0,
+    &quot;created_at&quot;: &quot;2009-12-14T08:01:17Z&quot;,
+    &quot;id&quot;: 1,
+    &quot;associated_name&quot;: null,
+    &quot;remote_address&quot;: null,
+    &quot;user_id&quot;: null,
+    &quot;auditable_type&quot;: &quot;Host&quot;
   }
 }</pre>
 
@@ -963,19 +960,19 @@
 [
   {
     &quot;auth_source_ldap&quot;: {
-      &quot;account&quot;: null,
-      &quot;attr_firstname&quot;: &quot;givenName&quot;,
-      &quot;id&quot;: 980190962,
-      &quot;account_password&quot;: null,
-      &quot;port&quot;: 123,
-      &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
       &quot;tls&quot;: true,
-      &quot;attr_login&quot;: &quot;uid&quot;,
+      &quot;account&quot;: null,
+      &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+      &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+      &quot;port&quot;: 123,
+      &quot;account_password&quot;: null,
+      &quot;name&quot;: &quot;ldap&quot;,
+      &quot;attr_firstname&quot;: &quot;givenName&quot;,
       &quot;host&quot;: &quot;ldap&quot;,
       &quot;attr_lastname&quot;: &quot;sn&quot;,
+      &quot;id&quot;: 980190962,
       &quot;onthefly_register&quot;: true,
-      &quot;type&quot;: &quot;AuthSourceLdap&quot;,
-      &quot;name&quot;: &quot;ldap&quot;,
+      &quot;attr_login&quot;: &quot;uid&quot;,
       &quot;attr_mail&quot;: &quot;mail&quot;
     }
   }
@@ -1013,19 +1010,19 @@
 200
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;account&quot;: null,
-    &quot;attr_firstname&quot;: &quot;givenName&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;account_password&quot;: null,
-    &quot;port&quot;: 123,
-    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
     &quot;tls&quot;: true,
-    &quot;attr_login&quot;: &quot;uid&quot;,
+    &quot;account&quot;: null,
+    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+    &quot;port&quot;: 123,
+    &quot;account_password&quot;: null,
+    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_firstname&quot;: &quot;givenName&quot;,
     &quot;host&quot;: &quot;ldap&quot;,
     &quot;attr_lastname&quot;: &quot;sn&quot;,
+    &quot;id&quot;: 980190962,
     &quot;onthefly_register&quot;: true,
-    &quot;type&quot;: &quot;AuthSourceLdap&quot;,
-    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_login&quot;: &quot;uid&quot;,
     &quot;attr_mail&quot;: &quot;mail&quot;
   }
 }</pre>
@@ -1089,27 +1086,27 @@
             <pre>POST /api/auth_source_ldaps
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;host&quot;: &quot;ldap2&quot;,
-    &quot;name&quot;: &quot;ldap2&quot;
+    &quot;name&quot;: &quot;ldap2&quot;,
+    &quot;host&quot;: &quot;ldap2&quot;
   }
 }
 201
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;account&quot;: null,
-    &quot;attr_firstname&quot;: null,
-    &quot;id&quot;: 980190963,
-    &quot;account_password&quot;: null,
-    &quot;port&quot;: 389,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:15Z&quot;,
-    &quot;base_dn&quot;: null,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:25Z&quot;,
     &quot;tls&quot;: false,
-    &quot;attr_login&quot;: null,
+    &quot;account&quot;: null,
+    &quot;base_dn&quot;: null,
+    &quot;port&quot;: 389,
+    &quot;account_password&quot;: null,
+    &quot;name&quot;: &quot;ldap2&quot;,
+    &quot;attr_firstname&quot;: null,
     &quot;host&quot;: &quot;ldap2&quot;,
     &quot;attr_lastname&quot;: null,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:25Z&quot;,
+    &quot;id&quot;: 980190963,
     &quot;onthefly_register&quot;: false,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:15Z&quot;,
-    &quot;name&quot;: &quot;ldap2&quot;,
+    &quot;attr_login&quot;: null,
     &quot;attr_mail&quot;: null
   }
 }</pre>
@@ -1155,6 +1152,183 @@
   </tr>
 
   
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[host] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[port] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[account] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[base_dn] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[account_password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_login] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_firstname] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_lastname] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_mail] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[onthefly_register] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[tls] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Boolean value True/False</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
 
 
             </tbody>
@@ -1193,20 +1367,20 @@
 200
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;account&quot;: null,
-    &quot;attr_firstname&quot;: &quot;givenName&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;account_password&quot;: null,
-    &quot;port&quot;: 123,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;tls&quot;: true,
-    &quot;attr_login&quot;: &quot;uid&quot;,
+    &quot;account&quot;: null,
+    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;port&quot;: 123,
+    &quot;account_password&quot;: null,
+    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_firstname&quot;: &quot;givenName&quot;,
     &quot;host&quot;: &quot;ldap&quot;,
     &quot;attr_lastname&quot;: &quot;sn&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
     &quot;onthefly_register&quot;: true,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_login&quot;: &quot;uid&quot;,
     &quot;attr_mail&quot;: &quot;mail&quot;
   }
 }</pre>
@@ -1256,12 +1430,189 @@
     <td>
       <strong>auth_source_ldap[name] </strong><br>
       <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[host] </strong><br>
+      <small>
         optional
         
       </small>
     </td>
     <td>
       
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[port] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[account] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[base_dn] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[account_password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_login] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_firstname] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_lastname] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[attr_mail] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[onthefly_register] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>auth_source_ldap[tls] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>Boolean value True/False</p>
+
         <br>
         Value: Must be String
     </td>
@@ -1303,20 +1654,20 @@
 200
 {
   &quot;auth_source_ldap&quot;: {
-    &quot;account&quot;: null,
-    &quot;attr_firstname&quot;: &quot;givenName&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;account_password&quot;: null,
-    &quot;port&quot;: 123,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;tls&quot;: true,
-    &quot;attr_login&quot;: &quot;uid&quot;,
+    &quot;account&quot;: null,
+    &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+    &quot;port&quot;: 123,
+    &quot;account_password&quot;: null,
+    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_firstname&quot;: &quot;givenName&quot;,
     &quot;host&quot;: &quot;ldap&quot;,
     &quot;attr_lastname&quot;: &quot;sn&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
     &quot;onthefly_register&quot;: true,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;ldap&quot;,
+    &quot;attr_login&quot;: &quot;uid&quot;,
     &quot;attr_mail&quot;: &quot;mail&quot;
   }
 }</pre>
@@ -1399,26 +1750,26 @@
 [
   {
     &quot;bookmark&quot;: {
-      &quot;owner_id&quot;: null,
-      &quot;query&quot;: &quot;bar=car&quot;,
-      &quot;id&quot;: 298486374,
-      &quot;owner_type&quot;: null,
       &quot;public&quot;: false,
-      &quot;&quot;: null,
+      &quot;query&quot;: &quot;bar=car&quot;,
+      &quot;owner_type&quot;: null,
+      &quot;name&quot;: &quot;bar&quot;,
+      &quot;owner_id&quot;: null,
       &quot;controller&quot;: &quot;hosts&quot;,
-      &quot;name&quot;: &quot;bar&quot;
+      &quot;id&quot;: 298486374,
+      &quot;&quot;: null
     }
   },
   {
     &quot;bookmark&quot;: {
-      &quot;owner_id&quot;: null,
-      &quot;query&quot;: &quot;foo=boo&quot;,
-      &quot;id&quot;: 980190962,
-      &quot;owner_type&quot;: null,
       &quot;public&quot;: true,
-      &quot;&quot;: null,
+      &quot;query&quot;: &quot;foo=boo&quot;,
+      &quot;owner_type&quot;: null,
+      &quot;name&quot;: &quot;foo&quot;,
+      &quot;owner_id&quot;: null,
       &quot;controller&quot;: &quot;hosts&quot;,
-      &quot;name&quot;: &quot;foo&quot;
+      &quot;id&quot;: 980190962,
+      &quot;&quot;: null
     }
   }
 ]</pre>
@@ -1455,14 +1806,14 @@
 200
 {
   &quot;bookmark&quot;: {
-    &quot;owner_id&quot;: null,
-    &quot;query&quot;: &quot;foo=boo&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;owner_type&quot;: null,
     &quot;public&quot;: true,
-    &quot;&quot;: null,
+    &quot;query&quot;: &quot;foo=boo&quot;,
+    &quot;owner_type&quot;: null,
+    &quot;name&quot;: &quot;foo&quot;,
+    &quot;owner_id&quot;: null,
     &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;name&quot;: &quot;foo&quot;
+    &quot;id&quot;: 980190962,
+    &quot;&quot;: null
   }
 }</pre>
 
@@ -1525,27 +1876,27 @@
             <pre>POST /api/bookmarks
 {
   &quot;bookmark&quot;: {
-    &quot;query&quot;: &quot;bar&quot;,
     &quot;public&quot;: false,
-    &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;name&quot;: &quot;foo-bar&quot;
+    &quot;query&quot;: &quot;bar&quot;,
+    &quot;name&quot;: &quot;foo-bar&quot;,
+    &quot;controller&quot;: &quot;hosts&quot;
   }
 }
 200
 {
   &quot;bookmark&quot;: {
-    &quot;owner_id&quot;: 135138680,
-    &quot;query&quot;: &quot;bar&quot;,
-    &quot;id&quot;: 980190963,
-    &quot;owner_type&quot;: &quot;User&quot;,
     &quot;public&quot;: false,
+    &quot;query&quot;: &quot;bar&quot;,
+    &quot;owner_type&quot;: &quot;User&quot;,
+    &quot;name&quot;: &quot;foo-bar&quot;,
+    &quot;owner_id&quot;: 135138680,
     &quot;controller&quot;: &quot;hosts&quot;,
     &quot;user&quot;: {
       &quot;email&quot;: &quot;admin@someware.com&quot;,
-      &quot;login&quot;: &quot;admin&quot;,
-      &quot;name&quot;: &quot;Admin User&quot;
+      &quot;name&quot;: &quot;Admin User&quot;,
+      &quot;login&quot;: &quot;admin&quot;
     },
-    &quot;name&quot;: &quot;foo-bar&quot;
+    &quot;id&quot;: 980190963
   }
 }</pre>
 
@@ -1622,6 +1973,23 @@
   </tr>
 
   
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>bookmark[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>true/false boolean field</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
 
 
             </tbody>
@@ -1660,16 +2028,16 @@
 200
 {
   &quot;bookmark&quot;: {
-    &quot;query&quot;: &quot;foo=boo&quot;,
-    &quot;id&quot;: 980190962,
     &quot;public&quot;: true,
+    &quot;query&quot;: &quot;foo=boo&quot;,
+    &quot;name&quot;: &quot;foo&quot;,
     &quot;controller&quot;: &quot;hosts&quot;,
     &quot;user&quot;: {
       &quot;email&quot;: &quot;admin@someware.com&quot;,
-      &quot;login&quot;: &quot;admin&quot;,
-      &quot;name&quot;: &quot;Admin User&quot;
+      &quot;name&quot;: &quot;Admin User&quot;,
+      &quot;login&quot;: &quot;admin&quot;
     },
-    &quot;name&quot;: &quot;foo&quot;
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -1762,6 +2130,23 @@
   </tr>
 
   
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>bookmark[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>true/false boolean field</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
 
 
             </tbody>
@@ -1797,13 +2182,13 @@
 200
 {
   &quot;bookmark&quot;: {
-    &quot;owner_id&quot;: null,
-    &quot;query&quot;: &quot;foo=boo&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;owner_type&quot;: null,
     &quot;public&quot;: true,
+    &quot;query&quot;: &quot;foo=boo&quot;,
+    &quot;owner_type&quot;: null,
+    &quot;name&quot;: &quot;foo&quot;,
+    &quot;owner_id&quot;: null,
     &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;name&quot;: &quot;foo&quot;
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -1885,9 +2270,9 @@
 [
   {
     &quot;common_parameter&quot;: {
-      &quot;id&quot;: 636252244,
       &quot;value&quot;: &quot;myvalue&quot;,
-      &quot;name&quot;: &quot;test&quot;
+      &quot;name&quot;: &quot;test&quot;,
+      &quot;id&quot;: 636252244
     }
   }
 ]</pre>
@@ -1970,9 +2355,9 @@
 200
 {
   &quot;common_parameter&quot;: {
-    &quot;id&quot;: 636252244,
     &quot;value&quot;: &quot;myvalue&quot;,
-    &quot;name&quot;: &quot;test&quot;
+    &quot;name&quot;: &quot;test&quot;,
+    &quot;id&quot;: 636252244
   }
 }</pre>
 
@@ -2042,9 +2427,9 @@
 200
 {
   &quot;common_parameter&quot;: {
-    &quot;id&quot;: 767575239,
     &quot;value&quot;: &quot;123&quot;,
-    &quot;name&quot;: &quot;special_key&quot;
+    &quot;name&quot;: &quot;special_key&quot;,
+    &quot;id&quot;: 767575239
   }
 }</pre>
 
@@ -2078,6 +2463,22 @@
       <strong>common_parameter[name] </strong><br>
       <small>
         required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>common_parameter[value] </strong><br>
+      <small>
+        optional
         
       </small>
     </td>
@@ -2127,9 +2528,9 @@
 200
 {
   &quot;common_parameter&quot;: {
-    &quot;id&quot;: 636252244,
     &quot;value&quot;: &quot;myvalue&quot;,
-    &quot;name&quot;: &quot;test&quot;
+    &quot;name&quot;: &quot;test&quot;,
+    &quot;id&quot;: 636252244
   }
 }</pre>
 
@@ -2178,8 +2579,8 @@
     <td>
       <strong>common_parameter[name] </strong><br>
       <small>
-        optional
-        , nil allowed
+        required
+        
       </small>
     </td>
     <td>
@@ -2192,26 +2593,10 @@
   
   <tr style='background-color:rgb(250,250,250);'>
     <td>
-      <strong>common_parameter[controller] </strong><br>
+      <strong>common_parameter[value] </strong><br>
       <small>
         optional
-        , nil allowed
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be String
-    </td>
-  </tr>
-
-  
-  <tr style='background-color:rgb(250,250,250);'>
-    <td>
-      <strong>common_parameter[query] </strong><br>
-      <small>
-        optional
-        , nil allowed
+        
       </small>
     </td>
     <td>
@@ -2257,9 +2642,9 @@
 200
 {
   &quot;common_parameter&quot;: {
-    &quot;id&quot;: 636252244,
     &quot;value&quot;: &quot;myvalue&quot;,
-    &quot;name&quot;: &quot;test&quot;
+    &quot;name&quot;: &quot;test&quot;,
+    &quot;id&quot;: 636252244
   }
 }</pre>
 
@@ -2341,38 +2726,41 @@
 [
   {
     &quot;compute_resource&quot;: {
-      &quot;provider&quot;: &quot;Libvirt&quot;,
-      &quot;id&quot;: 2,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;test:///default&quot;,
       &quot;description&quot;: &quot;mycompute&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;password&quot;: &quot;MyString&quot;,
+      &quot;name&quot;: &quot;mycompute&quot;,
       &quot;user&quot;: &quot;MyString&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;mycompute&quot;
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;Libvirt&quot;
     }
   },
   {
     &quot;compute_resource&quot;: {
-      &quot;provider&quot;: &quot;Libvirt&quot;,
-      &quot;id&quot;: 1,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;qemu://stam/system&quot;,
       &quot;description&quot;: &quot;MyString&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;password&quot;: &quot;MyString&quot;,
+      &quot;name&quot;: &quot;MyString&quot;,
       &quot;user&quot;: &quot;MyString&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;MyString&quot;
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 1,
+      &quot;provider&quot;: &quot;Libvirt&quot;
     }
   },
   {
     &quot;compute_resource&quot;: {
-      &quot;provider&quot;: &quot;Libvirt&quot;,
-      &quot;id&quot;: 3,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;test:///default&quot;,
       &quot;description&quot;: &quot;yourcompute&quot;,
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;password&quot;: &quot;MyString&quot;,
+      &quot;name&quot;: &quot;yourcompute&quot;,
       &quot;user&quot;: &quot;MyString&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;yourcompute&quot;
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 3,
+      &quot;provider&quot;: &quot;Libvirt&quot;
     }
   }
 ]</pre>
@@ -2455,14 +2843,15 @@
 200
 {
   &quot;compute_resource&quot;: {
-    &quot;provider&quot;: &quot;Libvirt&quot;,
-    &quot;id&quot;: 1,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
     &quot;url&quot;: &quot;qemu://stam/system&quot;,
     &quot;description&quot;: &quot;MyString&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;password&quot;: &quot;MyString&quot;,
+    &quot;name&quot;: &quot;MyString&quot;,
     &quot;user&quot;: &quot;MyString&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;MyString&quot;
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 1,
+    &quot;provider&quot;: &quot;Libvirt&quot;
   }
 }</pre>
 
@@ -2492,132 +2881,6 @@
   </tr>
 
   
-
-            </tbody>
-          </table>
-      </div>
-      <hr>
-
-      <ul class='breadcrumb' id='compute_resources-create'>
-        <li>
-          <a href='#'>Foreman</a>
-          <span class='divider'>/</span>
-        </li>
-        <li>
-          <a href='#compute_resources'>Compute resources</a>
-          <span class='divider'>/</span>
-        </li>
-        <li class='active'>create</li>
-      </ul>
-
-      <div>
-          <h3>
-            <a href='#compute_resources-create'>
-              POST /api/compute_resources
-            </a><br>
-            <small>Create a compute resource.</small>
-          </h3>
-      </div>
-
-      <div>
-        
-          <h2>Examples</h2>
-            <pre>POST /api/compute_resources
-{
-  &quot;compute_resource&quot;: {
-    &quot;provider&quot;: &quot;EC2&quot;,
-    &quot;url&quot;: &quot;eu-west1&quot;,
-    &quot;name&quot;: &quot;special_compute&quot;
-  }
-}
-200
-{
-  &quot;compute_resource&quot;: {
-    &quot;provider&quot;: &quot;EC2&quot;,
-    &quot;id&quot;: 4,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:15Z&quot;,
-    &quot;url&quot;: &quot;eu-west1&quot;,
-    &quot;description&quot;: null,
-    &quot;user&quot;: null,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:15Z&quot;,
-    &quot;name&quot;: &quot;special_compute&quot;
-  }
-}</pre>
-
-
-          <h2>Params</h2>
-          <table class='table'>
-            <thead>
-              <tr>
-                <th>Param name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr style='background-color:rgb(255,255,255);'>
-    <td>
-      <strong>compute_resource </strong><br>
-      <small>
-        required
-        
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be a Hash
-    </td>
-  </tr>
-
-    <tr style='background-color:rgb(250,250,250);'>
-    <td>
-      <strong>compute_resource[name] </strong><br>
-      <small>
-        required
-        
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be String
-    </td>
-  </tr>
-
-  
-  <tr style='background-color:rgb(250,250,250);'>
-    <td>
-      <strong>compute_resource[provider] </strong><br>
-      <small>
-        required
-        
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be String
-    </td>
-  </tr>
-
-  
-  <tr style='background-color:rgb(250,250,250);'>
-    <td>
-      <strong>compute_resource[url] </strong><br>
-      <small>
-        required
-        
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be String
-    </td>
-  </tr>
-
-  
-
 
             </tbody>
           </table>
@@ -2693,8 +2956,8 @@
     <td>
       <strong>compute_resource[name] </strong><br>
       <small>
-        optional
-        , nil allowed
+        required
+        
       </small>
     </td>
     <td>
@@ -2709,8 +2972,42 @@
     <td>
       <strong>compute_resource[provider] </strong><br>
       <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>Providers include Libvirt, Ovirt, EC2, Vmware, Openstack</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[url] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      <p>URL for Libvirt, Ovirt, and Openstack</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[description] </strong><br>
+      <small>
         optional
-        , nil allowed
+        
       </small>
     </td>
     <td>
@@ -2723,93 +3020,107 @@
   
   <tr style='background-color:rgb(250,250,250);'>
     <td>
-      <strong>compute_resource[url] </strong><br>
+      <strong>compute_resource[user] </strong><br>
       <small>
         optional
-        , nil allowed
+        
       </small>
     </td>
     <td>
-      
+      <p>Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2.</p>
+
         <br>
         Value: Must be String
     </td>
   </tr>
 
   
-
-
-            </tbody>
-          </table>
-      </div>
-      <hr>
-
-      <ul class='breadcrumb' id='compute_resources-destroy'>
-        <li>
-          <a href='#'>Foreman</a>
-          <span class='divider'>/</span>
-        </li>
-        <li>
-          <a href='#compute_resources'>Compute resources</a>
-          <span class='divider'>/</span>
-        </li>
-        <li class='active'>destroy</li>
-      </ul>
-
-      <div>
-          <h3>
-            <a href='#compute_resources-destroy'>
-              DELETE /api/compute_resources/:id
-            </a><br>
-            <small>Delete a compute resource.</small>
-          </h3>
-      </div>
-
-      <div>
-        
-          <h2>Examples</h2>
-            <pre>DELETE /api/compute_resources/3
-200
-{
-  &quot;compute_resource&quot;: {
-    &quot;attrs&quot;: null,
-    &quot;id&quot;: 3,
-    &quot;uuid&quot;: &quot;yourcompute&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;url&quot;: &quot;test:///default&quot;,
-    &quot;description&quot;: &quot;yourcompute&quot;,
-    &quot;user&quot;: &quot;MyString&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;yourcompute&quot;
-  }
-}</pre>
-
-
-          <h2>Params</h2>
-          <table class='table'>
-            <thead>
-              <tr>
-                <th>Param name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr style='background-color:rgb(255,255,255);'>
+  <tr style='background-color:rgb(250,250,250);'>
     <td>
-      <strong>id </strong><br>
+      <strong>compute_resource[password] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
     <td>
-      
+      <p>Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2</p>
+
         <br>
         Value: Must be String
     </td>
   </tr>
 
   
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[uuid] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for Ovirt, Vmware Datacenter</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[region] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for EC2 only</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[tenant] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for Openstack only</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>compute_resource[server] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      <p>for Vmware</p>
+
+        <br>
+        Value: Must be String
+    </td>
+  </tr>
+
+  
+
 
             </tbody>
           </table>
@@ -2935,26 +3246,26 @@
 200
 {
   &quot;config_template&quot;: {
+    &quot;snippet&quot;: false,
+    &quot;template_combinations&quot;: [],
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;,
+    &quot;audit_comment&quot;: null,
     &quot;operatingsystems&quot;: [
       {
         &quot;operatingsystem&quot;: {
-          &quot;id&quot;: 309172073,
-          &quot;name&quot;: &quot;centos 5.3&quot;
+          &quot;name&quot;: &quot;centos 5.3&quot;,
+          &quot;id&quot;: 309172073
         }
       },
       {
         &quot;operatingsystem&quot;: {
-          &quot;id&quot;: 1073012828,
-          &quot;name&quot;: &quot;Redhat 6.1&quot;
+          &quot;name&quot;: &quot;Redhat 6.1&quot;,
+          &quot;id&quot;: 1073012828
         }
       }
     ],
     &quot;id&quot;: 1007981701,
-    &quot;template_combinations&quot;: [],
-    &quot;snippet&quot;: false,
-    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;,
-    &quot;audit_comment&quot;: null,
-    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;
   }
 }</pre>
 
@@ -3018,20 +3329,20 @@
 {
   &quot;config_template&quot;: {
     &quot;template_kind_id&quot;: 1,
-    &quot;template&quot;: &quot;This is a test template&quot;,
-    &quot;name&quot;: &quot;RandomName&quot;
+    &quot;name&quot;: &quot;RandomName&quot;,
+    &quot;template&quot;: &quot;This is a test template&quot;
   }
 }
 200
 {
   &quot;config_template&quot;: {
-    &quot;id&quot;: 1007981702,
-    &quot;template_combinations&quot;: [],
     &quot;snippet&quot;: false,
-    &quot;&quot;: [],
-    &quot;template&quot;: &quot;This is a test template&quot;,
+    &quot;template_combinations&quot;: [],
+    &quot;name&quot;: &quot;RandomName&quot;,
     &quot;audit_comment&quot;: null,
-    &quot;name&quot;: &quot;RandomName&quot;
+    &quot;id&quot;: 1007981702,
+    &quot;template&quot;: &quot;This is a test template&quot;,
+    &quot;&quot;: []
   }
 }</pre>
 
@@ -3210,17 +3521,17 @@
             <pre>PUT /api/config_templates/centos5_3_pxelinux
 {
   &quot;config_template&quot;: {
-    &quot;template&quot;: &quot;tmp&quot;,
-    &quot;audit_comment&quot;: &quot;aha&quot;
+    &quot;audit_comment&quot;: &quot;aha&quot;,
+    &quot;template&quot;: &quot;tmp&quot;
   }
 }
 200
 {
   &quot;config_template&quot;: {
-    &quot;id&quot;: 1007981701,
     &quot;snippet&quot;: null,
-    &quot;template&quot;: &quot;tmp&quot;,
-    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;,
+    &quot;id&quot;: 1007981701,
+    &quot;template&quot;: &quot;tmp&quot;
   }
 }</pre>
 
@@ -3473,10 +3784,10 @@
 200
 {
   &quot;config_template&quot;: {
-    &quot;id&quot;: 1007981701,
     &quot;snippet&quot;: null,
-    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;,
-    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;
+    &quot;name&quot;: &quot;centos5_3_pxelinux&quot;,
+    &quot;id&quot;: 1007981701,
+    &quot;template&quot;: &quot;default linux~label linux~kernel &lt;%= @kernel %&gt;~append initrd=&lt;%= @initrd %&gt; ks=&lt;%= foreman_url(\&quot;kickstart\&quot;)%&gt; ksdevice=bootif network kssendmac&quot;
   }
 }</pre>
 
@@ -3588,23 +3899,23 @@ PXE Default file has been deployed to all Smart Proxies</pre>
             <pre>GET /api/dashboard
 200
 {
-  &quot;bad_hosts_enabled&quot;: 0,
-  &quot;good_hosts_enabled&quot;: 0,
-  &quot;percentage&quot;: 0,
-  &quot;good_hosts&quot;: 0,
-  &quot;pending_hosts&quot;: 0,
-  &quot;bad_hosts&quot;: 0,
-  &quot;total_hosts&quot;: 12,
-  &quot;reports_missing&quot;: 12,
-  &quot;out_of_sync_hosts&quot;: 0,
-  &quot;active_hosts_ok&quot;: 0,
-  &quot;active_hosts&quot;: 0,
-  &quot;active_hosts_ok_enabled&quot;: 0,
-  &quot;pending_hosts_enabled&quot;: 0,
-  &quot;ok_hosts_enabled&quot;: 0,
-  &quot;out_of_sync_hosts_enabled&quot;: 0,
   &quot;disabled_hosts&quot;: 0,
-  &quot;ok_hosts&quot;: 0
+  &quot;active_hosts_ok_enabled&quot;: 0,
+  &quot;reports_missing&quot;: 12,
+  &quot;total_hosts&quot;: 12,
+  &quot;ok_hosts&quot;: 0,
+  &quot;ok_hosts_enabled&quot;: 0,
+  &quot;out_of_sync_hosts&quot;: 0,
+  &quot;good_hosts&quot;: 0,
+  &quot;pending_hosts_enabled&quot;: 0,
+  &quot;active_hosts&quot;: 0,
+  &quot;bad_hosts_enabled&quot;: 0,
+  &quot;active_hosts_ok&quot;: 0,
+  &quot;good_hosts_enabled&quot;: 0,
+  &quot;pending_hosts&quot;: 0,
+  &quot;percentage&quot;: 0,
+  &quot;out_of_sync_hosts_enabled&quot;: 0,
+  &quot;bad_hosts&quot;: 0
 }</pre>
 
 
@@ -3693,34 +4004,34 @@ by machines at that site.</p>
 [
   {
     &quot;domain&quot;: {
-      &quot;id&quot;: 22495316,
-      &quot;fullname&quot;: null,
       &quot;dns_id&quot;: 113629430,
-      &quot;name&quot;: &quot;mydomain.net&quot;
+      &quot;name&quot;: &quot;mydomain.net&quot;,
+      &quot;fullname&quot;: null,
+      &quot;id&quot;: 22495316
     }
   },
   {
     &quot;domain&quot;: {
-      &quot;id&quot;: 759776763,
+      &quot;dns_id&quot;: 113629430,
+      &quot;name&quot;: &quot;unused.net&quot;,
       &quot;fullname&quot;: &quot;somewhare that is never used&quot;,
-      &quot;dns_id&quot;: 113629430,
-      &quot;name&quot;: &quot;unused.net&quot;
+      &quot;id&quot;: 759776763
     }
   },
   {
     &quot;domain&quot;: {
-      &quot;id&quot;: 229305443,
-      &quot;fullname&quot;: null,
       &quot;dns_id&quot;: null,
-      &quot;name&quot;: &quot;useless.net&quot;
+      &quot;name&quot;: &quot;useless.net&quot;,
+      &quot;fullname&quot;: null,
+      &quot;id&quot;: 229305443
     }
   },
   {
     &quot;domain&quot;: {
-      &quot;id&quot;: 589326610,
-      &quot;fullname&quot;: &quot;somewhere in yourdomain&quot;,
       &quot;dns_id&quot;: 113629430,
-      &quot;name&quot;: &quot;yourdomain.net&quot;
+      &quot;name&quot;: &quot;yourdomain.net&quot;,
+      &quot;fullname&quot;: &quot;somewhere in yourdomain&quot;,
+      &quot;id&quot;: 589326610
     }
   }
 ]</pre>
@@ -3803,10 +4114,10 @@ by machines at that site.</p>
 200
 {
   &quot;domain&quot;: {
-    &quot;id&quot;: 22495316,
-    &quot;fullname&quot;: null,
     &quot;dns_id&quot;: 113629430,
-    &quot;name&quot;: &quot;mydomain.net&quot;
+    &quot;name&quot;: &quot;mydomain.net&quot;,
+    &quot;fullname&quot;: null,
+    &quot;id&quot;: 22495316
   }
 }</pre>
 
@@ -3879,8 +4190,8 @@ an external node parameter</p>
 201
 {
   &quot;domain&quot;: {
-    &quot;id&quot;: 759776764,
-    &quot;name&quot;: &quot;domain.net&quot;
+    &quot;name&quot;: &quot;domain.net&quot;,
+    &quot;id&quot;: 759776764
   }
 }</pre>
 
@@ -4017,15 +4328,15 @@ an external node parameter</p>
 422
 {
   &quot;domain&quot;: {
+    &quot;full_messages&quot;: [
+      &quot;Name can&#x27;t be blank&quot;
+    ],
     &quot;id&quot;: 22495316,
     &quot;errors&quot;: {
       &quot;name&quot;: [
         &quot;can&#x27;t be blank&quot;
       ]
-    },
-    &quot;full_messages&quot;: [
-      &quot;Name can&#x27;t be blank&quot;
-    ]
+    }
   }
 }</pre>
 
@@ -4173,8 +4484,8 @@ an external node parameter</p>
 200
 {
   &quot;domain&quot;: {
-    &quot;id&quot;: 22495316,
-    &quot;name&quot;: &quot;mydomain.net&quot;
+    &quot;name&quot;: &quot;mydomain.net&quot;,
+    &quot;id&quot;: 22495316
   }
 }</pre>
 
@@ -4256,20 +4567,20 @@ an external node parameter</p>
 [
   {
     &quot;environment&quot;: {
-      &quot;id&quot;: 153855663,
-      &quot;name&quot;: &quot;global_puppetmaster&quot;
+      &quot;name&quot;: &quot;global_puppetmaster&quot;,
+      &quot;id&quot;: 153855663
     }
   },
   {
     &quot;environment&quot;: {
-      &quot;id&quot;: 334344675,
-      &quot;name&quot;: &quot;production&quot;
+      &quot;name&quot;: &quot;production&quot;,
+      &quot;id&quot;: 334344675
     }
   },
   {
     &quot;environment&quot;: {
-      &quot;id&quot;: 687036937,
-      &quot;name&quot;: &quot;testing&quot;
+      &quot;name&quot;: &quot;testing&quot;,
+      &quot;id&quot;: 687036937
     }
   }
 ]</pre>
@@ -4352,8 +4663,8 @@ an external node parameter</p>
 200
 {
   &quot;environment&quot;: {
-    &quot;id&quot;: 334344675,
-    &quot;name&quot;: &quot;production&quot;
+    &quot;name&quot;: &quot;production&quot;,
+    &quot;id&quot;: 334344675
   }
 }</pre>
 
@@ -4422,8 +4733,8 @@ an external node parameter</p>
 200
 {
   &quot;environment&quot;: {
-    &quot;id&quot;: 687036938,
-    &quot;name&quot;: &quot;Development&quot;
+    &quot;name&quot;: &quot;Development&quot;,
+    &quot;id&quot;: 687036938
   }
 }</pre>
 
@@ -4506,8 +4817,8 @@ an external node parameter</p>
 200
 {
   &quot;environment&quot;: {
-    &quot;id&quot;: 334344675,
-    &quot;name&quot;: &quot;production&quot;
+    &quot;name&quot;: &quot;production&quot;,
+    &quot;id&quot;: 334344675
   }
 }</pre>
 
@@ -4603,8 +4914,8 @@ an external node parameter</p>
 200
 {
   &quot;environment&quot;: {
-    &quot;id&quot;: 687036937,
-    &quot;name&quot;: &quot;testing&quot;
+    &quot;name&quot;: &quot;testing&quot;,
+    &quot;id&quot;: 687036937
   }
 }</pre>
 
@@ -4683,9 +4994,12 @@ an external node parameter</p>
           <h2>Examples</h2>
             <pre>GET /api/fact_values
 200
-[
-
-]</pre>
+{
+  &quot;my5name.mydomain.net&quot;: {
+    &quot;kernalversion&quot;: &quot;2.6.9&quot;,
+    &quot;ipaddress&quot;: &quot;212.16.19.33&quot;
+  }
+}</pre>
 
 
           <h2>Params</h2>
@@ -4727,62 +5041,6 @@ an external node parameter</p>
 
         <br>
         Value: Must be String
-    </td>
-  </tr>
-
-  
-
-            </tbody>
-          </table>
-      </div>
-      <hr>
-
-      <ul class='breadcrumb' id='fact_values-show'>
-        <li>
-          <a href='#'>Foreman</a>
-          <span class='divider'>/</span>
-        </li>
-        <li>
-          <a href='#fact_values'>Fact values</a>
-          <span class='divider'>/</span>
-        </li>
-        <li class='active'>show</li>
-      </ul>
-
-      <div>
-          <h3>
-            <a href='#fact_values-show'>
-              GET /api/fact_values/:id
-            </a><br>
-            <small>Show a fact value.</small>
-          </h3>
-      </div>
-
-      <div>
-        
-
-
-          <h2>Params</h2>
-          <table class='table'>
-            <thead>
-              <tr>
-                <th>Param name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr style='background-color:rgb(255,255,255);'>
-    <td>
-      <strong>id </strong><br>
-      <small>
-        required
-        
-      </small>
-    </td>
-    <td>
-      
-        <br>
-        Value: Must be an identifier, string from 2 to 128 characters containting only alphanumeric characters, space, &#x27;_&#x27;, &#x27;-&#x27; with no leading or trailing space..
     </td>
   </tr>
 
@@ -4912,48 +5170,48 @@ an external node parameter</p>
 [
   {
     &quot;hostgroup&quot;: {
+      &quot;label&quot;: &quot;db&quot;,
+      &quot;ancestry&quot;: null,
+      &quot;puppetclass_ids&quot;: [],
+      &quot;domain_id&quot;: null,
+      &quot;name&quot;: &quot;db&quot;,
+      &quot;environment_id&quot;: 334344675,
       &quot;subnet_id&quot;: null,
       &quot;id&quot;: 603241515,
-      &quot;puppetclass_ids&quot;: [],
-      &quot;label&quot;: &quot;db&quot;,
-      &quot;parameters&quot;: {},
-      &quot;ancestry&quot;: null,
-      &quot;environment_id&quot;: 334344675,
-      &quot;domain_id&quot;: null,
       &quot;operatingsystem_id&quot;: 309172073,
-      &quot;name&quot;: &quot;db&quot;
+      &quot;parameters&quot;: {}
     }
   },
   {
     &quot;hostgroup&quot;: {
-      &quot;subnet_id&quot;: null,
-      &quot;id&quot;: 636252244,
+      &quot;label&quot;: &quot;Common&quot;,
+      &quot;ancestry&quot;: null,
       &quot;puppetclass_ids&quot;: [
         980190962
       ],
-      &quot;label&quot;: &quot;Common&quot;,
+      &quot;domain_id&quot;: 22495316,
+      &quot;name&quot;: &quot;Common&quot;,
+      &quot;environment_id&quot;: 334344675,
+      &quot;subnet_id&quot;: null,
+      &quot;id&quot;: 636252244,
+      &quot;operatingsystem_id&quot;: 309172073,
       &quot;parameters&quot;: {
         &quot;group1&quot;: &quot;group1&quot;
-      },
-      &quot;ancestry&quot;: null,
-      &quot;environment_id&quot;: 334344675,
-      &quot;domain_id&quot;: 22495316,
-      &quot;operatingsystem_id&quot;: 309172073,
-      &quot;name&quot;: &quot;Common&quot;
+      }
     }
   },
   {
     &quot;hostgroup&quot;: {
+      &quot;label&quot;: &quot;Unusual&quot;,
+      &quot;ancestry&quot;: null,
+      &quot;puppetclass_ids&quot;: [],
+      &quot;domain_id&quot;: null,
+      &quot;name&quot;: &quot;Unusual&quot;,
+      &quot;environment_id&quot;: null,
       &quot;subnet_id&quot;: null,
       &quot;id&quot;: 866317115,
-      &quot;puppetclass_ids&quot;: [],
-      &quot;label&quot;: &quot;Unusual&quot;,
-      &quot;parameters&quot;: {},
-      &quot;ancestry&quot;: null,
-      &quot;environment_id&quot;: null,
-      &quot;domain_id&quot;: null,
       &quot;operatingsystem_id&quot;: null,
-      &quot;name&quot;: &quot;Unusual&quot;
+      &quot;parameters&quot;: {}
     }
   }
 ]</pre>
@@ -5036,20 +5294,20 @@ an external node parameter</p>
 200
 {
   &quot;hostgroup&quot;: {
-    &quot;subnet_id&quot;: null,
-    &quot;id&quot;: 636252244,
+    &quot;label&quot;: &quot;Common&quot;,
+    &quot;ancestry&quot;: null,
     &quot;puppetclass_ids&quot;: [
       980190962
     ],
-    &quot;label&quot;: &quot;Common&quot;,
+    &quot;domain_id&quot;: 22495316,
+    &quot;name&quot;: &quot;Common&quot;,
+    &quot;environment_id&quot;: 334344675,
+    &quot;subnet_id&quot;: null,
+    &quot;id&quot;: 636252244,
+    &quot;operatingsystem_id&quot;: 309172073,
     &quot;parameters&quot;: {
       &quot;group1&quot;: &quot;group1&quot;
-    },
-    &quot;ancestry&quot;: null,
-    &quot;environment_id&quot;: 334344675,
-    &quot;domain_id&quot;: 22495316,
-    &quot;operatingsystem_id&quot;: 309172073,
-    &quot;name&quot;: &quot;Common&quot;
+    }
   }
 }</pre>
 
@@ -5118,16 +5376,16 @@ an external node parameter</p>
 200
 {
   &quot;hostgroup&quot;: {
+    &quot;label&quot;: &quot;TestHostgroup&quot;,
+    &quot;ancestry&quot;: null,
+    &quot;puppetclass_ids&quot;: [],
+    &quot;domain_id&quot;: null,
+    &quot;name&quot;: &quot;TestHostgroup&quot;,
+    &quot;environment_id&quot;: null,
     &quot;subnet_id&quot;: null,
     &quot;id&quot;: 866317116,
-    &quot;puppetclass_ids&quot;: [],
-    &quot;label&quot;: &quot;TestHostgroup&quot;,
-    &quot;parameters&quot;: {},
-    &quot;ancestry&quot;: null,
-    &quot;environment_id&quot;: null,
-    &quot;domain_id&quot;: null,
     &quot;operatingsystem_id&quot;: null,
-    &quot;name&quot;: &quot;TestHostgroup&quot;
+    &quot;parameters&quot;: {}
   }
 }</pre>
 
@@ -5354,27 +5612,27 @@ an external node parameter</p>
 200
 {
   &quot;hostgroup&quot;: {
-    &quot;subnet_id&quot;: null,
-    &quot;id&quot;: 636252244,
-    &quot;disk_size&quot;: null,
-    &quot;storage_pool&quot;: null,
-    &quot;interface&quot;: null,
+    &quot;label&quot;: &quot;Common&quot;,
+    &quot;ancestry&quot;: null,
+    &quot;hypervisor_id&quot;: null,
     &quot;puppetclass_ids&quot;: [
       980190962
     ],
-    &quot;label&quot;: &quot;Common&quot;,
-    &quot;memory&quot;: null,
-    &quot;hypervisor_id&quot;: null,
+    &quot;domain_id&quot;: 22495316,
     &quot;network_type&quot;: null,
+    &quot;name&quot;: &quot;Common&quot;,
+    &quot;environment_id&quot;: 334344675,
+    &quot;subnet_id&quot;: null,
+    &quot;interface&quot;: null,
+    &quot;memory&quot;: null,
+    &quot;id&quot;: 636252244,
+    &quot;storage_pool&quot;: null,
+    &quot;disk_size&quot;: null,
+    &quot;vcpu&quot;: null,
+    &quot;operatingsystem_id&quot;: 309172073,
     &quot;parameters&quot;: {
       &quot;group1&quot;: &quot;group1&quot;
-    },
-    &quot;ancestry&quot;: null,
-    &quot;environment_id&quot;: 334344675,
-    &quot;vcpu&quot;: null,
-    &quot;domain_id&quot;: 22495316,
-    &quot;operatingsystem_id&quot;: 309172073,
-    &quot;name&quot;: &quot;Common&quot;
+    }
   }
 }</pre>
 
@@ -5614,23 +5872,23 @@ an external node parameter</p>
 200
 {
   &quot;hostgroup&quot;: {
-    &quot;subnet_id&quot;: null,
-    &quot;id&quot;: 636252244,
-    &quot;disk_size&quot;: null,
-    &quot;storage_pool&quot;: null,
-    &quot;interface&quot;: null,
-    &quot;puppetclass_ids&quot;: [],
     &quot;label&quot;: &quot;Common&quot;,
-    &quot;memory&quot;: null,
-    &quot;hypervisor_id&quot;: null,
-    &quot;network_type&quot;: null,
-    &quot;parameters&quot;: {},
     &quot;ancestry&quot;: null,
-    &quot;environment_id&quot;: 334344675,
-    &quot;vcpu&quot;: null,
+    &quot;hypervisor_id&quot;: null,
+    &quot;puppetclass_ids&quot;: [],
     &quot;domain_id&quot;: 22495316,
+    &quot;network_type&quot;: null,
+    &quot;name&quot;: &quot;Common&quot;,
+    &quot;environment_id&quot;: 334344675,
+    &quot;subnet_id&quot;: null,
+    &quot;interface&quot;: null,
+    &quot;memory&quot;: null,
+    &quot;id&quot;: 636252244,
+    &quot;storage_pool&quot;: null,
+    &quot;disk_size&quot;: null,
+    &quot;vcpu&quot;: null,
     &quot;operatingsystem_id&quot;: 309172073,
-    &quot;name&quot;: &quot;Common&quot;
+    &quot;parameters&quot;: {}
   }
 }</pre>
 
@@ -5712,98 +5970,98 @@ an external node parameter</p>
 [
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;anotherfullhost&quot;,
       &quot;id&quot;: 55602819,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 1073012828,
-      &quot;name&quot;: &quot;anotherfullhost&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;dhcp.mydomain.net&quot;,
       &quot;id&quot;: 219245707,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 1073012828,
-      &quot;name&quot;: &quot;dhcp.mydomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;my5name.mydomain.net&quot;,
       &quot;id&quot;: 980190962,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 1073012828,
-      &quot;name&quot;: &quot;my5name.mydomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;myfullname.mydomain.net&quot;,
       &quot;id&quot;: 1053842695,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 309172073,
-      &quot;name&quot;: &quot;myfullname.mydomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;otherfullhost&quot;,
       &quot;id&quot;: 661942085,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 1073012828,
-      &quot;name&quot;: &quot;otherfullhost&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;sdhcp.mydomain.net&quot;,
       &quot;id&quot;: 500757383,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 1073012828,
-      &quot;name&quot;: &quot;sdhcp.mydomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;sol10host&quot;,
       &quot;id&quot;: 715054938,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 442321401,
-      &quot;name&quot;: &quot;sol10host&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;suse01.yourdomain.net&quot;,
       &quot;id&quot;: 859751735,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 859751735,
-      &quot;name&quot;: &quot;suse01.yourdomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;temp-01.yourdomain.net&quot;,
       &quot;id&quot;: 1011586618,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 331303656,
-      &quot;name&quot;: &quot;temp-01.yourdomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;temp01.yourdomain.net&quot;,
       &quot;id&quot;: 1073012828,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 1073012828,
-      &quot;name&quot;: &quot;temp01.yourdomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;temp-02.useless.net&quot;,
       &quot;id&quot;: 3666571,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 331303656,
-      &quot;name&quot;: &quot;temp-02.useless.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   },
   {
     &quot;host&quot;: {
+      &quot;name&quot;: &quot;temp.yourdomain.net&quot;,
       &quot;id&quot;: 298486374,
-      &quot;hostgroup_id&quot;: null,
       &quot;operatingsystem_id&quot;: 309172073,
-      &quot;name&quot;: &quot;temp.yourdomain.net&quot;
+      &quot;hostgroup_id&quot;: null
     }
   }
 ]</pre>
@@ -5886,54 +6144,54 @@ an external node parameter</p>
 200
 {
   &quot;host&quot;: {
-    &quot;sp_mac&quot;: &quot;&quot;,
-    &quot;owner_id&quot;: null,
-    &quot;puppet_status&quot;: 0,
-    &quot;subnet_id&quot;: 980190962,
-    &quot;sp_subnet_id&quot;: null,
-    &quot;medium_id&quot;: null,
-    &quot;certname&quot;: &quot;my5name.mydomain.net&quot;,
-    &quot;last_report&quot;: null,
-    &quot;sp_ip&quot;: &quot;&quot;,
-    &quot;puppet_ca_proxy_id&quot;: null,
-    &quot;root_pass&quot;: &quot;xybxa6JUkz63w&quot;,
-    &quot;last_freshcheck&quot;: null,
-    &quot;puppet_proxy_id&quot;: 182953976,
-    &quot;model_id&quot;: null,
-    &quot;compute_resource_id&quot;: 980190962,
-    &quot;ip&quot;: &quot;2.3.4.1&quot;,
-    &quot;id&quot;: 980190962,
-    &quot;owner_type&quot;: null,
     &quot;uuid&quot;: null,
-    &quot;use_image&quot;: null,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;image_file&quot;: &quot;&quot;,
-    &quot;last_compile&quot;: null,
-    &quot;ptable_id&quot;: 980190962,
-    &quot;serial&quot;: null,
-    &quot;enabled&quot;: true,
-    &quot;installed_at&quot;: null,
-    &quot;sp_name&quot;: &quot;&quot;,
-    &quot;build&quot;: false,
-    &quot;mac&quot;: &quot;aabbCCddeeee&quot;,
-    &quot;source_file_id&quot;: null,
-    &quot;architecture_id&quot;: 501905019,
-    &quot;managed&quot;: true,
-    &quot;environment_id&quot;: 334344675,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;hostgroup_id&quot;: null,
-    &quot;domain_id&quot;: 22495316,
-    &quot;operatingsystem_id&quot;: 1073012828,
-    &quot;disk&quot;: null,
-    &quot;name&quot;: &quot;my5name.mydomain.net&quot;,
     &quot;environment&quot;: {
       &quot;environment&quot;: {
-        &quot;id&quot;: 334344675,
-        &quot;name&quot;: &quot;production&quot;
+        &quot;name&quot;: &quot;production&quot;,
+        &quot;id&quot;: 334344675
       }
     },
+    &quot;last_freshcheck&quot;: null,
+    &quot;build&quot;: false,
+    &quot;root_pass&quot;: &quot;xybxa6JUkz63w&quot;,
+    &quot;source_file_id&quot;: null,
+    &quot;architecture_id&quot;: 501905019,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;enabled&quot;: true,
+    &quot;image_file&quot;: &quot;&quot;,
+    &quot;puppet_ca_proxy_id&quot;: null,
+    &quot;sp_subnet_id&quot;: null,
+    &quot;medium_id&quot;: null,
+    &quot;domain_id&quot;: 22495316,
+    &quot;managed&quot;: true,
+    &quot;sp_mac&quot;: &quot;&quot;,
+    &quot;disk&quot;: null,
+    &quot;owner_type&quot;: null,
+    &quot;ptable_id&quot;: 980190962,
     &quot;comment&quot;: null,
-    &quot;image_id&quot;: null
+    &quot;puppet_proxy_id&quot;: 182953976,
+    &quot;mac&quot;: &quot;aabbCCddeeee&quot;,
+    &quot;use_image&quot;: null,
+    &quot;certname&quot;: &quot;my5name.mydomain.net&quot;,
+    &quot;name&quot;: &quot;my5name.mydomain.net&quot;,
+    &quot;environment_id&quot;: 334344675,
+    &quot;subnet_id&quot;: 980190962,
+    &quot;sp_name&quot;: &quot;&quot;,
+    &quot;sp_ip&quot;: &quot;&quot;,
+    &quot;owner_id&quot;: null,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;ip&quot;: &quot;2.3.4.1&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;compute_resource_id&quot;: 1,
+    &quot;last_report&quot;: null,
+    &quot;model_id&quot;: null,
+    &quot;image_id&quot;: null,
+    &quot;serial&quot;: null,
+    &quot;puppet_status&quot;: 0,
+    &quot;last_compile&quot;: null,
+    &quot;operatingsystem_id&quot;: 1073012828,
+    &quot;hostgroup_id&quot;: null,
+    &quot;installed_at&quot;: null
   }
 }</pre>
 
@@ -6337,98 +6595,61 @@ an external node parameter</p>
       <div>
         
           <h2>Examples</h2>
-            <pre>PUT /api/hosts/my5name.mydomain.net
+            <pre>PUT /api/hosts/temp.yourdomain.net
 {
   &quot;host&quot;: {}
 }
-500
+200
 {
-  &quot;error&quot;: {
-    &quot;backtrace&quot;: [
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/whiny_nil.rb:48:in `method_missing&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/host.rb:667:in `capabilities&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/orchestration/dns.rb:17:in `reverse_dns?&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/orchestration/dns.rb:126:in `dns_conflict_detected?&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:463:in `_run_validation_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activemodel-3.0.17/lib/active_model/validations/callbacks.rb:67:in `run_validations!&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activemodel-3.0.17/lib/active_model/validations.rb:179:in `valid?&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/validations.rb:55:in `valid?&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/orchestration.rb:61:in `valid?&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/validations.rb:75:in `perform_validations&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/validations.rb:43:in `save&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/attribute_methods/dirty.rb:21:in `save&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:240:in `save&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:292:in `with_transaction_returning_status&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/connection_adapters/abstract/database_statements.rb:139:in `transaction&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:207:in `transaction&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:290:in `with_transaction_returning_status&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:240:in `save&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:251:in `rollback_active_record_state!&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:239:in `save&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/persistence.rb:134:in `update_attributes&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:292:in `with_transaction_returning_status&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/connection_adapters/abstract/database_statements.rb:139:in `transaction&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:207:in `transaction&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:290:in `with_transaction_returning_status&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/persistence.rb:132:in `update_attributes&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/controllers/api/v1/hosts_controller.rb:70:in `update&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `call&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `update&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1759464391__process_action__796286581__callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3737&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3737&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1759464391__process_action__796286581__callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `run_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:17:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rescue.rb:17:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:30:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:29:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:119:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:41:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/testing.rb:12:in `process_with_new_base_test&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/oauth-0.4.7/lib/oauth/client/action_controller_request.rb:15:in `process_with_new_base_test&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:414:in `process_without_api_recording&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/extractor/recorder.rb:112:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:47:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:362:in `put&#x27;&quot;,
-      &quot;/home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:47:in `test_should_update_host&#x27;&quot;,
-      &quot;./test/test_helper.rb:30:in `as_user&#x27;&quot;,
-      &quot;/home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:46:in `test_should_update_host&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `__send__&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:439:in `_run_setup_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:65:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21&quot;
-    ],
-    &quot;class&quot;: &quot;NoMethodError&quot;,
-    &quot;message&quot;: &quot;undefined method `capabilities&#x27; for nil:NilClass&quot;
+  &quot;host&quot;: {
+    &quot;uuid&quot;: null,
+    &quot;environment&quot;: {
+      &quot;environment&quot;: {
+        &quot;name&quot;: &quot;production&quot;,
+        &quot;id&quot;: 334344675
+      }
+    },
+    &quot;last_freshcheck&quot;: null,
+    &quot;build&quot;: false,
+    &quot;root_pass&quot;: &quot;xybxa6JUkz63w&quot;,
+    &quot;source_file_id&quot;: null,
+    &quot;architecture_id&quot;: 501905019,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:27Z&quot;,
+    &quot;enabled&quot;: true,
+    &quot;image_file&quot;: &quot;&quot;,
+    &quot;puppet_ca_proxy_id&quot;: null,
+    &quot;sp_subnet_id&quot;: null,
+    &quot;medium_id&quot;: 980190962,
+    &quot;domain_id&quot;: 589326610,
+    &quot;managed&quot;: null,
+    &quot;sp_mac&quot;: &quot;&quot;,
+    &quot;disk&quot;: null,
+    &quot;owner_type&quot;: &quot;User&quot;,
+    &quot;ptable_id&quot;: 980190962,
+    &quot;comment&quot;: null,
+    &quot;puppet_proxy_id&quot;: 182953976,
+    &quot;mac&quot;: &quot;aa:bb:cc:dd:ee:ff&quot;,
+    &quot;use_image&quot;: null,
+    &quot;certname&quot;: &quot;temp.yourdomain.net&quot;,
+    &quot;name&quot;: &quot;temp.yourdomain.net&quot;,
+    &quot;environment_id&quot;: 334344675,
+    &quot;subnet_id&quot;: 980190962,
+    &quot;sp_name&quot;: &quot;&quot;,
+    &quot;sp_ip&quot;: &quot;&quot;,
+    &quot;owner_id&quot;: 135138680,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 298486374,
+    &quot;ip&quot;: &quot;2.3.4.5&quot;,
+    &quot;compute_resource_id&quot;: 1,
+    &quot;last_report&quot;: null,
+    &quot;model_id&quot;: null,
+    &quot;image_id&quot;: null,
+    &quot;serial&quot;: null,
+    &quot;puppet_status&quot;: 0,
+    &quot;last_compile&quot;: null,
+    &quot;hostgroup_id&quot;: null,
+    &quot;operatingsystem_id&quot;: 309172073,
+    &quot;installed_at&quot;: null
   }
 }</pre>
 
@@ -6477,7 +6698,7 @@ an external node parameter</p>
     <td>
       <strong>host[name] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6493,7 +6714,7 @@ an external node parameter</p>
     <td>
       <strong>host[environment_id] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6509,7 +6730,7 @@ an external node parameter</p>
     <td>
       <strong>host[ip] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6525,7 +6746,7 @@ an external node parameter</p>
     <td>
       <strong>host[mac] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6541,7 +6762,7 @@ an external node parameter</p>
     <td>
       <strong>host[architecture_id] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6557,7 +6778,7 @@ an external node parameter</p>
     <td>
       <strong>host[domain_id] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6573,7 +6794,7 @@ an external node parameter</p>
     <td>
       <strong>host[puppet_proxy_id] </strong><br>
       <small>
-        required
+        optional
         
       </small>
     </td>
@@ -6793,83 +7014,57 @@ an external node parameter</p>
         
           <h2>Examples</h2>
             <pre>DELETE /api/hosts/my5name.mydomain.net
-500
+200
 {
-  &quot;error&quot;: {
-    &quot;backtrace&quot;: [
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/whiny_nil.rb:48:in `method_missing&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/host.rb:667:in `capabilities&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/orchestration/dns.rb:17:in `reverse_dns?&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/orchestration/dns.rb:103:in `queue_dns_destroy&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:460:in `_run_destroy_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/callbacks.rb:256:in `destroy&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:235:in `destroy&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:292:in `with_transaction_returning_status&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/connection_adapters/abstract/database_statements.rb:139:in `transaction&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:207:in `transaction&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:290:in `with_transaction_returning_status&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activerecord-3.0.17/lib/active_record/transactions.rb:235:in `destroy&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/models/orchestration.rb:69:in `destroy&#x27;&quot;,
-      &quot;/home/jmagen/foreman/app/controllers/api/v1/hosts_controller.rb:76:in `destroy&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `call&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/dsl_definition.rb:140:in `destroy&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/implicit_render.rb:4:in `send_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:150:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rendering.rb:11:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:18:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:452:in `_run__1759464391__process_action__783805820__callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:221:in `_conditional_callback_around_3734&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:331:in `around&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `send&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:315:in `_callback_around_13&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:220:in `_conditional_callback_around_3734&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:431:in `_run__1759464391__process_action__783805820__callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `send&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:410:in `_run_process_action_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `send&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:94:in `run_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/callbacks.rb:17:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/rescue.rb:17:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:30:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications/instrumenter.rb:21:in `instrument&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/notifications.rb:52:in `instrument&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/instrumentation.rb:29:in `process_action&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/base.rb:119:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/abstract_controller/rendering.rb:41:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/metal/testing.rb:12:in `process_with_new_base_test&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/oauth-0.4.7/lib/oauth/client/action_controller_request.rb:15:in `process_with_new_base_test&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:414:in `process_without_api_recording&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/apipie-rails-0.0.12/lib/apipie/extractor/recorder.rb:112:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:47:in `process&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/actionpack-3.0.17/lib/action_controller/test_case.rb:367:in `delete&#x27;&quot;,
-      &quot;/home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:55:in `test_should_destroy_hosts&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/assertions.rb:42:in `assert_difference&#x27;&quot;,
-      &quot;/home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:54:in `test_should_destroy_hosts&#x27;&quot;,
-      &quot;./test/test_helper.rb:30:in `as_user&#x27;&quot;,
-      &quot;/home/jmagen/foreman/test/functional/api/v1/hosts_controller_test.rb:53:in `test_should_destroy_hosts&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `__send__&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:67:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/callbacks.rb:439:in `_run_setup_callbacks&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371/gems/activesupport-3.0.17/lib/active_support/testing/setup_and_teardown.rb:65:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run&#x27;&quot;,
-      &quot;/home/jmagen/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/1.8/test/unit.rb:279&quot;,
-      &quot;/home/jmagen/.rvm/gems/ruby-1.8.7-p371@global/gems/rake-0.9.2.2/lib/rake/rake_test_loader.rb:21&quot;
-    ],
-    &quot;class&quot;: &quot;NoMethodError&quot;,
-    &quot;message&quot;: &quot;undefined method `capabilities&#x27; for nil:NilClass&quot;
+  &quot;host&quot;: {
+    &quot;uuid&quot;: null,
+    &quot;environment&quot;: {
+      &quot;environment&quot;: {
+        &quot;name&quot;: &quot;production&quot;,
+        &quot;id&quot;: 334344675
+      }
+    },
+    &quot;last_freshcheck&quot;: null,
+    &quot;build&quot;: false,
+    &quot;root_pass&quot;: &quot;xybxa6JUkz63w&quot;,
+    &quot;source_file_id&quot;: null,
+    &quot;architecture_id&quot;: 501905019,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;enabled&quot;: true,
+    &quot;image_file&quot;: &quot;&quot;,
+    &quot;puppet_ca_proxy_id&quot;: null,
+    &quot;sp_subnet_id&quot;: null,
+    &quot;medium_id&quot;: null,
+    &quot;domain_id&quot;: 22495316,
+    &quot;managed&quot;: true,
+    &quot;sp_mac&quot;: &quot;&quot;,
+    &quot;disk&quot;: null,
+    &quot;owner_type&quot;: null,
+    &quot;ptable_id&quot;: 980190962,
+    &quot;comment&quot;: null,
+    &quot;puppet_proxy_id&quot;: 182953976,
+    &quot;mac&quot;: &quot;aabbCCddeeee&quot;,
+    &quot;use_image&quot;: null,
+    &quot;certname&quot;: &quot;my5name.mydomain.net&quot;,
+    &quot;name&quot;: &quot;my5name.mydomain.net&quot;,
+    &quot;environment_id&quot;: 334344675,
+    &quot;subnet_id&quot;: 980190962,
+    &quot;sp_name&quot;: &quot;&quot;,
+    &quot;sp_ip&quot;: &quot;&quot;,
+    &quot;owner_id&quot;: null,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;ip&quot;: &quot;2.3.4.1&quot;,
+    &quot;compute_resource_id&quot;: 1,
+    &quot;last_report&quot;: null,
+    &quot;model_id&quot;: null,
+    &quot;image_id&quot;: null,
+    &quot;serial&quot;: null,
+    &quot;puppet_status&quot;: 0,
+    &quot;last_compile&quot;: null,
+    &quot;hostgroup_id&quot;: null,
+    &quot;operatingsystem_id&quot;: 1073012828,
+    &quot;installed_at&quot;: null
   }
 }</pre>
 
@@ -6951,15 +7146,15 @@ an external node parameter</p>
 [
   {
     &quot;image&quot;: {
-      &quot;compute_resource_id&quot;: 1,
-      &quot;id&quot;: 298486374,
       &quot;uuid&quot;: &quot;MyString2&quot;,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;architecture_id&quot;: 1,
       &quot;username&quot;: &quot;MyString&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;operatingsystem_id&quot;: 1,
-      &quot;name&quot;: &quot;centos-2&quot;
+      &quot;architecture_id&quot;: 1,
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;centos-2&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 298486374,
+      &quot;compute_resource_id&quot;: 1,
+      &quot;operatingsystem_id&quot;: 1
     }
   }
 ]</pre>
@@ -7042,15 +7237,15 @@ an external node parameter</p>
 200
 {
   &quot;image&quot;: {
-    &quot;compute_resource_id&quot;: 980190962,
-    &quot;id&quot;: 980190962,
     &quot;uuid&quot;: &quot;string-of-uuid&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;architecture_id&quot;: 501905019,
     &quot;username&quot;: &quot;root&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;operatingsystem_id&quot;: 219689787,
-    &quot;name&quot;: &quot;centos-1&quot;
+    &quot;architecture_id&quot;: 501905019,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;centos-1&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;compute_resource_id&quot;: 980190962,
+    &quot;operatingsystem_id&quot;: 219689787
   }
 }</pre>
 
@@ -7269,15 +7464,15 @@ an external node parameter</p>
 200
 {
   &quot;image&quot;: {
-    &quot;compute_resource_id&quot;: 980190962,
-    &quot;id&quot;: 980190962,
     &quot;uuid&quot;: &quot;string-of-uuid&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;architecture_id&quot;: 501905019,
     &quot;username&quot;: &quot;root&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;operatingsystem_id&quot;: 219689787,
-    &quot;name&quot;: &quot;centos-1&quot;
+    &quot;architecture_id&quot;: 501905019,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;centos-1&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;compute_resource_id&quot;: 980190962,
+    &quot;operatingsystem_id&quot;: 219689787
   }
 }</pre>
 
@@ -7453,15 +7648,15 @@ an external node parameter</p>
 200
 {
   &quot;image&quot;: {
-    &quot;compute_resource_id&quot;: 980190962,
-    &quot;id&quot;: 980190962,
     &quot;uuid&quot;: &quot;string-of-uuid&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;architecture_id&quot;: 501905019,
     &quot;username&quot;: &quot;root&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;operatingsystem_id&quot;: 219689787,
-    &quot;name&quot;: &quot;centos-1&quot;
+    &quot;architecture_id&quot;: 501905019,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;centos-1&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;compute_resource_id&quot;: 980190962,
+    &quot;operatingsystem_id&quot;: 219689787
   }
 }</pre>
 
@@ -7543,34 +7738,34 @@ an external node parameter</p>
 [
   {
     &quot;lookup_key&quot;: {
+      &quot;description&quot;: null,
+      &quot;default_value&quot;: &quot;80&quot;,
       &quot;required&quot;: false,
       &quot;override&quot;: false,
       &quot;id&quot;: 980190962,
       &quot;key&quot;: &quot;port&quot;,
-      &quot;default_value&quot;: &quot;80&quot;,
-      &quot;description&quot;: null,
       &quot;is_param&quot;: true
     }
   },
   {
     &quot;lookup_key&quot;: {
+      &quot;description&quot;: null,
+      &quot;default_value&quot;: &quot;t&quot;,
       &quot;required&quot;: false,
       &quot;override&quot;: true,
       &quot;id&quot;: 113629430,
       &quot;key&quot;: &quot;ssl&quot;,
-      &quot;default_value&quot;: &quot;t&quot;,
-      &quot;description&quot;: null,
       &quot;is_param&quot;: true
     }
   },
   {
     &quot;lookup_key&quot;: {
+      &quot;description&quot;: null,
+      &quot;default_value&quot;: &quot;443&quot;,
       &quot;required&quot;: false,
       &quot;override&quot;: false,
       &quot;id&quot;: 298486374,
       &quot;key&quot;: &quot;ssl_port&quot;,
-      &quot;default_value&quot;: &quot;443&quot;,
-      &quot;description&quot;: null,
       &quot;is_param&quot;: false
     }
   }
@@ -7654,12 +7849,12 @@ an external node parameter</p>
 200
 {
   &quot;lookup_key&quot;: {
+    &quot;description&quot;: null,
+    &quot;default_value&quot;: &quot;80&quot;,
     &quot;required&quot;: false,
     &quot;override&quot;: false,
     &quot;id&quot;: 980190962,
     &quot;key&quot;: &quot;port&quot;,
-    &quot;default_value&quot;: &quot;80&quot;,
-    &quot;description&quot;: null,
     &quot;is_param&quot;: true
   }
 }</pre>
@@ -7730,12 +7925,12 @@ an external node parameter</p>
 201
 {
   &quot;lookup_key&quot;: {
+    &quot;description&quot;: null,
+    &quot;default_value&quot;: null,
     &quot;required&quot;: false,
     &quot;override&quot;: false,
     &quot;id&quot;: 980190963,
     &quot;key&quot;: &quot;testkey&quot;,
-    &quot;default_value&quot;: null,
-    &quot;description&quot;: null,
     &quot;is_param&quot;: true
   }
 }</pre>
@@ -7899,12 +8094,12 @@ an external node parameter</p>
 200
 {
   &quot;lookup_key&quot;: {
+    &quot;description&quot;: null,
+    &quot;default_value&quot;: 80,
     &quot;required&quot;: false,
     &quot;override&quot;: false,
     &quot;id&quot;: 980190962,
     &quot;key&quot;: &quot;port&quot;,
-    &quot;default_value&quot;: 80,
-    &quot;description&quot;: null,
     &quot;is_param&quot;: true
   }
 }</pre>
@@ -8081,12 +8276,12 @@ an external node parameter</p>
 200
 {
   &quot;lookup_key&quot;: {
+    &quot;description&quot;: null,
+    &quot;default_value&quot;: &quot;80&quot;,
     &quot;required&quot;: false,
     &quot;override&quot;: false,
     &quot;id&quot;: 980190962,
     &quot;key&quot;: &quot;port&quot;,
-    &quot;default_value&quot;: &quot;80&quot;,
-    &quot;description&quot;: null,
     &quot;is_param&quot;: true
   }
 }</pre>
@@ -8170,51 +8365,51 @@ an external node parameter</p>
   {
     &quot;medium&quot;: {
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
       &quot;media_path&quot;: null,
+      &quot;name&quot;: &quot;CentOS 5.4&quot;,
+      &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
       &quot;id&quot;: 980190962,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;CentOS 5.4&quot;
+      &quot;config_path&quot;: null
     }
   },
   {
     &quot;medium&quot;: {
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss&quot;,
       &quot;media_path&quot;: null,
+      &quot;name&quot;: &quot;OpenSuse Mirror&quot;,
+      &quot;path&quot;: &quot;http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss&quot;,
       &quot;id&quot;: 859751735,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;OpenSuse Mirror&quot;
+      &quot;config_path&quot;: null
     }
   },
   {
     &quot;medium&quot;: {
       &quot;image_path&quot;: &quot;brsla01:/vol/solgi_5.10/sol$minor_$release_$arch/flash/&quot;,
-      &quot;path&quot;: &quot;http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
       &quot;media_path&quot;: &quot;brsla01:/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
+      &quot;name&quot;: &quot;Solaris 10&quot;,
+      &quot;path&quot;: &quot;http://brsla01/vol/solgi_5.10/sol$minor_$release_$arch&quot;,
       &quot;id&quot;: 442321401,
-      &quot;config_path&quot;: &quot;brsla01:/vol/jumpstart&quot;,
-      &quot;name&quot;: &quot;Solaris 10&quot;
+      &quot;config_path&quot;: &quot;brsla01:/vol/jumpstart&quot;
     }
   },
   {
     &quot;medium&quot;: {
       &quot;image_path&quot;: null,
+      &quot;media_path&quot;: null,
+      &quot;name&quot;: &quot;Ubuntu Mirror&quot;,
       &quot;path&quot;: &quot;http://sg.archive.ubuntu.com&quot;,
-      &quot;media_path&quot;: null,
       &quot;id&quot;: 1011586618,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;Ubuntu Mirror&quot;
+      &quot;config_path&quot;: null
     }
   },
   {
     &quot;medium&quot;: {
       &quot;image_path&quot;: null,
-      &quot;path&quot;: &quot;http://nothing.intersting.com&quot;,
       &quot;media_path&quot;: null,
+      &quot;name&quot;: &quot;unused&quot;,
+      &quot;path&quot;: &quot;http://nothing.intersting.com&quot;,
       &quot;id&quot;: 338446587,
-      &quot;config_path&quot;: null,
-      &quot;name&quot;: &quot;unused&quot;
+      &quot;config_path&quot;: null
     }
   }
 ]</pre>
@@ -8298,11 +8493,11 @@ an external node parameter</p>
 {
   &quot;medium&quot;: {
     &quot;image_path&quot;: null,
-    &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
     &quot;media_path&quot;: null,
+    &quot;name&quot;: &quot;CentOS 5.4&quot;,
+    &quot;path&quot;: &quot;http://mirror.averse.net/centos/6.0/os/$arch&quot;,
     &quot;id&quot;: 980190962,
-    &quot;config_path&quot;: null,
-    &quot;name&quot;: &quot;CentOS 5.4&quot;
+    &quot;config_path&quot;: null
   }
 }</pre>
 
@@ -8365,15 +8560,15 @@ an external node parameter</p>
             <pre>POST /api/media
 {
   &quot;medium&quot;: {
-    &quot;path&quot;: &quot;http://www.newmedium.com/&quot;,
-    &quot;name&quot;: &quot;new medium&quot;
+    &quot;name&quot;: &quot;new medium&quot;,
+    &quot;path&quot;: &quot;http://www.newmedium.com/&quot;
   }
 }
 201
 {
   &quot;medium&quot;: {
-    &quot;id&quot;: 1011586619,
-    &quot;name&quot;: &quot;new medium&quot;
+    &quot;name&quot;: &quot;new medium&quot;,
+    &quot;id&quot;: 1011586619
   }
 }</pre>
 
@@ -8508,8 +8703,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;medium&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;CentOS 5.4&quot;
+    &quot;name&quot;: &quot;CentOS 5.4&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -8657,8 +8852,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;medium&quot;: {
-    &quot;id&quot;: 338446587,
-    &quot;name&quot;: &quot;unused&quot;
+    &quot;name&quot;: &quot;unused&quot;,
+    &quot;id&quot;: 338446587
   }
 }</pre>
 
@@ -8740,24 +8935,24 @@ will be substituted for the version of the operating system.</p>
 [
   {
     &quot;model&quot;: {
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;KVM&quot;,
+      &quot;info&quot;: &quot;Virtual Machine&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
       &quot;id&quot;: 980190962,
       &quot;vendor_class&quot;: null,
-      &quot;hardware_model&quot;: null,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;info&quot;: &quot;Virtual Machine&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;KVM&quot;
+      &quot;hardware_model&quot;: null
     }
   },
   {
     &quot;model&quot;: {
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;SUN V210&quot;,
+      &quot;info&quot;: null,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
       &quot;id&quot;: 139037058,
       &quot;vendor_class&quot;: &quot;Sun-Fire-V210&quot;,
-      &quot;hardware_model&quot;: &quot;SUN4U&quot;,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;info&quot;: null,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;SUN V210&quot;
+      &quot;hardware_model&quot;: &quot;SUN4U&quot;
     }
   }
 ]</pre>
@@ -8840,13 +9035,13 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;model&quot;: {
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;KVM&quot;,
+    &quot;info&quot;: &quot;Virtual Machine&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;id&quot;: 980190962,
     &quot;vendor_class&quot;: null,
-    &quot;hardware_model&quot;: null,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;info&quot;: &quot;Virtual Machine&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;KVM&quot;
+    &quot;hardware_model&quot;: null
   }
 }</pre>
 
@@ -8915,13 +9110,13 @@ will be substituted for the version of the operating system.</p>
 201
 {
   &quot;model&quot;: {
-    &quot;id&quot;: 980190963,
-    &quot;vendor_class&quot;: null,
-    &quot;hardware_model&quot;: null,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:19Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:28Z&quot;,
+    &quot;name&quot;: &quot;new model&quot;,
     &quot;info&quot;: null,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:19Z&quot;,
-    &quot;name&quot;: &quot;new model&quot;
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:28Z&quot;,
+    &quot;id&quot;: 980190963,
+    &quot;hardware_model&quot;: null,
+    &quot;vendor_class&quot;: null
   }
 }</pre>
 
@@ -9052,13 +9247,13 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;model&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;vendor_class&quot;: null,
-    &quot;hardware_model&quot;: null,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;KVM&quot;,
     &quot;info&quot;: &quot;Virtual Machine&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;KVM&quot;
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;hardware_model&quot;: null,
+    &quot;vendor_class&quot;: null
   }
 }</pre>
 
@@ -9202,13 +9397,13 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;model&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;vendor_class&quot;: null,
-    &quot;hardware_model&quot;: null,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;KVM&quot;,
     &quot;info&quot;: &quot;Virtual Machine&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;KVM&quot;
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962,
+    &quot;hardware_model&quot;: null,
+    &quot;vendor_class&quot;: null
   }
 }</pre>
 
@@ -9418,22 +9613,22 @@ will be substituted for the version of the operating system.</p>
             <pre>POST /api/operatingsystems
 {
   &quot;operatingsystem&quot;: {
-    &quot;major&quot;: &quot;1&quot;,
     &quot;minor&quot;: &quot;2&quot;,
-    &quot;name&quot;: &quot;awsome_os&quot;
+    &quot;name&quot;: &quot;awsome_os&quot;,
+    &quot;major&quot;: &quot;1&quot;
   }
 }
 200
 {
   &quot;operatingsystem&quot;: {
-    &quot;major&quot;: &quot;1&quot;,
-    &quot;id&quot;: 1073012829,
     &quot;minor&quot;: &quot;2&quot;,
-    &quot;family&quot;: null,
-    &quot;&quot;: [],
     &quot;type&quot;: null,
     &quot;name&quot;: &quot;awsome_os&quot;,
-    &quot;release_name&quot;: null
+    &quot;family&quot;: null,
+    &quot;major&quot;: &quot;1&quot;,
+    &quot;release_name&quot;: null,
+    &quot;id&quot;: 1073012829,
+    &quot;&quot;: []
   }
 }</pre>
 
@@ -9729,12 +9924,12 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;operatingsystem&quot;: {
-    &quot;media&quot;: [],
-    &quot;id&quot;: 775246587,
     &quot;architectures&quot;: [],
     &quot;ptables&quot;: [],
     &quot;config_templates&quot;: [],
-    &quot;name&quot;: &quot;NoHosts 1.1&quot;
+    &quot;name&quot;: &quot;NoHosts 1.1&quot;,
+    &quot;media&quot;: [],
+    &quot;id&quot;: 775246587
   }
 }</pre>
 
@@ -9904,26 +10099,26 @@ will be substituted for the version of the operating system.</p>
 [
   {
     &quot;ptable&quot;: {
-      &quot;id&quot;: 980190962,
-      &quot;name&quot;: &quot;default&quot;
+      &quot;name&quot;: &quot;default&quot;,
+      &quot;id&quot;: 980190962
     }
   },
   {
     &quot;ptable&quot;: {
-      &quot;id&quot;: 281110143,
-      &quot;name&quot;: &quot;four&quot;
+      &quot;name&quot;: &quot;four&quot;,
+      &quot;id&quot;: 281110143
     }
   },
   {
     &quot;ptable&quot;: {
-      &quot;id&quot;: 859751735,
-      &quot;name&quot;: &quot;suse default&quot;
+      &quot;name&quot;: &quot;suse default&quot;,
+      &quot;id&quot;: 859751735
     }
   },
   {
     &quot;ptable&quot;: {
-      &quot;id&quot;: 1011586618,
-      &quot;name&quot;: &quot;ubuntu default&quot;
+      &quot;name&quot;: &quot;ubuntu default&quot;,
+      &quot;id&quot;: 1011586618
     }
   }
 ]</pre>
@@ -10006,8 +10201,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;ptable&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;default&quot;
+    &quot;name&quot;: &quot;default&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -10070,15 +10265,15 @@ will be substituted for the version of the operating system.</p>
             <pre>POST /api/ptables
 {
   &quot;ptable&quot;: {
-    &quot;name&quot;: &quot;ptable_test&quot;,
-    &quot;layout&quot;: &quot;d-i partman-auto/disk&quot;
+    &quot;layout&quot;: &quot;d-i partman-auto/disk&quot;,
+    &quot;name&quot;: &quot;ptable_test&quot;
   }
 }
 201
 {
   &quot;ptable&quot;: {
-    &quot;id&quot;: 1011586619,
-    &quot;name&quot;: &quot;ptable_test&quot;
+    &quot;name&quot;: &quot;ptable_test&quot;,
+    &quot;id&quot;: 1011586619
   }
 }</pre>
 
@@ -10193,8 +10388,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;ptable&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;default&quot;
+    &quot;name&quot;: &quot;default&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -10322,23 +10517,23 @@ will be substituted for the version of the operating system.</p>
 422
 {
   &quot;ptable&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;errors&quot;: {
-      &quot;base&quot;: [
-        &quot;default is used by dhcp.mydomain.net&quot;,
-        &quot;default is used by temp01.yourdomain.net&quot;,
-        &quot;default is used by sdhcp.mydomain.net&quot;,
-        &quot;default is used by temp.yourdomain.net&quot;,
-        &quot;default is used by my5name.mydomain.net&quot;
-      ]
-    },
     &quot;full_messages&quot;: [
-      &quot;default is used by dhcp.mydomain.net&quot;,
       &quot;default is used by temp01.yourdomain.net&quot;,
       &quot;default is used by sdhcp.mydomain.net&quot;,
       &quot;default is used by temp.yourdomain.net&quot;,
-      &quot;default is used by my5name.mydomain.net&quot;
-    ]
+      &quot;default is used by my5name.mydomain.net&quot;,
+      &quot;default is used by dhcp.mydomain.net&quot;
+    ],
+    &quot;id&quot;: 980190962,
+    &quot;errors&quot;: {
+      &quot;base&quot;: [
+        &quot;default is used by temp01.yourdomain.net&quot;,
+        &quot;default is used by sdhcp.mydomain.net&quot;,
+        &quot;default is used by temp.yourdomain.net&quot;,
+        &quot;default is used by my5name.mydomain.net&quot;,
+        &quot;default is used by dhcp.mydomain.net&quot;
+      ]
+    }
   }
 }</pre>
 
@@ -10418,30 +10613,28 @@ will be substituted for the version of the operating system.</p>
             <pre>GET /api/puppetclasses
 200
 {
-  &quot;openstruct&quot;: {
-    &quot;base&quot;: [
-      {
-        &quot;puppetclass&quot;: {
-          &quot;id&quot;: 980190962,
-          &quot;lookup_keys&quot;: [
-            {
-              &quot;id&quot;: 298486374
-            }
-          ],
-          &quot;name&quot;: &quot;base&quot;
-        }
+  &quot;base&quot;: [
+    {
+      &quot;puppetclass&quot;: {
+        &quot;lookup_keys&quot;: [
+          {
+            &quot;id&quot;: 298486374
+          }
+        ],
+        &quot;name&quot;: &quot;base&quot;,
+        &quot;id&quot;: 980190962
       }
-    ],
-    &quot;apache&quot;: [
-      {
-        &quot;puppetclass&quot;: {
-          &quot;id&quot;: 298486374,
-          &quot;lookup_keys&quot;: [],
-          &quot;name&quot;: &quot;apache&quot;
-        }
+    }
+  ],
+  &quot;apache&quot;: [
+    {
+      &quot;puppetclass&quot;: {
+        &quot;lookup_keys&quot;: [],
+        &quot;name&quot;: &quot;apache&quot;,
+        &quot;id&quot;: 298486374
       }
-    ]
-  }
+    }
+  ]
 }</pre>
 
 
@@ -10522,21 +10715,21 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;puppetclass&quot;: {
-    &quot;id&quot;: 980190962,
     &quot;lookup_keys&quot;: [
       {
         &quot;lookup_key&quot;: {
+          &quot;description&quot;: null,
+          &quot;default_value&quot;: &quot;443&quot;,
           &quot;required&quot;: false,
           &quot;override&quot;: false,
           &quot;id&quot;: 298486374,
           &quot;key&quot;: &quot;ssl_port&quot;,
-          &quot;default_value&quot;: &quot;443&quot;,
-          &quot;description&quot;: null,
           &quot;is_param&quot;: false
         }
       }
     ],
-    &quot;name&quot;: &quot;base&quot;
+    &quot;name&quot;: &quot;base&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -10605,9 +10798,9 @@ will be substituted for the version of the operating system.</p>
 201
 {
   &quot;puppetclass&quot;: {
-    &quot;id&quot;: 980190963,
     &quot;lookup_keys&quot;: [],
-    &quot;name&quot;: &quot;test_puppetclass&quot;
+    &quot;name&quot;: &quot;test_puppetclass&quot;,
+    &quot;id&quot;: 980190963
   }
 }</pre>
 
@@ -10690,13 +10883,13 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;puppetclass&quot;: {
-    &quot;id&quot;: 980190962,
     &quot;lookup_keys&quot;: [
       {
         &quot;id&quot;: 298486374
       }
     ],
-    &quot;name&quot;: &quot;base&quot;
+    &quot;name&quot;: &quot;base&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -10792,13 +10985,13 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;puppetclass&quot;: {
-    &quot;id&quot;: 980190962,
     &quot;lookup_keys&quot;: [
       {
         &quot;id&quot;: 298486374
       }
     ],
-    &quot;name&quot;: &quot;base&quot;
+    &quot;name&quot;: &quot;base&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -10881,29 +11074,29 @@ will be substituted for the version of the operating system.</p>
   {
     &quot;report&quot;: {
       &quot;id&quot;: 70219655,
-      &quot;status&quot;: {
-        &quot;failed_restarts&quot;: 0,
-        &quot;restarted&quot;: 0,
-        &quot;applied&quot;: 0,
-        &quot;failed&quot;: 0,
-        &quot;pending&quot;: 0,
-        &quot;skipped&quot;: 0
-      },
-      &quot;reported_at&quot;: &quot;2012-11-04T12:16:14Z&quot;,
-      &quot;&quot;: [],
-      &quot;summary&quot;: &quot;Success&quot;,
       &quot;logs&quot;: [],
+      &quot;reported_at&quot;: &quot;2012-11-06T13:51:24Z&quot;,
+      &quot;summary&quot;: &quot;Success&quot;,
+      &quot;&quot;: [],
+      &quot;status&quot;: {
+        &quot;skipped&quot;: 0,
+        &quot;failed&quot;: 0,
+        &quot;restarted&quot;: 0,
+        &quot;pending&quot;: 0,
+        &quot;failed_restarts&quot;: 0,
+        &quot;applied&quot;: 0
+      },
       &quot;metrics&quot;: {
         &quot;time&quot;: {
-          &quot;filebucket&quot;: 0.000171,
-          &quot;cron&quot;: 0.000419,
+          &quot;schedule&quot;: 0.00083,
           &quot;mailalias&quot;: 0.000283,
-          &quot;exec&quot;: 0.000299,
+          &quot;file&quot;: 0.007025,
+          &quot;filebucket&quot;: 0.000171,
           &quot;config_retrieval&quot;: 16.3637869358063,
           &quot;service&quot;: 0.149739,
-          &quot;schedule&quot;: 0.00083,
+          &quot;cron&quot;: 0.000419,
           &quot;package&quot;: 0.003989,
-          &quot;file&quot;: 0.007025
+          &quot;exec&quot;: 0.000299
         },
         &quot;changes&quot;: {},
         &quot;resources&quot;: {
@@ -10996,29 +11189,29 @@ will be substituted for the version of the operating system.</p>
 {
   &quot;report&quot;: {
     &quot;id&quot;: 70219655,
-    &quot;status&quot;: {
-      &quot;failed_restarts&quot;: 0,
-      &quot;restarted&quot;: 0,
-      &quot;applied&quot;: 0,
-      &quot;failed&quot;: 0,
-      &quot;pending&quot;: 0,
-      &quot;skipped&quot;: 0
-    },
-    &quot;reported_at&quot;: &quot;2012-11-04T12:16:14Z&quot;,
-    &quot;&quot;: [],
-    &quot;summary&quot;: &quot;Success&quot;,
     &quot;logs&quot;: [],
+    &quot;reported_at&quot;: &quot;2012-11-06T13:51:24Z&quot;,
+    &quot;summary&quot;: &quot;Success&quot;,
+    &quot;&quot;: [],
+    &quot;status&quot;: {
+      &quot;skipped&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;restarted&quot;: 0,
+      &quot;pending&quot;: 0,
+      &quot;failed_restarts&quot;: 0,
+      &quot;applied&quot;: 0
+    },
     &quot;metrics&quot;: {
       &quot;time&quot;: {
-        &quot;filebucket&quot;: 0.000171,
-        &quot;cron&quot;: 0.000419,
+        &quot;schedule&quot;: 0.00083,
         &quot;mailalias&quot;: 0.000283,
-        &quot;exec&quot;: 0.000299,
+        &quot;file&quot;: 0.007025,
+        &quot;filebucket&quot;: 0.000171,
         &quot;config_retrieval&quot;: 16.3637869358063,
         &quot;service&quot;: 0.149739,
-        &quot;schedule&quot;: 0.00083,
+        &quot;cron&quot;: 0.000419,
         &quot;package&quot;: 0.003989,
-        &quot;file&quot;: 0.007025
+        &quot;exec&quot;: 0.000299
       },
       &quot;changes&quot;: {},
       &quot;resources&quot;: {
@@ -11091,30 +11284,30 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;report&quot;: {
-    &quot;id&quot;: 70219655,
-    &quot;status&quot;: {
-      &quot;failed_restarts&quot;: 0,
-      &quot;restarted&quot;: 0,
-      &quot;applied&quot;: 0,
-      &quot;failed&quot;: 0,
-      &quot;pending&quot;: 0,
-      &quot;skipped&quot;: 0
-    },
-    &quot;reported_at&quot;: &quot;2012-11-04T12:16:14Z&quot;,
-    &quot;summary&quot;: &quot;Success&quot;,
     &quot;host&quot;: &quot;my5name.mydomain.net&quot;,
+    &quot;id&quot;: 70219655,
     &quot;logs&quot;: [],
+    &quot;reported_at&quot;: &quot;2012-11-06T13:51:24Z&quot;,
+    &quot;summary&quot;: &quot;Success&quot;,
+    &quot;status&quot;: {
+      &quot;skipped&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;restarted&quot;: 0,
+      &quot;pending&quot;: 0,
+      &quot;failed_restarts&quot;: 0,
+      &quot;applied&quot;: 0
+    },
     &quot;metrics&quot;: {
       &quot;time&quot;: {
-        &quot;filebucket&quot;: 0.000171,
-        &quot;cron&quot;: 0.000419,
+        &quot;schedule&quot;: 0.00083,
         &quot;mailalias&quot;: 0.000283,
-        &quot;exec&quot;: 0.000299,
+        &quot;file&quot;: 0.007025,
+        &quot;filebucket&quot;: 0.000171,
         &quot;config_retrieval&quot;: 16.3637869358063,
         &quot;service&quot;: 0.149739,
-        &quot;schedule&quot;: 0.00083,
-        &quot;file&quot;: 0.007025,
-        &quot;package&quot;: 0.003989
+        &quot;cron&quot;: 0.000419,
+        &quot;package&quot;: 0.003989,
+        &quot;exec&quot;: 0.000299
       },
       &quot;changes&quot;: {},
       &quot;resources&quot;: {
@@ -11278,7 +11471,7 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;role&quot;: {
-    &quot;id&quot;: 1,
+    &quot;builtin&quot;: 0,
     &quot;permissions&quot;: [
       &quot;view_architectures&quot;,
       &quot;create_architectures&quot;,
@@ -11350,8 +11543,8 @@ will be substituted for the version of the operating system.</p>
       &quot;view_audit_logs&quot;,
       &quot;view_statistics&quot;
     ],
-    &quot;builtin&quot;: 0,
-    &quot;name&quot;: &quot;Manager&quot;
+    &quot;name&quot;: &quot;Manager&quot;,
+    &quot;id&quot;: 1
   }
 }</pre>
 
@@ -11420,10 +11613,10 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;role&quot;: {
-    &quot;id&quot;: 11,
-    &quot;permissions&quot;: [],
     &quot;builtin&quot;: 0,
-    &quot;name&quot;: &quot;staff&quot;
+    &quot;permissions&quot;: [],
+    &quot;name&quot;: &quot;staff&quot;,
+    &quot;id&quot;: 11
   }
 }</pre>
 
@@ -11506,7 +11699,7 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;role&quot;: {
-    &quot;id&quot;: 1,
+    &quot;builtin&quot;: 0,
     &quot;permissions&quot;: [
       &quot;view_architectures&quot;,
       &quot;create_architectures&quot;,
@@ -11578,8 +11771,8 @@ will be substituted for the version of the operating system.</p>
       &quot;view_audit_logs&quot;,
       &quot;view_statistics&quot;
     ],
-    &quot;builtin&quot;: 0,
-    &quot;name&quot;: &quot;Manager&quot;
+    &quot;name&quot;: &quot;Manager&quot;,
+    &quot;id&quot;: 1
   }
 }</pre>
 
@@ -11675,7 +11868,7 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;role&quot;: {
-    &quot;id&quot;: 1,
+    &quot;builtin&quot;: 0,
     &quot;permissions&quot;: [
       &quot;view_architectures&quot;,
       &quot;create_architectures&quot;,
@@ -11747,8 +11940,8 @@ will be substituted for the version of the operating system.</p>
       &quot;view_audit_logs&quot;,
       &quot;view_statistics&quot;
     ],
-    &quot;builtin&quot;: 0,
-    &quot;name&quot;: &quot;Manager&quot;
+    &quot;name&quot;: &quot;Manager&quot;,
+    &quot;id&quot;: 1
   }
 }</pre>
 
@@ -11903,15 +12096,15 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;setting&quot;: {
-    &quot;settings_type&quot;: null,
-    &quot;default&quot;: &quot;root@some.host.fqdn&quot;,
-    &quot;id&quot;: 333972760,
-    &quot;value&quot;: &quot;root@some.host.fqdn&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
     &quot;description&quot;: &quot;The Default administrator email address&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;value&quot;: &quot;root@some.host.fqdn&quot;,
+    &quot;settings_type&quot;: null,
     &quot;name&quot;: &quot;administrator&quot;,
-    &quot;category&quot;: &quot;General&quot;
+    &quot;default&quot;: &quot;root@some.host.fqdn&quot;,
+    &quot;category&quot;: &quot;General&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 333972760
   }
 }</pre>
 
@@ -11978,15 +12171,15 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;setting&quot;: {
-    &quot;default&quot;: &quot;root@some.host.fqdn&quot;,
-    &quot;settings_type&quot;: null,
-    &quot;id&quot;: 333972760,
-    &quot;value&quot;: &quot;root@some.host.fqdn&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
     &quot;description&quot;: &quot;The Default administrator email address&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;value&quot;: &quot;root@some.host.fqdn&quot;,
     &quot;name&quot;: &quot;administrator&quot;,
-    &quot;category&quot;: &quot;General&quot;
+    &quot;settings_type&quot;: null,
+    &quot;default&quot;: &quot;root@some.host.fqdn&quot;,
+    &quot;category&quot;: &quot;General&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 333972760
   }
 }</pre>
 
@@ -12100,47 +12293,47 @@ will be substituted for the version of the operating system.</p>
 [
   {
     &quot;smart_proxy&quot;: {
-      &quot;id&quot;: 980190962,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;DHCP Proxy&quot;
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;DHCP Proxy&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 980190962
     }
   },
   {
     &quot;smart_proxy&quot;: {
-      &quot;id&quot;: 113629430,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;http://else.where:4567&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;DNS Proxy&quot;
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;DNS Proxy&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 113629430
     }
   },
   {
     &quot;smart_proxy&quot;: {
-      &quot;id&quot;: 182953976,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;http://else.where:4567&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;Puppetmaster Proxy&quot;
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;Puppetmaster Proxy&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 182953976
     }
   },
   {
     &quot;smart_proxy&quot;: {
-      &quot;id&quot;: 298486374,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;http://somewhere.else&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;TFTP Proxy&quot;
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;TFTP Proxy&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 298486374
     }
   },
   {
     &quot;smart_proxy&quot;: {
-      &quot;id&quot;: 281110143,
-      &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
       &quot;url&quot;: &quot;http://else.where:4567&quot;,
-      &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-      &quot;name&quot;: &quot;Unused Proxy&quot;
+      &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;name&quot;: &quot;Unused Proxy&quot;,
+      &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+      &quot;id&quot;: 281110143
     }
   }
 ]</pre>
@@ -12177,11 +12370,11 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;smart_proxy&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
     &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;DHCP Proxy&quot;
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;DHCP Proxy&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -12251,11 +12444,11 @@ will be substituted for the version of the operating system.</p>
 201
 {
   &quot;smart_proxy&quot;: {
-    &quot;id&quot;: 980190963,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:21Z&quot;,
     &quot;url&quot;: &quot;http://server:8443&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:21Z&quot;,
-    &quot;name&quot;: &quot;master02&quot;
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:30Z&quot;,
+    &quot;name&quot;: &quot;master02&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:30Z&quot;,
+    &quot;id&quot;: 980190963
   }
 }</pre>
 
@@ -12354,11 +12547,11 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;smart_proxy&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
     &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;DHCP Proxy&quot;
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;DHCP Proxy&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -12470,11 +12663,11 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;smart_proxy&quot;: {
-    &quot;id&quot;: 281110143,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
     &quot;url&quot;: &quot;http://else.where:4567&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;name&quot;: &quot;Unused Proxy&quot;
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;name&quot;: &quot;Unused Proxy&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;id&quot;: 281110143
   }
 }</pre>
 
@@ -12556,100 +12749,100 @@ will be substituted for the version of the operating system.</p>
 [
   {
     &quot;subnet&quot;: {
+      &quot;dns&quot;: null,
+      &quot;dns_id&quot;: null,
+      &quot;tftp_id&quot;: 298486374,
+      &quot;tftp&quot;: {
+        &quot;url&quot;: &quot;http://somewhere.else&quot;,
+        &quot;name&quot;: &quot;TFTP Proxy&quot;,
+        &quot;id&quot;: 298486374
+      },
+      &quot;name&quot;: &quot;three&quot;,
+      &quot;dhcp&quot;: {
+        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
+        &quot;name&quot;: &quot;DHCP Proxy&quot;,
+        &quot;id&quot;: 980190962
+      },
+      &quot;network&quot;: &quot;3.3.4.3&quot;,
+      &quot;dns_secondary&quot;: null,
+      &quot;dns_primary&quot;: null,
       &quot;priority&quot;: null,
       &quot;domain_ids&quot;: [],
-      &quot;network&quot;: &quot;3.3.4.3&quot;,
-      &quot;id&quot;: 113629430,
       &quot;to&quot;: null,
-      &quot;tftp_id&quot;: 298486374,
-      &quot;dns_id&quot;: null,
-      &quot;dns&quot;: null,
-      &quot;dns_primary&quot;: null,
-      &quot;dhcp&quot;: {
-        &quot;id&quot;: 980190962,
-        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-        &quot;name&quot;: &quot;DHCP Proxy&quot;
-      },
-      &quot;gateway&quot;: null,
-      &quot;dns_secondary&quot;: null,
-      &quot;mask&quot;: &quot;255.255.255.0&quot;,
+      &quot;id&quot;: 113629430,
       &quot;from&quot;: null,
-      &quot;vlanid&quot;: null,
-      &quot;name&quot;: &quot;three&quot;,
       &quot;dhcp_id&quot;: 980190962,
-      &quot;tftp&quot;: {
-        &quot;id&quot;: 298486374,
-        &quot;url&quot;: &quot;http://somewhere.else&quot;,
-        &quot;name&quot;: &quot;TFTP Proxy&quot;
-      }
+      &quot;gateway&quot;: null,
+      &quot;vlanid&quot;: null,
+      &quot;mask&quot;: &quot;255.255.255.0&quot;
     }
   },
   {
     &quot;subnet&quot;: {
+      &quot;dns&quot;: null,
+      &quot;dns_id&quot;: null,
+      &quot;tftp_id&quot;: 298486374,
+      &quot;tftp&quot;: {
+        &quot;url&quot;: &quot;http://somewhere.else&quot;,
+        &quot;name&quot;: &quot;TFTP Proxy&quot;,
+        &quot;id&quot;: 298486374
+      },
+      &quot;name&quot;: &quot;two&quot;,
+      &quot;dhcp&quot;: {
+        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
+        &quot;name&quot;: &quot;DHCP Proxy&quot;,
+        &quot;id&quot;: 980190962
+      },
+      &quot;network&quot;: &quot;3.3.4.0&quot;,
+      &quot;dns_secondary&quot;: null,
+      &quot;dns_primary&quot;: null,
       &quot;priority&quot;: null,
       &quot;domain_ids&quot;: [
         534821992
       ],
-      &quot;network&quot;: &quot;3.3.4.0&quot;,
-      &quot;id&quot;: 298486374,
       &quot;to&quot;: null,
-      &quot;tftp_id&quot;: 298486374,
-      &quot;dns_id&quot;: null,
-      &quot;dns&quot;: null,
-      &quot;dns_primary&quot;: null,
-      &quot;dhcp&quot;: {
-        &quot;id&quot;: 980190962,
-        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-        &quot;name&quot;: &quot;DHCP Proxy&quot;
-      },
-      &quot;gateway&quot;: null,
-      &quot;dns_secondary&quot;: null,
-      &quot;mask&quot;: &quot;255.255.255.0&quot;,
+      &quot;id&quot;: 298486374,
       &quot;from&quot;: null,
-      &quot;vlanid&quot;: null,
-      &quot;name&quot;: &quot;two&quot;,
       &quot;dhcp_id&quot;: 980190962,
-      &quot;tftp&quot;: {
-        &quot;id&quot;: 298486374,
-        &quot;url&quot;: &quot;http://somewhere.else&quot;,
-        &quot;name&quot;: &quot;TFTP Proxy&quot;
-      }
+      &quot;gateway&quot;: null,
+      &quot;vlanid&quot;: null,
+      &quot;mask&quot;: &quot;255.255.255.0&quot;
     }
   },
   {
     &quot;subnet&quot;: {
+      &quot;dns&quot;: {
+        &quot;url&quot;: &quot;http://else.where:4567&quot;,
+        &quot;name&quot;: &quot;DNS Proxy&quot;,
+        &quot;id&quot;: 113629430
+      },
+      &quot;dns_id&quot;: 113629430,
+      &quot;tftp_id&quot;: 298486374,
+      &quot;tftp&quot;: {
+        &quot;url&quot;: &quot;http://somewhere.else&quot;,
+        &quot;name&quot;: &quot;TFTP Proxy&quot;,
+        &quot;id&quot;: 298486374
+      },
+      &quot;name&quot;: &quot;one&quot;,
+      &quot;dhcp&quot;: {
+        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
+        &quot;name&quot;: &quot;DHCP Proxy&quot;,
+        &quot;id&quot;: 980190962
+      },
+      &quot;network&quot;: &quot;2.3.4.0&quot;,
+      &quot;dns_secondary&quot;: null,
+      &quot;dns_primary&quot;: null,
       &quot;priority&quot;: null,
       &quot;domain_ids&quot;: [
         822172901
       ],
-      &quot;network&quot;: &quot;2.3.4.0&quot;,
-      &quot;id&quot;: 980190962,
       &quot;to&quot;: null,
-      &quot;tftp_id&quot;: 298486374,
-      &quot;dns_id&quot;: 113629430,
-      &quot;dns&quot;: {
-        &quot;id&quot;: 113629430,
-        &quot;url&quot;: &quot;http://else.where:4567&quot;,
-        &quot;name&quot;: &quot;DNS Proxy&quot;
-      },
-      &quot;dns_primary&quot;: null,
-      &quot;dhcp&quot;: {
-        &quot;id&quot;: 980190962,
-        &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-        &quot;name&quot;: &quot;DHCP Proxy&quot;
-      },
-      &quot;gateway&quot;: null,
-      &quot;dns_secondary&quot;: null,
-      &quot;mask&quot;: &quot;255.255.255.0&quot;,
+      &quot;id&quot;: 980190962,
       &quot;from&quot;: null,
-      &quot;vlanid&quot;: null,
-      &quot;name&quot;: &quot;one&quot;,
       &quot;dhcp_id&quot;: 980190962,
-      &quot;tftp&quot;: {
-        &quot;id&quot;: 298486374,
-        &quot;url&quot;: &quot;http://somewhere.else&quot;,
-        &quot;name&quot;: &quot;TFTP Proxy&quot;
-      }
+      &quot;gateway&quot;: null,
+      &quot;vlanid&quot;: null,
+      &quot;mask&quot;: &quot;255.255.255.0&quot;
     }
   }
 ]</pre>
@@ -12731,32 +12924,32 @@ will be substituted for the version of the operating system.</p>
             <pre>POST /api/subnets
 {
   &quot;subnet&quot;: {
+    &quot;name&quot;: &quot;QA2&quot;,
     &quot;network&quot;: &quot;10.35.2.27&quot;,
-    &quot;mask&quot;: &quot;255.255.255.0&quot;,
-    &quot;name&quot;: &quot;QA2&quot;
+    &quot;mask&quot;: &quot;255.255.255.0&quot;
   }
 }
 200
 {
   &quot;subnet&quot;: {
+    &quot;dns&quot;: null,
+    &quot;dns_id&quot;: null,
+    &quot;tftp_id&quot;: null,
+    &quot;tftp&quot;: null,
+    &quot;name&quot;: &quot;QA2&quot;,
+    &quot;dhcp&quot;: null,
+    &quot;network&quot;: &quot;10.35.2.27&quot;,
+    &quot;dns_secondary&quot;: null,
+    &quot;dns_primary&quot;: null,
     &quot;priority&quot;: null,
     &quot;domain_ids&quot;: [],
-    &quot;network&quot;: &quot;10.35.2.27&quot;,
-    &quot;id&quot;: 980190963,
     &quot;to&quot;: null,
-    &quot;tftp_id&quot;: null,
-    &quot;dns_id&quot;: null,
-    &quot;dns&quot;: null,
-    &quot;dns_primary&quot;: null,
-    &quot;dhcp&quot;: null,
-    &quot;gateway&quot;: null,
-    &quot;dns_secondary&quot;: null,
-    &quot;mask&quot;: &quot;255.255.255.0&quot;,
+    &quot;id&quot;: 980190963,
     &quot;from&quot;: null,
-    &quot;vlanid&quot;: null,
-    &quot;name&quot;: &quot;QA2&quot;,
     &quot;dhcp_id&quot;: null,
-    &quot;tftp&quot;: null
+    &quot;gateway&quot;: null,
+    &quot;vlanid&quot;: null,
+    &quot;mask&quot;: &quot;255.255.255.0&quot;
   }
 }</pre>
 
@@ -13044,38 +13237,38 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;subnet&quot;: {
+    &quot;dns&quot;: {
+      &quot;url&quot;: &quot;http://else.where:4567&quot;,
+      &quot;name&quot;: &quot;DNS Proxy&quot;,
+      &quot;id&quot;: 113629430
+    },
+    &quot;dns_id&quot;: 113629430,
+    &quot;tftp_id&quot;: 298486374,
+    &quot;tftp&quot;: {
+      &quot;url&quot;: &quot;http://somewhere.else&quot;,
+      &quot;name&quot;: &quot;TFTP Proxy&quot;,
+      &quot;id&quot;: 298486374
+    },
+    &quot;name&quot;: &quot;one&quot;,
+    &quot;dhcp&quot;: {
+      &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
+      &quot;name&quot;: &quot;DHCP Proxy&quot;,
+      &quot;id&quot;: 980190962
+    },
+    &quot;network&quot;: &quot;2.3.4.0&quot;,
+    &quot;dns_secondary&quot;: null,
+    &quot;dns_primary&quot;: null,
     &quot;priority&quot;: null,
     &quot;domain_ids&quot;: [
       822172901
     ],
-    &quot;network&quot;: &quot;2.3.4.0&quot;,
-    &quot;id&quot;: 980190962,
     &quot;to&quot;: null,
-    &quot;tftp_id&quot;: 298486374,
-    &quot;dns_id&quot;: 113629430,
-    &quot;dns&quot;: {
-      &quot;id&quot;: 113629430,
-      &quot;url&quot;: &quot;http://else.where:4567&quot;,
-      &quot;name&quot;: &quot;DNS Proxy&quot;
-    },
-    &quot;dns_primary&quot;: null,
-    &quot;dhcp&quot;: {
-      &quot;id&quot;: 980190962,
-      &quot;url&quot;: &quot;https://somewhere.net:8443&quot;,
-      &quot;name&quot;: &quot;DHCP Proxy&quot;
-    },
-    &quot;gateway&quot;: null,
-    &quot;dns_secondary&quot;: null,
-    &quot;mask&quot;: &quot;255.255.255.0&quot;,
+    &quot;id&quot;: 980190962,
     &quot;from&quot;: null,
-    &quot;vlanid&quot;: null,
-    &quot;name&quot;: &quot;one&quot;,
     &quot;dhcp_id&quot;: 980190962,
-    &quot;tftp&quot;: {
-      &quot;id&quot;: 298486374,
-      &quot;url&quot;: &quot;http://somewhere.else&quot;,
-      &quot;name&quot;: &quot;TFTP Proxy&quot;
-    }
+    &quot;gateway&quot;: null,
+    &quot;vlanid&quot;: null,
+    &quot;mask&quot;: &quot;255.255.255.0&quot;
   }
 }</pre>
 
@@ -13377,35 +13570,35 @@ will be substituted for the version of the operating system.</p>
 422
 {
   &quot;subnet&quot;: {
+    &quot;full_messages&quot;: [
+      &quot;2.3.4.0/24 is used by temp01.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;,
+      &quot;2.3.4.0/24 is used by sol10host&quot;,
+      &quot;2.3.4.0/24 is used by temp-01.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by anotherfullhost&quot;,
+      &quot;2.3.4.0/24 is used by temp.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by suse01.yourdomain.net&quot;,
+      &quot;2.3.4.0/24 is used by otherfullhost&quot;,
+      &quot;2.3.4.0/24 is used by my5name.mydomain.net&quot;,
+      &quot;2.3.4.0/24 is used by dhcp.mydomain.net&quot;,
+      &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;
+    ],
     &quot;id&quot;: 980190962,
     &quot;errors&quot;: {
       &quot;base&quot;: [
-        &quot;2.3.4.0/24 is used by otherfullhost&quot;,
-        &quot;2.3.4.0/24 is used by dhcp.mydomain.net&quot;,
-        &quot;2.3.4.0/24 is used by anotherfullhost&quot;,
-        &quot;2.3.4.0/24 is used by sol10host&quot;,
         &quot;2.3.4.0/24 is used by temp01.yourdomain.net&quot;,
         &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;,
-        &quot;2.3.4.0/24 is used by suse01.yourdomain.net&quot;,
-        &quot;2.3.4.0/24 is used by temp.yourdomain.net&quot;,
-        &quot;2.3.4.0/24 is used by my5name.mydomain.net&quot;,
+        &quot;2.3.4.0/24 is used by sol10host&quot;,
         &quot;2.3.4.0/24 is used by temp-01.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by anotherfullhost&quot;,
+        &quot;2.3.4.0/24 is used by temp.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by suse01.yourdomain.net&quot;,
+        &quot;2.3.4.0/24 is used by otherfullhost&quot;,
+        &quot;2.3.4.0/24 is used by my5name.mydomain.net&quot;,
+        &quot;2.3.4.0/24 is used by dhcp.mydomain.net&quot;,
         &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;
       ]
-    },
-    &quot;full_messages&quot;: [
-      &quot;2.3.4.0/24 is used by otherfullhost&quot;,
-      &quot;2.3.4.0/24 is used by dhcp.mydomain.net&quot;,
-      &quot;2.3.4.0/24 is used by anotherfullhost&quot;,
-      &quot;2.3.4.0/24 is used by sol10host&quot;,
-      &quot;2.3.4.0/24 is used by temp01.yourdomain.net&quot;,
-      &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;,
-      &quot;2.3.4.0/24 is used by suse01.yourdomain.net&quot;,
-      &quot;2.3.4.0/24 is used by temp.yourdomain.net&quot;,
-      &quot;2.3.4.0/24 is used by my5name.mydomain.net&quot;,
-      &quot;2.3.4.0/24 is used by temp-01.yourdomain.net&quot;,
-      &quot;2.3.4.0/24 is used by sdhcp.mydomain.net&quot;
-    ]
+    }
   }
 }</pre>
 
@@ -13560,14 +13753,14 @@ will be substituted for the version of the operating system.</p>
 [
   {
     &quot;usergroup&quot;: {
-      &quot;id&quot;: 980190962,
-      &quot;name&quot;: &quot;MyString&quot;
+      &quot;name&quot;: &quot;MyString&quot;,
+      &quot;id&quot;: 980190962
     }
   },
   {
     &quot;usergroup&quot;: {
-      &quot;id&quot;: 298486374,
-      &quot;name&quot;: &quot;MyString2&quot;
+      &quot;name&quot;: &quot;MyString2&quot;,
+      &quot;id&quot;: 298486374
     }
   }
 ]</pre>
@@ -13604,8 +13797,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;usergroup&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;MyString&quot;
+    &quot;name&quot;: &quot;MyString&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -13674,8 +13867,8 @@ will be substituted for the version of the operating system.</p>
 201
 {
   &quot;usergroup&quot;: {
-    &quot;id&quot;: 980190963,
-    &quot;name&quot;: &quot;test_usergroup&quot;
+    &quot;name&quot;: &quot;test_usergroup&quot;,
+    &quot;id&quot;: 980190963
   }
 }</pre>
 
@@ -13758,8 +13951,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;usergroup&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;MyString&quot;
+    &quot;name&quot;: &quot;MyString&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -13855,8 +14048,8 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;usergroup&quot;: {
-    &quot;id&quot;: 980190962,
-    &quot;name&quot;: &quot;MyString&quot;
+    &quot;name&quot;: &quot;MyString&quot;,
+    &quot;id&quot;: 980190962
   }
 }</pre>
 
@@ -14011,32 +14204,32 @@ will be substituted for the version of the operating system.</p>
 200
 {
   &quot;user&quot;: {
-    &quot;mail&quot;: &quot;userone@someware.com&quot;,
-    &quot;id&quot;: 980190962,
+    &quot;auth_source_id&quot;: 980190962,
     &quot;auth_source_ldap&quot;: {
-      &quot;account&quot;: null,
-      &quot;attr_firstname&quot;: &quot;givenName&quot;,
-      &quot;id&quot;: 980190962,
-      &quot;account_password&quot;: null,
-      &quot;port&quot;: 123,
-      &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
       &quot;tls&quot;: true,
-      &quot;attr_login&quot;: &quot;uid&quot;,
+      &quot;account&quot;: null,
+      &quot;base_dn&quot;: &quot;dn=x,dn=y&quot;,
+      &quot;port&quot;: 123,
+      &quot;type&quot;: &quot;AuthSourceLdap&quot;,
+      &quot;account_password&quot;: null,
+      &quot;name&quot;: &quot;ldap&quot;,
+      &quot;attr_firstname&quot;: &quot;givenName&quot;,
       &quot;host&quot;: &quot;ldap&quot;,
       &quot;attr_lastname&quot;: &quot;sn&quot;,
+      &quot;id&quot;: 980190962,
       &quot;onthefly_register&quot;: true,
-      &quot;type&quot;: &quot;AuthSourceLdap&quot;,
-      &quot;name&quot;: &quot;ldap&quot;,
+      &quot;attr_login&quot;: &quot;uid&quot;,
       &quot;attr_mail&quot;: &quot;mail&quot;
     },
-    &quot;last_login_on&quot;: &quot;2009-10-12T21:50:04Z&quot;,
     &quot;lastname&quot;: &quot;User&quot;,
-    &quot;auth_source_id&quot;: 980190962,
-    &quot;&quot;: [],
-    &quot;role_id&quot;: null,
     &quot;firstname&quot;: &quot;One&quot;,
+    &quot;admin&quot;: false,
+    &quot;mail&quot;: &quot;userone@someware.com&quot;,
     &quot;login&quot;: &quot;one&quot;,
-    &quot;admin&quot;: false
+    &quot;id&quot;: 980190962,
+    &quot;last_login_on&quot;: &quot;2009-10-12T21:50:04Z&quot;,
+    &quot;&quot;: [],
+    &quot;role_id&quot;: null
   }
 }</pre>
 
@@ -14279,15 +14472,15 @@ Only admin can set admin account.</p>
 422
 {
   &quot;user&quot;: {
+    &quot;full_messages&quot;: [
+      &quot;Password doesn&#x27;t match confirmation&quot;
+    ],
     &quot;id&quot;: 980190963,
     &quot;errors&quot;: {
       &quot;password&quot;: [
         &quot;doesn&#x27;t match confirmation&quot;
       ]
-    },
-    &quot;full_messages&quot;: [
-      &quot;Password doesn&#x27;t match confirmation&quot;
-    ]
+    }
   }
 }</pre>
 
@@ -14464,24 +14657,24 @@ Only admin can set admin account.</p>
 200
 {
   &quot;user&quot;: {
-    &quot;compute_resources_andor&quot;: &quot;or&quot;,
-    &quot;filter_on_owner&quot;: null,
-    &quot;password_salt&quot;: null,
+    &quot;auth_source_id&quot;: 980190962,
+    &quot;lastname&quot;: &quot;User&quot;,
+    &quot;updated_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
+    &quot;hostgroups_andor&quot;: &quot;or&quot;,
     &quot;facts_andor&quot;: &quot;or&quot;,
+    &quot;password_hash&quot;: null,
+    &quot;firstname&quot;: &quot;One&quot;,
+    &quot;admin&quot;: false,
+    &quot;password_salt&quot;: null,
+    &quot;filter_on_owner&quot;: null,
+    &quot;compute_resources_andor&quot;: &quot;or&quot;,
     &quot;mail&quot;: &quot;userone@someware.com&quot;,
+    &quot;login&quot;: &quot;one&quot;,
+    &quot;created_at&quot;: &quot;2012-11-13T13:51:24Z&quot;,
     &quot;id&quot;: 980190962,
     &quot;last_login_on&quot;: &quot;2009-10-12T21:50:04Z&quot;,
-    &quot;lastname&quot;: &quot;User&quot;,
-    &quot;created_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;auth_source_id&quot;: 980190962,
-    &quot;password_hash&quot;: null,
-    &quot;hostgroups_andor&quot;: &quot;or&quot;,
-    &quot;role_id&quot;: null,
-    &quot;firstname&quot;: &quot;One&quot;,
     &quot;domains_andor&quot;: &quot;or&quot;,
-    &quot;updated_at&quot;: &quot;2012-11-11T12:16:14Z&quot;,
-    &quot;login&quot;: &quot;one&quot;,
-    &quot;admin&quot;: false
+    &quot;role_id&quot;: null
   }
 }</pre>
 

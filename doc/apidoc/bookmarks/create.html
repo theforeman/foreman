@@ -43,27 +43,27 @@
       <pre class="prettyprint">POST /api/bookmarks
 {
   &quot;bookmark&quot;: {
-    &quot;controller&quot;: &quot;hosts&quot;,
     &quot;public&quot;: false,
+    &quot;query&quot;: &quot;bar&quot;,
     &quot;name&quot;: &quot;foo-bar&quot;,
-    &quot;query&quot;: &quot;bar&quot;
+    &quot;controller&quot;: &quot;hosts&quot;
   }
 }
 200
 {
   &quot;bookmark&quot;: {
-    &quot;controller&quot;: &quot;hosts&quot;,
-    &quot;owner_id&quot;: 135138680,
     &quot;public&quot;: false,
+    &quot;query&quot;: &quot;bar&quot;,
     &quot;owner_type&quot;: &quot;User&quot;,
     &quot;name&quot;: &quot;foo-bar&quot;,
-    &quot;id&quot;: 980190963,
+    &quot;owner_id&quot;: 135138680,
+    &quot;controller&quot;: &quot;hosts&quot;,
     &quot;user&quot;: {
       &quot;email&quot;: &quot;admin@someware.com&quot;,
       &quot;name&quot;: &quot;Admin User&quot;,
       &quot;login&quot;: &quot;admin&quot;
     },
-    &quot;query&quot;: &quot;bar&quot;
+    &quot;id&quot;: 980190963
   }
 }</pre>
 
