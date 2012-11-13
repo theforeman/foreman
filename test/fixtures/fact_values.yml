@@ -2,5 +2,5 @@
 
 kernelversion:
   value:        2.6.9
-  fact_name_id: 2
-  host_id:      1
+  fact_name: one
+  host:      one

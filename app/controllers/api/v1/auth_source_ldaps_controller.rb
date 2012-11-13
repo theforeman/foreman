@@ -48,7 +48,7 @@ module Api
         param :attr_lastname, String
         param :attr_mail, String
         param :onthefly_register, String
-        param :tls, Boolean
+        param :tls, String, :desc => "Boolean value True/False"
       end
       def update
         process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])
