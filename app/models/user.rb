@@ -73,10 +73,15 @@ class User < ActiveRecord::Base
 
   def self.create_admin
     email = Setting[:administrator]
-    user = User.create(:login => "admin", :firstname => "Admin", :lastname => "User",
+    user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User",
                        :mail => email, :auth_source => AuthSourceInternal.first, :password => "changeme")
     user.update_attribute :admin, true
+    old_current = User.current
+    User.current = user
+    user.save!
     user
+  ensure
+    User.current = old_current
   end
 
   def self.admin
