@@ -79,7 +79,6 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
-      args[:display] = 'VNC'
       vm = super args
       begin
         create_interfaces(vm, args[:interfaces_attributes])
@@ -131,8 +130,10 @@ module Foreman::Model
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
-      raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
+      if vm.display[:type] =~ /spice/i
+      else
       VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+      end
     end
 
     protected
