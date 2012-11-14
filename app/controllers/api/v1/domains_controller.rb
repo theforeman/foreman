@@ -17,12 +17,13 @@ module Api
       api :GET, "/domains/", "List of domains"
       param :search, String, :desc => "Filter results"
       param :order, String, :desc => "Sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        @domains = Domain.search_for(params[:search], :order => params[:order])
+        @domains = Domain.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/domains/:id/", "Show a domain."
-      param :id, String, :required => true, :desc => "May be numerical id or domain name"
+      param :id, :identifier, :required => true, :desc => "May be numerical id or domain name"
       def show
       end
 
@@ -44,7 +45,7 @@ module Api
       end
 
       api :PUT, "/domains/:id/", "Update a domain."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :domain, Hash, :required => true do
         param :name, String, :required => true, :allow_nil => true, :desc => "The full DNS Domain name"
         param :fullname, String, :required => false, :allow_nil => true, :desc => "Full name describing the domain"
@@ -56,7 +57,7 @@ module Api
       end
 
       api :DELETE, "/domains/:id/", "Delete a domain."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @domain.destroy
       end

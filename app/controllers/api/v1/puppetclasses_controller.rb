@@ -6,8 +6,9 @@ module Api
       api :GET, "/puppetclasses/", "List all puppetclasses."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        values = Puppetclass.search_for(params[:search], :order => params[:order])
+        values = Puppetclass.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
         @puppetclasses = Puppetclass.classes2hash(values.all(:select => "name, id"))
         render :json => @puppetclasses
 

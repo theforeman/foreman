@@ -4,12 +4,13 @@ module Api
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", "List all bookmarks."
+      param :page,  String, :desc => "paginate results"
       def index
-        @bookmarks = Bookmark.all
+        @bookmarks = Bookmark.paginate(:page => params[:page])
       end
 
       api :GET, "/bookmarks/:id/", "Show a bookmark."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def show
       end
 
@@ -18,7 +19,7 @@ module Api
         param :name, String, :required => true
         param :controller, String, :required => true
         param :query, String, :required => true
-        param :public, String, "true/false boolean field"
+        param :public, :bool
       end
       def create
         @bookmark = Bookmark.new(params[:bookmark])
@@ -26,19 +27,19 @@ module Api
       end
 
       api :PUT, "/bookmarks/:id/", "Update a bookmark."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :bookmark, Hash, :required => true do
-        param :name, String, :allow_nil => true
-        param :controller, String, :allow_nil => true
-        param :query, String, :allow_nil => true
-        param :public, String, "true/false boolean field"
+        param :name, String, :required => true
+        param :controller, String, :required => true
+        param :query, String, :required => true
+        param :public, :bool
       end
       def update
         process_response @bookmark.update_attributes(params[:bookmark])
       end
 
       api :DELETE, "/bookmarks/:id/", "Delete a bookmark."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @bookmark.destroy
       end

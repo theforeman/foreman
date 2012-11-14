@@ -6,6 +6,7 @@ module Api
       api :GET, "/models/", "List all models."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @models = Model.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end

@@ -4,6 +4,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/smart_proxies/", "List all smart_proxies."
+      param :page,  String, :desc => "paginate results"
       def index
         @smart_proxies = SmartProxy.includes(:features).paginate(:page => params[:page])
       end

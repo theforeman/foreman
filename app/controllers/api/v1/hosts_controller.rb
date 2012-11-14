@@ -7,12 +7,13 @@ module Api
       api :GET, "/hosts/", "List all hosts."
       param :search, String, :desc => "Filter results"
       param :order, String, :desc => "Sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        @hosts = Host.my_hosts.search_for(params[:search],:order => params[:order])
+        @hosts = Host.my_hosts.search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/hosts/:id/", "Show a host."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def show
       end
 
@@ -22,20 +23,20 @@ module Api
         param :environment_id, String, :required => true
         param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
         param :mac, String, :desc => "not required if its a virtual machine"
-        param :architecture_id, String, :required => true
-        param :domain_id, String, :required => true
-        param :puppet_proxy_id, String, :required => true
+        param :architecture_id, :number, :required => true
+        param :domain_id, :number, :required => true
+        param :puppet_proxy_id, :number, :required => true
         param :operatingsystem_id, String, :required => true
-        param :medium_id, String, :required => false
-        param :ptable_id, String, :required => false
-        param :subnet_id, String, :required => false
-        param :sp_subnet_id, String, :required => false
-        param :model_id_id, String, :required => false
-        param :hostgroup_id, String, :required => false
-        param :owner_id, String, :required => false
-        param :puppet_ca_proxy_id, String, :required => false
-        param :image_id, String, :required => false
-        param :host_parameters_attributes, Array, :required => false
+        param :medium_id, :number
+        param :ptable_id, :number
+        param :subnet_id, :number
+        param :sp_subnet_id, :number
+        param :model_id_id, :number
+        param :hostgroup_id, :number
+        param :owner_id, :number
+        param :puppet_ca_proxy_id, :number
+        param :image_id, :number
+        param :host_parameters_attributes, Array
       end
       def create
         @host = Host.new(params[:host])
@@ -45,25 +46,25 @@ module Api
       end
 
       api :PUT, "/hosts/:id/", "Update a host."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :host, Hash, :required => true do
-        param :name, String
-        param :environment_id, String
-        param :ip, String
-        param :mac, String
-        param :architecture_id, String
-        param :domain_id, String
-        param :puppet_proxy_id, String
-        param :operatingsystem_id, String
-        param :medium_id, String
-        param :ptable_id, String
-        param :subnet_id, String
-        param :sp_subnet_id, String
-        param :model_id_id, String
-        param :hostgroup_id, String
-        param :owner_id, String
-        param :puppet_ca_proxy_id, String
-        param :image_id, String
+        param :name, String, :required => true
+        param :environment_id, String, :required => true
+        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
+        param :mac, String, :desc => "not required if its a virtual machine"
+        param :architecture_id, :number, :required => true
+        param :domain_id, :number, :required => true
+        param :puppet_proxy_id, :number, :required => true
+        param :operatingsystem_id, String, :required => true
+        param :medium_id, :number
+        param :ptable_id, :number
+        param :subnet_id, :number
+        param :sp_subnet_id, :number
+        param :model_id_id, :number
+        param :hostgroup_id, :number
+        param :owner_id, :number
+        param :puppet_ca_proxy_id, :number
+        param :image_id, :number
         param :host_parameters_attributes, Array
       end
       def update
@@ -71,7 +72,7 @@ module Api
       end
 
       api :DELETE, "/hosts/:id/", "Delete an host."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @host.destroy
       end

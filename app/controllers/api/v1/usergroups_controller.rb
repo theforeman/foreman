@@ -4,6 +4,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/usergroups/", "List all usergroups."
+      param :page,  String, :desc => "paginate results"
       def index
         @usergroups = Usergroup.paginate(:page => params[:page])
       end

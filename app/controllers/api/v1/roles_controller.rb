@@ -6,6 +6,7 @@ module Api
       api :GET, "/roles/", "List all roles."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @roles = Role.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end

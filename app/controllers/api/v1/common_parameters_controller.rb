@@ -6,8 +6,9 @@ module Api
       api :GET, "/common_parameters/", "List all common parameters."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        @common_parameters = CommonParameter.search_for(params[:search], :order => params[:order])
+        @common_parameters = CommonParameter.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/common_parameters/:id/", "Show a common parameter."
@@ -26,21 +27,20 @@ module Api
       end
 
       api :PUT, "/common_parameters/:id/", "Update a common_parameter"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :common_parameter, Hash, :required => true do
         param :name, String, :required => true
-        param :value, String
+        param :value, String, :required => true
       end
       def update
         process_response @common_parameter.update_attributes(params[:common_parameter])
       end
 
       api :DELETE, "/common_parameters/:id/", "Delete a common_parameter"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @common_parameter.destroy
       end
-
 
     end
   end

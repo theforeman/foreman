@@ -6,8 +6,9 @@ module Api
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        @users = User.search_for(params[:search], :order => params[:order])
+        @users = User.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/users/:id/", "Show an user."

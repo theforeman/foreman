@@ -6,8 +6,9 @@ module Api
       api :GET, "/fact_values/", "List all fact values."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        values = FactValue.my_facts.no_timestamp_facts.search_for(params[:search],:order => params[:order])
+        values = FactValue.my_facts.no_timestamp_facts.search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
         @fact_values = FactValue.build_facts_hash(values.all(:include => [:fact_name, :host]))
         render :json => @fact_values
       end

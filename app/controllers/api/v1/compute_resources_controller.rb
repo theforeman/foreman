@@ -6,6 +6,7 @@ module Api
       api :GET, "/compute_resources/", "List all compute resources."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @compute_resources = ComputeResource.my_compute_resources.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end

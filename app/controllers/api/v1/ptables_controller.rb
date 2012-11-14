@@ -6,6 +6,7 @@ module Api
       api :GET, "/ptables/", "List all ptables."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @ptables = Ptable.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end

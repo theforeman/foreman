@@ -48,7 +48,6 @@ module Api
 
     def process_success(response = nil)
       response ||= get_resource
-      #respond_with response
       respond_with response, :responder => ApiResponder
     end
 

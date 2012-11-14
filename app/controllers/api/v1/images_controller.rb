@@ -7,8 +7,9 @@ module Api
       api :GET, "/compute_resources/:id/images/", "List all images for compute resource."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        @images = @compute_resource.images.search_for(params[:search], :order => params[:order])
+        @images = @compute_resource.images.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/compute_resources/:id/images/:id/", "Show an image."
@@ -21,9 +22,9 @@ module Api
         param :name, String, :required => true
         param :username, String, :required => true
         param :uuid, String, :required => true
-        param :compute_resource_id, String, :required => true
-        param :architecture_id, String, :required => true
-        param :operatingsystem_id, String, :required => true
+        param :compute_resource_id, :number, :required => true
+        param :architecture_id, :number, :required => true
+        param :operatingsystem_id, :number, :required => true
       end
       def create
         @image =  @compute_resource.images.new(params[:image])
@@ -31,21 +32,21 @@ module Api
       end
 
       api :PUT, "/images/:id/", "Update a image."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :image, Hash, :required => true do
         param :name, String, :required => true
         param :username, String, :required => true
         param :uuid, String, :required => true
-        param :compute_resource_id, String, :required => true
-        param :architecture_id, String, :required => true
-        param :operatingsystem_id, String, :required => true
+        param :compute_resource_id, :number, :required => true
+        param :architecture_id, :number, :required => true
+        param :operatingsystem_id, :number, :required => true
       end
       def update
         process_response @image.update_attributes(params[:image])
       end
 
       api :DELETE, "/images/:id/", "Delete an image."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @image.destroy
       end

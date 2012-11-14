@@ -5,6 +5,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/auth_source_ldaps/", "List all authsource ldaps"
+      param :page,  String, :desc => "paginate results"
       def index
         @auth_source_ldaps = AuthSourceLdap.paginate(:page => params[:page])
       end
@@ -18,7 +19,7 @@ module Api
       param :auth_source_ldap, Hash, :required => true do
         param :name, String, :required => true
         param :host, String, :required => true
-        param :port, String, :required => true
+        param :port, :number, :desc => "defaults to 389"
         param :account, String
         param :base_dn, String
         param :account_password, String, :desc => "required if onthefly_register is true"
@@ -38,17 +39,17 @@ module Api
       param :id, String, :required => true
       param :auth_source_ldap, Hash, :required => true do
         param :name, String, :required => true
-        param :host, String
-        param :port, String
+        param :host, String, :required => true
+        param :port, :number, :desc => "defaults to 389"
         param :account, String
         param :base_dn, String
-        param :account_password, String
-        param :attr_login, String
-        param :attr_firstname, String
-        param :attr_lastname, String
-        param :attr_mail, String
-        param :onthefly_register, String
-        param :tls, String, :desc => "Boolean value True/False"
+        param :account_password, String, :desc => "required if onthefly_register is true"
+        param :attr_login, String, :desc => "required if onthefly_register is true"
+        param :attr_firstname, String, :desc => "required if onthefly_register is true"
+        param :attr_lastname, String, :desc => "required if onthefly_register is true"
+        param :attr_mail, String, :desc => "required if onthefly_register is true"
+        param :onthefly_register, :bool
+        param :tls, :bool
       end
       def update
         process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])

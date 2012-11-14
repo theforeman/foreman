@@ -6,6 +6,7 @@ module Api
       api :GET, "/hostgroups/", "List all hostgroups."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @hostgroups = Hostgroup.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
@@ -18,15 +19,15 @@ module Api
       api :POST, "/hostgroups/", "Create an hostgroup."
       param :hostgroup, Hash, :required => true do
         param :name, String, :required => true
-        param :environment_id, String, :required => false
-        param :operatingsystem_id, String, :required => false
-        param :architecture_id, String, :required => false
-        param :medium_id, String, :required => false
-        param :ptable_id, String, :required => false
-        param :puppet_ca_proxy_id, String, :required => false
-        param :subnet_id, String, :required => false
-        param :domain_id, String, :required => false
-        param :puppet_proxy_id, String, :required => false
+        param :environment_id, :number
+        param :operatingsystem_id, :number
+        param :architecture_id, :number
+        param :medium_id, :number
+        param :ptable_id, :number
+        param :puppet_ca_proxy_id, :number
+        param :subnet_id, :number
+        param :domain_id, :number
+        param :puppet_proxy_id, :number
       end
       def create
         @hostgroup = Hostgroup.new(params[:hostgroup])
@@ -34,25 +35,25 @@ module Api
       end
 
       api :PUT, "/hostgroups/:id/", "Update an hostgroup."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :hostgroup, Hash, :required => true do
         param :name, String, :required => true
-        param :environment_id, String, :required => false
-        param :operatingsystem_id, String, :required => false
-        param :architecture_id, String, :required => false
-        param :medium_id, String, :required => false
-        param :ptable_id, String, :required => false
-        param :puppet_ca_proxy_id, String, :required => false
-        param :subnet_id, String, :required => false
-        param :domain_id, String, :required => false
-        param :puppet_proxy_id, String, :required => false
+        param :environment_id, :number
+        param :operatingsystem_id, :number
+        param :architecture_id, :number
+        param :medium_id, :number
+        param :ptable_id, :number
+        param :puppet_ca_proxy_id, :number
+        param :subnet_id, :number
+        param :domain_id, :number
+        param :puppet_proxy_id, :number
       end
       def update
         process_response @hostgroup.update_attributes(params[:hostgroup])
       end
 
       api :DELETE, "/hostgroups/:id/", "Delete an hostgroup."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @hostgroup.destroy
       end

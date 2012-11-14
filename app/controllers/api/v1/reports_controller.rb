@@ -6,6 +6,7 @@ module Api
       api :GET, "/reports/", "List all reports."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @reports = Report.my_reports.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end

@@ -9,13 +9,15 @@ module Api
       api :GET, "/config_templates/", "List templates"
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @config_templates = ConfigTemplate.search_for(params[:search], :order => params[:order]).
-            includes(:operatingsystems, :template_combinations, :template_kind)
+            includes(:operatingsystems, :template_combinations, :template_kind).
+            paginate(:page => params[:page])
       end
 
       api :GET, "/config_templates/:id", "Show template details"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def show
       end
 
@@ -36,7 +38,7 @@ module Api
       end
 
       api :PUT, "/config_templates/:id", "Update a template"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :config_template, Hash, :required => true do
         param :name, String, :desc => "template name"
         param :template, String
@@ -58,7 +60,7 @@ module Api
       end
 
       api :DELETE, "/config_templates/:id", "Delete a template"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @config_template.destroy
       end
