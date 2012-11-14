@@ -7,7 +7,7 @@ class ForemanTrend < Trend
   end
 
   def type_name
-    name.blank? ? trendable_type : name
+    trendable_type
   end
 
   def create_values
@@ -24,11 +24,15 @@ class ForemanTrend < Trend
   end
 
   def values
-    return [self] if fact_value
-   ForemanTrend.has_value.where(:trendable_type => trendable_type)
+    return ForemanTrend.where(:id => self) if fact_value
+    ForemanTrend.has_value.where(:trendable_type => trendable_type)
   end
 
   def self.model_name
     Trend.model_name
+  end
+
+  def find_hosts
+    trendable.hosts.find(:all, :order => 'name')
   end
 end

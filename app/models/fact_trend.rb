@@ -9,7 +9,7 @@ class FactTrend < Trend
   end
 
   def type_name
-    name.blank? ? fact_name : name
+    fact_name.blank? ? trendable.name : fact_name
   end
 
   def create_values
@@ -17,7 +17,7 @@ class FactTrend < Trend
   end
 
   def self.create_values(fact_name_id)
-    FactValue.where(:fact_name_id => fact_name_id).includes(:fact_name).map do |fact|
+    FactValue.group(:fact_name_id, :value).where(:fact_name_id => fact_name_id).includes(:fact_name).map do |fact|
       create(:trendable_type => "FactName",
              :trendable_id => fact.fact_name.id,
              :fact_name => fact.fact_name.name,
@@ -32,12 +32,16 @@ class FactTrend < Trend
   end
 
   def values
-    return [self] if fact_value
+    return FactTrend.where(:id => self) if fact_value
     FactTrend.has_value.where(:trendable_type => trendable_type, :trendable_id => trendable_id)
   end
 
   def self.model_name
     Trend.model_name
+  end
+
+  def find_hosts
+    Host.joins(:fact_values).where(:fact_values => {:value => fact_value}).find(:all, :order => 'name')
   end
 
   private
