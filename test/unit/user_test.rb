@@ -97,14 +97,14 @@ class UserTest < ActiveSupport::TestCase
 
   test "create_admin should create the admin account" do
     Setting.administrator = 'root@localhost.localdomain'
-    ActiveRecord::Base.connection.execute("DELETE FROM users WHERE login='admin'")
+    User.delete(User.admin.id)
     User.create_admin
     assert User.find_by_login("admin")
   end
 
   test "create_admin should fail when the validation fails" do
     Setting.administrator = 'root@invalid_domain'
-    ActiveRecord::Base.connection.execute("DELETE FROM users WHERE login='admin'")
+    User.delete(User.admin.id)
     assert_raise ActiveRecord::RecordInvalid do
       User.create_admin
     end
@@ -113,7 +113,7 @@ class UserTest < ActiveSupport::TestCase
   test "create_admin should create the admin account and keep User.current set" do
     User.current = @user
     Setting.administrator = 'root@localhost.localdomain'
-    ActiveRecord::Base.connection.execute("DELETE FROM users WHERE login='admin'")
+    User.delete(User.admin.id)
     User.create_admin
     assert User.find_by_login("admin")
     assert_equal User.current, @user
