@@ -131,8 +131,11 @@ module Foreman::Model
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
-      raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
-      VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+      if vm.display[:type] =~ /spice/i
+        {:address => vm.display[:address], :secure_port => vm.display[:secure_port],:ticket => vm.ticket, :ca_cert => cacert}
+      else
+        VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+      end
     end
 
     protected
@@ -153,6 +156,15 @@ module Foreman::Model
           :ovirt_url        => url,
           :ovirt_datacenter => uuid
       )
+    end
+
+    def cacert
+      ca_url = URI.parse(url)
+      ca_url.path = "/ca.crt"
+      ca_url.scheme = "http"
+      ca_url.port = 8080 if ca_url.port == 8443
+      ca_url.port = 80 if ca_url.port == 443
+      Net::HTTP.get(ca_url).to_s.gsub(/\n/, '\\n')
     end
 
     def update_required?(old_attrs, new_attrs)
