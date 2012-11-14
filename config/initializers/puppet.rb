@@ -1,14 +1,10 @@
-# This unfortunately has to get called before the "require 'puppet'".
 require 'active_support/dependencies'
-module ActiveSupport
-  module Dependencies
-    def unhook!
-    end
-  end
-end
+ActiveSupport::Dependencies.unhook!
 
 require 'puppet'
 require 'puppet/rails'
+
+ActiveSupport::Dependencies.hook!
 
 if Puppet::PUPPETVERSION.to_i < 3
   Puppet.parse_config
