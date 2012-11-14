@@ -5,4 +5,4 @@
 # processname: puppet
 # config: /etc/puppet/puppet.conf
 
-/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --ignoreschedules true --server=<%= @host.puppetmaster %> > /tmp/puppet.log 2>&1
+/usr/sbin/puppet agent --config /etc/puppet/puppet.conf -o --ignoreschedules true --server=<%= @host.puppetmaster %> > /tmp/puppet.log 2>&1
