@@ -30,6 +30,13 @@ begin
   require 'fog/openstack/models/compute/flavor'
   Fog::Compute::OpenStack::Flavor.send(:include, FogExtensions::Openstack::Flavor)
 
+  require 'fog/vsphere'
+  require 'fog/vsphere/models/compute/server'
+  Fog::Compute::Vsphere::Server.send(:include, FogExtensions::Vsphere::Server)
+
+  require 'fog/vsphere/models/compute/folder'
+  Fog::Compute::Vsphere::Folder.send(:include, FogExtensions::Vsphere::Folder)
+
 rescue LoadError
   Rails.logger.info "Fog is not installed - unable to manage compute resources"
 rescue => exception
