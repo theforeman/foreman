@@ -95,6 +95,31 @@ class UserTest < ActiveSupport::TestCase
     assert !User.find_by_login("admin").destroy
   end
 
+  test "create_admin should create the admin account" do
+    Setting.administrator = 'root@localhost.localdomain'
+    ActiveRecord::Base.connection.execute("DELETE FROM users WHERE login='admin'")
+    User.create_admin
+    assert User.find_by_login("admin")
+  end
+
+  test "create_admin should fail when the validation fails" do
+    Setting.administrator = 'root@invalid_domain'
+    ActiveRecord::Base.connection.execute("DELETE FROM users WHERE login='admin'")
+    assert_raise ActiveRecord::RecordInvalid do
+      User.create_admin
+    end
+    #assert User.find_by_login("admin")
+  end
+
+  test "create_admin should create the admin account and keep User.current set" do
+    User.current = @user
+    Setting.administrator = 'root@localhost.localdomain'
+    ActiveRecord::Base.connection.execute("DELETE FROM users WHERE login='admin'")
+    User.create_admin
+    assert User.find_by_login("admin")
+    assert_equal User.current, @user
+  end
+
   def setup_user operation
     @one = users(:one)
     as_admin do
