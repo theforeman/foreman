@@ -429,7 +429,7 @@ class HostTest < ActiveSupport::TestCase
     h.hostgroup = hostgroups(:common)
     assert h.save
     h.hostgroup.update_attribute(:root_pass, "abc")
-    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+    assert !(h.root_pass.nil? || h.root_pass.empty?) && h.root_pass != Setting[:root_pass]
   end
 
   test "should use a nested hostgroup parent root password" do
@@ -441,7 +441,7 @@ class HostTest < ActiveSupport::TestCase
     hg.root_pass = nil
     hg.parent.update_attribute(:root_pass, "abc")
     hg.save
-    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+    assert !(h.root_pass.nil? || h.root_pass.empty?) && h.root_pass != Setting[:root_pass]
   end
 
   test "should save uuid on managed hosts" do

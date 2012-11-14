@@ -83,8 +83,8 @@ class Report < ActiveRecord::Base
       raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
       # Is this a pre 2.6.x report format?
-      @post265 = report.instance_variables.include?("@report_format")
-      @pre26   = !report.instance_variables.include?("@resource_statuses")
+      @post265 = report.instance_variables.any? {|v| v.to_s == "@report_format"}
+      @pre26   = !report.instance_variables.any? {|v| v.to_s == "@resource_statuses"}
 
       # convert report status to bit field
       st = calc_status(metrics_to_hash(report))
@@ -241,7 +241,7 @@ class Report < ActiveRecord::Base
     # find our metric values
     METRIC.each do |m|
       if @pre26
-        report_status[m] = metrics["resources"][m.to_sym]
+        report_status[m] = metrics["resources"][m.to_sym] unless metrics["resources"].nil?
       else
         h=translate_metrics_to26(m)
         mv = metrics[h[:type]]
