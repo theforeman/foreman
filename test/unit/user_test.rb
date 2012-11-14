@@ -108,7 +108,6 @@ class UserTest < ActiveSupport::TestCase
     assert_raise ActiveRecord::RecordInvalid do
       User.create_admin
     end
-    #assert User.find_by_login("admin")
   end
 
   test "create_admin should create the admin account and keep User.current set" do
