@@ -20,12 +20,12 @@ module Api
       param :host, Hash, :required => true do
         param :name, String, :required => true
         param :environment_id, String, :required => true
-        param :ip, String, :required => true
-        param :mac, String, :required => true
+        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
+        param :mac, String, :desc => "not required if its a virtual machine"
         param :architecture_id, String, :required => true
         param :domain_id, String, :required => true
         param :puppet_proxy_id, String, :required => true
-        param :operatingsystem_id, String, :required => false
+        param :operatingsystem_id, String, :required => true
         param :medium_id, String, :required => false
         param :ptable_id, String, :required => false
         param :subnet_id, String, :required => false

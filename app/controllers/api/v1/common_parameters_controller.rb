@@ -18,7 +18,7 @@ module Api
       api :POST, "/common_parameters/", "Create a common_parameter"
       param :common_parameter, Hash, :required => true do
         param :name, String, :required => true
-        param :value, String
+        param :value, String, :required => true
       end
       def create
         @common_parameter= CommonParameter.new(params[:common_parameter])
