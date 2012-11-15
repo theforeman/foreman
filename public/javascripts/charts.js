@@ -216,7 +216,7 @@ function stat_bar(name, title, subtitle, labels, data) {
     tooltip: {
       formatter: function() {
         return '<b>'+ this.x +'</b><br/>'+
-          subtitle+': '+ Highcharts.numberFormat(this.y, 1);
+          subtitle+': '+ Highcharts.numberFormat(this.y, 0);
       }
     },
     series: [{
