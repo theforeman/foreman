@@ -40,7 +40,7 @@ module Api
       end
       def create
         @host = Host.new(params[:host])
-        @host.managed = true
+        @host.managed = true if params[:host][:managed].nil?
         forward_request_url
         process_response @host.save
       end

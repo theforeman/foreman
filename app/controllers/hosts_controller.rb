@@ -84,7 +84,7 @@ class HostsController < ApplicationController
 
   def create
     @host = Host.new(params[:host])
-    @host.managed = true
+    @host.managed = true if params[:host][:managed].nil?
     forward_request_url
     if @host.save
       process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
