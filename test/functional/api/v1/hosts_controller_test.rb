@@ -9,8 +9,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
                   :mac => '52:53:00:1e:85:93',
                   :architecture_id => Architecture.find_by_name('x86_64').id,
                   :operatingsystem_id => Operatingsystem.find_by_name('Redhat').id,
-                  :puppet_proxy_id => 7,
-                  :managed => true
+                  :puppet_proxy_id => 7
   }
 
   test "should get index" do
@@ -40,6 +39,17 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
       end
     end
     assert_response :success
+    last_host = Host.order('id desc').last
+  end
+
+  test "should create host with managed is false if parameter is passed" do
+    disable_orchestration
+    as_user :admin do
+        post :create, {:host => valid_attrs.merge!(:managed => false)}
+    end
+    assert_response :success
+    last_host = Host.order('id desc').last
+    assert_equal false, last_host.managed?
   end
 
   test "should update host" do
