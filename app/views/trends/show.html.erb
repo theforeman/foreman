@@ -4,13 +4,15 @@
 <%= trend_chart 'trend_graph', "#{trend_title(@trend)}", "last #{range} days", chart_data(@trend, range.days.ago) %>
 
 <table class="table">
-  <% head = @hosts ? "Hosts" : "Values" %>
-  <th colspan="4"><%= head %></th>
-  <tr>
-    <% if @trend.fact_value == nil %>
+  <% if @trend.fact_value == nil %>
+    <th colspan="4">Values</th>
+    <tr>
       <%= render 'trends' %>
-    <% else %>
+    </tr>
+  <% else %>
+    <th colspan="4">Hosts</th>
+    <tr>
       <%= render 'hosts' %>
-    <% end %>
-  </tr>
+    </tr>
+  <% end %>
 </table>
