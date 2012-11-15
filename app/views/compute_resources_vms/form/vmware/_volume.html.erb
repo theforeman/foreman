@@ -1,0 +1,8 @@
+<div class="fields">
+  <%= selectable_f f, :datastore, compute_resource.datastores, { }, :class => "span2", :label => "Data Store" %>
+  <%= text_f f, :name, :class => "input-mini", :label => "Name" %>
+  <%= text_f f, :size_gb,
+             :class       => "input-mini",
+             :label       => "Size (GB)",
+             :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
+</div>
