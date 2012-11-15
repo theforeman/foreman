@@ -33,9 +33,9 @@ module TrendsHelper
 
   def trend_title trend
     if trend.fact_value.blank?
-      trend.type_name.camelcase
+      trend.to_label.camelcase
     else
-      "#{trend.type_name.camelcase} - #{trend.name}"
+      "#{trend.type_name.camelcase} - #{trend.to_label}"
     end
   end
 
