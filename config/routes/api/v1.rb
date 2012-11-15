@@ -3,15 +3,17 @@ Foreman::Application.routes.draw do
 
   namespace :api, :defaults => {:format => 'json'} do
     scope :module => :v1, :constraints => ApiConstraints.new(:version => 1, :default => true) do
-      resources :bookmarks, :except => [:new, :edit]
+      
       resources :architectures, :except => [:new, :edit]
-      resources :users, :except => [:new, :edit]
-      resources :dashboard, :only => [:index]
-      resources :media, :except => [:new, :edit]
-      resources :environments, :except => [:new, :edit]
-      resources :operatingsystems, :except => [:new, :edit] do
-        member do
-          get 'bootfiles'
+      resources :audits, :only => [:index, :show]
+      resources :auth_source_ldaps, :except => [:new, :edit]
+      resources :bookmarks, :except => [:new, :edit]
+      resources :common_parameters, :except => [:new, :edit]
+      constraints(:id => /[^\/]+/) do
+        resources :domains, :except => [:new, :edit]
+        resources :hosts, :except => [:new, :edit]
+        resources :compute_resources, :except => [:new, :edit] do
+          resources :images, :except => [:new, :edit]
         end
       end
       resources :config_templates, :except => [:new, :edit] do
@@ -20,12 +22,29 @@ Foreman::Application.routes.draw do
           get 'revision'
         end
       end
-      constraints(:id => /[^\/]+/) do
-        resources :domains, :except => [:new, :edit]
+      resources :dashboard, :only => [:index]
+      resources :environments, :except => [:new, :edit]
+      resources :fact_values, :except => [:new, :edit]
+      resources :hostgroups, :except => [:new, :edit]
+      resources :lookup_keys, :except => [:new, :edit]
+      resources :media, :except => [:new, :edit]
+      resources :models, :except => [:new, :edit]
+      resources :operatingsystems, :except => [:new, :edit] do
+        member do
+          get 'bootfiles'
+        end
       end
+      resources :ptables, :except => [:new, :edit]
+      resources :puppetclasses, :except => [:new, :edit]
+      resources :roles, :except => [:new, :edit]
+      resources :reports, :only => [:index, :show, :destroy]
+      resources :settings, :only => [:index, :show, :update]
+      resources :smart_proxies, :except => [:new, :edit]
       resources :subnets, :except => [:new, :edit] do
         post 'freeip', :on => :collection
       end
+      resources :usergroups, :except => [:new, :edit]
+      resources :users, :except => [:new, :edit]
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"

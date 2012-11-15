@@ -2,6 +2,8 @@ require 'test_helper'
 
 class Api::V1::UsersControllerTest < ActionController::TestCase
 
+  valid_attrs = {:login => "johnsmith"}
+  
   test "should get index" do
     as_user :admin do
       get :index, {}
@@ -9,10 +11,20 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show individual record" do
+    as_user :admin do
+      get :show, {:id => users(:one).to_param}
+    end
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
+
   test "should update user" do
     as_user :admin do
       user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-      put :update, { :id => user.id, :user => {:login => "johnsmith"} }
+      put :update, { :id => user.id, :user => valid_attrs }
       assert_response :success
 
       mod_user = User.find_by_id(user.id)

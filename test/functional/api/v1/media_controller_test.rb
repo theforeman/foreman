@@ -23,6 +23,8 @@ class Api::V1::MediaControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:medium)
     assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
   test "should create medium" do

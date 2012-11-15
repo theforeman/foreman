@@ -1,6 +1,6 @@
 module Api
   module V1
-    class MediaController < BaseController
+    class MediaController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
       PATH_INFO = <<-eos

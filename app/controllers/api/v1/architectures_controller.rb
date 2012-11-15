@@ -1,7 +1,6 @@
 module Api
   module V1
     class ArchitecturesController < V1::BaseController
-      include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", "List all architectures."
@@ -20,6 +19,7 @@ module Api
       api :POST, "/architectures/", "Create an architecture."
       param :architecture, Hash, :required => true do
         param :name, String, :required => true
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
       def create
         @architecture = Architecture.new(params[:architecture])
@@ -30,6 +30,7 @@ module Api
       param :id, String, :required => true
       param :architecture, Hash, :required => true do
         param :name, String
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
       def update
         process_response @architecture.update_attributes(params[:architecture])

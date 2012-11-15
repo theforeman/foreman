@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class Api::V1::SubnetsControllerTest < ActionController::TestCase
+  
+  valid_attrs = {:name => 'QA2', :network => '10.35.2.27', :mask => '255.255.255.0'}
+
   def test_index
     as_admin { get :index }
     subnets = ActiveSupport::JSON.decode(@response.body)
@@ -10,42 +13,48 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
 
   end
 
-  def test_create_invalid
-    as_admin { post :create }
-    assert_response :unprocessable_entity
+  test "should show individual record" do
+    as_user :admin do
+      get :show, {:id => subnets(:one).to_param}
+    end
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
-  def test_create_valid
-    Subnet.any_instance.stubs(:valid?).returns(true)
-    as_admin { post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0"}} }
-    subnet = ActiveSupport::JSON.decode(@response.body)
+  test "should create subnet" do
+    as_user :admin do
+      assert_difference('Subnet.count') do
+        post :create, {:subnet => valid_attrs}
+      end
+    end
     assert_response :success
   end
 
-  def test_update_invalid
-    as_admin { put :update, {:id => Subnet.first.id, :subnet => {:mask => ''}} }
+  test "should update subnet" do
+    as_user :admin do
+      put :update, {:id => subnets(:one).to_param, :subnet => {} }
+    end
+    assert_response :success
+  end
+
+  test "should destroy subnets" do
+    as_user :admin do
+      assert_difference('Subnet.count', -1) do
+        delete :destroy, {:id => subnets(:three).to_param}
+      end
+    end
+    assert_response :success
+  end
+
+  test "should NOT destroy subnet that is in use" do
+    as_user :admin do
+      assert_difference('Subnet.count', 0) do
+        delete :destroy, {:id => subnets(:one).to_param}
+      end
+    end
     assert_response :unprocessable_entity
   end
 
-  def test_update_valid
-    as_admin { put :update, {:id => Subnet.first.id, :subnet => {:name => 'updated'} } }
-    subnet = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
-    assert subnet['subnet']['name'] == 'updated'
-  end
 
-  def test_should_not_destroy_if_used_by_hosts
-    subnet = Subnet.first
-    as_admin {delete :destroy, {:id => subnet.id} }
-    assert Subnet.exists?(subnet.id)
-  end
-
-  def test_destroy_json
-    subnet = Subnet.first
-    subnet.hosts.clear
-    as_admin { delete :destroy, {:id => subnet.id} }
-    ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
-    assert !Subnet.exists?(:id => subnet.id)
-  end
 end
