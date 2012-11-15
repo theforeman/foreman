@@ -257,6 +257,7 @@ Foreman::Application.routes.draw do
           resources :vms, :controller => "compute_resources_vms" do
             member do
               put 'power'
+              put 'pause'
               get 'console'
             end
           end

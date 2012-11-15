@@ -1,6 +1,6 @@
 class ComputeResourcesVmsController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_vm, :only => [:show, :power, :console]
+  before_filter :find_vm, :only => [:show, :power, :pause, :console]
 
   def index
     @vms = @compute_resource.vms.all.to_a.paginate :page => params[:page]
@@ -34,12 +34,25 @@ class ComputeResourcesVmsController < ApplicationController
 
     if (@vm.send(action) rescue false)
       state = @vm.ready? ? "running" : "stopped"
-      notice "#{@vm} is now #{state}"
+      notice "#{@vm.name} is now #{state}"
       redirect_to compute_resource_vms_path(params[:compute_resource_id])
     else
-      error "failed to #{action} #{@vm}"
+      error "failed to #{action} #{@vm.name}"
       redirect_to :back
     end
+  end
+
+  def pause
+    action = @vm.state == 'ACTIVE' ? :pause_server : :unpause_server 
+
+    if (@vm.connection.send(action, @vm.id) rescue false)
+      state = action == :pause_server ? 'paused' : 'running'
+      notice "#{@vm.name} is now #{state}"
+      redirect_to compute_resource_vms_path(params[:compute_resource_id])
+    else
+      error "failed to #{action} #{@vm.name}"
+      redirect_to :back
+    end 
   end
 
   def destroy
@@ -51,10 +64,12 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def console
-    @console = @compute_resource.console @vm.identity
-    render "hosts/console"
-  rescue => e
-    process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
+    begin
+      @console = @compute_resource.console @vm.identity
+      @console.is_a?(String) ? redirect_to(@console) : render("hosts/console")
+    rescue => e 
+      process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
+    end
   end
 
   private

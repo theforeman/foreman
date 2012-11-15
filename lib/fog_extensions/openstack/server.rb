@@ -8,7 +8,13 @@ module FogExtensions
         connection.tenants.detect{|t| t.id == tenant_id }
       end
 
-  #    alias_method_chain :flavor, :object
+      def start
+        connection.resume_server(id)
+      end
+
+      def stop
+        connection.suspend_server(id)
+      end
 
       def flavor_with_object
         connection.flavors.get attributes[:flavor]['id']
@@ -24,6 +30,13 @@ module FogExtensions
 
       def security_groups
         connection.security_groups.all
+      end
+
+      def list_images
+        image_names = {}
+        connection.list_images.body['images'].each { |image| image_names[image['id']] = image['name']} 
+
+        image_names
       end
 
     end

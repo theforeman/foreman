@@ -22,6 +22,11 @@ module Foreman::Model
       [:image]
     end
 
+    def console(uuid) 
+      vm = find_vm_by_uuid(uuid)
+      vm.connection.get_vnc_console(uuid, 'novnc').body['console']['url']   
+    end 
+
     def test_connection
       super
       errors[:user].empty? and errors[:password] and tenants
@@ -61,5 +66,6 @@ module Foreman::Model
         :key_name  => key_pair.name,
       }
     end
+   
   end
 end
