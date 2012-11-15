@@ -47,7 +47,7 @@ class Dashboard
   end
 
   def reports_missing
-    Host.search_for('not has last_report and status.enabled = true').count
+    hosts.search_for('not has last_report and status.enabled = true').count
   end
 
 end
