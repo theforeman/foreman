@@ -47,7 +47,7 @@ class Dashboard
   end
 
   def reports_missing
-    report[:total_hosts] - report[:good_hosts_enabled] - report[:bad_hosts_enabled] - report[:out_of_sync_hosts_enabled] - report[:pending_hosts_enabled] - report[:disabled_hosts]
+    hosts.search_for('not has last_report and status.enabled = true').count
   end
 
 end
