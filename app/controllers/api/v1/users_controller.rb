@@ -1,7 +1,6 @@
 module Api
   module V1
     class UsersController < BaseController
-      include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/users/", "List all users."

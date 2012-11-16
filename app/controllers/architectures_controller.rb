@@ -5,8 +5,8 @@ class ArchitecturesController < ApplicationController
   def index
     values = Architecture.search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @architectures = values.paginate(:page => params[:page], :include => :operatingsystems) }
-      format.json { render :json => values }
+      format.html { @architectures = values.paginate(:page => params[:page]) }
+      format.json { render :json => values.as_json }
     end
   end
 

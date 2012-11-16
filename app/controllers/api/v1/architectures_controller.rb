@@ -1,15 +1,13 @@
 module Api
   module V1
     class ArchitecturesController < V1::BaseController
-      include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", "List all architectures."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
       def index
-        @architectures = Architecture.search_for(params[:search], :order => params[:order]).
-            paginate(:page => params[:page], :include => :operatingsystems)
+        @architectures = Architecture.includes(:operatingsystems).search_for(params[:search], :order => params[:order])
       end
 
       api :GET, "/architectures/:id/", "Show an architecture."
