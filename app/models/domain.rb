@@ -31,7 +31,7 @@ class Domain < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :id]}.merge(options))
+    super.merge(options)
   end
 
   def enforce_permissions operation
