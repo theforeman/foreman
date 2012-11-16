@@ -9,7 +9,11 @@ class FactTrend < Trend
   end
 
   def type_name
-    fact_name.blank? ? trendable.name : fact_name
+    if fact_value.blank?
+      name.blank? ? fact_name : name
+    else
+      fact_name
+    end
   end
 
   def create_values
