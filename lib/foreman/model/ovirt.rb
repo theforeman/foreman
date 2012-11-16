@@ -41,13 +41,28 @@ module Foreman::Model
       client.clusters
     end
 
+    # Check if HTTPS is mandatory, since rest_client will fail with a POST
+    def test_https_required
+      RestClient.post url, {} if url.match /^http:/
+      true
+    rescue => e
+      case e.message
+      when /406/
+        true
+      else
+        raise e
+      end
+    end
+
     def test_connection
       super
-      errors[:url].empty? && datacenters
+      errors[:url].empty? && datacenters && test_https_required
     rescue => e
       case e.message
         when /404/
           errors[:url] << e.message
+        when /302/
+          errors[:url] << 'HTTPS is required for API access'
         when /401/
           errors[:user] << e.message
         else
