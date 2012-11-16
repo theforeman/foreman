@@ -19,12 +19,12 @@ class FactValue < Puppet::Rails::FactValue
     return { :conditions => "" } if User.current.admin? # Admin can see all hosts
 
     {:conditions => sanitize_sql_for_conditions(
-      [" (fact_values.host_id in (?))",Host.my_hosts.map(&:id)])}
+      [" (fact_values.host_id in (?))",Host.my_hosts.pluck(:id)])}
   }
 
   scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
-  scope :required_fields, { :include => :host }
-  default_scope :order => 'LOWER(fact_values.value)'
+  scope :required_fields, includes(:host, :fact_name)
+  scope :facts_counter, lambda {|value, name_id| where(:value => value, :fact_name_id => name_id) }
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data

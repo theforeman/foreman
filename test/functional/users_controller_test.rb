@@ -24,15 +24,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
-  test "should not remove the anonymous role" do
+  def test_one #"should not remove the anonymous role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles =([roles :anonymous])
+    assert user.roles =([roles(:anonymous)])
 
     put :update, { :commit => "Submit", :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert mod_user.roles =([roles :anonymous])
+    assert mod_user.roles =([roles(:anonymous)])
   end
 
   test "should set password" do
@@ -100,7 +100,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should recreate the admin account" do
     return true unless SETTINGS[:login]
     return true unless SETTINGS[:login] == false
-    User.find_by_login("admin").delete # Of course we only use destroy in the codebase
+    User.admin.delete # Of course we only use destroy in the codebase
     assert User.find_by_login("admin").nil?
     get :index, {}, {:user => nil}
     assert !User.find_by_login("admin").nil?

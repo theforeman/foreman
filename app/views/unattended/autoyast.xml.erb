@@ -69,7 +69,7 @@
           cat > /etc/puppet/puppet.conf << EOF
 <%= snippets "puppet.conf" -%>
 EOF
-/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server puppet  --no-daemonize
+/usr/sbin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server puppet  --no-daemonize
 /usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 /sbin/chkconfig puppet on -f
 ]]>

@@ -11,11 +11,12 @@ module Foreman::Model
       [:build]
     end
 
-  def find_vm_by_uuid uuid
-    client.servers.get(uuid)
-  rescue ::Libvirt::RetrieveError => e
-    raise(ActiveRecord::RecordNotFound)
-  end
+    def find_vm_by_uuid uuid
+      client.servers.get(uuid)
+    rescue ::Libvirt::RetrieveError => e
+      raise(ActiveRecord::RecordNotFound)
+    end
+
     # we default to destroy the VM's storage as well.
     def destroy_vm uuid, args = { }
       find_vm_by_uuid(uuid).destroy({ :destroy_volumes => true }.merge(args))

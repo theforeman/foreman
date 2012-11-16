@@ -16,6 +16,13 @@ require File.expand_path('../../lib/core_extensions', __FILE__)
 
 module Foreman
   class Application < Rails::Application
+    # Setup additional routes by loading all routes file from routes directory
+    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/*.rb")]
+
+    # Setup api routes by loading all routes file from routes/api directory
+    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/api/*.rb")]
+
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -46,7 +53,7 @@ module Foreman
     #config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
 
     # Disable fieldWithErrors divs
-    config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}" }
+    config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

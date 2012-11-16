@@ -13,7 +13,7 @@ class LookupKeysController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @lookup_keys = values.paginate(:page => params[:page], :include => [:lookup_values, :puppetclass])
+        @lookup_keys = values.paginate(:page => params[:page], :include => [:puppetclass])
       end
       format.json { render :json => values}
     end
@@ -53,11 +53,7 @@ class LookupKeysController < ApplicationController
   private
   def find_by_key
     if params[:id]
-      if params[:id].to_i == 0
-        @lookup_key = LookupKey.find_by_key(params[:id])
-      else
-        @lookup_key = LookupKey.find(params[:id])
-      end
+      @lookup_key = LookupKey.find(params[:id])
       not_found and return if @lookup_key.blank?
     end
   end

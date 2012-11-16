@@ -46,6 +46,15 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal 10, r.pending
   end
 
+  test "it should support puppet 3.0.1 reports" do
+    if Facter.puppetversion < "2.6"
+      puts "Skippet puppet3 test, version: #{Facter.puppetversion}"
+      return true
+    end
+    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-3.0.1.yaml"))
+    assert_equal 1, r.applied
+  end
+
   test "it should true on error? if there were errors" do
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3, "pending" => 0}
     assert @r.error?

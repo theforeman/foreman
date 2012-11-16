@@ -1,11 +1,11 @@
 class SimplifyParameters < ActiveRecord::Migration
   def self.up
-    remove_index  :parameters, [:host_id,      :type]
-    remove_index  :parameters, [:hostgroup_id, :type]
-    remove_index  :parameters, [:domain_id,    :type]
+    remove_index  :parameters, [:host_id,      :type] if index_exists? :parameters, :host_id
+    remove_index  :parameters, [:hostgroup_id, :type] if index_exists? :parameters, :hostgroup_id
+    remove_index  :parameters, [:domain_id,    :type] if index_exists? :parameters, :domain_id
 
-    rename_column :parameters, :host_id, :reference_id
-    add_index     :parameters, [:reference_id, :type]
+    rename_column :parameters, :host_id, :reference_id if column_exists? :parameters, :host_id
+    add_index     :parameters, [:reference_id, :type] if index_exists? :parameters, :reference_id
 
     Parameter.reset_column_information
 
@@ -13,9 +13,9 @@ class SimplifyParameters < ActiveRecord::Migration
     for parameter in Parameter.all
       # There should be no Parameter objects. That is an abstract class.
       # The type is probably nil because this table was imported by prod2dev
-      parameter.update_attribute :type, "HostParameter"   if parameter.type.nil? and parameter.reference_id
-      parameter.update_attribute :type, "GroupParameter"  if parameter.type.nil? and parameter.hostgroup_id
-      parameter.update_attribute :type, "DomainParameter" if parameter.type.nil? and parameter.domain_id
+        parameter.update_attribute :type, "HostParameter"   if column_exists? :parameters, :reference_id and  parameter.type.nil? and parameter.reference_id
+        parameter.update_attribute :type, "GroupParameter"  if column_exists? :parameters, :hostgroup_id and parameter.type.nil? and parameter.hostgroup_id
+        parameter.update_attribute :type, "DomainParameter" if column_exists? :parameters, :domain_id and parameter.type.nil? and parameter.domain_id
       parameter.update_attribute :type, "CommonParameter" if parameter.type.nil?
 
       if parameter.reference_id.nil? and parameter.type != "CommonParameter"
@@ -29,8 +29,8 @@ class SimplifyParameters < ActiveRecord::Migration
 
     if success
       say "Everything migrated ok so we remove the old columns"
-      remove_column :parameters, :hostgroup_id
-      remove_column :parameters, :domain_id
+      remove_column :parameters, :hostgroup_id if column_exists? :parameters, :hostgroup_id
+      remove_column :parameters, :domain_id    if column_exists? :parameters, :domain_id
     end
 
   end

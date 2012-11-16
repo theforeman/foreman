@@ -10,9 +10,13 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :require_mail
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
-  before_filter :welcome, :detect_notices, :only => :index, :unless => :api_request?
+  before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
+
+
+  cache_sweeper :topbar_sweeper, :unless => :api_request?
 
   def welcome
     @searchbar = true
@@ -56,14 +60,17 @@ class ApplicationController < ActionController::Base
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
-        if api_request?
-          # JSON requests (REST API calls) use basic http authenitcation and should not use/store cookies
-          user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          logger.warn("Failed API authentication request from #{request.remote_ip}") unless user
-        # if login delegation authorized and REMOTE_USER not empty, authenticate user without using password
-        elsif remote_user_provided?
+
+        # If REMOTE_USER is provided by the web server then
+        # authenticate the user without using password.
+        if remote_user_provided?
           user = User.find_by_login(@remote_user)
           logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        # Else, fall back to the standard authentication mechanism,
+        # only if it's an API request.
+        elsif api_request?
+          user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
+          logger.warn("Failed Basic Auth authentication request from #{request.remote_ip}") unless user
         end
 
         if user.is_a?(User)
@@ -79,12 +86,16 @@ class ApplicationController < ActionController::Base
         end
       else
         # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        unless (User.current = User.find_by_login("admin"))
-          error "Unable to find internal system admin account - Recreating . . ."
-          User.current = User.create_admin
-        end
+        User.current = User.admin
         session[:user] = User.current.id unless api_request?
       end
+    end
+  end
+
+  def require_mail
+    if User.current && User.current.mail.blank?
+      notice "Mail is Required"
+      redirect_to edit_user_path(:id => User.current)
     end
   end
 
@@ -116,7 +127,7 @@ class ApplicationController < ActionController::Base
   # its required for actions which are not authenticated by default
   # such as unattended notifications coming from an OS, or fact and reports creations
   def set_admin_user
-    User.current = User.find_by_login("admin")
+    User.current = User.admin
   end
 
   # searches for an object based on its name and assign it to an instance variable
@@ -171,7 +182,7 @@ class ApplicationController < ActionController::Base
   end
 
   def update_activity_time
-    session[:expires_at] = Setting.idle_timeout.minutes.from_now.utc
+    session[:expires_at] = Setting[:idle_timeout].minutes.from_now.utc
   end
 
   def expire_session
@@ -191,6 +202,7 @@ class ApplicationController < ActionController::Base
 
   def remote_user_provided?
     return false unless Setting["authorize_login_delegation"]
+    return false if api_request? and not Setting["authorize_login_delegation_api"]
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
@@ -250,7 +262,7 @@ class ApplicationController < ActionController::Base
     hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}].flatten
-    hash[:error_msg] = hash[:error_msg].to_a.flatten
+    hash[:error_msg] = [hash[:error_msg]].flatten
     respond_to do |format|
       format.html do
         hash[:error_msg] = hash[:error_msg].join("<br/>")
@@ -277,4 +289,5 @@ class ApplicationController < ActionController::Base
     logger.debug exception.backtrace.join("\n")
     render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
   end
+
 end

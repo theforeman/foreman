@@ -5,6 +5,8 @@ class FactValuesControllerTest < ActionController::TestCase
     Pathname.new("#{Rails.root}/test/fixtures/brslc022.facts.yaml").read
   end
 
+  fixtures
+
   def test_index
     get :index, {}, set_session_user
     assert_response :success
@@ -18,9 +20,17 @@ class FactValuesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
-  def test_create_valid
+  def test_create_valid_puppet_node_facts_object
     User.current = nil
     post :create, {:facts => fact_fixture, :format => "yml"}
+    assert_response :success
+  end
+
+  def test_create_valid_facter_yaml_output
+    User.current = nil
+    facts = Facter.to_hash
+    assert_instance_of Hash, facts
+    post :create, {:facts => facts.to_yaml, :format => "yml"}
     assert_response :success
   end
 
@@ -35,7 +45,7 @@ class FactValuesControllerTest < ActionController::TestCase
     factvalues =  ActiveSupport::JSON.decode(@response.body)
     assert_equal "fact = kernelversion", @request.params[:search]
     assert factvalues.is_a?(Hash)
-    assert ["kernelversion"], factvalues.values.map(&:keys).uniq
+    assert_equal [["kernelversion"]], factvalues.values.map(&:keys).uniq
     assert_response :success
   end
 

@@ -8,7 +8,7 @@
     <th></th>
   </tr>
   <% Hostgroup.sort_by_ancestry(@hostgroups).each do |hostgroup| %>
-    <tr class="<%= cycle("even", "odd") -%>">
+    <tr>
       <td> <%= hostgroup_name hostgroup %> </td>
       <td>
         <%= action_buttons(

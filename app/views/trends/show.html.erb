@@ -1,0 +1,16 @@
+<% title "Trends for #{trend_title(@trend)}" %>
+<% content_for(:search_bar) { trend_days_filter } %>
+
+<%= trend_chart 'trend_graph', "#{trend_title(@trend)}", "last #{range} days", chart_data(@trend, range.days.ago) %>
+
+<table class="table">
+  <% head = @hosts ? "Hosts" : "Values" %>
+  <th colspan="4"><%= head %></th>
+  <tr>
+    <% if @trend.fact_value == nil %>
+      <%= render 'trends' %>
+    <% else %>
+      <%= render 'hosts' %>
+    <% end %>
+  </tr>
+</table>

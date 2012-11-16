@@ -8,7 +8,7 @@ module DashboardHelper
     (1..(Setting[:puppet_interval] / interval)).each do
       now = start + interval.minutes
       counter <<  hosts.run_distribution(start, now-1.second).count
-      labels  <<  "#{time_ago_in_words(start.getlocal)}"
+      labels  <<  "#{(((start.getlocal-Time.now).abs)/60).round} Minutes ago"
       start = now
     end
     {:labels => labels, :counter =>counter}
@@ -27,7 +27,7 @@ module DashboardHelper
 
   def render_run_distribution data, options = {}
     bar_chart "run_distribution",
-              "Run Distribution in the last #{Setting[:puppet_interval]} minutes",
+              "Run Distribution in the last #{Setting[:puppet_interval]} Minutes",
               "Number Of Clients",
               data[:labels],
               data[:counter],

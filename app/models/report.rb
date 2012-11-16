@@ -34,7 +34,7 @@ class Report < ActiveRecord::Base
   }
 
   # returns recent reports
-  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)]} }
+  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)], :order => "reported_at"} }
 
   # with_changes
   scope :interesting, {:conditions => "status != 0"}
@@ -82,9 +82,20 @@ class Report < ActiveRecord::Base
       # parse report metrics
       raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
-      # Is this a pre 2.6.x report format?
-      @post265 = report.instance_variables.include?("@report_format")
-      @pre26   = !report.instance_variables.include?("@resource_statuses")
+      test_env    = Puppet::PUPPETVERSION.to_i >= 3 ? :@environment       : '@environment'
+      test_format = Puppet::PUPPETVERSION.to_i >= 3 ? :@report_format     : '@report_format'
+      test_status = Puppet::PUPPETVERSION.to_i >= 3 ? :@resource_statuses : '@resource_statuses'
+
+      case
+      when report.instance_variables.include?(test_env)
+        @format = 3
+      when report.instance_variables.include?(test_format)
+        @format = 2
+      when report.instance_variables.include?(test_status)
+        @format = 1
+      else
+        @format = 0
+      end
 
       # convert report status to bit field
       st = calc_status(metrics_to_hash(report))
@@ -240,7 +251,7 @@ class Report < ActiveRecord::Base
 
     # find our metric values
     METRIC.each do |m|
-      if @pre26
+      if @format == 0
         report_status[m] = metrics["resources"][m.to_sym]
       else
         h=translate_metrics_to26(m)
@@ -256,7 +267,7 @@ class Report < ActiveRecord::Base
       report_status["skipped"] = 0
     end
     # fix for reports that contain no metrics (i.e. failed catalog)
-    if @post265 and report.respond_to?(:status) and report.status == "failed"
+    if @format > 1 and report.respond_to?(:status) and report.status == "failed"
       report_status["failed"] += 1
     end
     return report_status
@@ -298,13 +309,15 @@ class Report < ActiveRecord::Base
   def self.translate_metrics_to26 metric
     case metric
     when "applied"
-      if @post265
-        { :type => "changes", :name => "total"}
-      else
+      case @format
+      when 0..1
         { :type => "total", :name => :changes}
+      else
+        { :type => "changes", :name => "total"}
       end
     when "failed_restarts"
-      if @pre26
+      case @format
+      when 0..1
         { :type => "resources", :name => metric}
       else
         { :type => "resources", :name => "failed_to_restart"}

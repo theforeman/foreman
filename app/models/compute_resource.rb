@@ -1,8 +1,9 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
-  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware ].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
+  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
@@ -32,14 +33,14 @@ class ComputeResource < ActiveRecord::Base
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
     end
-    {:conditions => conditions}
+    where(conditions).reorder('type, name')
   }
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
     raise "must provide a provider" unless provider = args[:provider]
     PROVIDERS.each do |p|
-      return eval("#{STI_PREFIX}::#{p}").new(args) if p.downcase == provider.downcase
+      return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
     raise "unknown Provider"
   end
@@ -73,7 +74,7 @@ class ComputeResource < ActiveRecord::Base
 
   def provider_friendly_name
     list = SETTINGS[:libvirt] ? ["Libvirt"] : []
-    list += %w[ oVirt EC2 VMWare ]
+    list += %w[ oVirt EC2 VMWare OpenStack ]
     list[PROVIDERS.index(provider)] rescue ""
   end
 
@@ -155,6 +156,11 @@ class ComputeResource < ActiveRecord::Base
     raise "#{provider} console is not supported at this time"
   end
 
+  # by default, our compute providers do not support updating an existing instance
+  def supports_update?
+    false
+  end
+
   protected
 
   def client
@@ -197,7 +203,7 @@ class ComputeResource < ActiveRecord::Base
       return true if operation == "create"
       # edit or delete
       if current.allowed_to?("#{operation}_compute_resources".to_sym)
-        return true if ComputeResource.my_compute_resources(current).include? self
+        return true if ComputeResource.my_compute_resources.include? self
       end
     end
     errors.add :base, "You do not have permission to #{operation} this compute resource"

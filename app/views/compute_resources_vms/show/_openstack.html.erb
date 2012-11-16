@@ -1,0 +1,14 @@
+<% title @vm.name %>
+<div class='span12'>
+  <table class="table table-bordered table-striped">
+    <tr><th colspan="2">Properties</th></tr>
+
+    <%= prop :availability_zone %>
+    <%= prop :first_private_ip_address %>
+    <%= prop :state %>
+    <%= prop :created_at %>
+    <%= prop :tenant %>
+    <%= prop :flavor_with_object, "Flavor" %>
+    <%= prop :security_groups, "Security Groups" %>
+  </table>
+</div>

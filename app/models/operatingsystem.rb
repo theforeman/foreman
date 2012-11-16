@@ -18,6 +18,7 @@ class Operatingsystem < ActiveRecord::Base
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
 
   accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
@@ -161,6 +162,11 @@ class Operatingsystem < ActiveRecord::Base
     raise "Attempting to construct a operatingsystem image filename but #{family} cannot be built from an image"
   end
 
+  # If this OS family requires access to its media via NFS
+  def require_nfs_access_to_medium
+    false
+  end
+
   private
   def deduce_family
     if self.family.blank?
@@ -186,8 +192,4 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  # If this OS family requires access to its media via NFS
-  def require_nfs_access_to_medium
-    false
-  end
 end

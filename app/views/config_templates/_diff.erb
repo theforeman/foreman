@@ -2,13 +2,13 @@
 
 <%= text_area_tag "diffLines","" ,:size => "12x30", :class => "span12 template_text diffMode", :label=>"Template diff", :'data-file-name' => file_name%>
 
-<div class='hide' id="old">
+<pre class='hide' id="old">
   <%= templates[0] %>
-</div>
+</pre>
 
-<div class='hide' id="new">
+<pre class='hide' id="new">
   <%= templates[1] %>
-</div>
+</pre>
 
 
 

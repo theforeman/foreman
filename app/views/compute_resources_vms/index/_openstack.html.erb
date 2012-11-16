@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+  <tr>
+    <thead>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Tenant</th>
+      <th>State</th>
+      <th></th>
+    </thead>
+  </tr>
+  <% @compute_resource.vms.each do |vm| -%>
+    <tr>
+      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
+      <td><%= vm.flavor_with_object %></td>
+      <td><%= vm.tenant %></td>
+      <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(!vm.ready?) %></span> </td>
+      <td>
+        <%= action_buttons(vm_power_action(vm),
+            display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))) %>
+      </td>
+    </tr>
+  <% end -%>
+</table>

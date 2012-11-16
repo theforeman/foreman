@@ -3,8 +3,9 @@ one:
   url: https://somewhere.net:8443
 
 two:
-  name: TFP Proxy
+  name: TFTP Proxy
   url: http://somewhere.else
+  features: tftp
 
 three:
   name: DNS Proxy

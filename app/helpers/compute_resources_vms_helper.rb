@@ -11,8 +11,10 @@ module ComputeResourcesVmsHelper
         case value
         when Array
           value.to_sentence
-        when Fog::Time
+        when Fog::Time, Time
           time_ago_in_words(value) + " ago"
+        when nil
+            "N/A"
         else
           value.to_s
         end

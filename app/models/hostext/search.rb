@@ -71,7 +71,7 @@ module Hostext
           key_name = key.sub(/^.*\./,'')
           opts     = {:conditions => "name = '#{key_name}' and value #{operator} '#{value_to_sql(operator, value)}'", :order => :priority}
           p        = Parameter.all(opts)
-          return {} if p.blank?
+          return {:conditions => '1 = 0'} if p.blank?
 
           max         = p.first.priority
           negate_opts = {:conditions => "name = '#{key_name}' and NOT(value #{operator} '#{value_to_sql(operator, value)}') and priority > #{max}", :order => :priority}

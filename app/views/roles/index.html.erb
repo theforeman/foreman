@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <% for role in @roles %>
-      <tr class="<%= cycle("odd", "even") %>">
+      <tr>
         <td>
           <%= content_tag(role.builtin? ? 'em' : 'span', link_to_if_authorized(role.name, :action => 'edit', :id => role)) %>
         </td>

@@ -80,16 +80,16 @@ module Orchestration::DNS
     def queue_dns_create
       logger.debug "Scheduling new DNS entries"
       queue.create(:name   => "Create DNS record for #{self}", :priority => 10,
-                   :action => [self, :set_dns_a_record])
+                   :action => [self, :set_dns_a_record]) if dns?
       queue.create(:name   => "Create Reverse DNS record for #{self}", :priority => 10,
                    :action => [self, :set_dns_ptr_record]) if reverse_dns?
     end
 
     def queue_dns_update
       if old.ip != ip or old.name != name
-        queue.create(:name   => "Remove DNS record for #{old}", :priority => 10,
+        queue.create(:name   => "Remove DNS record for #{old}", :priority => 9,
                      :action => [old, :del_dns_a_record]) if old.dns?
-        queue.create(:name   => "Remove Reverse DNS record for #{old}", :priority => 10,
+        queue.create(:name   => "Remove Reverse DNS record for #{old}", :priority => 9,
                      :action => [old, :del_dns_ptr_record]) if old.reverse_dns?
         queue_dns_create
       end

@@ -70,7 +70,8 @@ class HostsControllerTest < ActionController::TestCase
           :architecture => architectures(:x86_64),
           :environment => environments(:production),
           :subnet => subnets(:one),
-          :disk => "empty partition"
+          :disk => "empty partition",
+          :puppet_proxy => smart_proxies(:puppetmaster)
         }
       }, set_session_user
     end
@@ -88,7 +89,9 @@ class HostsControllerTest < ActionController::TestCase
           :architecture => architectures(:x86_64),
           :environment => environments(:production),
           :subnet => subnets(:one),
-          :disk => "empty partition"
+          :disk => "empty partition",
+          :puppet_proxy => smart_proxies(:puppetmaster)
+
         }
       }, set_session_user
     end
@@ -352,7 +355,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
-    host_names = %w{temp.yourdomain.net myname.mydomain.net }
+    host_names = %w{temp.yourdomain.net my5name.mydomain.net }
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
       host = Host.find_by_name name
@@ -441,6 +444,46 @@ class HostsControllerTest < ActionController::TestCase
 
     get :disabled, {:format => "json"}, {:user => one.id}
     assert_response :success
+  end
+
+  test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
+        are set, authentication should succeed w/o valid session cookies" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = true
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response :success
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "if only authorize_login_delegation is set, REMOTE_USER should be
+        ignored for API requests" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = false
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response 401
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "if both authorize_login_delegation{,_api} are unset,
+        REMOTE_USER should ignored in all cases" do
+    Setting[:authorize_login_delegation] = false
+    Setting[:authorize_login_delegation_api] = false
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response 401
+    get :show, {:id => host.to_param}
+    assert_redirected_to "/users/login"
+  end
+
+  def set_remote_user_to user
+    @request.env['REMOTE_USER'] = user.login
   end
 
   def test_submit_multiple_build

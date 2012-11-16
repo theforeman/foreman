@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
+  has_many :usergroup_member, :as => :member
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
@@ -25,16 +26,19 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
+  validates :mail, :format => { :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})$/i },
+                   :length => { :maximum => 60 },
+                   :allow_blank => true
+  validates :mail, :presence => true, :on => :update
+
   validates_uniqueness_of :login, :message => "already exists"
-  validates_presence_of :login, :mail, :auth_source_id
+  validates_presence_of :login, :auth_source_id
   validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
   validates_length_of :login, :maximum => 30
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i, :allow_nil => true
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
-  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})$/i, :allow_nil => true
-  validates_length_of :mail, :maximum => 60, :allow_nil => true
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
@@ -69,14 +73,23 @@ class User < ActiveRecord::Base
 
   def self.create_admin
     email = Setting[:administrator]
-    user = User.create(:login => "admin", :firstname => "Admin", :lastname => "User",
+    user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User",
                        :mail => email, :auth_source => AuthSourceInternal.first, :password => "changeme")
     user.update_attribute :admin, true
+    old_current = User.current
+    User.current = user
+    user.save!
     user
+  ensure
+    User.current = old_current
+  end
+
+  def self.admin
+    find_by_login 'admin' or create_admin
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source
-  # If the user is not in the DB then try to login the user on each available athentication source
+  # If the user is not in the DB then try to login the user on each available authentication source
   # If this succeeds then copy the user's details from the authentication source into the User table
   # Returns : User object OR nil
   def self.try_to_login(login, password)
@@ -89,7 +102,7 @@ class User < ActiveRecord::Base
       if user.auth_source and user.auth_source.authenticate(login, password)
         logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
       else
-        logger.debug "Failed to authenicate #{user} against #{user.auth_source} authentication source"
+        logger.debug "Failed to authenticate #{user} against #{user.auth_source} authentication source"
         user = nil
       end
     else
@@ -144,7 +157,6 @@ class User < ActiveRecord::Base
   def allowed_to?(action, options={})
     return true if admin?
     return true if editing_self
-    return false if roles.empty?
     roles.detect {|role| role.allowed_to?(action)}.present?
   end
 
@@ -180,7 +192,7 @@ class User < ActiveRecord::Base
 
     # user is not yet registered, try to authenticate with available sources
     if (attrs = AuthSource.authenticate(login, password))
-      user = new(*attrs)
+      user = new(attrs)
       user.login = login
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as "admin" do

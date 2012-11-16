@@ -14,6 +14,9 @@ $(function() {
     } else {
       set_edit_mode(template_text);
     }
+    $('#config_template_submit').on('click', function(){
+      if($('.diffMode').size() >0){ set_edit_mode( $(".template_text")); }
+    })
   }
 
   $(".template_file").on("change", function(evt){
@@ -118,7 +121,7 @@ function set_diff_mode(item){
 }
 
 function IE_diff_mode(item){
-  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
+  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').contents().text() , $('#new').contents().text());
   item.val(patch);
   item.attr('readOnly', true);
 }
@@ -134,9 +137,13 @@ function revert_template(item){
     url:  url,
     data:'version=' + version,
     complete: function(res) {
-      $('#new').text(res.responseText);
       $('#primary_tab').click();
-      set_edit_mode($('.template_text'));
+      if ($.browser.msie && $.browser.version.slice(0,1) < 10){
+        $('.template_text').val(res.responseText);
+      } else {
+        $('#new').text(res.responseText);
+        set_edit_mode($('.template_text'));
+      }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
       $('#config_template_audit_comment').text("Revert to revision from: " + time)
     }

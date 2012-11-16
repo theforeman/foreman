@@ -79,6 +79,52 @@ class ConfigTemplate < ActiveRecord::Base
     super({:only => [:name, :template, :id, :snippet],:include => [:template_kind]}.merge(options))
   end
 
+  def self.build_pxe_default(renderer)
+    if (proxies = SmartProxy.tftp_proxies).empty?
+      error_msg = "No TFTP proxies defined, can't continue"
+    end
+
+    if (default_template = ConfigTemplate.find_by_name("PXE Default File")).nil?
+      error_msg = "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
+    end
+
+    if error_msg.empty?
+      begin
+        @profiles = pxe_default_combos
+        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
+      rescue => e
+        error_msg = "failed to process template: #{e}"
+      end
+    end
+
+    return [422, error_msg] unless error_msg.empty?
+
+    error_msgs = []
+    proxies.each do |proxy|
+      begin
+        tftp = ProxyAPI::TFTP.new(:url => proxy.url)
+        tftp.create_default({:menu => menu})
+
+        @profiles.each do |combo|
+          combo[:hostgroup].operatingsystem.pxe_files(combo[:hostgroup].medium, combo[:hostgroup].architecture).each do |bootfile_info|
+            for prefix, path in bootfile_info do
+              tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)
+            end
+          end
+        end
+      rescue => exc
+        error_msgs << "#{proxy}: #{exc.message}"
+      end
+    end
+
+    unless error_msgs.empty?
+      msg = "There was an error creating the PXE Default file: #{error_msgs.join(",")}"
+      return [500, msg]
+    end
+
+    return [200, "PXE Default file has been deployed to all Smart Proxies"]
+  end
+
   private
 
   # check if our template is a snippet, and remove its associations just in case they were selected.
@@ -93,5 +139,20 @@ class ConfigTemplate < ActiveRecord::Base
 
   def remove_trailing_chars
     self.template.gsub!("\r","") unless template.empty?
+  end
+
+  # get a list of all hostgroup, template combinations that a pxemenu will be
+  # generated for
+  def self.pxe_default_combos
+    combos = []
+    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
+      template.template_combinations.each do |combination|
+        hostgroup = combination.hostgroup
+        if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium
+          combos << {:hostgroup => hostgroup, :template => template}
+        end
+      end
+    end
+    combos
   end
 end

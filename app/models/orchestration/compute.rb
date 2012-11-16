@@ -136,6 +136,7 @@ module Orchestration::Compute
     private
 
     def compute_update_required?
+      return false unless compute_resource.supports_update?
       old.compute_attributes = compute_resource.find_vm_by_uuid(uuid).attributes
       compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
     end

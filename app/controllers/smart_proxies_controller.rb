@@ -1,7 +1,7 @@
 class SmartProxiesController < ApplicationController
   def index
     respond_to do |format|
-      format.html {@proxies = SmartProxy.paginate :page => params[:page]}
+      format.html {@proxies = SmartProxy.includes(:features).paginate :page => params[:page]}
       format.json {render :json => SmartProxy.all}
     end
   end

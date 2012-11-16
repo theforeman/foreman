@@ -7,6 +7,7 @@ class ActiveSupport::TestCase
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
+
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
@@ -20,15 +21,19 @@ class ActiveSupport::TestCase
   end
 
   def set_session_user
-    SETTINGS[:login] ? {:user => User.find_by_login("admin").id, :expires_at => 5.minutes.from_now} : {}
+    SETTINGS[:login] ? {:user => User.admin.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def as_admin
+  def as_user user
     saved_user   = User.current
-    User.current = users(:admin)
+    User.current = users(user)
     result = yield
     User.current = saved_user
     result
+  end
+
+  def as_admin &block
+    as_user :admin, &block
   end
 
   def unattended?
@@ -40,8 +45,10 @@ class ActiveSupport::TestCase
     Host.any_instance.stubs(:boot_server).returns("boot_server")
     Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")
     Resolv::DNS.any_instance.stubs(:getaddress).returns("127.0.0.1")
+    Net::DNS::ARecord.any_instance.stubs(:conflicts).returns([])
     Net::DNS::ARecord.any_instance.stubs(:conflicting?).returns(false)
     Net::DNS::PTRRecord.any_instance.stubs(:conflicting?).returns(false)
+    Net::DNS::PTRRecord.any_instance.stubs(:conflicts).returns([])
     Net::DHCP::Record.any_instance.stubs(:create).returns(true)
     Net::DHCP::SparcRecord.any_instance.stubs(:create).returns(true)
     Net::DHCP::Record.any_instance.stubs(:conflicting?).returns(false)
@@ -60,3 +67,5 @@ class ActionController::TestCase
     @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
 end
+
+Apipie.configuration.validate = false

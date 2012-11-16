@@ -16,7 +16,7 @@
       <td class="ca">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
-      <td class=''><%= name_column(host) %> </td>
+      <td><%= name_column(host) %> </td>
       <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
       <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
       <td class="hidden-tablet hidden-phone"><%= model_name host %></td>
