@@ -1,3 +1,3 @@
 collection @operatingsystems
 
-extends "api/v1/operatingsystems/show"
+attributes :id, :name, :major, :minor, :family, :release_name, :type
