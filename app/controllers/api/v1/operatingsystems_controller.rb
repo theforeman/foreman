@@ -11,8 +11,9 @@ module Api
       api :GET, "/operatingsystems/", "List all operating systems."
       param :search, String, :desc => "filter results", :required => false
       param :order, String, :desc => "sort results", :required => false, :desc => "for example, name ASC, or name DESC"
+      param :page,  String, :desc => "paginate results"
       def index
-        @operatingsystems = Operatingsystem.search_for(params[:search], :order => params[:order])
+        @operatingsystems = Operatingsystem.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/operatingsystems/:id/", "Show an OS."
@@ -25,7 +26,9 @@ module Api
         param :name, /\A(\S+)\Z/, :required => true
         param :major, String, :required => true
         param :minor, String, :required => true
-      end
+        param :family, String
+        param :release_name, String
+     end
       def create
         @operatingsystem = Operatingsystem.new(params[:operatingsystem])
         process_response @operatingsystem.save
@@ -37,12 +40,14 @@ module Api
         param :name, /\A(\S+)\Z/
         param :major, String
         param :minor, String
+        param :family, String
+        param :release_name, String
       end
       def update
         process_response @operatingsystem.update_attributes(params[:operatingsystem])
       end
 
-      api :DELETE, "/operatingsystems/:id/", "Delete a bookmark."
+      api :DELETE, "/operatingsystems/:id/", "Delete an OS."
       param :id, String, :required => true
       def destroy
         process_response @operatingsystem.destroy

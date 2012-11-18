@@ -7,8 +7,9 @@ module Api
       api :GET, '/subnets', 'List of subnets'
       param :search, String, :desc => 'Filter results'
       param :order, String, :desc => 'Sort results'
+      param :page,  String, :desc => "paginate results"
       def index
-        @subnets = Subnet.search_for(params[:search], :order => params[:order])
+        @subnets = Subnet.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :POST, '/subnets', 'Create a subnet'

@@ -1,12 +1,12 @@
-module Api
+ module Api
   module V1
     class ArchitecturesController < V1::BaseController
-      include Foreman::Controller::AutoCompleteSearch
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", "List all architectures."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
         @architectures = Architecture.search_for(params[:search], :order => params[:order]).
             paginate(:page => params[:page], :include => :operatingsystems)
@@ -20,6 +20,7 @@ module Api
       api :POST, "/architectures/", "Create an architecture."
       param :architecture, Hash, :required => true do
         param :name, String, :required => true
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
       def create
         @architecture = Architecture.new(params[:architecture])
@@ -27,16 +28,17 @@ module Api
       end
 
       api :PUT, "/architectures/:id/", "Update an architecture."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :architecture, Hash, :required => true do
         param :name, String
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
       def update
         process_response @architecture.update_attributes(params[:architecture])
       end
 
       api :DELETE, "/architectures/:id/", "Delete an architecture."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def destroy
         process_response @architecture.destroy
       end

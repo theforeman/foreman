@@ -6,10 +6,11 @@ one:
   compute_resource: one
   uuid: string-of-uuid
   username: root
-
+  name: centos-1
 two:
   operatingsystem_id: 1
   architecture_id: 1
   compute_resource_id: 1
   uuid: MyString2
   username: MyString
+  name: centos-2

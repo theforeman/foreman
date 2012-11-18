@@ -1,6 +1,6 @@
 module Api
   module V1
-    class MediaController < BaseController
+    class MediaController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
       PATH_INFO = <<-eos
@@ -21,15 +21,16 @@ Available families:
 #{Operatingsystem.families.map{|f| "* " + f}.join("\n")}
 eos
 
+      api :GET, "/media/", "List all media."
       param :search, String, :desc => "filter results", :required => false
       param :order, String, :desc => "sort results", :required => false, :desc => "for example, name ASC, or name DESC"
-      api :GET, "/media/", "List all media."
+      param :page,  String, :desc => "paginate results"
       def index
-        @media = Medium.search_for(params[:search], :order => params[:order])
+        @media = Medium.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/media/:id/", "Show a medium."
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       def show
       end
 
@@ -55,7 +56,7 @@ eos
         process_response @medium.update_attributes(params[:medium])
       end
 
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       api :DELETE, "/media/:id/", "Delete a medium."
       def destroy
         process_response @medium.destroy

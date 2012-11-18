@@ -1,14 +1,14 @@
 module Api
   module V1
-    class UsersController < BaseController
-      include Foreman::Controller::AutoCompleteSearch
+    class UsersController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
       param :order,  String, :desc => "sort results"
+      param :page,  String, :desc => "paginate results"
       def index
-        @users = User.search_for(params[:search], :order => params[:order])
+        @users = User.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
       end
 
       api :GET, "/users/:id/", "Show an user."

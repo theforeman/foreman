@@ -1,0 +1,66 @@
+module Api
+  module V1
+    class AuthSourceLdapsController < V1::BaseController
+      
+      before_filter :find_resource, :only => %w{show update destroy}
+
+      api :GET, "/auth_source_ldaps/", "List all authsource ldaps"
+      param :page,  String, :desc => "paginate results"
+      def index
+        @auth_source_ldaps = AuthSourceLdap.paginate(:page => params[:page])
+      end
+
+      api :GET, "/auth_source_ldaps/:id/", "Show an authsource ldap."
+      param :id, :identifier, :required => true
+      def show
+      end
+
+      api :POST, "/auth_source_ldaps/", "Create an auth_source_ldap."
+      param :auth_source_ldap, Hash, :required => true do
+        param :name, String, :required => true
+        param :host, String, :required => true
+        param :port, :number, :desc => "defaults to 389"
+        param :account, String
+        param :base_dn, String
+        param :account_password, String, :desc => "required if onthefly_register is true"
+        param :attr_login, String, :desc => "required if onthefly_register is true"
+        param :attr_firstname, String, :desc => "required if onthefly_register is true"
+        param :attr_lastname, String, :desc => "required if onthefly_register is true"
+        param :attr_mail, String, :desc => "required if onthefly_register is true"
+        param :onthefly_register, :bool
+        param :tls, :bool
+      end
+      def create
+        @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
+        process_response @auth_source_ldap.save
+      end
+
+      api :PUT, "/auth_source_ldaps/:id/", "Update an auth_source_ldap."
+      param :id, String, :required => true
+      param :auth_source_ldap, Hash, :required => true do
+        param :name, String, :required => true
+        param :host, String, :required => true
+        param :port, :number, :desc => "defaults to 389"
+        param :account, String
+        param :base_dn, String
+        param :account_password, String, :desc => "required if onthefly_register is true"
+        param :attr_login, String, :desc => "required if onthefly_register is true"
+        param :attr_firstname, String, :desc => "required if onthefly_register is true"
+        param :attr_lastname, String, :desc => "required if onthefly_register is true"
+        param :attr_mail, String, :desc => "required if onthefly_register is true"
+        param :onthefly_register, :bool
+        param :tls, :bool
+      end
+      def update
+        process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])
+      end
+
+      api :DELETE, "/auth_source_ldaps/:id/", "Delete an auth_source_ldap."
+      param :id, String, :required => true
+      def destroy
+        process_response @auth_source_ldap.destroy
+      end
+
+    end
+  end
+end

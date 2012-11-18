@@ -5,7 +5,6 @@ class AuthSourceLdapsController < ApplicationController
       format.html { }
       format.json { render :json => @auth_source_ldaps }
     end
-
   end
 
   def show
