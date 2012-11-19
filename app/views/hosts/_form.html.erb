@@ -10,7 +10,7 @@
     <% if SETTINGS[:unattended] and @host.managed -%>
       <li><a href="#network" data-toggle="tab">Network</a></li>
       <li><a href="#os" data-toggle="tab">Operating System</a></li>
-      <% if authorized_for("Hypervisors::Guests", :create) -%>
+      <% if authorized_for("Compute::Resources::Vms", :create) -%>
         <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
