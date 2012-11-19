@@ -15,7 +15,6 @@ module Orchestration
       include Orchestration::DHCP
       include Orchestration::TFTP
       include Orchestration::Puppetca
-      include Orchestration::Libvirt
       include Orchestration::Compute
       include Orchestration::SSHProvision
 

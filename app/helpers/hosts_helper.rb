@@ -203,6 +203,9 @@ module HostsHelper
     cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
   end
 
+  def state s
+    s ? " Off" : " On"
+  end
 
   def host_title_actions(host, vm)
     title_actions(

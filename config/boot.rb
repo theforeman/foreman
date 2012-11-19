@@ -16,8 +16,8 @@ if File.exists?(ENV['BUNDLE_GEMFILE'])
   begin
     if SETTINGS[:unattended]
       Bundler.setup(:unattended)
-      Bundler.setup(:virt)
-      require 'virt'
+      Bundler.setup(:libvirt)
+      require 'libvirt'
       SETTINGS[:libvirt] = true
     else
       SETTINGS[:libvirt] = false

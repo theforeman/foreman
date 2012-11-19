@@ -1,13 +1,9 @@
-<div class="tab-pane" id="virtual_machine">
-  <%= render('common/hypervisor', :item => @host) if @host.new_record? and !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) %>
-</div>
-
 <div class="tab-pane"  id="compute_resource">
   <%= render 'compute', :compute_resource => @host.compute_resource if @host.compute_resource_id %>
 </div>
 
 <div class="tab-pane"  id="network">
-  <div id="mac_address" <%= display? (@hypervisor or @host.compute_resource_id)%> >
+  <div id="mac_address" <%= display? @host.compute_resource_id %> >
     <%= text_f f, :mac, :label => "MAC", :help_inline => "MAC address for this host", :autocomplete => 'off' %>
   </div>
 

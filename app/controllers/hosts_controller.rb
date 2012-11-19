@@ -411,13 +411,6 @@ class HostsController < ApplicationController
       page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
 
       if SETTINGS[:unattended]
-        if !@host.compute_resource_id and (@hypervisor = @hostgroup.hypervisor)
-          @hypervisor.connect
-          # we are in a view context
-          controller.send(:update_hypervisor_details, @host, page)
-          @hypervisor.disconnect
-        end
-
         if @architecture
           page['#os_select'].html(render(:partial => 'common/os_selection/architecture', :locals => {:item => @host}))
           page['#*[id*=architecture_id]'].val(@architecture.id)
@@ -474,7 +467,6 @@ class HostsController < ApplicationController
     @domain          = @host.domain
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
-    @hypervisor      = @host.hypervisor if @host.respond_to?(:hypervisor)
     if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
       @host.compute_attributes = params[:host][:compute_attributes]
     end

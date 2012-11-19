@@ -11,9 +11,6 @@
       <li><a href="#network" data-toggle="tab">Network</a></li>
       <li><a href="#os" data-toggle="tab">Operating System</a></li>
       <% if authorized_for("Hypervisors::Guests", :create) -%>
-        <% if @host.new_record? and !Hypervisor.first.nil? -%>
-          <li id="libvirt_tab" <%= display? !(params[:host] && params[:host][:hypervisor_id].present?) %>><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
-        <% end -%>
         <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
@@ -25,8 +22,7 @@
 
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name, :class => "input-xlarge", :value => name_field(@host) %>
-      <% libvirt = Hypervisor.first.nil? ? [] : [OpenStruct.new(:to_label => 'Libvirt')] -%>
-      <%= select_f f, :compute_resource_id, libvirt + ComputeResource.my_compute_resources, :id, :to_label,
+      <%= select_f f, :compute_resource_id, ComputeResource.my_compute_resources, :id, :to_label,
         { :include_blank => 'Bare Metal' },
         {:label => "Deploy on", :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path ,
          :onchange => 'computeResourceSelected(this);'} if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>

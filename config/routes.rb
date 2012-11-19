@@ -59,7 +59,6 @@ Foreman::Application.routes.draw do
         get 'puppetclass_parameters'
         post 'process_hostgroup'
         post 'hostgroup_or_environment_selected'
-        post 'hypervisor_selected'
         post 'architecture_selected'
         post 'os_selected'
         post 'domain_selected'
@@ -91,15 +90,6 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :hypervisors do
-      constraints(:id => /[^\/]+/) do
-        resources :guests, :controller => "Hypervisors::Guests", :except => [:edit] do
-          member do
-            put 'power'
-          end
-        end
-      end
-    end if SETTINGS[:libvirt]
   end
 
   resources :settings, :only => [:index, :update] do
@@ -133,7 +123,6 @@ Foreman::Application.routes.draw do
     collection do
       get 'auto_complete_search'
       post 'environment_selected'
-      post 'hypervisor_selected'
       post 'architecture_selected'
       post 'os_selected'
       post 'domain_selected'

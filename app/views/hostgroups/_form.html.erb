@@ -8,9 +8,6 @@
     <% if SETTINGS[:unattended] -%>
       <li><a href="#network" data-toggle="tab">Network</a></li>
       <li><a href="#os" data-toggle="tab">Operating System</a></li>
-      <% if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
-        <li><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
-      <% end -%>
     <% end -%>
     <li><a href="#params" data-toggle="tab">Parameters</a></li>
   </ul>
@@ -43,10 +40,6 @@
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
       <%= password_f f, :root_pass, :label => "Root Password" %>
-    </div>
-
-    <div class="tab-pane" id="virtual_machine">
-      <%= render('common/hypervisor', :item => @hostgroup) %>
     </div>
 
     <div class="tab-pane" id="params">
