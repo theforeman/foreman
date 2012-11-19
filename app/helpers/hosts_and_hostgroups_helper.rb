@@ -28,21 +28,6 @@ module HostsAndHostgroupsHelper
     []
   end
 
-  def select_hypervisor item
-    options_for_select Hypervisor.all.map{|h| [h.name, h.id]}, item.try(:hypervisor_id).try(:to_i)
-  end
-
-  def select_memory item = nil
-    memory = item.try(:memory) if item
-    memory ||= @guest.memory if @guest
-    options_for_select Hypervisor::MEMORY_SIZE.map {|mem| [number_to_human_size(mem*1024), mem]}, memory.to_i
-  end
-
-  def volume_size item
-    return item.disk_size if item.try(:disk_size)
-    return @guest.volume.size if @guest
-  end
-
   def accessible_domains
     (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all
   end

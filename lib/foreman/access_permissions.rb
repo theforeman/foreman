@@ -108,20 +108,6 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_params, {:host_editing => [:destroy_params]}
   end
 
-  map.security_block :hypervisors do |map|
-    map.permission :view_hypervisors,    {:hypervisors => [:index, :show]}
-    map.permission :create_hypervisors,  {:hypervisors => [:new, :create]}
-    map.permission :edit_hypervisors,    {:hypervisors => [:edit, :update]}
-    map.permission :destroy_hypervisors, {:hypervisors => [:destroy]}
-  end
-
-  map.security_block :hypervisors_guests do |map|
-    map.permission :view_hypervisors_guests,    {:hypervisors_guests => [:index, :show]}
-    map.permission :create_hypervisors_guests,  {:hypervisors_guests => [:create, :update]}
-    map.permission :destroy_hypervisors_guests, {:hypervisors_guests => [:destroy]}
-    map.permission :power_hypervisors_guests,   {:hypervisors_guests => [:power]}
-  end
-
   map.security_block :media do |map|
     map.permission :view_media,    {:media => [:index, :show]}
     map.permission :create_media,  {:media => [:new, :create]}

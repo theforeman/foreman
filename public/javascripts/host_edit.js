@@ -8,26 +8,14 @@ function computeResourceSelected(item){
     $("#model_name").show();
     $('#compute_resource').empty();
     $('#vm_details').empty();
-    $("#libvirt_tab").hide();
-    $('#host_hypervisor_id').val("");
     $("#compute_resource_tab").hide();
-    update_capabilities('build');
-  }else if(label == 'Libvirt'){
-    $('#mac_address').hide();
-    $('#bmc').hide();
-    $("#model_name").show();
-    $("#libvirt_tab").show();
-    $("#compute_resource_tab").hide();
-    $('#compute_resource').empty();
-    $(item).children(":selected").val("");
     update_capabilities('build');
   }
-  else {
+  else
+  {
     $('#mac_address').hide();
     $('#bmc').hide();
-    $("#libvirt_tab").hide();
     $("#model_name").hide();
-    $('#host_hypervisor_id').val("");
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
     var url = $(item).attr('data-url');
@@ -233,22 +221,6 @@ function hostgroup_changed(element) {
   } else { // edit host
     update_puppetclasses(element);
   }
-}
-
-
-function hypervisor_selected(element){
-  var hypervisor_id = $(element).val();
-  var url = $(element).attr('data-url');
-  $('#vm_indicator').show();
-  $.ajax({
-    data:'hypervisor_id=' + hypervisor_id,
-    type:'post',
-    url: url,
-    complete: function(){
-      $('#vm_indicator').hide();
-      if ($('#host_name').size() == 0 ) $('#host_powerup').parent().parent().remove();
-    }
-  })
 }
 
 function subnet_selected(element){

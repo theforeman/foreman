@@ -39,10 +39,6 @@ class HostgroupsController < ApplicationController
     new.puppetclasses = @hostgroup.puppetclasses
     # Clone any parameters as well
     @hostgroup.group_parameters.each{|param| new.group_parameters << param.clone}
-    if @hypervisor
-      new.vm_defaults = @hostgroup.vm_defaults
-      new.send(:deserialize_vm_attributes)
-    end
     new.name = ""
     new.valid?
     @hostgroup = new
@@ -113,7 +109,6 @@ class HostgroupsController < ApplicationController
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
     @domain          = @hostgroup.domain
-    @hypervisor      = @hostgroup.hypervisor
   end
 
 end

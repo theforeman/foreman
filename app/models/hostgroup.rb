@@ -2,7 +2,6 @@ class Hostgroup < ActiveRecord::Base
   has_ancestry :orphan_strategy => :rootify
   include Authorization
   include HostCommon
-  include Vm
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes
   has_and_belongs_to_many :users, :join_table => "user_hostgroups"
@@ -14,9 +13,7 @@ class Hostgroup < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations
-  before_save :serialize_vm_attributes
   before_save :remove_duplicated_nested_class
-  after_find :deserialize_vm_attributes
 
   alias_attribute :os, :operatingsystem
   alias_attribute :label, :to_label
@@ -71,7 +68,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :environment_id, :id, :ancestry], :methods => [:label, :parameters, :puppetclass_ids].concat(Vm::PROPERTIES)})
+    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :environment_id, :id, :ancestry], :methods => [:label, :parameters, :puppetclass_ids]})
   end
 
   def hostgroup
@@ -115,18 +112,6 @@ class Hostgroup < ActiveRecord::Base
     parameters
   end
 
-  def vm_defaults
-    YAML.load(read_attribute(:vm_defaults))
-  rescue
-    {}
-  end
-
-  def vm_defaults=(v={})
-    raise "defaults must be a hash" unless v.is_a?(Hash)
-    v.delete_if{|attr, value| not Vm::PROPERTIES.include?(attr.to_sym)}
-    write_attribute :vm_defaults, v.to_yaml
-  end
-
   # no need to store anything in the db if the password is our default
   def root_pass
     read_attribute(:root_pass) || nested_root_pw
@@ -139,22 +124,6 @@ class Hostgroup < ActiveRecord::Base
       return a.root_pass unless a.root_pass.blank?
     end if ancestry.present?
     nil
-  end
-
-  def serialize_vm_attributes
-    hash = {}
-    Vm::PROPERTIES.each do |attr|
-      value = self.send(attr)
-      hash[attr.to_s] = value if value
-    end
-    self.vm_defaults = hash
-  end
-
-  def deserialize_vm_attributes
-    hash = vm_defaults
-    Vm::PROPERTIES.each do |attr|
-      eval("@#{attr} = hash[attr.to_s]") if hash.has_key?(attr.to_s)
-    end
   end
 
   def remove_duplicated_nested_class
