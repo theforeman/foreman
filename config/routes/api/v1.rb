@@ -26,6 +26,8 @@ Foreman::Application.routes.draw do
       resources :subnets, :except => [:new, :edit] do
         post 'freeip', :on => :collection
       end
+      resources :smart_proxies, :except => [:new, :edit]
+
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
