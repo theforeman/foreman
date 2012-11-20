@@ -10,6 +10,7 @@
             pluginobj.TrustStore = String("<%= @console[:ca_cert] %>");
             pluginobj.SSLChannels = String("all");
             pluginobj.fullScreen = false;
+            pluginobj.Title = String('<%= "#{@console[:name]} - Press Shift-F12 to release the cursor." %>');
             pluginobj.connect();
         }
         $(function () { connectvm(); });
