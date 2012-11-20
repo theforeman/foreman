@@ -132,7 +132,7 @@ module Foreman::Model
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
       if vm.display[:type] =~ /spice/i
-        {:address => vm.display[:address], :secure_port => vm.display[:secure_port],:ticket => vm.ticket, :ca_cert => cacert}
+        {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port],:ticket => vm.ticket, :ca_cert => cacert}
       else
         VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
       end
