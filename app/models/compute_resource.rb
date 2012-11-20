@@ -25,7 +25,7 @@ class ComputeResource < ActiveRecord::Base
 
   scope :my_compute_resources, lambda {
     user = User.current
-    if user.admin? or user.compute_resources.empty?
+    if user.admin?
       conditions = { }
     else
       conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resources.map(&:id)])
