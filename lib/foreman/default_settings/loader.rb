@@ -22,7 +22,9 @@ module Foreman
 
         def load(reset=false)
           if Puppet::PUPPETVERSION.to_i >= 3
-            Puppet.settings.initialize_global_settings(SETTINGS[:puppetconfdir])
+            # Initializing Puppet directly and not via the Faces API, so indicate
+            # the run mode to parse [master]
+            Puppet.settings.initialize_global_settings(['--confdir', SETTINGS[:puppetconfdir], '--run_mode' 'master'])
           end
 
           # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
