@@ -2,3 +2,4 @@
 :unattended: true
 :login: false
 :require_ssl: false
+:support_jsonp: false
