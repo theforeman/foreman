@@ -2,7 +2,7 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
 
-    before_filter :set_default_response_format, :authorize
+    before_filter :set_default_response_format, :authorize, :add_version_header
 
     respond_to :json
 
@@ -128,5 +128,11 @@ module Api
         :per_page => params[:per_page],
       }
     end
+
+    def add_version_header
+      response.headers["Foreman_version"]= SETTINGS[:version]
+      response.headers["Foreman_api_version"]= api_version
+    end
+
   end
 end
