@@ -26,4 +26,7 @@ if File.exists?(ENV['BUNDLE_GEMFILE'])
     warn "Libvirt binding are missing - hypervisor management is disabled"
     SETTINGS[:libvirt] = false
   end
+
+  require 'rack/jsonp' if SETTINGS[:support_jsonp]
+
 end
