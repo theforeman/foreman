@@ -14,6 +14,8 @@ end
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
 
+Bundler.require(:jsonp) if SETTINGS[:support_jsonp]
+
 module Foreman
   class Application < Rails::Application
     # Setup additional routes by loading all routes file from routes directory
@@ -66,6 +68,9 @@ module Foreman
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
     config.cache_store = :file_store, Rails.root.join("tmp")
+
+    # enables JSONP support in the Rack middleware
+    config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
   end
 
   def self.setup_console
