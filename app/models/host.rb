@@ -24,6 +24,19 @@ class Host < Puppet::Rails::Host
   # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
   accepts_nested_attributes_for :lookup_values
 
+  # Define custom hook that can be called in model by magic methods (before, after, around)
+  define_model_callbacks :ready_for_build, :only => :after
+  # Custom hooks will be executed after_commit
+  after_commit :run_custom_hook
+  # Run custom hook if "after build" conditions are met
+  def run_custom_hook
+    if build?
+      run_callbacks :ready_for_build do
+        logger.debug { "custom hook :after_ready_for_build on #{name} will be executed if defined." }
+      end
+    end
+  end
+
   include Hostext::Search
   include HostCommon
 
