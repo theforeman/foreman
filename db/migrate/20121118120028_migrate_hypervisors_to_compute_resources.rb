@@ -6,11 +6,11 @@ class MigrateHypervisorsToComputeResources < ActiveRecord::Migration
 
     Hypervisor.all.each do |hypervisor|
       # check if we have the same compute resource already, if we do, skip it.
-      next if Foreman::Model::Libvirt.find_by_url hypervisor.url
+      next if Foreman::Model::Libvirt.find_by_url hypervisor.uri
 
       Foreman::Model::Libvirt.create :name        => hypervisor.name,
-                                     :url         => hypervisor.url,
-                                     :description => "Automatically migrated from hypervisor #{hypervisor.name} / #{hypervisor.url}"
+                                     :url         => hypervisor.uri,
+                                     :description => "Automatically migrated from hypervisor #{hypervisor.name} / #{hypervisor.uri}"
     end
     drop_table :hypervisors
   end
