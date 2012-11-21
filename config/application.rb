@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'rack/jsonp'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -66,6 +67,9 @@ module Foreman
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
     config.cache_store = :file_store, Rails.root.join("tmp")
+
+    # enables JSONP support
+    config.middleware.use Rack::JSONP
   end
 
   def self.setup_console

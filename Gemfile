@@ -17,6 +17,7 @@ gem 'rabl', '>= 0.7.5'
 # Previous versions collide with Environment model
 gem "ruby_parser", ">= 2.3.1"
 gem 'oauth'
+gem 'rack-jsonp', :require => 'rack/jsonp'
 
 Dir["#{File.dirname(__FILE__)}/bundler.d/*.rb"].each do |bundle|
  # puts "adding custom gem file #{bundle}"
