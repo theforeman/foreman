@@ -1,15 +1,16 @@
 class MigrateHypervisorsToComputeResources < ActiveRecord::Migration
   class Hypervisor < ActiveRecord::Base; end
+
   def self.up
     return unless Hypervisor.table_exists?
 
     Hypervisor.all.each do |hypervisor|
-      host = Foreman::Model::Libvirt.find_by_url hypervisor.url
-      next if host # this host already exits
-      host.name = hypervisor.name
-      host.description = "Automaticilly migrated from hypervisor #{hypervisor.name} / #{hypervisor.url}"
-      say host.description
-      host.save
+      # check if we have the same compute resource already, if we do, skip it.
+      next if Foreman::Model::Libvirt.find_by_url hypervisor.url
+
+      Foreman::Model::Libvirt.create :name        => hypervisor.name,
+                                     :url         => hypervisor.url,
+                                     :description => "Automatically migrated from hypervisor #{hypervisor.name} / #{hypervisor.url}"
     end
     drop_table :hypervisors
   end
