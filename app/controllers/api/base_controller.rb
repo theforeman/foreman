@@ -2,7 +2,7 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
 
-    before_filter :set_default_response_format, :authorize
+    before_filter :set_default_response_format, :authorize, :add_version_header
 
     respond_to :json
 
@@ -48,7 +48,7 @@ module Api
 
     def process_success(response = nil)
       response ||= get_resource
-      respond_with response
+      respond_with response, :responder => ApiResponder
     end
 
     def process_response(condition, response = nil)
@@ -92,10 +92,11 @@ module Api
     # @host = Host.find_resource params[:id]
     def find_resource
       resource = resource_identifying_attributes.find do |key|
+        next if key=='id' and params[:id].to_i == 0
         method = "find_by_#{key}"
         resource_class.respond_to?(method) and
-            (resource = resource_class.send method, params[:id]) and
-            break resource
+          (resource = resource_class.send method, params[:id]) and
+          break resource
       end
 
       if resource
@@ -116,5 +117,22 @@ module Api
     def render_error(error, options = { })
       render options.merge(:template => "/api/v#{api_version}/errors/#{error}")
     end
+
+    def search_options
+      [params[:search], {:order => params[:order]}]
+    end
+
+    def paginate_options
+      {
+        :page     => params[:page],
+        :per_page => params[:per_page],
+      }
+    end
+
+    def add_version_header
+      response.headers["Foreman_version"]= SETTINGS[:version]
+      response.headers["Foreman_api_version"]= api_version
+    end
+
   end
 end

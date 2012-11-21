@@ -9,13 +9,17 @@ module Api
       api :GET, "/config_templates/", "List templates"
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
+      param :page, String, :desc => "paginate results"
+      param :per_page, String, :desc => "number of entries per request"
+
       def index
-        @config_templates = ConfigTemplate.search_for(params[:search], :order => params[:order]).
-            includes(:operatingsystems, :template_combinations, :template_kind)
+        @config_templates = ConfigTemplate.search_for(*search_options).paginate(paginate_options).
+          includes(:operatingsystems, :template_combinations, :template_kind)
       end
 
       api :GET, "/config_templates/:id", "Show template details"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
+
       def show
       end
 
@@ -30,13 +34,14 @@ module Api
               :desc => "Array of template combinations (hostgroup_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
+
       def create
         @config_template = ConfigTemplate.new(params[:config_template])
         process_response @config_template.save
       end
 
       api :PUT, "/config_templates/:id", "Update a template"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
       param :config_template, Hash, :required => true do
         param :name, String, :desc => "template name"
         param :template, String
@@ -46,24 +51,28 @@ module Api
         param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
+
       def update
         process_response @config_template.update_attributes(params[:config_template])
       end
 
       api :GET, "/config_templates/revision"
       param :version, String, :desc => "template version"
+
       def revision
         audit = Audit.find(params[:version])
         render :json => audit.revision.template
       end
 
       api :DELETE, "/config_templates/:id", "Delete a template"
-      param :id, String, :required => true
+      param :id, :identifier, :required => true
+
       def destroy
         process_response @config_template.destroy
       end
 
       api :GET, "/config_templates/build_pxe_default", "Change the default PXE menu on all configured TFTP servers"
+
       def build_pxe_default
         status, msg = ConfigTemplate.build_pxe_default(self)
         render :json => msg, :status => status

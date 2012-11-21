@@ -1,10 +1,11 @@
 module Api
   module V1
 
-    class DashboardController  < BaseController
+    class DashboardController < V1::BaseController
 
       param :search, String, :desc => "filter results", :required => false
       api :GET, "/dashboard/", "Get Dashboard results"
+
       def index
         status = Dashboard.status(params[:search])
         respond_to do |format|

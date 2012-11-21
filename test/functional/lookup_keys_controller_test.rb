@@ -14,7 +14,7 @@ class LookupKeysControllerTest < ActionController::TestCase
 
   test "should update lookup_keys" do
     put :update, {:id => lookup_keys(:one).to_param, :lookup_key => { :description => "test that" }}, set_session_user
-    assert_response :success
+    assert_redirected_to lookup_keys_path
   end
 
   test "should destroy lookup_keys" do

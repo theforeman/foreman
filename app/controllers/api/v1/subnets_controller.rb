@@ -7,8 +7,18 @@ module Api
       api :GET, '/subnets', 'List of subnets'
       param :search, String, :desc => 'Filter results'
       param :order, String, :desc => 'Sort results'
+      param :page, String, :desc => "paginate results"
+      param :per_page, String, :desc => "number of entries per request"
+
       def index
-        @subnets = Subnet.search_for(params[:search], :order => params[:order])
+        @subnets = Subnet.includes(:tftp, :dhcp, :dns).
+          search_for(*search_options).paginate(paginate_options)
+      end
+
+      api :GET, "/subnets/:id/", "Show a subnet."
+      param :id, :identifier, :required => true
+
+      def show
       end
 
       api :POST, '/subnets', 'Create a subnet'
@@ -27,6 +37,7 @@ module Api
         param :tftp_id, :number, :desc => 'TFTP Proxy to use within this subnet'
         param :dns_id, :number, :desc => 'DNS Proxy to use within this subnet'
       end
+
       def create
         @subnet = Subnet.new(params[:subnet])
         process_response @subnet.save
@@ -49,31 +60,16 @@ module Api
         param :tftp_id, :number, :allow_nil => true, :desc => 'TFTP Proxy to use within this subnet'
         param :dns_id, :number, :allow_nil => true, :desc => 'DNS Proxy to use within this subnet'
       end
+
       def update
         process_response @subnet.update_attributes(params[:subnet])
       end
 
       api :DELETE, '/subnets/:id', 'Delete a subnet'
       param :id, :number, :desc => 'Subnet numeric identifier', :required => true
+
       def destroy
         process_response @subnet.destroy
-      end
-
-      api :POST, '/subnets/freeip', 'Query subnet DHCP proxy for an unused IP'
-      param :subnet_id, :number
-      param :host_mac, String
-      def freeip
-        subnet= Subnet.find(params[:subnet_id])
-
-        if (ip = subnet.unused_ip(params[:host_mac]))
-          render :json => {:ip => ip}
-        else
-          # we don't want any failures if we failed to query our proxy
-          head :status => 200
-        end
-      rescue => e
-        logger.warn "Failed to query #{subnet} for free ip: #{e}"
-        head :status => 500
       end
 
     end

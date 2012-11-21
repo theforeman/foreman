@@ -172,6 +172,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should fail to remove active environments" do
+    disable_orchestration
     setup_import_classes
     as_admin do
       host = Host.first

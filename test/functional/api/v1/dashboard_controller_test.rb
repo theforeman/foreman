@@ -4,7 +4,7 @@ class Api::V1::DashboardControllerTest < ActionController::TestCase
 
   test "should get index with json result" do
     as_user :admin do
-      get :index, {}
+      get :index, { }
     end
     assert_response :success
     dashboard = ActiveSupport::JSON.decode(@response.body)

@@ -80,9 +80,9 @@ class LookupKeyTest < ActiveSupport::TestCase
 
   def test_value_should_not_be_changed
     param = lookup_keys(:three)
-    default =  param.default_value
+    default = param.default_value
     param.save
-    assert_equal default, param.default_value_before_type_cast
     assert_equal default, param.default_value
+    assert_equal default, param.default_value_before_type_cast
   end
 end
