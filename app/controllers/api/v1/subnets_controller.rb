@@ -16,16 +16,16 @@ module Api
         param :name, String, :desc => 'Subnet name', :required => true
         param :network, String, :desc => 'Subnet network', :required => true
         param :mask, String, :desc => 'Netmask for this subnet', :required => true
-        param :gateway, String, :desc => 'Primary DNS for this subnet'
-        param :dns_primary, String, :desc => 'Primary DNS for this subnet'
-        param :dns_secondary, String, :desc => 'Secondary DNS for this subnet'
-        param :from, String, :desc => 'Starting IP Address for IP auto suggestion'
-        param :to, String, :desc => 'Ending IP Address for IP auto suggestion'
-        param :vlanid, String, :desc => 'VLAN ID for this subnet'
-        param :domain_ids, Array, :desc => 'Domains in which this subnet is part'
-        param :dhcp_id, :number, :desc => 'DHCP Proxy to use within this subnet'
-        param :tftp_id, :number, :desc => 'TFTP Proxy to use within this subnet'
-        param :dns_id, :number, :desc => 'DNS Proxy to use within this subnet'
+        param :gateway, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'
+        param :dns_primary, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'
+        param :dns_secondary, String, :allow_nil => true, :desc => 'Secondary DNS for this subnet'
+        param :from, String, :allow_nil => true, :desc => 'Starting IP Address for IP auto suggestion'
+        param :to, String, :allow_nil => true, :desc => 'Ending IP Address for IP auto suggestion'
+        param :vlanid, String, :allow_nil => true, :desc => 'VLAN ID for this subnet'
+        param :domain_ids, Array, :allow_nil => true, :desc => 'Domains in which this subnet is part'
+        param :dhcp_id, :number, :allow_nil => true, :desc => 'DHCP Proxy to use within this subnet'
+        param :tftp_id, :number, :allow_nil => true, :desc => 'TFTP Proxy to use within this subnet'
+        param :dns_id, :number, :allow_nil => true, :desc => 'DNS Proxy to use within this subnet'
       end
       def create
         @subnet = Subnet.new(params[:subnet])
@@ -33,11 +33,11 @@ module Api
       end
 
       api :PUT, '/subnets/:id', 'Update a subnet'
-      param :id, :number, :desc => 'Subnet numeric identifier', :required => true
+      param :id, String, :desc => 'Subnet numeric identifier', :required => true
       param :subnet, Hash, :required => true do
-        param :name, String, :desc => 'Subnet name', :required => true
-        param :network, String, :desc => 'Subnet network', :required => true
-        param :mask, String, :desc => 'Netmask for this subnet', :required => true
+        param :name, String, :allow_nil => true, :desc => 'Subnet name'
+        param :network, String, :allow_nil => true, :desc => 'Subnet network'
+        param :mask, String, :allow_nil => true, :desc => 'Netmask for this subnet'
         param :gateway, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'
         param :dns_primary, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'
         param :dns_secondary, String, :allow_nil => true, :desc => 'Secondary DNS for this subnet'
@@ -53,8 +53,13 @@ module Api
         process_response @subnet.update_attributes(params[:subnet])
       end
 
+      api :GET, '/subnets/:id', 'Show a subnet'
+      param :id, String, :desc => 'Subnet numeric identifier', :required => true
+      def show
+      end
+
       api :DELETE, '/subnets/:id', 'Delete a subnet'
-      param :id, :number, :desc => 'Subnet numeric identifier', :required => true
+      param :id, String, :desc => 'Subnet numeric identifier', :required => true
       def destroy
         process_response @subnet.destroy
       end

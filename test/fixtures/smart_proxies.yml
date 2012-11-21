@@ -11,6 +11,11 @@ three:
   name: DNS Proxy
   url: http://else.where:4567
 
+unused:
+  name: Unused Proxy
+  url: http://else.where:4583
+
+
 puppetmaster:
   name: Puppetmaster Proxy
   url: http://else.where:4567

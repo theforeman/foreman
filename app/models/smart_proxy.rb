@@ -1,4 +1,5 @@
 class SmartProxy < ActiveRecord::Base
+  include Authorization
   ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
