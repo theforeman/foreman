@@ -1,4 +1,4 @@
-require 'config/settings'
+require File.expand_path('../config/settings', __FILE__)
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.17'
