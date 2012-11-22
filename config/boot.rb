@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'yaml'
-require 'config/settings'
+require File.expand_path('../../config/settings', __FILE__)
 
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
