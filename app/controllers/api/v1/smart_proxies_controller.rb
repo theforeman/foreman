@@ -2,13 +2,15 @@ module Api
   module V1
     class SmartProxiesController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :check_feature_type, :only => :index
 
       api :GET, "/smart_proxies/", "List all smart_proxies."
+      param :type, String, :desc => "filter by type"
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @smart_proxies = SmartProxy.includes(:features).paginate(paginate_options)
+        @smart_proxies = proxies_by_type(params[:type]).paginate(paginate_options)
       end
 
       api :GET, "/smart_proxies/:id/", "Show a smart proxy."
@@ -44,6 +46,22 @@ module Api
 
       def destroy
         process_response @smart_proxy.destroy
+      end
+
+      private
+      def proxies_by_type(type)
+        return SmartProxy.includes(:features).try(type.downcase+"_proxies") if not type.nil?
+        return SmartProxy.includes(:features).all
+      end
+
+      def check_feature_type
+        return if params[:type].nil?
+
+        allowed_types = SmartProxy::ProxyFeatures.map{|f| f.downcase}
+
+        if not allowed_types.include? params[:type].downcase
+          raise ArgumentError, "Invalid feature type. Select one of: #{SmartProxy::ProxyFeatures.join(", ")}."
+        end
       end
 
     end
