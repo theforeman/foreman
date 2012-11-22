@@ -46,9 +46,9 @@ module Api
       api :PUT, '/subnets/:id', 'Update a subnet'
       param :id, :number, :desc => 'Subnet numeric identifier', :required => true
       param :subnet, Hash, :required => true do
-        param :name, String, :desc => 'Subnet name', :required => true
-        param :network, String, :desc => 'Subnet network', :required => true
-        param :mask, String, :desc => 'Netmask for this subnet', :required => true
+        param :name, String, :desc => 'Subnet name'
+        param :network, String, :desc => 'Subnet network'
+        param :mask, String, :desc => 'Netmask for this subnet'
         param :gateway, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'
         param :dns_primary, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'
         param :dns_secondary, String, :allow_nil => true, :desc => 'Secondary DNS for this subnet'
