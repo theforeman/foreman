@@ -61,11 +61,17 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::TestCase
-  setup :setup_set_script_name
+  setup :setup_set_script_name, :set_api_user
 
   def setup_set_script_name
     @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
+
+  def set_api_user
+    return unless self.class.to_s[/api/i]
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:apiadmin).login, "secret")
+  end
+
 end
 
 Apipie.configuration.validate = false

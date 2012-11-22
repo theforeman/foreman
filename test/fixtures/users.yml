@@ -37,3 +37,14 @@ internal:
   auth_source: internal
   password_hash: 287ee23b24efc2cb01db8e3da347a2747fc5b58b
   password_salt: 2a493af5472a889b530036a1fb25123f4e56efc9
+
+apiadmin:
+  login: apiadmin
+  firstname: apiadmin
+  lastname: User
+  mail: apiadmin@someware.com
+  admin: true
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 02d7ff9921071af778ff4f8608579dcd6d80dfba
+  password_salt: 80a167f1effbd82c2485ed81c3cfd68b11bc40dc

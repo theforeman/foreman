@@ -5,9 +5,7 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
   development_environment = { :name => 'Development' }
 
   test "should get index" do
-    as_user :admin do
-      get :index, { }
-    end
+    get :index, { }
     assert_response :success
     assert_not_nil assigns(:environments)
     envs = ActiveSupport::JSON.decode(@response.body)
@@ -15,35 +13,27 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should show environment" do
-    as_user :admin do
-      get :show, { :id => environments(:production).to_param }
-    end
+    get :show, { :id => environments(:production).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should create environment" do
-    as_user :admin do
-      assert_difference('Environment.count') do
-        post :create, { :environment => development_environment }
-      end
+    assert_difference('Environment.count') do
+      post :create, { :environment => development_environment }
     end
     assert_response :success
   end
 
   test "should update environment" do
-    as_user :admin do
-      put :update, { :id => environments(:production).to_param, :environment => { } }
-    end
+    put :update, { :id => environments(:production).to_param, :environment => { } }
     assert_response :success
   end
 
   test "should destroy environments" do
-    as_user :admin do
-      assert_difference('Environment.count', -1) do
-        delete :destroy, { :id => environments(:testing).to_param }
-      end
+    assert_difference('Environment.count', -1) do
+      delete :destroy, { :id => environments(:testing).to_param }
     end
     assert_response :success
   end
