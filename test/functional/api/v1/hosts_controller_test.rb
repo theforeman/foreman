@@ -15,9 +15,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    as_user :admin do
-      get :index, { }
-    end
+    get :index, { }
     assert_response :success
     assert_not_nil assigns(:hosts)
     hosts = ActiveSupport::JSON.decode(@response.body)
@@ -25,9 +23,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    as_user :admin do
-      get :show, { :id => hosts(:one).to_param }
-    end
+    get :show, { :id => hosts(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -35,10 +31,8 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should create host" do
     disable_orchestration
-    as_user :admin do
-      assert_difference('Host.count') do
-        post :create, { :host => valid_attrs }
-      end
+    assert_difference('Host.count') do
+      post :create, { :host => valid_attrs }
     end
     assert_response :success
     last_host = Host.order('id desc').last
@@ -46,26 +40,20 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should create host with managed is false if parameter is passed" do
     disable_orchestration
-    as_user :admin do
-      post :create, { :host => valid_attrs.merge!(:managed => false) }
-    end
+    post :create, { :host => valid_attrs.merge!(:managed => false) }
     assert_response :success
     last_host = Host.order('id desc').last
     assert_equal false, last_host.managed?
   end
 
   test "should update host" do
-    as_user :admin do
-      put :update, { :id => hosts(:two).to_param, :host => { } }
-    end
+    put :update, { :id => hosts(:two).to_param, :host => { } }
     assert_response :success
   end
 
   test "should destroy hosts" do
-    as_user :admin do
-      assert_difference('Host.count', -1) do
-        delete :destroy, { :id => hosts(:one).to_param }
-      end
+    assert_difference('Host.count', -1) do
+      delete :destroy, { :id => hosts(:one).to_param }
     end
     assert_response :success
   end

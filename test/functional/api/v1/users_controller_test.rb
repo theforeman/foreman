@@ -5,87 +5,71 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   valid_attrs = { :login => "johnsmith" }
 
   test "should get index" do
-    as_user :admin do
-      get :index, { }
-    end
+    get :index, { }
     assert_response :success
   end
 
   test "should show individual record" do
-    as_user :admin do
-      get :show, { :id => users(:one).to_param }
-    end
+    get :show, { :id => users(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
-
   test "should update user" do
-    as_user :admin do
-      user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-      put :update, { :id => user.id, :user => valid_attrs }
-      assert_response :success
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    put :update, { :id => user.id, :user => valid_attrs }
+    assert_response :success
 
-      mod_user = User.find_by_id(user.id)
-      assert mod_user.login == "johnsmith"
-    end
+    mod_user = User.find_by_id(user.id)
+    assert mod_user.login == "johnsmith"
   end
 
   test "should not remove the anonymous role" do
-    as_user :admin do
-      user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-      assert user.roles =([roles(:anonymous)])
+    assert user.roles =([roles(:anonymous)])
 
-      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
-      assert_response :success
+    put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+    assert_response :success
 
-      mod_user = User.find_by_id(user.id)
+    mod_user = User.find_by_id(user.id)
 
-      assert mod_user.roles =([roles(:anonymous)])
-    end
+    assert mod_user.roles =([roles(:anonymous)])
   end
-
 
   test "should set password" do
-    as_user :admin do
-      user          = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
-      user.password = "changeme"
-      assert user.save
+    user          = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
+    user.password = "changeme"
+    assert user.save
 
-      put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
-      assert_response :success
+    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
+    assert_response :success
 
-      mod_user = User.find_by_id(user.id)
-      assert mod_user.matching_password?("dummy")
-    end
+    mod_user = User.find_by_id(user.id)
+    assert mod_user.matching_password?("dummy")
+
   end
 
-
   test "should detect password validation mismatches" do
-    as_user :admin do
-      user          = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
-      user.password = "changeme"
-      assert user.save
+    user          = User.new :login => "foo", :mail => "foo@bar.com", :firstname => "john", :lastname => "smith", :auth_source => auth_sources(:internal)
+    user.password = "changeme"
+    assert user.save
 
-      put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
-      assert_response :unprocessable_entity
+    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
+    assert_response :unprocessable_entity
 
-      mod_user = User.find_by_id(user.id)
-      assert mod_user.matching_password?("changeme")
-    end
+    mod_user = User.find_by_id(user.id)
+    assert mod_user.matching_password?("changeme")
   end
 
   test "should delete different user" do
-    as_user :admin do
       user = users(:one)
 
       delete :destroy, { :id => user.id }
       assert_response :success
 
       assert !User.exists?(user.id)
-    end
   end
 
   test "should not delete same user" do
@@ -100,7 +84,6 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
       assert response['details'] == "You are trying to delete your own account"
       assert response['message'] == "Access denied"
       assert User.exists?(user)
-
     end
   end
 

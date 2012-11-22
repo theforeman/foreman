@@ -20,52 +20,40 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
 
 
   test "should get index" do
-    as_user :admin do
-      get :index, { }
-    end
+    get :index, { }
     assert_response :success
     assert_not_nil assigns(:bookmarks)
   end
 
   test "should show bookmark" do
-    as_user :admin do
-      get :show, { :id => bookmarks(:one).to_param }
-    end
+    get :show, { :id => bookmarks(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should create bookmark" do
-    as_user :admin do
-      assert_difference('Bookmark.count') do
+    assert_difference('Bookmark.count') do
         post :create, { :bookmark => simple_bookmark }
-      end
     end
     assert_response :success
   end
 
   test "should create bookmark with a dot" do
-    as_user :admin do
-      assert_difference('Bookmark.count') do
+    assert_difference('Bookmark.count') do
         post :create, { :bookmark => dot_bookmark }
-      end
     end
     assert_response :success
   end
 
   test "should update bookmark" do
-    as_user :admin do
-      put :update, { :id => bookmarks(:one).to_param, :bookmark => { } }
-    end
+    put :update, { :id => bookmarks(:one).to_param, :bookmark => { } }
     assert_response :success
   end
 
   test "should destroy bookmark" do
-    as_user :admin do
-      assert_difference('Bookmark.count', -1) do
-        delete :destroy, { :id => bookmarks(:one).to_param }
-      end
+    assert_difference('Bookmark.count', -1) do
+      delete :destroy, { :id => bookmarks(:one).to_param }
     end
     assert_response :success
   end
