@@ -9,6 +9,7 @@ Foreman::Application.routes.draw do
       resources :auth_source_ldaps, :except => [:new, :edit]
       resources :bookmarks, :except => [:new, :edit]
       resources :common_parameters, :except => [:new, :edit]
+      # add "contraint" that uncontrains and allows :id to have dot notation ex. sat.redhat.com 
       constraints(:id => /[^\/]+/) do
         resources :domains, :except => [:new, :edit]
         resources :hosts, :except => [:new, :edit]
@@ -40,9 +41,7 @@ Foreman::Application.routes.draw do
       resources :reports, :only => [:index, :show, :destroy]
       resources :settings, :only => [:index, :show, :update]
       resources :smart_proxies, :except => [:new, :edit]
-      resources :subnets, :except => [:new, :edit] do
-        post 'freeip', :on => :collection
-      end
+      resources :subnets, :except => [:new, :edit]
       resources :usergroups, :except => [:new, :edit]
       resources :users, :except => [:new, :edit]
 

@@ -13,55 +13,42 @@ class Api::V1::ArchitecturesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    as_user :admin do
-      get :index, { }
-    end
+    get :index, { }
     assert_response :success
     assert_not_nil assigns(:architectures)
     architectures = ActiveSupport::JSON.decode(@response.body)
     assert !architectures.empty?
-
   end
 
   test "should show individual record" do
-    as_user :admin do
-      get :show, { :id => architectures(:x86_64).to_param }
-    end
+    get :show, { :id => architectures(:x86_64).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should create architecture" do
-    as_user :admin do
-      assert_difference('Architecture.count') do
-        post :create, { :architecture => arch_i386 }
-      end
+    assert_difference('Architecture.count') do
+      post :create, { :architecture => arch_i386 }
     end
     assert_response :success
   end
 
   test "should update architecture" do
-    as_user :admin do
-      put :update, { :id => architectures(:x86_64).to_param, :architecture => { } }
-    end
+    put :update, { :id => architectures(:x86_64).to_param, :architecture => { } }
     assert_response :success
   end
 
   test "should destroy architecture" do
-    as_user :admin do
-      assert_difference('Architecture.count', -1) do
-        delete :destroy, { :id => architectures(:s390).to_param }
-      end
+    assert_difference('Architecture.count', -1) do
+      delete :destroy, { :id => architectures(:s390).to_param }
     end
     assert_response :success
   end
 
   test "should not destroy used architecture" do
-    as_user :admin do
-      assert_difference('Architecture.count', 0) do
-        delete :destroy, { :id => architectures(:x86_64).to_param }
-      end
+    assert_difference('Architecture.count', 0) do
+      delete :destroy, { :id => architectures(:x86_64).to_param }
     end
     assert_response :unprocessable_entity
   end
