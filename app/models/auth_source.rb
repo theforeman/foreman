@@ -55,15 +55,15 @@ class AuthSource < ActiveRecord::Base
     AuthSource.all.each do |source|
       logger.debug "Authenticating '#{login}' against '#{source.name}'"
       begin
-        if (attrs = source.authenticate(login, password))
-          logger.debug "Authentication successful for '#{login}'"
-          attrs[:auth_source_id] = source.id
+        if source.onthefly_register? and source.authenticate(login, password)
+          logger.debug "Authentication successful for '#{login}' at '#{source}'"
+          auth = source.id
         end
       rescue => e
         logger.error "Error during authentication: #{e.message}"
-        attrs = nil
+        auth = nil
       end
-      return attrs if attrs
+      return auth if auth
     end
     nil
   end

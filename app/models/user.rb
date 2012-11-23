@@ -191,20 +191,23 @@ class User < ActiveRecord::Base
     return nil if login.blank? or password.blank?
 
     # user is not yet registered, try to authenticate with available sources
-    if (attrs = AuthSource.authenticate(login, password))
-      user = new(attrs)
-      user.login = login
-      # The default user can't auto create users, we need to change to Admin for this to work
-      User.as "admin" do
-        if user.save
-          logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
-        else
-          logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
-          user = nil
-        end
+    return nil unless (source = AuthSource.authenticate(login, password))
+
+    # user authenticated. Finding attributes
+    attrs = AuthSourceLdap.find(source).find_attrs(login, password)
+    user = new(attrs)
+    user.auth_source_id = source
+    user.login = login
+    # The default user can't auto create users, we need to change to Admin for this to work
+    User.as "admin" do
+      if user.save
+        logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
+      else
+        logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
+        user = nil
       end
-      user
     end
+    user
   end
 
   def normalize_mail

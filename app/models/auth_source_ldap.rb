@@ -30,35 +30,51 @@ class AuthSourceLdap < AuthSource
   after_initialize :set_defaults
 
   # Loads the LDAP info for a user and authenticates the user with their password
-  # Returns : Array of Strings.
-  #           Either the users's DN or the user's full details OR nil
+  # Returns : true if successful else nil
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
 
     logger.debug "LDAP-Auth with User #{effective_user(login)}"
-    # first, search for User Entries in LDAP
-    entry = search_for_user_entries(login, password)
-    return nil unless entry.is_a?(Net::LDAP::Entry)
 
-    # extract required attributes
-    attrs = required_attributes_values(entry)
-
-    # not sure if there is a case were search result without a DN
-    # but just to be on the safe side.
-    return nil if (dn=attrs.delete(:dn)).empty?
-
-    logger.debug "DN found for #{login}: #{dn}"
+    # first, search for User Entries in LDAP unless $login in ldap account
+    if use_user_login_for_auth?
+      dn = effective_user(login)
+    else
+      dn = String.new
+      attrs = { :dn => :dn }
+      entry = search_for_user_entries(login, password, attrs)
+      return nil unless entry.is_a?(Net::LDAP::Entry)
+      dn = entry.dn
+      logger.debug "DN found for #{login}: #{dn}"
+    end
 
     # finally, authenticate user
     ldap_con = initialize_ldap_con(dn, password)
+
     unless ldap_con.bind
       logger.warn "Failed to authenticate #{login}"
+      ldap_errors(ldap_con)
       return nil
     end
-    # return user's attributes
-    attrs
+    true
   rescue Net::LDAP::LdapError => text
     raise "LdapError: " + text
+  end
+
+  # Loads the LDAP info for a user
+  # Returns : Array of Strings.
+  #           Either the users's DN or the user's full details OR nil
+  def find_attrs(login, password)
+    return nil if login.blank? || password.blank?
+
+    logger.debug "Finding LDAP attributes for User #{login}"
+
+    entry = search_for_user_entries(login, password, required_ldap_attributes)
+    return nil unless entry.is_a?(Net::LDAP::Entry)
+    # extract required attributes
+    attrs = required_attributes_values(entry)
+    # return user's attributes
+    attrs
   end
 
   # test the connection to the LDAP
@@ -95,19 +111,17 @@ class AuthSourceLdap < AuthSource
   end
 
   def use_user_login_for_auth?
-    !(account and account.include? "$login")
+    account and account.include? "$login"
   end
 
   def effective_user(login)
-    use_user_login_for_auth? ? account : account.sub("$login", login)
+    use_user_login_for_auth? ? account.sub("$login", login) : account
   end
 
   def required_ldap_attributes
-    return {} unless onthefly_register?
     { :firstname => attr_firstname,
       :lastname  => attr_lastname,
       :mail      => attr_mail,
-      :dn        => :dn,
     }
   end
 
@@ -118,7 +132,7 @@ class AuthSourceLdap < AuthSource
     end]
   end
 
-  def search_for_user_entries(login, password)
+  def search_for_user_entries(login, password, attrs)
     user          = effective_user(login)
     pass          = user == login ? password : account_password
     ldap_con      = initialize_ldap_con(user, pass)
@@ -129,10 +143,14 @@ class AuthSourceLdap < AuthSource
     entries       = ldap_con.search(:base       => base_dn,
                                     :filter     => object_filter & login_filter,
                                     # only ask for the DN if on-the-fly registration is disabled
-                                    :attributes => required_ldap_attributes.values)
+                                    :attributes => attrs)
 
     # we really care about one match, using the last one, hoping there is only one match :)
     entries ? entries.last : nil
   end
 
+  def ldap_errors(ldap_con)
+    logger.debug "Result: #{ldap_con.get_operation_result.code}" if logger && logger.debug?
+    logger.debug "Message: #{ldap_con.get_operation_result.message}" if logger && logger.debug?
+  end
 end
