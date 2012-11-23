@@ -32,15 +32,12 @@ function providerSelected(item)
 }
 
 function testConnection(item) {
-  var target = $(item).attr('data-url');
-  var args = {}
-  args["provider"] = attribute_hash(['name', 'provider', 'url', 'user', 'password', 'server']);
 
   $('#test_connection_indicator').show();
   $.ajax({
     type:'put',
-    url:target,
-    data:args,
+    url: $(item).attr('data-url'),
+    data: $('#new_compute_resource').serialize(),
     success:function (result) {
       $('#compute_connection').html($(result).children("#compute_connection"));
       $('#compute_connection').prepend($(result).children(".alert-message"));

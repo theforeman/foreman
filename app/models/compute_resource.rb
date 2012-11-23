@@ -1,7 +1,7 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
-  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
+  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Rackspace].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
@@ -81,13 +81,13 @@ class ComputeResource < ActiveRecord::Base
 
   def provider_friendly_name
     list = SETTINGS[:libvirt] ? ["Libvirt"] : []
-    list += %w[ oVirt EC2 VMWare OpenStack ]
+    list += %w[ oVirt EC2 VMWare OpenStack Rackspace ]
     list[PROVIDERS.index(provider)] rescue ""
   end
 
   # returns a new fog server instance
   def new_vm attr={}
-    client.servers.new vm_instance_defaults.merge(attr)
+    client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys)
   end
 
   # return fog new interface ( network adapter )
@@ -113,7 +113,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def create_vm args = {}
-    client.servers.create vm_instance_defaults.merge(args.to_hash)
+    client.servers.create vm_instance_defaults.merge(args.to_hash.symbolize_keys)
   rescue Fog::Errors::Error => e
     logger.debug "Fog error: #{e.message}\n " + e.backtrace.join("\n ")
     errors.add(:base, e.message.to_s)
