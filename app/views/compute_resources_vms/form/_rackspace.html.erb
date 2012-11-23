@@ -1,0 +1,7 @@
+<%= select_f f, :flavor_id, compute_resource.flavors, :id, :name %>
+<%
+	   arch ||= nil ; os ||= nil
+	      images = possible_images(compute_resource, arch, os)
+      -%>
+
+      <div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : 'Please Select an Image'}, {:disabled => images.empty? } %></div>

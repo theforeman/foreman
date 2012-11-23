@@ -1,0 +1,4 @@
+<%= text_f f, :url, :label => "auth url", :default=>"https://identity.api.rackspacecloud.com" %>
+<%= text_f f, :user, :label => "username" %>
+<%= password_f f, :password, :label => "API Key" %>
+<%= selectable_f(f, :uuid, f.object.regions, {}, {:label => 'Region'}) %>
