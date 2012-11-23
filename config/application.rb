@@ -2,13 +2,27 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-if defined?(Bundler)
-  Class.new Rails::Railtie do
-    console {Foreman.setup_console}
+if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
+  # If there is a Gemfile.in file, we will not use Bundler but BundlerExt
+  # gem which parses this file and loads all dependencies from the system
+  # rathern then trying to download them from rubygems.org. It always
+  # loads all gemfile groups.
+  begin
+    require 'bundler_ext'
+    BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :all)
+  rescue LoadError => e
+    raise e.exception("Gem bundler_ext is not installed, either install it" +
+                      " or rename Gemfile.in to Gemfile to use Bundler")
   end
-  Bundler.require(:default, Rails.env)
+else
+  # If you have a Gemfile, require the gems listed there, including any gems
+  # you've limited to :test, :development, or :production.
+  if defined?(Bundler)
+    Class.new Rails::Railtie do
+      console {Foreman.setup_console}
+    end
+    Bundler.require(:default, Rails.env)
+  end
 end
 
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
