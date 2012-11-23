@@ -90,7 +90,7 @@ module Orchestration::Compute
       attrs = compute_resource.provided_attributes
       if attrs.keys.include?(:ip)
         logger.info "waiting for instance to acquire ip address"
-        vm.wait_for { self.send(attrs[:ip]) }
+        vm.wait_for { self.send(attrs[:ip]).present? }
       end
     rescue => e
       failure "Failed to get IP for #{name}: #{e}", e.backtrace
