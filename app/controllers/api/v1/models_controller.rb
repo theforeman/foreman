@@ -35,10 +35,10 @@ module Api
       api :PUT, "/models/:id/", "Update a model."
       param :id, String, :required => true
       param :model, Hash, :required => true do
-        param :name, String, :required => true
-        param :info, String, :required => false
-        param :vendor_class, String, :required => false
-        param :hardware_model, String, :required => false
+        param :name, String
+        param :info, String
+        param :vendor_class, String
+        param :hardware_model, String
       end
 
       def update

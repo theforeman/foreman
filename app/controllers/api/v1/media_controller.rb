@@ -51,9 +51,9 @@ Available families:
 
       param :id, String, :required => true
       param :medium, Hash, :required => true do
-        param :name, String, :required => false, :desc => "Name of media"
-        param :path, String, :required => false, :desc => PATH_INFO
-        param :os_family, String, :require => false, :allow_nil => true, :desc => OS_FAMILY_INFO
+        param :name, String, :desc => "Name of media"
+        param :path, String, :desc => PATH_INFO
+        param :os_family, String, :allow_nil => true, :desc => OS_FAMILY_INFO
       end
       api :PUT, "/media/:id/", "Update a medium."
 

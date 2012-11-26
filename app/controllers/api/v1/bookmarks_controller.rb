@@ -33,9 +33,9 @@ module Api
       api :PUT, "/bookmarks/:id/", "Update a bookmark."
       param :id, :identifier, :required => true
       param :bookmark, Hash, :required => true do
-        param :name, String, :required => true
-        param :controller, String, :required => true
-        param :query, String, :required => true
+        param :name, String
+        param :controller, String
+        param :query, String
         param :public, :bool
       end
 

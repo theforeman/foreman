@@ -42,7 +42,7 @@ module Api
       api :PUT, "/hostgroups/:id/", "Update an hostgroup."
       param :id, :identifier, :required => true
       param :hostgroup, Hash, :required => true do
-        param :name, String, :required => true
+        param :name, String
         param :environment_id, :number
         param :operatingsystem_id, :number
         param :architecture_id, :number

@@ -30,7 +30,7 @@ module Api
       api :PUT, "/usergroups/:id/", "Update a usergroup."
       param :id, String, :required => true
       param :usergroup, Hash, :required => true do
-        param :name, String, :required => true
+        param :name, String
       end
 
       def update

@@ -34,9 +34,9 @@ module Api
       api :PUT, "/ptables/:id/", "Update a ptable."
       param :id, String, :required => true
       param :ptable, Hash, :required => true do
-        param :name, String, :required => true
-        param :layout, String, :required => true
-        param :os_family, String, :required => false
+        param :name, String
+        param :layout, String
+        param :os_family, String
       end
 
       def update
