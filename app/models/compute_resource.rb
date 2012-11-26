@@ -1,6 +1,6 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
-  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
+  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Joyent ].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
@@ -74,7 +74,7 @@ class ComputeResource < ActiveRecord::Base
 
   def provider_friendly_name
     list = SETTINGS[:libvirt] ? ["Libvirt"] : []
-    list += %w[ oVirt EC2 VMWare OpenStack ]
+    list += %w[ oVirt EC2 VMWare OpenStack Joyent ]
     list[PROVIDERS.index(provider)] rescue ""
   end
 
