@@ -14,7 +14,7 @@ module Api
       end
 
       api :GET, "/hosts/:id/", "Show a host."
-      param :id, :identifier, :required => true
+      param :id, :identifier_dottable, :required => true
 
       def show
       end

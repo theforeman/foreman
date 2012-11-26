@@ -24,4 +24,44 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get reports for given host only" do
+    get :index, {:host_id => hosts(:one).to_param }
+    assert_response :success
+    assert_not_nil assigns(:reports)
+    reports = ActiveSupport::JSON.decode(@response.body)
+    assert !reports.empty?
+    assert 1, reports.count
+  end
+
+  test "should return empty result for host with no reports" do
+    get :index, {:host_id => hosts(:two).to_param }
+    assert_response :success
+    assert_not_nil assigns(:reports)
+    reports = ActiveSupport::JSON.decode(@response.body)
+    assert reports.empty?
+    assert 0, reports.count
+  end
+
+  test "should get last report" do
+    get :last
+    assert_response :success
+    assert_not_nil assigns(:report)
+    report = ActiveSupport::JSON.decode(@response.body)
+    assert !report.empty?
+  end
+
+  test "should get last report for given host only" do
+    get :last, {:host_id => hosts(:one).to_param }
+    assert_response :success
+    assert_not_nil assigns(:report)
+    report = ActiveSupport::JSON.decode(@response.body)
+    assert !report.empty?
+  end
+
+  test "should give error if no last report for given host" do
+    get :last, {:host_id => hosts(:two).to_param }
+    assert_response :success
+  end
+
+
 end

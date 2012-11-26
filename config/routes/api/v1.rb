@@ -14,7 +14,9 @@ Foreman::Application.routes.draw do
         resources :domains, :except => [:new, :edit]
         resources :hosts, :except => [:new, :edit] do
           constraints(:host_id => /[^\/]+/) do
-            resources :reports       ,:only => [:index, :show]
+            resources :reports       ,:only => [:index, :show] do
+              get :last, :on => :collection
+            end
             resources :audits        ,:only => :index
             resources :facts         ,:only => :index, :controller => :fact_values
             resources :puppetclasses ,:only => :index
@@ -46,7 +48,9 @@ Foreman::Application.routes.draw do
       resources :ptables, :except => [:new, :edit]
       resources :puppetclasses, :except => [:new, :edit]
       resources :roles, :except => [:new, :edit]
-      resources :reports, :only => [:index, :show, :destroy]
+      resources :reports, :only => [:index, :show, :destroy] do
+        get :last, :on => :collection
+      end
       resources :settings, :only => [:index, :show, :update]
       resources :smart_proxies, :except => [:new, :edit]
       resources :subnets, :except => [:new, :edit]

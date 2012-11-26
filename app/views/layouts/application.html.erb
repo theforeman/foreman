@@ -56,5 +56,8 @@
         <%= link_to 'Support', "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
       </span>
     </div>
+    <% if Rails.env.development? %>
+        <%= debug(params) %>
+    <% end %>
   </body>
 </html>
