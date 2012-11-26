@@ -57,7 +57,6 @@ class Hostgroup < ActiveRecord::Base
   end
 
   #TODO: add a method that returns the valid os for a hostgroup
-  #
 
   def all_puppetclasses
     classes

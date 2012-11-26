@@ -3,6 +3,7 @@ class Location < Taxonomy
 
   has_and_belongs_to_many :organizations
   has_many :hosts
+  before_destroy EnsureNotUsedBy.new(:hosts)
 
   scope :completer_scope, lambda { my_locations }
 
