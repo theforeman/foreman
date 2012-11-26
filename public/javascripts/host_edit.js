@@ -235,7 +235,6 @@ function organization_changed(element) {
       $('#organization_indicator').hide();
       $('form').html(response);
       onContentLoad();
-      onHostEditLoad();
     },
     complete: function(){
       $('#organization_indicator').hide();
@@ -256,7 +255,6 @@ function location_changed(element) {
       $('#location_indicator').hide();
       $('form').html(response);
       onContentLoad();
-      onHostEditLoad();
     },
     complete: function(){
       $('#location_indicator').hide();
