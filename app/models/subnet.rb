@@ -21,7 +21,7 @@ class Subnet < ActiveRecord::Base
 
   default_scope lambda {
     with_taxonomy_scope do
-      order('priority')
+      order('vlanid')
     end
   }
 
@@ -47,7 +47,7 @@ class Subnet < ActiveRecord::Base
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
   def <=> (other)
-    self.priority <=> other.priority
+    self.vlanid <=> other.vlanid
   end
 
   # Given an IP returns the subnet that contains that IP

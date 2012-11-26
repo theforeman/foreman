@@ -5,6 +5,7 @@
       <li class="active"><a href="#primary" data-toggle="tab">Location</a></li>
       <li><a href="#users" data-toggle="tab">Users</a></li>
       <li><a href="#smart_proxies" data-toggle="tab">Smart Proxies</a></li>
+      <li><a href="#subnets" data-toggle="tab">Subnets</a></li>
       <li><a href="#compute_resources" data-toggle="tab">Compute Resources</a></li>
       <li><a href="#media" data-toggle="tab">Installation Media</a></li>
       <li><a href="#domains" data-toggle="tab">Domains</a></li>
@@ -24,6 +25,10 @@
 
       <div class="tab-pane" id="smart_proxies">
         <%= multiple_checkboxes f, :smart_proxies, @location, SmartProxy %>
+      </div>
+
+      <div class="tab-pane" id="subnets">
+        <%= multiple_checkboxes f, :subnets, @location, Subnet %>
       </div>
 
       <div class="tab-pane" id="compute_resources">
