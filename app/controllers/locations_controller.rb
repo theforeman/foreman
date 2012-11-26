@@ -70,10 +70,6 @@ class LocationsController < ApplicationController
     redirect_back_or_to root_url
   end
 
-  def load_vars_for_ajax
-    return unless @location
-  end
-
   private
   def find_location
     @location = Location.find(params[:id])

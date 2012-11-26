@@ -1,67 +1,67 @@
 <%= form_for @user, :html=>{:class=>"form-horizontal"} do |f| %>
-    <%= base_errors_for @user %>
+  <%= base_errors_for @user %>
 
-    <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab">User</a></li>
-      <% unless @editing_self %>
-          <li><a href="#filters" data-toggle="tab">Filters</a></li>
-          <% if show_location_tab? %>
-              <li><a href="#locations" data-toggle="tab">Locations</a></li>
-          <% end %>
-          <% if show_organization_tab? %>
-              <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
-          <% end %>
-      <% end -%>
-    </ul>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab">User</a></li>
+    <% unless @editing_self %>
+      <li><a href="#filters" data-toggle="tab">Filters</a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% end %>
+    <% end -%>
+  </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="primary">
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
 
-        <%= text_f f, :login, :disabled => f.object.login == "admin" %>
-        <%= text_f f, :firstname, :label => "First Name" %>
-        <%= text_f f, :lastname, :label => "Last Name" %>
-        <%= text_f f, :mail %>
+      <%= text_f f, :login, :disabled => f.object.login == "admin" %>
+      <%= text_f f, :firstname, :label => "First Name" %>
+      <%= text_f f, :lastname, :label => "Last Name" %>
+      <%= text_f f, :mail %>
 
-        <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
-                                                                                                            :label => "Authorized by"}, {:onchange => 'auth_source_selected()'}) unless @editing_self
-        %>
+      <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
+                                                                                                          :label => "Authorized by"}, {:onchange => 'auth_source_selected()'}) unless @editing_self
+      %>
 
-        <div id="password" <%= display? !@user.manage_password? %>>
-          <%= password_f f, :password %>
-          <%= password_f f, :password_confirmation, :label => "Verify" %>
-        </div>
-        <% unless @editing_self -%>
-            <%= checkbox_f f, :admin, :label => "Administrator" %>
-            <%= multiple_checkboxes f, :roles, @user, Role.givable %>
-        <% end %>
+      <div id="password" <%= display? !@user.manage_password? %>>
+        <%= password_f f, :password %>
+        <%= password_f f, :password_confirmation, :label => "Verify" %>
       </div>
-
       <% unless @editing_self -%>
-          <div class="tab-pane" id="filters">
-            <%= render("filters", :f => f) %>
-          </div>
-          <% if show_location_tab? %>
-              <div class="tab-pane" id="locations">
-                <div class="control-group">
-                  <%= f.select :locations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
-                  <div class="offset1">
-                    <%= edit_habtm @user, Location %>
-                  </div>
-                </div>
-              </div>
-          <% end %>
-
-          <% if show_organization_tab? %>
-              <div class="tab-pane" id="organizations">
-                <div class="control-group">
-                  <%= f.select :organizations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
-                  <div class="offset1">
-                    <%= edit_habtm @user, Organization %>
-                  </div>
-                </div>
-              </div>
-          <% end %>
+        <%= checkbox_f f, :admin, :label => "Administrator" %>
+        <%= multiple_checkboxes f, :roles, @user, Role.givable %>
       <% end %>
     </div>
-    <%= submit_or_cancel f %>
+
+    <% unless @editing_self -%>
+      <div class="tab-pane" id="filters">
+        <%= render("filters", :f => f) %>
+      </div>
+      <% if show_location_tab? %>
+        <div class="tab-pane" id="locations">
+          <div class="control-group">
+            <%= f.select :locations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+            <div class="offset1">
+              <%= edit_habtm @user, Location %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <% if show_organization_tab? %>
+        <div class="tab-pane" id="organizations">
+          <div class="control-group">
+            <%= f.select :organizations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+            <div class="offset1">
+              <%= edit_habtm @user, Organization %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%= submit_or_cancel f %>
 <% end -%>

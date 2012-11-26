@@ -291,23 +291,27 @@ class ApplicationController < ActionController::Base
 
   def set_taxonomy
     return if User.current.nil?
-    orgs = Organization.my_organizations
 
-    Organization.current = if orgs.count == 1
-      orgs.first
-    elsif session[:org_id]
-      orgs.find(session[:org_id])
-    else
-      nil
+    if SETTINGS[:organizations_enabled]
+      orgs = Organization.my_organizations
+      Organization.current = if orgs.count == 1
+                               orgs.first
+                             elsif session[:org_id]
+                               orgs.find(session[:org_id])
+                             else
+                               nil
+                             end
     end
 
-    locations = Location.my_locations
-    Location.current = if locations.count == 1
-      locations.first
-    elsif session[:location_id]
-      locations.find(session[:location_id])
-    else
-      nil
+    if SETTINGS[:locations_enabled]
+      locations = Location.my_locations
+      Location.current = if locations.count == 1
+                           locations.first
+                         elsif session[:location_id]
+                           locations.find(session[:location_id])
+                         else
+                           nil
+                         end
     end
   end
 

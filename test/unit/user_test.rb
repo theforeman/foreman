@@ -76,7 +76,7 @@ class UserTest < ActiveSupport::TestCase
     @user.lastname = "Salame"
     assert @user.save
 
-    assert_equal "Ali Al Salame (foo)", @user.to_label
+    assert_equal "Ali Al Salame", @user.to_label
   end
 
   test "when try to login if password is empty should return nil" do

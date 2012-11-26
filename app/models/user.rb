@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
   def to_label
-    "#{firstname} #{lastname} (#{login})"
+    "#{firstname} #{lastname}"
   end
   alias_method :name, :to_label
 
