@@ -73,7 +73,7 @@ module Foreman::Model
     def test_connection
       super
       errors[:user].empty? and errors[:password] and regions
-    rescue Fog::Compute::AWS::Error => e
+    rescue Fog::Compute::Rackspace::Error => e
       errors[:base] << e.message
     end
 
