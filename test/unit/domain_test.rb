@@ -61,8 +61,6 @@ class DomainTest < ActiveSupport::TestCase
     domain.locations.push location1
     domain.locations.push location2
     assert domain.save!
-
-    puts domain.inspect
   end
 
 #I must find out how to create a fact_name inside of fact_value
