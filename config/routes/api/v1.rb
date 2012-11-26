@@ -20,7 +20,6 @@ Foreman::Application.routes.draw do
             resources :audits        ,:only => :index
             resources :facts         ,:only => :index, :controller => :fact_values
             resources :puppetclasses ,:only => :index
-            resources :lookup_keys   ,:only => :show
           end
         end
         resources :compute_resources, :except => [:new, :edit] do

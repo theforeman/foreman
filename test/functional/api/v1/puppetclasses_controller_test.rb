@@ -30,4 +30,11 @@ class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get puppetclasses for given host only" do
+    get :index, {:host_id => hosts(:one).to_param }
+    assert_response :success
+    fact_values = ActiveSupport::JSON.decode(@response.body)
+    assert !fact_values.empty?
+  end
+
 end
