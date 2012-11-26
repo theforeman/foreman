@@ -56,6 +56,12 @@ class User < ActiveRecord::Base
   scoped_search :on => :last_login_on, :complete_value => :true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
+  default_scope lambda {
+    with_taxonomy_scope do
+      order('firstname')
+    end
+  }
+
   def to_label
     "#{firstname} #{lastname}"
   end
