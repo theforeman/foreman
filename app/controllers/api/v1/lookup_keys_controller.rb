@@ -37,7 +37,7 @@ module Api
       api :PUT, "/lookup_keys/:id/", "Update a lookup key."
       param :id, :identifier, :required => true
       param :lookup_key, Hash, :required => true do
-        param :key, String, :required => true
+        param :key, String
         param :puppetclass_id, :number
         param :default_value, String
         param :path, String

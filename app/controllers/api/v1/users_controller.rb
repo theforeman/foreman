@@ -52,12 +52,12 @@ module Api
       DOC
       param :id, String, :required => true
       param :user, Hash, :required => true do
-        param :login, String, :required => false
-        param :firstname, String, :allow_nil => true, :required => false
-        param :lastname, String, :allow_nil => true, :required => false
-        param :mail, String, :required => false
-        param :admin, :bool, :required => false, :desc => "Is an admin account?"
-        param :password, String, :required => true
+        param :login, String
+        param :firstname, String, :allow_nil => true
+        param :lastname, String, :allow_nil => true
+        param :mail, String
+        param :admin, :bool, :desc => "Is an admin account?"
+        param :password, String
       end
 
       def update

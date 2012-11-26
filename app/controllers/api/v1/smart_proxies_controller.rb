@@ -33,8 +33,8 @@ module Api
       api :PUT, "/smart_proxies/:id/", "Update a smart proxy."
       param :id, String, :required => true
       param :smart_proxy, Hash, :required => true do
-        param :name, String, :required => true
-        param :url, String, :required => true
+        param :name, String
+        param :url, String
       end
 
       def update

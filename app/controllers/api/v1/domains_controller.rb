@@ -51,10 +51,10 @@ module Api
       api :PUT, "/domains/:id/", "Update a domain."
       param :id, :identifier, :required => true
       param :domain, Hash, :required => true do
-        param :name, String, :required => true, :allow_nil => true, :desc => "The full DNS Domain name"
-        param :fullname, String, :required => false, :allow_nil => true, :desc => "Full name describing the domain"
-        param :dns_id, :number, :required => false, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
-        param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
+        param :name, String, :allow_nil => true, :desc => "The full DNS Domain name"
+        param :fullname, String, :allow_nil => true, :desc => "Full name describing the domain"
+        param :dns_id, :number, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
+        param :domain_parameters_attributes, Array, :desc => "Array of parameters (name, value)"
       end
 
       def update

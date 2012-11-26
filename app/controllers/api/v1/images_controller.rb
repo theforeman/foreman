@@ -42,12 +42,12 @@ module Api
       param :compute_resource_id, :identifier, :required => true
       param :id, :identifier, :required => true
       param :image, Hash, :required => true do
-        param :name, String, :required => true
-        param :username, String, :required => true
-        param :uuid, String, :required => true
-        param :compute_resource_id, :number, :required => true
-        param :architecture_id, :number, :required => true
-        param :operatingsystem_id, :number, :required => true
+        param :name, String
+        param :username, String
+        param :uuid, String
+        param :compute_resource_id, :number
+        param :architecture_id, :number
+        param :operatingsystem_id, :number
       end
 
       def update

@@ -51,14 +51,14 @@ module Api
       api :PUT, "/hosts/:id/", "Update a host."
       param :id, :identifier, :required => true
       param :host, Hash, :required => true do
-        param :name, String, :required => true
-        param :environment_id, String, :required => true
+        param :name, String
+        param :environment_id, String
         param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
         param :mac, String, :desc => "not required if its a virtual machine"
-        param :architecture_id, :number, :required => true
-        param :domain_id, :number, :required => true
-        param :puppet_proxy_id, :number, :required => true
-        param :operatingsystem_id, String, :required => true
+        param :architecture_id, :number
+        param :domain_id, :number
+        param :puppet_proxy_id, :number
+        param :operatingsystem_id, String
         param :medium_id, :number
         param :ptable_id, :number
         param :subnet_id, :number

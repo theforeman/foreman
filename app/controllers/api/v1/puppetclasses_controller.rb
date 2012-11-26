@@ -35,7 +35,7 @@ module Api
       api :PUT, "/puppetclasses/:id/", "Update a puppetclass."
       param :id, String, :required => true
       param :puppetclass, Hash, :required => true do
-        param :name, String, :required => true
+        param :name, String
       end
 
       def update

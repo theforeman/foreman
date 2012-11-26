@@ -22,7 +22,7 @@ module Api
       api :PUT, "/settings/:id/", "Update a setting."
       param :id, String, :required => true
       param :setting, Hash, :required => true do
-        param :value, String, :required => true
+        param :value, String
       end
 
       def update

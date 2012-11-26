@@ -42,8 +42,8 @@ module Api
       api :PUT, "/auth_source_ldaps/:id/", "Update an auth_source_ldap."
       param :id, String, :required => true
       param :auth_source_ldap, Hash, :required => true do
-        param :name, String, :required => true
-        param :host, String, :required => true
+        param :name, String
+        param :host, String
         param :port, :number, :desc => "defaults to 389"
         param :account, String
         param :base_dn, String

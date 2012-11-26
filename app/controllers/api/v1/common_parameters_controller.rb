@@ -33,8 +33,8 @@ module Api
       api :PUT, "/common_parameters/:id/", "Update a common_parameter"
       param :id, :identifier, :required => true
       param :common_parameter, Hash, :required => true do
-        param :name, String, :required => true
-        param :value, String, :required => true
+        param :name, String
+        param :value, String
       end
 
       def update
