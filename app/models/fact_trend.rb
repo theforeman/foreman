@@ -21,7 +21,7 @@ class FactTrend < Trend
   end
 
   def self.create_values(fact_name_id)
-    FactValue.group(:fact_name_id, :value).where(:fact_name_id => fact_name_id).includes(:fact_name).map do |fact|
+    FactValue.select('fact_name_id, value').group(:fact_name_id, :value).where(:fact_name_id => fact_name_id).includes(:fact_name).map do |fact|
       create(:trendable_type => "FactName",
              :trendable_id => fact.fact_name.id,
              :fact_name => fact.fact_name.name,
