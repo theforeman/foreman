@@ -1,7 +1,7 @@
 class OrganizationsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_organization, :only => %w{edit update destroy}
+  before_filter :find_organization, :only => %w{edit update destroy clone}
   skip_before_filter :authorize, :only => %w{select}
 
   def index
@@ -24,6 +24,24 @@ class OrganizationsController < ApplicationController
     Taxonomy.no_taxonomy_scope do
       render :new
     end
+  end
+
+  def clone
+   new = @organization.clone
+   # copy all the relations
+   new.name = ""
+   new.users             = @organization.users
+   new.smart_proxies     = @organization.smart_proxies
+   new.subnets           = @organization.subnets
+   new.compute_resources = @organization.compute_resources
+   new.media             = @organization.media
+   new.domains           = @organization.domains
+   new.media             = @organization.media
+   new.hostgroups        = @organization.hostgroups
+   new.locations         = @organization.locations
+
+   @organization = new
+   render :action => :new
   end
 
   def create

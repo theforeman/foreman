@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_location, :only => %w{edit update destroy}
+  before_filter :find_location, :only => %w{edit update destroy clone}
   skip_before_filter :authorize, :only => %w{select}
 
   def index
@@ -25,6 +25,24 @@ class LocationsController < ApplicationController
       # we explicitly render here in order to evaluate the view without taxonomy scope
       render :new
     end
+  end
+
+  def clone
+   new = @location.clone
+   # copy all the relations
+   new.name = ""
+   new.users             = @location.users
+   new.smart_proxies     = @location.smart_proxies
+   new.subnets           = @location.subnets
+   new.compute_resources = @location.compute_resources
+   new.media             = @location.media
+   new.domains           = @location.domains
+   new.media             = @location.media
+   new.hostgroups        = @location.hostgroups
+   new.organizations     = @location.organizations
+
+   @location = new
+   render :action => :new
   end
 
   def create

@@ -287,7 +287,10 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:locations_enabled]
     resources :locations do
-      get 'select', :on => :member
+      member do
+        get 'select'
+        get 'clone'
+      end
       collection do
 	      get 'auto_complete_search'
         get 'clear', :action => 'select'
@@ -297,7 +300,10 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:organizations_enabled]
     resources :organizations do
-      get 'select', :on => :member
+      member do
+          get 'select'
+          get 'clone'
+      end
       collection do
 	      get 'auto_complete_search'
         get 'clear', :action => 'select'
