@@ -2,6 +2,8 @@
   <% if associations.empty? -%>
     <strong>None Found</strong>
   <% else -%>
+     <%= link_to_function(icon_text("check", ""), "toggleCheckboxesBySelector(\"[id$='#{ActiveModel::Naming.singular(associations.first)}_ids_']\")",
+                                         :title => "Select all") %>
     <% associations.sort{|a,b| a.to_s <=> b.to_s}.each do |association| -%>
       <li>
       <%= content_tag_for :label, association do %>
