@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   # Force a user to login if authentication is enabled
   # Sets User.current to the logged in user, or to admin if logins are not used
   def require_login
-    unless session[:user] and (User.current = User.find(session[:user]))
+    unless session[:user] and (User.current = Taxonomy.no_taxonomy_scope { User.find(session[:user])})
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
         # If REMOTE_USER is provided by the web server then
         # authenticate the user without using password.
         if remote_user_provided?
-          user = User.find_by_login(@remote_user)
+          user = Taxonomy.no_taxonomy_scope {User.find_by_login(@remote_user)}
           logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
         # Else, fall back to the standard authentication mechanism,
         # only if it's an API request.
