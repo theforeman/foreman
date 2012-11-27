@@ -27,11 +27,15 @@ module Foreman::Controller::HostDetails
 
   private
   def assign_parameter name, root = ""
-    if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
-      item = eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new(params[:#{controller_name.singularize}])")
-      render :partial => root + name, :locals => { :item => item }
-    else
-      head(:not_found)
+    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
+    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
+    Taxonomy.as_taxonomy @organization, @location do
+      if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
+        item = eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new(params[:#{controller_name.singularize}])")
+        render :partial => root + name, :locals => { :item => item }
+      else
+        head(:not_found)
+      end
     end
   end
 
