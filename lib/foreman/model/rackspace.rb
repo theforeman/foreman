@@ -70,6 +70,10 @@ module Foreman::Model
       client.flavors
     end
 
+    def available_images
+      client.images
+    end
+
     def test_connection
       super
       errors[:user].empty? and errors[:password] and regions
