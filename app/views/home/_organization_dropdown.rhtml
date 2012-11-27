@@ -13,7 +13,7 @@
     <% elsif orgs_count > 1 %>
       <li><%= link_to('All', clear_organizations_path) %></li>
       <% Organization.my_organizations.each do |organization| %>
-        <li><%= link_to(organization.name, select_organization_path(organization)) %>
+        <li><%= link_to(organization.name, select_organization_path(organization)) %></li>
       <% end %>
     <% end %>
   </ul>
