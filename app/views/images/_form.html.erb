@@ -6,8 +6,11 @@
   <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
   <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
   <%= text_f f, :username, :value => @image.username || "root", :help_inline => "The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc" %>
-  <%= text_f f, :uuid, :label => "Image ID", :help_inline => "Image ID as provided by the compute resource, e.g. ami-.." %>
-
+  <% if @compute_resource.class == Foreman::Model::Rackspace %>
+	  <%= select_f f, :uuid, @compute_resource.available_images.to_a.sort! {|a,b| a.name.downcase <=> b.name.downcase}, :id, :name %>
+  <% else %>
+	  <%= text_f f, :uuid, :label => "Image ID", :help_inline => "Image ID as provided by the compute resource, e.g. ami-.." %>
+  <% end%>
   <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>
 <% end %>
 
