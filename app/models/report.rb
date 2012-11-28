@@ -26,7 +26,7 @@ class Report < ActiveRecord::Base
   scope :my_reports, lambda {
     return { :conditions => "" } if User.current.admin? # Admin can see all hosts
 
-    conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))", Host.my_hosts.map(&:id)])
+    conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))", Host.my_hosts.pluck(:id)])
     conditions.sub!(/\s*\(\)\s*/, "")
     conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
     conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")

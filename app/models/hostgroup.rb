@@ -43,7 +43,7 @@ class Hostgroup < ActiveRecord::Base
     if user.admin?
       conditions = { }
     else
-      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))", user.hostgroups.map(&:id)])
+      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))", user.hostgroup_ids])
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")

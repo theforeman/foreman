@@ -12,7 +12,7 @@ class Organization < Taxonomy
       if user.admin?
         conditions = { }
       else
-        conditions = sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.organizations.map(&:id)])
+        conditions = sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.organization_ids])
       end
       where(conditions).reorder('type, name')
     }

@@ -35,7 +35,7 @@ class ComputeResource < ActiveRecord::Base
     if user.admin?
       conditions = { }
     else
-      conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resources.map(&:id)])
+      conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resource_ids])
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
