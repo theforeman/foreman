@@ -113,6 +113,14 @@ class LookupKey < ActiveRecord::Base
     super({:only => [:key, :is_param, :required, :override, :description, :default_value, :id]}.merge(options))
   end
 
+  def path_elements
+    path.split.map do |paths|
+      paths.split(KEY_DELM).map do |element|
+        element
+      end
+    end
+  end
+
   private
 
   # Generate possible lookup values type matches to a given host
@@ -139,14 +147,6 @@ class LookupKey < ActiveRecord::Base
     # fact attribute
     if (fn = host.fact_names.first(:conditions => { :name => element }))
       return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
-    end
-  end
-
-  def path_elements
-    path.split.map do |paths|
-      paths.split(KEY_DELM).map do |element|
-        element
-      end
     end
   end
 
