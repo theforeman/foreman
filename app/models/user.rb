@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
   end
 
   def self.admin
-    find_by_login 'admin' or create_admin
+    unscoped.find_by_login 'admin' or create_admin
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source
