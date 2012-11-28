@@ -29,17 +29,9 @@ module Api
       end
 
       def last
-        #default order is reported_at desc
-        @reports = Report.my_reports.includes(:logs => [:source, :message]).
-          search_for(*search_options).paginate(paginate_options)
-        # last (most recent report) is first in list
-        @report = @reports.first
-        # if params[:host_id].blank?
-        #    @report = Report.my_reports.includes(:logs => [:source, :message]).last
-        # else 
-        #    @reports = Report.my_reports.includes(:logs => [:source, :message]).search_for(*search_options)
-           
-        # end
+        conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
+        params[:id] = Report.my_reports.maximum(:id, :conditions => conditions)
+        @report = Report.find(params[:id], :include => { :logs => [:message, :source] })
         render :show
       end
 
