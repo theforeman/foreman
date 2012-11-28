@@ -19,7 +19,7 @@ module Taxonomix
         scope = scope.joins(taxonomy_join_condition 'loc1').where("loc1.taxonomy_id in (?)", Location.current.id) if SETTINGS[:locations_enabled] and Location.current
         scope = scope.joins(taxonomy_join_condition 'org1').where("org1.taxonomy_id in (?)", Organization.current.id) if SETTINGS[:organizations_enabled] and Organization.current
 
-        scope
+        scope.readonly(false)
       end
 
       def self.taxonomy_join_condition name
