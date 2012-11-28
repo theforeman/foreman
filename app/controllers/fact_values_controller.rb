@@ -29,15 +29,17 @@ class FactValuesController < ApplicationController
   end
 
   def create
-    imported = Host.importHostAndFacts params.delete("facts")
-    respond_to do |format|
-      format.yml {
-        if imported
-          render :text => "Imported facts", :status => 200 and return
-        else
-          render :text => "Failed to import facts", :status => 400
-        end
-      }
+    Taxonomy.no_taxonomy_scope do
+      imported = Host.importHostAndFacts params.delete("facts")
+      respond_to do |format|
+        format.yml {
+          if imported
+            render :text => "Imported facts", :status => 200 and return
+          else
+            render :text => "Failed to import facts", :status => 400
+          end
+        }
+      end
     end
   rescue => e
     logger.warn "Failed to import facts: #{e}"

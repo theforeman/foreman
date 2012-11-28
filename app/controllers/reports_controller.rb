@@ -39,10 +39,12 @@ class ReportsController < ApplicationController
   end
 
   def create
-    if Report.import params.delete("report") || request.body
-      render :text => "Imported report", :status => 200 and return
-    else
-      render :text => "Failed to import report", :status => 500
+    Taxonomy.no_taxonomy_scope do
+      if Report.import params.delete("report") || request.body
+        render :text => "Imported report", :status => 200 and return
+      else
+        render :text => "Failed to import report", :status => 500
+      end
     end
   rescue => e
     render :text => e.to_s, :status => 500
