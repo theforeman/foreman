@@ -18,7 +18,7 @@
     <embed type="application/x-spice" height=0 width=0>
 <!--VNC Console-->
 <% elsif @console[:proxy_port] -%>
-    <%= content_for(:head) { javascript_tag "var INCLUDE_URI = '/javascripts/noVNC/';" } %>
+    <%= content_for(:head) { javascript_tag "var INCLUDE_URI = '#{javascript_path("noVNC").sub(/\.js.*$/,"/")}';" } %>
     <%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
 
     <div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
