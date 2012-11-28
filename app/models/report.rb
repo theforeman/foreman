@@ -82,9 +82,9 @@ class Report < ActiveRecord::Base
       # parse report metrics
       raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
-      test_env    = Puppet::PUPPETVERSION.to_i >= 3 ? :@environment       : '@environment'
-      test_format = Puppet::PUPPETVERSION.to_i >= 3 ? :@report_format     : '@report_format'
-      test_status = Puppet::PUPPETVERSION.to_i >= 3 ? :@resource_statuses : '@resource_statuses'
+      test_env    = Facter.puppetversion.to_i >= 3 ? :@environment       : '@environment'
+      test_format = Facter.puppetversion.to_i >= 3 ? :@report_format     : '@report_format'
+      test_status = Facter.puppetversion.to_i >= 3 ? :@resource_statuses : '@resource_statuses'
 
       case
       when report.instance_variables.include?(test_env)

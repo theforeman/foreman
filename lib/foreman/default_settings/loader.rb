@@ -21,7 +21,7 @@ module Foreman
         end
 
         def load(reset=false)
-          if Puppet::PUPPETVERSION.to_i >= 3
+          if Facter.puppetversion.to_i >= 3
             # Initializing Puppet directly and not via the Faces API, so indicate
             # the run mode to parse [master]
             Puppet.settings.initialize_global_settings(['--confdir', SETTINGS[:puppetconfdir], '--run_mode' 'master'])

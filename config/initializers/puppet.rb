@@ -6,7 +6,7 @@ require 'puppet/rails'
 
 ActiveSupport::Dependencies.hook!
 
-if Puppet::PUPPETVERSION.to_i < 3
+if Facter.puppetversion.to_i < 3
   Puppet.parse_config
 end
 
