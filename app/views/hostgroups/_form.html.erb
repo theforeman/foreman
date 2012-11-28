@@ -10,6 +10,12 @@
       <li><a href="#os" data-toggle="tab">Operating System</a></li>
     <% end -%>
     <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -45,6 +51,18 @@
     <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
+
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+        <%= multiple_checkboxes f, :locations, @hostgroup, Location %>
+      </div>
+    <% end %>
+
+    <% if show_organization_tab? %>
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @hostgroup, Organization %>
+      </div>
+    <% end %>
   </div>
 
   <%= submit_or_cancel f %>

@@ -14,14 +14,19 @@ module HomeHelper
       ['Smart Proxies',          :smart_proxies]
     ]
 
+    if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
+      choices += [ [:divider] ]
+      choices += [ ['Locations', :locations] ] if SETTINGS[:locations_enabled]
+      choices += [ ['Organizations', :organizations] ] if SETTINGS[:organizations_enabled]
+      choices += [ [:divider ] ]
+    end
+
+
     if SETTINGS[:unattended]
-      choices += [
-        ['Compute Resources',    :compute_resources]
-      ]
 
       choices += [
-        [:divider],
         ['Architectures',          :architectures],
+        ['Compute Resources',      :compute_resources],
         ['Domains',                :domains],
         ['Hardware Models',        :models],
         ['Installation Media',     :media],
