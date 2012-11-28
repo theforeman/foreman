@@ -106,7 +106,7 @@ class User < ActiveRecord::Base
     return nil if password.to_s.empty?
 
     # user is already in local database
-    if (user = find_by_login(login))
+    if (user = unscoped.find_by_login(login))
       # user has an authentication method and the authentication was successful
       if user.auth_source and user.auth_source.authenticate(login, password)
         logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
