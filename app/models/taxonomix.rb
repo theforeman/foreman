@@ -16,14 +16,14 @@ module Taxonomix
       def self.with_taxonomy_scope
         scope =  block_given? ? yield : where(1)
 
-        scope = scope.joins(taxonomy_join_condition 'loc1').where("loc1.taxonomy_id in (?)", Location.current.id) if SETTINGS[:locations_enabled] and Location.current
-        scope = scope.joins(taxonomy_join_condition 'org1').where("org1.taxonomy_id in (?)", Organization.current.id) if SETTINGS[:organizations_enabled] and Organization.current
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current.id)})") if SETTINGS[:locations_enabled] and Location.current
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current.id)})") if SETTINGS[:organizations_enabled] and Organization.current
 
         scope.readonly(false)
       end
 
-      def self.taxonomy_join_condition name
-        " INNER JOIN #{@taxonomy_join_table} #{name} ON #{name}.#{@primary_key} = #{self.table_name}.id and #{name}.taxable_type = '#{self.to_s}'"
+      def self.inner_select taxonomy_id
+        "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' AND taxonomy_id in (#{taxonomy_id}) "
       end
 
     end
