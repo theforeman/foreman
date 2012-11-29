@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
+  before_filter :find_user, :only => [:edit, :update, :destroy]
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
   skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :only => [:login, :logout]
   after_filter       :update_activity_time, :only => :login
@@ -40,7 +41,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
     if @user.user_facts.count == 0
       user_fact = @user.user_facts.build :operator => "==", :andor => "or"
       user_fact.fact_name_id = FactName.first.id if FactName.first
@@ -48,7 +48,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
     admin = params[:user].delete :admin
     # Remove keys for restricted variables when the user is editing their own account
     if editing_self
@@ -72,7 +71,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     if @user == User.current
       notice "You are currently logged in, suicidal?"
       redirect_to :back and return
@@ -143,6 +141,10 @@ class UsersController < ApplicationController
     else
       deny_access and return
     end
+  end
+
+  def find_user
+    @user = User.find(params[:id])
   end
 
 end
