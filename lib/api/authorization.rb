@@ -14,8 +14,9 @@ module Api
         # if authentication is disabled, the user is the build-in admin account.
         User.current = User.admin
       else
+        return true if User.current && Rails.env.test?
         authorization_method = oauth? ? :oauth : :http_basic
-        User.current       ||= send(authorization_method) || (return false)
+        User.current         = send(authorization_method) || (return false)
       end
 
       return true
