@@ -4,6 +4,10 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
   valid_attrs = { :login => "johnsmith" }
 
+  def setup
+    setup_users
+  end
+
   test "should get index" do
     get :index, { }
     assert_response :success

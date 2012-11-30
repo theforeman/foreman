@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  def setup
+    setup_users
+  end
+
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success
@@ -106,23 +110,12 @@ class UsersControllerTest < ActionController::TestCase
     assert !User.find_by_login("admin").nil?
   end
 
-  def setup_users
-    User.current = users :admin
-    user = User.find_by_login("one")
-    @request.session[:user] = user.id
-    @request.session[:expires_at] = 5.minutes.from_now
-    user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-    user.save!
-  end
-
   test 'user with viewer rights should fail to edit a user' do
-    setup_users
     get :edit, {:id => User.first.id}
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing users' do
-    setup_users
     get :index
     assert_response :success
   end
