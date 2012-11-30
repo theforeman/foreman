@@ -15,6 +15,27 @@
 module Foreman
   module ThreadSession
 
+    # module to be include in controller to clear the session data
+    # after (and evenutally before) the request processing.
+    # Without it we're risking inter-users interference.
+    module Cleaner
+      def self.included(base)
+        base.around_filter :clear_thread
+      end
+
+      def clear_thread
+        if Thread.current[:user] && !Rails.env.test?
+          Rails.logger.warn("Current user is set, but not expected. Clearing")
+          Thread.current[:user] = nil
+        end
+        yield
+      ensure
+        [:user, :organization, :location].each do |key|
+          Thread.current[key] = nil
+        end
+      end
+    end
+
     # include this in the User model
     module UserModel
       def self.included(base)
