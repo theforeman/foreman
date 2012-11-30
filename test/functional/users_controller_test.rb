@@ -126,4 +126,9 @@ class UsersControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+
+  test "should clear the current user after processing the request" do
+    get :index, {}, set_session_user
+    assert User.current.nil?
+  end
 end
