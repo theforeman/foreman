@@ -44,6 +44,7 @@ Foreman::Application.routes.draw do
       resources :subnets, :except => [:new, :edit]
       resources :usergroups, :except => [:new, :edit]
       resources :users, :except => [:new, :edit]
+      resources :template_kinds, :only => [:index]
 
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
