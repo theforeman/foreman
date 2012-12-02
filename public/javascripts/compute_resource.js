@@ -25,8 +25,8 @@ function providerSelected(item)
         url: url,
         data:'provider=' + provider,
         success: function(result){
-          $('#compute_connection').html($(result).children("#compute_connection"));
-          $('#compute_connection').append($(result).children(".alert-message"));
+          $('#compute_connection').html($(result).find("#compute_connection"));
+          $('#compute_connection').append($(result).find(".alert-message"));
         }
   });
 }
@@ -39,8 +39,8 @@ function testConnection(item) {
     url: $(item).attr('data-url'),
     data: $('#new_compute_resource').serialize(),
     success:function (result) {
-      $('#compute_connection').html($(result).children("#compute_connection"));
-      $('#compute_connection').prepend($(result).children(".alert-message"));
+      $('#compute_connection').html($(result).find("#compute_connection"));
+      $('#compute_connection').prepend($(result).find(".alert-message"));
     },
     complete:function (result) {
       $('#test_connection_indicator').hide();
