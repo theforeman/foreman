@@ -118,6 +118,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   def test_history_in_edit
+    setup_users
     ConfigTemplate.auditing_enabled = true
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     template = ConfigTemplate.first
