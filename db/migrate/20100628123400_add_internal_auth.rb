@@ -1,15 +1,16 @@
 class AddInternalAuth < ActiveRecord::Migration
+
   def self.up
     add_column :users, :password_hash, :string, :limit => 128
     add_column :users, :password_salt, :string, :limit => 128
 
     User.reset_column_information
 
-    user = User.find_or_create_by_login(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => "root@#{Facter.domain}")
+    user = User.unscoped.find_or_create_by_login(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => "root@#{Facter.domain}")
     user.admin = true
     src  = AuthSourceInternal.find_or_create_by_type "AuthSourceInternal"
     src.update_attribute :name, "Internal"
-    user.auth_source = src
+    user.auth_source_id = src.id
     user.password="changeme"
     if user.save_without_auditing
       say "****************************************************************************************"

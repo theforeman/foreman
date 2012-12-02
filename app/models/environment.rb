@@ -17,7 +17,7 @@ class Environment < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(environments.name)")
+      order("environments.name")
     end
   }
 

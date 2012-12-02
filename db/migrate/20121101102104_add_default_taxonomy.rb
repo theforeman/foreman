@@ -3,7 +3,7 @@ class AddDefaultTaxonomy < ActiveRecord::Migration
   class Organization < Taxonomy; end
 
   def self.up
-    User.as :admin do
+    User.unscoped.as :admin do
       org_id = Organization.create(:name=>"Default").try(:id)
       location_id = Location.create(:name=>"Default").try(:id)
       execute  "UPDATE hosts SET organization_id=#{org_id} WHERE organization_id IS NULL" unless org_id.nil?
