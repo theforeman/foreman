@@ -2,6 +2,7 @@ module Api
   module V1
     class ReportsController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :setup_search_options, :only => [:index, :last]
 
       api :GET, "/reports/", "List all reports."
       param :search, String, :desc => "filter results"
@@ -25,6 +26,13 @@ module Api
 
       def destroy
         process_response @report.destroy
+      end
+
+      def last
+        conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
+        params[:id] = Report.my_reports.maximum(:id, :conditions => conditions)
+        @report = Report.find(params[:id], :include => { :logs => [:message, :source] })
+        render :show
       end
 
     end

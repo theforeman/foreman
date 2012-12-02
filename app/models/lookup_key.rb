@@ -37,7 +37,7 @@ class LookupKey < ActiveRecord::Base
   scoped_search :on => :override, :complete_value => {:true => true, :false => false}
   scoped_search :in => :param_class, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
-
+  
   default_scope :order => 'lookup_keys.key'
   scope :override, where(:override => true)
 
