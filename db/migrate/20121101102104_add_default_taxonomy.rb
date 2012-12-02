@@ -1,4 +1,7 @@
 class AddDefaultTaxonomy < ActiveRecord::Migration
+  class Location < Taxonomy; end
+  class Organization < Taxonomy; end
+
   def self.up
     User.as :admin do
       org_id = Organization.create(:name=>"Default").try(:id)
