@@ -20,7 +20,7 @@
       </div>
 
       <div class="tab-pane" id="users">
-        <%= multiple_checkboxes f, :users, taxonomy, User.except_admin %>
+        <%= multiple_checkboxes f, :users, taxonomy, User %>
       </div>
 
       <div class="tab-pane" id="smart_proxies">
