@@ -10,8 +10,11 @@
         </div>
         <button class="btn btn-primary" type="button"><%= link_to "New Location", :controller => "locations", :action => "new" %></button>
       </div>
-    <% elsif location_count > 1 %>
-      <li><%= link_to('Any Location', clear_locations_path) %></li>
+    <% else %>
+      <% if location_count > 1 || User.current.admin? %>
+        <li><%= link_to('Any Location', clear_locations_path) %></li>
+        <%= content_tag(:li, "", :class=>"divider") %>
+      <% end %>
       <% Location.my_locations.each do |location| %>
         <li><%= link_to(location.name, select_location_path(location)) %></li>
       <% end -%>

@@ -21,7 +21,7 @@ module TaxonomyHelper
 
   def organization_dropdown count
     text = Organization.current.nil? ? "Organizations" : Organization.current.to_label
-    if count == 1
+    if count == 1 && !User.current.admin?
       link_to text, "#", :title => "Current Organization"
     else
       link_to((text + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Organization")
@@ -30,7 +30,7 @@ module TaxonomyHelper
 
   def location_dropdown count
       text = Location.current.nil? ? "Locations" : Location.current.to_label
-      if count == 1
+      if count == 1 && !User.current.admin?
         link_to text, "#", :title => "Current Location"
       else
         link_to((text + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Location")
