@@ -36,12 +36,11 @@ class AuthSourceOvirt < AuthSource
 
   def get_user_details(login, password)
     response = get_user_from_ovirt(login, password)
-    users = !response.nil? ? JSON.parse(response) : nil
-    userDetails = !users.nil? ? users['users'][0] : nil
+    userDetails = !response.nil? ? JSON.parse(response) : nil
     userDetails
   end    
 
-  def get_user_from_ovirt(login,password)
+  def get_user_from_ovirt(login, password)
     logger.debug "oVirt-Auth with User " + login
     logger.debug "oVirt host name is " + host
     logger.debug "oVirt port number is " + port.to_s()
@@ -50,20 +49,27 @@ class AuthSourceOvirt < AuthSource
     url=prefix + '://' + host + ':' + port.to_s()
 
     logger.debug "oVirt URL is " + url
-    session_id_str = Rack::Utils.escape(password)
+
+    # password contains the oVirt engine session ID followed ';'
+    # and the guid of the user
+    user_id_location = password.rindex(';')
+    user_id = password[user_id_location + 1 .. password.length()]
+    session_id = password[0 .. user_id_location - 1]
+
+    session_id_escaped = Rack::Utils.escape(session_id)
+
     # The password we get is the REST session ID
     # We set it in the cookie, using the "Prefer" header
     # to keep the session alive
-    session_id = ({ :JSESSIONID => session_id_str })
+    session_id = ({ :JSESSIONID => session_id_escaped })
     headers = ({ :content_type => 'application/json',
                  :accept => 'application/json',
                  :Prefer => "persistent-auth",
                  :cookies => ( session_id )
     })
-    search_query = URI.escape('search=' + login)
 
     # We query for the user, to get its details
-    response = RestClient::Resource.new(url)['/api/users?' + search_query].get(headers)
+    response = RestClient::Resource.new(url)['/api/users/' + user_id].get(headers)
     response
   end
 end
