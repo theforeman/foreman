@@ -723,7 +723,7 @@ class Host < Puppet::Rails::Host
   def lookup_keys_class_params
     p={}
     classes = all_puppetclasses
-    keys    = EnvironmentClass.parameters_for_class(classes.map(&:id), environment_id).group_by(&:puppetclass_id)
+    keys    = EnvironmentClass.parameters_for_class(classes.map(&:id), environment_id).includes(:lookup_key).group_by(&:puppetclass_id)
     classes.each do |klass|
       p[klass.name] = nil
       keys[klass.id].map(&:lookup_key).each do |lookup_key|

@@ -78,4 +78,13 @@ module HostsAndHostgroupsHelper
                :help_inline => "Use this puppet server as an initial Puppet Server or to execute puppet runs" }
   end
 
+  def interesting_klasses obj
+    classes    = obj.all_puppetclasses
+    smart_vars = LookupKey.where(:puppetclass_id => classes.map(&:id)).group(:puppetclass_id).count
+    class_vars = LookupKey.joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes.map(&:id) }).group('environment_classes.puppetclass_id').count
+    klasses    = smart_vars.keys + class_vars.keys
+
+    classes.select { |pc| klasses.include?(pc.id) }
+  end
+
 end
