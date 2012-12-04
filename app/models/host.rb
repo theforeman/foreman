@@ -721,18 +721,7 @@ class Host < Puppet::Rails::Host
   end
 
   def lookup_keys_class_params
-    p={}
-    classes = all_puppetclasses
-    keys    = EnvironmentClass.parameters_for_class(classes.map(&:id), environment_id).includes(:lookup_key).group_by(&:puppetclass_id)
-    classes.each do |klass|
-      p[klass.name] = nil
-      keys[klass.id].map(&:lookup_key).each do |lookup_key|
-        p[klass.name] ||= {}
-        value = lookup_key.value_for(self)
-        p[klass.name].merge!({lookup_key.key => value})
-      end if keys[klass.id]
-    end
-    p
+    Classification.new(:host => self).enc
   end
 
   # align common mac and ip address input
