@@ -16,14 +16,20 @@ module Taxonomix
       def self.with_taxonomy_scope
         scope =  block_given? ? yield : where('1=1')
 
-        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current.id)})") if SETTINGS[:locations_enabled] and Location.current
-        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current.id)})") if SETTINGS[:organizations_enabled] and Organization.current
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current.id)}) #{user_conditions}") if SETTINGS[:locations_enabled] and Location.current
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current.id)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current
 
         scope.readonly(false)
       end
 
       def self.inner_select taxonomy_id
         "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' AND taxonomy_id in (#{taxonomy_id}) "
+      end
+
+      # I the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
+      # This is done here and not in the user class because scopes cannot be chained with OR condition.
+      def self.user_conditions
+        sanitize_sql_for_conditions([" OR users.admin = ?", true]) if self == User
       end
 
     end
