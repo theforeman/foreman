@@ -19,7 +19,9 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
-    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
+    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
+    :multiple_puppetrun, :select_multiple_organization, :update_multiple_organization, :select_multiple_location,
+    :update_multiple_location]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console]
 
@@ -360,6 +362,48 @@ class HostsController < ApplicationController
   def multiple_puppetrun
     deny_access unless Setting[:puppetrun]
   end
+
+  def select_multiple_organization
+  end
+
+  def select_multiple_location
+  end
+
+  def update_multiple_organization
+    # simple validations
+    if (params[:organization].nil?) or (id=params[:organization][:id]).nil?
+      error 'No Organization selected!'
+      redirect_to(select_multiple_organization_hosts_path) and return
+    end
+    tax = Taxonomy.find(id) rescue nil
+
+    #update the hosts
+    @hosts.each do |host|
+      host.organization = tax
+      host.save(:validate => false)
+    end
+
+    notice 'Updated hosts: Changed Organization'
+    redirect_back_or_to hosts_path
+  end
+
+  def update_multiple_location
+     # simple validations
+     if (params[:location].nil?) or (id=params[:location][:id]).nil?
+       error 'No Location selected!'
+       redirect_to(select_multiple_location_hosts_path) and return
+     end
+     tax = Taxonomy.find(id) rescue nil
+
+     #update the hosts
+     @hosts.each do |host|
+       host.location = tax
+       host.save(:validate => false)
+     end
+
+     notice 'Updated hosts: Changed Location'
+     redirect_back_or_to hosts_path
+   end
 
   def update_multiple_puppetrun
     return deny_access unless Setting[:puppetrun]

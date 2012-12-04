@@ -82,6 +82,8 @@ module HostsHelper
     ]
     actions.insert(1, ['Build Hosts', multiple_build_hosts_path, 'fast-forward']) if SETTINGS[:unattended]
     actions <<  ['Run Puppet', multiple_puppetrun_hosts_path, 'play'] if Setting[:puppetrun]
+    actions <<  ['Assign Organization', select_multiple_organization_hosts_path, 'tags'] if SETTINGS[:organizations_enabled]
+    actions <<  ['Assign Location', select_multiple_location_hosts_path, 'map-marker'] if SETTINGS[:locations_enabled]
 
     content_tag :span, :id => 'submit_multiple', :class => 'fl' do
       actions.map do |action|
