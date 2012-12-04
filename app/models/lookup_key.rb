@@ -41,6 +41,10 @@ class LookupKey < ActiveRecord::Base
   default_scope :order => 'lookup_keys.key'
   scope :override, where(:override => true)
 
+  scope :parameters_for_class, lambda {|puppetclass_ids, environment_id|
+    override.joins(:environment_classes).where(:environment_classes => {:puppetclass_id => puppetclass_ids, :environment_id => environment_id})
+  }
+
   def to_param
     "#{id}-#{key}"
   end
