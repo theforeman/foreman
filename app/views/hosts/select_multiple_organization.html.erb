@@ -1,0 +1,6 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_for :organization, :url => update_multiple_organization_hosts_path(:host_ids => params[:host_ids]) do |f| %>
+  <%= f.select :id, [["Select Organization", "disabled"]] + Organization.all.map{|e| [e.name, e.id]},{},
+        :onchange => "toggle_multiple_ok_button(this)" %>
+<% end %>

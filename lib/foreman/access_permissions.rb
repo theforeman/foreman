@@ -94,7 +94,9 @@ Foreman::AccessControl.map do |map|
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple,
                                       :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
                                       :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
-                                      :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage]}
+                                      :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
+                                      :select_multiple_organization, :update_multiple_organization,
+                                      :select_multiple_location, :update_multiple_location]}
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :submit_multiple_build]}
     map.permission :power_hosts,   {:hosts => [:power]}
