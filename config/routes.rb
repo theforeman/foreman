@@ -66,6 +66,10 @@ Foreman::Application.routes.draw do
         post 'use_image_selected'
         post 'compute_resource_selected'
         post 'medium_selected'
+        get  'select_multiple_organization'
+        post 'update_multiple_organization'
+        get  'select_multiple_location'
+        post 'update_multiple_location'
       end
 
       constraints(:host_id => /[^\/]+/) do
