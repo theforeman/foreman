@@ -296,7 +296,7 @@ class ApplicationController < ActionController::Base
 
     if SETTINGS[:organizations_enabled]
       orgs = Organization.my_organizations
-      Organization.current = if orgs.count == 1
+      Organization.current = if orgs.count == 1 && !User.current.admin?
                                orgs.first
                              elsif session[:org_id]
                                orgs.find(session[:org_id])
@@ -307,7 +307,7 @@ class ApplicationController < ActionController::Base
 
     if SETTINGS[:locations_enabled]
       locations = Location.my_locations
-      Location.current = if locations.count == 1
+      Location.current = if locations.count == 1 && !User.current.admin?
                            locations.first
                          elsif session[:location_id]
                            locations.find(session[:location_id])
