@@ -82,16 +82,12 @@ class Report < ActiveRecord::Base
       # parse report metrics
       raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
-      test_env    = Puppet::PUPPETVERSION.to_i >= 3 ? :@environment       : '@environment'
-      test_format = Puppet::PUPPETVERSION.to_i >= 3 ? :@report_format     : '@report_format'
-      test_status = Puppet::PUPPETVERSION.to_i >= 3 ? :@resource_statuses : '@resource_statuses'
-
       case
-      when report.instance_variables.include?(test_env)
+      when report.instance_variables.detect {|v| v.to_s == "@environment"}
         @format = 3
-      when report.instance_variables.include?(test_format)
+      when report.instance_variables.detect {|v| v.to_s == "@report_format"}
         @format = 2
-      when report.instance_variables.include?(test_status)
+      when report.instance_variables.detect {|v| v.to_s == "@resource_statuses"}
         @format = 1
       else
         @format = 0
@@ -259,7 +255,7 @@ class Report < ActiveRecord::Base
     # find our metric values
     METRIC.each do |m|
       if @format == 0
-        report_status[m] = metrics["resources"][m.to_sym]
+        report_status[m] = metrics["resources"][m.to_sym] unless metrics["resources"].nil?
       else
         h=translate_metrics_to26(m)
         mv = metrics[h[:type]]
