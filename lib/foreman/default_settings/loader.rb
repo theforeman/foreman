@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'facter'
-require 'puppet'
+require 'puppet_setting'
 
 module Foreman
   module DefaultSettings
@@ -21,11 +21,7 @@ module Foreman
         end
 
         def load(reset=false)
-          if Puppet::PUPPETVERSION.to_i >= 3
-            # Initializing Puppet directly and not via the Faces API, so indicate
-            # the run mode to parse [master]
-            Puppet.settings.initialize_global_settings(['--confdir', SETTINGS[:puppetconfdir], '--run_mode' 'master'])
-          end
+          ppsettings = PuppetSetting.new.get :hostcert, :localcacert, :hostprivkey, :storeconfigs
 
           # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
           Setting.first rescue return
@@ -45,9 +41,9 @@ module Foreman
             [
               set('root_pass',     "Default encrypted root password on provisioned hosts (default is 123123)", "xybxa6JUkz63w"),
               set('safemode_render', "Enable safe mode config templates rendering (recommended)", true),
-              set('ssl_certificate', "SSL Certificate path that Foreman would use to communicate with its proxies", Puppet.settings[:hostcert]),
-              set('ssl_ca_file',  "SSL CA file that Foreman will use to communicate with its proxies", Puppet.settings[:localcacert]),
-              set('ssl_priv_key', "SSL Private Key file that Foreman will use to communicate with its proxies", Puppet.settings[:hostprivkey]),
+              set('ssl_certificate', "SSL Certificate path that Foreman would use to communicate with its proxies", ppsettings[:hostcert]),
+              set('ssl_ca_file',  "SSL CA file that Foreman will use to communicate with its proxies", ppsettings[:localcacert]),
+              set('ssl_priv_key', "SSL Private Key file that Foreman will use to communicate with its proxies", ppsettings[:hostprivkey]),
               set('manage_puppetca', "Should Foreman automate certificate signing upon provisioning new host", true),
               set('ignore_puppet_facts_for_provisioning', "Does not update ipaddress and MAC values from Puppet facts", false),
               set('query_local_nameservers', "Should Foreman query the locally configured name server or the SOA/NS authorities", false),
@@ -63,7 +59,7 @@ module Foreman
               set('puppetrun', "Enables Puppetrun support", false),
               set('puppet_server', "Default Puppet server hostname", "puppet"),
               set('failed_report_email_notification', "Enable Email alerts per each failed Puppet report", false),
-              set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", (!Puppet.settings.instance_variable_get(:@values)[:master][:dbadapter].empty? rescue false)),
+              set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", ppsettings[:storeconfigs]),
               set('Default_variables_Lookup_Path', "The Default path in which Foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"]),
               set('Enable_Smart_Variables_in_ENC', "Should the smart variables be exposed via the ENC yaml output?", true),
               set('Parametrized_Classes_in_ENC', "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?", false),
