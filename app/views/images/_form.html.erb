@@ -10,7 +10,10 @@
     <%= select_f f, :uuid, @compute_resource.available_images.to_a.sort! {|a,b| a.name.downcase <=> b.name.downcase}, :id, :name, {}, :label => 'Image' %>
   <% else %>
 	  <%= text_f f, :uuid, :label => "Image ID", :help_inline => "Image ID as provided by the compute resource, e.g. ami-.." %>
+          <%= text_f f, :iam_role, :label => "IAM Role", :help_inline => "(optional) IAM Role for Fog to use when creating this image." %>
   <% end%>
+
+>>>>>>> 5103aa1ab9d8b01b1e4c61a6851e1a6c7a8029f9
   <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>
 <% end %>
 
