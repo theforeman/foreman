@@ -5,6 +5,7 @@ module Api
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
       before_filter :handle_template_upload, :only => [:create, :update]
+      before_filter :process_template_kind, :only => [:create, :update]
 
       api :GET, "/config_templates/", "List templates"
       param :search, String, :desc => "filter results"
@@ -47,7 +48,7 @@ module Api
         param :template, String
         param :snippet, :bool
         param :audit_comment, String, :allow_nil => true
-        param :template_kind_id, :number, :desc => "not relevant for snippet"
+        param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
         param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
@@ -89,6 +90,11 @@ module Api
       def default_template_url template, hostgroup
         url_for :only_path => false, :action => :template, :controller => :unattended,
                 :id        => template.name, :hostgroup => hostgroup.name
+      end
+
+      def process_template_kind
+        return unless params[:config_template] and (tk=params[:config_template].delete(:template_kind))
+        params[:config_template][:template_kind_id] = tk[:id] 
       end
 
     end
