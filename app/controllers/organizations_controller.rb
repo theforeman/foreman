@@ -84,7 +84,7 @@ class OrganizationsController < ApplicationController
     @organization = params[:id] ? Organization.find(params[:id]) : nil
     Organization.current = @organization
     session[:org_id] = @organization ? @organization.id : nil
-    expire_fragment("tabs_and_title_records-#{@user.id}")
+    expire_fragment("tabs_and_title_records-#{User.current.id}")
     redirect_back_or_to root_url
   end
 
