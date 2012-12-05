@@ -85,6 +85,7 @@ class LocationsController < ApplicationController
     @location = params[:id] ? Location.find(params[:id]) : nil
     Location.current = @location
     session[:location_id] = @location ? @location.id : nil
+    expire_fragment("tabs_and_title_records-#{@user.id}")
     redirect_back_or_to root_url
   end
 
