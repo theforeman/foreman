@@ -80,8 +80,8 @@ module HostsAndHostgroupsHelper
 
   def interesting_klasses obj
     classes    = obj.all_puppetclasses
-    smart_vars = LookupKey.where(:puppetclass_id => classes.map(&:id)).group(:puppetclass_id).count
-    class_vars = LookupKey.joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes.map(&:id) }).group('environment_classes.puppetclass_id').count
+    smart_vars = LookupKey.reorder('').where(:puppetclass_id => classes.map(&:id)).group(:puppetclass_id).count
+    class_vars = LookupKey.reorder('').joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes.map(&:id) }).group('environment_classes.puppetclass_id').count
     klasses    = smart_vars.keys + class_vars.keys
 
     classes.select { |pc| klasses.include?(pc.id) }
