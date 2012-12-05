@@ -37,7 +37,7 @@ Available families:
       def show
       end
 
-      api :POST, "/medium/", "Create a medium."
+      api :POST, "/media/", "Create a medium."
       param :medium, Hash, :required => true do
         param :name, String, :required => true, :desc => "Name of media"
         param :path, String, :required => true, :desc => PATH_INFO
