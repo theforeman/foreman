@@ -134,5 +134,21 @@ module Api
       response.headers["Foreman_version"]= SETTINGS[:version]
       response.headers["Foreman_api_version"]= api_version
     end
+
+    # this method is used with nested resources, where obj_id is passed into the parameters hash.
+    # it automatically updates the search text box with the relevant relationship
+    # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
+    def setup_search_options
+      params[:search] ||= ""
+      params.keys.each do |param|
+        if param =~ /(\w+)_id$/
+          unless params[param].blank?
+            query = " #{$1} = #{params[param]}"
+            params[:search] += query unless params[:search].include? query
+          end
+        end
+      end
+    end
+
   end
 end

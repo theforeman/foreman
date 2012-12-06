@@ -12,7 +12,14 @@ Foreman::Application.routes.draw do
       # add "contraint" that uncontrains and allows :id to have dot notation ex. sat.redhat.com
       constraints(:id => /[^\/]+/) do
         resources :domains, :except => [:new, :edit]
-        resources :hosts, :except => [:new, :edit]
+        resources :hosts, :except => [:new, :edit] do
+          resources :reports       ,:only => [:index, :show] do
+            get :last, :on => :collection
+          end
+          resources :audits        ,:only => :index
+          resources :facts         ,:only => :index, :controller => :fact_values
+          resources :puppetclasses ,:only => :index
+        end
         resources :compute_resources, :except => [:new, :edit] do
           resources :images, :except => [:new, :edit]
         end
@@ -38,7 +45,9 @@ Foreman::Application.routes.draw do
       resources :ptables, :except => [:new, :edit]
       resources :puppetclasses, :except => [:new, :edit]
       resources :roles, :except => [:new, :edit]
-      resources :reports, :only => [:index, :show, :destroy]
+      resources :reports, :only => [:index, :show, :destroy] do
+        get :last, :on => :collection
+      end
       resources :settings, :only => [:index, :show, :update]
       resources :smart_proxies, :except => [:new, :edit]
       resources :subnets, :except => [:new, :edit]

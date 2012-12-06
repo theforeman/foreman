@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
     # are we searching for the last report?
     if params[:id] == "last"
       conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
-      params[:id] = Report.maximum(:id, :conditions => conditions)
+      params[:id] = Report.my_reports.maximum(:id, :conditions => conditions)
     end
 
     return not_found if params[:id].blank?
