@@ -4,6 +4,6 @@ group :test do
   gem 'rr'
   gem 'rake'
   gem 'single_test'
-  gem 'ci_reporter', '>= 1.6.3'
+  gem 'ci_reporter', '>= 1.6.3', :require => false
   gem 'minitest', '~> 3.5', :platforms => :ruby_19
 end
