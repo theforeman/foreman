@@ -2,6 +2,7 @@ module Api
   module V1
     class FactValuesController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :setup_search_options, :only => :index
 
       api :GET, "/fact_values/", "List all fact values."
       param :search, String, :desc => "filter results"

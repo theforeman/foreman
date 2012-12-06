@@ -46,6 +46,25 @@ class IdentifierValidator < Apipie::Validator::BaseValidator
 
   def description
     "Must be an identifier, string from 1 to 128 characters containing only alphanumeric characters, " +
-        "space, '_', '-' with no leading or trailing space.."
+        "space, underscore(_), hypen(-) with no leading or trailing space."
+  end
+end
+
+class IdentifierDottableValidator < Apipie::Validator::BaseValidator
+
+  def validate(value)
+    value = value.to_s
+    value =~ /\A[\w| |_|-|.]*\Z/ && value.strip == value && (1..128).include?(value.length)
+  end
+
+  def self.build(param_description, argument, options, block)
+    if argument == :identifier_dottable
+      self.new(param_description)
+    end
+  end
+
+  def description
+    "Must be an identifier, string from 1 to 128 characters containing only alphanumeric characters, " +
+        "dot(.), space, underscore(_), hypen(-) with no leading or trailing space."
   end
 end
