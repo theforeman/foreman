@@ -51,6 +51,7 @@ module Foreman
               set('token_duration', "Time in minutes installation tokens should be valid for, 0 to disable", 0)
             ].each { |s| create s.update(:category => "Provisioning")}
 
+            param_enc = Gem::Version.new(Facter.puppetversion.split('-').first) >= Gem::Version.new('2.6.5')
             [
               set('puppet_interval', "Puppet interval in minutes", 30 ),
               set('default_puppet_environment',"The Puppet environment Foreman will default to in case it can't auto detect it", "production"),
@@ -62,7 +63,7 @@ module Foreman
               set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", ppsettings[:storeconfigs]),
               set('Default_variables_Lookup_Path', "The Default path in which Foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"]),
               set('Enable_Smart_Variables_in_ENC', "Should the smart variables be exposed via the ENC yaml output?", true),
-              set('Parametrized_Classes_in_ENC', "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?", false),
+              set('Parametrized_Classes_in_ENC', "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?", param_enc),
               set('enc_environment', "Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)", true),
               set('use_uuid_for_certificates', "Should Foreman use random UUID's for certificate signing instead of hostnames", false),
               set('update_environment_from_facts', "Should Foreman update a host's environment from its facts", false)
