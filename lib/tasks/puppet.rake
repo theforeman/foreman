@@ -99,7 +99,7 @@ namespace :puppet do
           puts "Scheduled changes to your environment"
           puts "Create/update environments"
           for env, classes in changes["new"]
-            print "%-15s: %s\n" % [env, classes.to_sentence]
+            print "%-15s: %s\n" % [env, classes.inspect]
           end
           puts "Delete environments"
           for env, classes in changes["obsolete"]
