@@ -77,7 +77,8 @@ namespace :puppet do
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless args.batch
-        changes = Environment.importClasses proxy.id
+        importer = PuppetClassImporter.new({ :url => proxy.url })
+        changes  = importer.changes
       rescue => e
         if args.batch
           Rails.logger.error "Failed to refresh puppet classes: #{e}"
@@ -118,9 +119,9 @@ namespace :puppet do
         errors = ""
         # Apply the filtered changes to the database
         begin
-          changed = { :new => changes["new"], :obsolete => changes["obsolete"] }
-          [:new, :obsolete].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].inspect } }
-          errors = Environment.obsolete_and_new(changed)
+          changed = { 'new' => changes["new"], 'obsolete' => changes["obsolete"] }
+          ['new', 'obsolete'].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].to_json } }
+          errors = PuppetClassImporter.new.obsolete_and_new(changed)
         rescue => e
           errors = e.message + "\n" + e.backtrace.join("\n")
         end
