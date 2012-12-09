@@ -7,7 +7,7 @@ Apipie.configure do |config|
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
   config.use_cache = Rails.env.production?
-  config.validate = true
+  config.validate = false
   config.force_dsl = true
   config.reload_controllers = Rails.env.development?
   config.markup = Apipie::Markup::Markdown.new if Rails.env.development?
