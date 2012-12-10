@@ -15,15 +15,9 @@ gem 'uuidtools'
 gem "apipie-rails", ">= 0.0.12"
 gem 'rabl', '>= 0.7.5'
 gem 'oauth'
-
-if RUBY_VERSION >= '1.9.3'
-  gem 'safemode', :git => "git://github.com/witlessbird/safemode.git", :branch => "1.9.3"
-else
-  gem 'safemode'
-  # Previous versions collide with Environment model
-  gem 'ruby_parser', '>= 2.3.1'
-end
-
+gem "safemode", "~> 1.1.0"
+# Previous versions collide with Environment model
+gem 'ruby_parser', '>= 2.3.1'
 
 Dir["#{File.dirname(__FILE__)}/bundler.d/*.rb"].each do |bundle|
  # puts "adding custom gem file #{bundle}"
