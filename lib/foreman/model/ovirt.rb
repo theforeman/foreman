@@ -80,7 +80,6 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
-      args[:display] = 'VNC'
       vm = super args
       begin
         create_interfaces(vm, args[:interfaces_attributes])
