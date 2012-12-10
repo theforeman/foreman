@@ -12,6 +12,7 @@ class Domain < ActiveRecord::Base
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => 'DomainParameter'
   has_and_belongs_to_many :users, :join_table => "user_domains"
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
