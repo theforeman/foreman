@@ -95,11 +95,12 @@ class AuthSourceLdap < AuthSource
   end
 
   def use_user_login_for_auth?
-    !(account and account.include? "$login")
+    # returns true if account is defined and includes "$login"
+    (account and account.include? "$login")
   end
 
   def effective_user(login)
-    use_user_login_for_auth? ? account : account.sub("$login", login)
+    use_user_login_for_auth? ? account.sub("$login", login) : account
   end
 
   def required_ldap_attributes
@@ -120,7 +121,7 @@ class AuthSourceLdap < AuthSource
 
   def search_for_user_entries(login, password)
     user          = effective_user(login)
-    pass          = user == login ? password : account_password
+    pass          = use_user_login_for_auth? ? password : account_password
     ldap_con      = initialize_ldap_con(user, pass)
     login_filter  = Net::LDAP::Filter.eq(attr_login, login)
     object_filter = Net::LDAP::Filter.eq("objectClass", "*")
