@@ -8,6 +8,7 @@
       <li><a href="#subnets" data-toggle="tab">Subnets</a></li>
       <li><a href="#compute_resources" data-toggle="tab">Compute Resources</a></li>
       <li><a href="#media" data-toggle="tab">Media</a></li>
+      <li><a href="#template" data-toggle="tab">Provisioning Template</a></li>
       <li><a href="#domains" data-toggle="tab">Domains</a></li>
       <li><a href="#environments" data-toggle="tab">Environments</a></li>
       <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
@@ -41,6 +42,10 @@
 
       <div class="tab-pane" id="media">
         <%= multiple_checkboxes f, :media, taxonomy, Medium %>
+      </div>
+
+      <div class="tab-pane" id="template">
+        <%= multiple_checkboxes f, :config_templates, taxonomy, ConfigTemplate %>
       </div>
 
       <div class="tab-pane" id="domains">
