@@ -1,5 +1,6 @@
 class ConfigTemplate < ActiveRecord::Base
   include Authorization
+  include Taxonomix
   audited
   self.auditing_enabled = !defined?(Rake)
   attr_accessible :name, :template, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystem_ids, :audit_comment
@@ -15,7 +16,13 @@ class ConfigTemplate < ActiveRecord::Base
   has_many :os_default_templates
   before_save :check_for_snippet_assoications, :remove_trailing_chars
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
-  default_scope :order => 'LOWER(config_templates.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("LOWER(config_templates.name)")
+    end
+  }
 
   scoped_search :on => :name,    :complete_value => true, :default_order => true
   scoped_search :on => :snippet, :complete_value => true, :complete_value => {:true => true, :false => false}
