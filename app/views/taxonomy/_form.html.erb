@@ -11,7 +11,11 @@
       <li><a href="#domains" data-toggle="tab">Domains</a></li>
       <li><a href="#environments" data-toggle="tab">Environments</a></li>
       <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
-      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% if (taxonomy.is_a?(Organization)) %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% else %>
+        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    <% end %>
     </ul>
 
     <div class="tab-content">
@@ -51,7 +55,11 @@
         <%= multiple_checkboxes f, :hostgroups, taxonomy, Hostgroup %>
       </div>
 
-      <div class="tab-pane" id="locations">
+      <% if (taxonomy.is_a?(Location)) %>
+        <div class="tab-pane" id="organizations">
+      <% else %>
+        <div class="tab-pane" id="locations">
+      <% end %>
         <%= taxonomy.is_a?(Organization) ? multiple_checkboxes(f, :locations, taxonomy, Location) : multiple_checkboxes(f, :organizations, taxonomy, Organization)  %>
       </div>
 
