@@ -24,7 +24,7 @@
       <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
       <td>
         <%= action_buttons(
-                    display_link_if_authorized("Edit Host", hash_for_edit_host_path(:id => host), :class=>"btn btn-small"),
+                    display_link_if_authorized("Edit Host", hash_for_edit_host_path(:id => host), :class=>"btn"),
                     display_link_if_authorized("Clone", hash_for_clone_host_path(:id => host)),
                     display_delete_if_authorized(hash_for_host_path(:id => host), :confirm => "Delete #{host.name}?", :action => :destroy))%>
       </td>

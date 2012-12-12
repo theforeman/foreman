@@ -10,7 +10,7 @@
       <td><%= key_with_diagnostic(host, key) %></td>
       <td>
           <%= link_to_function("override", "override_class_param(this)", :title => "Override this value",
-                               :'data-tag' => 'override', :class =>"btn btn-small") if authorized_via_my_scope("host_editing", "create_params") %>
+                               :'data-tag' => 'override', :class =>"btn") if authorized_via_my_scope("host_editing", "create_params") %>
       </td>
     </tr>
 <% end -%>

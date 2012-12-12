@@ -33,7 +33,7 @@ module TaxonomyHelper
       if count == 1 && !User.current.admin?
         link_to text, "#", :title => "Current Location"
       else
-        link_to((text + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Location")
+        link_to(text, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :title => "Current Location")
       end
     end
 end
