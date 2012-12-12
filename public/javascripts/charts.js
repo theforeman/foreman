@@ -85,7 +85,7 @@ function get_pie_chart(div, url) {
       .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
       $("#"+div).modal('show');
       $.getJSON(url, function(data) {
-        var ref = "/hosts?search=facts." + data.name + "~~VAL1~";
+        var ref = foreman_url("/hosts?search=facts." + data.name + "~~VAL1~");
         $("#"+div+"-body").attr('chart-href', ref);
         stat_pie(div+'-body', data.name, data.values,0);
       });
