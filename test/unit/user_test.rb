@@ -34,8 +34,8 @@ class UserTest < ActiveSupport::TestCase
     assert !u.valid?
   end
 
-  test "login size should not exceed the 30 characters" do
-    u = User.new :auth_source => auth_sources(:one), :login => "a" * 31, :mail => "foo@bar.com"
+  test "login size should not exceed the 60 characters" do
+    u = User.new :auth_source => auth_sources(:one), :login => "a" * 61, :mail => "foo@bar.com"
     assert !u.save
   end
 
