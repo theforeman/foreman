@@ -30,9 +30,6 @@
   <div class="nav-collapse nav2">
     <ul class="nav pull-right" id="menu2">
       <% if SETTINGS[:login] %>
-        <% if SETTINGS[:locations_enabled] %>
-          <%= render 'home/location_dropdown' %>
-        <% end -%>
         <% if SETTINGS[:organizations_enabled] %>
           <%= render 'home/organization_dropdown' %>
         <% end %>

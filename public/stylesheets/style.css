@@ -11,8 +11,8 @@
 .auto_complete_clear{
     background: url('../images/ui-icons_888888_256x240.png') center no-repeat;
     background-position: -80px -128px;
-    display:inline-block;width:12px;height:12px;
-    margin-left:-8px;
+    display:inline-block;width:14px;height:14px;
+    margin-left:-12px;margin-bottom: -5px;
 }
 .auto_complete_clear:hover{
     background: url('../images/ui-icons_454545_256x240.png');
@@ -248,7 +248,7 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 }
 
 .dropdown .caret {
-  margin-left: 6px;
+  margin-left: 4px;
 }
 
 .fact_chart {

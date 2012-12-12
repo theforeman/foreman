@@ -4,10 +4,10 @@
   </tr>
   <tr>
     <td>
-      <%= link_to_if_authorized("Audits", hash_for_host_audits_path(:host_id => @host), :title => "Host audit entries" , :class => 'btn btn-small') %>
-      <%= link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts" , :class => 'btn btn-small') %>
-      <%= link_to_if_authorized("Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports" , :class => 'btn btn-small') %>
-      <%= link_to("YAML", externalNodes_host_path(:name => @host), :title => "Puppet external nodes YAML dump" , :class => 'btn btn-small') %>
+      <%= link_to_if_authorized("Audits", hash_for_host_audits_path(:host_id => @host), :title => "Host audit entries" , :class => 'btn') %>
+      <%= link_to_if_authorized("Facts", hash_for_host_facts_path(:host_id => @host), :title => "Browse host facts" , :class => 'btn') %>
+      <%= link_to_if_authorized("Reports", hash_for_host_reports_path(:host_id => @host), :title => "Browse host reports" , :class => 'btn') %>
+      <%= link_to("YAML", externalNodes_host_path(:name => @host), :title => "Puppet external nodes YAML dump" , :class => 'btn') %>
     </td>
   </tr>
 </table>
