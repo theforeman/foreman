@@ -8,6 +8,7 @@ module Foreman
         box = Safemode::Box.new self, allowed_methods
         box.eval(ERB.new(template, nil, '-').src, allowed_vars)
       else
+        allowed_vars.each { |k,v| instance_variable_set "@#{k}", v }
         ERB.new(template, nil, '-').result(binding)
       end
     end
