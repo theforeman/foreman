@@ -12,9 +12,9 @@
       <li><a href="#domains" data-toggle="tab">Domains</a></li>
       <li><a href="#environments" data-toggle="tab">Environments</a></li>
       <li><a href="#hostgroups" data-toggle="tab">Host Groups</a></li>
-      <% if (taxonomy.is_a?(Organization)) %>
+      <% if (taxonomy.is_a?(Organization) && SETTINGS[:locations_enabled]) %>
         <li><a href="#locations" data-toggle="tab">Locations</a></li>
-      <% else %>
+      <% elsif SETTINGS[:organizations_enabled] %>
         <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
     <% end %>
     </ul>
@@ -60,9 +60,11 @@
         <%= multiple_checkboxes f, :hostgroups, taxonomy, Hostgroup %>
       </div>
 
-      <div class="tab-pane" id="<%= taxonomy.is_a?(Location) ?  "organizations" : "locations" %>">
-        <%= taxonomy.is_a?(Organization) ? multiple_checkboxes(f, :locations, taxonomy, Location) : multiple_checkboxes(f, :organizations, taxonomy, Organization)  %>
-      </div>
+      <% if (taxonomy.is_a?(Location) ? SETTINGS[:organizations_enabled] : SETTINGS[:locations_enabled]) %>
+        <div class="tab-pane" id="<%= taxonomy.is_a?(Location) ?  "organizations" : "locations" %>">
+          <%= taxonomy.is_a?(Organization) ? multiple_checkboxes(f, :locations, taxonomy, Location) : multiple_checkboxes(f, :organizations, taxonomy, Organization)  %>
+        </div>
+      <% end %>
 
       <%= submit_or_cancel f %>
     </div>
