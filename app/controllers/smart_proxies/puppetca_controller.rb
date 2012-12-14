@@ -7,7 +7,10 @@ class SmartProxies::PuppetcaController < ApplicationController
     Rails.cache.delete("ca_#{@proxy.id}") if params[:expire_cache] == "true"
 
     begin
-      if params[:state].blank?
+      if params[:state].blank? or params[:state] =~ /^default/
+        certificates = SmartProxies::PuppetCA.find_by_state @proxy, "valid"
+        certificates = certificates + SmartProxies::PuppetCA.find_by_state(@proxy, "pending")
+      elsif params[:state] == "all"
         certificates = SmartProxies::PuppetCA.all @proxy
       else
         certificates = SmartProxies::PuppetCA.find_by_state @proxy, params[:state]
