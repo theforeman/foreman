@@ -19,8 +19,14 @@
         <td><%= time_column cert.expires_at, :tense => :future %></td>
         <td><%= h cert.fingerprint %></td>
         <td>
-          <%= display_link_if_authorized("Sign", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state]), :method => :put) if cert.state == "pending" %>
-          <%= display_delete_if_authorized(hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state])) if cert.state != "revoked"  %>
+          <%= action_buttons(
+                  if cert.state == "pending"
+                    display_link_if_authorized("Sign", hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :state => params[:state]), :class => 'btn', :method => :put)
+                  end,
+                  if cert.state != "revoked"
+                    display_delete_if_authorized(hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert, :class => 'btn delete', :state => params[:state]))
+                  end)
+          %>
         </td>
       </tr>
   <% end -%>
