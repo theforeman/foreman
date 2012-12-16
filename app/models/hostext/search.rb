@@ -67,7 +67,7 @@ module Hostext
           opts += "hosts.id IN(#{hosts.join(',')})"             unless hosts.blank?
           opts += " OR "                                        unless hosts.blank? || host_groups.blank?
           opts += "hostgroups.id IN(#{host_groups.join(',')})"  unless host_groups.blank?
-          opts = "hosts.id = 'nil'"                             if hosts.blank? && host_groups.blank?
+          opts = "hosts.id < 0"                                 if hosts.blank? && host_groups.blank?
           return {:conditions => opts, :include => :hostgroup}
         end
 
