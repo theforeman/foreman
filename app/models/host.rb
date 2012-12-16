@@ -30,7 +30,7 @@ class Host < Puppet::Rails::Host
   after_commit :run_custom_hook
   # Run custom hook if "after build" conditions are met
   def run_custom_hook
-    if build?
+    if respond_to?(:old) && old && build? != old.build?
       run_callbacks :ready_for_build do
         logger.debug { "custom hook :after_ready_for_build on #{name} will be executed if defined." }
       end
