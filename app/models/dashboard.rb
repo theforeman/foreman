@@ -42,8 +42,8 @@ class Dashboard
   end
 
   def percentage
-    return 0 if report[:good_hosts] == 0 or report[:total_hosts] == 0
-    report[:good_hosts] * 100 / report[:total_hosts]
+    return 0 if report[:ok_hosts_enabled] == 0 or report[:total_hosts] == 0
+    report[:ok_hosts_enabled] * 100 / report[:total_hosts]
   end
 
   def reports_missing
