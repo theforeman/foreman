@@ -25,22 +25,22 @@ class Host < Puppet::Rails::Host
   accepts_nested_attributes_for :lookup_values
 
   # Define custom hook that can be called in model by magic methods (before, after, around)
-  define_model_callbacks :ready_for_build, :only => :after
-  define_model_callbacks :not_ready_for_build, :only => :after
+  define_model_callbacks :post_build, :only => :after
+  define_model_callbacks :pre_provision, :only => :after
   # Custom hooks will be executed after_commit
-  after_commit :run_custom_hook_ready_for_build, :run_custom_hook_not_ready_for_build
+  after_commit :post_build_hooks, :pre_provision_hooks
 
-  def run_custom_hook_ready_for_build
+  def post_build_hooks
     if respond_to?(:old) && old && build? && (build? != old.build?)
-      run_callbacks :ready_for_build do
-        logger.debug { "custom hook :after_ready_for_build on #{name} will be executed if defined." }
+      run_callbacks :post_build do
+        logger.debug { "custom hook after_post_build on #{name} will be executed if defined." }
       end
     end
   end
-  def run_custom_hook_not_ready_for_build
+  def pre_provision_hooks
     if respond_to?(:old) && old && !build? && (build? != old.build?)
-      run_callbacks :not_ready_for_build do
-        logger.debug { "custom hook :after_ready_for_build on #{name} will be executed if defined." }
+      run_callbacks :pre_provision do
+        logger.debug { "custom hook after_pre_provision on #{name} will be executed if defined." }
       end
     end
   end
