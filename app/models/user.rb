@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
-  validates_length_of :login, :maximum => 30
+  validates_length_of :login, :maximum => 100
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i, :allow_nil => true
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
 
