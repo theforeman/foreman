@@ -58,4 +58,9 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show status hosts" do
+    get :status, { :id => hosts(:one).to_param }
+    assert_response :success
+  end
+
 end

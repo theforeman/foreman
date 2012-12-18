@@ -82,8 +82,19 @@ module Api
         process_response @host.destroy
       end
 
-      api :GET, "/hosts/:id/status", "Get status of host (missing, failed, pending, changed, unchanged, unreported)"
+      api :GET, "/hosts/:id/status", "Get status of host"
       param :id, :identifier_dottable, :required => true
+      description <<-eos
+Return value may either be one of the following:
+
+* missing
+* failed
+* pending
+* changed
+* unchanged
+* unreported
+
+     eos
 
       def status
         if @host
