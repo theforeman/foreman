@@ -2,18 +2,16 @@ require "rest_client"
 require "json"
 require "uri"
 
-
 module ProxyAPI
 
   class Resource
     attr_reader :url
-    attr_accessor :connect_params
 
     def initialize(args)
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
 
       # Each request is limited to 60 seconds
-      connect_params = {:timeout => 60, :open_timeout => 10, :headers => { :accept => :json },
+      @connect_params = {:timeout => 60, :open_timeout => 10, :headers => { :accept => :json },
                         :user => args[:user], :password => args[:password]}
 
       # We authenticate only if we are using SSL
@@ -23,7 +21,7 @@ module ProxyAPI
         hostprivkey  = Setting[:ssl_priv_key]
 
         # Use update rather than merge! as this is not rails dependent
-        connect_params.update(
+        @connect_params.update!(
           :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
           :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
           :ssl_ca_file      =>  ca_cert,
@@ -31,6 +29,10 @@ module ProxyAPI
         ) unless Rails.env == "test"
       end
     end
+
+    protected
+
+    attr_reader :connect_params
 
     def resource
       # Required in order to ability to mock the resource
@@ -40,9 +42,9 @@ module ProxyAPI
     # Sets the credentials in the connection parameters, creates new resource when called
     # Since there is now other way to set the credential
     def set_credentials(username, password)
-      connect_params[:user]     = username
-      connect_params[:password] = password
-      @resource                 = nil
+      @connect_params[:user]     = username
+      @connect_params[:password] = password
+      @resource                  = nil
     end
 
     def logger; Rails.logger; end
