@@ -1,7 +1,7 @@
 module Api
   module V1
     class HostsController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy status}
 
       api :GET, "/hosts/", "List all hosts."
       param :search, String, :desc => "Filter results"
@@ -80,6 +80,27 @@ module Api
 
       def destroy
         process_response @host.destroy
+      end
+
+      api :GET, "/hosts/:id/status", "Get status of host (missing, failed, pending, changed, unchanged, unreported)"
+      param :id, :identifier_dottable, :required => true
+
+      def status
+        if @host
+          if Host.my_hosts.search_for('not has last_report and status.enabled = true').where(:id => @host.id).count > 0
+            render :json => {:status => 'missing'}.to_json
+          elsif Host.my_hosts.recent.with_error.alerts_enabled.where(:id => @host.id).count > 0
+            render :json => {:status => 'failed'}.to_json
+          elsif Host.my_hosts.recent.with_pending_changes.alerts_enabled.where(:id => @host.id).count > 0
+            render :json => {:status => 'pending'}.to_json
+          elsif Host.my_hosts.recent.with_changes.without_error.alerts_enabled.where(:id => @host.id).count > 0
+            render :json => {:status => 'changed'}.to_json
+          elsif Host.my_hosts.recent.successful.alerts_enabled.where(:id => @host.id).count > 0
+            render :json => {:status => 'unchanged'}.to_json
+          elsif Host.my_hosts.out_of_sync.alerts_enabled.where(:id => @host.id).count > 0
+            render :json => {:status => 'unreported'}.to_json
+          end
+        end
       end
 
       private
