@@ -30,5 +30,11 @@ class DefaultSettingsLoaderTest < ActiveSupport::TestCase
     Foreman::DefaultSettings::Loader.load
     assert_equal true, Setting.find_by_name('Parametrized_Classes_in_ENC').value
   end
+
+  test "should store boolean, not string for using_storeconfigs" do
+    PuppetSetting.any_instance.stubs(:get).returns({:storeconfigs => 'true'})
+    Foreman::DefaultSettings::Loader.load
+    assert_equal TrueClass, Setting.where(:name => :using_storeconfigs).first.default.class
+  end
 end
 

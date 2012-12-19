@@ -60,7 +60,7 @@ module Foreman
               set('puppetrun', "Enables Puppetrun support", false),
               set('puppet_server', "Default Puppet server hostname", "puppet"),
               set('failed_report_email_notification', "Enable Email alerts per each failed Puppet report", false),
-              set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", ppsettings[:storeconfigs]),
+              set('using_storeconfigs', "Foreman is sharing its database with Puppet Store configs", ppsettings[:storeconfigs] == 'true'),
               set('Default_variables_Lookup_Path', "The Default path in which Foreman resolves host specific variables", ["fqdn", "hostgroup", "os", "domain"]),
               set('Enable_Smart_Variables_in_ENC', "Should the smart variables be exposed via the ENC yaml output?", true),
               set('Parametrized_Classes_in_ENC', "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?", param_enc),
