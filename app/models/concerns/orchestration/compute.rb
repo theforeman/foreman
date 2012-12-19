@@ -1,11 +1,10 @@
 module Orchestration::Compute
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      attr_accessor :compute_attributes, :vm, :provision_method
-      after_validation :queue_compute
-      before_destroy :queue_compute_destroy
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    attr_accessor :compute_attributes, :vm, :provision_method
+    after_validation :queue_compute
+    before_destroy :queue_compute_destroy
   end
 
   module InstanceMethods

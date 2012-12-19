@@ -1,10 +1,9 @@
 module Orchestration::DNS
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      after_validation :dns_conflict_detected?, :queue_dns
-      before_destroy :queue_dns_destroy
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    after_validation :dns_conflict_detected?, :queue_dns
+    before_destroy :queue_dns_destroy
   end
 
   module InstanceMethods

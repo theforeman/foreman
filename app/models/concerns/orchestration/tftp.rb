@@ -1,13 +1,12 @@
 module Orchestration::TFTP
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      after_validation :validate_tftp, :queue_tftp
-      before_destroy :queue_tftp_destroy
+  extend ActiveSupport::Concern
 
-      # required for pxe template url helpers
-      include Rails.application.routes.url_helpers
-    end
+  included do
+    after_validation :validate_tftp, :queue_tftp
+    before_destroy :queue_tftp_destroy
+
+    # required for pxe template url helpers
+    include Rails.application.routes.url_helpers
   end
 
   module InstanceMethods

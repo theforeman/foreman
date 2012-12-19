@@ -1,11 +1,10 @@
 module Orchestration::Puppetca
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      attr_reader :puppetca
-      after_validation :initialize_puppetca, :queue_puppetca
-      before_destroy :initialize_puppetca, :queue_puppetca_destroy unless Rails.env == "test"
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    attr_reader :puppetca
+    after_validation :initialize_puppetca, :queue_puppetca
+    before_destroy :initialize_puppetca, :queue_puppetca_destroy unless Rails.env == "test"
   end
 
   module InstanceMethods

@@ -1,11 +1,10 @@
 module Orchestration::DHCP
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      after_validation :queue_dhcp
-      before_destroy :queue_dhcp_destroy
-      validate :ip_belongs_to_subnet?, :valid_jumpstart_model
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    after_validation :queue_dhcp
+    before_destroy :queue_dhcp_destroy
+    validate :ip_belongs_to_subnet?, :valid_jumpstart_model
   end
 
   module InstanceMethods

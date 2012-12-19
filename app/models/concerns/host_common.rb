@@ -1,21 +1,20 @@
 #Common methods between host and hostgroup
 # mostly for template rendering consistency
 module HostCommon
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      belongs_to :architecture
-      belongs_to :environment
-      belongs_to :operatingsystem
-      belongs_to :medium
-      belongs_to :ptable
-      belongs_to :puppet_proxy,    :class_name => "SmartProxy"
-      belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
-      belongs_to :domain
-      belongs_to :subnet
+  extend ActiveSupport::Concern
 
-      before_save :check_puppet_ca_proxy_is_required?
-    end
+  included do
+    belongs_to :architecture
+    belongs_to :environment
+    belongs_to :operatingsystem
+    belongs_to :medium
+    belongs_to :ptable
+    belongs_to :puppet_proxy,    :class_name => "SmartProxy"
+    belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
+    belongs_to :domain
+    belongs_to :subnet
+
+    before_save :check_puppet_ca_proxy_is_required?
   end
 
   module InstanceMethods

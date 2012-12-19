@@ -1,10 +1,9 @@
 module Orchestration::SSHProvision
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.class_eval do
-      after_validation :validate_ssh_provisioning, :queue_ssh_provision
-      attr_accessor :template_file, :client
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    after_validation :validate_ssh_provisioning, :queue_ssh_provision
+    attr_accessor :template_file, :client
   end
 
   module InstanceMethods
@@ -95,27 +94,26 @@ module Orchestration::SSHProvision
       failure "Failed to launch script on #{name}: #{e}", e.backtrace
     end
 
-  end
+    def delSSHProvision; end
 
-  def delSSHProvision; end
+    def validate_ssh_provisioning
+      return unless ssh_provision?
+      return if Rails.env == "test"
+      status = true
+      begin
+        template = configTemplate(:kind => "finish")
+      rescue => e
+        status = false
+      end
+      status = false if template.nil?
+      failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
+      image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
+      unless (self.image = Image.find_by_uuid(image_uuid))
+        status &= failure("Must define an Image to use")
+      end
 
-  def validate_ssh_provisioning
-    return unless ssh_provision?
-    return if Rails.env == "test"
-    status = true
-    begin
-      template = configTemplate(:kind => "finish")
-    rescue => e
-      status = false
+      status
     end
-    status = false if template.nil?
-    failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
-    image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
-    unless (self.image = Image.find_by_uuid(image_uuid))
-      status &= failure("Must define an Image to use")
-    end
 
-    status
   end
-
 end
