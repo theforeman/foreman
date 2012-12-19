@@ -16,18 +16,20 @@ module Facts
 
       if os_name == "Archlinux"
         # Archlinux is rolling release, so it has no release. We use 1.0 always
-        Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, "1", "0"
+        args = { :name => os_name, :major => "1", :minor => "0" }
+        Operatingsystem.where(args).first || Operatingsystem.create!(args)
       elsif orel.present?
         major, minor = orel.split(".")
         minor        ||= ""
-        os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
+        args = { :name => os_name, :major => major, :minor => minor }
+        os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
         if os_name[/debian|ubuntu/i] or os.family == 'Debian'
           os.release_name = facts[:lsbdistcodename]
           os.save
         end
         os
       else
-        Operatingsystem.find_or_create_by_name os_name
+        Operatingsystem.find_by_name(os_name) || Operatingsystem.create!(:name => os_name)
       end
     end
 
@@ -102,7 +104,7 @@ module Facts
     private
 
     def os_name
-      facts[:operatingsystem]
+      facts[:operatingsystem].blank? ? raise("invalid facts, missing operatingsystem value") : facts[:operatingsystem]
     end
   end
 

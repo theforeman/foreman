@@ -471,6 +471,9 @@ class Host < Puppet::Rails::Host
   end
 
   def populateFieldsFromFacts facts = self.facts_hash
+    # we don't import facts for host in build mode
+    return if build?
+
     importer = Facts::Importer.new facts
 
     set_non_empty_values importer, [:domain, :architecture, :operatingsystem, :model, :certname]
