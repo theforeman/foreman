@@ -146,16 +146,14 @@ class Puppetclass < ActiveRecord::Base
   end
 
   def self.search_by_host(key, operator, value)
-    conditions  = "hosts.name #{operator} '#{value_to_sql(operator, value)}'"
-    direct      = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'puppetclasses.id').map(&:id).uniq
-    indirect    = Hostgroup.all(:conditions => conditions, :joins => [:hosts,:puppetclasses], :select => 'DISTINCT puppetclasses.id').map(&:id)
-    return {:conditions => "1=0"} if direct.blank? && indirect.blank?
+    conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
+    direct     = Puppetclass.joins(:hosts).where(conditions).select('puppetclasses.id').map(&:id).uniq
+    hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
+    indirect   = HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck(:puppetclass_id).uniq
+    return { :conditions => "1=0" } if direct.blank? && indirect.blank?
 
-    opts = ''
-    opts += "puppetclasses.id IN(#{direct.join(',')})" unless direct.blank?
-    opts += " OR "                                     unless direct.blank? || indirect.blank?
-    opts += "hostgroups.id IN(#{indirect.join(',')})"  unless indirect.blank?
-    {:conditions => opts, :include => :hostgroups}
+    puppet_classes = (direct + indirect).uniq
+    { :conditions => "puppetclasses.id IN(#{puppet_classes.join(',')})" }
   end
 
   def self.value_to_sql(operator, value)
