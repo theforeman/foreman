@@ -51,15 +51,16 @@ module Hostext
 
         def self.search_by_user(key, operator, value)
           key_name = key.sub(/^.*\./,'')
-          users = User.all(:conditions => "#{key_name} #{operator} '#{value_to_sql(operator, value)}'")
+          condition = sanitize_sql_for_conditions(["? #{operator} ?", key_name, value_to_sql(operator, value)])
+          users = User.all(:conditions => condition)
           hosts = users.map(&:hosts).flatten
-          opts  = hosts.empty? ? "= 'nil'" : "IN (#{hosts.map(&:id).join(',')})"
+          opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
 
           return {:conditions => " hosts.id #{opts} " }
         end
 
         def self.search_by_puppetclass(key, operator, value)
-          conditions  = "puppetclasses.name #{operator} '#{value_to_sql(operator, value)}'"
+          conditions  = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
           hosts       = Host.my_hosts.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
           host_groups = Hostgroup.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hostgroups.id').map(&:id)
 
@@ -73,12 +74,14 @@ module Hostext
 
         def self.search_by_params(key, operator, value)
           key_name = key.sub(/^.*\./,'')
-          opts     = {:conditions => "name = '#{key_name}' and value #{operator} '#{value_to_sql(operator, value)}'", :order => :priority}
+          condition = sanitize_sql_for_conditions(["name = ? and value #{operator} ?", key_name, value_to_sql(operator, value)])
+          opts     = {:conditions => condition, :order => :priority}
           p        = Parameter.all(opts)
           return {:conditions => '1 = 0'} if p.blank?
 
           max         = p.first.priority
-          negate_opts = {:conditions => "name = '#{key_name}' and NOT(value #{operator} '#{value_to_sql(operator, value)}') and priority > #{max}", :order => :priority}
+          condition   = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?",key_name,value_to_sql(operator, value), max])
+          negate_opts = {:conditions => condition, :order => :priority}
           n           = Parameter.all(negate_opts)
 
           conditions = param_conditions(p)
