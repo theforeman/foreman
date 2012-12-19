@@ -25,7 +25,7 @@ module HostTemplateHelpers
 
   #returns the URL for Foreman based on the required action
   def foreman_url(action = "provision")
-    url_for :only_path => false, :controller => "unattended",
+    url_for :only_path => false, :controller => "/unattended",
             :action => action,
             :token => (@host.token.value unless @host.token.nil?)
   end
