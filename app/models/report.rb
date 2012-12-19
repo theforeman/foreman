@@ -116,7 +116,7 @@ class Report < ActiveRecord::Base
       r.import_log_messages report
       # if we are using storeconfigs then we already have the facts
       # so we can refresh foreman internal fields accordingly
-      host.populateFieldsFromFacts if Setting[:using_storeconfigs]
+      host.populateFieldsFromFacts if Setting[:using_storeconfigs] == true
       r.inspect_report
       return r
     rescue Exception => e
