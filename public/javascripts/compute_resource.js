@@ -3,10 +3,10 @@ $(function() {
   $('#vms, #images_list').each(function() {
     var url = $(this).attr('data-url');
     $(this).load(url + ' table', function(response, status, xhr) {
-      if (status == "error") {
-        $(this).closest("#spinner").html("Sorry but there was an error: " + xhr.status + " " + xhr.statusText);
-      }
-      $('.dropdown-toggle').dropdown();
+       if (status == "error") {
+         $(this).closest(".tab-content").find("#spinner").html("There was an error listing VM's : " + xhr.status + " " + xhr.statusText);
+       }
+       $('.dropdown-toggle').dropdown();
     });
   });
 });
