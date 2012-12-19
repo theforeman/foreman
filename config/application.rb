@@ -67,7 +67,7 @@ module Foreman
 
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
-    config.cache_store = :file_store, Rails.root.join("tmp")
+    config.cache_store = :file_store, Rails.root.join("tmp", "cache")
 
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
@@ -78,7 +78,7 @@ module Foreman
     Wirb.start
     Hirb.enable
   rescue => e
-    warn "Failed to load console gems, startring anyway"
+    warn "Failed to load console gems, starting anyway"
   ensure
     puts "For some operations a user must be set, try User.current = User.first"
   end

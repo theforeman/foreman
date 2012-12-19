@@ -13,6 +13,10 @@ module Foreman
         end
 
         def create opts
+          # ensures we don't have cache left overs in settings
+          Rails.logger.debug "removing #{opts[:name]} from cache"
+          Rails.cache.delete(opts[:name].to_s)
+
           if (s=Setting.first(:conditions => {:name => (opts[:name])})).nil?
             Setting.create!(opts)
           else
