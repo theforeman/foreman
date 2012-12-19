@@ -51,7 +51,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not create compute resource when not permitted" do
     setup_user "view"
     assert_difference('@compute_resource.vms.count', 0) do
-      attrs = {:name => name, :memory => 128*1024*1024, :arch => "i686"}
+      attrs = {:name => 'name123', :memory => 128*1024*1024, :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
     assert_response 403

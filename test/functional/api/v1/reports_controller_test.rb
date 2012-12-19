@@ -30,7 +30,7 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
     assert !reports.empty?
-    assert 1, reports.count
+    assert_equal 1, reports.count
   end
 
   test "should return empty result for host with no reports" do
@@ -39,7 +39,7 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
     assert reports.empty?
-    assert 0, reports.count
+    assert_equal 0, reports.count
   end
 
   test "should get last report" do

@@ -28,7 +28,7 @@ class Parameter < ActiveRecord::Base
   end
 
   def strip_whitespaces
-    self.name.strip!  unless name.blank?
+    self.name = self.name.strip  unless name.blank? # when name string comes from a hash key, it's frozen and cannot be modified
     self.value.strip! unless value.blank?
   end
 end
