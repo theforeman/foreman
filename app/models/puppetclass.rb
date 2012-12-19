@@ -151,8 +151,8 @@ class Puppetclass < ActiveRecord::Base
   end
 
   def self.search_by_host(key, operator, value)
-    conditions = "hosts.name #{operator} '#{value_to_sql(operator, value)}'"
-    direct     = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'puppetclasses.id').map(&:id).uniq
+    conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
+    direct     = Puppetclass.joins(:hosts).where(conditions).select('puppetclasses.id').map(&:id).uniq
     hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
     indirect   = HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck(:puppetclass_id).uniq
     return { :conditions => "1=0" } if direct.blank? && indirect.blank?
