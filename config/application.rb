@@ -31,9 +31,17 @@ module Foreman
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += %W(#{config.root}/app/models/concerns)
     config.autoload_paths += %W(#{config.root}/app/services)
     config.autoload_paths += %W(#{config.root}/app/observers)
+    config.autoload_paths += %W(#{config.root}/app/mailers)
+    config.autoload_paths += %W(#{config.root}/app/models/concerns)
+    config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
+    config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
+    config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
+    config.autoload_paths += %W(#{config.root}/app/models/parameters)
+    config.autoload_paths += %W(#{config.root}/app/models/trends)
+    config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
+#   config.autoload_paths += Dir["#{config.root}/app/models/**/*"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

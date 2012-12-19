@@ -1,4 +1,6 @@
 module Foreman::Controller::AutoCompleteSearch
+  extend ActiveSupport::Concern
+
   def auto_complete_search
     begin
       @items = eval(controller_name.singularize.camelize).complete_for(params[:search])
