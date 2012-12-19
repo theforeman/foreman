@@ -95,7 +95,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def default_template_url template, hostgroup
-    url_for :only_path => false, :action => :template, :controller => :unattended,
+    url_for :only_path => false, :action => :template, :controller => '/unattended',
       :id => template.name, :hostgroup => hostgroup.name
   end
 
