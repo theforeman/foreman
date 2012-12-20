@@ -6,5 +6,5 @@ group :development do
   gem 'single_test'
   gem 'pry'
   gem "term-ansicolor"
-  gem 'rack-mini-profiler'
+  #gem 'rack-mini-profiler'
 end
