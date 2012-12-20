@@ -4,9 +4,9 @@ $(function() {
   $('.smart-var-tabs li a span').hide();
   select_first_tab();
   //make the remove variable button visible only on the active pill
-  $('.smart-var-tabs li a').on('click',function(){ show_delete_button(this);});
+  $(document).on('click', '.smart-var-tabs li a', function(){ show_delete_button(this);});
   //remove variable click event
-  $('.smart-var-tabs li a span').on('click',function(){ remove_node(this);});
+  $(document).on('click', '.smart-var-tabs li a span', function(){ remove_node(this);});
 })
 
 function select_first_tab(){
@@ -71,7 +71,7 @@ function add_child_node(item) {
     var field   = '';
     if (assoc == 'lookup_keys') {
       $('#smart_vars .smart-var-tabs .active, #smart_vars .smart-var-content .active').removeClass('active');
-      var pill = "<li class='active'><a onclick='show_delete_button(this);' data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new<span onclick='remove_node(this);' class='label label-important fr'>&times;</span></a></li>"
+      var pill = "<li class='active'><a data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new<span class='delete fr'>&times;</span></a></li>"
       $('#smart_vars .smart-var-tabs').prepend(pill);
       field = $('#smart_vars .smart-var-content').prepend($(content).addClass('active'));
       $('#smart_vars .smart-var-tabs li.active a').show('highlight', 500);
@@ -91,25 +91,57 @@ function remove_child_node(item) {
 
   $(item).closest('.fields').hide();
   if($(item).parent().hasClass('fields')) {
-    $('#pill_' + $(item).closest('.fields').attr('id')).empty().remove();
+    var pill = $('#pill_' + $(item).closest('.fields').attr('id'));
+    var undo_link = $("<a href='#'>" +pill.html()+"</a>").attr("data-pill", "#"+pill.attr("id"));
+
+    pill.parent().hide();
+    undo_link.on('click', function(){ undo_remove_child_node(this);});
+    undo_link.find('span').remove();
+    $(item).closest('.lookup-keys-container').find('.undo-smart-vars').append(undo_link).show();
   }
   $(item).closest("form").trigger('nested:fieldRemoved');
 
   return false;
 }
 
+function undo_remove_child_node(item){
+  var container = $(item).closest('.lookup-keys-container');
+  var link = container.find($(item).attr("data-pill"));
+  var fields = container.find(link.attr("href"));
+
+  var hidden_field = fields.find('input[type=hidden]').first()[0];
+  if(hidden_field) {
+    hidden_field.value = '0';
+  }
+
+  container.find('.smart-var-tabs li.active').removeClass('active');
+  container.find('.fields.active').hide().removeClass('active');
+  fields.show().addClass('active');
+  link.parent().show();
+  link.click();
+
+  $(item).remove();
+  if (container.find('.undo-smart-vars a').size() == 0) {
+    container.find('.undo-smart-vars').hide();
+  }
+  return false;
+}
+
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
-  var mandatory = $(item).closest('.fields').find("[id$='_required']");
-  var type_field = $(item).closest('.fields').find("[id$='_key_type']");
-  var validator_type_field = $(item).closest('.fields').find("[id$='_validator_type']");
-  var default_value_field = $(item).closest('.fields').find("[id$='_default_value']");
-  var override_value_div = $(item).closest('.fields').find("[id$='lookup_key_override_value']");
+  var fields = $(item).closest('.fields');
+  var mandatory = fields.find("[id$='_required']");
+  var type_field = fields.find("[id$='_key_type']");
+  var validator_type_field = fields.find("[id$='_validator_type']");
+  var default_value_field = fields.find("[id$='_default_value']");
+  var override_value_div = fields.find("[id$='lookup_key_override_value']");
+  var pill_icon = $('#pill_' + fields.attr('id') +' i');
 
   mandatory.attr('disabled', override ? null : 'disabled');
   type_field.attr('disabled', override ? null : 'disabled');
   validator_type_field.attr('disabled', override ? null : 'disabled');
   default_value_field.attr('disabled', override ? null : 'disabled' );
+  pill_icon.attr("class", override ? 'icon-flag' : "icon- ");
   override_value_div.toggle(override);
 }
 

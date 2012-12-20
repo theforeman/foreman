@@ -326,12 +326,10 @@ margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 
 .table th{background: rgba(0, 0, 0, 0.08);}
 
-.delete{color: #b94a48 !important;}
+.delete{color: #b94a48 !important; cursor: auto;}
 
 .setting_value form { margin: 0 !important;}
-.form-actions{
-    background-color: #f5f5f5;
-}
+.form-actions{background-color: #f5f5f5;}
 
 .ignore-subnet{margin-right: 10px;margin-top: -25px;float: right;}
 .tabs-left .nav-tabs>li>a.btn:hover{background:inherit;background-color: #408140;}
@@ -380,9 +378,8 @@ border-radius: 4px;
 .btn-toolbar-condensed{margin: 0;}
 
 .grey{color: #d3d3d3 !important;}
-.black{
-    color: #000 !important;
-}
+.black{color: #000 !important;}
+
 .control-group.condensed{margin-bottom: 0;}
 .control-group.condensed textarea {
     border-color: #f5f5f5;
