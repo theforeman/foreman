@@ -16,7 +16,7 @@
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => "Hostgroups" %>
     </div>
 
-    <div class="tab-pane" id="smart_class_param">
+    <div class="tab-pane lookup-keys-container" id="smart_class_param">
       <% if @puppetclass.class_params.empty? -%>
           <div class="alert alert-message alert-success">
             <a class="close" href="#" data-dismiss="alert">&times;</a>
@@ -24,6 +24,9 @@
                 To update the class signature, go to the Puppet Classes page and select 'Import'.</p>
           </div>
       <% else -%>
+        <div class="undo-smart-vars alert alert-message hide">
+          Undo remove
+        </div>
           <div class="control-group">
             <label class="control-label">Filter By Environment</label>
             <div class="controls">
@@ -34,7 +37,9 @@
           <div class="tabbable tabs-left">
             <ul class="nav nav-tabs smart-var-tabs span2" data-tabs="pills">
               <% @puppetclass.class_params.each do |key| -%>
-                  <li data-used-environments=<%= key.environments.map(&:to_s).to_json %>><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="label label-important fr">&times;</span></a></li>
+                  <li data-used-environments=<%= key.environments.map(&:to_s).to_json %> >
+                    <a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>" ><%= icon_text((key.override ? "flag": ""), key.to_s.gsub('_',' ')) %><span class="delete fr">&times;</span></a>
+                  </li>
               <% end -%>
             </ul>
 
@@ -46,17 +51,20 @@
           </div>
       <% end -%>
     </div>
-    <div class="tab-pane" id="smart_vars">
+    <div class="tab-pane lookup-keys-container" id="smart_vars">
       <% if @puppetclass.lookup_keys.empty? -%>
           <div class="alert alert-message alert-warning">
             <a class="close" href="#" data-dismiss="alert">&times;</a>
             <p><strong>Help!</strong> What is a <a href=http://theforeman.org/projects/foreman/wiki/Smart_Variables rel="external">Smart variable</a>?</p>
           </div>
       <% end -%>
+      <div class="undo-smart-vars alert alert-message hide">
+        Undo remove
+      </div>
       <div class="tabbable tabs-left">
         <ul class="nav nav-tabs smart-var-tabs span2" data-tabs="pills">
           <% @puppetclass.lookup_keys.each do |key| -%>
-              <li><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="label label-important fr">&times;</span></a></li>
+              <li><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="delete fr">&times;</span></a></li>
           <% end -%>
           <li><%= link_to_function "+ Add Variable", "add_child_node(this);" ,:class=>"btn btn-success",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
         </ul>
