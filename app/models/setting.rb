@@ -5,7 +5,7 @@ class Setting < ActiveRecord::Base
 
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category settings_type }
-  NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page }
+  NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
   validates_presence_of :name, :description
   validates_presence_of :default, :unless => Proc.new { |s| !s.default } # broken validator
   validates_uniqueness_of :name
