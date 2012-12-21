@@ -1,8 +1,9 @@
+require 'uri'
+
 module Foreman::Model
   class Ovirt < ComputeResource
 
     validates_format_of :url, :with => URI.regexp
-    validates_format_of :url, :with => /\Ahttps:/, :message => "must be HTTPS"
     validates_presence_of :user, :password
 
     def self.model_name
@@ -42,13 +43,29 @@ module Foreman::Model
       client.clusters
     end
 
+    # Check if HTTPS is mandatory, since rest_client will fail with a POST
+    def test_https_required
+      RestClient.post url, {} if URI(url).scheme == 'http'
+      true
+    rescue => e
+      case e.message
+      when /406/
+        true
+      else
+        raise e
+      end
+    end
+    private :test_https_required
+
     def test_connection
       super
-      errors[:url].empty? && datacenters
+      errors[:url].empty? && datacenters && test_https_required
     rescue => e
       case e.message
         when /404/
           errors[:url] << e.message
+        when /302/
+          errors[:url] << 'HTTPS URL is required for API access'
         when /401/
           errors[:user] << e.message
         else
