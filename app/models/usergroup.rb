@@ -1,7 +1,9 @@
 class Usergroup < ActiveRecord::Base
   include Authorization
-  has_many_polymorphs :members, :from => [:usergroups, :users ], :as => :member,
-    :through => :usergroup_member, :foreign_key => :usergroup_id, :dependent => :destroy
+
+  has_many :usergroup_members
+  has_many :users, :through => :usergroup_members, :source => :member, :source_type => 'User'
+  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
 
   has_many :hosts, :as => :owner
   validates_uniqueness_of :name
