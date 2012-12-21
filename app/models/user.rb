@@ -1,5 +1,5 @@
 require 'digest/sha1'
-require 'foreman/threadsession'
+require 'foreman/thread_session'
 
 class User < ActiveRecord::Base
   include Authorization
