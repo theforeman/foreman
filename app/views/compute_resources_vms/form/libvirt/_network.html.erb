@@ -1,9 +1,22 @@
 <div class="fields">
-  <% if (networks = compute_resource.networks).any? -%>,
-    <%= selectable_f f, :bridge, networks.map(&:name), { }, :class => "span2", :label => "Network",
-                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
-  <% else -%>
-    <%= text_f f, :bridge, :class => "span2", :label => "Network", :help_block => "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)",
-               :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
+  <%= field(f, :type, :label => 'Network Type', :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' })) do -%>
+    <div>
+      <% networks = compute_resource.networks -%>
+      <%= radio_button_f f, :type, {:value=>'network', :checked => networks.any?, :text => 'Virtual Network'} -%>
+      <%= selectable_f f, :network, networks.map(&:name),
+          { :include_blank => networks.any? ? true : "No networks"},
+          { :class => "span2", :label => "Name" } %>
+    </div>
+
+    <div>
+    <%= radio_button_f f, :type, {:value=>'bridge', :checked => !networks.any?, :text => 'Bridge'} -%>
+    <% if (interfaces = compute_resource.interfaces).any? -%>
+      <%= selectable_f f, :bridge, interfaces.map(&:name),
+          { :include_blank => interfaces.any? ? true : "No bridges"},
+          { :class => "span2", :label => "Interface" } %>
+    <% else -%>
+      <%= text_f f, :bridge, :class => "span2", :label => "Network", :help_block => "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)" -%>
+    <% end -%>
+    </div>
   <% end -%>
 </div>

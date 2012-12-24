@@ -60,8 +60,12 @@ module Foreman::Model
       client.pools rescue []
     end
 
-    def networks
+    def interfaces
       client.interfaces rescue []
+    end
+
+    def networks
+      client.networks rescue []
     end
 
     def new_vm attr={ }

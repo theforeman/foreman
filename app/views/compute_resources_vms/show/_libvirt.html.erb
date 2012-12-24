@@ -34,7 +34,7 @@
     <% @vm.nics.each do |nic| -%>
         <tr>
           <td>NIC</td>
-          <td><%= "#{nic.bridge} - #{nic.mac} (#{nic.model})" %></td>
+          <td><%= "#{nic.network || nic.bridge} - #{nic.mac} (#{nic.model})" %></td>
         </tr>
     <% end -%>
 
