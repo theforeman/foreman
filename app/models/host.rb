@@ -728,6 +728,26 @@ class Host < Puppet::Rails::Host
     new
   end
 
+  def host_status
+    if build
+      "Pending Installation"
+    elsif respond_to?(:enabled) && !enabled
+      "Alerts disabled"
+    elsif respond_to?(:last_report) && last_report.nil?
+      "No reports"
+    elsif no_report
+      "Out of sync"
+    elsif error?
+      "Error"
+    elsif changes?
+      "Active"
+    elsif record.pending?
+      "Pending"
+    else
+       "No changes"
+    end
+  end
+
   private
   def lookup_keys_params
     return {} unless Setting["Enable_Smart_Variables_in_ENC"]
@@ -865,5 +885,6 @@ class Host < Puppet::Rails::Host
   def force_lookup_value_matcher
     lookup_values.each { |v| v.match = "fqdn=#{fqdn}" }
   end
+
 
 end

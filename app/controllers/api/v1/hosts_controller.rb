@@ -97,21 +97,7 @@ Return value may either be one of the following:
      eos
 
       def status
-        if @host
-          if Host.my_hosts.search_for('not has last_report and status.enabled = true').where(:id => @host.id).count > 0
-            render :json => {:status => 'missing'}.to_json
-          elsif Host.my_hosts.recent.with_error.alerts_enabled.where(:id => @host.id).count > 0
-            render :json => {:status => 'failed'}.to_json
-          elsif Host.my_hosts.recent.with_pending_changes.alerts_enabled.where(:id => @host.id).count > 0
-            render :json => {:status => 'pending'}.to_json
-          elsif Host.my_hosts.recent.with_changes.without_error.alerts_enabled.where(:id => @host.id).count > 0
-            render :json => {:status => 'changed'}.to_json
-          elsif Host.my_hosts.recent.successful.alerts_enabled.where(:id => @host.id).count > 0
-            render :json => {:status => 'unchanged'}.to_json
-          elsif Host.my_hosts.out_of_sync.alerts_enabled.where(:id => @host.id).count > 0
-            render :json => {:status => 'unreported'}.to_json
-          end
-        end
+        render :json => {:status => @host.host_status}.to_json if @host
       end
 
       private
