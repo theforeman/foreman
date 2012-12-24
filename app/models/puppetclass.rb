@@ -12,7 +12,7 @@ class Puppetclass < ActiveRecord::Base
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   # param classes
   has_many :class_params, :through => :environment_classes, :uniq => true,
-    :class_name => 'LookupKey', :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
+    :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
   accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
   validates_presence_of :name
