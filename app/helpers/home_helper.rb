@@ -6,6 +6,7 @@ module HomeHelper
 
   def setting_options
     choices = [
+      [:group, "Configuration"],
       ['Environments',           :environments],
       ['Global Parameters',      :common_parameters],
       ['Host Groups',            :hostgroups],
@@ -14,17 +15,17 @@ module HomeHelper
       ['Smart Proxies',          :smart_proxies]
     ]
 
-    choices += [ [:divider] ]
     if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
+      choices += [[:divider], [:group, "Taxonomies"]]
       choices += [ ['Locations', :locations] ]         if SETTINGS[:locations_enabled]
       choices += [ ['Organizations', :organizations] ] if SETTINGS[:organizations_enabled]
-      choices += [ [:divider ] ]
     end
 
 
     if SETTINGS[:unattended]
 
       choices += [
+        [:divider], [:group, "Provisioning"],
         ['Architectures',          :architectures],
         ['Compute Resources',      :compute_resources],
         ['Domains',                :domains],
@@ -38,7 +39,7 @@ module HomeHelper
     end
 
     choices += [
-      [:divider],
+      [:divider], [:group, "Users"],
       ['LDAP Authentication',    :auth_source_ldaps],
       ['Users',                  :users],
       ['User Groups',            :usergroups],

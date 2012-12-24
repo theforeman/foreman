@@ -6,10 +6,10 @@
                                  {:placeholder => "Filter ..."},
                                  { :delay => 100, :min_length => -1 }).html_safe %>
         </div>
-      <button class="btn hidden-tablet" onclick="$('.form-search').submit()"><%= icon_text("search", "Search") %></button>
-      <button class="btn visible-tablet" onclick="$('.form-search').submit()"><%= icon_text("search", "") %></button>
+      <button class="btn hidden-phone" onclick="$('.form-search').submit()"><%= icon_text("search", "Search") %></button>
+
       <button class="btn dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
+        <i class="caret"></i>
       </button>
       <ul class="dropdown-menu pull-right">
         <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>

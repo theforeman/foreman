@@ -3,8 +3,10 @@
 <%= link_to ("More" + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown" unless choices.empty?%>
   <ul class="dropdown-menu">
     <% choices.each do |item|-%>
-       <% if item == [:divider]  %>
+       <% if item[0] == :divider  %>
          <%= content_tag(:li, "", :class=>"divider") %>
+       <% elsif item[0] == :group %>
+         <%= content_tag(:li, item[1], :class=>"nav-header") %>
        <% else %>
          <%= content_tag(:li, link_to(item[0], {:controller => item[1], :action => :index})) %>
        <% end -%>
