@@ -744,7 +744,7 @@ class Host < Puppet::Rails::Host
       "Error"
     elsif changes?
       "Active"
-    elsif record.pending?
+    elsif pending?
       "Pending"
     else
       "No changes"
