@@ -1,9 +1,9 @@
 class Usergroup < ActiveRecord::Base
   include Authorization
 
-  has_many :usergroup_members
-  has_many :users, :through => :usergroup_members, :source => :member, :source_type => 'User'
-  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
+  has_many :usergroup_members, :dependent => :destroy
+  has_many :users, :through => :usergroup_members, :source => :member, :source_type => 'User', :dependent => :destroy
+  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup', :dependent => :destroy
 
   has_many :hosts, :as => :owner
   validates_uniqueness_of :name
