@@ -1,7 +1,7 @@
 module Api
   module V1
     class HostsController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy status}
 
       api :GET, "/hosts/", "List all hosts."
       param :search, String, :desc => "Filter results"
@@ -80,6 +80,24 @@ module Api
 
       def destroy
         process_response @host.destroy
+      end
+
+      api :GET, "/hosts/:id/status", "Get status of host"
+      param :id, :identifier_dottable, :required => true
+      description <<-eos
+Return value may either be one of the following:
+
+* missing
+* failed
+* pending
+* changed
+* unchanged
+* unreported
+
+     eos
+
+      def status
+        render :json => {:status => @host.host_status}.to_json if @host
       end
 
       private

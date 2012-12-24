@@ -22,36 +22,30 @@ module HostsHelper
 
   # method that reformat the hostname column by adding the status icons
   def name_column(record)
-    if record.build
+    label = record.host_status
+    case label
+    when "Pending Installation"
       style ="label-info"
-      label = "Pending Installation"
       short = "B"
-    elsif record.respond_to?(:enabled) && !record.enabled
-      label = "Alerts disabled"
+    when "Alerts disabled"
       style = ""
       short = "D"
-    elsif record.respond_to?(:last_report) && record.last_report.nil?
-      label = "No reports"
+    when "No reports"
       style = ""
       short = "N"
-    elsif record.no_report
-      label = "Out of sync"
+    when "Out of sync"
       style = "label-warning"
       short = "S"
-    elsif record.error?
-      label = "Error"
+    when "Error"
       style = "label-important"
       short = "E"
-    elsif record.changes?
-      label = "Active"
+    when "Active"
       style = "label-info"
       short = "A"
-    elsif record.pending?
-      label = "Pending"
+    when "Pending"
       style = "label-warning"
       short = "P"
     else
-      label = "No changes"
       style = "label-success"
       short = "O"
     end
