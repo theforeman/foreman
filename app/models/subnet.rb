@@ -47,7 +47,11 @@ class Subnet < ActiveRecord::Base
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
   def <=> (other)
-    self.vlanid <=> other.vlanid
+    if self.vlanid.present? && other.vlanid.present?
+      self.vlanid <=> other.vlanid
+    else
+      return -1
+    end
   end
 
   # Given an IP returns the subnet that contains that IP
