@@ -6,5 +6,8 @@
     <% if SETTINGS[:locations_enabled] %>
       <%= render 'home/location_dropdown' %>
     <% end -%>
+    <% if SETTINGS[:organizations_enabled] %>
+      <%= render 'home/organization_dropdown' %>
+    <% end %>
   </ul>
 </li>

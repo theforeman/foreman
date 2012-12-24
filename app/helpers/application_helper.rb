@@ -236,7 +236,7 @@ module ApplicationHelper
     primary = args.delete_at(0)
 
     content_tag(:div,:class => "btn-group") do
-      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
+      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
       content_tag(:ul,:class=>"dropdown-menu") do
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
