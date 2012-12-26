@@ -243,4 +243,15 @@ module HostsHelper
         )
     )
   end
+
+  def conflict_objects errors
+    errors.keys.map(&:to_s).grep(/conflict$/).map(&:to_sym)
+  end
+
+  def has_conflicts? errors
+    conflict_objects(errors).each do |c|
+      return true if errors[c.to_sym].any?
+    end
+    false
+  end
 end

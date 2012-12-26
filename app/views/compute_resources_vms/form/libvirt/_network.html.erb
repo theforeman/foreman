@@ -1,5 +1,5 @@
 <div class="fields">
-  <% if (networks = compute_resource.networks).any? -%>,
+  <% if (networks = compute_resource.networks).any? -%>
     <%= selectable_f f, :bridge, networks.map(&:name), { }, :class => "span2", :label => "Network",
                      :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
   <% else -%>

@@ -1,5 +1,5 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
-<%= render "conflicts" if @host.errors[:conflict].any? %>
+<%= render "conflicts" if has_conflicts?(@host.errors) %>
 <%= render "progress" %>
 <%= form_for @host,  :html => {:'data-submit' => 'progress_bar'} do |f| %>
   <%= base_errors_for @host %>

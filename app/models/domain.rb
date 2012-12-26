@@ -13,6 +13,8 @@ class Domain < ActiveRecord::Base
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_and_belongs_to_many :users, :join_table => "user_domains"
+  has_many :interfaces, :class_name => 'Nic::Base'
+
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   validates_uniqueness_of :name
   validates_uniqueness_of :fullname, :allow_blank => true, :allow_nil => true

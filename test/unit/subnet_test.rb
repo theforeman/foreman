@@ -115,6 +115,7 @@ class SubnetTest < ActiveSupport::TestCase
     as_admin do
       record.domains = []
       record.hosts.clear
+      record.interfaces.clear
     end
     assert record.destroy
     assert record.frozen?

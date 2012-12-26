@@ -27,5 +27,21 @@ module Net
       network
     end
 
+    # ensures that the ip address does not contain any leading spaces or invalid strings
+    def self.normalize_ip ip
+      return unless ip.present?
+      ip.split(".").map(&:to_i).join(".")
+    end
+
+    def self.normalize_mac mac
+      return unless mac.present?
+      m = mac.downcase
+      case m
+        when /[a-f0-9]{12}/
+          m.gsub(/(..)/) { |mh| mh + ":" }[/.{17}/]
+        when /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
+          m.split(":").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
+      end
+    end
   end
 end

@@ -17,7 +17,20 @@ module Foreman::Controller::HostDetails
   end
 
   def domain_selected
-    assign_parameter "domain", "common/"
+    respond_to do |format|
+      format.html {assign_parameter "domain", "common/"}
+      format.json do
+        @organization = params[:organization_id].blank? ? nil : Organization.find(params[:organization_id])
+        @location     = params[:location_id].blank? ? nil : Location.find(params[:location_id])
+        Taxonomy.as_taxonomy @organization, @location do
+          if (domain = Domain.find(params[:domain_id]))
+            render :json => domain.subnets
+          else
+            not_found
+          end
+        end
+      end
+    end
   end
 
   def use_image_selected

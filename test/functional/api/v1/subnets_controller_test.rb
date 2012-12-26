@@ -46,4 +46,13 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  def test_destroy_json
+    subnet = Subnet.first
+    subnet.hosts.clear
+    subnet.interfaces.clear
+    as_admin { delete :destroy, {:id => subnet.id} }
+    ActiveSupport::JSON.decode(@response.body)
+    assert_response :ok
+    assert !Subnet.exists?(:id => subnet.id)
+  end
 end

@@ -9,8 +9,10 @@
     <p> Please review them carefully, if you are certain that they should be removed, please click on overwrite.</p>
 
     <div class="alert alert-message alert-block base">
-      <% @host.errors[:conflict].each do |e| -%>
-        <li><%= e %></li>
+      <% conflict_objects(@host.errors).each do |obj| -%>
+        <% @host.errors[obj].each do |e| -%>
+          <li><%= e %></li>
+        <% end -%>
       <% end -%>
     </div>
 

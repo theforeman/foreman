@@ -1,0 +1,29 @@
+<div class="fields">
+  <%= field_set_tag "Interface #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => 'remove network interface', :'data-placement' => 'left',
+                                                             :class => 'fr badge badge-important'})}".html_safe, :id => "interface" do -%>
+    <%= selectable_f f, :type, [["Interface", Nic::Managed],["BMC", Nic::BMC]], {}, :class => 'interface_type', :disabled => !f.object.new_record? %>
+    <%= text_f f, :mac, :label => "MAC" %>
+    <%= text_f f, :name, :help_inline => "DNS name" %>
+    <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
+                 { :include_blank => accessible_domains.any? ? true : "No domains"},
+                 { :disabled => accessible_domains.empty? ? true : false,
+                   :help_inline => image_tag("spinner.gif", :class => "indicator hide"),
+                   :class => 'interface_domain', :'data-url' => domain_selected_hosts_path } %>
+    <%= select_f f, :subnet_id, domain_subnets, :id, :title,
+                 { :include_blank => domain_subnets.any? ? true : "No subnets"},
+                 { :disabled => domain_subnets.empty? ? true : false,
+                   :help_inline => image_tag("spinner.gif", :class => "indicator hide"),
+                   :class => 'interface_subnet', :'data-url' => freeip_subnets_path } %>
+    <%= text_f f, :ip, :label => "IP"  %>
+
+    <%# hack to get BMC attributes show up without AJAX -%>
+    <%= content_tag :span, :id => 'bmc_fields', :class => f.object.is_a?(Nic::BMC) ? '' : 'hide' do %>
+      <%= text_f f, :username, ifs_bmc_opts(f.object) %>
+      <%= password_f f, :password, ifs_bmc_opts(f.object) %>
+      <%# TODO: current rails version does not allow to pass a selected value where there is no method (e.g. providers below) rescue here is a hack %>
+      <%= selectable_f f, :provider, Nic::BMC::PROVIDERS, {:selected => nil}, ifs_bmc_opts(f.object) rescue f.hidden_field :provider, :value => 'IPMI' %>
+    <% end %>
+
+  <% end %>
+</div>
+
