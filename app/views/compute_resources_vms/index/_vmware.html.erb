@@ -8,7 +8,7 @@
     <th></th>
     </thead>
   </tr>
-  <% @compute_resource.vms.each do |vm| -%>
+  <% @vms.each do |vm| -%>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
       <td><%= vm.cpus %></td>
@@ -16,7 +16,7 @@
       <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(!vm.ready?) %></span> </td>
       <td>
         <%= action_buttons(vm_power_action(vm),
-           display_link_if_authorized("Console", hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id)),
+           display_link_if_authorized("Console", hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)),
            display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))) %>
       </td>
 

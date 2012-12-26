@@ -123,13 +123,13 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get_test_vm
     assert @test_vm.ready?
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_redirected_to compute_resource_vms_path(:compute_resource_id => @compute_resource.to_param)
+    assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     get_test_vm
     assert !@test_vm.ready?
 
     # Swith it back on for next tests
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_redirected_to compute_resource_vms_path(:compute_resource_id => @compute_resource.to_param)
+    assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     get_test_vm
     assert @test_vm.ready?
   end
