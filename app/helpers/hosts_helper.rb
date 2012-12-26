@@ -212,7 +212,7 @@ module HostsHelper
             if host.build
               link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_build?,
                                     :title                                                                 => "Cancel build request for this host")
-            else
+            elseif host.can_be_build?
               link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_build?,
                                     :title                                                       => "Enable rebuild on next host boot",
                                     :confirm                                                     => "Rebuild #{host} on next reboot?\nThis would also delete all of its current facts and reports")
