@@ -1,22 +1,11 @@
-require_dependency "proxy_api"
+require "proxy_api"
 require 'orchestration/queue'
 
 module Orchestration
   def self.included(base)
     base.send :include, InstanceMethods
     base.class_eval do
-      attr_reader :queue, :post_queue, :old, :record_conflicts
-      # stores actions to be performed on our proxies based on priority
-      before_validation :set_queue
-      before_validation :setup_clone
-
-      # extend our Host model to know how to handle subsystems
-      include Orchestration::DNS
-      include Orchestration::DHCP
-      include Orchestration::TFTP
-      include Orchestration::Puppetca
-      include Orchestration::Compute
-      include Orchestration::SSHProvision
+      attr_reader :old
 
       # save handles both creation and update of hosts
       before_save :on_save
@@ -57,15 +46,21 @@ module Orchestration
     # after validation callbacks status, as rails by default does
     # not care about their return status.
     def valid?(context = nil)
+      setup_clone
       super
       orchestration_errors?
     end
 
-    # we override the destroy method, in order to ensure our queue exists before other callbacks
-    # and to process the queue only if we found no errors
-    def destroy
-      set_queue
-      super
+    def queue
+      @queue ||= Orchestration::Queue.new
+    end
+
+    def post_queue
+      @post_queue ||= Orchestration::Queue.new
+    end
+
+    def record_conflicts
+      @record_conflicts ||= []
     end
 
     private
@@ -79,6 +74,7 @@ module Orchestration
     # in order not to keep any left overs in our proxies.
     def process queue_name
       return true if Rails.env == "test"
+
       # queue is empty - nothing to do.
       q = send(queue_name)
       return if q.empty?
@@ -96,7 +92,7 @@ module Orchestration
 
         rescue Net::Conflict => e
           task.status = "conflict"
-          @record_conflicts << e
+          record_conflicts << e
           failure e.message, nil, :conflict
         #TODO: This is not a real error, but at the moment the proxy / foreman lacks better handling
         # of the error instead of explode.
@@ -159,12 +155,6 @@ module Orchestration
       end
     end
 
-    def set_queue
-      @queue = Orchestration::Queue.new
-      @post_queue = Orchestration::Queue.new
-      @record_conflicts = []
-    end
-
     # we keep the before update host object in order to compare changes
     def setup_clone
       return if new_record?
@@ -187,7 +177,7 @@ module Orchestration
     end
 
     def update_cache
-      Rails.cache.write(progress_report_id, (queue.all + post_queue.all).to_json,  :expires_in => 5.minutes)
+      Rails.cache.write(progress_report_id, (queue.all + post_queue.all).to_json, :expires_in => 5.minutes)
     end
 
   end

@@ -80,6 +80,7 @@ function add_child_node(item) {
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover();
+    $('a[rel="twipsy"]').tooltip();
     return new_id;
 }
 

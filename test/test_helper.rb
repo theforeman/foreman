@@ -73,6 +73,7 @@ class ActiveSupport::TestCase
     Net::DHCP::SparcRecord.any_instance.stubs(:create).returns(true)
     Net::DHCP::Record.any_instance.stubs(:conflicting?).returns(false)
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["production"])
+    ProxyAPI::DHCP.any_instance.stubs(:unused_ip).returns('127.0.0.1')
   end
 
   def disable_orchestration

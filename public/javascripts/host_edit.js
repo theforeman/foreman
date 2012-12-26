@@ -4,7 +4,6 @@ function computeResourceSelected(item){
   var label = $(item).children(":selected").text();
   if(compute=='') { //Bare Metal
     $('#mac_address').show();
-    $('#bmc').show();
     $("#model_name").show();
     $('#compute_resource').empty();
     $('#vm_details').empty();
@@ -14,7 +13,6 @@ function computeResourceSelected(item){
   else
   {
     $('#mac_address').hide();
-    $('#bmc').hide();
     $("#model_name").hide();
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
@@ -484,4 +482,118 @@ function onHostEditLoad(){
 
   $('#image_selection').appendTo($('#image_provisioning'));
   $('#params-tab').on('shown', function(){mark_params_override()});
+}
+
+$(document).on('change', '.interface_domain', function () {
+  interface_domain_selected(this);
+});
+
+$(document).on('change', '.interface_subnet', function () {
+  interface_subnet_selected(this);
+});
+
+$(document).on('change', '.interface_type', function () {
+  interface_type_selected(this);
+});
+
+function interface_domain_selected(element) {
+  var domain_id = element.value;
+  var subnet_options = $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]').empty();
+  var indicator = $(element).parent().find('.indicator')
+
+  subnet_options.attr('disabled', true);
+  if (domain_id == '') {
+    subnet_options.append($("<option />").val(null).text('No subnets'));
+    return false;
+  }
+
+  indicator.removeClass('hide');
+
+  var url = $(element).attr('data-url');
+
+  var org = $('#host_organization_id :selected').val();
+  var loc = $('#host_location_id :selected').val();
+
+  $.ajax({
+    data:{domain_id: domain_id, organization_id:org, location_id: loc},
+    type:'post',
+    url:url,
+    dataType:'json',
+    success:function (result) {
+      if (result.length > 1)
+        subnet_options.append($("<option />").val(null).text('Please select'));
+
+      $.each(result, function () {
+        subnet_options.append($("<option />").val(this.subnet.id).text(this.subnet.name + ' (' + this.subnet.to_label + ')'));
+      });
+      if (subnet_options.find('option').length > 0) {
+        subnet_options.attr('disabled', false);
+        subnet_options.change();
+      }
+      else {
+        subnet_options.append($("<option />").text('No subnets'));
+        subnet_options.attr('disabled', true);
+      }
+      indicator.addClass('hide');
+    }
+  });
+}
+
+function interface_subnet_selected(element) {
+  var subnet_id = $(element).val();
+  if (subnet_id == '') return;
+  var indicator = $(element).parent().find('.indicator')
+  var interface_ip = $(element).parentsUntil('.fields').parent().find('input[id$=_ip]')
+
+  interface_ip.attr('disabled', true);
+  indicator.removeClass('hide');
+
+  // We do not query the proxy if the ip field is filled in and contains an
+  // IP that is in the selected subnet
+  var drop_text = $(element).children(":selected").text();
+  // extracts network / cidr / ip
+  if (drop_text.length != 0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
+    var details = drop_text.replace(/^[^(]+\(/, "").replace(")", "").split("/");
+    var network = details[0];
+    var cidr    = details[1];
+
+    if (subnet_contains(network, cidr, interface_ip.val())) {
+      interface_ip.attr('disabled', false);
+      indicator.addClass('hide');
+      return;
+    }
+  }
+  var interface_mac = $(element).parentsUntil('.fields').parent().find('input[id$=_mac]')
+  var url = $(element).attr('data-url');
+  var org = $('#host_organization_id :selected').val();
+  var loc = $('#host_location_id :selected').val();
+
+  var data = {subnet_id: subnet_id, host_mac: interface_mac.val(), organization_id:org, location_id:loc }
+  $.ajax({
+    data: data,
+    type:'post',
+    url: url,
+    dataType:'json',
+    success:function (result) {
+      interface_ip.val(result['ip']);
+    },
+    complete:function () {
+      indicator.addClass('hide');
+      interface_ip.attr('disabled', false);
+    }
+  });
+}
+
+function interface_type_selected(element) {
+
+  var type = $(element).find('option:selected').text();
+  var bmc_fields = $(element).parentsUntil('.fields').parent().find('#bmc_fields')
+  if (type == 'BMC') {
+    bmc_fields.find("input:disabled").prop('disabled',false);
+    bmc_fields.removeClass("hide");
+  } else {
+    bmc_fields.find("input").prop('disabled',true);
+    bmc_fields.addClass("hide");
+  }
+
 }

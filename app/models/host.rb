@@ -10,8 +10,9 @@ class Host < Puppet::Rails::Host
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base'
+  accepts_nested_attributes_for :interfaces, :reject_if => lambda { |a| a[:mac].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
-  belongs_to :sp_subnet, :class_name => "Subnet"
   belongs_to :compute_resource
   belongs_to :image
 
@@ -184,12 +185,16 @@ class Host < Puppet::Rails::Host
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
+    include Orchestration::DHCP
+    include Orchestration::DNS
+    include Orchestration::Compute
+    include Orchestration::TFTP
+    include Orchestration::Puppetca
+    include Orchestration::SSHProvision
     include HostTemplateHelpers
 
     validates_uniqueness_of  :ip, :if => Proc.new {|host| host.require_ip_validation?}
     validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.compute? or !host.managed }
-    validates_uniqueness_of  :sp_mac, :allow_nil => true, :allow_blank => true
-    validates_uniqueness_of  :sp_name, :sp_ip, :allow_blank => true, :allow_nil => true
     validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :domain_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :mac, :unless => Proc.new { |host| host.compute? or !host.managed  }
@@ -199,8 +204,6 @@ class Host < Puppet::Rails::Host
     validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
     validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
-    validates_format_of      :sp_mac,    :with => Net::Validations::MAC_REGEXP, :allow_nil => true, :allow_blank => true
-    validates_format_of      :sp_ip,     :with => Net::Validations::IP_REGEXP, :allow_nil => true, :allow_blank => true
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
 
     validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
@@ -629,10 +632,6 @@ class Host < Puppet::Rails::Host
     false
   end
 
-  def sp_valid?
-    !sp_name.empty? and !sp_ip.empty? and !sp_mac.empty?
-  end
-
   def jumpstart?
     operatingsystem.family == "Solaris" and architecture.name =~/Sparc/i rescue false
   end
@@ -725,11 +724,33 @@ class Host < Puppet::Rails::Host
     new.puppetclasses = puppetclasses
     # Clone any parameters as well
     host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
+    interfaces.each {|int| new.interfaces << int.clone }
     # clear up the system specific attributes
-    [:name, :mac, :ip, :uuid, :certname, :last_report, :sp_mac, :sp_ip, :sp_name, :puppet_status, ].each do |attr|
+    [:name, :mac, :ip, :uuid, :certname, :last_report].each do |attr|
       new.send "#{attr}=", nil
     end
+    new.puppet_status = 0
     new
+  end
+
+  def sp_ip
+    bmc_nic.try(:ip)
+  end
+
+  def sp_mac
+    bmc_nic.try(:mac)
+  end
+
+  def sp_subnet_id
+    bmc_nic.try(:subnet_id)
+  end
+
+  def sp_subnet
+    bmc_nic.try(:subnet)
+  end
+
+  def sp_name
+    bmc_nic.try(:name)
   end
 
   def host_status
@@ -768,31 +789,8 @@ class Host < Puppet::Rails::Host
     Classification.new(:host => self).enc
   end
 
-  # align common mac and ip address input
-  def normalize_addresses
-    # a helper for variable scoping
-    helper = []
-    [self.mac,self.sp_mac].each do |m|
-      unless m.empty?
-        m.downcase!
-        if m=~/[a-f0-9]{12}/
-          m = m.gsub(/(..)/){|mh| mh + ":"}[/.{17}/]
-        elsif mac=~/([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
-          m = m.split(":").map{|nibble| "%02x" % ("0x" + nibble)}.join(":")
-        end
-      end
-      helper << m
-    end
-    self.mac, self.sp_mac = helper
-
-    helper = []
-    [self.ip,self.sp_ip].each do |i|
-      unless i.empty?
-        i = i.split(".").map{|nibble| nibble.to_i}.join(".") if i=~/(\d{1,3}\.){3}\d{1,3}/
-      end
-      helper << i
-    end
-    self.ip, self.sp_ip = helper
+  def bmc_nic
+    interfaces.bmc.first
   end
 
   # ensure that host name is fqdn
@@ -886,8 +884,12 @@ class Host < Puppet::Rails::Host
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
   end
 
+  def normalize_addresses
+    self.mac = Net::Validations.normalize_mac(mac)
+    self.ip  = Net::Validations.normalize_ip(ip)
+  end
+
   def force_lookup_value_matcher
     lookup_values.each { |v| v.match = "fqdn=#{fqdn}" }
   end
-
 end

@@ -10,11 +10,11 @@ module Orchestration::DNS
   module InstanceMethods
 
     def dns?
-      !domain.nil? and !domain.proxy.nil? and managed?
+      name.present? and ip.present? and !domain.nil? and !domain.proxy.nil? and managed?
     end
 
     def reverse_dns?
-      !subnet.nil? and !subnet.dns_proxy.nil? and managed? and capabilities.include?(:build)
+      name.present? and ip.present? and !subnet.nil? and subnet.dns? and managed?
     end
 
     def dns_a_record
@@ -111,7 +111,6 @@ module Orchestration::DNS
                    :action => [self, :del_conflicting_dns_a_record]) if dns? and dns_a_record and dns_a_record.conflicting?
       queue.create(:name   => "Remove conflicting Reverse DNS record for #{self}", :priority => 0,
                    :action => [self, :del_conflicting_dns_ptr_record]) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
-
     end
 
     def dns_conflict_detected?
@@ -122,8 +121,8 @@ module Orchestration::DNS
       return false if overwrite?
 
       status = true
-      status = failure("DNS A Record #{dns_a_record.conflicts[0]} already exists", nil, :conflict) if dns? and dns_a_record and dns_a_record.conflicting?
-      status &= failure("DNS PTR Record #{dns_ptr_record.conflicts[0]} already exists", nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
+      status = failure("DNS A Records #{dns_a_record.conflicts.to_sentence} already exists", nil, :conflict) if dns? and dns_a_record and dns_a_record.conflicting?
+      status &= failure("DNS PTR Records #{dns_ptr_record.conflicts.to_sentence} already exists", nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
       status
     end
 

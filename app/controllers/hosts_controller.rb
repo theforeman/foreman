@@ -67,7 +67,7 @@ class HostsController < ApplicationController
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
       format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
-      format.json { render :json => @host.to_json({:methods => [:host_parameters]}) }
+      format.json { render :json => @host.to_json({:methods => [:host_parameters], :include => :interfaces }) }
     end
   end
 
@@ -479,7 +479,6 @@ class HostsController < ApplicationController
             if @domain.subnets.any?
               page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
               page['#host_subnet_id'].val(@subnet.id).change if @subnet
-              page['#sp_subnet'].html(render(:partial => 'hosts/sp_subnet', :locals => {:item => @host}))
             end
           end
         end

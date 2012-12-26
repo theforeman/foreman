@@ -87,4 +87,13 @@ module HostsAndHostgroupsHelper
     classes.select { |pc| klasses.include?(pc.id) }
   end
 
+  def ifs_bmc_opts obj
+    case obj.read_attribute(:type)
+      when "Nic::BMC"
+        {}
+      else
+        { :disabled => true, :value => nil }
+    end
+  end
+
 end

@@ -15,7 +15,7 @@ class CreateSubnetDomain < ActiveRecord::Migration
   end
 
   def self.down
-    add_column :subnets, :domain, :references
+    add_column :subnets, :domain_id, :integer
     drop_table :subnet_domains
   end
 end

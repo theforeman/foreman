@@ -508,7 +508,22 @@ class HostTest < ActiveSupport::TestCase
     assert host.save!
   end
 
+
+  test "should have only one bootable interface" do
+    h = hosts(:redhat)
+    assert_equal 0, h.interfaces.count
+    bootable = Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
+                                     :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain
+    assert_equal 1, h.interfaces.count
+    h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
+                                :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id }]
+    assert !h.valid?
+    assert_equal "Only one bootable interface is allowed", h.errors['interfaces.type'][0]
+    assert_equal 1, h.interfaces.count
+  end
+
   # Token tests
+
   test "built should clean tokens" do
     Setting[:token_duration] = 30
     h = hosts(:one)
@@ -541,4 +556,5 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     assert_equal h.token, nil
   end
+
 end
