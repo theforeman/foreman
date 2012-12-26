@@ -192,6 +192,8 @@ module HostsHelper
     fields += [["Organization",host.organization.try(:name)]] if SETTINGS[:organizations_enabled]
     fields += [["Owner", host.owner]] if SETTINGS[:login]
     fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
+    fields += [["EC2 Public IP", host.compute_object.public_ip_address]] if (host.compute_resource_id.present? and host.provider == "EC2")
+    fields += [["EC2 Private IP", host.compute_object.private_ip_address]] if (host.compute_resource_id.present? and host.provider == "EC2")
     fields
   end
 
