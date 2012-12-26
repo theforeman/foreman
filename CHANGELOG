@@ -1,16 +1,153 @@
-2012-12-05	Dominic Cleal <dcleal@redhat.com>
-	* fixes #1994 - set vardir for puppet 3, use --configprint
+2012-12-26	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2017 added patch from ticket
 
-2012-12-05	Dmitri Dolguikh <dmitri@appliedlogic.ca>
-	* support for passing template_kind hash as input parameter during create and update operations
+2012-12-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1944 - Listing VMWare virtual machines under Computer resources is slow.
+	* fixes #1814 - converts sp_* attributes into a BMC interface class
+	* fixes #2072 Foreman complains about medium etc when deploying to Image based providers(EC2/OpenStack/RackSpace..)
+
+2012-12-26	Hannes Schaller <admin@cyberkov.at>
+	* fixes #2504 trends model for postgresql added group() back and added select()
+
+2012-12-24	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1890, typo
+	* refs #1991 - Cache not cleared prevent location / org feature to show up
+	* fixed broken test on ruby 1.9
+	* Do not use :class_name in has_many :through, missed on for class_params
+
+2012-12-24	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #1890 api host status
+	* fixes #1992 sort does not fail if vlanid is null
+	* DEPRECATION WARNING: Giving a hash to body is deprecated, please use instance variables instead.
+	* fixes #1991 expire topbar cache on user when restart server
+	* renamed to thread_session.rb
+	* removed has_many_polymorphs and used has_many :source and :source_type
+
+2012-12-24	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2063 - pin minitest to 3.5+ and mocha 0.12.x
+	* fixes #2061 - test if oVirt API has HTTPS redirect
+
+2012-12-24	rbirnie <rbirnie@gmail.com>
+	* fixes #2062 - Add max_trends setting
+
+2012-12-24	Amos Benari <abenari@redhat.com>
+	* removed puppet class include in index because it creates too many joins in a single query for sql-light to function properly.
+	* commented rack-mini-profiler as it slows some development machines too much. When needed it can be uncommented.
+
+2012-12-20	Sam Kottler <shk@redhat.com>
+	* Fixes #2058: prevents the spinner from going forever if listing fails
+
+2012-12-20	Ohad Levy <ohadlevy@gmail.com>
+	* removed class_name from all relationships that has_many :through as its invalid.
+
+2012-12-20	Amos Benari <abenari@redhat.com>
+	* puppet class form ui fixes.
+
+2012-12-20	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #1834 to get foreman running under ruby 1.9.3
+
+2012-12-19	Joseph Mitchell Magen <jmagen@redhat.com>
+	* added slash /unattended to other url_for calls
+	* fixes #2018 add forward slash to controller name of url_for() helper
+
+2012-12-19	Trey Dockendorf <treydock@tamu.edu>
+	* - Allows mysql2 usage with Puppet < 2.7.10 - Fixes #1350
+
+2012-12-19	Sam Kottler <shk@redhat.com>
+	* Fixes #2059: Completely remove email_replay_address from settings
+
+2012-12-19	Dominic Cleal <dcleal@redhat.com>
+	* refs #2023 - always write using_storeconfigs default as a boolean
+
+2012-12-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2023 - Don't try to save os=nil in the fact importer
+
+2012-12-19	Amos Benari <abenari@redhat.com>
+	* Fix Foreman SQL injection through search mechanism CVE-2012-5648
+
+2012-12-18	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2050 - Don't display revoked certs by default
+
+2012-12-18	Ohad Levy <ohadlevy@gmail.com>
+	* minor cleanups to the proxy resource class refs #2056
+
+2012-12-18	Corey Osman <corey@logicminds.biz>
+	* fixes # 2056 - add bmc support to the api-proxy class
+
+2012-12-18	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #1964 lookup_keys.default_value can hold > 255 characters
+	* fixes #1965 override value to textarea
+
+2012-12-17	Oved Ourfali <oourfali@redhat.com>
+	* fixes #1978 - changing login maximum size to 100
+
+2012-12-17	Sam Kottler <shk@redhat.com>
+	* Fixes #2046: Only show the inverse taxonomy tab if enabled
+
+2012-12-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2042 - fix CSS classes added to filter levels
+
+2012-12-17	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2045 changed condition so there is no error in Postgresql
+	* fixes #1353 added custom hook when host build mode changes
+	* fixes #2051 good host percentange was wrong
+
+2012-12-12	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2037 remove catchall routes
+	* added compute resource actions and tests
+
+2012-12-12	Ivan Necas <inecas@redhat.com>
+	* refs #1937 - fix graphs hrefs when running from subpath
+
+2012-12-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2030 - define instance variables during ERB evaluation when not using safemode
+
+2012-12-12	Amos Benari <abenari@redhat.com>
+	* scope templates by taxonomy.
+
+2012-12-12	Sam Kottler <shk@redhat.com>
+	* Fixes #2000 - display the alternate taxonomy when editing a location or org
+
+2012-12-11	Joseph Mitchell Magen <jmagen@redhat.com>
+	* host routes api changes squashed
+
+2012-12-11	Abby Edwards <aedwards@solutionary.com>
+	* fixed bug preventing LDAP authentication in auth_source_ldap model
+
+2012-12-09	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #1979 Updating puppet:import:puppet_classes for parameterized classes
+
+2012-12-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2021 - run test:lib from test rake task
+	* fixes #2020 - PuppetSetting is an instance, not class
+	* fixes #1995 - enable param class ENC by default on Puppet 2.6.5+
+
+2012-12-09	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #1977 - Don't rely on Puppetversion to determine report version
+
+2012-12-09	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #286 from iNecas/apipie-validations-off
+
+2012-12-06	Ivan Necas <inecas@redhat.com>
+	* Turn off the apipie validations for now
+
+2012-12-05	rbirnie <rbirnie@gmail.com>
+	* fix trend labels for ForemanTrends
 
 2012-12-05	Ohad Levy <ohadlevy@gmail.com>
+	* 1.1RC1 released!
 	* fixes #2011 - Param Class optimization fails on Postges
 	* refs #2010, fixes cache issues when selecting an org/location
 	* fixes #2010 - selecting an org/location does not expire topbar cache
 	* fixes #2004 - Location and Orgs are visible in the host show page even when its disable
 	* fixes #2003 - Improve Parameterized classes values retrieval time
 	* SQL improvments for paramaters in host edit section refs #2003
+
+2012-12-05	Dominic Cleal <dcleal@redhat.com>
+	* fixes #1994 - set vardir for puppet 3, use --configprint
+
+2012-12-05	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* support for passing template_kind hash as input parameter during create and update operations
 
 2012-12-05	Ivan Necas <inecas@redhat.com>
 	* fixes #1937 - Foreman doesn't work well when run on subpath
