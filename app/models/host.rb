@@ -641,7 +641,8 @@ class Host < Puppet::Rails::Host
     return unless hostgroup
     assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy})
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem medium architecture ptable subnet})
+      assign_hostgroup_attributes(%w{operatingsystem architecture})
+      assign_hostgroup_attributes(%w{medium ptable subnet}) if capabilities.include?(:build)
     end
   end
 
@@ -834,7 +835,7 @@ class Host < Puppet::Rails::Host
         errors.add("#{e}_id".to_sym, "#{value} does not belong to #{os} operating system")
         status = false
       end
-    end if SETTINGS[:unattended] and managed? and os
+    end if SETTINGS[:unattended] and managed? and os and capabilities.include?(:build)
 
     puppetclasses.uniq.each do |e|
       unless environment.puppetclasses.include?(e)
