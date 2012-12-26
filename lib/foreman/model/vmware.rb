@@ -1,3 +1,5 @@
+require 'fog_extensions/vsphere/mini_servers'
+
 module Foreman::Model
   class Vmware < ComputeResource
 
@@ -11,6 +13,17 @@ module Foreman::Model
 
     def capabilities
       [:build]
+    end
+
+    def vms(opts = {})
+      if opts[:eager_loading] == true
+        super()
+      else
+        #VMWare server loading is very slow
+        #not using FOG models directly to save the time
+        #and minimize the amount of time required (as we don't require all attributes by default when listing)
+        FogExtensions::Vsphere::MiniServers.new(client, datacenter)
+      end
     end
 
     def provided_attributes
