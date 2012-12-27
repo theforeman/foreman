@@ -1,3 +1,4 @@
 <% title "Edit #{@location}" %>
 
-<%= render 'taxonomy/form' , :taxonomy => @location %>
+<%= title_actions(link_to("Fix Mismatches", import_mismatches_location_path(@location), :class => 'btn btn-success', :method => :post)) unless @location.valid? %>
+<%= render 'taxonomies/form' , :taxonomy => @location %>

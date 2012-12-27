@@ -41,6 +41,14 @@ class ConfigTemplate < ActiveRecord::Base
     name
   end
 
+  def self.template_ids_for(hosts)
+    template_ids_for = Array.new
+    hosts.with_os.each do |host|
+      template_ids_for << host.configTemplate.try(:id)
+    end
+     @template_ids_for = template_ids_for.uniq.compact
+  end
+
   def self.find_template opts = {}
     raise "Must provide template kind"        unless opts[:kind]
     raise "Must provide an operating systems" unless opts[:operatingsystem_id]

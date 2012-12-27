@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
-  before_filter :set_taxonomy, :require_mail
+  before_filter :set_taxonomy, :check_empty_taxonomy, :require_mail
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
@@ -314,6 +314,26 @@ class ApplicationController < ActionController::Base
                            nil
                          end
     end
+  end
+
+  def check_empty_taxonomy
+    return if ["locations","organizations"].include?(params[:controller])
+    if User.current && User.current.admin?
+      if SETTINGS[:locations_enabled] && Location.count == 0
+        redirect_to locations_path, :notice => "You must enter at least one location before continuing."
+      elsif SETTINGS[:organizations_enabled] && Organization.count == 0
+        redirect_to organizations_path, :notice => "You must enter at least one organization before continuing."
+      end
+    end
+  end
+
+  # Returns the associations to include when doing a search.
+  # If the user has a fact_filter then we need to include :fact_values
+  # We do not include most associations unless we are processing a html page
+  def included_associations(include = [])
+    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
+    include += [:fact_values] if User.current.user_facts.any?
+    include
   end
 
 end
