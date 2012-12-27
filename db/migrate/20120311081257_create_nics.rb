@@ -1,4 +1,5 @@
 class CreateNics < ActiveRecord::Migration
+  class Host < ActiveRecord::Base; end
   def self.up
     create_table :nics do |t|
       t.string :mac
