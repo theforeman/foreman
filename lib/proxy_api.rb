@@ -20,8 +20,7 @@ module ProxyAPI
         ca_cert      = Setting[:ssl_ca_file]
         hostprivkey  = Setting[:ssl_priv_key]
 
-        # Use update rather than merge! as this is not rails dependent
-        @connect_params.update!(
+        @connect_params.merge!(
           :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
           :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
           :ssl_ca_file      =>  ca_cert,
