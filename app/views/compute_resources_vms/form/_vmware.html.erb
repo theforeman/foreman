@@ -1,7 +1,7 @@
 <% new = f.object && f.object.new? -%>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new %>
-<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
+<%= text_f f, :memory_mb, :class => "span2", :disabled => !new, :label => "Memory(MB)" %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "span2", :disabled => !new %>
 <%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "span2", :disabled => !new %>
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => "Folder", :class => "span2", :disabled => !new } %>
