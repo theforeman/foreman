@@ -202,11 +202,20 @@ class HostsController < ApplicationController
 
   def power
     return unless @host.compute_resource && params[:power_action]
-    action = params[:power_action]
+    action = case params[:power_action]
+               when 'start'
+                 :start
+               when 'stop'
+                 :stop
+               else
+                 logger.warn "invalid power state #{params[:power_action]}"
+                 invalid_request and return
+             end
     vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
     begin
       vm.send(action)
-      process_success :success_redirect => :back, :success_msg =>  "#{vm} is now #{vm.ready? ? "running" : "stopped"}"
+      @vm.reload
+      process_success :success_redirect => :back, :success_msg => "#{vm} is now #{vm.state.capitalize}"
     rescue => e
       process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
     end

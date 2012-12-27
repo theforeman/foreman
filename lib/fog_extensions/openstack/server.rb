@@ -2,6 +2,10 @@ module FogExtensions
   module Openstack
     module Server
 
+      def to_s
+        name
+      end
+
       #TODO: get as much of this merged into fog 1.5
 
       def tenant

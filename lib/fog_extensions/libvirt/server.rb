@@ -2,6 +2,10 @@ module FogExtensions
   module Libvirt
     module Server
 
+      def to_s
+        name
+      end
+
       def nics_attributes=(attrs); end
 
       def volumes_attributes=(attrs); end
