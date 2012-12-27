@@ -33,8 +33,8 @@ class ComputeResourcesVmsController < ApplicationController
     action = @vm.ready? ? :stop : :start
 
     if (@vm.send(action) rescue false)
-      state = @vm.ready? ? "running" : "stopped"
-      notice "#{@vm} is now #{state}"
+      @vm.reload
+      notice "#{@vm} is now #{@vm.state.capitalize}"
       redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
     else
       error "failed to #{action} #{@vm}"
