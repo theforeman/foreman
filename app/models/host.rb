@@ -355,6 +355,12 @@ class Host < Puppet::Rails::Host
     param["puppetmaster"] = puppetmaster
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
+    if SETTINGS[:locations_enabled]
+      param["location"] = location.name unless location.blank?
+    end
+    if SETTINGS[:organizations_enabled]
+      param["organization"] = organization.name unless organization.blank?
+    end
     if SETTINGS[:unattended]
       param["root_pw"]      = root_pass
       param["puppet_ca"]    = puppet_ca_server if puppetca?
