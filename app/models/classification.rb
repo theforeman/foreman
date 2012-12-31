@@ -14,7 +14,11 @@ class Classification
       klasses[klass.name] ||= { }
       if key_hash[klass.id]
         key_hash[klass.id].each do |param|
-          klasses[klass.name][param.to_s] = values[param.to_s] ? values[param.to_s][:value] : param.default_value
+          klasses[klass.name][param.to_s] = if values[param.id] and values[param.id][param.to_s]
+                                              values[param.id][param.to_s][:value]
+                                            else
+                                              param.default_value
+                                            end
         end
       else
         klasses[klass.name] = nil
@@ -54,14 +58,16 @@ class Classification
     values = {}
     path2matches.each do |match|
       LookupValue.where(:match => match).where(:lookup_key_id => class_parameters.map(&:id)).each do |value|
+        key_id = value.lookup_key_id
+        values[key_id] ||= {}
         key = @keys.detect{|k| k.id == value.lookup_key_id }
         name = key.to_s
         element = match.split(LookupKey::EQ_DELM).first
-        if values[name].nil?
-          values[name] = {:value => value.value, :element => element}
+        if values[key_id][name].nil?
+          values[key_id][name] = {:value => value.value, :element => element}
         else
-          if key.path.index(element) < key.path.index(values[name][:element])
-            values[name] = {:value => value.value, :element => element}
+          if key.path.index(element) < key.path.index(values[key_id][name][:element])
+            values[key_id][name] = {:value => value.value, :element => element}
           end
         end
       end
