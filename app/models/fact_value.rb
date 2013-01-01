@@ -16,10 +16,13 @@ class FactValue < Puppet::Rails::FactValue
               :conditions => ["fact_names.name = ?",:_timestamp]
 
   scope :my_facts, lambda {
-    return { :conditions => "" } if User.current.admin? # Admin can see all hosts
-
-    {:conditions => sanitize_sql_for_conditions(
-      [" (fact_values.host_id in (?))",Host.my_hosts.pluck(:id)])}
+    if User.current.admin? and Organization.current.nil? and Location.current.nil?
+      { :conditions => "" }
+    else
+      #TODO: Remove pluck after upgrade to newer rails as it would be
+      #done via INNER select automatically
+      where(:fact_values => {:host_id => Host.my_hosts.pluck(:id)})
+    end
   }
 
   scope :distinct, { :select => 'DISTINCT "fact_values.value"' }
