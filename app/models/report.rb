@@ -24,13 +24,13 @@ class Report < ActiveRecord::Base
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
-    return { :conditions => "" } if User.current.admin? # Admin can see all hosts
-
-    conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))", Host.my_hosts.pluck(:id)])
-    conditions.sub!(/\s*\(\)\s*/, "")
-    conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
-    conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
-    {:conditions => conditions}
+    if User.current.admin? and Organization.current.nil? and Location.current.nil?
+      { :conditions => "" }
+    else
+      #TODO: Remove pluck after upgrade to newer rails as it would be
+      #done via INNER select automatically
+      where(:reports => {:host_id => Host.my_hosts.pluck(:id)})
+    end
   }
 
   # returns recent reports
