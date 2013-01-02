@@ -1,6 +1,6 @@
 *~
 .bundle
-db/*.sqlite3
+db/*.sqlite3*
 log/*.log
 tmp/
 db/schema.rb
@@ -15,3 +15,4 @@ bundler.d/Gemfile.local.rb
 public/apipie-cache
 .DS_Store
 foreman_client
+doc/apidoc*
