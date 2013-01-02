@@ -63,7 +63,8 @@ class User < ActiveRecord::Base
   }
 
   def to_label
-    "#{firstname} #{lastname}"
+    (firstname.present? || lastname.present?) ? "#{firstname} #{lastname}" : login
+    end
   end
   alias_method :name, :to_label
 
