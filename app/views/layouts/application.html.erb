@@ -32,7 +32,7 @@
         <div id="content" class="container">
           <% unless @page_header.blank? -%>
             <div class="row control-group">
-              <h1 class="span12"><%=h @page_header %></h1>
+              <h1 class="span8"><%=h @page_header %></h1><span class="navbar span4"><%= render 'home/user_dropdown' %></span>
             </div>
           <% end -%>
           <div class="row">
