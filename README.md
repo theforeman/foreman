@@ -1,8 +1,6 @@
 See http://theforeman.org for additional information.
 
-For more info, contact us at ohadlevy@gmail.com (ohadlevy at #theforeman), or pikelly@blueyonder.co.uk.
-
-Copyright (c) 2009-2012 Ohad Levy and Paul Kelly
+Copyright (c) 2009-2013 Ohad Levy and Paul Kelly
 
 This program and entire repository is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
