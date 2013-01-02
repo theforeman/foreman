@@ -228,6 +228,9 @@ class UnattendedController < ApplicationController
     @mediapath = os.mediumpath @host
   end
 
+  def waik_attributes
+  end
+
   private
 
   def safe_render template
