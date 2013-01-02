@@ -268,7 +268,7 @@ function subnet_selected(element){
   // IP that is in the selected subnet
   var drop_text = $(element).children(":selected").text();
   if (drop_text.length !=0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
-    var details = drop_text.replace(/^[^(]+\(/, "").replace(")","").split("/");
+    var details = drop_text.replace(/^.+\(/, "").replace(")","").split("/");
     if (subnet_contains(details[0], details[1], $('#host_ip').val()))
       return;
   }
