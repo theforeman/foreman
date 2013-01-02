@@ -394,3 +394,21 @@ border-radius: 4px;
 
 .control-group.condensed.error textarea{border-color: #b94a48;}
 .control-group.condensed.warning textarea{border-color: #c09853;}
+
+.gravatar{width: 30px; height: 30px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+.text-label{font-weight: bold; color: #999}
+.boxed-label{
+    margin-right: 5px;
+    display: inline-block;
+    padding: 4px 12px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #999;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #BBB;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+

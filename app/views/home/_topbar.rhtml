@@ -14,7 +14,7 @@
 
 <% if User.current -%>
   <% cache("tabs_and_title_records-#{User.current.id}") do %>
-    <div class="nav-collapse nav1">
+    <div class="nav-collapse collapse nav1">
       <ul class="nav" id="menu">
         <% my_bookmarks = Bookmark.my_bookmarks %>
 
@@ -27,13 +27,10 @@
       <%= menu 'trends', my_bookmarks, hash_for_trends_path %>
     </ul>
   </div>
-  <div class="nav-collapse nav2">
+  <div class="nav-collapse collapse nav2">
     <ul class="nav pull-right" id="menu2">
       <%= render "home/settings" -%>
-      <% if SETTINGS[:login]%>
-        <%= render 'home/user_dropdown' %>
-      <% end -%>
     </ul>
-    </div>
+  </div>
   <% end -%>
 <% end -%>

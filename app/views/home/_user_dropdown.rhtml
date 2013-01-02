@@ -1,13 +1,16 @@
-<li class="dropdown">
-<%= link_to (User.current.login.capitalize + content_tag(:span,'', :class=>"caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown" %>
-  <ul class="dropdown-menu">
-    <li><%= link_to("Sign Out", logout_users_path) %></li>
-    <li><%= link_to("My account", edit_user_path(User.current) )%></li>
-    <% if SETTINGS[:locations_enabled] %>
-      <%= render 'home/location_dropdown' %>
-    <% end -%>
-    <% if SETTINGS[:organizations_enabled] %>
-      <%= render 'home/organization_dropdown' %>
-    <% end %>
-  </ul>
-</li>
+<ul class="nav pull-right ">
+  <li class="dropdown">
+    <%= user_header %>
+    <ul class="dropdown-menu pull-right">
+      <li><%= link_to("Sign Out", logout_users_path) %></li>
+      <li><%= link_to("My account", edit_user_path(User.current) )%></li>
+      <% if SETTINGS[:locations_enabled] %>
+        <%= render 'home/location_dropdown' %>
+      <% end -%>
+      <% if SETTINGS[:organizations_enabled] %>
+        <%= render 'home/organization_dropdown' %>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+
