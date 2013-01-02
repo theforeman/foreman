@@ -29,7 +29,7 @@ if [ $swap_size -gt 24576 ] ; then
 fi
 
 #copy all the HDD partitions to the temp file for execution
-cat <<EOF > /tmp/diskpart.cfg
+cat &lt&lt EOF &gt /tmp/diskpart.cfg
 zerombr yes
 clearpart --all --initlabel
 part swap --size 250 --maxsize "$swap_size" --grow
