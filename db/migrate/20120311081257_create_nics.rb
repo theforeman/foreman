@@ -1,5 +1,4 @@
 class CreateNics < ActiveRecord::Migration
-  class Host < ActiveRecord::Base; end
   def self.up
     create_table :nics do |t|
       t.string :mac
@@ -18,20 +17,23 @@ class CreateNics < ActiveRecord::Migration
     add_index :nics, [:host_id], :name => 'index_by_host'
     add_index :nics, [:type, :id], :name => 'index_by_type_and_id'
 
-    Host.where(["sp_mac <> ? and sp_ip <> ?", "", ""]).each do |host|
+    Host.unscoped.where(["sp_mac <> ? and sp_ip <> ?", "", ""]).each do |host|
       begin
-        sp_ip  = host.read_attribute(:sp_ip)
-        sp_mac = host.read_attribute(:sp_mac)
-          Nic::BMC.create! :host_id => host.id, :mac => sp_mac, :ip => sp_ip, :subnet_id => host.read_attribute(:sp_subnet_id),
-            :name => host.read_attribute(:sp_name), :priority => 1
-          say "created BMC interface for #{host}"
-      rescue => e
-        say "failed to import nics for #{host} : #{e}"
+        nic = Nic::BMC.new(:host_id   => host.id, :host => host,
+                           :mac       => host.read_attribute(:sp_mac),
+                           :ip        => host.read_attribute(:sp_ip),
+                           :subnet_id => host.read_attribute(:sp_subnet_id),
+                           :provider  => Nic::BMC::PROVIDERS.first,
+                           :name      => host.read_attribute(:sp_name))
+        # it makes no sense to fire validations here, as that would also trigger
+        # the queue, potentially adding new dhcp records
+        # since the data is already coming from the DB,
+        # we assume it has been validated before.
+        nic.save(:validate => false)
       end
     end
 
     remove_columns :hosts, :sp_mac, :sp_ip, :sp_name, :sp_subnet_id
-    #   TODO: fix this stuff in search
   end
 
   def self.down
