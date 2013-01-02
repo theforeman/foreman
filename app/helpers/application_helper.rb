@@ -35,7 +35,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-small btn-success") )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
   def toggle_div divs
@@ -236,7 +236,7 @@ module ApplicationHelper
     primary = args.delete_at(0)
 
     content_tag(:div,:class => "btn-group") do
-      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
+      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
       content_tag(:ul,:class=>"dropdown-menu") do
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
