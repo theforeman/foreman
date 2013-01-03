@@ -1,4 +1,45 @@
+2013-01-03	Amos Benari <abenari@redhat.com>
+	* fixes #2096 New location/Org button in user-menu doesn't work on ff.
+	* fixes #2091 Menu items disappeard
+
+2013-01-03	Dominic Cleal <dcleal@redhat.com>
+	* Revert bundler changes in 73f23bf4c643637c805e4911648aea16f8a73c55
+	* refs #2097 - update test to include stderr redirect
+	* fixes #2097 - improve debug when `puppet master --configprint` fails
+
+2013-01-03	Sam Kottler <shk@redhat.com>
+	* Fixes #2095 - Only show console button if VM is running
+
+2013-01-03	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #2092 - allow parens in Subnet description
+
+2013-01-02	Amos Benari <abenari@redhat.com>
+	* fixed an error in the ptable wellcome text.
+	* fixed missing condition in taxonomix.
+	* remove the link from hosts list in users filter page when not needed.
+	* added multi-select ui component instead of multi check-boxes for long lists.
+	* reorg in the user and settings top menus.
+	* ui phase2
+	* bootstrap2.2.2
+
+2013-01-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2084 - All Facts and Reports are visible regardless of selected Org/Location for admin users
+	* fixes #2076 Windows provisioning template generation fails
+	* fixes #2083 - DB migration fails with Postgres with bmc nics
+	* updated readme for new year
+	* updated gitignore
+
+2013-01-02	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2025 - show user login if name is blank
+
+2012-12-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2078 - Classes parameters value leak fix
+
+2012-12-30	Jasper Poppe <jgpoppe@gmail.com>
+	* added puppet location and organization parameters
+
 2012-12-27	Ohad Levy <ohadlevy@gmail.com>
+	* 1.1RC3 released
 	* fixes #2073 - undefined method `update!'
 	* refs #1944 - minor leftover to avoid Object.id warning
 	* fixes #1949 - VMware creation: vm's always get 768MB memory
