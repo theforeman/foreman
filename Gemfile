@@ -1,7 +1,7 @@
 require File.expand_path('../config/settings', __FILE__)
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.17'
+gem 'rails', '3.0.18'
 gem "jquery-rails"
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
