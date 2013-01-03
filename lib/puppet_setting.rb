@@ -6,8 +6,9 @@ class PuppetSetting
   include Foreman::Util
 
   def get(*name)
-    values = `#{puppetmaster} --configprint #{name.join(",")}`
-    raise "unable to get #{name.inspect} Puppet setting: #{values}" unless $?.success?
+    cmd = "#{puppetmaster} --configprint #{name.join(",")} 2>&1"
+    values = `#{cmd}`
+    raise "unable to get #{name.inspect} Puppet setting, `#{cmd}` returned #{$?}: #{values}" unless $?.success?
     if name.size > 1
       # Parse key = value lines into hash
       values = HashWithIndifferentAccess[values.lines.map {|kv| kv.chomp.split(' = ', 2) }]
@@ -34,7 +35,6 @@ class PuppetSetting
       end
 
       # Append master to the puppet command if we are not using the old puppetmasterd command
-      logger.debug "Found puppetmaster at #{@puppetmaster}"
       @puppetmaster << ' master' unless @puppetmaster.include?('puppetmaster')
 
       # Despite the name "dir", the default settings.yaml pointed to puppet.conf so handle both files and dirs
@@ -45,6 +45,8 @@ class PuppetSetting
       if Puppet::PUPPETVERSION.to_i >= 3
         @puppetmaster << ' --vardir ' << SETTINGS[:puppetvardir]
       end
+
+      logger.debug "Using puppetmaster command: #{@puppetmaster}"
     end
     @puppetmaster
   end
