@@ -10,7 +10,7 @@
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           There aren't any organizations yet.
         </div>
-        <button class="btn btn-primary" type="button"><%= link_to "New Organization", :controller => "organizations", :action => "new" %></button>
+        <%= link_to "New Organization", {:controller => "organizations", :action => "new"}, :class=>"btn btn-primary" %>
       </div>
     <% else %>
       <% if orgs_count > 1 || User.current.admin? %>
