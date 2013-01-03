@@ -243,6 +243,17 @@ module ApplicationHelper
     end
   end
 
+  def gravatar_image_tag(email, html_options = {})
+    default_image = "/images/user.jpg"
+    html_options.merge!(:onerror=>"this.src='#{default_image}'")
+    image_tag(gravatar_url(email, default_image), html_options)
+  end
+
+  def gravatar_url(email, default_image)
+    return default_image if email.blank?
+    "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?d=mm&s=30"
+  end
+
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"

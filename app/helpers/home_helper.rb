@@ -48,17 +48,29 @@ module HomeHelper
       ['Settings',               :settings]
     ]
 
-    #prevent adjacent dividers
+    authorized_menu_actions(choices)
+  end
+
+  def authorized_menu_actions(choices)
     last_item = nil
     choices = choices.map do |item|
+      #prevent adjacent dividers
       if item == [:divider]
         if last_item
           last_item = nil
           item
         end
-      elsif authorized_for(item[1], :index)
+      elsif item.size == 2 && authorized_for(item[1], :index)
         last_item = item
         item
+      elsif item.size == 3
+        item[2] = item[2].map do |sub_item|
+          sub_item if authorized_for(sub_item[1], :index)
+        end.compact
+        if item[2].size > 0
+          last_item = item
+          item
+        end
       end
     end.compact
     choices.pop if (choices.last == [:divider])
@@ -100,14 +112,4 @@ module HomeHelper
     link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
   end
 
-  def gravatar_image_tag(email, html_options = {})
-    default_image = "/images/user.jpg"
-    html_options.merge!(:onerror=>"this.src='#{default_image}'")
-    image_tag(gravatar_url(email, default_image), html_options)
-  end
-
-  def gravatar_url(email, default_image)
-    return default_image if email.blank?
-    "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?d=mm&s=30"
-  end
 end
