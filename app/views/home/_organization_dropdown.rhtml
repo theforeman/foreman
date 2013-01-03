@@ -1,7 +1,7 @@
 <li class="divider"></li>
 <li class="nav-header">Organization</li>
 <li class="dropdown-submenu">
-  <% orgs_count = Organization.my_organizations.count  %>
+  <% orgs_count = Organization.my_organizations.count %>
   <%= organization_dropdown orgs_count %>
   <ul class="dropdown-menu">
     <% if show_add_organization_button? orgs_count %>
@@ -10,12 +10,12 @@
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           There aren't any organizations yet.
         </div>
-        <button class="btn btn-primary" type="button"><%= link_to "New Organization", :controller => "organizations", :action => "new" %></button>
+        <%= link_to "New Organization", new_organization_path, :class => "btn btn-primary" %>
       </div>
     <% else %>
       <% if orgs_count > 1 || User.current.admin? %>
         <li><%= link_to('Any Organization', clear_organizations_path) %></li>
-        <%= content_tag(:li, "", :class=>"divider") %>
+        <%= content_tag(:li, "", :class => "divider") %>
       <% end %>
       <% Organization.my_organizations.each do |organization| %>
         <li><%= link_to(organization.name, select_organization_path(organization)) %></li>
