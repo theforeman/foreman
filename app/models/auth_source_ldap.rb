@@ -104,7 +104,7 @@ class AuthSourceLdap < AuthSource
   end
 
   def required_ldap_attributes
-    return {} unless onthefly_register?
+    return {:dn => :dn} unless onthefly_register?
     { :firstname => attr_firstname,
       :lastname  => attr_lastname,
       :mail      => attr_mail,
