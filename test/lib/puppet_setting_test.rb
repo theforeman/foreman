@@ -57,7 +57,7 @@ class PuppetSettingTest < ActiveSupport::TestCase
   test "should use puppetmasterd --configprint to look up setting" do
     ps = PuppetSetting.new
     ps.instance_variable_set(:@puppetmaster, '/foo')
-    ps.expects('`').with('/foo --configprint foo').returns('bar')
+    ps.expects('`').with('/foo --configprint foo 2>&1').returns('bar')
     $?.expects(:success?).returns(true)
     assert_equal 'bar', ps.get('foo')
   end
@@ -65,7 +65,7 @@ class PuppetSettingTest < ActiveSupport::TestCase
   test "should use puppetmasterd --configprint to look up multiple settings" do
     ps = PuppetSetting.new
     ps.instance_variable_set(:@puppetmaster, '/foo')
-    ps.expects('`').with('/foo --configprint foo,bar_baz').returns("bar_baz = foo\nfoo = bar\n")
+    ps.expects('`').with('/foo --configprint foo,bar_baz 2>&1').returns("bar_baz = foo\nfoo = bar\n")
     $?.expects(:success?).returns(true)
     assert_equal({ "foo" => "bar", "bar_baz" => "foo" },
     ps.get('foo', 'bar_baz'))
@@ -74,7 +74,7 @@ class PuppetSettingTest < ActiveSupport::TestCase
   test "should report error from puppetmasterd --configprint" do
     ps = PuppetSetting.new
     ps.instance_variable_set(:@puppetmaster, '/foo')
-    ps.expects('`').with('/foo --configprint foo').returns('bar')
+    ps.expects('`').with('/foo --configprint foo 2>&1').returns('bar')
     $?.expects(:success?).returns(false)
     assert_raise(RuntimeError, /unable to get foo/) { ps.get('foo') }
   end
