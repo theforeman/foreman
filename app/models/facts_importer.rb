@@ -19,6 +19,16 @@ module Facts
         args = { :name => os_name, :major => "1", :minor => "0" }
         Operatingsystem.where(args).first || Operatingsystem.create!(args)
       elsif orel.present?
+        if os_name == "Debian" and orel[/testing|unstable/i]
+          case facts[:lsbdistcodename]
+            when /wheezy/i
+              orel = "7"
+            when /jessie/i
+              orel = "8"
+            when /sid/i
+              orel = "99"
+          end
+        end
         major, minor = orel.split(".")
         minor        ||= ""
         args = { :name => os_name, :major => major, :minor => minor }
