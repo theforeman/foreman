@@ -214,7 +214,7 @@ class HostsController < ApplicationController
     vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
     begin
       vm.send(action)
-      @vm.reload
+      vm.reload
       process_success :success_redirect => :back, :success_msg => "#{vm} is now #{vm.state.capitalize}"
     rescue => e
       process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
