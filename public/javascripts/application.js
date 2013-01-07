@@ -32,7 +32,7 @@ function onContentLoad(){
   })
 
   //set the tooltips
-  $('a[rel="popover"]').popover();
+  $('a[rel="popover"]').popover({html: true});
   $('[rel="twipsy"]').tooltip();
   $('*[title]').not('*[rel]').tooltip();
 }
@@ -74,7 +74,7 @@ function mark_params_override(){
   });
   $('#params-tab').removeClass("tab-error");
   if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
-  $('a[rel="popover"]').popover();
+  $('a[rel="popover"]').popover({html: true});
 }
 
 function add_fields(link, association, content) {
