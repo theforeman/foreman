@@ -413,4 +413,6 @@ border-radius: 4px;
 }
 
 h1, h2, h3{line-height: 32px;}
+.btn-small .caret{margin-top: 8px;}
+.btn a {text-decoration: none; color: #000;}
 

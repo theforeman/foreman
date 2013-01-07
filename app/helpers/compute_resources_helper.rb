@@ -15,7 +15,7 @@ module ComputeResourcesHelper
 
   def vm_power_action vm
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)
-    html = vm.ready? ? { :confirm => 'Are you sure?', :class => "btn btn-danger" } : { :class => "btn btn-info" }
+    html = vm.ready? ? { :confirm => 'Are you sure?', :class => "btn btn-small btn-danger" } : { :class => "btn btn-small btn-info" }
 
     display_link_if_authorized "Power#{vm_state(vm.ready?)}", opts, html.merge(:method => :put)
   end

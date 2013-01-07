@@ -36,7 +36,7 @@
       <td><%= link_to trend.type_name, trend_path(:id => trend), :title => "Show Trends" %></td>
       <td>
         <%= action_buttons(
-                display_link_if_authorized("Edit", hash_for_edit_trend_path(:id => trend), :class => "btn"),
+                display_link_if_authorized("Edit", hash_for_edit_trend_path(:id => trend)),
                 display_delete_if_authorized(hash_for_trend_path(:id => trend), :confirm => "Delete all the trend history for #{trend.type_name}?")) %>
       </td>
     </tr>
