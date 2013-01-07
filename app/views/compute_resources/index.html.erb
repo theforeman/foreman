@@ -13,7 +13,7 @@
     <td><%= link_to compute.name, compute %></td>
     <td><%= compute.provider_friendly_name %></td>
     <td>
-      <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute),:class=>"btn"),
+      <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute)),
                          display_delete_if_authorized(hash_for_compute_resource_path(:id => compute), :confirm => "Delete #{compute.name}?")) %>
     </td>
   </tr>
