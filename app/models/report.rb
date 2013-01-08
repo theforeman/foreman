@@ -62,7 +62,7 @@ class Report < ActiveRecord::Base
   end
 
   def config_retrieval
-    metrics[:time][:config_retrieval].round_with_precision(2) rescue 0
+    metrics[:time][:config_retrieval].round(2) rescue 0
   end
 
   def runtime
