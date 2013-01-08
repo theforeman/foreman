@@ -10,7 +10,7 @@
 
   <div class="tab-content">
 
-    <div class="tab-pane active" id="primary">
+    <div class="tab-pane active form-horizontal" id="primary">
       <%= text_f f, :name %>
       <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :label=> 'Puppet Environments', :disabled => true %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => "Hostgroups" %>
@@ -28,13 +28,17 @@
           Undo remove
         </div>
           <div class="control-group">
-            <label class="control-label">Filter By Environment</label>
+            <label class="control-label">Filter Parameters</label>
             <div class="controls">
-              <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
-                             :include_blank => "All - (Not filtered)", :onchange=>'filterByEnvironment(this)'%>
+              <input placeholder="Filter By Name" onkeyup="filterByClassParam(this);" type='text' class="fl">
+              <div class="input-prepend">
+                <span class="add-on span3">@</span>
+                <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
+                               :include_blank => "All Environments - (Not filtered)", :onchange=>'filterByEnvironment(this)'%>
+              </div>
             </div>
           </div>
-          <div class="tabbable tabs-left">
+          <div class="tabbable tabs-left row">
             <ul class="nav nav-tabs smart-var-tabs span3" data-tabs="pills">
               <% @puppetclass.class_params.each do |key| -%>
                   <li data-used-environments=<%= key.environments.map(&:to_s).to_json %> >

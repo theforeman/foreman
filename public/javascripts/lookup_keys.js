@@ -166,6 +166,17 @@ function filterByEnvironment(item){
   $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('muted');
 }
 
+function filterByClassParam(item) {
+  var term = $(item).val().trim();
+  if (term.length > 0) {
+    $('ul.smart-var-tabs li[data-used-environments]').removeClass('search-marker').addClass('hide');
+    $('ul.smart-var-tabs li[data-used-environments] a[href*='+term+']:not(.selected-marker)').parent().addClass('search-marker').removeClass('hide');
+  } else{
+    $('ul.smart-var-tabs li[data-used-environments]:not(.selected-marker)').addClass('search-marker').removeClass('hide');
+  }
+  return false;
+}
+
 function validatorTypeSelected(item){
   var validatorType = $(item).val();
   var validator_rule_field = $(item).closest('.fields').find("[id$='_validator_rule']");
