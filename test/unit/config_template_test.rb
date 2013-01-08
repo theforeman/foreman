@@ -21,7 +21,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert !ConfigTemplate.new.valid?
   end
 
-  def test_should_not_save_assoications_if_snippet
+  def test_should_not_save_associations_if_snippet
     tmplt          = ConfigTemplate.new
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
