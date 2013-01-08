@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Foreman
   module Util
     # searches for binaries in predefined directories and user PATH
@@ -13,6 +15,11 @@ module Foreman
     rescue StandardError => e
       logger.warn e
       return false
+    end
+
+    # Generates a URL-safe token for use with Rails for signing cookies
+    def secure_token
+      SecureRandom.base64(96).tr('+/=', '-_*')
     end
   end
 end
