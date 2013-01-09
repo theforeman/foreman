@@ -1,7 +1,7 @@
 module Api
-  module V1
+  module V2
     class BaseController < Api::BaseController
-      include Api::Version1
+      include Api::Version2
     end
   end
 end

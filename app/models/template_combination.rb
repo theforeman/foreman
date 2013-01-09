@@ -1,4 +1,6 @@
 class TemplateCombination < ActiveRecord::Base
+  include Authorization
+
   belongs_to :config_template
   belongs_to :environment
   belongs_to :hostgroup
