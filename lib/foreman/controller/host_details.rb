@@ -1,4 +1,4 @@
-# This module extract repeating methods which handle host assoications of hostgroups, os etc
+# This module extract repeating methods which handle host associations of hostgroups, os etc
 # Mainly used within the host and the hostgroup controllers
 
 module Foreman::Controller::HostDetails

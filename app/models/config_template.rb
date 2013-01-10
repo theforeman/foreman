@@ -14,7 +14,7 @@ class ConfigTemplate < ActiveRecord::Base
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true, :reject_if => lambda {|tc| tc[:environment_id].blank? and tc[:hostgroup_id].blank? }
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
-  before_save :check_for_snippet_assoications, :remove_trailing_chars
+  before_save :check_for_snippet_associations, :remove_trailing_chars, :convert_slashes_to_dashes
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -135,7 +135,7 @@ class ConfigTemplate < ActiveRecord::Base
   private
 
   # check if our template is a snippet, and remove its associations just in case they were selected.
-  def check_for_snippet_assoications
+  def check_for_snippet_associations
     return unless snippet
     self.hostgroups.clear
     self.environments.clear
@@ -161,5 +161,9 @@ class ConfigTemplate < ActiveRecord::Base
       end
     end
     combos
+  end
+
+  def convert_slashes_to_dashes
+    self.name = self.name.parameterize
   end
 end
