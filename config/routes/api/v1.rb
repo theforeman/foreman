@@ -9,7 +9,7 @@ Foreman::Application.routes.draw do
       resources :auth_source_ldaps, :except => [:new, :edit]
       resources :bookmarks, :except => [:new, :edit]
       resources :common_parameters, :except => [:new, :edit]
-      # add "contraint" that uncontrains and allows :id to have dot notation ex. sat.redhat.com
+      # add "constraint" that unconstrained and allows :id to have dot notation ex. sat.redhat.com
       constraints(:id => /[^\/]+/) do
         resources :domains, :except => [:new, :edit]
         resources :hosts, :except => [:new, :edit] do
