@@ -1,3 +1,5 @@
+require 'securerandom'
+
 #Common methods between host and hostgroup
 # mostly for template rendering consistency
 module HostCommon
@@ -74,7 +76,7 @@ module HostCommon
     # make sure we store an encrypted copy of the password in the database
     # this password can be use as is in a unix system
     def root_pass=(pass)
-      p = pass.empty? ? nil : (pass =~ /^\$1\$foreman\$.*/ ? pass : pass.crypt("$1$foreman$"))
+      p = pass.empty? ? nil : (pass.starts_with?('$') ? pass : pass.crypt("$1$#{SecureRandom.base64(6)}"))
       write_attribute(:root_pass, p)
     end
 
