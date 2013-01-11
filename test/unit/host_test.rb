@@ -414,6 +414,34 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.root_pass, Setting.root_pass
   end
 
+  test "should generate a random salt when saving root pw" do
+    h = hosts(:redhat)
+    pw = h.root_pass
+    h.root_pass = "token"
+    h.hostgroup = nil
+    assert h.save
+    first = h.root_pass
+
+    # Check it's a $.$....$...... enhanced style password
+    assert_equal 4, first.split('$').count
+    assert first.split('$')[2].size >= 8
+
+    # Check it changes
+    h.root_pass = "token"
+    assert h.save
+    assert_not_equal first.split('$')[2], h.root_pass.split('$')[2]
+  end
+
+  test "should pass through existing salt when saving root pw" do
+    h = hosts(:redhat)
+    pw = h.root_pass
+    pass = "$1$jmUiJ3NW$bT6CdeWZ3a6gIOio5qW0f1"
+    h.root_pass = pass
+    h.hostgroup = nil
+    assert h.save
+    assert_equal pass, h.root_pass
+  end
+
   test "should use hostgroup root password" do
     h = hosts(:redhat)
     h.root_pass = nil
