@@ -1,13 +1,13 @@
 <table class="table table-bordered">
-  <tr>
-    <thead>
+  <thead>
+    <tr>
       <th>Name</th>
       <th>Type</th>
       <th>Tenant</th>
       <th>State</th>
       <th></th>
-    </thead>
-  </tr>
+    </tr>
+  </thead>
   <% @compute_resource.vms.each do |vm| -%>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
