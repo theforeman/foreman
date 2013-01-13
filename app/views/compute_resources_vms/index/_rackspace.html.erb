@@ -1,12 +1,12 @@
-<table class="table table-bordered">
-  <tr>
-    <thead>
+<table class="table table-bordered" data-table='inline'>
+  <thead>
+    <tr>
       <th>Name</th>
       <th>Type</th>
       <th>State</th>
       <th></th>
-    </thead>
-  </tr>
+    </tr>
+  </thead>
   <% @compute_resource.vms.each do |vm| -%>
     <tr>
       <td><%= vm.name %></td>

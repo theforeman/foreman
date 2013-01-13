@@ -1,13 +1,13 @@
-<table class="table table-bordered">
-  <tr>
-    <thead>
-    <th>Name</th>
-    <th> CPUs</th>
-    <th> Memory</th>
-    <th> Power</th>
-    <th></th>
-    </thead>
-  </tr>
+<table class="table table-bordered" data-table='inline'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> CPUs</th>
+      <th> Memory</th>
+      <th> Power</th>
+      <th></th>
+    </tr>
+  </thead>
   <% @compute_resource.vms.each do |vm| -%>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
@@ -22,5 +22,3 @@
     </tr>
   <% end -%>
 </table>
-
-

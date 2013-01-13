@@ -35,6 +35,12 @@ function onContentLoad(){
   $('a[rel="popover"]').popover({html: true});
   $('[rel="twipsy"]').tooltip();
   $('*[title]').not('*[rel]').tooltip();
+  $('[data-table=inline]').not('.dataTable').dataTable(
+      {
+        "sDom": "<'row'<'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "sPaginationType": "bootstrap"
+      }
+  );
 }
 
 function remove_fields(link) {
