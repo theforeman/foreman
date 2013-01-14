@@ -62,6 +62,16 @@ Foreman::Application.routes.draw do
     # new v2 routes that point to v2
     scope :module => :v2, :constraints => ApiConstraints.new(:version => 2) do
 
+      resources :config_templates, :except => [:new, :edit] do
+        collection do
+          get 'build_pxe_default'
+          get 'revision'
+        end
+        resources :template_combinations, :only => [:index, :create]
+      end
+      resources :template_combinations, :only => [:show, :destroy]
+
+
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
       match '*other', :to => 'home#route_error'
