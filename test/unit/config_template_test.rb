@@ -33,8 +33,8 @@ class ConfigTemplateTest < ActiveSupport::TestCase
       assert tmplt.save
     end
     assert_equal template_kinds(:finish), tmplt.template_kind
-    assert_equal "Common", tmplt.hostgroups.to_s
-    assert_equal "production", tmplt.environments.to_s
+    assert_equal [hostgroups(:common)], tmplt.hostgroups
+    assert_equal [environments(:production)], tmplt.environments
   end
 
   def test_should_not_save_assoications_if_snippet
