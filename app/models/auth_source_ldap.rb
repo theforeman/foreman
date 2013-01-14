@@ -45,13 +45,18 @@ class AuthSourceLdap < AuthSource
 
     # not sure if there is a case were search result without a DN
     # but just to be on the safe side.
-    return nil if (dn=attrs.delete(:dn)).empty?
+    if (dn=attrs.delete(:dn)).empty?
+      logger.warn "no DN"
+      return nil 
+    end
 
     logger.debug "DN found for #{login}: #{dn}"
 
     # finally, authenticate user
     ldap_con = initialize_ldap_con(dn, password)
     unless ldap_con.bind
+      logger.warn "Result: #{ldap_con.get_operation_result.code}"
+      logger.warn "Message: #{ldap_con.get_operation_result.message}"
       logger.warn "Failed to authenticate #{login}"
       return nil
     end
@@ -131,6 +136,10 @@ class AuthSourceLdap < AuthSource
                                     :filter     => object_filter & login_filter,
                                     # only ask for the DN if on-the-fly registration is disabled
                                     :attributes => required_ldap_attributes.values)
+    unless ldap_con.get_operation_result.code == 0
+      logger.warn "Search Result: #{ldap_con.get_operation_result.code}"
+      logger.warn "Search Message: #{ldap_con.get_operation_result.message}"
+    end
 
     # we really care about one match, using the last one, hoping there is only one match :)
     entries ? entries.last : nil
