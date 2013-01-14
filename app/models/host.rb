@@ -604,7 +604,7 @@ class Host < Puppet::Rails::Host
     klasses
   end
 
-  def can_be_build?
+  def can_be_built?
     managed? and SETTINGS[:unattended] and capabilities.include?(:build) ? build == false : false
   end
 
