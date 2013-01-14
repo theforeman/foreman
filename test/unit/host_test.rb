@@ -489,7 +489,7 @@ class HostTest < ActiveSupport::TestCase
     assert host.location_id = new_location.id
   end
 
-  test "assign a host to a tenant" do
+  test "assign a host to an organization" do
     host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     organization = Organization.create :name => "Hosting client 1"
 
@@ -497,7 +497,7 @@ class HostTest < ActiveSupport::TestCase
     assert host.save!
   end
 
-  test "assign a host to both a location and a tenant" do
+  test "assign a host to both a location and an organization" do
     host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     location = Location.create :name => "Tel Aviv"
     organization = Organization.create :name => "Hosting client 1"
