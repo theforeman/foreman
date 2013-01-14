@@ -210,10 +210,10 @@ module HostsHelper
         button_group(
             link_to_if_authorized("Edit", hash_for_edit_host_path(:id => host), :title => "Edit your host"),
             if host.build
-              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_build?,
+              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_built?,
                                     :title                                                                 => "Cancel build request for this host")
             else
-              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_build?,
+              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_built?,
                                     :title                                                       => "Enable rebuild on next host boot",
                                     :confirm                                                     => "Rebuild #{host} on next reboot?\nThis would also delete all of its current facts and reports")
             end

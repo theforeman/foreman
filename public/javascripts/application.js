@@ -41,6 +41,12 @@ function onContentLoad(){
         "sPaginationType": "bootstrap"
       }
   );
+
+  // Prevents all links with the disabled attribute set to "disabled"
+  // from being clicked.
+  $('a[disabled="disabled"]').click(function() {
+    return false;
+  });
 }
 
 function remove_fields(link) {
