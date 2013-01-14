@@ -1,4 +1,5 @@
 class Environment < ActiveRecord::Base
+  include Authorization
   include Taxonomix
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
