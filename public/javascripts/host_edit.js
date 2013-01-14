@@ -446,6 +446,7 @@ function load_with_placeholder(target, url, data){
             '<td colspan="4"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);
         $.ajax({
+          type:'post',
           url: url,
           data: data,
           success:
