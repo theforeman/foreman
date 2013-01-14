@@ -35,13 +35,12 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action])
-    return true if request.xhr?
     allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
     allowed ? true : deny_access
   end
 
   def deny_access
-    User.current.logged? ? render_403 : require_login
+    (User.current.logged? || request.xhr?) ? render_403 : require_login
   end
 
   def require_ssl
