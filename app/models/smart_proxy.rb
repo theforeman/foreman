@@ -1,4 +1,5 @@
 class SmartProxy < ActiveRecord::Base
+  include Authorization
   include Taxonomix
   ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
   attr_accessible :name, :url
