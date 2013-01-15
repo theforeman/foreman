@@ -10,7 +10,7 @@ Apipie.configure do |config|
   config.validate = false
   config.force_dsl = true
   config.reload_controllers = Rails.env.development?
-  config.markup = Apipie::Markup::Markdown.new if Rails.env.development?
+  config.markup = Apipie::Markup::Markdown.new if Rails.env.development? and defined? Redcarpet
 end
 
 # special type of validator: we say that it's not specified
