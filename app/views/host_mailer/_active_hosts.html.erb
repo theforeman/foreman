@@ -23,7 +23,11 @@
       <% else -%>
         <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
       <% end -%>
-      <%= v %>
+      <% if v > 0 -%>
+        <%= link_to v, reports_path(:search=>"#{host} and #{m} > 0", :host => @url, :only_path => false) %>
+      <% else -%>
+        <%= v %>
+      <% end -%>
     </td>
   <% end -%>
 </tr>
