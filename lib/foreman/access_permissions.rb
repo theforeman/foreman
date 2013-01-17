@@ -89,7 +89,7 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :hosts do |map|
-    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled], :dashboard => [:OutOfSync, :errors, :active]}
+    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :externalNodes], :dashboard => [:OutOfSync, :errors, :active]}
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone]}
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple,
                                       :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,

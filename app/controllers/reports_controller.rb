@@ -1,13 +1,10 @@
+require 'foreman/controller/smart_proxy_auth'
+
 class ReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::SmartProxyAuth
 
-  skip_before_filter :require_login,             :only => :create
-  skip_before_filter :require_ssl,               :only => :create
-  skip_before_filter :authorize,                 :only => :create
-  skip_before_filter :verify_authenticity_token, :only => :create
-  skip_before_filter :set_taxonomy,              :only => :create
-  skip_before_filter :session_expiry, :update_activity_time, :only => :create
-  before_filter :set_admin_user, :only => :create
+  add_puppetmaster_filters :create
   before_filter :setup_search_options, :only => :index
 
   def index
