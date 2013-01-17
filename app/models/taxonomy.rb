@@ -2,6 +2,7 @@ class Taxonomy < ActiveRecord::Base
   audited
   has_associated_audits
 
+  serialize :ignore_types, Array
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :type
 
@@ -20,6 +21,7 @@ class Taxonomy < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
 
+  before_validation :sanitize_ignored_types
   def to_param
     "#{id.to_s.parameterize}"
   end
@@ -50,6 +52,14 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def ignore?(taxable_type)
+    if ignore_types.empty?
+      false
+    else
+      ignore_types.include?(taxable_type.classify)
+    end
+  end
+
   def clone
     new = super
     new.name = ""
@@ -62,6 +72,12 @@ class Taxonomy < ActiveRecord::Base
     new.media             = media
     new.hostgroups        = hostgroups
     new
+  end
+  private
+
+  def sanitize_ignored_types
+    self.ignore_types ||= []
+    self.ignore_types = self.ignore_types.compact.uniq
   end
 
 end
