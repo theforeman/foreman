@@ -16,4 +16,10 @@ class Organization < Taxonomy
       end
       where(conditions).reorder('type, name')
     }
+
+  def clone
+    new = super
+    new.locations = locations
+    new
+  end
 end

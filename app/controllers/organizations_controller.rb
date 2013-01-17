@@ -27,21 +27,8 @@ class OrganizationsController < ApplicationController
   end
 
   def clone
-   new = @organization.clone
-   # copy all the relations
-   new.name = ""
-   new.users             = @organization.users
-   new.smart_proxies     = @organization.smart_proxies
-   new.subnets           = @organization.subnets
-   new.compute_resources = @organization.compute_resources
-   new.media             = @organization.media
-   new.domains           = @organization.domains
-   new.media             = @organization.media
-   new.hostgroups        = @organization.hostgroups
-   new.locations         = @organization.locations
-
-   @organization = new
-   render :action => :new
+    @organization = @organization.clone
+    render :action => :new
   end
 
   def create
