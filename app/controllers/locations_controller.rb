@@ -28,20 +28,7 @@ class LocationsController < ApplicationController
   end
 
   def clone
-   new = @location.clone
-   # copy all the relations
-   new.name = ""
-   new.users             = @location.users
-   new.smart_proxies     = @location.smart_proxies
-   new.subnets           = @location.subnets
-   new.compute_resources = @location.compute_resources
-   new.media             = @location.media
-   new.domains           = @location.domains
-   new.media             = @location.media
-   new.hostgroups        = @location.hostgroups
-   new.organizations     = @location.organizations
-
-   @location = new
+   @location = @location.clone
    render :action => :new
   end
 

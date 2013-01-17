@@ -50,4 +50,18 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def clone
+    new = super
+    new.name = ""
+    new.users             = users
+    new.smart_proxies     = smart_proxies
+    new.subnets           = subnets
+    new.compute_resources = compute_resources
+    new.media             = media
+    new.domains           = domains
+    new.media             = media
+    new.hostgroups        = hostgroups
+    new
+  end
+
 end
