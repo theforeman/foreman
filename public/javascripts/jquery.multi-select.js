@@ -449,6 +449,7 @@
 
 $(function(){
   $('select[multiple]').multiSelect({
+    disabledClass : 'disabled disabled_item',
     selectableHeader: $("<div class='ms-header'>All items<a href='#' title='Select All' class='ms-select-all pull-right icon-plus icon-white'></a></div>"),
     selectionHeader: $("<div class='ms-header'>Selected items<a href='#' title='Deselect All' class='ms-deselect-all pull-right icon-minus icon-white'></a></div>")
   });

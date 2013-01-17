@@ -15,10 +15,8 @@ module Taxonomix
 
       def self.with_taxonomy_scope
         scope =  block_given? ? yield : where('1=1')
-
-        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current.id)}) #{user_conditions}") if SETTINGS[:locations_enabled] and Location.current
-        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current.id)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current
-
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current.id)}) #{user_conditions}") if SETTINGS[:locations_enabled] && Location.current && !Location.current.ignore?(self.to_s)
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current.id)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current && !Organization.current.ignore?(self.to_s)
         scope.readonly(false)
       end
 
