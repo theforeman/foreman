@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
-  before_filter :set_taxonomy, :require_mail
+  before_filter :set_taxonomy, :check_empty_taxonomy, :require_mail
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
@@ -316,4 +316,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_empty_taxonomy
+    return if ["locations","organizations"].include?(controller_name)
+
+    if User.current && User.current.admin?
+      if SETTINGS[:locations_enabled] && Location.unconfigured?
+        redirect_to locations_path, :notice => "You must create at least one location before continuing."
+      elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
+        redirect_to organizations_path, :notice => "You must create at least one organization before continuing."
+      end
+    end
+  end
 end
