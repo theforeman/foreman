@@ -148,7 +148,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render correctly when format text/html is given" do
-    get :externalNodes, {:name => @host.name}
+    get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
@@ -513,6 +513,117 @@ class HostsControllerTest < ActionController::TestCase
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
     assert flash[:notice] == "Foreman now no longer manages the build cycle for #{@host.name}"
+  end
+
+  test 'when ":restrict_registered_puppetmasters" is false, HTTP requests should be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = false
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts with a registered smart proxy on should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts without a registered smart proxy on should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['another.host'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'hosts with a registered smart proxy and SSL cert should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN_CN'] = 'else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts without a registered smart proxy but with an SSL cert should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN_CN'] = 'another.host'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'hosts with an unverified SSL cert should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN_CN'] = 'else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'FAILURE'
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'when "require_ssl_puppetmasters" and "require_ssl" are true, HTTP requests should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = true
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to get externalNodes' do
+    User.current = nil
+    # since require_ssl_puppetmasters is only applicable to HTTPS connections, both should be set
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'authenticated users over HTTP should be able to get externalNodes' do
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['users.host'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    assert_response :success
+  end
+
+  test 'authenticated users over HTTPS should be able to get externalNodes' do
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['users.host'])
+    @request.env['HTTPS'] = 'on'
+    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    assert_response :success
   end
 
   private

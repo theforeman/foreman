@@ -1,20 +1,16 @@
 require 'foreman/controller/host_details'
+require 'foreman/controller/smart_proxy_auth'
 
 class HostsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::SmartProxyAuth
 
-  # actions which don't require authentication and are always treated as the admin user
-  ANONYMOUS_ACTIONS=[ :externalNodes, :lookup ]
+  PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters}
-  skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :set_taxonomy, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :session_expiry, :update_activity_time, :only => ANONYMOUS_ACTIONS
-  before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
+  add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
