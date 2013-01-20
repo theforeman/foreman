@@ -180,17 +180,23 @@ module HostsHelper
 
   def overview_fields host
     fields = [
-      ["Domain", host.domain],
-      ["IP Address", host.ip],
-      ["MAC Address", host.mac],
-      ["Puppet Environment", host.environment],
-      ["Host Architecture", host.arch],
-      ["Operating System", host.os],
-      ["Host Group", host.hostgroup],
+      ["Domain", (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
+      ["IP Address", (link_to(host.ip, hosts_path(:search => "ip = #{host.ip}")) if host.ip)],
+      ["MAC Address", (link_to(host.mac, hosts_path(:search => "mac = #{host.mac}")) if host.mac)],
+      ["Puppet Environment", (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
+      ["Host Architecture", (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
+      ["Operating System", (link_to(host.os, hosts_path(:search => "os = #{host.os.name}")) if host.os)],
+      ["Host Group", (link_to(host.hostgroup, hosts_path(:search => "hostgroup = #{host.hostgroup}")) if host.hostgroup)],
     ]
-    fields += [["Location", host.location.try(:name)]] if SETTINGS[:locations_enabled]
-    fields += [["Organization",host.organization.try(:name)]] if SETTINGS[:organizations_enabled]
-    fields += [["Owner", host.owner]] if SETTINGS[:login]
+    fields += [["Location", (link_to(host.location.name, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
+    fields += [["Organization", (link_to(host.organization.name, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
+    if SETTINGS[:login]
+      if host.owner_type == "User"
+        fields += [["Owner", (link_to(host.owner, hosts_path(:search => "user.login = #{host.owner.login}")) if host.owner)]]
+      else
+        fields += [["Owner", host.owner]]
+      end
+    end
     fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
     fields
   end
