@@ -35,5 +35,20 @@ module TaxonomyHelper
       else
         link_to(text, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
       end
-    end
+  end
+
+  def taxonomies_plural
+    controller_name
+  end
+
+  def taxonomy_single
+    controller_name.singularize
+  end
+
+  def taxonomy_upcase
+    controller_name.humanize.titleize
+  end
+
+
+
 end

@@ -25,16 +25,18 @@
 
       <% if show_organization_tab?  %>
         <%= select_f f, :organization_id, Organization.my_organizations, :id, :to_label,
-          { :include_blank => true },
-          { :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
+          { :include_blank => !@host.managed?},
+          { :disabled => !@host.new_record?,
+            :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
           :'data-url' => process_taxonomy_hosts_path, :selected => Organization.my_organizations,
           :help_inline => image_tag('spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
       <% end %>
 
       <% if show_location_tab? %>
         <%= select_f f, :location_id, Location.my_locations, :id, :to_label,
-          { :include_blank => true},
-          { :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
+          { :include_blank => !@host.managed? },
+          { :disabled => !@host.new_record?,
+            :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
             :'data-url' => process_taxonomy_hosts_path, :selected => Location.my_locations,
             :help_inline => image_tag('spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
       <% end %>

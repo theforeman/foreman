@@ -121,8 +121,13 @@
             that.$selectionUl.find('.ms-optgroup-label').hide();
 
             if ($(this).prop('disabled') || ms.prop('disabled')){
-              selectableLi.prop('disabled', true);
-              selectableLi.addClass(that.options.disabledClass);
+              if (this.selected) {
+                selectedLi.prop('disabled', true);
+                selectedLi.addClass(that.options.disabledClass);
+              } else {
+                selectableLi.prop('disabled', true);
+                selectableLi.addClass(that.options.disabledClass);
+              }
             }
 
             if (optgroupId){
@@ -266,7 +271,7 @@
             } else {
               that.$selectableUl.focusin();
               that.$selectionUl.focusout();
-            }        
+            }
           }
         }
 
@@ -421,7 +426,7 @@
   $.fn.multiSelect = function () {
     var option = arguments[0],
         args = arguments;
-    
+
     return this.each(function () {
       var $this = $(this),
           data = $this.data('multiselect'),
@@ -461,4 +466,17 @@ $(document).on('click', '.ms-select-all', function () {
 $(document).on('click', '.ms-deselect-all', function () {
   $(this).closest('.controls').find('select[multiple]').multiSelect('deselect_all');
   return false;
+});
+
+$(function(){
+  $('select[multiple]').each(function(i,item){
+    var mismatches = $(item).attr('data-mismatches');
+    if (!(mismatches == null || mismatches == 'undefined')) {
+      var missing_ids = $.parseJSON(mismatches);
+      $.each(missing_ids, function(index,missing_id){
+        opt_id = (missing_id +"").replace(/[^A-Za-z0-9]*/gi, '_')+'-selectable';
+        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: "Select this since it belongs to a host", placement: "left"});
+      })
+    }
+  })
 });

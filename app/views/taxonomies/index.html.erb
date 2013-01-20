@@ -1,0 +1,39 @@
+<% title taxonomy_upcase.pluralize %>
+
+<% title_actions display_link_if_authorized("New #{taxonomy_upcase}", send("hash_for_new_#{taxonomy_single}_path")), link_to("Mismatches Report", send("mismatches_#{taxonomies_plural}_path"), :class => 'btn'), help_path %>
+
+<% if @count_nil_hosts > 0 %>
+<div class="alert alert-message alert-block alert">
+    <% link = %>
+    <strong>Notice:</strong> There are
+    <%= link_to "#{@count_nil_hosts} hosts with no #{taxonomy_single} assigned", hosts_path(:search => "not has #{taxonomy_single}")  %>
+</div>
+<% end %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name %></th>
+    <th>Hosts</th>
+    <th></th>
+  </tr>
+
+  <% @taxonomies.each do |taxonomy| %>
+    <tr class="<%= cycle("even", "odd") -%>">
+      <td><%= link_to taxonomy.to_label, send("edit_#{taxonomy_single}_path", taxonomy) %></td>
+      <td><%= link_to @counter[taxonomy.id] || 0, hosts_path(:search => "#{taxonomy_single} = #{taxonomy}") %></td>
+      <td>
+        <%= action_buttons(
+          display_link_if_authorized('Edit', send("hash_for_edit_#{taxonomy_single}_path", :id => taxonomy )),
+          display_link_if_authorized('Clone', send("hash_for_clone_#{taxonomy_single}_path", :id => taxonomy )),
+          display_delete_if_authorized(send("hash_for_#{taxonomy_single}_path", :id => taxonomy), :confirm => "Delete #{taxonomy.name}?", :action => :destroy),
+          (link_to("Select Hosts to Assign to #{taxonomy.name}", send("assign_hosts_#{taxonomy_single}_path", taxonomy)) if @count_nil_hosts > 0),
+          (link_to("Assign All #{@count_nil_hosts} Hosts with No #{taxonomy_upcase} to #{taxonomy.name}",
+              send("assign_all_hosts_#{taxonomy_single}_path", taxonomy),
+              :method => :post) if @count_nil_hosts > 0)
+          )%>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @taxonomies %>
+<%= will_paginate     @taxonomies %>

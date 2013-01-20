@@ -626,6 +626,136 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  #Pessimistic - Location
+  test "update multiple location fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    post :update_multiple_location, {
+                                       :location => {:id => location.id, :optimistic_import => "no"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
+  end
+  test "update multiple location does not update location of hosts if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    assert_difference "location.hosts.count", 0 do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple location does not import taxable_taxonomies rows if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    assert_difference "location.taxable_taxonomies.count", 0 do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
+  #Optimistic - Location
+  test "update multiple location succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    post :update_multiple_location, {
+                                       :location => {:id => location.id, :optimistic_import => "yes"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:notice], "Updated hosts: Changed Location"
+  end
+  test "update multiple location updates location of hosts if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    cnt_hosts_location = location.hosts.count
+    assert_difference "location.hosts.count", (Host.count - cnt_hosts_location) do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    assert_difference "location.taxable_taxonomies.count", 16 do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
+  #Pessimistic - organization
+  test "update multiple organization fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    post :update_multiple_organization, {
+                                       :organization => {:id => organization.id, :optimistic_import => "no"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:error], "Cannot update organization to organization 1 because of mismatch in settings"
+  end
+  test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    assert_difference "organization.hosts.count", 0 do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple organization does not import taxable_taxonomies rows if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    assert_difference "organization.taxable_taxonomies.count", 0 do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
+  #Optimistic - Organization
+  test "update multiple organization succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    post :update_multiple_organization, {
+                                       :organization => {:id => organization.id, :optimistic_import => "yes"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:notice], "Updated hosts: Changed Organization"
+  end
+  test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    cnt_hosts_organization = organization.hosts.count
+    assert_difference "organization.hosts.count", (Host.count - cnt_hosts_organization) do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    assert_difference "organization.taxable_taxonomies.count", 16 do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
   private
   def initialize_host
     User.current = users(:admin)

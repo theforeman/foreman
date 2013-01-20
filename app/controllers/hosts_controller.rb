@@ -369,48 +369,6 @@ class HostsController < ApplicationController
     deny_access unless Setting[:puppetrun]
   end
 
-  def select_multiple_organization
-  end
-
-  def select_multiple_location
-  end
-
-  def update_multiple_organization
-    # simple validations
-    if (params[:organization].nil?) or (id=params[:organization][:id]).nil?
-      error 'No Organization selected!'
-      redirect_to(select_multiple_organization_hosts_path) and return
-    end
-    org = Organization.find(id) rescue nil
-
-    #update the hosts
-    @hosts.each do |host|
-      host.organization = org
-      host.save(:validate => false)
-    end
-
-    notice 'Updated hosts: Changed Organization'
-    redirect_back_or_to hosts_path
-  end
-
-  def update_multiple_location
-    # simple validations
-    if (params[:location].nil?) or (id=params[:location][:id]).nil?
-      error 'No Location selected!'
-      redirect_to(select_multiple_location_hosts_path) and return
-    end
-    location = Location.find(id) rescue nil
-
-    #update the hosts
-    @hosts.each do |host|
-      host.location = location
-      host.save(:validate => false)
-    end
-
-    notice 'Updated hosts: Changed Location'
-    redirect_back_or_to hosts_path
-  end
-
   def update_multiple_puppetrun
     return deny_access unless Setting[:puppetrun]
     if @hosts.map(&:puppetrun!).uniq == [true]
@@ -551,7 +509,7 @@ class HostsController < ApplicationController
   def find_multiple
   # Lets search by name or id and make sure one of them exists first
     if params[:host_names].present? or params[:host_ids].present?
-      @hosts = Host.all(:conditions => ["id IN (?) or name IN (?)", params[:host_ids], params[:host_names] ])
+      @hosts = Host.where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
       if @hosts.empty?
         error 'No hosts were found with that id or name'
         redirect_to(hosts_path) and return false
@@ -578,15 +536,6 @@ class HostsController < ApplicationController
       error "The following hosts were not #{action}: #{missed_hosts}"
     end
     redirect_to(hosts_path)
-  end
-
-  # Returns the associations to include when doing a search.
-  # If the user has a fact_filter then we need to include :fact_values
-  # We do not include most associations unless we are processing a html page
-  def included_associations(include = [])
-    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
-    include += [:fact_values] if User.current.user_facts.any?
-    include
   end
 
   # this is required for template generation (such as pxelinux) which is not done via a web request

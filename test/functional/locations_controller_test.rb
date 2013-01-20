@@ -14,13 +14,12 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update location" do
-    name = "location1"
-    location = Location.create :name => name
+    location = taxonomies(:location2)
 
-    post :update, {:commit => "Submit", :id => location, :location => {:name => name} }, set_session_user
+    post :update, {:commit => "Submit", :id => location.id, :location => {:name => "New Name"} }, set_session_user
     updated_location = Location.find_by_id(location.id)
 
-    assert updated_location.name = name
+    assert updated_location.name = location.name
     assert_redirected_to locations_path
   end
 
@@ -42,5 +41,58 @@ class LocationsControllerTest < ActionController::TestCase
       delete :destroy, {:id => location}, set_session_user
       assert_contains flash[:notice], "Successfully destroyed #{location}."
     end
+  end
+
+  # Assign All Hosts
+  test "should assign all hosts with no location to selected location" do
+    location = taxonomies(:location1)
+    cnt_hosts_no_location = Host.where(:location_id => nil).count
+    assert_difference "location.hosts.count", cnt_hosts_no_location do
+      post :assign_all_hosts, {:id => location.id}, set_session_user
+    end
+    assert_redirected_to :controller => :locations, :action => :index
+    assert_equal flash[:notice], "All hosts previously with no location are now assigned to Location 1"
+  end
+  test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
+    location = taxonomies(:location1)
+    assert_difference "location.taxable_taxonomies.count", 16 do
+      post :assign_all_hosts, {:id => location.id}, set_session_user
+    end
+  end
+
+  # Assign Selected Hosts
+  test "be able to select hosts with no location to selected location" do
+    location = taxonomies(:location1)
+    get :assign_hosts, {:id => location.id}, set_session_user
+    assert_response :success
+  end
+  test "assigned selected hosts with no location to selected location" do
+    location = taxonomies(:location1)
+    selected_hosts_no_location_ids = Host.where(:location_id => nil).limit(2).map(&:id)
+
+    assert_difference "location.hosts.count", 2 do
+      put :assign_selected_hosts, {:id => location.id,
+                                   :location => {:host_ids => selected_hosts_no_location_ids}
+                                  }, set_session_user
+    end
+    assert_redirected_to :controller => :locations, :action => :index
+    assert_equal flash[:notice], "Selected hosts are now assigned to Location 1"
+  end
+
+  # Mismatches
+  test "should show all mismatches and button Fix All Mismatches if there are" do
+    TaxableTaxonomy.delete_all
+    get :mismatches, {}, set_session_user
+    assert_response :success
+    assert_match "Fix All Mismatches", @response.body
+  end
+
+  test "button Fix All Mismatches should work" do
+    post :import_mismatches, {}, set_session_user
+    assert_redirected_to :controller => :locations, :action => :index
+    assert_equal flash[:notice], "All mismatches between hosts and locations/organizations have been fixed"
+    # check that there are no mismatches
+    get :mismatches, {}, set_session_user
+    assert_match "No hosts are mismatched", @response.body
   end
 end

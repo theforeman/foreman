@@ -268,7 +268,7 @@ class ApplicationController < ActionController::Base
         hash[:error_msg] = hash[:error_msg].join("<br/>")
         if hash[:render]
           flash.now[:error] = hash[:error_msg] unless hash[:error_msg].empty?
-          render :action => hash[:render]
+          render hash[:render]
           return
         elsif hash[:redirect]
           error(hash[:error_msg]) unless hash[:error_msg].empty?
@@ -327,4 +327,14 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  # Returns the associations to include when doing a search.
+  # If the user has a fact_filter then we need to include :fact_values
+  # We do not include most associations unless we are processing a html page
+  def included_associations(include = [])
+    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
+    include += [:fact_values] if User.current.user_facts.any?
+    include
+  end
+
 end
