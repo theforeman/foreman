@@ -51,7 +51,7 @@ class Host < Puppet::Rails::Host
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
-      :model, :certname, :capabilities, :provider, :subnet, :token
+      :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization
   end
 
   attr_reader :cached_host_params
@@ -86,6 +86,10 @@ class Host < Puppet::Rails::Host
       { :joins => :puppetclasses, :select => "hosts.name", :conditions => { :puppetclasses => { :name => klass } } }
     end
   }
+
+  scope :with_os, where('hosts.operatingsystem_id IS NOT NULL')
+  scope :no_location, where(:location_id => nil)
+  scope :no_organization, where(:organization_id => nil)
 
   scope :with_error, { :conditions => "(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
@@ -779,6 +783,41 @@ class Host < Puppet::Rails::Host
     end
   end
 
+  def smart_proxies
+    SmartProxy.where(:id => smart_proxy_ids)
+  end
+
+  def smart_proxy_ids
+    ids = []
+    [subnet, hostgroup.try(:subnet)].compact.each do |s|
+      ids << s.dhcp_id
+      ids << s.tftp_id
+      ids << s.dns_id
+    end
+
+    [domain, hostgroup.try(:domain)].compact.each do |d|
+      ids << d.dns_id
+    end
+
+    [puppet_proxy_id, puppet_ca_proxy_id, hostgroup.try(:puppet_proxy_id), hostgroup.try(:puppet_ca_proxy_id)].compact.each do |p|
+      ids << p
+    end
+    ids.uniq.compact
+  end
+
+  def matching?
+    missing_ids.empty?
+  end
+
+  def missing_ids
+    Array.wrap(tax_location.try(:missing_ids)) + Array.wrap(tax_organization.try(:missing_ids))
+  end
+
+  def import_missing_ids
+    tax_location.import_missing_ids     if location
+    tax_organization.import_missing_ids if organization
+  end
+
   private
   def lookup_keys_params
     return {} unless Setting["Enable_Smart_Variables_in_ENC"]
@@ -898,4 +937,15 @@ class Host < Puppet::Rails::Host
   def force_lookup_value_matcher
     lookup_values.each { |v| v.match = "fqdn=#{fqdn}" }
   end
+
+  def tax_location
+    return nil unless location_id
+    @tax_location ||= TaxHost.new(location, self)
+  end
+
+  def tax_organization
+    return nil unless organization_id
+    @tax_organization ||= TaxHost.new(organization, self)
+  end
+
 end
