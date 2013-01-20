@@ -51,6 +51,9 @@ Foreman::Application.routes.draw do
       resources :usergroups, :except => [:new, :edit]
       resources :users, :except => [:new, :edit]
       resources :template_kinds, :only => [:index]
+
+      match '/', :to => 'home#index'
+      match 'status', :to => 'home#status', :as => "status"
     end
 
     # new v2 routes that point to v2
@@ -64,14 +67,9 @@ Foreman::Application.routes.draw do
         resources :template_combinations, :only => [:index, :create]
       end
       resources :template_combinations, :only => [:show, :destroy]
-
-
-      match '/', :to => 'home#index'
-      match 'status', :to => 'home#status', :as => "status"
-      match '*other', :to => 'home#route_error'
-
     end
 
+    match '*other', :to => 'v1/home#route_error', :constraints => ApiConstraints.new(:version => 2)
   end
 
 end
