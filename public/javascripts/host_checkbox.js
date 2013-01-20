@@ -93,7 +93,7 @@ function toggleCheck() {
 }
 
 function toggle_multiple_ok_button(elem){
-  var b = $("#multiple-ok", $(elem).closest("div.ui-dialog"));
+  var b = $("#confirmation-modal .btn-primary");
   if (elem.value != 'disabled')
     b.removeClass("disabled").attr("disabled", false);
   else
@@ -113,7 +113,12 @@ $(function() {
         function(response, status, xhr) {
           $("#loading").hide();
           $('#submit_multiple').val('');
-        });
+          var b = $("#confirmation-modal .btn-primary");
+          if ($(response).find('#content form select').size() > 0)
+            b.addClass("disabled").attr("disabled", true);
+          else
+            b.removeClass("disabled").attr("disabled", false);
+          });
     return false;
   });
 
