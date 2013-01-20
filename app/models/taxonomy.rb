@@ -21,7 +21,11 @@ class Taxonomy < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
 
+  validate :check_for_orphans
   before_validation :sanitize_ignored_types
+
+  delegate :import_missing_ids, :to => :tax_host
+
   def to_param
     "#{id.to_s.parameterize}"
   end
@@ -60,6 +64,16 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def self.all_import_missing_ids
+    all.map do |taxonomy|
+      taxonomy.import_missing_ids
+    end
+  end
+
+  def self.all_mismatcheds
+    @all_mismatcheds ||= includes(:hosts).map { |taxonomy| taxonomy.mismatches }
+  end
+
   def clone
     new = super
     new.name = ""
@@ -73,11 +87,37 @@ class Taxonomy < ActiveRecord::Base
     new.hostgroups        = hostgroups
     new
   end
+
   private
+
+  delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :to => :tax_host
 
   def sanitize_ignored_types
     self.ignore_types ||= []
     self.ignore_types = self.ignore_types.compact.uniq
+  end
+
+  def tax_host
+    @tax_host ||= TaxHost.new(self)
+  end
+
+  #TODO: move this to TaxHost
+  def check_for_orphans
+    found_orphan = false
+    error_msg = "The following must be selected since they belong to hosts:\n\n"
+    need_to_be_selected_ids.each do |key, array_values|
+      unless array_values.empty?
+        class_name = key.to_s[0..-5].classify
+        klass = class_name.constantize
+        array_values.each do |id|
+          row = klass.find_by_id(id)
+          error_msg += "#{row.to_s} (#{class_name}) \n"
+          found_orphan = true
+        end
+        errors.add(class_name.tableize, "You cannot remove #{class_name.tableize.humanize.downcase} that are used by hosts.")
+      end
+    end
+    !found_orphan
   end
 
 end
