@@ -7,6 +7,7 @@ class Taxonomy < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :type
 
   belongs_to :user
+  before_destroy EnsureNotUsedBy.new(:hosts)
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
