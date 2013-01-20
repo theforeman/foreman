@@ -1,22 +1,34 @@
 <% title "Locations" %>
 
-<% title_actions display_link_if_authorized("New Location", hash_for_new_location_path), help_path %>
+<% title_actions display_link_if_authorized("New Location", hash_for_new_location_path), link_to("Mismatches Report", mismatches_locations_path, :class => 'btn'), help_path %>
+
+<% if @count_nil_hosts > 0 %>
+<div class="alert alert-message alert-block alert">
+    <% link = %>
+    <strong>Notice:</strong> There are
+    <%= link_to "#{@count_nil_hosts} hosts with no location assigned", hosts_path(:search => "not has location")  %>
+</div>
+<% end %>
 
 <table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name %></th>
+    <th>Hosts</th>
     <th></th>
   </tr>
 
   <% @locations.each do |location| %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to location.to_label, edit_location_path(location) %></td>
+      <td><%= link_to @counter[location.id] || 0, hosts_path(:search => "location = #{location}") %></td>
       <td>
         <%= action_buttons(
           display_link_if_authorized('Edit', hash_for_edit_location_path(:id => location)),
           display_link_if_authorized('Clone', hash_for_clone_location_path(:id => location)),
-          display_delete_if_authorized(hash_for_location_path(:id => location), :confirm => "Delete #{location.name}?", :action => :destroy)
-        ) %>
+          display_delete_if_authorized(hash_for_location_path(:id => location), :confirm => "Delete #{location.name}?", :action => :destroy),
+          (link_to("Select Hosts to Assign to #{location.name}", assign_hosts_location_path(location)) if @count_nil_hosts > 0),
+          (link_to("Assign All #{@count_nil_hosts} Hosts with No Location to #{location.name}", assign_all_hosts_location_path(location),:method => :post) if @count_nil_hosts > 0)
+          )%>
       </td>
     </tr>
   <% end %>

@@ -6,7 +6,6 @@ class Host < Puppet::Rails::Host
   belongs_to :model
   has_many :host_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :host_classes
-  belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
@@ -15,6 +14,9 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
+  belongs_to :subnet
+  belongs_to :domain
+  belongs_to :hostgroup
 
   belongs_to :location
   belongs_to :organization
@@ -86,6 +88,10 @@ class Host < Puppet::Rails::Host
       { :joins => :puppetclasses, :select => "hosts.name", :conditions => { :puppetclasses => { :name => klass } } }
     end
   }
+
+  scope :with_os, where('hosts.operatingsystem_id > 0')
+  scope :no_location, where(:location_id => nil)
+  scope :no_organization, where(:organization_id => nil)
 
   scope :with_error, { :conditions => "(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
@@ -777,6 +783,44 @@ class Host < Puppet::Rails::Host
     else
       "No changes"
     end
+  end
+
+  def smart_proxies
+    smart_proxies = Array.new
+    if subnet
+      smart_proxies << subnet.dhcp
+      smart_proxies << subnet.tftp
+      smart_proxies << subnet.dns
+    end
+    if domain
+      smart_proxies << domain.dns
+    end
+    if puppet_proxy_id.present?
+      smart_proxies << SmartProxy.find_by_id(puppet_proxy_id)
+    end
+    if hostgroup.try(:puppet_proxy_id)
+      smart_proxies << SmartProxy.find_by_id(hostgroup.puppet_proxy_id)
+    end
+    return smart_proxies.uniq
+  end
+
+  def smart_proxy_ids
+    smart_proxies.compact.map(&:id)
+  end
+
+  def matching?
+    missing_ids.length == 0
+  end
+
+  def missing_ids
+    (TaxHost.new(location,self).missing_ids if location).to_a +
+    (TaxHost.new(organization,self).missing_ids if organization).to_a
+  end
+
+  def import_missing_ids
+    TaxHost.new(location,self).import_missing_ids if location
+    TaxHost.new(organization,self).import_missing_ids if organization
+    return "Imported taxable_taxonomy settings for #{name}"
   end
 
   private

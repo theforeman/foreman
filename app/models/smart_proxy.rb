@@ -54,6 +54,17 @@ class SmartProxy < ActiveRecord::Base
     }
   end
 
+  def self.smart_proxy_ids_for(hosts)
+    array_ids = hosts.joins(:subnet).select('subnets.dhcp_id').pluck(:dhcp_id)
+    array_ids << hosts.joins(:subnet).select('subnets.tftp_id').pluck(:tftp_id)
+    array_ids << hosts.joins(:subnet).select('subnets.dns_id').pluck(:dns_id)
+    array_ids << hosts.joins(:domain).select('domains.dns_id').pluck(:dns_id)
+    array_ids << hosts.where('puppet_proxy_id > 0').pluck(:puppet_proxy_id)
+    array_ids << hosts.joins(:hostgroup).select('hostgroups.puppet_proxy_id').map(&:puppet_proxy_id)
+    array_ids = array_ids.flatten.compact.map { |x| x.to_i }.uniq
+    return array_ids
+  end
+
   private
 
   def sanitize_url

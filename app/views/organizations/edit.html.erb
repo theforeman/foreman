@@ -1,3 +1,4 @@
 <% title "Edit #{@organization}" %>
 
-<%= render 'taxonomy/form', :taxonomy => @organization %>
+<%= title_actions(link_to("Fix Mismatches", import_mismatches_organization_path(@organization), :class => 'btn btn-success', :method => :post)) unless @organization.valid? %>
+<%= render 'taxonomies/form', :taxonomy => @organization %>

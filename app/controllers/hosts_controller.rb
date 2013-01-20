@@ -20,6 +20,7 @@ class HostsController < ApplicationController
     :update_multiple_location]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console]
+  before_filter :setup_search_options, :only => :index
 
   helper :hosts, :reports
 
@@ -30,7 +31,7 @@ class HostsController < ApplicationController
       error e.to_s
       search = Host.my_hosts.search_for ''
     end
-      respond_to do |format|
+    respond_to do |format|
       format.html do
         @hosts = search.paginate :page => params[:page], :include => included_associations
         # SQL optimizations queries
@@ -382,32 +383,66 @@ class HostsController < ApplicationController
     end
     org = Organization.find(id) rescue nil
 
+    error_msg = "Cannot update organization to #{org.name} for the following hosts because of mismatch in settings:\n\n"
+    mismatch_error = false
     #update the hosts
     @hosts.each do |host|
-      host.organization = org
-      host.save(:validate => false)
+      host.organization_id = org.id
+      if params[:organization][:optimistic_import] == 'yes'
+        host.import_missing_ids
+        host.save(:validate => false)
+      else
+        if host.matching?
+          host.save(:validate => false)
+        else
+          error_msg += "#{host.name} \n"
+          mismatch_error = true
+        end
+      end
     end
 
-    notice 'Updated hosts: Changed Organization'
-    redirect_back_or_to hosts_path
+    if mismatch_error
+      error "#{error_msg}"
+      redirect_to(select_multiple_organization_hosts_path) and return
+    else
+      notice 'Updated hosts: Changed Organization'
+      redirect_back_or_to hosts_path
+    end
   end
 
   def update_multiple_location
     # simple validations
     if (params[:location].nil?) or (id=params[:location][:id]).nil?
       error 'No Location selected!'
-      redirect_to(select_multiple_location_hosts_path) and return
+      redirect_to(hosts_path) and return
     end
     location = Location.find(id) rescue nil
 
+    error_msg = "Cannot update location to #{location.name} for the following hosts because of mismatch in settings:\n\n"
+    mismatch_error = false
     #update the hosts
     @hosts.each do |host|
-      host.location = location
-      host.save(:validate => false)
+      host.location_id = location.id
+      if params[:location][:optimistic_import] == 'yes'
+        host.import_missing_ids
+        host.save(:validate => false)
+      else
+        if host.matching?
+          host.save(:validate => false)
+        else
+          error_msg += "#{host.name} \n"
+          mismatch_error = true
+        end
+      end
     end
 
-    notice 'Updated hosts: Changed Location'
-    redirect_back_or_to hosts_path
+    if mismatch_error
+      error "#{error_msg}"
+      redirect_to(hosts_path) and return
+    else
+      notice 'Updated hosts: Changed Location'
+      redirect_back_or_to hosts_path
+    end
   end
 
   def update_multiple_puppetrun
@@ -577,15 +612,6 @@ class HostsController < ApplicationController
       error "The following hosts were not #{action}: #{missed_hosts}"
     end
     redirect_to(hosts_path)
-  end
-
-  # Returns the associations to include when doing a search.
-  # If the user has a fact_filter then we need to include :fact_values
-  # We do not include most associations unless we are processing a html page
-  def included_associations(include = [])
-    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
-    include += [:fact_values] if User.current.user_facts.any?
-    include
   end
 
   # this is required for template generation (such as pxelinux) which is not done via a web request
