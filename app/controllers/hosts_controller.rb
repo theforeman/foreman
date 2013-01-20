@@ -1,9 +1,11 @@
 require 'foreman/controller/host_details'
 require 'foreman/controller/smart_proxy_auth'
+require 'foreman/controller/taxonomy_multiple'
 
 class HostsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::TaxonomyMultiple
   include Foreman::Controller::SmartProxyAuth
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
@@ -16,8 +18,7 @@ class HostsController < ApplicationController
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
-    :multiple_puppetrun, :select_multiple_organization, :update_multiple_organization, :select_multiple_location,
-    :update_multiple_location]
+    :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console]
 
@@ -30,7 +31,7 @@ class HostsController < ApplicationController
       error e.to_s
       search = Host.my_hosts.search_for ''
     end
-      respond_to do |format|
+    respond_to do |format|
       format.html do
         @hosts = search.paginate :page => params[:page], :include => included_associations
         # SQL optimizations queries
