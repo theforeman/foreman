@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FactsImporter < ActiveSupport::TestCase
+class FactsImporterTest < ActiveSupport::TestCase
   attr_reader :importer
 
   def setup
