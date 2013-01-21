@@ -26,6 +26,7 @@ class LookupValue < ActiveRecord::Base
   end
 
   def as_json(options={})
+    options ||= {}
     super({:only => [:value, :match, :lookup_key_id, :id]}.merge(options))
   end
 
