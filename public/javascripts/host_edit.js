@@ -142,6 +142,7 @@ function filter_puppet_classes(item){
 function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var type = $(item).attr('data-type');
+  $(item).tooltip('hide');
   var content = $(item).parent().clone();
   content.attr('id', 'selected_puppetclass_'+ id);
   content.append("<input id='" + type +"_puppetclass_ids_' name='" + type +"[puppetclass_ids][]' type='hidden' value=" +id+ ">");
