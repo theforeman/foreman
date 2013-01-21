@@ -117,6 +117,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def as_json options = {}
+    options ||= {}
     super({:methods => [:cidr, :to_label]}.merge(options))
   end
 

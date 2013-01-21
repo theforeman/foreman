@@ -156,6 +156,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def as_json(options={})
+    options ||= {}
     super({:except => [:password]}.merge(options))
   end
 
