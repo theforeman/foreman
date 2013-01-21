@@ -1,4 +1,6 @@
+<%= javascript 'reports', 'ace/ace' %>
 <% title "#{@report.host} - #{time_ago_in_words(@report.reported_at)} ago"%>
+
 <div class="row ra"><p class="span12"> Reported at <%= @report.reported_at.getlocal %></p></div>
 <% if @offset > 10 -%>
   <div class="alert alert-message alert-block alert-error">
@@ -20,3 +22,16 @@
   link_to("Host details", @report.host),
   link_to("Other reports for this host", host_reports_path(@report.host))
 %>
+
+<div id="diff-modal" class="modal hide fade diff-modal">
+  <div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>Diff View</h3>
+  </div>
+  <div id="diff-modal-editor" class="modal-body">
+
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
