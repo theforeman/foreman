@@ -144,7 +144,7 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
     member do
-      get 'parameters'
+      post 'parameters'
     end
     constraints(:id => /[^\/]+/) do
       resources :hosts

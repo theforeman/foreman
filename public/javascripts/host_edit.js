@@ -180,7 +180,7 @@ function load_puppet_class_parameters(item) {
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
 
   var url = $(item).attr('data-url');
-  var data = $("form").serialize();
+  var data = $("form").serialize().replace('method=put', 'method=post');;
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
@@ -188,6 +188,7 @@ function load_puppet_class_parameters(item) {
   $('#inherited_puppetclasses_parameters').append(placeholder);
   $.ajax({
     url: url,
+    type: 'post',
     data: data,
     success: function(result, textstatus, xhr) {
       var params = $(result);
