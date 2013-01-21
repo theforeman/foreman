@@ -22,3 +22,11 @@ three:
   default_value: true
   override: true
   is_param: true
+
+complex:
+  key: cluster
+  key_type: string
+  validator_rule:
+  default_value: 'secret'
+  override: true
+  path: organization,location
