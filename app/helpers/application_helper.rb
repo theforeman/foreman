@@ -237,7 +237,7 @@ module ApplicationHelper
     primary = content_tag(:span, primary, :class=>'btn btn-small') if primary !~ /btn/
 
     content_tag(:div,:class => "btn-group") do
-      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>'btn btn-small dropdown-toggle', :'data-toggle'=>'dropdown') +
+      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>"btn #{'btn-small' if primary =~ /small/} dropdown-toggle", :'data-toggle'=>'dropdown') +
       content_tag(:ul,:class=>"dropdown-menu") do
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
