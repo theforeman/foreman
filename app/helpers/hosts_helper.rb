@@ -49,7 +49,7 @@ module HostsHelper
       style = "label-success"
       short = "O"
     end
-    content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
+    content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => label} ) +
       link_to(trunc("  #{record}",32), host_path(record))
   end
 

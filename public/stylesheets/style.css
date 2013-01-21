@@ -461,3 +461,5 @@ table.table thead .sorting_desc_disabled { background: #f9f9f9 url('../images/so
 
 .diff-modal{width: 720px; height: 520px;}
 .modal-body{max-height: 800px;}
+
+.label-light{font-weight: normal; text-shadow: 0 0 0;}
