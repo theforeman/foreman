@@ -51,7 +51,7 @@ class Classification
     class_parameters.select do |key|
       # take only keys with actual values
       key.lookup_values_count > 0 # we use counter cache, so its safe to make that query
-    end.map(&:path_elements).flatten.uniq
+    end.map(&:path_elements).flatten(1).uniq
   end
 
   def values_hash
@@ -90,7 +90,7 @@ class Classification
     matches = []
     possible_value_orders.each do |rule|
       match = []
-      rule.each_line do |element|
+      Array.wrap(rule).each do |element|
         match << "#{element}#{LookupKey::EQ_DELM}#{attr_to_value(element)}"
       end
       matches << match.join(LookupKey::KEY_DELM)

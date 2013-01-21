@@ -8,3 +8,8 @@ one:
   puppetclass: one
   environment: production
   lookup_key_id: nil
+
+two:
+  puppetclass: one
+  environment: production
+  lookup_key: complex
