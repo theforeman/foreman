@@ -458,3 +458,6 @@ table.table thead .sorting_desc { background: #f9f9f9 url('../images/sort_desc.p
 
 table.table thead .sorting_asc_disabled { background: #f9f9f9 url('../images/sort_asc_disabled.png') no-repeat center right; }
 table.table thead .sorting_desc_disabled { background: #f9f9f9 url('../images/sort_desc_disabled.png') no-repeat center right; }
+
+.diff-modal{width: 720px; height: 520px;}
+.modal-body{max-height: 800px;}
