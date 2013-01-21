@@ -20,19 +20,23 @@
         <%= alert :class => 'controls alert-success', :header => '',
                   :text  => icon_text("info-sign", ('Note: ' + link_to('Useful template functions and macros',
                                                                        'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros', :rel => 'external')).html_safe) %>
-        <div class='controls subnav'>
-          <ul class='span9'>
-            <li><%= link_to_function('Code', "set_code()") %></li>
-            <li><%= link_to_function('Preview', "set_preview()") %></li>
-            <li class="fr"><%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => 'Key Binding'), :class => 'span1') %></li>
-          </ul>
+        <div class='controls'>
+          <div class="navbar-inner">
+            <div class="btn-group" data-toggle="buttons-radio" >
+            <button type="button" style="margin-top: 8px;" class="btn btn-small active" onclick="set_code()">Code</button>
+            <button type="button" style="margin-top: 8px;" class="btn btn-small" onclick="set_preview()">Preview</button>
+          </div>
+          <div class="fr">
+            <%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => 'Key Binding'), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
+          </div>
+          </div>
         </div>
-        <%= textarea_f f, :template, :class => "span10 template_text", :label => "Template editor", :'data-file-name' => @config_template.name %>
+        <%= textarea_f f, :template, :class => "span12 template_text", :fluid=>true, :label => "Template editor", :'data-file-name' => @config_template.name %>
 
 
         <%= file_field_f f, :template, :class => "template_file span4",
                          :help_block  => "Selecting a file will override the editor and load the file instead" %>
-        <%= textarea_f f, :audit_comment, :class => "span10", :rows => 3, :label => "Audit Comment",
+        <%= textarea_f f, :audit_comment, :class => "span12", :fluid=>true, :rows => 3, :label => "Audit Comment",
                        :help_block => "The Audit Comment field is saved with the template auditing to document the template changes" %>
       </div>
       <div class="tab-pane" id="history">
