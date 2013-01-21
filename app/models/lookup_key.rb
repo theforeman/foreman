@@ -110,6 +110,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def as_json(options={})
+    options ||= {}
     super({:only => [:key, :is_param, :required, :override, :description, :default_value, :id]}.merge(options))
   end
 
