@@ -37,14 +37,16 @@ module Foreman::Controller::SmartProxyAuth
     def auth_smart_proxy(proxies = SmartProxy.all, require_cert = true)
       request_hosts = nil
       if request.ssl?
-        if cn = request.env[Setting[:ssl_client_cn_env]]
-          if request.env[Setting[:ssl_client_verify_env]] == 'SUCCESS'
-            request_hosts = [cn]
+        dn = request.env[Setting[:ssl_client_dn_env]]
+        if dn && dn =~ /CN=(\S+)/i
+          verify = request.env[Setting[:ssl_client_verify_env]]
+          if verify == 'SUCCESS'
+            request_hosts = [$1]
           else
-            logger.warn "SSL cert for #{cn} has not been verified - request from #{request.ip}"
+            logger.warn "SSL cert has not been verified (#{verify}) - request from #{request.ip}, #{dn}"
           end
         elsif require_cert
-          logger.warn "No SSL cert with CN supplied - request from #{request.ip}"
+          logger.warn "No SSL cert with CN supplied - request from #{request.ip}, #{dn}"
         else
           request_hosts = Resolv.new.getnames(request.ip)
         end

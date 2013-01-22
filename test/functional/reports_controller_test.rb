@@ -136,7 +136,7 @@ class ReportsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN_CN'] = 'else.where'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
     assert_response :success
@@ -148,7 +148,7 @@ class ReportsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN_CN'] = 'another.host'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
     assert_equal 403, @response.status
@@ -160,7 +160,7 @@ class ReportsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN_CN'] = 'else.where'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'FAILED'
     post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
     assert_equal 403, @response.status
