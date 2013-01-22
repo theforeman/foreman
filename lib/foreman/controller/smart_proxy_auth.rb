@@ -26,7 +26,7 @@ module Foreman::Controller::SmartProxyAuth
 
       require_login
       unless User.current
-        render_403
+        render_403 unless performed?
         return false
       end
       authorize
