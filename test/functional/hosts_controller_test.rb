@@ -551,7 +551,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN_CN'] = 'else.where'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name, :format => "yml"}
@@ -564,7 +564,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN_CN'] = 'another.host'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     get :externalNodes, {:name => @host.name, :format => "yml"}
     assert_equal 403, @response.status
@@ -576,7 +576,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN_CN'] = 'else.where'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'FAILURE'
     get :externalNodes, {:name => @host.name, :format => "yml"}
     assert_equal 403, @response.status

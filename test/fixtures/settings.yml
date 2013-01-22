@@ -140,10 +140,10 @@ attribute28:
   default: true
   description: "Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)"
 attribute29:
-  name: ssl_client_cn_env
+  name: ssl_client_dn_env
   category: Auth
-  default: "SSL_CLIENT_S_DN_CN"
-  description: "Environment variable containing the subject CN from a client SSL certificate"
+  default: "SSL_CLIENT_S_DN"
+  description: "Environment variable containing the subject DN from a client SSL certificate"
 attribute30:
   name: ssl_client_verify_env
   category: Auth
