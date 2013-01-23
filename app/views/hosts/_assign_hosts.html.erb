@@ -3,7 +3,10 @@
 <% assign_selected_hosts_taxonomy_path = (@taxonomy_type == "Location") ? assign_selected_hosts_location_path : assign_selected_hosts_organization_path %>
 
 <%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path do |f| %>
-    <%= base_errors_for taxonomy %>
+  <%= base_errors_for taxonomy %>
+  <%= wizard_header 3, "Create "+taxonomy.class.name,"Select Hosts", "Assign Selected Hosts" %>
+<div class="row">
+  <div class="span11">
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
@@ -29,7 +32,8 @@
 
   <%= page_entries_info hosts, :more => " - <strong><span class='select_count'>0</span></strong> Selected" %>
   <%= will_paginate hosts %>
-
+  </div>
+</div>
   <%= content_tag(:div, :class => "form-actions") do %>
     <%= link_to("Cancel", "#{controller_name}_path", :class => "btn") %>
     <%= f.submit("Assign to #{@taxonomy_type}", :class => "btn btn-success") %>
