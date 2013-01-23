@@ -1,0 +1,14 @@
+<% javascript 'taxonomy' %>
+<%= form_for taxonomy do |f| %>
+    <%= base_errors_for taxonomy %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab"><%= taxonomy.class.name %></a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name, :class => "input-xlarge" %>
+      </div>
+      <%= submit_or_cancel f %>
+    </div>
+<% end %>

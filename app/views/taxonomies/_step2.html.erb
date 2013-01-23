@@ -1,0 +1,27 @@
+<% javascript 'taxonomy' %>
+
+<% taxonomy_type = taxonomy.class.name %>
+<% assign_all_hosts_taxonomy_path = (taxonomy_type == "Location") ? assign_all_hosts_location_path(taxonomy) : assign_all_hosts_organization_path(taxonomy) %>
+<% assign_hosts_taxonomy_path = (taxonomy_type == "Location") ? assign_hosts_location_path(taxonomy) : assign_hosts_organization_path(taxonomy) %>
+<% edit_taxonomy_path = (taxonomy_type == "Location") ? edit_location_path(taxonomy) : edit_organization_path(taxonomy) %>
+
+<%= form_for taxonomy do |f| %>
+    <%= base_errors_for taxonomy %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#hosts" data-toggle="tab">Hosts</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="hosts">
+        <% if @count_nil_hosts > 0 %>
+        <%=  link_to("Assign All #{@count_nil_hosts} Hosts with No #{taxonomy_type} to #{taxonomy.name}", assign_all_hosts_taxonomy_path, :class => 'btn btn-success',:method => :post)%>
+        <br />
+        <br />
+        <%=  link_to("Manually Assign Hosts with No #{taxonomy_type}", assign_hosts_taxonomy_path, :class => 'btn')%>
+        <br />
+        <br />
+        <%=  link_to("Skip Assign Hosts and Proceed to Edit #{taxonomy_type} Settings", edit_taxonomy_path, :class => 'btn')%>
+        <% end %>
+      </div>
+    </div>
+<% end %>

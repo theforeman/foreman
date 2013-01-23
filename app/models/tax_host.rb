@@ -34,7 +34,7 @@ class TaxHost
     taxonomy.taxable_taxonomies.without(taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
       ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
     end
-    ids["#{opposite_taxonomy_type}_ids"] = taxonomy.send(opposite_taxonomy_type.pluralize)
+    ids["#{opposite_taxonomy_type}_ids"] = (taxonomy.send(opposite_taxonomy_type.pluralize)).map(&:id)
     @selected_ids                        = ids
   end
 
@@ -92,7 +92,25 @@ class TaxHost
         }
       end
     end
-    @mismatches = mismatches
+    @mismatches = mismatches.uniq.compact
+  end
+
+  def check_for_orphans
+    found_orphan = false
+    error_msg = "The following must be selected since they belong to hosts:\n\n"
+    need_to_be_selected_ids.each do |key, array_values|
+      taxable_type = hash_key_to_class(key)
+      unless array_values.empty?
+        klass = taxable_type.constantize
+        array_values.each do |id|
+          row = klass.find_by_id(id)
+          error_msg += "#{row.to_s} (#{taxable_type}) \n"
+          found_orphan = true
+        end
+        taxonomy.errors.add(taxable_type.tableize, "You cannot remove #{taxable_type.tableize.humanize.downcase} that are used by hosts.")
+      end
+    end
+    !found_orphan
   end
 
   private
@@ -113,7 +131,7 @@ class TaxHost
   def user_ids(hosts = self.hosts)
     return [] if taxonomy.ignore?("User")
     #TODO: when migrating to rails 3.1+ switch to inner select on users.
-    User.joins(:direct_hosts).where({ :hosts => { :id => hosts }, :users => { :admin => false } }).pluck('DISTINCT users.id')
+    User.unscoped.joins(:direct_hosts).where({ :hosts => { :id => hosts }, :users => { :admin => false } }).pluck('DISTINCT users.id')
   end
 
   def config_template_ids(hosts = self.hosts)

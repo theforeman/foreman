@@ -36,6 +36,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'location is valid if ignore all types' do
     location = taxonomies(:location1)
+    location.organization_ids = [taxonomies(:organization1).id]
     location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     assert location.valid?
   end
