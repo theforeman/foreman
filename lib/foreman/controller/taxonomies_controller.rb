@@ -3,7 +3,7 @@ module Foreman::Controller::TaxonomiesController
 
   included do
     before_filter :find_taxonomy, :only => %w{edit update destroy clone assign_hosts
-                                            assign_selected_hosts assign_all_hosts step2}
+                                            assign_selected_hosts assign_all_hosts step2 select}
     before_filter :count_nil_hosts, :only => %w{index create step2}
     skip_before_filter :authorize, :set_taxonomy, :only => %w{select}
   end
@@ -12,10 +12,10 @@ module Foreman::Controller::TaxonomiesController
 
     def index
       begin
-        values = send("TaxonomyClass").send("my_#{taxonomies}").search_for(params[:search], :order => params[:order])
+        values = taxonomy_class.send("my_#{taxonomies_plural}").search_for(params[:search], :order => params[:order])
       rescue => e
         error e.to_s
-        values = send("TaxonomyClass").send("my_#{taxonomies}").search_for('')
+        values = taxonomy_class.send("my_#{taxonomies_plural}")
       end
 
       respond_to do |format|
@@ -28,7 +28,7 @@ module Foreman::Controller::TaxonomiesController
     end
 
     def new
-      @taxonomy = send("TaxonomyClass").new
+      @taxonomy = taxonomy_class.new
       Taxonomy.no_taxonomy_scope do
         # we explicitly render here in order to evaluate the view without taxonomy scope
         render 'taxonomies/new'
@@ -41,16 +41,15 @@ module Foreman::Controller::TaxonomiesController
     end
 
     def create
-      @taxonomy = send("TaxonomyClass").new(params[taxonomy.to_sym])
-      instance_variable_set("@#{taxonomy}", @taxonomy)
+      @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
       if @taxonomy.save
         if @count_nil_hosts > 0
-          redirect_to send("step2_#{taxonomy}_path",@taxonomy)
+          redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
         else
           process_success
         end
       else
-        process_error
+        process_error(:render => "taxonomies/new", :object => @taxonomy)
       end
     end
 
@@ -69,13 +68,13 @@ module Foreman::Controller::TaxonomiesController
 
     def update
       result = Taxonomy.no_taxonomy_scope do
-        (params[taxonomy.to_sym][:ignore_types] -= ["0"]) if params[taxonomy.to_sym][:ignore_types]
-        @taxonomy.update_attributes(params[taxonomy.to_sym])
+        (params[taxonomy_single.to_sym][:ignore_types] -= ["0"]) if params[taxonomy_single.to_sym][:ignore_types]
+        @taxonomy.update_attributes(params[taxonomy_single.to_sym])
       end
       if result
         process_success
       else
-        process_error
+        process_error(:render => "taxonomies/edit", :object => @taxonomy)
       end
     end
 
@@ -88,8 +87,7 @@ module Foreman::Controller::TaxonomiesController
     end
 
     def select
-      @taxonomy = params[:id] ? Taxonomy.find(params[:id]) : nil
-      send("TaxonomyClass").current = @taxonomy
+      taxonomy_class.current = @taxonomy
       session[taxonomy_id] = @taxonomy ? @taxonomy.id : nil
 
       expire_fragment("tabs_and_title_records-#{User.current.id}")
@@ -105,30 +103,30 @@ module Foreman::Controller::TaxonomiesController
       @taxonomy = Taxonomy.find_by_id(params[:id])
       if @taxonomy
         @mismatches = @taxonomy.import_missing_ids
-        redirect_to send("edit_#{taxonomy}_path", @taxonomy), :notice => "All mismatches between hosts and #{@taxonomy.name} have been fixed"
+        redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :notice => "All mismatches between hosts and #{@taxonomy.name} have been fixed"
       else
         Taxonomy.all_import_missing_ids
-        redirect_to send("#{taxonomies}_path"), :notice => "All mismatches between hosts and locations/organizations have been fixed"
+        redirect_to send("#{taxonomies_plural}_path"), :notice => "All mismatches between hosts and locations/organizations have been fixed"
       end
     end
 
     def assign_hosts
-      @taxonomy_type = taxonomy.classify
-      @hosts = Host.my_hosts.send("no_#{taxonomy}").search_for(params[:search],:order => params[:order]).paginate :page => params[:page], :include => included_associations
+      @taxonomy_type = taxonomy_single.classify
+      @hosts = Host.my_hosts.send("no_#{taxonomy_single}").search_for(params[:search],:order => params[:order]).paginate :page => params[:page], :include => included_associations
       render "hosts/assign_hosts"
     end
 
     def assign_all_hosts
-      Host.send("no_#{taxonomy}").update_all(taxonomy_id => @taxonomy.id)
+      Host.send("no_#{taxonomy_single}").update_all(taxonomy_id => @taxonomy.id)
       @taxonomy.import_missing_ids
-      redirect_to send("#{taxonomies}_path"), :notice => "All hosts previously with no #{taxonomy} are now assigned to #{@taxonomy.name}"
+      redirect_to send("#{taxonomies_plural}_path"), :notice => "All hosts previously with no #{taxonomy_single} are now assigned to #{@taxonomy.name}"
     end
 
     def assign_selected_hosts
-      host_ids = params[taxonomy.to_sym][:host_ids] - ["0"]
+      host_ids = params[taxonomy_single.to_sym][:host_ids] - ["0"]
       @hosts = Host.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
       @taxonomy.import_missing_ids
-      redirect_to send("#{taxonomies}_path"), :notice => "Selected hosts are now assigned to #{@taxonomy.name}"
+      redirect_to send("#{taxonomies_plural}_path"), :notice => "Selected hosts are now assigned to #{@taxonomy.name}"
     end
 
     private
@@ -142,15 +140,15 @@ module Foreman::Controller::TaxonomiesController
       end
     end
 
-    def taxonomy
+    def taxonomy_single
       controller_name.singularize
     end
 
-    def taxonomies
+    def taxonomies_plural
       controller_name
     end
 
-    def TaxonomyClass
+    def taxonomy_class
       controller_name.classify.constantize
     end
 
