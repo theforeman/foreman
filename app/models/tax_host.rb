@@ -34,7 +34,7 @@ class TaxHost
     taxonomy.taxable_taxonomies.without(taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
       ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
     end
-    ids["#{opposite_taxonomy_type}_ids"] = (taxonomy.send(opposite_taxonomy_type.pluralize)).map(&:id)
+    ids["#{opposite_taxonomy_type}_ids"] = taxonomy.send("#{opposite_taxonomy_type}_ids")
     @selected_ids                        = ids
   end
 
