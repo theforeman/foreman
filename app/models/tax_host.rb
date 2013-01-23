@@ -101,12 +101,7 @@ class TaxHost
     need_to_be_selected_ids.each do |key, array_values|
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
-        klass = taxable_type.constantize
-        array_values.each do |id|
-          row = klass.find_by_id(id)
-          error_msg += "#{row.to_s} (#{taxable_type}) \n"
-          found_orphan = true
-        end
+        found_orphan = true
         taxonomy.errors.add(taxable_type.tableize, "You cannot remove #{taxable_type.tableize.humanize.downcase} that are used by hosts.")
       end
     end
