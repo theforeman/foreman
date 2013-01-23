@@ -4,22 +4,18 @@
 <% edit_taxonomy_path = (taxonomy_type == "Location") ? edit_location_path(taxonomy) : edit_organization_path(taxonomy) %>
 
 <%= form_for taxonomy do |f| %>
-    <%= base_errors_for taxonomy %>
-    <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#hosts" data-toggle="tab">Hosts</a></li>
-    </ul>
+  <%= base_errors_for taxonomy %>
+  <%= wizard_header 2, "Create "+taxonomy.class.name,"Select Hosts", "Edit Properties" %>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="hosts">
-        <% if @count_nil_hosts > 0 %>
-        <%=  link_to("Assign All #{@count_nil_hosts} Hosts with No #{taxonomy_type} to #{taxonomy.name}", assign_all_hosts_taxonomy_path, :class => 'btn btn-success',:method => :post)%>
-        <br />
-        <br />
-        <%=  link_to("Manually Assign Hosts with No #{taxonomy_type}", assign_hosts_taxonomy_path, :class => 'btn')%>
-        <br />
-        <br />
-        <%=  link_to("Skip Assign Hosts and Proceed to Edit #{taxonomy_type} Settings", edit_taxonomy_path, :class => 'btn')%>
-        <% end %>
-      </div>
-    </div>
+  <% if @count_nil_hosts > 0 %>
+    <%= alert :header => "Notice",:class => 'alert-info',
+              :text => "Assigning hosts to #{taxonomy.name} will also update #{taxonomy.name} to include all the resources that the selected Hosts are currently using."%>
+    <%=  option_button "Assign All", assign_all_hosts_taxonomy_path, :class => 'btn btn-success',:method => :post,
+                       :help_inline => "Assign All #{@count_nil_hosts} Hosts with No #{taxonomy_type} to #{taxonomy.name}" %>
+    <%=  option_button "Manually Assign", assign_hosts_taxonomy_path, :class => 'btn',
+                       :help_inline => "Manually select and assign Hosts with No #{taxonomy_type}" %>
+    <%=  option_button("Proceed to Edit", edit_taxonomy_path, :class => 'btn',
+                       :help_inline => "Skip Assign Hosts and Proceed to Edit #{taxonomy_type} Settings")%>
+  <% end %>
+
 <% end %>

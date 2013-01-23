@@ -127,7 +127,7 @@ module LayoutHelper
 
   def field(f, attr, options = {})
     fluid = options[:fluid]
-    error = f.object.errors[attr] if f.object.respond_to?(:errors)
+    error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     inline = options.delete(:help_inline)
     inline = error.to_sentence.html_safe unless error.empty?
     help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
