@@ -253,8 +253,8 @@ class ApplicationController < ActionController::Base
     hash[:object] ||= eval("@#{controller_name.singularize}")
 
     case action_name
-    when "create" then hash[:render] ||= (["locations","organizations"].include?(controller_name) ? "taxonomies/new" : "new")
-    when "update" then hash[:render] ||= (["locations","organizations"].include?(controller_name) ? "taxonomies/edit" : "edit")
+    when "create" then hash[:render] ||= "new"
+    when "update" then hash[:render] ||= "edit"
     else
       hash[:redirect] ||= eval("#{controller_name}_url")
     end
