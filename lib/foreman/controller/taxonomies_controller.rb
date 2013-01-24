@@ -2,7 +2,7 @@ module Foreman::Controller::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_taxonomy, :only => %w{edit update destroy clone assign_hosts
+    before_filter :find_taxonomy, :only => %w{edit update destroy clone_taxonomy assign_hosts
                                             assign_selected_hosts assign_all_hosts step2 select}
     before_filter :count_nil_hosts, :only => %w{index create step2}
     skip_before_filter :authorize, :set_taxonomy, :only => %w{select}
@@ -35,9 +35,11 @@ module Foreman::Controller::TaxonomiesController
       end
     end
 
-    def clone
+    # cannot name this method "clone" since Object has a clone method and the mixin doesn't overwrite it
+    def clone_taxonomy
+      @old_name = @taxonomy.name
       @taxonomy = @taxonomy.clone
-      render 'taxonomies/new'
+      render 'taxonomies/clone'
     end
 
     def create
@@ -46,7 +48,7 @@ module Foreman::Controller::TaxonomiesController
         if @count_nil_hosts > 0
           redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
         else
-          process_success
+          process_success(:object => @taxonomy)
         end
       else
         process_error(:render => "taxonomies/new", :object => @taxonomy)
@@ -72,7 +74,7 @@ module Foreman::Controller::TaxonomiesController
         @taxonomy.update_attributes(params[taxonomy_single.to_sym])
       end
       if result
-        process_success
+        process_success(:object => @taxonomy)
       else
         process_error(:render => "taxonomies/edit", :object => @taxonomy)
       end

@@ -141,4 +141,22 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:compute_resource_ids], Array.new
   end
 
+  #Clone
+  test "it should clone location with all assocations" do
+    location = taxonomies(:location1)
+    location_dup = location.clone
+    location_dup.name = "location_dup_name"
+    assert location_dup.save!
+    assert_equal, location_dup.environment_ids = location.environment_ids
+    assert_equal, location_dup.hostgroup_ids = location.hostgroup_ids
+    assert_equal, location_dup.subnet_ids = location.subnet_ids
+    assert_equal, location_dup.domain_ids = location.domain_ids
+    assert_equal, location_dup.medium_ids = location.medium_ids
+    assert_equal, location_dup.user_ids = location.user_ids
+    assert_equal, location_dup.smart_proxy_ids = location.smart_proxy_ids
+    assert_equal, location_dup.config_template_ids = location.config_template_ids
+    assert_equal, location_dup.compute_resource_ids = location.compute_resource_ids
+    assert_equal, location_dup.organization_ids = location.organization_ids
+  end
+
 end
