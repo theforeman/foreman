@@ -1,4 +1,4 @@
 <% title "Edit #{@taxonomy}" %>
 
-<%= title_actions(link_to("Fix Mismatches", send("import_mismatches_#{taxonomy_single}_path", @taxonomy), :class => 'btn btn-success', :method => :post)) unless @taxonomy.valid? %>
+<%= title_actions(link_to("Fix Mismatches", import_mismatches_taxonomy_path(@taxonomy), :class => 'btn btn-success', :method => :post)) unless @taxonomy.valid? %>
 <%= render 'taxonomies/form' , :taxonomy => @taxonomy %>

@@ -1,4 +1,3 @@
 <% title "Clone #{@old_name}" %>
 
-<%#= title_actions(link_to("Fix Mismatches", send("import_mismatches_#{taxonomy_single}_path", @taxonomy), :class => 'btn btn-success', :method => :post)) unless @taxonomy.valid? %>
 <%= render 'taxonomies/step1' , :taxonomy => @taxonomy %>
