@@ -2,7 +2,7 @@ class AddDigestToMessages < ActiveRecord::Migration
   def self.up
     remove_index :messages, :value
     add_column :messages, :digest, :string
-    Message.all.map {|message| message.save }
+    Message.find_each {|message| message.save }
     add_index :messages, :digest
   end
 

@@ -13,10 +13,12 @@ class Message < ActiveRecord::Base
   end
 
   def calc_digest
-    self.digest = Digest::SHA1.hexdigest(value)
+    self.digest ||= Digest::SHA1.hexdigest(value)
   end
 
-  def self.digest val
-    Digest::SHA1.hexdigest(val)
+  def self.find_or_create val
+    digest = Digest::SHA1.hexdigest(val)
+    Message.where(:digest => digest).first || Message.create(:value=>val, :digest => digest)
   end
+
 end
