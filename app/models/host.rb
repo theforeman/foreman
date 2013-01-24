@@ -87,9 +87,9 @@ class Host < Puppet::Rails::Host
     end
   }
 
-  scope :with_os, where('hosts.operatingsystem_id IS NOT NULL')
-  scope :no_location, where(:location_id => nil)
-  scope :no_organization, where(:organization_id => nil)
+  scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
+  scope :no_location, lambda { where(:location_id => nil) }
+  scope :no_organization, lambda { where(:organization_id => nil) }
 
   scope :with_error, { :conditions => "(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
