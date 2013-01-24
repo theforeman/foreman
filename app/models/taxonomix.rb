@@ -6,8 +6,10 @@ module Taxonomix
       @taxonomy_join_table = "taxable_taxonomies"
       @primary_key = "taxable_id"
       has_many @taxonomy_join_table, :dependent => :destroy, :as => :taxable
-      has_many :locations,     :through => @taxonomy_join_table, :source => :taxonomy, :conditions => "taxonomies.type='Location'"
-      has_many :organizations, :through => @taxonomy_join_table, :source => :taxonomy, :conditions => "taxonomies.type='Organization'"
+      has_many :locations,     :through => @taxonomy_join_table, :source => :taxonomy,
+               :conditions => "taxonomies.type='Location'", :validate => false
+      has_many :organizations, :through => @taxonomy_join_table, :source => :taxonomy,
+               :conditions => "taxonomies.type='Organization'", :validate => false
       after_initialize :set_current_taxonomy
 
       scoped_search :in => :locations, :on => :name, :rename => :location, :complete_value => true
