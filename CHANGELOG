@@ -1,3 +1,127 @@
+2013-01-24	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that when taxable objects (such as a domain) does not fire a taxonomy validation
+	* rebase 6f9e04c913856c3adbc02010ce7a9e187ed2682b
+	* minor cleanups that did not rebased cleanly
+	* adds nullify when deleting taxonomies
+	* hosts mulitple
+	* refactor - move clone taxonomy to models
+
+2013-01-24	Joseph Mitchell Magen <jmagen@redhat.com>
+	* clone action, view, tests
+	* refactor hash_for links on taxonomies/index
+	* changes to taxonomies_controller
+	* fixes #2033 - Cannot assign a host to an org
+	* fixes #2001 - Changing Loc or Org after compute resource selection give 500 error
+	* fixes #1999 - Allow org/location to selectively ignore a domain, subnet etc
+	* fixes #2138 - Ensure at least one Location / Organization exists
+
+2013-01-24	Amos Benari <abenari@redhat.com>
+	* new org wizard.
+	* fixes #2126 Large report messages won't fit in PostgreSQL's index_messages_on_value
+
+2013-01-23	Ohad Levy <ohadlevy@gmail.com>
+	* refs #2146 - ensures redirect does not break on api requests too
+
+2013-01-23	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2146 - prevent double render
+	* fixes #2151 - use DN environment variable instead of CN
+
+2013-01-21	Amos Benari <abenari@redhat.com>
+	* refs #2041 - changed puppetclass/:id/parameters from put to post.
+	* lighter style to the host status labels.
+	* remove add-class tooltip.
+	* fix import classes button
+	* fixes #851 - display diff view on Puppet file content change
+	* fixes #2145 Host Search not working by user
+
+2013-01-21	Ivan Necas <inecas@redhat.com>
+	* Make sure we're not merging nil in to_json
+
+2013-01-21	Ohad Levy <ohadlevy@gmail.com>
+	* [test] renamed wrong class name
+	* fixes #2147 - param classes with multiple matchers are evaluated incorrectly
+	* updated fog version, as a few vmware related bugs where fixed
+
+2013-01-20	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2136 hyperlink host properties
+
+2013-01-20	Ivan Necas <inecas@redhat.com>
+	* Fix home mapping in API v2
+
+2013-01-20	Dominic Cleal <dcleal@redhat.com>
+	* refs #2069 - enable auth by default
+	* fixes #2121, #2069 - restrict importers and ENC to puppetmasters and users
+
+2013-01-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2129 - only use markdown if redcarpet available
+	* fixes #2069 - use a random salt when saving the root password
+
+2013-01-15	Martin Bačovský <mbacovsk@redhat.com>
+	* Added auth to smart proxies
+
+2013-01-15	Sam Kottler <shk@redhat.com>
+	* Remove mention of tenants from test definitions
+
+2013-01-14	Sam Kottler <shk@redhat.com>
+	* Fixes #1880 - Build button (or any with the disabled attribute) shouldn't be clickable
+
+2013-01-14	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* v2 api for configuration_templates and template_combinations
+
+2013-01-14	Amos Benari <abenari@redhat.com>
+	* fix xhr authentication issue.
+	* fixes #2041 puppetclass_parameters update method uses PUT incorrectly
+
+2013-01-14	Robert Birnie <rbirnie@gmail.com>
+	* Add Additional Error checking for ldap
+
+2013-01-14	Tomas Strachota <tstrachota@redhat.com>
+	* fix in compute resources api doc
+
+2013-01-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2047 - pagination is not visible on compute resources vms.
+	* adds support for JS table sorter / pagination.
+
+2013-01-10	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #2122 - Cannot search reports on environment name
+
+2013-01-10	Joseph Mitchell Magen <jmagen@redhat.com>
+	* added API v2 placeholders.
+
+2013-01-09	Sam Kottler <shk@redhat.com>
+	* Upgrade to Rails 3.0.19 to mitigate CVE-2013-0156 and CVE-2013-0155
+
+2013-01-08	Marius Rieder <marius.rieder@durchmesser.ch>
+	* round_with_precision is deprecated
+
+2013-01-08	Amos Benari <abenari@redhat.com>
+	* Optimize SQL queries for puppetclass edit page
+	* added search puppet class parameters.
+	* removed the need to add 'btn' class for the action_buttons helper, and changed the action buttons to small.
+	* resize puppet calss form, parameter tab, left tabs size.
+	* fix popover html content render.
+	* add gravatar to users index
+
+2013-01-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2109 - improve session token security
+
+2013-01-08	Nicolas Dandrimont <nicolas.dandrimont@ensta-paristech.fr>
+	* Fixes #1884 - hardcode a version number for Debian's testing/unstable suites
+
+2013-01-08	Tomas Strachota <tstrachota@redhat.com>
+	* Extended information for each type of compute resources
+
+2013-01-08	Sam Kottler <shk@redhat.com>
+	* Added additional counter-tests to config templates
+
+2013-01-06	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1947 - fixes typo
+
+2013-01-03	Ohad Levy <ohadlevy@gmail.com>
+	* bumped rails to 3.0.18 to avoid latest CVE
+	* fixes #2098 - ldap auth when using a different account for authentication was broken
+	* 1.1RC4 released
+
 2013-01-03	Amos Benari <abenari@redhat.com>
 	* fixes #2096 New location/Org button in user-menu doesn't work on ff.
 	* fixes #2091 Menu items disappeard
