@@ -297,8 +297,8 @@ class ApplicationController < ActionController::Base
       orgs = Organization.my_organizations
       Organization.current = if orgs.count == 1 && !User.current.admin?
                                orgs.first
-                             elsif session[:org_id]
-                               orgs.find(session[:org_id])
+                             elsif session[:organization_id]
+                               orgs.find(session[:organization_id])
                              else
                                nil
                              end
