@@ -6,17 +6,17 @@ function onContentLoad(){
   $('.flash.error').hide().each(function(index, item) {
      if ($('.alert-message.alert-error.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
-         $.jnotify($(item).text(), { type: "error", sticky: true });
+         $.jnotify($(item).html(), { type: "error", sticky: true });
        }
      }
    });
 
    $('.flash.warning').hide().each(function(index, item) {
-     $.jnotify($(item).text(), { type: "warning", sticky: true });
+     $.jnotify($(item).html(), { type: "warning", sticky: true });
    });
 
    $('.flash.notice').hide().each(function(index, item) {
-     $.jnotify($(item).text(), { type: "success", sticky: false });
+     $.jnotify($(item).html(), { type: "success", sticky: false });
    });
 
   // adds buttons classes to all links

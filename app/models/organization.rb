@@ -2,8 +2,7 @@ class Organization < Taxonomy
   include Foreman::ThreadSession::OrganizationModel
 
   has_and_belongs_to_many :locations
-  has_many :hosts
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  has_many :hosts, :dependent => :nullify
 
   scope :completer_scope, lambda { my_organizations }
 
@@ -16,4 +15,10 @@ class Organization < Taxonomy
       end
       where(conditions).reorder('type, name')
     }
+
+  def clone
+    new = super
+    new.locations = locations
+    new
+  end
 end

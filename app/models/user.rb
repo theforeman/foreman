@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :facts, :through => :user_facts, :source => :fact_name
 
   scope :except_admin, where(:admin => false)
+  scope :only_admin, where(:admin => true)
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 

@@ -1,0 +1,20 @@
+<% javascript 'taxonomy' %>
+
+<% taxonomy_type = taxonomy.class.name %>
+
+<%= form_for taxonomy do |f| %>
+  <%= base_errors_for taxonomy %>
+  <%= wizard_header 2, "Create "+taxonomy.class.name,"Select Hosts", "Edit Properties" %>
+
+  <% if @count_nil_hosts > 0 %>
+    <%= alert :header => "Notice",:class => 'alert-info',
+              :text => "Assigning hosts to #{taxonomy.name} will also update #{taxonomy.name} to include all the resources that the selected Hosts are currently using."%>
+    <%=  option_button "Assign All", assign_all_hosts_taxonomy_path(taxonomy), :class => 'btn btn-success',:method => :post,
+                       :help_inline => "Assign All #{@count_nil_hosts} Hosts with No #{taxonomy_type} to #{taxonomy.name}" %>
+    <%=  option_button "Manually Assign", assign_hosts_taxonomy_path(taxonomy), :class => 'btn',
+                       :help_inline => "Manually select and assign Hosts with No #{taxonomy_type}" %>
+    <%=  option_button("Proceed to Edit", edit_taxonomy_path(taxonomy), :class => 'btn',
+                       :help_inline => "Skip Assign Hosts and Proceed to Edit #{taxonomy_type} Settings")%>
+  <% end %>
+
+<% end %>

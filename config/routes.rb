@@ -291,13 +291,21 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:locations_enabled]
     resources :locations do
+      resources :hosts, :only => :index
       member do
         get 'select'
-        get 'clone'
+        match "clone" => 'locations#clone_taxonomy'
+        post 'import_mismatches'
+        get 'step2'
+        get 'assign_hosts'
+        post 'assign_all_hosts'
+        put 'assign_selected_hosts'
       end
       collection do
 	      get 'auto_complete_search'
         get 'clear', :action => 'select'
+        get  'mismatches'
+        post 'import_mismatches'
       end
     end
   end
@@ -305,12 +313,19 @@ Foreman::Application.routes.draw do
   if SETTINGS[:organizations_enabled]
     resources :organizations do
       member do
-          get 'select'
-          get 'clone'
+        get 'select'
+        match "clone" => 'organizations#clone_taxonomy'
+        post 'import_mismatches'
+        get 'step2'
+        get 'assign_hosts'
+        post 'assign_all_hosts'
+        put 'assign_selected_hosts'
       end
       collection do
 	      get 'auto_complete_search'
         get 'clear', :action => 'select'
+        get  'mismatches'
+        post 'import_mismatches'
       end
     end
   end

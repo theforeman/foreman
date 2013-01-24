@@ -2,10 +2,12 @@ class Taxonomy < ActiveRecord::Base
   audited
   has_associated_audits
 
+  serialize :ignore_types, Array
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :type
 
   belongs_to :user
+  before_destroy EnsureNotUsedBy.new(:hosts)
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
@@ -19,6 +21,11 @@ class Taxonomy < ActiveRecord::Base
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
 
   scoped_search :on => :name, :complete_value => true
+
+  validate :check_for_orphans
+  before_validation :sanitize_ignored_types
+
+  delegate :import_missing_ids, :to => :tax_host
 
   def to_param
     "#{id.to_s.parameterize}"
@@ -48,6 +55,51 @@ class Taxonomy < ActiveRecord::Base
         yield if block_given?
       end
     end
+  end
+
+  def ignore?(taxable_type)
+    if ignore_types.empty?
+      false
+    else
+      ignore_types.include?(taxable_type.classify)
+    end
+  end
+
+  def self.all_import_missing_ids
+    all.each do |taxonomy|
+      taxonomy.import_missing_ids
+    end
+  end
+
+  def self.all_mismatcheds
+    includes(:hosts).map { |taxonomy| taxonomy.mismatches }
+  end
+
+  def clone
+    new = super
+    new.name = ""
+    new.users             = users
+    new.smart_proxies     = smart_proxies
+    new.subnets           = subnets
+    new.compute_resources = compute_resources
+    new.media             = media
+    new.domains           = domains
+    new.media             = media
+    new.hostgroups        = hostgroups
+    new
+  end
+
+  private
+
+  delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans, :to => :tax_host
+
+  def sanitize_ignored_types
+    self.ignore_types ||= []
+    self.ignore_types = self.ignore_types.compact.uniq
+  end
+
+  def tax_host
+    @tax_host ||= TaxHost.new(self)
   end
 
 end

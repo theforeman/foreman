@@ -48,28 +48,54 @@ module LayoutHelper
     end
   end
 
-  def checkbox_f(f, attr, options = {})
+  def checkbox_f(f, attr, options = {}, checked_value="1", unchecked_value="0")
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
       label_tag('', :class=>'checkbox') do
         help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
-        f.check_box(attr, options) + " #{text} " + help_inline.html_safe
+        f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
       end
     end
   end
+
 
   def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options={})
     if associations.count > 5
       field(f, attr,options) do
         selected_ids = klass.send(ActiveModel::Naming.plural(associations.first)).select("#{associations.first.class.table_name}.id").map(&:id)
         attr_ids = (attr.to_s.singularize+"_ids").to_sym
-        f.collection_select attr_ids, associations.all, :id, :to_s ,{:selected => selected_ids}, html_options.merge(:multiple => true)
+        hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
+        hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
       end
     else
       field(f, attr, options) do
         authorized_edit_habtm klass, associations, options[:prefix]
       end
+    end
+  end
+
+  # add hidden field for options[:disabled]
+  def multiple_selects(f, attr, klass, associations, selected_ids, options={}, html_options={})
+    field(f, attr,options) do
+      attr_ids = (attr.to_s.singularize+"_ids").to_sym
+      hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
+      options[:disabled] ||=[]
+      options[:disabled].each do |disabled_value|
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value )
+      end
+      hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
+    end
+  end
+
+  def multiple_select_array(f, field_name, klass, array_list, selected_ids, options={}, html_options={})
+    field(f, field_name,options) do
+      hidden_fields = f.hidden_field(field_name, :multiple => true, :value => '')
+      options[:disabled] ||=[]
+      options[:disabled].each do |disabled_value|
+        hidden_fields += f.hidden_field(field_name, :multiple => true, :value => disabled_value )
+      end
+      hidden_fields + f.select(field_name, options_for_select(array_list, :selected => selected_ids), options,html_options.merge(:multiple => true))
     end
   end
 
@@ -101,7 +127,7 @@ module LayoutHelper
 
   def field(f, attr, options = {})
     fluid = options[:fluid]
-    error = f.object.errors[attr] if f.object.respond_to?(:errors)
+    error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     inline = options.delete(:help_inline)
     inline = error.to_sentence.html_safe unless error.empty?
     help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")

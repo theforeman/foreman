@@ -1,5 +1,8 @@
 <% title_actions link_to("New Organization", new_organization_path) %>
 <% title "Organization configuration" %>
 <div id="welcome">
+  <div class="alert alert-message alert-block alert-info">
+      <p><strong>Notice</strong> You must create an organization before continuing.</p>
+  </div>
   <p>Using the organization system provides a way to group resources together for easy management. Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install. Organizations also work nicely in tandem with <%= link_to("locations", :controller => "locations", :action => "index") %>.</p>
 </div>

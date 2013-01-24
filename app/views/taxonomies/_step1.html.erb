@@ -1,0 +1,14 @@
+<%= form_for taxonomy do |f| %>
+    <%= base_errors_for taxonomy %>
+    <%= wizard_header 1, "Create "+taxonomy.class.name,"Select Hosts", "Edit Properties" %>
+    <%= text_f f, :name, :class => "input-xlarge" %>
+
+    <%= submit_or_cancel f %>
+
+    <% (TaxHost::HASH_KEYS - [taxonomy_ids_sym] ).each do |hash_key| %>
+      <% taxonomy.send(hash_key).each do |id| %>
+          <%= f.hidden_field "#{hash_key}", :value => id, :multiple => true %>
+       <% end %>
+     <% end %>
+
+<% end %>
