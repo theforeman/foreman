@@ -294,7 +294,7 @@ Foreman::Application.routes.draw do
       resources :hosts, :only => :index
       member do
         get 'select'
-        get 'clone'
+        match "clone" => 'locations#clone_taxonomy'
         post 'import_mismatches'
         get 'step2'
         get 'assign_hosts'
@@ -314,7 +314,7 @@ Foreman::Application.routes.draw do
     resources :organizations do
       member do
         get 'select'
-        get 'clone'
+        match "clone" => 'organizations#clone_taxonomy'
         post 'import_mismatches'
         get 'step2'
         get 'assign_hosts'

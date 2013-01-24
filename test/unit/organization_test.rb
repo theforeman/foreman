@@ -141,4 +141,23 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:compute_resource_ids], Array.new
   end
 
+  #Clone
+  test "it should clone organization with all assocations" do
+    organization = taxonomies(:organization1)
+    organization_dup = organization.clone
+    organization_dup.name = "organization_dup_name"
+    assert organization_dup.save!
+    assert_equal, organization_dup.environment_ids = organization.environment_ids
+    assert_equal, organization_dup.hostgroup_ids = organization.hostgroup_ids
+    assert_equal, organization_dup.subnet_ids = organization.subnet_ids
+    assert_equal, organization_dup.domain_ids = organization.domain_ids
+    assert_equal, organization_dup.medium_ids = organization.medium_ids
+    assert_equal, organization_dup.user_ids = organization.user_ids
+    assert_equal, organization_dup.smart_proxy_ids = organization.smart_proxy_ids
+    assert_equal, organization_dup.config_template_ids = organization.config_template_ids
+    assert_equal, organization_dup.compute_resource_ids = organization.compute_resource_ids
+    assert_equal, organization_dup.location_ids = organization.location_ids
+  end
+
+
 end

@@ -95,4 +95,47 @@ class LocationsControllerTest < ActionController::TestCase
     get :mismatches, {}, set_session_user
     assert_match "No hosts are mismatched", @response.body
   end
+
+  #Clone
+  test "should present clone wizard" do
+    location = taxonomies(:location1)
+    get :clone_taxonomy, {:id => location.id}, set_session_user
+    assert_response :success
+    assert_match "Clone", @response.body
+  end
+  test "should clone location with assocations" do
+    location = taxonomies(:location1)
+    location_dup = location.clone
+
+    assert_difference "Location.count", 1 do
+      post :create, {:location => {:name => "location_dup_name",
+                                 :environment_ids => location_dup.environment_ids,
+                                 :hostgroup_ids => location_dup.hostgroup_ids,
+                                 :subnet_ids => location_dup.hostgroup_ids,
+                                 :domain_ids => location_dup.domain_ids,
+                                 :medium_ids => location_dup.medium_ids,
+                                 :user_ids => location_dup.user_ids,
+                                 :smart_proxy_ids => location_dup.smart_proxy_ids,
+                                 :config_template_ids => location_dup.config_template_ids,
+                                 :compute_resource_ids => location_dup.compute_resource_ids,
+                                 :organization_ids => location_dup.organization_ids
+                               }
+                   }, set_session_user
+    end
+
+    new_location = Location.order(:id).last
+    assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.id
+
+    assert_equal new_location.environment_ids, location.environment_ids
+    assert_equal new_location.hostgroup_ids, location.hostgroup_ids
+    assert_equal new_location.environment_ids, location.environment_ids
+    assert_equal new_location.domain_ids, location.domain_ids
+    assert_equal new_location.medium_ids, location.medium_ids
+    assert_equal new_location.user_ids, location.user_ids
+    assert_equal new_location.smart_proxy_ids, location.smart_proxy_ids
+    assert_equal new_location.config_template_ids, location.config_template_ids
+    assert_equal new_location.compute_resource_ids, location.compute_resource_ids
+    assert_equal new_location.organization_ids, location.organization_ids
+  end
+
 end

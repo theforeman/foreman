@@ -96,4 +96,47 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_match "No hosts are mismatched", @response.body
   end
 
+  #Clone
+  test "should present clone wizard" do
+    organization = taxonomies(:organization1)
+    get :clone_taxonomy, {:id => organization.id}, set_session_user
+    assert_response :success
+    assert_match "Clone", @response.body
+  end
+  test "should clone organization with assocations" do
+    organization = taxonomies(:organization1)
+    organization_dup = organization.clone
+
+    assert_difference "Organization.count", 1 do
+      post :create, {:organization => {:name => "organization_dup_name",
+                                 :environment_ids => organization_dup.environment_ids,
+                                 :hostgroup_ids => organization_dup.hostgroup_ids,
+                                 :subnet_ids => organization_dup.hostgroup_ids,
+                                 :domain_ids => organization_dup.domain_ids,
+                                 :medium_ids => organization_dup.medium_ids,
+                                 :user_ids => organization_dup.user_ids,
+                                 :smart_proxy_ids => organization_dup.smart_proxy_ids,
+                                 :config_template_ids => organization_dup.config_template_ids,
+                                 :compute_resource_ids => organization_dup.compute_resource_ids,
+                                 :location_ids => organization_dup.location_ids
+                               }
+                   }, set_session_user
+    end
+
+    new_organization = Organization.order(:id).last
+    assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.id
+
+    assert_equal new_organization.environment_ids, organization.environment_ids
+    assert_equal new_organization.hostgroup_ids, organization.hostgroup_ids
+    assert_equal new_organization.environment_ids, organization.environment_ids
+    assert_equal new_organization.domain_ids, organization.domain_ids
+    assert_equal new_organization.medium_ids, organization.medium_ids
+    assert_equal new_organization.user_ids, organization.user_ids
+    assert_equal new_organization.smart_proxy_ids, organization.smart_proxy_ids
+    assert_equal new_organization.config_template_ids, organization.config_template_ids
+    assert_equal new_organization.compute_resource_ids, organization.compute_resource_ids
+    assert_equal new_organization.location_ids, organization.location_ids
+  end
+
+
 end

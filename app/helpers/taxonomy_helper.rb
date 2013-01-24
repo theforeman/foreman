@@ -112,4 +112,8 @@ module TaxonomyHelper
     is_location? ? assign_hosts_location_path(taxonomy) : assign_hosts_organization_path(taxonomy)
   end
 
+  def taxonomy_ids_sym
+    is_location? ? :location_ids : :organization_ids
+  end
+
 end
