@@ -114,7 +114,8 @@ class TaxHost
     # def domain_ids
     #   return taxonomy.hosts.pluck(:domain_id)
     # end
-    define_method "#{key}s".to_sym do
+    define_method "#{key}s".to_sym do |*args|
+      hosts = args.first || self.hosts
       return [] if taxonomy.ignore?(hash_key_to_class(key))
 
       #TODO see if distinct pluck makes more sense
