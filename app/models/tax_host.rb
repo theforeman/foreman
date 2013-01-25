@@ -22,7 +22,7 @@ class TaxHost
     ids         = HashWithIndifferentAccess.new
     ids.default = []
     hash_keys.each do |col|
-      ids[col] = self.send(col, hosts)
+      ids[col] = self.send(col)
     end
     @used_ids = ids
   end
