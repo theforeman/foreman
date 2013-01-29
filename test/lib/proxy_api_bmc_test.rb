@@ -1,8 +1,7 @@
 require "test/unit"
 require "proxy_api"
 require 'test_helper'
-require 'mocha'
-
+require 'mocha/setup'
 
 class ProxyApiBmcTest < ActiveSupport::TestCase
 
