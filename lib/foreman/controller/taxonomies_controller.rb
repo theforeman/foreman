@@ -104,7 +104,6 @@ module Foreman::Controller::TaxonomiesController
       redirect_back_or_to root_url
     end
 
-
     def mismatches
       @mismatches = Taxonomy.all_mismatcheds
       render 'taxonomies/mismatches'
