@@ -13,7 +13,7 @@ gem 'net-ldap'
 gem "safemode", "~> 1.1.0"
 gem 'ruby_parser', '~> 3.0.0'
 gem 'uuidtools'
-gem "apipie-rails", ">= 0.0.12"
+gem "apipie-rails", "= 0.0.13"
 gem 'rabl', '>= 0.7.5'
 gem 'oauth'
 
