@@ -68,17 +68,6 @@ class Host < Puppet::Rails::Host
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
 
-  scope :with_fact, lambda { |fact,value|
-    if fact.nil? or value.nil?
-      raise "invalid fact"
-    else
-      { :joins  => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
-                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
-        :select => "DISTINCT hosts.name, hosts.id", :conditions =>
-          ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id", value, fact] }
-    end
-  }
-
   scope :with_class, lambda { |klass|
     if klass.nil?
       raise "invalid class"
