@@ -2,7 +2,7 @@ var $editor
 
 $(function() {
   var template_text = $(".template_text");
-  if ($.browser.msie && $.browser.version.slice(0,1) < 10) {
+  if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
     $('.subnav').hide();
     if ($('.diffMode').size() >0) {
       IE_diff_mode(template_text);
