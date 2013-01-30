@@ -67,15 +67,6 @@ class Host < Puppet::Rails::Host
 
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
-
-  scope :with_class, lambda { |klass|
-    if klass.nil?
-      raise "invalid class"
-    else
-      { :joins => :puppetclasses, :select => "hosts.name", :conditions => { :puppetclasses => { :name => klass } } }
-    end
-  }
-
   scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
   scope :no_location, lambda { where(:location_id => nil) }
   scope :no_organization, lambda { where(:organization_id => nil) }
