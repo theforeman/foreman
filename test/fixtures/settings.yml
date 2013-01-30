@@ -72,7 +72,7 @@ attributes14:
 attributes15:
   name: manage_puppetca
   category: Provisioning
-  default: true
+  default: "true"
   description: Should Foreman manage host certificates when provisioning hosts
 attributes16:
   name: entries_per_page
@@ -82,7 +82,7 @@ attributes16:
 attributes17:
   name: update_environment_from_facts
   category: Puppet
-  default: false
+  default: "false"
   description: Foreman will update a hosts environment from its facts
 attributes18:
   name: idle_timeout
@@ -92,17 +92,17 @@ attributes18:
 attributes19:
   name: enc_environment
   category: Puppet
-  default: true
+  default: "true"
   description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
 attributes20:
   name: use_uuid_for_certificates
   category: Puppet
-  default: false
+  default: "false"
   description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
 attributes21:
   name: query_local_nameservers
   category: Provisioning
-  default: false
+  default: "false"
   description: "Should Foreman query the locally configured name server or the SOA/NS authorities"
 attributes22:
   name: remote_addr
@@ -112,17 +112,17 @@ attributes22:
 attributes23:
   name: authorize_login_delegation
   category: General
-  default: false
+  default: "false"
   description: "Authorize login delegation with REMOTE_USER environment variable"
 attributes24:
   name: authorize_login_delegation_api
   category: General
-  default: false
+  default: "false"
   description: "Authorize login delegation with REMOTE_USER environment variable for API calls"
 attributes25:
   name: Parametrized_Classes_in_ENC
   category: Puppet
-  default: false
+  default: "false"
   description: "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?"
 attribute26:
   name: token_duration
@@ -132,12 +132,12 @@ attribute26:
 attribute27:
   name: restrict_registered_puppetmasters
   category: Auth
-  default: true
+  default: "true"
   description: "Only known Smart Proxies with the Puppet feature can access fact/report importers and ENC output"
 attribute28:
   name: require_ssl_puppetmasters
   category: Auth
-  default: true
+  default: "true"
   description: "Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)"
 attribute29:
   name: ssl_client_dn_env
@@ -152,5 +152,10 @@ attribute30:
 attribute31:
   name: remove_classes_not_in_environment
   category: Puppet
-  default: false
+  default: "false"
   description: "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)"
+attribute32:
+  name: trusted_puppetmaster_hosts
+  category: Auth
+  default: []
+  description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
