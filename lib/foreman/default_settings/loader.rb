@@ -71,7 +71,9 @@ module Foreman
               set('Parametrized_Classes_in_ENC', "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?", param_enc),
               set('enc_environment', "Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)", true),
               set('use_uuid_for_certificates', "Should Foreman use random UUID's for certificate signing instead of hostnames", false),
-              set('update_environment_from_facts', "Should Foreman update a host's environment from its facts", false)
+              set('update_environment_from_facts', "Should Foreman update a host's environment from its facts", false),
+              set('remove_classes_not_in_environment',
+                  "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)", false)
             ].compact.each { |s| create s.update(:category => "Puppet")}
 
             [ set('oauth_active', "Should foreman use OAuth for authorization in API", false),
