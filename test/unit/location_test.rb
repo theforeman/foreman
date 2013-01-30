@@ -92,15 +92,15 @@ class LocationTest < ActiveSupport::TestCase
     # run selected_ids method
     selected_ids = location.selected_ids
     # get results from taxable_taxonomies
-    environment_ids = location.environments.pluck(:id)
-    hostgroup_ids = location.hostgroups.pluck(:id)
-    subnet_ids = location.subnets.pluck(:id)
-    domain_ids = location.domains.pluck(:id)
-    medium_ids = location.media.pluck(:id)
-    user_ids = location.users.pluck(:id)
-    smart_proxy_ids = location.smart_proxies.pluck(:id)
-    config_template_ids = location.config_templates.pluck(:id)
-    compute_resource_ids = location.compute_resources.pluck(:id)
+    environment_ids = location.environments.pluck('environments.id')
+    hostgroup_ids = location.hostgroups.pluck('hostgroups.id')
+    subnet_ids = location.subnets.pluck('subnets.id')
+    domain_ids = location.domains.pluck('domains.id')
+    medium_ids = location.media.pluck('media.id')
+    user_ids = location.users.pluck('users.id')
+    smart_proxy_ids = location.smart_proxies.pluck('smart_proxies.id')
+    config_template_ids = location.config_templates.pluck('config_templates.id')
+    compute_resource_ids = location.compute_resources.pluck('compute_resources.id')
     # check if they match
     assert_equal selected_ids[:environment_ids], environment_ids
     assert_equal selected_ids[:hostgroup_ids], hostgroup_ids
@@ -142,9 +142,9 @@ class LocationTest < ActiveSupport::TestCase
   end
 
   #Clone
-  test "it should clone location with all assocations" do
+  test "it should clone location with all associations" do
     location = taxonomies(:location1)
-    location_dup = location.clone
+    location_dup = location.dup
     location_dup.name = "location_dup_name"
     assert location_dup.save!
     assert_equal, location_dup.environment_ids = location.environment_ids

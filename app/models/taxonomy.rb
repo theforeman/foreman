@@ -75,7 +75,7 @@ class Taxonomy < ActiveRecord::Base
     includes(:hosts).map { |taxonomy| taxonomy.mismatches }
   end
 
-  def clone
+  def dup
     new = super
     new.name = ""
     new.users             = users
