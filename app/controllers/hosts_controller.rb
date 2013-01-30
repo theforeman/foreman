@@ -305,11 +305,12 @@ class HostsController < ApplicationController
       error 'No Environment selected!'
       redirect_to(select_multiple_environment_hosts_path) and return
     end
+
     ev = Environment.find(id) rescue nil
 
     #update the hosts
     @hosts.each do |host|
-      host.environment=ev
+      host.environment = (id == 'inherit' && host.hostgroup.present? ) ? host.hostgroup.environment : ev
       host.save(:validate => false)
     end
 

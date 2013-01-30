@@ -394,6 +394,31 @@ class HostsControllerTest < ActionController::TestCase
     assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
   end
 
+  test "should inherit the hostgroup environment if *inherit from hostgroup* selected" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    setup_multiple_environments
+    assert @host1.environment == environments(:production)
+    assert @host2.environment == environments(:production)
+
+    hostgroup = hostgroups(:common)
+    hostgroup.environment = environments(:global_puppetmaster)
+    hostgroup.save(:validate => false)
+
+    @host1.hostgroup = hostgroup
+    @host1.save(:validate => false)
+    @host2.hostgroup = hostgroup
+    @host2.save(:validate => false)
+
+    params = { :host_ids => [@host1.id, @host2.id],
+      :environment => { :id => 'inherit' } }
+
+    post :update_multiple_environment, params,
+      set_session_user.merge(:user => User.first.id)
+
+    assert Host.find(@host1.id).environment == hostgroup.environment
+    assert Host.find(@host2.id).environment == hostgroup.environment
+  end
+
   test "user with edit host rights with update parameters should change parameters" do
     setup_multiple_environments
     @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
