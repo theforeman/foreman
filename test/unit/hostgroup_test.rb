@@ -124,10 +124,15 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should inherit parent classes" do
-   assert (top = Hostgroup.create(:name => "topA", "puppetclass_ids"=>[Puppetclass.first.id]))
-   assert (second = Hostgroup.create(:name => "secondB", :parent_id => top.id, "puppetclass_ids"=>[Puppetclass.last.id]))
+    child, top = nil
+    as_admin do
+      top = Hostgroup.create!(:name => "topA")
+      top.puppetclasses << Puppetclass.first
+      child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
+      child.puppetclasses << Puppetclass.last
+    end
 
-   assert_equal [Puppetclass.first, Puppetclass.last].sort, second.classes.sort
+    assert_equal [Puppetclass.first, Puppetclass.last].sort, child.classes.sort
   end
 
   test "should remove relationships if deleting a parent hostgroup" do
