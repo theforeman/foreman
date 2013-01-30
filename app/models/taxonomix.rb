@@ -3,12 +3,11 @@ module Taxonomix
     base.send :include, InstanceMethods
 
     base.class_eval do
-      @taxonomy_join_table = "taxable_taxonomies"
-      @primary_key = "taxable_id"
-      has_many @taxonomy_join_table, :dependent => :destroy, :as => :taxable
-      has_many :locations,     :through => @taxonomy_join_table, :source => :taxonomy,
+      taxonomy_join_table = "taxable_taxonomies"
+      has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable
+      has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
                :conditions => "taxonomies.type='Location'", :validate => false
-      has_many :organizations, :through => @taxonomy_join_table, :source => :taxonomy,
+      has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
                :conditions => "taxonomies.type='Organization'", :validate => false
       after_initialize :set_current_taxonomy
 
