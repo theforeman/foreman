@@ -2,7 +2,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Renderer
 
-  before_filter :find_by_name, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy]
   before_filter :load_history, :only => :edit
   before_filter :handle_template_upload, :only => [:create, :update]
 
@@ -99,4 +99,7 @@ class ConfigTemplatesController < ApplicationController
       :id => template.name, :hostgroup => hostgroup.name
   end
 
+  def find_by_id
+    @config_template = ConfigTemplate.find(params[:id])
+  end
 end

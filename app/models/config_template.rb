@@ -38,7 +38,7 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def to_param
-    name
+    "#{id}-#{name.parameterize}"
   end
 
   # TODO: review if we can improve SQL

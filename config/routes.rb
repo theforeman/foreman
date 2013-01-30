@@ -196,17 +196,17 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:unattended]
+    resources :config_templates do
+      collection do
+        get 'auto_complete_search'
+        get 'build_pxe_default'
+        get 'revision'
+      end
+    end
     constraints(:id => /[^\/]+/) do
       resources :domains do
         collection do
           get 'auto_complete_search'
-        end
-      end
-      resources :config_templates do
-        collection do
-          get 'auto_complete_search'
-          get 'build_pxe_default'
-          get 'revision'
         end
       end
     end
