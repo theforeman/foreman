@@ -57,10 +57,6 @@ module Foreman
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery)
-    #config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-
     # Disable fieldWithErrors divs
     config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
 
