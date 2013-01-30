@@ -8,7 +8,7 @@ module Nic
     self.table_name = 'nics'
 
     attr_accessible :host_id, :host,
-                    :mac,
+                    :mac, :name,
                     :_destroy # used for nested_attributes
 
     before_validation :normalize_mac
