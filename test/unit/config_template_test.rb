@@ -21,7 +21,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert !ConfigTemplate.new.valid?
   end
 
-  def test_should_save_assoications_if_not_snippet
+  def test_should_save_associations_if_not_snippet
     tmplt = ConfigTemplate.new
     tmplt.name = "Some finish script"
     tmplt.template = "echo $HOME"
@@ -37,7 +37,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert_equal [environments(:production)], tmplt.environments
   end
 
-  def test_should_not_save_assoications_if_snippet
+  def test_should_not_save_associations_if_snippet
     tmplt          = ConfigTemplate.new
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
@@ -54,6 +54,20 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert_equal [],tmplt.template_combinations
   end
 
+  def test_should_convert_slashes_name_into_dashes
+    tmplt = ConfigTemplate.new
+    tmplt.name = "a/b"
+    tmplt.template = "echo $HOME"
+    tmplt.template_kind = template_kinds(:finish)
+
+    as_admin do
+      assert tmplt.save
+    end
+
+    saved = ConfigTemplate.find(tmplt)
+    assert_equal saved.name, "a-b"
+  end
+
   # If the template is not a snippet is should require the specific declaration
   # of a type (gpxe, finish, etc.)
   def test_should_require_a_template_kind
@@ -63,5 +77,4 @@ class ConfigTemplateTest < ActiveSupport::TestCase
 
     assert !tmplt.save
   end
-
 end
