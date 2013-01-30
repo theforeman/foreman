@@ -122,6 +122,9 @@ class ComputeResource < ActiveRecord::Base
 
   def destroy_vm uuid
     find_vm_by_uuid(uuid).destroy
+  rescue ActiveRecord::RecordNotFound
+    # if the VM does not exists, we don't really care.
+    true
   end
 
   def provider
