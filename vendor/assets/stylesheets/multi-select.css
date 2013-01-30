@@ -1,4 +1,4 @@
-.ms-container{  background: transparent url('../images/switch.png') no-repeat 270px 80px;}
+.ms-container{  background: transparent url('switch.png') no-repeat 270px 80px;}
 
 .ms-container:after{
   content: "."; display: block; height: 0; line-height: 0; font-size: 0; clear: both; min-height: 0; visibility: hidden;

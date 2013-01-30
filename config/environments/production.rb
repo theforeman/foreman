@@ -60,8 +60,7 @@ Foreman::Application.configure do
   # config.assets.manifest = YOUR_PATH
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  #TODO: reorder assets and aut compile based on directories
-  config.assets.precompile += %w( charts.js compute_resource.js config_template.js diff.js host_checkbox.js host_edit.js lookup_keys reports.js taxonomy.js trends.js nfs_visibility )
+  #  config.assets.precompile += %w()
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
