@@ -4,17 +4,20 @@ class Setting < ActiveRecord::Base
   audited :only => [:value], :on => [:update]
 
   TYPES= %w{ integer boolean hash array }
-  FROZEN_ATTRS = %w{ name default description category settings_type }
+  FROZEN_ATTRS = %w{ name default description category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
+  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts }
   validates_presence_of :name, :description
-  validates_presence_of :default, :unless => Proc.new { |s| !s.default } # broken validator
+  validates_presence_of :default, :unless => Proc.new {|s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
+  validates_inclusion_of :default, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
   validates_uniqueness_of :name
   validates_numericality_of :value, :if => Proc.new {|s| s.settings_type == "integer"}
   validates_numericality_of :value, :if => Proc.new {|s| NONZERO_ATTRS.include?(s.name) }, :greater_than => 0
   validates_inclusion_of :value, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
+  validates_presence_of :value, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates_inclusion_of :settings_type, :in => TYPES, :allow_nil => true, :allow_blank => true
   before_validation :fix_types
-  before_save :save_as_settings_type
+  before_validation :save_as_settings_type
   validate :validate_attributes
   default_scope :order => 'LOWER(settings.name)'
 
@@ -99,6 +102,7 @@ class Setting < ActiveRecord::Base
   end
 
   def fix_types
+    return true if read_attribute(:value).nil?
     case settings_type
     when "boolean"
       self.value = true  if value == "true"
@@ -114,7 +118,7 @@ class Setting < ActiveRecord::Base
           return false
         end
       else
-        errors.add(:value, "Must be an array")
+        errors.add(:value, "must be an array")
         return false
       end
     end
@@ -123,8 +127,9 @@ class Setting < ActiveRecord::Base
 
   def validate_attributes
     return true if new_record?
-    changed_attributes.keys.each do |c|
-      if FROZEN_ATTRS.include?(c.to_s)
+    changed_attributes.each do |c,old|
+      # Allow settings_type to change at first (from nil) since it gets populated during validation
+      if FROZEN_ATTRS.include?(c.to_s) || (c.to_s == :settings_type && !old.nil?)
         errors.add(c, "is not allowed to change")
         return false
       end

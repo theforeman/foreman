@@ -132,4 +132,27 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal Setting.enc_environment, Setting.find_by_name('enc_environment').value
   end
 
+  test "arrays cannot be empty" do
+    setting = Setting.find_by_name('Default_variables_Lookup_Path')
+    assert setting.save
+    assert_equal "array", setting.settings_type
+    orig = setting.value
+    setting.value = "[test]"
+    assert setting.save
+    setting.value = "[]"
+    assert !setting.save
+    setting.value = orig
+    assert setting.save
+  end
+
+  test "trusted_puppetmaster_hosts may be an empty array" do
+    setting = Setting.find_by_name('trusted_puppetmaster_hosts')
+    setting.save
+    assert_equal "array", setting.settings_type
+    setting.value = "[test]"
+    assert setting.save
+    setting.value = "[]"
+    assert setting.save
+    assert_equal [], setting.value
+  end
 end

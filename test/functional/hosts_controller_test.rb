@@ -147,12 +147,14 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render correctly when format text/html is given" do
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
 
   test "externalNodes should render yml request correctly" do
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml
@@ -571,6 +573,21 @@ class HostsControllerTest < ActionController::TestCase
     User.current = nil
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts in trusted hosts list and SSL cert should get externalNodes successfully' do
+    SmartProxy.delete_all
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    Setting[:trusted_puppetmaster_hosts] = ['else.where']
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
