@@ -22,7 +22,7 @@ class Taxonomy < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
 
-  validate :check_for_orphans
+  validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
   before_validation :sanitize_ignored_types
 
   delegate :import_missing_ids, :to => :tax_host
