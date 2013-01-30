@@ -8,7 +8,7 @@
   <span class="icon-cog icon-white"></span>
 </a>
 <!-- logo -->
-<%=image_tag("foreman.png", :class=>"logo") %><a class="brand logo-text" href="#">Foreman</a>
+<%=image_tag("foreman.png", :class=>"logo") %> <%= link_to "Foreman", root_path, :class => "brand logo-text" %>
 <!-- menu -->
 <div id='current_tab' data-controller='<%=controller_name.gsub(/_.*/,"s")%>' data-settings='<%= class_for_setting_page %>'> </div>
 
