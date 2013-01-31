@@ -66,7 +66,9 @@ module LayoutHelper
         selected_ids = klass.send(ActiveModel::Naming.plural(associations.first)).select("#{associations.first.class.table_name}.id").map(&:id)
         attr_ids = (attr.to_s.singularize+"_ids").to_sym
         hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
-        hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
+        hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s } ,
+                                            :id, :to_s ,options.merge(:selected => selected_ids),
+                                            html_options.merge(:multiple => true))
       end
     else
       field(f, attr, options) do
