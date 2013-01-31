@@ -66,7 +66,9 @@ module LayoutHelper
         selected_ids = klass.send(ActiveModel::Naming.plural(associations.first)).select("#{associations.first.class.table_name}.id").map(&:id)
         attr_ids = (attr.to_s.singularize+"_ids").to_sym
         hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
-        hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
+        hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |hs| get_hostgroup_parent(hs) rescue hs.name } ,
+                                            :id, :to_s ,options.merge(:selected => selected_ids), 
+                                            html_options.merge(:multiple => true))
       end
     else
       field(f, attr, options) do
@@ -74,6 +76,11 @@ module LayoutHelper
       end
     end
   end
+
+  def get_hostgroup_full_name(hostgroup, name="")
+    hostgroup.parent.nil? ? hostgroup.name : get_hostgroup_parent(hostgroup.parent, hostgroup.name)) + '/' +  name
+  end
+
 
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, klass, associations, selected_ids, options={}, html_options={})
