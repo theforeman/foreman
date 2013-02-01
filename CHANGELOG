@@ -1,4 +1,33 @@
+2013-02-01	Ohad Levy <ohadlevy@gmail.com>
+	* refs #2141 - ensures no duplicate trends are created
+	* include nested host routes in the api documentation
+
+2013-02-01	Robert Birnie <rbirnie@gmail.com>
+	* Fixes #2141 - Deletes duplicate TrendCounters
+
+2013-01-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2141 - Trends grahs issue
+	* fixes #2154 - "Foreman" link in main navigation should link to dashboard
+	* fixes #2161 - Cannot delete a host if the compute resource VM is already deleted
+	* fixes #2124 - only include classes from the host current environment.
+	* fixes #1827: use ids instead of names for templates routes
+	* fixes #2159 - Provisioning information shown in locations/organizations while provisioning is disabled.
+	* fixes #2160 - do not store Finished catalog run messages
+	* ensures that validation does not get triggered for new taxonomy objects
+	* do not use class variables for taxonomix.
+
+2013-01-29	Ohad Levy <ohadlevy@gmail.com>
+	* Ensure we use ApiPie 0.13, as 0.14 changed API.
+	* update to rails 3.0.20 to address CVE-2013-0333
+
+2013-01-27	Dominic Cleal <dcleal@redhat.com>
+	* fix typo in mismatches report
+	* fixes #2157 - used_ids should not pass hosts array
+
 2013-01-24	Ohad Levy <ohadlevy@gmail.com>
+	* ensures rails does not complain on migration, unsure of why its required
+	* bump version file
+	* 1.1RC5
 	* ensures that when taxable objects (such as a domain) does not fire a taxonomy validation
 	* rebase 6f9e04c913856c3adbc02010ce7a9e187ed2682b
 	* minor cleanups that did not rebased cleanly
