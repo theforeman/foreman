@@ -28,6 +28,9 @@ module Api
         process_response @report.destroy
       end
 
+      api :GET, "/hosts/:host_id/reports/last", "Show the last report for a given host."
+      param :id, :identifier, :required => true
+
       def last
         conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
         max_id = Report.my_reports.maximum(:id, :conditions => conditions)

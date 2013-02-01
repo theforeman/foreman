@@ -5,6 +5,7 @@ module Api
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/puppetclasses/", "List all puppetclasses."
+      api :GET, "/hosts/:host_id/puppetclasses/", "List all puppetclasses of a given host."
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"
