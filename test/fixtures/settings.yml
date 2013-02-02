@@ -195,3 +195,8 @@ attribute39:
   category: Setting::Puppet
   default: "false"
   description: "Foreman will truncate hostname to 'puppet' if it starts with puppet"
+attribute40:
+  name: interpolate_erb_in_parameters
+  category: Setting::Puppet
+  default: "true"
+  description: "Should Foreman parse ERB to return dynamic parameters?"
