@@ -23,10 +23,10 @@ myfinish:
    operatingsystems: centos5_3, redhat
 
 pxekickstart:
-    name: centos5_3_pxelinux
-    template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
-    template_kind: pxelinux
-    operatingsystems: centos5_3, redhat
+   name: centos5_3_pxelinux
+   template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+   template_kind: pxelinux
+   operatingsystems: centos5_3, redhat
 
 pxe_menu:
    name: PXE Default Menu
@@ -44,4 +44,16 @@ pxe_local_default:
    name: PXE Localboot Default
    template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
    template_kind: pxelinux
+   operatingsystems: centos5_3, redhat
+
+puppet_snippet:
+   name: puppet.conf
+   template: vardir = /var/lib/puppet~logdir = /var/log/puppet
+   snippet: true
+   operatingsystems: centos5_3, redhat
+
+snippet_test:
+   name: WithSnippet
+   template: with snippet~<%%= snippets "puppet.conf" %>
+   template_kind: finish
    operatingsystems: centos5_3, redhat

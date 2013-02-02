@@ -2,6 +2,7 @@ class Host::Managed < Host::Base
   include Authorization
   include ReportCommon
   include Hostext::Search
+  include DefaultSafeRender
 
   has_many :host_classes, :dependent => :destroy, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes
@@ -124,7 +125,6 @@ class Host::Managed < Host::Base
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
-    include Foreman::Renderer
     include Orchestration
     include Orchestration::DHCP
     include Orchestration::DNS
@@ -132,7 +132,7 @@ class Host::Managed < Host::Base
     include Orchestration::TFTP
     include Orchestration::Puppetca
     include Orchestration::SSHProvision
-    include HostTemplateHelpers
+    include UnattendedHelper
 
     validates_uniqueness_of  :ip, :if => Proc.new {|host| host.require_ip_validation?}
     validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.compute? or !host.managed }
@@ -229,7 +229,8 @@ class Host::Managed < Host::Base
   # returns the host correct disk layout, custom or common
   def diskLayout
     @host = self
-    pxe_render((disk.empty? ? ptable.layout : disk).gsub("\r",""))
+    template = (disk.empty? ? ptable.layout : disk).gsub("\r","")
+    default_safe_render(template)
   end
 
   # returns a configuration template (such as kickstart) to a given host

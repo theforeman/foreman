@@ -55,7 +55,6 @@ class ConfigTemplate < ActiveRecord::Base
     # first filter valid templates to our OS and requested template kind.
     templates = ConfigTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
 
-
     # once a template has been matched, we no longer look for others.
 
     if opts[:hostgroup_id] and opts[:environment_id]
@@ -93,7 +92,7 @@ class ConfigTemplate < ActiveRecord::Base
     super({:only => [:name, :template, :id, :snippet],:include => [:template_kind]}.merge(options))
   end
 
-  def self.build_pxe_default(renderer)
+  def self.build_pxe_default
     if (proxies = SmartProxy.tftp_proxies).empty?
       error_msg = _("No TFTP proxies defined, can't continue")
     end
@@ -105,7 +104,7 @@ class ConfigTemplate < ActiveRecord::Base
     if error_msg.empty?
       begin
         @profiles = pxe_default_combos
-        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
+        menu = SafeRender.new(:methods => [:default_template_url], :variables => {:profiles => @profiles}).parse default_template.template
       rescue => e
         error_msg = _("failed to process template: %s" % e)
       end

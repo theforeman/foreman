@@ -1,5 +1,6 @@
 module Orchestration::TFTP
   extend ActiveSupport::Concern
+  include DefaultSafeRender
 
   included do
     after_validation :validate_tftp, :queue_tftp
@@ -75,11 +76,12 @@ module Orchestration::TFTP
     @initrd = os.initrd(arch)
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self
-    if build?
-      pxe_render configTemplate({:kind => os.template_kind}).template
-    else
-      pxe_render ConfigTemplate.find_by_name("PXE Localboot Default").template
-    end
+
+    template = build? ?
+      configTemplate({:kind => os.template_kind}).template :
+      ConfigTemplate.find_by_name("PXE Localboot Default").template
+
+    default_safe_render(template)
   rescue => e
     failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => os.template_kind, :e => e }
   end
