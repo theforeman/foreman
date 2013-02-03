@@ -5,7 +5,7 @@ module Foreman::Controller::TaxonomiesController
     before_filter :find_taxonomy, :only => %w{edit update destroy clone_taxonomy assign_hosts
                                             assign_selected_hosts assign_all_hosts step2 select}
     before_filter :count_nil_hosts, :only => %w{index create step2}
-    skip_before_filter :authorize, :set_taxonomy, :only => %w{select}
+    skip_before_filter :authorize, :set_taxonomy, :only => %w{select clear}
   end
 
   module InstanceMethods
@@ -95,6 +95,15 @@ module Foreman::Controller::TaxonomiesController
       expire_fragment("tabs_and_title_records-#{User.current.id}")
       redirect_back_or_to root_url
     end
+
+    def clear
+      taxonomy_class.current = nil
+      session[taxonomy_id] = nil
+
+      expire_fragment("tabs_and_title_records-#{User.current.id}")
+      redirect_back_or_to root_url
+    end
+
 
     def mismatches
       @mismatches = Taxonomy.all_mismatcheds

@@ -303,7 +303,7 @@ Foreman::Application.routes.draw do
       end
       collection do
 	      get 'auto_complete_search'
-        get 'clear', :action => 'select'
+        get 'clear'
         get  'mismatches'
         post 'import_mismatches'
       end
@@ -323,7 +323,7 @@ Foreman::Application.routes.draw do
       end
       collection do
 	      get 'auto_complete_search'
-        get 'clear', :action => 'select'
+        get 'clear'
         get  'mismatches'
         post 'import_mismatches'
       end
