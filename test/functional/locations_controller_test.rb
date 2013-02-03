@@ -138,4 +138,12 @@ class LocationsControllerTest < ActionController::TestCase
     assert_equal new_location.organization_ids, location.organization_ids
   end
 
+  test "should clear out Location.current" do
+    @request.env['HTTP_REFERER'] = root_url
+    get :clear, {}, set_session_user
+    assert_equal Location.current, nil
+    assert_equal session[:location_id], nil
+    assert_redirected_to root_url
+  end
+
 end
