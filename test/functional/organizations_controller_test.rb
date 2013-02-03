@@ -138,5 +138,11 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal new_organization.location_ids, organization.location_ids
   end
 
-
+  test "should clear out Organization.current" do
+    @request.env['HTTP_REFERER'] = root_url
+    get :clear, {}, set_session_user
+    assert_equal Organization.current, nil
+    assert_equal session[:organization_id], nil
+    assert_redirected_to root_url
+  end
 end
