@@ -1,4 +1,5 @@
 class Taxonomy < ActiveRecord::Base
+  include Authorization
   audited
   has_associated_audits
 
