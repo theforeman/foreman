@@ -5,6 +5,7 @@ module Api
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/fact_values/", "List all fact values."
+      api :GET, "/hosts/:host_id/facts/", "List all fact values of a given host."
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"

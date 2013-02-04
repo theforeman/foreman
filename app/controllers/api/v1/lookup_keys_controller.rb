@@ -5,6 +5,7 @@ module Api
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/lookup_keys/", "List all lookup_keys."
+      api :GET, "/hosts/:host_id/lookup_keys/", "List all lookup_keys of a given host."
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"
