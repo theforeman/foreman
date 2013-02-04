@@ -129,16 +129,16 @@ class LocationTest < ActiveSupport::TestCase
     location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     # run selected_ids method
     selected_ids = location.selected_ids
-    # should return empty [] for array
-    assert_equal selected_ids[:environment_ids], Array.new
-    assert_equal selected_ids[:hostgroup_ids], Array.new
-    assert_equal selected_ids[:subnet_ids], Array.new
-    assert_equal selected_ids[:domain_ids], Array.new
-    assert_equal selected_ids[:medium_ids], Array.new
-    assert_equal selected_ids[:user_ids], Array.new
-    assert_equal selected_ids[:smart_proxy_ids], Array.new
-    assert_equal selected_ids[:config_template_ids], Array.new
-    assert_equal selected_ids[:compute_resource_ids], Array.new
+    # should return all when type is ignored
+    assert_equal selected_ids[:environment_ids], Environment.pluck(:id)
+    assert_equal selected_ids[:hostgroup_ids], Hostgroup.pluck(:id)
+    assert_equal selected_ids[:subnet_ids], Subnet.pluck(:id)
+    assert_equal selected_ids[:domain_ids], Domain.pluck(:id)
+    assert_equal selected_ids[:medium_ids], Medium.pluck(:id)
+    assert_equal selected_ids[:user_ids], User.pluck(:id)
+    assert_equal selected_ids[:smart_proxy_ids], SmartProxy.pluck(:id)
+    assert_equal selected_ids[:config_template_ids], ConfigTemplate.pluck(:id)
+    assert_equal selected_ids[:compute_resource_ids], ComputeResource.pluck(:id)
   end
 
   #Clone
