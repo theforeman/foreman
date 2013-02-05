@@ -4,6 +4,7 @@ module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
     self.table_name = :hosts
+    OWNER_TYPES = %w(User Usergroup)
 
     belongs_to :model
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
@@ -13,6 +14,10 @@ module Host
     validates_presence_of   :name
     validates_uniqueness_of :name
     validate :is_name_downcased?
+    validates_inclusion_of :owner_type,
+                           :in          => OWNER_TYPES,
+                           :allow_blank => true,
+                           :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))
 
     scope :my_hosts, lambda {
       user                 = User.current
