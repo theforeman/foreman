@@ -8,7 +8,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @usergroups = Usergroup.paginate(paginate_options)
+        @usergroups = Usergroup.search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/usergroups/:id/", "Show a usergroup."
