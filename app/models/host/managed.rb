@@ -148,8 +148,9 @@ class Host::Managed < Host::Base
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8"), :allow_blank => true, :allow_nil => true
   end
 
-  before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
-  after_validation :ensure_associations
+
+  before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
+  after_validation :ensure_associations, :set_default_user
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
 
   def <=>(other)
@@ -793,6 +794,7 @@ class Host::Managed < Host::Base
   end
 
   def set_default_user
+    return unless OWNER_TYPES.include?(self.owner_type)
     self.owner ||= User.current
   end
 
