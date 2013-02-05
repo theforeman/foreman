@@ -80,7 +80,7 @@ module Orchestration::DNS
     def queue_dns_create
       logger.debug "Scheduling new DNS entries"
       queue.create(:name   => "Create DNS record for #{self}", :priority => 10,
-                   :action => [self, :set_dns_a_record]) if dns?
+                   :action => [self, :set_dns_a_record])
       queue.create(:name   => "Create Reverse DNS record for #{self}", :priority => 10,
                    :action => [self, :set_dns_ptr_record]) if reverse_dns?
     end

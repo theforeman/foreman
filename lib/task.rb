@@ -22,10 +22,6 @@ class Task
     "#{name}\t #{priority}\t #{status}\t #{action}"
   end
 
-  def as_json options = {}
-    super :only => [:name, :timestamp, :status]
-  end
-
   private
   def update_ts
     @timestamp = Time.now
@@ -35,5 +31,4 @@ class Task
   def <=> other
     self.priority <=> other.priority
   end
-
 end

@@ -33,10 +33,6 @@ class Usergroup < ActiveRecord::Base
     group_list.sort.uniq
   end
 
-  def as_json(options={})
-    super({:only => [:name, :id]})
-  end
-
   protected
   # Recurses down the tree of usergroups and finds the users
   # [+group_list+]: Array of Usergroups that have already been processed
@@ -54,6 +50,10 @@ class Usergroup < ActiveRecord::Base
 
   def ensure_uniq_name
     errors.add :name, "is already used by a user account" if User.where(:login => name).first
+  end
+
+  def as_json(options={})
+    super({:only => [:name, :id]})
   end
 
 end
