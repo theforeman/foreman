@@ -14,8 +14,17 @@ end
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
 
+Bundler.require(:jsonp) if SETTINGS[:support_jsonp]
+
 module Foreman
   class Application < Rails::Application
+    # Setup additional routes by loading all routes file from routes directory
+    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/*.rb")]
+
+    # Setup api routes by loading all routes file from routes/api directory
+    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/api/*.rb")]
+
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -58,7 +67,10 @@ module Foreman
 
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
-    config.cache_store = :file_store, Rails.root.join("tmp")
+    config.cache_store = :file_store, Rails.root.join("tmp", "cache")
+
+    # enables JSONP support in the Rack middleware
+    config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
   end
 
   def self.setup_console
@@ -66,7 +78,7 @@ module Foreman
     Wirb.start
     Hirb.enable
   rescue => e
-    warn "Failed to load console gems, startring anyway"
+    warn "Failed to load console gems, starting anyway"
   ensure
     puts "For some operations a user must be set, try User.current = User.first"
   end

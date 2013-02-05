@@ -123,7 +123,7 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "2", third.parameters["secondA"]
   end
 
-  test "should inheirt parent classes" do
+  test "should inherit parent classes" do
    assert (top = Hostgroup.create(:name => "topA", "puppetclass_ids"=>[Puppetclass.first.id]))
    assert (second = Hostgroup.create(:name => "secondB", :parent_id => top.id, "puppetclass_ids"=>[Puppetclass.last.id]))
 
@@ -138,27 +138,6 @@ class HostgroupTest < ActiveSupport::TestCase
    assert !second.is_root?
    assert top.destroy
    assert Hostgroup.find(second.id).is_root?
-  end
-
-  test "vm_defaults_should_be_a_hash" do
-    assert_kind_of Hash, hostgroups(:common).vm_defaults
-  end
-
-  test "hostgroup_should_have_vm_attributes" do
-    assert !Vm::PROPERTIES.empty?
-    hg = hostgroups(:common)
-    Vm::PROPERTIES.each do |attr|
-      assert_respond_to hg, attr
-    end
-  end
-
-  test "vm attributes should be serialized" do
-    hg = hostgroups(:common)
-    hg.memory = 1024
-    hg.interface = "br0"
-    assert hg.save
-    assert_equal 1024, Hostgroup.find(hg.id).memory
-    assert_equal "br0", Hostgroup.find(hg.id).interface
   end
 
 end

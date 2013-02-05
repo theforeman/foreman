@@ -1,4 +1,7 @@
 class SmartProxy < ActiveRecord::Base
+  include Authorization
+  include Taxonomix
+  ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
   attr_accessible :name, :url
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
@@ -18,7 +21,14 @@ class SmartProxy < ActiveRecord::Base
   before_save :sanitize_url, :associate_features
   before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
-  default_scope :order => 'LOWER(smart_proxies.name)'
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("LOWER(smart_proxies.name)")
+    end
+  }
+  ProxyFeatures.each {|f| scope "#{f.downcase}_proxies".to_sym, where(:features => {:name => f}).joins(:features) }
 
   def hostname
     # This will always match as it is validated
@@ -36,11 +46,26 @@ class SmartProxy < ActiveRecord::Base
   def self.name_map
     {
       "tftp"     => Feature.find_by_name("TFTP"),
+      "bmc"      => Feature.find_by_name("BMC"),
       "dns"      => Feature.find_by_name("DNS"),
       "dhcp"     => Feature.find_by_name("DHCP"),
       "puppetca" => Feature.find_by_name("Puppet CA"),
       "puppet"   => Feature.find_by_name("Puppet")
     }
+  end
+
+  def self.smart_proxy_ids_for(hosts)
+    ids = []
+    ids << hosts.joins(:subnet).pluck('DISTINCT subnets.dhcp_id')
+    ids << hosts.joins(:subnet).pluck('DISTINCT subnets.tftp_id')
+    ids << hosts.joins(:subnet).pluck('DISTINCT subnets.dns_id')
+    ids << hosts.joins(:domain).pluck('DISTINCT domains.dns_id')
+    ids << hosts.pluck('DISTINCT puppet_proxy_id')
+    ids << hosts.pluck('DISTINCT puppet_ca_proxy_id')
+    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_proxy_id')
+    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_ca_proxy_id')
+    # returned both 7, "7". need to convert to integer or there are duplicates
+    ids.flatten.compact.map{|i| i.to_i}.uniq
   end
 
   private

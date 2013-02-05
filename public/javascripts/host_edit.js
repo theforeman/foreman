@@ -4,30 +4,16 @@ function computeResourceSelected(item){
   var label = $(item).children(":selected").text();
   if(compute=='') { //Bare Metal
     $('#mac_address').show();
-    $('#bmc').show();
     $("#model_name").show();
     $('#compute_resource').empty();
     $('#vm_details').empty();
-    $("#libvirt_tab").hide();
-    $('#host_hypervisor_id').val("");
     $("#compute_resource_tab").hide();
-    update_capabilities('build');
-  }else if(label == 'Libvirt'){
-    $('#mac_address').hide();
-    $('#bmc').hide();
-    $("#model_name").show();
-    $("#libvirt_tab").show();
-    $("#compute_resource_tab").hide();
-    $('#compute_resource').empty();
-    $(item).children(":selected").val("");
     update_capabilities('build');
   }
-  else {
+  else
+  {
     $('#mac_address').hide();
-    $('#bmc').hide();
-    $("#libvirt_tab").hide();
     $("#model_name").hide();
-    $('#host_hypervisor_id').val("");
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
     var url = $(item).attr('data-url');
@@ -67,7 +53,8 @@ function update_capabilities(capabilities){
 var stop_pooling;
 
 function submit_host(form){
-  var url = window.location.pathname.replace(/\/edit|\/new/,'');
+  var url = window.location.pathname.replace(/\/edit$|\/new$/,'');
+  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/hosts'); }
   $('#host_submit').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
@@ -155,6 +142,7 @@ function filter_puppet_classes(item){
 function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var type = $(item).attr('data-type');
+  $(item).tooltip('hide');
   var content = $(item).parent().clone();
   content.attr('id', 'selected_puppetclass_'+ id);
   content.append("<input id='" + type +"_puppetclass_ids_' name='" + type +"[puppetclass_ids][]' type='hidden' value=" +id+ ">");
@@ -169,6 +157,8 @@ function add_puppet_class(item){
 
   $("#selected_puppetclass_"+ id).show('highlight', 5000);
   $("#puppetclass_"+ id).addClass('selected-marker').hide();
+
+  load_puppet_class_parameters(link);
 }
 
 function remove_puppet_class(item){
@@ -177,14 +167,43 @@ function remove_puppet_class(item){
   $('#puppetclass_' + id).closest('.puppetclass_group').show();
   $('#selected_puppetclass_' + id).children('a').tooltip('hide');
   $('#selected_puppetclass_' + id).remove();
+  $('#puppetclass_' + id + '_params_loading').remove();
+  $('[id^="puppetclass_' + id + '_params\\["]').remove();
+  $('#params-tab').removeClass("tab-error");
+  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
 
   return false;
+}
+
+function load_puppet_class_parameters(item) {
+  var id = $(item).attr('data-class-id');
+  if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
+  if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
+
+  var url = $(item).attr('data-url');
+  var data = $("form").serialize().replace('method=put', 'method=post');;
+
+  if (url == undefined) return; // no parameters
+  var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
+      '<td colspan="5"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
+  $('#inherited_puppetclasses_parameters').append(placeholder);
+  $.ajax({
+    url: url,
+    type: 'post',
+    data: data,
+    success: function(result, textstatus, xhr) {
+      var params = $(result);
+      placeholder.replaceWith(params);
+      params.find('a[rel="popover"]').popover();
+      if (params.find('.error').length > 0) $('#params-tab').addClass('tab-error');
+    }
+  });
 }
 
 function hostgroup_changed(element) {
   var host_id = $(element).attr('data-host-id');
   var url = $(element).attr('data-url');
-  var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id']);
+  var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id', 'organization_id', 'location_id']);
   if (attrs["hostgroup_id"] == undefined) attrs["hostgroup_id"] = $('#hostgroup_parent_id').attr('value');
   $('#hostgroup_indicator').show();
   if (!host_id){ // a new host
@@ -204,18 +223,42 @@ function hostgroup_changed(element) {
   }
 }
 
-
-function hypervisor_selected(element){
-  var hypervisor_id = $(element).val();
+function organization_changed(element) {
   var url = $(element).attr('data-url');
-  $('#vm_indicator').show();
+  var data = $('form').serialize().replace('method=put', 'method=post');
+  $('#organization_indicator').show();
   $.ajax({
-    data:'hypervisor_id=' + hypervisor_id,
-    type:'post',
+    type: 'post',
     url: url,
+    data: data,
+    success: function(response) {
+      $('#organization_indicator').hide();
+      $('form').html(response);
+      onContentLoad();
+    },
     complete: function(){
-      $('#vm_indicator').hide();
-      if ($('#host_name').size() == 0 ) $('#host_powerup').parent().parent().remove();
+      $('#organization_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
+    }
+  })
+}
+
+function location_changed(element) {
+  var url = $(element).attr('data-url');
+  var data = $('form').serialize().replace('method=put', 'method=post');
+  $('#location_indicator').show();
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: data,
+    success: function(response) {
+      $('#location_indicator').hide();
+      $('form').html(response);
+      onContentLoad();
+    },
+    complete: function(){
+      $('#location_indicator').hide();
+      $('[rel="twipsy"]').tooltip();
     }
   })
 }
@@ -227,16 +270,16 @@ function subnet_selected(element){
   // IP that is in the selected subnet
   var drop_text = $(element).children(":selected").text();
   if (drop_text.length !=0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
-    var details = drop_text.replace(/^[^(]+\(/, "").replace(")","").split("/");
+    var details = drop_text.replace(/^.+\(/, "").replace(")","").split("/");
     if (subnet_contains(details[0], details[1], $('#host_ip').val()))
       return;
   }
-  var attrs = attribute_hash(["subnet_id", "host_mac"]);
+  var attrs = attribute_hash(["subnet_id", "host_mac", 'organization_id', 'location_id']);
   $('#subnet_indicator').show();
   $.ajax({
     data: attrs,
     type:'post',
-    url:'/subnets/freeip',
+    url: foreman_url('/subnets/freeip'),
     complete: function(){$('#subnet_indicator').hide()}
   })
 }
@@ -258,10 +301,10 @@ function _to_int(str){
 }
 
 function domain_selected(element){
-  var domain_id = $(element).val();
+  var attrs   = attribute_hash(['domain_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
   $.ajax({
-    data:'domain_id=' + domain_id,
+    data: attrs,
     type:'post',
     url: url,
     success: function(request) {
@@ -272,10 +315,10 @@ function domain_selected(element){
 }
 
 function architecture_selected(element){
-  var architecture_id = $(element).val();
+  var attrs   = attribute_hash(['architecture_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
   $.ajax({
-    data:'architecture_id=' + architecture_id,
+    data: attrs,
     type:'post',
     url: url,
     success: function(request) {
@@ -285,10 +328,11 @@ function architecture_selected(element){
 }
 
 function os_selected(element){
+  var attrs   = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id']);
   var os_id = $(element).val();
   var url = $(element).attr('data-url');
   $.ajax({
-    data:'operatingsystem_id=' + os_id,
+    data: attrs,
     type:'post',
     url: url,
     success: function(request) {
@@ -308,7 +352,7 @@ function update_provisioning_image(){
   $.ajax({
       data:'search=' + encodeURIComponent(term),
       type:'get',
-      url:'/compute_resources/'+compute_id+'/images',
+      url: foreman_url('/compute_resources/'+compute_id+'/images'),
       dataType: 'json',
       success: function(result) {
         $.each(result, function() {
@@ -361,22 +405,58 @@ function use_image_selected(element){
 }
 
 function override_param(item){
-  var param = $(item).closest('.control-group');
-  var n = param.find('[id^=name_]').val();
+  var param = $(item).closest('tr');
+  var n = param.find('[id^=name_]').text();
   var v = param.find('[id^=value_]').val();
 
-  param.closest('.tab-pane').find('.btn-success').click();
+  $('#parameters').find('.btn-success').click();
   var new_param = param.closest('.tab-pane').find('[id*=host_host_parameters]:visible').last().parent();
   new_param.find('[id$=_name]').val(n);
   new_param.find('[id$=_value]').val(v);
   mark_params_override();
 }
 
+function override_class_param(item){
+  var param = $(item).closest('tr[id^="puppetclass_"][id*="_params\\["][id$="\\]"]');
+  var id = param.attr('id').replace(/puppetclass_\d+_params\[(\d+)\]/, '$1')
+  var c = param.find('[data-property=class]').text();
+  var n = param.find('[data-property=name]').text();
+  var v = param.find('[data-property=value]').val();
+  var t = param.find('[data-property=type]').text();
+
+  $('#puppetclasses_parameters').find('.btn-success').click();
+  var new_param = param.closest('.tab-pane').find('[id*=host_lookup_values]:visible').last().parent();
+  new_param.find('[data-property=lookup_key_id]').val(id);
+  new_param.find('[data-property=class]').val(c);
+  new_param.find('[data-property=name]').val(n);
+  new_param.find('[data-property=value]').val(v);
+  new_param.find('[data-property=type]').val(t);
+  mark_params_override();
+}
+
 function reload_params(){
   var url = $('#params-tab').attr('data-url');
-  var data ={};
-  data['host'] = attribute_hash(['domain_id', 'operatingsystem_id', 'hostgroup_id']);
-  $('#inherited_parameters').load(url + ' #inherited_parameters', data,function(){mark_params_override()});
+  var data = $("[data-submit='progress_bar']").serialize();
+  load_with_placeholder('inherited_parameters', url, data)
+
+  var url2 = $('#params-tab').attr('data-url2');
+  load_with_placeholder('inherited_puppetclasses_parameters', url2, data)
+}
+
+function load_with_placeholder(target, url, data){
+  var placeholder = $('<tr id="' + target + '_loading" >'+
+            '<td colspan="4"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
+        $('#' + target + ' tbody').replaceWith(placeholder);
+        $.ajax({
+          type:'post',
+          url: url,
+          data: data,
+          success:
+            function(result, textstatus, xhr) {
+              placeholder.closest('#' + target ).replaceWith($(result));
+              mark_params_override()
+            }
+        });
 }
 
 $(function () {
@@ -405,4 +485,118 @@ function onHostEditLoad(){
 
   $('#image_selection').appendTo($('#image_provisioning'));
   $('#params-tab').on('shown', function(){mark_params_override()});
+}
+
+$(document).on('change', '.interface_domain', function () {
+  interface_domain_selected(this);
+});
+
+$(document).on('change', '.interface_subnet', function () {
+  interface_subnet_selected(this);
+});
+
+$(document).on('change', '.interface_type', function () {
+  interface_type_selected(this);
+});
+
+function interface_domain_selected(element) {
+  var domain_id = element.value;
+  var subnet_options = $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]').empty();
+  var indicator = $(element).parent().find('.indicator')
+
+  subnet_options.attr('disabled', true);
+  if (domain_id == '') {
+    subnet_options.append($("<option />").val(null).text('No subnets'));
+    return false;
+  }
+
+  indicator.removeClass('hide');
+
+  var url = $(element).attr('data-url');
+
+  var org = $('#host_organization_id :selected').val();
+  var loc = $('#host_location_id :selected').val();
+
+  $.ajax({
+    data:{domain_id: domain_id, organization_id:org, location_id: loc},
+    type:'post',
+    url:url,
+    dataType:'json',
+    success:function (result) {
+      if (result.length > 1)
+        subnet_options.append($("<option />").val(null).text('Please select'));
+
+      $.each(result, function () {
+        subnet_options.append($("<option />").val(this.subnet.id).text(this.subnet.name + ' (' + this.subnet.to_label + ')'));
+      });
+      if (subnet_options.find('option').length > 0) {
+        subnet_options.attr('disabled', false);
+        subnet_options.change();
+      }
+      else {
+        subnet_options.append($("<option />").text('No subnets'));
+        subnet_options.attr('disabled', true);
+      }
+      indicator.addClass('hide');
+    }
+  });
+}
+
+function interface_subnet_selected(element) {
+  var subnet_id = $(element).val();
+  if (subnet_id == '') return;
+  var indicator = $(element).parent().find('.indicator')
+  var interface_ip = $(element).parentsUntil('.fields').parent().find('input[id$=_ip]')
+
+  interface_ip.attr('disabled', true);
+  indicator.removeClass('hide');
+
+  // We do not query the proxy if the ip field is filled in and contains an
+  // IP that is in the selected subnet
+  var drop_text = $(element).children(":selected").text();
+  // extracts network / cidr / ip
+  if (drop_text.length != 0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
+    var details = drop_text.replace(/^.+\(/, "").replace(")","").split("/");
+    var network = details[0];
+    var cidr    = details[1];
+
+    if (subnet_contains(network, cidr, interface_ip.val())) {
+      interface_ip.attr('disabled', false);
+      indicator.addClass('hide');
+      return;
+    }
+  }
+  var interface_mac = $(element).parentsUntil('.fields').parent().find('input[id$=_mac]')
+  var url = $(element).attr('data-url');
+  var org = $('#host_organization_id :selected').val();
+  var loc = $('#host_location_id :selected').val();
+
+  var data = {subnet_id: subnet_id, host_mac: interface_mac.val(), organization_id:org, location_id:loc }
+  $.ajax({
+    data: data,
+    type:'post',
+    url: url,
+    dataType:'json',
+    success:function (result) {
+      interface_ip.val(result['ip']);
+    },
+    complete:function () {
+      indicator.addClass('hide');
+      interface_ip.attr('disabled', false);
+    }
+  });
+}
+
+function interface_type_selected(element) {
+
+  var type = $(element).find('option:selected').text();
+  var bmc_fields = $(element).parentsUntil('.fields').parent().find('#bmc_fields')
+  if (type == 'BMC') {
+    bmc_fields.find("input:disabled").prop('disabled',false);
+    bmc_fields.removeClass("hide");
+  } else {
+    bmc_fields.find("input").prop('disabled',true);
+    bmc_fields.addClass("hide");
+  }
+
 }

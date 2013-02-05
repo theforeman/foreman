@@ -1,18 +1,53 @@
 <%= javascript "nfs_visibility" %>
 <%= form_for @medium do |f| %>
   <%= base_errors_for @medium %>
-  <%= text_f f, :name %>
-  <%= text_f f, :path, :class => "input-xxlarge", :help_block => "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
-    for example <em>http://mirror.averse.net/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>.".html_safe %>
-  <span id="nfs-section" <%= display?(!@medium.operatingsystems.map(&:require_nfs_access_to_medium).any?) %>>
-    <%= text_f f, :media_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the media." %>
-    <%= text_f f, :config_path, :class => "input-xxlarge", :help_inline => "The NFS path to the jumpstart control files." %>
-    <%= text_f f, :image_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the image directory." %>
-  </span>
-  <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => "Operating System Family" } %>
 
-  <%= submit_or_cancel f %>
-<% end %>
+  <% if show_taxonomy_tabs? %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab">Medium</a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+  <% end%>
+        <%= text_f f, :name %>
+        <%= text_f f, :path, :class => "input-xxlarge", :help_block => "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
+          for example <em>http://mirror.averse.net/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>.".html_safe %>
+        <span id="nfs-section" <%= display?(!@medium.operatingsystems.map(&:require_nfs_access_to_medium).any?) %>>
+          <%= text_f f, :media_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the media." %>
+          <%= text_f f, :config_path, :class => "input-xxlarge", :help_inline => "The NFS path to the jumpstart control files." %>
+          <%= text_f f, :image_path, :class  => "input-xxlarge", :help_inline => "The NFS path to the image directory." %>
+        </span>
+        <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => "Operating System Family" } %>
+      </div>
+
+
+    <% if show_taxonomy_tabs? %>
+      <% if show_location_tab? %>
+        <div class="tab-pane" id="locations">
+          <%= multiple_checkboxes f, :locations, @medium, Location %>
+        </div>
+      <% end %>
+
+      <% if show_organization_tab? %>
+        <div class="tab-pane" id="organizations">
+          <%= multiple_checkboxes f, :organizations, @medium, Organization %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= submit_or_cancel f %>
+
+    </div>
+
+  <% end %>
+
 <script type="text/javascript" charset="utf-8">
   nfs_section_visibility([<%= Operatingsystem.all.map(&:require_nfs_access_to_medium).join(", ") %>])
 </script>

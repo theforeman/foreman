@@ -1,5 +1,3 @@
 <% title "Virtual Machines on #{@compute_resource}" %>
 
 <%= render "compute_resources_vms/index/#{@compute_resource.provider.downcase}" %>
-<%= page_entries_info @vms %>
-<%= will_paginate @vms %>

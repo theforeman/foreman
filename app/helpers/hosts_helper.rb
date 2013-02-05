@@ -22,40 +22,34 @@ module HostsHelper
 
   # method that reformat the hostname column by adding the status icons
   def name_column(record)
-    if record.build
+    label = record.host_status
+    case label
+    when "Pending Installation"
       style ="label-info"
-      label = "Pending Installation"
       short = "B"
-    elsif record.respond_to?(:enabled) && !record.enabled
-      label = "Alerts disabled"
+    when "Alerts disabled"
       style = ""
       short = "D"
-    elsif record.respond_to?(:last_report) && record.last_report.nil?
-      label = "No reports"
+    when "No reports"
       style = ""
       short = "N"
-    elsif record.no_report
-      label = "Out of sync"
+    when "Out of sync"
       style = "label-warning"
       short = "S"
-    elsif record.error?
-      label = "Error"
+    when "Error"
       style = "label-important"
       short = "E"
-    elsif record.changes?
-      label = "Active"
+    when "Active"
       style = "label-info"
       short = "A"
-    elsif record.pending?
-      label = "Pending"
+    when "Pending"
       style = "label-warning"
       short = "P"
     else
-      label = "No changes"
       style = "label-success"
       short = "O"
     end
-    content_tag(:span, short, {:rel => "twipsy", :class => "label " + style, :"data-original-title" => label} ) +
+    content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => label} ) +
       link_to(trunc("  #{record}",32), host_path(record))
   end
 
@@ -82,6 +76,8 @@ module HostsHelper
     ]
     actions.insert(1, ['Build Hosts', multiple_build_hosts_path, 'fast-forward']) if SETTINGS[:unattended]
     actions <<  ['Run Puppet', multiple_puppetrun_hosts_path, 'play'] if Setting[:puppetrun]
+    actions <<  ['Assign Organization', select_multiple_organization_hosts_path, 'tags'] if SETTINGS[:organizations_enabled]
+    actions <<  ['Assign Location', select_multiple_location_hosts_path, 'map-marker'] if SETTINGS[:locations_enabled]
 
     content_tag :span, :id => 'submit_multiple', :class => 'fl' do
       actions.map do |action|
@@ -147,6 +143,7 @@ module HostsHelper
   end
 
   def name_field host
+    return if host.name.blank?
     (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
   end
 
@@ -175,7 +172,7 @@ module HostsHelper
           content_tag(:td, "#{tmplt.template_kind} Template") +
             content_tag(:td,
           link_to_if_authorized(icon_text('pencil'), hash_for_edit_config_template_path(:id => tmplt.to_param), :title => "Edit", :rel=>"external") +
-          link_to(icon_text('eye-open'), url_for(:controller => 'unattended', :action => tmplt.template_kind.name, :spoof => @host.ip), :title => "Review", :"data-provisioning-template" => true ))
+          link_to(icon_text('eye-open'), url_for(:controller => '/unattended', :action => tmplt.template_kind.name, :spoof => @host.ip), :title => "Review", :"data-provisioning-template" => true ))
         end
       end.join(" ").html_safe
     end
@@ -183,15 +180,23 @@ module HostsHelper
 
   def overview_fields host
     fields = [
-      ["Domain", host.domain],
+      ["Domain", (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
       ["IP Address", host.ip],
       ["MAC Address", host.mac],
-      ["Puppet Environment", host.environment],
-      ["Host Architecture", host.arch],
-      ["Operating System", host.os],
-      ["Host Group", host.hostgroup],
+      ["Puppet Environment", (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
+      ["Host Architecture", (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
+      ["Operating System", (link_to(host.os, hosts_path(:search => "os = #{host.os.name}")) if host.os)],
+      ["Host Group", (link_to(host.hostgroup, hosts_path(:search => "hostgroup = #{host.hostgroup}")) if host.hostgroup)],
     ]
-    fields += [["Owner", host.owner]] if SETTINGS[:login]
+    fields += [["Location", (link_to(host.location.name, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
+    fields += [["Organization", (link_to(host.organization.name, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
+    if SETTINGS[:login]
+      if host.owner_type == "User"
+        fields += [["Owner", (link_to(host.owner, hosts_path(:search => "user.login = #{host.owner.login}")) if host.owner)]]
+      else
+        fields += [["Owner", host.owner]]
+      end
+    end
     fields += [["Certificate Name", host.certname]] if Setting[:use_uuid_for_certificates]
     fields
   end
@@ -202,16 +207,19 @@ module HostsHelper
     cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
   end
 
+  def state s
+    s ? " Off" : " On"
+  end
 
   def host_title_actions(host, vm)
     title_actions(
         button_group(
             link_to_if_authorized("Edit", hash_for_edit_host_path(:id => host), :title => "Edit your host"),
             if host.build
-              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_build?,
+              link_to_if_authorized("Cancel Build", hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_built?,
                                     :title                                                                 => "Cancel build request for this host")
             else
-              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_build?,
+              link_to_if_authorized("Build", hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_built?,
                                     :title                                                       => "Enable rebuild on next host boot",
                                     :confirm                                                     => "Rebuild #{host} on next reboot?\nThis would also delete all of its current facts and reports")
             end
@@ -240,5 +248,16 @@ module HostsHelper
                                   :class => "btn btn-danger", :confirm => 'Are you sure?', :method => :delete)
         )
     )
+  end
+
+  def conflict_objects errors
+    errors.keys.map(&:to_s).grep(/conflict$/).map(&:to_sym)
+  end
+
+  def has_conflicts? errors
+    conflict_objects(errors).each do |c|
+      return true if errors[c.to_sym].any?
+    end
+    false
   end
 end

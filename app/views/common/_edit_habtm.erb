@@ -2,15 +2,17 @@
   <% if associations.empty? -%>
     <strong>None Found</strong>
   <% else -%>
+    <% association = associations.first %>
+    <%= link_to_function(icon_text("check", ""), "toggleCheckboxesBySelector(\"[id$='#{ActiveModel::Naming.singular(association)}_ids_']\")",
+                                         :title => "Select all") %>
+    <% selected_ids = klass.send(ActiveModel::Naming.plural(association)).select("#{association.class.table_name}.id").map(&:id) %>
     <% associations.sort{|a,b| a.to_s <=> b.to_s}.each do |association| -%>
       <li>
       <%= content_tag_for :label, association do %>
-        <%= check_box_tag(
-          "#{prefix || klass.class.table_name.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]",
-          association.id, klass.send(association.class.table_name).map(&:id).include?(association.id))
-        %>
+        <% check_box_name = "#{prefix || klass.class.model_name.tableize.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]" %>
+        <%= check_box_tag(check_box_name, association.id, selected_ids.include?(association.id)) %>
         <%= contract association %>
-        <%= hidden_field_tag "#{prefix || klass.class.table_name.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]" %>
+        <%= hidden_field_tag check_box_name %>
       <% end -%>
       </li>
     <% end -%>

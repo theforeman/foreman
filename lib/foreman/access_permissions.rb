@@ -3,10 +3,14 @@ require 'foreman/access_control'
 # Permissions
 Foreman::AccessControl.map do |map|
   map.security_block :architectures do |map|
-    map.permission :view_architectures,    {:architectures => [:index, :show]}
-    map.permission :create_architectures,  {:architectures => [:new, :create]}
-    map.permission :edit_architectures,    {:architectures => [:edit, :update]}
-    map.permission :destroy_architectures, {:architectures => [:destroy]}
+    map.permission :view_architectures,
+                   :architectures => [:index, :show], :"api/v1/architectures" => [:index, :show]
+    map.permission :create_architectures,
+                   :architectures => [:new, :create], :"api/v1/architectures" => [:new, :create]
+    map.permission :edit_architectures,
+                   :architectures => [:edit, :update], :"api/v1/architectures" => [:edit, :update]
+    map.permission :destroy_architectures,
+                   :architectures => [:destroy], :"api/v1/architectures" => [:destroy]
   end
 
   map.security_block :authentication_providers do |map|
@@ -17,10 +21,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :bookmarks do |map|
-    map.permission :view_bookmarks,    {:bookmarks => [:index, :show]}
-    map.permission :create_bookmarks,  {:bookmarks => [:new, :create]}
-    map.permission :edit_bookmarks,    {:bookmarks => [:edit, :update]}
-    map.permission :destroy_bookmarks, {:bookmarks => [:destroy]}
+    map.permission :view_bookmarks,
+                   :bookmarks => [:index, :show], :"api/v1/bookmarks" => [:index, :show]
+    map.permission :create_bookmarks,
+                   :bookmarks => [:new, :create], :"api/v1/bookmarks" => [:new, :create]
+    map.permission :edit_bookmarks,
+                   :bookmarks => [:edit, :update], :"api/v1/bookmarks" => [:edit, :update]
+    map.permission :destroy_bookmarks,
+                   :bookmarks => [:destroy], :"api/v1/bookmarks" => [:destroy]
   end
 
   map.security_block :compute_resources do |map|
@@ -46,7 +54,7 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :domains do |map|
     map.permission :view_domains,       {:domains => [:index, :show]}
-    map.permission :create_domain,      {:domains => [:new, :create]}
+    map.permission :create_domains,      {:domains => [:new, :create]}
     map.permission :edit_domains,       {:domains => [:edit, :update]}
     map.permission :destroy_domains,    {:domains => [:destroy]}
   end
@@ -81,12 +89,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :hosts do |map|
-    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled], :dashboard => [:OutOfSync, :errors, :active]}
+    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :externalNodes], :dashboard => [:OutOfSync, :errors, :active]}
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone]}
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple,
                                       :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
                                       :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
-                                      :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage]}
+                                      :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
+                                      :select_multiple_organization, :update_multiple_organization,
+                                      :select_multiple_location, :update_multiple_location]}
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :submit_multiple_build]}
     map.permission :power_hosts,   {:hosts => [:power]}
@@ -100,18 +110,13 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_params, {:host_editing => [:destroy_params]}
   end
 
-  map.security_block :hypervisors do |map|
-    map.permission :view_hypervisors,    {:hypervisors => [:index, :show]}
-    map.permission :create_hypervisors,  {:hypervisors => [:new, :create]}
-    map.permission :edit_hypervisors,    {:hypervisors => [:edit, :update]}
-    map.permission :destroy_hypervisors, {:hypervisors => [:destroy]}
-  end
-
-  map.security_block :hypervisors_guests do |map|
-    map.permission :view_hypervisors_guests,    {:hypervisors_guests => [:index, :show]}
-    map.permission :create_hypervisors_guests,  {:hypervisors_guests => [:create, :update]}
-    map.permission :destroy_hypervisors_guests, {:hypervisors_guests => [:destroy]}
-    map.permission :power_hypervisors_guests,   {:hypervisors_guests => [:power]}
+  if SETTINGS[:locations_enabled]
+    map.security_block :locations do |map|
+      map.permission :view_locations, {:locations =>  [:index, :show]}
+      map.permission :create_locations, {:locations => [:new, :create]}
+      map.permission :edit_locations, {:locations => [:edit, :update]}
+      map.permission :destroy_locations, {:locations => [:destroy]}
+    end
   end
 
   map.security_block :media do |map|
@@ -129,10 +134,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :operatingsystems do |map|
-    map.permission :view_operatingsystems,    {:operatingsystems => [:index, :show]}
-    map.permission :create_operatingsystems,  {:operatingsystems => [:new, :create]}
-    map.permission :edit_operatingsystems,    {:operatingsystems => [:edit, :update]}
-    map.permission :destroy_operatingsystems, {:operatingsystems => [:destroy]}
+    map.permission :view_operatingsystems,
+                   :operatingsystems => [:index, :show], :"api/v1/operatingsystems" => [:index, :show]
+    map.permission :create_operatingsystems,
+                   :operatingsystems => [:new, :create], :"api/v1/operatingsystems" => [:new, :create]
+    map.permission :edit_operatingsystems,
+                   :operatingsystems => [:edit, :update], :"api/v1/operatingsystems" => [:edit, :update]
+    map.permission :destroy_operatingsystems,
+                   :operatingsystems => [:destroy], :"api/v1/operatingsystems" => [:destroy]
   end
 
   map.security_block :partition_tables do |map|
@@ -176,6 +185,15 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_subnets, {:subnets => [:destroy]}
   end
 
+  if SETTINGS[:organizations_enabled]
+    map.security_block :organizations do |map|
+      map.permission :view_organizations, {:organizations => [:index, :show]}
+      map.permission :create_organizations, {:organizations => [:new, :create]}
+      map.permission :edit_organizations, {:organizations => [:edit, :update]}
+      map.permission :destroy_organizations, {:organizations => [:destroy]}
+    end
+  end
+
   map.security_block :usergroups do |map|
     map.permission :view_usergroups,    {:usergroups => [:index, :show]}
     map.permission :create_usergroups,  {:usergroups => [:new, :create]}
@@ -184,10 +202,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :users do |map|
-    map.permission :view_users,    {:users => [:index, :show]}
-    map.permission :create_users,  {:users => [:new, :create]}
-    map.permission :edit_users,    {:users => [:edit, :update]}
-    map.permission :destroy_users, {:users => [:destroy]}
+    map.permission :view_users,
+                   :users => [:index, :show], :"api/v1/users" => [:index, :show]
+    map.permission :create_users,
+                   :users => [:new, :create], :"api/v1/users" => [:new, :create]
+    map.permission :edit_users,
+                   :users => [:edit, :update], :"api/v1/users" => [:edit, :update]
+    map.permission :destroy_users,
+                   :users => [:destroy], :"api/v1/users" => [:destroy]
   end
 
   map.security_block :settings_menu do |map|
@@ -214,4 +236,10 @@ Foreman::AccessControl.map do |map|
     map.permission :view_statistics,  {:statistics  => [:index, :show]}
   end
 
+  map.security_block :trends do |map|
+    map.permission :view_trends,    {:trends => [:index, :show]}
+    map.permission :create_trends,  {:trends => [:new, :create]}
+    map.permission :edit_trends,    {:trends => [:edit, :update]}
+    map.permission :destroy_trends, {:trends => [:destroy]}
+  end
 end

@@ -5,11 +5,12 @@ class Setting < ActiveRecord::Base
 
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category settings_type }
+  NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
   validates_presence_of :name, :description
   validates_presence_of :default, :unless => Proc.new { |s| !s.default } # broken validator
   validates_uniqueness_of :name
   validates_numericality_of :value, :if => Proc.new {|s| s.settings_type == "integer"}
-  validates_numericality_of :value, :if => Proc.new {|s| s.name == "puppet_interval"}, :greater_than => 0
+  validates_numericality_of :value, :if => Proc.new {|s| NONZERO_ATTRS.include?(s.name) }, :greater_than => 0
   validates_inclusion_of :value, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
   validates_inclusion_of :settings_type, :in => TYPES, :allow_nil => true, :allow_blank => true
   before_validation :fix_types
@@ -24,14 +25,23 @@ class Setting < ActiveRecord::Base
   def self.per_page; 20 end # can't use our own settings
 
   def self.[](name)
-    if (record = first(:conditions => { :name => name.to_s }))
-      record.value
+    name = name.to_s
+
+    cache_value = Rails.cache.read(name)
+    if cache_value.nil?
+       value = where(:name => name).first.try(:value)
+       cache.write(name, value)
+       return value
+    else
+       cache_value
     end
   end
 
   def self.[]=(name, value)
-    record = find_or_create_by_name name.to_s
+    name   = name.to_s
+    record = find_or_create_by_name name
     record.value = value
+    cache.delete(name)
     record.save!
   end
 
@@ -51,6 +61,7 @@ class Setting < ActiveRecord::Base
 
   def value= val
     v = (val.nil? or val == default) ?  nil : val.to_yaml
+    self.class.cache.delete(name.to_s)
     write_attribute :value, v
   end
 
@@ -71,6 +82,10 @@ class Setting < ActiveRecord::Base
   alias_method :default_before_type_cast, :default
 
   private
+
+  def self.cache
+    Rails.cache
+  end
 
   def save_as_settings_type
     return true unless settings_type.nil?

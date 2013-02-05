@@ -148,7 +148,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render correctly when format text/html is given" do
-    get :externalNodes, {:name => @host.name}
+    get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
@@ -446,6 +446,46 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
+        are set, authentication should succeed w/o valid session cookies" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = true
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response :success
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "if only authorize_login_delegation is set, REMOTE_USER should be
+        ignored for API requests" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = false
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response 401
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "if both authorize_login_delegation{,_api} are unset,
+        REMOTE_USER should ignored in all cases" do
+    Setting[:authorize_login_delegation] = false
+    Setting[:authorize_login_delegation_api] = false
+    set_remote_user_to users(:admin)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response 401
+    get :show, {:id => host.to_param}
+    assert_redirected_to "/users/login"
+  end
+
+  def set_remote_user_to user
+    @request.env['REMOTE_USER'] = user.login
+  end
+
   def test_submit_multiple_build
     assert !hosts(:one).build
     assert !hosts(:two).build
@@ -473,6 +513,247 @@ class HostsControllerTest < ActionController::TestCase
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
     assert flash[:notice] == "Foreman now no longer manages the build cycle for #{@host.name}"
+  end
+
+  test 'when ":restrict_registered_puppetmasters" is false, HTTP requests should be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = false
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts with a registered smart proxy on should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts without a registered smart proxy on should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['another.host'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'hosts with a registered smart proxy and SSL cert should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts without a registered smart proxy but with an SSL cert should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'hosts with an unverified SSL cert should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'FAILURE'
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'when "require_ssl_puppetmasters" and "require_ssl" are true, HTTP requests should not be able to get externalNodes' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = true
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to get externalNodes' do
+    User.current = nil
+    # since require_ssl_puppetmasters is only applicable to HTTPS connections, both should be set
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'authenticated users over HTTP should be able to get externalNodes' do
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['users.host'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    assert_response :success
+  end
+
+  test 'authenticated users over HTTPS should be able to get externalNodes' do
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['users.host'])
+    @request.env['HTTPS'] = 'on'
+    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    assert_response :success
+  end
+
+  #Pessimistic - Location
+  test "update multiple location fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    post :update_multiple_location, {
+                                       :location => {:id => location.id, :optimistic_import => "no"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
+  end
+  test "update multiple location does not update location of hosts if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    assert_difference "location.hosts.count", 0 do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple location does not import taxable_taxonomies rows if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    assert_difference "location.taxable_taxonomies.count", 0 do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
+  #Optimistic - Location
+  test "update multiple location succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    post :update_multiple_location, {
+                                       :location => {:id => location.id, :optimistic_import => "yes"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:notice], "Updated hosts: Changed Location"
+  end
+  test "update multiple location updates location of hosts if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    cnt_hosts_location = location.hosts.count
+    assert_difference "location.hosts.count", (Host.count - cnt_hosts_location) do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    location = taxonomies(:location1)
+    assert_difference "location.taxable_taxonomies.count", 16 do
+      post :update_multiple_location, {
+                                         :location => {:id => location.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
+  #Pessimistic - organization
+  test "update multiple organization fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    post :update_multiple_organization, {
+                                       :organization => {:id => organization.id, :optimistic_import => "no"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:error], "Cannot update organization to organization 1 because of mismatch in settings"
+  end
+  test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    assert_difference "organization.hosts.count", 0 do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple organization does not import taxable_taxonomies rows if fails on pessimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    assert_difference "organization.taxable_taxonomies.count", 0 do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "no"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+
+  #Optimistic - Organization
+  test "update multiple organization succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    post :update_multiple_organization, {
+                                       :organization => {:id => organization.id, :optimistic_import => "yes"},
+                                       :host_ids => Host.all.map(&:id)
+                                       }, set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert flash[:notice], "Updated hosts: Changed Organization"
+  end
+  test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    cnt_hosts_organization = organization.hosts.count
+    assert_difference "organization.hosts.count", (Host.count - cnt_hosts_organization) do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
+  end
+  test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization = taxonomies(:organization1)
+    assert_difference "organization.taxable_taxonomies.count", 16 do
+      post :update_multiple_organization, {
+                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
+                                         :host_ids => Host.all.map(&:id)
+                                         }, set_session_user
+    end
   end
 
   private

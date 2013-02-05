@@ -1,12 +1,10 @@
+require 'foreman/controller/smart_proxy_auth'
+
 class FactValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::SmartProxyAuth
 
-  skip_before_filter :require_ssl,               :only => :create
-  skip_before_filter :require_login,             :only => :create
-  skip_before_filter :authorize,                 :only => :create
-  skip_before_filter :verify_authenticity_token, :only => :create
-  skip_before_filter :session_expiry, :update_activity_time, :only => :create
-  before_filter :set_admin_user, :only => :create
+  add_puppetmaster_filters :create
   before_filter :setup_search_options, :only => :index
 
   def index
@@ -28,15 +26,21 @@ class FactValuesController < ApplicationController
   end
 
   def create
-    respond_to do |format|
-      format.yml {
-        if Host.importHostAndFacts params.delete("facts")
-          render :text => "Imported facts", :status => 200 and return
-        else
-          render :text => "Failed to import facts", :status => 400
-        end
-      }
+    Taxonomy.no_taxonomy_scope do
+      imported = Host.importHostAndFacts params.delete("facts")
+      respond_to do |format|
+        format.yml {
+          if imported
+            render :text => "Imported facts", :status => 200 and return
+          else
+            render :text => "Failed to import facts", :status => 400
+          end
+        }
+      end
     end
+  rescue Exception => e
+    logger.warn "Failed to import facts: #{e}"
+    render :text => "Failed to import facts: #{e}", :status => 400
   end
 
 end

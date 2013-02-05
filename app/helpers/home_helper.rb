@@ -1,56 +1,46 @@
 module HomeHelper
 
-  def class_for_current_page(tab)
-    controller_name.gsub(/_.*/,"s") == tab ? "active" : ""
-  end
-
   def class_for_setting_page
-   if setting_options.map{|o| o[1]}.include? controller_name.to_sym
-     "active"
-   end
+    setting_options.map{|o| o[1]}.include?(controller_name.to_sym) ? "active" : ""
   end
 
   def setting_options
-    choices = [
-      ['Environments',           :environments],
-      ['Global Parameters',      :common_parameters],
-      ['Host Groups',            :hostgroups],
-      ['Puppet Classes',         :puppetclasses],
-      ['Smart Variables',        :lookup_keys],
-      ['Smart Proxies',          :smart_proxies]
-    ]
+    configuration_group =
+        [['Environments',           :environments],
+        ['Global Parameters',      :common_parameters],
+        ['Host Groups',            :hostgroups],
+        ['Puppet Classes',         :puppetclasses],
+        ['Smart Variables',        :lookup_keys],
+        ['Smart Proxies',          :smart_proxies]]
+    choices = [ [:group, "Configuration", configuration_group]]
 
     if SETTINGS[:unattended]
-      choices += [
-        [:divider],
-        ['Compute Resources',    :compute_resources]
-      ]
-
-      choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
-
-      choices += [
-        [:divider],
-        ['Architectures',          :architectures],
-        ['Domains',                :domains],
-        ['Hardware Models',        :models],
-        ['Installation Media',     :media],
-        ['Operating Systems',      :operatingsystems],
-        ['Partition Tables',       :ptables],
-        ['Provisioning Templates', :config_templates],
-        ['Subnets',                :subnets]
-      ]
+      provisioning_group =
+          [['Architectures',          :architectures],
+          ['Compute Resources',      :compute_resources],
+          ['Domains',                :domains],
+          ['Hardware Models',        :models],
+          ['Installation Media',     :media],
+          ['Operating Systems',      :operatingsystems],
+          ['Partition Tables',       :ptables],
+          ['Provisioning Templates', :config_templates],
+          ['Subnets',                :subnets]]
+      choices += [[:divider], [:group, "Provisioning", provisioning_group]]
     end
 
-    choices += [
-      [:divider],
-      ['LDAP Authentication',    :auth_source_ldaps],
-      ['Users',                  :users],
-      ['User Groups',            :usergroups],
-    ] if SETTINGS[:login]
+    if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
+      choices += [[:divider]]
+      choices += [ ['Locations', :locations] ]         if SETTINGS[:locations_enabled]
+      choices += [ ['Organizations', :organizations] ] if SETTINGS[:organizations_enabled]
+    end
 
-    choices += [
-      ['Roles',                  :roles]
-    ] if SETTINGS[:login] and User.current.admin?
+    users_group =
+      [['LDAP Authentication',    :auth_source_ldaps],
+      ['Users',                  :users],
+      ['User Groups',            :usergroups]]
+    users_group += [['Roles',     :roles]] if User.current && User.current.admin?
+
+    choices += [[:divider], [:group, "Users", users_group] ] if SETTINGS[:login]
 
     choices += [
       [:divider],
@@ -58,17 +48,29 @@ module HomeHelper
       ['Settings',               :settings]
     ]
 
-    #prevent adjacent dividers
+    authorized_menu_actions(choices)
+  end
+
+  def authorized_menu_actions(choices)
     last_item = nil
     choices = choices.map do |item|
+      #prevent adjacent dividers
       if item == [:divider]
         if last_item
           last_item = nil
           item
         end
-      elsif authorized_for(item[1], :index)
+      elsif item.size == 2 && authorized_for(item[1], :index)
         last_item = item
         item
+      elsif item.size == 3
+        item[2] = item[2].map do |sub_item|
+          sub_item if authorized_for(sub_item[1], :index)
+        end.compact
+        if item[2].size > 0
+          last_item = item
+          item
+        end
       end
     end.compact
     choices.pop if (choices.last == [:divider])
@@ -79,10 +81,10 @@ module HomeHelper
     path ||= eval("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
     b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
-    out = content_tag :li, :class => class_for_current_page(tab) do
+    out = content_tag :li, :id => "menu_tab_#{tab}" do
       link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
     end
-    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone " + class_for_current_page(tab) do
+    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone "  do
       link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret hidden-phone hidden-tablet'), "#", :class => "dropdown-toggle narrow-left hidden-phone hidden-tablet") + menu_dropdown(b)
     end unless b.empty?
     out
@@ -101,4 +103,13 @@ module HomeHelper
       authorized_for(kontroller, action) ? [name, url] : nil
     end.compact.sort
   end
+
+  def user_header
+    summary = content_tag(:span, "#{User.current.to_label}  ", :class=>'text-label')
+    summary += content_tag(:span, Organization.current.to_label, :class=>'boxed-label') if Organization.current
+    summary += content_tag(:span, Location.current.to_label, :class=>'boxed-label') if Location.current
+    summary += gravatar_image_tag(User.current.mail, :class=>'gravatar', :alt=>'Change your avatar at gravatar.com') + content_tag(:span, "", :class=>'caret')
+    link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
+  end
+
 end

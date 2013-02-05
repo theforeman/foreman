@@ -1,20 +1,18 @@
+require 'foreman/controller/smart_proxy_auth'
+
 class ReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::SmartProxyAuth
 
-  skip_before_filter :require_login,             :only => :create
-  skip_before_filter :require_ssl,               :only => :create
-  skip_before_filter :authorize,                 :only => :create
-  skip_before_filter :verify_authenticity_token, :only => :create
-  skip_before_filter :session_expiry, :update_activity_time, :only => :create
-  before_filter :set_admin_user, :only => :create
+  add_puppetmaster_filters :create
   before_filter :setup_search_options, :only => :index
 
   def index
     values = Report.my_reports.search_for(params[:search], :order => params[:order])
     pagination_opts = { :page => params[:page], :per_page => params[:per_page] }
     respond_to do |format|
-      format.html { @reports =      values.paginate(pagination_opts.merge({ :include => :host })) }
-      format.json { render :json => values.paginate(pagination_opts.merge({ :include => [:host,:logs] } ))}
+      format.html { @reports =      values.paginate(pagination_opts).includes(:host) }
+      format.json { render :json => values.paginate(pagination_opts).includes(:host, :logs)}
     end
   rescue => e
     error e.to_s
@@ -25,7 +23,7 @@ class ReportsController < ApplicationController
     # are we searching for the last report?
     if params[:id] == "last"
       conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
-      params[:id] = Report.maximum(:id, :conditions => conditions)
+      params[:id] = Report.my_reports.maximum(:id, :conditions => conditions)
     end
 
     return not_found if params[:id].blank?
@@ -38,10 +36,12 @@ class ReportsController < ApplicationController
   end
 
   def create
-    if Report.import params.delete("report") || request.body
-      render :text => "Imported report", :status => 200 and return
-    else
-      render :text => "Failed to import report", :status => 500
+    Taxonomy.no_taxonomy_scope do
+      if Report.import params.delete("report") || request.body
+        render :text => "Imported report", :status => 200 and return
+      else
+        render :text => "Failed to import report", :status => 500
+      end
     end
   rescue => e
     render :text => e.to_s, :status => 500

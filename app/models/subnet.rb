@@ -1,27 +1,37 @@
 require 'ipaddr'
 class Subnet < ActiveRecord::Base
   include Authorization
+  include Taxonomix
   has_many :hosts
-  # sps = Service processors / ilom boards etc
-  has_many :sps, :class_name => "Host", :foreign_key => 'sp_subnet_id'
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
+  has_many :interfaces, :class_name => 'Nic::Base'
   validates_presence_of   :network, :mask, :name
   validates_associated    :subnet_domains
   validates_uniqueness_of :network
   validates_format_of     :network, :mask,                        :with => Net::Validations::IP_REGEXP
   validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true, :allow_nil => true
   validate :name_should_be_uniq_across_domains
-  default_scope :order => 'priority'
+
   validate :validate_ranges
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :sps)
+  default_scope lambda {
+    with_taxonomy_scope do
+      order('vlanid')
+    end
+  }
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
+
+  class Jail < ::Safemode::Jail
+    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :vlanid
+  end
 
   # Subnets are displayed in the form of their network network/network mask
   def to_label
@@ -36,7 +46,11 @@ class Subnet < ActiveRecord::Base
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
   def <=> (other)
-    self.priority <=> other.priority
+    if self.vlanid.present? && other.vlanid.present?
+      self.vlanid <=> other.vlanid
+    else
+      return -1
+    end
   end
 
   # Given an IP returns the subnet that contains that IP
@@ -100,6 +114,11 @@ class Subnet < ActiveRecord::Base
       next if first(:conditions => attrs)
       new(attrs.update(:dhcp => proxy))
     end.compact
+  end
+
+  def as_json options = {}
+    options ||= {}
+    super({:methods => [:cidr, :to_label]}.merge(options))
   end
 
   private

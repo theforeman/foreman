@@ -8,13 +8,15 @@
   <span class="icon-cog icon-white"></span>
 </a>
 <!-- logo -->
-<%=image_tag("foreman.png", :class=>"logo") %><a class="brand logo-text" href="#">Foreman</a>
+<%=image_tag("foreman.png", :class=>"logo") %> <%= link_to "Foreman", root_path, :class => "brand logo-text" %>
 <!-- menu -->
+<div id='current_tab' data-controller='<%=controller_name.gsub(/_.*/,"s")%>' data-settings='<%= class_for_setting_page %>'> </div>
 
-  <% if User.current -%>
-  <div class="nav-collapse nav1">
-    <ul class="nav" id="menu">
-      <% my_bookmarks = Bookmark.my_bookmarks %>
+<% if User.current -%>
+  <% cache("tabs_and_title_records-#{User.current.id}") do %>
+    <div class="nav-collapse collapse nav1">
+      <ul class="nav" id="menu">
+        <% my_bookmarks = Bookmark.my_bookmarks %>
 
       <%= menu 'dashboard',  my_bookmarks %>
       <%= menu 'hosts',      my_bookmarks %>
@@ -22,15 +24,13 @@
       <%= menu 'facts' ,     my_bookmarks, hash_for_fact_values_path %>
       <%= menu 'audits',     my_bookmarks, hash_for_audits_path %>
       <%= menu 'statistics', my_bookmarks %>
+      <%= menu 'trends', my_bookmarks, hash_for_trends_path %>
     </ul>
   </div>
-  <div class="nav-collapse nav2">
+  <div class="nav-collapse collapse nav2">
     <ul class="nav pull-right" id="menu2">
       <%= render "home/settings" -%>
-      <% if SETTINGS[:login]%>
-          <%= render 'home/user_dropdown' %>
-      <% end -%>
     </ul>
   </div>
   <% end -%>
-
+<% end -%>

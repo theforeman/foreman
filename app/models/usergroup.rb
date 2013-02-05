@@ -1,8 +1,9 @@
-require 'user'
 class Usergroup < ActiveRecord::Base
   include Authorization
-  has_many_polymorphs :members, :from => [:usergroups, :users ], :as => :member,
-    :through => :usergroup_member, :foreign_key => :usergroup_id, :dependent => :destroy
+
+  has_many :usergroup_members, :dependent => :destroy
+  has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User'
+  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
 
   has_many :hosts, :as => :owner
   validates_uniqueness_of :name
@@ -33,6 +34,10 @@ class Usergroup < ActiveRecord::Base
     group_list.sort.uniq
   end
 
+  def as_json(options={})
+    super({:only => [:name, :id]})
+  end
+
   protected
   # Recurses down the tree of usergroups and finds the users
   # [+group_list+]: Array of Usergroups that have already been processed
@@ -50,10 +55,6 @@ class Usergroup < ActiveRecord::Base
 
   def ensure_uniq_name
     errors.add :name, "is already used by a user account" if User.where(:login => name).first
-  end
-
-  def as_json(options={})
-    super({:only => [:name, :id]})
   end
 
 end

@@ -1,23 +1,20 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
-<%= render "conflicts" if @host.errors[:conflict].any? %>
+<%= render "conflicts" if has_conflicts?(@host.errors) %>
 <%= render "progress" %>
 <%= form_for @host,  :html => {:'data-submit' => 'progress_bar'} do |f| %>
   <%= base_errors_for @host %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab">Host</a></li>
     <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
     <% if SETTINGS[:unattended] and @host.managed -%>
       <li><a href="#network" data-toggle="tab">Network</a></li>
       <li><a href="#os" data-toggle="tab">Operating System</a></li>
-      <% if authorized_for("Hypervisors::Guests", :create) -%>
-        <% if @host.new_record? and !Hypervisor.first.nil? -%>
-          <li id="libvirt_tab" <%= display? !(params[:host] && params[:host][:hypervisor_id].present?) %>><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
-        <% end -%>
+      <% if authorized_for("Compute::Resources::Vms", :create) -%>
         <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
-    <li><a href="#params" id='params-tab' <%= "data-url='#{current_parameters_hosts_path}'" %> data-toggle="tab">Parameters</a></li>
+    <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab">Parameters</a></li>
     <li><a href="#info" data-toggle="tab">Additional Information</a></li>
   </ul>
 
@@ -25,11 +22,30 @@
 
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name, :class => "input-xlarge", :value => name_field(@host) %>
-      <% libvirt = Hypervisor.first.nil? ? [] : [OpenStruct.new(:to_label => 'Libvirt')] -%>
-      <%= select_f f, :compute_resource_id, libvirt + ComputeResource.my_compute_resources, :id, :to_label,
+
+      <% if show_organization_tab?  %>
+        <%= select_f f, :organization_id, Organization.my_organizations, :id, :to_label,
+          { :include_blank => !@host.managed?},
+          { :disabled => !@host.new_record?,
+            :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
+          :'data-url' => process_taxonomy_hosts_path, :selected => Organization.my_organizations,
+          :help_inline => image_tag('spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
+      <% end %>
+
+      <% if show_location_tab? %>
+        <%= select_f f, :location_id, Location.my_locations, :id, :to_label,
+          { :include_blank => !@host.managed? },
+          { :disabled => !@host.new_record?,
+            :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
+            :'data-url' => process_taxonomy_hosts_path, :selected => Location.my_locations,
+            :help_inline => image_tag('spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
+      <% end %>
+
+      <%= select_f f, :compute_resource_id, ComputeResource.my_compute_resources, :id, :to_label,
         { :include_blank => 'Bare Metal' },
         {:label => "Deploy on", :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path ,
          :onchange => 'computeResourceSelected(this);'} if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
+
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
         { :include_blank => true},
         { :onchange => 'hostgroup_changed(this);' , :'data-host-id' => @host.id,
@@ -37,7 +53,8 @@
           :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
 
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
-          {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path } %>
+          {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path,
+          :'data-host-id' => @host.id} %>
       <%= puppet_master_fields f %>
     </div>
 
@@ -55,10 +72,15 @@
     <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
     <div class="tab-pane"  id="params">
+      <h6>Puppet classes Parameters</h6>
+      <p></p>
+      <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
       <h6>Included Parameters via inheritance</h6>
       <p></p>
-      <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params } %>
+      <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
       <h6>Host Parameters</h6>
+      <p></p>
+      <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p></p>
       <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
     </div>
@@ -78,7 +100,9 @@
       </div>
       <%= textarea_f f, :comment, :help_block => "Additional information about this host", :class => "input-xxlarge", :rows => "3" %>
     </div>
+
   </div>
+
   <%= f.hidden_field :overwrite? %>
   <%= submit_or_cancel f, @host.overwrite? %>
 <% end %>

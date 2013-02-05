@@ -2,25 +2,26 @@ class SmartProxies::PuppetcaController < ApplicationController
   before_filter :find_proxy
 
   def index
-
     # expire cache if forced
     Rails.cache.delete("ca_#{@proxy.id}") if params[:expire_cache] == "true"
 
     begin
-      if params[:state].blank?
-        certificates = SmartProxies::PuppetCA.all @proxy
-      else
-        certificates = SmartProxies::PuppetCA.find_by_state @proxy, params[:state]
-      end
+      certs = if params[:state].blank?
+                SmartProxies::PuppetCA.find_by_state(@proxy, "valid") + SmartProxies::PuppetCA.find_by_state(@proxy, "pending")
+              elsif params[:state] == "all"
+                SmartProxies::PuppetCA.all @proxy
+              else
+                SmartProxies::PuppetCA.find_by_state @proxy, params[:state]
+              end
     rescue => e
-      certificates = []
+      certs = []
       error e
       redirect_to :back and return
     end
     respond_to do |format|
       format.html do
         begin
-          @certificates = certificates.sort.paginate :page => params[:page], :per_page => 20
+          @certificates = certs.sort.paginate :page => params[:page], :per_page => params[:per_page] || 20
         rescue => e
           error e
         end

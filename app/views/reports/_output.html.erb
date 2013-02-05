@@ -9,5 +9,5 @@
         <td><%= h log.message %></td>
       </tr>
   <% end -%>
-  <tr id='ntsh' <%= "style='display: none;'" if logs.size > 0%>><td colspan="3"> Nothing to show </td></tr>
+  <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3"> Nothing to show </td></tr>
 </table>

@@ -1,8 +1,14 @@
---- 
-#your default puppet server - can be overridden in the host level
-#if none specified, plain "puppet" will be used.
-#:puppet_server: puppet
+---
+# You must restart the Rack server after changing either of these values
+# because they are cached at startup.
+#
 :unattended: true
-:puppetconfdir: /etc/puppet/puppet.conf
-:login: false
+:login: true
 :require_ssl: false
+:locations_enabled: false
+:organizations_enabled: false
+#JSONP or "JSON with padding" is a complement to the base JSON data format.
+#It provides a method to request JSON data from a server in a different domain.
+:support_jsonp: false
+#:puppetconfdir: /etc/puppet
+#:puppetvardir: /var/lib/puppet

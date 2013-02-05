@@ -104,3 +104,53 @@ attributes21:
   category: Provisioning
   default: false
   description: "Should Foreman query the locally configured name server or the SOA/NS authorities"
+attributes22:
+  name: remote_addr
+  category: Provisioning
+  default: "127.0.0"
+  description: "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+attributes23:
+  name: authorize_login_delegation
+  category: General
+  default: false
+  description: "Authorize login delegation with REMOTE_USER environment variable"
+attributes24:
+  name: authorize_login_delegation_api
+  category: General
+  default: false
+  description: "Authorize login delegation with REMOTE_USER environment variable for API calls"
+attributes25:
+  name: Parametrized_Classes_in_ENC
+  category: Puppet
+  default: false
+  description: "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?"
+attribute26:
+  name: token_duration
+  category: Provisioning
+  default: 0
+  description: "Time in minutes installation tokens should be valid for, 0 to disable"
+attribute27:
+  name: restrict_registered_puppetmasters
+  category: Auth
+  default: true
+  description: "Only known Smart Proxies with the Puppet feature can access fact/report importers and ENC output"
+attribute28:
+  name: require_ssl_puppetmasters
+  category: Auth
+  default: true
+  description: "Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)"
+attribute29:
+  name: ssl_client_dn_env
+  category: Auth
+  default: "SSL_CLIENT_S_DN"
+  description: "Environment variable containing the subject DN from a client SSL certificate"
+attribute30:
+  name: ssl_client_verify_env
+  category: Auth
+  default: "SSL_CLIENT_VERIFY"
+  description: "Environment variable containing the verification status of a client SSL certificate"
+attribute31:
+  name: remove_classes_not_in_environment
+  category: Puppet
+  default: false
+  description: "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)"

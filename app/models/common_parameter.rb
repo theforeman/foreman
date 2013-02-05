@@ -6,6 +6,7 @@ class CommonParameter < Parameter
   scoped_search :on => :value, :complete_value => :true
 
   def as_json(options={})
+    options ||= {}
     super({:only => [:name, :value, :id]}.merge(options))
   end
 

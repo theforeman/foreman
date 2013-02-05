@@ -90,7 +90,7 @@ module Orchestration::Compute
       attrs = compute_resource.provided_attributes
       if attrs.keys.include?(:ip)
         logger.info "waiting for instance to acquire ip address"
-        vm.wait_for { self.send(attrs[:ip]) }
+        vm.wait_for { self.send(attrs[:ip]).present? }
       end
     rescue => e
       failure "Failed to get IP for #{name}: #{e}", e.backtrace
@@ -136,6 +136,7 @@ module Orchestration::Compute
     private
 
     def compute_update_required?
+      return false unless compute_resource.supports_update?
       old.compute_attributes = compute_resource.find_vm_by_uuid(uuid).attributes
       compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
     end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = User.admin
   end
   def test_index
     get :index, {}, set_session_user
@@ -41,17 +41,15 @@ class ReportsControllerTest < ActionController::TestCase
 
   def test_create_duplicate
     create_a_puppet_transaction_report
-    User.current = nil
-    post :create, {:report => @log, :format => "yml"}
+    post :create, {:report => @log, :format => "yml"}, set_session_user
     assert_response :success
-    post :create, {:report => @log, :format => "yml"}
+    post :create, {:report => @log, :format => "yml"}, set_session_user
     assert_response :error
   end
 
   def test_create_valid
     create_a_puppet_transaction_report
-    User.current = nil
-    post :create, {:report => @log, :format => "yml"}
+    post :create, {:report => @log, :format => "yml"}, set_session_user
     assert_response :success
   end
 
@@ -99,6 +97,95 @@ class ReportsControllerTest < ActionController::TestCase
   test 'user with viewer rights should succeed in viewing reports' do
     user_setup
     get :index, {}, set_session_user
+    assert_response :success
+  end
+
+  test 'when ":restrict_registered_puppetmasters" is false, HTTP requests should be able to create a report' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = false
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts with a registered smart proxy on should create a report successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts without a registered smart proxy on should not be able to create a report' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['another.host'])
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'hosts with a registered smart proxy and SSL cert should create a report successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts without a registered smart proxy but with an SSL cert should not be able to create a report' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'hosts with an unverified SSL cert should not be able to create a report' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'FAILED'
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'when "require_ssl_puppetmasters" and "require_ssl" are true, HTTP requests should not be able to create a report' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = true
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
+    assert_equal 403, @response.status
+  end
+
+  test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to create reports' do
+    User.current = nil
+    # since require_ssl_puppetmasters is only applicable to HTTPS connections, both should be set
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    SETTINGS[:require_ssl] = false
+
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    post :create, {:report => create_a_puppet_transaction_report, :format => "yml"}
     assert_response :success
   end
 end

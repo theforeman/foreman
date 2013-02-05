@@ -46,6 +46,15 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal 10, r.pending
   end
 
+  test "it should support puppet 3.0.1 reports" do
+    if Facter.puppetversion < "2.6"
+      puts "Skippet puppet3 test, version: #{Facter.puppetversion}"
+      return true
+    end
+    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-3.0.1.yaml"))
+    assert_equal 1, r.applied
+  end
+
   test "it should true on error? if there were errors" do
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3, "pending" => 0}
     assert @r.error?
@@ -55,7 +64,6 @@ class ReportTest < ActiveSupport::TestCase
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 0, "failed_restarts" => 0, "skipped" => 3, "pending" => 0}
     assert !@r.error?
   end
-
 
   test "it should false on error? if there were no errors" do
     @r.status={"applied" => 92, "restarted" => 300, "failed" => 0, "failed_restarts" => 0, "skipped" => 0, "pending" => 0}
@@ -177,6 +185,12 @@ class ReportTest < ActiveSupport::TestCase
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
       Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-applied.yaml"))
     end
+  end
+
+  test "it should not import finished_catalog_run messages" do
+    return true if Facter.puppetversion < "2.6"
+    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.12-noops.yaml"))
+    assert_does_not_contain(r.messages.map(&:value), /Finished catalog run in/)
   end
 
 end

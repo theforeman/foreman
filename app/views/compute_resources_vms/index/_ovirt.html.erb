@@ -1,19 +1,19 @@
-<table class="table table-bordered">
-  <tr>
-    <thead>
-    <th>Name</th>
-    <th> CPUs</th>
-    <th> Memory</th>
-    <th> Power</th>
-    <th></th>
-    </thead>
-  </tr>
+<table class="table table-bordered" data-table='inline'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> CPUs</th>
+      <th> Memory</th>
+      <th> Power</th>
+      <th></th>
+    </tr>
+  </thead>
   <% @compute_resource.vms.each do |vm| -%>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
       <td><%= vm.cores %></td>
       <td> <%= number_to_human_size vm.memory %> </td>
-      <td <%= vm_power_class(vm.ready?) %>> <%= vm_state(!vm.ready?) %> </td>
+      <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(!vm.ready?) %></span> </td>
       <td>
         <%= action_buttons(vm_power_action(vm),
                            display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))) %>
@@ -22,5 +22,3 @@
     </tr>
   <% end -%>
 </table>
-
-

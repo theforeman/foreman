@@ -1,8 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+kernelversion:
+  name:        kernelversion
 
-productname:
-  name: productname
-  id: 1
-#
-# two:
-#   column: value
+ipaddress:
+  name:        ipaddress

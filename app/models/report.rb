@@ -5,10 +5,12 @@ class Report < ActiveRecord::Base
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
+  has_one :environment, :through => :host
   validates_presence_of :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
 
   scoped_search :in => :host,     :on => :name, :complete_value => true, :rename => :host
+  scoped_search :in => :environment, :on => :name, :complete_value => true, :rename => :environment
   scoped_search :in => :messages, :on => :value,                         :rename => :log
   scoped_search :in => :sources,  :on => :value,                         :rename => :resource
 
@@ -24,13 +26,13 @@ class Report < ActiveRecord::Base
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
-    return { :conditions => "" } if User.current.admin? # Admin can see all hosts
-
-    conditions = sanitize_sql_for_conditions([" (reports.host_id in (?))", Host.my_hosts.map(&:id)])
-    conditions.sub!(/\s*\(\)\s*/, "")
-    conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
-    conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
-    {:conditions => conditions}
+    if User.current.admin? and Organization.current.nil? and Location.current.nil?
+      { :conditions => "" }
+    else
+      #TODO: Remove pluck after upgrade to newer rails as it would be
+      #done via INNER select automatically
+      where(:reports => {:host_id => Host.my_hosts.pluck(:id)})
+    end
   }
 
   # returns recent reports
@@ -62,7 +64,7 @@ class Report < ActiveRecord::Base
   end
 
   def config_retrieval
-    metrics[:time][:config_retrieval].round_with_precision(2) rescue 0
+    metrics[:time][:config_retrieval].round(2) rescue 0
   end
 
   def runtime
@@ -82,9 +84,16 @@ class Report < ActiveRecord::Base
       # parse report metrics
       raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
 
-      # Is this a pre 2.6.x report format?
-      @post265 = report.instance_variables.include?("@report_format")
-      @pre26   = !report.instance_variables.include?("@resource_statuses")
+      case
+      when report.instance_variables.detect {|v| v.to_s == "@environment"}
+        @format = 3
+      when report.instance_variables.detect {|v| v.to_s == "@report_format"}
+        @format = 2
+      when report.instance_variables.detect {|v| v.to_s == "@resource_statuses"}
+        @format = 1
+      else
+        @format = 0
+      end
 
       # convert report status to bit field
       st = calc_status(metrics_to_hash(report))
@@ -109,7 +118,7 @@ class Report < ActiveRecord::Base
       r.import_log_messages report
       # if we are using storeconfigs then we already have the facts
       # so we can refresh foreman internal fields accordingly
-      host.populateFieldsFromFacts if Setting[:using_storeconfigs]
+      host.populateFieldsFromFacts if Setting[:using_storeconfigs] == true
       r.inspect_report
       return r
     rescue Exception => e
@@ -194,9 +203,11 @@ class Report < ActiveRecord::Base
 
   def import_log_messages report
     report.logs.each do |r|
-      # skiping debug messages, we dont want them in our db
+      # skipping debug messages, we dont want them in our db
       next if r.level == :debug
-      message = Message.find_or_create_by_value r.message
+      # skipping catalog summary run messages, we dont want them in our db too
+      next if r.message =~ /^Finished catalog run in \d+.\d+ seconds$/
+      message = Message.find_or_create r.message
       source  = Source.find_or_create_by_value r.source
       log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
       log.errors.empty?
@@ -230,6 +241,13 @@ class Report < ActiveRecord::Base
       },
     }
   end
+
+  def summaryStatus
+    return "Failed"   if error?
+    return "Modified" if changes?
+    return "Success"
+  end
+
   private
 
   # Converts metrics form Puppet report into a hash
@@ -240,8 +258,8 @@ class Report < ActiveRecord::Base
 
     # find our metric values
     METRIC.each do |m|
-      if @pre26
-        report_status[m] = metrics["resources"][m.to_sym]
+      if @format == 0
+        report_status[m] = metrics["resources"][m.to_sym] unless metrics["resources"].nil?
       else
         h=translate_metrics_to26(m)
         mv = metrics[h[:type]]
@@ -256,7 +274,7 @@ class Report < ActiveRecord::Base
       report_status["skipped"] = 0
     end
     # fix for reports that contain no metrics (i.e. failed catalog)
-    if @post265 and report.respond_to?(:status) and report.status == "failed"
+    if @format > 1 and report.respond_to?(:status) and report.status == "failed"
       report_status["failed"] += 1
     end
     return report_status
@@ -298,13 +316,15 @@ class Report < ActiveRecord::Base
   def self.translate_metrics_to26 metric
     case metric
     when "applied"
-      if @post265
-        { :type => "changes", :name => "total"}
-      else
+      case @format
+      when 0..1
         { :type => "total", :name => :changes}
+      else
+        { :type => "changes", :name => "total"}
       end
     when "failed_restarts"
-      if @pre26
+      case @format
+      when 0..1
         { :type => "resources", :name => metric}
       else
         { :type => "resources", :name => "failed_to_restart"}
@@ -326,12 +346,6 @@ class Report < ActiveRecord::Base
 
     errors.add :base, "You do not have permission to #{operation} this report"
     false
-  end
-
-  def summaryStatus
-    return "Failed"   if error?
-    return "Modified" if changes?
-    return "Success"
   end
 
   # puppet report status table column name

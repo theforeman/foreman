@@ -7,7 +7,6 @@ module Facts
     end
 
     def operatingsystem
-      os_name = facts[:operatingsystem]
       orel    = case os_name
                   when /(suse|sles)/i
                     facts[:operatingsystemrelease]
@@ -17,18 +16,30 @@ module Facts
 
       if os_name == "Archlinux"
         # Archlinux is rolling release, so it has no release. We use 1.0 always
-        Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, "1", "0"
+        args = { :name => os_name, :major => "1", :minor => "0" }
+        Operatingsystem.where(args).first || Operatingsystem.create!(args)
       elsif orel.present?
+        if os_name == "Debian" and orel[/testing|unstable/i]
+          case facts[:lsbdistcodename]
+            when /wheezy/i
+              orel = "7"
+            when /jessie/i
+              orel = "8"
+            when /sid/i
+              orel = "99"
+          end
+        end
         major, minor = orel.split(".")
         minor        ||= ""
-        os = Operatingsystem.find_or_create_by_name_and_major_and_minor os_name, major, minor
+        args = { :name => os_name, :major => major, :minor => minor }
+        os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
         if os_name[/debian|ubuntu/i] or os.family == 'Debian'
           os.release_name = facts[:lsbdistcodename]
           os.save
         end
         os
       else
-        Operatingsystem.find_or_create_by_name os_name
+        Operatingsystem.find_by_name(os_name) || Operatingsystem.create!(:name => os_name)
       end
     end
 
@@ -40,7 +51,12 @@ module Facts
 
     def architecture
       # On solaris architecture fact is harwareisa
-      name = facts[:architecture] || facts[:hardwareisa]
+      name = case os_name
+               when /(sunos|solaris)/i
+                 facts[:hardwareisa]
+               else
+                 facts[:architecture] || facts[:hardwareisa]
+               end
       # ensure that we convert debian legacy to standard
       name = "x86_64" if name == "amd64"
       Architecture.find_or_create_by_name name unless name.blank?
@@ -93,6 +109,12 @@ module Facts
 
     def certname
       facts[:clientcert]
+    end
+
+    private
+
+    def os_name
+      facts[:operatingsystem].blank? ? raise("invalid facts, missing operatingsystem value") : facts[:operatingsystem]
     end
   end
 

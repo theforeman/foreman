@@ -7,14 +7,22 @@
           <th> Name </th>
           <th> Hostgroup </th>
           <th> Environment </th>
+          <%= raw("<th>Location</th>") if SETTINGS[:locations_enabled]%>
+          <%= raw("<th>Organization</th>") if SETTINGS[:organizations_enabled]%>
         </tr>
       </thead>
       <tbody>
         <% hosts.each do |host| -%>
-          <tr class="<%= cycle("even", "odd") -%>">
+          <tr>
             <td><%=h host %> </td>
             <td><%=h host.try(:hostgroup) %></td>
             <td><%=h host.try(:environment) %></td>
+            <% if SETTINGS[:locations_enabled]%>
+            <td><%=h host.try(:location) %></td>
+            <% end %>
+            <% if SETTINGS[:organizations_enabled]%>
+            <td><%=h host.try(:organization) %></td>
+            <% end %>
           </tr>
         <% end -%>
       </tbody>

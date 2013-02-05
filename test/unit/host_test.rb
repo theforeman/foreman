@@ -58,7 +58,7 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from yaml stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    assert h.importFacts(YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))))
+    assert h.importFacts("sinn1636.lan", YAML::load_file(File.expand_path(File.dirname(__FILE__) + "/facts.yml")).values)
   end
 
   test "should import facts from yaml of a new host" do
@@ -360,15 +360,6 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.architecture, architectures(:sparc)
   end
 
-  test "hostgroup should set default vm values when none exists" do
-    hg = hostgroups(:db)
-    assert_not_nil hg.memory
-    h = Host.new
-    h.hostgroup = hg
-    assert !h.valid?
-    assert_equal hg.memory, h.memory
-  end
-
   test "host os attributes must be associated with the host os" do
     h = hosts(:redhat)
     h.managed = true
@@ -423,13 +414,41 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.root_pass, Setting.root_pass
   end
 
+  test "should generate a random salt when saving root pw" do
+    h = hosts(:redhat)
+    pw = h.root_pass
+    h.root_pass = "token"
+    h.hostgroup = nil
+    assert h.save
+    first = h.root_pass
+
+    # Check it's a $.$....$...... enhanced style password
+    assert_equal 4, first.split('$').count
+    assert first.split('$')[2].size >= 8
+
+    # Check it changes
+    h.root_pass = "token"
+    assert h.save
+    assert_not_equal first.split('$')[2], h.root_pass.split('$')[2]
+  end
+
+  test "should pass through existing salt when saving root pw" do
+    h = hosts(:redhat)
+    pw = h.root_pass
+    pass = "$1$jmUiJ3NW$bT6CdeWZ3a6gIOio5qW0f1"
+    h.root_pass = pass
+    h.hostgroup = nil
+    assert h.save
+    assert_equal pass, h.root_pass
+  end
+
   test "should use hostgroup root password" do
     h = hosts(:redhat)
     h.root_pass = nil
     h.hostgroup = hostgroups(:common)
     assert h.save
     h.hostgroup.update_attribute(:root_pass, "abc")
-    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+    assert !(h.root_pass.nil? || h.root_pass.empty?) && h.root_pass != Setting[:root_pass]
   end
 
   test "should use a nested hostgroup parent root password" do
@@ -441,7 +460,7 @@ class HostTest < ActiveSupport::TestCase
     hg.root_pass = nil
     hg.parent.update_attribute(:root_pass, "abc")
     hg.save
-    assert h.root_pass.any? && h.root_pass != Setting[:root_pass]
+    assert !(h.root_pass.nil? || h.root_pass.empty?) && h.root_pass != Setting[:root_pass]
   end
 
   test "should save uuid on managed hosts" do
@@ -474,6 +493,96 @@ class HostTest < ActiveSupport::TestCase
     assert host.valid?
     assert !host.new_record?
     assert_equal "myhost1.mydomain.net", host.name
+  end
+
+  test "assign a host to a location" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "New York"
+
+    host.location_id = location.id
+    assert host.save!
+  end
+
+  test "update a host's location" do
+    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    original_location = Location.create :name => "New York"
+
+    host.location_id = original_location.id
+    assert host.save!
+    assert host.location_id = original_location.id
+
+    new_location = Location.create :name => "Los Angeles"
+    host.location_id = new_location.id
+    assert host.save!
+    assert host.location_id = new_location.id
+  end
+
+  test "assign a host to an organization" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    organization = Organization.create :name => "Hosting client 1"
+
+    host.organization_id = organization.id
+    assert host.save!
+  end
+
+  test "assign a host to both a location and an organization" do
+    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "Tel Aviv"
+    organization = Organization.create :name => "Hosting client 1"
+
+    host.location_id = location.id
+    host.organization_id = organization.id
+
+    assert host.save!
+  end
+
+
+  test "should have only one bootable interface" do
+    h = hosts(:redhat)
+    assert_equal 0, h.interfaces.count
+    bootable = Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
+                                     :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain
+    assert_equal 1, h.interfaces.count
+    h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
+                                :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id }]
+    assert !h.valid?
+    assert_equal "Only one bootable interface is allowed", h.errors['interfaces.type'][0]
+    assert_equal 1, h.interfaces.count
+  end
+
+  # Token tests
+
+  test "built should clean tokens" do
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now)
+    assert_equal Token.all.size, 1
+    h.expire_tokens
+    assert_equal Token.all.size, 0
+  end
+
+  test "built should clean tokens even when tokens are disabled" do
+    Setting[:token_duration] = 0
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now)
+    assert_equal Token.all.size, 1
+    h.expire_tokens
+    assert_equal Token.all.size, 0
+  end
+
+  test "hosts should be able to retrieve their token if one exists" do
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    assert_equal Token.first, h.token
+  end
+
+  test "token should return false when tokens are disabled or invalid" do
+    Setting[:token_duration] = 0
+    h = hosts(:one)
+    assert_equal h.token, nil
+    Setting[:token_duration] = 30
+    h = hosts(:one)
+    assert_equal h.token, nil
   end
 
 end

@@ -51,7 +51,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not create compute resource when not permitted" do
     setup_user "view"
     assert_difference('@compute_resource.vms.count', 0) do
-      attrs = {:name => name, :memory => 128*1024*1024, :arch => "i686"}
+      attrs = {:name => 'name123', :memory => 128*1024*1024, :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
     assert_response 403
@@ -123,13 +123,13 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get_test_vm
     assert @test_vm.ready?
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_redirected_to compute_resource_vms_path(:compute_resource_id => @compute_resource.to_param)
+    assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     get_test_vm
     assert !@test_vm.ready?
 
     # Swith it back on for next tests
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_redirected_to compute_resource_vms_path(:compute_resource_id => @compute_resource.to_param)
+    assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     get_test_vm
     assert @test_vm.ready?
   end

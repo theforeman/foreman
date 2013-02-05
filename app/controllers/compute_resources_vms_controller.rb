@@ -3,7 +3,7 @@ class ComputeResourcesVmsController < ApplicationController
   before_filter :find_vm, :only => [:show, :power, :console]
 
   def index
-    @vms = @compute_resource.vms.all.to_a.paginate :page => params[:page]
+    @vms = @compute_resource.vms.all(params[:filters] || {})
     respond_to do |format|
       format.html
       format.json { render :json => @vms }
@@ -33,9 +33,9 @@ class ComputeResourcesVmsController < ApplicationController
     action = @vm.ready? ? :stop : :start
 
     if (@vm.send(action) rescue false)
-      state = @vm.ready? ? "running" : "stopped"
-      notice "#{@vm} is now #{state}"
-      redirect_to compute_resource_vms_path(params[:compute_resource_id])
+      @vm.reload
+      notice "#{@vm} is now #{@vm.state.capitalize}"
+      redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
     else
       error "failed to #{action} #{@vm}"
       redirect_to :back

@@ -74,6 +74,14 @@ manager:
     - :view_facts
     - :view_audit_logs
     - :view_statistics
+    - :view_locations
+    - :edit_locations
+    - :create_locations
+    - :destroy_locations
+    - :view_organizations
+    - :edit_organizations
+    - :create_organizations
+    - :destroy_organizations
 
 edit_partition_tables:
   name: Edit partition tables
@@ -119,6 +127,7 @@ viewer:
     - :view_globals
     - :view_hostgroups
     - :view_hosts
+    - :view_locations
     - :view_media
     - :view_models
     - :view_operatingsystems
@@ -127,6 +136,7 @@ viewer:
     - :view_reports
     - :access_settings
     - :view_statistics
+    - :view_organizations
     - :view_usergroups
     - :view_users
 
@@ -180,7 +190,7 @@ create_hosts:
     - :create_hosts
 
 none_compute_resources:
-  name: No right on compute resources and vms
+  name: No rights
   id: "10"
   builtin: "0"
   permissions: |

@@ -34,8 +34,8 @@ class UserTest < ActiveSupport::TestCase
     assert !u.valid?
   end
 
-  test "login size should not exceed the 30 characters" do
-    u = User.new :auth_source => auth_sources(:one), :login => "a" * 31, :mail => "foo@bar.com"
+  test "login size should not exceed the 100 characters" do
+    u = User.new :auth_source => auth_sources(:one), :login => "a" * 101, :mail => "foo@bar.com"
     assert !u.save
   end
 
@@ -93,6 +93,30 @@ class UserTest < ActiveSupport::TestCase
 
   test "should not be able to delete the admin account" do
     assert !User.find_by_login("admin").destroy
+  end
+
+  test "create_admin should create the admin account" do
+    Setting.administrator = 'root@localhost.localdomain'
+    User.delete(User.admin.id)
+    User.create_admin
+    assert User.find_by_login("admin")
+  end
+
+  test "create_admin should fail when the validation fails" do
+    Setting.administrator = 'root@invalid_domain'
+    User.delete(User.admin.id)
+    assert_raise ActiveRecord::RecordInvalid do
+      User.create_admin
+    end
+  end
+
+  test "create_admin should create the admin account and keep User.current set" do
+    User.current = @user
+    Setting.administrator = 'root@localhost.localdomain'
+    User.delete(User.admin.id)
+    User.create_admin
+    assert User.find_by_login("admin")
+    assert_equal User.current, @user
   end
 
   def setup_user operation

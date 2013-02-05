@@ -7,15 +7,15 @@ class CreateSubnetDomain < ActiveRecord::Migration
       t.timestamps
     end
 
-    Subnet.find_each do |s|
-      domain = Domain.find(s.domain_id)
+    Subnet.unscoped.find_each do |s|
+      domain = Domain.unscoped.find(s.domain_id)
       domain.subnets << s
     end
     remove_column :subnets, :domain_id
   end
 
   def self.down
-    add_column :subnets, :domain, :references
+    add_column :subnets, :domain_id, :integer
     drop_table :subnet_domains
   end
 end

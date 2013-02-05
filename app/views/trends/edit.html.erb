@@ -1,0 +1,33 @@
+<%= javascript 'trends' %>
+<% title "Edit Trend #{@trend.to_label}" %>
+<div class="span6">
+  <% form_tag trend_path, :method => :put do %>
+    <% if @trend.is_a?(FactTrend) %>
+      <table class="table">
+      <th style="width: 40%">Fact Name</th><th style="width: 60%">Display Name</th>
+        <tr>
+          <%= fields_for "trend[]", @trend do |f| %>
+            <td>
+              <%= @trend.fact_name %>
+            </td>
+            <td>
+              <%= f.text_field :name %>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    <% end %>
+    <table class="table">
+      <th style="width: 40%">Value</th><th style="width: 60%">Display Name</th>
+      <% @trend.values.each do |trend| %>
+        <tr>
+          <%= fields_for "trend[]", trend do |f| %>
+            <%= render 'fields', :f => f, :trend => trend %>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+    <%= link_to("Cancel", trends_path, :class => "btn") %>
+    <%= submit_tag "Submit", :class => "btn-primary btn" %>
+  <% end %>
+</div>

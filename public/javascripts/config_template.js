@@ -15,7 +15,7 @@ $(function() {
       set_edit_mode(template_text);
     }
     $('#config_template_submit').on('click', function(){
-       set_edit_mode( $(".template_text"));
+      if($('.diffMode').size() >0){ set_edit_mode( $(".template_text")); }
     })
   }
 
@@ -50,8 +50,8 @@ $(function() {
   })
 
   $("#keybinding").on("change", function() {
-    var vim = require("ace/keyboard/keybinding/vim").Vim;
-    var emacs = require("ace/keyboard/keybinding/emacs").Emacs;
+    var vim = require("ace/keyboard/vim").handler;
+    var emacs = require("ace/keyboard/emacs").handler;
     var keybindings = {
       Default: null, // Null = use "default" keymapping
       Vim: vim,
@@ -74,7 +74,7 @@ function create_editor(item) {
   $("#editor1")
       .css("position","relative")
       .height(item.height() || '360')
-      .width(item.width());
+      .width(item.width()+10);
   item.hide();
 
   $editor = ace.edit("editor1");
@@ -98,9 +98,8 @@ function set_code(){
 function set_edit_mode(item){
   $editor.setTheme("ace/theme/twilight");
   $editor.setReadOnly(false);
-  var RubyMode = require("ace/mode/ruby").Mode;
   var session = $editor.getSession();
-  session.setMode(new RubyMode());
+  session.setMode("ace/mode/ruby");
 
   session.setValue($('#new').text());
   session.on('change', function(){
@@ -112,9 +111,8 @@ function set_edit_mode(item){
 function set_diff_mode(item){
   $editor.setTheme("ace/theme/clouds");
   $editor.setReadOnly(true);
-  var DiffMode = require("ace/mode/diff").Mode;
   var session = $editor.getSession();
-  session.setMode(new DiffMode());
+  session.setMode("ace/mode/diff");
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
   $(session).off('change');
   session.setValue(patch);

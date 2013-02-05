@@ -5,13 +5,13 @@
 <table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name %></th>
-    <th><%= sort :value %></th>
+    <th style='min-width: 60%;'><%= sort :value %></th>
     <th></th>
   </tr>
   <% for common_parameter in @common_parameters %>
-    <tr class="<%= cycle("even", "odd") -%>" >
+    <tr>
       <td><%= link_to_if_authorized h(common_parameter), hash_for_edit_common_parameter_path(:id => common_parameter.id)%></td>
-      <td><%=h common_parameter.value %></td>
+      <td style='overflow-wrap: break-word;'><%= trunc(common_parameter.value,80  ) %></td>
       <td class="ra">
         <%= display_delete_if_authorized hash_for_common_parameter_path(:id => common_parameter), :confirm => "Delete #{common_parameter.name}?" %>
       </td>

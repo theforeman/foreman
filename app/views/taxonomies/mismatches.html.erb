@@ -1,0 +1,37 @@
+<% title "Mismatches" %>
+
+<% if @mismatches.flatten.length > 0 %>
+  <% link_post =SETTINGS[:locations_enabled] ? import_mismatches_locations_path : import_mismatches_organiztions_path %>
+  <%= title_actions link_to("Fix All Mismatches", link_post,
+              :class => 'btn btn-success', :method => :post) %>
+
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th><%= "Location/Organization" %></th>
+      <th><%= "Mismatch Details" %></th>
+    </tr>
+    <% @mismatches.each do |mismatch| %>
+      <% if !mismatch.empty? %>
+      <tr class="<%= cycle("even", "odd") -%>">
+        <% if mismatch.first[:taxonomy_type] == "Location" %>
+        <td><%= link_to mismatch.first[:taxonomy_name], edit_location_path(mismatch.first[:taxonomy_id]) %>
+            <%= "(#{mismatch.first[:taxonomy_type]})" %>
+        </td>
+        <% else %>
+        <td><%= link_to mismatch.first[:taxonomy_name], edit_organization_path(mismatch.first[:taxonomy_id]) %> <%= "(#{mismatch.first[:taxonomy_type]})" %>
+        </td>
+        <% end %>
+        <td><% mismatch.each do |mismatch_row| %>
+          <%= "#{mismatch_row[:taxable_value]} (#{mismatch_row[:taxable_type]})"
+          %>
+          <br />
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    <% end %>
+  </table>
+<% else %>
+  No hosts are mismatched!<br />
+  All hosts data matches configurations for locations and organizations.
+<% end %>

@@ -8,13 +8,17 @@ module Foreman
         box = Safemode::Box.new self, allowed_methods
         box.eval(ERB.new(template, nil, '-').src, allowed_vars)
       else
+        allowed_vars.each { |k,v| instance_variable_set "@#{k}", v }
         ERB.new(template, nil, '-').result(binding)
       end
     end
 
     #returns the URL for Foreman Built status (when a host has finished the OS installation)
     def foreman_url(action = "built")
-      url_for :only_path => false, :controller => "unattended", :action => action
+      url_for :only_path => false, :controller => "/unattended", :action => action,
+              :host      => (Setting[:foreman_url] unless Setting[:foreman_url].blank?),
+              :protocol  => 'http',
+              :token     => (@host.token.value unless @host.token.nil?)
     end
 
     # provide embedded snippets support as simple erb templates
@@ -49,7 +53,7 @@ module Foreman
     end
     alias_method :pxe_render, :unattended_render
 
-    def unattended_render_to_temp_file content, prefix = id, options = {}
+    def unattended_render_to_temp_file content, prefix = id.to_s, options = {}
       file = ""
       Tempfile.open(prefix, Rails.root.join('tmp') ) do |f|
         f.print(unattended_render(content))

@@ -1,4 +1,7 @@
 class AddDefaultTemplates < ActiveRecord::Migration
+  class ConfigTemplate < ActiveRecord::Base
+    has_and_belongs_to_many :operatingsystems
+  end
   def self.up
     TemplateKind.all.each do |kind|
       case kind.name
@@ -41,7 +44,7 @@ class AddDefaultTemplates < ActiveRecord::Migration
     end
     Dir["#{Rails.root}/app/views/unattended/snippets/*"].each do |snippet|
       ConfigTemplate.create(
-        :name     => snippet.gsub(/.*_/,"").gsub(".erb",""),
+        :name     => snippet.gsub(/.*\/_/,"").gsub(".erb",""),
         :template => File.read(snippet),
         :snippet  => true)
     end

@@ -4,9 +4,10 @@ $(function() {
     var url = $(this).attr('data-url');
     $(this).load(url + ' table', function(response, status, xhr) {
       if (status == "error") {
-        $(this).closest("#spinner").html("Sorry but there was an error: " + xhr.status + " " + xhr.statusText);
+        $(this).closest(".tab-content").find("#spinner").html("There was an error listing VM's : " + xhr.status + " " + xhr.statusText);
       }
       $('.dropdown-toggle').dropdown();
+      onContentLoad();
     });
   });
 });
@@ -25,25 +26,22 @@ function providerSelected(item)
         url: url,
         data:'provider=' + provider,
         success: function(result){
-          $('#compute_connection').html($(result).children("#compute_connection"));
-          $('#compute_connection').append($(result).children(".alert-message"));
+          $('#compute_connection').html($(result).find("#compute_connection"));
+          $('#compute_connection').append($(result).find(".alert-message"));
         }
   });
 }
 
 function testConnection(item) {
-  var target = $(item).attr('data-url');
-  var args = {}
-  args["provider"] = attribute_hash(['name', 'provider', 'url', 'user', 'password', 'server']);
 
   $('#test_connection_indicator').show();
   $.ajax({
     type:'put',
-    url:target,
-    data:args,
+    url: $(item).attr('data-url'),
+    data: $('#new_compute_resource').serialize(),
     success:function (result) {
-      $('#compute_connection').html($(result).children("#compute_connection"));
-      $('#compute_connection').prepend($(result).children(".alert-message"));
+      $('#compute_connection').html($(result).find("#compute_connection"));
+      $('#compute_connection').prepend($(result).find(".alert-message"));
     },
     complete:function (result) {
       $('#test_connection_indicator').hide();

@@ -1,3 +1,5 @@
+require 'uri'
+
 module Foreman::Model
   class Ovirt < ComputeResource
 
@@ -10,6 +12,10 @@ module Foreman::Model
 
     def capabilities
       [:build]
+    end
+
+    def supports_update?
+      true
     end
 
     def provided_attributes
@@ -37,13 +43,29 @@ module Foreman::Model
       client.clusters
     end
 
+    # Check if HTTPS is mandatory, since rest_client will fail with a POST
+    def test_https_required
+      RestClient.post url, {} if URI(url).scheme == 'http'
+      true
+    rescue => e
+      case e.message
+      when /406/
+        true
+      else
+        raise e
+      end
+    end
+    private :test_https_required
+
     def test_connection
       super
-      errors[:url].empty? && datacenters
+      errors[:url].empty? && datacenters && test_https_required
     rescue => e
       case e.message
         when /404/
           errors[:url] << e.message
+        when /302/
+          errors[:url] << 'HTTPS URL is required for API access'
         when /401/
           errors[:user] << e.message
         else
@@ -127,8 +149,11 @@ module Foreman::Model
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
-      raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
-      VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+      if vm.display[:type] =~ /spice/i
+        {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port],:ticket => vm.ticket, :ca_cert => cacert}
+      else
+        VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+      end
     end
 
     protected
@@ -149,6 +174,15 @@ module Foreman::Model
           :ovirt_url        => url,
           :ovirt_datacenter => uuid
       )
+    end
+
+    def cacert
+      ca_url = URI.parse(url)
+      ca_url.path = "/ca.crt"
+      ca_url.scheme = "http"
+      ca_url.port = 8080 if ca_url.port == 8443
+      ca_url.port = 80 if ca_url.port == 443
+      Net::HTTP.get(ca_url).to_s.gsub(/\n/, '\\n')
     end
 
     def update_required?(old_attrs, new_attrs)

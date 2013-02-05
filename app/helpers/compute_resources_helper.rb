@@ -1,12 +1,16 @@
 module ComputeResourcesHelper
   include LookupKeysHelper
 
+  def show_console_action(state, link)
+    state ? link : ""
+  end
+
   def vm_state s
     s ? " Off" : " On"
   end
 
   def vm_power_class s
-    "class='label #{s ? "label-success" : ""}'"
+    "class='label #{s ? "label-success" : ""}'".html_safe
   end
 
   def vm_power_action vm

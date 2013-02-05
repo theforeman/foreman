@@ -3,16 +3,19 @@
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab">Hostgroup</a></li>
     <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
     <% if SETTINGS[:unattended] -%>
       <li><a href="#network" data-toggle="tab">Network</a></li>
       <li><a href="#os" data-toggle="tab">Operating System</a></li>
-      <% if !Hypervisor.first.nil? and authorized_for("Hypervisors::Guests", :create) -%>
-        <li><a href="#virtual_machine" data-toggle="tab">Virtual Machine</a></li>
-      <% end -%>
     <% end -%>
     <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -45,13 +48,21 @@
       <%= password_f f, :root_pass, :label => "Root Password" %>
     </div>
 
-    <div class="tab-pane" id="virtual_machine">
-      <%= render('common/hypervisor', :item => @hostgroup) %>
-    </div>
-
     <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
+
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+        <%= multiple_checkboxes f, :locations, @hostgroup, Location %>
+      </div>
+    <% end %>
+
+    <% if show_organization_tab? %>
+      <div class="tab-pane" id="organizations">
+        <%= multiple_checkboxes f, :organizations, @hostgroup, Organization %>
+      </div>
+    <% end %>
   </div>
 
   <%= submit_or_cancel f %>

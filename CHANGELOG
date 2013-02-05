@@ -1,4 +1,858 @@
+2013-02-01	Ohad Levy <ohadlevy@gmail.com>
+	* refs #2141 - ensures no duplicate trends are created
+	* include nested host routes in the api documentation
+
+2013-02-01	Robert Birnie <rbirnie@gmail.com>
+	* Fixes #2141 - Deletes duplicate TrendCounters
+
+2013-01-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2141 - Trends grahs issue
+	* fixes #2154 - "Foreman" link in main navigation should link to dashboard
+	* fixes #2161 - Cannot delete a host if the compute resource VM is already deleted
+	* fixes #2124 - only include classes from the host current environment.
+	* fixes #1827: use ids instead of names for templates routes
+	* fixes #2159 - Provisioning information shown in locations/organizations while provisioning is disabled.
+	* fixes #2160 - do not store Finished catalog run messages
+	* ensures that validation does not get triggered for new taxonomy objects
+	* do not use class variables for taxonomix.
+
+2013-01-29	Ohad Levy <ohadlevy@gmail.com>
+	* Ensure we use ApiPie 0.13, as 0.14 changed API.
+	* update to rails 3.0.20 to address CVE-2013-0333
+
+2013-01-27	Dominic Cleal <dcleal@redhat.com>
+	* fix typo in mismatches report
+	* fixes #2157 - used_ids should not pass hosts array
+
+2013-01-24	Ohad Levy <ohadlevy@gmail.com>
+	* ensures rails does not complain on migration, unsure of why its required
+	* bump version file
+	* 1.1RC5
+	* ensures that when taxable objects (such as a domain) does not fire a taxonomy validation
+	* rebase 6f9e04c913856c3adbc02010ce7a9e187ed2682b
+	* minor cleanups that did not rebased cleanly
+	* adds nullify when deleting taxonomies
+	* hosts mulitple
+	* refactor - move clone taxonomy to models
+
+2013-01-24	Joseph Mitchell Magen <jmagen@redhat.com>
+	* clone action, view, tests
+	* refactor hash_for links on taxonomies/index
+	* changes to taxonomies_controller
+	* fixes #2033 - Cannot assign a host to an org
+	* fixes #2001 - Changing Loc or Org after compute resource selection give 500 error
+	* fixes #1999 - Allow org/location to selectively ignore a domain, subnet etc
+	* fixes #2138 - Ensure at least one Location / Organization exists
+
+2013-01-24	Amos Benari <abenari@redhat.com>
+	* new org wizard.
+	* fixes #2126 Large report messages won't fit in PostgreSQL's index_messages_on_value
+
+2013-01-23	Ohad Levy <ohadlevy@gmail.com>
+	* refs #2146 - ensures redirect does not break on api requests too
+
+2013-01-23	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2146 - prevent double render
+	* fixes #2151 - use DN environment variable instead of CN
+
+2013-01-21	Amos Benari <abenari@redhat.com>
+	* refs #2041 - changed puppetclass/:id/parameters from put to post.
+	* lighter style to the host status labels.
+	* remove add-class tooltip.
+	* fix import classes button
+	* fixes #851 - display diff view on Puppet file content change
+	* fixes #2145 Host Search not working by user
+
+2013-01-21	Ivan Necas <inecas@redhat.com>
+	* Make sure we're not merging nil in to_json
+
+2013-01-21	Ohad Levy <ohadlevy@gmail.com>
+	* [test] renamed wrong class name
+	* fixes #2147 - param classes with multiple matchers are evaluated incorrectly
+	* updated fog version, as a few vmware related bugs where fixed
+
+2013-01-20	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2136 hyperlink host properties
+
+2013-01-20	Ivan Necas <inecas@redhat.com>
+	* Fix home mapping in API v2
+
+2013-01-20	Dominic Cleal <dcleal@redhat.com>
+	* refs #2069 - enable auth by default
+	* fixes #2121, #2069 - restrict importers and ENC to puppetmasters and users
+
+2013-01-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2129 - only use markdown if redcarpet available
+	* fixes #2069 - use a random salt when saving the root password
+
+2013-01-15	Martin Bačovský <mbacovsk@redhat.com>
+	* Added auth to smart proxies
+
+2013-01-15	Sam Kottler <shk@redhat.com>
+	* Remove mention of tenants from test definitions
+
+2013-01-14	Sam Kottler <shk@redhat.com>
+	* Fixes #1880 - Build button (or any with the disabled attribute) shouldn't be clickable
+
+2013-01-14	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* v2 api for configuration_templates and template_combinations
+
+2013-01-14	Amos Benari <abenari@redhat.com>
+	* fix xhr authentication issue.
+	* fixes #2041 puppetclass_parameters update method uses PUT incorrectly
+
+2013-01-14	Robert Birnie <rbirnie@gmail.com>
+	* Add Additional Error checking for ldap
+
+2013-01-14	Tomas Strachota <tstrachota@redhat.com>
+	* fix in compute resources api doc
+
+2013-01-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2047 - pagination is not visible on compute resources vms.
+	* adds support for JS table sorter / pagination.
+
+2013-01-10	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #2122 - Cannot search reports on environment name
+
+2013-01-10	Joseph Mitchell Magen <jmagen@redhat.com>
+	* added API v2 placeholders.
+
+2013-01-09	Sam Kottler <shk@redhat.com>
+	* Upgrade to Rails 3.0.19 to mitigate CVE-2013-0156 and CVE-2013-0155
+
+2013-01-08	Marius Rieder <marius.rieder@durchmesser.ch>
+	* round_with_precision is deprecated
+
+2013-01-08	Amos Benari <abenari@redhat.com>
+	* Optimize SQL queries for puppetclass edit page
+	* added search puppet class parameters.
+	* removed the need to add 'btn' class for the action_buttons helper, and changed the action buttons to small.
+	* resize puppet calss form, parameter tab, left tabs size.
+	* fix popover html content render.
+	* add gravatar to users index
+
+2013-01-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2109 - improve session token security
+
+2013-01-08	Nicolas Dandrimont <nicolas.dandrimont@ensta-paristech.fr>
+	* Fixes #1884 - hardcode a version number for Debian's testing/unstable suites
+
+2013-01-08	Tomas Strachota <tstrachota@redhat.com>
+	* Extended information for each type of compute resources
+
+2013-01-08	Sam Kottler <shk@redhat.com>
+	* Added additional counter-tests to config templates
+
+2013-01-06	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1947 - fixes typo
+
+2013-01-03	Ohad Levy <ohadlevy@gmail.com>
+	* bumped rails to 3.0.18 to avoid latest CVE
+	* fixes #2098 - ldap auth when using a different account for authentication was broken
+	* 1.1RC4 released
+
+2013-01-03	Amos Benari <abenari@redhat.com>
+	* fixes #2096 New location/Org button in user-menu doesn't work on ff.
+	* fixes #2091 Menu items disappeard
+
+2013-01-03	Dominic Cleal <dcleal@redhat.com>
+	* Revert bundler changes in 73f23bf4c643637c805e4911648aea16f8a73c55
+	* refs #2097 - update test to include stderr redirect
+	* fixes #2097 - improve debug when `puppet master --configprint` fails
+
+2013-01-03	Sam Kottler <shk@redhat.com>
+	* Fixes #2095 - Only show console button if VM is running
+
+2013-01-03	Mikael Fridh <mfridh@marinsoftware.com>
+	* fixes #2092 - allow parens in Subnet description
+
+2013-01-02	Amos Benari <abenari@redhat.com>
+	* fixed an error in the ptable wellcome text.
+	* fixed missing condition in taxonomix.
+	* remove the link from hosts list in users filter page when not needed.
+	* added multi-select ui component instead of multi check-boxes for long lists.
+	* reorg in the user and settings top menus.
+	* ui phase2
+	* bootstrap2.2.2
+
+2013-01-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2084 - All Facts and Reports are visible regardless of selected Org/Location for admin users
+	* fixes #2076 Windows provisioning template generation fails
+	* fixes #2083 - DB migration fails with Postgres with bmc nics
+	* updated readme for new year
+	* updated gitignore
+
+2013-01-02	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2025 - show user login if name is blank
+
+2012-12-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2078 - Classes parameters value leak fix
+
+2012-12-30	Jasper Poppe <jgpoppe@gmail.com>
+	* added puppet location and organization parameters
+
+2012-12-27	Ohad Levy <ohadlevy@gmail.com>
+	* 1.1RC3 released
+	* fixes #2073 - undefined method `update!'
+	* refs #1944 - minor leftover to avoid Object.id warning
+	* fixes #1949 - VMware creation: vm's always get 768MB memory
+	* fixes #1947 - wrong notice pressing the power on/off button for vmware hosts
+
+2012-12-27	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixed postgres migrations
+
+2012-12-26	Ohad Levy <ohadlevy@gmail.com>
+	* 1.1RC2 Released
+	* fixes #1944 - Listing VMWare virtual machines under Computer resources is slow.
+	* fixes #1814 - converts sp_* attributes into a BMC interface class
+	* fixes #2072 Foreman complains about medium etc when deploying to Image based providers(EC2/OpenStack/RackSpace..)
+
+2012-12-26	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2017 added patch from ticket
+
+2012-12-26	Hannes Schaller <admin@cyberkov.at>
+	* fixes #2504 trends model for postgresql added group() back and added select()
+
+2012-12-24	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1890, typo
+	* refs #1991 - Cache not cleared prevent location / org feature to show up
+	* fixed broken test on ruby 1.9
+	* Do not use :class_name in has_many :through, missed on for class_params
+
+2012-12-24	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #1890 api host status
+	* fixes #1992 sort does not fail if vlanid is null
+	* DEPRECATION WARNING: Giving a hash to body is deprecated, please use instance variables instead.
+	* fixes #1991 expire topbar cache on user when restart server
+	* renamed to thread_session.rb
+	* removed has_many_polymorphs and used has_many :source and :source_type
+
+2012-12-24	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2063 - pin minitest to 3.5+ and mocha 0.12.x
+	* fixes #2061 - test if oVirt API has HTTPS redirect
+
+2012-12-24	rbirnie <rbirnie@gmail.com>
+	* fixes #2062 - Add max_trends setting
+
+2012-12-24	Amos Benari <abenari@redhat.com>
+	* removed puppet class include in index because it creates too many joins in a single query for sql-light to function properly.
+	* commented rack-mini-profiler as it slows some development machines too much. When needed it can be uncommented.
+
+2012-12-20	Sam Kottler <shk@redhat.com>
+	* Fixes #2058: prevents the spinner from going forever if listing fails
+
+2012-12-20	Ohad Levy <ohadlevy@gmail.com>
+	* removed class_name from all relationships that has_many :through as its invalid.
+
+2012-12-20	Amos Benari <abenari@redhat.com>
+	* puppet class form ui fixes.
+
+2012-12-20	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #1834 to get foreman running under ruby 1.9.3
+
+2012-12-19	Joseph Mitchell Magen <jmagen@redhat.com>
+	* added slash /unattended to other url_for calls
+	* fixes #2018 add forward slash to controller name of url_for() helper
+
+2012-12-19	Trey Dockendorf <treydock@tamu.edu>
+	* - Allows mysql2 usage with Puppet < 2.7.10 - Fixes #1350
+
+2012-12-19	Sam Kottler <shk@redhat.com>
+	* Fixes #2059: Completely remove email_replay_address from settings
+
+2012-12-19	Dominic Cleal <dcleal@redhat.com>
+	* refs #2023 - always write using_storeconfigs default as a boolean
+
+2012-12-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2023 - Don't try to save os=nil in the fact importer
+
+2012-12-19	Amos Benari <abenari@redhat.com>
+	* Fix Foreman SQL injection through search mechanism CVE-2012-5648
+
+2012-12-18	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2050 - Don't display revoked certs by default
+
+2012-12-18	Ohad Levy <ohadlevy@gmail.com>
+	* minor cleanups to the proxy resource class refs #2056
+
+2012-12-18	Corey Osman <corey@logicminds.biz>
+	* fixes # 2056 - add bmc support to the api-proxy class
+
+2012-12-18	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #1964 lookup_keys.default_value can hold > 255 characters
+	* fixes #1965 override value to textarea
+
+2012-12-17	Oved Ourfali <oourfali@redhat.com>
+	* fixes #1978 - changing login maximum size to 100
+
+2012-12-17	Sam Kottler <shk@redhat.com>
+	* Fixes #2046: Only show the inverse taxonomy tab if enabled
+
+2012-12-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2042 - fix CSS classes added to filter levels
+
+2012-12-17	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2045 changed condition so there is no error in Postgresql
+	* fixes #1353 added custom hook when host build mode changes
+	* fixes #2051 good host percentange was wrong
+
+2012-12-12	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2037 remove catchall routes
+	* added compute resource actions and tests
+
+2012-12-12	Ivan Necas <inecas@redhat.com>
+	* refs #1937 - fix graphs hrefs when running from subpath
+
+2012-12-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2030 - define instance variables during ERB evaluation when not using safemode
+
+2012-12-12	Amos Benari <abenari@redhat.com>
+	* scope templates by taxonomy.
+
+2012-12-12	Sam Kottler <shk@redhat.com>
+	* Fixes #2000 - display the alternate taxonomy when editing a location or org
+
+2012-12-11	Joseph Mitchell Magen <jmagen@redhat.com>
+	* host routes api changes squashed
+
+2012-12-11	Abby Edwards <aedwards@solutionary.com>
+	* fixed bug preventing LDAP authentication in auth_source_ldap model
+
+2012-12-09	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #1979 Updating puppet:import:puppet_classes for parameterized classes
+
+2012-12-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2021 - run test:lib from test rake task
+	* fixes #2020 - PuppetSetting is an instance, not class
+	* fixes #1995 - enable param class ENC by default on Puppet 2.6.5+
+
+2012-12-09	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #1977 - Don't rely on Puppetversion to determine report version
+
+2012-12-09	Ohad Levy <ohadlevy@gmail.com>
+	* Merge pull request #286 from iNecas/apipie-validations-off
+
+2012-12-06	Ivan Necas <inecas@redhat.com>
+	* Turn off the apipie validations for now
+
+2012-12-05	rbirnie <rbirnie@gmail.com>
+	* fix trend labels for ForemanTrends
+
+2012-12-05	Ohad Levy <ohadlevy@gmail.com>
+	* 1.1RC1 released!
+	* fixes #2011 - Param Class optimization fails on Postges
+	* refs #2010, fixes cache issues when selecting an org/location
+	* fixes #2010 - selecting an org/location does not expire topbar cache
+	* fixes #2004 - Location and Orgs are visible in the host show page even when its disable
+	* fixes #2003 - Improve Parameterized classes values retrieval time
+	* SQL improvments for paramaters in host edit section refs #2003
+
+2012-12-05	Dominic Cleal <dcleal@redhat.com>
+	* fixes #1994 - set vardir for puppet 3, use --configprint
+
+2012-12-05	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* support for passing template_kind hash as input parameter during create and update operations
+
+2012-12-05	Ivan Necas <inecas@redhat.com>
+	* fixes #1937 - Foreman doesn't work well when run on subpath
+	* Fix the path for create medium API
+
+2012-12-05	Amos Benari <abenari@redhat.com>
+	* replaced default taxonomy migration with a multiple actions for assigning hosts to orgs and locations.
+	* admins can always reset the taxonomy filters to any
+	* filtered users include admins, except in taxonomy form where it is no longer relevant to select admin users.
+	* minore fix for the edit habtm.
+
+2012-12-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes incorrect javascript at compute resources after taxonomy changes
+	* remove hypervisor vm info from tests refs #1957
+	* Allow admin users to join Orgs
+	* Initial migration fixes for postgresql
+	* ensure all taxonomies migration pass on pgsql as well.
+	* fog 1.8 has been released - updating gem file
+
+2012-12-02	Romain Vrignaud <romain@yakaz.com>
+	* fixes #1886 adds Rackspace V2 support
+
+2012-12-02	Ivan Necas <inecas@redhat.com>
+	* Fix inter-test dependencies
+	* Ignore value of User.current when authorizing
+	* Clear the thread values outside of handling request
+
+2012-12-02	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* added template_kinds controller to api
+
+2012-12-02	Amos Benari <abenari@redhat.com>
+	* Taxonomy (Orgs / Locations related fixes)
+
+2012-11-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #1899 require HTTPS URL for oVirt API, now HTTPS-only
+	* fixes #1976 - fix path to Puppet to /usr/bin
+
+2012-11-28	Joseph Mitchell Magen <jmagen@redhat.com>
+	* removed params required => from update action
+	* Fixes bug in Puppetclass search_for by host
+
+2012-11-28	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that admin user can't be duplicated when running within an org
+	* oops, fixed typos
+	* Minor optimization
+	* make sure that default join objects of taxonomy are RW
+	* ensure no duplicate hosts can be created
+	* ensure that internal users can login correctly when orgs is enabled
+	* Ensure existing org user search is unscoped
+
+2012-11-28	Amos Benari <abenari@redhat.com>
+	* Add organization and location to foreman.
+
+2012-11-26	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #983 - implement 3 state boot
+
+2012-11-22	Dominic Cleal <dcleal@redhat.com>
+	* fixes #1915 - initialise Puppet in master context
+
+2012-11-22	Oved Ourfali <oourfali@redhat.com>
+	* Fixed 1972: Supporting search hosts by uuid
+	* fixes #1961 Adding JSONP support
+
+2012-11-22	Joseph Mitchell Magen <jmagen@redhat.com>
+	* set apiadmin user in headers before api controller tests
+
+2012-11-22	Tomas Strachota <tstrachota@redhat.com>
+	* subnets api - removed required constraints from fields in update
+	* smart proxies api - filtering by proxy type
+
+2012-11-22	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #1968 - Fix require paths for tests with new config/settings.rb
+
+2012-11-22	Brian Gupta <brian.gupta@brandorr.com>
+	* Added header to foremancli calls to call API version 1
+
+2012-11-21	Ohad Levy <ohadlevy@gmail.com>
+	* do not report internal state over api
+	* adds foreman versions to response headers
+	* fixes wrong method name, #refs 1957
+	* fixed wrong old hypervisor migration refs #1957
+	* fixes #1962 incorrect value returned when on the fly ldap is disabled
+
+2012-11-21	Joseph Mitchell Magen <jmagen@redhat.com>
+	* This commit adds most of the functionality required for API v1
+
+2012-11-20	Amos Benari <abenari@redhat.com>
+	* fixes #1637 adds spice support
+
+2012-11-20	Greg Sutcliffe <gsutclif@redhat.com>
+	* Revert "Show all Compute Resources if Compute Resource user filtering is not in use"
+
+2012-11-19	Greg Sutcliffe <gsutclif@redhat.com>
+	* Show all Compute Resources if Compute Resource user filtering is not in use
+	* Fixes #1823 - Use Compute Resources permissions for Virtual Machine tab
+
+2012-11-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1957 - remove old libvirt hypervisors code
+
+2012-11-16	Brian Gupta <brian.gupta@brandorr.com>
+	* Removed deprecated settings for settings.yaml.example
+
+2012-11-15	rbirnie <rbirnie@gmail.com>
+	* update global parameters title to match other views
+
+2012-11-15	Amos Benari <abenari@redhat.com>
+	* fixes #1074 run distribution graph too vague
+	* fixes #1942 Jarring on mouseover colour change in vm list
+	* fixes #1143 Searching for hosts with parameters is broken.
+	* fixes #1400 remove decimal point in distribution bar chart in dashboard.
+
+2012-11-15	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #1470 hosts with no report should not be negative
+
+2012-11-15	Sam Kottler <shk@redhat.com>
+	* fixes #1872 - Adds Puppet v3 support
+	* Fixes #1940 - Update all the unattended templates to use puppet agent
+
+2012-11-15	Ohad Levy <ohadlevy@gmail.com>
+	* refactor AuthSourceLdap Class
+	* fixes #1589 provisioning vmware support
+
+2012-11-14	Dominic Cleal <dcleal@redhat.com>
+	* redhat_register snippet: make RHN server configurable, support RHN hosted
+
+2012-11-14	Martin Bačovský <mbacovsk@redhat.com>
+	* Fixed validation error handling and auth durin admin user creation
+
+2012-11-14	rbirnie <rbirnie@gmail.com>
+	* fix #1925 single value trends pages
+
+2012-11-14	Amos Benari <abenari@redhat.com>
+	* if the ovirt host uses spice now you can connect
+
+2012-11-13	Sam Kottler <shk@redhat.com>
+	* Pin mocha to versions below 0.13.0
+	* Improved spacing and active selection for dropdowns in the topbar
+
+2012-11-13	Ohad Levy <ohadlevy@gmail.com>
+	* Revert "fix #1925 single value trends pages"
+
+2012-11-13	rbirnie <rbirnie@gmail.com>
+	* fixes #1918 dis-associate template kind from OS
+	* fix #1925 single value trends pages
+
+2012-11-11	rbirnie <rbirnie@gmail.com>
+	* Bug #1936 Allow user creation without email
+
+2012-11-11	cyberkov <admin@cyberkov.at>
+	* fixed typo - "replay_address" should be called "reply_address"
+
+2012-11-11	Unknown <flo@WKS-W7-LDN-0034.tradition.int>
+	* fixes #1550 : Test existance before removing index and column.
+
+2012-11-11	Romain Vrignaud <romain@yakaz.com>
+	* fixes #1934 fix display for AWS instances index Set proper status and remove start button for terminated instance
+
+2012-11-11	Sam Kottler <shk@redhat.com>
+	* Fixes #1911 - removes limit from change_column's in a few migrations
+
+2012-11-08	Romain Vrignaud <romain@yakaz.com>
+	* fixes #1876 fix display of instance name and dns for AWS Use instance number when instances name is not set. Use private DNS entry when public dns is not available
+
+2012-11-05	Miroslav Suchý <msuchy@redhat.com>
+	* debian directory is obsolete
+	* spec directory is obsolete
+
+2012-11-04	Sam Kottler <shk@redhat.com>
+	* Added rabl gem version requirement
+	* Fixed array structure in API v1 user controller test
+
+2012-11-01	Greg Sutcliffe <gsutclif@redhat.com>
+	* Refs #1920 : Fix failing tests for Setting[:foreman_url] Ensure plain 'http' protocol is used in templates Add a test to ensure http is used when https is in @request
+
+2012-11-01	rbirnie <rbirnie@gmail.com>
+	* fix #1922 add scrolling to graphs
+
+2012-10-31	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1906 - checked in wrong migration file
+
+2012-10-31	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #1920 - Template URLs should not be based on the browser address bar
+
+2012-10-31	Amos Benari <abenari@redhat.com>
+	* fixed active tab on cached topbar.
+	* fixed hat location on login screen.
+
+2012-10-31	rbirnie <rbirnie@gmail.com>
+	* feature #1906 add Trend information
+
+2012-10-28	Joseph Mitchell Magen <jmagen@redhat.com>
+	* used media/show partial and added to tests
+	* added dns_id, dhcp_id, tft_ip attributes even though they are nested as children to be consistent with current api
+
+2012-10-28	theforemanuser123 <oliver_weinmann@gmx.de>
+	* fixes #1917 Solaris Sparc provisioning templates fix
+
+2012-10-28	rbirnie <rbirnie@gmail.com>
+	* fixes #1862 resets cookie after deleting hosts
+
+2012-10-25	Roberto <roberto_moral@cable.comcast.com>
+	* Fixes validation for hostnames containing hyphens for NFS mounts
+
+2012-10-25	Sam Kottler <shk@redhat.com>
+	* Removed the travis configuration
+
+2012-10-25	theforemanuser123 <oliver_weinmann@gmx.de>
+	* fixes #1913 Solaris architecture fact should always be hardwareisa
+
+2012-10-24	Ohad Levy <ohadlevy@gmail.com>
+	* allows accessing token value from safe mode rendering
+
+2012-10-23	Lukas Zapletal <lzap+git@redhat.com>
+	* redirecting foreman-config log output
+
+2012-10-22	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1907 - audit log should contain puppet class assignments within a hostgroup
+	* fixes #1909 - add host audit entries to host show page
+
+2012-10-22	Petr Chalupa <pchalupa@redhat.com>
+	* minor API v1 fixes
+
+2012-10-21	Joseph Mitchell Magen <jmagen@redhat.com>
+	* typo on index.json.rabl for environments.
+
+2012-10-21	Amos Benari <abenari@redhat.com>
+	* fixes #1772 - sort not working for facts.
+	* fixes #1795 - When deleting compute resource, confirmation box should remind which compute resource is being deleted
+	* fixes #1870 group compute resource by type in the new host form.
+
+2012-10-19	Ohad Levy <ohadlevy@gmail.com>
+	* add subnets to safemode rendering
+
+2012-10-18	Joseph Mitchell Magen <jmagen@redhat.com>
+	* Rails cache returns incorrect value for false values.
+
+2012-10-18	Amos Benari <abenari@redhat.com>
+	* add pagination to compute resource
+	* fix minor css classes declaration.
+	* fixes #1901
+	* fixes #1028 - show and override puppet class parameters in the host form.
+
+2012-10-17	Brian Gupta <brian.gupta@brandorr.com>
+	* Merge pull request #187 from skottler/markitdown
+
+2012-10-17	Sam Kottler <shk@redhat.com>
+	* Made the readme markdown and some minor cleanups
+	* Pinned redcarpet to 2.1.0 or below so native extensions build
+
+2012-10-17	Joseph Mitchell Magen <jmagen@redhat.com>
+	* removed lower() on default_scope to get tests to pass in postgresql
+	* fixes #1755 - changed limit on path from 100 to 255
+	* fixes #1888 - set value to default if zero or less
+
+2012-10-17	cyberkov <admin@cyberkov.at>
+	* fixes #1873 changed domain character count to 254 chars
+
+2012-10-17	Petr Chalupa <pchalupa@redhat.com>
+	* change debug level from debug to info for OAuth failures
+	* auto create admin-user when missing in API requests
+	* log debug info when OAuth authentication fails
+
+2012-10-16	Amos Benari <abenari@redhat.com>
+	* setting page has tabs for categories, yeh!
+
+2012-10-15	abenari <abenari@redhat.com>
+	* Merge pull request #171 from pccowboy/fix_1893
+
+2012-10-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1852 - NoVNC Connection timeout with Firefox 15
+
+2012-10-14	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1892 - ensure that when unattended / orchestation is disabled this code does not executed.
+
+2012-10-11	Joseph Mitchell Magen <jmagen@redhat.com>
+	* shortened fixture name so tests pass on postgresql which doesn't truncate extra string characters
+	* fixed pg db:migration bug that failed on create table media
+
+2012-10-10	David Swift <dswift@pccowboy.com>
+	* fix for #1893
+
+2012-10-10	Sam Kottler <shk@redhat.com>
+	* Add a script to test migrations
+
+2012-10-10	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1892 - make sure hosts objects are not READONLY
+
+2012-10-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1892 - auto generate provisioning tokens based on build state
+
+2012-10-09	Ivan Necas <inecas@redhat.com>
+	* foreman-config - CLI tool for setting Foreman configuration
+
+2012-10-09	Petr Chalupa <pchalupa@redhat.com>
+	* update api documentation
+
+2012-10-04	Sam Kottler <shk@redhat.com>
+	* Upgrade rails core to 3.0.17 fix a bug where single quotes aren't escaped (CVE-2012-3464)
+
+2012-10-04	Greg Sutcliffe <gsutclif@redhat.com>
+	* Use tokens for discovery of host identity during installation
+
+2012-10-03	Ohad Levy <ohadlevy@gmail.com>
+	* allow to serve apidoc in production
+	* Compute Resources should use the friendly name (e.g. oVirt vs Ovirt)
+	* adds BMC proxy feature.
+	* refs #832 do not force smartvars order saved if they are the default or not sent over the wire.
+
+2012-10-03	Petr Chalupa <pchalupa@redhat.com>
+	* users api v1 * fix user documentation * remove password_confirmation from user api * Add json template for users#create
+
+2012-10-03	Rytis Sileika <rytis.sileika@gmail.com>
+	* fixes #1878 - Double quote in the wrong place included invalid kernel boot option
+
+2012-09-26	Ohad Levy <ohadlevy@gmail.com>
+	* refs #832 - making sure that ENC values cast - skipped this patch somehow
+
+2012-09-24	Amos Benari <abenari@redhat.com>
+	* fixes #832 - adds parameterized class support
+
+2012-09-20	Amos Benari <abenari@redhat.com>
+	* fixed deprecation warning.
+
+2012-09-20	Ohad Levy <ohadlevy@gmail.com>
+	* ensure yaml UI output is formatted correctly
+
+2012-09-19	Sam Kottler <shk@redhat.com>
+	* Fixes #1867 - Move ci_reporter into the test group
+
+2012-09-16	Sam Kottler <shk@redhat.com>
+	* Make the CI boostrap script work on RH distros
+
+2012-09-13	Brad P. Crochet <brad@redhat.com>
+	* Add support for Jenkins CI reports
+
+2012-09-13	Sam Kottler <shk@redhat.com>
+	* fixes #1847 Ensure main and Settings aren't shown on the puppetclasses page linked to from the host page
+
+2012-09-05	Gustavo Soares Souza <gustavosouza@corp.globo.com>
+	* fixes #1837 add some indexes to improve performance
+
+2012-09-05	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1825 - unable to select an openstack image.
+	* fixes the prod2dev rake task to handle STI.
+
+2012-09-05	Sam Kottler <shk@redhat.com>
+	* Fixed typo in the word 'associations'
+	* The new form should save 'New compute resource'
+
+2012-09-04	Sam Kottler <shk@redhat.com>
+	* fixes #1840 Only show the help button if a help page exists
+
+2012-09-04	Ohad Levy <ohadlevy@gmail.com>
+	* refs #1843 normally facts base hash has no certname.
+	* fixes #1849 - Add the current hostgroup name when editing
+
+2012-09-03	Ohad Levy <ohadlevy@gmail.com>
+	* trying to fix/figure out travis complains
+	* make sure user expire when editing the user or when logging out
+	* minor SQL improvments
+	* refs #1843 - adds missing lookup
+	* fixes #1843 - Accepts a plain hash as facts source
+
+2012-09-02	Sam Kottler <shk@redhat.com>
+	* Reformatted the 'all puppetclasses' page linked to from hosts
+
+2012-09-02	Ohad Levy <ohadlevy@gmail.com>
+	* minor view improvments to vmware
+	* fixes #1842 - Getting hostgroups via the API takes an eternity.
+	* cherry pick pluck to core extentions, remove it after we upgrade rails.
+
+2012-08-29	Pavel Pokorný <pajkycz@gmail.com>
+	* Subnets API
+
+2012-08-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixed wrong travis yaml
+	* added travis tests for ruby 1.92/3
+
+2012-08-28	Ohad Levy <ohadlevy@gmail.com>
+	* remove the extra requires 'ap' as it breaks travis
+
+2012-08-28	Raphaël Pinson <raphink@gmail.com>
+	* apt-get update in extras/ci/setup.sh
+
+2012-08-26	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* a bunch of fixes to get functional tests running under 1.9.2
+	* fix for FactValuesControllerTest#test_create_invalid
+	* fix failing 'show nested fact json' test in fact_values_controller_test
+	* added environment API
+
+2012-08-26	Pavel Pokorný <pajkycz@gmail.com>
+	* Show kind_id in config templates API
+	* api v1 - domains controller
+
+2012-08-26	David Swift <dswift@pccowboy.com>
+	* add compute_resource.supports_update? to current provider set
+
+2012-08-26	cyberkov <admin@cyberkov.at>
+	* changed dashboard display of interval to use time_ago_in_words
+
+2012-08-16	Ohad Levy <ohadlevy@gmail.com>
+	* remove trailing dot from api auto generated description
+
+2012-08-15	Ohad Levy <ohadlevy@gmail.com>
+	* config templates minor sql improvments
+	* api v1 - config templates
+	* api v1 - added media and dashboard controllers
+
+2012-08-14	Ohad Levy <ohadlevy@gmail.com>
+	* fix smartvar api output
+
+2012-08-14	Lee Lowder <llowder@oreillyauto.com>
+	* refs #1556 Removed .id2name from env variable.
+
+2012-08-13	Nacho Barrientos <nacho.barrientos@cern.ch>
+	* fixes #1820 - Authenticate API calls via REMOTE_USER
+
+2012-08-09	Endre Karlson <endre.karlson@gmail.com>
+	* Quote 'epel' - snippet name.
+
+2012-08-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1793 - Better handle case when a domain has no DNS proxy set
+	* ensures that progress bar json encoding does not contain the object itself
+	* use safer method constantize instead of eval
+
+2012-08-08	Sam Kottler <sam@kottlerdevelopment.com>
+	* [UI] Fixed inconsistent tab naming for the initially active tab
+
+2012-08-08	Petr Chalupa <pchalupa@redhat.com>
+	* api v1 - OAuth user mapping
+
+2012-08-08	cyberkov <admin@cyberkov.at>
+	* fixes #1799 moved REMOTE_ADDR verification to settings
+
+2012-07-31	Sam Kottler <sam@kottlerdevelopment.com>
+	* Fixed tiny typo in the hostgroup unit test
+	* Fixes #1789 - Parent hostgroup name is truncated when its sub-group is a sub-string of the parent hostgroup name
+
+2012-07-31	Amos Benari <abenari@redhat.com>
+	* fixes #1781 - clone host can fail
+	* fixes #1778 - Provisioning Templates editor does not always save
+
+2012-07-30	Sam Kottler <sam@kottlerdevelopment.com>
+	* Fixes #1780 - changes EPEL url from download.fedoraproject.org to dl.fedoraproject.org
+
+2012-07-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1792 - error on json output of usergroups
+	* added a scope per proxy feature
+	* corrected routes DSL
+	* minor cleanups for cache invalidations
+
+2012-07-27	David Swift <dswift@pccowboy.com>
+	* fixes #1783 - Default template set  incorrect snippet names if snippet name uses underscore
+
+2012-07-26	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1781 - clone host can fail
+	* fixes #1778 - Provisioning Templates editor does not always save
+	* make sure usernames are not in the logs
+	* [SQL optimizations] - many small optimizations
+
+2012-07-26	Petr Chalupa <pchalupa@redhat.com>
+	* fixes #1576 - api v1 - oauth support
+
+2012-07-25	Ohad Levy <ohadlevy@gmail.com>
+	* ensures that auto completer for users search works even when you are not an admin
+
+2012-07-24	Ohad Levy <ohadlevy@gmail.com>
+	* ensure no extra white spaces are added to the provisioning templates editor
+	* [API] - minor fixes
+	* cleanup after merge conflict with latest develop branch
+	* fixes #1775 - API versioning name space
+
+2012-07-24	Steve Traylen <steve.traylen@cern.ch>
+	* Openstack uses username/password.
+
+2012-07-24	Martin Bačovský <mbacovsk@redhat.com>
+	* api v1 - Users controller and tests
+	* api v1 - restapi renamed to apipie
+	* api v1 - architectures controler and tests
+	* Fixed error handling in BaseController
+	* Fixed bookmark tests (API v1)
+	* added architectures controller in v1 API
+
+2012-07-24	Petr Chalupa <pchalupa@redhat.com>
+	* api v1 - render home#index links from restapi
+	* api v1 - render errors with rabl
+
+2012-07-24	Corey Osman <corey@logicminds.biz>
+	* split api routes to separate routes file
+
+2012-07-24	Petr Chalupa (Pitr) <git@pitr.ch>
+	* api v1 - fixing permissions
+
+2012-07-24	Tomas Strachota <tstrachota@redhat.com>
+	* api v1 - tests for operating systems controller
+	* api v1 - Authorization
+	* api v1 - operatingsystems controller
+	* api v1 - fisrt version of bookmarks controller
+
 2012-07-22	Ohad Levy <ohadlevy@gmail.com>
+	* updated version file
 	* 1.0
 	* couple of test fixes after upgrading to a newer mocha/shoulda
 	* [refactor] - simple method to display ec2 instance name, instead of using tags everywhere

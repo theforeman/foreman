@@ -3,9 +3,8 @@ class Bookmark < ActiveRecord::Base
   attr_accessible :name, :controller, :query, :public
 
   validates_uniqueness_of :name, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
-  validates_presence_of :name
+  validates_presence_of :name, :controller, :query
   validates_format_of :controller, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
-  validates_presence_of :query
   default_scope :order => :name
   before_validation :set_default_user
 
@@ -14,7 +13,7 @@ class Bookmark < ActiveRecord::Base
     return {} unless SETTINGS[:login] and !user.nil?
 
     user       = User.current
-    conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id in (?) AND bookmarks.owner_type = 'Usergroup') OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.my_usergroups.map(&:id), user.id])
+    conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
     {:conditions => conditions}
   }
 

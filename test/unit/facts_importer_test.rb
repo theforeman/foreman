@@ -1,11 +1,11 @@
 require "test_helper"
 
-class FactsImporter < ActiveSupport::TestCase
+class FactsImporterTest < ActiveSupport::TestCase
   attr_reader :importer
 
   def setup
     @importer = Facts::Importer.new facts
-    User.current = User.where(:login => "admin").first
+    User.current = User.admin
   end
 
   test "should return list of interfaces" do
@@ -18,6 +18,12 @@ class FactsImporter < ActiveSupport::TestCase
     assert_kind_of Operatingsystem, importer.operatingsystem
   end
 
+  test "should raise on an invalid os" do
+    @importer = Facts::Importer.new({})
+    assert_raise RuntimeError do
+      importer.operatingsystem
+    end
+  end
   test "should return an env" do
     assert_kind_of Environment, importer.environment
   end

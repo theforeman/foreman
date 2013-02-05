@@ -12,7 +12,7 @@ class UnattendedController < ApplicationController
   FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
-  skip_before_filter :require_ssl, :require_login, :authorize, :session_expiry, :update_activity_time
+  skip_before_filter :require_ssl, :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy
 
   # require logged in user to see templates in spoof mode
   before_filter do |c|
@@ -84,35 +84,9 @@ class UnattendedController < ApplicationController
   # if the host doesn't exists, it will return 404 and the requested method will not be reached.
 
   def get_host_details
-    # find out ip info
-    if params.has_key? "spoof"
-      ip = params.delete("spoof")
-      @spoof = true
-    elsif (ip = request.env['REMOTE_ADDR']) =~ /127.0.0/
-      ip = request.env["HTTP_X_FORWARDED_FOR"] unless request.env["HTTP_X_FORWARDED_FOR"].nil?
-    end
-
-    ip = ip.split(',').first # in cases where multiple nics/ips exists - see #1619
-
-    # search for a mac address in any of the RHN provisioning headers
-    # this section is kickstart only relevant
-    maclist = []
-    unless request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].nil?
-      begin
-        request.env.keys.each do | header |
-          maclist << request.env[header].split[1].downcase.strip if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/
-        end
-      rescue => e
-        logger.info "unknown RHN_PROVISIONING header #{e}"
-      end
-    end
-
-    # we try to match first based on the MAC, falling back to the IP
-    conditions = maclist.empty? ? {:ip => ip} : [ "lower(mac) IN (?)", maclist.map(&:downcase) ]
-
-    @host = Host.first(:include => [:architecture, :medium, :operatingsystem, :domain], :conditions => conditions)
+    @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
     unless @host
-      logger.info "#{controller_name}: unable to find ip/mac match for #{ip}"
+      logger.info "#{controller_name}: unable to find a host that matches the request from #{request.env['REMOTE_ADDR']}"
       head(:not_found) and return
     end
     unless @host.operatingsystem
@@ -125,6 +99,48 @@ class UnattendedController < ApplicationController
       head(:conflict) and return
     end
     logger.info "Found #{@host}"
+  end
+
+  def find_host_by_spoof
+    spoof = params.delete("spoof")
+    return nil if spoof.blank?
+    @spoof = true
+    Host.find_by_ip(spoof)
+  end
+
+  def find_host_by_token
+    token = params.delete("token")
+    return nil if token.blank?
+    Host.for_token(token).first
+  end
+
+  def find_host_by_ip_or_mac
+    # try to find host based on our client ip address
+    ip = request.env['REMOTE_ADDR']
+
+    # check if someone is asking on behave of another system (load balance etc)
+    if request.env['HTTP_X_FORWARDED_FOR'].present? and (ip =~ Regexp.new(Setting[:remote_addr]))
+      ip = request.env['HTTP_X_FORWARDED_FOR']
+    end
+
+    # in case we got back multiple ips (see #1619)
+    ip = ip.split(',').first
+
+    # search for a mac address in any of the RHN provisioning headers
+    # this section is kickstart only relevant
+    mac_list = []
+    if request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].present?
+      begin
+        request.env.keys.each do |header|
+          mac_list << request.env[header].split[1].strip.downcase if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/
+        end
+      rescue => e
+        logger.info "unknown RHN_PROVISIONING header #{e}"
+        mac_list = []
+      end
+    end
+    # we try to match first based on the MAC, falling back to the IP
+    Host.where(mac_list.empty? ? { :ip => ip } : ["lower(mac) IN (?)", mac_list]).first
   end
 
   def allowed_to_install?
@@ -180,6 +196,7 @@ class UnattendedController < ApplicationController
       @install_type = "initial_install"
       @system_type  = "standalone"
       @cluster      = "SUNWCreq"
+      @packages     = "SUNWgzip"
       @locale       = "C"
     end
     @disk = @host.diskLayout
@@ -209,6 +226,9 @@ class UnattendedController < ApplicationController
   def aif_attributes
     os         = @host.operatingsystem
     @mediapath = os.mediumpath @host
+  end
+
+  def waik_attributes
   end
 
   private

@@ -9,7 +9,7 @@ rootpw --iscrypted <%= root_pass %>
 firewall --service=ssh
 authconfig --useshadow --enablemd5
 timezone UTC
-bootloader --location=mbr --append="nofb quiet splash=quiet --md5pass=<%= root_pass %>"
+bootloader --location=mbr --append="nofb quiet splash=quiet" --md5pass=<%= root_pass %>
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
 <% else -%>
@@ -39,7 +39,7 @@ echo "updating system time"
 /usr/sbin/hwclock --systohc
 
 # install epel if we can
-<%= snippet epel %>
+<%= snippet 'epel' %>
 
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
@@ -61,7 +61,7 @@ echo "Disabling various system services"
   /sbin/chkconfig --level 345 <%= service %> off 2>/dev/null
 <% end -%>
 
-/usr/sbin/puppetd --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
 
 sync
 

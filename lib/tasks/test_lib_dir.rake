@@ -8,3 +8,7 @@ namespace :test do
   end
 
 end
+
+Rake::Task[:test].enhance do
+  Rake::Task['test:lib'].invoke
+end

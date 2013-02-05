@@ -1,2 +1,2 @@
-<%= select_f f,:config_template_id, @operatingsystem.config_templates.where(:template_kind_id => f.object.template_kind_id), :id, :name, {:include_blank => true}, { :label => f.object.template_kind } %>
+<%= selectable_f f,:config_template_id, @operatingsystem.config_templates.where(:template_kind_id => f.object.template_kind_id).collect { |c| [c.name, c.id]}.insert(0, ['', 0]), { }, { :label => f.object.template_kind } %>
 <%= f.hidden_field :template_kind_id %>

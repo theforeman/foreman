@@ -1,4 +1,12 @@
 class AddWindowsTemplates < ActiveRecord::Migration
+
+  class Medium < ActiveRecord::Base
+    has_and_belongs_to_many :operatingsystems
+  end
+  class ConfigTemplate < ActiveRecord::Base
+    has_and_belongs_to_many :operatingsystems
+  end
+
   def self.up
     TemplateKind.all.each do |kind|
       case kind.name

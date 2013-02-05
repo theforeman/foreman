@@ -60,9 +60,9 @@ module Foreman
               viewer.update_attribute :permissions, [:view_hosts,
                 :view_puppetclasses,
                 :view_hostgroups,
-                :view_hypervisors,
                 :view_domains,
                 :view_operatingsystems,
+                :view_locations,
                 :view_media,
                 :view_models,
                 :view_environments,
@@ -78,6 +78,7 @@ module Foreman
                 :view_smart_proxies,
                 :view_subnets,
                 :view_statistics,
+                :view_organizations,
                 :view_usergroups,
                 :view_users,
                 :view_audit_logs]
@@ -100,8 +101,6 @@ module Foreman
                 :view_globals,
                 :view_hostgroups,
                 :view_hosts,
-                :view_hypervisors,
-                :view_hypervisors_guests,
                 :view_smart_proxies_puppetca,
                 :view_smart_proxies_autosign,
                 :create_hosts,
@@ -151,6 +150,8 @@ module Foreman
                 :view_reports,
                 :view_subnets,
                 :view_facts,
+                :view_locations,
+                :view_organizations,
                 :view_statistics]
             end
             if reset or Role.anonymous.permissions.empty?

@@ -2,21 +2,21 @@
 <%= form_tag "/#{controller_path}/obsolete_and_new" do -%>
   <fieldset>
     <legend>Accept these environment changes found in puppet? </legend>
-      <table>
-        <th>Environment</th><th>Operation</th><th>Classes</th>
-        <% for kind in ["new", "obsolete"] -%>
+      <table class="table table-striped">
+        <th>Environment</th><th>Operation</th><th>Puppet Modules</th>
+        <% for kind in ["new", "obsolete", "updated"] -%>
           <% unless (envs = @changed[kind]).empty? -%>
             <% for env in envs.keys.sort -%>
-              <tr class="<%= cycle("even", "odd")-%>" >
+              <tr>
                 <td>
                   <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, true %>
                   <%= env -%>
                 </td>
                 <td>
-                  <%= kind == "new" ? "Add:" : "Remove:" -%>
+                  <%= {"new" => "Add:", "obsolete" => "Remove:", "updated" => "Update:"}[kind] -%>
                 </td>
-                <% pcs = @changed[kind][env] -%>
                 <td>
+                  <% pcs = @changed[kind][env] -%>
                   <%= class_update_text pcs, env %>
                 </td>
               </tr>

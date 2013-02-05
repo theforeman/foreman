@@ -1,3 +1,5 @@
+require 'api_constraints'
+
 Foreman::Application.routes.draw do
   #ENC requests goes here
   match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
@@ -54,28 +56,38 @@ Foreman::Application.routes.draw do
         get 'errors'
         get 'disabled'
         post 'current_parameters'
+        post 'puppetclass_parameters'
         post 'process_hostgroup'
+        post 'process_taxonomy'
         post 'hostgroup_or_environment_selected'
-        post 'hypervisor_selected'
         post 'architecture_selected'
         post 'os_selected'
         post 'domain_selected'
         post 'use_image_selected'
         post 'compute_resource_selected'
         post 'medium_selected'
+        get  'select_multiple_organization'
+        post 'update_multiple_organization'
+        get  'select_multiple_location'
+        post 'update_multiple_location'
       end
 
       constraints(:host_id => /[^\/]+/) do
         resources :reports       ,:only => [:index, :show]
+        resources :audits        ,:only => :index
         resources :facts         ,:only => :index, :controller => :fact_values
         resources :puppetclasses ,:only => :index
         resources :lookup_keys   ,:only => :show
       end
     end
 
+
     resources :bookmarks, :except => [:show]
     resources :lookup_keys, :except => [:new, :create] do
       resources :lookup_values, :only => [:index, :create, :update, :destroy]
+      collection do
+        get 'auto_complete_search'
+      end
     end
 
     resources :facts, :only => [:index, :show] do
@@ -84,15 +96,6 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :hypervisors do
-      constraints(:id => /[^\/]+/) do
-        resources :guests, :controller => "Hypervisors::Guests", :except => [:edit] do
-          member do
-            put 'power'
-          end
-        end
-      end
-    end if SETTINGS[:libvirt]
   end
 
   resources :settings, :only => [:index, :update] do
@@ -112,6 +115,11 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
+  resources :trends do
+    collection do
+      post 'count'
+    end
+  end
 
   resources :hostgroups do
     member do
@@ -121,7 +129,6 @@ Foreman::Application.routes.draw do
     collection do
       get 'auto_complete_search'
       post 'environment_selected'
-      post 'hypervisor_selected'
       post 'architecture_selected'
       post 'os_selected'
       post 'domain_selected'
@@ -136,11 +143,15 @@ Foreman::Application.routes.draw do
       post 'obsolete_and_new'
       get 'auto_complete_search'
     end
+    member do
+      post 'parameters'
+    end
     constraints(:id => /[^\/]+/) do
       resources :hosts
       resources :lookup_keys, :except => [:show, :new, :create]
     end
   end
+
 
   resources :smart_proxies, :except => [:show] do
     constraints(:id => /[^\/]+/) do
@@ -185,17 +196,17 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:unattended]
+    resources :config_templates do
+      collection do
+        get 'auto_complete_search'
+        get 'build_pxe_default'
+        get 'revision'
+      end
+    end
     constraints(:id => /[^\/]+/) do
       resources :domains do
         collection do
           get 'auto_complete_search'
-        end
-      end
-      resources :config_templates do
-        collection do
-          get 'auto_complete_search'
-          get 'build_pxe_default'
-          get 'revision'
         end
       end
     end
@@ -278,6 +289,45 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
-  #Keep this line the last route
-  match '*a', :to => 'errors#routing'
+  if SETTINGS[:locations_enabled]
+    resources :locations do
+      resources :hosts, :only => :index
+      member do
+        get 'select'
+        match "clone" => 'locations#clone_taxonomy'
+        post 'import_mismatches'
+        get 'step2'
+        get 'assign_hosts'
+        post 'assign_all_hosts'
+        put 'assign_selected_hosts'
+      end
+      collection do
+	      get 'auto_complete_search'
+        get 'clear', :action => 'select'
+        get  'mismatches'
+        post 'import_mismatches'
+      end
+    end
+  end
+
+  if SETTINGS[:organizations_enabled]
+    resources :organizations do
+      member do
+        get 'select'
+        match "clone" => 'organizations#clone_taxonomy'
+        post 'import_mismatches'
+        get 'step2'
+        get 'assign_hosts'
+        post 'assign_all_hosts'
+        put 'assign_selected_hosts'
+      end
+      collection do
+	      get 'auto_complete_search'
+        get 'clear', :action => 'select'
+        get  'mismatches'
+        post 'import_mismatches'
+      end
+    end
+  end
+
 end

@@ -36,7 +36,7 @@ module ReportsHelper
           else
             "default"
           end
-    "class='label label-#{tag}'"
+    "class='label label-#{tag}'".html_safe
   end
 
    def logs_show

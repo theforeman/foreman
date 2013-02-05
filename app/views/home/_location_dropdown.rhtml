@@ -1,0 +1,25 @@
+<li class="divider"></li>
+<li class="nav-header">Location</li>
+<li class="dropdown-submenu">
+  <% location_count = Location.my_locations.count %>
+  <%= location_dropdown location_count %>
+  <ul class="dropdown-menu">
+    <% if show_add_location_button? location_count%>
+      <div class="no-taxonomies">
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          There aren't any locations yet.
+        </div>
+        <%= link_to "New Location", new_location_path, :class => "btn btn-primary" %>
+      </div>
+    <% else %>
+      <% if location_count > 1 || User.current.admin? %>
+        <li><%= link_to('Any Location', clear_locations_path) %></li>
+        <%= content_tag(:li, "", :class=>"divider") %>
+      <% end %>
+      <% Location.my_locations.each do |location| %>
+        <li><%= link_to(location.name, select_location_path(location)) %></li>
+      <% end -%>
+    <% end %>
+  </ul>
+</li>

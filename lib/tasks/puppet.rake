@@ -60,7 +60,7 @@ namespace :puppet do
     task :puppet_classes,  [:batch] => :environment do | t, args |
       args.batch = args.batch == "true"
 
-      proxies = Environment.find_import_proxies
+      proxies = SmartProxy.puppet_proxies
       if proxies.empty?
         puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
         exit 1
@@ -77,7 +77,8 @@ namespace :puppet do
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless args.batch
-        changes = Environment.importClasses proxy.id
+        importer = PuppetClassImporter.new({ :url => proxy.url })
+        changes  = importer.changes
       rescue => e
         if args.batch
           Rails.logger.error "Failed to refresh puppet classes: #{e}"
@@ -98,7 +99,7 @@ namespace :puppet do
           puts "Scheduled changes to your environment"
           puts "Create/update environments"
           for env, classes in changes["new"]
-            print "%-15s: %s\n" % [env, classes.to_sentence]
+            print "%-15s: %s\n" % [env, classes.inspect]
           end
           puts "Delete environments"
           for env, classes in changes["obsolete"]
@@ -118,9 +119,9 @@ namespace :puppet do
         errors = ""
         # Apply the filtered changes to the database
         begin
-          changed = { :new => changes["new"], :obsolete => changes["obsolete"] }
-          [:new, :obsolete].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].inspect } }
-          errors = Environment.obsolete_and_new(changed)
+          changed = { 'new' => changes["new"], 'obsolete' => changes["obsolete"] }
+          ['new', 'obsolete'].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].to_json } }
+          errors = PuppetClassImporter.new.obsolete_and_new(changed)
         rescue => e
           errors = e.message + "\n" + e.backtrace.join("\n")
         end

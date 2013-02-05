@@ -1,24 +1,24 @@
 require 'foreman/controller/host_details'
+require 'foreman/controller/smart_proxy_auth'
+require 'foreman/controller/taxonomy_multiple'
 
 class HostsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::TaxonomyMultiple
+  include Foreman::Controller::SmartProxyAuth
 
-  # actions which don't require authentication and are always treated as the admin user
-  ANONYMOUS_ACTIONS=[ :externalNodes, :lookup ]
+  PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters}
-  skip_before_filter :require_login, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :require_ssl, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :authorize, :only => ANONYMOUS_ACTIONS
-  skip_before_filter :session_expiry, :update_activity_time, :only => ANONYMOUS_ACTIONS
-  before_filter :set_admin_user, :only => ANONYMOUS_ACTIONS
 
+  add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
-    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun, :multiple_puppetrun]
+    :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
+    :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console]
 
@@ -31,7 +31,7 @@ class HostsController < ApplicationController
       error e.to_s
       search = Host.my_hosts.search_for ''
     end
-      respond_to do |format|
+    respond_to do |format|
       format.html do
         @hosts = search.paginate :page => params[:page], :include => included_associations
         # SQL optimizations queries
@@ -64,7 +64,7 @@ class HostsController < ApplicationController
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
       format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
-      format.json { render :json => @host.to_json({:methods => [:host_parameters]}) }
+      format.json { render :json => @host.to_json({:methods => [:host_parameters], :include => :interfaces }) }
     end
   end
 
@@ -84,8 +84,8 @@ class HostsController < ApplicationController
 
   def create
     @host = Host.new(params[:host])
-    @host.managed = true
-    forward_request_url
+    @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+    forward_url_options
     if @host.save
       process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
     else
@@ -100,13 +100,15 @@ class HostsController < ApplicationController
   end
 
   def update
-    forward_request_url
-    if @host.update_attributes(params[:host])
-      process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
-    else
-      load_vars_for_ajax
-      offer_to_overwrite_conflicts
-      process_error
+    forward_url_options
+    Taxonomy.no_taxonomy_scope do
+      if @host.update_attributes(params[:host])
+        process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
+      else
+        load_vars_for_ajax
+        offer_to_overwrite_conflicts
+        process_error
+      end
     end
   end
 
@@ -127,16 +129,21 @@ class HostsController < ApplicationController
   def hostgroup_or_environment_selected
     return head(:method_not_allowed) unless request.xhr?
 
-    @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
-    @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
-    @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
-    if @environment or @hostgroup
-      @host ||= Host.new
-      @host.hostgroup   = @hostgroup if @hostgroup
-      @host.environment = @environment if @environment
-      render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
-    else
-      head(:not_found)
+    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
+    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
+    Taxonomy.as_taxonomy @organization, @location do
+
+      @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
+      @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
+      @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
+      if @environment or @hostgroup
+        @host ||= Host.new
+        @host.hostgroup   = @hostgroup if @hostgroup
+        @host.environment = @environment if @environment
+        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
+      else
+        head(:not_found)
+      end
     end
   end
 
@@ -153,7 +160,7 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => @host.info.to_yaml.gsub("\n","<br/>") }
+        format.html { render :text => "<pre>#{@host.info.to_yaml}</pre>" }
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue
@@ -174,7 +181,7 @@ class HostsController < ApplicationController
   end
 
   def setBuild
-    forward_request_url
+    forward_url_options
     if @host.setBuild
       process_success :success_msg => "Enabled #{@host} for rebuild on next boot", :success_redirect => :back
     else
@@ -192,11 +199,20 @@ class HostsController < ApplicationController
 
   def power
     return unless @host.compute_resource && params[:power_action]
-    action = params[:power_action]
+    action = case params[:power_action]
+               when 'start'
+                 :start
+               when 'stop'
+                 :stop
+               else
+                 logger.warn "invalid power state #{params[:power_action]}"
+                 invalid_request and return
+             end
     vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
     begin
       vm.send(action)
-      process_success :success_redirect => :back, :success_msg =>  "#{vm} is now #{vm.ready? ? "running" : "stopped"}"
+      vm.reload
+      process_success :success_redirect => :back, :success_msg => "#{vm} is now #{vm.state.capitalize}"
     rescue => e
       process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
     end
@@ -309,7 +325,7 @@ class HostsController < ApplicationController
 
   def submit_multiple_build
     @hosts.delete_if do |host|
-      host.request_url = request.host_with_port if host.respond_to?(:request_url)
+      forward_url_options(host)
       host.setBuild
     end
 
@@ -380,7 +396,7 @@ class HostsController < ApplicationController
 
   def out_of_sync
     merge_search_filter("last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true")
-    index "Hosts which didn't run puppet in the last #{Setting[:puppet_interval] + 5} minutes"
+    index "Hosts which didn't run puppet in the last #{view_context.time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago)}"
   end
 
   def disabled
@@ -392,50 +408,60 @@ class HostsController < ApplicationController
     @hostgroup = Hostgroup.find(params[:hostgroup_id]) if params[:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
-    @architecture    = @hostgroup.architecture
-    @operatingsystem = @hostgroup.operatingsystem
-    @environment     = @hostgroup.environment
-    @domain          = @hostgroup.domain
-    @subnet          = @hostgroup.subnet
+    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
+    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
+    Taxonomy.as_taxonomy @organization, @location do
 
-    @host = Host.new
-    @host.hostgroup = @hostgroup
-    @host.compute_resource_id = params[:compute_resource_id] if params[:compute_resource_id].present?
-    @host.set_hostgroup_defaults
+      @architecture    = @hostgroup.architecture
+      @operatingsystem = @hostgroup.operatingsystem
+      @environment     = @hostgroup.environment
+      @domain          = @hostgroup.domain
+      @subnet          = @hostgroup.subnet
+
+      @host = Host.new
+      @host.hostgroup = @hostgroup
+      @host.compute_resource_id = params[:compute_resource_id] if params[:compute_resource_id].present?
+      @host.set_hostgroup_defaults
 
 
-    render :update do |page|
-      [:environment_id, :puppet_ca_proxy_id, :puppet_proxy_id].each do |field|
-        page["*[id*=#{field}]"].val(@hostgroup.send(field)) if @hostgroup.send(field).present?
-      end
-      page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
-
-      if SETTINGS[:unattended]
-        if !@host.compute_resource_id and (@hypervisor = @hostgroup.hypervisor)
-          @hypervisor.connect
-          # we are in a view context
-          controller.send(:update_hypervisor_details, @host, page)
-          @hypervisor.disconnect
+      render :update do |page|
+        [:environment_id, :puppet_ca_proxy_id, :puppet_proxy_id].each do |field|
+          page["*[id*=#{field}]"].val(@hostgroup.send(field)) if @hostgroup.send(field).present?
         end
+        page['#puppet_klasses'].html(render(:partial => 'puppetclasses/class_selection', :locals => {:obj => @host})) if @environment
 
-        if @architecture
-          page['#os_select'].html(render(:partial => 'common/os_selection/architecture', :locals => {:item => @host}))
-          page['#*[id*=architecture_id]'].val(@architecture.id)
-        end
+        if SETTINGS[:unattended]
+          if @architecture
+            page['#os_select'].html(render(:partial => 'common/os_selection/architecture', :locals => {:item => @host}))
+            page['#*[id*=architecture_id]'].val(@architecture.id)
+          end
 
-        page['#media_select'].html(render(:partial => 'common/os_selection/operatingsystem', :locals => {:item => @host})) if @operatingsystem
+          page['#media_select'].html(render(:partial => 'common/os_selection/operatingsystem', :locals => {:item => @host})) if @operatingsystem
 
-        if @domain
-          page['*[id*=domain_id]'].val(@domain.id)
-          if @domain.subnets.any?
-            page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
-            page['#host_subnet_id'].val(@subnet.id).change if @subnet
-            page['#sp_subnet'].html(render(:partial => 'hosts/sp_subnet', :locals => {:item => @host}))
+          if @domain
+            page['*[id*=domain_id]'].val(@domain.id)
+            if @domain.subnets.any?
+              page['#subnet_select'].html(render(:partial => 'common/domain', :locals => {:item => @host}))
+              page['#host_subnet_id'].val(@subnet.id).change if @subnet
+            end
           end
         end
       end
     end
   end
+
+  def process_taxonomy
+    location = organization = nil
+    organization = Organization.find(params[:host][:organization_id]) unless params[:host][:organization_id].empty?
+    location = Location.find(params[:host][:location_id]) unless params[:host][:location_id].empty?
+    return head(:not_found) unless location || organization
+
+    @host = Host.new(params[:host])
+    Taxonomy.as_taxonomy organization, location do
+      render :partial => "form"
+    end
+  end
+
 
   def template_used
     kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
@@ -449,7 +475,12 @@ class HostsController < ApplicationController
 
   def current_parameters
     @host = Host.new params['host']
-    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params}
+    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params(true)}
+  end
+
+  def puppetclass_parameters
+    @host = Host.new params['host']
+    render :partial => "puppetclasses/classes_parameters", :locals => { :obj => @host}
   end
 
   private
@@ -464,22 +495,21 @@ class HostsController < ApplicationController
 
   def load_vars_for_ajax
     return unless @host
+
     @environment     = @host.environment
     @architecture    = @host.architecture
     @domain          = @host.domain
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
-    @hypervisor      = @host.hypervisor if @host.respond_to?(:hypervisor)
     if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
       @host.compute_attributes = params[:host][:compute_attributes]
     end
-
   end
 
   def find_multiple
   # Lets search by name or id and make sure one of them exists first
     if params[:host_names].present? or params[:host_ids].present?
-      @hosts = Host.all(:conditions => ["id IN (?) or name IN (?)", params[:host_ids], params[:host_names] ])
+      @hosts = Host.where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
       if @hosts.empty?
         error 'No hosts were found with that id or name'
         redirect_to(hosts_path) and return false
@@ -508,18 +538,9 @@ class HostsController < ApplicationController
     redirect_to(hosts_path)
   end
 
-  # Returns the associations to include when doing a search.
-  # If the user has a fact_filter then we need to include :fact_values
-  # We do not include most associations unless we are processing a html page
-  def included_associations(include = [])
-    include += [:hostgroup, :domain, :operatingsystem, :environment, :model, :host_parameters]
-    include += [:fact_values] if User.current.user_facts.any?
-    include
-  end
-
   # this is required for template generation (such as pxelinux) which is not done via a web request
-  def forward_request_url
-    @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+  def forward_url_options(host = @host)
+    host.url_options = url_options if @host.respond_to?(:url_options)
   end
 
   def merge_search_filter filter

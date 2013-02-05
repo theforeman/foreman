@@ -1,4 +1,12 @@
 class AddSuseTemplates < ActiveRecord::Migration
+
+  class Medium < ActiveRecord::Base
+    has_and_belongs_to_many :operatingsystems
+  end
+  class ConfigTemplate < ActiveRecord::Base
+    has_and_belongs_to_many :operatingsystems
+  end
+
   def self.up
     TemplateKind.all.each do |kind|
       case kind.name
@@ -22,13 +30,13 @@ class AddSuseTemplates < ActiveRecord::Migration
     disk = Ptable.create :name => "SuSE Entire Virtual Disk", :layout =>"  <partitioning  config:type=\"list\">\n    <drive>\n      <device>/dev/vda</device>       \n      <use>all</use>\n    </drive>\n  </partitioning>"
     disk.operatingsystems = os
 
-    Medium.reset_column_information
     medium = Medium.create :name => "OpenSuSE mirror", :path => "http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss"
     medium.operatingsystems = os
 
   rescue Exception => e
     # something bad happened, but we don't want to break the migration process
     Rails.logger.warn "Failed to migrate #{e}"
+    say "Failed to migrate #{e}"
     return true
 
   end

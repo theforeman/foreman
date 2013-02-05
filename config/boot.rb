@@ -1,11 +1,6 @@
 require 'rubygems'
 require 'yaml'
-
-root     = File.expand_path(File.dirname(__FILE__) + "/..")
-SETTINGS = YAML.load_file("#{root}/config/settings.yaml")
-SETTINGS[:version]    = File.read(root + "/VERSION").chomp rescue ("N/A")
-SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
-SETTINGS[:login]    ||= SETTINGS[:ldap]
+require File.expand_path('../../config/settings', __FILE__)
 
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
@@ -16,8 +11,8 @@ if File.exists?(ENV['BUNDLE_GEMFILE'])
   begin
     if SETTINGS[:unattended]
       Bundler.setup(:unattended)
-      Bundler.setup(:virt)
-      require 'virt'
+      Bundler.setup(:libvirt)
+      require 'libvirt'
       SETTINGS[:libvirt] = true
     else
       SETTINGS[:libvirt] = false

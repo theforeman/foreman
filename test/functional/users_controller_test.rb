@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  def setup
+    setup_users
+  end
+
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success
@@ -24,15 +28,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
-  test "should not remove the anonymous role" do
+  def test_one #"should not remove the anonymous role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles =([roles :anonymous])
+    assert user.roles =([roles(:anonymous)])
 
     put :update, { :commit => "Submit", :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert mod_user.roles =([roles :anonymous])
+    assert mod_user.roles =([roles(:anonymous)])
   end
 
   test "should set password" do
@@ -100,30 +104,24 @@ class UsersControllerTest < ActionController::TestCase
   test "should recreate the admin account" do
     return true unless SETTINGS[:login]
     return true unless SETTINGS[:login] == false
-    User.find_by_login("admin").delete # Of course we only use destroy in the codebase
+    User.admin.delete # Of course we only use destroy in the codebase
     assert User.find_by_login("admin").nil?
     get :index, {}, {:user => nil}
     assert !User.find_by_login("admin").nil?
   end
 
-  def setup_users
-    User.current = users :admin
-    user = User.find_by_login("one")
-    @request.session[:user] = user.id
-    @request.session[:expires_at] = 5.minutes.from_now
-    user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-    user.save!
-  end
-
   test 'user with viewer rights should fail to edit a user' do
-    setup_users
     get :edit, {:id => User.first.id}
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing users' do
-    setup_users
     get :index
     assert_response :success
+  end
+
+  test "should clear the current user after processing the request" do
+    get :index, {}, set_session_user
+    assert User.current.nil?
   end
 end

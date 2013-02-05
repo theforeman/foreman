@@ -118,6 +118,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   def test_history_in_edit
+    setup_users
     ConfigTemplate.auditing_enabled = true
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     template = ConfigTemplate.first
@@ -126,6 +127,6 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_equal template.audits.count, 1
     get :edit, {:id => template.to_param}, set_session_user
 
-    assert @response.body.grep('audit-content')
+    assert @response.body.match('audit-content')
   end
 end

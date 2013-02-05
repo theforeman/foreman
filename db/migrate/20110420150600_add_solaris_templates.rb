@@ -1,4 +1,7 @@
 class AddSolarisTemplates < ActiveRecord::Migration
+  class ConfigTemplate < ActiveRecord::Base
+    has_and_belongs_to_many :operatingsystems
+  end
   def self.up
     TemplateKind.create :name =>"PXEGrub"
     TemplateKind.all.each do |kind|

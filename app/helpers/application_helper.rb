@@ -35,12 +35,12 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, options.merge({:class => "btn btn-small btn-success"}) )
+    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
   def toggle_div divs
     update_page do |page|
-      (divs.is_a?(Array) ? divs : divs.to_s).each do |div|
+      (divs.is_a?(Array) ? divs : divs.to_s).each_line do |div|
         # add jquery '#div' to the div if its missing
         div = div.to_s
         div = "##{div}" if div[0] != "#"
@@ -53,21 +53,36 @@ module ApplicationHelper
     end
   end
 
-  def link_to_remove_puppetclass klass
+  def link_to_remove_puppetclass klass, host
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
                      :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
+                     :'data-url' => parameters_puppetclass_path( :id => klass.id),
+                     :'data-host-id' => host.id,
                      :class=>"ui-icon ui-icon-minus")
   end
 
-  def link_to_add_puppetclass klass, type
+  def link_to_add_puppetclass klass, host, type
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("", "add_puppet_class(this)",
-                       'data-class-id' => klass.id, 'data-type' => type,
-                       'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
+                       :'data-class-id' => klass.id, 'data-type' => type,
+                       :'data-url' => parameters_puppetclass_path( :id => klass.id),
+                       :'data-host-id' => host.try(:id),
+                       :'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
                        :class => "ui-icon ui-icon-plus")
+  end
+
+  def add_html_classes options, classes
+    options = options.dup unless options.nil?
+    options ||= {}
+    options[:class] = options[:class].dup if options.has_key? :class
+    options[:class] ||= []
+    options[:class] = options[:class].split /\s+/ if options[:class].is_a? String
+    classes = classes.split /\s+/ if classes.is_a? String
+    options[:class] += classes
+    options
   end
 
   def check_all_links(form_name=':checkbox')
@@ -159,7 +174,7 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to "Help", :action => "welcome"
+    link_to "Help", :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
   def method_path method
@@ -186,7 +201,7 @@ module ApplicationHelper
                   :'chart-name'   => name,
                   :'chart-title'  => title,
                   :'chart-data'   => data.to_a.to_json,
-                  :'chart-href'   => options[:search] ? "/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
+                  :'chart-href'   => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
                 }.merge(options))
   end
 
@@ -215,17 +230,29 @@ module ApplicationHelper
     return if args.length == 0
 
     #single button
-    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+    return content_tag(:span, args[0].html_safe, :class=>'btn btn-small') if args.length == 1
 
     #multiple buttons
-    primary = args.delete_at(0)
+    primary =  args.delete_at(0).html_safe
+    primary = content_tag(:span, primary, :class=>'btn btn-small') if primary !~ /btn/
 
     content_tag(:div,:class => "btn-group") do
-      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>'btn dropdown-toggle', :'data-toggle'=>'dropdown') +
+      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>"btn #{'btn-small' if primary =~ /small/} dropdown-toggle", :'data-toggle'=>'dropdown') +
       content_tag(:ul,:class=>"dropdown-menu") do
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
     end
+  end
+
+  def gravatar_image_tag(email, html_options = {})
+    default_image = "/images/user.jpg"
+    html_options.merge!(:onerror=>"this.src='#{default_image}'")
+    image_tag(gravatar_url(email, default_image), html_options)
+  end
+
+  def gravatar_url(email, default_image)
+    return default_image if email.blank?
+    "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?d=mm&s=30"
   end
 
   private

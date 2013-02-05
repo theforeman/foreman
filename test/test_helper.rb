@@ -7,6 +7,7 @@ class ActiveSupport::TestCase
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
+
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
@@ -20,15 +21,39 @@ class ActiveSupport::TestCase
   end
 
   def set_session_user
-    SETTINGS[:login] ? {:user => User.find_by_login("admin").id, :expires_at => 5.minutes.from_now} : {}
+    SETTINGS[:login] ? {:user => User.admin.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def as_admin
+  def as_user user
     saved_user   = User.current
-    User.current = users(:admin)
+    User.current = users(user)
     result = yield
     User.current = saved_user
     result
+  end
+
+  def as_admin &block
+    as_user :admin, &block
+  end
+
+  def setup_users
+    User.current = users :admin
+    user = User.find_by_login("one")
+    @request.session[:user] = user.id
+    @request.session[:expires_at] = 5.minutes.from_now
+    user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    user.save!
+  end
+
+  def setup_user operation, type=""
+    @one = users(:one)
+    as_admin do
+      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+      role.permissions = ["#{operation}_#{type}".to_sym]
+      @one.roles = [role]
+      @one.save!
+    end
+    User.current = @one
   end
 
   def unattended?
@@ -48,6 +73,7 @@ class ActiveSupport::TestCase
     Net::DHCP::SparcRecord.any_instance.stubs(:create).returns(true)
     Net::DHCP::Record.any_instance.stubs(:conflicting?).returns(false)
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["production"])
+    ProxyAPI::DHCP.any_instance.stubs(:unused_ip).returns('127.0.0.1')
   end
 
   def disable_orchestration
@@ -56,9 +82,17 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::TestCase
-  setup :setup_set_script_name
+  setup :setup_set_script_name, :set_api_user
 
   def setup_set_script_name
     @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
+
+  def set_api_user
+    return unless self.class.to_s[/api/i]
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:apiadmin).login, "secret")
+  end
+
 end
+
+Apipie.configuration.validate = false

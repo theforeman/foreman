@@ -16,7 +16,7 @@
     <td><%= image.operatingsystem %></td>
     <td><%= image.username %></td>
     <td><%= image.uuid %></td>
-    <td><%= action_buttons(link_to('Edit', edit_compute_resource_image_path(@compute_resource, image), :class => "btn"),
+    <td><%= action_buttons(link_to('Edit', edit_compute_resource_image_path(@compute_resource, image)),
      link_to('Destroy', [@compute_resource, image], :confirm => 'Are you sure?', :method => :delete)) %></td>
   </tr>
 <% end %>

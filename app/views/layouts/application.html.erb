@@ -2,11 +2,12 @@
 <html>
   <head>
     <title> <%= h(yield(:title) || "Foreman") %></title>
-    <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style', 'bootstrap-responsive.min' %>
+    <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style', 'bootstrap-responsive.min', 'multi-select', 'wizard' %>
     <%= javascript_include_tag :defaults, 'jquery_ujs', 'jquery-ui', 'highcharts', 'charts', 'jquery.jnotify', 'jquery.jeditable',
-        'bootstrap.min', 'bootstrap-dropdown', 'bootstrap-alert', 'bootstrap-tab', 'bootstrap-modal', 'bootstrap-tooltip', 'bootstrap-popover', 'bootstrap-collapse' %>
+      'bootstrap.min', 'jquery.multi-select', 'jquery.dataTables.min', 'jquery.dataTables.bootstrap-paging' %>
     <%= csrf_meta_tag %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+    <%= javascript_tag "var URL_PREFIX = '#{request.script_name}';" %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0;" />
     <%= yield(:head) %>
@@ -15,7 +16,7 @@
   <body>
     <div id="wrap">
 
-      <div class="navbar navbar-fixed-top">
+      <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
           <div class="container">
             <%= render 'home/topbar' %>
@@ -31,15 +32,15 @@
         <div id="content" class="container">
           <% unless @page_header.blank? -%>
             <div class="row control-group">
-              <h1 class="span12"><%=h @page_header %></h1>
+              <h1 class="span8"><%=h @page_header %></h1><span class="navbar span4"><%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %></span>
             </div>
           <% end -%>
           <div class="row">
-            <div class= <%= searchable? ? "span6" : "span4" %>>
+            <div class="<%= searchable? ? "span6" : "span4" %>">
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>&nbsp;
             </div>
-            <div id="title_action" class=<%= searchable? ? "span6" : "span8" %>>
+            <div id="title_action" class="<%= searchable? ? "span6" : "span8" %>">
               <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
             </div>
           </div>
@@ -49,10 +50,10 @@
       </div>
     </div>
     <div id="footer">
-      Version <%= SETTINGS[:version] %> &copy; 2009-<script>document.write( (new Date()).getFullYear() );</script> <%= mail_to "paul.ian.kelly@googlemail.com", "Paul Kelly" %> and <%= mail_to "ohadlevy@gmail.com", "Ohad Levy" %>
+      Version <%= SETTINGS[:version] %> &copy; 2009-<script>document.write( (new Date()).getFullYear() );</script> Paul Kelly and <%= mail_to "ohadlevy@gmail.com", "Ohad Levy" %>
       <span>
         <%= link_to "Help",    :controller => "dashboard", :action => "welcome" %> |
-        <%= link_to 'Wiki',    "http://theforeman.org/wiki/foreman", :rel => "external", :rel => "external" %> | 
+        <%= link_to 'Wiki',    "http://theforeman.org/wiki/foreman", :rel => "external", :rel => "external" %> |
         <%= link_to 'Support', "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
       </span>
     </div>

@@ -45,7 +45,14 @@ module Orchestration::SSHProvision
 
     def setSSHWaitForResponse
       logger.info "Starting SSH provisioning script - waiting for #{ip} to respond"
-      self.client = Foreman::Provision::SSH.new ip, image.username, :template => template_file.path, :uuid => uuid, :key_data => [compute_resource.key_pair.secret]
+      if compute_resource.respond_to?(:key_pair) and compute_resource.key_pair.try(:secret)
+        credentials = { :key_data => [compute_resource.key_pair.secret] }
+      elsif vm.respond_to?(:password) and vm.password.present?
+        credentials = { :password => vm.password, :auth_methods => ["password"] }
+      else
+        raise 'Unable to find proper authentication method'
+      end
+      self.client = Foreman::Provision::SSH.new ip, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
 
     rescue => e
       failure "Failed to login via SSH to #{name}: #{e}", e.backtrace
@@ -103,7 +110,7 @@ module Orchestration::SSHProvision
     end
     status = false if template.nil?
     failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
-    image_uuid = compute_attributes[:image_id]
+    image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
     unless (self.image = Image.find_by_uuid(image_uuid))
       status &= failure("Must define an Image to use")
     end

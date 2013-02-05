@@ -49,6 +49,20 @@ class DomainTest < ActiveSupport::TestCase
     assert_match /is used by/, @domain.errors.full_messages.join("\n")
   end
 
+  test "domain can be assigned to locations" do
+    location1 = Location.create :name => "Zurich"
+    assert location1.save!
+
+    location2 = Location.create :name => "Switzerland"
+    assert location2.save!
+
+    domain = Domain.create :name => "test.net"
+    domain.locations = []
+    domain.locations.push location1
+    domain.locations.push location2
+    assert domain.save!
+  end
+
 #I must find out how to create a fact_name inside of fact_value
 
 #  test "should counts how many times a fact value exists in this domain" do
@@ -109,6 +123,8 @@ class DomainTest < ActiveSupport::TestCase
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
     record = domains(:useless)
+    record.interfaces.clear
+    record.hosts.clear
     assert record.destroy
     assert record.frozen?
   end

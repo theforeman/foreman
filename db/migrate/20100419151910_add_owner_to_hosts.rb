@@ -1,4 +1,7 @@
 class AddOwnerToHosts < ActiveRecord::Migration
+  class User < ActiveRecord::Base; end
+  class Host < ActiveRecord::Base; end
+
   def self.up
     add_column :hosts, :owner_id,   :integer
     add_column :hosts, :owner_type, :string
