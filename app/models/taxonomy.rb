@@ -89,6 +89,24 @@ class Taxonomy < ActiveRecord::Base
     new
   end
 
+  # overwrite domain_ids, since domain_ids for has_many polymorphic is not working in Rails in 3.0.x. It works in 3.2.11
+  # don't overwrite location_ids and organizations_ids since their HABTM methods work
+  (TaxHost::HASH_KEYS - [:location_ids, :organizations_ids]).each do |key|
+    # def domain_ids
+    #   return Domain.pluck(:id) if ignore?("Domain")
+    #   self.taxable_taxonomies.where(:taxable_type => "Domain").pluck(:taxable_id)
+    # end
+    define_method(key) do
+      klass = hash_key_to_class(key)
+      if ignore?(klass)
+          return User.unscoped.except_admin.pluck(:id) if klass == "User"
+          return klass.constantize.pluck(:id)
+      else
+        taxable_taxonomies.where(:taxable_type => klass).pluck(:taxable_id)
+      end
+    end
+  end
+
   private
 
   delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans, :to => :tax_host
@@ -100,6 +118,10 @@ class Taxonomy < ActiveRecord::Base
 
   def tax_host
     @tax_host ||= TaxHost.new(self)
+  end
+
+  def hash_key_to_class(key)
+    key.to_s.gsub(/_ids?$/, '').classify
   end
 
 end
