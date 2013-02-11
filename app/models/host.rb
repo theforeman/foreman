@@ -603,7 +603,7 @@ class Host < Puppet::Rails::Host
   end
 
   def classes_from_storeconfigs
-    klasses = resources.all(:conditions => 'restype = "Class" AND title != "main" AND title != "Settings"', :select => :title, :order => :title)
+    klasses = resources.select(:title).where(:restype => "Class").where("title <> ? AND title <> ?", "main", "Settings").order(:title)
     klasses.map!(&:title).delete(:main)
     klasses
   end
