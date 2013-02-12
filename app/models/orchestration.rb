@@ -158,7 +158,7 @@ module Orchestration
     # we keep the before update host object in order to compare changes
     def setup_clone
       return if new_record?
-      @old = clone
+      @old = dup
       for key in (changed_attributes.keys - ["updated_at"])
         @old.send "#{key}=", changed_attributes[key]
         # At this point the old cached bindings may still be present so we force an AR association reload
