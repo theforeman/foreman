@@ -11,6 +11,11 @@
   <% else %>
 	  <%= text_f f, :uuid, :label => "Image ID", :help_inline => "Image ID as provided by the compute resource, e.g. ami-.." %>
   <% end%>
+  <% if @compute_resource.provider == 'EC2' %>
+    <%# TODO - Get IAM roles from AWS and display in select drop %>
+    <%= text_f f, :iam_role, :label => "IAM Role", :help_inline => "(optional) IAM Role for Fog to use when creating this image." %>
+  <% end %>
+
   <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>
 <% end %>
 
