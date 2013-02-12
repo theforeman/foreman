@@ -3,7 +3,7 @@ module Orchestration::Compute
     base.send :include, InstanceMethods
     base.class_eval do
       attr_accessor :compute_attributes, :vm, :provision_method
-      after_validation :queue_compute
+      after_validation :validate_compute_provisioning, :queue_compute
       before_destroy :queue_compute_destroy
     end
   end
@@ -139,6 +139,18 @@ module Orchestration::Compute
       return false unless compute_resource.supports_update?
       old.compute_attributes = compute_resource.find_vm_by_uuid(uuid).attributes
       compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
+    end
+
+    def validate_compute_provisioning
+      return true if compute_attributes.nil?
+      image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
+      return true if image_uuid.blank?
+      img = Image.where(:uuid => image_uuid, :compute_resource_id => compute_resource_id).first
+      if img
+        self.image = img
+      else
+        failure("Selected image does not belong to #{compute_resource}") and return false
+      end
     end
 
   end

@@ -33,6 +33,11 @@ module Foreman::Model
       if (name = args[:name])
         args.merge!(:tags => {:Name => name})
       end
+      if (image_id = args[:image_id])
+        image = images.find_by_uuid(image_id)
+        iam_hash = image.iam_role.present? ? {:iam_instance_profile_name => image.iam_role} : {}
+        args.merge!(iam_hash)
+      end
       super(args)
     end
 
