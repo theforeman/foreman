@@ -1,4 +1,22 @@
+2013-02-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2198 - add AJAX routes to existing permissions to fix non-admin UI
+
+2013-02-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2196 - create tmp/ if it doesn't exist
+	* fixes #2110 - bump safemode to support !=
+
+2013-02-12	Gaël Chamoulaud <gael@redhat.com>
+	* Fixes #2199: Fix install media submit/cancel buttons when locations/orgs disabled - When locations and Organizations are disabled, the submit/cancel Buttons are not well displayed when you want to add a new medium.
+
+2013-02-12	Dennis Hoppe <dennis.hoppe@debian-solutions.de>
+	* fixes #2193 SQL error on Postgres 9.1 for classes_from_storeconfigs
+
+2013-02-06	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2166 - error when clearing location
+
 2013-02-01	Ohad Levy <ohadlevy@gmail.com>
+	* bump version to 1.1
+	* released 1.1
 	* refs #2141 - ensures no duplicate trends are created
 	* include nested host routes in the api documentation
 
