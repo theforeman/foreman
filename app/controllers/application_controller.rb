@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action])
+    return true if action == 'auto_complete_search' && User.current.allowed_to?({:controller => ctrl, :action => 'index'})
     allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
     allowed ? true : deny_access
   end
