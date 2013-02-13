@@ -374,7 +374,7 @@ class HostTest < ActiveSupport::TestCase
 
     pc = puppetclasses(:two)
     h.puppetclasses << pc
-    assert !h.environment.puppetclasses.include?(pc)
+    assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
     assert !h.valid?
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end

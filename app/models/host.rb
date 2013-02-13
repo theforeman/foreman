@@ -15,7 +15,7 @@ class Host < Puppet::Rails::Host
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
-
+  belongs_to :domain
   belongs_to :location
   belongs_to :organization
 
