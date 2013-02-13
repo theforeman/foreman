@@ -24,7 +24,7 @@ class SubnetTest < ActiveSupport::TestCase
     @subnet.mask = nil
     assert !@subnet.save
 
-    set_attr(:mask=)
+    @subnet.mask = "255.255.255.0"
     assert @subnet.save
   end
 
@@ -66,8 +66,9 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should find the subnet by ip" do
-    set_attr(:network=, :mask=, :domains=, :name=)
+    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
     assert @subnet.save
+    assert @subnet.domain_ids = [domains(:mydomain).id]
     assert_equal @subnet, Subnet.subnet_for("123.123.123.1")
   end
 
@@ -79,9 +80,10 @@ class SubnetTest < ActiveSupport::TestCase
 
   def create_a_domain_with_the_subnet
     @domain = Domain.find_or_create_by_name("domain")
-    set_attr(:network=, :mask=, :name=)
-    @subnet.domains = [@domain]
-    @subnet.save
+    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
+    assert @subnet.save
+    assert @subnet.domain_ids = [domains(:mydomain).id]
+    @subnet.save!
   end
 
   def setup_user operation
@@ -97,15 +99,17 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "user with create permissions should be able to create" do
     setup_user "create"
-    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
+    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0"
+    assert record.domain_ids = [Domain.first.id]
     assert record.valid?
     assert !record.new_record?
   end
 
   test "user with view permissions should not be able to create" do
     setup_user "view"
-    record =  Subnet.create :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
+    record =  Subnet.new :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0"
     assert record.valid?
+    assert !record.save
     assert record.new_record?
   end
 
