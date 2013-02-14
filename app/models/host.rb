@@ -861,7 +861,7 @@ class Host < Puppet::Rails::Host
     end if SETTINGS[:unattended] and managed? and os and capabilities.include?(:build)
 
     puppetclasses.uniq.each do |e|
-      unless environment.puppetclasses.include?(e)
+      unless environment.puppetclasses.map(&:id).include?(e.id)
         errors.add(:puppetclasses, "#{e} does not belong to the #{environment} environment")
         status = false
       end
