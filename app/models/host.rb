@@ -710,12 +710,12 @@ class Host < Puppet::Rails::Host
     read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
   end
 
-  def dup
+  def clone
     new = super
     new.puppetclasses = puppetclasses
     # Clone any parameters as well
     host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
-    interfaces.each {|int| new.interfaces << int.dup }
+    interfaces.each {|int| new.interfaces << int.clone }
     # clear up the system specific attributes
     [:name, :mac, :ip, :uuid, :certname, :last_report].each do |attr|
       new.send "#{attr}=", nil
