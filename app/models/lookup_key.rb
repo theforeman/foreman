@@ -126,7 +126,7 @@ class LookupKey < ActiveRecord::Base
 
   # Generate possible lookup values type matches to a given host
   def path2matches host
-    raise "Invalid Host" unless host.is_a?(Host)
+    raise "Invalid Host" unless host.class.model_name == "Host"
     matches = []
     path_elements.each do |rule|
       match = []

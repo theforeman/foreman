@@ -1,8 +1,10 @@
 class Environment < ActiveRecord::Base
   include Taxonomix
+  include Hostmix
+
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
-  has_many :hosts
+  add_host_associations :has_many # Host STI
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates_presence_of :name

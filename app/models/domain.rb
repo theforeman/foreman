@@ -3,8 +3,9 @@ require "resolv"
 class Domain < ActiveRecord::Base
   include Authorization
   include Taxonomix
+  include Hostmix
 
-  has_many :hosts
+  add_host_associations :has_many # Host STI
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets)

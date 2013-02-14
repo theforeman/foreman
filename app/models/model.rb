@@ -1,6 +1,8 @@
 class Model < ActiveRecord::Base
   include Authorization
-  has_many :hosts
+  include Hostmix
+
+  add_host_associations :has_many # Host STI
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates_uniqueness_of :name
