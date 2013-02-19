@@ -102,4 +102,14 @@
     color:#ffffff;
     background-color: #999;
     text-decoration: none;
+    margin-top: 3px;
+}
+
+.ms-header .ms-filter{
+    padding-right: 14px;
+    padding-left: 14px;
+    margin-bottom: 0;
+    -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px;
+    height: 12px !important;
+    width: 130px;
 }
