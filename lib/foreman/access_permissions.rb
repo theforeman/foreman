@@ -121,7 +121,7 @@ Foreman::AccessControl.map do |map|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions}
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
-    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :submit_multiple_build],
+    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
                                     :tasks => tasks_ajax_actions}
     map.permission :power_hosts,   {:hosts => [:power]}
     map.permission :console_hosts, {:hosts => [:console]}
