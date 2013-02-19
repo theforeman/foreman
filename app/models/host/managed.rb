@@ -468,8 +468,8 @@ class Host::Managed < Host::Base
       return true unless last_compile.nil? or (last_compile + 1.minute < time)
       self.last_compile = time
     end
-    # save all other facts - pre 0.25 it was called setfacts
-    respond_to?("merge_facts") ? self.merge_facts(facts) : self.setfacts(facts)
+    # save all other facts
+    self.merge_facts(facts)
     save(:validate => false)
 
     populateFieldsFromFacts(facts)
@@ -483,6 +483,44 @@ class Host::Managed < Host::Base
 
   rescue Exception => e
     logger.warn "Failed to save #{name}: #{e}"
+  end
+
+  # Borrowed from Puppet::Rails:Host
+  def merge_facts(facts)
+    db_facts = {}
+
+    deletions = []
+    self.fact_values.find(:all, :include => :fact_name).each do |value|
+      deletions << value['id'] and next unless facts.include?(value['name'])
+      # Now store them for later testing.
+      db_facts[value['name']] ||= []
+      db_facts[value['name']] << value
+    end
+
+    # Now get rid of any parameters whose value list is different.
+    # This might be extra work in cases where an array has added or lost
+    # a single value, but in the most common case (a single value has changed)
+    # this makes sense.
+    db_facts.each do |name, value_hashes|
+      values = value_hashes.collect { |v| v['value'] }
+
+      unless values == facts[name]
+        value_hashes.each { |v| deletions << v['id'] }
+      end
+    end
+
+    # Perform our deletions.
+    FactValue.delete(deletions) unless deletions.empty?
+
+    # Lastly, add any new parameters.
+    facts.each do |name, value|
+      next if db_facts.include?(name)
+      values = value.is_a?(Array) ? value : [value]
+
+      values.each do |v|
+        fact_values.build(:value => v, :fact_name => FactName.find_or_create_by_name(name))
+      end
+    end
   end
 
   def populateFieldsFromFacts facts = self.facts_hash
