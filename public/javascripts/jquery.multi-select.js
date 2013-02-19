@@ -455,7 +455,7 @@
 $(function(){
   $('select[multiple]').multiSelect({
     disabledClass : 'disabled disabled_item',
-    selectableHeader: $("<div class='ms-header'>All items<a href='#' title='Select All' class='ms-select-all pull-right icon-plus icon-white'></a></div>"),
+    selectableHeader: $("<div class='ms-header'>All items <input placeholder='Filter' class='ms-filter' type='text'><a href='#' title='Select All' class='ms-select-all pull-right icon-plus icon-white'></a></div>"),
     selectionHeader: $("<div class='ms-header'>Selected items<a href='#' title='Deselect All' class='ms-deselect-all pull-right icon-minus icon-white'></a></div>")
   });
 });
@@ -466,6 +466,10 @@ $(document).on('click', '.ms-select-all', function () {
 $(document).on('click', '.ms-deselect-all', function () {
   $(this).closest('.controls').find('select[multiple]').multiSelect('deselect_all');
   return false;
+});
+
+$(document).on('keyup', '.ms-filter', function() {
+  ms_filter(this);
 });
 
 $(function(){
@@ -480,3 +484,20 @@ $(function(){
     }
   })
 });
+$.extend($.expr[':'], {
+  'containsi': function(elem, i, match)
+  {
+    return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+  }
+});
+function ms_filter(item){
+  var term = $(item).val().trim();
+  var selectable =   $(item).closest('.ms-selectable').find('.ms-elem-selectable');
+
+  if (term.length > 0) {
+    selectable.addClass('hide');
+    selectable.find('span:containsi('+term+')').parent('li').removeClass('hide');
+  } else {
+    selectable.removeClass('hide');
+  }
+}
