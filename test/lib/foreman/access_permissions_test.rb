@@ -27,7 +27,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     "config_templates/build_pxe_default",
     "facts/index", "facts/show",
     "hostgroups/nest",
-    "hosts/multiple_build", "hosts/multiple_puppetrun", "hosts/submit_multiple_enable", "hosts/update_multiple_puppetrun",
+    "hosts/multiple_puppetrun", "hosts/submit_multiple_enable", "hosts/update_multiple_puppetrun",
     "hosts/pending", "hosts/puppetrun", "hosts/pxe_config", "hosts/show_search", "hosts/storeconfig_klasses",
     "images/create", "images/destroy", "images/edit", "images/index", "images/new", "images/show", "images/update",
     "locations/assign_all_hosts", "locations/assign_hosts", "locations/assign_selected_hosts",
