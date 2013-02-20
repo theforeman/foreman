@@ -1,4 +1,5 @@
 require File.expand_path('../config/settings', __FILE__)
+require File.expand_path('../lib/regexp_extensions', __FILE__)
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.20'
