@@ -42,6 +42,15 @@ module Taxonomix
       end
     end
 
+    # overwrite location_ids & organization_ids, since *_ids with has_many polymorphic is not working in Rails in 3.0.x. It works in 3.2.11
+    def location_ids
+      locations.pluck(:id)
+    end
+
+    def organization_ids
+      organizations.pluck(:id)
+    end
+
   end
 
 end
