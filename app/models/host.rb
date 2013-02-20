@@ -1,6 +1,6 @@
 require 'facts_importer'
 
-class Host < Puppet::Rails::Host
+class Host < BaseHost
   include Authorization
   include ReportCommon
   belongs_to :model
