@@ -6,6 +6,8 @@ class Host < BaseHost
   belongs_to :model
   has_many :host_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :host_classes
+  has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
+  has_many :fact_names, :through => :fact_values
   belongs_to :hostgroup
   has_many :reports, :dependent => :destroy
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id

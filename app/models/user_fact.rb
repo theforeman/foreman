@@ -2,7 +2,7 @@ require 'puppet/rails'
 
 class UserFact < ActiveRecord::Base
   belongs_to :user
-  belongs_to :fact_name, :class_name => "Puppet::Rails::FactName"
+  belongs_to :fact_name
 
   validates_inclusion_of :andor,    :in => %w{and or}
   validates_inclusion_of :operator, :in => %w{= !=  > >= < <= }

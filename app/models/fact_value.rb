@@ -1,5 +1,6 @@
-class FactValue < Puppet::Rails::FactValue
-  belongs_to :host #ensures we uses our Host model and not Puppets
+class FactValue < ActiveRecord::Base
+  belongs_to :host
+  belongs_to :fact_name
   delegate :name, :to => :fact_name
   has_many :hostgroup, :through => :host
 
