@@ -56,6 +56,7 @@ class Host < Puppet::Rails::Host
   end
 
   attr_reader :cached_host_params
+  attr_accessor :managed_ip # only used for compute_resource_vm in orchestration
 
   default_scope lambda {
       org = Organization.current
@@ -349,6 +350,10 @@ class Host < Puppet::Rails::Host
 
   def all_puppetclasses
     hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
+  end
+
+  def provided_attributes
+    compute_resource.provided_attributes(self)
   end
 
   # provide information about each node, mainly used for puppet external nodes
@@ -697,7 +702,7 @@ class Host < Puppet::Rails::Host
   end
 
   def require_ip_validation?
-    managed? and !compute? or (compute? and !compute_resource.provided_attributes.keys.include?(:ip))
+    managed? and !compute? or (compute? and !provided_attributes.keys.include?(:ip))
   end
 
   # if certname does not exist, use hostname instead

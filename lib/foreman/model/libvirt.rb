@@ -3,8 +3,8 @@ module Foreman::Model
 
     validates_format_of :url, :with => URI.regexp
 
-    def provided_attributes
-      super.merge({:mac => :mac})
+    def provided_attributes host
+      super(host).merge({:mac => :mac})
     end
 
     def capabilities

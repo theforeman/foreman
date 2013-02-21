@@ -124,3 +124,16 @@ function ovirt_clusterSelected(item){
       }
     })
 }
+
+function ec2_vpcSelected(form, security_groups, subnets){
+   $('#host_compute_attributes_security_group_ids').empty()
+   if(form.value != ''){
+   	vpc=subnets[form.value]
+   }
+   else{
+	vpc = 'ec2'
+   }
+   for(sg in security_groups[vpc]){
+      $('#host_compute_attributes_security_group_ids').append('<option value="'+security_groups[vpc][sg]+'">'+security_groups[vpc][sg]+' - '+vpc+'</option>');
+   }
+}
