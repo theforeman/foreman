@@ -1,6 +1,5 @@
 module Taxonomix
   def self.included(base)
-    base.send :include, InstanceMethods
 
     base.class_eval do
       taxonomy_join_table = "taxable_taxonomies"
@@ -31,17 +30,23 @@ module Taxonomix
         sanitize_sql_for_conditions([" OR users.admin = ?", true]) if self == User
       end
 
-    end
-  end
-
-  module InstanceMethods
-    def set_current_taxonomy
-      if self.new_record? && self.errors.empty?
-        self.locations    << Location.current      if Taxonomy.locations_enabled and Location.current
-        self.organizations << Organization.current if Taxonomy.organizations_enabled and Organization.current
+      def set_current_taxonomy
+        if self.new_record? && self.errors.empty?
+          self.locations    << Location.current      if Taxonomy.locations_enabled and Location.current
+          self.organizations << Organization.current if Taxonomy.organizations_enabled and Organization.current
+        end
       end
-    end
 
+      # overwrite location_ids & organization_ids, since *_ids with has_many polymorphic is not working in Rails in 3.0.x. It works in 3.2.11
+      def location_ids
+        locations.pluck(:id)
+      end
+
+      def organization_ids
+        organizations.pluck(:id)
+      end
+
+    end
   end
 
 end
