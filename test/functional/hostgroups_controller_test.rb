@@ -107,4 +107,19 @@ class HostgroupsControllerTest < ActionController::TestCase
     get :index, {}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
+
+  test 'owners of a hostgroup up in the hierarchy get ownership of all children' do
+    User.current = User.first
+    sample_user = users(:one)
+
+    Hostgroup.new(:name => "root").save
+    Hostgroup.find_by_name("root").users << sample_user
+
+    post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}}, set_session_user
+    post :create, {"hostgroup" => {"name"=>"second", "parent_id"=> Hostgroup.find_by_name("first").id}}, set_session_user
+
+    assert_equal sample_user,  Hostgroup.find_by_name("first").users.first
+    assert_equal sample_user,  Hostgroup.find_by_name("second").users.first
+  end
+
 end
