@@ -181,7 +181,7 @@ function load_puppet_class_parameters(item) {
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
 
   var url = $(item).attr('data-url');
-  var data = $("form").serialize().replace('method=put', 'method=post');;
+  var data = $("form").serialize().replace('method=put', 'method=post');
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
@@ -328,8 +328,7 @@ function architecture_selected(element){
 }
 
 function os_selected(element){
-  var attrs   = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id']);
-  var os_id = $(element).val();
+  var attrs = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
   $.ajax({
     data: attrs,
@@ -436,7 +435,7 @@ function override_class_param(item){
 
 function reload_params(){
   var url = $('#params-tab').attr('data-url');
-  var data = $("[data-submit='progress_bar']").serialize();
+  var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
   load_with_placeholder('inherited_parameters', url, data)
 
   var url2 = $('#params-tab').attr('data-url2');
@@ -444,6 +443,7 @@ function reload_params(){
 }
 
 function load_with_placeholder(target, url, data){
+  if(url==undefined) return;
   var placeholder = $('<tr id="' + target + '_loading" >'+
             '<td colspan="4"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);

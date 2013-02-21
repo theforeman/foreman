@@ -29,14 +29,14 @@
 
       <div class="tab-pane" id="users">
         <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Users", :multiple => true, :onchange => 'ignore_checked(this)'}, "User") %>
-        <%= multiple_selects f, :users, taxonomy, User.except_admin, taxonomy.selected_ids[:user_ids],
+        <%= multiple_selects f, :users, User.except_admin, taxonomy.selected_ids[:user_ids],
            {:disabled => taxonomy.used_and_selected_ids[:user_ids]},
            {'data-mismatches' => taxonomy.need_to_be_selected_ids[:user_ids].to_json} %>
       </div>
 
       <div class="tab-pane" id="smart_proxies">
         <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Smart Proxies", :multiple => true, :onchange => 'ignore_checked(this)'}, "SmartProxy") %>
-        <%= multiple_selects f, :smart_proxies, taxonomy, SmartProxy, taxonomy.selected_ids[:smart_proxy_ids],
+        <%= multiple_selects f, :smart_proxies, SmartProxy, taxonomy.selected_ids[:smart_proxy_ids],
            {:disabled => taxonomy.used_and_selected_ids[:smart_proxy_ids]},
            {'data-mismatches' => taxonomy.need_to_be_selected_ids[:smart_proxy_ids].to_json} %>
       </div>
@@ -44,35 +44,35 @@
       <% if SETTINGS[:unattended] %>
         <div class="tab-pane" id="subnets">
           <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Subnets", :multiple => true, :onchange => 'ignore_checked(this)'}, "Subnet") %>
-          <%= multiple_selects f, :subnets, taxonomy, Subnet, taxonomy.selected_ids[:subnet_ids],
+          <%= multiple_selects f, :subnets, Subnet, taxonomy.selected_ids[:subnet_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:subnet_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:subnet_ids].to_json} %>
         </div>
 
         <div class="tab-pane" id="compute_resources">
           <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Compute Resources", :multiple => true, :onchange => 'ignore_checked(this)'}, "ComputeResource") %>
-          <%= multiple_selects f, :compute_resources, taxonomy, ComputeResource, taxonomy.selected_ids[:compute_resource_ids],
+          <%= multiple_selects f, :compute_resources, ComputeResource, taxonomy.selected_ids[:compute_resource_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:compute_resource_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:compute_resource_ids].to_json} %>
         </div>
 
         <div class="tab-pane" id="media">
           <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Media", :multiple => true, :onchange => 'ignore_checked(this)'}, "Medium") %>
-          <%= multiple_selects f, :media, taxonomy, Medium, taxonomy.selected_ids[:medium_ids],
+          <%= multiple_selects f, :media, Medium, taxonomy.selected_ids[:medium_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:medium_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:medium_ids].to_json} %>
         </div>
 
         <div class="tab-pane" id="template">
           <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Templates", :multiple => true, :onchange => 'ignore_checked(this)'}, "ConfigTemplate") %>
-          <%= multiple_selects f, :config_templates, taxonomy, ConfigTemplate, taxonomy.selected_ids[:config_template_ids],
+          <%= multiple_selects f, :config_templates, ConfigTemplate, taxonomy.selected_ids[:config_template_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:config_template_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:config_template_ids].to_json} %>
         </div>
 
         <div class="tab-pane" id="domains">
           <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Domains", :multiple => true, :onchange => 'ignore_checked(this)'}, "Domain") %>
-          <%= multiple_selects f, :domains, taxonomy, Domain, taxonomy.selected_ids[:domain_ids],
+          <%= multiple_selects f, :domains, Domain, taxonomy.selected_ids[:domain_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:domain_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:domain_ids].to_json} %>
         </div>
@@ -80,27 +80,27 @@
 
       <div class="tab-pane" id="environments">
         <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Environments", :multiple => true, :onchange => 'ignore_checked(this)'}, "Environment") %>
-        <%= multiple_selects f, :environments, taxonomy, Environment, taxonomy.selected_ids[:environment_ids],
+        <%= multiple_selects f, :environments, Environment, taxonomy.selected_ids[:environment_ids],
             {:disabled => taxonomy.used_and_selected_ids[:environment_ids]},
             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:environment_ids].to_json} %>
       </div>
 
       <div class="tab-pane" id="hostgroups">
         <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => "All Hostgroups", :multiple => true, :onchange => 'ignore_checked(this)'}, "Hostgroup") %>
-        <%= multiple_selects f, :hostgroups, taxonomy, Hostgroup, taxonomy.selected_ids[:hostgroup_ids],
+        <%= multiple_selects f, :hostgroups, Hostgroup, taxonomy.selected_ids[:hostgroup_ids],
             {:disabled => taxonomy.used_and_selected_ids[:hostgroup_ids]},
             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:hostgroup_ids].to_json} %>
      </div>
 
       <% if taxonomy.is_a?(Location) && SETTINGS[:locations_enabled] %>
         <div class="tab-pane" id="organizations">
-          <%= multiple_selects f, :organizations, taxonomy, Organization, taxonomy.selected_ids[:organization_ids],
+          <%= multiple_selects f, :organizations, Organization, taxonomy.selected_ids[:organization_ids],
             {:disabled => taxonomy.used_and_selected_ids[:organization_ids]},
             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:organization_ids].to_json} %>
         </div>
       <% elsif taxonomy.is_a?(Organization) && SETTINGS[:organizations_enabled] %>
         <div class="tab-pane" id="locations">
-          <%= multiple_selects f, :locations, taxonomy, Location, taxonomy.selected_ids[:location_ids],
+          <%= multiple_selects f, :locations, Location, taxonomy.selected_ids[:location_ids],
             {:disabled => taxonomy.used_and_selected_ids[:location_ids]},
             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:location_ids].to_json} %>
         </div>
