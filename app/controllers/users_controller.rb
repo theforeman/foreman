@@ -150,15 +150,8 @@ class UsersController < ApplicationController
   end
 
   def update_hostgroups_owners(hostgroup_ids)
-    hostgroup_ids.each { |hs| depth_first_search(Hostgroup.find(hs)) }
-  end
-
-  def depth_first_search(hostgroup)
-    return if hostgroup.nil?
-    hostgroup.children.each do |hs|
-      hs.users << @user
-      depth_first_search(hs)
-    end
+    subhostgroups = hostgroup_ids.map { |hs| Hostgroup.find(hs) }.map(&:subtree).flatten
+    subhostgroups.each { |subhs| subhs.users << @user }
   end
 
 end
