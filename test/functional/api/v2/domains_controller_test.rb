@@ -8,12 +8,6 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     taxonomies(:organization1).domain_ids = [domains(:mydomain).id]
   end
 
-  test "should get all domains if not location_id or organization_id in path" do
-    get :index, {}
-    assert_response :success
-    assert_equal assigns(:domains), Domain.all
-  end
-
   test "should get domains for location only" do
     get :index, {:location_id => taxonomies(:location1).id }
     assert_response :success
