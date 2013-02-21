@@ -68,57 +68,55 @@ Foreman::Application.routes.draw do
       end
       resources :template_combinations, :only => [:show, :destroy]
 
-      # The following resources are above in v1, so the RESTful actions will NOT be called for v2. Only nested resources not in v1 will be called for v2
-      # hosts, domains, compute_resources, subnets, environments, usergroups, hostgroups, smart_proxies, users, media, operatingsystems
       constraints(:id => /[^\/]+/) do
-        resources :hosts, :except => [:new, :edit] do
+        resources :hosts, :only => [] do
           resources :parameters, :except => [:new, :edit]
         end
 
-        resources :domains, :except => [:new, :edit] do
+        resources :domains, :only => [] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           resources :parameters, :except => [:new, :edit]
         end
 
-        resources :compute_resources, :except => [:new, :edit] do
+        resources :compute_resources, :only => [] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         end
       end
 
-      resources :subnets, :except => [:new, :edit] do
+      resources :subnets, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :environments, :except => [:new, :edit] do
+      resources :environments, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :hostgroups, :except => [:new, :edit] do
+      resources :hostgroups, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         resources :parameters, :except => [:new, :edit]
       end
 
-      resources :smart_proxies, :except => [:new, :edit] do
+      resources :smart_proxies, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :users, :except => [:new, :edit] do
+      resources :users, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :media, :except => [:new, :edit] do
+      resources :media, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :operatingsystems, :except => [:new, :edit] do
+      resources :operatingsystems, :only => [] do
         resources :parameters, :except => [:new, :edit]
       end
 
