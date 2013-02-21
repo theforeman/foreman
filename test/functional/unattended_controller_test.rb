@@ -126,8 +126,7 @@ class UnattendedControllerTest < ActionController::TestCase
     hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
     get :preseed
     expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_tokenised_template")
-    # @response.body contains <head> and page header and footer and expected do not, which caused the test to fail if assert_equal
-    assert @response.body.include? expected
+    assert_equal expected, @response.body
   end
 
   test "template should not contain https when ssl enabled" do
@@ -136,7 +135,7 @@ class UnattendedControllerTest < ActionController::TestCase
     get :preseed
     expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_http_preseed_template")
     # @response.body contains <head> and page header and footer and expected do not, which caused the test to fail if assert_equal
-    assert @response.body.include? expected
+    assert_equal expected, @response.body
   end
 
 end
