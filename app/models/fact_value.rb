@@ -1,5 +1,8 @@
-class FactValue < Puppet::Rails::FactValue
-  belongs_to :host #ensures we uses our Host model and not Puppets
+class FactValue < ActiveRecord::Base
+  include Hostmix
+
+  add_host_associations :belongs_to # Host STI
+  belongs_to :fact_name
   delegate :name, :to => :fact_name
   has_many :hostgroup, :through => :host
 

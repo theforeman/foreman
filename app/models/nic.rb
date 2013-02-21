@@ -4,6 +4,7 @@ module Nic
   class Base < ActiveRecord::Base
     include Authorization
     include Foreman::STI
+    include Hostmix
 
     set_table_name :nics
 
@@ -26,7 +27,7 @@ module Nic
     scope :interfaces, where(:type => "Nic::Interface")
     scope :managed, where(:type => "Nic::Managed")
 
-    belongs_to :host, :inverse_of => :interfaces
+    add_host_associations :belongs_to, :inverse_of => :interfaces # Host STI
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
