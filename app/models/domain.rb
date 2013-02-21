@@ -87,4 +87,11 @@ class Domain < ActiveRecord::Base
     Net::DNS.lookup query, proxy, resolver
   end
 
+  # returns parameters as a hash
+  def parameters include_source = false
+    hash = {}
+    domain_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :domain} : p.value }
+    hash
+  end
+
 end
