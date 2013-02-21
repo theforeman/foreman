@@ -12,7 +12,7 @@ require 'foreman/access_permissions'
 # an appropriate permission so views using those requests function.
 class AccessPermissionsTest < ActiveSupport::TestCase
   MAY_SKIP_REQUIRE_LOGIN = [
-    "users/login", "users/logout", "home/status",
+    "users/login", "users/logout", "home/status", "notices/destroy", "unattended/",
 
     # puppetmaster interfaces
     "fact_values/create", "reports/create",
@@ -20,26 +20,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     # Users may switch taxonomies
     "locations/clear", "locations/select", "organizations/clear", "organizations/select",
 
-    # TODO: list of actions that should be assigned to or have permissions created
+    # No controller action actually exists, shouldn't be permitted either
     "audits/create", "audits/destroy", "audits/edit", "audits/new", "audits/update",
-    "compute_resources/test_connection",
-    "compute_resources_vms/console", "compute_resources_vms/edit", "compute_resources_vms/new", "compute_resources_vms/update",
-    "config_templates/build_pxe_default",
-    "facts/index", "facts/show",
-    "hostgroups/nest",
-    "hosts/multiple_puppetrun", "hosts/submit_multiple_enable", "hosts/update_multiple_puppetrun",
-    "hosts/pending", "hosts/puppetrun", "hosts/pxe_config", "hosts/show_search", "hosts/storeconfig_klasses",
-    "images/create", "images/destroy", "images/edit", "images/index", "images/new", "images/show", "images/update",
-    "locations/assign_all_hosts", "locations/assign_hosts", "locations/assign_selected_hosts",
-    "locations/clone_taxonomy", "locations/import_mismatches", "locations/mismatches", "locations/step2",
-    "organizations/assign_all_hosts", "organizations/assign_hosts", "organizations/assign_selected_hosts",
-    "organizations/clone_taxonomy", "organizations/import_mismatches", "organizations/mismatches", "organizations/step2",
-    "lookup_values/create", "lookup_values/destroy", "lookup_values/index", "lookup_values/update",
-    "notices/destroy",
-    "operatingsystems/bootfiles",
-    "puppetclasses/obsolete_and_new",
-    "subnets/create_multiple", "subnets/import",
-    "trends/count"
   ]
 
   # For each controller action, verify it has a permission that grants access

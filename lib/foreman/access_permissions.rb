@@ -32,17 +32,20 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :compute_resources do |map|
+    ajax_actions = [:test_connection]
     map.permission :view_compute_resources,    {:compute_resources => [:index, :show, :auto_complete_search]}
-    map.permission :create_compute_resources,  {:compute_resources => [:new, :create]}
-    map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update]}
+    map.permission :create_compute_resources,  {:compute_resources => [:new, :create].push(*ajax_actions)}
+    map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update].push(*ajax_actions)}
     map.permission :destroy_compute_resources, {:compute_resources => [:destroy]}
   end
 
   map.security_block :compute_resources_vms do |map|
     map.permission :view_compute_resources_vms,    {:compute_resources_vms => [:index, :show]}
-    map.permission :create_compute_resources_vms,  {:compute_resources_vms => [:create]}
+    map.permission :create_compute_resources_vms,  {:compute_resources_vms => [:new, :create]}
+    map.permission :edit_compute_resources_vms,    {:compute_resources_vms => [:edit, :update]}
     map.permission :destroy_compute_resources_vms, {:compute_resources_vms => [:destroy]}
     map.permission :power_compute_resources_vms,   {:compute_resources_vms => [:power]}
+    map.permission :console_compute_resources_vms, {:compute_resources_vms => [:console]}
   end
 
   map.security_block :config_templates do |map|
@@ -50,6 +53,7 @@ Foreman::AccessControl.map do |map|
     map.permission :create_templates,  {:config_templates => [:new, :create]}
     map.permission :edit_templates,    {:config_templates => [:edit, :update]}
     map.permission :destroy_templates, {:config_templates => [:destroy]}
+    map.permission :deploy_templates,  {:config_templates => [:build_pxe_default]}
   end
 
   map.security_block :domains do |map|
@@ -68,10 +72,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :external_variables do |map|
-    map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search]}
-    map.permission :create_external_variables,  {:lookup_keys => [:new, :create]}
-    map.permission :edit_external_variables,    {:lookup_keys => [:edit, :update]}
-    map.permission :destroy_external_variables, {:lookup_keys => [:destroy]}
+    map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search],
+                                                 :lookup_values => [:index]}
+    map.permission :create_external_variables,  {:lookup_keys => [:new, :create],
+                                                 :lookup_values => [:create]}
+    map.permission :edit_external_variables,    {:lookup_keys => [:edit, :update],
+                                                 :lookup_values => [:create, :update, :destroy]}
+    map.permission :destroy_external_variables, {:lookup_keys => [:destroy],
+                                                 :lookup_values => [:destroy]}
   end
 
   map.security_block :global_variables do |map|
@@ -91,7 +99,7 @@ Foreman::AccessControl.map do |map|
     map.permission :create_hostgroups,     {:hostgroups => [:new, :create, :clone].push(*ajax_actions),
                                             :host => host_ajax_actions,
                                             :puppetclasses => pc_ajax_actions}
-    map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected].push(*ajax_actions),
+    map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :nest].push(*ajax_actions),
                                             :host => host_ajax_actions,
                                             :puppetclasses => pc_ajax_actions}
     map.permission :destroy_hostgroups,    {:hostgroups => [:destroy]}
@@ -106,12 +114,15 @@ Foreman::AccessControl.map do |map|
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]
 
-    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :externalNodes, :auto_complete_search], :dashboard => [:OutOfSync, :errors, :active]}
+    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending,
+                                      :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search],
+                                    :dashboard => [:OutOfSync, :errors, :active],
+                                    :unattended => :template}
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
                                     :compute_resources => cr_ajax_actions,
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions}
-    map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple,
+    map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
                                       :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
                                       :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
                                       :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
@@ -125,6 +136,7 @@ Foreman::AccessControl.map do |map|
                                     :tasks => tasks_ajax_actions}
     map.permission :power_hosts,   {:hosts => [:power]}
     map.permission :console_hosts, {:hosts => [:console]}
+    map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun]}
   end
 
   map.security_block :host_editing do |map|
@@ -134,12 +146,20 @@ Foreman::AccessControl.map do |map|
     map.permission :destroy_params, {:host_editing => [:destroy_params]}
   end
 
+  map.security_block :images do |map|
+    map.permission :view_images,    {:images => [:index, :show, :auto_complete_search]}
+    map.permission :create_images,  {:images => [:new, :create]}
+    map.permission :edit_images,    {:images => [:edit, :update]}
+    map.permission :destroy_images, {:images => [:destroy]}
+  end
+
   if SETTINGS[:locations_enabled]
     map.security_block :locations do |map|
-      map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search]}
-      map.permission :create_locations, {:locations => [:new, :create]}
-      map.permission :edit_locations, {:locations => [:edit, :update]}
+      map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search, :mismatches]}
+      map.permission :create_locations, {:locations => [:new, :create, :clone_taxonomy, :step2]}
+      map.permission :edit_locations, {:locations => [:edit, :update, :import_mismatches]}
       map.permission :destroy_locations, {:locations => [:destroy]}
+      map.permission :assign_locations, {:locations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
     end
   end
 
@@ -159,7 +179,8 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :operatingsystems do |map|
     map.permission :view_operatingsystems,
-                   :operatingsystems => [:index, :show, :auto_complete_search], :"api/v1/operatingsystems" => [:index, :show]
+                   :operatingsystems => [:index, :show, :bootfiles, :auto_complete_search],
+                   :"api/v1/operatingsystems" => [:index, :show]
     map.permission :create_operatingsystems,
                    :operatingsystems => [:new, :create], :"api/v1/operatingsystems" => [:new, :create]
     map.permission :edit_operatingsystems,
@@ -180,7 +201,7 @@ Foreman::AccessControl.map do |map|
     map.permission :create_puppetclasses,  {:puppetclasses => [:new, :create]}
     map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update]}
     map.permission :destroy_puppetclasses, {:puppetclasses => [:destroy]}
-    map.permission :import_puppetclasses,  {:puppetclasses => [:import_environments]}
+    map.permission :import_puppetclasses,  {:puppetclasses => [:import_environments, :obsolete_and_new]}
   end
 
   map.security_block :smart_proxies do |map|
@@ -207,14 +228,16 @@ Foreman::AccessControl.map do |map|
     map.permission :create_subnets,  {:subnets => [:new, :create]}
     map.permission :edit_subnets,    {:subnets => [:edit, :update]}
     map.permission :destroy_subnets, {:subnets => [:destroy]}
+    map.permission :import_subnets,  {:subnets => [:import, :create_multiple]}
   end
 
   if SETTINGS[:organizations_enabled]
     map.security_block :organizations do |map|
-      map.permission :view_organizations, {:organizations => [:index, :show, :auto_complete_search]}
-      map.permission :create_organizations, {:organizations => [:new, :create]}
-      map.permission :edit_organizations, {:organizations => [:edit, :update]}
+      map.permission :view_organizations, {:organizations =>  [:index, :show, :auto_complete_search, :mismatches]}
+      map.permission :create_organizations, {:organizations => [:new, :create, :clone_taxonomy, :step2]}
+      map.permission :edit_organizations, {:organizations => [:edit, :update, :import_mismatches]}
       map.permission :destroy_organizations, {:organizations => [:destroy]}
+      map.permission :assign_organizations, {:organizations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
     end
   end
 
@@ -252,7 +275,8 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :facts do |map|
-    map.permission :view_facts,       {:fact_values => [:index, :show, :auto_complete_search]}
+    map.permission :view_facts, :facts       => [:index, :show],
+                                :fact_values => [:index, :show, :auto_complete_search]
   end
 
   map.security_block :audit_logs do |map|
@@ -267,6 +291,7 @@ Foreman::AccessControl.map do |map|
     map.permission :create_trends,  {:trends => [:new, :create]}
     map.permission :edit_trends,    {:trends => [:edit, :update]}
     map.permission :destroy_trends, {:trends => [:destroy]}
+    map.permission :update_trends,  {:trends => [:count]}
   end
 
   map.security_block :tasks do |map|
