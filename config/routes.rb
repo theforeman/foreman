@@ -29,7 +29,6 @@ Foreman::Application.routes.draw do
         get 'console'
       end
       collection do
-        get 'show_search'
         get 'multiple_actions'
         get 'multiple_parameters'
         post 'update_multiple_parameters'
