@@ -62,14 +62,9 @@ module LayoutHelper
 
   def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options={})
     if associations.count > 5
-      field(f, attr,options) do
-        selected_ids = klass.send(ActiveModel::Naming.plural(associations.first)).select("#{associations.first.class.table_name}.id").map(&:id)
-        attr_ids = (attr.to_s.singularize+"_ids").to_sym
-        hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
-        hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s } ,
-                                            :id, :to_s ,options.merge(:selected => selected_ids),
-                                            html_options.merge(:multiple => true))
-      end
+      associated_obj = klass.send(ActiveModel::Naming.plural(associations.first))
+      selected_ids = associated_obj.select("#{associations.first.class.table_name}.id").map(&:id)
+      multiple_selects(f, attr, associations, selected_ids, options, html_options)
     else
       field(f, attr, options) do
         authorized_edit_habtm klass, associations, options[:prefix]
@@ -78,26 +73,17 @@ module LayoutHelper
   end
 
   # add hidden field for options[:disabled]
-  def multiple_selects(f, attr, klass, associations, selected_ids, options={}, html_options={})
+  def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
     field(f, attr,options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
-      hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
+      hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '', :id=>'')
       options[:disabled] ||=[]
       options[:disabled].each do |disabled_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value )
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'' )
       end
-      hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
-    end
-  end
-
-  def multiple_select_array(f, field_name, klass, array_list, selected_ids, options={}, html_options={})
-    field(f, field_name,options) do
-      hidden_fields = f.hidden_field(field_name, :multiple => true, :value => '')
-      options[:disabled] ||=[]
-      options[:disabled].each do |disabled_value|
-        hidden_fields += f.hidden_field(field_name, :multiple => true, :value => disabled_value )
-      end
-      hidden_fields + f.select(field_name, options_for_select(array_list, :selected => selected_ids), options,html_options.merge(:multiple => true))
+      hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s },
+                                          :id, :to_s ,options.merge(:selected => selected_ids),
+                                          html_options.merge(:multiple => true))
     end
   end
 

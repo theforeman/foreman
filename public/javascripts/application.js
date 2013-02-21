@@ -325,7 +325,16 @@ function attribute_hash(attributes){
   var attrs = {};
   for (i=0;i < attributes.length; i++) {
     var attr = $('*[id*='+attributes[i]+']');
-    if (attr.size() > 0) { attrs[attributes[i]] = attr.val(); }
+    if (attr.size() > 0) {
+      if(attr.attr("type")=="checkbox"){
+        attrs[attributes[i]] = [];
+        $("*[id*="+attributes[i]+"]:checked").each(function(index,item){
+          attrs[attributes[i]].push($(item).val());
+        })
+      }else{
+        attrs[attributes[i]] = attr.val();
+      }
+    }
   }
   return attrs;
 }

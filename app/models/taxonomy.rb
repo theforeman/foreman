@@ -57,6 +57,13 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def self.ignore?(taxable_type)
+    Array.wrap(self.current).each{ |current|
+      return true if current.ignore?(taxable_type)
+    }
+    false
+  end
+
   def ignore?(taxable_type)
     if ignore_types.empty?
       false

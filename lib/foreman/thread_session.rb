@@ -83,7 +83,7 @@ module Foreman
           end
 
           def self.current=(organization)
-            unless organization.nil? || organization.is_a?(self)
+            unless organization.nil? || organization.is_a?(self) || organization.is_a?(Array)
               raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
             end
 
@@ -118,7 +118,7 @@ module Foreman
           end
 
           def self.current=(location)
-            unless location.nil? || location.is_a?(self)
+            unless location.nil? || location.is_a?(self) || location.is_a?(Array)
               raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
             end
 
