@@ -1,8 +1,10 @@
 class Medium < ActiveRecord::Base
   include Authorization
   include Taxonomix
+  include Hostmix
+
   has_and_belongs_to_many :operatingsystems
-  has_many :hosts
+  add_host_associations :has_many # Host STI
 
   # We need to include $ in this as $arch, $release, can be in this string
   VALID_NFS_PATH=/^([-\w\d\.]+):(\/[\w\d\/\$\.]+)$/

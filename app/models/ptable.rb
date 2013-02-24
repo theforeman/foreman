@@ -4,7 +4,9 @@
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   include Authorization
-  has_many :hosts
+  include Hostmix
+
+  add_host_associations :has_many # Host STI
   has_and_belongs_to_many :operatingsystems
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates_uniqueness_of :name
