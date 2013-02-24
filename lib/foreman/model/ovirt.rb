@@ -97,7 +97,6 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
-      args[:display] = 'VNC'
       vm = super args
       begin
         create_interfaces(vm, args[:interfaces_attributes])
@@ -176,6 +175,10 @@ module Foreman::Model
       )
     end
 
+    def api_version
+      @api_version ||= client.send(:client).api_version
+    end
+
     def cacert
       ca_url = URI.parse(url)
       ca_url.path = "/ca.crt"
@@ -216,8 +219,8 @@ module Foreman::Model
     def create_volumes(vm, attrs)
       #add volumes
       volumes = nested_attributes_for :volumes, attrs
-      #The blocking true is a work-around for ovirt bug, it should be removed.
-      volumes.map{ |vol| vm.add_volume({:bootable => 'false',:blocking => true}.merge(vol)) if vol[:id].blank?}
+      #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
+      volumes.map{ |vol| vm.add_volume({:bootable => 'false',:blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?}
       vm.volumes.reload
     end
 
@@ -232,8 +235,8 @@ module Foreman::Model
     def update_volumes(vm, attrs)
       volumes = nested_attributes_for :volumes, attrs
       volumes.each do |volume|
-        vm.destroy_volume(:id => volume[:id], :blocking => true) if volume[:_delete] == '1' && volume[:id].present?
-        vm.add_volume({:bootable => 'false',:blocking => true}.merge(volume)) if volume[:id].blank?
+        vm.destroy_volume(:id => volume[:id], :blocking => api_version.to_f < 3.1) if volume[:_delete] == '1' && volume[:id].present?
+        vm.add_volume({:bootable => 'false', :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
     end
 
