@@ -1,9 +1,8 @@
 class Report < ActiveRecord::Base
   include Authorization
   include ReportCommon
-  include Hostmix
 
-  add_host_associations :belongs_to # Host STI
+  belongs_to_host
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
