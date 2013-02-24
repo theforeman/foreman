@@ -38,7 +38,7 @@ function testConnection(item) {
   $.ajax({
     type:'put',
     url: $(item).attr('data-url'),
-    data: $('#new_compute_resource').serialize(),
+    data: $('form').serialize(),
     success:function (result) {
       $('#compute_connection').html($(result).find("#compute_connection"));
       $('#compute_connection').prepend($(result).find(".alert-message"));
