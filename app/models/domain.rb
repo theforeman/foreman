@@ -4,7 +4,7 @@ class Domain < ActiveRecord::Base
   include Authorization
   include Taxonomix
 
-  has_many :hosts
+  has_many_hosts
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets)
