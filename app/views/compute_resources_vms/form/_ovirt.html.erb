@@ -7,7 +7,7 @@
                :onchange    => 'ovirt_clusterSelected(this);',
                :help_inline => image_tag('spinner.gif', :id => 'cluster_indicator', :class => 'hide').html_safe } %>
 <%= f.hidden_field :cluster if !new %>
-<%= select_f f, :template, compute_resource.hardware_profiles, :id, :name, {},
+<%= select_f f, :template, compute_resource.hardware_profiles, :id, :name, {:include_blank => "Select template"},
              { :disabled    => !new, :'data-url' => hardware_profile_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_hwpSelected(this);',
                :help_inline => image_tag('spinner.gif', :id => 'hwp_indicator', :class => 'hide').html_safe,
