@@ -29,6 +29,9 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
+    def available_images
+      client.images
+    end
     private
 
     def client
