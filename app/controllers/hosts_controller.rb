@@ -21,7 +21,7 @@ class HostsController < ApplicationController
     :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console]
-
+  before_filter :taxonomy_scope, :only => [:hostgroup_or_environment_selected, :process_hostgroup]
   helper :hosts, :reports
 
   def index (title = nil)
@@ -129,10 +129,7 @@ class HostsController < ApplicationController
   def hostgroup_or_environment_selected
     return head(:method_not_allowed) unless request.xhr?
 
-    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
-    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
     Taxonomy.as_taxonomy @organization, @location do
-
       @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
       @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
       @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
@@ -409,10 +406,7 @@ class HostsController < ApplicationController
     @hostgroup = Hostgroup.find(params[:hostgroup_id]) if params[:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
-    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
-    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
     Taxonomy.as_taxonomy @organization, @location do
-
       @architecture    = @hostgroup.architecture
       @operatingsystem = @hostgroup.operatingsystem
       @environment     = @hostgroup.environment
@@ -485,6 +479,11 @@ class HostsController < ApplicationController
   end
 
   private
+
+  def taxonomy_scope
+    @organization = params[:organization_id].blank? ? nil : params[:organization_id].to_a.map{ |id| Organization.find(id) }
+    @location     = params[:location_id].blank? ? nil : params[:location_id].to_a.map{ |id| Location.find(id) }
+  end
 
   def find_by_name
     # find host first, if we fail, do nothing
