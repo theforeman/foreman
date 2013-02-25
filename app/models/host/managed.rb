@@ -253,6 +253,10 @@ class Host::Managed < Host::Base
     owner.id_and_type if owner
   end
 
+  def self.model_name
+    ActiveModel::Name.new(Host)
+  end
+
   # virtual attributes which sets the owner based on the user selection
   # supports a simple user, or a usergroup
   # selection parameter is expected to be an ActiveRecord id_and_type method (see Foreman's AR extentions).
@@ -999,8 +1003,5 @@ class Host::Managed < Host::Base
     @tax_organization ||= TaxHost.new(organization, self)
   end
 
-  def self.model_name
-    ActiveModel::Name.new(Host)
-  end
 
 end

@@ -99,7 +99,7 @@ module Orchestration::DHCP
       return true if ((old.ip != ip) or (old.name != name) or (old.mac != mac) or (old.subnet != subnet))
       # Handle jumpstart
       #TODO, abstract this way once interfaces are fully used
-      if self.is_a?(Host) and jumpstart?
+      if self.kind_of?(Host::Base) and jumpstart?
         if !old.build? or (old.medium != medium or old.arch != arch) or
             (os and old.os and (old.os.name != os.name or old.os != os))
             return true

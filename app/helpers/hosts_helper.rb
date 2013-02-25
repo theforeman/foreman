@@ -101,7 +101,7 @@ module HostsHelper
   end
 
   def selected? host
-    return false if host.nil? or not host.is_a?(Host) or session[:selected].nil?
+    return false if host.nil? or not host.kind_of?(Host::Base) or session[:selected].nil?
     session[:selected].include?(host.id.to_s)
   end
 

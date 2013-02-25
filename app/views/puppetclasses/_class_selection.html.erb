@@ -8,12 +8,12 @@
   <div class="span3 classes">
     <h3>Included Classes</h3>
     <%# hidden field to ensure that classes gets removed if none are defined -%>
-    <%= hidden_field_tag obj.class.to_s.downcase + "[puppetclass_ids][]" %>
+    <%= hidden_field_tag obj.class.model_name.downcase + "[puppetclass_ids][]" %>
     <ul id="selected_classes">
       <% if authorized_for(:host_editing, :edit_classes) -%>
         <%= render :partial => "puppetclasses/selectedClasses",
           :collection => obj.puppetclasses ,:as => :klass,
-          :locals => { :type => obj.class.to_s.downcase, :host => obj } %>
+          :locals => { :type => obj.class.model_name.downcase, :host => obj } %>
       <% else -%>
         <% obj.puppetclasses.each do |klass| %>
           <li data-original-title="Not authorized to edit classes" rel="twipsy" style='color:black;'><%= h klass.name %></li>
@@ -37,7 +37,7 @@
         :puppetclasses => (obj.environment.blank? ? Puppetclass.all : obj.environment.puppetclasses),
         :selected_puppet_classes => obj.all_puppetclasses,
         :obj => obj,
-        :type => obj.class.to_s.downcase
+        :type => obj.class.model_name.downcase
       %>
     </div>
   </div>
