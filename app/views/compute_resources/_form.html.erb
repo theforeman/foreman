@@ -17,6 +17,7 @@
       <div class="tab-pane active" id="primary">
   <% end %>
         <%= text_f f, :name %>
+        <%= f.hidden_field(:provider, :id => '') if f.object.uuid.present? %>
         <%= selectable_f f, :provider, ComputeResource::PROVIDERS, { :include_blank => "Choose a provider"},
                          {:disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
         <%= textarea_f f, :description, :rows => 3 %>
