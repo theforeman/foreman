@@ -10,7 +10,7 @@ module ComputeResourcesVmsHelper
         value = @vm.send(method) rescue nil
         case value
         when Array
-          value.to_sentence
+          value.map{|v| v.try(:name) || v.try(:to_s) || v}.to_sentence
         when Fog::Time, Time
           time_ago_in_words(value) + " ago"
         when nil
