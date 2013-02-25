@@ -26,7 +26,7 @@ module Nic
     scope :interfaces, where(:type => "Nic::Interface")
     scope :managed, where(:type => "Nic::Managed")
 
-    belongs_to :host, :inverse_of => :interfaces
+    belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Managed"
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 

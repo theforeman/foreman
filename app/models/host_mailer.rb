@@ -32,7 +32,7 @@ class HostMailer < ActionMailer::Base
       # print out an error if we couldn't find any hosts that match our request
       raise "unable to find any hosts that match your request" if options[:env] or options[:factname]
       # we didnt define a filter, use all hosts instead
-      hosts=Host
+      hosts = "Host::Managed"
     end
     email = options[:email] || Setting[:administrator]
     raise "unable to find recipients" if email.empty?

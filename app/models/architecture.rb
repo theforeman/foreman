@@ -1,6 +1,7 @@
 class Architecture < ActiveRecord::Base
   include Authorization
-  has_many :hosts
+
+  has_many_hosts
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :operatingsystems
   validates_uniqueness_of :name

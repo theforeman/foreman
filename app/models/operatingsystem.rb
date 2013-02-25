@@ -3,7 +3,8 @@ require 'uri'
 
 class Operatingsystem < ActiveRecord::Base
   include Authorization
-  has_many :hosts
+
+  has_many_hosts
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables

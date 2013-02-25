@@ -10,6 +10,7 @@ class ActiveSupport::TestCase
 
   fixtures :all
 
+  set_fixture_class({ :hosts => Host::Managed })
   # Add more helper methods to be used by all tests here...
 
   def logger
