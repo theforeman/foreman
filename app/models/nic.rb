@@ -5,7 +5,7 @@ module Nic
     include Authorization
     include Foreman::STI
 
-    set_table_name = "nics"
+    set_table_name :nics
 
     attr_accessible :host_id, :host,
                     :mac,
