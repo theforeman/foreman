@@ -32,6 +32,12 @@ module Foreman::Model
     def available_images
       client.images
     end
+
+    def console(uuid)
+      vm = find_vm_by_uuid(uuid)
+      vm.console.body.merge({'timestamp' => Time.now.utc})
+    end
+
     private
 
     def client

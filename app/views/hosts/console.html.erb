@@ -39,10 +39,12 @@
 <% else -%>
     <div class="row">
       <% search_bar "Generated #{time_ago_in_words @console['timestamp']} ago" %>
-      <% title_actions link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host" , :class => 'fr btn') %>
-      <% title "Console output for #{@host}" %>
+      <% if @host %>
+        <% title_actions link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host" , :class => 'fr btn') %>
+        <% title "Console output for #{@host}" %>
+      <% end %>
     </div>
-    <% if @host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes) -%>
+    <% if @host && (@host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes)) -%>
         <div class='alert'>
           <a class="close" href="#" data-dismiss="alert">&times;</a>
           Console output may be out of date
