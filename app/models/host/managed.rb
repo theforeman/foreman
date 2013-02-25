@@ -472,7 +472,7 @@ class Host::Managed < Host::Base
       self.last_compile = time
     end
     # save all other facts
-    self.merge_facts(facts)
+    merge_facts(facts)
     save(:validate => false)
 
     populateFieldsFromFacts(facts)
@@ -831,7 +831,7 @@ class Host::Managed < Host::Base
     db_facts = {}
 
     deletions = []
-    self.fact_values.find(:all, :include => :fact_name).each do |value|
+    fact_values.includes(:fact_name).each do |value|
       deletions << value['id'] and next unless facts.include?(value['name'])
       # Now store them for later testing.
       db_facts[value['name']] ||= []
