@@ -1,7 +1,7 @@
 <!--SPICE Console-->
-<% if @console[:secure_port] -%>
+<% if @console[:type] == 'spice' -%>
     <script type="text/javascript">
-        function connectvm()
+        function connectXPI()
         {
             var pluginobj = document.embeds[0];
             pluginobj.hostIP = String("<%= @console[:address] %>");
@@ -13,11 +13,10 @@
             pluginobj.Title = String('<%= "#{@console[:name]} - Press Shift-F12 to release the cursor." %>');
             pluginobj.connect();
         }
-        $(function () { connectvm(); });
     </script>
     <embed type="application/x-spice" height=0 width=0>
 <!--VNC Console-->
-<% elsif @console[:proxy_port] -%>
+<% elsif @console[:type == 'vnc'] -%>
     <%= content_for(:head) { javascript_tag "var INCLUDE_URI = '#{javascript_path("noVNC").sub(/\.js.*$/,"/")}';" } %>
     <%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
 

@@ -157,7 +157,7 @@ module Foreman::Model
         VNCProxy.start(opts.merge(:host => vm.display[:address], :password => vm.ticket)).merge(:type => 'spice')
         #{:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port],:ticket => vm.ticket, :ca_cert => cacert}
       else
-        VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+        VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket).merge(:type => 'vnc')
       end
     end
 
