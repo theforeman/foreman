@@ -1,3 +1,4 @@
+require 'yaml'
 root     = File.expand_path(File.dirname(__FILE__) + "/..")
 SETTINGS = YAML.load_file("#{root}/config/settings.yaml")
 SETTINGS[:version]    = File.read(root + "/VERSION").chomp rescue ("N/A")
