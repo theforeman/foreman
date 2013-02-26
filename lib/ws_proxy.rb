@@ -2,8 +2,8 @@ require 'open3'
 
 class PortInUse < StandardError; end
 
-class VNCProxy
-  attr_accessor :host, :host_port, :password, :timeout
+class WsProxy
+  attr_accessor :host, :host_port, :password, :timeout, :idle_timeout, :ssl_target
   attr_reader :proxy_port
 
   # Allowed ports to communicate with our web sockets proxy
@@ -17,7 +17,7 @@ class VNCProxy
   end
 
   def self.start attributes
-    proxy = VNCProxy.new(attributes)
+    proxy = WsProxy.new(attributes)
     proxy.start_proxy
   end
 
@@ -26,7 +26,8 @@ class VNCProxy
     # try to execute our web sockets proxy
     port = PORTS.first
     begin
-      cmd  = "#{ws_proxy} --daemon --run-once --timeout=#{timeout} #{port} #{host}:#{host_port}"
+      cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
+      cmd += " --ssl-target" if ssl_target
       execute(cmd)
       # if the port is already in use, try another one from the pool
       # this is not ideal, as it would try all ports in order
@@ -44,14 +45,15 @@ class VNCProxy
   private
 
   def ws_proxy
-    "#{Rails.root}/extras/noVNC/wsproxy.py"
+    "#{Rails.root}/extras/noVNC/websockify.py"
   end
 
   def defaults
     {
-      :timeout   => 120,
-      :host_port => 5900,
-      :host      => "0.0.0.0",
+      :timeout      => 120,
+      :idle_timeout => 120,
+      :host_port    => 5900,
+      :host         => "0.0.0.0",
     }
   end
 

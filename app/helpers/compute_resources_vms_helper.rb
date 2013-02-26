@@ -23,4 +23,23 @@ module ComputeResourcesVmsHelper
     end
   end
 
+  def supports_spice_xpi?
+    user_agent = request.env['HTTP_USER_AGENT']
+    user_agent =~ /linux/i && user_agent =~ /firefox/i
+  end
+
+  def spice_data_attributes(console)
+    options = {
+      :port     => console[:proxy_port],
+      :password => console[:password]
+    }
+    options.merge!(
+      :address     => console[:address],
+      :secure_port => console[:secure_port],
+      :ca_cert     => URI.escape(console[:ca_cert]),
+      :title       => "#{console[:name]} - Press Shift-F12 to release the cursor."
+    ) if supports_spice_xpi?
+    options
+  end
+
 end

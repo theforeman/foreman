@@ -1,6 +1,7 @@
 module HostsHelper
   include OperatingsystemsHelper
   include HostsAndHostgroupsHelper
+  include ComputeResourcesVmsHelper
 
   def last_report_column(record)
     time = record.last_report? ? time_ago_in_words(record.last_report.getlocal) +" ago": ""

@@ -1,0 +1,19 @@
+<%= content_for(:head) { javascript_tag "var INCLUDE_URI = '#{javascript_path("noVNC").sub(/\.js.*$/, "/")}';" } %>
+<%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
+<% title "#{@console[:name]}" %>
+<%= title_actions(
+        button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn"),
+                     if @host
+                       link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host", :class => 'btn')
+                     end
+        ) ) %>
+<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
+
+  <div id="noVNC_status_bar" class="console-status">
+    <div id="noVNC_status" class="span7 label">Loading ...</div>
+  </div>
+
+  <canvas id="noVNC_canvas" class="console-screen">
+    Canvas not supported.
+  </canvas>
+</div>

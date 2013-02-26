@@ -75,7 +75,7 @@ module Foreman::Model
 
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
-      vm.console_output.body
+      vm.console_output.body.merge(:type=>'log', :name=>vm.name)
     end
 
     def destroy_vm(uuid)

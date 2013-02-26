@@ -52,7 +52,14 @@ class ComputeResourcesVmsController < ApplicationController
 
   def console
     @console = @compute_resource.console @vm.identity
-    render "hosts/console"
+    render case @console[:type]
+             when 'spice'
+               "hosts/console/spice"
+             when 'vnc'
+               "hosts/console/vnc"
+             else
+               "hosts/console/log"
+    end
   rescue => e
     process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
   end

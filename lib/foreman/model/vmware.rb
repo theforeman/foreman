@@ -113,7 +113,7 @@ module Foreman::Model
       #NOTE this requires the following port to be open on your ESXi FW
       values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true }
       vm.config_vnc(values)
-      VNCProxy.start :host => vm.hypervisor, :host_port => values[:port], :password => values[:password]
+      WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
     end
 
     def new_interface attr = { }
