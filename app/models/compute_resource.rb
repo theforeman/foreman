@@ -172,6 +172,10 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def available_images
+    []
+  end
+
   protected
 
   def client
