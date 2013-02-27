@@ -8,7 +8,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'it should return puppetclasses' do
-    assert classification.send(:puppetclass_ids).include?(puppetclasses(:one).id)
+    assert classification.send(:puppetclass_ids).map(&:to_i).include?(puppetclasses(:one).id)
   end
 
   test 'classes should have parameters' do
