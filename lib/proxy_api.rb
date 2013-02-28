@@ -312,7 +312,7 @@ module ProxyAPI
     #    :host => String containing the hostname
     # Returns : Boolean status
     def delete host
-      parse( post({:host => host}, 'rm') )
+      parse( delete({:host => host}, 'rm') )
     end
   end
 
