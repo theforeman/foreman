@@ -180,9 +180,9 @@ class EnvironmentsControllerTest < ActionController::TestCase
     disable_orchestration
     setup_import_classes
     as_admin do
-      host = Host.first
-      host.environment = Environment.find_by_name("env1")
-      host.save!
+      host = hosts(:one)
+      host.environment_id = Environment.find_by_name("env1").id
+      assert host.save!
       assert host.errors.empty?
       assert Environment.find_by_name("env1").hosts.count > 0
     end

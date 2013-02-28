@@ -16,9 +16,10 @@ class Hostgroup < ActiveRecord::Base
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations
   before_save :remove_duplicated_nested_class
+  before_save :set_label, :on => [:create, :update, :destroy]
+  after_save :set_other_labels, :on => [:update, :destroy]
 
   alias_attribute :os, :operatingsystem
-  alias_attribute :label, :to_label
   audited
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
@@ -27,6 +28,7 @@ class Hostgroup < ActiveRecord::Base
   default_scope lambda { with_taxonomy_scope }
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :label, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
@@ -64,9 +66,8 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def to_label
-    return unless name
-    return name if ancestry.empty?
-    ancestors.map{|a| a.name + "/"}.join + name
+    return label if label
+    get_label
   end
 
   def to_param
@@ -123,7 +124,26 @@ class Hostgroup < ActiveRecord::Base
     read_attribute(:root_pass) || nested_root_pw
   end
 
+  def get_label
+    return name if ancestry.empty?
+    ancestors.map{|a| a.name + "/"}.join + name
+  end
+
   private
+
+  def set_label
+    self.label = get_label if (name_changed? || ancestry_changed?)
+  end
+
+  def set_other_labels
+    if name_changed? || ancestry_changed?
+      Hostgroup.where("ancestry IS NOT NULL").each do |hostgroup|
+        if hostgroup.path_ids.include?(self.id)
+          hostgroup.update_attributes(:label => hostgroup.get_label)
+        end
+      end
+    end
+  end
 
   def nested_root_pw
     Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
