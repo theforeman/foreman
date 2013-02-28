@@ -105,14 +105,16 @@ class UsersController < ApplicationController
   # Clears the rails session and redirects to the login action
   def logout
     expire_fragment("tabs_and_title_records-#{User.current.id}") if User.current
+    user_id = session[:user]
     session[:user] = @user = User.current = nil
-    if flash[:notice] or flash[:error]
-      flash.keep
+    (flash[:notice] || flash[:error]) ? flash.keep : session.clear
+
+    if User.find(user_id).auth_source.type == "AuthSourceLdap"
+      redirect_to(Setting['single_sign_out_url'])
     else
-      session.clear
       notice "Logged out - See you soon"
+      redirect_to(login_users_path)
     end
-    redirect_to login_users_path
   end
 
   def auth_source_selected
