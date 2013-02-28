@@ -185,7 +185,7 @@ function load_puppet_class_parameters(item) {
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
-      '<td colspan="5"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
+      '<td colspan="5"><p><img src="spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
   $('#inherited_puppetclasses_parameters').append(placeholder);
   $.ajax({
     url: url,
@@ -445,7 +445,7 @@ function reload_params(){
 function load_with_placeholder(target, url, data){
   if(url==undefined) return;
   var placeholder = $('<tr id="' + target + '_loading" >'+
-            '<td colspan="4"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
+            '<td colspan="4"><p><img src="spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);
         $.ajax({
           type:'post',

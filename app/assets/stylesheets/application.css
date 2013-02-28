@@ -395,7 +395,6 @@ border-radius: 4px;
     -webkit-box-shadow: none;
     resize: none;
     cursor: text;
-/*    autoResize:;*/
 }
 
 .control-group.condensed.error textarea{border-color: #b94a48;}
