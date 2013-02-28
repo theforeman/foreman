@@ -1,14 +1,21 @@
 module Host
 
   def self.method_missing(method, *args, &block)
-    if [:create, :new, :create!].include?(method)
-      if args[0]
-        args[0][:type] ||= 'Host::Managed'
-      else
-        args = [{:type => 'Host::Managed'}]
+    type = "Host::Managed"
+    case method.to_s
+    when /create/, 'new'
+      if args.empty? or args[0].nil? # got no paramters
+        #set the default type
+        args = [{:type => type}]
+      else # got some parameters
+        args[0][:type] ||= type # adds the type if it doesnt exists
+        type = args[0][:type]   # stores the type for later usage.
       end
+    when /^find_by/
+      type = "Host::Base"
     end
-    Host::Managed.send(method,*args, &block)
+
+    type.constantize.send(method,*args, &block)
   end
 
   # the API base controller expects to call 'respond_to?' on this, which
