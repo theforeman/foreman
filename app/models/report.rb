@@ -209,7 +209,7 @@ class Report < ActiveRecord::Base
       # skipping catalog summary run messages, we dont want them in our db too
       next if r.message =~ /^Finished catalog run in \d+.\d+ seconds$/
       message = Message.find_or_create r.message
-      source  = Source.find_or_create_by_value r.source
+      source  = Source.find_or_create r.source
       log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
       log.errors.empty?
     end
