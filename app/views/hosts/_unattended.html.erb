@@ -1,5 +1,5 @@
 <div class="tab-pane"  id="compute_resource">
-  <%= render 'compute', :compute_resource => @host.compute_resource if @host.compute_resource_id %>
+  <%= render 'hosts/compute', :compute_resource => @host.compute_resource if @host.compute_resource_id %>
 </div>
 
 <div class="tab-pane"  id="network">
@@ -19,9 +19,9 @@
         <%# the following field is required to see child validations %>
         <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
         <%= f.fields_for :interfaces do |interfaces| %>
-          <%= render 'interfaces', :f => interfaces  %>
+          <%= render 'hosts/interfaces', :f => interfaces  %>
         <% end %>
-        <%= new_child_fields_template(f, :interfaces, {:partial => "interfaces"})%>
+        <%= new_child_fields_template(f, :interfaces, {:partial => "hosts/interfaces"})%>
         <%= add_child_link "+ Add Interface", :interfaces, { :class => "info", :title => 'add new network interface' } %>
       </div>
     <% end %>
@@ -29,5 +29,5 @@
 </div>
 
 <div class="tab-pane"  id="os">
-  <%= render 'operating_system', :host => @host, :f => f %>
+  <%= render 'hosts/operating_system', :host => @host, :f => f %>
 </div>

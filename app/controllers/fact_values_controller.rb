@@ -27,7 +27,7 @@ class FactValuesController < ApplicationController
 
   def create
     Taxonomy.no_taxonomy_scope do
-      imported = Host.importHostAndFacts params.delete("facts")
+      imported = detect_host_type.importHostAndFacts params.delete("facts")
       respond_to do |format|
         format.yml {
           if imported
@@ -41,6 +41,20 @@ class FactValuesController < ApplicationController
   rescue Exception => e
     logger.warn "Failed to import facts: #{e}"
     render :text => "Failed to import facts: #{e}", :status => 400
+  end
+
+  private
+
+  def detect_host_type
+    return Host::Managed if params[:type].blank?
+    if params[:type].constantize.new.kind_of?(Host::Base)
+      logger.debug "Creating host of type: #{params[:type]}"
+      return params[:type].constantize
+    else
+      raise "Invalid type requested for host creation via facts: #{params[:type]}"
+    end
+  rescue => e
+      logger.warn "A problem occurred when detecting host type: #{e.message}"
   end
 
 end

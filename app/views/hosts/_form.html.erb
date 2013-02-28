@@ -1,6 +1,6 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
-<%= render "conflicts" if has_conflicts?(@host.errors) %>
-<%= render "progress" %>
+<%= render "hosts/conflicts" if has_conflicts?(@host.errors) %>
+<%= render "hosts/progress" %>
 <%= form_for @host,  :html => {:'data-submit' => 'progress_bar'} do |f| %>
   <%= base_errors_for @host %>
 
@@ -68,8 +68,9 @@
 
     <%= f.hidden_field :managed %>
     <%= f.hidden_field :progress_report_id %>
+    <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
 
-    <%= render('unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
+    <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
     <div class="tab-pane"  id="params">
       <h6>Puppet classes Parameters</h6>

@@ -22,6 +22,7 @@ class HostsController < ApplicationController
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console]
   before_filter :taxonomy_scope, :only => [:hostgroup_or_environment_selected, :process_hostgroup]
+  before_filter :set_host_type, :only => [:update]
   helper :hosts, :reports
 
   def index (title = nil)
@@ -487,6 +488,15 @@ class HostsController < ApplicationController
   end
 
   private
+
+  def set_host_type
+    if params[:host] and params[:host][:type] and params[:host][:type].constantize.new.kind_of?(Host::Base)
+      @host      = @host.becomes(params[:host][:type].constantize)
+      @host.type = params[:host][:type]
+    end
+  rescue => e
+    error "Something went wrong while changing host type - #{e}"
+  end
 
   def taxonomy_scope
     @organization = params[:organization_id].blank? ? nil : Organization.find(Array.wrap(params[:organization_id]))
