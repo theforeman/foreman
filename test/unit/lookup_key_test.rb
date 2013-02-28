@@ -50,7 +50,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
     host = hosts(:one)
     host.hostgroup = hostgroups(:common)
-    assert_equal [value.match], key.send(:path2matches,hosts(:one))
+    assert_equal [value.match], key.send(:path2matches,host)
   end
 
   def test_multiple_paths

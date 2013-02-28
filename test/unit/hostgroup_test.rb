@@ -56,7 +56,7 @@ class HostgroupTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Hostgroup.first
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert record.destroy
     assert record.frozen?
@@ -81,7 +81,7 @@ class HostgroupTest < ActiveSupport::TestCase
     record      =  Hostgroup.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert !record.save
     assert record.valid?
@@ -143,6 +143,36 @@ class HostgroupTest < ActiveSupport::TestCase
    assert !second.is_root?
    assert top.destroy
    assert Hostgroup.find(second.id).is_root?
+  end
+
+  test "changing name of hostgroup updates other hostgroup labels" do
+    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    # change name of parent
+    assert parent_hostgroup.update_attributes(:name => "new_common")
+    # check if hostgroup(:db) label changed
+    hostgroup.reload
+    assert_equal "new_common/db", hostgroup.label
+  end
+
+  test "deleting a hostgroup updates other hostgroup labels" do
+    #setup - get label "common/db"
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+    hostgroup.reload
+    assert_equal "Common/db", hostgroup.label
+
+    #destory parent hostgroup
+    assert parent_hostgroup.destroy
+    # check if hostgroup(:db) label changed
+    hostgroup.reload
+    assert_equal "db", hostgroup.label
   end
 
 end

@@ -590,4 +590,17 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.token, nil
   end
 
+  test "can search hosts by hostgroup" do
+    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    # search hosts by hostgroup label
+    hosts = Host.search_for("hostgroup_fullname = #{hostgroup.label}")
+    assert_equal hosts.count, 1  #host_db in hosts.yml
+    assert_equal hosts.first.hostgroup_id, hostgroup.id
+  end
+
 end

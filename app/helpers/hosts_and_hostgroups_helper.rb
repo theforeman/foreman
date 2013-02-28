@@ -1,14 +1,14 @@
 module HostsAndHostgroupsHelper
-  def hostgroup_name group, max_length = 1000
-    return if group.blank?
-    options = (group.to_s.size > max_length) ? {:'data-original-title'=> group.to_s, :rel=>'twipsy'} : {}
-    nesting = group.to_s.gsub(/[^\/]+\/?$/, "")
-    nesting = truncate(nesting, :length => max_length - group.name.size) if nesting.size > 0
-    name =  truncate(group.name.to_s, :length => max_length - nesting.size)
+  def hostgroup_name(hostgroup, max_length = 1000)
+    return if hostgroup.blank?
+    options = (hostgroup.label.to_s.size > max_length) ? {:'data-original-title'=> hostgroup.label, :rel=>'twipsy'} : {}
+    nesting = hostgroup.label.to_s.gsub(/[^\/]+\/?$/, "")
+    nesting = truncate(nesting, :length => max_length - hostgroup.label.to_s.size) if nesting.to_s.size > 0
+    name =  truncate(hostgroup.name, :length => max_length - nesting.to_s.size)
     link_to_if_authorized(
         content_tag(:span,
             content_tag(:span, nesting, :class => "gray") + name, options),
-        hash_for_edit_hostgroup_path(:id => group))
+        hash_for_edit_hostgroup_path(:id => hostgroup))
   end
 
   def model_name host
