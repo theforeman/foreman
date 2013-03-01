@@ -1,4 +1,5 @@
 require 'foreman/controller/auto_complete_search'
+require 'gettext_i18n_rails'
 
 class ApplicationController < ActionController::Base
   include Foreman::ThreadSession::Cleaner
@@ -11,6 +12,7 @@ class ApplicationController < ActionController::Base
   # standard layout to all controllers
   helper 'layout'
 
+  before_filter :set_gettext_locale
   before_filter :require_ssl, :require_login
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy

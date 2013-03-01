@@ -1,9 +1,9 @@
 
 <%= form_tag login_users_path, :id => "login-form", :class => "form-vertical" do %>
   <%=image_tag("foreman_large.png", :class=>"login-large-logo") %>
-  <%= label_tag "login[login]", "Username" %>
+  <%= label_tag "login[login]", _("Username") %>
   <%= text_field :login, :login %>
-  <%= label_tag "login[password]", "Password" %>
+  <%= label_tag "login[password]", _("Password") %>
   <%= password_field_tag "login[password]" %>
   <%= submit_tag("Login &#187;".html_safe, :class => "btn btn-primary fr", :disable_with => "Please wait...") %>
 <% end %>
