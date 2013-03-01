@@ -87,4 +87,8 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test "looking for a nonexistent host returns no puppetclasses" do
+    assert_equal [], Puppetclass.search_for("host = imaginaryhost.nodomain.what")
+  end
+
 end
