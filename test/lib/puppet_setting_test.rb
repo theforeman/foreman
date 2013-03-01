@@ -2,6 +2,12 @@ require 'test_helper'
 require 'puppet_setting'
 
 class PuppetSettingTest < ActiveSupport::TestCase
+  setup do
+    SETTINGS.stubs(:[]).with(:puppetconfdir).returns('/test/etc/puppet')
+    SETTINGS.stubs(:[]).with(:puppetvardir).returns('/test/var/puppet')
+    SETTINGS.stubs(:[]).with(:puppetgem).returns(false)
+  end
+
   test "should always have puppetconfdir available" do
     assert_not_nil SETTINGS[:puppetconfdir]
   end
@@ -12,8 +18,6 @@ class PuppetSettingTest < ActiveSupport::TestCase
 
   test "should find puppetmasterd on Puppet 2.x" do
     Puppet::PUPPETVERSION.stubs(:to_i).returns(2.7)
-    SETTINGS.stubs(:[]).with(:puppetconfdir).returns('/test/etc/puppet')
-    SETTINGS.stubs(:[]).with(:puppetvardir).returns('/test/var/puppet')
     PuppetSetting.any_instance.expects(:which).with('puppetmasterd', kind_of(Array)).returns('/opt/puppet/bin/puppetmasterd')
     File.stubs(:exists?).with('/opt/puppet/bin/puppetmasterd').returns(true)
     FileTest.stubs(:file?).with('/test/etc/puppet').returns(false)
@@ -24,8 +28,6 @@ class PuppetSettingTest < ActiveSupport::TestCase
 
   test "should find 'puppet master' and use --vardir on Puppet 3.x" do
     Puppet::PUPPETVERSION.stubs(:to_i).returns(3.0)
-    SETTINGS.stubs(:[]).with(:puppetconfdir).returns('/test/etc/puppet')
-    SETTINGS.stubs(:[]).with(:puppetvardir).returns('/test/var/puppet')
     PuppetSetting.any_instance.expects(:which).with('puppet', kind_of(Array)).returns('/opt/puppet/bin/puppet')
     File.stubs(:exists?).with('/opt/puppet/bin/puppet').returns(true)
     FileTest.stubs(:file?).with('/test/etc/puppet').returns(false)
@@ -37,7 +39,6 @@ class PuppetSettingTest < ActiveSupport::TestCase
   test "should use --config if puppetconfdir is a file" do
     Puppet::PUPPETVERSION.stubs(:to_i).returns(3.0)
     SETTINGS.stubs(:[]).with(:puppetconfdir).returns('/test/etc/puppet/puppet.conf')
-    SETTINGS.stubs(:[]).with(:puppetvardir).returns('/test/var/puppet')
     PuppetSetting.any_instance.expects(:which).with('puppet', kind_of(Array)).returns('/opt/puppet/bin/puppet')
     File.stubs(:exists?).with('/opt/puppet/bin/puppet').returns(true)
     FileTest.stubs(:file?).with('/test/etc/puppet/puppet.conf').returns(true)
@@ -52,6 +53,16 @@ class PuppetSettingTest < ActiveSupport::TestCase
     ps.expects(:which).with('puppet', kind_of(Array)).returns(false)
     File.stubs(:exists?).with('/opt/puppet/bin/puppet').returns(false)
     assert_raise(RuntimeError, /unable to find/) { ps.send(:puppetmaster) }
+  end
+
+  test "should not modify PATH when 'puppetgem' setting enabled" do
+    Puppet::PUPPETVERSION.stubs(:to_i).returns(2.7)
+    SETTINGS.stubs(:[]).with(:puppetgem).returns(true)
+    PuppetSetting.any_instance.expects(:which).with('puppetmasterd', []).returns('/custom/bin/puppetmasterd')
+    File.stubs(:exists?).with('/custom/bin/puppetmasterd').returns(true)
+
+    pm = PuppetSetting.new.send(:puppetmaster)
+    assert_equal "/custom/bin/puppetmasterd --confdir /test/etc/puppet", pm
   end
 
   test "should use puppetmasterd --configprint to look up setting" do
