@@ -38,6 +38,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -46,6 +47,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should update environment" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -57,6 +59,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should update environment using json" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -70,6 +73,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
 
   test "should destroy environment" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -81,6 +85,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should destroy environment using json" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
