@@ -8,6 +8,7 @@ defaults = {:foreman_path => File.expand_path("../..", __FILE__),
             :key_values => {}}
 
 options.merge!(defaults)
+changed_settings = []
 
 def set_options_key_value(options, value)
   unless options.has_key?(:key)
@@ -58,6 +59,12 @@ BANNER
          "--env ENV",
          "Runtime environment (default #{defaults[:environment]})") do |val|
     options[:environment] = val
+  end
+
+  opt.on("-n",
+         "--dry-run",
+         "Don't change thd configuration. Success if no change is needed.") do
+    options[:dry] = true
   end
 end
 
@@ -112,17 +119,29 @@ elsif options[:key_values].any?
   options[:keys].each do |key|
     value = options[:key_values][key]
     setting = Setting.find_by_name(key)
+    old_value = setting.value
     if value == :unset
-      setting.value = nil
+      value = nil
     else
       value = typecast_value(setting.settings_type, value)
-      setting.value = value
     end
-    setting.save! if setting.changed?
+    setting.value = value
+    if setting.valid? && old_value != setting.value
+      setting.save! unless options[:dry]
+      changed_settings << setting
+    end
     puts format_value(setting.settings_type, setting.value)
   end
 else
   Setting.all.each do |setting|
     puts "#{setting.name}: #{format_value(setting.settings_type, setting.value)}"
+  end
+end
+
+if options[:dry]
+  if changed_settings.empty?
+    exit 0
+  else
+    exit 1
   end
 end
