@@ -275,7 +275,7 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :facts do |map|
-    map.permission :view_facts, :facts       => [:index, :show],
+    map.permission :view_facts, :facts       => [:index, :show], :"api/v1/fact_values" => [:index, :show],
                                 :fact_values => [:index, :show, :auto_complete_search]
   end
 
