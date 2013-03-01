@@ -90,7 +90,7 @@ class UsersController < ApplicationController
       user = User.try_to_login(params[:login]['login'].downcase,  params[:login]['password'])
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
-        error "Incorrect username or password"
+        error _("Incorrect username or password")
         redirect_to login_users_path
       else
         #valid user
@@ -110,7 +110,7 @@ class UsersController < ApplicationController
       flash.keep
     else
       session.clear
-      notice "Logged out - See you soon"
+      notice _("Logged out - See you soon")
     end
     redirect_to login_users_path
   end
