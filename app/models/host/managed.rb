@@ -578,11 +578,11 @@ class Host::Managed < Host::Base
   # e.g. how many hosts belongs to each os
   # returns sorted hash
   def self.count_habtm association
-    output = {}
-    counter = Host.count(:include => association.pluralize, :group => "#{association}_id")
+    assoc = ( Host.first.respond_to?(association.tableize.to_sym) ? association.tableize : (Host::Managed.first.respond_to?(association.to_sym) ? association : nil) )
+    counter = Host::Managed.includes(assoc.to_sym).group("#{assoc.tableize}.id").count
     # returns {:id => count...}
     #Puppetclass.find(counter.keys.compact)...
-    Hash[eval(association.camelize).send(:find, counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
+    Hash[association.camelize.constantize.find(counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
   end
 
   def resources_chart(timerange = 1.day.ago)
