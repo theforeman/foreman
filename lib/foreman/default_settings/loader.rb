@@ -82,6 +82,7 @@ module Foreman
               set('oauth_map_users', "Should foreman map users by username in request-header", true),
               set('restrict_registered_puppetmasters', 'Only known Smart Proxies with the Puppet feature can access fact/report importers and ENC output', true),
               set('require_ssl_puppetmasters', 'Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)', true),
+              set('single_sign_out_url', 'Redirect your users to this url on logout (Single Sign On (LDAP) should also be enabled)', 'https://ssologout'),
               set('ssl_client_dn_env', 'Environment variable containing the subject DN from a client SSL certificate', 'SSL_CLIENT_S_DN'),
               set('ssl_client_verify_env', 'Environment variable containing the verification status of a client SSL certificate', 'SSL_CLIENT_VERIFY')
             ].compact.each { |s| create s.update(:category => "Auth")}
