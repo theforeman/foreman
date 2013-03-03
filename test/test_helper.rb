@@ -63,7 +63,7 @@ class ActiveSupport::TestCase
 
   def self.disable_orchestration
     #This disables the DNS/DHCP orchestration
-    Host.any_instance.stubs(:boot_server).returns("boot_server")
+    Host::Base.any_instance.stubs(:boot_server).returns("boot_server")
     Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")
     Resolv::DNS.any_instance.stubs(:getaddress).returns("127.0.0.1")
     Net::DNS::ARecord.any_instance.stubs(:conflicts).returns([])
