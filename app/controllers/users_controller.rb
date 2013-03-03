@@ -109,7 +109,7 @@ class UsersController < ApplicationController
     session[:user] = @user = User.current = nil
     (flash[:notice] || flash[:error]) ? flash.keep : session.clear
 
-    if User.find(user_id).auth_source.type == "AuthSourceLdap"
+    if User.find(user_id).auth_source.type != "AuthSourceInternal"
       redirect_to(Setting['single_sign_out_url'])
     else
       notice "Logged out - See you soon"
