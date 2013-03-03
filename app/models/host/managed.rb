@@ -935,8 +935,8 @@ class Host::Managed < Host::Base
       end
     end if SETTINGS[:unattended] and managed? and os and capabilities.include?(:build)
 
-    puppetclasses.pluck("puppetclasses.id").uniq.each do |e_id|
-      unless environment.puppetclasses.pluck("puppetclasses.id").include?(e_id)
+    puppetclasses.select("puppetclasses.id,puppetclasses.name").uniq.each do |e|
+      unless environment.puppetclasses.map(&:id).include?(e.id)
         errors.add(:puppetclasses, "#{e} does not belong to the #{environment} environment")
         status = false
       end
