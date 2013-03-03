@@ -1,5 +1,4 @@
 require 'foreman/controller/auto_complete_search'
-require 'gettext_i18n_rails'
 
 class ApplicationController < ActionController::Base
   include Foreman::ThreadSession::Cleaner

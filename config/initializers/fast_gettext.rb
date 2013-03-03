@@ -1,4 +1,5 @@
 require 'fast_gettext'
+require 'gettext_i18n_rails'
 
 locale_dir = File.join(File.dirname(__FILE__), '..', '..', 'locale')
 
