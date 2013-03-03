@@ -51,11 +51,11 @@ class SubnetTest < ActiveSupport::TestCase
   test "the name should be unique in the domain scope" do
     create_a_domain_with_the_subnet
 
-    other_subnet = Subnet.create( :mask => "111.111.111.1",
+    other_subnet = Subnet.new( :mask => "111.111.111.1",
                                  :network => "255.255.252.0",
                                  :name => "valid",
-                                 :domains => [@domain] )
-    other_subnet.valid?
+                                 :domain_ids => [domains(:mydomain).id] )
+    assert !other_subnet.valid?
     assert !other_subnet.save
   end
 
