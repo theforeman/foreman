@@ -1,4 +1,5 @@
 class Environment < ActiveRecord::Base
+  include Authorization
   include Taxonomix
   include Authorization
 
