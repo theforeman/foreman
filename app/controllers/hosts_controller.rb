@@ -33,9 +33,9 @@ class HostsController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        @hosts = search.paginate :page => params[:page], :include => included_associations
+        @hosts = search.includes(included_associations).paginate(:page => params[:page])
         # SQL optimizations queries
-        @last_reports = Report.maximum(:id, :group => :host_id, :conditions => {:host_id => @hosts})
+        @last_reports = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         # rendering index page for non index page requests (out of sync hosts etc)
         render :index if title and (@title = title)
       end
@@ -74,7 +74,7 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
-    new = @host.clone
+    new = @host.dup
     load_vars_for_ajax
     flash[:warning] = "The marked fields will need reviewing"
     new.valid?

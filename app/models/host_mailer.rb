@@ -1,5 +1,6 @@
 class HostMailer < ActionMailer::Base
   helper :reports
+  default :from => Setting["email_reply_address"], :content_type => "text/html"
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
 
 
@@ -21,7 +22,7 @@ class HostMailer < ActionMailer::Base
     end
     name,value = options[:factname],options[:factvalue]
     if name and value
-      facthosts = Host.with_fact(name,value)
+      facthosts = Host.search_for("facts.#{name}=#{value}")
       raise "unable to find any hosts with the fact name=#{name} and value=#{value}" if facthosts.empty?
       filter << "Fact #{name}=#{value}"
       # if environment and facts are defined together, we use a merge of both
@@ -36,9 +37,6 @@ class HostMailer < ActionMailer::Base
     end
     email = options[:email] || Setting[:administrator]
     raise "unable to find recipients" if email.empty?
-    recipients email
-    from Setting["email_reply_address"]
-    sent_on Time.now
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, hosts.all).sort
     total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}
@@ -50,13 +48,13 @@ class HostMailer < ActionMailer::Base
       total_metrics["failed_restarts"] += data_hash[:metrics]["failed_restarts"]
     end
     total = 0 ; total_metrics.values.each { |v| total += v }
-    subject "Summary Puppet report from Foreman - F:#{total_metrics["failed"]} R:#{total_metrics["restarted"]} S:#{total_metrics["skipped"]} A:#{total_metrics["applied"]} FR:#{total_metrics["failed_restarts"]} T:#{total}"
-    content_type "text/html"
+    subject = "Summary Puppet report from Foreman - F:#{total_metrics["failed"]} R:#{total_metrics["restarted"]} S:#{total_metrics["skipped"]} A:#{total_metrics["applied"]} FR:#{total_metrics["failed_restarts"]} T:#{total}"
     @hosts = host_data
     @timerange = time
     @out_of_sync = hosts.out_of_sync
     @disabled = hosts.alerts_disabled
     @filter = filter
+    mail(:to => email, :subnet => subject)
   end
 
   def error_state(report)
@@ -64,12 +62,8 @@ class HostMailer < ActionMailer::Base
     email = host.owner.recipients if SETTINGS[:login] and not host.owner.nil?
     email = Setting[:administrator]   if email.empty?
     raise "unable to find recipients" if email.empty?
-    recipients email
-    from Setting["email_reply_address"]
-    subject "Puppet error on #{host.to_label}"
-    sent_on Time.now
-    content_type "text/html"
     @report = report
     @host = host
+    mail(:to => email, :subject => "Puppet error on #{host.to_label}")
   end
 end

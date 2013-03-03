@@ -1,3 +1,12 @@
+//= require jquery
+//= require jquery_ujs
+//= require jquery.ui.core
+//= require jquery.ui.autocomplete
+//= require twitter/bootstrap
+//= require vendor
+//= require bootstrap
+//= require_self
+
 $(function() {
   onContentLoad();
 });
@@ -32,9 +41,6 @@ function onContentLoad(){
   })
 
   //set the tooltips
-  $('a[rel="popover"]').popover({html: true});
-  $('[rel="twipsy"]').tooltip();
-  $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
       {
         "sDom": "<'row'<'span6'f>r>t<'row'<'span6'i><'span6'p>>",
@@ -130,7 +136,7 @@ function template_info(div, url) {
   hostgroup_id = $("#host_hostgroup_id :selected").attr("value");
   build = $('input:radio[name$="[provision_method]"]:checked').val();
 
-  $(div).html('<img src="/images/spinner.gif" alt="Wait" />');
+  $(div).html('<img src="spinner.gif" alt="Wait" />');
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
@@ -142,7 +148,7 @@ function template_info(div, url) {
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
-    indicator   : "<img src='../images/spinner.gif' />",
+    indicator   : "<img src='spinner.gif' />",
     tooltip     : 'Click to edit..',
     placeholder : 'Click to edit..',
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},

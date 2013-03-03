@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'capybara/rails'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
@@ -63,7 +64,7 @@ class ActiveSupport::TestCase
 
   def self.disable_orchestration
     #This disables the DNS/DHCP orchestration
-    Host.any_instance.stubs(:boot_server).returns("boot_server")
+    Host::Base.any_instance.stubs(:boot_server).returns("boot_server")
     Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")
     Resolv::DNS.any_instance.stubs(:getaddress).returns("127.0.0.1")
     Net::DNS::ARecord.any_instance.stubs(:conflicts).returns([])
@@ -97,3 +98,42 @@ class ActionController::TestCase
 end
 
 Apipie.configuration.validate = false
+
+
+# Transactional fixtures do not work with Selenium tests, because Capybara
+# uses a separate server thread, which the transactions would be hidden
+# from. We hence use DatabaseCleaner to truncate our test database.
+DatabaseCleaner.strategy = :truncation
+
+class ActionDispatch::IntegrationTest
+  # Make the Capybara DSL available in all integration tests
+  include Capybara::DSL
+
+  # Stop ActiveRecord from wrapping tests in transactions
+  self.use_transactional_fixtures = false
+
+  def setup
+    login_admin
+  end
+
+  teardown do
+    DatabaseCleaner.clean       # Truncate the database
+    Capybara.reset_sessions!    # Forget the (simulated) browser state
+    Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
+  end
+
+  private
+
+  def login_admin
+    visit "/"
+    fill_in "login_login", :with => "admin"
+    fill_in "login_password", :with => "secret"
+    click_button "Login"
+  end
+
+  def logout_admin
+    click_link "Sign Out"
+  end
+
+
+end

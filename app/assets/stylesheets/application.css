@@ -1,3 +1,9 @@
+/*
+ * *= require vendor
+ * *= require_self
+ * *= require_tree .
+ * */
+
 .auto_complete_input {
   width: 98%;
   margin-right: -12px;
@@ -5,17 +11,17 @@
 
 .ui-autocomplete-loading
 {
-    background: white url('../images/spinner.gif') right center no-repeat;
+    background: white url('spinner.gif') right center no-repeat;
 }
 
-.auto_complete_clear{
-    background: url('../images/ui-icons_888888_256x240.png') center no-repeat;
+.auto_complete_clear {
+    background: url('ui-icons_888888_256x240.png') center no-repeat;
     background-position: -80px -128px;
     display:inline-block;width:14px;height:14px;
     margin-left:-12px;margin-bottom: -5px;
 }
-.auto_complete_clear:hover{
-    background: url('../images/ui-icons_454545_256x240.png');
+.auto_complete_clear:hover {
+    background: url('ui-icons_454545_256x240.png');
     background-position: -80px -128px;
 }
 
@@ -103,7 +109,7 @@ th.underlined {
  width: 390px;
  margin-top:150px; padding:6em 2em; margin-left: auto; margin-right: auto; border: 2px solid #7f9bb1;
  -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
- background: url(../images/foreman_background.png) no-repeat right center;
+ background: url(foreman_background.png) no-repeat right center;
 }
 
 .login-large-logo{
@@ -133,14 +139,14 @@ div.flash {
 }
 
 div.flash.error, #errorExplanation {
-  background: url(../images/false.png) 8px 5px no-repeat;
+  background: url(false.png) 8px 5px no-repeat;
   background-color: #ffe3e3;
   border-color: #dd0000;
   color: #550000;
 }
 
 div.flash.notice {
-  background: url(../images/true.png) 8px 5px no-repeat;
+  background: url(true.png) 8px 5px no-repeat;
   background-color: #dfffdf;
   border-color: #9fcf9f;
   color: #005f00;
@@ -226,8 +232,8 @@ div.flash.notice {
   list-style-type:none;
   padding:0 0 8px;
 }
-tr span.expander {background-image: url(../images/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
-tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}
+tr span.expander {background-image: url(bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
+tr.open span.expander {background-image: url(bullet_toggle_minus.png);}
 
 /* text align left */
 .la { text-align: left; }
@@ -276,12 +282,12 @@ tr.open span.expander {background-image: url(../images/bullet_toggle_minus.png);
 }
 
 .editable {
-  background: url("../images/edit.png") no-repeat scroll 98% 6px transparent;
+  background: url("edit.png") no-repeat scroll 98% 6px transparent;
   cursor: pointer;
   padding: 4px 26px 4px 0px;
 }
 .editable:hover {
-  background: url("../images/edit-hover.png") no-repeat scroll 98% 6px #F2F2F2;
+  background: url("edit-hover.png") no-repeat scroll 98% 6px #F2F2F2;
 }
 .tab-error {
   color: #b94a48 !important;
@@ -314,7 +320,7 @@ select{padding: initial;}
 .stats-grid{
     float:left;margin:0 0 20px 20px;border:1px solid #ddd;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.stats-grid:hover{
+.stats-grid:hover {
     border-color:#0069d6;-webkit-box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);-moz-box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);
 }
 
@@ -332,7 +338,7 @@ margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 .form-actions{background-color: #f5f5f5;}
 
 .ignore-subnet{margin-right: 10px;margin-top: -25px;float: right;}
-.tabs-left .nav-tabs>li>a.btn:hover{background:inherit;background-color: #408140;}
+.tabs-left .nav-tabs>li>a.btn:hover {background:inherit;background-color: #408140;}
 .ace_editor{border: 2px solid #eee;}
 .audit-content{border-bottom: 1px solid #ccc; padding-bottom: 9px; margin-bottom: 9px; margin-top: 9px; }
 .tab-pane{min-height: 420px;}
@@ -389,7 +395,6 @@ border-radius: 4px;
     -webkit-box-shadow: none;
     resize: none;
     cursor: text;
-    autoResize()
 }
 
 .control-group.condensed.error textarea{border-color: #b94a48;}
@@ -452,12 +457,12 @@ table.table thead .sorting_desc_disabled {
     *cursor: hand;
 }
 
-table.table thead .sorting { background: #f9f9f9 url('../images/sort_both.png') no-repeat center right; }
-table.table thead .sorting_asc { background: #f9f9f9 url('../images/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: #f9f9f9 url('../images/sort_desc.png') no-repeat center right; }
+table.table thead .sorting { background: #f9f9f9 url('sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: #f9f9f9 url('sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: #f9f9f9 url('sort_desc.png') no-repeat center right; }
 
-table.table thead .sorting_asc_disabled { background: #f9f9f9 url('../images/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: #f9f9f9 url('../images/sort_desc_disabled.png') no-repeat center right; }
+table.table thead .sorting_asc_disabled { background: #f9f9f9 url('sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: #f9f9f9 url('sort_desc_disabled.png') no-repeat center right; }
 
 .diff-modal{width: 720px; height: 520px;}
 .modal-body{max-height: 800px;}

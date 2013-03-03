@@ -332,8 +332,8 @@ class HostTest < ActiveSupport::TestCase
  test "custom_disk_partition_with_erb" do
    h = hosts(:one)
    h.disk = "<%= 1 + 1 %>"
-   h.save
-
+   assert h.save
+   assert h.disk.present?
    assert_equal "2", h.diskLayout
  end
 
@@ -374,7 +374,7 @@ class HostTest < ActiveSupport::TestCase
 
     pc = puppetclasses(:two)
     h.puppetclasses << pc
-    assert !h.environment.puppetclasses.include?(pc)
+    assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
     assert !h.valid?
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
