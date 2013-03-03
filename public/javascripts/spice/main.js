@@ -60,6 +60,7 @@ SpiceMainConn.prototype.process_channel_message = function(msg)
     if (msg.type == SPICE_MSG_MAIN_INIT)
     {
         this.log_info("Connected to " + this.ws.url);
+        this.report_success("Connected")
         this.main_init = new SpiceMsgMainInit(msg.data);
         this.connection_id = this.main_init.session_id;
 

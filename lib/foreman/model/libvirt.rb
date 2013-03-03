@@ -93,10 +93,9 @@ module Foreman::Model
     def console uuid
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
-      raise "Spice display is not supported at the moment" if vm.display[:type] =~ /spice/i
       password = random_password
       vm.update_display(:password => password, :listen => '0')
-      VNCProxy.start :host => hypervisor.hostname, :host_port => vm.display[:port], :password => password
+      ConsoleProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type =>  vm.display[:type].downcase, :name=> vm.name)
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
         logger.warn e

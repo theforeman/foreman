@@ -2,7 +2,7 @@ require 'open3'
 
 class PortInUse < StandardError; end
 
-class VNCProxy
+class ConsoleProxy
   attr_accessor :host, :host_port, :password, :timeout, :idle_timeout, :ssl_target
   attr_reader :proxy_port
 
@@ -17,7 +17,7 @@ class VNCProxy
   end
 
   def self.start attributes
-    proxy = VNCProxy.new(attributes)
+    proxy = ConsoleProxy.new(attributes)
     proxy.start_proxy
   end
 

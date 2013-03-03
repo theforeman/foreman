@@ -221,6 +221,14 @@ class HostsController < ApplicationController
   def console
     return unless @host.compute_resource
     @console = @host.compute_resource.console @host.uuid
+    render case @console[:type]
+             when 'spice'
+               "hosts/console/spice"
+             when 'vnc'
+               "hosts/console/vnc"
+             else
+               "hosts/console/log"
+           end
   rescue => e
     process_error :redirect => :back, :error_msg => "Failed to set console: #{e}"
   end

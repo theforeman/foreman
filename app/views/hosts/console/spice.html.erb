@@ -1,19 +1,40 @@
 <%= javascript 'spice/setup', 'spice' %>
+<% title "#{@console[:name]}" %>
+<% user_agent = request.env['HTTP_USER_AGENT'] %>
+<%= title_actions( button_group(link_to("Ctrl-Alt-Del", "#", :id=>"sendCtrlAltDelButton", :onclick=>'sendCtrlAltDel()', :class=>"btn"),
+                                if user_agent =~ /linux/i && user_agent =~ /firefox/i
+                                  link_to("New window", "#", :id=>"disconnect", :class=>"btn", :onclick=>'connectXPI()', :title => "Open Spice in a new window")
+                                end,
+                                if @host
+                                  link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host", :class => 'btn')
+                                end
+)) %>
 
-<div id='spice-area' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
 
-  <div id="spice_status" class="span7 label">Loading</div>
-  <div id="spice_buttons">
-    <input type=button value="Disconnect" id="disconnect" class="fr btn">
-    <input type=button value="Ctrl-Alt-Del" id="sendCtrlAltDelButton" class="fr btn">
-  </div>
-  <%= link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host", :class => 'fr btn') if @host %>
-
-  <div id="spice-screen" class="spice-screen"></div>
-
-  <div id="message-div" class="spice-message"></div>
-
-  <div id="debug-div">
-    <!-- If DUMPXXX is turned on, dumped images will go here -->
-  </div>
+  <div id='spice-area' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
+    <div class="console-status">
+      <div id="spice-status" class="span7 label"><%="Connecting (unencrypted) to: #{@console[:name]}" %></div>
+    </div>
+    <div id="spice-screen" class="console-screen">
+    </div>
 </div>
+<script type="text/javascript">
+    function connectXPI()
+    {
+      if($('#spice-xpi').size() == 0){
+        $('#spice-area').append('<embed type="application/x-spice" height=0 width=0 id="spice-xpi">');
+      }
+      disconnect();
+      var pluginobj = document.embeds[0];
+      pluginobj.hostIP = String("<%= @console[:address] %>");
+      pluginobj.SecurePort = String("<%= @console[:secure_port] %>");
+      pluginobj.Password = String("<%= @console[:password] %>");
+      pluginobj.TrustStore = String("<%= @console[:ca_cert] %>");
+      pluginobj.SSLChannels = String("all");
+      pluginobj.fullScreen = false;
+      pluginobj.Title = String('<%= "#{@console[:name]} - Press Shift-F12 to release the cursor." %>');
+      pluginobj.connect();
+    }
+  </script>
+
+

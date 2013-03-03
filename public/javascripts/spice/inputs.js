@@ -175,6 +175,26 @@ function handle_keyup(e)
     e.preventDefault();
 }
 
+function sendCtrlAltDel()
+{
+  if (sc && sc.inputs && sc.inputs.state === "ready"){
+    var key = new SpiceMsgcKeyDown();
+    var msg = new SpiceMiniData();
+
+    key.code = KEY_LCtrl;
+    msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
+    sc.inputs.send_msg(msg);
+
+    key.code = KEY_Alt;
+    msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
+    sc.inputs.send_msg(msg);
+
+    key.code = KEY_KP_Decimal;
+    msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
+    sc.inputs.send_msg(msg);
+  }
+}
+
 function update_modifier(state, code, sc)
 {
     var msg = new SpiceMiniData();

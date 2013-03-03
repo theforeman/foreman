@@ -463,3 +463,19 @@ table.table thead .sorting_desc_disabled { background: #f9f9f9 url('../images/so
 .modal-body{max-height: 800px;}
 
 .label-light{font-weight: normal; text-shadow: 0 0 0;}
+
+.console-screen
+{
+    display: inline-block;
+    padding: 10px;
+    margin-top: 18px;
+    min-width: 720px;
+    min-height: 400px;
+    border: solid #222222 1px;
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}

@@ -55,6 +55,8 @@ function SpiceConn(o)
         this.password = o.password;
     if (o.onerror !== undefined)
         this.onerror = o.onerror;
+    if (o.onsuccess !== undefined)
+          this.onsuccess = o.onsuccess;
 
     this.state = "connecting";
     this.ws.parent = this;
@@ -418,6 +420,12 @@ SpiceConn.prototype =
             this.onerror(e);
         else
             throw(e);
+    },
+
+    report_success: function(m)
+    {
+      if (this.onsuccess != undefined)
+        this.onsuccess(m);
     },
 
     cleanup: function()

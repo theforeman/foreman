@@ -1,42 +1,34 @@
-function spice_error(e) {
-  disconnect();
-}
 
+sc = null;
 $(function () {
   var scheme = "ws://", uri;
 
   var host = window.location.hostname;
-  var port = $('#spice-area').attr('data-port');
-  var password = $('#spice-area').attr('data-password');
+  var port = $('#spice-area').data('port');
+  var password = $('#spice-area').data('password');
 
   if ((!host) || (!port)) {
     console.log("must set host and port");
     return;
   }
 
-//  if (sc) {
-//    sc.stop();
-//  }
-
   uri = scheme + host + ":" + port;
 
-  document.getElementById('disconnect').onclick = disconnect;
-
-  try {
-    sc = new SpiceMainConn({uri: uri, screen_id: "spice-screen", dump_id: "debug-div",
-      message_id: "message-div", password: password, onerror: spice_error });
-  }
-  catch (e) {
-    alert(e.toString());
-    disconnect();
-  }
-
+  sc = new SpiceMainConn({uri: uri, screen_id: "spice-screen", password: password,
+                          onerror: spice_error, onsuccess: spice_success});
 });
 
 function disconnect() {
-  console.log(">> disconnect");
-  if (sc) {
-    sc.stop();
-  }
-  console.log("<< disconnect");
+  if (sc) { sc.stop(); }
+}
+
+function spice_error(e) {
+  $('#spice-status').text(e);
+  $('#spice-status').removeClass('label-success').addClass('label-important');
+  disconnect();
+}
+
+function spice_success(m) {
+  $('#spice-status').text($('#spice-status').text().replace('Connecting','Connected'));
+  $('#spice-status').addClass('label-success');
 }
