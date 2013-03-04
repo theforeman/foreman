@@ -70,8 +70,8 @@ class HostgroupsController < ApplicationController
     if @hostgroup.save
       # Add the new hostgroup to the user's filters
       @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
+      @hostgroup.users << subscribed_users
       @hostgroup.users << users_in_ancestors
-
       process_success
     else
       load_vars_for_ajax
@@ -153,6 +153,10 @@ class HostgroupsController < ApplicationController
     @hostgroup.ancestors.map do |ancestor|
       ancestor.users.reject { |u| @hostgroup.users.include?(u) }
     end.flatten.uniq
+  end
+
+  def subscribed_users
+    User.where(:subscribe_to_all_hostgroups => true)
   end
 
 end
