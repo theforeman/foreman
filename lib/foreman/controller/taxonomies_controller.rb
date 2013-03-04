@@ -114,10 +114,10 @@ module Foreman::Controller::TaxonomiesController
       @taxonomy = Taxonomy.find_by_id(params[:id])
       if @taxonomy
         @mismatches = @taxonomy.import_missing_ids
-        redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :notice => "All mismatches between hosts and #{@taxonomy.name} have been fixed"
+        redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :notice => _("All mismatches between hosts and %s have been fixed") % @taxonomy.name
       else
         Taxonomy.all_import_missing_ids
-        redirect_to send("#{taxonomies_plural}_path"), :notice => "All mismatches between hosts and locations/organizations have been fixed"
+        redirect_to send("#{taxonomies_plural}_path"), :notice => _("All mismatches between hosts and locations/organizations have been fixed")
       end
     end
 
@@ -130,14 +130,14 @@ module Foreman::Controller::TaxonomiesController
     def assign_all_hosts
       Host.send("no_#{taxonomy_single}").update_all(taxonomy_id => @taxonomy.id)
       @taxonomy.import_missing_ids
-      redirect_to send("#{taxonomies_plural}_path"), :notice => "All hosts previously with no #{taxonomy_single} are now assigned to #{@taxonomy.name}"
+      redirect_to send("#{taxonomies_plural}_path"), :notice => _("All hosts previously with no %{taxonomy_single} are now assigned to %{taxonomy_name}") % {:taxonomy_single => taxonomy_single , :taxonomy_name => @taxonomy.name}
     end
 
     def assign_selected_hosts
       host_ids = params[taxonomy_single.to_sym][:host_ids] - ["0"]
       @hosts = Host.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
       @taxonomy.import_missing_ids
-      redirect_to send("#{taxonomies_plural}_path"), :notice => "Selected hosts are now assigned to #{@taxonomy.name}"
+      redirect_to send("#{taxonomies_plural}_path"), :notice => _("Selected hosts are now assigned to %s") % @taxonomy.name
     end
 
     private

@@ -5,5 +5,5 @@
   <%= text_field :login, :login %>
   <%= label_tag "login[password]", _("Password") %>
   <%= password_field_tag "login[password]" %>
-  <%= submit_tag("Login &#187;".html_safe, :class => "btn btn-primary fr", :disable_with => "Please wait...") %>
+  <%= submit_tag(_("Login &#187;").html_safe, :class => "btn btn-primary fr", :disable_with => _("Please wait...")) %>
 <% end %>

@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
   def destroy
     if @user == User.current
-      notice "You are currently logged in, suicidal?"
+      notice _("You are currently logged in, suicidal?")
       redirect_to :back and return
     end
     if @user.destroy
