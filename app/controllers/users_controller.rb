@@ -61,6 +61,8 @@ class UsersController < ApplicationController
       # this is required, as the admin field is blacklisted above
       @user.update_attribute(:admin, admin) if User.current.admin
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
+      hostgroup_ids = params[:user]["hostgroup_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["hostgroup_ids"].empty?
+      update_hostgroups_owners(hostgroup_ids) unless hostgroup_ids.empty?
       process_success editing_self ? { :success_redirect => hosts_path } : {}
     else
       process_error
@@ -145,6 +147,11 @@ class UsersController < ApplicationController
 
   def find_user
     @user = User.find(params[:id])
+  end
+
+  def update_hostgroups_owners(hostgroup_ids)
+    subhostgroups = hostgroup_ids.map { |hs| Hostgroup.find(hs) }.map(&:subtree).flatten
+    subhostgroups.each { |subhs| subhs.users << @user }
   end
 
 end

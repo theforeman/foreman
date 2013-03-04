@@ -59,6 +59,7 @@ class HostgroupsController < ApplicationController
     if @hostgroup.save
       # Add the new hostgroup to the user's filters
       @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
+      @hostgroup.users << @hostgroup.ancestors.map { |a| a.users }.flatten.uniq
       process_success
     else
       load_vars_for_ajax
