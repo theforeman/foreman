@@ -3,7 +3,6 @@ module Api
     extend ActiveSupport::Concern
 
     included do
-      include Foreman::ThreadSession::Cleaner
       before_filter :set_taxonomy_scope
     end
 
