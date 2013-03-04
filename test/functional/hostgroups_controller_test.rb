@@ -146,4 +146,16 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_equal old_root_pass, hostgroup.root_pass
   end
 
+  test 'users subscribed to all hostgroups should be always added to hostgroup' do
+    User.current = User.first
+    one = users(:one)
+    one.update_attributes(:subscribe_to_all_hostgroups => true)
+
+    post :create, { "hostgroup" => { "name"=>"first" } }, set_session_user
+    post :create, { "hostgroup" => { "name"=>"second" } }, set_session_user
+
+    assert_equal one, Hostgroup.find_by_name("first").users.first
+    assert_equal one, Hostgroup.find_by_name("second").users.first
+  end
+
 end
