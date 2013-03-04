@@ -25,7 +25,9 @@ admin:
   mail: admin@someware.com
   admin: true
   last_login_on: 2009-10-12 21:50:04
-  auth_source: one
+  auth_source: internal
+  password_hash: 3e4991bbc1df7cc5d43c8cf94838993a3045ba2a
+  password_salt: 852cefe7366f5c4e59276d2a753cba4302e44df3
 
 internal:
   login: test
