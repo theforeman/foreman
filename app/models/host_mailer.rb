@@ -13,7 +13,7 @@ class HostMailer < ActionMailer::Base
     filter = []
 
     if (@url = Setting[:foreman_url]).empty?
-      raise ::Foreman::Exception.new N_("':foreman_url:' entry in Foreman configuration file, see http://theforeman.org/projects/foreman/wiki/Mail_Notifications")
+      raise ::Foreman::Exception.new N_("':foreman_url:' entry in Foreman configuration file, see http://www.theforeman.org/manuals/1.1/index.html#3.5.4PuppetReports")
     end
 
     if options[:env]
