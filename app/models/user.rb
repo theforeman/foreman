@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
-  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
+  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin
   before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
@@ -239,6 +239,13 @@ class User < ActiveRecord::Base
       errors.add :base, "Can't delete internal admin account"
       logger.warn "Unable to delete internal admin account"
       false
+    end
+  end
+
+  # The admin account must always retain the "Administrator" flag to function
+  def ensure_admin_remains_admin
+    if login == "admin" and admin_changed? and admin == false
+      errors.add :admin, "Can't remove Administrator flag from internal protected <b>admin</b> account".html_safe
     end
   end
 
