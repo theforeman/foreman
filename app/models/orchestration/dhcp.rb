@@ -46,7 +46,7 @@ module Orchestration::DHCP
       bs = tftp.bootServer
       # if that failed, trying to guess out tftp next server based on the smart proxy hostname
       bs ||= URI.parse(subnet.tftp.url).host
-      # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
+      # now convert it into an ip address (see http://projects.theforeman.org/issues/1381)
       return to_ip_address(bs) if bs.present?
 
       failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
