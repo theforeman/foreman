@@ -1,8 +1,8 @@
 <div class="alert alert-message alert-block alert-warning base in fade">
-  <h1><%= controller_name.camelize.singularize rescue nil %> Not Found</h1>
+  <h1><%= _(controller_name.camelize.singularize) rescue nil %> <%= _("Not Found") %></h1>
 
-  <p>Please try to update your request</p>
+  <p><%= _("Please try to update your request") %></p>
   <div class="alert-actions">
-    <%= link_to "Back", root_path, :class => "btn" %>
+    <%= link_to _("Back"), root_path, :class => "btn" %>
   </div>
 </div>

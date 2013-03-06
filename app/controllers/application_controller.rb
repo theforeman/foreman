@@ -95,7 +95,7 @@ class ApplicationController < ActionController::Base
 
   def require_mail
     if User.current && User.current.mail.blank?
-      notice "Mail is Required"
+      notice _("Mail is Required")
       redirect_to edit_user_path(:id => User.current)
     end
   end
@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    render :text => 'Invalid query', :status => 400
+    render :text => _('Invalid query'), :status => 400
   end
 
   def not_found(exception = nil)
@@ -189,7 +189,7 @@ class ApplicationController < ActionController::Base
   def expire_session
     logger.info "Session for #{current_user} is expired."
     reset_session
-    flash[:warning] = "Your session has expired, please login again"
+    flash[:warning] = _("Your session has expired, please login again")
     redirect_to login_users_path
   end
 
@@ -322,9 +322,9 @@ class ApplicationController < ActionController::Base
 
     if User.current && User.current.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?
-        redirect_to locations_path, :notice => "You must create at least one location before continuing."
+        redirect_to locations_path, :notice => _("You must create at least one location before continuing.")
       elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
-        redirect_to organizations_path, :notice => "You must create at least one organization before continuing."
+        redirect_to organizations_path, :notice => _("You must create at least one organization before continuing.")
       end
     end
   end

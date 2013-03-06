@@ -52,9 +52,9 @@
     <div id="footer">
       Version <%= SETTINGS[:version] %> &copy; 2009-<script>document.write( (new Date()).getFullYear() );</script> Paul Kelly and <%= mail_to "ohadlevy@gmail.com", "Ohad Levy" %>
       <span>
-        <%= link_to "Help",    :controller => "dashboard", :action => "welcome" %> |
-        <%= link_to 'Wiki',    "http://theforeman.org/wiki/foreman", :rel => "external", :rel => "external" %> |
-        <%= link_to 'Support', "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
+        <%= link_to _("Help"),    :controller => "dashboard", :action => "welcome" %> |
+        <%= link_to _('Wiki'),    "http://theforeman.org/wiki/foreman", :rel => "external", :rel => "external" %> |
+        <%= link_to _('Support'), "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
       </span>
     </div>
   </body>
