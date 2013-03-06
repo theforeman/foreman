@@ -1,16 +1,16 @@
-<% title "Permissions report" %>
+<% title _("Permissions report") %>
 
 <%= form_tag(report_roles_path, :id => 'permissions_form') do %>
   <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
-        <th>Permissions</th>
+        <th><%= _("Permissions") %></th>
         <% @roles.each do |role| %>
           <th>
             <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
             <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                 :title => "Check all/Uncheck all")
+                                 :title => _("Check all/Uncheck all"))
             %>
           </th>
         <% end %>
@@ -31,7 +31,7 @@
           <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
             <td>
               <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                   :title => "Check all/Uncheck all")
+                                   :title => _("Check all/Uncheck all"))
               %>
               <%= permission.name.to_s.humanize %>
             </td>
@@ -48,5 +48,5 @@
       <% end %>
     </tbody>
   </table>
-  <p><%= submit_tag "Save" %></p>
+  <p><%= submit_tag _("Save") %></p>
 <% end %>
