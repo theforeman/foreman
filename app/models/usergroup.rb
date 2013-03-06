@@ -55,7 +55,7 @@ class Usergroup < ActiveRecord::Base
   end
 
   def ensure_uniq_name
-    errors.add :name, "is already used by a user account" if User.where(:login => name).first
+    errors.add :name, _("is already used by a user account") if User.where(:login => name).first
   end
 
 end
