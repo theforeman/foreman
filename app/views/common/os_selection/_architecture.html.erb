@@ -2,7 +2,7 @@
   <%= select_f f, :operatingsystem_id, arch_oss, :id, :to_label,
     {:selected => item.operatingsystem_id, :include_blank => true},
     {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]",
-      :label => "Operating Systems",
+      :label => _("Operating Systems"),
       :disabled => arch_oss.empty? ? true : false,
       :onchange => 'os_selected(this);', :'data-url' => method_path('os_selected')}
   %>

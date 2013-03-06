@@ -8,13 +8,13 @@
       <div class="no-taxonomies">
         <div class="alert">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          There aren't any organizations yet.
+          <%= _("There aren't any organizations yet.") %>
         </div>
-        <%= link_to "New Organization", new_organization_path, :class => "btn btn-primary" %>
+        <%= link_to _("New Organization"), new_organization_path, :class => "btn btn-primary" %>
       </div>
     <% else %>
       <% if orgs_count > 1 || User.current.admin? %>
-        <li><%= link_to('Any Organization', clear_organizations_path) %></li>
+        <li><%= link_to(_('Any Organization'), clear_organizations_path) %></li>
         <%= content_tag(:li, "", :class => "divider") %>
       <% end %>
       <% Organization.my_organizations.each do |organization| %>

@@ -1,6 +1,6 @@
 <ul class="inputs-list">
   <% if associations.empty? -%>
-    <strong>None Found</strong>
+    <strong><%= _("None Found") %></strong>
   <% else -%>
     <% association = associations.first %>
     <%= link_to_function(icon_text("check", ""), "toggleCheckboxesBySelector(\"[id$='#{ActiveModel::Naming.singular(association)}_ids_']\")",

@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => "Remove Parameter")
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => _("Remove Parameter"))
   end
 
   def trunc text, length
@@ -115,8 +115,8 @@ module ApplicationHelper
 
   def display_delete_if_authorized(options ={}, html_options ={})
     options = {:auth_action => :destroy}.merge(options)
-    html_options = {:confirm => 'Are you sure?', :method => :delete, :class => 'delete'}.merge(html_options)
-    display_link_if_authorized("Delete", options, html_options)
+    html_options = {:confirm => _('Are you sure?'), :method => :delete, :class => 'delete'}.merge(html_options)
+    display_link_if_authorized(_("Delete"), options, html_options)
   end
   # Display a link if user is authorized, otherwise nothing
   # +name+    : String to be displayed
