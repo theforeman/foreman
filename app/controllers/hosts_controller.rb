@@ -489,8 +489,8 @@ class HostsController < ApplicationController
   private
 
   def taxonomy_scope
-    @organization = params[:organization_id].blank? ? nil : Organization.find(params[:organization_id])
-    @location     = params[:location_id].blank? ? nil : Location.find(params[:location_id])
+    @organization = params[:organization_id].blank? ? nil : Organization.find(Array.wrap(params[:organization_id]))
+    @location     = params[:location_id].blank? ? nil : Location.find(Array.wrap(params[:location_id]))
   end
 
   def find_by_name
