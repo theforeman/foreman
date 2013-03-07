@@ -62,8 +62,8 @@ module Foreman::Controller::HostDetails
   end
 
   def taxonomy_scope
-    @organization = params[:organization_id].blank? ? nil : params[:organization_id].to_a.map{ |id| Organization.find(id) }
-    @location     = params[:location_id].blank? ? nil : params[:location_id].to_a.map{ |id| Location.find(id) }
+    @organization = params[:organization_id].blank? ? nil : Organization.find(Array.wrap(params[:organization_id]))
+    @location     = params[:location_id].blank? ? nil : Location.find(Array.wrap(params[:location_id]))
   end
 
 end
