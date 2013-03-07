@@ -18,7 +18,7 @@ if File.exists?(ENV['BUNDLE_GEMFILE'])
       SETTINGS[:libvirt] = false
     end
   rescue LoadError
-    warn "Libvirt binding are missing - hypervisor management is disabled"
+    print "Libvirt bindings are missing - hypervisor management is disabled"
     SETTINGS[:libvirt] = false
   end
 end
