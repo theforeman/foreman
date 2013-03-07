@@ -70,13 +70,21 @@ Foreman::Application.routes.draw do
 
       constraints(:id => /[^\/]+/) do
         resources :hosts, :only => [] do
-          resources :parameters, :except => [:new, :edit]
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
+          end
         end
 
         resources :domains, :only => [] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-          resources :parameters, :except => [:new, :edit]
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
+          end
         end
 
         resources :compute_resources, :only => [] do
@@ -98,7 +106,11 @@ Foreman::Application.routes.draw do
       resources :hostgroups, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        resources :parameters, :except => [:new, :edit]
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :to => :reset
+          end
+        end
       end
 
       resources :smart_proxies, :only => [] do
@@ -117,7 +129,11 @@ Foreman::Application.routes.draw do
       end
 
       resources :operatingsystems, :only => [] do
-        resources :parameters, :except => [:new, :edit]
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :to => :reset
+          end
+        end
       end
 
       if SETTINGS[:locations_enabled]
