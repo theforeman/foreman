@@ -41,6 +41,7 @@ type httpd_foreman_script_log_t;
 logging_log_file(httpd_foreman_script_log_t)
 
 allow httpd_t passenger_tmp_t:sock_file write;
+allow httpd_t var_lib_t:file { open read getattr write };
 
 allow passenger_t devpts_t:dir search;
 allow passenger_t exim_exec_t:file { getattr execute };
