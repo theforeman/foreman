@@ -1,0 +1,79 @@
+policy_module(foreman, 1.0.0)
+
+require {
+  type setfiles_t;
+  type passenger_t;
+  type passenger_tmp_t;
+  type passenger_log_t;
+  type unconfined_t;
+  type httpd_t;
+  type devpts_t;
+  type exim_exec_t;
+  type hostname_exec_t;
+  type puppetmaster_exec_t;
+  type var_lib_t;
+  type var_log_t;
+  type mysqld_var_run_t;
+  type mysqld_safe_t;
+  type mysqld_t;
+  type mysqld_db_t;
+  type syslogd_t;
+  type sshd_t;
+  type ssh_port_t;
+}
+
+apache_content_template(foreman)
+permissive httpd_foreman_script_t;
+
+domain_use_interactive_fds(httpd_foreman_script_t)
+files_read_etc_files(httpd_foreman_script_t)
+miscfiles_read_localization(httpd_foreman_script_t)
+
+type httpd_foreman_script_var_lib_t;
+files_type(httpd_foreman_script_var_lib_t)
+
+typealias etc_t alias foreman_config_t;
+typealias var_lib_t alias foreman_db_t;
+
+
+logging_send_syslog_msg(httpd_foreman_script_t)
+type httpd_foreman_script_log_t;
+logging_log_file(httpd_foreman_script_log_t)
+
+allow httpd_t passenger_tmp_t:sock_file write;
+
+allow passenger_t devpts_t:dir search;
+allow passenger_t exim_exec_t:file { getattr execute };
+allow passenger_t hostname_exec_t:file { read getattr open execute execute_no_trans };
+
+allow passenger_t passenger_tmp_t:sock_file { write create unlink getattr setattr };
+allow passenger_t puppetmaster_exec_t:file { read getattr open execute execute_no_trans };
+
+allow passenger_t self:capability sys_resource;
+
+allow passenger_t usr_t:dir { write add_name };
+allow passenger_t usr_t:file { write create };
+allow passenger_t self:capability sys_resource;
+
+allow passenger_t usr_t:file { write create };
+allow passenger_t var_lib_t:file { read lock write getattr open };
+allow passenger_t var_log_t:file { open append getattr };
+
+allow passenger_t mysqld_db_t:dir search;
+allow passenger_t mysqld_safe_t:dir { getattr search };
+allow passenger_t mysqld_safe_t:file { read open };
+allow passenger_t mysqld_t:dir { getattr search };
+allow passenger_t mysqld_t:file { read open };
+allow passenger_t mysqld_var_run_t:sock_file write;
+allow passenger_t mysqld_t:unix_stream_socket connectto;
+
+allow passenger_t httpd_foreman_script_exec_t:dir { read search open getattr };
+allow passenger_t httpd_foreman_script_exec_t:file { read getattr open };
+allow passenger_t httpd_foreman_script_exec_t:lnk_file read;
+
+allow passenger_t syslogd_t:dir { getattr search };
+
+allow passenger_t sshd_t:file { read open };
+allow passenger_t ssh_port_t:tcp_socket name_connect;
+
+allow passenger_t self:tcp_socket listen;
