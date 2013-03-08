@@ -56,7 +56,7 @@ module Api
       def create
         @host = Host.new(params[:host])
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
-        forward_request_url
+        forward_url_options
         process_response @host.save
       end
 
@@ -129,9 +129,10 @@ Return value may either be one of the following:
         Host.authorized("#{action_permission}_#{controller}", Host)
       end
 
-      # this is required for template generation (such as pxelinux) which is not done via a web request
-      def forward_request_url
-        @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+      # this is required for template generation (such as pxelinux) which is not
+      # done via a web request
+      def forward_url_options
+        @host.url_options = url_options if @host.respond_to?(:url_options)
       end
     end
   end

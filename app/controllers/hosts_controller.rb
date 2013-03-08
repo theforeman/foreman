@@ -685,7 +685,7 @@ class HostsController < ApplicationController
 
   # this is required for template generation (such as pxelinux) which is not done via a web request
   def forward_url_options(host = @host)
-    host.url_options = url_options if @host.respond_to?(:url_options)
+    host.url_options = url_options if host.respond_to?(:url_options)
   end
 
   def merge_search_filter filter
