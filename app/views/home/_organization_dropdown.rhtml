@@ -13,7 +13,7 @@
         <%= link_to "New Organization", new_organization_path, :class => "btn btn-primary" %>
       </div>
     <% else %>
-      <% if orgs_count > 1 || User.current.admin? %>
+      <% if orgs_count > 1 && User.current.admin? %>
         <li><%= link_to('Any Organization', clear_organizations_path) %></li>
         <%= content_tag(:li, "", :class => "divider") %>
       <% end %>

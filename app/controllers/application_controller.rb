@@ -300,6 +300,8 @@ class ApplicationController < ActionController::Base
                                orgs.first
                              elsif session[:organization_id]
                                orgs.find(session[:organization_id])
+                             elsif !User.current.admin?
+                               orgs.first
                              else
                                nil
                              end
