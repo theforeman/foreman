@@ -2,14 +2,14 @@
   <%= base_errors_for @user %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">User</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("User") %></a></li>
     <% unless @editing_self %>
-      <li><a href="#filters" data-toggle="tab">Filters</a></li>
+      <li><a href="#filters" data-toggle="tab"><%= _("Filters") %></a></li>
       <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
       <% end %>
       <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
       <% end %>
     <% end -%>
   </ul>
@@ -18,12 +18,12 @@
     <div class="tab-pane active" id="primary">
 
       <%= text_f f, :login, :disabled => f.object.login == "admin" %>
-      <%= text_f f, :firstname, :label => "First Name" %>
-      <%= text_f f, :lastname, :label => "Last Name" %>
+      <%= text_f f, :firstname, :label => _("First Name") %>
+      <%= text_f f, :lastname, :label => _("Last Name") %>
       <%= text_f f, :mail %>
 
       <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
-                                                                                                          :label => "Authorized by"}, {:onchange => 'auth_source_selected()'}) unless @editing_self
+                                                                                                          :label => _("Authorized by")}, {:onchange => 'auth_source_selected()'}) unless @editing_self
       %>
 
       <div id="password" <%= display? !@user.manage_password? %>>

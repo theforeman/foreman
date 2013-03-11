@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-03 11:37-0500\n"
+"POT-Creation-Date: 2013-03-04 20:42-0500\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,14 +18,278 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+msgid "%{count} hosts with no %{taxonomy_single} assigned"
+msgstr ""
+
+msgid "+ Add Filter"
+msgstr ""
+
+msgid "Add a fact filter"
+msgstr ""
+
+msgid "All Compute Resources"
+msgstr ""
+
+msgid "All Domains"
+msgstr ""
+
+msgid "All Environments"
+msgstr ""
+
+msgid "All Hostgroups"
+msgstr ""
+
+msgid "All Media"
+msgstr ""
+
+msgid "All Smart Proxies"
+msgstr ""
+
+msgid "All Subnets"
+msgstr ""
+
+msgid "All Templates"
+msgstr ""
+
+msgid "All Users"
+msgstr ""
+
+msgid "All hosts data matches configurations for locations and organizations."
+msgstr ""
+
+msgid "All hosts previously with no %{taxonomy_single} are now assigned to %{taxonomy_name}"
+msgstr ""
+
+msgid "All mismatches between hosts and %s have been fixed"
+msgstr ""
+
+msgid "All mismatches between hosts and locations/organizations have been fixed"
+msgstr ""
+
+msgid "Assign All"
+msgstr ""
+
+msgid "Assign All %{count} Hosts with No %{taxonomy_type} to %{taxonomy_name}"
+msgstr ""
+
+msgid "Assign All %{count} Hosts with No %{taxonomy_upcase} to %{taxonomy_name}"
+msgstr ""
+
+msgid "Assign Hosts to %s"
+msgstr ""
+
+msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected Hosts are currently using."
+msgstr ""
+
+msgid "Authorized by"
+msgstr ""
+
+msgid "Clone"
+msgstr ""
+
+msgid "Clone %s"
+msgstr ""
+
+msgid "Compute Resources"
+msgstr ""
+
+msgid "Compute resources"
+msgstr ""
+
+msgid "ComputeResource"
+msgstr ""
+
+msgid "ConfigTemplate"
+msgstr ""
+
+msgid "Create %s"
+msgstr ""
+
+msgid "Delete %s?"
+msgstr ""
+
+msgid "Domain"
+msgstr ""
+
+msgid "Domain hosts"
+msgstr ""
+
+msgid "Domains"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit %s"
+msgstr ""
+
+msgid "Edit Properties"
+msgstr ""
+
+msgid "Edit User"
+msgstr ""
+
+msgid "Environment"
+msgstr ""
+
+msgid "Environments"
+msgstr ""
+
+msgid "Fact filters"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "Fix All Mismatches"
+msgstr ""
+
+msgid "Fix Mismatches"
+msgstr ""
+
+msgid "For example, there might be a data center in London and one in Virginia; these are locations. Locations also work nicely when used in tandem with "
+msgstr ""
+
+msgid "Host Groups"
+msgstr ""
+
+msgid "Hostgroup"
+msgstr ""
+
+msgid "Hostgroup hosts"
+msgstr ""
+
+msgid "Hosts"
+msgstr ""
+
 msgid "Incorrect username or password"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Location configuration"
+msgstr ""
+
+msgid "Location/Organization"
+msgstr ""
+
+msgid "Locations"
+msgstr ""
+
+msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
 msgstr ""
 
 msgid "Logged out - See you soon"
 msgstr ""
 
+msgid "Login &#187;"
+msgstr ""
+
+msgid "Manually Assign"
+msgstr ""
+
+msgid "Manually select and assign Hosts with No %s"
+msgstr ""
+
+msgid "Media"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Mismatch Details"
+msgstr ""
+
+msgid "Mismatches"
+msgstr ""
+
+msgid "Mismatches Report"
+msgstr ""
+
+msgid "New %s"
+msgstr ""
+
+msgid "New Location"
+msgstr ""
+
+msgid "New User"
+msgstr ""
+
+msgid "No hosts are mismatched!"
+msgstr ""
+
+msgid "Notice"
+msgstr ""
+
+msgid "Notice:"
+msgstr ""
+
+msgid "Organizations"
+msgstr ""
+
+msgid "Owned hosts"
+msgstr ""
+
 msgid "Password"
 msgstr ""
 
+msgid "Please wait..."
+msgstr ""
+
+msgid "Proceed to Edit"
+msgstr ""
+
+msgid "Select Hosts"
+msgstr ""
+
+msgid "Select Hosts to Assign to %s"
+msgstr ""
+
+msgid "Selected hosts are now assigned to %s"
+msgstr ""
+
+msgid "Skip Assign Hosts and Proceed to Edit %s Settings"
+msgstr ""
+
+msgid "Smart Proxies"
+msgstr ""
+
+msgid "SmartProxy"
+msgstr ""
+
+msgid "Subnet"
+msgstr ""
+
+msgid "Subnets"
+msgstr ""
+
+msgid "Templates"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
 msgid "Username"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "You are currently logged in, suicidal?"
+msgstr ""
+
+msgid "You must create a location before continuing."
+msgstr ""
+
+msgid "not has %s"
+msgstr ""
+
+msgid "organizations"
+msgstr ""
+
+msgid "remove"
 msgstr ""
