@@ -6,46 +6,46 @@ module HomeHelper
 
   def setting_options
     configuration_group =
-        [['Environments',           :environments],
-        ['Global Parameters',      :common_parameters],
-        ['Host Groups',            :hostgroups],
-        ['Puppet Classes',         :puppetclasses],
-        ['Smart Variables',        :lookup_keys],
-        ['Smart Proxies',          :smart_proxies]]
-    choices = [ [:group, "Configuration", configuration_group]]
+        [[_('Environments'),          :environments],
+        [_('Global Parameters'),      :common_parameters],
+        [_('Host Groups'),            :hostgroups],
+        [_('Puppet Classes'),         :puppetclasses],
+        [_('Smart Variables'),        :lookup_keys],
+        [_('Smart Proxies'),          :smart_proxies]]
+    choices = [ [:group, _("Configuration"), configuration_group]]
 
     if SETTINGS[:unattended]
       provisioning_group =
-          [['Architectures',          :architectures],
-          ['Compute Resources',      :compute_resources],
-          ['Domains',                :domains],
-          ['Hardware Models',        :models],
-          ['Installation Media',     :media],
-          ['Operating Systems',      :operatingsystems],
-          ['Partition Tables',       :ptables],
-          ['Provisioning Templates', :config_templates],
-          ['Subnets',                :subnets]]
-      choices += [[:divider], [:group, "Provisioning", provisioning_group]]
+          [[_('Architectures'),          :architectures],
+          [_('Compute Resources'),      :compute_resources],
+          [_('Domains'),                :domains],
+          [_('Hardware Models'),        :models],
+          [_('Installation Media'),     :media],
+          [_('Operating Systems'),      :operatingsystems],
+          [_('Partition Tables'),       :ptables],
+          [_('Provisioning Templates'), :config_templates],
+          [_('Subnets'),                :subnets]]
+      choices += [[:divider], [:group, _("Provisioning"), provisioning_group]]
     end
 
     if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
       choices += [[:divider]]
-      choices += [ ['Locations', :locations] ]         if SETTINGS[:locations_enabled]
-      choices += [ ['Organizations', :organizations] ] if SETTINGS[:organizations_enabled]
+      choices += [ [_('Locations'), :locations] ]         if SETTINGS[:locations_enabled]
+      choices += [ [_('Organizations'), :organizations] ] if SETTINGS[:organizations_enabled]
     end
 
     users_group =
-      [['LDAP Authentication',    :auth_source_ldaps],
-      ['Users',                  :users],
-      ['User Groups',            :usergroups]]
-    users_group += [['Roles',     :roles]] if User.current && User.current.admin?
+      [[_('LDAP Authentication'),    :auth_source_ldaps],
+      [_('Users'),                  :users],
+      [_('User Groups'),            :usergroups]]
+    users_group += [[_('Roles'),     :roles]] if User.current && User.current.admin?
 
-    choices += [[:divider], [:group, "Users", users_group] ] if SETTINGS[:login]
+    choices += [[:divider], [:group, _("Users"), users_group] ] if SETTINGS[:login]
 
     choices += [
       [:divider],
-      ['Bookmarks',              :bookmarks],
-      ['Settings',               :settings]
+      [_('Bookmarks'),              :bookmarks],
+      [_('Settings'),               :settings]
     ]
 
     authorized_menu_actions(choices)
@@ -77,12 +77,12 @@ module HomeHelper
     choices
   end
 
-  def menu(tab, myBookmarks ,path = nil)
+  def menu(tab, label, myBookmarks ,path = nil)
     path ||= eval("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
     b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
     out = content_tag :li, :id => "menu_tab_#{tab}" do
-      link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
+      link_to_if_authorized(label, path, :class => b.empty? ? "" : "narrow-right")
     end
     out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone "  do
       link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret hidden-phone hidden-tablet'), "#", :class => "dropdown-toggle narrow-left hidden-phone hidden-tablet") + menu_dropdown(b)

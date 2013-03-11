@@ -20,7 +20,7 @@ module TaxonomyHelper
   end
 
   def organization_dropdown count
-    text = Organization.current.nil? ? "Any Organization" : Organization.current.to_label
+    text = Organization.current.nil? ? _("Any Organization") : Organization.current.to_label
     if count == 1 && !User.current.admin?
       link_to text, "#"
     else
