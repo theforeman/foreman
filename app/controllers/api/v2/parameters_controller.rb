@@ -63,7 +63,7 @@ module Api
         process_response @parameter.destroy
       end
 
-      api :DELETE, "/references/:id/parameters/reset", "Deletes all parameters for host, domain, hostgroup, or operating system."
+      api :DELETE, "/references/:id/parameters", "Deletes all parameters for host, domain, hostgroup, or operating system."
       param :id, String, :required => true, :desc => "id of nested reference object (:i.e. host, domain, hostgroup, or operating system) results"
 
       def reset
