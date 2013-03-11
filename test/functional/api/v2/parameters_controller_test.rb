@@ -149,4 +149,32 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should reset nested host parameter" do
+    assert_difference('HostParameter.count', -1) do
+      delete :reset, { :host_id => hosts(:one).to_param } 
+    end 
+    assert_response :success
+  end 
+
+  test "should reset nested domain parameter" do
+    assert_difference('DomainParameter.count', -1) do
+      delete :reset, { :domain_id => domains(:mydomain).to_param }
+    end 
+    assert_response :success
+  end 
+
+  test "should reset Hostgroup parameter" do
+    assert_difference('GroupParameter.count', -1) do
+      delete :reset, { :hostgroup_id => hostgroups(:common).to_param }
+    end 
+    assert_response :success
+  end 
+
+  test "should reset nested os parameters" do
+    assert_difference('OsParameter.count', -1)  do  
+      delete :reset, { :operatingsystem_id => operatingsystems(:redhat).name }
+    end 
+    assert_response :success
+  end 
+
 end

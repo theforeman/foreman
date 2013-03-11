@@ -6,7 +6,7 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :find_nested_object, :only => [:index, :show, :create]
+      before_filter :find_nested_object, :only => [:index, :show, :create, :reset]
 
       resource_description do
         desc <<-DOC
@@ -62,6 +62,15 @@ module Api
       def destroy
         process_response @parameter.destroy
       end
+
+      api :DELETE, "/references/:id/parameters", "Deletes all parameters for host, domain, hostgroup, or operating system."
+      param :id, String, :required => true, :desc => "id of nested reference object (:i.e. host, domain, hostgroup, or operating system) results"
+
+      def reset
+        @parameter = nested_obj.send(parameters_method)
+        process_response @parameter.destroy_all
+      end
+
 
       private
       attr_reader :nested_obj
