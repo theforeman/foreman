@@ -72,7 +72,7 @@ Foreman::Application.routes.draw do
         resources :hosts, :only => [] do
           resources :parameters, :except => [:new, :edit] do
             collection do 
-              delete 'reset'
+              delete '/', :to => :reset
             end
           end
         end
@@ -82,7 +82,7 @@ Foreman::Application.routes.draw do
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           resources :parameters, :except => [:new, :edit] do
             collection do 
-              delete 'reset'
+              delete '/', :to => :reset 
             end
           end 
         end
@@ -108,7 +108,7 @@ Foreman::Application.routes.draw do
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         resources :parameters, :except => [:new, :edit] do
           collection do 
-            delete 'reset'
+            delete '/', :to => :reset 
           end
         end 
       end
@@ -131,7 +131,7 @@ Foreman::Application.routes.draw do
       resources :operatingsystems, :only => [] do
         resources :parameters, :except => [:new, :edit] do
           collection do 
-            delete 'reset'
+            delete '/', :to => :reset 
           end
         end 
       end
