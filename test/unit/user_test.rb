@@ -183,6 +183,12 @@ class UserTest < ActiveSupport::TestCase
     assert !u.save
   end
 
+  test "should not be able to remove the admin flag from the admin account" do
+    u = User.find_by_login("admin")
+    u.admin = false
+    assert !u.save
+  end
+
   test "email domains with a single word should be allowed" do
     u = User.new :auth_source => auth_sources(:one), :login => "root", :mail => "foo@localhost"
     assert u.save
