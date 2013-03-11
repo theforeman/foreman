@@ -1,12 +1,12 @@
 <%= form_for @subnet do |f| %>
   <%= base_errors_for @subnet %>
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Subnet</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Subnet") %></a></li>
     <% if show_location_tab? %>
-      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
     <% end %>
     <% if show_organization_tab? %>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
     <% end %>
   </ul>
 

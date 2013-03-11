@@ -1,6 +1,6 @@
-<% title "Subnets" %>
+<% title _("Subnets") %>
 
-<% title_actions display_link_if_authorized("New Subnet", hash_for_new_subnet_path) %>
+<% title_actions display_link_if_authorized(_("New Subnet"), hash_for_new_subnet_path) %>
 
 <table class="table table-bordered table-striped">
   <tr>
@@ -8,7 +8,7 @@
     <th><%= sort :network %></th>
     <th><%= sort :domains %></th>
     <th><%= sort :vlanid, :as => 'VLAN' %></th>
-    <th>DHCP Proxy</th>
+    <th><%= _("DHCP Proxy") %></th>
     <th></th>
   </tr>
   <% for subnet in @subnets %>
@@ -19,7 +19,7 @@
       <td><%=subnet.vlanid %></td>
       <td><%=subnet.dhcp %></td>
       <td align="right">
-        <%= display_delete_if_authorized hash_for_subnet_path(:id => subnet), :confirm => "Delete #{subnet.name}?" %>
+        <%= display_delete_if_authorized hash_for_subnet_path(:id => subnet), :confirm => _("Delete %s?") % subnet.name %>
       </td>
     </tr>
   <% end %>

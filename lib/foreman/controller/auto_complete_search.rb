@@ -15,7 +15,7 @@ module Foreman::Controller::AutoCompleteSearch
   end
 
   def invalid_search_query(e)
-    error "Invalid search query: #{e}"
+    error (_("Invalid search query: %s") % e)
     redirect_to :back
   end
 

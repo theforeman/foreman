@@ -75,19 +75,19 @@ class SubnetsController < ApplicationController
     proxy = SmartProxy.find(params[:smart_proxy_id])
     @subnets = Subnet.import(proxy)
     if @subnets.empty?
-      flash[:warning] = "No new subnets found"
+      flash[:warning] = _("No new subnets found")
       redirect_to :subnets
     end
   end
 
   def create_multiple
     if params[:subnets].empty?
-      return redirect_to subnets_path, :notice => "No Subnets selected"
+      return redirect_to subnets_path, :notice => _("No Subnets selected")
     end
 
     @subnets = Subnet.create(params[:subnets]).reject { |s| s.errors.empty? }
     if @subnets.empty?
-      process_success(:object => @subnets, :success_msg => "Imported Subnets")
+      process_success(:object => @subnets, :success_msg => _("Imported Subnets"))
     else
       render :action => "import"
     end

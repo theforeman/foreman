@@ -174,7 +174,7 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to "Help", :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
+    link_to _("Help"), :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
   def method_path method
@@ -263,7 +263,7 @@ module ApplicationHelper
     klass      = options[:type]
     update_url = options[:update_url] || url_for(object)
 
-    opts = { :title => "Click to edit", "data-url" => update_url, :class => "editable #{klass}",
+    opts = { :title => _("Click to edit"), "data-url" => update_url, :class => "editable #{klass}",
       :name => name, "data-field" => property, :value => value, :select_values => options[:select_values]}
 
     content_tag_for :span, object, opts do
