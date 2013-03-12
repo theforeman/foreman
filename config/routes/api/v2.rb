@@ -20,7 +20,6 @@ Foreman::Application.routes.draw do
           end
           resources :audits        ,:only => :index
           resources :facts         ,:only => :index, :controller => :fact_values
-          resources :puppetclasses ,:only => :index
           get :status, :on => :member
         end
         resources :compute_resources, :except => [:new, :edit] do
@@ -40,7 +39,6 @@ Foreman::Application.routes.draw do
         end
       end
       resources :ptables, :except => [:new, :edit]
-      resources :puppetclasses, :except => [:new, :edit]
       resources :roles, :except => [:new, :edit]
       resources :reports, :only => [:index, :show, :destroy] do
         get :last, :on => :collection
@@ -75,6 +73,8 @@ Foreman::Application.routes.draw do
               delete '/', :to => :reset
             end
           end
+          resources :puppetclasses, :only => [:index, :show]
+          resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
         end
 
         resources :domains, :only => [] do
@@ -101,6 +101,7 @@ Foreman::Application.routes.draw do
       resources :environments, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :puppetclasses, :only => [:index, :show]
       end
 
       resources :hostgroups, :only => [] do
@@ -111,6 +112,8 @@ Foreman::Application.routes.draw do
             delete '/', :to => :reset
           end
         end
+        resources :puppetclasses, :only => [:index, :show]
+        resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
       end
 
       resources :smart_proxies, :only => [] do
@@ -135,6 +138,8 @@ Foreman::Application.routes.draw do
           end
         end
       end
+
+      resources :puppetclasses, :except => [:new, :edit]
 
       if SETTINGS[:locations_enabled]
         resources :locations do

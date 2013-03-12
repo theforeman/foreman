@@ -1,4 +1,5 @@
 class HostgroupClass < ActiveRecord::Base
+  include Authorization
   audited :associated_with => :hostgroup
   belongs_to :hostgroup
   belongs_to :puppetclass
