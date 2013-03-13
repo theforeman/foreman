@@ -1,5 +1,5 @@
 class UnattendedController < ApplicationController
-  layout nil
+  layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
   PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","pxelinux").map(&:name)

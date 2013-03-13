@@ -174,7 +174,7 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:login]
     resources :usergroups
-    resources :users do
+    resources :users, :except => [:show] do
       collection do
         get 'login'
         post 'login'
@@ -258,7 +258,7 @@ Foreman::Application.routes.draw do
         end
         collection do
           get  'auto_complete_search'
-          post 'provider_selected'
+          get 'provider_selected'
           put  'test_connection'
         end
         resources :images
@@ -301,7 +301,7 @@ Foreman::Application.routes.draw do
         put 'assign_selected_hosts'
       end
       collection do
-	      get 'auto_complete_search'
+        get 'auto_complete_search'
         get 'clear'
         get  'mismatches'
         post 'import_mismatches'
@@ -321,7 +321,7 @@ Foreman::Application.routes.draw do
         put 'assign_selected_hosts'
       end
       collection do
-	      get 'auto_complete_search'
+        get 'auto_complete_search'
         get 'clear'
         get  'mismatches'
         post 'import_mismatches'

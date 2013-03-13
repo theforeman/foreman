@@ -4,15 +4,13 @@ module Host
     type = "Host::Managed"
     case method.to_s
     when /create/, 'new'
-      if args.empty? or args[0].nil? # got no paramters
+      if args.empty? or args[0].nil? # got no parameters
         #set the default type
         args = [{:type => type}]
       else # got some parameters
         args[0][:type] ||= type # adds the type if it doesnt exists
         type = args[0][:type]   # stores the type for later usage.
       end
-    when /^find_by/
-      type = "Host::Base"
     end
 
     type.constantize.send(method,*args, &block)

@@ -1,6 +1,8 @@
 class Host::Managed < Host::Base
   include Authorization
   include ReportCommon
+  include Hostext::Search
+
   has_many :host_classes, :dependent => :destroy, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes
   belongs_to :hostgroup
@@ -57,32 +59,13 @@ class Host::Managed < Host::Base
       org = Organization.current
       loc = Location.current
       conditions = {}
-      conditions[:organization_id] = org.id if org
-      conditions[:location_id]     = loc.id if loc
+      conditions[:organization_id] = Array.wrap(org).map(&:id) if org
+      conditions[:location_id]     = Array.wrap(loc).map(&:id) if loc
       where(conditions)
     }
 
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
-
-  scope :with_fact, lambda { |fact,value|
-    if fact.nil? or value.nil?
-      raise "invalid fact"
-    else
-      { :joins  => "INNER JOIN fact_values fv_#{fact} ON fv_#{fact}.host_id = hosts.id
-                   INNER JOIN fact_names fn_#{fact}  ON fn_#{fact}.id      = fv_#{fact}.fact_name_id",
-        :select => "DISTINCT hosts.name, hosts.id", :conditions =>
-          ["fv_#{fact}.value = ? and fn_#{fact}.name = ? and fv_#{fact}.fact_name_id = fn_#{fact}.id", value, fact] }
-    end
-  }
-
-  scope :with_class, lambda { |klass|
-    if klass.nil?
-      raise "invalid class"
-    else
-      { :joins => :puppetclasses, :select => "hosts.name", :conditions => { :puppetclasses => { :name => klass } } }
-    end
-  }
 
   scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
   scope :no_location, lambda { where(:location_id => nil) }
@@ -536,10 +519,10 @@ class Host::Managed < Host::Base
   # returns sorted hash
   def self.count_habtm association
     output = {}
-    counter = Host.count(:include => association.pluralize, :group => "#{association}_id")
+    counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").count
     # returns {:id => count...}
     #Puppetclass.find(counter.keys.compact)...
-    Hash[eval(association.camelize).send(:find, counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
+    Hash[association.camelize.constantize.find(counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
   end
 
   def resources_chart(timerange = 1.day.ago)
@@ -611,7 +594,7 @@ class Host::Managed < Host::Base
   end
 
   def set_ip_address
-    self.ip ||= subnet.unused_ip if subnet if SETTINGS[:unattended] and (new_record? or managed?)
+    self.ip ||= subnet.unused_ip if subnet and SETTINGS[:unattended] and (new_record? or managed?)
   end
 
   # returns a rundeck output
@@ -836,8 +819,8 @@ class Host::Managed < Host::Base
       end
     end if SETTINGS[:unattended] and managed? and os and capabilities.include?(:build)
 
-    puppetclasses.uniq.each do |e|
-      unless environment.puppetclasses.include?(e)
+    puppetclasses.select("puppetclasses.id,puppetclasses.name").uniq.each do |e|
+      unless environment.puppetclasses.map(&:id).include?(e.id)
         errors.add(:puppetclasses, "#{e} does not belong to the #{environment} environment")
         status = false
       end
