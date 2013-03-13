@@ -5,8 +5,7 @@ require File.expand_path('../../config/settings', __FILE__)
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
 if File.exists?(ENV['BUNDLE_GEMFILE'])
-  require 'bundler'
-  Bundler.setup
+  require 'bundler/setup'
 
   begin
     if SETTINGS[:unattended]

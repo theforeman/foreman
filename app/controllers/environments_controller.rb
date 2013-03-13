@@ -11,7 +11,7 @@ class EnvironmentsController < ApplicationController
     respond_to do |format|
       format.html do
         @environments = values.paginate :page => params[:page]
-        @counter      = Host.count(:group => :environment_id, :conditions => {:environment_id => @environments})
+        @counter      = Host.count(:group => :environment_id, :conditions => {:environment_id => @environments.all})
       end
       format.json { render :json => values.as_json }
     end

@@ -15,7 +15,10 @@ class LookupKey < ActiveRecord::Base
   belongs_to :puppetclass
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
-  has_one :param_class, :through => :environment_classes, :source => :puppetclass
+  has_many :param_classes, :through => :environment_classes, :source => :puppetclass
+  def param_class
+    param_classes.first
+  end
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true

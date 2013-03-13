@@ -1,0 +1,19 @@
+/*
+  =require twitter-bootstrap-static/bootstrap
+  =require twitter-bootstrap-static/sprites
+ */
+
+table .span0{
+  float:none;width:20px;margin-left:0;
+}
+
+.table th{
+  background: rgba(0, 0, 0, 0.08);
+  & a {
+    text-decoration: none;
+    color: #333333;
+  }
+}
+
+h1, h2, h3{line-height: 32px;}
+.btn a {text-decoration: none; color: #333333;}

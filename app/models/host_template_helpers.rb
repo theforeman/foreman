@@ -34,7 +34,7 @@ module HostTemplateHelpers
 
   # used by url_for to generate the path correctly
   def url_options
-    url_options = @url_options || {}
+    url_options = (@url_options || {}).deep_dup()
     url_options[:protocol] = "http://"
     url_options[:host] = Setting[:foreman_url] if Setting[:foreman_url]
     url_options

@@ -36,7 +36,7 @@
   </div>
   <div id="vms" class="tab-pane" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
     <p id="spinner">
-      <%= image_tag 'spinner.gif' %>
+      <%= image_tag '/assets/spinner.gif' %>
       Loading Virtual Machines information ...
     </p>
   </div>
@@ -45,7 +45,7 @@
       <%= title_actions(display_link_if_authorized("New Image", hash_for_new_compute_resource_image_path(:compute_resource_id => @compute_resource.id), :class => "btn btn-success")) %>
       <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource) %>>
         <p id="spinner">
-          <%= image_tag 'spinner.gif' %>
+          <%= image_tag '/assets/spinner.gif' %>
           Loading Images information ...
         </p>
       </div>

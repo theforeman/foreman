@@ -1,5 +1,7 @@
-<%= content_for(:head) { javascript_tag "var INCLUDE_URI = '#{javascript_path("noVNC").sub(/\.js.*$/, "/")}';" } %>
-<%= javascript 'noVNC/vnc', 'noVNC/ui', 'noVNC' %>
+<%= javascript_include_tag("noVNC/util", "noVNC/webutil", "noVNC/base64", "noVNC/websock",
+                           "noVNC/des", "noVNC/input", "noVNC/display", "noVNC/rfb",
+                           "noVNC/jsunzip", "noVNC/ui", "noVNC") %>
+
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn"),
