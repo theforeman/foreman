@@ -29,7 +29,7 @@
           { :disabled => !@host.new_record?,
             :onchange => 'organization_changed(this);', :label => "Organization", :'data-host-id' => @host.id,
           :'data-url' => process_taxonomy_hosts_path, :selected => Organization.my_organizations,
-          :help_inline => image_tag('spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
+          :help_inline => image_tag('/assets/spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
       <% end %>
 
       <% if show_location_tab? %>
@@ -38,7 +38,7 @@
           { :disabled => !@host.new_record?,
             :onchange => 'location_changed(this);', :label => "Location", :"data-host-id" => @host.id,
             :'data-url' => process_taxonomy_hosts_path, :selected => Location.my_locations,
-            :help_inline => image_tag('spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
+            :help_inline => image_tag('/assets/spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
       <% end %>
 
       <%= select_f f, :compute_resource_id, ComputeResource.my_compute_resources, :id, :to_label,
@@ -50,7 +50,7 @@
         { :include_blank => true},
         { :onchange => 'hostgroup_changed(this);' , :'data-host-id' => @host.id,
           :'data-url' => @host.new_record? ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path ,
-          :help_inline => image_tag('spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
+          :help_inline => image_tag('/assets/spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
 
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
           {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path,

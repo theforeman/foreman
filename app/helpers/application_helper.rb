@@ -60,7 +60,8 @@ module ApplicationHelper
                      :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
                      :'data-url' => parameters_puppetclass_path( :id => klass.id),
                      :'data-host-id' => host.id,
-                     :class=>"ui-icon ui-icon-minus")
+                     :'data-animation' => "",
+                     :class=>"icon-remove-sign")
   end
 
   def link_to_add_puppetclass klass, host, type
@@ -71,7 +72,8 @@ module ApplicationHelper
                        :'data-url' => parameters_puppetclass_path( :id => klass.id),
                        :'data-host-id' => host.try(:id),
                        :'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
-                       :class => "ui-icon ui-icon-plus")
+                       :'data-animation' => "",
+                       :class => "icon-plus-sign")
   end
 
   def add_html_classes options, classes
@@ -166,11 +168,10 @@ module ApplicationHelper
     end
   end
 
-  def auto_complete_search(method, val,tag_options = {}, completion_options = {})
+  def auto_complete_search(name, val, options = {})
     path = eval("#{controller_name}_path")
-    options = tag_options.merge(:class => "auto_complete_input")
-    text_field_tag(method, val, options) + auto_complete_clear_value_button(method) +
-      auto_complete_field_jquery(method, "#{path}/auto_complete_#{method}", completion_options)
+    options.merge!(:class => "autocomplete-input", :'data-url' => "#{path}/auto_complete_#{name}" )
+    text_field_tag(name, val, options)
   end
 
   def help_path
@@ -245,7 +246,7 @@ module ApplicationHelper
   end
 
   def gravatar_image_tag(email, html_options = {})
-    default_image = "/images/user.jpg"
+    default_image = "user.jpg"
     html_options.merge!(:onerror=>"this.src='#{default_image}'")
     image_tag(gravatar_url(email, default_image), html_options)
   end

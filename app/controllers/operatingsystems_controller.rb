@@ -7,7 +7,7 @@ class OperatingsystemsController < ApplicationController
     respond_to do |format|
       format.html do
         @operatingsystems = values.paginate(:page => params[:page])
-        @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems})
+        @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems.all})
       end
       format.json { render :json => values.all(:include => [:media, :architectures, :ptables]) }
     end

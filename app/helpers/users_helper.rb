@@ -9,23 +9,12 @@ module UsersHelper
 
   def contracted_host_list user
     content_tag(:span, :id => "contracted_host_list", :style => "display:inline;") do
-      if user.hosts.size > 20
-        link_to_function("#{user.hosts[0..20].join(", ")}...") do |page|
-          page[:contracted_host_list].hide
-          page[:expanded_host_list].show
-        end
-      else
-        content_tag(:span, user.hosts.to_sentence)
-      end
+      content_tag(:span, user.hosts.to_sentence)
     end
   end
 
   def expanded_host_list user
     content_tag(:span, :id => "expanded_host_list", :style => "display:none;") do
-      link_to_function(user.hosts.to_sentence) do |page|
-        page[:contracted_host_list].show
-        page[:expanded_host_list].hide
-      end
     end
   end
 

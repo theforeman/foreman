@@ -11,7 +11,7 @@
   <%= link_to_function _("Full trace"), toggle_div("backtrace") %> <%= _("and relevant log entries.") %>
 </p>
 
-<div id="backtrace" <%= display? %> class="alert alert-message alert-block alert-error base in fade">
+<div id="backtrace" class="alert alert-message alert-block alert-error base in fade">
   <em><%= exception.class %></em><br>
   <strong><%= exception.message %></strong><br>
   <%= Rails.backtrace_cleaner.clean(exception.backtrace).join("<br>").html_safe %>

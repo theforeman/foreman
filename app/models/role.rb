@@ -118,7 +118,7 @@ class Role < ActiveRecord::Base
   def self.default_user
     default_user_role = first(:conditions => {:builtin => BUILTIN_DEFAULT_USER})
     if default_user_role.nil?
-      default_user_role = create(:name => 'Default user') do |role|
+      default_user_role = create!(:name => 'Default user') do |role|
         role.builtin = BUILTIN_DEFAULT_USER
       end
       raise _('Unable to create the default user role.') if default_user_role.new_record?
@@ -131,7 +131,7 @@ class Role < ActiveRecord::Base
   def self.anonymous
     anonymous_role = first(:conditions => {:builtin => BUILTIN_ANONYMOUS})
     if anonymous_role.nil?
-      anonymous_role = create(:name => 'Anonymous') do |role|
+      anonymous_role = create!(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS
       end
       raise _("Unable to create the anonymous role.") if anonymous_role.new_record?
