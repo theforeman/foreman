@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
+  def api_request?
+    request.format.json? or request.format.yaml?
+  end
+
   protected
 
   # Authorize the user for the requested action
@@ -53,6 +57,9 @@ class ApplicationController < ActionController::Base
     redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
   end
 
+  def available_sso
+    @available_sso ||= SSO.get_available(self)
+  end
 
   # Force a user to login if authentication is enabled
   # Sets User.current to the logged in user, or to admin if logins are not used
@@ -62,11 +69,14 @@ class ApplicationController < ActionController::Base
       if SETTINGS[:login]
         # authentication is enabled
 
-        # If REMOTE_USER is provided by the web server then
-        # authenticate the user without using password.
-        if remote_user_provided?
-          user = User.unscoped.find_by_login(@remote_user)
-          logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        if available_sso.present?
+          if available_sso.authenticated?
+            user = User.unscoped.find_by_login(available_sso.user)
+            User.logout_path = available_sso.logout_path if available_sso.support_logout?
+          elsif available_sso.support_login?
+            available_sso.authenticate!
+            return
+          end
         # Else, fall back to the standard authentication mechanism,
         # only if it's an API request.
         elsif api_request?
@@ -118,10 +128,6 @@ class ApplicationController < ActionController::Base
       format.yml { head :status => 404}
     end
     true
-  end
-
-  def api_request?
-    request.format.json? or request.format.yaml?
   end
 
   # this method sets the Current user to be the Admin
