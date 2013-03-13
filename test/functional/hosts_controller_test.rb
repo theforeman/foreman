@@ -484,6 +484,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "if only authorize_login_delegation is set, REMOTE_USER should be
         ignored for API requests" do
+    Setting[:signo_sso] = false
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)
@@ -496,6 +497,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "if both authorize_login_delegation{,_api} are unset,
         REMOTE_USER should ignored in all cases" do
+    Setting[:signo_sso] = false
     Setting[:authorize_login_delegation] = false
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)

@@ -32,6 +32,7 @@ module Foreman
 
           Setting.transaction do
             domain = Facter.domain
+            fqdn = Facter.fqdn
             [
               set('administrator', "The default administrator email address", "root@#{domain}"),
               set('foreman_url',   "The hostname where your Foreman instance is reachable", "foreman.#{domain}"),
@@ -85,7 +86,9 @@ module Foreman
               set('require_ssl_puppetmasters', 'Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)', true),
               set('trusted_puppetmaster_hosts', 'Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output', []),
               set('ssl_client_dn_env', 'Environment variable containing the subject DN from a client SSL certificate', 'SSL_CLIENT_S_DN'),
-              set('ssl_client_verify_env', 'Environment variable containing the verification status of a client SSL certificate', 'SSL_CLIENT_VERIFY')
+              set('ssl_client_verify_env', 'Environment variable containing the verification status of a client SSL certificate', 'SSL_CLIENT_VERIFY'),
+              set('signo_sso', 'Use Signo SSO for login', false),
+              set('signo_url', 'Signo SSO url', "https://#{fqdn}/signo")
             ].compact.each { |s| create s.update(:category => "Auth")}
           end
           true

@@ -89,17 +89,14 @@ class UsersController < ApplicationController
   def login
     session[:user] = User.current = nil
     if request.post?
-      user = User.try_to_login(params[:login]['login'].downcase,  params[:login]['password'])
+      user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
         error _("Incorrect username or password")
         redirect_to login_users_path
       else
         #valid user
-        session[:user] = user.id
-        uri = session[:original_uri]
-        session[:original_uri] = nil
-        redirect_to (uri || hosts_path)
+        login_user(user)
       end
     end
   end
@@ -118,7 +115,6 @@ class UsersController < ApplicationController
   end
 
   private
-
   def authorize(ctrl = params[:controller], action = params[:action])
     # Editing self is true when the user is granted access to just their own account details
 
@@ -142,6 +138,13 @@ class UsersController < ApplicationController
   def update_hostgroups_owners(hostgroup_ids)
     subhostgroups = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten.reject { |hg| hg.users.include?(@user) }
     subhostgroups.each { |subhs| subhs.users << @user }
+  end
+
+  def login_user(user)
+    session[:user]         = user.id
+    uri                    = session[:original_uri]
+    session[:original_uri] = nil
+    redirect_to (uri || hosts_path)
   end
 
 end

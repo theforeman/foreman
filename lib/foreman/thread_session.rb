@@ -70,6 +70,20 @@ module Foreman
           ensure
             self.current = old_user
           end
+
+          # returns a logout path for the user, useful for single sign on support
+          #
+          # it's being set when user logs into a foreman and it's meant to be an url of SSO system
+          # logout page, it's appended by return url so it should contain a parameter at the end
+          # e.g. "https://localhost/signo?return_url="
+          def self.logout_path
+            Thread.current[:logout_path] || ''
+          end
+
+          # sets a logout path to be used for a current user when logging out
+          def self.logout_path=(path)
+            Thread.current[:logout_path] = path
+          end
         end
       end
     end

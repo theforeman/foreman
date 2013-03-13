@@ -164,3 +164,13 @@ attribute33:
   category: General
   default: "true"
   description: "Should Foreman use gravatar to display user icons"
+attribute34:
+  name: signo_sso
+  category: Auth
+  default: false
+  description: "Use SSO"
+attribute35:
+  name: signo_url
+  category: Auth
+  default: "https://localhost:3002"
+  description: "Where Signo runs"
