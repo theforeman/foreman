@@ -5,13 +5,13 @@ class ParameterTest < ActiveSupport::TestCase
     User.current = User.find_by_login "admin"
   end
   test  "names may me reused in different parameter groups" do
-    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => Host.first
+    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => Host.first.id
     assert p1.save
-    p2 = DomainParameter.new :name => "param", :value => "value2", :reference_id => Domain.first
+    p2 = DomainParameter.new :name => "param", :value => "value2", :reference_id => Domain.first.id
     assert p2.save
     p3 = CommonParameter.new :name => "param", :value => "value3"
     assert p3.save
-    p4 = GroupParameter.new  :name => "param", :value => "value4", :reference_id => Hostgroup.first
+    p4 = GroupParameter.new  :name => "param", :value => "value4", :reference_id => Hostgroup.first.id
     assert p4.save
   end
 

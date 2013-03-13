@@ -3,12 +3,9 @@ $(function(){
     var el = $(element);
     var name = el.attr('chart-name');
     var title = el.attr('chart-title');
-    var border = $.parseJSON(el.attr('border'));
     var expandable = el.attr('expandable');
-    var show_title = $.parseJSON(el.attr('show_title'));
     var data = $.parseJSON(el.attr('chart-data'));
-
-    stat_pie(name, title, data, border, expandable, show_title);
+    stat_pie(name, title, data, false, expandable, false);
   });
 
   $(".statistics_bar").each(function(index, element){

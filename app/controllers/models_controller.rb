@@ -6,7 +6,7 @@ class ModelsController < ApplicationController
     respond_to do |format|
       format.html do
         @models  = values.paginate :page => params[:page]
-        @counter = Host.count(:group => :model_id, :conditions => {:model_id => @models})
+        @counter = Host.count(:group => :model_id, :conditions => {:model_id => @models.all})
       end
       format.json { render :json => values }
     end

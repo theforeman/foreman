@@ -16,7 +16,7 @@ else
     Class.new Rails::Railtie do
       console {Foreman.setup_console}
     end
-    Bundler.require(:default, Rails.env)
+    Bundler.require(:default, :assets, Rails.env)
   end
 end
 
@@ -28,11 +28,7 @@ Bundler.require(:jsonp) if SETTINGS[:support_jsonp]
 module Foreman
   class Application < Rails::Application
     # Setup additional routes by loading all routes file from routes directory
-    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/*.rb")]
-
-    # Setup api routes by loading all routes file from routes/api directory
-    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/api/*.rb")]
-
+    config.paths["config/routes"] += Dir[Rails.root.join("config/routes/**/*.rb")]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -61,10 +57,6 @@ module Foreman
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery)
-    #config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-
     # Disable fieldWithErrors divs
     config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
 
@@ -74,7 +66,19 @@ module Foreman
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :account_password, :facts, :root_pass, :value, :report, :password_confirmation, :secret]
 
-    config.session_store :active_record_store
+    # Enable escaping HTML in JSON.
+    config.active_support.escape_html_entities_in_json = true
+
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    # config.active_record.schema_format = :sql
+
+    # Enforce whitelist mode for mass assignment.
+    # This will create an empty whitelist of attributes available for mass-assignment for all models
+    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
+    # parameters by using an attr_accessible or attr_protected declaration.
+    config.active_record.whitelist_attributes = false
 
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
@@ -82,6 +86,12 @@ module Foreman
 
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
   end
 
   def self.setup_console

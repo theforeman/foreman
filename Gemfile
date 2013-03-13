@@ -2,14 +2,13 @@ require File.expand_path('../config/settings', __FILE__)
 require File.expand_path('../lib/regexp_extensions', __FILE__)
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.20'
-gem "jquery-rails"
+gem 'rails', '3.2.13'
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
 gem "audited-activerecord", "3.0.0.rc1"
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 1.3"
-gem 'scoped_search', '>= 2.4'
+gem 'scoped_search', :git => "git://github.com/wvanbergen/scoped_search.git"
 gem 'net-ldap'
 gem 'uuidtools'
 gem "apipie-rails", '0.0.16'
