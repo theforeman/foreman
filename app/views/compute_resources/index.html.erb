@@ -1,10 +1,10 @@
-<% title "Listing compute resources" %>
-<% title_actions display_link_if_authorized("New Compute Resource", hash_for_new_compute_resource_path), help_path %>
+<% title _("Listing compute resources") %>
+<% title_actions display_link_if_authorized(_("New Compute Resource"), hash_for_new_compute_resource_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th><%= sort :type %></th>
+    <th><%= sort :name, :as => _("Name") %></th>
+    <th><%= sort :type, :as => _("Type") %></th>
     <th></th>
   </tr>
 
@@ -13,8 +13,8 @@
     <td><%= link_to compute.name, compute %></td>
     <td><%= compute.provider_friendly_name %></td>
     <td>
-      <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute)),
-                         display_delete_if_authorized(hash_for_compute_resource_path(:id => compute), :confirm => "Delete #{compute.name}?")) %>
+      <%= action_buttons(link_to(_('Edit'), edit_compute_resource_path(compute)),
+                         display_delete_if_authorized(hash_for_compute_resource_path(:id => compute), :confirm => _("Delete %s?") % compute.name)) %>
     </td>
   </tr>
 <% end %>

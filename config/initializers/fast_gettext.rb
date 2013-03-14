@@ -12,3 +12,14 @@ end
 FastGettext.add_text_domain 'foreman', :path => locale_dir, :type => locale_type
 FastGettext.default_available_locales = ['en'] + Dir.entries(locale_dir).reject {|d| d =~ /(^\.|pot$)/ }
 FastGettext.default_text_domain = 'foreman'
+
+module FastGettext
+        module Translation
+
+        alias :old_ :_
+
+        def _(key)
+            "X" + old_(key) + "X"
+        end
+    end
+end

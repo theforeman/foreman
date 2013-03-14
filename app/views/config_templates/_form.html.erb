@@ -3,41 +3,41 @@
 <%= form_for @config_template, :html => { :multipart => true } do |f| %>
     <%= base_errors_for @config_template %>
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab">Config Template</a></li>
-      <li><a href="#template_associations" data-toggle="tab">Association</a></li>
-      <li><a id='history_tab' href="#history" data-toggle="tab">History</a></li>
+      <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Config Template") %></a></li>
+      <li><a href="#template_associations" data-toggle="tab"><%= _("Association") %></a></li>
+      <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     </ul>
 
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
-        <%= text_f f, :name %>
-        <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)" %>
+        <%= text_f f, :name, :label => _("Name") %>
+        <%= checkbox_f f, :snippet, :label => _("Snippet"), :onchange => "snippet_changed(this)" %>
 
         <div id="kind_selector" <%= display? @config_template.snippet %>>
-          <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
+          <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => _("Type") %>
         </div>
 
         <%= alert :class => 'controls alert-success', :header => '',
-                  :text  => icon_text("info-sign", ('Note: ' + link_to('Useful template functions and macros',
+                  :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
                                                                        'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros', :rel => 'external')).html_safe) %>
         <div class='controls'>
           <div class="navbar-inner">
             <div class="btn-group" data-toggle="buttons-radio" >
-            <button type="button" style="margin-top: 8px;" class="btn btn-small active" onclick="set_code()">Code</button>
-            <button type="button" style="margin-top: 8px;" class="btn btn-small" onclick="set_preview()">Preview</button>
+            <button type="button" style="margin-top: 8px;" class="btn btn-small active" onclick="set_code()"><%= _("Code") %></button>
+            <button type="button" style="margin-top: 8px;" class="btn btn-small" onclick="set_preview()"><%= _("Preview") %></button>
           </div>
           <div class="fr">
-            <%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => 'Key Binding'), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
+            <%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
           </div>
           </div>
         </div>
-        <%= textarea_f f, :template, :class => "span12 template_text", :fluid=>true, :label => "Template editor", :'data-file-name' => @config_template.name %>
+        <%= textarea_f f, :template, :class => "span12 template_text", :fluid=>true, :label => _("Template editor"), :'data-file-name' => @config_template.name %>
 
 
-        <%= file_field_f f, :template, :class => "template_file span4",
-                         :help_block  => "Selecting a file will override the editor and load the file instead" %>
-        <%= textarea_f f, :audit_comment, :class => "span12", :fluid=>true, :rows => 3, :label => "Audit Comment",
-                       :help_block => "The Audit Comment field is saved with the template auditing to document the template changes" %>
+        <%= file_field_f f, :template, :class => "template_file span4", :label => _("Template"),
+                         :help_block  => _("Selecting a file will override the editor and load the file instead") %>
+        <%= textarea_f f, :audit_comment, :class => "span12", :fluid=>true, :rows => 3, :label => _("Audit Comment"),
+                       :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
       </div>
       <div class="tab-pane" id="history">
         <div class='controls'>
@@ -56,7 +56,7 @@
                   </div>
               <% end -%>
           <% else -%>
-              <%= alert :header => 'No History Found', :text => 'Save something and try again' %>
+              <%= alert :header => _('No History Found'), :text => _('Save something and try again') %>
           <% end %>
         </div>
       </div>
@@ -64,31 +64,31 @@
 
 
       <div class="tab-pane" id="template_associations">
-        <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> >Not relevant for
-          snippet</p>
+        <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> ><%= _("Not relevant for
+          snippet") %></p>
 
         <div id="association" <%= display? @config_template.snippet %> >
           <div class="alert alert-message alert-success">
             <a class="close" href="#" data-dismiss="alert">&times;</a>
 
-            <h3>How Templates are determined<br></h3>
+            <h3><%= _("How Templates are determined") %><br></h3>
 
-            <p>When editing a Template, you must assign a list of Operating Systems which this
+            <p><%= _("When editing a Template, you must assign a list of Operating Systems which this
               Template can be used with. Optionally, you can restrict a template to a list of
-              Hostgroups and/or Environments</p>
+              Hostgroups and/or Environments") %></p>
 
-            <p>When a Host requests a template (e.g. during provisioning), Foreman will select
-              the best match from the available templates of that type, in the following order:</p>
+            <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select
+              the best match from the available templates of that type, in the following order:") %></p>
             <ul>
-              <li>Host-group and Environment</li>
-              <li>Host-group only</li>
-              <li>Environment only</li>
-              <li>Operating system default</li>
+              <li><%= _("Host-group and Environment") %></li>
+              <li><%= _("Host-group only") %></li>
+              <li><%= _("Environment only") %></li>
+              <li><%= _("Operating system default") %></li>
             </ul>
-            The final entry, Operating System default, can be set by editing
-            the <%= link_to "Operating System", operatingsystems_path %> page.
+            <%= (_("The final entry, Operating System default, can be set by editing
+            the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
           </div>
-          <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Applicable<br>Operating Systems".html_safe %>
+          <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => _("Applicable<br>Operating Systems").html_safe %>
           <%= render "combinations", :f => f %>
         </div>
       </div>

@@ -1,11 +1,11 @@
-<% title "Global Parameters" %>
+<% title _("Global Parameters") %>
 
-<% title_actions display_link_if_authorized("New Parameter", hash_for_new_common_parameter_path) %>
+<% title_actions display_link_if_authorized(_("New Parameter"), hash_for_new_common_parameter_path) %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th style='min-width: 60%;'><%= sort :value %></th>
+    <th><%= sort :name, :as => _("Name") %></th>
+    <th style='min-width: 60%;'><%= sort :value, :as =>  _("Value")%></th>
     <th></th>
   </tr>
   <% for common_parameter in @common_parameters %>
