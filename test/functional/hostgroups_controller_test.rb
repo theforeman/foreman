@@ -84,7 +84,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_json
-    hostgroup = hostgroups(:common)
+    hostgroup = hostgroups(:unusual)
     delete :destroy, {:format => "json", :id => hostgroup.id}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok

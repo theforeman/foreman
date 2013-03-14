@@ -33,7 +33,7 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
 
   test "should destroy hostgroups" do
     assert_difference('Hostgroup.count', -1) do
-      delete :destroy, { :id => hostgroups(:common).to_param }
+      delete :destroy, { :id => hostgroups(:unusual).to_param }
     end
     assert_response :success
   end

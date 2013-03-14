@@ -106,6 +106,55 @@ Spork.prefork do
 
     # Stop ActiveRecord from wrapping tests in transactions
     self.use_transactional_fixtures = false
+
+    def assert_index_page(index_path,title_text,new_link_text = nil,has_search = true,has_pagination = true)
+      visit index_path
+      assert page.has_selector?('h1', :text => title_text), "#{title_text} was expected in the <h1> tag, but was not found"
+      (assert find_link(new_link_text).visible?, "#{new_link_text} is not visible") if new_link_text
+      (assert find_button('Search').visible?, "Search button is not visible") if has_search
+      (assert has_content?("Displaying"), "Pagination 'Display ...' does not appear") if has_pagination
+    end
+
+    def assert_new_button(index_path,new_link_text,new_path)
+      visit index_path
+      click_link new_link_text
+      assert_equal new_path, current_path, "new path #{new_path} was expected but it was #{current_path}"
+    end
+
+    def assert_submit_button(redirect_path,button_text = "Submit")
+      click_button button_text
+      assert_equal redirect_path, current_path, "redirect path #{redirect_path} was expected but it was #{current_path}"
+    end
+
+    def assert_delete_row(index_path, link_text, delete_text = "Delete", dropdown = false)
+      visit index_path
+      within(:xpath, "//tr[contains(.,'#{link_text}')]") do
+        find("i.caret").click if dropdown
+        click_link(delete_text)
+      end
+      popup = page.driver.browser.switch_to.alert
+      popup.accept
+      assert page.has_no_link?(link_text), "link '#{link_text}' was expected NOT to be on the page, but it was found."
+      assert page.has_content?('Successfully destroyed'), "flash message 'Successfully destroyed' was expected but it was not found on the page"
+    end
+
+    def assert_cannot_delete_row(index_path, link_text, delete_text = "Delete", dropdown = false, flash_message = true)
+      visit index_path
+      within(:xpath, "//tr[contains(.,'#{link_text}')]") do
+        find("i.caret").click if dropdown
+        click_link(delete_text)
+      end
+      popup = page.driver.browser.switch_to.alert
+      popup.accept
+      assert page.has_link?(link_text), "link '#{link_text}' was expected but it was not found on the page."
+      assert page.has_content?("is used by"), "flash message 'is used by' was expected but it was not found on the page."
+    end
+
+    def fix_mismatches
+      Location.all_import_missing_ids
+      Organization.all_import_missing_ids
+    end
+
   end
 
 end

@@ -2,14 +2,9 @@ require 'test_helper'
 
 class ComputeResourcesVmsControllerTest < ActionController::TestCase
   setup do
-#    Fog.mock!
     @compute_resource = compute_resources(:mycompute)
     @your_compute_resource = compute_resources(:yourcompute)
     get_test_vm
-  end
-
-  teardown do
-#    Fog.unmock!
   end
 
   test "should not get index when not permitted" do
@@ -135,6 +130,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   end
 
   def get_test_vm
+    Fog.unmock!
     @compute_resource.vms.index {|vm| vm.name == "test" and @test_vm = vm}
   end
 

@@ -1,5 +1,6 @@
 <%= javascript 'trends' %>
-<% title _("Edit Trend %s") @trend.to_label %>
+<% title _("Edit Trend") %>
+
 <div class="span6">
   <% form_tag trend_path, :method => :put do %>
     <% if @trend.is_a?(FactTrend) %>
