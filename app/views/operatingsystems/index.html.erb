@@ -1,10 +1,10 @@
-<% title "Operating systems" %>
-<% title_actions display_link_if_authorized("New Operatingsystem", hash_for_new_operatingsystem_path) %>
+<% title _("Operating systems") %>
+<% title_actions display_link_if_authorized(_("New Operatingsystem"), hash_for_new_operatingsystem_path) %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th>Hosts</th>
+    <th><%= sort :name, :as => _("Name") %></th>
+    <th><%= _("Hosts") %></th>
     <th></th>
   </tr>
   <% for operatingsystem in @operatingsystems %>

@@ -1,10 +1,10 @@
-<% title "Architectures" %>
-<% title_actions display_link_if_authorized("New Architecture", hash_for_new_architecture_path), help_path %>
+<% title _("Architectures") %>
+<% title_actions display_link_if_authorized(_("New Architecture"), hash_for_new_architecture_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th>Operatingsystems</th>
+    <th><%= sort :name, :as => _("Name") %></th>
+    <th><%= _("Operating Systems") %></th>
     <th></th>
   </tr>
   <% for architecture in @architectures %>

@@ -49,8 +49,8 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def self.find_template opts = {}
-    raise "Must provide template kind"        unless opts[:kind]
-    raise "Must provide an operating systems" unless opts[:operatingsystem_id]
+    raise _("Must provide template kind")        unless opts[:kind]
+    raise _("Must provide an operating systems") unless opts[:operatingsystem_id]
 
     # first filter valid templates to our OS and requested template kind.
     templates = ConfigTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
@@ -84,7 +84,7 @@ class ConfigTemplate < ActiveRecord::Base
 
     return true if User.current and User.current.allowed_to?("#{operation}_templates".to_sym)
 
-    errors.add :base, "You do not have permission to #{operation} this template"
+    errors.add :base, (_("You do not have permission to %s this template") % operation)
     false
   end
 
@@ -95,11 +95,11 @@ class ConfigTemplate < ActiveRecord::Base
 
   def self.build_pxe_default(renderer)
     if (proxies = SmartProxy.tftp_proxies).empty?
-      error_msg = "No TFTP proxies defined, can't continue"
+      error_msg = _("No TFTP proxies defined, can't continue")
     end
 
     if (default_template = ConfigTemplate.find_by_name("PXE Default File")).nil?
-      error_msg = "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
+      error_msg = _("Could not find a Configuration Template with the name \"PXE Default File\", please create one.")
     end
 
     if error_msg.empty?
@@ -107,7 +107,7 @@ class ConfigTemplate < ActiveRecord::Base
         @profiles = pxe_default_combos
         menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
       rescue => e
-        error_msg = "failed to process template: #{e}"
+        error_msg = _("failed to process template: %s" % e)
       end
     end
 
@@ -132,11 +132,11 @@ class ConfigTemplate < ActiveRecord::Base
     end
 
     unless error_msgs.empty?
-      msg = "There was an error creating the PXE Default file: #{error_msgs.join(",")}"
+      msg = _("There was an error creating the PXE Default file: %s") % error_msgs.join(",")
       return [500, msg]
     end
 
-    return [200, "PXE Default file has been deployed to all Smart Proxies"]
+    return [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
   private
