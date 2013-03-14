@@ -57,10 +57,15 @@ class UsersController < ApplicationController
       end
       User.current.editing_self = true
     end
+
+    # Only an admin can update admin attribute of another use
+    # this is required, as the admin field is blacklisted above
+    if User.current.admin
+      @user.admin = admin
+      return process_error unless @user.valid?
+    end
+
     if @user.update_attributes(params[:user])
-      # Only an admin can update admin attribute of another use
-      # this is required, as the admin field is blacklisted above
-      @user.update_attribute(:admin, admin) if User.current.admin
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
       hostgroup_ids = params[:user]["hostgroup_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["hostgroup_ids"].empty?
       update_hostgroups_owners(hostgroup_ids) unless hostgroup_ids.empty?
