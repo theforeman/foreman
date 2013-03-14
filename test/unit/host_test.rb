@@ -380,7 +380,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "when changing host environment, its puppet classes should be verified" do
-    h = hosts(:one)
+    h = hosts(:two)
     pc = puppetclasses(:one)
     h.puppetclasses << pc
     assert h.save
