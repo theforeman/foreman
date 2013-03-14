@@ -61,7 +61,7 @@ class ComputeResourcesVmsController < ApplicationController
                "hosts/console/log"
     end
   rescue => e
-    process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
+    process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => (_("Failed to set console: %s") % e), :object => @vm
   end
 
   private

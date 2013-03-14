@@ -1,6 +1,6 @@
 <%= form_for @architecture do |f| %>
   <%= base_errors_for @architecture %>
-  <%= text_f f, :name %>
-  <%= multiple_checkboxes(f, :operatingsystems, @architecture, Operatingsystem, :label => "Operating Systems") %>
+  <%= text_f f, :name , :label => _("Name") %>
+  <%= multiple_checkboxes(f, :operatingsystems, @architecture, Operatingsystem, :label => _("Operating Systems")) %>
   <%= submit_or_cancel f %>
 <% end %>

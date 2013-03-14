@@ -1,13 +1,13 @@
 <%= javascript "compute_resource" %>
 <% title @compute_resource.name %>
 
-<% title_actions link_to('Edit', edit_compute_resource_path(@compute_resource), :class => "btn")  %>
+<% title_actions link_to(_('Edit'), edit_compute_resource_path(@compute_resource), :class => "btn")  %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
-  <li class="active"><a href="#primary" data-toggle="tab">Compute Resource</a></li>
-  <li><a href="#vms" data-toggle="tab">Virtual Machines</a></li>
+  <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
+  <li><a href="#vms" data-toggle="tab"><%= _("Virtual Machines") %></a></li>
   <% if @compute_resource.capabilities.include?(:image) -%>
-    <li><a href="#images" data-toggle="tab">Images</a></li>
+    <li><a href="#images" data-toggle="tab"><%= _("Images") %></a></li>
   <% end -%>
 </ul>
 
@@ -15,21 +15,21 @@
 
   <div class="tab-pane active" id="primary">
     <table class="table table-bordered table-striped">
-      <th>Details</th>
+      <th><%= _("Details") %></th>
       <th></th>
 
       <tr>
-        <td>Provider</td>
+        <td><%= _("Provider") %></td>
         <td><%= @compute_resource.provider %></td>
       </tr>
 
       <tr>
-        <td>Description</td>
+        <td><%= _("Description") %></td>
         <td><%= @compute_resource.description %></td>
       </tr>
 
       <tr>
-        <td>URL</td>
+        <td><%= _("URL") %></td>
         <td><%= @compute_resource.url %></td>
       </tr>
     </table>

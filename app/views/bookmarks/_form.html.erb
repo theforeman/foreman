@@ -1,8 +1,8 @@
 <%= form_for @bookmark do |f| %>
   <%= base_errors_for @bookmark %>
-  <%= text_f f, :name %>
-  <%= textarea_f f, :query, :value => params[:query], :class => "input-xlarge" , :rows=> '3' %>
-  <%= checkbox_f(f, :public, :checked => true) %>
+  <%= text_f f, :name, :label => _("Name") %>
+  <%= textarea_f f, :query, :value => params[:query], :class => "input-xlarge" , :rows=> '3', :label => _("Query") %>
+  <%= checkbox_f(f, :public, :checked => true, :label => _("Public")) %>
   <%= f.hidden_field :controller %>
   <%= submit_or_cancel f %>
 <% end %>
