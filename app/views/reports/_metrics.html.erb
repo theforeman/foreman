@@ -19,7 +19,7 @@
           <td> <%= metric value %> </td>
         </tr>
         <% end %>
-      <tr><th>Total</th><th><%= metric (@totaltime || @report.runtime) %></th></tr>
+      <tr><th><%= _("Total") %></th><th><%= metric (@totaltime || @report.runtime) %></th></tr>
     </table>
   </div>
 </div>

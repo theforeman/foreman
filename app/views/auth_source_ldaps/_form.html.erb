@@ -1,22 +1,22 @@
-<% title_actions link_to(icon_text("question-sign", "Documentation", :class => "icon-white"), "http://theforeman.org/projects/foreman/wiki/LDAP_Authentication", :rel => "external", :class => "btn-info") %>
+<% title_actions link_to(icon_text("question-sign", _("Documentation"), :class => "icon-white"), "http://theforeman.org/projects/foreman/wiki/LDAP_Authentication", :rel => "external", :class => "btn-info") %>
 
 <%= form_for @auth_source_ldap do |f| %>
   <%= base_errors_for @auth_source_ldap %>
 
-  <%= text_f f, :name %>
-  <%= text_f f, :host %>
-  <%= text_f f, :port %>
-  <%= checkbox_f f, :tls, :label => "LDAPS" %>
-  <%= text_f f, :account, :help_inline =>"Use this account to authenticate,<i>optional</i>".html_safe %>
-  <%= password_f f, :account_password, :onfocus => "this.value='';", :help_inline => "Use this account to authenticate, <i>optional</i>".html_safe %>
-  <%= text_f f, :base_dn, :label => "basedn", :class => "input-xxlarge" %>
-  <%= checkbox_f f, :onthefly_register, :label => "On-the-fly user creation",
-    :help_inline => "LDAP user will have his Foreman account automatically created the first time he logs into Foreman" %>
-  <%= field_set_tag("LDAP Attributes mapping") do %>
-    <%= text_f f, :attr_login, :help_inline => "e.g. uid" %>
-    <%= text_f f, :attr_firstname, :help_inline => "e.g. givenName" %>
-    <%= text_f f, :attr_lastname, :help_inline => "e.g. sn" %>
-    <%= text_f f, :attr_mail, :help_inline => "e.g. mail" %>
+  <%= text_f f, :name, :label => _("Name") %>
+  <%= text_f f, :host, :label => _("Host") %>
+  <%= text_f f, :port, :label => _("Port") %>
+  <%= checkbox_f f, :tls, :label => _("LDAPS") %>
+  <%= text_f f, :account, :help_inline =>_("Use this account to authenticate,<i>optional</i>").html_safe, :label => _("Account") %>
+  <%= password_f f, :account_password, :onfocus => "this.value='';", :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe, :label => _("Account Password") %>
+  <%= text_f f, :base_dn, :label => _("basedn"), :class => "input-xxlarge" %>
+  <%= checkbox_f f, :onthefly_register, :label => _("On-the-fly user creation"),
+    :help_inline => _("LDAP user will have his Foreman account automatically created the first time he logs into Foreman") %>
+  <%= field_set_tag(_("LDAP Attributes mapping")) do %>
+    <%= text_f f, :attr_login, :help_inline => _("e.g. uid"), :label => _("Attr Login") %>
+    <%= text_f f, :attr_firstname, :help_inline => _("e.g. givenName"), :label => _("Attr Firstname") %>
+    <%= text_f f, :attr_lastname, :help_inline => _("e.g. sn"), :label => _("Attr Lastname") %>
+    <%= text_f f, :attr_mail, :help_inline => _("e.g. mail"), :label => _("Attr Mail") %>
   <% end -%>
 
   <%= submit_or_cancel f %>

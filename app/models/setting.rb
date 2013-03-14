@@ -130,7 +130,7 @@ class Setting < ActiveRecord::Base
     changed_attributes.each do |c,old|
       # Allow settings_type to change at first (from nil) since it gets populated during validation
       if FROZEN_ATTRS.include?(c.to_s) || (c.to_s == :settings_type && !old.nil?)
-        errors.add(c, "is not allowed to change")
+        errors.add(c, _("is not allowed to change"))
         return false
       end
     end
