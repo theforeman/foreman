@@ -101,7 +101,8 @@ Foreman::AccessControl.map do |map|
                                             :puppetclasses => pc_ajax_actions}
     map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :nest].push(*ajax_actions),
                                             :host => host_ajax_actions,
-                                            :puppetclasses => pc_ajax_actions}
+                                            :puppetclasses => pc_ajax_actions,
+                                            :"api/v2/hostgroup_classes" => [:index, :create, :destroy]}
     map.permission :destroy_hostgroups,    {:hostgroups => [:destroy]}
   end
 
@@ -130,7 +131,9 @@ Foreman::AccessControl.map do |map|
                                       :select_multiple_location, :update_multiple_location].push(*ajax_actions),
                                     :compute_resources => cr_ajax_actions,
                                     :puppetclasses => pc_ajax_actions,
-                                    :subnets => subnets_ajax_actions}
+                                    :subnets => subnets_ajax_actions,
+                                    :"api/v2/host_classes" => [:index, :create, :destroy]
+                                  }
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy]}
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
                                     :tasks => tasks_ajax_actions}
