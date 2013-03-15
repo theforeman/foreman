@@ -11,4 +11,5 @@ group :test do
   gem 'launchy'
   gem 'spork'
   gem 'spork-testunit'
+  gem 'simplecov', :platforms => :ruby_19
 end

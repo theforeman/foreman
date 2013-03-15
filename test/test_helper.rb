@@ -3,6 +3,13 @@ require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
+unless RUBY_VERSION =~ /^1\.8/
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    add_group 'API', 'app/controllers/api'
+  end
+end
+
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
