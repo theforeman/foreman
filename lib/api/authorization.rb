@@ -22,6 +22,15 @@ module Api
       return true
     end
 
+    def is_admin?
+      return true unless SETTINGS[:login]
+      return true if User.current && User.current.admin?
+      authorization_method = oauth? ? :oauth : :http_basic
+      User.current         = send(authorization_method) || (return false)
+      return User.current.admin? if User.current
+      return false
+    end
+
     def authorize
       User.current.allowed_to?(
         :controller => controller.params[:controller].gsub(/::/, "_").underscore,

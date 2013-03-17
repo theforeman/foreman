@@ -28,7 +28,7 @@ Foreman::Application.routes.draw do
       end
       resources :dashboard, :only => [:index]
       resources :environments, :except => [:new, :edit]
-      resources :fact_values, :except => [:new, :edit]
+      resources :fact_values, :only => [:index]
       resources :hostgroups, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
       resources :media, :except => [:new, :edit]
@@ -142,7 +142,7 @@ Foreman::Application.routes.draw do
       resources :puppetclasses, :except => [:new, :edit]
 
       if SETTINGS[:locations_enabled]
-        resources :locations do
+        resources :locations, :except => [:new, :edit] do
 
           # scoped by location
           resources :domains, :only => [:index, :show]
@@ -156,7 +156,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
 
           # scoped by location AND organization
-          resources :organizations do
+          resources :organizations, :except => [:new, :edit] do
             resources :domains, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
             resources :hostgroups, :only => [:index, :show]
@@ -172,7 +172,7 @@ Foreman::Application.routes.draw do
       end
 
       if SETTINGS[:organizations_enabled]
-        resources :organizations do
+        resources :organizations, :except => [:new, :edit] do
 
           # scoped by organization
           resources :domains, :only => [:index, :show]
@@ -186,7 +186,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
 
           # scoped by location AND organization
-          resources :locations do
+          resources :locations, :except => [:new, :edit] do
             resources :domains, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
             resources :hostgroups, :only => [:index, :show]
