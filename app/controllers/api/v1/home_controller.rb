@@ -1,6 +1,7 @@
 module Api
   module V1
     class HomeController < V1::BaseController
+      before_filter :require_admin
 
       api :GET, "/", "Show available links."
 

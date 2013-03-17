@@ -22,6 +22,10 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
     # No controller action actually exists, shouldn't be permitted either
     "audits/create", "audits/destroy", "audits/edit", "audits/new", "audits/update",
+
+    # Apipie
+    "apipie/apipies/index"
+
   ]
 
   # For each controller action, verify it has a permission that grants access
@@ -36,8 +40,6 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     controller = "#{r.defaults[:controller]}_controller".classify.constantize
     filters    = controller.send(:_process_action_callbacks)
 
-    # Skip controllers that don't require logins (e.g. API)
-    next if filters.select { |f| f.filter == :require_login }.empty?
     # Or that deliberately only permit admins (e.g. SettingsController)
     next unless filters.select { |f| f.filter == :require_admin }.empty?
 

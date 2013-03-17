@@ -33,7 +33,7 @@ Foreman::Application.routes.draw do
       end
       resources :dashboard, :only => [:index]
       resources :environments, :except => [:new, :edit]
-      resources :fact_values, :except => [:new, :edit]
+      resources :fact_values, :only => [:index]
       resources :hostgroups, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
       resources :media, :except => [:new, :edit]

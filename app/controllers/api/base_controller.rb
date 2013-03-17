@@ -76,6 +76,14 @@ module Api
       true
     end
 
+    def require_admin
+      auth = Api::Authorization.new self
+      unless auth.is_admin?
+        render_error('admin permissions required', :status => :unauthorized, :locals => { :user_login => auth.user_login })
+        return false
+      end
+    end
+
     def deny_access(details = nil)
       render_error 'access_denied', :status => :forbidden, :locals => { :details => details }
       false
