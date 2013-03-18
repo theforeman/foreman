@@ -73,8 +73,8 @@ module ApplicationHelper
   end
 
   def check_all_roles_links
-    link_to("Check all", "#", :id => "check_all_roles", :remote => true) +
-    link_to("Uncheck all", "#", :id => "uncheck_all_roles", :remote => true)
+    link_to(_("Check all"), "#", :id => "check_all_roles", :remote => true) +
+    link_to(_("Uncheck all"), "#", :id => "uncheck_all_roles", :remote => true)
   end
 
   # Return true if user is authorized for controller/action, otherwise false

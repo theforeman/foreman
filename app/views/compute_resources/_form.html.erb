@@ -4,23 +4,23 @@
 
   <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab">Compute Resource</a></li>
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
       <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
       <% end %>
       <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
       <% end %>
     </ul>
 
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
   <% end %>
-        <%= text_f f, :name %>
+        <%= text_f f, :name, :label => _("Name") %>
         <%= f.hidden_field(:provider, :id => '') if f.object.uuid.present? %>
-        <%= selectable_f f, :provider, ComputeResource::PROVIDERS, { :include_blank => "Choose a provider"},
-                         {:disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
-        <%= textarea_f f, :description, :rows => 3 %>
+        <%= selectable_f f, :provider, ComputeResource::PROVIDERS, { :include_blank => _("Choose a provider")},
+                         {:label => _("Provider"), :disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
+        <%= textarea_f f, :description, :rows => 3 , :label => _("Description")%>
         <div id='compute_connection'>
           <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
         </div>
@@ -28,13 +28,13 @@
       </div>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <%= multiple_checkboxes f, :locations, @compute_resource, Location %>
+          <%= multiple_checkboxes f, :locations, @compute_resource, Location, :label => _("Locations") %>
         </div>
       <% end %>
 
     <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @compute_resource, Organization %>
+          <%= multiple_checkboxes f, :organizations, @compute_resource, Organization, :label => _("Organizations") %>
         </div>
       <% end %>
     </div>

@@ -2,7 +2,7 @@
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
-      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= "#{category}" %></a>
+      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= _(category) %></a>
     </li>
   <% end %>
 </ul>
