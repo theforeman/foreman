@@ -10,6 +10,15 @@ module Api::V2::TaxonomiesController
     before_filter :params_match_database, :only => %w(create update)
   end
 
+  extend Apipie::DSL::Concern
+
+  def_param_group :resource do
+    param :resource, Hash, :required => true, :action_aware => true do
+      param :name, String, :required => true
+    end
+  end
+
+  api :GET, '/:resource_id', 'List all :resource_id'
   def index
     if @nested_obj
       #@taxonomies = @domain.locations.paginate(paginate_options)
@@ -21,16 +30,21 @@ module Api::V2::TaxonomiesController
     render 'api/v2/taxonomies/index'
   end
 
+  api :GET, '/:resource_id/:id', 'Show :a_resource'
   def show
     render 'api/v2/taxonomies/show'
   end
 
+  api :POST, '/:resource_id', 'Create :a_resource'
+  param_group :resource
   def create
     @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
     instance_variable_set("@#{taxonomy_single}", @taxonomy)
     process_response @taxonomy.save
   end
 
+  api :PUT, '/:resource_id/:id', 'Update :a_resource'
+  param_group :resource
   def update
     # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
     # removed process_response & added explicit render 'api/v2/taxonomies/update'.  Otherwise, *_ids are not returned
@@ -38,7 +52,7 @@ module Api::V2::TaxonomiesController
     process_response  @taxonomy.update_attributes(params[taxonomy_single.to_sym])
   end
 
-
+  api :DELETE, '/:resource_id/:id', 'Delete :a_resource'
   def destroy
     process_response @taxonomy.destroy
   end
