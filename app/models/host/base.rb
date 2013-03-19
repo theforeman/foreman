@@ -3,7 +3,7 @@ require 'facts_importer'
 module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
-    set_table_name :hosts
+    self.table_name = :hosts
 
     belongs_to :model
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
@@ -15,6 +15,10 @@ module Host
     validate :is_name_downcased?
 
     include Hostext::Search
+
+    def self.attributes_protected_by_default
+      super - [ inheritance_column ]
+    end
 
     def self.importHostAndFacts yaml
     end

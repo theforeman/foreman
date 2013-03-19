@@ -2,8 +2,8 @@
     <%= field_set_tag _("Owned hosts") do %>
     <div class="control-group">
       Select <%= f.check_box :filter_on_owner %>
-      <%=  contracted_host_list @user -%>
-      <%=  expanded_host_list @user -%>
+      <%=  contracted_host_list @user %>
+      <%=  expanded_host_list @user %>
     </div>
     <% end -%>
 

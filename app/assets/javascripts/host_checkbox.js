@@ -107,7 +107,7 @@ $(function() {
     var title = $(this).attr('data-original-title') + ' - The following hosts are about to be changed';
     var url = $(this).attr('href') + "?" + $.param({host_ids: $.foremanSelectedHosts});
     $('#confirmation-modal .modal-header h3').text(title);
-    $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/images/spinner.gif'>");
+    $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
     $('#confirmation-modal').modal({show: "true", backdrop: "static"});
     $("#confirmation-modal .modal-body").load(url + " #content",
         function(response, status, xhr) {

@@ -5,4 +5,4 @@
 <%= selectable_f(f, :region, f.object.regions, {}, {:label => 'Region',
                  :help_inline => link_to_function("Test Connection", "testConnection(this)",
                  :class => "btn + #{flavors.empty? ? "" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + image_tag('spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe }) %>
+                 :'data-url' => test_connection_compute_resources_path) + image_tag('/assets/spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe }) %>

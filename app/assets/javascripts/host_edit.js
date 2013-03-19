@@ -1,7 +1,6 @@
 function computeResourceSelected(item){
   var compute = $(item).val();
   var attrs = attribute_hash(['architecture_id', 'compute_resource_id', 'operatingsystem_id']);
-  var label = $(item).children(":selected").text();
   if(compute=='') { //Bare Metal
     $('#mac_address').show();
     $("#model_name").show();
@@ -151,7 +150,7 @@ function add_puppet_class(item){
   var link = content.children('a');
   link.attr('onclick', 'remove_puppet_class(this)');
   link.attr('data-original-title', 'Click to undo adding this class');
-  link.removeClass('ui-icon-plus').addClass('ui-icon-minus').tooltip();
+  link.removeClass('icon-plus-sign').addClass('icon-remove-sign').tooltip();
 
   $('#selected_classes').append(content);
 
@@ -185,7 +184,7 @@ function load_puppet_class_parameters(item) {
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
-      '<td colspan="5"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
+      '<td colspan="5"><p><img src="/assets/spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
   $('#inherited_puppetclasses_parameters').append(placeholder);
   $.ajax({
     url: url,
@@ -201,64 +200,39 @@ function load_puppet_class_parameters(item) {
 }
 
 function hostgroup_changed(element) {
-  var host_id = $(element).attr('data-host-id');
-  var url = $(element).attr('data-url');
-  var attrs   = attribute_hash(['hostgroup_id', 'compute_resource_id', 'organization_id', 'location_id']);
-  if (attrs["hostgroup_id"] == undefined) attrs["hostgroup_id"] = $('#hostgroup_parent_id').attr('value');
-  $('#hostgroup_indicator').show();
+  var host_id = $(element).data('host-id');
   if (!host_id){ // a new host
-    $.ajax({
-      type:'post',
-      url: url,
-      data:attrs,
-      complete: function(){
-        $('#hostgroup_indicator').hide();
-        $('[rel="twipsy"]').tooltip();
-        update_provisioning_image();
-        reload_params();
-      }
-    })
+    update_form(element);
   } else { // edit host
     update_puppetclasses(element);
   }
 }
 
 function organization_changed(element) {
-  var url = $(element).attr('data-url');
-  var data = $('form').serialize().replace('method=put', 'method=post');
-  $('#organization_indicator').show();
-  $.ajax({
-    type: 'post',
-    url: url,
-    data: data,
-    success: function(response) {
-      $('#organization_indicator').hide();
-      $('form').html(response);
-      onContentLoad();
-    },
-    complete: function(){
-      $('#organization_indicator').hide();
-      $('[rel="twipsy"]').tooltip();
-    }
-  })
+  update_form(element);
 }
 
 function location_changed(element) {
-  var url = $(element).attr('data-url');
+  update_form(element);
+}
+
+
+function update_form(element) {
+  var url = $(element).data('url');
   var data = $('form').serialize().replace('method=put', 'method=post');
-  $('#location_indicator').show();
+  var indicator = $(element).parent().find('img');
+  indicator.show();
   $.ajax({
     type: 'post',
     url: url,
     data: data,
     success: function(response) {
-      $('#location_indicator').hide();
       $('form').html(response);
+      $("[id$='subnet_id']").first().change();
       onContentLoad();
     },
     complete: function(){
-      $('#location_indicator').hide();
-      $('[rel="twipsy"]').tooltip();
+      indicator.hide();
     }
   })
 }
@@ -276,11 +250,15 @@ function subnet_selected(element){
   }
   var attrs = attribute_hash(["subnet_id", "host_mac", 'organization_id', 'location_id']);
   $('#subnet_indicator').show();
+  var url = $(element).data('url');
   $.ajax({
     data: attrs,
     type:'post',
-    url: foreman_url('/subnets/freeip'),
-    complete: function(){$('#subnet_indicator').hide()}
+    url: url,
+    complete: function(){$('#subnet_indicator').hide()},
+    success: function(data){
+      $('#host_ip').val(data.ip);
+    }
   })
 }
 
@@ -302,11 +280,13 @@ function _to_int(str){
 
 function domain_selected(element){
   var attrs   = attribute_hash(['domain_id', 'organization_id', 'location_id']);
-  var url = $(element).attr('data-url');
+  var url = $(element).data('url');
+  $('#domain_indicator').show();
   $.ajax({
     data: attrs,
     type:'post',
     url: url,
+    complete: function(){$('#domain_indicator').hide()},
     success: function(request) {
       $('#subnet_select').html(request);
       reload_params();
@@ -434,18 +414,18 @@ function override_class_param(item){
 }
 
 function reload_params(){
-  var url = $('#params-tab').attr('data-url');
+  var url = $('#params-tab').data('url');
   var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
   load_with_placeholder('inherited_parameters', url, data)
 
-  var url2 = $('#params-tab').attr('data-url2');
+  var url2 = $('#params-tab').data('url2');
   load_with_placeholder('inherited_puppetclasses_parameters', url2, data)
 }
 
 function load_with_placeholder(target, url, data){
   if(url==undefined) return;
   var placeholder = $('<tr id="' + target + '_loading" >'+
-            '<td colspan="4"><p><img src="/images/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
+            '<td colspan="4"><p><img src="/assets/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);
         $.ajax({
           type:'post',

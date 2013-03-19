@@ -34,11 +34,11 @@ class HostgroupsController < ApplicationController
 
   # Clone the hostgroup
   def clone
-    new = @hostgroup.clone
+    new = @hostgroup.dup
     load_vars_for_ajax
     new.puppetclasses = @hostgroup.puppetclasses
     # Clone any parameters as well
-    @hostgroup.group_parameters.each{|param| new.group_parameters << param.clone}
+    @hostgroup.group_parameters.each{|param| new.group_parameters << param.dup}
     new.name = ""
     new.valid?
     @hostgroup = new
