@@ -315,14 +315,14 @@ function filter_by_level(item){
 }
 
 function auth_source_selected(){
-  var auth_source_id = $('#user_auth_source_id').attr('value');
-  if (auth_source_id == '') return false;
-  $.ajax({
-    type:'get',
-    url:'/users/auth_source_selected',
-    data:'auth_source_id=' + auth_source_id
-  })
+  var auth_source_id = $('#user_auth_source_id').val();
+  if (auth_source_id == '') {
+     $("#password").hide();
+  } else {
+     $("#password").show();
+  }
 }
+
 function show_release(element){
   var os_family = $(element).val();
   if (os_family == 'Debian' || os_family == 'Solaris') {
