@@ -38,21 +38,6 @@ module ApplicationHelper
     link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
-  def toggle_div divs
-    update_page do |page|
-      (divs.is_a?(Array) ? divs : divs.to_s).each_line do |div|
-        # add jquery '#div' to the div if its missing
-        div = div.to_s
-        div = "##{div}" if div[0] != "#"
-        page << "if ($('#{div}').is(':visible')) {"
-        page[div].hide()
-        page << "} else {"
-        page[div].show
-        page << "}"
-      end
-    end
-  end
-
   def link_to_remove_puppetclass klass, host
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +

@@ -228,9 +228,9 @@ $(function() {
 
 function magic_line(id, combo) {
   var $el, leftPos, newWidth, $mainNav = $(id);
-
   $mainNav.append("<li class='magic-line'></li>");
   var $magicLine = $(id + " .magic-line");
+  if ($magicLine.size() == 0) return;
   if ($('[data-toggle=collapse]:visible').length > 0){
     $magicLine.hide();
   }else{$magicLine.show();}
@@ -402,4 +402,8 @@ function update_puppetclasses(element) {
 // generates an absolute, needed in case of running Foreman from a subpath
 function foreman_url(path) {
   return URL_PREFIX + path;
+}
+
+function toggle_backtrace() {
+  $('#backtrace').toggle();
 }
