@@ -57,8 +57,8 @@ class Host::Managed < Host::Base
       org = Organization.current
       loc = Location.current
       conditions = {}
-      conditions[:organization_id] = org.id if org
-      conditions[:location_id]     = loc.id if loc
+      conditions[:organization_id] = Array.wrap(org).map(&:id) if org
+      conditions[:location_id]     = Array.wrap(loc).map(&:id) if loc
       where(conditions)
     }
 
