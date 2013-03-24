@@ -258,7 +258,7 @@ Foreman::Application.routes.draw do
         end
         collection do
           get  'auto_complete_search'
-          post 'provider_selected'
+          get 'provider_selected'
           put  'test_connection'
         end
         resources :images

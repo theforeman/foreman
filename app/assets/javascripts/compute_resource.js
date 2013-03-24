@@ -21,15 +21,8 @@ function providerSelected(item)
   }
   $("[type=submit]").attr("disabled",false);
   var url = $(item).attr('data-url');
-  $.ajax({
-        type:'post',
-        url: url,
-        data:'provider=' + provider,
-        success: function(result){
-          $('#compute_connection').html($(result).find("#compute_connection"));
-          $('#compute_connection').append($(result).find(".alert-message"));
-        }
-  });
+  var data = 'provider=' + provider;
+  $('#compute_connection').load(url + ' div#compute_connection', data);
 }
 
 function testConnection(item) {
@@ -40,8 +33,9 @@ function testConnection(item) {
     url: $(item).attr('data-url'),
     data: $('form').serialize(),
     success:function (result) {
-      $('#compute_connection').html($(result).find("#compute_connection"));
-      $('#compute_connection').prepend($(result).find(".alert-message"));
+      var res = $('<div>' + result + '</div>');
+      $('#compute_connection').html(res.find("#compute_connection"));
+      $('#compute_connection').prepend(res.find(".alert-message"));
     },
     complete:function (result) {
       $('#test_connection_indicator').hide();
