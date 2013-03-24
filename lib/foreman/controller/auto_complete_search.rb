@@ -1,7 +1,7 @@
 module Foreman::Controller::AutoCompleteSearch
   def auto_complete_search
     begin
-      model = controller_name == "hosts" ? Host::Base : controller_name.singularize.camelize.constantize;
+      model = controller_name == "hosts" ? Host::Managed : controller_name.singularize.camelize.constantize;
       @items = model.complete_for(params[:search])
       @items = @items.map do |item|
         category = (['and','or','not','has'].include?(item.to_s.sub(/^.*\s+/,''))) ? 'Operators' : ''

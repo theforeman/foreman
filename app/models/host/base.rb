@@ -14,8 +14,6 @@ module Host
     validates_uniqueness_of :name
     validate :is_name_downcased?
 
-    include Hostext::Search
-
     def self.attributes_protected_by_default
       super - [ inheritance_column ]
     end
