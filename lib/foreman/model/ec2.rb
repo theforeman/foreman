@@ -92,6 +92,7 @@ module Foreman::Model
     private
 
     def client
+      ::Fog.mock! if Rails.env.test?
       @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region)
     end
 

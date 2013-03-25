@@ -150,6 +150,7 @@ module Foreman::Model
     end
 
     def client
+      ::Fog.mock! if Rails.env.test?
       @client ||= ::Fog::Compute.new(
         :provider                     => "vsphere",
         :vsphere_username             => user,

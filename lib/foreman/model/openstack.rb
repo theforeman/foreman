@@ -73,6 +73,7 @@ module Foreman::Model
     private
 
     def client
+      ::Fog.mock! if Rails.env.test?
       @client ||= ::Fog::Compute.new(:provider => :openstack, :openstack_api_key => password, :openstack_username => user, :openstack_auth_url => url)
     end
 
