@@ -49,8 +49,8 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def self.find_template opts = {}
-    raise _("Must provide template kind")        unless opts[:kind]
-    raise _("Must provide an operating systems") unless opts[:operatingsystem_id]
+    raise ::Foreman::Exception(N_("Must provide template kind")) unless opts[:kind]
+    raise ::Foreman::Exception(N_("Must provide an operating systems")) unless opts[:operatingsystem_id]
 
     # first filter valid templates to our OS and requested template kind.
     templates = ConfigTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])

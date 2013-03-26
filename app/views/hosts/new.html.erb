@@ -1,3 +1,3 @@
-<% title "#{params[:action].capitalize} Host" %>
+<% title(_("%s Host") % params[:action].capitalize) %>
 
 <%= render :partial => 'form' %>

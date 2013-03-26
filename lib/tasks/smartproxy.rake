@@ -3,6 +3,7 @@
 #   smartproxy hostname is used instead of name
 
 require 'resolv'
+# TRANSLATORS: do not translate
 desc <<-END_DESC
   Migrate each host's textual puppetmaster value over to a reference to a smart proxy
 

@@ -1,5 +1,6 @@
 <%= render 'selected_hosts', :hosts => @hosts %>
 
 <%= form_tag submit_multiple_destroy_hosts_path(:host_ids => params[:host_ids]), :onsubmit => "resetSelection()" do -%>
-  <span class="label label-warning">Warning</span> This might take a while, as all hosts, facts and reports will be destroyed as well
+  <span class="label label-warning"><%= _('Warning') %></span>
+  <%= _('This might take a while, as all hosts, facts and reports will be destroyed as well') %>
 <% end %>

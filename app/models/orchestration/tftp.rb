@@ -28,7 +28,7 @@ module Orchestration::TFTP
       logger.info "Add the TFTP configuration for #{name}"
       tftp.set mac, :pxeconfig => generate_pxe_template
     rescue => e
-      failure "Failed to set TFTP: #{proxy_error e}"
+      failure _("Failed to set TFTP: %s") % proxy_error(e)
     end
 
     # Removes the host from the forward and reverse TFTP zones
@@ -37,7 +37,7 @@ module Orchestration::TFTP
       logger.info "Delete the TFTP configuration for #{name}"
       tftp.delete mac
     rescue => e
-      failure "Failed to delete TFTP: #{proxy_error e}"
+      failure _("Failed to delete TFTP: %s") % proxy_error(e)
     end
 
     def setTFTPBootFiles
@@ -48,10 +48,10 @@ module Orchestration::TFTP
           valid = false unless tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)
         end
       end
-      failure "Failed to fetch boot files" unless valid
+      failure _("Failed to fetch boot files") unless valid
       valid
     rescue => e
-      failure "Failed to fetch boot files: #{proxy_error e}"
+      failure _("Failed to fetch boot files: %s") % proxy_error(e)
     end
 
     #empty method for rollbacks
@@ -65,7 +65,7 @@ module Orchestration::TFTP
       return unless operatingsystem
       return if Rails.env == "test"
       if configTemplate({:kind => operatingsystem.template_kind}).nil? and configTemplate({:kind => "gPXE"}).nil?
-        failure "No #{operatingsystem.template_kind} templates were found for this host, make sure you define at least one in your #{os} settings"
+        failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") % { :template_kind => operatingsystem.template_kind, :os => os }
       end
     end
 
@@ -84,7 +84,7 @@ module Orchestration::TFTP
         pxe_render ConfigTemplate.find_by_name("PXE Localboot Default").template
       end
     rescue => e
-      failure "Failed to generate #{os.template_kind} template: #{e}"
+      failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => os.template_kind, :e => e }
     end
 
     def queue_tftp
@@ -95,10 +95,10 @@ module Orchestration::TFTP
     end
 
     def queue_tftp_create
-      queue.create(:name => "TFTP Settings for #{self}", :priority => 20,
+      queue.create(:name => _("TFTP Settings for %s") % self, :priority => 20,
                    :action => [self, :setTFTP])
       return unless build
-      queue.create(:name => "Fetch TFTP boot files for #{self}", :priority => 25,
+      queue.create(:name => _("Fetch TFTP boot files for %s") % self, :priority => 25,
                    :action => [self, :setTFTPBootFiles])
     end
 
@@ -115,7 +115,7 @@ module Orchestration::TFTP
         set_tftp = true
         # clean up old TFTP reservation file
         if old.tftp?
-          queue.create(:name => "Remove old TFTP Settings for #{old}", :priority => 19,
+          queue.create(:name => _("Remove old TFTP Settings for %s") % old, :priority => 19,
                        :action => [old, :delTFTP])
         end
       end
@@ -125,7 +125,7 @@ module Orchestration::TFTP
     def queue_tftp_destroy
       return unless tftp? and errors.empty?
       return true if jumpstart?
-      queue.create(:name => "TFTP Settings for #{self}", :priority => 20,
+      queue.create(:name => _("TFTP Settings for %s") % self, :priority => 20,
                    :action => [self, :delTFTP])
     end
 

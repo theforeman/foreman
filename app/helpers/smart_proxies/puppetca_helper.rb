@@ -5,13 +5,16 @@ module SmartProxies::PuppetcaHelper
   end
 
   def time_column time, opts = {}
-    return "N/A" if time.blank?
+    return _("N/A") if time.blank?
     opts[:tense] ||= :past
-    str = ""
-    str = "in " if opts[:tense] == :future
-    str += time_ago_in_words time
-    str += " ago" if opts[:tense] == :past
-    str
+
+    if opts[:tense] == :future
+      _("in %s") % (time_ago_in_words time)
+    elsif opts[:tense] == :past
+      _("%s ago") % (time_ago_in_words time)
+    else
+      time_ago_in_words time
+    end
   end
 
 end

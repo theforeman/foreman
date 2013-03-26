@@ -129,7 +129,7 @@ class LookupKey < ActiveRecord::Base
 
   # Generate possible lookup values type matches to a given host
   def path2matches host
-    raise "Invalid Host" unless host.class.model_name == "Host"
+    raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
     matches = []
     path_elements.each do |rule|
       match = []
@@ -159,7 +159,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def array2path array
-    raise "invalid path" unless array.is_a?(Array)
+    raise ::Foreman::Exception.new(N_("invalid path")) unless array.is_a?(Array)
     array.map do |sub_array|
       sub_array.is_a?(Array) ? sub_array.join(KEY_DELM) : sub_array
     end.join("\n")
@@ -172,7 +172,7 @@ class LookupKey < ActiveRecord::Base
       self.default_value = cast_validate_value self.default_value
       true
     rescue
-      errors.add(:default_value, "is invalid")
+      errors.add(:default_value, _("is invalid"))
       false
     end
   end
@@ -244,18 +244,18 @@ class LookupKey < ActiveRecord::Base
 
   def ensure_type
     if puppetclass_id.present? and is_param?
-      self.errors.add(:base, 'Global variable or class Parameter, not both')
+      self.errors.add(:base, _('Global variable or class Parameter, not both'))
     end
   end
 
   def validate_regexp
     return true unless (validator_type == 'regexp')
-    errors.add(:default_value, "is invalid") and return false unless (default_value =~ /#{validator_rule}/)
+    errors.add(:default_value, _("is invalid")) and return false unless (default_value =~ /#{validator_rule}/)
   end
 
   def validate_list
     return true unless (validator_type == 'list')
-    errors.add(:default_value, "#{default_value} is not one of #{validator_rule}") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
+    errors.add(:default_value, _("%{default_value} is not one of %{validator_rule}") % { :default_value => default_value, :validator_rule => validator_rule }) and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
   end
 
 end

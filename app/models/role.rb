@@ -121,7 +121,7 @@ class Role < ActiveRecord::Base
       default_user_role = create!(:name => 'Default user') do |role|
         role.builtin = BUILTIN_DEFAULT_USER
       end
-      raise _('Unable to create the default user role.') if default_user_role.new_record?
+      raise ::Foreman::Exception.new(N_('Unable to create the default user role.')) if default_user_role.new_record?
     end
     default_user_role
   end
@@ -134,7 +134,7 @@ class Role < ActiveRecord::Base
       anonymous_role = create!(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS
       end
-      raise _("Unable to create the anonymous role.") if anonymous_role.new_record?
+      raise ::Foreman::Exception.new(N_("Unable to create the anonymous role.")) if anonymous_role.new_record?
     end
     anonymous_role
   end
@@ -149,8 +149,8 @@ private
   end
 
   def check_deletable
-    errors.add :base, _("Role is in use") if users.any?
-    errors.add :base, _("Can't delete builtin role") if builtin?
+    errors.add(:base, _("Role is in use")) if users.any?
+    errors.add(:base, _("Can't delete built-in role")) if builtin?
     errors.empty?
   end
 end

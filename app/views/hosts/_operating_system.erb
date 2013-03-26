@@ -7,23 +7,23 @@
 </span>
 <% image_provisioning = f.object.provision_method && f.object.provision_method == 'image' %>
 <div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
-  <%= field(f, :provision_method, :label => 'Provisioning Method') do
-      radio_button_f(f, :provision_method, :value=>'build', :checked=> !image_provisioning, :text=> "Network Based")+
-      radio_button_f(f, :provision_method, :value=>'image', :checked=> image_provisioning, :text=> "Image Based")
+  <%= field(f, :provision_method, :label => _('Provisioning Method')) do
+      radio_button_f(f, :provision_method, :value=>'build', :checked=> !image_provisioning, :text=> _("Network Based"))+
+      radio_button_f(f, :provision_method, :value=>'image', :checked=> image_provisioning, :text=> _("Image Based"))
   end %>
 </div>
 <div id='network_provisioning' <%= display? image_provisioning  %> >
   <% if @host.new_record? -%>
-      <%= checkbox_f f, :build, :checked => true, :help_inline => "Enable this host for provisioning" %>
+      <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
   <% end -%>
   <span id="media_select">
     <%= render 'common/os_selection/operatingsystem', :item => @host %>
   </span>
 
 
-  <%= textarea_f f, :disk, :class => "input-xxlarge", :label => 'Custom Disk layout', :rows => "4",
-           :help_block => "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field" %>
-  <%= password_f f, :root_pass, :label => "Root Password" %>
+  <%= textarea_f f, :disk, :class => "input-xxlarge", :label => _('Custom Disk layout'), :rows => "4",
+           :help_block => _("What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field") %>
+  <%= password_f f, :root_pass, :label => _("Root Password") %>
 </div>
 
 <div id='image_provisioning' <%= display? !image_provisioning      %> >
@@ -33,8 +33,8 @@
 <div class="control-group">
   <div class="control-label"> Provisioning Templates</div>
   <div class="controls">
-  <%= link_to_function icon_text("refresh", "Resolve"), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn" %>
-  <%=  popover("?", "Display the templates that will be used to provision this host", :title=>"Provisioning Templates") %>
+  <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn" %>
+  <%=  popover("?", _("Display the templates that will be used to provision this host"), :title=>_("Provisioning Templates")) %>
   </div>
   <br>
 <div id="templates_info" class="span6 controls"> </div>
