@@ -15,7 +15,7 @@
             <li><%= link_to_if_authorized bookmark.name, eval("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
         <% end -%>
         <li class="divider"></li>
-        <li><%= link_to_function 'Bookmark this search', "$('#bookmarks-modal').modal();",
+        <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
                                  {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
       </ul>
     </div>

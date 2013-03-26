@@ -1,3 +1,4 @@
+# TRANSLATORS: do not translate
 desc <<-END_DESC
 Expire Reports automatically
 
@@ -20,6 +21,7 @@ namespace :reports do
     Report.expire(conditions)
   end
 end
+# TRANSLATORS: do not translate
 desc <<-END_DESC
 Send an email summarising hosts reports (and lack of it).
 

@@ -45,11 +45,11 @@ class ComputeResource < ActiveRecord::Base
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
-    raise _("must provide a provider") unless provider = args[:provider]
+    raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args[:provider]
     PROVIDERS.each do |p|
       return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
-    raise "unknown Provider"
+    raise ::Foreman::Exception.new N_("unknown provider")
   end
 
   def capabilities
@@ -164,7 +164,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise _("%s console is not supported at this time") % provider
+    raise ::Foreman::Exception(N_("%s console is not supported at this time"), provider)
   end
 
   # by default, our compute providers do not support updating an existing instance
@@ -179,7 +179,7 @@ class ComputeResource < ActiveRecord::Base
   protected
 
   def client
-    raise _("Not implemented")
+    raise ::Foreman::Exception.new N_("Not implemented")
   end
 
   def sanitize_url

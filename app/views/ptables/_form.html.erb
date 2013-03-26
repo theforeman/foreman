@@ -2,7 +2,7 @@
   <%= base_errors_for @ptable %>
   <%= text_f f, :name, :label => _("Name") %>
   <%= textarea_f f, :layout, :class => "input-xxlarge", :label => _("Layout"),
-    :help_block => (_("<span class='label label-info'>Notice</span> you may use %s") % (link_to _('a script as well'), 'http://theforeman.org/projects/foreman/wiki/Dynamic_disk_partitioning', :rel => 'external')).html_safe %>
+    :help_block => ("<span class='label label-info'>" + _("Notice") + "</span> " + _("you may use %s") % (link_to _('a script as well'), 'http://theforeman.org/projects/foreman/wiki/Dynamic_disk_partitioning', :rel => 'external')).html_safe %>
   <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => _("Operating System Family") } %>
   <%= submit_or_cancel f %>
 <% end %>

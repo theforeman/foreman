@@ -30,7 +30,7 @@
               <%= render "user_fact", :f => builder %>
           <% end -%>
           <% if authorized_for(params[:controller], params[:action]) -%>
-              <p><%= link_to_add_fields(_("+ Add Filter"), f, :user_facts, "user_fact", :title => _("Add a fact filter")) %></p>
+              <p><%= link_to_add_fields('+ ' + _("Add Filter"), f, :user_facts, "user_fact", :title => _("Add a fact filter")) %></p>
           <% end -%>
         </div>
       </div>

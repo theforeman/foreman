@@ -44,7 +44,7 @@ module Nic
 
     # returns a hash of dhcp record attributes
     def dhcp_attrs
-      raise "DHCP not supported for this NIC" unless dhcp?
+      raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
       {
         :hostname => name,
         :ip       => ip,

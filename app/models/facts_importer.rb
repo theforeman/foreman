@@ -114,7 +114,7 @@ module Facts
     private
 
     def os_name
-      facts[:operatingsystem].blank? ? raise("invalid facts, missing operatingsystem value") : facts[:operatingsystem]
+      facts[:operatingsystem].blank? ? raise(N_("invalid facts, missing operating system value")) : facts[:operatingsystem]
     end
   end
 

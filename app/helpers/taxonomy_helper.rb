@@ -29,7 +29,7 @@ module TaxonomyHelper
   end
 
   def location_dropdown count
-      text = Location.current.nil? ? "Any Location" : Location.current.to_label
+      text = Location.current.nil? ? _("Any Location") : Location.current.to_label
       if count == 1 && !User.current.admin?
         link_to text, "#"
       else

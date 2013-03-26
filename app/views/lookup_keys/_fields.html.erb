@@ -4,31 +4,29 @@
 
   <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence,:class=>'span4', :label=> 'Puppet Environments', :disabled=>true) if is_param%>
 
-  <%= remove_child_link "Remove #{f.object.new_record? ? "Variable" : f.object}", f , {:class => 'btn btn-danger hide'} unless controller_name == "lookup_keys" %>
-  <%= text_f f, :key, :label => "Name", :disabled => f.object.is_param %>
+  <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? "Variable" : f.object), f , {:class => 'btn btn-danger hide'}) unless controller_name == "lookup_keys" %>
+  <%= text_f f, :key, :label => _("Name"), :disabled => f.object.is_param %>
   <%= f.hidden_field :key if is_param %>
   <%= textarea_f f, :description, :rows => :auto, :class=> "span6" %>
 
   <%= show_puppet_class f %>
-  <%= checkbox_f(f, :override, :label => "Override", :onchange=>'toggleOverrideValue(this)',
-                    :help_inline => popover("?", "Whether the smart-variable should override the Puppet class default value.",
-                    :title => "Override Value")) if is_param%>
+  <%= checkbox_f(f, :override, :label => _("Override"), :onchange=>'toggleOverrideValue(this)',
+                    :help_inline => popover("?", _("Whether the smart-variable should override the Puppet class default value."),
+                    :title => _("Override Value"))) if is_param%>
 
   <%= param_type_selector f  %>
-  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :class => "span6", :rows => :auto, :help_inline => popover("?","value to use when there is no match", :title => "Default Value") %>
+  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :class => "span6", :rows => :auto, :help_inline => popover("?",_("value to use when there is no match"), :title => _("Default Value")) %>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
     <legend>Optional Input Validator</legend>
     <%= checkbox_f(f, :required, :disabled => !f.object.override,
-                      :help_inline => popover("?", "If checked, will raise an error if there is no default value and no matcher provide a value.",
-                      :title => "Required Parameter")) if is_param %>
+                      :help_inline => popover("?", _("If checked, will raise an error if there is no default value and no matcher provide a value."),
+                      :title => _("Required Parameter"))) if is_param %>
     <%= validator_type_selector f  %>
     <%= text_f f, :validator_rule, :disabled => f.object.validator_type.blank? %>
 
     <legend>Override Value For Specific Hosts</legend>
-    <%= textarea_f f, :path, :rows => :auto, :label => "Order", :value => f.object.path,
-                   :help_inline => popover("?", "The order in which matchers keys are processed, first match wins.<br>
-    You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code>
-    would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>", :title => "The order in which values are resolved").html_safe
+    <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :value => f.object.path,
+                   :help_inline => popover("?", _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"), :title => _("The order in which values are resolved")).html_safe
     %>
 
     <%# the following field is required to see child validations %>
@@ -38,7 +36,7 @@
       <%= f.fields_for :lookup_values do |lookup_values| %>
           <%= render 'lookup_keys/value', :f => lookup_values %>
       <% end %>
-      <%= add_child_link "+ Add Matcher-Value", :lookup_values, { :title => 'add a new matcher-value pair'} %>
+      <%= add_child_link '+ ' + _("Add Matcher-Value"), :lookup_values, { :title => _('add a new matcher-value pair')} %>
     </div>
   </div>
 </div>

@@ -2,12 +2,12 @@
 <% title header ||= "" %>
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
-    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
+    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
     <th class=''><%= sort :name %></th>
     <th class="hidden-phone"><%= sort :os, :as => "Operating<br>System" %></th>
     <th class="hidden-phone"><%= sort :environment %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => "Host Group" %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host Group") %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :last_report %></th>
     <th></th>
   </tr>
@@ -24,9 +24,9 @@
       <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
       <td>
         <%= action_buttons(
-                    display_link_if_authorized("Edit Host", hash_for_edit_host_path(:id => host)),
-                    display_link_if_authorized("Clone", hash_for_clone_host_path(:id => host)),
-                    display_delete_if_authorized(hash_for_host_path(:id => host), :confirm => "Delete #{host.name}?", :action => :destroy))%>
+                    display_link_if_authorized(_("Edit Host"), hash_for_edit_host_path(:id => host)),
+                    display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host)),
+                    display_delete_if_authorized(hash_for_host_path(:id => host), :confirm => _("Delete %s?") % host.name, :action => :destroy))%>
       </td>
     </tr>
   <% end -%>
@@ -43,5 +43,5 @@
   </div>
 </div>
 
-<%= page_entries_info hosts, :more => " - <strong><span class='select_count'>0</span></strong> Selected", :model => 'Hosts' %>
+<%= page_entries_info hosts, :more => " - <strong><span class='select_count'>0</span></strong> " + _("Selected"), :model => 'Hosts' %>
 <%= will_paginate hosts %>

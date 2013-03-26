@@ -8,7 +8,7 @@
     <div class='offset2 span8 audit-content'>
       <b>
         <% if audit_login? audit %>
-          <%= audit_user(audit)%> <%=link_to("Logged-in", audit_path(audit))  %>
+          <%= audit_user(audit)%> <%= link_to(_("Logged-in"), audit_path(audit))  %>
         <% else %>
           <%= audit_user(audit) %> <%= audit_remote_address audit %> <%= audit_action_name audit%> <%= audited_type audit %>: <%=link_to(audit_title(audit), audit_path(audit)) %>
         <% end %>

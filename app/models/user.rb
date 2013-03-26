@@ -228,7 +228,7 @@ class User < ActiveRecord::Base
 
   def name_used_in_a_usergroup
     if Usergroup.all.map(&:name).include?(self.login)
-      errors.add :base, "A usergroup already exists with this name"
+      errors.add(:base, _("A user group already exists with this name"))
     end
   end
 

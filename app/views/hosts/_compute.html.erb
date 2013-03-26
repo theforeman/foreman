@@ -4,8 +4,8 @@
                :locals => { :f => compute, :compute_resource => compute_resource, :arch => @host.try(:architecture_id) || params[:architecture_id], :os => @host.try(:operatingsystem_id) || params[:operatingsystem_id] } %>
   <% else %>
     <div class="alert alert-message alert-block alert-warning base in fade">
-      <h4>'<%= @host.name %>' Not Found On '<%= compute_resource %>'</h4>
-      <p>'<%= @host.name %>' could be deleted. </p>
+      <h4><%= _("'%{host}' not found on '%{resource}'") % { :host => @host.name, :resource => compute_resource } %></h4>
+      <p><%= _("'%s' could be deleted.") % @host.name %></p>
     </div>
   <% end%>
   <%= hidden_field_tag 'capabilities', compute_resource.capabilities %>

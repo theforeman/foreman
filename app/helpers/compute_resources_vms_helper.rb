@@ -12,9 +12,9 @@ module ComputeResourcesVmsHelper
         when Array
           value.map{|v| v.try(:name) || v.try(:to_s) || v}.to_sentence
         when Fog::Time, Time
-          time_ago_in_words(value) + " ago"
+          _("%s ago") % time_ago_in_words(value)
         when nil
-            "N/A"
+            _("N/A")
         else
           value.to_s
         end
@@ -37,7 +37,7 @@ module ComputeResourcesVmsHelper
       :address     => console[:address],
       :secure_port => console[:secure_port],
       :ca_cert     => URI.escape(console[:ca_cert]),
-      :title       => "#{console[:name]} - Press Shift-F12 to release the cursor."
+      :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
     ) if supports_spice_xpi?
     options
   end

@@ -159,7 +159,7 @@ class UnattendedController < ApplicationController
     # This should terminate the before_filter and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
-    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!", :status => 500) unless @host.handle_ca
+    render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => 500) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
@@ -248,7 +248,7 @@ class UnattendedController < ApplicationController
     begin
       render :inline => "<%= unattended_render(@unsafe_template).html_safe %>" and return
     rescue Exception => exc
-      msg = "There was an error rendering the " + template_name + " template: "
+      msg = _("There was an error rendering the %s template: ") % (template_name)
       render :text => msg + exc.message, :status => 500 and return
     end
   end

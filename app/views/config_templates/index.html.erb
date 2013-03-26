@@ -22,7 +22,7 @@
       <td><%= config_template.try(:template_kind) %></td>
       <td><%= checked_icon config_template.snippet %></td>
       <td><%= display_delete_if_authorized hash_for_config_template_path(:id => config_template.to_param),
-                                           :confirm => "Delete #{config_template}?" -%> </td>
+                                           :confirm => _("Delete %s?") % config_template -%> </td>
     </tr>
   <% end %>
 </table>

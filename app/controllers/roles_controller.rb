@@ -71,7 +71,7 @@ class RolesController < ApplicationController
         role.permissions = params[:permissions][role.id.to_s]
         role.save
       end
-      notice _("All non public permissions successfuly updated")
+      notice _("All non public permissions successfully updated")
       redirect_to roles_url
     end
   end
