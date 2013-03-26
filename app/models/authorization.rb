@@ -30,7 +30,7 @@ module Authorization
     klasses = klass.pluralize
     return true if User.current and User.current.allowed_to?("#{operation}_#{klasses}".to_sym)
 
-    errors.add :base, "You do not have permission to #{operation} this #{klass}"
+    errors.add :base, _("You do not have permission to %{operation} this %{klass}") % { :operation => operation, :klass => klass }
     @permission_failed = operation
     false
   end

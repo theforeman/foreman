@@ -1,4 +1,4 @@
-<% title 'Overview' %>
+<% title _('Overview') %>
 <div id='dashboard'>
   <p>Generated at <%= Time.now.to_s(:short) %></p>
   <table id='links-tbl' class="table table-striped table-bordered">
@@ -7,31 +7,31 @@
       <th>Data</th>
     </tr>
     <tr>
-      <td><%= searchable_links 'Hosts that had performed modifications without error', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)" %></td>
+      <td><%= searchable_links _('Hosts that had performed modifications without error'), "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)" %></td>
       <td><%= @report[:active_hosts_ok_enabled] %> </td>
     </tr>
     <tr>
-      <td><%= searchable_links 'Hosts in Error State', "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0) and status.enabled = true" %></td>
+      <td><%= searchable_links _('Hosts in Error State'), "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0) and status.enabled = true" %></td>
       <td><%= @report[:bad_hosts_enabled] %> </td>
     </tr>
     <tr>
-      <td><%=searchable_links "Good Host Reports in the last #{time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago)}", "last_report > \"#{Setting[:puppet_interval]+5} minutes ago\" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0" %></td>
+      <td><%=searchable_links (_("Good Host Reports in the last %s") % time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago)), "last_report > \"#{Setting[:puppet_interval]+5} minutes ago\" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0" %></td>
       <td> <%= "#{@report[:ok_hosts_enabled]}  / #{@report[:total_hosts]}" %> hosts (<%= @report[:percentage] %>%)</td>
     </tr>
     <tr>
-      <td><%= searchable_links 'Hosts that had pending changes', 'status.pending > 0 and status.enabled = true' %></td>
+      <td><%= searchable_links _('Hosts that had pending changes'), 'status.pending > 0 and status.enabled = true' %></td>
       <td><%= @report[:pending_hosts_enabled] %> </td>
     </tr>
     <tr>
-      <td><%= searchable_links 'Out Of Sync Hosts', "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true" %></td>
+      <td><%= searchable_links _('Out Of Sync Hosts'), "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true" %></td>
       <td><%= @report[:out_of_sync_hosts_enabled] %> </td>
     </tr>
     <tr>
-      <td><%= searchable_links 'Hosts With No Reports', "not has last_report and status.enabled = true" %></td>
+      <td><%= searchable_links _('Hosts With No Reports'), "not has last_report and status.enabled = true" %></td>
       <td><%= @report[:reports_missing] %> </td>
     </tr>
     <tr>
-      <td><%= searchable_links 'Hosts With Alerts Disabled', "status.enabled = false" %></td>
+      <td><%= searchable_links _('Hosts With Alerts Disabled'), "status.enabled = false" %></td>
       <td><%= @report[:disabled_hosts] %> </td>
     </tr>
   </table>

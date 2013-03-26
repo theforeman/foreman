@@ -2,7 +2,7 @@
 <% metrics.delete_if{ |k,v| v < 0.001 } %>
 <div class="row">
   <%= pie_chart("metrics" ,_("Report Metrics"), metrics, :class => "statistics_pie span4")%>
-  <%= bar_chart("status" ,_("Report Status")," Number of Events", status.keys, status.values, :class => "statistics_bar span4")%>
+  <%= bar_chart("status" ,_("Report Status"),' ' + _("Number of Events"), status.keys, status.values, :class => "statistics_bar span4")%>
   <div class="span4">
     <table class='table table-bordered table-striped' style="height: 398px;">
       <% metrics.sort.each do |title, value|-%>

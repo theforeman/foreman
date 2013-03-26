@@ -1,13 +1,13 @@
-<% title _("Ldap Authentication") %>
+<% title _("LDAP Authentication") %>
 
-<% title_actions display_link_if_authorized(_("New Ldap Source"), hash_for_new_auth_source_ldap_path), help_path %>
+<% title_actions display_link_if_authorized(_("New LDAP Source"), hash_for_new_auth_source_ldap_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
     <th><%= _("Name") %></th>
     <th><%= _("Host") %></th>
     <th><%= _("On the fly Register") %></th>
-    <th><%= _("LSAPS") %></th>
+    <th><%= _("LDAPS") %></th>
     <th></th>
   </tr>
   <% for auth_source_ldap in @auth_source_ldaps %>

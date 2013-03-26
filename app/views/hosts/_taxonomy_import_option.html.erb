@@ -1,2 +1,2 @@
-  <%= f.radio_button :optimistic_import, "yes" %> <%= "Fix #{taxonomy_type} on Mismatch" %>
-  <%= f.radio_button :optimistic_import, "no", :checked => true %> <%= "Fail on Mismatch" %>
+  <%= f.radio_button :optimistic_import, "yes" %> <%= _("Fix %s on Mismatch") % taxonomy_type %>
+  <%= f.radio_button :optimistic_import, "no", :checked => true %> <%= _("Fail on Mismatch") %>

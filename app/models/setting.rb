@@ -110,11 +110,11 @@ class Setting < ActiveRecord::Base
         begin
           self.value = YAML.load(value.gsub(/(\,)(\S)/, "\\1 \\2"))
         rescue => e
-          errors.add(:value, "invalid value: #{e}")
+          errors.add(:value, _("invalid value: %s") % e)
           return false
         end
       else
-        errors.add(:value, "Must be an array")
+        errors.add(:value, _("Must be an array"))
         return false
       end
     end

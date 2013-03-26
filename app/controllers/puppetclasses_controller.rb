@@ -31,7 +31,7 @@ class PuppetclassesController < ApplicationController
   def create
     @puppetclass = Puppetclass.new(params[:puppetclass])
     if @puppetclass.save
-      notice "Successfully created puppetclass."
+      notice _("Successfully created puppetclass.")
       redirect_to puppetclasses_url
     else
       render :action => 'new'
@@ -50,7 +50,7 @@ class PuppetclassesController < ApplicationController
 
   def update
     if @puppetclass.update_attributes(params[:puppetclass])
-      notice "Successfully updated puppetclass."
+      notice _("Successfully updated puppetclass.")
       redirect_to puppetclasses_url
     else
       render :action => 'edit'
@@ -59,7 +59,7 @@ class PuppetclassesController < ApplicationController
 
   def destroy
     if @puppetclass.destroy
-      notice "Successfully destroyed puppetclass."
+      notice _("Successfully destroyed puppetclass.")
     else
       error @puppetclass.errors.full_messages.join("<br/>")
     end

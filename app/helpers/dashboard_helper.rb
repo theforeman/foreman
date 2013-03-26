@@ -8,7 +8,8 @@ module DashboardHelper
     (1..(Setting[:puppet_interval] / interval)).each do
       now = start + interval.minutes
       counter <<  hosts.run_distribution(start, now-1.second).count
-      labels  <<  "#{(((start.getlocal-Time.now).abs)/60).round} Minutes ago"
+      minutes = (((start.getlocal-Time.now).abs)/60).round
+      labels  <<  n_("%s minute ago", "%s minutes ago", minutes) % minutes
       start = now
     end
     {:labels => labels, :counter =>counter}
@@ -22,13 +23,13 @@ module DashboardHelper
             [:'Out of sync', report[:out_of_sync_hosts_enabled]],
             [:'No report', report[:reports_missing]],
             [:'Notification disabled', report[:disabled_hosts]]]
-    pie_chart 'overview', 'Puppet Clients Activity Overview', data, options
+    pie_chart 'overview', _('Puppet Clients Activity Overview'), data, options
   end
 
   def render_run_distribution data, options = {}
     bar_chart "run_distribution",
-              "Run Distribution in the last #{Setting[:puppet_interval]} Minutes",
-              "Number Of Clients",
+              _("Run Distribution in the last %s Minutes") % Setting[:puppet_interval],
+              _("Number Of Clients"),
               data[:labels],
               data[:counter],
               options

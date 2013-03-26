@@ -160,7 +160,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def image_extension
-    raise _("Attempting to construct a operatingsystem image filename but %s cannot be built from an image") % family
+    raise ::Foreman::Exception(N_("Attempting to construct an operating system image filename but %s cannot be built from an image"), family)
   end
 
   # If this OS family requires access to its media via NFS

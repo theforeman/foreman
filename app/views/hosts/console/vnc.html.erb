@@ -6,7 +6,7 @@
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn"),
                      if @host
-                       link_to_if_authorized("Back to host", hash_for_host_path(:id => @host), :title => "Back to host", :class => 'btn')
+                       link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn')
                      end
         ) ) %>
 <div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>

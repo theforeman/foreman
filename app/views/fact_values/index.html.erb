@@ -1,4 +1,4 @@
-<% title "Fact Values" %>
+<% title _("Fact Values") %>
 
 <table class="table table-bordered table-striped">
   <tr>
@@ -21,16 +21,16 @@
         </td>
       <% end %>
       <td>
-        <%= link_to_function image_tag("pie_chart_icon.png", :alt => "Show distribution chart"),
+        <%= link_to_function image_tag("pie_chart_icon.png", :alt => _("Show distribution chart")),
           "get_pie_chart('fact_chart-#{fact_value.fact_name_id}', '#{fact_path(fact_value.fact_name_id)}')" %>
         <%= link_to h(fact_value.fact_name.name),
           fact_values_path("search" => "name = #{fact_value.name}"),
-        :title => "Show all #{fact_value.name} fact values" %>
+        :title => _("Show all %s fact values") % fact_value.name %>
       </td>
       <td>
         <%= link_to h(truncate fact_value.value, :length => 40),
           fact_values_path("search" => "facts.#{fact_value.name} = \"#{fact_value.value}\""),
-        :title => "Show all #{fact_value.name} facts where they are equal to #{fact_value.value}" %>
+        :title => _("Show all %{name} facts where they are equal to %{value}") % { :name => fact_value.name, :value => fact_value.value } %>
       </td>
       <td><%= fact_from fact_value %></td>
     </tr>

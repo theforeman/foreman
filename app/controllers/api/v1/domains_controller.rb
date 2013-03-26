@@ -2,6 +2,7 @@ module Api
   module V1
     class DomainsController < V1::BaseController
       resource_description do
+        # TRANSLATORS: API documentation - do not translate
         desc <<-DOC
           Foreman considers a domain and a DNS zone as the same thing. That is, if you
           are planning to manage a site where all the machines are or the form
@@ -31,6 +32,7 @@ module Api
       end
 
       api :POST, "/domains/", "Create a domain."
+      # TRANSLATORS: API documentation - do not translate
       description <<-DOC
         The <b>fullname</b> field is used for human readability in reports
         and other pages that refer to domains, and also available as

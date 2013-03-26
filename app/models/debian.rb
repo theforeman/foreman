@@ -16,8 +16,8 @@ class Debian < Operatingsystem
   end
 
   def boot_files_uri(medium, architecture)
-    raise "invalid medium for #{to_s}" unless media.include?(medium)
-    raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
+    raise ::Foreman::Exception(N_("invalid medium for %s"), to_s) unless media.include?(medium)
+    raise ::Foreman::Exception(N_("invalid architecture for %s"), to_s) unless architectures.include?(architecture)
 
     # Debian stores x86_64 arch is amd64
     arch = architecture.to_s.gsub("x86_64","amd64")

@@ -28,40 +28,40 @@ module LookupKeysHelper
     # In case of a new smart-var inside a puppetclass (REST nesting only), or a class parameter:
     # Show the parent puppetclass as a context, but permit no change.
     if params["puppetclass_id"]
-      select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => "Puppet class", :disabled => true}
+      select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => _("Puppet class"), :disabled => true}
     elsif f.object.is_param && f.object.param_class
-      field(f, :puppetclass_id, :label => 'Puppet Class') do
+      field(f, :puppetclass_id, :label => _('Puppet Class')) do
         content_tag(:input, nil, :value => f.object.param_class, :type => 'text', :disabled => true)
       end
     else # new smart-var with no particular context
          # Give a select for choosing the parent puppetclass
-      select_f(f, :puppetclass_id, Puppetclass.all, :id, :to_label, { :include_blank => 'None' }, {:label => "Puppet class"})
+      select_f(f, :puppetclass_id, Puppetclass.all, :id, :to_label, { :include_blank => _('None') }, {:label => _("Puppet class")})
     end unless @puppetclass # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
   end
 
   def param_type_selector f
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES, f.object.key_type),{},
-               { :disabled => (f.object.is_param && !f.object.override), :label => "Type", :class => "medium",
-                 :help_inline => popover("?","<dl>
-               <dt>String</dt> <dd>Everything is taken as a string.</dd>
-               <dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>
-               <dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd>
-               <dt>Real</dt> <dd>Accept any numerical input.</dd>
-               <dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd>
-               <dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd>
-               <dt>YAML</dt> <dd>Any valid YAML input.</dd>
-               <dt>JSON</dt> <dd>Any valid JSON input.</dd>
-               </dl>", :title => "How values are validated").html_safe}
+               { :disabled => (f.object.is_param && !f.object.override), :label => _("Type"), :class => "medium",
+                 :help_inline => popover("?",_("<dl>" +
+               "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
+               "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
+               "<dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd>" +
+               "<dt>Real</dt> <dd>Accept any numerical input.</dd>" +
+               "<dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd>" +
+               "<dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd>" +
+               "<dt>YAML</dt> <dd>Any valid YAML input.</dd>" +
+               "<dt>JSON</dt> <dd>Any valid JSON input.</dd>" +
+               "</dl>"), :title => _("How values are validated")).html_safe}
   end
 
   def validator_type_selector f
-     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES, f.object.validator_type),{:include_blank => "None"},
-                { :disabled => (f.object.is_param && !f.object.override), :label => "Validator Type", :class => "medium",
+     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES, f.object.validator_type),{:include_blank => _("None")},
+                { :disabled => (f.object.is_param && !f.object.override), :label => _("Validator Type"), :class => "medium",
                   :onchange => 'validatorTypeSelected(this)',
-                  :help_inline => popover("?","<dl>
-                <dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>
-                <dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>
-                </dl>", :title => "Validation types").html_safe}
+                  :help_inline => popover("?",_("<dl>" +
+                "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
+                "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
+                "</dl>"), :title => _("Validation types")).html_safe}
   end
 
   def used_matcher host, key
@@ -82,24 +82,20 @@ module LookupKeysHelper
      new_value = key.value_for host
 
      diagnostic_class = []
-     diagnostic_helper = popover("Additional info", "<b>Description:</b> #{key.description}<br>
-                                                     <b>Type:</b> #{key.key_type}<br>
-                                                     <b>Matcher:</b> #{used_matcher(host, key)}")
+     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{key}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :key => key.key_type, :matcher => used_matcher(host, key)})
      if new_value.blank? && !new_value.is_a?(FalseClass)
        if key.required
          diagnostic_class << 'error'
-         diagnostic_helper = popover('No value error', "Required parameter without value.<br/><b>Please override!</b>
-                                                        <br><br><b>Description:</b>: #{key.description}")
+         diagnostic_helper = popover(_('No value error'), _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description)
        else
          diagnostic_class << 'warning'
-         diagnostic_helper = popover('No value warning', "Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i>
-                                                         <br><br><b>Description:</b> #{key.description}")
+         diagnostic_helper = popover(_('No value warning'), _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description)
        end
      end
      if errors.size > 0
        diagnostic_class.delete 'warning'
        diagnostic_class << 'error'
-       diagnostic_helper = popover('Fact error', 'One or more unknown facts were encountered during evaluation:<ul>' + errors.sort.map {|v| "<li>#{v}</li>" }.join + '</ul>')
+       diagnostic_helper = popover(_('Fact error'), _('One or more unknown facts were encountered during evaluation:') + '<ul>' + errors.sort.map {|v| "<li>#{v}</li>" }.join + '</ul>')
      end
      content_tag :div, :class => ['control-group', 'condensed'] + diagnostic_class do
       row_count = original_value.to_s.lines.count rescue 1

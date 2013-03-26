@@ -6,7 +6,7 @@ module ComputeResourcesHelper
   end
 
   def vm_state s
-    s ? " Off" : " On"
+    s ? ' ' + _("Off") : ' ' + _("On")
   end
 
   def vm_power_class s
