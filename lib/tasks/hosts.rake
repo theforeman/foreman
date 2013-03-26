@@ -1,3 +1,4 @@
+# TRANSLATORS: do not translate
 desc <<-END_DESC
   Try to figure out the out of sync hosts real status
 

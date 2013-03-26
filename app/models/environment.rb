@@ -9,7 +9,7 @@ class Environment < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
+  validates_format_of :name, :with => /^[\w\d]+$/, :message => _("is alphanumeric and cannot contain spaces")
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
 
@@ -37,7 +37,7 @@ class Environment < ActiveRecord::Base
     def puppetEnvs proxy = nil
 
       url = (proxy || SmartProxy.puppet_proxies.first).try(:url)
-      raise "Can't find a valid Foreman Proxy with a Puppet feature" if url.blank?
+      raise ::Foreman::Exception.new(N_("Can't find a valid Foreman Proxy with a Puppet feature")) if url.blank?
       proxy = ProxyAPI::Puppet.new :url => url
       HashWithIndifferentAccess[proxy.environments.map { |e|
         [e, HashWithIndifferentAccess[proxy.classes(e).map {|k|

@@ -12,7 +12,7 @@
 
     <div class="tab-pane active form-horizontal" id="primary">
       <%= text_f f, :name %>
-      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :class=>'span4', :label=> 'Puppet Environments', :disabled => true %>
+      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :class=>'span4', :label=> _('Puppet Environments'), :disabled => true %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => "Hostgroups" %>
     </div>
 
@@ -70,7 +70,7 @@
           <% @puppetclass.lookup_keys.each do |key| -%>
               <li><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="delete fr">&times;</span></a></li>
           <% end -%>
-          <li><%= link_to_function "+ Add Variable", "add_child_node(this);" ,:class=>"btn btn-success",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
+          <li><%= link_to_function '+ ' + _("Add Variable"), "add_child_node(this);" ,:class=>"btn btn-success",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
         </ul>
 
         <div class="tab-content span9 smart-var-content">

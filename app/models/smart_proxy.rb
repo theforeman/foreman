@@ -88,8 +88,8 @@ class SmartProxy < ActiveRecord::Base
         errors.add :base, _("No features found on this proxy, please make sure you enable at least one feature")
       end
     rescue => e
-      errors.add :base, (_("Unable to communicate with the proxy: %s") % e)
-      errors.add :base, _("Please check the proxy is configured and running on the host before saving.")
+      errors.add(:base, _("Unable to communicate with the proxy: %s") % e)
+      errors.add(:base, _("Please check the proxy is configured and running on the host before saving."))
     end
     features.any?
   end

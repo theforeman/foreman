@@ -43,10 +43,10 @@ module Nic
         value = self.send(attr)
         unless value.blank?
           if host.send(attr) == value
-            errors.add attr, "Can't use the same value as the primary interface"
+            errors.add(attr, _("Can't use the same value as the primary interface"))
             failed = true
           elsif Host.where(attr => value).limit(1).pluck(attr).any?
-            errors.add attr, "already in use"
+            errors.add(attr, _("already in use"))
             failed = true
           end
         end

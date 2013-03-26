@@ -142,7 +142,7 @@ class Host::Managed < Host::Base
 
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?
-      raise "invalid timerange"
+      raise ::Foreman.Exception.new(N_("invalid time range"))
     else
       { :joins      => "INNER JOIN reports ON reports.host_id = hosts.id",
         :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
@@ -180,12 +180,12 @@ class Host::Managed < Host::Base
     validates_presence_of    :domain_id, :if => Proc.new {|host| host.managed}
     validates_presence_of    :mac, :unless => Proc.new { |host| host.compute? or !host.managed  }
 
-    validates_length_of      :root_pass, :minimum => 8,:too_short => 'should be 8 characters or more'
+    validates_length_of      :root_pass, :minimum => 8, :too_short => _('should be 8 characters or more')
     validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
-    validates_presence_of    :ptable_id, :message => "cant be blank unless a custom partition has been defined",
+    validates_presence_of    :ptable_id, :message => _("cant be blank unless a custom partition has been defined"),
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
-    validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => "should follow this format: 0,9600n8", :allow_blank => true, :allow_nil => true
+    validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => _("should follow this format: 0,9600n8"), :allow_blank => true, :allow_nil => true
 
     validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
   end
@@ -412,9 +412,9 @@ class Host::Managed < Host::Base
         certname = facts["certname"]
         name     = facts["fqdn"].downcase
         values   = facts
-        return raise("invalid facts hash") unless name and values
+        return raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
       else
-        return raise("Invalid Facts, much be a Puppet::Node::Facts or a Hash")
+        return raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
     end
 
     if name == certname or certname.nil?
@@ -470,7 +470,7 @@ class Host::Managed < Host::Base
       if (pc = Puppetclass.find_by_name(klass))
         myklasses << pc
       else
-        error =  "Failed to import #{klass} for #{name}: doesn't exists in our database - ignoring"
+        error = _("Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring") % { :klass => klass, :name => name }
         logger.warn error
         $stdout.puts error
       end
@@ -551,7 +551,7 @@ class Host::Managed < Host::Base
         (!current.hostgroups.empty? and current.hostgroups.include?(hostgroup))
       end
     end
-    errors.add :base, "You do not have permission to #{operation} this host"
+    errors.add(:base, _("You do not have permission to %s this host") % operation)
     false
   end
 
@@ -589,13 +589,13 @@ class Host::Managed < Host::Base
 
   def puppetrun!
     unless puppet_proxy.present?
-      errors.add(:base, "no puppet proxy defined - cant continue")
+      errors.add(:base, _("no puppet proxy defined - cant continue"))
       logger.warn "unable to execute puppet run, no puppet proxies defined"
       return false
     end
     ProxyAPI::Puppet.new({:url => puppet_proxy.url}).run fqdn
   rescue => e
-    errors.add(:base, "failed to execute puppetrun: #{e}")
+    errors.add(:base, _("failed to execute puppetrun: %s") % e)
     false
   end
 
@@ -789,7 +789,7 @@ class Host::Managed < Host::Base
       value = self.send(e.to_sym)
       next if value.blank?
       unless os.send(e.pluralize.to_sym).include?(value)
-        errors.add("#{e}_id".to_sym, "#{value} does not belong to #{os} operating system")
+        errors.add("#{e}_id".to_sym, _("%{value} does not belong to %{os} operating system") % { :value => value, :os => os })
         status = false
       end
     end if SETTINGS[:unattended] and managed? and os and capabilities.include?(:build)

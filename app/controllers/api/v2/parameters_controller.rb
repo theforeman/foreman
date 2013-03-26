@@ -9,6 +9,7 @@ module Api
       before_filter :find_nested_object, :only => [:index, :show, :create, :reset]
 
       resource_description do
+        # TRANSLATORS: API documentation - do not translate
         desc <<-DOC
           These API calls are related to <b>nested parameters for host, domain, hostgroup, operating system</b>. If you are looking for
           <a href="common_parameters.html">global parameters</a>, go to <a href="common_parameters.html">this link</a>.

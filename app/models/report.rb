@@ -75,7 +75,7 @@ class Report < ActiveRecord::Base
   #imports a YAML report into database
   def self.import(yaml)
     report = YAML.load(yaml)
-    raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
+    raise ::Foreman::Exception.new(N_("Invalid report")) unless report.is_a?(Puppet::Transaction::Report)
     logger.info "processing report for #{report.host}"
     begin
       host = Host.find_by_certname report.host
@@ -134,7 +134,7 @@ class Report < ActiveRecord::Base
   # TODO: improve SQL query (so its not N+1 queries)
   def self.summarise(time = 1.day.ago, *hosts)
     list = {}
-    raise "invalid host list" unless hosts
+    raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
     hosts.flatten.each do |host|
       # set default of 0 per metric
       metrics = {}
@@ -244,9 +244,9 @@ class Report < ActiveRecord::Base
   end
 
   def summaryStatus
-    return "Failed"   if error?
-    return "Modified" if changes?
-    return "Success"
+    return _("Failed")   if error?
+    return _("Modified") if changes?
+    return _("Success")
   end
 
   private
@@ -345,7 +345,7 @@ class Report < ActiveRecord::Base
     return true if operation == "create"
     return true if operation == "destroy" and User.current.allowed_to?(:destroy_reports)
 
-    errors.add :base, "You do not have permission to #{operation} this report"
+    errors.add(:base, _("You do not have permission to %s this report") % operation)
     false
   end
 

@@ -125,14 +125,14 @@ class Subnet < ActiveRecord::Base
   private
 
   def validate_ranges
-    errors.add(:from, "invalid IP address")            if from.present? and !from =~ Net::Validations::IP_REGEXP
-    errors.add(:to, "invalid IP address")              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
-    errors.add(:from, "does not belong to subnet")     if from.present? and not self.contains?(f=IPAddr.new(from))
-    errors.add(:to, "does not belong to subnet")       if to.present?   and not self.contains?(t=IPAddr.new(to))
-    errors.add(:from, "can't be bigger than to range") if from.present? and t.present? and f > t
+    errors.add(:from, _("invalid IP address"))            if from.present? and !from =~ Net::Validations::IP_REGEXP
+    errors.add(:to, _("invalid IP address"))              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
+    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
     if from.present? or to.present?
-      errors.add(:from, "must be specified if to is defined")   if from.blank?
-      errors.add(:to,   "must be specified if from is defined") if to.blank?
+      errors.add(:from, _("must be specified if to is defined"))   if from.blank?
+      errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
   end
 
@@ -140,7 +140,7 @@ class Subnet < ActiveRecord::Base
     return if domains.empty?
     domains.each do |d|
       conds = new_record? ? ['name = ?', name] : ['subnets.name = ? AND subnets.id != ?', name, id]
-      errors.add(:name, "domain #{d} already has a subnet with this name") if d.subnets.where(conds).first
+      errors.add(:name, _("domain %s already has a subnet with this name") % d) if d.subnets.where(conds).first
     end
   end
 end

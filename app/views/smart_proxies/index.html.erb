@@ -27,7 +27,7 @@
           if SETTINGS[:unattended] and proxy.features.detect{|f| f.name == "DHCP" }
             display_link_if_authorized(_("Import Subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
           end,
-          display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy), :confirm => "Delete #{proxy.name}?"))%>
+          display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy), :confirm => _("Delete %s?") % proxy.name))%>
       </td>
     </tr>
   <% end %>

@@ -66,16 +66,16 @@ module HostsAndHostgroupsHelper
     proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
              { :include_blank => proxies.to_a.count > 1 },
-             { :label       => "Puppet CA",
-               :help_inline => "Use this puppet server as a CA server" }
+             { :label       => _("Puppet CA"),
+               :help_inline => _("Use this puppet server as a CA server") }
   end
 
   def puppet_master f
     proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
     select_f f, :puppet_proxy_id, proxies, :id, :name,
              { :include_blank => proxies.to_a.count > 1 },
-             { :label       => "Puppet Master",
-               :help_inline => "Use this puppet server as an initial Puppet Server or to execute puppet runs" }
+             { :label       => _("Puppet Master"),
+               :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
   end
 
   def interesting_klasses obj

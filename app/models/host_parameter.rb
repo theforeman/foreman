@@ -14,7 +14,7 @@ class HostParameter < Parameter
 
     (auth = User.current.allowed_to?("#{operation}_params".to_sym)) and Host.my_hosts.include?(host)
 
-    errors.add :base, "You do not have permission to #{operation} this domain" unless auth
+    errors.add(:base, _("You do not have permission to %s this domain") % operation) unless auth
     auth
   end
 end

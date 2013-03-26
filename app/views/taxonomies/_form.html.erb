@@ -35,7 +35,7 @@
       </div>
 
       <div class="tab-pane" id="smart_proxies">
-        <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Smart Proxies"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("SmartProxy")) %>
+        <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Smart Proxies"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Smart Proxy")) %>
         <%= multiple_selects f, :smart_proxies, SmartProxy, taxonomy.selected_ids[:smart_proxy_ids],
            {:disabled => taxonomy.used_and_selected_ids[:smart_proxy_ids]},
            {'data-mismatches' => taxonomy.need_to_be_selected_ids[:smart_proxy_ids].to_json} %>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="tab-pane" id="compute_resources">
-          <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Compute Resources"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("ComputeResource")) %>
+          <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Compute Resources"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Compute Resource")) %>
           <%= multiple_selects f, :compute_resources, ComputeResource, taxonomy.selected_ids[:compute_resource_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:compute_resource_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:compute_resource_ids].to_json} %>
@@ -64,7 +64,7 @@
         </div>
 
         <div class="tab-pane" id="template">
-          <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Templates"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("ConfigTemplate")) %>
+          <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Templates"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Config Template")) %>
           <%= multiple_selects f, :config_templates, ConfigTemplate, taxonomy.selected_ids[:config_template_ids],
                                {:disabled => taxonomy.used_and_selected_ids[:config_template_ids]},
                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:config_template_ids].to_json} %>

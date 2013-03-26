@@ -42,7 +42,7 @@ class HostgroupsController < ApplicationController
     new.name = ""
     new.valid?
     @hostgroup = new
-    notice "The following fields would need reviewing"
+    notice _("The following fields would need reviewing")
     render :action => :new
   end
 

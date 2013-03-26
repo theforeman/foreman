@@ -7,9 +7,9 @@
   <%= text_f f, :host, :label => _("Host") %>
   <%= text_f f, :port, :label => _("Port") %>
   <%= checkbox_f f, :tls, :label => _("LDAPS") %>
-  <%= text_f f, :account, :help_inline =>_("Use this account to authenticate,<i>optional</i>").html_safe, :label => _("Account") %>
+  <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe, :label => _("Account") %>
   <%= password_f f, :account_password, :onfocus => "this.value='';", :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe, :label => _("Account Password") %>
-  <%= text_f f, :base_dn, :label => _("basedn"), :class => "input-xxlarge" %>
+  <%= text_f f, :base_dn, :label => "basedn, :class => "input-xxlarge" %>
   <%= checkbox_f f, :onthefly_register, :label => _("On-the-fly user creation"),
     :help_inline => _("LDAP user will have his Foreman account automatically created the first time he logs into Foreman") %>
   <%= field_set_tag(_("LDAP Attributes mapping")) do %>

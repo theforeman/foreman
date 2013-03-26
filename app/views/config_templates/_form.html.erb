@@ -64,8 +64,7 @@
 
 
       <div class="tab-pane" id="template_associations">
-        <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> ><%= _("Not relevant for
-          snippet") %></p>
+        <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> ><%= _("Not relevant for snippet") %></p>
 
         <div id="association" <%= display? @config_template.snippet %> >
           <div class="alert alert-message alert-success">
@@ -73,20 +72,16 @@
 
             <h3><%= _("How Templates are determined") %><br></h3>
 
-            <p><%= _("When editing a Template, you must assign a list of Operating Systems which this
-              Template can be used with. Optionally, you can restrict a template to a list of
-              Hostgroups and/or Environments") %></p>
+            <p><%= _("When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments") %></p>
 
-            <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select
-              the best match from the available templates of that type, in the following order:") %></p>
+            <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:") %></p>
             <ul>
               <li><%= _("Host-group and Environment") %></li>
               <li><%= _("Host-group only") %></li>
               <li><%= _("Environment only") %></li>
               <li><%= _("Operating system default") %></li>
             </ul>
-            <%= (_("The final entry, Operating System default, can be set by editing
-            the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
+            <%= (_("The final entry, Operating System default, can be set by editing the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
           </div>
           <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => _("Applicable<br>Operating Systems").html_safe %>
           <%= render "combinations", :f => f %>

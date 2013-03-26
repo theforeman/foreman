@@ -38,11 +38,11 @@ module AuditsHelper
       audit.audited_changes.map do |name, change|
         next if change.nil? or change.to_s.empty?
         if name == 'template'
-          "Provisioning Template content changed #{link_to 'view diff', audit_path(audit)}".html_safe if audit_template? audit
+          (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
         elsif name == "owner_id" || name == "owner_type"
-          "Owner changed to #{audit.revision.owner rescue 'N/A'}"
+          _("Owner changed to %s") % (audit.revision.owner rescue 'N/A')
         else
-          "#{name.humanize} changed from #{id_to_label name, change[0]} to #{id_to_label name, change[1]}"
+          _("%{name} changed from %{label1} to %{label2}") % { :name => name.humanize, :label1 => id_to_label(name, change[0]), :label2 => id_to_label(name, change[1]) }
         end
       end
     elsif !main_object? audit
@@ -79,7 +79,7 @@ module AuditsHelper
   def audit_user audit
     return if audit.username.nil?
     login = audit.user.login rescue nil # aliasing the user method sometimes yields strings
-    link_to(icon_text('user', audit.username.gsub('User', '')), hash_for_audits_path(:search => login ? "user = #{login}" : "username = \"#{audit.username}\""))
+    link_to(icon_text('user', audit.username.gsub(_('User'), '')), hash_for_audits_path(:search => login ? "user = #{login}" : "username = \"#{audit.username}\""))
   end
 
   def audit_time audit

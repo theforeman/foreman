@@ -17,7 +17,7 @@
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :login, :label => ("Login"), :disabled => f.object.login == "admin" %>
+      <%= text_f f, :login, :label => _("Login"), :disabled => f.object.login == "admin" %>
       <%= text_f f, :firstname, :label => _("First Name") %>
       <%= text_f f, :lastname, :label => _("Last Name") %>
       <%= text_f f, :mail, :label => _("Mail") %>
@@ -31,7 +31,7 @@
         <%= password_f f, :password_confirmation, :label => _("Verify") %>
       </div>
       <% unless @editing_self -%>
-        <%= checkbox_f f, :admin, :label => "Administrator" %>
+        <%= checkbox_f f, :admin, :label => _("Administrator") %>
         <%= multiple_checkboxes f, :roles, @user, Role.givable %>
       <% end %>
     </div>
