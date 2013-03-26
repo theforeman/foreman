@@ -5,6 +5,7 @@ log/*.log
 tmp/
 db/schema.rb
 config/settings.yaml
+config/settings.plugins.d
 config/email.yaml
 config/database.yml
 config/initializers/local_secret_token.rb
