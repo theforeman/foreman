@@ -87,9 +87,9 @@ module ApplicationHelper
     options
   end
 
-  def check_all_links(form_name=':checkbox')
-    link_to_function("Check all", "checkAll('#{form_name}', true)") +
-    link_to_function("Uncheck all", "checkAll('#{form_name}', false)")
+  def check_all_roles_links
+    link_to("Check all", "#", :id => "check_all_roles", :remote => true) +
+    link_to("Uncheck all", "#", :id => "uncheck_all_roles", :remote => true)
   end
 
   # Return true if user is authorized for controller/action, otherwise false

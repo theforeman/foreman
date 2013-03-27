@@ -106,9 +106,19 @@ function add_fields(link, association, content) {
   $(link).before(content.replace(regexp, new_id));
 }
 
-function checkAll (id, checked) {
-  $(id).attr('checked',checked);
-}
+$(document).ready(function() {
+  $("#check_all_roles").click(function(e) {
+      e.preventDefault();
+      $(".role_checkbox").prop('checked', true);
+
+  });
+
+  $("#uncheck_all_roles").click(function(e) {
+      e.preventDefault();
+      $(".role_checkbox").prop('checked', false);
+  });
+});
+
 
 function toggleCheckboxesBySelector(selector) {
   boxes = $(selector);
