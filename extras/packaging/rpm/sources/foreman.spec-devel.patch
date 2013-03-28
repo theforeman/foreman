@@ -1,0 +1,55 @@
+--- foreman.spec.orig	2012-11-20 17:50:55.342169770 -0500
++++ foreman.spec	2012-11-20 17:55:35.664661183 -0500
+@@ -3,7 +3,7 @@
+
+ Name:   foreman
+ Version:1.0.1
+-Release:1%{dist}
++Release:7%{dist}
+ Summary:Systems Management web application
+
+ Group:  Applications/System
+@@ -32,20 +32,23 @@
+ Requires(preun): initscripts
+ Requires(postun): initscripts
+ Requires: rubygem(json)
+-Requires: rubygem(rails) = 3.0.15
++Requires: rubygem(rails) = 3.0.17
+ Requires: rubygem(jquery-rails)
+ Requires: rubygem(rest-client)
+ Requires: rubygem(acts_as_audited) = 2.0.0
+ Requires: rubygem-has_many_polymorphs >= 3.0.0.beta1-3
+ Requires: rubygem(will_paginate) >= 3.0.2
+ Requires: rubygem(ancestry) >= 1.2.4
+-Requires: rubygem(scoped_search) >= 2.3.7
++Requires: rubygem(scoped_search) >= 2.4.0
+ Requires: rubygem(net-ldap)
+ Requires: rubygem(safemode) >= 1.0.1
+ Requires: rubygem(uuidtools)
+ Requires: rubygem(rake) >= 0.9.2.2
+ Requires: rubygem(ruby_parser) >= 2.3.1
+ Requires: rubygem(audited-activerecord) >= 3.0.0
++Requires: rubygem(apipie-rails) >= 0.0.12
++Requires: rubygem(oauth)
++Requires: rubygem(rabl >= 0.7.5)
+ Provides: %{name}-%{version}-%{release}
+ #Packager:   Ohad Levy <ohadlevy@gmail.com>
+
+@@ -105,7 +108,7 @@
+ %package ovirt
+ Summary: Foreman ovirt support
+ Group:  Applications/System
+-Requires: rubygem(rbovirt) >= 0.0.12
++Requires: rubygem(rbovirt) >= 0.0.15
+ Requires: foreman-ec2-%{version}-%{release}
+ Requires: %{name}-%{version}-%{release}
+
+@@ -128,7 +131,7 @@
+ %package ec2
+ Summary: Foreman ec2 support
+ Group:  Applications/System
+-Requires: rubygem-fog >= 1.4.0
++Requires: rubygem-fog >= 1.7.0
+ Requires: %{name}-%{version}-%{release}
+ Provides: foreman-ec2-%{version}-%{release}
+ Obsoletes: foreman-fog
