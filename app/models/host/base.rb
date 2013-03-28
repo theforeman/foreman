@@ -14,8 +14,6 @@ module Host
     validates_uniqueness_of :name
     validate :is_name_downcased?
 
-    include Hostext::Search
-
     def self.importHostAndFacts yaml
     end
 
