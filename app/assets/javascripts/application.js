@@ -1,8 +1,20 @@
+//= require jquery
+//= require jquery_ujs
+//= require jquery.ui.autocomplete
+//= require jquery.jnotify
+//= require scoped_search
+//= require twitter/bootstrap
+//= require charts
+//= require vendor
+//= require_self
+
 $(function() {
   onContentLoad();
 });
 
 function onContentLoad(){
+  $('.autocomplete-input').scopedSearch();
+
   $('.flash.error').hide().each(function(index, item) {
      if ($('.alert-message.alert-error.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
@@ -32,15 +44,14 @@ function onContentLoad(){
   })
 
   //set the tooltips
-  $('a[rel="popover"]').popover({html: true});
-  $('[rel="twipsy"]').tooltip();
-  $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
       {
         "sDom": "<'row'<'span6'f>r>t<'row'<'span6'i><'span6'p>>",
         "sPaginationType": "bootstrap"
       }
   );
+
+  $('[rel="twipsy"]').tooltip();
 
   // Prevents all links with the disabled attribute set to "disabled"
   // from being clicked.
@@ -95,9 +106,19 @@ function add_fields(link, association, content) {
   $(link).before(content.replace(regexp, new_id));
 }
 
-function checkAll (id, checked) {
-  $(id).attr('checked',checked);
-}
+$(document).ready(function() {
+  $("#check_all_roles").click(function(e) {
+      e.preventDefault();
+      $(".role_checkbox").prop('checked', true);
+
+  });
+
+  $("#uncheck_all_roles").click(function(e) {
+      e.preventDefault();
+      $(".role_checkbox").prop('checked', false);
+  });
+});
+
 
 function toggleCheckboxesBySelector(selector) {
   boxes = $(selector);
@@ -130,7 +151,7 @@ function template_info(div, url) {
   hostgroup_id = $("#host_hostgroup_id :selected").attr("value");
   build = $('input:radio[name$="[provision_method]"]:checked').val();
 
-  $(div).html('<img src="/images/spinner.gif" alt="Wait" />');
+  $(div).html('<img src="/assets/spinner.gif" alt="Wait" />');
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
@@ -142,7 +163,7 @@ function template_info(div, url) {
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
-    indicator   : "<img src='../images/spinner.gif' />",
+    indicator   : "<img src='/assets/spinner.gif' />",
     tooltip     : 'Click to edit..',
     placeholder : 'Click to edit..',
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
@@ -207,9 +228,9 @@ $(function() {
 
 function magic_line(id, combo) {
   var $el, leftPos, newWidth, $mainNav = $(id);
-
   $mainNav.append("<li class='magic-line'></li>");
   var $magicLine = $(id + " .magic-line");
+  if ($magicLine.size() == 0) return;
   if ($('[data-toggle=collapse]:visible').length > 0){
     $magicLine.hide();
   }else{$magicLine.show();}
@@ -304,14 +325,14 @@ function filter_by_level(item){
 }
 
 function auth_source_selected(){
-  var auth_source_id = $('#user_auth_source_id').attr('value');
-  if (auth_source_id == '') return false;
-  $.ajax({
-    type:'get',
-    url:'/users/auth_source_selected',
-    data:'auth_source_id=' + auth_source_id
-  })
+  var auth_source_id = $('#user_auth_source_id').val();
+  if (auth_source_id == '') {
+     $("#password").hide();
+  } else {
+     $("#password").show();
+  }
 }
+
 function show_release(element){
   var os_family = $(element).val();
   if (os_family == 'Debian' || os_family == 'Solaris') {
@@ -370,10 +391,10 @@ function update_puppetclasses(element) {
     success: function(request) {
       $('#puppet_klasses').html(request);
       reload_params();
+      $('[rel="twipsy"]').tooltip();
     },
     complete: function() {
       $('#hostgroup_indicator').hide();
-      $('[rel="twipsy"]').tooltip();
     }
   })
 }
@@ -381,4 +402,8 @@ function update_puppetclasses(element) {
 // generates an absolute, needed in case of running Foreman from a subpath
 function foreman_url(path) {
   return URL_PREFIX + path;
+}
+
+function toggle_backtrace() {
+  $('#backtrace').toggle();
 }

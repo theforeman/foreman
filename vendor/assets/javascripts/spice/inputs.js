@@ -177,22 +177,22 @@ function handle_keyup(e)
 
 function sendCtrlAltDel()
 {
-  if (sc && sc.inputs && sc.inputs.state === "ready"){
-    var key = new SpiceMsgcKeyDown();
-    var msg = new SpiceMiniData();
+    if (sc && sc.inputs && sc.inputs.state === "ready"){
+        var key = new SpiceMsgcKeyDown();
+        var msg = new SpiceMiniData();
 
-    key.code = KEY_LCtrl;
-    msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
-    sc.inputs.send_msg(msg);
+        update_modifier(true, KEY_LCtrl, sc);
+        update_modifier(true, KEY_Alt, sc);
 
-    key.code = KEY_Alt;
-    msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
-    sc.inputs.send_msg(msg);
+        key.code = KEY_KP_Decimal;
+        msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
+        sc.inputs.send_msg(msg);
+        msg.build_msg(SPICE_MSGC_INPUTS_KEY_UP, key);
+        sc.inputs.send_msg(msg);
 
-    key.code = KEY_KP_Decimal;
-    msg.build_msg(SPICE_MSGC_INPUTS_KEY_DOWN, key);
-    sc.inputs.send_msg(msg);
-  }
+        update_modifier(false, KEY_LCtrl, sc);
+        update_modifier(false, KEY_Alt, sc);
+    }
 }
 
 function update_modifier(state, code, sc)

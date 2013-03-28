@@ -41,10 +41,8 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should not destroy if it contains subnets" do
 
-    as_admin do
-      Subnet.create! :network => "123.123.123.1", :mask => "255.255.255.0",
-                     :domains => [@domain], :name => "test subnet"
-    end
+    assert @domain.subnets.empty?
+    @domain.subnets << Subnet.first
     assert !@domain.destroy
     assert_match /is used by/, @domain.errors.full_messages.join("\n")
   end

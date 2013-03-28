@@ -1,4 +1,4 @@
-<% title_actions check_all_links %>
+<% title_actions check_all_roles_links %>
 
 <%= form_for @role do |f| %>
   <%= base_errors_for @role %>
@@ -14,7 +14,7 @@
           <% perms_by_block[block].each do |permission| %>
             <li>
             <%= content_tag :div, 'role[permissions][]' do %>
-              <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+              <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name), :class => "role_checkbox" %>
               <%= permission.name %>
               <%= hidden_field_tag 'role[permissions][]' %>
             <% end -%>
