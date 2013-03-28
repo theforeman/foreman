@@ -1,11 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: ldap
+  name: ldap-server
   host: ldap
   port: 123
-  account: 
-  account_password: 
+  account:
+  account_password:
   base_dn: dn=x,dn=y
   attr_login: uid
   attr_firstname: givenName

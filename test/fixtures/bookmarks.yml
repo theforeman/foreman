@@ -2,12 +2,12 @@
 
 one:
   name: "foo"
-  query: "foo=boo"
+  query: "hosts=boo"
   public: true
   controller: "hosts"
 
 two:
   name: "bar"
-  query: "bar=car"
+  query: "users=car"
   public: false
   controller: "hosts"

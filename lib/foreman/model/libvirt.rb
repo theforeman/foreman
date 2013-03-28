@@ -112,6 +112,7 @@ module Foreman::Model
     protected
 
     def client
+      ::Fog.mock! if Rails.env.test?
       # WARNING potential connection leak
       Thread.current[url] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
     end

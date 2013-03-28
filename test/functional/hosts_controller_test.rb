@@ -706,7 +706,7 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 16 do
+    assert_difference "location.taxable_taxonomies.count", 17 do
       post :update_multiple_location, {
                                          :location => {:id => location.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)
@@ -771,7 +771,7 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 16 do
+    assert_difference "organization.taxable_taxonomies.count", 17 do
       post :update_multiple_organization, {
                                          :organization => {:id => organization.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)
