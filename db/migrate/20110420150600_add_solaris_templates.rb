@@ -26,8 +26,8 @@ class AddSolarisTemplates < ActiveRecord::Migration
           :template            => File.read("#{Rails.root}/app/views/unattended/pxe_jumpstart_config.erb"))
       end
       snippet = "#{Rails.root}/app/views/unattended/snippets/_http_proxy.erb"
-      ConfigTemplate.create(
-        :name     => "HTTP proxy",
+      ConfigTemplate.find_or_create_by_name(
+        :name     => "http_proxy",
         :template => File.read(snippet),
         :snippet  => true)
     end
