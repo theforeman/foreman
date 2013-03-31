@@ -1,7 +1,7 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
 <%= render "hosts/conflicts" if has_conflicts?(@host.errors) %>
 <%= render "hosts/progress" %>
-<%= form_for @host,  :html => {:'data-submit' => 'progress_bar'} do |f| %>
+<%= form_for @host,  :html => {:data => {:id => @host.try(:id), :submit => 'progress_bar'}} do |f| %>
   <%= base_errors_for @host %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">

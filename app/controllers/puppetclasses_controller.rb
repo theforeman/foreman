@@ -41,13 +41,6 @@ class PuppetclassesController < ApplicationController
   def edit
   end
 
-  # form AJAX methods
-  def parameters
-    puppetclass = Puppetclass.find(params[:id])
-    host = Host.new(params[:host])
-    render :partial => "puppetclasses/class_parameters", :locals => {:klass => puppetclass, :host => host}
-  end
-
   def update
     if @puppetclass.update_attributes(params[:puppetclass])
       notice "Successfully updated puppetclass."
@@ -65,5 +58,28 @@ class PuppetclassesController < ApplicationController
     end
     redirect_to puppetclasses_url
   end
+
+  # form AJAX methods
+  def parameters
+    puppetclass = Puppetclass.find(params[:id])
+    render :partial => "puppetclasses/class_parameters", :locals => {:klass => puppetclass, :host => refresh_host}
+  end
+
+  private
+
+  def refresh_host
+    @host = Host::Base.find_by_id(params['host_id'])
+    if @host
+      unless @host.kind_of?(Host::Managed)
+        @host      = @host.becomes(Host::Managed)
+        @host.type = "Host::Managed"
+      end
+      @host.attributes = params['host']
+    else
+      @host ||= Host::Managed.new(params['host'])
+    end
+    return @host
+  end
+
 
 end
