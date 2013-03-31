@@ -176,11 +176,12 @@ function remove_puppet_class(item){
 
 function load_puppet_class_parameters(item) {
   var id = $(item).attr('data-class-id');
+  var host_id = $("form").data('id')
   if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
-
   var url = $(item).attr('data-url');
   var data = $("form").serialize().replace('method=put', 'method=post');
+  data = data + '&host_id=' + host_id
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
@@ -200,11 +201,12 @@ function load_puppet_class_parameters(item) {
 }
 
 function hostgroup_changed(element) {
-  var host_id = $(element).data('host-id');
+  var host_id = $("form").data('id')
   if (!host_id){ // a new host
     update_form(element);
   } else { // edit host
     update_puppetclasses(element);
+    reload_host_params();
   }
 }
 
@@ -289,7 +291,7 @@ function domain_selected(element){
     complete: function(){$('#domain_indicator').hide()},
     success: function(request) {
       $('#subnet_select').html(request);
-      reload_params();
+      reload_host_params();
     }
   })
 }
@@ -316,7 +318,7 @@ function os_selected(element){
     url: url,
     success: function(request) {
       $('#media_select').html(request);
-      reload_params();
+      reload_host_params();
     }
   });
   update_provisioning_image();
@@ -413,12 +415,19 @@ function override_class_param(item){
   mark_params_override();
 }
 
-function reload_params(){
+function reload_host_params(){
+  var host_id = $("form").data('id');
   var url = $('#params-tab').data('url');
   var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
+  data = data + '&host_id=' + host_id;
   load_with_placeholder('inherited_parameters', url, data)
+}
 
+function reload_puppetclass_params(){
+  var host_id = $("form").data('id');
   var url2 = $('#params-tab').data('url2');
+  var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
+  data = data + '&host_id=' + host_id
   load_with_placeholder('inherited_puppetclasses_parameters', url2, data)
 }
 

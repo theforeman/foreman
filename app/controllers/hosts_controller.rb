@@ -10,7 +10,7 @@ class HostsController < ApplicationController
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters}
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
@@ -128,21 +128,21 @@ class HostsController < ApplicationController
   end
 
   def hostgroup_or_environment_selected
-    return head(:method_not_allowed) unless request.xhr?
-
     Taxonomy.as_taxonomy @organization, @location do
-      @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
-      @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
-      @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
-      if @environment or @hostgroup
-        @host ||= Host.new
-        @host.hostgroup   = @hostgroup if @hostgroup
-        @host.environment = @environment if @environment
-        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
+      if params['host']['environment_id'].present? || params['host']['hostgroup_id'].present?
+        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (refresh_host)}
       else
-        head(:not_found)
+        logger.info "environment_id or hostgroup_id is required to render puppetclasses"
       end
     end
+  end
+
+  def current_parameters
+    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => refresh_host.host_inherited_params(true)}
+  end
+
+  def puppetclass_parameters
+    render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
   end
 
   #returns a yaml file ready to use for puppet external nodes script
@@ -456,17 +456,21 @@ class HostsController < ApplicationController
     render :partial => "provisioning", :locals => {:templates => templates}
   end
 
-  def current_parameters
-    @host = Host.new params['host']
-    render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params(true)}
-  end
-
-  def puppetclass_parameters
-    @host = Host.new params['host']
-    render :partial => "puppetclasses/classes_parameters", :locals => { :obj => @host}
-  end
-
   private
+
+  def refresh_host
+    @host = Host::Base.find_by_id(params['host_id'])
+    if @host
+      unless @host.kind_of?(Host::Managed)
+        @host      = @host.becomes(Host::Managed)
+        @host.type = "Host::Managed"
+      end
+      @host.attributes = params['host']
+    else
+      @host ||= Host::Managed.new(params['host'])
+    end
+    return @host
+  end
 
   def set_host_type
     return unless params[:host] and params[:host][:type]

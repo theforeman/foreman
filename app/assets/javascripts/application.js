@@ -379,18 +379,19 @@ $(function() {
 });
 
 function update_puppetclasses(element) {
-  var host_id = $(element).attr('data-host-id');
+  var host_id = $("form").data('id')
   var env_id = $('*[id*=environment_id]').val();
   var url = $(element).attr('data-url');
-  var hostgroup_id = $('*[id*=hostgroup_id]').val();
+  var data = $("form").serialize().replace('method=put', 'method=post');
+  data = data + '&host_id=' + host_id
   if (env_id == "") return;
   $.ajax({
     type: 'post',
     url:  url,
-    data:'host_id=' + host_id + '&hostgroup_id=' + hostgroup_id + '&environment_id=' + env_id,
+    data: data,
     success: function(request) {
       $('#puppet_klasses').html(request);
-      reload_params();
+      reload_puppetclass_params();
       $('[rel="twipsy"]').tooltip();
     },
     complete: function() {
