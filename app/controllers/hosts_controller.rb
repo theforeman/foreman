@@ -23,6 +23,7 @@ class HostsController < ApplicationController
     storeconfig_klasses clone pxe_config toggle_manage power console]
   before_filter :taxonomy_scope, :only => [:hostgroup_or_environment_selected, :process_hostgroup]
   before_filter :set_host_type, :only => [:update]
+  before_filter :refresh_host, :only => [:current_parameters, :puppetclass_parameters]
   helper :hosts, :reports
 
   def index (title = nil)
@@ -457,16 +458,23 @@ class HostsController < ApplicationController
   end
 
   def current_parameters
-    @host = Host.new params['host']
     render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => @host.host_inherited_params(true)}
   end
 
   def puppetclass_parameters
-    @host = Host.new params['host']
     render :partial => "puppetclasses/classes_parameters", :locals => { :obj => @host}
   end
 
   private
+
+  def refresh_host
+    if params['host']['id'].present?
+      @host = Host.find(params['host']['id'])
+      @host.attributes = params['host']
+    else
+      @host = Host.new params['host']
+    end
+  end
 
   def set_host_type
     return unless params[:host] and params[:host][:type]

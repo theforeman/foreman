@@ -66,6 +66,7 @@
       <% end -%>
     </div>
 
+    <%= f.hidden_field(:id) unless @host.new_record? %>
     <%= f.hidden_field :managed %>
     <%= f.hidden_field :progress_report_id %>
     <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
