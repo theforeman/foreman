@@ -1,8 +1,9 @@
 #
-# Makefile for PO merging and MO generation
+# Makefile for PO merging and MO generation. More info in the README.
 #
 # make all-mo (default) - generate MO files
 # make check - check translations using translate-tool
+# make tx-update - download and merge translations from Transifex
 # make clean - clean everything
 #
 POTFILE = foreman.pot
@@ -36,6 +37,15 @@ uniq-po:
 	for f in $(shell find ./ -name "*.po") ; do \
 		msguniq $$f -o $$f ; \
 	done
+
+tx-pull:
+	tx pull -a -f -r foreman.foreman
+	git commit -a -m 'i18n - updating translations from transifex'
+	-git add -A
+	-git commit -a -m 'i18n - adding new languages from transifex'
+
+tx-update: tx-pull update-po
+	-git commit -a -m 'i18n - merging gettext po files'
 
 # Remove all MO files
 clean:
