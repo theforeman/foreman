@@ -23,7 +23,7 @@
       <%= text_f f, :mail %>
 
       <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
-                                                                                                          :label => _("Authorized by")}, {:onchange => 'auth_source_selected()'}) unless @editing_self
+                                          :label => _("Authorized by")}, {:onchange => 'auth_source_selected()'}) unless @editing_self
       %>
 
       <div id="password" <%= display? !@user.manage_password? %>>

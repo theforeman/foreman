@@ -1,8 +1,8 @@
 <%= fields_for item do |f| %>
   <%= select_f f, :subnet_id, domain_subnets, :id, :title,
     { :include_blank => domain_subnets.any? ? true : _("No subnets")},
-    { :disabled => domain_subnets.empty?,
-      :help_inline => image_tag("spinner.gif", :id => "subnet_indicator", :class => "hide"),
+    { :disabled => domain_subnets.empty?, :'data-url' => freeip_subnets_path,
+      :help_inline => image_tag("/assets/spinner.gif", :id => "subnet_indicator", :class => "hide"),
       :onchange => 'subnet_selected(this);'}
   %>
 <% end -%>

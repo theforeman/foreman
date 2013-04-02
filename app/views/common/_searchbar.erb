@@ -2,10 +2,8 @@
     <div class="btn-toolbar btn-toolbar-condensed">
     <div class="btn-group span12">
       <div class="span9">
-        <%= auto_complete_search(:search, params[:search].try(:squeeze," "),
-                                 {:placeholder => _("Filter ...")},
-                                 { :delay => 100, :min_length => -1 }).html_safe %>
-        </div>
+        <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => "Filter ...").html_safe %>
+      </div>
       <button class="btn hidden-phone" onclick="$('.form-search').submit()"><%= icon_text("search", _("Search")) %></button>
 
       <button class="btn dropdown-toggle" data-toggle="dropdown">

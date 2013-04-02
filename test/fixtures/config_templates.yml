@@ -10,7 +10,6 @@ myscript:
   template_kind: script
   operatingsystems: centos5_3, redhat
 
-
 mystring2:
   name: MyString2
   template: MyText
