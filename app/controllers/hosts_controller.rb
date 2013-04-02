@@ -23,7 +23,7 @@ class HostsController < ApplicationController
     storeconfig_klasses clone pxe_config toggle_manage power console]
   before_filter :taxonomy_scope, :only => [:hostgroup_or_environment_selected, :process_hostgroup]
   before_filter :set_host_type, :only => [:update]
-  before_filter :refresh_host, :only => [:current_parameters, :puppetclass_parameters]
+  before_filter :refresh_host, :only => [:current_parameters, :puppetclass_parameters, :hostgroup_or_environment_selected]
   helper :hosts, :reports
 
   def index (title = nil)
@@ -134,9 +134,7 @@ class HostsController < ApplicationController
     Taxonomy.as_taxonomy @organization, @location do
       @environment = Environment.find(params[:environment_id]) unless params[:environment_id].empty?
       @hostgroup   = Hostgroup.find(params[:hostgroup_id])     unless params[:hostgroup_id].empty?
-      @host        = Host.find(params[:host_id])               if params[:host_id].to_i > 0
       if @environment or @hostgroup
-        @host ||= Host.new
         @host.hostgroup   = @hostgroup if @hostgroup
         @host.environment = @environment if @environment
         render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
@@ -468,12 +466,25 @@ class HostsController < ApplicationController
   private
 
   def refresh_host
-    if params['host']['id'].present?
-      @host = Host.find(params['host']['id'])
-      @host.attributes = params['host']
-    else
-      @host = Host.new params['host']
+    if params['host'].present?
+      if params['host']['id'].present?
+        @host = Host::Base.find(params['host']['id'])
+      else
+        @host = Host::Managed.new params['host']
+      end
+    elsif params['host_id'].present?
+      @host = Host::Base.find(params[:host_id]) if params[:host_id].to_i > 0
     end
+    @host ||= Host::Managed.new
+
+    # If we found a host from another STI type, convert it so we can call Managed
+    # methods on it
+    if @host.class != Host::Managed
+      @host      = @host.becomes(Host::Managed)
+      @host.type = "Host::Managed"
+    end
+
+    @host.attributes = params['host'] if params['host'].present?
   end
 
   def set_host_type
