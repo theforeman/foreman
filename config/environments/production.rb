@@ -90,7 +90,6 @@ Foreman::Application.configure do
                   noVNC/webutil
                   noVNC
                   reports
-                  spice/setup
                   spice
                   trends
                   charts
