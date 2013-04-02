@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'net/ldap'
-require 'iconv'
 
 class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port
