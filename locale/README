@@ -1,0 +1,14 @@
+To learn how to translate or use translations please go visit
+http://projects.theforeman.org/projects/foreman/wiki/Translating
+
+Quick help:
+
+If you do not see translations in the production mode, run either
+
+rake gettext:pack
+
+or
+
+make -C locale all-mo
+
+to generate translation binary MO files and restart.
