@@ -1,6 +1,9 @@
+# Template file for strings which can be localized in the Foreman Application.
 #
-# Template file for strings which can be localized in the
-# Foreman Application.
+# This file is distributed under the same license as the Foreman.
+#
+# Translators:
+#
 #
 #, fuzzy
 msgid ""
