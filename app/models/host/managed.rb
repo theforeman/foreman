@@ -406,11 +406,11 @@ class Host::Managed < Host::Base
     case facts
       when Puppet::Node::Facts
         certname = facts.values["certname"]
-        name     = facts.values["fqdn"]
+        name     = facts.values["fqdn"].downcase
         values   = facts.values
       when Hash
         certname = facts["certname"]
-        name     = facts["fqdn"]
+        name     = facts["fqdn"].downcase
         values   = facts
         return raise("invalid facts hash") unless name and values
       else
