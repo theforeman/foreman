@@ -1,4 +1,4 @@
-<%= javascript 'spice/setup', 'spice' %>
+<%= javascript 'spice-html5', 'spice' %>
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :onclick => 'sendCtrlAltDel()', :class => "btn"),
@@ -10,11 +10,9 @@
                      end
         )) %>
 
-<%# TODO: when rails 3.2 merge is done uncomment the following %>
-<%# tag(:div id =>'spice-area' data => spice_data_attributes(@console) %>
-<div id='spice-area' <%= spice_data_attributes(@console).map {|k,v| "data-#{k}=#{v}"}.join(' ') %>>
+<%= content_tag(:div, :id =>'spice-area', :data => spice_data_attributes(@console)) do %>
   <div class="console-status">
     <div id="spice-status" class="span7 label"><%= "Connecting (unencrypted) to: #{@console[:name]}" %></div>
   </div>
   <div id="spice-screen" class="console-screen"> </div>
-</div>
+<% end %>

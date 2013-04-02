@@ -6,4 +6,5 @@ group :assets do
   gem 'jquery-ui-rails'
   gem "therubyracer", '0.11.3'
   gem "twitter-bootstrap-rails"
+  gem "spice-html5-rails"
 end
