@@ -70,7 +70,9 @@ Foreman::Application.configure do
                   ace/theme-dawn
                   ace/theme-clouds
                   ace/mode-diff
-                  config_template
+                  ace/mode-ruby
+                  ace/keybinding-vim
+                  ace/keybinding-emacs
                   diff
                   host_edit
                   jquery.cookie
