@@ -1,5 +1,6 @@
+//= require spice-html5
 
-sc = null;
+var sc = null;
 $(function () {
   var scheme = "ws://", uri;
 
