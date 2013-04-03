@@ -259,6 +259,7 @@ module ProxyAPI
   class BMC < Resource
 
     def initialize args
+      @target = args[:host_ip] || '127.0.0.1'
       @url = args[:url] + "/bmc"
       super args
     end
@@ -281,7 +282,7 @@ module ProxyAPI
       case args[:function]
         when "bootdevice"
           if valid_boot_devices.include?(args[:device])
-            parse put(args, "/chassis/config/#{args[:function]}/#{args[:device]}")
+            parse put(args, bmc_url_for('config',"#{args[:function]}/#{args[:device]}"))
           else
             raise NoMethodError
           end
@@ -297,9 +298,11 @@ module ProxyAPI
       case args[:action]
         when "on?", "off?", "status"
           args[:action].chop! if args[:action].include?('?')
-          parse get("/chassis/power/#{args[:action]}", args)
+          parse get(bmc_url_for('power',args[:action]), args)
         when "on", "off", "cycle", "soft"
-          parse put(args, "/chassis/power/#{args[:action]}")
+          res = parse put(args, bmc_url_for('power',args[:action]))
+          # This is a simple action, just return the result of the action
+          res && res['result'] == true ? true : false
         else
           raise NoMethodError
       end
@@ -311,9 +314,9 @@ module ProxyAPI
       # put "/bmc/:host/chassis/identify/:action"
       case args[:action]
         when "status"
-          parse get("/chassis/identify/#{args[:action]}", args)
+          parse get(bmc_url_for('identify',args[:action]), args)
         when "on", "off"
-          parse put(args, "/chassis/identify/#{args[:action]}")
+          parse put(args, bmc_url_for('identify',args[:action]))
         else
           raise NoMethodError
       end
@@ -325,13 +328,22 @@ module ProxyAPI
       # get "/bmc/:host/lan/:action"
       case args[:action]
         when "ip", "netmask", "mac", "gateway"
-          parse get("/lan/#{args[:action]}", args)
+          parse get(bmc_url_for('lan',args[:action]), args)
         else
           raise NoMethodError
       end
     end
 
     private
+
+    def bmc_url_for controller,action
+      case controller
+        when "lan"
+          "/#{@target}/lan/#{action}"
+        else
+          "/#{@target}/chassis/#{controller}/#{action}"
+      end
+    end
 
     def method_missing(method, *args, &block)
       begin
