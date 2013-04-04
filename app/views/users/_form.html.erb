@@ -17,10 +17,10 @@
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :login, :disabled => f.object.login == "admin" %>
+      <%= text_f f, :login, :label => ("Login"), :disabled => f.object.login == "admin" %>
       <%= text_f f, :firstname, :label => _("First Name") %>
       <%= text_f f, :lastname, :label => _("Last Name") %>
-      <%= text_f f, :mail %>
+      <%= text_f f, :mail, :label => _("Mail") %>
 
       <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
                                           :label => _("Authorized by")}, {:onchange => 'auth_source_selected()'}) unless @editing_self
@@ -28,7 +28,7 @@
 
       <div id="password" <%= display? !@user.manage_password? %>>
         <%= password_f f, :password %>
-        <%= password_f f, :password_confirmation, :label => "Verify" %>
+        <%= password_f f, :password_confirmation, :label => _("Verify") %>
       </div>
       <% unless @editing_self -%>
         <%= checkbox_f f, :admin, :label => "Administrator" %>

@@ -1,8 +1,11 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Template file for strings which can be localized in the Foreman Application.
 #
+# This file is distributed under the same license as the Foreman.
+#
+# Translators:
+#
+#
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
@@ -234,7 +237,7 @@ msgid "Owned hosts"
 msgstr ""
 
 msgid "Password"
-msgstr "パスワード"
+msgstr ""
 
 msgid "Please wait..."
 msgstr ""
@@ -269,16 +272,14 @@ msgstr ""
 msgid "Templates"
 msgstr ""
 
-#, fuzzy
 msgid "User"
-msgstr "ユーザー名"
+msgstr ""
 
 msgid "Username"
-msgstr "ユーザー名"
+msgstr ""
 
-#, fuzzy
 msgid "Users"
-msgstr "ユーザー名"
+msgstr ""
 
 msgid "You are currently logged in, suicidal?"
 msgstr ""

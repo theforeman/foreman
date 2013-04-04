@@ -1,0 +1,298 @@
+# Template file for strings which can be localized in the Foreman Application.
+#
+# This file is distributed under the same license as the Foreman.
+#
+# Translators:
+# Thomas Bendler
+#
+
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Foreman\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-04 20:42-0500\n"
+"PO-Revision-Date: 2013-03-01 15:45-0500\n"
+"Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
+"Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "%{count} hosts with no %{taxonomy_single} assigned"
+msgstr "%{count} Hosts ohne %{taxonomy_single} Zuweisung"
+
+msgid "+ Add Filter"
+msgstr "+ Filter hinzufügen"
+
+msgid "Add a fact filter"
+msgstr "Fact Filter hinzufügen"
+
+msgid "All Compute Resources"
+msgstr "Alle Rechner Ressourcen"
+
+msgid "All Domains"
+msgstr "Alle Domains"
+
+msgid "All Environments"
+msgstr "Alle Umgebungen"
+
+msgid "All Hostgroups"
+msgstr "Alle Hostgruppen"
+
+msgid "All Media"
+msgstr "Alle Medien"
+
+msgid "All Smart Proxies"
+msgstr "Alle Smart Proxies"
+
+msgid "All Subnets"
+msgstr "Alle Sub-Netze"
+
+msgid "All Templates"
+msgstr "Alle Templates"
+
+msgid "All Users"
+msgstr "Alle Benutzer"
+
+msgid "All hosts data matches configurations for locations and organizations."
+msgstr "Alle Host-Daten deren Konfigurationen mit Lokationen und Organisationen übereinstimmen"
+
+msgid "All hosts previously with no %{taxonomy_single} are now assigned to %{taxonomy_name}"
+msgstr "Alle hosts mit Zuweisung %{taxonomy_single} sind nun %{taxonomy_name} zugewiesem"
+
+msgid "All mismatches between hosts and %s have been fixed"
+msgstr "Alle Fehlanpassungen zwischen Hosts und %s sind gefixed"
+
+msgid "All mismatches between hosts and locations/organizations have been fixed"
+msgstr "Alle Fehlanpassungen zwischen Hosts und Lokationen/Organisationen sind gefixed"
+
+msgid "Assign All"
+msgstr "Alle Zuweisen"
+
+msgid "Assign All %{count} Hosts with No %{taxonomy_type} to %{taxonomy_name}"
+msgstr "Alle %{count} Hosts ohne Zuweisung von %{taxonomy_type} zu %{taxonomy_name} sind zugewiesen"
+
+msgid "Assign All %{count} Hosts with No %{taxonomy_upcase} to %{taxonomy_name}"
+msgstr "Alle %{count} Hosts ohne Zuweisung von {taxonomy_upcase} zu %{taxonomy_name} sind zugewiesen"
+
+msgid "Assign Hosts to %s"
+msgstr "Zuweisung Hosts zu %s"
+
+msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected Hosts are currently using."
+msgstr ""
+
+msgid "Authorized by"
+msgstr "Freigegeben durch"
+
+msgid "Clone"
+msgstr "Klon"
+
+msgid "Clone %s"
+msgstr "Klone %s"
+
+msgid "Compute Resources"
+msgstr "Rechnerresource"
+
+msgid "Compute resources"
+msgstr "Rechnerresource"
+
+msgid "ComputeResource"
+msgstr "Rechnerresource"
+
+msgid "ConfigTemplate"
+msgstr "Konfigurationsvorlage"
+
+msgid "Create %s"
+msgstr "%s anlegen"
+
+msgid "Delete %s?"
+msgstr "Löschen %s?"
+
+msgid "Domain"
+msgstr ""
+
+msgid "Domain hosts"
+msgstr "Domain Hosts"
+
+msgid "Domains"
+msgstr ""
+
+msgid "Edit"
+msgstr "Editiere"
+
+msgid "Edit %s"
+msgstr "Editiere %s"
+
+msgid "Edit Properties"
+msgstr "Eigentschaften editieren"
+
+msgid "Edit User"
+msgstr "Benutzer ändern"
+
+msgid "Environment"
+msgstr "Umgebung"
+
+msgid "Environments"
+msgstr "Umgebungen"
+
+msgid "Fact filters"
+msgstr "Fact Filter"
+
+msgid "Filters"
+msgstr ""
+
+msgid "First Name"
+msgstr "Vornamen"
+
+msgid "Fix All Mismatches"
+msgstr "Fixe alle Fehlzuweisungen"
+
+msgid "Fix Mismatches"
+msgstr "Fixe Fehlzuweisungen"
+
+msgid "For example, there might be a data center in London and one in Virginia; these are locations. Locations also work nicely when used in tandem with "
+msgstr "Zum Beispiel Datacenter in London und Virginia sind Lokationen. Lokationen funktionieren ebenfalls gut wenn sie benutzt, zusammen mit"
+
+msgid "Host Groups"
+msgstr "Hostgruppen"
+
+msgid "Hostgroup"
+msgstr "Hostgruppen"
+
+msgid "Hostgroup hosts"
+msgstr "Hostgruppen Hosts"
+
+msgid "Hosts"
+msgstr ""
+
+msgid "Incorrect username or password"
+msgstr "Falscher Benutzername oder falsches Passwort"
+
+msgid "Last Name"
+msgstr "Nachname"
+
+msgid "Location configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Location/Organization"
+msgstr "Lokation/Organisation"
+
+msgid "Locations"
+msgstr "Lokation"
+
+msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
+msgstr "Lokationen werden benutzt um physikalisch unterschiedliche Standorte durch Foreman zu managen und zu separieren."
+
+msgid "Logged out - See you soon"
+msgstr "Ausgeloggt - Bis bald"
+
+msgid "Login &#187;"
+msgstr ""
+
+msgid "Manually Assign"
+msgstr "Manuell Zuweisen"
+
+msgid "Manually select and assign Hosts with No %s"
+msgstr "Selektiere und weise Hosts ohne %s manuell zu"
+
+msgid "Media"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Mismatch Details"
+msgstr "Fehlzuweisung anzeigen"
+
+msgid "Mismatches"
+msgstr "Fehlzuweisung"
+
+msgid "Mismatches Report"
+msgstr "Fehlzuweisung reporten"
+
+msgid "New %s"
+msgstr "Neuer %s"
+
+msgid "New Location"
+msgstr "Neue Lokation"
+
+msgid "New User"
+msgstr "Neuer Benutzer"
+
+msgid "No hosts are mismatched!"
+msgstr "Keine Hosts haben Fehlzuweisungen"
+
+msgid "Notice"
+msgstr "Nachricht"
+
+msgid "Notice:"
+msgstr "Nachricht:"
+
+msgid "Organizations"
+msgstr "Organisationen"
+
+msgid "Owned hosts"
+msgstr "Eigene Hosts"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Please wait..."
+msgstr "Bitte warten ..."
+
+msgid "Proceed to Edit"
+msgstr "Fahre fort zum Ändern"
+
+msgid "Select Hosts"
+msgstr "Selektiere Hosts"
+
+msgid "Select Hosts to Assign to %s"
+msgstr "Selektiere Hosts um sie %s zu zuweisen"
+
+msgid "Selected hosts are now assigned to %s"
+msgstr "Selektierte Hosts sind nun %s zugewiesen"
+
+msgid "Skip Assign Hosts and Proceed to Edit %s Settings"
+msgstr "Überspringe zugewiesene Hosts und fahre mit dem editieren der Einstellungen von %s fort"
+
+msgid "Smart Proxies"
+msgstr ""
+
+msgid "SmartProxy"
+msgstr ""
+
+msgid "Subnet"
+msgstr "Sub-Netz"
+
+msgid "Subnets"
+msgstr "Sub-Netze"
+
+msgid "Templates"
+msgstr "Vorlagen"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Users"
+msgstr "Benutzer"
+
+msgid "You are currently logged in, suicidal?"
+msgstr "Sie sind gerade eingeloggt?"
+
+msgid "You must create a location before continuing."
+msgstr "Sie müssen erst eine Lokation erstellen bevor sie fortfahren können."
+
+msgid "not has %s"
+msgstr "hat nicht %s"
+
+msgid "organizations"
+msgstr "Organisationen"
+
+msgid "remove"
+msgstr "Entfernen"

@@ -12,7 +12,7 @@ class ComputeResource < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   include Authorization
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
+  validates_format_of :name, :with => /\A(\S+)\Z/, :message => _("can't be blank or contain white spaces.")
   validates_uniqueness_of :name
   validates_presence_of :provider, :in => PROVIDERS
   validates_presence_of :url
@@ -45,7 +45,7 @@ class ComputeResource < ActiveRecord::Base
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
-    raise "must provide a provider" unless provider = args[:provider]
+    raise _("must provide a provider") unless provider = args[:provider]
     PROVIDERS.each do |p|
       return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
@@ -164,7 +164,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise "#{provider} console is not supported at this time"
+    raise _("%s console is not supported at this time") % provider
   end
 
   # by default, our compute providers do not support updating an existing instance
@@ -179,7 +179,7 @@ class ComputeResource < ActiveRecord::Base
   protected
 
   def client
-    raise "Not implemented"
+    raise _("Not implemented")
   end
 
   def sanitize_url
@@ -221,7 +221,7 @@ class ComputeResource < ActiveRecord::Base
         return true if ComputeResource.my_compute_resources.include? self
       end
     end
-    errors.add :base, "You do not have permission to #{operation} this compute resource"
+    errors.add :base, _("You do not have permission to %s this compute resource") % operation
     false
   end
 

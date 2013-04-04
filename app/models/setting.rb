@@ -125,7 +125,7 @@ class Setting < ActiveRecord::Base
     return true if new_record?
     changed_attributes.keys.each do |c|
       if FROZEN_ATTRS.include?(c.to_s)
-        errors.add(c, "is not allowed to change")
+        errors.add(c, _("is not allowed to change"))
         return false
       end
     end

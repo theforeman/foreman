@@ -7,7 +7,7 @@
     <th class="small"><%= sort :applied %></th>
     <th class="small"><%= sort :restarted %></th>
     <th class="small"><%= sort :failed %></th>
-    <th class="small"><%= sort :failed_restarts, :as => "Restart<br>Failures" %></th>
+    <th class="small"><%= sort :failed_restarts, :as => _("Restart<br>Failures").html_safe %></th>
     <th class="small"><%= sort :skipped %></th>
     <th class="small"><%= sort :pending %></th>
     <th class="small"></th>
