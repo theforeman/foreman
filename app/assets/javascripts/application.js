@@ -336,7 +336,7 @@ function auth_source_selected(){
 function show_release(element){
   var os_family = $(element).val();
   if (os_family == 'Debian' || os_family == 'Solaris') {
-    $("#release_name").show('highlight', 1000);
+    $("#release_name").show();
   } else {
     $("#release_name").hide();
   }
