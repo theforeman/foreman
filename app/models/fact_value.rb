@@ -54,16 +54,11 @@ class FactValue < ActiveRecord::Base
 
   # returns the sum of each value, e.g. how many machines with 2,4...n cpu's
   def self.count_each(fact)
-    hash = {}
-    all(:select => "value", :joins => :fact_name, :conditions => {:fact_names => {:name => fact}}).each do |fv|
-      value = fv.value
-      if hash[value].nil?
-        hash[value] = 1
-      else
-        hash[value] += 1
-      end
+    output = []
+    where({:fact_names => {:name => fact}}).joins(:fact_name).count(:group=>'value').each do |k,v|
+      output << {:label => k, :data => v }  unless v == 0
     end
-    hash
+    output
   end
 
   def self.build_facts_hash facts

@@ -502,10 +502,10 @@ class Host::Managed < Host::Base
   # e.g. how many hosts belongs to each os
   # returns sorted hash
   def self.count_distribution assocication
-    output = {}
+    output = []
     count(:group => assocication).each do |k,v|
       begin
-        output[k.to_label] = v unless v == 0
+        output << {:label => k.to_label, :data => v }  unless v == 0
       rescue
         logger.info "skipped #{k} as it has has no label"
       end
@@ -518,34 +518,9 @@ class Host::Managed < Host::Base
   # e.g. how many hosts belongs to each os
   # returns sorted hash
   def self.count_habtm association
-    output = {}
     counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").count
-    # returns {:id => count...}
     #Puppetclass.find(counter.keys.compact)...
-    Hash[association.camelize.constantize.find(counter.keys.compact).map {|i| [i.to_label, counter[i.id]]}]
-  end
-
-  def resources_chart(timerange = 1.day.ago)
-    data = {}
-    data[:applied], data[:failed], data[:restarted], data[:failed_restarts], data[:skipped] = [],[],[],[],[]
-    reports.recent(timerange).each do |r|
-      data[:applied]         << [r.reported_at.to_i*1000, r.applied ]
-      data[:failed]          << [r.reported_at.to_i*1000, r.failed ]
-      data[:restarted]       << [r.reported_at.to_i*1000, r.restarted ]
-      data[:failed_restarts] << [r.reported_at.to_i*1000, r.failed_restarts ]
-      data[:skipped]         << [r.reported_at.to_i*1000, r.skipped ]
-    end
-    data
-  end
-
-  def runtime_chart(timerange = 1.day.ago)
-    data = {}
-    data[:config], data[:runtime] = [], []
-    reports.recent(timerange).each do |r|
-      data[:config]  << [r.reported_at.to_i*1000, r.config_retrieval]
-      data[:runtime] << [r.reported_at.to_i*1000, r.runtime]
-    end
-    data
+    association.camelize.constantize.find(counter.keys.compact).map {|i| {:label=>i.to_label, :data =>counter[i.id]}}
   end
 
   def classes_from_storeconfigs

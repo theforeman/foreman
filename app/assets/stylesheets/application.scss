@@ -132,10 +132,7 @@ div.flash.notice {
 .fieldWithErrors select {
   border: solid 1px #f00;
 }
-.statistics_pie.small{
-  width: 280px;
-  height: 250px;
-}
+
 .page_title{
   font-size: 20px;
   font-weight: bold;
@@ -205,15 +202,6 @@ tr.open span.expander {background-image: url(bullet_toggle_minus.png);}
   margin-left: 4px;
 }
 
-.fact_chart {
-  height: 400px !important;
-  width: 560px !important;
-  padding: 0 !important;
-  text-align: center;
-  font-weight: bold;
-  overflow: hidden;
-}
-
 #confirmation-modal{
   width: 850px !important;
 }
@@ -261,17 +249,9 @@ tr.open span.expander {background-image: url(bullet_toggle_minus.png);}
 
 select{padding: initial;}
 
-.stats-grid{
-  float:left;margin:0 0 20px 20px;border:1px solid #ddd;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:0 1px 1px rgba(0, 0, 0, 0.075);
-}
-.stats-grid:hover {
-  border-color:#0069d6;-webkit-box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);-moz-box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);box-shadow:0 1px 4px rgba(0, 105, 214, 0.25);
-}
-
 .inputs-list{
   margin-left:0;margin-bottom:18px;list-style:none;display: inline;
 }
-
 
 .delete{color: #b94a48 !important; cursor: auto;}
 

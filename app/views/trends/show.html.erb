@@ -1,15 +1,16 @@
 <% title _("Trends for %s") % trend_title(@trend) %>
 <% content_for(:search_bar) { trend_days_filter } %>
 
-<%= trend_chart 'trend_graph', "#{trend_title(@trend)}", (_("last %s days") % range), chart_data(@trend, range.days.ago) %>
-
+<div class="row">
+  <div class="stats-well span12">
+    <h4 class="ca"><%= "#{trend_title(@trend)}" %></h4>
+    <h6 class="ca"><%= "last #{range} days" %></h6>
+    <%= flot_chart 'trend_graph','' ,'Number of Hosts' , chart_data(@trend, range.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>
+  </div>
+</div>
+<div id="legendContainer"></div>
 <table class="table">
-  <% if @trend.fact_value == nil %>
-    <th colspan="4"><%= _("Values") %></th>
-    <tr>
-      <%= render 'trends' %>
-    </tr>
-  <% else %>
+  <% unless @trend.fact_value.nil? %>
     <th colspan="4"><%= _("Hosts") %></th>
     <tr>
       <%= render 'hosts' %>

@@ -106,31 +106,29 @@ module HostsHelper
     session[:selected].include?(host.id.to_s)
   end
 
-  def report_status_chart name, title, subtitle, data, options = {}
-    content_tag(:div, nil,
-                { :id             => name,
-                  :class          => 'host_chart',
-                  :'chart-name'   => name,
-                  :'chart-title'  => title,
-                  :'chart-subtitle'  => subtitle,
-                  :'chart-data-failed'  => data[:failed].to_a.to_json,
-                  :'chart-data-failed_restart'   => data[:failed_restart].to_a.to_json,
-                  :'chart-data-skipped'  => data[:skipped].to_a.to_json,
-                  :'chart-data-applied'  => data[:applied].to_a.to_json,
-                  :'chart-data-restarted'  => data[:restarted].to_a.to_json
-                }.merge(options))
+  def resources_chart(timerange = 1.day.ago)
+    applied, failed, restarted, failed_restarts, skipped = [],[],[],[],[]
+    @host.reports.recent(timerange).each do |r|
+      applied         << [r.reported_at.to_i*1000, r.applied ]
+      failed          << [r.reported_at.to_i*1000, r.failed ]
+      restarted       << [r.reported_at.to_i*1000, r.restarted ]
+      failed_restarts << [r.reported_at.to_i*1000, r.failed_restarts ]
+      skipped         << [r.reported_at.to_i*1000, r.skipped ]
+    end
+    [{:label=>"Applied", :data=>applied,:color =>'#89A54E'},
+     {:label=>"Failed", :data=>failed,:color =>'#AA4643'},
+     {:label=>"Failed restarts", :data=>failed_restarts,:color =>'#AA4643'},
+     {:label=>"Skipped", :data=>skipped,:color =>'#80699B'},
+     {:label=>"Restarted", :data=>restarted,:color =>'#4572A7'}]
   end
 
-  def runtime_chart name, title, subtitle, data, options = {}
-    content_tag(:div, nil,
-                { :id             => name,
-                  :class          => 'host_chart',
-                  :'chart-name'   => name,
-                  :'chart-title'  => title,
-                  :'chart-subtitle'  => subtitle,
-                  :'chart-data-runtime'  => data[:runtime].to_a.to_json,
-                  :'chart-data-config'   => data[:config].to_a.to_json
-                }.merge(options))
+  def runtime_chart(timerange = 1.day.ago)
+    config, runtime = [], []
+    @host.reports.recent(timerange).each do |r|
+      config  << [r.reported_at.to_i*1000, r.config_retrieval]
+      runtime << [r.reported_at.to_i*1000, r.runtime]
+    end
+    [{:label=>"Config Retrieval", :data=> config, :color=>'#AA4643'},{:label=>"Runtime", :data=> runtime,:color=>'#4572A7'}]
   end
 
   def reports_show

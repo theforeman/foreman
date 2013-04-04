@@ -41,7 +41,15 @@
     </div>
   </div>
   <div class="span8">
-    <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
-    <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
+    <div class="stats-well">
+      <h4 class="ca">Runtime</h4>
+      <h6 class="ca"><%= "last #{@range} days" %></h6>
+      <%= flot_chart 'runtime_graph','', 'Time in Seconds', runtime_chart(@range.days.ago), :class=>"statistics-chart stack" %>
+    </div>
+    <div class="stats-well">
+      <h4 class="ca">Resources</h4>
+      <h6 class="ca"><%= "last #{@range} days" %></h6>
+      <%= flot_chart 'resource_graph', '', "Number of Events", resources_chart(@range.days.ago) %>
+    </div>
   </div>
 </div>

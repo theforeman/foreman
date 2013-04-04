@@ -1,7 +1,5 @@
-<div class="grid">
+<div id="statistics" class="grid">
 <% charts.each do |ch| -%>
-  <div class="stats-grid">
-    <%= content_tag(:div, ch, :class=>"thumbnail") %>
-  </div>
+  <%= content_tag(:div, ch, :class=>"stats-well") %>
 <% end -%>
 </div>

@@ -1,5 +1,5 @@
 //= require diff
-//= require highcharts
+//= require flot
 //= require jquery.cookie
 //= require jquery.dataTables.bootstrap-paging
 //= require jquery.multi-select

@@ -2,17 +2,6 @@ module TrendsHelper
 
   include CommonParametersHelper
 
-  def trend_chart name, title, subtitle, data, options = {}
-    content_tag(:div, nil,
-                { :id             => name,
-                  :class          => 'trend_chart',
-                  :'chart-name'   => name,
-                  :'chart-title'  => title,
-                  :'chart-subtitle'  => subtitle,
-                  :'chart-data-hostcount'  => data.to_a.to_json
-                }.merge(options))
-  end
-
   def trendable_types new_record
     options = {_('Environment') => 'Environment', _('Operating System') => 'Operatingsystem',
      _('Model') => 'Model', _('Facts') =>'FactName',_('Host Group') => 'Hostgroup', _('Compute Resource') => 'ComputeResource'}
@@ -40,13 +29,13 @@ module TrendsHelper
   end
 
   def chart_data trend, from = Setting.max_trend, to = Time.now
+    chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
     values = trend.values
     labels = {}
-    values.includes(:trendable).each {|v| labels[v.id] = v.to_label}
-
-    values.includes(:trend_counters).where(["trend_counters.created_at > ?", from]).reorder("trend_counters.created_at").map do |value|
+    values.includes(:trendable).each {|v| labels[v.id] = [v.to_label, trend_path(:id => v)]}
+    values.includes(:trend_counters).where(["trend_counters.created_at > ?", from]).reorder("trend_counters.created_at").each_with_index.map do |value, idx|
       data =  value.trend_counters.map { |t|  [t.created_at.to_i*1000, t.count]  }
-      {:name => labels[value.id], :data =>data } unless data.empty?
+      {:label => labels[value.id][0], :href=>labels[value.id][1], :data =>data, :color => chart_colors[idx % chart_colors.size()] } unless data.empty?
     end.compact
   end
 
