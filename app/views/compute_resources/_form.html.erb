@@ -1,5 +1,5 @@
 <%= javascript "compute_resource" %>
-<%= form_for @compute_resource do |f| %>
+<%= form_for @compute_resource, :html => {:data => {:id => @compute_resource.try(:id)}} do |f| %>
   <%= base_errors_for @compute_resource %>
 
   <% if show_taxonomy_tabs? %>
