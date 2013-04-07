@@ -1,6 +1,6 @@
 <%= text_f f, :server, :label => _("VCenter/Server"), :class => "input-xlarge" %>
 <%= text_f f, :user %>
-<%= password_f f, :password %>
+<%= password_f f, :password, :placeholder => f.object.id ? "********" : "" %>
 <% datacenters = (f.object.uuid.nil? && controller.action_name != 'test_connection')  ? [] : f.object.datacenters rescue []%>
 <%= selectable_f(f, :uuid, datacenters, {}, {:label => _('Datacenter'),
                  :help_inline => link_to_function(datacenters.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",

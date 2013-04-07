@@ -26,12 +26,12 @@ function providerSelected(item)
 }
 
 function testConnection(item) {
-
+  var cr_id = $("form").data('id')
   $('#test_connection_indicator').show();
   $.ajax({
     type:'put',
     url: $(item).attr('data-url'),
-    data: $('form').serialize(),
+    data: $('form').serialize() + '&cr_id=' + cr_id,
     success:function (result) {
       var res = $('<div>' + result + '</div>');
       $('#compute_connection').html(res.find("#compute_connection"));

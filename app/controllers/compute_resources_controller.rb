@@ -50,6 +50,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def update
+    params[:compute_resource][:password] = @compute_resource.password if params[:compute_resource][:password].blank?
     if @compute_resource.update_attributes(params[:compute_resource])
       process_success
     else
@@ -72,7 +73,15 @@ class ComputeResourcesController < ApplicationController
   end
 
   def test_connection
-    @compute_resource ||= ComputeResource.new_provider(params[:compute_resource])
+    # cr_id is posted from AJAX function. cr_id is nil if new
+    Rails.logger.info "CR_ID IS #{params[:cr_id]}"
+    if params[:cr_id].present? && params[:cr_id] != 'null'
+      @compute_resource = ComputeResource.find(params[:cr_id])
+      params[:compute_resource].delete(:password) if params[:compute_resource][:password].blank?
+      @compute_resource.attributes = params[:compute_resource]
+    else
+      @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+    end
     @compute_resource.test_connection
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }
   end
