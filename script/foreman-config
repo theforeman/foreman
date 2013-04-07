@@ -28,7 +28,7 @@ Options:
 BANNER
   opt.on("-k",
          "--key KEY",
-         "If not specified, all keys are dispalyed") do |val|
+         "If not specified, all keys are displayed") do |val|
     options[:key] = val
   end
 
