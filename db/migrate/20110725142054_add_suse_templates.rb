@@ -8,6 +8,8 @@ class AddSuseTemplates < ActiveRecord::Migration
   end
 
   def self.up
+    Medium.reset_column_information
+
     TemplateKind.all.each do |kind|
       case kind.name
       when /provision/
