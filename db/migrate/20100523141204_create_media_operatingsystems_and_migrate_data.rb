@@ -24,6 +24,7 @@ class CreateMediaOperatingsystemsAndMigrateData < ActiveRecord::Migration
     medium_hash.keys.each { |os| os.media << medium_hash[os] }
 
     remove_column :media, :operatingsystem_id
+    Medium.reset_column_information
   end
 
   def self.down
