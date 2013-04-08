@@ -11,13 +11,13 @@ class AddSolarisTemplates < ActiveRecord::Migration
           :name                => "Jumpstart Default",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Solaris.all.map(&:id),
-          :template            => File.read("#{Rails.root}/app/views/unattended/jumpstart.rhtml"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/jumpstart.html.erb"))
       when /finish/
         ConfigTemplate.create(
           :name                => "Jumstart Default Finish",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Solaris.all.map(&:id),
-          :template            => File.read("#{Rails.root}/app/views/unattended/jumpstart_finish.rhtml"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/jumpstart_finish.html.erb"))
       when /pxegrub/i
         ConfigTemplate.create(
           :name                => "Jumpstart default PXEGrub",
