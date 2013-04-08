@@ -95,6 +95,7 @@ Foreman::Application.configure do
                   spice
                   trends
                   charts
+                  taxonomy
                  )
   stylesheets = %w( )
 
