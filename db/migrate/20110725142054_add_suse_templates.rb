@@ -24,7 +24,7 @@ class AddSuseTemplates < ActiveRecord::Migration
           :template            => File.read("#{Rails.root}/app/views/unattended/pxe_autoyast.erb"))
       end
     end
-    os = Operatingsystem.find_all_by_type "Suse" || Operatingsystem.where("name LIKE ?", "suse")
+    os = Operatingsystem.where("lower(type) = ? OR lower(name) LIKE ?", "suse", "%suse%")
     disk = Ptable.create :name => "SuSE Entire SCSI Disk", :layout =>"  <partitioning  config:type=\"list\">\n    <drive>\n      <device>/dev/sda</device>       \n      <use>all</use>\n    </drive>\n  </partitioning>"
     disk.operatingsystems = os
     disk = Ptable.create :name => "SuSE Entire Virtual Disk", :layout =>"  <partitioning  config:type=\"list\">\n    <drive>\n      <device>/dev/vda</device>       \n      <use>all</use>\n    </drive>\n  </partitioning>"
