@@ -9,7 +9,11 @@ else
   locale_type = :mo
 end
 
-FastGettext.add_text_domain 'foreman', :path => locale_dir, :type => locale_type
+FastGettext.add_text_domain 'foreman',
+  :path => locale_dir,
+  :type => locale_type,
+  :ignore_fuzzy => true,
+  :report_warning => false
 FastGettext.default_available_locales = ['en'] + Dir.entries(locale_dir).reject {|d| d =~ /(^\.|pot$)/ }
 FastGettext.default_text_domain = 'foreman'
 
