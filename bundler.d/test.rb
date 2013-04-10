@@ -6,7 +6,7 @@ group :test do
   gem 'rr'
   gem 'rake'
   gem 'ci_reporter', '>= 1.6.3', :require => false
-  gem 'capybara'
+  gem 'capybara', '~> 2.0.0'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'spork'
