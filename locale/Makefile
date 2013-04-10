@@ -22,6 +22,7 @@ all-mo: $(MOFILES)
 	msgfmt -c $<
 	pofilter --nofuzzy -t variables -t blank -t urls -t emails -t long -t newlines \
 		-t endwhitespace -t endpunc -t puncspacing -t options -t printf -t validchars --gnome $< > $@
+	cat $@
 	! grep -q msgid $@
 
 check: $(POXFILES)

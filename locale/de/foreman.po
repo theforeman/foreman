@@ -5,13 +5,12 @@
 # Translators:
 # Thomas Bendler
 #
-
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Foreman\n"
+"Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-04 20:42-0500\n"
+"POT-Creation-Date: 2013-04-10 11:23+0200\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -21,14 +20,216 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "%s - Press Shift-F12 to release the cursor."
+msgstr ""
+
+msgid "%s Distribution"
+msgstr ""
+
+msgid "%s Host"
+msgstr ""
+
+msgid "%s Parameters updated, see below for more information"
+msgstr ""
+
+#, fuzzy
+msgid "%s Template"
+msgstr "Vorlagen"
+
+msgid "%s ago"
+msgstr ""
+
+msgid "%s console is not supported at this time"
+msgstr ""
+
+msgid "%s day ago"
+msgid_plural "%s days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s minute ago"
+msgid_plural "%s minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s month ago"
+msgid_plural "%s months ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+msgid "%s selected hosts"
+msgstr "Selektiere Hosts"
+
+msgid "%s week ago"
+msgid_plural "%s weeks ago"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%{count} hosts with no %{taxonomy_single} assigned"
 msgstr "%{count} Hosts ohne %{taxonomy_single} Zuweisung"
 
-msgid "+ Add Filter"
+msgid "%{default_value} is not one of %{validator_rule}"
+msgstr ""
+
+msgid "%{name} changed from %{label1} to %{label2}"
+msgstr ""
+
+msgid "%{task} task failed with the following error: %{e}"
+msgstr ""
+
+msgid "%{value} does not belong to %{os} operating system"
+msgstr ""
+
+msgid "%{value} is not one of %{rules}"
+msgstr ""
+
+msgid "%{vm} is now %{state}"
+msgstr ""
+
+msgid "%{vm} is now %{vm_state}"
+msgstr ""
+
+msgid "'%s' could be deleted."
+msgstr ""
+
+msgid "'%{host}' not found on '%{resource}'"
+msgstr ""
+
+msgid "':foreman_url:' entry in Foreman configuration file, see http://theforeman.org/projects/foreman/wiki/Mail_Notifications"
+msgstr ""
+
+msgid "(optional) IAM Role for Fog to use when creating this image."
+msgstr ""
+
+msgid "<b>Description:</b> %{key}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
+msgstr ""
+
+msgid "<b>Source:</b> %s"
+msgstr ""
+
+msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
+msgstr ""
+
+msgid "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
+msgstr ""
+
+msgid "A Host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
+msgstr ""
+
+msgid "A medium represents the source of one or more operating system's installation files, accessible via the network.\\n  It will probably be a mirror from the internet or a copy of one or more CD or DVDs."
+msgstr ""
+
+msgid "A partition table entry represents either"
+msgstr ""
+
+msgid "A problem occurred when detecting host type: %s"
+msgstr ""
+
+msgid "A script to dynamically calculate the desired sizes. E.G."
+msgstr ""
+
+msgid "A user group already exists with this name"
+msgstr ""
+
+msgid "API Key"
+msgstr ""
+
+msgid "Accept these environment changes found in puppet?"
+msgstr ""
+
+msgid "Access Key"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+#, fuzzy
+msgid "Account Password"
+msgstr "Passwort"
+
+msgid "Acquiring IP address for %s"
+msgstr ""
+
+#, fuzzy
+msgid "Action"
+msgstr "Lokation"
+
+#, fuzzy
+msgid "Actions"
+msgstr "Lokation"
+
+msgid "Active"
+msgstr ""
+
+#, fuzzy
+msgid "Active Hosts"
+msgstr "Selektiere Hosts"
+
+msgid "Add Bookmark"
+msgstr ""
+
+msgid "Add Combination"
+msgstr ""
+
+#, fuzzy
+msgid "Add Filter"
 msgstr "+ Filter hinzufügen"
+
+msgid "Add Interface"
+msgstr ""
+
+msgid "Add Matcher-Value"
+msgstr ""
+
+#, fuzzy
+msgid "Add Parameter"
+msgstr "Fact Filter hinzufügen"
+
+msgid "Add Trend Counter"
+msgstr ""
+
+msgid "Add Variable"
+msgstr ""
+
+msgid "Add Volume"
+msgstr ""
 
 msgid "Add a fact filter"
 msgstr "Fact Filter hinzufügen"
+
+msgid "Add:"
+msgstr ""
+
+msgid "Additional info"
+msgstr ""
+
+msgid "Additional information about this host"
+msgstr ""
+
+msgid "Additional steps"
+msgstr ""
+
+msgid "Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab."
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "After you have decided on the two primary modes of operation and performed any appropriate imports then it would be good idea if you visited some of the other configuration pages to see if additional setup is required under the Additional settings select box on the top right."
+msgstr ""
+
+msgid "Alert"
+msgstr ""
+
+msgid "Alerts Enabled"
+msgstr ""
+
+msgid "Alerts disabled"
+msgstr ""
 
 msgid "All Compute Resources"
 msgstr "Alle Rechner Ressourcen"
@@ -45,6 +246,13 @@ msgstr "Alle Hostgruppen"
 msgid "All Media"
 msgstr "Alle Medien"
 
+msgid "All Puppet Classes for %s"
+msgstr ""
+
+#, fuzzy
+msgid "All Reports"
+msgstr "Alle Benutzer"
+
 msgid "All Smart Proxies"
 msgstr "Alle Smart Proxies"
 
@@ -58,16 +266,54 @@ msgid "All Users"
 msgstr "Alle Benutzer"
 
 msgid "All hosts data matches configurations for locations and organizations."
-msgstr "Alle Host-Daten deren Konfigurationen mit Lokationen und Organisationen übereinstimmen"
+msgstr "Alle Host-Daten deren Konfigurationen mit Lokationen und Organisationen übereinstimmen."
 
-msgid "All hosts previously with no %{taxonomy_single} are now assigned to %{taxonomy_name}"
+#, fuzzy
+msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Alle hosts mit Zuweisung %{taxonomy_single} sind nun %{taxonomy_name} zugewiesem"
+
+#, fuzzy
+msgid "All messages"
+msgstr "Alle Benutzer"
 
 msgid "All mismatches between hosts and %s have been fixed"
 msgstr "Alle Fehlanpassungen zwischen Hosts und %s sind gefixed"
 
 msgid "All mismatches between hosts and locations/organizations have been fixed"
 msgstr "Alle Fehlanpassungen zwischen Hosts und Lokationen/Organisationen sind gefixed"
+
+msgid "All non public permissions successfully updated"
+msgstr ""
+
+msgid "Allocated"
+msgstr ""
+
+msgid "An explicit layout for the partitions of your hard drive(s). E.G."
+msgstr ""
+
+#, fuzzy
+msgid "Any Location"
+msgstr "Lokation"
+
+#, fuzzy
+msgid "Any Organization"
+msgstr "Organisationen"
+
+msgid "Applicable<br>Operating Systems"
+msgstr ""
+
+msgid "Architecture Distribution"
+msgstr ""
+
+#, fuzzy
+msgid "Architecture configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Architectures"
+msgstr ""
+
+msgid "Are you sure?"
+msgstr ""
 
 msgid "Assign All"
 msgstr "Alle Zuweisen"
@@ -81,11 +327,183 @@ msgstr "Alle %{count} Hosts ohne Zuweisung von {taxonomy_upcase} zu %{taxonomy_n
 msgid "Assign Hosts to %s"
 msgstr "Zuweisung Hosts zu %s"
 
+#, fuzzy
+msgid "Assign Location"
+msgstr "Neue Lokation"
+
+#, fuzzy
+msgid "Assign Organization"
+msgstr "Organisationen"
+
+#, fuzzy
+msgid "Assign Selected Hosts"
+msgstr "Selektiere Hosts"
+
+#, fuzzy
+msgid "Assign to %s"
+msgstr "Zuweisung Hosts zu %s"
+
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected Hosts are currently using."
+msgstr ""
+
+#, fuzzy
+msgid "Association"
+msgstr "Lokation"
+
+msgid "At present, authentication is performed against the internal Database or a LDAP service provided by one or more LDAP servers."
+msgstr ""
+
+msgid "Attempting to construct an operating system image filename but %s cannot be built from an image"
+msgstr ""
+
+msgid "Audit Comment"
+msgstr ""
+
+msgid "Audits"
+msgstr ""
+
+#, fuzzy
+msgid "Authentication Source Configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Authentication URL"
 msgstr ""
 
 msgid "Authorized by"
 msgstr "Freigegeben durch"
+
+msgid "Autosign"
+msgstr ""
+
+msgid "Autosign Entries"
+msgstr ""
+
+#, fuzzy
+msgid "Autosign entries for %s"
+msgstr "Zuweisung Hosts zu %s"
+
+msgid "Average memory usage"
+msgstr ""
+
+msgid "Average swap usage"
+msgstr ""
+
+msgid "BMC"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Back to host"
+msgstr ""
+
+msgid "Back to host list"
+msgstr ""
+
+msgid "Bare Metal"
+msgstr ""
+
+msgid "Before you can use Foreman for the first time there are a few tasks that must be performed."
+msgstr ""
+
+msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
+msgstr ""
+
+msgid "Bookmark this search"
+msgstr ""
+
+msgid "Bookmark was successfully created."
+msgstr ""
+
+msgid "Bookmark was successfully updated."
+msgstr ""
+
+msgid "Bookmarks"
+msgstr ""
+
+#, fuzzy
+msgid "Bookmarks configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Bootable"
+msgstr ""
+
+msgid "Browse host facts"
+msgstr ""
+
+msgid "Browse host reports"
+msgstr ""
+
+msgid "Build"
+msgstr ""
+
+#, fuzzy
+msgid "Build Hosts"
+msgstr "Selektiere Hosts"
+
+msgid "Build PXE Default"
+msgstr ""
+
+msgid "Build from OS image"
+msgstr ""
+
+msgid "CPUs"
+msgstr ""
+
+msgid "Can't delete built-in role"
+msgstr ""
+
+msgid "Can't find a valid Foreman Proxy with a Puppet feature"
+msgstr ""
+
+msgid "Can't use the same value as the primary interface"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Cancel Build"
+msgstr ""
+
+msgid "Cancel build request for this host"
+msgstr ""
+
+msgid "Canceled pending build for %s"
+msgstr ""
+
+msgid "Certificate Name"
+msgstr ""
+
+msgid "Certificates"
+msgstr ""
+
+#, fuzzy
+msgid "Change Environment"
+msgstr "Umgebung"
+
+msgid "Change Group"
+msgstr ""
+
+msgid "Changed environments and puppet classes"
+msgstr ""
+
+msgid "Check all"
+msgstr ""
+
+msgid "Check all/Uncheck all"
+msgstr ""
+
+msgid "Choose a family"
+msgstr ""
+
+msgid "Choose a provider"
+msgstr ""
+
+msgid "Class Distribution"
+msgstr ""
+
+msgid "Click to edit"
+msgstr ""
 
 msgid "Clone"
 msgstr "Klon"
@@ -93,31 +511,219 @@ msgstr "Klon"
 msgid "Clone %s"
 msgstr "Klone %s"
 
+msgid "Close"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+#, fuzzy
+msgid "Compute Resource"
+msgstr "Rechnerresource"
+
 msgid "Compute Resources"
+msgstr "Rechnerresource"
+
+#, fuzzy
+msgid "Compute resource update for %s"
 msgstr "Rechnerresource"
 
 msgid "Compute resources"
 msgstr "Rechnerresource"
 
-msgid "ComputeResource"
-msgstr "Rechnerresource"
-
-msgid "ConfigTemplate"
+#, fuzzy
+msgid "Config Path"
 msgstr "Konfigurationsvorlage"
+
+#, fuzzy
+msgid "Config Template"
+msgstr "Konfigurationsvorlage"
+
+#, fuzzy
+msgid "Configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Configuring instance %s via SSH"
+msgstr ""
+
+msgid "Connecting (unencrypted) to: %s"
+msgstr ""
+
+msgid "Console"
+msgstr ""
+
+msgid "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
+msgstr ""
 
 msgid "Create %s"
 msgstr "%s anlegen"
 
+msgid "Create DHCP Settings for %s"
+msgstr ""
+
+msgid "Create DNS record for %s"
+msgstr ""
+
+msgid "Create Reverse DNS record for %s"
+msgstr ""
+
+msgid "Create a Smart Proxy"
+msgstr ""
+
+msgid "Custom Disk layout"
+msgstr ""
+
+msgid "DHCP Proxy"
+msgstr ""
+
+msgid "DHCP Proxy to use within this subnet"
+msgstr ""
+
+msgid "DHCP conflicts removal for %s"
+msgstr ""
+
+msgid "DHCP has a lease at %s"
+msgstr ""
+
+msgid "DHCP not supported for this NIC"
+msgstr ""
+
+msgid "DHCP records %s already exists"
+msgstr ""
+
+msgid "DNS"
+msgstr ""
+
+msgid "DNS A Records %s already exists"
+msgstr ""
+
+msgid "DNS PTR Records %s already exists"
+msgstr ""
+
+msgid "DNS Proxy"
+msgstr ""
+
+msgid "DNS Proxy to use within this domain"
+msgstr ""
+
+msgid "DNS Proxy to use within this subnet"
+msgstr ""
+
+msgid "DNS name"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Data Store"
+msgstr ""
+
+msgid "Datacenter"
+msgstr ""
+
+msgid "Default Value"
+msgstr ""
+
+#, fuzzy
+msgid "Delete"
+msgstr "Löschen %s?"
+
 msgid "Delete %s?"
 msgstr "Löschen %s?"
 
+#, fuzzy
+msgid "Delete Hosts"
+msgstr "Selektiere Hosts"
+
+msgid "Delete PuppetCA certificates for %s"
+msgstr ""
+
+msgid "Delete all the trend history for %s?"
+msgstr ""
+
+#, fuzzy
+msgid "Delete autosign entry for %s"
+msgstr "Selektiere Hosts um sie %s zu zuweisen"
+
+#, fuzzy
+msgid "Delete report for %s?"
+msgstr "Löschen %s?"
+
+#, fuzzy
+msgid "Deleted environment"
+msgstr "Alle Umgebungen"
+
+msgid "Deleted environment %{env} and %{pcs}"
+msgstr ""
+
+msgid "Deleting this group will unlink its nested groups and any associated puppet classes and / or parameters"
+msgstr ""
+
+msgid "Deploy on"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Destroy"
+msgstr ""
+
+msgid "Destroyed selected hosts"
+msgstr ""
+
+#, fuzzy
+msgid "Details"
+msgstr "Fehlzuweisung anzeigen"
+
+msgid "Diff View"
+msgstr ""
+
+msgid "Disable Notifications"
+msgstr ""
+
+msgid "Disable alerts for selected hosts"
+msgstr ""
+
+msgid "Disk"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+#, fuzzy
+msgid "Display Name"
+msgstr "Vornamen"
+
+msgid "Display the templates that will be used to provision this host"
+msgstr ""
+
+#, fuzzy
+msgid "Documentation"
+msgstr "Lokation"
+
+msgid "Does not match selected Subnet"
+msgstr ""
+
 msgid "Domain"
 msgstr ""
+
+#, fuzzy
+msgid "Domain Configuration"
+msgstr "Konfiguration Lokation"
 
 msgid "Domain hosts"
 msgstr "Domain Hosts"
 
 msgid "Domains"
+msgstr ""
+
+msgid "Domains in which this subnet is part"
+msgstr ""
+
+msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
+msgstr ""
+
+msgid "Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
 
 msgid "Edit"
@@ -126,26 +732,288 @@ msgstr "Editiere"
 msgid "Edit %s"
 msgstr "Editiere %s"
 
+msgid "Edit Architecture"
+msgstr ""
+
+msgid "Edit Bookmark"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Config Template"
+msgstr "Konfigurationsvorlage"
+
+#, fuzzy
+msgid "Edit Domain"
+msgstr "Alle Domains"
+
+#, fuzzy
+msgid "Edit Environment"
+msgstr "Umgebung"
+
+msgid "Edit Global Parameter"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Host"
+msgstr "Editiere %s"
+
+msgid "Edit LDAP Auth Source"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Medium"
+msgstr "Benutzer ändern"
+
+#, fuzzy
+msgid "Edit Model"
+msgstr "Benutzer ändern"
+
+#, fuzzy
+msgid "Edit Operating System"
+msgstr "Eigentschaften editieren"
+
+#, fuzzy
+msgid "Edit Parameters"
+msgstr "Eigentschaften editieren"
+
+msgid "Edit Partition table"
+msgstr ""
+
 msgid "Edit Properties"
 msgstr "Eigentschaften editieren"
+
+#, fuzzy
+msgid "Edit Proxy"
+msgstr "Eigentschaften editieren"
+
+msgid "Edit Puppet Class %s"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Roles"
+msgstr "Editiere %s"
+
+msgid "Edit Smart Variable"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Subnet"
+msgstr "Sub-Netz"
+
+#, fuzzy
+msgid "Edit Trend %s"
+msgstr "Editiere %s"
 
 msgid "Edit User"
 msgstr "Benutzer ändern"
 
+#, fuzzy
+msgid "Edit User group"
+msgstr "Benutzer ändern"
+
+msgid "Edit your host"
+msgstr ""
+
+#, fuzzy
+msgid "Editing %s"
+msgstr "Editiere %s"
+
+#, fuzzy
+msgid "Editing compute"
+msgstr "Eigentschaften editieren"
+
+msgid "Either you didnt generate the puppetdocs (see <a rel=\"external\" href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be found in environment <strong>%{environment}</strong><br/> Please ensure that the class <strong>%{name}</strong>s declaration is accessible via the modulepath associated with <strong>%{environment}</strong>."
+msgstr ""
+
+#, fuzzy
+msgid "Empty environment"
+msgstr "Umgebung"
+
+msgid "Enable Certificate generation for %s"
+msgstr ""
+
+msgid "Enable Notifications"
+msgstr ""
+
+msgid "Enable alerts for selected hosts"
+msgstr ""
+
+msgid "Enable rebuild on next host boot"
+msgstr ""
+
+msgid "Enable this host for provisioning"
+msgstr ""
+
+msgid "Enabled %s for rebuild on next boot"
+msgstr ""
+
 msgid "Environment"
+msgstr "Umgebung"
+
+#, fuzzy
+msgid "Environment configuration"
+msgstr "Konfiguration Lokation"
+
+#, fuzzy
+msgid "Environment only"
 msgstr "Umgebung"
 
 msgid "Environments"
 msgstr "Umgebungen"
 
+#, fuzzy
+msgid "Environments Distribution"
+msgstr "Umgebungen"
+
+msgid "Environments may be manually created and only require the name of the environment to be declared."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Errors only"
+msgstr ""
+
+msgid "Expires"
+msgstr ""
+
+#, fuzzy
+msgid "Fact Name"
+msgstr "Nachname"
+
+#, fuzzy
+msgid "Fact Values"
+msgstr "Fact Filter"
+
+#, fuzzy
+msgid "Fact error"
+msgstr "Fact Filter"
+
 msgid "Fact filters"
+msgstr "Fact Filter"
+
+msgid "Facts"
+msgstr ""
+
+#, fuzzy
+msgid "Fail on Mismatch"
+msgstr "Fixe Fehlzuweisungen"
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to %{action} %{vm}: %{e}"
+msgstr ""
+
+msgid "Failed to add %{name} to autosign file: %{e}"
+msgstr ""
+
+msgid "Failed to cancel pending build for %s"
+msgstr ""
+
+msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
+msgstr ""
+
+msgid "Failed to create a compute %{compute_resource} instance %{name}: %{message}\\n "
+msgstr ""
+
+msgid "Failed to delete TFTP: %s"
+msgstr ""
+
+msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to enable %{host} for installation: %{errors}"
+msgstr ""
+
+msgid "Failed to fetch boot files"
+msgstr ""
+
+msgid "Failed to fetch boot files: %s"
+msgstr ""
+
+msgid "Failed to generate %{template_kind} template: %{e}"
+msgstr ""
+
+msgid "Failed to get IP for %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring"
+msgstr ""
+
+msgid "Failed to import facts"
+msgstr ""
+
+msgid "Failed to import facts: %s"
+msgstr ""
+
+msgid "Failed to import report"
+msgstr ""
+
+msgid "Failed to initialize the PuppetCA proxy: %s"
+msgstr ""
+
+msgid "Failed to launch script on %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to login via SSH to %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to perform rollback on %{task} - %{e}"
+msgstr ""
+
+msgid "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to remove %{name}'s puppet certificate: %{e}"
+msgstr ""
+
+msgid "Failed to remove %{self} from the autosign file: %{e}"
+msgstr ""
+
+msgid "Failed to remove certificates for %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to set TFTP: %s"
+msgstr ""
+
+msgid "Failed to set console: %s"
+msgstr ""
+
+msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid "Family"
+msgstr ""
+
+msgid "Features"
+msgstr ""
+
+msgid "Fetch TFTP boot files for %s"
+msgstr ""
+
+#, fuzzy
+msgid "Filter %s"
 msgstr "Fact Filter"
 
 msgid "Filters"
 msgstr ""
 
+msgid "Fingerprint"
+msgstr ""
+
 msgid "First Name"
 msgstr "Vornamen"
+
+#, fuzzy
+msgid "Fix %s on Mismatch"
+msgstr "Fixe Fehlzuweisungen"
 
 msgid "Fix All Mismatches"
 msgstr "Fixe alle Fehlzuweisungen"
@@ -153,14 +1021,147 @@ msgstr "Fixe alle Fehlzuweisungen"
 msgid "Fix Mismatches"
 msgstr "Fixe Fehlzuweisungen"
 
+msgid "Flavor"
+msgstr ""
+
+msgid "Floating IP network"
+msgstr ""
+
+msgid "For Roles and permissions, see the"
+msgstr ""
+
+msgid "For example, if you have copied several redhat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you\\n  could create a single medium entry describing them all.\\n  The entry, which could be just named 'redhat' could contain a path like this <em>'http://server/redhat/$version/$arch'</em>"
+msgstr ""
+
 msgid "For example, there might be a data center in London and one in Virginia; these are locations. Locations also work nicely when used in tandem with "
-msgstr "Zum Beispiel Datacenter in London und Virginia sind Lokationen. Lokationen funktionieren ebenfalls gut wenn sie benutzt, zusammen mit"
+msgstr "Zum Beispiel Datacenter in London und Virginia sind Lokationen. Lokationen funktionieren ebenfalls gut wenn sie benutzt, zusammen mit "
+
+msgid "For internal Users, simply create a new user at the"
+msgstr ""
+
+msgid "Foreman can use LDAP based service for user information and authentication."
+msgstr ""
+
+msgid "Foreman comes with some importers to ease the burden of entering loads of data about your current installation."
+msgstr ""
+
+msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\\n  then the domain is <b>somewhere.com</b>. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made\\n  by machines at that site."
+msgstr ""
+
+msgid "Foreman now manages the build cycle for %s"
+msgstr ""
+
+msgid "Foreman now no longer manages the build cycle for %s"
+msgstr ""
+
+msgid "Foreman report creation time is <em>%s</em>"
+msgstr ""
+
+msgid "Foreman ticketing system"
+msgstr ""
+
+msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
+msgstr ""
+
+msgid "From IP"
+msgstr ""
+
+#, fuzzy
+msgid "Full Name"
+msgstr "Vornamen"
+
+msgid "Full name describing the domain"
+msgstr ""
+
+msgid "Full trace"
+msgstr ""
+
+msgid "Gateway"
+msgstr ""
+
+msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
+msgstr ""
+
+msgid "Generated %s ago"
+msgstr ""
+
+msgid "Global Parameters"
+msgstr ""
+
+msgid "Global variable or class Parameter, not both"
+msgstr ""
+
+msgid "Good Host Reports in the last %s"
+msgstr ""
+
+msgid "Hardware"
+msgstr ""
+
+msgid "Hardware Model"
+msgstr ""
+
+msgid "Hardware Models"
+msgstr ""
+
+msgid "Hardware model"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Here you can manage bookmarks. Bookmarks are saved search queries."
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+#, fuzzy
+msgid "Host"
+msgstr "Hostgruppen"
+
+msgid "Host Architecture"
+msgstr ""
+
+#, fuzzy
+msgid "Host Group"
+msgstr "Hostgruppen"
 
 msgid "Host Groups"
 msgstr "Hostgruppen"
 
+msgid "Host audit entries"
+msgstr ""
+
+#, fuzzy
+msgid "Host details"
+msgstr "Fehlzuweisung anzeigen"
+
+msgid "Host is pending for Build"
+msgstr ""
+
+msgid "Host reported time is <em>%s</em>"
+msgstr ""
+
+msgid "Host times seems to be adrift!"
+msgstr ""
+
+msgid "Host-group and Environment"
+msgstr ""
+
+#, fuzzy
+msgid "Host-group only"
+msgstr "Hostgruppen"
+
 msgid "Hostgroup"
 msgstr "Hostgruppen"
+
+#, fuzzy
+msgid "Hostgroup / Environment"
+msgstr "Umgebung"
+
+#, fuzzy
+msgid "Hostgroup configuration"
+msgstr "Konfiguration Lokation"
 
 msgid "Hostgroup hosts"
 msgstr "Hostgruppen Hosts"
@@ -168,11 +1169,230 @@ msgstr "Hostgruppen Hosts"
 msgid "Hosts"
 msgstr ""
 
+msgid "Hosts Inventory"
+msgstr ""
+
+msgid "Hosts With Alerts Disabled"
+msgstr ""
+
+msgid "Hosts With No Reports"
+msgstr ""
+
+msgid "Hosts in Error State"
+msgstr ""
+
+msgid "Hosts that had pending changes"
+msgstr ""
+
+msgid "Hosts that had performed modifications without error"
+msgstr ""
+
+msgid "Hosts which didn't run puppet in the last %s"
+msgstr ""
+
+msgid "Hosts with errors"
+msgstr ""
+
+msgid "Hosts with notifications disabled"
+msgstr ""
+
+msgid "How Templates are determined"
+msgstr ""
+
+msgid "How values are validated"
+msgstr ""
+
+msgid "Howtos"
+msgstr ""
+
+msgid "IAM Role"
+msgstr ""
+
+msgid "IP"
+msgstr ""
+
+msgid "IP Address"
+msgstr ""
+
+msgid "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you"
+msgstr ""
+
+msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
+msgstr ""
+
+msgid "If you are already using puppet you should consider using some of the rake tasks that have been provided."
+msgstr ""
+
+msgid "If you are planning to use Foreman as an external node classifier you should provide information about one or more environments."
+msgstr ""
+
+msgid "If you chose to use LDAP authentication then you must provide connection details for your authentication provider on"
+msgstr ""
+
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
+msgstr ""
+
+msgid "If you wish to track the actions of a particular user then it is possible to use an additional authentication stage and provide a user account."
+msgstr ""
+
+msgid "If you're planning to do anything more than just handle reports, you'll be in need of a smart proxy - either on this machine or elsewhere on your network."
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Image Based"
+msgstr ""
+
+msgid "Image ID"
+msgstr ""
+
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr ""
+
+msgid "Image Path"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+#, fuzzy
+msgid "Import Subnets"
+msgstr "Sub-Netze"
+
+msgid "Import from %s"
+msgstr ""
+
+msgid "Import subnets"
+msgstr ""
+
+msgid "Import your data"
+msgstr ""
+
+msgid "Important"
+msgstr ""
+
+#, fuzzy
+msgid "Imported Subnets"
+msgstr "Sub-Netze"
+
+msgid "Imported facts"
+msgstr ""
+
+msgid "Imported report"
+msgstr ""
+
+msgid "Importing Puppet Facts"
+msgstr ""
+
+msgid "Importing Puppet classes and environments"
+msgstr ""
+
+msgid "In Progress"
+msgstr ""
+
+msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a hostgroup to further refine the behavior of the puppet runtime."
+msgstr ""
+
+msgid "Include this host within Foreman reporting"
+msgstr ""
+
 msgid "Incorrect username or password"
 msgstr "Falscher Benutzername oder falsches Passwort"
 
+msgid "Info"
+msgstr ""
+
+msgid "Installation Media"
+msgstr ""
+
+msgid "Installation media"
+msgstr ""
+
+#, fuzzy
+msgid "Installation medium configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Interface"
+msgstr ""
+
+msgid "Invalid Facts, much be a Puppet::Node::Facts or a Hash"
+msgstr ""
+
+msgid "Invalid Host"
+msgstr ""
+
+msgid "Invalid query"
+msgstr ""
+
+msgid "Invalid report"
+msgstr ""
+
+msgid "Invalid search query: %s"
+msgstr ""
+
+msgid "Invalid type requested for host creation via facts: %s"
+msgstr ""
+
+msgid "Inventory browser"
+msgstr ""
+
+msgid "It is not possible to assign provisioning templates at this stage"
+msgstr ""
+
+msgid "Key Binding"
+msgstr ""
+
+msgid "Kind"
+msgstr ""
+
+msgid "LDAP"
+msgstr ""
+
+msgid "LDAP Authentication"
+msgstr ""
+
+msgid "LDAPS"
+msgstr ""
+
+msgid "Last Login"
+msgstr ""
+
 msgid "Last Name"
 msgstr "Nachname"
+
+msgid "Last updated %s ago"
+msgstr ""
+
+msgid "Layout"
+msgstr ""
+
+msgid "Level"
+msgstr ""
+
+msgid "List of hosts which answer to the provided query"
+msgstr ""
+
+#, fuzzy
+msgid "Listing compute resources"
+msgstr "Rechnerresource"
+
+msgid "Load Datacenters"
+msgstr ""
+
+#, fuzzy
+msgid "Load Regions"
+msgstr "Lokation"
+
+msgid "Load Tenants"
+msgstr ""
+
+msgid "Loading Images information"
+msgstr ""
+
+#, fuzzy
+msgid "Location"
+msgstr "Lokation"
 
 msgid "Location configuration"
 msgstr "Konfiguration Lokation"
@@ -189,8 +1409,42 @@ msgstr "Lokationen werden benutzt um physikalisch unterschiedliche Standorte dur
 msgid "Logged out - See you soon"
 msgstr "Ausgeloggt - Bis bald"
 
+msgid "Logged-in"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
 msgid "Login &#187;"
 msgstr ""
+
+msgid "MAC"
+msgstr ""
+
+msgid "MAC Address"
+msgstr ""
+
+msgid "MAC address for this host"
+msgstr ""
+
+msgid "Machine Type"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "Mail is Required"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Manage Bookmarks"
+msgstr ""
+
+#, fuzzy
+msgid "Manage host"
+msgstr "Eigene Hosts"
 
 msgid "Manually Assign"
 msgstr "Manuell Zuweisen"
@@ -198,10 +1452,29 @@ msgstr "Manuell Zuweisen"
 msgid "Manually select and assign Hosts with No %s"
 msgstr "Selektiere und weise Hosts ohne %s manuell zu"
 
+#, fuzzy
+msgid "Matcher"
+msgstr "Fehlzuweisung"
+
+msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>"
+msgstr ""
+
 msgid "Media"
 msgstr ""
 
+msgid "Media Path"
+msgstr ""
+
 msgid "Medium"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "Memory (MB)"
+msgstr ""
+
+msgid "Minor"
 msgstr ""
 
 msgid "Mismatch Details"
@@ -213,17 +1486,285 @@ msgstr "Fehlzuweisung"
 msgid "Mismatches Report"
 msgstr "Fehlzuweisung reporten"
 
+msgid "Model"
+msgstr ""
+
+msgid "Modified"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
+msgid "Must be an array"
+msgstr ""
+
+msgid "Must provide an operating systems"
+msgstr ""
+
+msgid "Must provide template kind"
+msgstr ""
+
+msgid "Must specify a Smart Proxy to use"
+msgstr ""
+
+msgid "My account"
+msgstr ""
+
+msgid "N/A"
+msgstr ""
+
+msgid "NIC"
+msgstr ""
+
+#, fuzzy
+msgid "Name"
+msgstr "Nachname"
+
+msgid "Nest"
+msgstr ""
+
+msgid "Netmask"
+msgstr ""
+
+msgid "Netmask for this subnet"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Network Based"
+msgstr ""
+
+msgid "Network interfaces"
+msgstr ""
+
+msgid "Networks"
+msgstr ""
+
 msgid "New %s"
 msgstr "Neuer %s"
+
+msgid "New Architecture"
+msgstr ""
+
+msgid "New Autosign Entry"
+msgstr ""
+
+msgid "New Bookmark"
+msgstr ""
+
+#, fuzzy
+msgid "New Compute Resource"
+msgstr "Rechnerresource"
+
+#, fuzzy
+msgid "New Domain"
+msgstr "Neue Lokation"
+
+#, fuzzy
+msgid "New Environment"
+msgstr "Umgebung"
+
+msgid "New Global Parameter"
+msgstr ""
+
+#, fuzzy
+msgid "New Host"
+msgstr "Neuer %s"
+
+#, fuzzy
+msgid "New Hostgroup"
+msgstr "Hostgruppen"
+
+msgid "New Image"
+msgstr ""
+
+msgid "New LDAP Auth Source"
+msgstr ""
+
+msgid "New LDAP Source"
+msgstr ""
 
 msgid "New Location"
 msgstr "Neue Lokation"
 
+msgid "New Medium"
+msgstr ""
+
+msgid "New Model"
+msgstr ""
+
+msgid "New Operating System"
+msgstr ""
+
+msgid "New Operating system"
+msgstr ""
+
+#, fuzzy
+msgid "New Organization"
+msgstr "Organisationen"
+
+msgid "New Parameter"
+msgstr ""
+
+msgid "New Partition Table layout"
+msgstr ""
+
+msgid "New Partition table layout"
+msgstr ""
+
+msgid "New Proxy"
+msgstr ""
+
+msgid "New Puppet class"
+msgstr ""
+
+#, fuzzy
+msgid "New Role"
+msgstr "Neuer Benutzer"
+
+#, fuzzy
+msgid "New Subnet"
+msgstr "Sub-Netz"
+
+#, fuzzy
+msgid "New Template"
+msgstr "Vorlagen"
+
+msgid "New Trend"
+msgstr ""
+
 msgid "New User"
 msgstr "Neuer Benutzer"
 
+#, fuzzy
+msgid "New User group"
+msgstr "Neuer Benutzer"
+
+msgid "New Virtual Machine"
+msgstr ""
+
+msgid "New architecture"
+msgstr ""
+
+msgid "New authentication source"
+msgstr ""
+
+#, fuzzy
+msgid "New compute resource"
+msgstr "Rechnerresource"
+
+#, fuzzy
+msgid "New hostgroup"
+msgstr "Hostgruppen"
+
+msgid "New installation medium"
+msgstr ""
+
+msgid "New partition table"
+msgstr ""
+
+#, fuzzy
+msgid "New role"
+msgstr "Neuer Benutzer"
+
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
+msgstr ""
+
+#, fuzzy
+msgid "No Environment selected!"
+msgstr "Umgebungen"
+
+msgid "No History Found"
+msgstr ""
+
+#, fuzzy
+msgid "No Hostgroup selected!"
+msgstr "Hostgruppen Hosts"
+
+msgid "No Hosts selected"
+msgstr ""
+
+msgid "No Preference"
+msgstr ""
+
+msgid "No Subnets selected"
+msgstr ""
+
+msgid "No TFTP proxies defined, can't continue"
+msgstr ""
+
+#, fuzzy
+msgid "No Template found"
+msgstr "Vorlagen"
+
+msgid "No Trend Counter Defined."
+msgstr ""
+
+msgid "No Trend Counter Found."
+msgstr ""
+
+#, fuzzy
+msgid "No domains"
+msgstr "Alle Domains"
+
+msgid "No features found on this proxy, please make sure you enable at least one feature"
+msgstr ""
+
+msgid "No finish templates were found for this host, make sure you define at least one in your %s settings"
+msgstr ""
+
 msgid "No hosts are mismatched!"
-msgstr "Keine Hosts haben Fehlzuweisungen"
+msgstr "Keine Hosts haben Fehlzuweisungen!"
+
+msgid "No hosts were found with that id or name"
+msgstr ""
+
+msgid "No new subnets found"
+msgstr ""
+
+msgid "No parameters were allocated to the selected hosts, can't mass assign."
+msgstr ""
+
+msgid "No reports"
+msgstr ""
+
+#, fuzzy
+msgid "No subnets"
+msgstr "Sub-Netze"
+
+msgid "No templates found!"
+msgstr ""
+
+msgid "No value error"
+msgstr ""
+
+msgid "No value warning"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "None Found"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "Not authorized to edit classes"
+msgstr ""
+
+msgid "Not implemented"
+msgstr ""
+
+msgid "Not relevant for snippet"
+msgstr ""
+
+msgid "Note: %s "
+msgstr ""
+
+msgid "Nothing to show"
+msgstr ""
 
 msgid "Notice"
 msgstr "Nachricht"
@@ -231,20 +1772,524 @@ msgstr "Nachricht"
 msgid "Notice:"
 msgstr "Nachricht:"
 
+#, fuzzy
+msgid "Notifications"
+msgstr "Lokation"
+
+msgid "Number Of Clients"
+msgstr ""
+
+msgid "Number of CPUs"
+msgstr ""
+
+msgid "Number of Events"
+msgstr ""
+
+msgid "Number of Values"
+msgstr ""
+
+msgid "OS Distribution"
+msgstr ""
+
+msgid "OS Family"
+msgstr ""
+
+msgid "OS Image"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "On the fly Register"
+msgstr ""
+
+msgid "Once installed you should head over to"
+msgstr ""
+
+msgid "One or more unknown facts were encountered during evaluation:"
+msgstr ""
+
+msgid "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)"
+msgstr ""
+
+msgid "Only one bootable interface is allowed"
+msgstr ""
+
+msgid "Only one declaration of a proxy is allowed"
+msgstr ""
+
+msgid "Only one volume can be Bootable"
+msgstr ""
+
+msgid "Oops"
+msgstr ""
+
+msgid "Oops, we're sorry but something went wrong"
+msgstr ""
+
+msgid "Operating Mode"
+msgstr ""
+
+msgid "Operating System"
+msgstr ""
+
+msgid "Operating System Family"
+msgstr ""
+
+msgid "Operating System version is required"
+msgstr ""
+
+msgid "Operating Systems"
+msgstr ""
+
+msgid "Operating system default"
+msgstr ""
+
+msgid "Operating systems"
+msgstr ""
+
+msgid "Operating<br>System"
+msgstr ""
+
+#, fuzzy
+msgid "Operation"
+msgstr "Organisationen"
+
+msgid "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br><b>Description:</b> %s"
+msgstr ""
+
+msgid "Optional: Ending IP Address for IP auto suggestion"
+msgstr ""
+
+msgid "Optional: Gateway for this subnet"
+msgstr ""
+
+msgid "Optional: Primary DNS for this subnet"
+msgstr ""
+
+msgid "Optional: Secondary DNS for this subnet"
+msgstr ""
+
+msgid "Optional: Starting IP Address for IP auto suggestion"
+msgstr ""
+
+msgid "Optional: VLAN ID for this subnet"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+#, fuzzy
+msgid "Organization"
+msgstr "Organisationen"
+
+#, fuzzy
+msgid "Organization configuration"
+msgstr "Konfiguration Lokation"
+
 msgid "Organizations"
 msgstr "Organisationen"
+
+msgid "Organizations also work nicely in tandem with"
+msgstr ""
+
+msgid "Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install."
+msgstr ""
+
+msgid "Other reports for this host"
+msgstr ""
+
+msgid "Out Of Sync Hosts"
+msgstr ""
+
+msgid "Out of sync"
+msgstr ""
+
+msgid "Override"
+msgstr ""
+
+msgid "Override Value"
+msgstr ""
+
+msgid "Override a Puppetclass Parameter"
+msgstr ""
+
+msgid "Override this value"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "Overwrite"
+msgstr ""
+
+#, fuzzy
+msgid "Owned By"
+msgstr "Eigene Hosts"
 
 msgid "Owned hosts"
 msgstr "Eigene Hosts"
 
+msgid "Owner"
+msgstr ""
+
+msgid "Owner changed to %s"
+msgstr ""
+
+msgid "PXE Default file has been deployed to all Smart Proxies"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Parameter name"
+msgstr ""
+
+msgid "Parameter type"
+msgstr ""
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Parameters that would be associated with hosts in this %s"
+msgstr ""
+
+msgid "Partition Table"
+msgstr ""
+
+msgid "Partition Tables"
+msgstr ""
+
+#, fuzzy
+msgid "Partition table configuration"
+msgstr "Konfiguration Lokation"
+
+msgid "Partition tables"
+msgstr ""
+
 msgid "Password"
 msgstr "Passwort"
 
+msgid "Path"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "Pending Hosts"
+msgstr ""
+
+msgid "Pending Installation"
+msgstr ""
+
+msgid "Permission denied"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "Permissions report"
+msgstr ""
+
+msgid "Please Select"
+msgstr ""
+
+msgid "Please Select an Image"
+msgstr ""
+
+msgid "Please check the proxy is configured and running on the host before saving."
+msgstr ""
+
+msgid "Please request the required privileges from a foreman administrator"
+msgstr ""
+
+msgid "Please review them carefully, if you are certain that they should be removed, please click on overwrite."
+msgstr ""
+
+msgid "Please save the Operating System first and try again."
+msgstr ""
+
+#, fuzzy
+msgid "Please select an Environment first"
+msgstr "Alle Umgebungen"
+
+msgid "Please try to update your request"
+msgstr ""
+
 msgid "Please wait..."
-msgstr "Bitte warten ..."
+msgstr "Bitte warten..."
+
+msgid "Port"
+msgstr ""
+
+msgid "Power"
+msgstr ""
+
+msgid "Power %s"
+msgstr ""
+
+msgid "Power ON this machine"
+msgstr ""
+
+msgid "Power up compute instance %s"
+msgstr ""
+
+msgid "Power%s"
+msgstr ""
+
+msgid "Preparing Post installation script for %s"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Primary DNS"
+msgstr ""
+
+msgid "Primary Interface"
+msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Fahre fort zum Ändern"
+
+#, fuzzy
+msgid "Properties"
+msgstr "Eigentschaften editieren"
+
+msgid "Provider"
+msgstr ""
+
+msgid "Provision"
+msgstr ""
+
+msgid "Provision script had a non zero exit, removing instance"
+msgstr ""
+
+msgid "Provisioning"
+msgstr ""
+
+msgid "Provisioning Method"
+msgstr ""
+
+msgid "Provisioning Support is disabled or this host is not managed"
+msgstr ""
+
+msgid "Provisioning Template content changed %s"
+msgstr ""
+
+#, fuzzy
+msgid "Provisioning Templates"
+msgstr "Konfigurationsvorlage"
+
+msgid "Proxies"
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
+msgid "Puppet CA"
+msgstr ""
+
+msgid "Puppet Class"
+msgstr ""
+
+msgid "Puppet Classes"
+msgstr ""
+
+msgid "Puppet Clients Activity Overview"
+msgstr ""
+
+#, fuzzy
+msgid "Puppet Environment"
+msgstr "Umgebung"
+
+#, fuzzy
+msgid "Puppet Environments"
+msgstr "Umgebungen"
+
+msgid "Puppet External Nodes"
+msgstr ""
+
+msgid "Puppet Master"
+msgstr ""
+
+msgid "Puppet Modules"
+msgstr ""
+
+msgid "Puppet Reports"
+msgstr ""
+
+msgid "Puppet Reports integration"
+msgstr ""
+
+msgid "Puppet class"
+msgstr ""
+
+msgid "Puppet classes"
+msgstr ""
+
+msgid "Puppet classes and environment importer"
+msgstr ""
+
+msgid "Puppet error on %s"
+msgstr ""
+
+msgid "Puppet external nodes YAML dump"
+msgstr ""
+
+msgid "PuppetCA on %s"
+msgstr ""
+
+msgid "Puppetclass"
+msgstr ""
+
+msgid "Query"
+msgstr ""
+
+msgid "Querying instance details for %s"
+msgstr ""
+
+msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current facts and reports"
+msgstr ""
+
+msgid "Region"
+msgstr ""
+
+#, fuzzy
+msgid "Release Name"
+msgstr "Nachname"
+
+#, fuzzy
+msgid "Remove %s?"
+msgstr "Entfernen"
+
+msgid "Remove DHCP Settings for %s"
+msgstr ""
+
+msgid "Remove DNS record for %s"
+msgstr ""
+
+msgid "Remove Parameter"
+msgstr ""
+
+msgid "Remove Reverse DNS record for %s"
+msgstr ""
+
+msgid "Remove conflicting DNS record for %s"
+msgstr ""
+
+msgid "Remove conflicting Reverse DNS record for %s"
+msgstr ""
+
+msgid "Remove old TFTP Settings for %s"
+msgstr ""
+
+#, fuzzy
+msgid "Remove:"
+msgstr "Entfernen"
+
+msgid "Removing compute instance %s"
+msgstr ""
+
+msgid "Report Already Deleted"
+msgstr ""
+
+msgid "Report Metrics"
+msgstr ""
+
+msgid "Report Status"
+msgstr ""
+
+msgid "Reported at %s "
+msgstr ""
+
+msgid "Reporting"
+msgstr ""
+
+msgid "Reports"
+msgstr ""
+
+msgid "Reports from the last"
+msgstr ""
+
+msgid "Required Parameter"
+msgstr ""
+
+msgid "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s"
+msgstr ""
+
+msgid "Resolve"
+msgstr ""
+
+#, fuzzy
+msgid "Resource"
+msgstr "Rechnerresource"
+
+msgid "Restart<br>Failures"
+msgstr ""
+
+msgid "Review"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Role is in use"
+msgstr ""
+
+msgid "Roles"
+msgstr ""
+
+#, fuzzy
+msgid "Root Password"
+msgstr "Passwort"
+
+msgid "Run Distribution in the last %s Minutes"
+msgstr ""
+
+msgid "Run Puppet"
+msgstr ""
+
+msgid "Run Puppet on the following hosts"
+msgstr ""
+
+msgid "Run puppet"
+msgstr ""
+
+msgid "Running on"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Save something and try again"
+msgstr ""
+
+msgid "Scope"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Secondary DNS"
+msgstr ""
+
+msgid "Secret Key"
+msgstr ""
+
+msgid "Security Group"
+msgstr ""
+
+#, fuzzy
+msgid "Security Groups"
+msgstr "Hostgruppen"
+
+#, fuzzy
+msgid "Select All"
+msgstr "Selektiere Hosts"
 
 msgid "Select Hosts"
 msgstr "Selektiere Hosts"
@@ -252,8 +2297,63 @@ msgstr "Selektiere Hosts"
 msgid "Select Hosts to Assign to %s"
 msgstr "Selektiere Hosts um sie %s zu zuweisen"
 
+#, fuzzy
+msgid "Select Organization"
+msgstr "Organisationen"
+
+msgid "Select a period"
+msgstr ""
+
+#, fuzzy
+msgid "Select template"
+msgstr "Alle Templates"
+
+#, fuzzy
+msgid "Selected"
+msgstr "Selektiere Hosts"
+
 msgid "Selected hosts are now assigned to %s"
 msgstr "Selektierte Hosts sind nun %s zugewiesen"
+
+#, fuzzy
+msgid "Selected image does not belong to %s"
+msgstr "Selektierte Hosts sind nun %s zugewiesen"
+
+msgid "Selecting a file will override the editor and load the file instead"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Settings up compute instance %s"
+msgstr ""
+
+msgid "Show Host"
+msgstr ""
+
+msgid "Show Trends"
+msgstr ""
+
+msgid "Show all %s fact values"
+msgstr ""
+
+msgid "Show all %{name} facts where they are equal to %{value}"
+msgstr ""
+
+msgid "Show distribution chart"
+msgstr ""
+
+msgid "Show log messages:"
+msgstr ""
+
+msgid "Sign"
+msgstr ""
+
+msgid "Sign Out"
+msgstr ""
+
+msgid "Size (GB)"
+msgstr ""
 
 msgid "Skip Assign Hosts and Proceed to Edit %s Settings"
 msgstr "Überspringe zugewiesene Hosts und fahre mit dem editieren der Einstellungen von %s fort"
@@ -261,7 +2361,52 @@ msgstr "Überspringe zugewiesene Hosts und fahre mit dem editieren der Einstellu
 msgid "Smart Proxies"
 msgstr ""
 
-msgid "SmartProxy"
+#, fuzzy
+msgid "Smart Proxy"
+msgstr "Alle Smart Proxies"
+
+#, fuzzy
+msgid "Smart Variables"
+msgstr "Alle Smart Proxies"
+
+#, fuzzy
+msgid "Smart variables"
+msgstr "Alle Smart Proxies"
+
+msgid "Smart-Proxy Installation"
+msgstr ""
+
+msgid "Snippet"
+msgstr ""
+
+msgid "Some or all hosts execution failed, Please check log files for more information"
+msgstr ""
+
+msgid "Something went wrong while changing host type - %s"
+msgstr ""
+
+msgid "Something went wrong while selecting hosts - %s"
+msgstr ""
+
+msgid "Sorry, these hosts do not have parameters assigned to them, you must add them first."
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Storage"
+msgstr ""
+
+msgid "Storage Domain"
+msgstr ""
+
+msgid "Storage Pool"
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "Subnet"
@@ -270,11 +2415,311 @@ msgstr "Sub-Netz"
 msgid "Subnets"
 msgstr "Sub-Netze"
 
+msgid "Success"
+msgstr ""
+
+msgid "Successfully created puppetclass."
+msgstr ""
+
+msgid "Successfully destroyed puppetclass."
+msgstr ""
+
+msgid "Successfully destroyed report."
+msgstr ""
+
+msgid "Successfully executed, check log files for more details"
+msgstr ""
+
+msgid "Successfully executed, check reports and/or log files for more details"
+msgstr ""
+
+msgid "Successfully updated puppetclass."
+msgstr ""
+
+msgid "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "TFTP Proxy"
+msgstr ""
+
+msgid "TFTP Proxy to use within this subnet"
+msgstr ""
+
+msgid "TFTP Settings for %s"
+msgstr ""
+
+#, fuzzy
+msgid "Template"
+msgstr "Vorlagen"
+
+msgid "Template / Hardware Profile to use"
+msgstr ""
+
+#, fuzzy
+msgid "Template Type"
+msgstr "Vorlagen"
+
+#, fuzzy
+msgid "Template diff"
+msgstr "Vorlagen"
+
+#, fuzzy
+msgid "Template editor"
+msgstr "Vorlagen"
+
 msgid "Templates"
 msgstr "Vorlagen"
 
+msgid "Tenant"
+msgstr ""
+
+msgid "Test Connection"
+msgstr ""
+
+msgid "The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,\\n  and also available as an external node parameter"
+msgstr ""
+
+msgid "The Audit Comment field is saved with the template auditing to document the template changes"
+msgstr ""
+
+msgid "The NFS path to the image directory."
+msgstr ""
+
+msgid "The NFS path to the jumpstart control files."
+msgstr ""
+
+msgid "The NFS path to the media."
+msgstr ""
+
+msgid "The Operating System type"
+msgstr ""
+
+msgid "The authentication process currently requires an LDAP provider, such as <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgstr ""
+
+msgid "The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m"
+msgstr ""
+
+msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
+msgstr ""
+
+msgid "The default username and password are <b>admin</b> and <b>changeme</b>"
+msgstr ""
+
+msgid "The dynamic partitioning style is currently only available for the Redhat family of operating systems, all others must provide an explicit list of partitions and sizes."
+msgstr ""
+
+msgid "The final entry, Operating System default, can be set by editing the %s page."
+msgstr ""
+
+msgid "The following entries were found conflicting with what foreman wanted to apply."
+msgstr ""
+
+msgid "The following fields would need reviewing"
+msgstr ""
+
+msgid "The following hosts failed the build operation: %s"
+msgstr ""
+
+msgid "The following hosts were not %{action}: %{missed_hosts}"
+msgstr ""
+
+msgid "The following hosts were not deleted: %s"
+msgstr ""
+
+msgid "The following hosts were updated"
+msgstr ""
+
+msgid "The following parameters were skipped as they did not exists on this host:"
+msgstr ""
+
+msgid "The following subnets have been found"
+msgstr ""
+
+msgid "The full DNS Domain name"
+msgstr ""
+
+msgid "The hostgroup's classes and the hostgroup's variables are included in the external node information when the puppetmaster compiles the host's configuration."
+msgstr ""
+
+msgid "The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior\\n  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process."
+msgstr ""
+
+msgid "The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpolated back into the path specification to calculate the true URL address."
+msgstr ""
+
+msgid "The marked fields will need reviewing"
+msgstr ""
+
+msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
+msgstr ""
+
+msgid "The order in which values are resolved"
+msgstr ""
+
+msgid "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).\\n          for example <em>http://mirror.averse.net/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>."
+msgstr ""
+
+msgid "The selected hosts will execute a build operation on next reboot"
+msgstr ""
+
+msgid "The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc"
+msgstr ""
+
+msgid "There are two strategies when using hostgroups."
+msgstr ""
+
+msgid "There aren't any locations yet."
+msgstr ""
+
+msgid "There aren't any organizations yet."
+msgstr ""
+
+msgid "There was an error creating the PXE Default file: %s"
+msgstr ""
+
+msgid "There was an error rendering the %s template: "
+msgstr ""
+
+msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
+msgstr ""
+
+msgid "This group has nested groups!"
+msgstr ""
+
+msgid "This information is commonly imported from a pre-existing puppet configuration by the use of the"
+msgstr ""
+
+msgid "This might take a while, as all hosts, facts and reports will be destroyed as well"
+msgstr ""
+
+msgid "This page will self destruct once a report comes in."
+msgstr ""
+
+msgid "This page will self destruct once data comes in."
+msgstr ""
+
+msgid "To IP"
+msgstr ""
+
+msgid "To define trend counters, use the Add Trend Counter button."
+msgstr ""
+
+msgid "To start collecting trend data, set a cron job to execute 'rake trends:counter' every Puppet Interval (%s minutes)."
+msgstr ""
+
+msgid "To start collecting trend data, set a cron job to execute <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> every Puppet Interval (%s minutes)"
+msgstr ""
+
+msgid "Toggle notifications section"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Total memory usage"
+msgstr ""
+
+msgid "Trend of the last"
+msgstr ""
+
+msgid "Trends"
+msgstr ""
+
+msgid "Trends for %s"
+msgstr ""
+
+msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "UUID"
+msgstr ""
+
+msgid "Unable to communicate with the proxy: %s"
+msgstr ""
+
+msgid "Unable to create the anonymous role."
+msgstr ""
+
+msgid "Unable to create the default user role."
+msgstr ""
+
+msgid "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
+msgstr ""
+
+msgid "Unable to find proper authentication method"
+msgstr ""
+
+msgid "Unable to find templates As this Host has no Operating System"
+msgstr ""
+
+msgid "Unable to generate output, Check log files\\n"
+msgstr ""
+
+msgid "Unable to save"
+msgstr ""
+
+msgid "Uncheck all"
+msgstr ""
+
+msgid "Unknown Power State"
+msgstr ""
+
+msgid "Unknown fact"
+msgstr ""
+
+msgid "Unknown user"
+msgstr ""
+
+#, fuzzy
+msgid "Unmanage host"
+msgstr "Domain Hosts"
+
+msgid "Update"
+msgstr ""
+
+msgid "Update:"
+msgstr ""
+
+msgid "Updated all hosts!"
+msgstr ""
+
+msgid "Updated hosts: Changed Environment"
+msgstr ""
+
+msgid "Updated hosts: Changed Hostgroup"
+msgstr ""
+
+msgid "Use this account to authenticate, <i>optional</i>"
+msgstr ""
+
+msgid "Use this puppet server as a CA server"
+msgstr ""
+
+msgid "Use this puppet server as an initial Puppet Server or to execute puppet runs"
+msgstr ""
+
+msgid "Useful template functions and macros"
+msgstr ""
+
 msgid "User"
 msgstr "Benutzer"
+
+msgid "User Authentication"
+msgstr ""
+
+#, fuzzy
+msgid "User Groups"
+msgstr "Hostgruppen"
 
 msgid "Username"
 msgstr "Benutzername"
@@ -282,11 +2727,401 @@ msgstr "Benutzername"
 msgid "Users"
 msgstr "Benutzer"
 
+msgid "Using the organization system provides a way to group resources together for easy management."
+msgstr ""
+
+msgid "VCPU(s)"
+msgstr ""
+
+msgid "VCenter/Server"
+msgstr ""
+
+msgid "VLAN"
+msgstr ""
+
+msgid "Valid Host group and Environment Combinations"
+msgstr ""
+
+msgid "Valid from"
+msgstr ""
+
+msgid "Validation types"
+msgstr ""
+
+msgid "Validator Type"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Values"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "Vendor Class"
+msgstr ""
+
+msgid "Vendor class"
+msgstr ""
+
+msgid "Verify"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "View last report details"
+msgstr ""
+
+msgid "Virtual Machines"
+msgstr ""
+
+msgid "Virtual Machines on %s"
+msgstr ""
+
+msgid "Volumes"
+msgstr ""
+
+msgid "Waiting for %s to come online"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Warning!"
+msgstr ""
+
+msgid "Warnings and errors"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
+msgstr ""
+
+msgid "When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:"
+msgstr ""
+
+msgid "When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments"
+msgstr ""
+
+msgid "When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see"
+msgstr ""
+
+msgid "Whether the smart-variable should override the Puppet class default value."
+msgstr ""
+
+msgid "Which is an offset of <b>%s</b>"
+msgstr ""
+
+msgid "Wiki"
+msgstr ""
+
+msgid "YAML"
+msgstr ""
+
+msgid "You Are about to change the default PXE menu on all configured TFTP servers - continue ?"
+msgstr ""
+
 msgid "You are currently logged in, suicidal?"
 msgstr "Sie sind gerade eingeloggt?"
 
+msgid "You are not authorized to perform this action"
+msgstr ""
+
+msgid "You can find details of how to set up the proxy at"
+msgstr ""
+
+msgid "You cannot remove %s that are used by hosts."
+msgstr ""
+
+msgid "You do not have permission to %s this Operating System parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this compute resource"
+msgstr ""
+
+msgid "You do not have permission to %s this domain"
+msgstr ""
+
+msgid "You do not have permission to %s this domain parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this group parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this host"
+msgstr ""
+
+msgid "You do not have permission to %s this report"
+msgstr ""
+
+msgid "You do not have permission to %s this template"
+msgstr ""
+
+msgid "You do not have permission to %{operation} this %{klass}"
+msgstr ""
+
+msgid "You don"
+msgstr ""
+
+msgid "You don't seem to have any Hosts, for more information see"
+msgstr ""
+
+msgid "You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow"
+msgstr ""
+
+msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
+msgstr ""
+
+msgid "You may also associate one or more operating systems with this partition table or alternatively set this up later on the %s page"
+msgstr ""
+
+msgid "You may also find the"
+msgstr ""
+
+msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a hostgroup called <b>host-type-ldap-server</b> and add the required classes into the hostgroup configuration."
+msgstr ""
+
+msgid "You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also turn on unattended mode operation in which Foreman creates and manages the configuration files necessary to completely configure a new host."
+msgstr ""
+
+msgid "You may optionally wish to generate the online documentation for your puppet classes"
+msgstr ""
+
 msgid "You must create a location before continuing."
 msgstr "Sie müssen erst eine Lokation erstellen bevor sie fortfahren können."
+
+#, fuzzy
+msgid "You must create an organization before continuing."
+msgstr "Sie müssen erst eine Lokation erstellen bevor sie fortfahren können."
+
+#, fuzzy
+msgid "You must create at least one location before continuing."
+msgstr "Sie müssen erst eine Lokation erstellen bevor sie fortfahren können."
+
+#, fuzzy
+msgid "You must create at least one organization before continuing."
+msgstr "Sie müssen erst eine Lokation erstellen bevor sie fortfahren können."
+
+msgid "You must decide how you wish to use the software, and update the primary settings file <b>config/settings.yaml</b> and the"
+msgstr ""
+
+msgid "You would need to enable login in your settings.yml file first and restart foreman"
+msgstr ""
+
+msgid "You would probably need to attach the"
+msgstr ""
+
+msgid "Your session has expired, please login again"
+msgstr ""
+
+msgid "a script as well"
+msgstr ""
+
+msgid "add a new matcher-value pair"
+msgstr ""
+
+msgid "add new network interface"
+msgstr ""
+
+msgid "add new storage volume"
+msgstr ""
+
+msgid "add new volume"
+msgstr ""
+
+msgid "already exists"
+msgstr ""
+
+msgid "already in use"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "and relevant log entries."
+msgstr ""
+
+msgid "can't be bigger than to range"
+msgstr ""
+
+msgid "can't be blank or contain trailing white spaces."
+msgstr ""
+
+msgid "can't be blank or contain white spaces."
+msgstr ""
+
+msgid "can't contain white spaces"
+msgstr ""
+
+msgid "cant be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "days - %s reports found"
+msgstr ""
+
+msgid "days."
+msgstr ""
+
+msgid "does not appear to be a valid nfs mount path"
+msgstr ""
+
+msgid "does not belong to subnet"
+msgstr ""
+
+msgid "domain %s already has a subnet with this name"
+msgstr ""
+
+msgid "e-mail"
+msgstr ""
+
+msgid "e-mail reporting"
+msgstr ""
+
+msgid "e.g. 2"
+msgstr ""
+
+msgid "e.g. 6"
+msgstr ""
+
+msgid "e.g. RedHat"
+msgstr ""
+
+msgid "e.g. admin@internal"
+msgstr ""
+
+msgid "e.g. http://openstack:5000/v2.0/tokens"
+msgstr ""
+
+msgid "e.g. https://identity.api.rackspacecloud.com"
+msgstr ""
+
+msgid "e.g. https://ovirt.example.com:8443/api"
+msgstr ""
+
+msgid "e.g. karmic, lucid, hw0910 etc"
+msgstr ""
+
+msgid "e.g. qemu://host.example.com/system"
+msgstr ""
+
+msgid "failed to %{action} %{vm}"
+msgstr ""
+
+msgid "failed to detect boot server: %s"
+msgstr ""
+
+msgid "failed to execute puppetrun: %s"
+msgstr ""
+
+msgid "failed to process template: %s"
+msgstr ""
+
+msgid "failed to save %s"
+msgstr ""
+
+msgid "for more details."
+msgstr ""
+
+msgid "free memory (GB)"
+msgstr ""
+
+msgid "free swap (GB)"
+msgstr ""
+
+msgid "here"
+msgstr ""
+
+msgid "in %s"
+msgstr ""
+
+msgid "included already from host group"
+msgstr ""
+
+msgid "invalid IP address"
+msgstr ""
+
+msgid "invalid architecture for %s"
+msgstr ""
+
+msgid "invalid facts hash"
+msgstr ""
+
+msgid "invalid facts, missing operating system value"
+msgstr ""
+
+msgid "invalid host list"
+msgstr ""
+
+msgid "invalid medium for %s"
+msgstr ""
+
+msgid "invalid method %s"
+msgstr ""
+
+msgid "invalid path"
+msgstr ""
+
+msgid "invalid time range"
+msgstr ""
+
+msgid "invalid type %s"
+msgstr ""
+
+msgid "invalid type: %s requested"
+msgstr ""
+
+msgid "invalid value: %s"
+msgstr ""
+
+msgid "is alphanumeric and cannot contain spaces"
+msgstr ""
+
+msgid "is already used by a user account"
+msgstr ""
+
+msgid "is invalid"
+msgstr ""
+
+msgid "is invalid %s"
+msgstr ""
+
+msgid "is invalid - only  http://, https:// are allowed"
+msgstr ""
+
+msgid "is not allowed to change"
+msgstr ""
+
+msgid "last %s day"
+msgid_plural "last %s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+msgid "locations"
+msgstr "Lokation"
+
+msgid "message"
+msgstr ""
+
+msgid "must be downcase"
+msgstr ""
+
+msgid "must be specified if from is defined"
+msgstr ""
+
+msgid "must be specified if to is defined"
+msgstr ""
+
+msgid "must provide a provider"
+msgstr ""
+
+msgid "no puppet proxy defined - cant continue"
+msgstr ""
 
 msgid "not has %s"
 msgstr "hat nicht %s"
@@ -294,5 +3129,97 @@ msgstr "hat nicht %s"
 msgid "organizations"
 msgstr "Organisationen"
 
+msgid "page"
+msgstr ""
+
+msgid "parameters require an associated domain, host or hostgroup"
+msgstr ""
+
+msgid "puppet class browser"
+msgstr ""
+
 msgid "remove"
 msgstr "Entfernen"
+
+msgid "remove network interface"
+msgstr ""
+
+#, fuzzy
+msgid "remove value"
+msgstr "Entfernen"
+
+#, fuzzy
+msgid "remove volume"
+msgstr "Entfernen"
+
+msgid "select an owner"
+msgstr ""
+
+msgid "setting up reporting"
+msgstr ""
+
+msgid "settings"
+msgstr ""
+
+msgid "should be 8 characters or more"
+msgstr ""
+
+msgid "should follow this format: 0,9600n8"
+msgstr ""
+
+msgid "these hosts for a build operation on next boot"
+msgstr ""
+
+msgid "this page"
+msgstr ""
+
+msgid "to indicate your selections."
+msgstr ""
+
+msgid "to point Foreman at it."
+msgstr ""
+
+msgid "unable to find any hosts for puppet environment=%s"
+msgstr ""
+
+msgid "unable to find any hosts that match your request"
+msgstr ""
+
+msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
+msgstr ""
+
+msgid "unable to find recipients"
+msgstr ""
+
+msgid "unable to sign a non pending certificate"
+msgstr ""
+
+msgid "unknown provider"
+msgstr ""
+
+msgid "used memory (GB)"
+msgstr ""
+
+msgid "used swap (GB)"
+msgstr ""
+
+msgid "useful."
+msgstr ""
+
+msgid "using %s"
+msgstr ""
+
+msgid "using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - %{path})"
+msgstr ""
+
+msgid "value to use when there is no match"
+msgstr ""
+
+msgid "you may use %s"
+msgstr ""
+
+msgid "you probably need to configure your %s first."
+msgstr ""
+
+msgid "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
+msgstr ""
