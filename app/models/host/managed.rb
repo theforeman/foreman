@@ -678,21 +678,21 @@ class Host::Managed < Host::Base
 
   def host_status
     if build
-      "Pending Installation"
+      N_("Pending Installation")
     elsif respond_to?(:enabled) && !enabled
-      "Alerts disabled"
+      N_("Alerts disabled")
     elsif respond_to?(:last_report) && last_report.nil?
-      "No reports"
+      N_("No reports")
     elsif no_report
-      "Out of sync"
+      N_("Out of sync")
     elsif error?
-      "Error"
+      N_("Error")
     elsif changes?
-      "Active"
+      N_("Active")
     elsif pending?
-      "Pending"
+      N_("Pending")
     else
-      "No changes"
+      N_("No changes")
     end
   end
 
