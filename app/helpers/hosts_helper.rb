@@ -25,25 +25,25 @@ module HostsHelper
   def name_column(record)
     label = record.host_status
     case label
-    when _("Pending Installation")
+    when "Pending Installation"
       style ="label-info"
       short = "B"
-    when _("Alerts disabled")
+    when "Alerts disabled"
       style = ""
       short = "D"
-    when _("No reports")
+    when "No reports"
       style = ""
       short = "N"
-    when _("Out of sync")
+    when "Out of sync"
       style = "label-warning"
       short = "S"
-    when _("Error")
+    when "Error"
       style = "label-important"
       short = "E"
-    when _("Active")
+    when "Active"
       style = "label-info"
       short = "A"
-    when _("Pending")
+    when "Pending"
       style = "label-warning"
       short = "P"
     else
