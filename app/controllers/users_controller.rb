@@ -140,7 +140,7 @@ class UsersController < ApplicationController
   end
 
   def update_hostgroups_owners(hostgroup_ids)
-    subhostgroups = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten
+    subhostgroups = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten.reject { |hg| hg.users.include?(@user) } 
     subhostgroups.each { |subhs| subhs.users << @user }
   end
 
