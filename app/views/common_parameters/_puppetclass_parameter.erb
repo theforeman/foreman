@@ -4,7 +4,7 @@
     <% puppetclass = f.object.lookup_key ? f.object.lookup_key.puppetclass || f.object.lookup_key.param_class : nil %>
     <%= text_field_tag '', (puppetclass.name rescue ''), :class => 'span2', :'data-property' => 'class', :disabled => true, :title => _('Puppetclass') %>
     <%= text_field_tag '', (f.object.lookup_key.key rescue ''), :class => 'span2', :'data-property' => 'name', :disabled => true, :title => _('Parameter name') %>
-    <%= f.text_area :value, :rows => line_count(f, :value), :class => 'span5', :'data-property' => 'value', :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Value" %>
+    <%= f.text_area :value, :rows => line_count(f, :value), :class => 'span5', :'data-property' => 'value', :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => _("Value") %>
     <%= text_field_tag '', (f.object.lookup_key.key_type rescue 'unknown'), :class=> 'hide',  :'data-property' => 'type', :disabled => true, :title => _('Parameter type') %>
     <span class="help-inline">
       <%= link_to_remove_fields("remove", f) %>

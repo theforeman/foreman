@@ -27,30 +27,38 @@ module HostsHelper
     case label
     when "Pending Installation"
       style ="label-info"
-      short = "B"
+      # TRANSLATORS: host's status: first character of "build"
+      short = _("B")
     when "Alerts disabled"
       style = ""
-      short = "D"
+      # TRANSLATORS: host's status: first character of "disabled"
+      short = _("D")
     when "No reports"
       style = ""
-      short = "N"
+      # TRANSLATORS: host's status: first character of "no reports"
+      short = _("N")
     when "Out of sync"
       style = "label-warning"
-      short = "S"
+      # TRANSLATORS: host's status: first character of "sync" (out of sync)
+      short = _("S")
     when "Error"
       style = "label-important"
-      short = "E"
+      # TRANSLATORS: host's status: first character of "error"
+      short = _("E")
     when "Active"
       style = "label-info"
-      short = "A"
+      # TRANSLATORS: host's status: first character of "active"
+      short = _("A")
     when "Pending"
       style = "label-warning"
-      short = "P"
+      # TRANSLATORS: host's status: first character of "pending"
+      short = _("P")
     else
       style = "label-success"
-      short = "O"
+      # TRANSLATORS: host's status: first character of "OK"
+      short = _("O")
     end
-    content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => label} ) +
+    content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => _(label)} ) +
       link_to(trunc("  #{record}",32), host_path(record))
   end
 

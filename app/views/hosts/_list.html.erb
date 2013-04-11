@@ -3,12 +3,12 @@
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
-    <th class=''><%= sort :name %></th>
-    <th class="hidden-phone"><%= sort :os, :as => "Operating<br>System" %></th>
-    <th class="hidden-phone"><%= sort :environment %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
+    <th class=''><%= sort :name, :as => _('Name') %></th>
+    <th class="hidden-phone"><%= sort :os, :as => _("Operating<br>system") %></th>
+    <th class="hidden-phone"><%= sort :environment, :as => _('Environment') %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :model, :as => _('Model') %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host Group") %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :last_report %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :last_report, :as => _('Last report') %></th>
     <th></th>
   </tr>
   <% hosts.each do |host| -%>
@@ -34,12 +34,12 @@
 <div id="confirmation-modal" class="modal hide fade">
   <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">×</a>
-    <h3>Please Confirm</h3>
+    <h3><%= _('Please Confirm') %></h3>
   </div>
   <div class="modal-body"></div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-primary">Submit</a>
-    <a href="#" class="btn secondary">Cancel</a>
+    <a href="#" class="btn btn-primary"><%= _('Submit') %></a>
+    <a href="#" class="btn secondary"><%= _('Cancel') %></a>
   </div>
 </div>
 
