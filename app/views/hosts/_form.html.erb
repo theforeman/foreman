@@ -5,17 +5,17 @@
   <%= base_errors_for @host %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Host</a></li>
-    <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') -%></a></li>
+    <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') -%></a></li>
     <% if SETTINGS[:unattended] and @host.managed -%>
-      <li><a href="#network" data-toggle="tab">Network</a></li>
-      <li><a href="#os" data-toggle="tab">Operating System</a></li>
+      <li><a href="#network" data-toggle="tab"><%= _('Network') -%></a></li>
+      <li><a href="#os" data-toggle="tab"><%= _('Operating System') -%></a></li>
       <% if authorized_for("Compute::Resources::Vms", :create) -%>
         <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
       <% end -%>
     <% end -%>
-    <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab">Parameters</a></li>
-    <li><a href="#info" data-toggle="tab">Additional Information</a></li>
+    <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') -%></a></li>
+    <li><a href="#info" data-toggle="tab"><%= _('Additional Information') -%></a></li>
   </ul>
 
   <div class="tab-content">
@@ -73,13 +73,13 @@
     <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
 
     <div class="tab-pane"  id="params">
-      <h6>Puppet classes Parameters</h6>
+      <h6><%= _('Puppet classes Parameters') -%></h6>
       <p></p>
       <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
-      <h6>Included Parameters via inheritance</h6>
+      <h6><%= _('Included Parameters via inheritance') -%></h6>
       <p></p>
       <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
-      <h6>Host Parameters</h6>
+      <h6><%= _('Host Parameters') -%></h6>
       <p></p>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p></p>
