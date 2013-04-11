@@ -1,5 +1,5 @@
 <div class="fields">
-  <%= field_set_tag _("Interface") + " #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => 'remove network interface', :'data-placement' => 'left',
+  <%= field_set_tag _("Interface").html_safe + " #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => _('remove network interface'), :'data-placement' => 'left',
                                                              :class => 'fr badge badge-important'})}".html_safe, :id => "interface" do -%>
     <%= selectable_f f, :type, [[_("Interface"), Nic::Managed],[_("BMC"), Nic::BMC]], {}, :class => 'interface_type', :disabled => !f.object.new_record? %>
     <%= text_f f, :mac, :label => _("MAC") %>

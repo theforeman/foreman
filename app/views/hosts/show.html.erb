@@ -8,13 +8,13 @@
 <div class="row-fluid">
   <div class="span4">
     <ul id="myTab" class="nav nav-tabs">
-      <li class="active"><a href="#properties" data-toggle="tab">Properties</a></li>
-      <li><a href="#metrics" data-toggle="tab">Metrics</a></li>
+      <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
+      <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>
       <% if SETTINGS[:unattended] %>
-        <li><a href="#template" data-toggle="tab">Templates</a></li>
+        <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
       <% end %>
       <%  if @vm %>
-          <li><a href="#vm" data-toggle="tab">Virtual Machine</a></li>
+        <li><a href="#vm" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
       <% end %>
     </ul>
     <div id="myTabContent" class="tab-content">
@@ -23,7 +23,7 @@
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 -%>
-            <p>No puppet activity for this host in the last <%= @range %> days</p>
+            <p><%= _('No puppet activity for this host in the last %s days') % @range %></p>
         <% else -%>
             <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end -%>
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="span8">
-    <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
-    <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
+    <%= runtime_chart 'runtime_graph', _('Runtime'), _("last %s days") % @range, @host.runtime_chart(@range.days.ago) %>
+    <%= report_status_chart 'resource_graph', _('Resources'), _("last %s days") % @range, @host.resources_chart(@range.days.ago) %>
   </div>
 </div>

@@ -16,13 +16,13 @@ module DashboardHelper
   end
 
   def render_overview report, options = {}
-    data = [[:Active,    report[:active_hosts_ok_enabled]],
-            [:Error, report[:bad_hosts_enabled]],
-            [:OK, report[:ok_hosts_enabled]],
-            [:'Pending changes', report[:pending_hosts_enabled]],
-            [:'Out of sync', report[:out_of_sync_hosts_enabled]],
-            [:'No report', report[:reports_missing]],
-            [:'Notification disabled', report[:disabled_hosts]]]
+    data = [[_('Active'),    report[:active_hosts_ok_enabled]],
+            [_('Error'), report[:bad_hosts_enabled]],
+            [_('OK'), report[:ok_hosts_enabled]],
+            [_('Pending changes'), report[:pending_hosts_enabled]],
+            [_('Out of sync'), report[:out_of_sync_hosts_enabled]],
+            [_('No report'), report[:reports_missing]],
+            [_('Notification disabled'), report[:disabled_hosts]]]
     pie_chart 'overview', _('Puppet Clients Activity Overview'), data, options
   end
 
