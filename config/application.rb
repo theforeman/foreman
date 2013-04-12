@@ -10,15 +10,23 @@ if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
   require 'bundler_ext'
   BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :all)
 else
-  # If you have a Gemfile, require the gems listed there, including any gems
-  # you've limited to :test, :development, or :production.
+  # If you have a Gemfile, require the gems listed there
+  # Note that :default, :test, :development, :production, and :assets groups
+  # will be included by default (and dependending on the current environment)
   if defined?(Bundler)
     Class.new Rails::Railtie do
       console {Foreman.setup_console}
     end
     Bundler.require(*Rails.groups(:assets => %w(development test)))
+    begin 
+      Bundler.require(:libvirt) if SETTINGS[:unattended]
+    rescue LoadError
+      puts "Libvirt bindings are missing - hypervisor management is disabled"
+    end
   end
 end
+
+SETTINGS[:libvirt] = SETTINGS[:unattended] && defined?(Libvirt)
 
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
