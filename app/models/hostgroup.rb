@@ -11,7 +11,7 @@ class Hostgroup < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
-  has_many :hosts
+  has_many_hosts
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :config_templates, :through => :template_combinations
   has_many :template_combinations

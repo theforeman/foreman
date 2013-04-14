@@ -2,7 +2,7 @@ class Organization < Taxonomy
   include Foreman::ThreadSession::OrganizationModel
 
   has_and_belongs_to_many :locations
-  has_many :hosts, :dependent => :nullify
+  has_many_hosts :dependent => :nullify
 
   scope :completer_scope, lambda { my_organizations }
 
