@@ -9,7 +9,7 @@ class Environment < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of :name, :with => /^[\w\d]+$/, :message => _("is alphanumeric and cannot contain spaces")
+  validates_format_of :name, :with => /^[\w\d]+$/, :message => N_("is alphanumeric and cannot contain spaces")
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
 
