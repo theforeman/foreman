@@ -8,7 +8,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :user_hostgroups, :dependent => :destroy
   has_many :users, :through => :user_hostgroups
   validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => _("can't be blank or contain trailing white spaces.")
+  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many_hosts
