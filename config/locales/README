@@ -1,0 +1,22 @@
+Foreman Rails i18n
+------------------
+
+Do not commit into this directory directly!
+
+Prepare pull request for the upstream:
+
+https://github.com/svenfuchs/rails-i18n
+
+Make sure the requests gets into proper branches (rails-3-x, rails-4-x...)
+and use ./update.sh script to pull new translations here.
+
+The script only updates existing languages. To add a new language just
+create an empty file and run update script:
+
+  # touch de.yml
+  # ./update.sh
+
+To see how many translations are not localized for each language locally
+and upstream, use ./show-missing.sh script.
+
+Translations are licensed under MIT license.
