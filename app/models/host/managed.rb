@@ -183,9 +183,9 @@ class Host::Managed < Host::Base
     validates_length_of      :root_pass, :minimum => 8, :too_short => _('should be 8 characters or more')
     validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
-    validates_presence_of    :ptable_id, :message => _("cant be blank unless a custom partition has been defined"),
+    validates_presence_of    :ptable_id, :message => N_("cant be blank unless a custom partition has been defined"),
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
-    validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => _("should follow this format: 0,9600n8"), :allow_blank => true, :allow_nil => true
+    validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8"), :allow_blank => true, :allow_nil => true
 
     validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
   end

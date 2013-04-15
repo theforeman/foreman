@@ -15,14 +15,14 @@ class Operatingsystem < ActiveRecord::Base
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
     :reject_if => lambda { |v| v[:config_template_id].blank? }
 
-  validates_presence_of :major, :message => _("Operating System version is required")
+  validates_presence_of :major, :message => N_("Operating System version is required")
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => _("can't be blank or contain white spaces.")
+  validates_format_of :name, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
