@@ -26,7 +26,8 @@ Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
 Requires: rubygem(json)
-Requires: rubygem(rails) = 3.0.20
+Requires: rubygem(rails) >= 3.2.8
+Requires: rubygem(rails) < 3.3.0
 Requires: rubygem(jquery-rails)
 Requires: rubygem(rest-client)
 Requires: rubygem(acts_as_audited) = 2.0.0
