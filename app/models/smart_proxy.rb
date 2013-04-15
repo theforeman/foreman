@@ -14,8 +14,8 @@ class SmartProxy < ActiveRecord::Base
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
   validates_presence_of :name, :url
-  validates_format_of :url, :with => URL_HOSTNAME_MATCH, :message => _("is invalid - only  http://, https:// are allowed")
-  validates_uniqueness_of :url, :message => _("Only one declaration of a proxy is allowed")
+  validates_format_of :url, :with => URL_HOSTNAME_MATCH, :message => N_("is invalid - only  http://, https:// are allowed")
+  validates_uniqueness_of :url, :message => N_("Only one declaration of a proxy is allowed")
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
