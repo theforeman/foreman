@@ -1,6 +1,7 @@
 require File.expand_path('../config/settings', __FILE__)
 require File.expand_path('../lib/regexp_extensions', __FILE__)
-source 'http://rubygems.org'
+
+source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
 gem 'json'
