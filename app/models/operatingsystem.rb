@@ -47,6 +47,7 @@ class Operatingsystem < ActiveRecord::Base
                'Suse'    => %r{OpenSuSE|SLES|SLED}i,
                'Windows' => %r{Windows}i,
                'Archlinux' => %r{Archlinux}i,
+               'Gentoo' => %r{Gentoo}i,
                'Solaris' => %r{Solaris}i }
 
   class Jail < Safemode::Jail
