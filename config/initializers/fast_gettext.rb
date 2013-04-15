@@ -9,12 +9,19 @@ else
   locale_type = :mo
 end
 
+if Rails.env.test?
+  # in test mode we do not support i18n
+  default_available_locales = []
+else
+  default_available_locales = Dir.entries(locale_dir).reject {|d| d =~ /(^\.|pot$)/ }
+end
+
 FastGettext.add_text_domain 'foreman',
   :path => locale_dir,
   :type => locale_type,
   :ignore_fuzzy => true,
   :report_warning => false
-FastGettext.default_available_locales = ['en'] + Dir.entries(locale_dir).reject {|d| d =~ /(^\.|pot$)/ }
+FastGettext.default_available_locales = ['en'] + default_available_locales
 FastGettext.default_text_domain = 'foreman'
 
 # When mark_translated setting is set, we will wrap all translated strings
