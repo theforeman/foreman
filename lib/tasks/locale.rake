@@ -25,7 +25,17 @@ namespace :locale do
     FileUtils.rm "#{filename}.tmp"
   end
 
+  desc 'Extract strings from codebase'
+  task :find_code => [:find_model, "gettext:find"]
+
   desc 'Extract strings from model and from codebase'
-  task :find => [:find_model, "gettext:find"]
+  task :find => [:find_model, :find_code] do
+    errors = File.open("locale/foreman.pot") {|f| f.grep /(%s.*%s|#\{)/}
+    if errors.count > 0
+      errors.each {|e| puts e}
+      puts "Malformed strings found: #{errors.count}"
+      puts "Please read http://projects.theforeman.org/projects/foreman/wiki/Translating"
+    end
+  end
 
 end
