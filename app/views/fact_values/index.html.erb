@@ -7,7 +7,7 @@
     <% end %>
     <th><%= sort :name  %></th>
     <th><%= sort :value %></th>
-    <th>Reported at</th>
+    <th><%= _('Reported at') -%></th>
   </tr>
   <% for fact_value in @fact_values %>
     <tr>
