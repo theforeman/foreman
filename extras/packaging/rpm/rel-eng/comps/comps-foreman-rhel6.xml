@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE comps PUBLIC "-//Red Hat, Inc.//DTD Comps info//EN" "comps.dtd">
+
+<comps>
+  <group>
+    <id>foreman</id>
+    <name>Foreman</name>
+    <description>Packages for the Foreman</description>
+    <uservisible>true</uservisible>
+    <packagelist>
+       <packagereq type="default">foreman</packagereq>
+       <packagereq type="default">foreman-cli</packagereq>
+       <packagereq type="default">foreman-console</packagereq>
+       <packagereq type="default">foreman-devel</packagereq>
+       <packagereq type="default">foreman-ec2</packagereq>
+       <packagereq type="default">foreman-libvirt</packagereq>
+       <packagereq type="default">foreman-ovirt</packagereq>
+       <packagereq type="default">foreman-postgresql</packagereq>
+       <packagereq type="default">foreman-vmware</packagereq>
+       <packagereq type="default">foreman-proxy</packagereq>
+
+       <packagereq type="default">foreman-installer</packagereq>
+
+       <packagereq type="default">ruby193-facter</packagereq>
+       <packagereq type="default">ruby193-hiera</packagereq>
+       <packagereq type="default">ruby193-libselinux-ruby</packagereq>
+       <packagereq type="default">ruby193-puppet</packagereq>
+       <packagereq type="default">ruby193-ruby-augeas</packagereq>
+       <packagereq type="default">ruby193-ruby-shadow</packagereq>
+       <packagereq type="default">ruby193-rubygem-ancestry</packagereq>
+       <packagereq type="default">ruby193-rubygem-audited-activerecord</packagereq>
+       <packagereq type="default">ruby193-rubygem-audited</packagereq>
+       <packagereq type="default">ruby193-rubygem-augeas</packagereq>
+       <packagereq type="default">ruby193-rubygem-awesome_print</packagereq>
+       <packagereq type="default">ruby193-rubygem-excon</packagereq>
+       <packagereq type="default">ruby193-rubygem-execjs</packagereq>
+       <packagereq type="default">ruby193-rubygem-fast_gettext</packagereq>
+       <packagereq type="default">ruby193-rubygem-ffi</packagereq>
+       <packagereq type="default">ruby193-rubygem-fog</packagereq>
+       <packagereq type="default">ruby193-rubygem-foremancli</packagereq>
+       <packagereq type="default">ruby193-rubygem-formatador</packagereq>
+       <packagereq type="default">ruby193-rubygem-gettext_i18n_rails</packagereq>
+       <packagereq type="default">ruby193-rubygem-hirb-unicode</packagereq>
+       <packagereq type="default">ruby193-rubygem-hirb</packagereq>
+       <packagereq type="default">ruby193-rubygem-i18n_data</packagereq>
+       <packagereq type="default">ruby193-rubygem-jquery-rails</packagereq>
+       <packagereq type="default">ruby193-rubygem-jquery-ui-rails</packagereq>
+       <packagereq type="default">ruby193-rubygem-net-ping</packagereq>
+       <packagereq type="default">ruby193-rubygem-net-scp</packagereq>
+       <packagereq type="default">ruby193-rubygem-net-ssh</packagereq>
+       <packagereq type="default">ruby193-rubygem-nokogiri</packagereq>
+       <packagereq type="default">ruby193-rubygem-quiet_assets</packagereq>
+       <packagereq type="default">ruby193-rubygem-rabl</packagereq>
+       <packagereq type="default">ruby193-rubygem-rbovirt</packagereq>
+       <packagereq type="default">ruby193-rubygem-rbvmomi</packagereq>
+       <packagereq type="default">ruby193-rubygem-ruby-hmac</packagereq>
+       <packagereq type="default">ruby193-rubygem-ruby-libvirt</packagereq>
+       <packagereq type="default">ruby193-rubygem-ruby2ruby</packagereq>
+       <packagereq type="default">ruby193-rubygem-ruby_parser</packagereq>
+       <packagereq type="default">ruby193-rubygem-safemode</packagereq>
+       <packagereq type="default">ruby193-rubygem-scoped_search</packagereq>
+       <packagereq type="default">ruby193-rubygem-sequel</packagereq>
+       <packagereq type="default">ruby193-rubygem-sexp_processor</packagereq>
+       <packagereq type="default">ruby193-rubygem-shadow</packagereq>
+       <packagereq type="default">ruby193-rubygem-shoulda</packagereq>
+       <packagereq type="default">ruby193-rubygem-spice-html5-rails</packagereq>
+       <packagereq type="default">ruby193-rubygem-therubyracer</packagereq>
+       <packagereq type="default">ruby193-rubygem-trollop</packagereq>
+       <packagereq type="default">ruby193-rubygem-twitter-bootstrap-rails</packagereq>
+       <packagereq type="default">ruby193-rubygem-unicode-display_width</packagereq>
+       <packagereq type="default">ruby193-rubygem-virt</packagereq>
+       <packagereq type="default">ruby193-rubygem-will_paginate</packagereq>
+       <packagereq type="default">ruby193-rubygem-wirb</packagereq>
+    </packagelist>
+  </group>
+</comps>
