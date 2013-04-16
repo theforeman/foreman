@@ -1,6 +1,7 @@
 <%= fields_for item do |f| %>
   <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
     {:help_inline => image_tag("/assets/spinner.gif", :id => "domain_indicator", :class => "hide"),
+     :label => _("Domain"),
      :onchange => 'domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
 
   <span id="subnet_select">

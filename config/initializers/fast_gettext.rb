@@ -26,7 +26,7 @@ FastGettext.default_text_domain = 'foreman'
 
 # When mark_translated setting is set, we will wrap all translated strings
 # which is useful when translating code base.
-if SETTINGS[:mark_translated]
+if SETTINGS[:mark_translated] and not Rails.env.test?
   module FastGettext
     module Translation
       alias :old_ :_

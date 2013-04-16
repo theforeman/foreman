@@ -3,7 +3,7 @@
 <%= form_for @role do |f| %>
   <%= base_errors_for @role %>
 
-  <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
+  <%= text_f f, :name, :label => _("Name"), :class => @role.builtin? ? "disabled" : ""  %>
 
   <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
   <% perms_by_block.keys.sort.each do |block| %>

@@ -5,7 +5,8 @@
 <% if @count_nil_hosts > 0 %>
 <div class="alert alert-message alert-block alert">
     <strong><%= _("Notice:") %></strong>
-    There are <%= link_to _("%{count} hosts with no %{taxonomy_single} assigned") % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => _("not has %s") % taxonomy_single)  %>
+    <%= _('There are') %>
+    <%= link_to _("%{count} hosts with no %{taxonomy_single} assigned") % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => _("not has %s") % taxonomy_single)  %>
 </div>
 <% end %>
 

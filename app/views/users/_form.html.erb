@@ -22,17 +22,16 @@
       <%= text_f f, :lastname, :label => _("Last Name") %>
       <%= text_f f, :mail, :label => _("Mail") %>
 
-      <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true,
-                                          :label => _("Authorized by")}, {:onchange => 'auth_source_selected()'}) unless @editing_self
+      <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true}, {:onchange => 'auth_source_selected()', :label => _("Authorized by")}) unless @editing_self
       %>
 
       <div id="password" <%= display? !@user.manage_password? %>>
-        <%= password_f f, :password %>
+        <%= password_f f, :password, :label => _("Password") %>
         <%= password_f f, :password_confirmation, :label => _("Verify") %>
       </div>
       <% unless @editing_self -%>
         <%= checkbox_f f, :admin, :label => _("Administrator") %>
-        <%= multiple_checkboxes f, :roles, @user, Role.givable %>
+        <%= multiple_checkboxes f, :roles, @user, Role.givable, {:label => _('Roles')} %>
       <% end %>
     </div>
 
@@ -42,14 +41,14 @@
       </div>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <%= f.select :locations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+          <%= f.select :locations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
           <%= multiple_checkboxes f, :locations, @user, Location, :label=>'' %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <%= f.select :organizations_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+          <%= f.select :organizations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
           <%= multiple_checkboxes f, :organizations, @user, Organization, :label=>'' %>
         </div>
       <% end %>
