@@ -1,5 +1,5 @@
 <%= javascript 'reports', 'ace/ace' %>
-<% title "#{@report.host} - #{time_ago_in_words(@report.reported_at)} ago"%>
+<% title _("%{host} - %{time} ago") % {:host => @report.host, :time => time_ago_in_words(@report.reported_at)} %>
 
 <div class="row ra"><p class="span12"> <%= _("Reported at %s ") % @report.reported_at.getlocal  %> </p></div>
 <% if @offset > 10 -%>

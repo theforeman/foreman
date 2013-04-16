@@ -1,6 +1,6 @@
 <%= render 'selected_hosts', :hosts => @hosts %>
 <%= form_for :location, :url => update_multiple_location_hosts_path(:host_ids => params[:host_ids]) do |f| %>
-  <%= f.select :id, [["Select Location", "disabled"]] + Location.all.map{|e| [e.name, e.id]},{},
+  <%= f.select :id, [[_("Select Location"), "disabled"]] + Location.all.map{|e| [e.name, e.id]},{},
         :onchange => "toggle_multiple_ok_button(this)" %>
   <%= render 'taxonomy_import_option', :f => f, :taxonomy_type => 'Location' %>
 <% end %>
