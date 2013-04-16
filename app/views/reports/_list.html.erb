@@ -3,7 +3,7 @@
     <% unless params[:host_id] -%>
       <th><%= sort :host %></th>
     <% end -%>
-    <th><%= sort :reported, :as => "Last report" %></th>
+    <th><%= sort :reported, :as => _("Last report") %></th>
     <th class="small"><%= sort :applied %></th>
     <th class="small"><%= sort :restarted %></th>
     <th class="small"><%= sort :failed %></th>

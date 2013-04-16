@@ -4,7 +4,7 @@
   <% else -%>
     <% association = associations.first %>
     <%= link_to_function(icon_text("check", ""), "toggleCheckboxesBySelector(\"[id$='#{ActiveModel::Naming.singular(association)}_ids_']\")",
-                                         :title => "Select all") %>
+                                         :title => _("Select all")) %>
     <% selected_ids = klass.send(ActiveModel::Naming.plural(association)).select("#{association.class.table_name}.id").map(&:id) %>
     <% associations.sort{|a,b| a.to_s <=> b.to_s}.each do |association| -%>
       <li>
