@@ -1,30 +1,30 @@
 <div class="user-filter">
     <%= field_set_tag _("Owned hosts") do %>
     <div class="control-group">
-      Select <%= f.check_box :filter_on_owner %>
+      <%= _('Select') %> <%= f.check_box :filter_on_owner %>
       <%= contracted_host_list @user %>
       <%= expanded_host_list @user %>
     </div>
     <% end -%>
 
     <%= field_set_tag _("Domain hosts") do %>
-        <%= f.select :domains_andor, [["in domain", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+        <%= f.select :domains_andor, [[_("in domain"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
         <%= multiple_checkboxes f, :domain, @user, Domain, :label=>'' %>
     <% end %>
 
     <%= field_set_tag _("Compute resources") do %>
-        <%= f.select :compute_resources_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+        <%= f.select :compute_resources_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
         <%= multiple_checkboxes f, :compute_resources, @user, ComputeResource, :label=>'' %>
   <% end %>
 
     <%= field_set_tag _("Hostgroup hosts") do %>
-        <%= f.select :hostgroups_andor, [["must be", "and"], ["plus all", "or"]], {}, :class => "input-small" %>
+        <%= f.select :hostgroups_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
         <%= multiple_checkboxes f, :hostgroups, @user, Hostgroup, :label=>'' %>
   <% end %>
 
   <%= field_set_tag _("Fact filters") do %>
       <div class="control-group">
-        <%= f.select :facts_andor, [["must match", "and"], ["plus all", "or"]], {} ,:class => "input-small" %>
+        <%= f.select :facts_andor, [[_("must match"), "and"], [_("plus all"), "or"]], {} ,:class => "input-small" %>
         <div class="offset1">
           <%= f.fields_for :user_facts do |builder| -%>
               <%= render "user_fact", :f => builder %>
