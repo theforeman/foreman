@@ -7,11 +7,11 @@
 <%= text_f f, :from, :help_inline => _("Optional: Starting IP Address for IP auto suggestion"), :label => _("From IP") %>
 <%= text_f f, :to,   :help_inline => _("Optional: Ending IP Address for IP auto suggestion"), :label => _("To IP") %>
 <%= text_f f, :vlanid, :help_inline => _("Optional: VLAN ID for this subnet"), :label => _("VLAN") %>
-<%= multiple_checkboxes f, :domain, f.object, Domain, :help_inline => _("Domains in which this subnet is part"), :prefix=>f.object_name %>
+<%= multiple_checkboxes f, :domain, f.object, Domain, :help_inline => _("Domains in which this subnet is part"), :label => _("Domain"), :prefix=>f.object_name %>
 
-<%= select_f f, :dhcp_id, SmartProxy.dhcp_proxies, :id, :name, :include_blank => _("None"),
-  :help_inline => _("DHCP Proxy to use within this subnet"), :label => _("DHCP Proxy") %>
-<%= select_f f, :tftp_id, SmartProxy.tftp_proxies, :id, :name, :include_blank => _("None"),
-  :help_inline => _("TFTP Proxy to use within this subnet"), :label => _("TFTP Proxy") %>
-<%= select_f f, :dns_id, SmartProxy.dns_proxies, :id, :name, :include_blank => _("None"),
-             :help_inline => _("DNS Proxy to use within this subnet"), :label => _("DNS Proxy") %>
+<%= select_f f, :dhcp_id, SmartProxy.dhcp_proxies, :id, :name, 
+  {:include_blank => _("None")}, :label => _("DHCP Proxy"), :help_inline => _("DHCP Proxy to use within this subnet") %>
+<%= select_f f, :tftp_id, SmartProxy.tftp_proxies, :id, :name,
+  {:include_blank => _("None")}, :label => _("TFTP Proxy"), :help_inline => _("TFTP Proxy to use within this subnet") %>
+<%= select_f f, :dns_id, SmartProxy.dns_proxies, :id, :name,
+  {:include_blank => _("None")}, :label => _("DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet") %>

@@ -4,11 +4,11 @@
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th><%= sort :environment, :as => "Environments" %> and documentation</th>
-    <th>Host Group</th>
-    <th>Hosts</th>
-    <th>Keys</th>
+    <th><%= sort :name, :as => _("Name") %></th>
+    <th><%= sort :environment, :as => _("Environments and documentation") %></th>
+    <th><%= _('Host Group') -%></th>
+    <th><%= _('Hosts') -%></th>
+    <th><%= _('Keys') -%></th>
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>

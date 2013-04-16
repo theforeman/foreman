@@ -2,12 +2,12 @@
 <div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')%>' class='tab-pane fields' >
   <% is_param = f.object.is_param -%>
 
-  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence,:class=>'span4', :label=> 'Puppet Environments', :disabled=>true) if is_param%>
+  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence,:class=>'span4', :label=> _('Puppet Environments'), :disabled=>true) if is_param%>
 
-  <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? "Variable" : f.object), f , {:class => 'btn btn-danger hide'}) unless controller_name == "lookup_keys" %>
+  <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f , {:class => 'btn btn-danger hide'}) unless controller_name == "lookup_keys" %>
   <%= text_f f, :key, :label => _("Name"), :disabled => f.object.is_param %>
   <%= f.hidden_field :key if is_param %>
-  <%= textarea_f f, :description, :rows => :auto, :class=> "span6" %>
+  <%= textarea_f f, :description, :rows => :auto, :class=> "span6", :label => _("Description") %>
 
   <%= show_puppet_class f %>
   <%= checkbox_f(f, :override, :label => _("Override"), :onchange=>'toggleOverrideValue(this)',
@@ -15,14 +15,14 @@
                     :title => _("Override Value"))) if is_param%>
 
   <%= param_type_selector f  %>
-  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :class => "span6", :rows => :auto, :help_inline => popover("?",_("value to use when there is no match"), :title => _("Default Value")) %>
+  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :class => "span6", :rows => :auto, :help_inline => popover("?",_("value to use when there is no match")), :label => _("Default Value") %>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
     <legend>Optional Input Validator</legend>
     <%= checkbox_f(f, :required, :disabled => !f.object.override,
                       :help_inline => popover("?", _("If checked, will raise an error if there is no default value and no matcher provide a value."),
                       :title => _("Required Parameter"))) if is_param %>
     <%= validator_type_selector f  %>
-    <%= text_f f, :validator_rule, :disabled => f.object.validator_type.blank? %>
+    <%= text_f f, :validator_rule, :disabled => f.object.validator_type.blank?, :label => _("Validator Rule") %>
 
     <legend>Override Value For Specific Hosts</legend>
     <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :value => f.object.path,

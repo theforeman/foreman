@@ -31,13 +31,13 @@
     <% if show_taxonomy_tabs? %>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <%= multiple_checkboxes f, :locations, @medium, Location %>
+          <%= multiple_checkboxes f, :locations, @medium, Location, {:label => _("Locations")} %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @medium, Organization %>
+          <%= multiple_checkboxes f, :organizations, @medium, Organization, {:label => _("Organizations")} %>
         </div>
       <% end %>
     <% end %>
