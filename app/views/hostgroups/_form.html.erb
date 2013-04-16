@@ -3,30 +3,30 @@
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Hostgroup</a></li>
-    <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') -%></a></li>
+    <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') -%></a></li>
     <% if SETTINGS[:unattended] -%>
-      <li><a href="#network" data-toggle="tab">Network</a></li>
-      <li><a href="#os" data-toggle="tab">Operating System</a></li>
+      <li><a href="#network" data-toggle="tab"><%= _('Network') -%></a></li>
+      <li><a href="#os" data-toggle="tab"><%= _('Operating System') -%></a></li>
     <% end -%>
-    <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <li><a href="#params" data-toggle="tab"><%= _('Parameters') -%></a></li>
     <% if show_location_tab? %>
-      <li><a href="#locations" data-toggle="tab">Locations</a></li>
+      <li><a href="#locations" data-toggle="tab"><%= _('Locations') -%></a></li>
     <% end %>
     <% if show_organization_tab? %>
-      <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+      <li><a href="#organizations" data-toggle="tab"><%= _('Organizations') -%></a></li>
     <% end %>
   </ul>
 
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
-      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {
+      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hosts_path,
                       :help_inline => image_tag('/assets/spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
-      <%= text_f f, :name %>
+      <%= text_f f, :name, :label => _("Name") %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
-                   {:onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
+        {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
 
       <%= puppet_master_fields f %>
     </div>
@@ -45,7 +45,7 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass, :label => "Root Password" %>
+      <%= password_f f, :root_pass, :label => _("Root Password") %>
     </div>
 
     <div class="tab-pane" id="params">
@@ -54,13 +54,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @hostgroup, Location %>
+        <%= multiple_checkboxes f, :locations, @hostgroup, Location, :label => _("Locations") %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @hostgroup, Organization %>
+        <%= multiple_checkboxes f, :organizations, @hostgroup, Organization, :label => _("Organizations") %>
       </div>
     <% end %>
   </div>

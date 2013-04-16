@@ -15,20 +15,20 @@
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
   <% end %>
-        <%= text_f(f, :name) %>
-        <%= text_f(f, :url, :label => "URL", :class => "input-xlarge" ) %>
+        <%= text_f(f, :name, :label => _("Name")) %>
+        <%= text_f(f, :url, :label => _("URL"), :class => "input-xlarge" ) %>
   <% if show_taxonomy_tabs? %>
       </div>
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @proxy, Location, { :prefix => "smart_proxy" } %>
+        <%= multiple_checkboxes f, :locations, @proxy, Location, { :prefix => "smart_proxy", :label => _("Locations") } %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @proxy, Organization, { :prefix => "smart_proxy" } %>
+        <%= multiple_checkboxes f, :organizations, @proxy, Organization, { :prefix => "smart_proxy", :label => _("Organizations") } %>
       </div>
     <% end %>
     </div>
