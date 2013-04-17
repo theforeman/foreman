@@ -4,10 +4,10 @@
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name, :as => _("Name") %></th>
-    <th><%= sort :network, :as => _("Network") %></th>
+    <th><%= sort :name, :as => s_("Subnet|Name") %></th>
+    <th><%= sort :network, :as => s_("Subnet|Network") %></th>
     <th><%= sort :domains, :as => _("Domains") %></th>
-    <th><%= sort :vlanid, :as => _('VLAN') %></th>
+    <th><%= sort :vlanid, :as => s_('Subnet|Vlanid') %></th>
     <th><%= _("DHCP Proxy") %></th>
     <th></th>
   </tr>

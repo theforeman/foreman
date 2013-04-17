@@ -1,4 +1,4 @@
-<%= text_f f, :url, :label => _("URL"), :class => "input-xlarge", :help_block => _("e.g. qemu://host.example.com/system") %>
+<%= text_f f, :url, :class => "input-xlarge", :help_block => _("e.g. qemu://host.example.com/system") %>
 
 <% hypervisor = f.object.hypervisor.uuid rescue nil%>
 <% if hypervisor -%>

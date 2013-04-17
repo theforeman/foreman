@@ -24,7 +24,7 @@
       <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hosts_path,
                       :help_inline => image_tag('/assets/spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
-      <%= text_f f, :name, :label => _("Name") %>
+      <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
         {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
 
@@ -45,7 +45,7 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass, :label => _("Root Password") %>
+      <%= password_f f, :root_pass %>
     </div>
 
     <div class="tab-pane" id="params">

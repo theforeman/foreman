@@ -3,10 +3,10 @@
 <table class="table table-bordered table-striped">
   <tr>
     <% unless params[:host_id] -%>
-      <th><%= sort :host %></th>
+      <th><%= sort :host, :as => _("Host") %></th>
     <% end %>
-    <th><%= sort :name  %></th>
-    <th><%= sort :value %></th>
+    <th><%= sort :name, :as => _("Name")  %></th>
+    <th><%= sort :value, :as => s_("FactValue|Value") %></th>
     <th><%= _('Reported at') -%></th>
   </tr>
   <% for fact_value in @fact_values %>

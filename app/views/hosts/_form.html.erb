@@ -93,7 +93,7 @@
           @host.is_owned_by), { :include_blank => _("select an owner") }, { :label => _("Owned By") }
         %>
       <% end -%>
-      <%= checkbox_f f, :enabled, :label => _("Alerts Enabled"),
+      <%= checkbox_f f, :enabled,
         :help_inline => _("Include this host within Foreman reporting")
       %>
       <div id='model_name'>

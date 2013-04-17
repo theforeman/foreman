@@ -12,19 +12,19 @@ module DashboardHelper
   end
 
   def render_overview report, options = {}
-    data = [{:label=>'Active', :data => report[:active_hosts_ok_enabled],:color => "#4572A7"},
-            {:label=>'Error', :data =>report[:bad_hosts_enabled], :color => "#AA4643"},
-            {:label=>'OK', :data =>report[:ok_hosts_enabled],:color => "#89A54E"},
-        {:label=>'Pending changes', :data =>report[:pending_hosts_enabled],:color => "#80699B"},
-        {:label=>'Out of sync', :data =>report[:out_of_sync_hosts_enabled],:color => "#3D96AE"},
-        {:label=>'No report', :data =>report[:reports_missing],:color => "#DB843D"},
-        {:label=>'Notification disabled', :data =>report[:disabled_hosts],:color => "#92A8CD"}]
-    flot_pie_chart 'overview', 'Host Configuration Status', data, options
+    data = [{:label=>_('Active'), :data => report[:active_hosts_ok_enabled],:color => "#4572A7"},
+            {:label=>_('Error'), :data =>report[:bad_hosts_enabled], :color => "#AA4643"},
+            {:label=>_('OK'), :data =>report[:ok_hosts_enabled],:color => "#89A54E"},
+        {:label=>_('Pending changes'), :data =>report[:pending_hosts_enabled],:color => "#80699B"},
+        {:label=>_('Out of sync'), :data =>report[:out_of_sync_hosts_enabled],:color => "#3D96AE"},
+        {:label=>_('No report'), :data =>report[:reports_missing],:color => "#DB843D"},
+        {:label=>_('Notification disabled'), :data =>report[:disabled_hosts],:color => "#92A8CD"}]
+    flot_pie_chart 'overview', _('Host Configuration Status'), data, options
   end
 
   def render_run_distribution hosts, options = {}
     data = count_reports(hosts)
-    flot_bar_chart(_("run_distribution"), "Minutes Ago", _("Number Of Clients"), data, options)
+    flot_bar_chart(_("run_distribution"), _("Minutes Ago"), _("Number Of Clients"), data, options)
   end
 
   def searchable_links name, search
