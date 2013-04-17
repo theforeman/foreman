@@ -4,12 +4,12 @@
       <th><%= sort :host %></th>
     <% end -%>
     <th><%= sort :reported, :as => _("Last report") %></th>
-    <th class="small"><%= sort :applied %></th>
-    <th class="small"><%= sort :restarted %></th>
-    <th class="small"><%= sort :failed %></th>
+    <th class="small"><%= sort :applied, :as => _("Applied") %></th>
+    <th class="small"><%= sort :restarted, :as => _("Restarted") %></th>
+    <th class="small"><%= sort :failed, :as => _("Failed") %></th>
     <th class="small"><%= sort :failed_restarts, :as => _("Restart<br>Failures").html_safe %></th>
-    <th class="small"><%= sort :skipped %></th>
-    <th class="small"><%= sort :pending %></th>
+    <th class="small"><%= sort :skipped, :as => _("Skipped") %></th>
+    <th class="small"><%= sort :pending, :as => _("Pending") %></th>
     <th class="small"></th>
   </tr>
   <% for report in @reports %>

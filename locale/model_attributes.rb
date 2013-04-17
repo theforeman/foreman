@@ -157,6 +157,8 @@ _('Hostgroup|Ancestry')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Hostgroup|Image file')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Hostgroup|Label')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Hostgroup|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Hostgroup|Root pass')

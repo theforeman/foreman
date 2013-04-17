@@ -123,11 +123,11 @@ module HostsHelper
       failed_restarts << [r.reported_at.to_i*1000, r.failed_restarts ]
       skipped         << [r.reported_at.to_i*1000, r.skipped ]
     end
-    [{:label=>"Applied", :data=>applied,:color =>'#89A54E'},
-     {:label=>"Failed", :data=>failed,:color =>'#AA4643'},
-     {:label=>"Failed restarts", :data=>failed_restarts,:color =>'#AA4643'},
-     {:label=>"Skipped", :data=>skipped,:color =>'#80699B'},
-     {:label=>"Restarted", :data=>restarted,:color =>'#4572A7'}]
+    [{:label=>_("Applied"), :data=>applied,:color =>'#89A54E'},
+     {:label=>_("Failed"), :data=>failed,:color =>'#AA4643'},
+     {:label=>_("Failed restarts"), :data=>failed_restarts,:color =>'#AA4643'},
+     {:label=>_("Skipped"), :data=>skipped,:color =>'#80699B'},
+     {:label=>_("Restarted"), :data=>restarted,:color =>'#4572A7'}]
   end
 
   def runtime_chart(timerange = 1.day.ago)
@@ -136,7 +136,7 @@ module HostsHelper
       config  << [r.reported_at.to_i*1000, r.config_retrieval]
       runtime << [r.reported_at.to_i*1000, r.runtime]
     end
-    [{:label=>"Config Retrieval", :data=> config, :color=>'#AA4643'},{:label=>"Runtime", :data=> runtime,:color=>'#4572A7'}]
+    [{:label=>_("Config Retrieval"), :data=> config, :color=>'#AA4643'},{:label=>"Runtime", :data=> runtime,:color=>'#4572A7'}]
   end
 
   def reports_show

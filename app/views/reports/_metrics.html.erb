@@ -2,14 +2,14 @@
 <% metrics.delete_if{ |k,v| v < 0.001 } %>
 <div class="row-fluid">
   <div class="stats-well span4">
-    <h4 class="ca" >Report Metrics</h4>
+    <h4 class="ca" ><%= _('Report Metrics') -%></h4>
     <div style="margin-top:50px;padding-bottom: 40px;">
-    <%= flot_pie_chart("metrics" ,"Report Metrics", metrics, :class => "statistics-pie small")%>
+    <%= flot_pie_chart("metrics" ,_("Report Metrics"), metrics, :class => "statistics-pie small")%>
     </div>
   </div>
   <div class="stats-well span4">
-    <h4 class="ca" >Report Status</h4>
-    <%= flot_bar_chart("status" ,"", "Number of Events", status, :class => "statistics-bar")%>
+    <h4 class="ca" ><%= _('Report Status') -%></h4>
+    <%= flot_bar_chart("status" ,"", _("Number of Events"), status, :class => "statistics-bar")%>
   </div>
   <div class="span4">
     <table class='table table-bordered table-striped' style="height: 398px;">

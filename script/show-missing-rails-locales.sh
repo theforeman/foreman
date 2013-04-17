@@ -4,6 +4,7 @@
 #
 # To run this you need rspec and i18n-spec gems installed
 #
+pushd config/locales
 REPODIR=$(pwd)
 UPSTEAM_CLONE=$(mktemp -d -q)
 trap "rm -rf $UPSTEAM_CLONE" EXIT
@@ -21,3 +22,4 @@ for FILE in *yml; do
     echo missing upstream
   fi
 done
+popd

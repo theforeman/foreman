@@ -121,7 +121,8 @@ module LayoutHelper
     help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "control-group #{fluid ? "row-fluid" : ""} #{error.empty? ? "" : 'error'}" do
-      label_tag(attr, options.delete(:label), :class=>"control-label").html_safe +
+      label = options.delete(:label) || s_(f.object.class.gettext_translation_for_attribute_name attr)
+      label_tag(attr, label, :class=>"control-label").html_safe +
         content_tag(:div, :class => "controls") do
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe

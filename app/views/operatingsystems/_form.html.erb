@@ -12,14 +12,14 @@
 
     <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :name, :label => _("Name"), :help_inline => _("e.g. RedHat") %>
-      <%= text_f f, :major, :label => _("Major"), :help_inline => _("e.g. 6"), :class => "input-small" %>
-      <%= text_f f, :minor, :label => _("Minor"), :help_inline => _("e.g. 2"), :class => "input-small" %>
+      <%= text_f f, :name, :help_inline => _("e.g. RedHat") %>
+      <%= text_f f, :major, :help_inline => _("e.g. 6"), :class => "input-small" %>
+      <%= text_f f, :minor, :help_inline => _("e.g. 2"), :class => "input-small" %>
       <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")},
         { :label => _("OS Family"), :help_inline => _("The Operating System type"), :onchange => 'show_release(this);'}
       %>
       <div id="release_name" <%= display?(!@operatingsystem.use_release_name?) %>>
-        <%= text_f f, :release_name, :label => _("Release Name"), :help_inline => _("e.g. karmic, lucid, hw0910 etc") %>
+        <%= text_f f, :release_name, :help_inline => _("e.g. karmic, lucid, hw0910 etc") %>
       </div>
 
       <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>

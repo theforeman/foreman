@@ -9,7 +9,9 @@ module Foreman
     # Error code is made up first 8 characters of base64 (RFC 4648) encoded MD5
     # sum of concatenated classname and message
     def self.calculate_error_code classname, message
-      "ERF-" + [Digest::MD5.digest("#{classname}#{message}")].pack('m0')[0..8]
+      class_hash = Zlib::crc32(classname) % 100
+      msg_hash = Zlib::crc32(message) % 10000
+      sprintf "ERF%02d-%04d", class_hash, msg_hash
     end
 
     def code
