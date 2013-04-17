@@ -16,14 +16,18 @@
       <%= text_f f, :host %>
       <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'change_ldap_port(this)'}) %>
       <%= text_f f, :port, :data => {:default_ports => AuthSourceLdap::DEFAULT_PORTS} %>
+      <%= select_f f, :server_type, AuthSourceLdap::SERVER_TYPES, :first, :last,
+                    { :include_blank => _("Choose a server type") },
+                    { :label => _('Server type') } %>
     </div>
     <div class="tab-pane" id="account">
       <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
       <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe %>
       <%= text_f f, :base_dn, :label => _("Base DN"), :size => "col-md-8" %>
+      <%= text_f f, :groups_base, :label => _("Groups base DN") %>
       <%= text_f f, :ldap_filter, :label => _("LDAP filter"), :help_inline => _("Custom LDAP search filter, <i>optional</i>").html_safe, :size => "col-md-8" %>
       <%= checkbox_f f, :onthefly_register,
-                     :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
+                        :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
     </div>
     <div class="tab-pane" id="attributes">
       <%= text_f f, :attr_login, :help_inline => _("e.g. uid") %>
