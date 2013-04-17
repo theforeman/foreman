@@ -21,9 +21,10 @@ class PuppetSetting
 
     if name.size > 1
       # Parse key = value lines into hash
-      values = HashWithIndifferentAccess[values.lines.map {|kv| kv.chomp.split(' = ', 2) }]
+      HashWithIndifferentAccess[values.lines.map {|kv| kv.chomp.split(' = ', 2) }]
+    else
+      HashWithIndifferentAccess[name.first.to_s, values.chomp]
     end
-    values
   end
 
   private

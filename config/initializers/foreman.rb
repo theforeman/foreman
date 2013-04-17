@@ -1,7 +1,15 @@
 require 'foreman'
 
-# We load the default settings if they are not already present
-Foreman::DefaultSettings::Loader.load
+# We may be executing something like rake db:migrate:reset, which destroys this table
+# only continue if the table exists
+if (Setting.first rescue(false))
+  # Avoid lazy-loading in development mode
+  %w[General Puppet Auth Provisioning].each do |c|
+    require_dependency Rails.root.join('app', 'models', 'setting', c.downcase).to_s
+  end if Rails.env.development?
+
+  Setting.descendants.each(&:load_defaults)
+end
 
 # We load the default settings for the roles if they are not already present
 Foreman::DefaultData::Loader.load(false)

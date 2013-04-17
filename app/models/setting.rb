@@ -1,4 +1,6 @@
 class Setting < ActiveRecord::Base
+  self.inheritance_column = 'category'
+
   attr_accessible :name, :value, :description, :category, :settings_type, :default
   # audit the changes to this model
   audited :only => [:value], :on => [:update]
@@ -19,10 +21,12 @@ class Setting < ActiveRecord::Base
   before_validation :fix_types
   before_validation :save_as_settings_type
   validate :validate_attributes
-  default_scope :order => 'LOWER(settings.name)'
+  default_scope order(:name)
+
+  # The DB may contain settings from disabled plugins - filter them out here
+  scope :live_descendants, lambda { where(:category => self.descendants.map(&:to_s)) }
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :category, :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
 
   def self.per_page; 20 end # can't use our own settings
@@ -32,11 +36,11 @@ class Setting < ActiveRecord::Base
 
     cache_value = Rails.cache.read(name)
     if cache_value.nil?
-       value = where(:name => name).first.try(:value)
-       cache.write(name, value)
-       return value
+      value = where(:name => name).first.try(:value)
+      cache.write(name, value)
+      return value
     else
-       cache_value
+      cache_value
     end
   end
 
@@ -136,4 +140,35 @@ class Setting < ActiveRecord::Base
     end
     true
   end
+
+  # Methods for loading default settings
+
+  def self.load_defaults
+    # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
+    Setting.first rescue return false
+    # STI classes will load their own defaults
+    true
+  end
+
+  def self.set name, description, default, value = nil
+    value ||= SETTINGS[name.to_sym]
+    {:name => name, :value => value, :description => description, :default => default}
+  end
+
+  def self.create opts
+    # ensures we don't have cache left overs in settings
+    Rails.logger.debug "removing #{opts[:name]} from cache"
+    Rails.cache.delete(opts[:name].to_s)
+
+    if (s = Setting.find_by_name(opts[:name].to_s)).nil?
+      Setting.create!(opts)
+    else
+      s.update_attribute(:default, opts[:default]) unless s.default == opts[:default]
+    end
+  end
+
+  def self.model_name
+    ActiveModel::Name.new(Setting)
+  end
+
 end

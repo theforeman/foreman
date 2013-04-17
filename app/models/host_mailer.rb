@@ -1,6 +1,7 @@
 class HostMailer < ActionMailer::Base
   helper :reports
-  default :from => Setting["email_reply_address"], :content_type => "text/html"
+
+  default :content_type => "text/html", :from => Setting[:email_reply_address] || "noreply@foreman.exmaple.org"
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
 
 
