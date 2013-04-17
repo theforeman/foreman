@@ -43,12 +43,12 @@
   <div class="span8">
     <div class="stats-well">
       <h4 class="ca"><%= _("Runtime") %></h4>
-      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) %></h6>
+      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
       <%= flot_chart 'runtime_graph','', _('Time in Seconds'), runtime_chart(@range.days.ago), :class=>"statistics-chart stack" %>
     </div>
     <div class="stats-well">
       <h4 class="ca"><%= _("Resources") %></h4>
-      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) %></h6>
+      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
       <%= flot_chart 'resource_graph', '', _("Number of Events"), resources_chart(@range.days.ago) %>
     </div>
   </div>

@@ -1,11 +1,11 @@
-<% title _("Trends for %s") % trend_title(@trend) %>
+<% title(_("Trends for %s") % trend_title(@trend)) %>
 <% content_for(:search_bar) { trend_days_filter } %>
 
 <div class="row">
   <div class="stats-well span12">
     <h4 class="ca"><%= "#{trend_title(@trend)}" %></h4>
-    <h6 class="ca"><%= "last #{range} days" %></h6>
-    <%= flot_chart 'trend_graph','' ,'Number of Hosts' , chart_data(@trend, range.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>
+    <h6 class="ca"><%= n_("last %s day", "last %s days", range) % range %></h6>
+    <%= flot_chart 'trend_graph','' ,_('Number of Hosts') , chart_data(@trend, range.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>
   </div>
 </div>
 <div id="legendContainer"></div>
