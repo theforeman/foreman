@@ -18,6 +18,7 @@ class AuthSourceLdapTest < ActionDispatch::IntegrationTest
     fill_in "auth_source_ldap_attr_firstname", :with => "John"
     fill_in "auth_source_ldap_attr_lastname", :with => "Doe"
     fill_in "auth_source_ldap_attr_mail", :with => "john@example.com"
+    select 'FreeIPA', :from => "auth_source_ldap_server_type"
     assert_submit_button(auth_source_ldaps_path)
     assert page.has_link? "corporate-ldap"
     assert page.has_content? "10.0.0.77"

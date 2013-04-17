@@ -2,42 +2,35 @@ require 'test_helper'
 
 class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup
-    @auth_source_ldap = AuthSourceLdap.new
-    @attributes = { :name= => "value",
-                    :host= => "value",
-                    :attr_login= => "value",
-                    :attr_mail= => "some@where.com",
-                    :attr_firstname= => "ohad",
-                    :attr_lastname=  => "daho",
-                    :port= => 389 }
+    @auth_source_ldap = FactoryGirl.create(:auth_source_ldap)
     User.current = users(:admin)
   end
 
   test "should exists a name" do
-    missing(:name=)
-    assert !@auth_source_ldap.save
+    missing(:name)
+    refute @auth_source_ldap.save
 
-    set(:name=)
+    set(:name)
     assert @auth_source_ldap.save
   end
 
   test "should exists a host" do
-    missing(:host=)
-    assert !@auth_source_ldap.save
+    missing(:host)
+    refute @auth_source_ldap.save
 
-    set(:host=)
+    set(:host)
     assert @auth_source_ldap.save
   end
 
   test "should exists a attr_login" do
-    missing(:attr_login=)
+    missing(:attr_login)
     @auth_source_ldap.onthefly_register = true
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
 
-    set(:attr_login=)
-    set(:attr_firstname=)
-    set(:attr_lastname=)
-    set(:attr_mail=)
+    set(:attr_login)
+    set(:attr_firstname)
+    set(:attr_lastname)
+    set(:attr_mail)
     @auth_source_ldap.onthefly_register = true
     assert @auth_source_ldap.save
   end
@@ -48,69 +41,62 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   test "the name should not exceed the 60 characters" do
-    missing(:name=)
+    missing(:name)
     assigns_a_string_of_length_greater_than(60, :name=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the host should not exceed the 60 characters" do
-    missing(:host=)
+    missing(:host)
     assigns_a_string_of_length_greater_than(60, :host=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the account_password should not exceed the 60 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(60, :account_password=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the account should not exceed the 255 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(255, :account=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the base_dn should not exceed the 255 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(255, :base_dn=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the ldap_filter should not exceed the 255 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(255, :ldap_filter=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the attr_login should not exceed the 30 characters" do
-    missing(:attr_login=)
+    missing(:attr_login)
     assigns_a_string_of_length_greater_than(30, :attr_login=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the attr_firstname should not exceed the 30 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(30, :attr_firstname=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the attr_lastname should not exceed the 30 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(30, :attr_lastname=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "the attr_mail should not exceed the 30 characters" do
-    set_all_required_attributes
     assigns_a_string_of_length_greater_than(30, :attr_mail=)
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
   end
 
   test "port should be a integer" do
-    missing(:port=)
+    missing(:port)
     @auth_source_ldap.port = "crap"
-    assert !@auth_source_ldap.save
+    refute @auth_source_ldap.save
 
     @auth_source_ldap.port = 123
     assert @auth_source_ldap.save
@@ -118,7 +104,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   test "invalid ldap_filter fails validation" do
     @auth_source_ldap.ldap_filter = "("
-    assert !@auth_source_ldap.valid?
+    refute @auth_source_ldap.valid?
   end
 
   test "valid ldap_filter passes validation" do
@@ -149,11 +135,10 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   test "return nil if login is blank or password is blank" do
-    assert_equal nil, @auth_source_ldap.authenticate("", "")
+    assert_nil @auth_source_ldap.authenticate("", "")
   end
 
   test "when auth_method_name is applied should return 'LDAP'" do
-    set_all_required_attributes
     @auth_source_ldap.save
 
     assert_equal 'LDAP', @auth_source_ldap.auth_method_name
@@ -163,7 +148,25 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     # stubs out all the actual ldap connectivity, but tests the authenticate
     # method of auth_source_ldap
     setup_ldap_stubs
+    LdapFluff.any_instance.stubs(:authenticate?).returns(true)
+    LdapFluff.any_instance.stubs(:group_list).returns([])
     assert_not_nil AuthSourceLdap.authenticate("test123", "changeme")
+  end
+
+  test 'update_usergroups returns if entry does not belong to any group' do
+    setup_ldap_stubs
+    ExternalUsergroup.any_instance.expects(:refresh).never
+    LdapFluff.any_instance.expects(:group_list).with('test').returns([])
+    @auth_source_ldap.send(:update_usergroups, 'test')
+  end
+
+  test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
+    setup_ldap_stubs
+    ExternalUsergroup.expects(:find_by_name).with('ipausers').returns(ExternalUsergroup.new)
+    ExternalUsergroup.any_instance.expects(:present?).returns(true)
+    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
+    LdapFluff.any_instance.expects(:group_list).with('test').returns(['ipausers'])
+    @auth_source_ldap.send(:update_usergroups, 'test')
   end
 
   def setup_ldap_stubs
@@ -172,20 +175,16 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     {:givenname=>["test"], :dn=>["uid=test123,cn=users,cn=accounts,dc=example,dc=com"], :mail=>["test123@example.com"], :sn=>["test"]}.each do |k, v|
       entry[k] = v
     end
-    AuthSourceLdap.any_instance.stubs(:initialize_ldap_con).returns(stub(:bind => true))
-    AuthSourceLdap.any_instance.stubs(:search_for_user_entries).returns(entry)
+    LdapFluff.any_instance.stubs(:valid_user?).returns(true)
+    LdapFluff.any_instance.stubs(:find_user).returns([entry])
   end
 
   def missing(attr)
-    @attributes.each { |k, v| @auth_source_ldap.send k, v unless k == attr }
+    @auth_source_ldap.send("#{attr}=", nil)
   end
 
   def set(attr)
-    @auth_source_ldap.send attr, @attributes[attr]
-  end
-
-  def set_all_required_attributes
-    @attributes.each { |k, v| @auth_source_ldap.send k, v }
+    @auth_source_ldap.send("#{attr}=", FactoryGirl.attributes_for(:auth_source_ldap)[attr])
   end
 
   def assigns_a_string_of_length_greater_than(length, method)

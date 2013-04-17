@@ -12,7 +12,6 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
-
       <%= text_f f, :name %>
       <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
       <%= multiple_checkboxes f, :users, @usergroup, User, :label => _("Users") %>
@@ -29,11 +28,18 @@
           <tr>
             <th><%= s_("Usergroup|Name") %></th>
             <th><%= s_("Usergroup|Auth source") %></th>
+            <th></th>
           </tr>
           <% @usergroup.external_usergroups.each do |usergroup| %>
           <tr>
+            <% next if usergroup.id.nil? %>
             <td><%= h usergroup.name %></td>
             <td><%= h usergroup.auth_source %></td>
+            <td><%= display_link_if_authorized(_('Refresh'),
+                                               hash_for_refresh_external_usergroup_path(:id => usergroup.id),
+                                               :method => :put, :id => usergroup.id,
+                                               :class => "btn btn-default", :title => _('Synchronize group from authentication source')) %>
+            </td>
           </tr>
           <% end %>
         </table>

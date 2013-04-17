@@ -6,6 +6,7 @@ one:
   port: 123
   account:
   account_password:
+  server_type: posix
   base_dn: dn=x,dn=y
   ldap_filter:
   attr_login: uid

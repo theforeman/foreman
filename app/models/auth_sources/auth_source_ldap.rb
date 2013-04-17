@@ -18,11 +18,15 @@
 require 'net/ldap'
 
 class AuthSourceLdap < AuthSource
+  SERVER_TYPES = { :free_ipa => 'FreeIPA', :active_directory => 'Active Directory',
+                   :posix    => 'POSIX'}
+
   validates :host, :presence => true, :length => {:maximum => 60}, :allow_nil => true
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => Proc.new { |auth| auth.onthefly_register? }
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :length => {:maximum => 30}, :allow_nil => true
   validates :account_password, :length => {:maximum => 60}, :allow_nil => true
   validates :port, :presence => true, :numericality => {:only_integer => true}
+  validates :server_type, :presence => true, :inclusion => { :in => SERVER_TYPES.keys.map(&:to_s) }
   validate :validate_ldap_filter, :unless => Proc.new { |auth| auth.ldap_filter.blank? }
 
   before_validation :strip_ldap_attributes
@@ -33,50 +37,70 @@ class AuthSourceLdap < AuthSource
   # Returns : Array of Strings.
   #           Either the users's DN or the user's full details OR nil
   def authenticate(login, password)
-    return nil if login.blank? || password.blank?
+    return if login.blank? || password.blank?
 
-    logger.debug "LDAP-Auth with User #{effective_user(login)}"
-    # first, search for User Entries in LDAP
-    entry = search_for_user_entries(login, password)
-    return nil unless entry.is_a?(Net::LDAP::Entry)
+    logger.debug "LDAP-Auth with User #{login}"
 
-    # extract attributes
+    ldap_con = LdapFluff.new(self.to_config)
+
+    return unless ldap_con.valid_user?(login)
+    entry = ldap_con.find_user(login).last
     attrs = attributes_values(entry)
 
-    # not sure if there is a case were search result without a DN
-    # but just to be on the safe side.
-    if (dn=attrs.delete(:dn)).empty?
-      logger.warn "no DN"
-      return nil
-    end
-
-    logger.debug "DN found for #{login}: #{dn}"
-
-    # finally, authenticate user
-    ldap_con = initialize_ldap_con(dn, password)
-    unless ldap_con.bind
-      logger.warn "Result: #{ldap_con.get_operation_result.code}"
-      logger.warn "Message: #{ldap_con.get_operation_result.message}"
+    unless ldap_con.authenticate?(login, password)
+      auth_result = ldap_con.ldap.ldap.get_operation_result
+      logger.warn "Result: #{auth_result.code}"
+      logger.warn "Message: #{auth_result.message}"
       logger.warn "Failed to authenticate #{login}"
-      return nil
+      return
     end
-    # return user's attributes
+
     logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs}"
+
     attrs
-  rescue Net::LDAP::LdapError => text
-    raise "LdapError: %s" % text
+  rescue Net::LDAP::LdapError => error
+    raise "LdapError: %s" % error
   end
 
-  # test the connection to the LDAP
   def test_connection
-    ldap_con = initialize_ldap_con(self.account, self.account_password)
-    ldap_con.open { }
-  rescue Net::LDAP::LdapError => text
-    raise "LdapError: %s" % text
+    LdapFluff.new(self.to_config).test
+  rescue Net::LDAP::LdapError => error
+    raise "LdapError: %s" % error
   end
 
   def auth_method_name
     "LDAP"
+  end
+
+  def to_config
+    { :host    => host,    :port => port, :encryption => (tls ? :start_tls : nil),
+      :base_dn => base_dn, :group_base => groups_base, :attr_login => attr_login,
+      :server_type  => server_type.to_sym, :service_user => account, :search_filter => ldap_filter,
+      :service_pass => account_password,   :anon_queries => account.blank? }
+  end
+
+  def ldap_con
+    @ldap_con ||= LdapFluff.new(self.to_config)
+  end
+
+  def update_usergroups(login)
+    ldap_con.group_list(login).each do |name|
+      begin
+        external_usergroup = external_usergroups.find_by_name(name)
+        external_usergroup.refresh if external_usergroup.present?
+      rescue => error
+        logger.warn "Could not update usergroup #{name}: #{error}"
+      end
+    end
+  end
+
+  def valid_group?(name)
+    ldap_con.authenticate?(account, account_password)
+    ldap_con.valid_group?(name)
+  end
+
+  def users_in_group(name)
+    ldap_con.user_list(name)
   end
 
   private
@@ -87,26 +111,8 @@ class AuthSourceLdap < AuthSource
     end
   end
 
-  def initialize_ldap_con(ldap_user, ldap_password)
-    options = { :host       => host,
-                :port       => port,
-                :encryption => (tls ? :simple_tls : nil)
-    }
-    options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
-    Net::LDAP.new options
-  end
-
   def set_defaults
     self.port ||= DEFAULT_PORTS[:ldap]
-  end
-
-  def use_user_login_for_auth?
-    # returns true if account is defined and includes "$login"
-    (account and account.include? "$login")
-  end
-
-  def effective_user(login)
-    use_user_login_for_auth? ? account.sub("$login", login) : account
   end
 
   def required_ldap_attributes
@@ -144,33 +150,11 @@ class AuthSourceLdap < AuthSource
     end
     avatar_hash
   end
- 
+
   def validate_ldap_filter
     Net::LDAP::Filter.construct(ldap_filter)
   rescue Net::LDAP::LdapError => text
     errors.add(:ldap_filter, _("invalid LDAP filter syntax"))
-  end
-
-  def search_for_user_entries(login, password)
-    user          = effective_user(login)
-    pass          = use_user_login_for_auth? ? password : account_password
-    ldap_con      = initialize_ldap_con(user, pass)
-    login_filter  = Net::LDAP::Filter.eq(attr_login, login)
-    object_filter = Net::LDAP::Filter.eq("objectClass", "*")
-    object_filter = object_filter & Net::LDAP::Filter.construct(ldap_filter) unless ldap_filter.blank?
-
-    # search for a match for our authenticating user.
-    entries       = ldap_con.search(:base       => base_dn,
-                                    :filter     => object_filter & login_filter,
-                                    # only ask for the DN if on-the-fly registration is disabled
-                                    :attributes => required_ldap_attributes.values + optional_ldap_attributes.values)
-    unless ldap_con.get_operation_result.code == 0
-      logger.warn "Search Result: #{ldap_con.get_operation_result.code}"
-      logger.warn "Search Message: #{ldap_con.get_operation_result.message}"
-    end
-
-    # we really care about one match, using the last one, hoping there is only one match :)
-    entries ? entries.last : nil
   end
 
 end
