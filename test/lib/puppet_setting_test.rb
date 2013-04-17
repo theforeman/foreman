@@ -67,10 +67,10 @@ class PuppetSettingTest < ActiveSupport::TestCase
 
   test "should use puppetmasterd --configprint to look up setting" do
     ps = PuppetSetting.new
-    ps.instance_variable_set(:@puppetmaster, '/foo')
-    ps.expects('`').with('/foo --configprint foo 2>&1').returns('bar')
+    ps.instance_variable_set(:@puppetmaster, '/foo1')
+    ps.expects('`').with('/foo1 --configprint foo1 2>&1').returns('bar1')
     $?.expects(:success?).returns(true)
-    assert_equal 'bar', ps.get('foo')
+    assert_equal({"foo1"=>"bar1"}, ps.get('foo1'))
   end
 
   test "should use puppetmasterd --configprint to look up multiple settings" do

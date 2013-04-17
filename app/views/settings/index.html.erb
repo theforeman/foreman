@@ -2,13 +2,13 @@
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
-      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= _(category) %></a>
+      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(short_cat(category)) %></a>
     </li>
   <% end %>
 </ul>
 <div class="tab-content">
   <% @settings.group_by(&:category).each do |category, setting| %>
-      <div class="tab-pane <%= "active" if category == @settings.first.category  %>" id='<%= category %>' >
+      <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
         <table class="table table-bordered table-striped">
           <tr>
             <th><%= s_("Setting|Name") %></th>

@@ -127,9 +127,9 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should set user as owner of hostgroup children if owner of hostgroup root" do
     User.current = User.first
-    sample_user = users(:one) 
+    sample_user = users(:one)
 
-    Hostgroup.new(:name => "root").save 
+    Hostgroup.new(:name => "root").save
     Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
     Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
 
