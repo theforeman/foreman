@@ -265,9 +265,8 @@ module ApplicationHelper
 
   def gravatar_image_tag(email, html_options = {})
     default_image = "assets/user.jpg"
-    image_url = default_image
     html_options.merge!(:onerror=>"this.src='#{default_image}'")
-    image_url = gravatar_url(email, default_image) if Setting["use_gravatar"]
+    image_url = Setting["use_gravatar"] ? gravatar_url(email, default_image) : default_image
     return image_tag(image_url, html_options)
   end
 
