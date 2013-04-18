@@ -1,7 +1,3 @@
-require 'foreman/controller/host_details'
-require 'foreman/controller/smart_proxy_auth'
-require 'foreman/controller/taxonomy_multiple'
-
 class HostsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
