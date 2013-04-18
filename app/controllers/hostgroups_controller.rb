@@ -1,5 +1,3 @@
-require 'foreman/controller/host_details'
-
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
