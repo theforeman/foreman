@@ -1,3 +1,0 @@
-module NoticesHelper
-
-end

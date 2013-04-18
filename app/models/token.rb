@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: tokens
-#
-#  id         :integer          not null, primary key
-#  value      :string(255)
-#  expires    :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#  host_id    :integer
-#
-
 class Token < ActiveRecord::Base
   attr_accessible :value, :expires
   belongs_to_host :foreign_key => :host_id
