@@ -159,3 +159,8 @@ attribute32:
   category: Auth
   default: []
   description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
+attribute33:
+  name: use_gravatar
+  category: General
+  default: "true"
+  description: "Should Foreman use gravatar to display user icons"
