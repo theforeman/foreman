@@ -47,6 +47,9 @@ module AuditExtentions
       self.auditable_type = "Host"         if self.auditable_type == "Puppet::Rails::Host"
       self.associated_type = "Host"        if self.associated_type == "Puppet::Rails::Host"
       self.auditable_type = auditable.type if self.auditable_type == "ComputeResource"
+      # STI Host class should use the stub module instead of Host::Base
+      self.auditable_type = "Host"         if self.auditable_type =~  /Host::/
+      self.associated_type = "Host"        if self.associated_type =~ /Host::/
     end
 
     def ensure_audtiable_and_associated_name
