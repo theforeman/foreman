@@ -40,7 +40,8 @@ module Foreman
               set('authorize_login_delegation',"Authorize login delegation with REMOTE_USER environment variable",false),
               set('authorize_login_delegation_api',"Authorize login delegation with REMOTE_USER environment variable for API calls too",false),
               set('idle_timeout',"Log out idle users after a certain number of minutes",60),
-              set('max_trend',"Max days for Trends graphs",30)
+              set('max_trend',"Max days for Trends graphs",30),
+              set('use_gravatar',"Should Foreman use gravatar to display user icons",true)
             ].each { |s| create s.update(:category => "General")}
 
             [
