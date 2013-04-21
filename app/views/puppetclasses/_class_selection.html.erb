@@ -6,7 +6,7 @@
     </div>
   <% end -%>
   <div class="span3 classes">
-    <h3>Included Classes</h3>
+    <h3><%= _('Included Classes') -%></h3>
     <%# hidden field to ensure that classes gets removed if none are defined -%>
     <%= hidden_field_tag obj.class.model_name.downcase + "[puppetclass_ids][]" %>
     <ul id="selected_classes">
@@ -16,21 +16,21 @@
           :locals => { :type => obj.class.model_name.downcase, :host => obj } %>
       <% else -%>
         <% obj.puppetclasses.each do |klass| %>
-          <li data-original-title="Not authorized to edit classes" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+          <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
         <% end -%>
       <% end -%>
     </ul>
     <ul>
       <% parent_classes(obj).each do |klass| %>
-        <li data-original-title="included already from host group" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+        <li data-original-title="<%= _('included already from host group') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
       <% end -%>
     </ul>
   </div>
 
   <div class="span8">
-    <h3>Available Classes</h3>
+    <h3><%= _('Available Classes') -%></h3>
     <div class='control-group'>
-      <input placeholder="Filter classes" class="search-query" onkeyup="filter_puppet_classes(this);" type='text'>
+      <input placeholder="<%= _('Filter classes') %>" class="search-query" onkeyup="filter_puppet_classes(this);" type='text'>
     </div>
     <div class="row">
       <%= render "puppetclasses/classes",

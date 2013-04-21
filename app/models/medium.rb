@@ -10,12 +10,12 @@ class Medium < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_uniqueness_of :path
   validates_presence_of :name, :path
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
+  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")
   validates_format_of :path, :with => /^(http|https|ftp|nfs):\/\//,
-    :message => "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)"
+    :message => _("Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)")
 
   validates_format_of :media_path, :config_path, :image_path, :allow_blank => true,
-    :with => VALID_NFS_PATH, :message => "does not appear to be a valid nfs mount path",
+    :with => VALID_NFS_PATH, :message => _("does not appear to be a valid nfs mount path"),
     :if => Proc.new { |m| m.respond_to? :media_path }
 
   before_destroy EnsureNotUsedBy.new(:hosts)

@@ -1,5 +1,5 @@
 <li class="divider"></li>
-<li class="nav-header">Location</li>
+<li class="nav-header"><%= _('Location') %></li>
 <li class="dropdown-submenu">
   <% location_count = Location.my_locations.count %>
   <%= location_dropdown location_count %>
@@ -8,7 +8,7 @@
       <div class="no-taxonomies">
         <div class="alert">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= ("There aren't any locations yet.") %>
+          <%= _("There aren't any locations yet.") %>
         </div>
         <%= link_to _("New Location"), new_location_path, :class => "btn btn-primary" %>
       </div>

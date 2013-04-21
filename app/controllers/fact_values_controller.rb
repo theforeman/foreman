@@ -31,16 +31,16 @@ class FactValuesController < ApplicationController
       respond_to do |format|
         format.yml {
           if imported
-            render :text => "Imported facts", :status => 200 and return
+            render :text => _("Imported facts"), :status => 200 and return
           else
-            render :text => "Failed to import facts", :status => 400
+            render :text => _("Failed to import facts"), :status => 400
           end
         }
       end
     end
   rescue Exception => e
     logger.warn "Failed to import facts: #{e}"
-    render :text => "Failed to import facts: #{e}", :status => 400
+    render :text => _("Failed to import facts: %s") % (e), :status => 400
   end
 
   private
@@ -51,10 +51,10 @@ class FactValuesController < ApplicationController
       logger.debug "Creating host of type: #{params[:type]}"
       return params[:type].constantize
     else
-      raise "Invalid type requested for host creation via facts: #{params[:type]}"
+      raise ::Foreman::Exception(N_("Invalid type requested for host creation via facts: %s"), params[:type])
     end
   rescue => e
-      logger.warn "A problem occurred when detecting host type: #{e.message}"
+      logger.warn _("A problem occurred when detecting host type: %s") % (e.message)
   end
 
 end

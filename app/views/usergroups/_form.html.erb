@@ -1,7 +1,7 @@
 <%= form_for @usergroup do |f| %>
   <%= base_errors_for @usergroup %>
-  <%= text_f f, :name %>
+  <%= text_f f, :name, :label => _("Name") %>
   <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
-  <%= multiple_checkboxes f, :users, @usergroup, User, :label => "Users" %>
+  <%= multiple_checkboxes f, :users, @usergroup, User, :label => _("Users") %>
   <%= submit_or_cancel f %>
 <% end %>

@@ -9,7 +9,7 @@ class OsParameter < Parameter
     return true if operation == "edit" and new_record?
     return true if User.current.allowed_to?("#{operation}_operatingsystems".to_sym)
 
-    errors.add :base, "You do not have permission to #{operation} this Operating System parameter"
+    errors.add(:base, _("You do not have permission to %s this Operating System parameter") % operation)
     false
   end
 

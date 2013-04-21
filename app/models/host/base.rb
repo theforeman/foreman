@@ -26,7 +26,7 @@ module Host
     def importFacts name, facts
 
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
-      raise "Host is pending for Build" if build
+      raise ::Foreman::Exception.new(N_("Host is pending for Build")) if build
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
 
@@ -122,7 +122,7 @@ module Host
 
     def is_name_downcased?
       return unless name.present?
-      errors.add(:name, "must be downcase") unless name == name.downcase
+      errors.add(:name, _("must be downcase")) unless name == name.downcase
     end
 
     def facts_hash

@@ -77,7 +77,7 @@ class HostsController < ApplicationController
   def clone
     new = @host.dup
     load_vars_for_ajax
-    flash[:warning] = "The marked fields will need reviewing"
+    flash[:warning] = _("The marked fields will need reviewing")
     new.valid?
     @host = new
     render :action => :new
@@ -164,14 +164,14 @@ class HostsController < ApplicationController
     rescue
       # failed
       logger.warn "Failed to generate external nodes for #{@host} with #{$!}"
-      render :text => 'Unable to generate output, Check log files\n', :status => 412 and return
+      render :text => _('Unable to generate output, Check log files\n'), :status => 412 and return
     end
   end
 
   def puppetrun
     return deny_access unless Setting[:puppetrun]
     if @host.puppetrun!
-      notice "Successfully executed, check log files for more details"
+      notice _("Successfully executed, check log files for more details")
     else
       error @host.errors[:base]
     end
@@ -181,17 +181,17 @@ class HostsController < ApplicationController
   def setBuild
     forward_url_options
     if @host.setBuild
-      process_success :success_msg => "Enabled #{@host} for rebuild on next boot", :success_redirect => :back
+      process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
     else
-      process_error :redirect => :back, :error_msg => "Failed to enable #{@host} for installation: #{@host.errors.full_messages}"
+      process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
     end
   end
 
   def cancelBuild
     if @host.built(false)
-      process_success :success_msg =>  "Canceled pending build for #{@host.name}", :success_redirect => :back
+      process_success :success_msg =>  _("Canceled pending build for %s") % (@host.name), :success_redirect => :back
     else
-      process_error :redirect => :back, :error_msg => "Failed to cancel pending build for #{@host.name}"
+      process_error :redirect => :back, :error_msg => _("Failed to cancel pending build for %s") % (@host.name)
     end
   end
 
@@ -210,9 +210,9 @@ class HostsController < ApplicationController
     begin
       vm.send(action)
       vm.reload
-      process_success :success_redirect => :back, :success_msg => "#{vm} is now #{vm.state.capitalize}"
+      process_success :success_redirect => :back, :success_msg => _("%{vm} is now %{state}") % { :vm => vm, :state => vm.state.capitalize }
     rescue => e
-      process_error :redirect => :back, :error_msg => "Failed to #{action} #{vm}: #{e}"
+      process_error :redirect => :back, :error_msg => _("Failed to %{action} %{vm}: %{e}") % { :action => action, :vm => vm, :e => e }
     end
   end
 
@@ -228,15 +228,19 @@ class HostsController < ApplicationController
                "hosts/console/log"
            end
   rescue => e
-    process_error :redirect => :back, :error_msg => "Failed to set console: #{e}"
+    process_error :redirect => :back, :error_msg => _("Failed to set console: %s") % (e)
   end
 
   def toggle_manage
     if @host.toggle! :managed
-      toggle_text = @host.managed ? "" : " no longer"
-      process_success :success_msg => "Foreman now#{toggle_text} manages the build cycle for #{@host.name}", :success_redirect => :back
+      if @host.managed
+        msg = _("Foreman now manages the build cycle for %s") % (@host.name)
+      else
+        msg = _("Foreman now no longer manages the build cycle for %s") % (@host.name)
+      end
+      process_success :success_msg => msg, :success_redirect => :back
     else
-      process_error   :error_msg   => "Failed to modify the build cycle for #{@host}", :redirect => :back
+      process_error :error_msg => "Failed to modify the build cycle for #{@host}", :redirect => :back
     end
   end
 
@@ -255,7 +259,7 @@ class HostsController < ApplicationController
 
   def update_multiple_parameters
     if params[:name].empty?
-      notice "No parameters were allocated to the selected hosts, can't mass assign."
+      notice _("No parameters were allocated to the selected hosts, can't mass assign.")
       redirect_to hosts_path and return
     end
 
@@ -274,10 +278,10 @@ class HostsController < ApplicationController
       end
     end
     if @skipped_parameters.empty?
-      notice 'Updated all hosts!'
+      notice _('Updated all hosts!')
       redirect_to(hosts_path) and return
     else
-      notice "#{counter} Parameters updated, see below for more information"
+      notice _("%s Parameters updated, see below for more information") % (counter)
     end
   end
 
@@ -287,7 +291,7 @@ class HostsController < ApplicationController
   def update_multiple_hostgroup
     # simple validations
     unless (id=params["hostgroup"]["id"])
-      error 'No Hostgroup selected!'
+      error _('No Hostgroup selected!')
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
     hg = Hostgroup.find(id) rescue nil
@@ -297,7 +301,7 @@ class HostsController < ApplicationController
       host.save(:validate => false)
     end
 
-    notice 'Updated hosts: Changed Hostgroup'
+    notice _('Updated hosts: Changed Hostgroup')
     # We prefer to go back as this does not lose the current search
     redirect_back_or_to hosts_path
   end
@@ -308,7 +312,7 @@ class HostsController < ApplicationController
   def update_multiple_environment
     # simple validations
     if (params[:environment].nil?) or (id=params["environment"]["id"]).nil?
-      error 'No Environment selected!'
+      error _('No Environment selected!')
       redirect_to(select_multiple_environment_hosts_path) and return
     end
 
@@ -320,7 +324,7 @@ class HostsController < ApplicationController
       host.save(:validate => false)
     end
 
-    notice 'Updated hosts: Changed Environment'
+    notice _('Updated hosts: Changed Environment')
     redirect_back_or_to hosts_path
   end
 
@@ -338,9 +342,9 @@ class HostsController < ApplicationController
 
     missed_hosts = @hosts.map(&:name).join('<br/>')
     if @hosts.empty?
-      notice "The selected hosts will execute a build operation on next reboot"
+      notice _("The selected hosts will execute a build operation on next reboot")
     else
-      error "The following hosts failed the build operation: #{missed_hosts}"
+      error _("The following hosts failed the build operation: %s") % (missed_hosts)
     end
     redirect_to(hosts_path)
   end
@@ -351,9 +355,9 @@ class HostsController < ApplicationController
 
     missed_hosts = @hosts.map(&:name).join('<br/>')
     if @hosts.empty?
-      notice "Destroyed selected hosts"
+      notice _("Destroyed selected hosts")
     else
-      error "The following hosts were not deleted: #{missed_hosts}"
+      error _("The following hosts were not deleted: %s") % (missed_hosts)
     end
     redirect_to(hosts_path)
   end
@@ -379,36 +383,36 @@ class HostsController < ApplicationController
   def update_multiple_puppetrun
     return deny_access unless Setting[:puppetrun]
     if @hosts.map(&:puppetrun!).uniq == [true]
-      notice "Successfully executed, check reports and/or log files for more details"
+      notice _("Successfully executed, check reports and/or log files for more details")
     else
-      error "Some or all hosts execution failed, Please check log files for more information"
+      error _("Some or all hosts execution failed, Please check log files for more information")
     end
     redirect_back_or_to hosts_path
   end
 
   def errors
     merge_search_filter("last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)")
-    index "Hosts with errors"
+    index _("Hosts with errors")
   end
 
   def active
     merge_search_filter("last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0)")
-    index "Active Hosts"
+    index _("Active Hosts")
   end
 
   def pending
     merge_search_filter("last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.pending > 0)")
-    index "Pending Hosts"
+    index _("Pending Hosts")
   end
 
   def out_of_sync
     merge_search_filter("last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true")
-    index "Hosts which didn't run puppet in the last #{view_context.time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago)}"
+    index _("Hosts which didn't run puppet in the last %s") % (view_context.time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago))
   end
 
   def disabled
     merge_search_filter("status.enabled = false")
-    index "Hosts with notifications disabled"
+    index _("Hosts with notifications disabled")
   end
 
   def process_hostgroup
@@ -475,11 +479,11 @@ class HostsController < ApplicationController
       @host      = @host.becomes(type.constantize)
       @host.type = type
     else
-      error "invalid type: #{type} requested"
+      error _("invalid type: %s requested") % (type)
       render :unprocessable_entity
     end
   rescue => e
-    error "Something went wrong while changing host type - #{e}"
+    error _("Something went wrong while changing host type - %s") % (e)
   end
 
   def taxonomy_scope
@@ -513,16 +517,16 @@ class HostsController < ApplicationController
     if params[:host_names].present? or params[:host_ids].present?
       @hosts = Host.where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
       if @hosts.empty?
-        error 'No hosts were found with that id or name'
+        error _('No hosts were found with that id or name')
         redirect_to(hosts_path) and return false
       end
     else
-      error 'No Hosts selected'
+      error _('No Hosts selected')
       redirect_to(hosts_path) and return false
     end
 
     rescue => e
-      error "Something went wrong while selecting hosts - #{e}"
+      error _("Something went wrong while selecting hosts - %s") % (e)
       redirect_to hosts_path
   end
 
@@ -533,9 +537,9 @@ class HostsController < ApplicationController
 
     missed_hosts       = @hosts.map(&:name).join('<br/>')
     if @hosts.empty?
-      notice "#{action.capitalize} selected hosts"
+      notice _("%s selected hosts") % (action.capitalize)
     else
-      error "The following hosts were not #{action}: #{missed_hosts}"
+      error _("The following hosts were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts }
     end
     redirect_to(hosts_path)
   end

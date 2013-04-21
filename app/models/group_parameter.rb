@@ -16,7 +16,7 @@ class GroupParameter < Parameter
       end
     end
 
-    errors.add :base, "You do not have permission to #{operation} this group parameter"
+    errors.add(:base, _("You do not have permission to %s this group parameter") % operation)
     false
   end
 end

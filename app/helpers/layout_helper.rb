@@ -141,7 +141,7 @@ module LayoutHelper
   def base_errors_for obj
     unless obj.errors[:base].blank?
       content_tag(:div, :class => "alert alert-message alert-block alert-error base in fade") do
-        "<a class='close' href='#' data-dismiss='alert'>&times;</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.join.html_safe
+        ("<a class='close' href='#' data-dismiss='alert'>&times;</a><h4>" + _("Unable to save") + "</h4> " + obj.errors[:base].map {|e| "<li>#{e}</li>"}.join).html_safe
       end
     end
   end
@@ -190,8 +190,8 @@ module LayoutHelper
 
   def alert opts = {}
     opts[:close] ||= true
-    opts[:header] ||= "Warning!"
-    opts[:text] ||= "Alert"
+    opts[:header] ||= _("Warning!")
+    opts[:text] ||= _("Alert")
     content_tag :div, :class => "alert #{opts[:class]}" do
       result = "".html_safe
       result += alert_close if opts[:close]

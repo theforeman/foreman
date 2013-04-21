@@ -1,88 +1,118 @@
-<% title "Welcome" %>
+<% title _("Welcome") %>
 <div id="welcome">
   <p>
-    Before you can use Foreman for the first time there are a few tasks that must be performed. You must decide how you
-    wish to use the software, and update the primary settings file
-    <b>config/settings.yaml</b> and the <%= link_to "settings", settings_path %> to indicate your selections.
+    <%= _('Before you can use Foreman for the first time there are a few tasks that must be performed.') %>
+
+    <%= _('You must decide how you wish to use the software, and update the primary settings file <b>config/settings.yaml</b> and the').html_safe -%>
+    <%= link_to _("settings"), settings_path %>
+    <%= _('to indicate your selections.') %>
   </p>
 
-  <h2>Operating Mode</h2>
+  <h2><%= _('Operating Mode') -%></h2>
 
   <p>
-    You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also
-    turn on unattended mode operation in which Foreman
-    creates and manages the configuration files necessary to completely configure a new host. When operating in
-    unattended mode Foreman will require more information,
-    so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external">here</a> for more details.
+    <%= _('You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also turn on unattended mode operation in which Foreman creates and manages the configuration files necessary to completely configure a new host.') %>
+
+    <%= _('When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see') %>
+    <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external"><%= _('here') -%></a>
+    <%= _('for more details.') %>
   </p>
 
-  <h2> Create a Smart Proxy </h2>
+  <h2><%= _('Create a Smart Proxy') -%></h2>
 
   <p>
-    If you're planning to do anything more than just handle reports, you'll be in need of a smart proxy - either on this machine or elsewhere on your network. You can find details of how to set up the proxy at <a href=http://theforeman.org/projects/foreman/wiki/Smart-Proxy_Installation rel="external">Smart-Proxy Installation</a>
+    <%= _("If you're planning to do anything more than just handle reports, you'll be in need of a smart proxy - either on this machine or elsewhere on your network.") %>
+    <%= _('You can find details of how to set up the proxy at') %>
+    <a href=http://theforeman.org/projects/foreman/wiki/Smart-Proxy_Installation rel="external"><%= _('Smart-Proxy Installation') %></a>.
 
-    <p><span class="label label-important">Important</span>
-      Once installed you should head over to <a href=smart_proxies>Smart Proxies</a> to point Foreman at it
+    <p>
+      <span class="label label-important"><%= _('Important') -%></span>
+      <%= _('Once installed you should head over to') %>
+      <a href=smart_proxies><%= _('Smart Proxies') %></a>
+      <%= _('to point Foreman at it.') %>
     </p>
   </p>
 
-  <h2>User Authentication</h2>
+  <h2><%= _('User Authentication') -%></h2>
 
   <p>
-    Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who
-    is performing the task. If you wish to track the actions of a
-    particular user then it is possible to use an additional authentication stage and provide a user account. At
-    present, authentication is performed against the internal Database or a LDAP
-    service provided by one or more LDAP servers.
+    <%= _('Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task.') %>
+    <%= _('If you wish to track the actions of a particular user then it is possible to use an additional authentication stage and provide a user account.') %>
+    <%= _('At present, authentication is performed against the internal Database or a LDAP service provided by one or more LDAP servers.') %>
 
-    <p> Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.</p>
+    <p>
+      <%= _('Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.') %>
+    </p>
 
     <% if SETTINGS[:login] -%>
       <ul>
-        <li> For internal Users, simply create a new user at the <%= link_to "Users", users_path %> page </li>
-        <li> if you chose to use LDAP authentication then you must provide connection details for
-        your authentication provider on <%= link_to "LDAP", new_auth_source_ldap_path %> page </li>
-        <li> For Roles and permissions, see the <%= link_to "Roles", roles_path %> page</li>
+        <li>
+          <%= _('For internal Users, simply create a new user at the') %>
+          <%= link_to _("Users"), users_path %>
+          <%= _('page') %>
+        </li>
+        <li>
+          <%= _('If you chose to use LDAP authentication then you must provide connection details for your authentication provider on') %>
+          <%= link_to _("LDAP"), new_auth_source_ldap_path %>
+          <%= _('page') %>
+        </li>
+        <li>
+          <%= _('For Roles and permissions, see the') %>
+          <%= link_to _("Roles"), roles_path %>
+          <%= _('page') %>
+        </li>
       </ul>
     <% else -%>
-      <p><span class="label label-info">Notice</span>
-      You would need to enable login in your settings.yml file first and restart foreman
+      <p><span class="label label-info"><%= _('Notice') -%></span>
+      <%= _('You would need to enable login in your settings.yml file first and restart foreman') %>
       </p>
-      <p><span class="label label-important">Important</span>
-      the default username and password are <b>admin</b> and <b>changeme</b>
+      <p><span class="label label-important"><%= _('Important') -%></span>
+      <%= _('The default username and password are <b>admin</b> and <b>changeme</b>').html_safe %>
       </p>
     <% end -%>
+  </p>
 
-  <h2>Import your data</h2>
+  <h2><%= _('Import your data') -%></h2>
 
   <p>
-    Foreman comes with some importers to ease the burden of entering loads of data about your current installation. If
-    you are already using puppet you should consider using some of the rake tasks that have been provided.
-  <ul>
-    <li>
-      Inventory browser - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Facts rel="external">Importing Puppet Facts</a>
-    </li>
-    <li>
-      Puppet External Nodes -
-      <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external">Importing Puppet classes and environments</a>
-    </li>
-    <li>
-      Reporting - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Reports rel="external">Puppet Reports integration</a>
-  </ul>
+    <%= _('Foreman comes with some importers to ease the burden of entering loads of data about your current installation.') %>
+    <%= _('If you are already using puppet you should consider using some of the rake tasks that have been provided.') %>
+    <ul>
+      <li>
+        <%= _('Inventory browser') %>
+        - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Facts rel="external"><%= _('Importing Puppet Facts') -%></a>
+      </li>
+      <li>
+        <%= _('Puppet External Nodes') %>
+        - <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external"><%= _('Importing Puppet classes and environments') -%></a>
+      </li>
+      <li>
+        <%= _('Reporting') %>
+        - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Reports rel="external"><%= _('Puppet Reports integration') -%></a>
+      </li>
+    </ul>
+  </p>
 
-  <h2>Additional steps</h2>
+  <h2><%= _('Additional steps') -%></h2>
+
   <p>
-  You may optionally wish to generate the online documentation for your puppet classes -
-  <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser rel="external">puppet class browser</a>
+    <%= _('You may optionally wish to generate the online documentation for your puppet classes') %>
+    - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser rel="external"><%= _('puppet class browser') -%></a>.
   </p>
 
   <p>
-    After you have decided on the two primary modes of operation and performed any appropriate imports then it would be
-    good idea if you visited some of the other configuration pages to see if
-    additional setup is required under the Additional settings select box on the top right.
+    <%= _('After you have decided on the two primary modes of operation and performed any appropriate imports then it would be good idea if you visited some of the other configuration pages to see if additional setup is required under the Additional settings select box on the top right.') %>
+  </p>
 
-  <p>You may also find the <a href=http://theforeman.org/projects/foreman/wiki/Howtos rel="external">Howtos</a> useful.</p>
+  <p>
+    <%= _('You may also find the') %>
+    <a href=http://theforeman.org/projects/foreman/wiki/Howtos rel="external"><%= _('Howtos') -%></a>
+    <%= _('useful.') %>
+  </p>
 
-  <p><span class="label label-info">Notice</span> This page will self destruct once data comes in.</p>
+  <p>
+    <span class="label label-info"><%= _('Notice') -%></span>
+    <%= _('This page will self destruct once data comes in.') %>
+  </p>
 
 </div>

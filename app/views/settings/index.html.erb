@@ -1,8 +1,8 @@
-<% title "Settings" %>
+<% title _("Settings") %>
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
-      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= "#{category}" %></a>
+      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= _(category) %></a>
     </li>
   <% end %>
 </ul>
@@ -11,15 +11,15 @@
       <div class="tab-pane <%= "active" if category == @settings.first.category  %>" id='<%= category %>' >
         <table class="table table-bordered table-striped">
           <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Description</th>
+            <th><%= _("Name") %></th>
+            <th><%= _("Value") %></th>
+            <th><%= _("Description") %></th>
           </tr>
           <% setting.each do |item| %>
             <tr>
               <td><%=h item.name %></td>
               <td class="setting_value"><%= value(item) %></td>
-              <td><%=h item.description %></td>
+              <td><%=h _(item.description) %></td>
             </tr>
           <% end %>
         </table>

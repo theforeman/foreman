@@ -1,11 +1,11 @@
-<% title "Autosign entries for #{@proxy}" %>
+<% title _("Autosign entries for %s") % @proxy %>
 
-<% title_actions display_link_if_authorized("Certificates", hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy)),
+<% title_actions display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy)),
   autosign_form %>
 
 <table class='table table-bordered table-striped table-condensed'>
   <tr>
-    <th>Name</th>
+    <th><%= _("Name") %></th>
     <th></th>
   </tr>
   <% @autosign.each do |cert| -%>

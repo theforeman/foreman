@@ -2,7 +2,7 @@
     <div class="btn-toolbar btn-toolbar-condensed">
     <div class="btn-group span12">
       <div class="span9">
-        <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => "Filter ...").html_safe %>
+        <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
       </div>
       <button class="btn hidden-phone" onclick="$('.form-search').submit()"><%= icon_text("search", _("Search")) %></button>
 
@@ -15,7 +15,7 @@
             <li><%= link_to_if_authorized bookmark.name, eval("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
         <% end -%>
         <li class="divider"></li>
-        <li><%= link_to_function 'Bookmark this search', "$('#bookmarks-modal').modal();",
+        <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
                                  {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
       </ul>
     </div>

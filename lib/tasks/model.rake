@@ -1,3 +1,4 @@
+# TRANSLATORS: do not translate
 desc <<-EOT
 When Foreman imports a new host by reading its facts it will create the host and
 set its model to a value based upon the facts. This can result in a multiplicity

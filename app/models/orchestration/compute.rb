@@ -31,26 +31,26 @@ module Orchestration::Compute
     end
 
     def queue_compute_create
-      queue.create(:name   => "Settings up compute instance #{self}", :priority => 1,
+      queue.create(:name   => _("Settings up compute instance %s") % self, :priority => 1,
                    :action => [self, :setCompute])
-      queue.create(:name   => "Acquiring IP address for #{self}", :priority => 2,
+      queue.create(:name   => _("Acquiring IP address for %s") % self, :priority => 2,
                    :action => [self, :setComputeIP]) if compute_resource.provided_attributes.keys.include?(:ip)
-      queue.create(:name   => "Querying instance details for #{self}", :priority => 3,
+      queue.create(:name   => _("Querying instance details for %s") % self, :priority => 3,
                    :action => [self, :setComputeDetails])
-      queue.create(:name   => "Power up compute instance #{self}", :priority => 1000,
+      queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
                    :action => [self, :setComputePowerUp]) if compute_attributes[:start] == '1'
     end
 
     def queue_compute_update
       return unless compute_update_required?
       logger.debug("Detected a change is required for Compute resource")
-      queue.create(:name   => "Compute resource update for #{old}", :priority => 7,
+      queue.create(:name   => _("Compute resource update for %s") % old, :priority => 7,
                    :action => [self, :setComputeUpdate])
     end
 
     def queue_compute_destroy
       return unless errors.empty? and compute_resource_id.present? and uuid
-      queue.create(:name   => "Removing compute instance #{self}", :priority => 100,
+      queue.create(:name   => _("Removing compute instance %s") % self, :priority => 100,
                    :action => [self, :delCompute])
     end
 
@@ -58,7 +58,7 @@ module Orchestration::Compute
       logger.info "Adding Compute instance for #{name}"
       self.vm = compute_resource.create_vm compute_attributes.merge(:name => name)
     rescue => e
-      failure "Failed to create a compute #{compute_resource} instance #{name}: #{e.message}\n " + e.backtrace.join("\n ")
+      failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e.backtrace.join("\n ")
     end
 
     def setComputeDetails
@@ -80,7 +80,7 @@ module Orchestration::Compute
         end
         true
       else
-        failure "failed to save #{name}"
+        failure _("failed to save %s") % name
       end
     end
 
@@ -93,7 +93,7 @@ module Orchestration::Compute
         vm.wait_for { self.send(attrs[:ip]).present? }
       end
     rescue => e
-      failure "Failed to get IP for #{name}: #{e}", e.backtrace
+      failure _("Failed to get IP for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
     end
 
     def delComputeIP;end
@@ -102,35 +102,35 @@ module Orchestration::Compute
       logger.info "Removing Compute instance for #{name}"
       compute_resource.destroy_vm uuid
     rescue => e
-      failure "Failed to destroy a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      failure _("Failed to destroy a compute %{compute_resource} instance %{name}: %{e}") % { :compute_resource => compute_resource, :name => name, :e => e }, e.backtrace
     end
 
     def setComputePowerUp
       logger.info "Powering up Compute instance for #{name}"
       compute_resource.start_vm uuid
     rescue => e
-      failure "Failed to power up a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      failure _("Failed to power up a compute %{compute_resource} instance %{name}: %{e}") % { :compute_resource => compute_resource, :name => name, :e => e }, e.backtrace
     end
 
     def delComputePowerUp
       logger.info "Powering down Compute instance for #{name}"
       compute_resource.stop_vm uuid
     rescue => e
-      failure "Failed to stop compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      failure _("Failed to stop compute %{compute_resource} instance %{name}: %{e}") % { :compute_resource => compute_resource, :name => name, :e => e }, e.backtrace
     end
 
     def setComputeUpdate
       logger.info "Update Compute instance for #{name}"
       compute_resource.save_vm uuid, compute_attributes
     rescue => e
-      failure "Failed to update a compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      failure _("Failed to update a compute %{compute_resource} instance %{name}: %{e}") % { :compute_resource => compute_resource, :name => name, :e => e }, e.backtrace
     end
 
     def delComputeUpdate
       logger.info "Undo Update Compute instance for #{name}"
       compute_resource.save_vm uuid, old.compute_attributes
     rescue => e
-      failure "Failed to undo update compute #{compute_resource} instance #{name}: #{e}", e.backtrace
+      failure _("Failed to undo update compute %{compute_resource} instance %{name}: %{e}") % { :compute_resource => compute_resource, :name => name, :e => e }, e.backtrace
     end
 
     private
@@ -149,7 +149,7 @@ module Orchestration::Compute
       if img
         self.image = img
       else
-        failure("Selected image does not belong to #{compute_resource}") and return false
+        failure(_("Selected image does not belong to %s") % compute_resource) and return false
       end
     end
 

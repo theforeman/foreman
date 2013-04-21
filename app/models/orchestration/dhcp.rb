@@ -49,9 +49,9 @@ module Orchestration::DHCP
       # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
       return to_ip_address(bs) if bs.present?
 
-      failure "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
+      failure _("Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services.")
     rescue => e
-      failure "failed to detect boot server: #{e}"
+      failure _("failed to detect boot server: %s") % e
     end
 
     private
@@ -78,7 +78,7 @@ module Orchestration::DHCP
 
     def queue_dhcp_create
       logger.debug "Scheduling new DHCP reservations for #{self}"
-      queue.create(:name   => "Create DHCP Settings for #{self}", :priority => 10,
+      queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 10,
                    :action => [self, :set_dhcp]) if dhcp?
 
     end
@@ -86,9 +86,9 @@ module Orchestration::DHCP
     def queue_dhcp_update
       if dhcp_update_required?
         logger.debug("Detected a changed required for DHCP record")
-        queue.create(:name => "Remove DHCP Settings for #{old}", :priority => 5,
+        queue.create(:name => _("Remove DHCP Settings for %s") % old, :priority => 5,
                      :action => [old, :del_dhcp]) if old.dhcp?
-        queue.create(:name   => "Create DHCP Settings for #{self}", :priority => 9,
+        queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 9,
                      :action => [self, :set_dhcp]) if dhcp?
       end
     end
@@ -110,7 +110,7 @@ module Orchestration::DHCP
 
     def queue_dhcp_destroy
       return unless dhcp? and errors.empty?
-      queue.create(:name   => "Remove DHCP Settings for #{self}", :priority => 5,
+      queue.create(:name   => _("Remove DHCP Settings for %s") % self, :priority => 5,
                    :action => [self, :del_dhcp])
       true
     end
@@ -119,7 +119,7 @@ module Orchestration::DHCP
       return unless dhcp? and errors.any? and errors.are_all_conflicts?
       return unless overwrite?
       logger.debug "Scheduling DHCP conflicts removal"
-      queue.create(:name   => "DHCP conflicts removal for #{self}", :priority => 5,
+      queue.create(:name   => _("DHCP conflicts removal for %s") % self, :priority => 5,
                    :action => [self, :del_dhcp_conflicts]) if dhcp_record and dhcp_record.conflicting?
     end
 
@@ -127,7 +127,7 @@ module Orchestration::DHCP
       return if subnet.nil? or ip.nil?
       return unless dhcp?
       unless subnet.contains? ip
-        errors.add :ip, "Does not match selected Subnet"
+        errors.add(:ip, _("Does not match selected Subnet"))
         return false
       end
     rescue
@@ -146,7 +146,7 @@ module Orchestration::DHCP
 
       return false unless dhcp?
       status = true
-      status = failure("DHCP records #{dhcp_record.conflicts.to_sentence} already exists", nil, :conflict) if dhcp_record and dhcp_record.conflicting?
+      status = failure(_("DHCP records %s already exists") % dhcp_record.conflicts.to_sentence, nil, :conflict) if dhcp_record and dhcp_record.conflicting?
       overwrite? ? errors.are_all_conflicts? : status
     end
 

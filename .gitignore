@@ -22,4 +22,7 @@ doc/apidoc*
 .rbenv*
 .rvmrc*
 .ruby-version
+locale/*.mo
+locale/*/*.pox
+locale/*/LC_MESSAGES
 coverage/

@@ -16,7 +16,7 @@ class DomainParameter < Parameter
       end
     end
 
-    errors.add :base, "You do not have permission to #{operation} this domain parameter"
+    errors.add(:base, _("You do not have permission to %s this domain parameter") % operation)
     false
   end
 end

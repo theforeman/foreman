@@ -10,7 +10,7 @@ class Ptable < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates_uniqueness_of :name
   validates_presence_of :layout
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
+  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")
   default_scope :order => 'LOWER(ptables.name)'
 
   scoped_search :on => :name, :complete_value => true, :default_order => true

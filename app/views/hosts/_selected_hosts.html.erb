@@ -7,8 +7,8 @@
           <th> Name </th>
           <th> Hostgroup </th>
           <th> Environment </th>
-          <%= raw("<th>Location</th>") if SETTINGS[:locations_enabled]%>
-          <%= raw("<th>Organization</th>") if SETTINGS[:organizations_enabled]%>
+          <%= raw("<th>" + _("Location") + "</th>") if SETTINGS[:locations_enabled]%>
+          <%= raw("<th>" + _("Organization") + "</th>") if SETTINGS[:organizations_enabled]%>
         </tr>
       </thead>
       <tbody>

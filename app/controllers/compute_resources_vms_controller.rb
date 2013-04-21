@@ -34,10 +34,10 @@ class ComputeResourcesVmsController < ApplicationController
 
     if (@vm.send(action) rescue false)
       @vm.reload
-      notice "#{@vm} is now #{@vm.state.capitalize}"
+      notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
       redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
     else
-      error "failed to #{action} #{@vm}"
+      error _("failed to %{action} %{vm}") % {:action => action, :vm => @vm}
       redirect_to :back
     end
   end
@@ -61,7 +61,7 @@ class ComputeResourcesVmsController < ApplicationController
                "hosts/console/log"
     end
   rescue => e
-    process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => "Failed to set console: #{e}", :object => @vm
+    process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => (_("Failed to set console: %s") % e), :object => @vm
   end
 
   private

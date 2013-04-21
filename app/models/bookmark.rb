@@ -4,7 +4,7 @@ class Bookmark < ActiveRecord::Base
 
   validates_uniqueness_of :name, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates_presence_of :name, :controller, :query
-  validates_format_of :controller, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
+  validates_format_of :controller, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
   default_scope lambda { order(:name) }
   before_validation :set_default_user
 

@@ -114,11 +114,11 @@ class Setting < ActiveRecord::Base
         begin
           self.value = YAML.load(value.gsub(/(\,)(\S)/, "\\1 \\2"))
         rescue => e
-          errors.add(:value, "invalid value: #{e}")
+          errors.add(:value, _("invalid value: %s") % e)
           return false
         end
       else
-        errors.add(:value, "must be an array")
+        errors.add(:value, _("must be an array"))
         return false
       end
     end
@@ -130,7 +130,7 @@ class Setting < ActiveRecord::Base
     changed_attributes.each do |c,old|
       # Allow settings_type to change at first (from nil) since it gets populated during validation
       if FROZEN_ATTRS.include?(c.to_s) || (c.to_s == :settings_type && !old.nil?)
-        errors.add(c, "is not allowed to change")
+        errors.add(c, _("is not allowed to change"))
         return false
       end
     end

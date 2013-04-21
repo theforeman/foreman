@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update
 
-  validates_uniqueness_of :login, :message => "already exists"
+  validates_uniqueness_of :login, :message => N_("already exists")
   validates_presence_of :login, :auth_source_id
   validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
@@ -228,7 +228,7 @@ class User < ActiveRecord::Base
 
   def name_used_in_a_usergroup
     if Usergroup.all.map(&:name).include?(self.login)
-      errors.add :base, "A usergroup already exists with this name"
+      errors.add(:base, _("A user group already exists with this name"))
     end
   end
 

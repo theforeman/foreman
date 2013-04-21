@@ -4,12 +4,12 @@
 
 <table class="table table-bordered table-striped table-condensed">
   <tr>
-    <th><%= sort :login %></th>
-    <th><%= sort :firstname %></th>
-    <th><%= sort :lastname %></th>
-    <th><%= sort :mail %></th>
-    <th><%= sort :admin %></th>
-    <th><%= sort :last_login_on %></th>
+    <th><%= sort :login, :as => _("Login") %></th>
+    <th><%= sort :firstname, :as => _("First Name")%></th>
+    <th><%= sort :lastname, :as => _("Last Name") %></th>
+    <th><%= sort :mail, :as => _("e-mail") %></th>
+    <th><%= sort :admin, :as => _("Admin") %></th>
+    <th><%= sort :last_login_on, :as => _("Last Login") %></th>
     <th><%= _("Authorized by") %></th>
     <th></th>
   </tr>
