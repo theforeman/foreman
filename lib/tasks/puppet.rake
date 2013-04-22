@@ -140,6 +140,46 @@ namespace :puppet do
         end
       end
     end
+
+
+    desc "Imports only the puppet environments from SmartProxy source."
+    task :environments_only, [:batch] => :environment do | t, args |
+      args.batch = args.batch == "true"
+      puts " ================================================================ "
+      puts "Import starts: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+
+      proxies = SmartProxy.puppet_proxies
+      if proxies.empty?
+        puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
+        exit 1
+      end
+      if ENV["proxy"]
+        proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
+        unless proxy.is_a?(SmartProxy)
+          puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+          exit 1
+        end
+      end
+      proxy ||= proxies.first
+      # Evaluate any changes that exist between the database of environments and the on-disk puppet installation
+      begin
+        puts "Importing environments" unless args.batch
+        importer = PuppetClassImporter.new({ :url => proxy.url })
+        puts "New environments: #{importer.new_environments.join(', ')} "
+        puts "Old environments: #{importer.old_environments.join(', ')} "
+        importer.new_environments.each { |new_environment| Environment.create!(:name => new_environment) }
+        importer.old_environments.each { |old_environment| Environment.find_by_name(old_environment).destroy }
+      rescue => e
+        puts "Problems were detected during the evaluation phase"
+        puts
+        puts e.message.gsub(/<br\/>/, "\n") + "\n"
+        puts
+        puts "Please fix these issues and try again"
+        exit 1
+      end
+      puts "Import ends: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+      puts " ================================================================ "
+    end
   end
 
   namespace :import do
@@ -171,7 +211,6 @@ namespace :puppet do
         end
         $stdout.flush
       end
-
     end
   end
 
