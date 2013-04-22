@@ -6,7 +6,8 @@ class AddLabelToHostGroup < ActiveRecord::Migration
     Hostgroup.reset_column_information
     execute "UPDATE hostgroups set label = name WHERE ancestry IS NULL"
     Hostgroup.where("ancestry IS NOT NULL").each do |hostgroup|
-      hostgroup.update_attributes!(:label => hostgroup.get_label)
+      hostgroup.label = hostgroup.get_label
+      hostgroup.save_without_auditing
     end
   end
 
