@@ -14,7 +14,7 @@ class ApacheTest < ActiveSupport::TestCase
     assert apache.available?
 
     Setting["authorize_login_delegation"] = false
-    refute apache.available?
+    assert !apache.available?
 
     Setting["authorize_login_delegation"] = true
     # api request
@@ -23,15 +23,15 @@ class ApacheTest < ActiveSupport::TestCase
     assert apache.available?
 
     Setting["authorize_login_delegation_api"] = false
-    refute apache.available?
+    assert !apache.available?
   end
 
   def get_apache_method(api_request = false)
-    Sso::Apache.new(get_controller(api_request))
+    SSO::Apache.new(get_controller(api_request))
   end
 
   def get_controller(api_request)
-    controller = Struct.new(:request).new(Struct.new(:env).new({'REMOTE_USER' => 'ares'}))
+    controller = Struct.new(:request).new(Struct.new(:env).new({ 'REMOTE_USER' => 'ares' }))
     stub(controller).api_request? { api_request }
     controller
   end

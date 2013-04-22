@@ -167,7 +167,7 @@ attribute33:
 attribute34:
   name: signo_sso
   category: Auth
-  default: false
+  default: "false"
   description: "Use SSO"
 attribute35:
   name: signo_url

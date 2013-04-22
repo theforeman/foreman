@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def available_sso
-    @available_sso ||= Sso.get_available(self)
+    @available_sso ||= SSO.get_available(self)
   end
 
   # Force a user to login if authentication is enabled

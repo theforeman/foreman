@@ -1,4 +1,4 @@
-class Sso
+module SSO
   METHODS = [Apache, Signo]
 
   def self.get_available(controller)

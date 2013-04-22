@@ -6,7 +6,7 @@ class SignoTest < ActiveSupport::TestCase
   end
 
   def test_casual_request_authenticated?
-    refute get_signo_method.authenticated?
+    assert !get_signo_method.authenticated?
   end
 
   def test_openid_request_authenticated?
@@ -15,14 +15,14 @@ class SignoTest < ActiveSupport::TestCase
     signo = get_signo_method(controller)
 
     stub(signo).parse_open_id { false }
-    refute signo.authenticated?
+    assert !signo.authenticated?
 
     stub(signo).parse_open_id { true }
     assert signo.authenticated?
   end
 
   def test_parse_open_id_success
-    signo = get_signo_method
+    signo    = get_signo_method
     response = Object.new
     stub(response).status { :success }
     stub(response).identity_url { 'https://localhost/user/ares' }
@@ -31,26 +31,26 @@ class SignoTest < ActiveSupport::TestCase
   end
 
   def test_parse_open_id_fail
-    signo = get_signo_method
+    signo    = get_signo_method
     response = Object.new
     stub(response).status { :fail }
-    refute signo.send(:parse_open_id, response)
+    assert !signo.send(:parse_open_id, response)
   end
 
   def test_authenticate_without_cookie
     controller = get_controller
-    stub(controller.request).url {'https://localhost/foreman?a=b&c=d'}
+    stub(controller.request).url { 'https://localhost/foreman?a=b&c=d' }
     signo = get_signo_method(controller)
-    url = Setting['signo_url'] + "?return_url=#{URI.escape('https://localhost/foreman?a=b&c=d')}"
+    url   = Setting['signo_url'] + "?return_url=#{URI.escape('https://localhost/foreman?a=b&c=d')}"
     mock(controller).redirect_to(url) { 'correct redirect' }
     assert_equal signo.authenticate!, 'correct redirect'
   end
 
   def test_authenticate_with_cookie
     controller = get_controller
-    stub(controller.request).cookies { {'username' => 'ares'} }
+    stub(controller.request).cookies { { 'username' => 'ares' } }
     stub(controller).render { 'correct render' }
-    signo = get_signo_method(controller)
+    signo    = get_signo_method(controller)
     response = signo.authenticate!
 
     assert_equal response, 'correct render'
@@ -59,16 +59,23 @@ class SignoTest < ActiveSupport::TestCase
   end
 
   def get_signo_method(controller = nil)
-    Sso::Signo.new(controller || get_controller)
+    SSO::Signo.new(controller || get_controller)
   end
 
   def get_controller
     request    = Object.new
     controller = Object.new
-    stub(request).env { {} }
-    stub(request).cookies { {} }
-    stub(controller).headers { {} }
+
+    # we must create and save hash object reference otherwise we'll create new empty hash
+    # with every method call, hence Hash.new lines
+    req = Hash.new
+    stub(request).env { req }
+    cookies = Hash.new
+    stub(request).cookies { cookies }
+    headers = Hash.new
+    stub(controller).headers { headers }
     stub(controller).request { request }
+
     controller
   end
 end

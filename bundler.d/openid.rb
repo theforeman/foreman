@@ -1,1 +1,3 @@
-gem 'rack-openid'
+group :openid do
+  gem 'rack-openid'
+end

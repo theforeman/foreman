@@ -1,11 +1,11 @@
-class Sso
+module SSO
   class Base
-    attr_reader :request, :controller
+    attr_reader :controller
     attr_accessor :user
+    delegate :request, :to => :controller
 
     def initialize(controller)
       @controller = controller
-      @request = controller.request
     end
 
     def support_login?

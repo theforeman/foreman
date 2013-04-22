@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DummyMethod < Sso::Base
+class DummyMethod < SSO::Base
   def initialize(*args)
   end
 end
@@ -17,10 +17,10 @@ class DummyFalseMethod < DummyMethod
   end
 end
 
-class SsoTest < ActiveSupport::TestCase
+class SSOTest < ActiveSupport::TestCase
   def test_get_available_should_find_first_available_method
-    stub(Sso).all { [ DummyFalseMethod, DummyTrueMethod, DummyFalseMethod ] }
-    available = Sso.get_available(Object.new)
+    stub(SSO).all { [ DummyFalseMethod, DummyTrueMethod, DummyFalseMethod ] }
+    available = SSO.get_available(Object.new)
     assert_present available
   end
 end

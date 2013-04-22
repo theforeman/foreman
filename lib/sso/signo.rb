@@ -1,15 +1,11 @@
-class Sso
+module SSO
   class Signo < Base
     attr_reader :env, :headers
-
-    def initialize(controller)
-      super
-      @env = request.env
-      @headers = controller.headers
-    end
+    delegate :env, :to => :request
+    delegate :headers, :to => :controller
 
     def available?
-      Setting['signo_sso']
+      Setting['signo_sso'] && defined?(Rack::OpenID)
     end
 
     def support_login?
