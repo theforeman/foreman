@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HostMailerTest < ActionMailer::TestCase
   def setup
+    disable_orchestration
     @host = hosts(:one)
     @env = environments(:production)
     as_admin do
