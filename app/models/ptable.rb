@@ -11,6 +11,7 @@ class Ptable < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :layout
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
+  validates_inclusion_of :os_family, :in => Operatingsystem.families, :allow_nil => true
   default_scope :order => 'LOWER(ptables.name)'
 
   scoped_search :on => :name, :complete_value => true, :default_order => true
@@ -20,6 +21,10 @@ class Ptable < ActiveRecord::Base
   def as_json(options={})
     options ||= {}
     super({:only => [:name, :id]}.merge(options))
+  end
+
+  def os_family=(value)
+    super(value.blank? ? nil : value)
   end
 
 end
