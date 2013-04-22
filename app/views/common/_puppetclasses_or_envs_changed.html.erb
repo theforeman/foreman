@@ -1,5 +1,5 @@
 <% title _("Changed environments and puppet classes") -%>
-<%= form_tag "/#{controller_path}/obsolete_and_new" do -%>
+<%= form_tag eval("obsolete_and_new_#{controller_name}_path") do -%>
   <fieldset>
     <legend><%= _("Accept these environment changes found in puppet?") %> </legend>
       <table class="table table-striped">
@@ -26,7 +26,7 @@
     </table>
   </fieldset>
   <div>
-    <%= link_to _("Cancel"),"/" + controller_path, :class => "btn" %>
+    <%= link_to _("Cancel"), eval("#{controller_name}_path"), :class => "btn" %>
     <%= submit_tag _("Update"), :class => "btn btn-primary" %>
   </div>
 <% end -%>
