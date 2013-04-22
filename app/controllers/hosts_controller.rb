@@ -123,7 +123,7 @@ class HostsController < ApplicationController
 
   # form AJAX methods
   def compute_resource_selected
-    compute = ComputeResource.find(params[:compute_resource_id]) if params[:compute_resource_id].to_i > 0
+    compute = ComputeResource.find_by_id(params[:compute_resource_id])
     render :partial => "compute", :locals => {:compute_resource => compute} if compute
   end
 
