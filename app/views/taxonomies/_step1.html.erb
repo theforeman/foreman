@@ -1,7 +1,7 @@
 <%= form_for taxonomy do |f| %>
     <%= base_errors_for taxonomy %>
     <%= wizard_header 1, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Edit Properties") %>
-    <%= text_f f, :name, :label => _("Name"), :class => "input-xlarge" %>
+    <%= text_f f, :name, :class => "input-xlarge" %>
 
     <%= submit_or_cancel f %>
 

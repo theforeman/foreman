@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+pushd config/locales
 I18N_BRANCH="rails-3-x"
 TMP=$(mktemp)
 for FILE in *yml; do
@@ -12,3 +13,4 @@ for FILE in *yml; do
   fi
 done
 rm -f $TMP
+popd

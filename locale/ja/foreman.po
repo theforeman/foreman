@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 11:03+0200\n"
+"POT-Creation-Date: 2013-04-22 16:30+0200\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -151,13 +151,6 @@ msgstr ""
 msgid "Access Key"
 msgstr ""
 
-msgid "Account"
-msgstr ""
-
-#, fuzzy
-msgid "Account Password"
-msgstr "パスワード"
-
 msgid "Acquiring IP address for %s"
 msgstr ""
 
@@ -221,19 +214,10 @@ msgstr ""
 msgid "Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab."
 msgstr ""
 
-msgid "Admin"
-msgstr ""
-
-msgid "Administrator"
-msgstr ""
-
 msgid "After you have decided on the two primary modes of operation and performed any appropriate imports then it would be good idea if you visited some of the other configuration pages to see if additional setup is required under the Additional settings select box on the top right."
 msgstr ""
 
 msgid "Alert"
-msgstr ""
-
-msgid "Alerts Enabled"
 msgstr ""
 
 msgid "Alerts disabled"
@@ -305,6 +289,9 @@ msgstr ""
 msgid "Applicable<br>Operating Systems"
 msgstr ""
 
+msgid "Applied"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr ""
@@ -359,18 +346,6 @@ msgid "At present, authentication is performed against the internal Database or 
 msgstr ""
 
 msgid "Attempting to construct an operating system image filename but %s cannot be built from an image"
-msgstr ""
-
-msgid "Attr Firstname"
-msgstr ""
-
-msgid "Attr Lastname"
-msgstr ""
-
-msgid "Attr Login"
-msgstr ""
-
-msgid "Attr Mail"
 msgstr ""
 
 msgid "Audit Comment"
@@ -477,9 +452,6 @@ msgid "AuthSource|Tls"
 msgstr ""
 
 msgid "Authentication Source Configuration"
-msgstr ""
-
-msgid "Authentication URL"
 msgstr ""
 
 msgid "Authorize login delegation with REMOTE_USER environment variable"
@@ -719,7 +691,7 @@ msgstr ""
 msgid "ComputeResource|Uuid"
 msgstr ""
 
-msgid "Config Path"
+msgid "Config Retrieval"
 msgstr ""
 
 msgid "Config Template"
@@ -772,9 +744,6 @@ msgid "Create Reverse DNS record for %s"
 msgstr ""
 
 msgid "Create a Smart Proxy"
-msgstr ""
-
-msgid "Custom Disk layout"
 msgstr ""
 
 #. host's status: first character of "disabled"
@@ -830,9 +799,6 @@ msgid "Datacenter"
 msgstr ""
 
 msgid "Default Puppet server hostname"
-msgstr ""
-
-msgid "Default Value"
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts (default is 123123)"
@@ -1142,6 +1108,9 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
+msgid "Failed restarts"
+msgstr ""
+
 msgid "Failed to %{action} %{vm}: %{e}"
 msgstr ""
 
@@ -1229,9 +1198,6 @@ msgstr ""
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
-msgid "Family"
-msgstr ""
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
 msgstr ""
@@ -1262,9 +1228,6 @@ msgid "Filters"
 msgstr ""
 
 msgid "Fingerprint"
-msgstr ""
-
-msgid "First Name"
 msgstr ""
 
 msgid "Fix %s on Mismatch"
@@ -1321,12 +1284,6 @@ msgstr ""
 msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
 msgstr ""
 
-msgid "From IP"
-msgstr ""
-
-msgid "Full Name"
-msgstr ""
-
 msgid "Full name describing the domain"
 msgstr ""
 
@@ -1334,9 +1291,6 @@ msgid "Full trace"
 msgstr ""
 
 msgid "Future content goes here!"
-msgstr ""
-
-msgid "Gateway"
 msgstr ""
 
 msgid "General"
@@ -1370,9 +1324,6 @@ msgid "Hardware Model"
 msgstr ""
 
 msgid "Hardware Models"
-msgstr ""
-
-msgid "Hardware model"
 msgstr ""
 
 msgid "Help"
@@ -1592,12 +1543,6 @@ msgstr ""
 msgid "Howtos"
 msgstr ""
 
-msgid "IAM Role"
-msgstr ""
-
-msgid "IP"
-msgstr ""
-
 msgid "IP Address"
 msgstr ""
 
@@ -1639,9 +1584,6 @@ msgid "Image ID"
 msgstr ""
 
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr ""
-
-msgid "Image Path"
 msgstr ""
 
 msgid "Images"
@@ -1710,9 +1652,6 @@ msgid "Included Parameters via inheritance"
 msgstr ""
 
 msgid "Incorrect username or password"
-msgstr ""
-
-msgid "Info"
 msgstr ""
 
 msgid "Installation Media"
@@ -1784,15 +1723,6 @@ msgstr ""
 msgid "LDAP user will have his Foreman account automatically created the first time he logs into Foreman"
 msgstr ""
 
-msgid "LDAPS"
-msgstr ""
-
-msgid "Last Login"
-msgstr ""
-
-msgid "Last Name"
-msgstr ""
-
 msgid "Last report"
 msgstr ""
 
@@ -1800,9 +1730,6 @@ msgid "Last updated %s ago"
 msgstr ""
 
 msgid "Latest Events"
-msgstr ""
-
-msgid "Layout"
 msgstr ""
 
 msgid "Level"
@@ -1848,9 +1775,6 @@ msgid "Logged out - See you soon"
 msgstr ""
 
 msgid "Logged-in"
-msgstr ""
-
-msgid "Login"
 msgstr ""
 
 msgid "Login &#187;"
@@ -1916,9 +1840,6 @@ msgstr ""
 msgid "LookupValue|Value"
 msgstr ""
 
-msgid "MAC"
-msgstr ""
-
 msgid "MAC Address"
 msgstr ""
 
@@ -1928,13 +1849,7 @@ msgstr ""
 msgid "Machine Type"
 msgstr ""
 
-msgid "Mail"
-msgstr ""
-
 msgid "Mail is Required"
-msgstr ""
-
-msgid "Major"
 msgstr ""
 
 msgid "Manage Bookmarks"
@@ -1949,9 +1864,6 @@ msgstr ""
 msgid "Manually select and assign Hosts with No %s"
 msgstr ""
 
-msgid "Match"
-msgstr ""
-
 msgid "Matcher"
 msgstr ""
 
@@ -1962,9 +1874,6 @@ msgid "Max days for Trends graphs"
 msgstr ""
 
 msgid "Media"
-msgstr ""
-
-msgid "Media Path"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -2014,9 +1923,6 @@ msgid "Message|Value"
 msgstr ""
 
 msgid "Metrics"
-msgstr ""
-
-msgid "Minor"
 msgstr ""
 
 msgid "Minutes Ago"
@@ -2083,9 +1989,6 @@ msgid "Name"
 msgstr ""
 
 msgid "Nest"
-msgstr ""
-
-msgid "Netmask"
 msgstr ""
 
 msgid "Netmask for this subnet"
@@ -2403,12 +2306,6 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-msgid "On the fly Register"
-msgstr ""
-
-msgid "On-the-fly user creation"
-msgstr ""
-
 msgid "Once installed you should head over to"
 msgstr ""
 
@@ -2538,9 +2435,6 @@ msgstr ""
 msgid "Out of sync"
 msgstr ""
 
-msgid "Override"
-msgstr ""
-
 msgid "Override Value"
 msgstr ""
 
@@ -2573,9 +2467,6 @@ msgid "P"
 msgstr ""
 
 msgid "PXE Default file has been deployed to all Smart Proxies"
-msgstr ""
-
-msgid "Page"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -2623,9 +2514,6 @@ msgstr ""
 
 msgid "Password"
 msgstr "パスワード"
-
-msgid "Path"
-msgstr ""
 
 msgid "Pending"
 msgstr ""
@@ -2678,9 +2566,6 @@ msgstr ""
 msgid "Please wait..."
 msgstr ""
 
-msgid "Port"
-msgstr ""
-
 msgid "Power"
 msgstr ""
 
@@ -2703,9 +2588,6 @@ msgid "Preview"
 msgstr ""
 
 msgid "Primary"
-msgstr ""
-
-msgid "Primary DNS"
 msgstr ""
 
 msgid "Primary Interface"
@@ -2758,9 +2640,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
-msgstr ""
-
-msgid "Public"
 msgstr ""
 
 msgid "Puppet"
@@ -2828,9 +2707,6 @@ msgstr ""
 msgid "Puppetclass|Name"
 msgstr ""
 
-msgid "Query"
-msgstr ""
-
 msgid "Querying instance details for %s"
 msgstr ""
 
@@ -2838,9 +2714,6 @@ msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current fa
 msgstr ""
 
 msgid "Region"
-msgstr ""
-
-msgid "Release Name"
 msgstr ""
 
 msgid "Remove %s?"
@@ -2931,6 +2804,9 @@ msgstr ""
 msgid "Restart<br>Failures"
 msgstr ""
 
+msgid "Restarted"
+msgstr ""
+
 msgid "Review"
 msgstr ""
 
@@ -2955,10 +2831,6 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role|Permissions"
 msgstr ""
-
-#, fuzzy
-msgid "Root Password"
-msgstr "パスワード"
 
 msgid "Run Puppet"
 msgstr ""
@@ -3002,9 +2874,6 @@ msgid "Scope"
 msgstr ""
 
 msgid "Search"
-msgstr ""
-
-msgid "Secondary DNS"
 msgstr ""
 
 msgid "Secret Key"
@@ -3155,6 +3024,9 @@ msgstr ""
 msgid "Skip Assign Hosts and Proceed to Edit %s Settings"
 msgstr ""
 
+msgid "Skipped"
+msgstr ""
+
 msgid "Smart Class Parameter"
 msgstr ""
 
@@ -3183,9 +3055,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Url"
-msgstr ""
-
-msgid "Snippet"
 msgstr ""
 
 msgid "Some or all hosts execution failed, Please check log files for more information"
@@ -3331,9 +3200,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Name"
-msgstr ""
-
-msgid "Template"
 msgstr ""
 
 msgid "Template / Hardware Profile to use"
@@ -3519,9 +3385,6 @@ msgid "Time in Seconds"
 msgstr ""
 
 msgid "Time in minutes installation tokens should be valid for, 0 to disable"
-msgstr ""
-
-msgid "To IP"
 msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button."
@@ -3815,9 +3678,6 @@ msgstr ""
 msgid "VCenter/Server"
 msgstr ""
 
-msgid "VLAN"
-msgstr ""
-
 msgid "Valid Host group and Environment Combinations"
 msgstr ""
 
@@ -3827,19 +3687,10 @@ msgstr ""
 msgid "Validation types"
 msgstr ""
 
-msgid "Validator Rule"
-msgstr ""
-
-msgid "Validator Type"
-msgstr ""
-
 msgid "Value"
 msgstr ""
 
 msgid "Variable"
-msgstr ""
-
-msgid "Vendor Class"
 msgstr ""
 
 msgid "Vendor class"
@@ -4059,9 +3910,6 @@ msgid "does not belong to subnet"
 msgstr ""
 
 msgid "domain %s already has a subnet with this name"
-msgstr ""
-
-msgid "e-mail"
 msgstr ""
 
 msgid "e-mail reporting"
@@ -4343,3 +4191,11 @@ msgstr ""
 
 msgid "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Account Password"
+#~ msgstr "パスワード"
+
+#, fuzzy
+#~ msgid "Root Password"
+#~ msgstr "パスワード"

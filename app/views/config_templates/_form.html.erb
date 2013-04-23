@@ -10,8 +10,8 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
-        <%= text_f f, :name, :label => _("Name") %>
-        <%= checkbox_f f, :snippet, :label => _("Snippet"), :onchange => "snippet_changed(this)" %>
+        <%= text_f f, :name %>
+        <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)" %>
 
         <div id="kind_selector" <%= display? @config_template.snippet %>>
           <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true}, {:label => _("Type")} %>
@@ -34,7 +34,7 @@
         <%= textarea_f f, :template, :class => "span12 template_text", :fluid=>true, :label => _("Template editor"), :'data-file-name' => @config_template.name %>
 
 
-        <%= file_field_f f, :template, :class => "template_file span4", :label => _("Template"),
+        <%= file_field_f f, :template, :class => "template_file span4", 
                          :help_block  => _("Selecting a file will override the editor and load the file instead") %>
         <%= textarea_f f, :audit_comment, :class => "span12", :fluid=>true, :rows => 3, :label => _("Audit Comment"),
                        :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>

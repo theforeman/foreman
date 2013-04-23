@@ -4,7 +4,7 @@
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= _('Name') -%></th>
+    <th><%= s_('Hostgroup|Name') -%></th>
     <th></th>
   </tr>
   <% Hostgroup.sort_by_ancestry(@hostgroups).each do |hostgroup| %>

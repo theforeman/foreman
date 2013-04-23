@@ -30,9 +30,19 @@ if SETTINGS[:mark_translated] and not Rails.env.test?
   module FastGettext
     module Translation
       alias :old_ :_
+      alias :olds_ :s_
+      alias :oldn_ :n_
 
-      def _(key)
-        "X" + old_(key) + "X"
+      def _(*args)
+        "X" + old_(*args) + "X"
+      end
+
+      def s_(*args)
+        "X" + olds_(*args) + "X"
+      end
+
+      def n_(*args)
+        "X" + oldn_(*args) + "X"
       end
     end
   end

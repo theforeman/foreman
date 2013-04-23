@@ -2,7 +2,7 @@
   <%= field_set_tag _("Interface").html_safe + " #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => _('remove network interface'), :'data-placement' => 'left',
                                                              :class => 'fr badge badge-important'})}".html_safe, :id => "interface" do -%>
     <%= selectable_f f, :type, [[_("Interface"), Nic::Managed],[_("BMC"), Nic::BMC]], {}, :class => 'interface_type', :disabled => !f.object.new_record? %>
-    <%= text_f f, :mac, :label => _("MAC") %>
+    <%= text_f f, :mac %>
     <%= text_f f, :name, :help_inline => _("DNS name") %>
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
                  { :include_blank => accessible_domains.any? ? true : _("No domains")},
@@ -14,7 +14,7 @@
                  { :disabled => domain_subnets.empty? ? true : false,
                    :help_inline => image_tag("/assets/spinner.gif", :class => "indicator hide"),
                    :class => 'interface_subnet', :'data-url' => freeip_subnets_path } %>
-    <%= text_f f, :ip, :label => _("IP")  %>
+    <%= text_f f, :ip  %>
 
     <%# hack to get BMC attributes show up without AJAX -%>
     <%= content_tag :span, :id => 'bmc_fields', :class => f.object.is_a?(Nic::BMC) ? '' : 'hide' do %>

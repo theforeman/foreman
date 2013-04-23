@@ -6,7 +6,7 @@
       <th><%= sort :host, :as => _("Host") %></th>
     <% end %>
     <th><%= sort :name, :as => _("Name")  %></th>
-    <th><%= sort :value, :as => _("Value") %></th>
+    <th><%= sort :value, :as => s_("FactValue|Value") %></th>
     <th><%= _('Reported at') -%></th>
   </tr>
   <% for fact_value in @fact_values %>

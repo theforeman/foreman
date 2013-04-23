@@ -9,10 +9,10 @@
 <table class="table table-bordered table-striped">
   <tr>
     <tr>
-    <th><%= sort :name, :as => _("Name") %></th>
+    <th><%= sort :name, :as => s_("ConfigTemplate|Name") %></th>
     <th><%= _("Hostgroup / Environment") %></th>
     <th><%= sort :kind, :as => _("Kind") %></th>
-    <th><%= sort :snippet, :as => _("Snippet") %></th>
+    <th><%= sort :snippet, :as => s_("ConfigTemplate|Snippet") %></th>
     <th></th>
   </tr>
   <% for config_template in @config_templates %>

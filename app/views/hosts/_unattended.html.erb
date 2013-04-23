@@ -5,7 +5,7 @@
 <div class="tab-pane"  id="network">
   <%= field_set_tag _("Primary Interface"), :id => "primary_interface" do -%>
     <div id="mac_address" <%= display? @host.compute_resource_id %> >
-      <%= text_f f, :mac, :label => _("MAC"), :help_inline => _("MAC address for this host"), :autocomplete => 'off' %>
+      <%= text_f f, :mac, :help_inline => _("MAC address for this host"), :autocomplete => 'off' %>
     </div>
 
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
@@ -16,7 +16,7 @@
         <span id="subnet_select">
           <%= render 'common/domain', :item => @host %>
         </span>
-        <%= text_f f, :ip, :help_inline => _("IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you"), :label => _("IP") , :autocomplete => 'off'%>
+        <%= text_f f, :ip, :help_inline => _("IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you") , :autocomplete => 'off'%>
         <%# the following field is required to see child validations %>
         <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
         <%= f.fields_for :interfaces do |interfaces| %>

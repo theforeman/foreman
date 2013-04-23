@@ -4,10 +4,10 @@
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= _("Name") %></th>
-    <th><%= _("Host") %></th>
-    <th><%= _("On the fly Register") %></th>
-    <th><%= _("LDAPS") %></th>
+    <th><%= s_("AuthSource|Name") %></th>
+    <th><%= s_("AuthSource|Host") %></th>
+    <th><%= s_("AuthSource|Onthefly register") %></th>
+    <th><%= s_("AuthSource|Tls") %></th>
     <th></th>
   </tr>
   <% for auth_source_ldap in @auth_source_ldaps %>

@@ -1,5 +1,5 @@
-<%= text_f f, :url, :label => _("Authentication URL"), :class => "input-xlarge", :help_block => _("e.g. https://identity.api.rackspacecloud.com") %>
-<%= text_f f, :user, :label => _("Username") %>
+<%= text_f f, :url, :class => "input-xlarge", :help_block => _("e.g. https://identity.api.rackspacecloud.com") %>
+<%= text_f f, :user %>
 <%= password_f f, :password, :label => _("API Key") %>
 <% flavors = f.object.flavors rescue [] -%>
 <%= selectable_f(f, :region, f.object.regions, {}, {:label => _('Region'),

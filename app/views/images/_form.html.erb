@@ -8,7 +8,7 @@
   <%= image_field(f) %>
   <% if @compute_resource.provider == 'EC2' %>
     <%# TODO - Get IAM roles from AWS and display in select drop %>
-    <%= text_f f, :iam_role, :label => _("IAM Role"), :help_inline => _("(optional) IAM Role for Fog to use when creating this image.") %>
+    <%= text_f f, :iam_role, :help_inline => _("(optional) IAM Role for Fog to use when creating this image.") %>
   <% end %>
 
   <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>

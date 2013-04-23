@@ -11,9 +11,9 @@
       <div class="tab-pane <%= "active" if category == @settings.first.category  %>" id='<%= category %>' >
         <table class="table table-bordered table-striped">
           <tr>
-            <th><%= _("Name") %></th>
-            <th><%= _("Value") %></th>
-            <th><%= _("Description") %></th>
+            <th><%= s_("Setting|Name") %></th>
+            <th><%= s_("Setting|Value") %></th>
+            <th><%= s_("Setting|Description") %></th>
           </tr>
           <% setting.each do |item| %>
             <tr>
