@@ -8,7 +8,7 @@ class Puppetclass < ActiveRecord::Base
   has_many :host_classes, :dependent => :destroy
   has_many_hosts :through => :host_classes
 
-  has_many :lookup_keys, :inverse_of => :puppetclass
+  has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   # param classes
   has_many :class_params, :through => :environment_classes, :uniq => true,
@@ -19,8 +19,7 @@ class Puppetclass < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
   audited :allow_mass_assignment => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
-  before_destroy EnsureNotUsedBy.new(:hostgroups)
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   default_scope :order => 'puppetclasses.name'
 
   scoped_search :on => :name, :complete_value => :true

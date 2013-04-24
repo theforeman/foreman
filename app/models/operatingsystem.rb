@@ -5,6 +5,7 @@ class Operatingsystem < ActiveRecord::Base
   include Authorization
 
   has_many_hosts
+  has_many :hostgroups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
@@ -26,7 +27,7 @@ class Operatingsystem < ActiveRecord::Base
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   before_save :deduce_family
   audited :allow_mass_assignment => true
   default_scope :order => 'LOWER(operatingsystems.name)'

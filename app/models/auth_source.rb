@@ -18,6 +18,7 @@
 class AuthSource < ActiveRecord::Base
   include Authorization
   has_many :users
+  before_destroy EnsureNotUsedBy.new(:users)
 
   validates_presence_of :name
   validates_uniqueness_of :name

@@ -13,8 +13,8 @@ class Hostgroup < ActiveRecord::Base
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many_hosts
   before_destroy EnsureNotUsedBy.new(:hosts)
+  has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
-  has_many :template_combinations
   before_save :remove_duplicated_nested_class
   before_save :set_label, :on => [:create, :update, :destroy]
   after_save :set_other_labels, :on => [:update, :destroy]

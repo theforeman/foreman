@@ -1,6 +1,7 @@
 module Foreman::Model
   class EC2 < ComputeResource
-    has_one :key_pair, :foreign_key => :compute_resource_id
+    has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
+
 
     validates_presence_of :user, :password
     after_create :setup_key_pair
