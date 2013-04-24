@@ -1,8 +1,7 @@
 begin
-  testtool = RUBY_VERSION =~ /^1\.8/ ? 'test_unit' : 'minitest'
-  require "ci/reporter/rake/#{testtool}"
+  require "ci/reporter/rake/minitest"
   namespace :jenkins do
-    task :unit => ["jenkins:setup:#{testtool}", 'rake:test']
+    task :unit => ["jenkins:setup:minitest", 'rake:test']
 
     namespace :setup do
       task :pre_ci do
@@ -10,7 +9,6 @@ begin
         gem 'ci_reporter'
       end
       task :minitest  => [:pre_ci, "ci:setup:minitest"]
-      task :test_unit => [:pre_ci, "ci:setup:testunit"]
     end
   end
 rescue LoadError

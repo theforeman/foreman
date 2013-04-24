@@ -1,4 +1,3 @@
-require "test/unit"
 require 'test_helper'
 require "mocha/setup"
 
@@ -74,9 +73,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "boot function should not raise nomethod exception when function does exist" do
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
-    assert_nothing_raised do
-        @testbmc.boot_pxe(@options)
-      end
+    @testbmc.boot_pxe(@options)
   end
 
   test "boot function should create correct url for bootdevice pxe" do
@@ -86,7 +83,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.boot_pxe(@options)
-
   end
 
   test "boot function should create correct url for bootdevice disk" do

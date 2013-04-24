@@ -7,7 +7,6 @@ group :development do
     gem "ruby-debug19", :platforms => :ruby_19, :require => false
   end
   gem 'maruku'
-  gem 'single_test'
   gem 'pry'
   gem "term-ansicolor"
 #  gem 'rack-mini-profiler'

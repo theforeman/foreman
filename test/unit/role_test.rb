@@ -15,21 +15,56 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require "test_helper"
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles
 
-    should have_many(:user_roles)
-    should have_many(:users).through(:user_roles)
+  it "should respond_to user_roles" do
+    role = roles(:manager)
+    role.must_respond_to :user_roles
+    role.must_respond_to :users
+  end
 
-    should validate_presence_of(:name)
-    should validate_uniqueness_of(:name)
-    should ensure_length_of(:name).is_at_most(30)
-    should allow_value("a role name").for(:name)
-    should_not allow_value(";a role name").for(:name)
-    should_not allow_value(" a role name").for(:name)
-    should_not allow_value("a role name ").for(:name)
+  it "should have unique name" do
+    # Manager is in role fixtures
+    Role.new(:name => "Manager").wont_be :valid?
+    role = Role.new(:name => "Supervisor")
+    role.must_be :valid?
+  end
+
+  it "should not be valid without a name" do
+    role = Role.new(:name => "")
+    role.wont_be :valid?
+  end
+
+  it "should ensure length of name is at most 30" do
+    thirty = 'abcdefghijklmnopqrstuvwxyz1234'
+    thirtyone = 'abcdefghijklmnopqrstuvwxyz12345'
+    role = Role.new(:name => thirty)
+    role.must_be :valid?
+    role = Role.new(:name => thirtyone)
+    role.wont_be :valid?
+  end
+
+  it "should allow value 'a role name' for name" do
+    role = Role.new(:name => "a role name")
+    role.must_be :valid?
+  end
+
+  it "should not allow semi colon in name" do
+    role = Role.new(:name => ";a role name")
+    role.wont_be :valid?
+  end
+
+  it "should not allow a leading space on name" do
+    role = Role.new(:name => " a role name")
+    role.wont_be :valid?
+  end
+
+  it "should not allow a trailing space on name" do
+    role = Role.new(:name => "a role name ")
+    role.wont_be :valid?
+  end
 
   def test_add_permission
     role = Role.find(1)

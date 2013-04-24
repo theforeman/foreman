@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'spork'
-#uncomment the following line to use spork with the debugger
-#require 'spork/ext/ruby-debug'
+# $LOAD_PATH required for testdrb party of spork-minitest
+$LOAD_PATH << "test"
 
 unless RUBY_VERSION =~ /^1\.8/
   require 'simplecov'
@@ -18,25 +18,33 @@ Spork.prefork do
   ENV["RAILS_ENV"] = "test"
   require File.expand_path('../../config/environment', __FILE__)
   require 'rails/test_help'
+  require "minitest/autorun"
   require 'capybara/rails'
+
+  # Turn of Apipie validation for tests
+  Apipie.configuration.validate = false
 
   class ActiveSupport::TestCase
     # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-    #
     # Note: You'll currently still have to declare fixtures explicitly in integration tests
     # -- they do not yet inherit this setting
-
     fixtures :all
-
     set_fixture_class({ :hosts => Host::Base })
-    # Add more helper methods to be used by all tests here...
 
+    # for backwards compatibility to between Minitest syntax
+    alias :assert_not       :refute
+    alias :assert_no_match  :refute_match
+    alias :assert_not_nil   :refute_nil
+    alias :assert_not_equal :refute_equal
+    alias :assert_raise     :assert_raises
+
+    # Add more helper methods to be used by all tests here...
     def logger
       Rails.logger
     end
 
-    class Test::Unit::TestCase
-      include RR::Adapters::TestUnit
+    class MiniTest::Unit::TestCase
+      include RR::Adapters::MiniTest
     end
 
     def set_session_user
@@ -100,8 +108,6 @@ Spork.prefork do
     end
   end
 
-  Apipie.configuration.validate = false
-
   # Transactional fixtures do not work with Selenium tests, because Capybara
   # uses a separate server thread, which the transactions would be hidden
   # from. We hence use DatabaseCleaner to truncate our test database.
@@ -115,9 +121,11 @@ Spork.prefork do
     self.use_transactional_fixtures = false
   end
 
+  class ActionView::TestCase
+    helper Rails.application.routes.url_helpers
+  end
+
 end
-
-
 
 Spork.each_run do
   # This code will be run each time you run your specs.
@@ -136,9 +144,7 @@ Spork.each_run do
 
   class ActionDispatch::IntegrationTest
 
-    def setup
-      login_admin
-    end
+    setup :login_admin
 
     teardown do
       DatabaseCleaner.clean       # Truncate the database
@@ -153,10 +159,6 @@ Spork.each_run do
       fill_in "login_login", :with => "admin"
       fill_in "login_password", :with => "secret"
       click_button "Login"
-    end
-
-    def logout_admin
-      click_link "Sign Out"
     end
 
   end

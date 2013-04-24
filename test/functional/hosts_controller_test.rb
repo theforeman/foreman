@@ -214,7 +214,7 @@ class HostsControllerTest < ActionController::TestCase
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert_contains @response.body, /#{@host1.shortname}/
+    assert_match /#{@host1.shortname}/, @response.body
   end
 
   test 'user with edit host rights and domain is set should fail to view host2' do
