@@ -102,6 +102,7 @@ Foreman::Application.configure do
                   trends
                   charts
                   taxonomy
+                  gettext/all
                  )
   stylesheets = %w( )
 

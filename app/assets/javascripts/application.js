@@ -1,4 +1,5 @@
 //= require jquery
+//= require i18n
 //= require jquery_ujs
 //= require jquery.ui.autocomplete
 //= require scoped_search
@@ -170,8 +171,8 @@ $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
     indicator   : "<img src='/assets/spinner.gif' />",
-    tooltip     : 'Click to edit..',
-    placeholder : 'Click to edit..',
+    tooltip     : _('Click to edit..'),
+    placeholder : _('Click to edit..'),
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
     onedit      : function(data) { $(this).removeClass("editable"); },
     callback    : function(value, settings) { $(this).addClass("editable"); },
@@ -227,7 +228,7 @@ $(function() {
     var query = encodeURI($("#search").val());
     var url = $("#bookmark").attr('data-url');
     $("#bookmarks-modal .modal-body").empty();
-    $("#bookmarks-modal .modal-body").append("<span id='loading'>Loading ...</span>");
+    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + _('Loading ...') + "</span>");
     $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
                                            function(response, status, xhr) {
                                              $("#loading").hide();

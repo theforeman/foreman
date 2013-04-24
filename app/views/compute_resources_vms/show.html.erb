@@ -1,8 +1,8 @@
 <div class='row'>
   <%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
 </div>
-<% title_actions display_link_if_authorized("Power#{state(@vm.ready?)}", hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.id), :confirm => _('Are you sure?'), :method => :put, :class=>'btn ' + (@vm.ready? ? "btn-danger" : "btn-success")),
+<% title_actions display_link_if_authorized(_("Power %s") % state(@vm.ready?), hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.id), :confirm => _('Are you sure?'), :method => :put, :class=>'btn ' + (@vm.ready? ? "btn-danger" : "btn-success")),
    display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.id), :class=>'btn btn-danger'),
-   show_console_action(@vm.ready?, link_to_if_authorized("Console", hash_for_console_compute_resource_vm_path, {:disabled => @vm.nil? || !@vm.ready?, :class => "btn btn-info"})),
-   link_to("Back", compute_resource_path(@compute_resource), :class=>'btn')
+   show_console_action(@vm.ready?, link_to_if_authorized(_("Console"), hash_for_console_compute_resource_vm_path, {:disabled => @vm.nil? || !@vm.ready?, :class => "btn btn-info"})),
+   link_to(_("Back"), compute_resource_path(@compute_resource), :class=>'btn')
 %>

@@ -14,7 +14,7 @@
   <% @certificates.each do |cert| -%>
       <tr>
         <td><%= cert.name %> </td>
-        <td><%= cert.state %></td>
+        <td><%= _(cert.state) %></td>
         <td><%= time_column cert.valid_from %></td>
         <td><%= time_column cert.expires_at, :tense => :future %></td>
         <td><%= cert.fingerprint %></td>

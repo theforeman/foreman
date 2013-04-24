@@ -149,7 +149,7 @@ function add_puppet_class(item){
 
   var link = content.children('a');
   link.attr('onclick', 'remove_puppet_class(this)');
-  link.attr('data-original-title', 'Click to undo adding this class');
+  link.attr('data-original-title', _('Click to undo adding this class'));
   link.removeClass('icon-plus-sign').addClass('icon-remove-sign').tooltip();
 
   $('#selected_classes').append(content);
@@ -185,7 +185,7 @@ function load_puppet_class_parameters(item) {
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
-      '<td colspan="5"><p><img src="/assets/spinner.gif" alt="Wait" /> Loading parameters...</p></td>'+'</tr>');
+      '<td colspan="5"><p><img src="/assets/spinner.gif" alt="' + _('Wait') + '" /> ' + _('Loading parameters...') + '</p></td>'+'</tr>');
   $('#inherited_puppetclasses_parameters').append(placeholder);
   $.ajax({
     url: url,
@@ -434,7 +434,7 @@ function reload_puppetclass_params(){
 function load_with_placeholder(target, url, data){
   if(url==undefined) return;
   var placeholder = $('<tr id="' + target + '_loading" >'+
-            '<td colspan="4"><p><img src="/assets/spinner.gif" alt="Wait" /> Loading parameters...</p></td></tr>');
+            '<td colspan="4"><p><img src="/assets/spinner.gif" alt="' + _('Wait') + '" /> ' + _('Loading parameters...') + '</p></td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);
         $.ajax({
           type:'post',
@@ -495,7 +495,7 @@ function interface_domain_selected(element) {
 
   subnet_options.attr('disabled', true);
   if (domain_id == '') {
-    subnet_options.append($("<option />").val(null).text('No subnets'));
+    subnet_options.append($("<option />").val(null).text(_('No subnets')));
     return false;
   }
 
@@ -513,7 +513,7 @@ function interface_domain_selected(element) {
     dataType:'json',
     success:function (result) {
       if (result.length > 1)
-        subnet_options.append($("<option />").val(null).text('Please select'));
+        subnet_options.append($("<option />").val(null).text(_('Please select')));
 
       $.each(result, function () {
         subnet_options.append($("<option />").val(this.subnet.id).text(this.subnet.name + ' (' + this.subnet.to_label + ')'));
@@ -523,7 +523,7 @@ function interface_domain_selected(element) {
         subnet_options.change();
       }
       else {
-        subnet_options.append($("<option />").text('No subnets'));
+        subnet_options.append($("<option />").text(_('No subnets')));
         subnet_options.attr('disabled', true);
       }
       indicator.addClass('hide');

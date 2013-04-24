@@ -37,7 +37,7 @@
   <div id="vms" class="tab-pane" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
     <p id="spinner">
       <%= image_tag '/assets/spinner.gif' %>
-      Loading Virtual Machines information ...
+      <%= _('Loading Virtual Machines information ...') %>
     </p>
   </div>
   <% if @compute_resource.capabilities.include?(:image) -%>

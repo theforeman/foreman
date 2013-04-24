@@ -9,7 +9,7 @@ $(function () {
   var password = $('#spice-area').data('password');
 
   if ((!host) || (!port)) {
-    console.log("must set host and port");
+    console.log(_("must set host and port"));
     return;
   }
 
@@ -30,7 +30,7 @@ function spice_error(e) {
 }
 
 function spice_success(m) {
-  $('#spice-status').text($('#spice-status').text().replace('Connecting','Connected'));
+  $('#spice-status').text(Jed.sprintf(_('Connected (unencrypted) to: %s'), $('#spice-status').attr('data-host')))
   $('#spice-status').addClass('label-success');
 }
 

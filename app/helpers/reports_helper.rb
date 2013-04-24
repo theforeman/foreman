@@ -20,7 +20,7 @@ module ReportsHelper
   end
 
   def metric m
-    m.round(4) rescue "N/A"
+    m.round(4) rescue _("N/A")
   end
 
   def report_tag level

@@ -136,16 +136,16 @@ module HostsHelper
       config  << [r.reported_at.to_i*1000, r.config_retrieval]
       runtime << [r.reported_at.to_i*1000, r.runtime]
     end
-    [{:label=>_("Config Retrieval"), :data=> config, :color=>'#AA4643'},{:label=>"Runtime", :data=> runtime,:color=>'#4572A7'}]
+    [{:label=>_("Config Retrieval"), :data=> config, :color=>'#AA4643'},{:label=>_("Runtime"), :data=> runtime,:color=>'#4572A7'}]
   end
 
   def reports_show
     return unless @host.reports.size > 0
     form_tag @host, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
-      content_tag(:span, _("Reports from the last") + ' ') +
-      select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-            {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}).html_safe +
-            ' ' + _("days - %s reports found") % @host.reports.recent(@range.days.ago).count
+      content_tag(:span, (_("Reports from the last %{days} days - %{count} reports found") %
+        { :days  => select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
+                    {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
+          :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end
 

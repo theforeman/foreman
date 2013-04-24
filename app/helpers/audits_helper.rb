@@ -4,10 +4,10 @@ module AuditsHelper
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label name, change
-    return "N/A" if change.nil?
+    return _("N/A") if change.nil?
     case name
       when "ancestry"
-        change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue "NA" }.join('/')
+        change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
       when 'last_login_on'
         change.to_s(:short)
       when /.*_id$/
@@ -17,7 +17,7 @@ module AuditsHelper
         change.to_s
     end.truncate(50)
   rescue
-    "N/A"
+    _("N/A")
   end
 
   def audit_title audit
@@ -40,7 +40,7 @@ module AuditsHelper
         if name == 'template'
           (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
         elsif name == "owner_id" || name == "owner_type"
-          _("Owner changed to %s") % (audit.revision.owner rescue 'N/A')
+          _("Owner changed to %s") % (audit.revision.owner rescue _('N/A'))
         else
           _("%{name} changed from %{label1} to %{label2}") % { :name => name.humanize, :label1 => id_to_label(name, change[0]), :label2 => id_to_label(name, change[1]) }
         end
@@ -83,7 +83,7 @@ module AuditsHelper
   end
 
   def audit_time audit
-    content_tag :span, time_ago_in_words(audit.created_at) + " ago",
+    content_tag :span, _("%s ago") % time_ago_in_words(audit.created_at),
                 { :'data-original-title' => audit.created_at.to_s(:long), :rel => 'twipsy' }
   end
 

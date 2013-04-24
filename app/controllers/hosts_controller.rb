@@ -240,7 +240,7 @@ class HostsController < ApplicationController
       end
       process_success :success_msg => msg, :success_redirect => :back
     else
-      process_error :error_msg => "Failed to modify the build cycle for #{@host}", :redirect => :back
+      process_error :error_msg => _("Failed to modify the build cycle for %s") % @host.name, :redirect => :back
     end
   end
 

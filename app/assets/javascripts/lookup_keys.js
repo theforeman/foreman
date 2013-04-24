@@ -81,7 +81,7 @@ function add_child_node(item) {
     var field   = '';
     if (assoc == 'lookup_keys') {
       $('#smart_vars .smart-var-tabs .active, #smart_vars .smart-var-content .active').removeClass('active');
-      var pill = "<li class='active'><a data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'>new<span class='delete fr'>&times;</span></a></li>"
+      var pill = "<li class='active'><a data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'>" + _('new') + "<span class='delete fr'>&times;</span></a></li>"
       $('#smart_vars .smart-var-tabs').prepend(pill);
       field = $('#smart_vars .smart-var-content').prepend($(content).addClass('active'));
       $('#smart_vars .smart-var-tabs li.active a').show('highlight', 500);

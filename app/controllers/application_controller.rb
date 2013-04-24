@@ -243,18 +243,29 @@ class ApplicationController < ActionController::Base
   def process_success hash = {}
     hash[:object]                 ||= eval("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
-    hash[:success_msg]            ||= "Successfully #{action_name.pluralize.sub(/es$/,"ed").sub(/ys$/, "yed")} #{hash[:object_name]}."
+    unless hash[:success_msg]
+      hash[:success_msg] = case action_name
+                           when "create"
+                             _("Successfully created %s.") % hash[:object_name]
+                           when "update"
+                             _("Successfully updated %s.") % hash[:object_name]
+                           when "destroy"
+                             _("Successfully deleted %s.") % hash[:object_name]
+                           else
+                             raise Foreman::Exception.new(N_("Unknown action name for success message: %s"), action_name)
+                           end
+    end
     hash[:success_redirect]       ||= eval("#{controller_name}_url")
     hash[:json_code]                = :created if action_name == "create"
 
     return render :json => {:redirect => hash[:success_redirect]} if hash[:redirect_xhr]
 
     respond_to do |format|
-        format.html do
-          notice hash[:success_msg]
-          redirect_to hash[:success_redirect] and return
-        end
-        format.json { render :json => hash[:object], :status => hash[:json_code]}
+      format.html do
+        notice hash[:success_msg]
+        redirect_to hash[:success_redirect] and return
+      end
+      format.json { render :json => hash[:object], :status => hash[:json_code]}
     end
   end
 
@@ -270,7 +281,7 @@ class ApplicationController < ActionController::Base
 
     hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
-    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}].flatten
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten
     respond_to do |format|
       format.html do
