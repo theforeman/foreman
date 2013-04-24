@@ -16,7 +16,7 @@
           <% if fact_value.host -%>
             <%= link_to(fact_value.host, host_facts_path(:host_id => fact_value.host), :title => _("Show host facts")) %>
           <% else -%>
-            N/A
+            <%= _('N/A') %>
           <% end %>
         </td>
       <% end %>

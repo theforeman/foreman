@@ -27,7 +27,7 @@
             <button type="button" style="margin-top: 8px;" class="btn btn-small" onclick="set_preview()"><%= _("Preview") %></button>
           </div>
           <div class="fr">
-            <%= select_tag('keybinding', content_tag(:optgroup, options_for_select(['Default', 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
+            <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
           </div>
           </div>
         </div>
@@ -50,8 +50,8 @@
                     </div>
                     <div class='span2 ra'><h6><%= audit_time audit %></h6></div>
                     <div class='span8 audit-content'>
-                      <%= link_to_function icon_text("retweet", "Revert"), "revert_template(this)", :'data-url' => revision_config_templates_url, :'data-version' => audit.id %>
-                      <%= link_to icon_text("eye-open", "Show Diff"), audit_path(audit) %>
+                      <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :'data-url' => revision_config_templates_url, :'data-version' => audit.id %>
+                      <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit) %>
                     </div>
                   </div>
               <% end -%>

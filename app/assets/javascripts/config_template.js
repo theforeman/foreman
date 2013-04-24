@@ -24,7 +24,7 @@ $(function() {
 
     if(window.File && window.FileList && window.FileReader)
     {
-      var answer = confirm("You are about to override the editor content, Are You Sure?")
+      var answer = confirm(_("You are about to override the editor content, are you sure?"))
       if (!answer) { $('.template_file').val(""); return;}
 
       var files = evt.target.files; // files is a FileList object
@@ -52,12 +52,12 @@ $(function() {
   $("#keybinding").on("change", function() {
     var vim = require("ace/keyboard/vim").handler;
     var emacs = require("ace/keyboard/emacs").handler;
-    var keybindings = {
-      Default: null, // Null = use "default" keymapping
-      Vim: vim,
-      Emacs: emacs};
+    var keybindings = [
+      null, // Null = use "default" keymapping
+      vim,
+      emacs];
 
-    $editor.setKeyboardHandler(keybindings[$("#keybinding").val()]);
+    $editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
   })
 });
 
@@ -129,7 +129,7 @@ function IE_diff_mode(item){
 }
 
 function revert_template(item){
-  var answer = confirm("You are about to override the editor content with a previous version, Are You Sure?")
+  var answer = confirm(_("You are about to override the editor content with a previous version, are you sure?"))
   if (!answer) return;
 
   var version = $(item).attr('data-version');
@@ -147,7 +147,7 @@ function revert_template(item){
         set_edit_mode($('.template_text'));
       }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
-      $('#config_template_audit_comment').text("Revert to revision from: " + time)
+      $('#config_template_audit_comment').text(Jed.sprintf(_("Revert to revision from: %s"), time))
     }
   })
 }

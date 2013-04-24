@@ -9,4 +9,6 @@ group :assets do
   gem "spice-html5-rails"
   gem "flot-rails", '0.0.3'
   gem "quiet_assets"
+  gem 'gettext_i18n_rails_js', '>= 0.0.8'
+  gem 'gettext', '>= 1.9.3', :require => false
 end

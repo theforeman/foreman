@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale -%>">
   <head>
     <title> <%= h(yield(:title) || "Foreman") %></title>
     <%= stylesheet_link_tag 'application' %>
@@ -7,6 +7,7 @@
     <%= csrf_meta_tags %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
     <%= javascript_tag "var URL_PREFIX = '#{request.script_name}';" %>
+    <%= javascript_tag "var I18N_MARK = true;" if SETTINGS[:mark_translated] and not Rails.env.test? %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <%= yield(:head) %>

@@ -25,8 +25,11 @@ namespace :locale do
     FileUtils.rm "#{filename}.tmp"
   end
 
+  # just revert to the traditional underscore.
+  GettextI18nRailsJs::JsAndCoffeeParser.js_gettext_function = '_'
+
   desc 'Extract strings from codebase'
-  task :find_code => [:find_model, "gettext:find"]
+  task :find_code => [:find_model, "gettext:find", "gettext:po_to_json"]
 
   desc 'Extract strings from model and from codebase'
   task :find => [:find_model, :find_code] do

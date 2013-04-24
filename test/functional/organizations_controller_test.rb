@@ -39,7 +39,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_difference('Organization.count', -1) do
       delete :destroy, {:id => organization}, set_session_user
-      assert_match /Successfully destroyed/, flash[:notice]
+      assert_match /Successfully deleted/, flash[:notice]
     end
   end
 

@@ -151,7 +151,7 @@ function chart_legend_options(item){
         noColumns:4,
         container:"#legendContainer",
         labelFormatter: function(label, series) {
-          return '<a rel="twipsy" data-original-title="Details" href="' + series.href + '">' + label + '</a>';
+          return '<a rel="twipsy" data-original-title="' + _('Details') + '" href="' + series.href + '">' + label + '</a>';
         }
       }
     case "hide":
@@ -175,7 +175,7 @@ function flot_zoom(target, options, ranges) {
         yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
       }));
   if(target.parents('.stats-well').find('.reset-zoom').size() == 0){
-    target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-small'>Reset zoom</a>");
+    target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-small'>" + _('Reset zoom') + "</a>");
   }
 }
 
@@ -231,8 +231,8 @@ function get_pie_chart(div, url) {
   if($("#"+div).length == 0)
   {
     $('body').append('<div id="' + div + '" class="modal fade"></div>');
-    $("#"+div).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3>Fact Chart</h3></div>')
-        .append('<div id="' + div + '-body" class="fact_chart modal-body">Loading ...</div>');
+    $("#"+div).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3>' + _('Fact Chart') + '</h3></div>')
+        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + _('Loading') + ' ...</div>');
     $("#"+div).modal('show');
     $.getJSON(url, function(data) {
       var target = $("#"+div+"-body");

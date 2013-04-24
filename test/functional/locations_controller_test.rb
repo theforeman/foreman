@@ -39,7 +39,7 @@ class LocationsControllerTest < ActionController::TestCase
 
     assert_difference('Location.count', -1) do
       delete :destroy, {:id => location}, set_session_user
-      assert_match /Successfully destroyed/, flash[:notice]
+      assert_match /Successfully deleted/, flash[:notice]
     end
   end
 

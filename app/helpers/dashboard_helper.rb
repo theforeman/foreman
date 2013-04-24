@@ -24,7 +24,7 @@ module DashboardHelper
 
   def render_run_distribution hosts, options = {}
     data = count_reports(hosts)
-    flot_bar_chart(_("run_distribution"), _("Minutes Ago"), _("Number Of Clients"), data, options)
+    flot_bar_chart("run_distribution", _("Minutes Ago"), _("Number Of Clients"), data, options)
   end
 
   def searchable_links name, search

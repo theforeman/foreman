@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 18:30+0100\n"
-"PO-Revision-Date: 2013-03-01 15:45-0500\n"
+"POT-Creation-Date: 2013-05-09 09:42+0100\n"
+"PO-Revision-Date: 2013-05-09 09:31+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
 "Language: ja\n"
@@ -121,7 +121,7 @@ msgstr ""
 msgid "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
 
-#. host's status: first character of "active"
+#. host's status: first character of "active" initial character of Applied
 msgid "A"
 msgstr ""
 
@@ -593,6 +593,9 @@ msgstr ""
 msgid "Canceled pending build for %s"
 msgstr ""
 
+msgid "Canvas not supported."
+msgstr ""
+
 msgid "Certificate Name"
 msgstr ""
 
@@ -635,7 +638,13 @@ msgstr ""
 msgid "Click to edit"
 msgstr ""
 
+msgid "Click to edit.."
+msgstr ""
+
 msgid "Click to remove %s"
+msgstr ""
+
+msgid "Click to undo adding this class"
 msgstr ""
 
 msgid "Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)"
@@ -722,6 +731,12 @@ msgstr ""
 msgid "Configuring instance %s via SSH"
 msgstr ""
 
+msgid "Conflict - %s"
+msgstr ""
+
+msgid "Connected (unencrypted) to: %s"
+msgstr ""
+
 msgid "Connecting (unencrypted) to: %s"
 msgstr ""
 
@@ -744,6 +759,9 @@ msgid "Create Reverse DNS record for %s"
 msgstr ""
 
 msgid "Create a Smart Proxy"
+msgstr ""
+
+msgid "Ctrl-Alt-Del"
 msgstr ""
 
 #. host's status: first character of "disabled"
@@ -796,6 +814,9 @@ msgid "Data Store"
 msgstr ""
 
 msgid "Datacenter"
+msgstr ""
+
+msgid "Default"
 msgstr ""
 
 msgid "Default Puppet server hostname"
@@ -1065,7 +1086,21 @@ msgstr ""
 msgid "Errors only"
 msgstr ""
 
+msgid "Expand the chart"
+msgstr ""
+
 msgid "Expires"
+msgstr ""
+
+#. initial character of Failed
+msgid "F"
+msgstr ""
+
+#. initial characters of Failed Restarts
+msgid "FR"
+msgstr ""
+
+msgid "Fact Chart"
 msgstr ""
 
 msgid "Fact Name"
@@ -1103,6 +1138,9 @@ msgid "Fail on Mismatch"
 msgstr ""
 
 msgid "Failed"
+msgstr ""
+
+msgid "Failed Restarts"
 msgstr ""
 
 msgid "Failed restarts"
@@ -1163,6 +1201,9 @@ msgid "Failed to launch script on %{name}: %{e}"
 msgstr ""
 
 msgid "Failed to login via SSH to %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to modify the build cycle for %s"
 msgstr ""
 
 msgid "Failed to perform rollback on %{task} - %{e}"
@@ -1285,9 +1326,6 @@ msgid "Full name describing the domain"
 msgstr ""
 
 msgid "Full trace"
-msgstr ""
-
-msgid "Future content goes here!"
 msgstr ""
 
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
@@ -1697,6 +1735,9 @@ msgstr ""
 msgid "It is not possible to assign provisioning templates at this stage"
 msgstr ""
 
+msgid "Item"
+msgstr ""
+
 msgid "Key Binding"
 msgstr ""
 
@@ -1757,7 +1798,19 @@ msgstr ""
 msgid "Load Tenants"
 msgstr ""
 
+msgid "Loading"
+msgstr ""
+
+msgid "Loading ..."
+msgstr ""
+
 msgid "Loading Images information"
+msgstr ""
+
+msgid "Loading Virtual Machines information ..."
+msgstr ""
+
+msgid "Loading parameters..."
 msgstr ""
 
 msgid "Location"
@@ -1995,6 +2048,9 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
+msgid "NA"
+msgstr ""
+
 msgid "NIC"
 msgstr ""
 
@@ -2017,6 +2073,9 @@ msgid "Network interfaces"
 msgstr ""
 
 msgid "Networks"
+msgstr ""
+
+msgid "New"
 msgstr ""
 
 msgid "New %s"
@@ -2125,6 +2184,9 @@ msgstr ""
 msgid "New role"
 msgstr ""
 
+msgid "New window"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
 msgstr ""
@@ -2175,6 +2237,9 @@ msgid "No hosts selected"
 msgstr ""
 
 msgid "No hosts were found with that id or name"
+msgstr ""
+
+msgid "No interesting reports received in the last week"
 msgstr ""
 
 msgid "No new subnets found"
@@ -2308,6 +2373,9 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
+msgid "Old"
+msgstr ""
+
 msgid "On"
 msgstr ""
 
@@ -2336,6 +2404,9 @@ msgid "Oops"
 msgstr ""
 
 msgid "Oops, we're sorry but something went wrong"
+msgstr ""
+
+msgid "Open Spice in a new window"
 msgstr ""
 
 msgid "Operating Mode"
@@ -2464,7 +2535,7 @@ msgstr ""
 msgid "Owner changed to %s"
 msgstr ""
 
-#. host's status: first character of "pending"
+#. host's status: first character of "pending" initial character of Pending
 msgid "P"
 msgstr ""
 
@@ -2557,6 +2628,9 @@ msgid "Please review them carefully, if you are certain that they should be remo
 msgstr ""
 
 msgid "Please save the Operating System first and try again."
+msgstr ""
+
+msgid "Please select"
 msgstr ""
 
 msgid "Please select an environment first"
@@ -2724,6 +2798,10 @@ msgstr ""
 msgid "Querying instance details for %s"
 msgstr ""
 
+#. initial character of Restarted
+msgid "R"
+msgstr ""
+
 msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current facts and reports"
 msgstr ""
 
@@ -2785,7 +2863,7 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-msgid "Reports from the last"
+msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -2806,6 +2884,9 @@ msgstr ""
 msgid "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s"
 msgstr ""
 
+msgid "Reset zoom"
+msgstr ""
+
 msgid "Resolve"
 msgstr ""
 
@@ -2819,6 +2900,12 @@ msgid "Restart<br>Failures"
 msgstr ""
 
 msgid "Restarted"
+msgstr ""
+
+msgid "Revert"
+msgstr ""
+
+msgid "Revert to revision from: %s"
 msgstr ""
 
 msgid "Review"
@@ -2865,7 +2952,7 @@ msgstr ""
 msgid "Runtime"
 msgstr ""
 
-#. host's status: first character of "sync" (out of sync)
+#. host's status: first character of "sync" (out of sync) initial character of Skipped
 msgid "S"
 msgstr ""
 
@@ -2929,8 +3016,9 @@ msgstr ""
 msgid "Select environment"
 msgstr ""
 
+#, fuzzy
 msgid "Select host group"
-msgstr ""
+msgstr "ユーザー名"
 
 msgid "Select hosts to assign to %s"
 msgstr ""
@@ -3012,6 +3100,9 @@ msgid "Should foreman use OAuth for authorization in API"
 msgstr ""
 
 msgid "Should the smart variables be exposed via the ENC yaml output?"
+msgstr ""
+
+msgid "Show Diff"
 msgstr ""
 
 msgid "Show Host"
@@ -3175,7 +3266,13 @@ msgstr ""
 msgid "Success"
 msgstr ""
 
+msgid "Successfully created %s."
+msgstr ""
+
 msgid "Successfully created puppetclass."
+msgstr ""
+
+msgid "Successfully deleted %s."
 msgstr ""
 
 msgid "Successfully destroyed puppetclass."
@@ -3188,6 +3285,9 @@ msgid "Successfully executed, check log files for more details"
 msgstr ""
 
 msgid "Successfully executed, check reports and/or log files for more details"
+msgstr ""
+
+msgid "Successfully updated %s."
 msgstr ""
 
 msgid "Successfully updated puppetclass."
@@ -3229,6 +3329,9 @@ msgid "Taxonomy|Name"
 msgstr ""
 
 msgid "Template / Hardware Profile to use"
+msgstr ""
+
+msgid "Template Diff"
 msgstr ""
 
 msgid "Template Type"
@@ -3378,6 +3481,9 @@ msgstr[0] ""
 msgid "There was an error creating the PXE Default file: %s"
 msgstr ""
 
+msgid "There was an error listing VMs: %(status) %(statusText)"
+msgstr ""
+
 msgid "There was an error rendering the %s template: "
 msgstr ""
 
@@ -3452,7 +3558,7 @@ msgstr ""
 msgid "Trend counter"
 msgstr ""
 
-msgid "Trend of the last"
+msgid "Trend of the last %s days."
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3524,6 +3630,9 @@ msgid "Undo remove"
 msgstr ""
 
 msgid "Unknown Power State"
+msgstr ""
+
+msgid "Unknown action name for success message: %s"
 msgstr ""
 
 msgid "Unknown fact"
@@ -3729,6 +3838,9 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
+msgid "View Diff"
+msgstr ""
+
 msgid "View last report details"
 msgstr ""
 
@@ -3739,6 +3851,9 @@ msgid "Virtual Machines on %s"
 msgstr ""
 
 msgid "Volumes"
+msgstr ""
+
+msgid "Wait"
 msgstr ""
 
 msgid "Waiting for %s to come online"
@@ -3787,6 +3902,12 @@ msgid "YAML"
 msgstr ""
 
 msgid "You Are about to change the default PXE menu on all configured TFTP servers - continue ?"
+msgstr ""
+
+msgid "You are about to override the editor content with a previous version, are you sure?"
+msgstr ""
+
+msgid "You are about to override the editor content, are you sure?"
 msgstr ""
 
 msgid "You are currently logged in, suicidal?"
@@ -3919,12 +4040,6 @@ msgid "can't contain white spaces"
 msgstr ""
 
 msgid "cant be blank unless a custom partition has been defined"
-msgstr ""
-
-msgid "days - %s reports found"
-msgstr ""
-
-msgid "days."
 msgstr ""
 
 msgid "does not appear to be a valid nfs mount path"
@@ -4108,6 +4223,12 @@ msgstr ""
 msgid "must provide a provider"
 msgstr ""
 
+msgid "must set host and port"
+msgstr ""
+
+msgid "new"
+msgstr ""
+
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
@@ -4124,6 +4245,9 @@ msgid "page"
 msgstr ""
 
 msgid "parameters require an associated domain, host or host group"
+msgstr ""
+
+msgid "pending"
 msgstr ""
 
 msgid "plus all"
@@ -4144,7 +4268,7 @@ msgstr ""
 msgid "remove volume"
 msgstr ""
 
-msgid "run_distribution"
+msgid "revoked"
 msgstr ""
 
 msgid "select an owner"
@@ -4208,6 +4332,9 @@ msgid "using %s"
 msgstr ""
 
 msgid "using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - %{path})"
+msgstr ""
+
+msgid "valid"
 msgstr ""
 
 msgid "value to use when there is no match"
