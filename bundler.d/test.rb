@@ -1,6 +1,9 @@
 group :test do
   gem 'mocha', :require => false
-  gem 'minitest', '~> 3.5', :platforms => [:ruby_19, :ruby_20]
+  unless RUBY_VERSION =~ /^1\.8/
+    gem 'minitest', '~> 3.5'
+    gem 'simplecov'
+  end
   gem 'single_test'
   gem 'shoulda', "3.0.1"
   gem 'rr'
@@ -11,5 +14,4 @@ group :test do
   gem 'launchy'
   gem 'spork'
   gem 'spork-testunit'
-  gem 'simplecov', :platforms => [:ruby_19, :ruby_20]
 end
