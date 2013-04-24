@@ -76,6 +76,8 @@ class ApplicationController < ActionController::Base
           elsif available_sso.support_login?
             available_sso.authenticate!
             return
+          else
+            logger.warn("SSO failed, falling back to login form")
           end
         # Else, fall back to the standard authentication mechanism,
         # only if it's an API request.

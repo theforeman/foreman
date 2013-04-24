@@ -5,11 +5,14 @@ module SSO
     delegate :headers, :to => :controller
 
     def available?
-      Setting['signo_sso'] && defined?(Rack::OpenID)
+      Setting['signo_sso'] && defined?(Rack::OpenID) && !controller.api_request?
     end
 
+    # by default we support login however when @failed flag is set it means that first try
+    # of #authenticate! failed and we don't to try it again, because we would encounter
+    # endless loop
     def support_login?
-      true
+      !@failed
     end
 
     def support_logout?
@@ -49,6 +52,7 @@ module SSO
           return true
         else
           Rails.logger.debug response.respond_to?(:message) ? response.message : "OpenID authentication failed: #{response.status}"
+          @failed = true
           return false
       end
     end
