@@ -3,6 +3,7 @@ class SmartProxy < ActiveRecord::Base
   include Taxonomix
 
   attr_accessible :name, :url, :location_ids, :organization_ids
+  EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups)
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
@@ -12,7 +13,6 @@ class SmartProxy < ActiveRecord::Base
   has_many :hostgroups, :foreign_key => "puppet_proxy_id"
   has_many :puppet_ca_hosts, :class_name => "Host::Managed", :foreign_key => "puppet_ca_proxy_id"
   has_many :puppet_ca_hostgroups, :class_name => "Hostgroup", :foreign_key => "puppet_ca_proxy_id"
-  EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups)
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
   validates_presence_of :name, :url
@@ -21,7 +21,6 @@ class SmartProxy < ActiveRecord::Base
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
-  before_destroy EnsureNotUsedBy.new(:subnets, :domains, :hosts, :hostgroups)
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

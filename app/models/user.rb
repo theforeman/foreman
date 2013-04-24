@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation, :editing_self
+  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_admin_is_not_deleted
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
@@ -45,7 +46,6 @@ class User < ActiveRecord::Base
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i, :allow_nil => true
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
   before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
