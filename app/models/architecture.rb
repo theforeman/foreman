@@ -1,12 +1,13 @@
 class Architecture < ActiveRecord::Base
   include Authorization
 
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+
   has_many_hosts
   has_many :hostgroups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :operatingsystems
   validates_uniqueness_of :name
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   validates_format_of :name, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
   audited
 

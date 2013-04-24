@@ -3,6 +3,7 @@ class Hostgroup < ActiveRecord::Base
   include Authorization
   include Taxonomix
   include HostCommon
+  before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes
   has_many :user_hostgroups, :dependent => :destroy
@@ -12,7 +13,6 @@ class Hostgroup < ActiveRecord::Base
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many_hosts
-  before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
   before_save :remove_duplicated_nested_class

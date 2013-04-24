@@ -2,6 +2,8 @@ class Environment < ActiveRecord::Base
   include Taxonomix
   include Authorization
 
+  before_destroy EnsureNotUsedBy.new(:hosts)
+
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
   has_many_hosts
@@ -13,8 +15,6 @@ class Environment < ActiveRecord::Base
   validates_format_of :name, :with => /^[\w\d]+$/, :message => N_("is alphanumeric and cannot contain spaces")
   has_many :config_templates, :through => :template_combinations, :dependent => :destroy
   has_many :template_combinations
-
-  before_destroy EnsureNotUsedBy.new(:hosts)
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

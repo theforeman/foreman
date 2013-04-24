@@ -1,5 +1,6 @@
 class Puppetclass < ActiveRecord::Base
   include Authorization
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
@@ -19,7 +20,6 @@ class Puppetclass < ActiveRecord::Base
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
   audited
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   default_scope :order => 'puppetclasses.name'
 
   scoped_search :on => :name, :complete_value => :true

@@ -2,6 +2,8 @@ class Medium < ActiveRecord::Base
   include Authorization
   include Taxonomix
 
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+
   has_and_belongs_to_many :operatingsystems
   has_many_hosts
   has_many :hostgroups
@@ -19,7 +21,6 @@ class Medium < ActiveRecord::Base
     :with => VALID_NFS_PATH, :message => _("does not appear to be a valid nfs mount path"),
     :if => Proc.new { |m| m.respond_to? :media_path }
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {

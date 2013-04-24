@@ -3,6 +3,7 @@ class Subnet < ActiveRecord::Base
   include Authorization
   include Taxonomix
 
+  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
   has_many_hosts
   has_many :hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
@@ -25,8 +26,6 @@ class Subnet < ActiveRecord::Base
       order('vlanid')
     end
   }
-
-  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
