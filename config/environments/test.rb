@@ -24,6 +24,8 @@ Foreman::Application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.perform_deliveries = true
+  ActionMailer::Base.deliveries.clear
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
@@ -39,4 +41,7 @@ Foreman::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
+
+  #enables a few aliases - context, should, and should_eventually methods
+  config.minitest_spec_rails.mini_shoulda = true
 end
