@@ -5,6 +5,7 @@ class Environment < ActiveRecord::Base
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
   has_many_hosts
+  has_many :hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates_presence_of :name

@@ -10,7 +10,9 @@ class SmartProxy < ActiveRecord::Base
   has_many :domains,    :foreign_key => "dns_id"
   has_many_hosts        :foreign_key => "puppet_proxy_id"
   has_many :hostgroups, :foreign_key => "puppet_proxy_id"
-
+  has_many :puppet_ca_hosts, :class_name => "Host::Managed", :foreign_key => "puppet_ca_proxy_id"
+  has_many :puppet_ca_hostgroups, :class_name => "Hostgroup", :foreign_key => "puppet_ca_proxy_id"
+  EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups)
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates_uniqueness_of :name
   validates_presence_of :name, :url
