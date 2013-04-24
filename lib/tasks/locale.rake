@@ -38,4 +38,6 @@ namespace :locale do
     end
   end
 
+  desc 'Alias for gettext:pack'
+  task :pack => "gettext:pack"
 end
