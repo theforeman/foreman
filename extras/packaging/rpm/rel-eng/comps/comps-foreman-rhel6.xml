@@ -27,6 +27,12 @@
        <packagereq type="default">ruby193-puppet</packagereq>
        <packagereq type="default">ruby193-ruby-augeas</packagereq>
        <packagereq type="default">ruby193-ruby-shadow</packagereq>
+       <packagereq type="default">ruby193-rubygem-actionmailer</packagereq>
+       <packagereq type="default">ruby193-rubygem-actionpack</packagereq>
+       <packagereq type="default">ruby193-rubygem-activemodel</packagereq>
+       <packagereq type="default">ruby193-rubygem-activerecord</packagereq>
+       <packagereq type="default">ruby193-rubygem-activeresource</packagereq>
+       <packagereq type="default">ruby193-rubygem-activesupport</packagereq>
        <packagereq type="default">ruby193-rubygem-ancestry</packagereq>
        <packagereq type="default">ruby193-rubygem-audited-activerecord</packagereq>
        <packagereq type="default">ruby193-rubygem-audited</packagereq>
@@ -55,6 +61,8 @@
        <packagereq type="default">ruby193-rubygem-rbvmomi</packagereq>
        <packagereq type="default">ruby193-rubygem-ruby-hmac</packagereq>
        <packagereq type="default">ruby193-rubygem-ruby-libvirt</packagereq>
+       <packagereq type="default">ruby193-rubygem-rails</packagereq>
+       <packagereq type="default">ruby193-rubygem-railties</packagereq>
        <packagereq type="default">ruby193-rubygem-ruby2ruby</packagereq>
        <packagereq type="default">ruby193-rubygem-ruby_parser</packagereq>
        <packagereq type="default">ruby193-rubygem-safemode</packagereq>
