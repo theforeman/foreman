@@ -18,7 +18,7 @@ else
       console {Foreman.setup_console}
     end
     Bundler.require(*Rails.groups(:assets => %w(development test)))
-    begin 
+    begin
       Bundler.require(:libvirt) if SETTINGS[:unattended]
     rescue LoadError
       puts "Libvirt bindings are missing - hypervisor management is disabled"
@@ -27,9 +27,6 @@ else
 end
 
 SETTINGS[:libvirt] = SETTINGS[:unattended] && defined?(Libvirt)
-
-require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
-require File.expand_path('../../lib/core_extensions', __FILE__)
 
 Bundler.require(:jsonp) if SETTINGS[:support_jsonp]
 
@@ -45,8 +42,13 @@ module Foreman
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
-    config.autoload_paths += %W(#{config.root}/models/**/*.rb)
+    # in Rails 4, /models/concerns and /controller/concerns will automatically be part of load path
+    config.autoload_paths += %W(#{config.root}/app/models/concerns)
+    config.autoload_paths += %W(#{config.root}/app/controllers/concerns)
+    # add other directories not automatically included in load path
+    config.autoload_paths += %W(#{config.root}/app/services)
+    config.autoload_paths += %W(#{config.root}/app/observers)
+    config.autoload_paths += %W(#{config.root}/app/mailers)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
