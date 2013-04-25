@@ -54,13 +54,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @hostgroup, Location, :label => _("Locations") %>
+        <%= multiple_selects f, :locations, Location, @hostgroup.location_ids, :label => _("Locations") %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @hostgroup, Organization, :label => _("Organizations") %>
+        <%= multiple_selects f, :organizations, Organization, @hostgroup.organization_ids, :label => _("Organizations") %>
       </div>
     <% end %>
   </div>
