@@ -147,11 +147,11 @@ module Orchestration
         end
         met = met.to_sym
       end
-      if obj.respond_to?(met)
+      if obj.respond_to?(met,true)
         return obj.send(met)
       else
         failure _("invalid method %s") % met
-        raise ::Foreman::Exception.new(N_("invalid method %s")) % met
+        raise ::Foreman::Exception.new(N_("invalid method %s"), met)
       end
     end
 
