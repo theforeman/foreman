@@ -1,0 +1,261 @@
+#!/bin/bash
+# :vim:sw=2:ts=2:et:
+export LC_ALL=C
+
+usage() {
+cat <<USAGE
+$0 - configuration and log data collector
+
+USAGE: $0 [options]
+
+Collects configuration and log data for Foreman, Smart Proxies, backend
+services and system information while removing security information like
+passwords, tokens and keys.
+
+This program can be used on Foreman instance, Smart Proxy instances or
+backend services separatly.
+
+OPTIONS:
+  -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
+  -g      Skip generic info (CPU, memory, firewall etc.)
+  -a      Do not generate a tarball from the resulting directory
+  -m NUM  Maximum lines to keep for each file (default 5000)
+  -j PRG  Filter with provided program when creating a tarball
+  -p      Additionally print all passwords which are being filtered
+  -q      Quiet mode
+  -v      Verbose mode
+  -h      Shows this message
+
+USAGE
+}
+
+# filter for patterns like password=XYZ or secret: abc!@#$123
+FILTER_WORDS=(
+password
+PASSWORD
+default_password
+secret
+token
+api_token
+oauth_secret
+keystorePass
+truststorePass
+)
+FILTER_WORDS_STR=$(IFS=$'|'; echo "${FILTER_WORDS[*]}")
+FILTER="s/($FILTER_WORDS_STR)(\s*[:=]\s*)\S+/\1\2\*\*\*\*\*/g"
+
+error() {
+  echo $* >&2
+}
+
+qprintf() {
+  [ $QUIET -ne 1 ] && printf "$@"
+}
+
+printv() {
+  [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo $*
+}
+
+# add outout of the command and redirect possible errors there
+add_cmd() {
+  CMD=$1
+  OUT=$2
+  printv " - $OUT"
+  echo -e "COMMAND> $CMD\n" > "$DIR/$OUT"
+  eval $CMD >> "$DIR/$OUT" 2>&1
+}
+
+# add and filter if it is a non zero, readable, regular file or symlink (skip otherwise)
+add_files() {
+  for FILE in $*; do
+    if [ \( -f "$FILE" -o -h "$FILE" \) -a \( -r "$FILE" -a -s "$FILE" \) ]; then
+      printv " - $FILE"
+      SUBDIR=$(dirname $FILE)
+      [ ! -d "$DIR$SUBDIR" ] && mkdir -p "$DIR$SUBDIR"
+      tail -n "$MAXLINES" "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
+      [ $PRINTPASS -eq 1 ] && grep -E "($FILTER_WORDS_STR)" "$DIR$FILE"
+    fi
+  done
+}
+
+DIR=""
+NOGENERIC=0
+NOTAR=0
+MAXLINES=5000
+COMPRESS=""
+PRINTPASS=0
+QUIET=0
+VERBOSE=0
+DEBUG=0
+
+if type -p xz >/dev/null; then
+  COMPRESS="xz -9"
+  EXTENSION=".xz"
+elif type -p bzip2 >/dev/null; then
+  COMPRESS="bzip2 -9"
+  EXTENSION=".bz2"
+elif type -p gzip >/dev/null; then
+  COMPRESS="gzip -9"
+  EXTENSION=".gz"
+else
+  COMPRESS="cat"
+  EXTENSION=""
+fi
+
+while getopts "d:gam:j:qpvhx" opt; do
+  case $opt in
+    d)
+      DIR="$OPTARG"
+      ;;
+    g)
+      NOGENERIC=1
+      ;;
+    a)
+      NOTAR=1
+      ;;
+    p)
+      PRINTPASS=1
+      ;;
+    q)
+      QUIET=1
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    m)
+      MAXLINES="$OPTARG"
+      ;;
+    j)
+      COMPRESS="$OPTARG"
+      EXTENSION=".$(echo "$OPTARG" | awk '{ print $1 }')"
+      ;;
+    x)
+      # this option is not docummented - use for extra output,
+      # skip slow items and to disable root check
+      DEBUG=1
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    ?)
+      error "Invalid option: $OPTARG"
+      usage
+      exit
+      ;;
+  esac
+done
+
+[ $DEBUG -eq 0 -a $EUID -ne 0 ] && error "This script must be run as root" && exit 1
+
+# determine distribution family
+if [ -f /etc/debian_version ]; then
+    OS=debian
+    OS_RELEASE=$(lsb_release -sr)
+elif [ -f /etc/redhat-release ]; then
+    OS=redhat
+    OS_RELEASE=$(lsb_release -sr)
+elif type -p lsb_release >/dev/null; then
+    OS=$(lsb_release -si)
+    OS_RELEASE=$(lsb_release -sr)
+elif type -p rpm >/dev/null; then
+    OS=$(rpm -q --whatprovides redhat-release --queryformat '%{NAME}')
+    OS_RELEASE=$(rpm -q --whatprovides redhat-release --queryformat '%{VERSION}')
+else
+    OS=$(uname -s)
+    OS_RELEASE="Unknown"
+fi
+printv "Determined $OS distribution"
+
+if [ -z "$DIR" ]; then
+  DIR=$(mktemp -d foreman-debug-XXXXX -p /tmp)
+  [ "$NOTAR" -eq 0 ] && trap "rm -rf $DIR" EXIT
+else
+  [ ! -d "$DIR" ] && mkdir -p "$DIR"
+fi
+printv "Directory $DIR created"
+
+TARBALL="$DIR.tar$EXTENSION"
+
+# GENERIC ARTIFACTS
+
+if [ $NOGENERIC -eq 0 ]; then
+  printv "Collecting generic system information"
+  add_cmd "lsb_release -a" "lsb_release"
+  add_cmd "uname -a" "uname"
+  add_cmd "cat /proc/cpuinfo" "cpuinfo"
+  add_cmd "cat /proc/meminfo" "meminfo"
+  add_cmd "ulimit -a" "ulimit"
+  add_cmd "lsmod" "lsmod"
+  add_cmd "iptables -L -v -n" "iptables"
+  add_cmd "ifconfig -a" "ifconfig"
+  add_cmd "route -n" "route"
+  add_cmd "netstat -tulpn" "netstat"
+  add_cmd "ip a" "ip_a"
+  add_cmd "ip r" "ip_r"
+  add_cmd "ss -tulpn" "ss"
+  add_cmd "cat /etc/hosts" "hosts"
+  add_cmd "ping -c1 -W1 localhost" "ping_localhost"
+  add_cmd "ping -c1 -W1 $(hostname)" "ping_hostname"
+  add_cmd "ping -c1 -W1 $(hostname -f)" "ping_hostname_full"
+
+  add_files "/var/log/messages"
+
+  if [ "$OS" = "redhat" ]; then
+    [ $DEBUG -eq 0 ] && add_cmd "rpm -qa" "installed_packages"
+  elif [ "$OS" = "debian" ]; then
+    [ $DEBUG -eq 0 ] && add_cmd "dpkg --list" "installed_packages"
+  fi
+
+fi
+
+# FOREMAN RELATED ARTIFACTS
+
+printv "Collecting Foreman-related information"
+add_cmd "ruby --version" "version_ruby"
+add_cmd "puppet --version" "version_puppet"
+add_cmd "gem list" "gem_list"
+add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
+add_cmd "facter" "facts"
+add_files /etc/foreman{,-proxy}/*.yaml /var/log/foreman{,-proxy}/*.log
+add_files /usr/share/foreman/Gemfile*
+add_files /etc/dhcp/*.conf /var/lib/dhcp/*.leases
+add_files /etc/xinetd.d/tftp
+[ -d "/tftpboot" ] && add_cmd "find /tftpboot -exec ls -ld {} +" "tftpboot_tree"
+[ -d "/srv/tftp" ] && add_cmd "find /srv/tftp -exec ls -ld {} +" "tftpboot_tree"
+[ -d "/var/lib/tftpboot" ] && add_cmd "find /var/lib/tftpboot -exec ls -ld {} +" "tftpboot_tree"
+add_files /etc/named.conf /var/log/named.log 
+add_files /var/named/* /var/named/{data,dynamic,slaves}/*
+add_cmd "virsh list" "virsh_list"
+add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
+add_files /var/lib/pgsql/data/*.conf
+add_files /etc/puppet/*.conf /etc/puppet/rack/* /etc/puppet/manifests/* /var/log/puppet/*.log
+add_files /var/lib/puppet/ssl/certs/$(hostname -f).pem /var/lib/puppet/ssl/certs/ca.pem
+add_files /etc/puppet/ssl/ca/inventory.txt /var/lib/puppet/ssl/ca/inventory.txt
+add_cmd "find /etc/puppet/modules -exec ls -ld {} +" "puppet_manifests_tree"
+add_files /etc/{httpd,apache2}/conf/*
+add_files /etc/{httpd,apache2}/conf.d/*
+add_cmd "echo 'select id,name,value from settings' | su postgres -c 'psql foreman'" "foreman_settings_table"
+
+add_files /etc/{sysconfig,default}/foreman{,-proxy}
+add_files /etc/{sysconfig,default}/dhcp*
+add_files /etc/sysconfig/named /etc/default/bind
+add_files /etc/{sysconfig,default}/libvirt*
+add_files /etc/sysconfig/pgsql
+
+qprintf "\n\n"
+qprintf "%10s %s\n" "HOSTNAME:" "$(hostname -f 2>/dev/null)"
+qprintf "%10s %s\n" "OS:" "$OS"
+qprintf "%10s %s\n" "RELEASE:" "$OS_RELEASE"
+qprintf "%10s %s\n" "FOREMAN:" "$(cat /usr/share/foreman/VERSION 2>/dev/null)"
+qprintf "%10s %s\n" "RUBY:" "$(ruby --version 2>/dev/null)"
+qprintf "%10s %s\n" "PUPPET:" "$(puppet --version 2>/dev/null)"
+qprintf "\n\n"
+
+if [ "$NOTAR" -eq 0 ]; then
+  tar -c "$DIR" 2>/dev/null | $COMPRESS > "$TARBALL"
+  qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
+else
+  qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
+fi
+
