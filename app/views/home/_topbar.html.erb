@@ -4,11 +4,9 @@
   <span class="icon-bar"></span>
   <span class="icon-bar"></span>
 </a>
-<a class="btn btn-navbar" style="padding: 4px 10px;" data-toggle="collapse" data-target=".nav2">
+<a class="btn btn-navbar" style="padding: 5px 11px 2px 11px;" data-toggle="collapse" data-target=".nav2">
   <span class="icon-cog icon-white"></span>
 </a>
-<!-- logo -->
-<%=image_tag("foreman.png", :class=>"logo") %> <%= link_to "Foreman", root_path, :class => "brand logo-text" %>
 <!-- menu -->
 <div id='current_tab' data-controller='<%=controller_name.gsub(/_.*/,"s")%>' data-settings='<%= class_for_setting_page %>'> </div>
 
@@ -16,15 +14,14 @@
   <% cache("tabs_and_title_records-#{User.current.id}") do %>
     <div class="nav-collapse collapse nav1">
       <ul class="nav" id="menu">
-        <% my_bookmarks = Bookmark.my_bookmarks %>
-
-      <%= menu 'dashboard', _('Dashboard'),    my_bookmarks %>
-      <%= menu 'hosts', _('Hosts'),            my_bookmarks %>
-      <%= menu 'reports', _('Reports'),        my_bookmarks, hash_for_reports_path.merge(:search => 'eventful = true') %>
-      <%= menu 'facts' , _('Facts'),           my_bookmarks, hash_for_fact_values_path %>
-      <%= menu 'audits', _('Audits'),          my_bookmarks, hash_for_audits_path %>
-      <%= menu 'statistics', _('Statistics'),  my_bookmarks %>
-      <%= menu 'trends', _('Trends'),          my_bookmarks, hash_for_trends_path %>
+      <%= render "home/org_switcher" %>
+      <%= menu 'dashboard', _('Dashboard') %>
+      <%= menu 'hosts', _('Hosts') %>
+      <%= menu 'reports', _('Reports'), hash_for_reports_path.merge(:search => 'eventful = true') %>
+      <%= menu 'facts' , _('Facts'), hash_for_fact_values_path %>
+      <%= menu 'audits', _('Audits'), hash_for_audits_path %>
+      <%= menu 'statistics', _('Statistics') %>
+      <%= menu 'trends', _('Trends'), hash_for_trends_path %>
     </ul>
   </div>
   <div class="nav-collapse collapse nav2">

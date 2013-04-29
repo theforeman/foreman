@@ -1,25 +1,17 @@
-<li class="divider"></li>
 <li class="nav-header"><%= _('Organization') %></li>
 <li class="dropdown-submenu">
   <% orgs_count = Organization.my_organizations.count %>
   <%= organization_dropdown orgs_count %>
   <ul class="dropdown-menu">
-    <% if show_add_organization_button? orgs_count %>
-      <div class="no-taxonomies">
-        <div class="alert">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= _("There aren't any organizations yet.") %>
-        </div>
-        <%= link_to _("New Organization"), new_organization_path, :class => "btn btn-primary" %>
-      </div>
-    <% else %>
-      <% if orgs_count > 1 || User.current.admin? %>
-        <li><%= link_to(_('Any Organization'), clear_organizations_path) %></li>
-        <%= content_tag(:li, "", :class => "divider") %>
-      <% end %>
-      <% Organization.my_organizations.each do |organization| %>
-        <li><%= link_to(organization.name, select_organization_path(organization)) %></li>
-      <% end %>
+    <% if User.current.admin? %>
+      <li><%= link_to(_('Any Organization'), clear_organizations_path) %></li>
+      <%= content_tag(:li, "", :class => "divider") %>
+    <% end %>
+    <% Organization.my_organizations.each do |organization| %>
+      <li><%= link_to(organization.name, select_organization_path(organization)) %></li>
     <% end %>
   </ul>
 </li>
+<% if User.current.allowed_to?(:create_organizations) %>
+  <li><%= link_to _("Manage Organizations"), organizations_path, :class => "manage-menu" %></li>
+<% end %>

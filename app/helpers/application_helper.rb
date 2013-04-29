@@ -242,6 +242,24 @@ module ApplicationHelper
     end
   end
 
+  def select_action_button(title, *args)
+    # the no-buttons code is needed for users with less permissions
+    return unless args
+    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
+    return if args.length == 0
+
+    #single button
+    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+
+    #multiple options
+    content_tag(:div, :class=>'btn-group') do
+    link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn dropdown-toggle", :'data-toggle'=>'dropdown') +
+        content_tag(:ul,:class=>"dropdown-menu") do
+          args.map{|option| content_tag(:li,option)}.join(" ").html_safe
+        end
+    end
+  end
+
   def toolbar_action_buttons(*args)
     # the no-buttons code is needed for users with less permissions
     return unless args
@@ -264,7 +282,7 @@ module ApplicationHelper
   end
 
   def gravatar_image_tag(email, html_options = {})
-    default_image = "assets/user.jpg"
+    default_image = "user.jpg"
     html_options.merge!(:onerror=>"this.src='#{default_image}'")
     image_url = Setting["use_gravatar"] ? gravatar_url(email, default_image) : default_image
     return image_tag(image_url, html_options)

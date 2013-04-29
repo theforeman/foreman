@@ -1,7 +1,7 @@
 module HomeHelper
 
   def class_for_setting_page
-    setting_options.map{|o| o[1]}.include?(controller_name.to_sym) ? "active" : ""
+    setting_options.flatten.include?(controller_name.to_sym) ? "active" : ""
   end
 
   def setting_options
@@ -77,22 +77,25 @@ module HomeHelper
     choices
   end
 
-  def menu(tab, label, myBookmarks ,path = nil)
+  def menu(tab, label, path = nil)
     path ||= eval("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
-    b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
-    out = content_tag :li, :id => "menu_tab_#{tab}" do
-      link_to_if_authorized(label, path, :class => b.empty? ? "" : "narrow-right")
+    content_tag(:li, :class => "menu_tab_#{tab} ") do
+      link_to_if_authorized(label, path)
     end
-    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone "  do
-      link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret hidden-phone hidden-tablet'), "#", :class => "dropdown-toggle narrow-left hidden-phone hidden-tablet") + menu_dropdown(b)
-    end unless b.empty?
-    out
   end
 
-  def menu_dropdown bookmark
-    return "" if bookmark.empty?
-    render("bookmarks/list", :bookmarks => bookmark)
+  def org_switcher_title
+    title = if Organization.current && Location.current
+      Organization.current.to_label + "@" + Location.current.to_label
+    elsif Organization.current
+      Organization.current.to_label
+    elsif Location.current
+      Location.current.to_label
+    else
+      _("Any Context")
+    end
+    title
   end
 
   # filters out any non allowed actions from the setting menu.
@@ -105,10 +108,8 @@ module HomeHelper
   end
 
   def user_header
-    summary = content_tag(:span, "#{User.current.to_label}  ", :class=>'text-label')
-    summary += content_tag(:span, Organization.current.to_label, :class=>'boxed-label') if Organization.current
-    summary += content_tag(:span, Location.current.to_label, :class=>'boxed-label') if Location.current
-    summary += gravatar_image_tag(User.current.mail, :class=>'gravatar', :alt=>'Change your avatar at gravatar.com') + content_tag(:span, "", :class=>'caret')
+    summary = gravatar_image_tag(User.current.mail, :class=>'gravatar small', :alt=>_('Change your avatar at gravatar.com')) +
+              "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
     link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
   end
 

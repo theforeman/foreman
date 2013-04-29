@@ -4,6 +4,7 @@
 //= require scoped_search
 //= require twitter/bootstrap
 //= require charts
+//= require topbar
 //= require vendor
 //= require_self
 
@@ -35,6 +36,11 @@ function onContentLoad(){
   $("#title_action li a").removeClass("btn").addClass("la");
   $("#title_action span").removeClass("btn").addClass("btn-group");
   $("#title_action a[href*='new']").addClass("btn-success");
+
+  if ($("#login-form").size() > 0) {
+    $("#login_login").focus();
+    return false;
+  }
 
   // highlight tabs with errors
   $(".tab-content").find(".control-group.error").each(function() {
@@ -211,70 +217,6 @@ $(document).ready(function() {
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
 });
-
-$(function() {
-  if ($("#login-form").size() > 0) {
-    $("#login_login").focus();
-    $(".logo, .logo-text").hide();
-    return false;
-  }
-  $("[id^='menu_tab_']").removeClass('active');
-  $('#menu_tab_settings').addClass($('#current_tab').attr('data-settings'));
-  $('#menu_tab_'+$('#current_tab').attr('data-controller')).addClass('active').next('.dropdown').addClass('active');
-  magic_line("#menu" , 1);
-  magic_line("#menu2", 0);
-  $('.dropdown-toggle').dropdown();
-});
-
-function magic_line(id, combo) {
-  var $el, leftPos, newWidth, $mainNav = $(id);
-  $mainNav.append("<li class='magic-line'></li>");
-  var $magicLine = $(id + " .magic-line");
-  if ($magicLine.size() == 0) return;
-  if ($('[data-toggle=collapse]:visible').length > 0){
-    $magicLine.hide();
-  }else{$magicLine.show();}
-  if ( $(".active").size() > 0){
-    $magicLine
-    .width($(id +" .active").width() + $(id + " .dropdown.active").width() * combo)
-    .css("left", $(".active").position().left)
-    .data("origLeft", $magicLine.position().left)
-    .data("origWidth", $magicLine.width());
-  } else {
-    $magicLine.width(0).css("left", 0)
-    .data("origLeft", $magicLine.position().left)
-    .data("origWidth", $magicLine.width());
-  }
-  $(id + " li").hover(function() {
-    if ($('[data-toggle=collapse]:visible').length > 0){
-      $magicLine.hide();
-      return;
-    }
-    $magicLine.show();
-    $el = $(this);
-    if ($el.parent().hasClass("dropdown-menu")){
-      $el=$el.parent().parent();
-    }
-    leftPos = $el.position().left;
-    newWidth = $el.width();
-    if ($el.find("a").hasClass("narrow-right")){
-      newWidth = newWidth + $(".dropdown").width() * combo;
-    }
-    $magicLine.stop().animate({
-      left: leftPos,
-      width: newWidth
-    });
-  }, function() {
-    if ($('[data-toggle=collapse]:visible').length > 0){
-      $magicLine.hide();
-    }else{
-      $magicLine.stop().animate({
-        left: $magicLine.data("origLeft"),
-        width: $magicLine.data("origWidth")
-      });
-    }
-  });
-}
 
 //add bookmark dialog
 $(function() {

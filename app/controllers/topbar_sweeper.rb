@@ -1,5 +1,5 @@
 class TopbarSweeper < ActionController::Caching::Sweeper
-  observe [Bookmark, User, UserRole, Organization, Location] # This sweeper is going to keep an eye on the Bookmark model
+  observe [User, UserRole, Organization, Location]
 
   def after_create(record)
     expire_cache_for(record)

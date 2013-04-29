@@ -103,8 +103,8 @@ function toggle_multiple_ok_button(elem){
 // updates the form URL based on the action selection
 $(function() {
   $('#submit_multiple a').click(function(){
-    if ($.foremanSelectedHosts.length == 0) { return false }
-    var title = $(this).attr('data-original-title') + ' - The following hosts are about to be changed';
+    if ($.foremanSelectedHosts.length == 0 || $(this).hasClass('dropdown-toggle')) { return false }
+    var title = $(this).attr('data-original-title');
     var url = $(this).attr('href') + "?" + $.param({host_ids: $.foremanSelectedHosts});
     $('#confirmation-modal .modal-header h3').text(title);
     $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
@@ -134,14 +134,18 @@ $(function() {
 });
 
 function update_counter(id) {
+  var item = $("#check_all");
   if ($.foremanSelectedHosts) {
     id.text($.foremanSelectedHosts.length);
-    $("#check_all").attr("checked", $.foremanSelectedHosts.length > 0 );
+    item.attr("checked", $.foremanSelectedHosts.length > 0 );
   }
-
-  if ($("#check_all").attr("checked"))
-    $("#check_all").attr("title", $.foremanSelectedHosts.length + " - items selected.\nUncheck to Clear Selection" );
+  var title = "";
+  if (item.attr("checked"))
+    title = $.foremanSelectedHosts.length + " - " + item.attr("uncheck-title");
   else
-    $("#check_all").attr("title", "Select all items in this page" );
+    title = item.attr("check-title");
+
+  item.attr("data-original-title", title );
+  item.tooltip();
   return false;
 }

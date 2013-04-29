@@ -29,7 +29,7 @@ module Foreman::Controller::TaxonomyMultiple
 
   def update_multiple_taxonomies type
     # simple validations
-    if (params[type].nil?) or (id=params[type][:id]).nil?
+    if (params[type].nil?) or (id=params[type][:id]).blank?
       error "No #{type.to_s.classify} selected!"
       redirect_to(hosts_path) and return
     end
