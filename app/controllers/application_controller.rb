@@ -1,5 +1,3 @@
-require 'foreman/controller/auto_complete_search'
-
 class ApplicationController < ActionController::Base
   include Foreman::ThreadSession::Cleaner
 
