@@ -43,7 +43,7 @@ class Operatingsystem < ActiveRecord::Base
 
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
                'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
-               'Suse'    => %r{OpenSuSE}i,
+               'Suse'    => %r{OpenSuSE|SLES|SLED}i,
                'Windows' => %r{Windows}i,
                'Archlinux' => %r{Archlinux}i,
                'Solaris' => %r{Solaris}i }
