@@ -284,7 +284,7 @@ class Host::Managed < Host::Base
     return true if Rails.env == "test"
     return true unless Setting[:manage_puppetca]
     if puppetca?
-      respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && setAutosign
+      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
     end
   end
 
