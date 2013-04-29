@@ -4,12 +4,6 @@
     <ul class="dropdown-menu pull-right">
       <li><%= link_to(_("Sign Out"), sign_out_url) %></li>
       <li><%= link_to(_("My account"), edit_user_path(User.current) )%></li>
-      <% if SETTINGS[:locations_enabled] %>
-        <%= render 'home/location_dropdown' %>
-      <% end -%>
-      <% if SETTINGS[:organizations_enabled] %>
-        <%= render 'home/organization_dropdown' %>
-      <% end %>
     </ul>
   </li>
 </ul>

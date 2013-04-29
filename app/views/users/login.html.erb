@@ -1,9 +1,22 @@
-
-<%= form_tag login_users_path, :id => "login-form", :class => "form-vertical" do %>
-  <%=image_tag("foreman_large.png", :class=>"login-large-logo") %>
-  <%= label_tag "login[login]", _("Username") %>
-  <%= text_field :login, :login %>
-  <%= label_tag "login[password]", _("Password") %>
-  <%= password_field_tag "login[password]" %>
-  <%= submit_tag(_("Login &#187;").html_safe, :class => "btn btn-primary fr", :disable_with => _("Please wait...")) %>
-<% end %>
+<div id="login" class="login-container">
+  <div class="aside">
+    <%= image_tag("foreman_white.png", :class=>"login-logo") %>
+  </div>
+  <div class="section">
+  <%= form_tag login_users_path, :id => "login-form", :class => "form-vertical" do %>
+    <div class="control-group  ">
+      <%= label_tag "login[login]", _("Username") %>
+      <div class="controls">
+        <%= text_field :login, :login, :class=>"input-xlarge" %>
+      </div>
+    </div>
+    <div class="control-group  ">
+      <%= label_tag "login[password]", _("Password") %>
+      <div class="controls">
+        <%= password_field_tag "login[password]",nil, :class=>"input-xlarge" %>
+      </div>
+    </div>
+    <%= submit_tag(_("Login").html_safe, :class => "btn btn-primary fr", :disable_with => _("Please wait...")) %>
+  <% end %>
+  </div>
+</div>

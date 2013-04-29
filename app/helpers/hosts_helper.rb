@@ -88,10 +88,10 @@ module HostsHelper
     actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path, 'tags'] if SETTINGS[:organizations_enabled]
     actions <<  [_('Assign Location'), select_multiple_location_hosts_path, 'map-marker'] if SETTINGS[:locations_enabled]
 
-    content_tag :span, :id => 'submit_multiple', :class => 'fl' do
-      actions.map do |action|
-        link_to(icon_text(action[2]), action[1], :title => action[0])
-      end.join(' ').html_safe
+    content_tag :span, :id => 'submit_multiple' do
+      select_action_button( _("Select Action"), actions.map do |action|
+        link_to(icon_text(action[2], action[0]) , action[1], :class=>'btn',  :title => _("%s - The following hosts are about to be changed") % action[0])
+      end.flatten)
     end
 
   end

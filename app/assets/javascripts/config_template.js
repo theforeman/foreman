@@ -114,6 +114,10 @@ function set_diff_mode(item){
   var session = $editor.getSession();
   session.setMode("ace/mode/diff");
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
+  patch = patch.replace(/^(.*\n){0,4}/,'');
+  if (patch.length == 0)
+    patch = "No changes"
+
   $(session).off('change');
   session.setValue(patch);
 }

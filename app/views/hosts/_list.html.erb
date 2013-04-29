@@ -2,7 +2,7 @@
 <% title header ||= "" %>
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
-    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
+    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
     <th class=''><%= sort :name, :as => _('Name') %></th>
     <th class="hidden-phone"><%= sort :os, :as => _("Operating<br>system") %></th>
     <th class="hidden-phone"><%= sort :environment, :as => _('Environment') %></th>
@@ -16,11 +16,11 @@
       <td class="ca">
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
       </td>
-      <td><%= name_column(host) %> </td>
+      <td class='ellipsis'><%= name_column(host) %> </td>
       <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
       <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
-      <td class="hidden-tablet hidden-phone"><%= model_name host %></td>
-      <td class="hidden-tablet hidden-phone"><%= hostgroup_name host.hostgroup, 26 %></td>
+      <td class="hidden-tablet hidden-phone ellipsis"><%= model_name host %></td>
+      <td class="hidden-tablet hidden-phone ellipsis"><%= hostgroup_name host.hostgroup, 26 %></td>
       <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
       <td>
         <%= action_buttons(

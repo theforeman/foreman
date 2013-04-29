@@ -1,0 +1,83 @@
+.logo-bar{
+  margin-left: -20px;
+  margin-right: -20px;
+  height: 25px;
+  background-color: #005C7E;
+  .nav > .dropdown > .dropdown-toggle{
+    color:#ffffff;
+    text-decoration: none;
+    padding: 4px 15px 0 0;
+  }
+  .nav > .dropdown > .dropdown-toggle:focus,
+  .nav > .dropdown > .dropdown-toggle:hover,
+  .nav > .dropdown.open > .dropdown-toggle{
+    background-color: #005f84;
+  }
+  .nav.pull-right {
+    margin-bottom: 0;
+    a {
+      font-family: Overpass, sans-serif, sans;
+      font-size: 11px;
+      font-weight: bold;
+    }
+  }
+  .nav > .dropdown > .dropdown-toggle .caret {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+  margin-top: 8px;
+  }
+}
+.menu-dropdown {text-transform: capitalize;}
+
+.dropdown .caret {
+  margin-left: 4px;
+}
+
+.brand {
+  float: left;
+  display: block;
+  padding: 4px 0 0 50px;
+  font-family: Overpass;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform:uppercase;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  &:hover,
+  &:focus {
+    color: #ffffff;
+    text-decoration: none;
+  }
+}
+
+.logo-bar img{
+  float: left;
+  margin-right: -45px;
+  height: 34px;
+}
+
+.logo-bar .logo-small img{
+  height: 23px;
+}
+
+.nav1 {
+  margin-left: 37px;
+}
+
+.org-switcher>a{
+  font-family: Overpass, sans-serif, sans;
+  font-size: 16px !important;
+  border-right: solid 1px #0187b6 !important;
+  .caret{
+    margin-left:20px;
+    margin-top: 6px;
+  }
+}
+
+.navbar.navbar-inverse .navbar-inner a.manage-menu{
+  font-size: 11px;
+  color: #0088cc;
+  &:hover{
+    color: #ffffff;
+  }
+}

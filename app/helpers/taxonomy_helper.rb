@@ -11,14 +11,6 @@ module TaxonomyHelper
     SETTINGS[:locations_enabled] or SETTINGS[:organizations_enabled]
   end
 
-  def show_add_location_button? count
-    count ==0 && User.current.allowed_to?(:create_locations)
-  end
-
-  def show_add_organization_button? count
-    count == 0 && User.current.allowed_to?(:create_organizations)
-  end
-
   def organization_dropdown count
     text = Organization.current.nil? ? _("Any Organization") : Organization.current.to_label
     if count == 1 && !User.current.admin?

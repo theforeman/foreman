@@ -14,15 +14,24 @@
 
   <body>
     <div id="wrap">
-
-      <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
+      <% if User.current %>
+        <div class="logo-bar">
           <div class="container">
-            <%= render 'home/topbar' %>
+             <!--[if IE]><div class='logo-small'> <![endif]-->
+            <%= image_tag("foreman.png") %>
+            <!--[if IE]></div> <![endif]-->
+            <%= link_to "Foreman", root_path, :class => "brand" %>
+            <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
           </div>
         </div>
-      </div>
-
+        <div class="navbar navbar-inverse navbar-fixed-top persist-header">
+          <div class="navbar-inner">
+            <div class="container">
+              <%= render 'home/topbar' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
       <div id="main">
         <%= content_tag('div', flash[:error],   :class => 'flash error')   if flash[:error] -%>
         <%= content_tag('div', flash[:warning], :class => 'flash warning') if flash[:warning] -%>
@@ -31,11 +40,11 @@
         <div id="content" class="container">
           <% unless @page_header.blank? -%>
             <div class="row control-group">
-              <h1 class="span8"><%=h @page_header %></h1><span class="navbar span4"><%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %></span>
+              <h1 class="span8"><%=h @page_header %></h1>
             </div>
           <% end -%>
           <div class="row">
-            <div class="<%= searchable? ? "span6" : "span4" %>">
+            <div class="title_filter <%= searchable? ? "span6" : "span4" %>">
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>&nbsp;
             </div>
