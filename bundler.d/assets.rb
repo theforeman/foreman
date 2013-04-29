@@ -7,6 +7,6 @@ group :assets do
   gem "therubyracer", '0.11.3'
   gem "twitter-bootstrap-rails"
   gem "spice-html5-rails"
-  gem "flot-rails"
+  gem "flot-rails", '0.0.3'
   gem "quiet_assets"
 end
