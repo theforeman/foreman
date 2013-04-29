@@ -1,6 +1,8 @@
 # These helpers are provided as convenience methods available to the writers of templates
 # and are mixed in to Host
 module HostTemplateHelpers
+  extend ActiveSupport::Concern
+
   # Calculates the media's path in relation to the domain and convert host to an IP
   def install_path
     operatingsystem.interpolate_medium_vars(operatingsystem.media_path(medium, domain), architecture.name, operatingsystem)

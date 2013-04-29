@@ -1,17 +1,17 @@
 module ReportCommon
+  extend ActiveSupport::Concern
+
   METRIC = %w[applied restarted failed failed_restarts skipped pending]
   BIT_NUM = 6
   MAX = (1 << BIT_NUM) -1 # maximum value per metric
 
-  def self.included(base)
-    base.class_eval do
-      # search for a metric - e.g.:
-      # Report.with("failed") --> all reports which have a failed counter > 0
-      # Report.with("failed",20) --> all reports which have a failed counter > 20
-      scope :with, lambda { |*arg| {
-        :conditions => "(#{report_status} >> #{BIT_NUM*METRIC.index(arg[0])} & #{MAX}) > #{arg[1] || 0}"}
-      }
-    end
+  included do
+    # search for a metric - e.g.:
+    # Report.with("failed") --> all reports which have a failed counter > 0
+    # Report.with("failed",20) --> all reports which have a failed counter > 20
+    scope :with, lambda { |*arg| {
+      :conditions => "(#{report_status} >> #{BIT_NUM*METRIC.index(arg[0])} & #{MAX}) > #{arg[1] || 0}"}
+    }
   end
 
   # generate dynamically methods for all metrics

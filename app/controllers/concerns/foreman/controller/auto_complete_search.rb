@@ -1,4 +1,6 @@
 module Foreman::Controller::AutoCompleteSearch
+  extend ActiveSupport::Concern
+
   def auto_complete_search
     begin
       model = controller_name == "hosts" ? Host::Managed : controller_name.singularize.camelize.constantize

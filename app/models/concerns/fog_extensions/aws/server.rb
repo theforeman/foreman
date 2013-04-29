@@ -1,6 +1,7 @@
 module FogExtensions
   module AWS
     module Server
+      extend ActiveSupport::Concern
       def to_s
         tags["Name"] || identity
       end

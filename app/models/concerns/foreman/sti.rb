@@ -1,25 +1,26 @@
 module Foreman
   module STI
-    def self.included(base)
-      base.class_eval do
-        class << self
-          # ensures that the correct STI object is created when :type is passed.
-          def new_with_cast(*attributes, &block)
-            if (h = attributes.first).is_a?(Hash) && (type = h.delete(:type)) && type.length > 0
-              if (klass = type.constantize) != self
-                raise "Invalid type #{type}" unless klass <= self
-                return klass.new(*attributes, &block)
-              end
-            end
+    extend ActiveSupport::Concern
 
-            new_without_cast(*attributes, &block)
+    included do
+      class << self
+        # ensures that the correct STI object is created when :type is passed.
+        def new_with_cast(*attributes, &block)
+          if (h = attributes.first).is_a?(Hash) && (type = h.delete(:type)) && type.length > 0
+            if (klass = type.constantize) != self
+              raise "Invalid type #{type}" unless klass <= self
+              return klass.new(*attributes, &block)
+            end
           end
 
-          alias_method_chain :new, :cast
+          new_without_cast(*attributes, &block)
         end
-        base.alias_method_chain :save, :type
+
+        alias_method_chain :new, :cast
       end
+      alias_method_chain :save, :type
     end
+
     def save_with_type(*args)
       self.class.instance_variable_set("@finder_needs_type_condition", :false) if self.type_changed?
       value = save_without_type(*args)

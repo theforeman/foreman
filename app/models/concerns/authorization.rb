@@ -1,10 +1,10 @@
 module Authorization
-  def self.included(base)
-    base.class_eval do
-      before_save    :enforce_edit_permissions
-      before_destroy :enforce_destroy_permissions
-      before_create  :enforce_create_permissions
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    before_save    :enforce_edit_permissions
+    before_destroy :enforce_destroy_permissions
+    before_create  :enforce_create_permissions
   end
 
   # We must enforce the security model
@@ -42,6 +42,7 @@ module Authorization
   end
 
   private
+
   def enforce?
     return false if (User.current and User.current.admin?)
     return true  if defined?(Rake) and Rails.env == "test"
