@@ -69,7 +69,7 @@ module Orchestration::SSHProvision
     def delSSHCert
       # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
       if puppetca?
-        respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && delAutosign
+        respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
       end
     rescue => e
       failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
@@ -85,7 +85,7 @@ module Orchestration::SSHProvision
         # calling validations would trigger the whole orchestration layer again, we don't want it while we are inside an orchestration action ourselves.
         h.save(:validate => false)
         # but it does mean we need to manually remove puppetca autosign, remove this when we no longer part of after_commit callback
-        respond_to?(:initialize_puppetca) && initialize_puppetca && delAutosign if puppetca?
+        respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
 
       else
         raise ::Foreman::Exception.new(N_("Provision script had a non zero exit, removing instance"))
