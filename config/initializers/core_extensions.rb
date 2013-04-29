@@ -6,6 +6,8 @@ class NilClass
 end
 
 class ActiveRecord::Base
+  extend Hostext::Hostmix
+
   def <=>(other)
     self.name <=> other.name
   end
@@ -26,29 +28,6 @@ class ActiveRecord::Base
       "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
       "#{self.class.name} Attribute Update"
     )
-  end
-
-  # ActiveRecord Callback class
-  class EnsureNotUsedBy
-    attr_reader :klasses, :logger
-    def initialize *attribute
-      @klasses = attribute
-      @logger  = Rails.logger
-    end
-
-    def before_destroy(record)
-      klasses.each do |klass|
-        record.send(klass.to_sym).each do |what|
-          record.errors.add :base, "#{record} is used by #{what}"
-        end
-      end
-      if record.errors.empty?
-        true
-      else
-        logger.error "You may not destroy #{record.to_label} as it is in use!"
-        false
-      end
-    end
   end
 
   def id_and_type

@@ -1,7 +1,3 @@
-# The audit class is part of audited plugin
-# we reopen here to add search functionality
-require 'audited'
-
 module AuditExtentions
   extend ActiveSupport::Concern
 
@@ -54,6 +50,3 @@ module AuditExtentions
     self.associated_name ||= self.associated.try(:to_label)
   end
 end
-
-Audit = Audited.audit_class
-Audit.send(:include, AuditExtentions)
