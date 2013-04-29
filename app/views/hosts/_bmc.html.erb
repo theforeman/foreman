@@ -1,0 +1,40 @@
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Chassis</th>
+  </tr>
+  <tr>
+    <td>Status</td>
+    <td><%= power_status(@host.get_bmc_interface.power(:action => 'status')['result']) %></td>
+  </tr>
+  <tr>
+    <td>Power</td>
+    <td><%= power_actions %></td>
+  </tr>
+  <tr>
+    <td>Boot device</td>
+    <td><%= boot_actions %></td>
+  </tr>
+
+</table>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Lan</th>
+  </tr>
+  <tr>
+    <td>Ip</td>
+    <td><%= @host.get_bmc_interface.lan(:action => 'ip')['result'] %></td>
+  </tr>
+  <tr>
+    <td>Netmask</td>
+    <td><%= @host.get_bmc_interface.lan(:action => 'netmask')['result'] %></td>
+  </tr>
+  <tr>
+    <td>MAC</td>
+    <td><%= @host.get_bmc_interface.lan(:action => 'mac')['result'] %></td>
+  </tr>
+  <tr>
+    <td>Gateway</td>
+    <td><%= @host.get_bmc_interface.lan(:action => 'gateway')['result'] %></td>
+  </tr>
+  </tr>
+</table>
