@@ -15,7 +15,7 @@ $(function() {
 function onContentLoad(){
   $('.autocomplete-input').scopedSearch();
 
-  $('.flash.error').hide().each(function(index, item) {
+  $('.flash.error').each(function(index, item) {
      if ($('.alert-message.alert-error.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
          $.jnotify($(item).text(), { type: "error", sticky: true });
@@ -23,11 +23,11 @@ function onContentLoad(){
      }
    });
 
-   $('.flash.warning').hide().each(function(index, item) {
+   $('.flash.warning').each(function(index, item) {
      $.jnotify($(item).text(), { type: "warning", sticky: true });
    });
 
-   $('.flash.notice').hide().each(function(index, item) {
+   $('.flash.notice').each(function(index, item) {
      $.jnotify($(item).text(), { type: "success", sticky: false });
    });
 
