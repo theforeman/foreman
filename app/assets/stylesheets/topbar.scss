@@ -1,8 +1,17 @@
+@import "mixin";
+@import "colors";
+
+@media screen and (max-width: 767px){
+  .logo-bar {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+}
+
 .logo-bar{
-  margin-left: -20px;
-  margin-right: -20px;
   height: 25px;
-  background-color: #005C7E;
+  border-top: solid 2px $brand_color;
+  background-color: $primary_color;
   .nav > .dropdown > .dropdown-toggle{
     color:#ffffff;
     text-decoration: none;
@@ -11,7 +20,7 @@
   .nav > .dropdown > .dropdown-toggle:focus,
   .nav > .dropdown > .dropdown-toggle:hover,
   .nav > .dropdown.open > .dropdown-toggle{
-    background-color: #005f84;
+    background-color: $primary_color;
   }
   .nav.pull-right {
     margin-bottom: 0;
@@ -67,7 +76,7 @@
 .org-switcher>a{
   font-family: Overpass, sans-serif, sans;
   font-size: 16px !important;
-  border-right: solid 1px #0187b6 !important;
+  border-right: solid 1px $border_color !important;
   .caret{
     margin-left:20px;
     margin-top: 6px;

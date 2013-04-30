@@ -1,3 +1,11 @@
+@import "mixin";
+@import "colors";
+
+$frame_gradient_start: #ffffff;
+$frame_gradient_end: #e9e9e9;
+$side_gradient_start: $primary_color;
+$side_gradient_end: $primary_color;
+
 .login-container{
   position: relative;
   width: 500px;
@@ -5,36 +13,17 @@
   margin: 150px auto;
   padding: 10px;
   background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(40%, rgba(255, 255, 255, 0)), color-stop(120%, #d9d9d9));
-  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 40%, #d9d9d9 120%);
-  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 40%, #d9d9d9 120%);
-  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 40%, #d9d9d9 120%);
-  background-image: linear-gradient(top, rgba(255, 255, 255, 0) 40%, #d9d9d9 120%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9');
+  @include linear-gradient($frame_gradient_start, $frame_gradient_end);
+  @include border_radius(7px, 7px, 7px, 7px);
   -webkit-box-shadow: #acacac 0px 12px 15px -8px;
   -moz-box-shadow: #acacac 0px 12px 15px -8px;
   box-shadow: #acacac 0px 12px 15px -8px;
-  -webkit-border-radius: 7px;
-  -moz-border-radius: 7px;
-  -ms-border-radius: 7px;
-  -o-border-radius: 7px;
-  border-radius: 7px;
-
   & .aside {
     width: 140px;
     height: 265px;
     float: left;
-    background: #006289;
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #006289), color-stop(40%, #006289), color-stop(100%, #005b7e));
-    background: -webkit-linear-gradient(top, #006289 0%, #006289 40%, #005b7e 100%);
-    background: -moz-linear-gradient(top, #006289 0%, #006289 40%, #005b7e 100%);
-    background: -o-linear-gradient(top, #006289 0%, #006289 40%, #005b7e 100%);
-    background: linear-gradient(top, #006289 0%, #006289 40%, #005b7e 100%);
-    -webkit-border-radius: 7px 0 0 7px;
-    -moz-border-radius: 7px 0 0 7px;
-    -ms-border-radius: 7px 0 0 7px;
-    -o-border-radius: 7px 0 0 7px;
-    border-radius: 7px 0 0 7px;
+    @include linear-gradient($side_gradient_start, $side_gradient_end);
+    @include border_radius(7px, 0, 0, 7px);
   }
   & .section {
     width: 360px;
@@ -46,13 +35,9 @@
     min-height: 265px;
     height: 265px;
     width: 360px;
-    background: #FFF;
+    background: #f9f9f9;
     padding: 0 30px;
-    -webkit-border-radius: 0 7px 7px 0;
-    -moz-border-radius: 0 7px 7px 0;
-    -ms-border-radius: 0 7px 7px 0;
-    -o-border-radius: 0 7px 7px 0;
-    border-radius: 0 7px 7px 0;
+    @include border_radius(0, 7px, 7px, 0);
     -webkit-box-shadow: inset -15px -15px 30px -7px #d9d9d9, inset 0px -15px 130px #d9d9d9;
     -moz-box-shadow: inset -15px -15px 30px -7px #d9d9d9, inset 0px -15px 130px #d9d9d9;
     box-shadow: inset -15px -15px 30px -7px #d9d9d9, inset 0px -15px 130px #d9d9d9;
