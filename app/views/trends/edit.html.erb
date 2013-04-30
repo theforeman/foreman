@@ -1,10 +1,10 @@
 <%= javascript 'trends' %>
-<% title _("Edit Trend %s") @trend.to_label %>
+<% title _("Edit Trend %s") % @trend.to_label %>
 <div class="span6">
-  <% form_tag trend_path, :method => :put do %>
+  <%= form_tag trend_path, :method => :put do %>
     <% if @trend.is_a?(FactTrend) %>
       <table class="table">
-      <th style="width: 40%"><%= _("Fact Name") %></th><th style="width: 60%"><%= _("Display Name") %></th>
+        <th style='width: 40%'><%= _("Fact Name") %></th><th style="width: 60%"><%= _("Display Name") %></th>
         <tr>
           <%= fields_for "trend[]", @trend do |f| %>
             <td>
