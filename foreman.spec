@@ -1,23 +1,43 @@
 %global homedir %{_datadir}/%{name}
 %global confdir extras/packaging/rpm/sources
+%global scl ruby193
+
+%if "%{?scl}" == "ruby193"
+    %global scl_prefix %{scl}-
+    %global scl_ruby /usr/bin/ruby193-ruby
+    %global scl_rake /usr/bin/ruby193-rake
+    ### TODO temp disabled for SCL
+    %global nodoc 1
+%else
+    %global scl_ruby /usr/bin/ruby
+    %global scl_rake /usr/bin/rake
+%endif
 
 Name:   foreman
-Version: 1.1stable
-Release: 3%{dist}
+Version: 1.1.9999
+Release:1
 Summary:Systems Management web application
 
 Group:  Applications/System
 License:GPLv3+
 URL: http://theforeman.org
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: %{name}-%{version}.tar.gz
 
+BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 
-Requires: ruby(abi) = 1.8
-Requires: rubygems
-Requires: facter
-Requires: puppet >= 0.24.4
+%if 0%{?fedora} && 0%{?fedora} < 17
+Requires: %{?scl_prefix}ruby(abi) = 1.8
+%else
+%if 0%{?fedora} && 0%{?fedora} > 18
+Requires: %{?scl_prefix}ruby(release)
+%else
+Requires: %{?scl_prefix}ruby(abi) = 1.9.1
+%endif
+%endif
+Requires: %{?scl_prefix}rubygems
+Requires: %{?scl_prefix}facter
+Requires(pre): %{?scl_prefix}puppet >= 0.24.4
 Requires: wget
 Requires: /etc/cron.d
 Requires(pre):  shadow-utils
@@ -25,37 +45,74 @@ Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
-Requires: rubygem(json)
-Requires: rubygem(rails) >= 3.2.8
-Requires: rubygem(rails) < 3.3.0
-Requires: rubygem(jquery-rails)
-Requires: rubygem(rest-client)
-Requires: rubygem(acts_as_audited) = 2.0.0
-Requires: rubygem(will_paginate) >= 3.0.2
-Requires: rubygem(ancestry) >= 1.3.0
-Requires: rubygem(ancestry) < 1.4.0
-Requires: rubygem(scoped_search) >= 2.4.0
-Requires: rubygem(scoped_search) < 2.5.0
-Requires: rubygem(net-ldap)
-
-Requires: rubygem(safemode) >= 1.2.0
-Requires: rubygem(safemode) < 1.3.0
-Requires: rubygem(uuidtools)
-Requires: rubygem(rake) >= 0.9.2.2
-Requires: rubygem(ruby_parser) >= 3.0.0
-Requires: rubygem(ruby_parser) < 3.1.0
-Requires: rubygem(audited-activerecord) >= 3.0.0
-Requires: rubygem(rabl) >= 0.7.5
-Requires: rubygem(apipie-rails) >= 0.0.13
-Requires: rubygem(oauth)
-Provides: %{name}-%{version}-%{release}
-#Packager:   Ohad Levy <ohadlevy@gmail.com>
+Requires: %{?scl_prefix}rubygem(json)
+Requires: %{?scl_prefix}rubygem(rails) >= 3.2.8
+Requires: %{?scl_prefix}rubygem(rails) < 3.3.0
+Requires: %{?scl_prefix}rubygem(jquery-rails)
+Requires: %{?scl_prefix}rubygem(rest-client)
+Requires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.0
+Requires: %{?scl_prefix}rubygem(will_paginate) < 3.1.0
+Requires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
+Requires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
+Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
+Requires: %{?scl_prefix}rubygem(net-ldap)
+Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
+Requires: %{?scl_prefix}rubygem(safemode) < 1.3.0
+Requires: %{?scl_prefix}rubygem(uuidtools)
+Requires: %{?scl_prefix}rubygem(oauth)
+Requires: %{?scl_prefix}rubygem(rabl) >= 0.7.5
+Requires: %{?scl_prefix}rubygem(rake) >= 0.8.3
+Requires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
+Requires: %{?scl_prefix}rubygem(ruby_parser) < 3.1.0
+Requires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
+Requires: %{?scl_prefix}rubygem(apipie-rails) = 0.0.16
+Requires: %{?scl_prefix}rubygem(bundler_ext)
+Requires: %{?scl_prefix}rubygem(thin)
+Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.4.8
+Requires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
+Requires: %{?scl_prefix}rubygem(therubyracer) =  0.11.3
+Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
+Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
+BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.16
+BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
+BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
+BuildRequires: %{?scl_prefix}rubygem(coffee-rails) => 3.2.1
+BuildRequires: %{?scl_prefix}rubygem(fast_gettext)
+BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+BuildRequires: %{?scl_prefix}rubygem(jquery-rails)
+BuildRequires: %{?scl_prefix}rubygem(jquery-ui-rails)
+BuildRequires: %{?scl_prefix}rubygem(less-rails)
+BuildRequires: %{?scl_prefix}rubygem(net-ldap)
+BuildRequires: %{?scl_prefix}rubygem(oauth)
+BuildRequires: %{?scl_prefix}rubygem(rabl) >= 0.7.5
+BuildRequires: %{?scl_prefix}rubygem(rake)
+BuildRequires: %{?scl_prefix}rubygem(rest-client)
+BuildRequires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
+BuildRequires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
+BuildRequires: %{?scl_prefix}rubygem(sass-rails) => 3.2.3
+BuildRequires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
+BuildRequires: %{?scl_prefix}rubygem(sqlite3)
+BuildRequires: %{?scl_prefix}rubygem(therubyracer)
+BuildRequires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+BuildRequires: %{?scl_prefix}rubygem(uglifier) >= 1.0.3
+BuildRequires: %{?scl_prefix}rubygem(uuidtools)
+BuildRequires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.2
+BuildRequires: %{?scl_prefix}rubygem(rails)
+BuildRequires: %{?scl_prefix}rubygem(quiet_assets)
+BuildRequires: %{?scl_prefix}rubygem(spice-html5-rails)
+BuildRequires: %{?scl_prefix}rubygem(flot-rails)
+BuildRequires: %{?scl_prefix}facter
+BuildRequires: %{?scl_prefix}puppet >= 0.24.4
+BuildRequires: puppet
 
 %package cli
 Summary: Foreman CLI
 Group: Applications/System
-Requires: %{name}-%{version}-%{release}
-Requires: rubygem(foremancli) >= 1.0
+Requires: %{name} = %{version}-%{release}
+Requires: %{?scl_prefix}rubygem(foremancli) >= 1.0
 
 %description cli
 Meta Package to install rubygem-cli and its dependencies
@@ -72,16 +129,16 @@ Foreman repository contains open source and other distributable software for
 Fedora. This package contains the repository configuration for Yum.
 
 %files release
-%defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/yum.repos.d/*
 
 %package libvirt
 Summary: Foreman libvirt support
 Group:  Applications/System
-Requires: rubygem(virt) >= 0.2.1
-Requires: %{name}-%{version}-%{release}
-Requires: foreman-ec2-%{version}-%{release}
-Obsoletes: foreman-virt
+Requires: %{?scl_prefix}rubygem(virt) >= 0.2.1
+Requires: %{name} = %{version}-%{release}
+Requires: foreman-ec2 = %{version}-%{release}
+Obsoletes: foreman-virt < 1.0.0
+Provides: foreman-virt = 1.0.0
 
 %description libvirt
 Meta Package to install requirements for virt support
@@ -89,27 +146,12 @@ Meta Package to install requirements for virt support
 %files libvirt
 %{_datadir}/%{name}/bundler.d/libvirt.rb
 
-%post libvirt
-#All the foreman-* rpm's are version locked, and foreman runs this as a posttrans on i
-#install/update, so the only time this needs to be run is on install in case someone
-#installs it after the initial foreman install.
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun libvirt
-#If we uninstall a package then we need to update the bundler config as well. We can no
-#longer guarantee the dependency gems are installed otherwise.
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package ovirt
 Summary: Foreman ovirt support
 Group:  Applications/System
-Requires: rubygem(rbovirt) >= 0.0.15
-Requires: foreman-ec2-%{version}-%{release}
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.15
+Requires: foreman-ec2 = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 
 %description ovirt
 Meta Package to install requirements for ovirt support
@@ -117,23 +159,13 @@ Meta Package to install requirements for ovirt support
 %files ovirt
 %{_datadir}/%{name}/bundler.d/ovirt.rb
 
-%post ovirt
-if [ $1 == 1 ];then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun ovirt
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package ec2
 Summary: Foreman ec2 support
 Group:  Applications/System
-Requires: rubygem-fog >= 1.9.0
-Requires: %{name}-%{version}-%{release}
-Provides: foreman-ec2-%{version}-%{release}
-Obsoletes: foreman-fog
+Requires: %{?scl_prefix}rubygem-fog >= 1.8.0
+Requires: %{name} = %{version}-%{release}
+Obsoletes: foreman-fog < 1.0.0
+Provides: foreman-fog = 1.0.0
 
 %description ec2
 Meta Package to install requirements for ec2 support
@@ -141,22 +173,12 @@ Meta Package to install requirements for ec2 support
 %files ec2
 %{_datadir}/%{name}/bundler.d/fog.rb
 
-%post ec2
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun ec2
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package vmware
 Summary: Foreman vmware support
 Group:  Applications/System
-Requires: rubygem(rbvmomi)
-Requires: %{name}-%{version}-%{release}
-Requires: foreman-ec2-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(rbvmomi)
+Requires: %{name} = %{version}-%{release}
+Requires: foreman-ec2 = %{version}-%{release}
 
 %description vmware
 Meta Package to install requirements for vmware support
@@ -164,23 +186,36 @@ Meta Package to install requirements for vmware support
 %files vmware
 %{_datadir}/%{name}/bundler.d/vmware.rb
 
-%post vmware
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
+%package assets
+Summary: Foreman asset pipeline support
+Group: Applications/system
+Requires: %{name} = %{version}-%{release}
+Requires: %{?scl_prefix}rubygem(coffee-rails) >= 3.2.1
+Requires: %{?scl_prefix}rubygem(coffee-rails) < 3.2.2
+Requires: %{?scl_prefix}rubygem(jquery-rails) = 2.0.3
+Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
+Requires: %{?scl_prefix}rubygem(quiet_assets)
+Requires: %{?scl_prefix}rubygem(sass-rails) >= 3.2.3
+Requires: %{?scl_prefix}rubygem(sass-rails) < 3.2.4
+Requires: %{?scl_prefix}rubygem(spice-html5-rails)
+Requires: %{?scl_prefix}rubygem(therubyracer)
+Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+Requires: %{?scl_prefix}rubygem(uglifier)
+Requires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 
-%postun vmware
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
+%description assets
+Meta package to install asset pipeline support.
+
+%files assets
+%{_datadir}/%{name}/bundler.d/assets.rb
 
 %package console
 Summary: Foreman console support
 Group:  Applications/System
-Requires: rubygem(awesome_print)
-Requires: rubygem(hirb-unicode)
-Requires: rubygem(wirb)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(awesome_print)
+Requires: %{?scl_prefix}rubygem(hirb-unicode)
+Requires: %{?scl_prefix}rubygem(wirb)
+Requires: %{name} = %{version}-%{release}
 
 %description console
 Meta Package to install requirements for console support
@@ -188,21 +223,11 @@ Meta Package to install requirements for console support
 %files console
 %{_datadir}/%{name}/bundler.d/console.rb
 
-%post console
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun console
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package mysql
 Summary: Foreman mysql support
 Group:  Applications/System
-Requires: rubygem(mysql)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(mysql)
+Requires: %{name} = %{version}-%{release}
 
 %description mysql
 Meta Package to install requirements for mysql support
@@ -210,21 +235,11 @@ Meta Package to install requirements for mysql support
 %files mysql
 %{_datadir}/%{name}/bundler.d/mysql.rb
 
-%post mysql
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun mysql
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package mysql2
 Summary: Foreman mysql2 support
 Group:  Applications/System
-Requires: rubygem(mysql2)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(mysql2)
+Requires: %{name} = %{version}-%{release}
 
 %description mysql2
 Meta Package to install requirements for mysql2 support
@@ -232,21 +247,11 @@ Meta Package to install requirements for mysql2 support
 %files mysql2
 %{_datadir}/%{name}/bundler.d/mysql2.rb
 
-%post mysql2
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun mysql2
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package postgresql
 Summary: Foreman Postgresql support
 Group:  Applications/System
-Requires: rubygem(pg)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(pg)
+Requires: %{name} = %{version}-%{release}
 
 %description postgresql
 Meta Package to install requirements for postgresql support
@@ -254,21 +259,11 @@ Meta Package to install requirements for postgresql support
 %files postgresql
 %{_datadir}/%{name}/bundler.d/postgresql.rb
 
-%post postgresql
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun postgresql
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package sqlite
 Summary: Foreman sqlite support
 Group:  Applications/System
-Requires: rubygem(sqlite3)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(sqlite3)
+Requires: %{name} = %{version}-%{release}
 
 %description sqlite
 Meta Package to install requirements for sqlite support
@@ -276,21 +271,33 @@ Meta Package to install requirements for sqlite support
 %files sqlite
 %{_datadir}/%{name}/bundler.d/sqlite.rb
 
-%post sqlite
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun sqlite
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
+# <devel packages are not SCL enabled yet - not avaiable on SCL platforms>
+%if %{?scl:0}%{!?scl:1}
 
 %package devel
 Summary: Foreman devel support
 Group:  Applications/System
-Requires: rubygem(debug)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(ruby-debug19)
+Requires: %{name} = %{version}-%{release}
+Requires: %{name}-cli = %{version}-%{release}
+Requires: %{name}-libvirt = %{version}-%{release}
+Requires: %{name}-ovirt = %{version}-%{release}
+Requires: %{name}-ec2 = %{version}-%{release}
+Requires: %{name}-vmware = %{version}-%{release}
+Requires: %{name}-console = %{version}-%{release}
+Requires: %{name}-mysql = %{version}-%{release}
+Requires: %{name}-mysql2 = %{version}-%{release}
+Requires: %{name}-postgresql = %{version}-%{release}
+Requires: %{name}-sqlite = %{version}-%{release}
+Requires: %{name}-test = %{version}-%{release}
+Requires: %{?scl_prefix}rubygem(ci_reporter)
+Requires: %{?scl_prefix}rubygem(gettext)
+Requires: %{?scl_prefix}rubygem(maruku)
+Requires: %{?scl_prefix}rubygem(single_test)
+Requires: %{?scl_prefix}rubygem(pry)
+Requires: %{?scl_prefix}rubygem(term-ansicolor)
+Requires: %{?scl_prefix}rubygem(rack-mini-profiler)
+Requires: %{name}-assets = %{version}-%{release}
 
 %description devel
 Meta Package to install requirements for devel support
@@ -298,24 +305,16 @@ Meta Package to install requirements for devel support
 %files devel
 %{_datadir}/%{name}/bundler.d/development.rb
 
-%post devel
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun devel
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
 %package test
 Summary: Foreman test support
 Group:  Applications/System
-Requires: rubygem(mocha)
-Requires: rubygem(shoulda)
-Requires: rubygem(rr)
-Requires: rubygem(rake)
-Requires: %{name}-%{version}-%{release}
+Requires: %{?scl_prefix}rubygem(mocha)
+Requires: %{?scl_prefix}rubygem(shoulda)
+Requires: %{?scl_prefix}rubygem(rr)
+Requires: %{?scl_prefix}rubygem(rake)
+Requires: %{?scl_prefix}rubygem(maruku)
+Requires: %{?scl_prefix}rubygem(single_test)
+Requires: %{name} = %{version}-%{release}
 
 %description test
 Meta Package to install requirements for test
@@ -323,16 +322,7 @@ Meta Package to install requirements for test
 %files test
 %{_datadir}/%{name}/bundler.d/test.rb
 
-%post test
-if [ $1 == 1 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
-%postun test
-if [ $1 == 0 ]; then
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
-fi
-
+%endif
 
 %description
 Foreman is aimed to be a Single Address For All Machines Life Cycle Management.
@@ -340,23 +330,38 @@ Foreman is based on Ruby on Rails, and this package bundles Rails and all
 plugins required for Foreman to work.
 
 %prep
-%setup -q -n %{name}-%{version}
-# Remove the references to git data in the Gemfile. This regex removes
-# everything after the first comma, potentially including version
-# information if it's specified.
-sed -i 1d Gemfile
-sed -i 's/,.*//' Gemfile
-sed -i "1i\require File.expand_path('../config/settings', __FILE__)" Gemfile
+%setup -q
+
 %build
+#replace shebangs for SCL
+%if %{?scl:1}%{!?scl:0}
+    for f in extras/query/ssh_using_foreman extras/rdoc/rdoc_prepare_script.rb extras/cli/foremancli \
+		script/rails script/performance/profiler script/performance/benchmarker script/foreman-config ; do
+	    sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' $f
+    done
+    sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' foreman.init
+    sed -ri '1,$s|THIN=/usr/bin/thin|THIN="run_in_scl"|' foreman.init
+%endif
+
+mv Gemfile Gemfile.in
+# fix the issue with loading scoped_search
+# upstream bug https://github.com/wvanbergen/scoped_search/issues/53
+sed -i "s/gem 'scoped_search'/gem 'sprockets'\n&/" Gemfile.in
+cp config/database.yml.example config/database.yml
+export BUNDLER_EXT_NOSTRICT=1
+export BUNDLER_EXT_GROUPS="default assets"
+%{scl_rake} assets:precompile:all RAILS_ENV=production --trace
+rm config/database.yml
 
 %install
 rm -rf %{buildroot}
 install -d -m0755 %{buildroot}%{_datadir}/%{name}
 install -d -m0755 %{buildroot}%{_sysconfdir}/%{name}
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}
+install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp
+install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp/pids
 install -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
-
 install -Dp -m0644 %{confdir}/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -Dp -m0755 %{confdir}/%{name}.init %{buildroot}%{_initrddir}/%{name}
 install -Dp -m0644 %{confdir}/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -365,21 +370,21 @@ install -Dp -m0644 %{confdir}/%{name}.cron.d %{buildroot}%{_sysconfdir}/cron.d/%
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 install -pm 644 %{confdir}/%{name}.repo $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 
-cp -p -r app bundler.d config config.ru extras Gemfile lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
-#chmod a+x %{buildroot}%{_datadir}/%{name}/script/{console,dbconsole,runner}
+cp -p Gemfile.in %{buildroot}%{_datadir}/%{name}/Gemfile.in
+cp -p -r app bundler.d config config.ru extras lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
 rm -rf %{buildroot}%{_datadir}/%{name}/extras/{jumpstart,spec}
-# remove all test units from productive release
+# remove all test units from produciton release
 find %{buildroot}%{_datadir}/%{name} -type d -name "test" |xargs rm -rf
 
 # Move config files to %{_sysconfdir}
 mv %{buildroot}%{_datadir}/%{name}/config/database.yml.example %{buildroot}%{_datadir}/%{name}/config/database.yml
 mv %{buildroot}%{_datadir}/%{name}/config/email.yaml.example %{buildroot}%{_datadir}/%{name}/config/email.yaml
 mv %{buildroot}%{_datadir}/%{name}/config/settings.yaml.example %{buildroot}%{_datadir}/%{name}/config/settings.yaml
+
 for i in database.yml email.yaml settings.yaml; do
 mv %{buildroot}%{_datadir}/%{name}/config/$i %{buildroot}%{_sysconfdir}/%{name}
 ln -sv %{_sysconfdir}/%{name}/$i %{buildroot}%{_datadir}/%{name}/config/$i
 done
-touch %{buildroot}%{_datadir}/%{name}/config/initializers/local_secret_token.rb
 
 # Put db in %{_localstatedir}/lib/%{name}/db
 cp -pr db/migrate db/seeds.rb %{buildroot}%{_datadir}/%{name}
@@ -398,24 +403,29 @@ ln -sv %{_localstatedir}/log/%{name} %{buildroot}%{_datadir}/%{name}/log
 # Put tmp files in %{_localstatedir}/run/%{name}
 ln -sv %{_localstatedir}/run/%{name} %{buildroot}%{_datadir}/%{name}/tmp
 echo %{version} > %{buildroot}%{_datadir}/%{name}/VERSION
+
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,0755)
-%exclude %{_datadir}/%{name}/bundler.d
+%doc README.md
+%doc VERSION
+%exclude %{_datadir}/%{name}/bundler.d/*
 %{_datadir}/%{name}
+%exclude %{_datadir}/%{name}/app/assets
 %{_initrddir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config %{_sysconfdir}/cron.d/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/lib/%{name}
-%attr(-,%{name},%{name}) %{_localstatedir}/log/%{name}
+%attr(750,%{name},%{name}) %{_localstatedir}/log/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
 %attr(-,%{name},root) %{_datadir}/%{name}/config.ru
 %attr(-,%{name},root) %{_datadir}/%{name}/config/environment.rb
 %ghost %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+
 %pre
 # Add the "foreman" user and group
 getent group %{name} >/dev/null || groupadd -r %{name}
@@ -461,18 +471,18 @@ if [ ! -f %{_datadir}/%{name}/config/initializers/local_secret_token.rb ]; then
   touch %{_datadir}/%{name}/config/initializers/local_secret_token.rb
   chmod 0640 %{_datadir}/%{name}/config/initializers/local_secret_token.rb
   chgrp foreman %{_datadir}/%{name}/config/initializers/local_secret_token.rb
-  rake -f %{_datadir}/%{name}/Rakefile security:generate_token >/dev/null 2>&1 || :
+  %{scl_rake} -f %{_datadir}/%{name}/Rakefile security:generate_token >/dev/null 2>&1 || :
 fi
 /sbin/chkconfig --add %{name} || :
-(/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
-exit 0
+  (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
+  exit 0
 
 %posttrans
-# We need to run the db:migrate after the  install transaction, because if there are updated gems and foreman-* packages we need to ensure everything is in place or bundler can get very upset about missing gems, etc.
-cd /usr/share/foreman; rm -f Gemfile.lock; /usr/bin/bundle install --local 1>/dev/null 2>&1
+# We need to run the db:migrate after the  install transaction
 su - foreman -s /bin/bash -c %{_datadir}/%{name}/extras/dbmigrate >/dev/null 2>&1 || :
  (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
  exit 0
+
 %preun
 if [ $1 -eq 0 ] ; then
 /sbin/service %{name} stop >/dev/null 2>&1
@@ -486,6 +496,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Tue Apr 30 2013 Sam Kottler <shk@redhat.com> 1.1.9999-1
+- Updated to 1.1.9999 (1.2-pre)
 * Fri Feb 15 2013 shk@redhat.com 1.1-3
 - Bumped safemode dependency
 * Thu Feb 14 2013 shk@redhat.com 1.1-2
