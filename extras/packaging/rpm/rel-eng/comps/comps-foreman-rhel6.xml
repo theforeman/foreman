@@ -33,6 +33,7 @@
       <packagereq type="default">ruby193-ruby-doc</packagereq>
       <packagereq type="default">ruby193-ruby-libs</packagereq>
       <packagereq type="default">ruby193-ruby-debuginfo</packagereq>
+      <packagereq type="default">ruby193-runtime</packagereq>
       <packagereq type="default">ruby193-hiera</packagereq>
       <packagereq type="default">ruby193-libselinux-ruby</packagereq>
       <packagereq type="default">ruby193-puppet</packagereq>
@@ -58,6 +59,7 @@
       <packagereq type="default">ruby193-rubygem-bundler_ext</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-script</packagereq>
+      <packagereq type="default">ruby193-rubygem-coffee-script-source</packagereq>
       <packagereq type="default">ruby193-rubygem-daemons</packagereq>
       <packagereq type="default">ruby193-rubygem-diff-lcs</packagereq>
       <packagereq type="default">ruby193-rubygem-erubis</packagereq>
@@ -90,6 +92,8 @@
       <packagereq type="default">ruby193-rubygem-net-ssh</packagereq>
       <packagereq type="default">ruby193-rubygem-nokogiri</packagereq>
       <packagereq type="default">ruby193-rubygem-oauth</packagereq>
+      <packagereq type="default">ruby193-rubygem-pg</packagereq>
+      <packagereq type="default">ruby193-rubygem-polyglot</packagereq>
       <packagereq type="default">ruby193-rubygem-quiet_assets</packagereq>
       <packagereq type="default">ruby193-rubygem-rabl</packagereq>
       <packagereq type="default">ruby193-rubygem-rack-cache</packagereq>
@@ -110,6 +114,7 @@
       <packagereq type="default">ruby193-rubygem-ruby2ruby</packagereq>
       <packagereq type="default">ruby193-rubygem-ruby_parser</packagereq>
       <packagereq type="default">ruby193-rubygem-safemode</packagereq>
+      <packagereq type="default">ruby193-rubygem-sass</packagereq>
       <packagereq type="default">ruby193-rubygem-sass-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-scoped_search</packagereq>
       <packagereq type="default">ruby193-rubygem-sequel</packagereq>
@@ -118,6 +123,7 @@
       <packagereq type="default">ruby193-rubygem-shoulda</packagereq>
       <packagereq type="default">ruby193-rubygem-spice-html5-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-sprockets</packagereq>
+      <packagereq type="default">ruby193-rubygem-sqlite3</packagereq>
       <packagereq type="default">ruby193-rubygem-therubyracer</packagereq>
       <packagereq type="default">ruby193-rubygem-thin</packagereq>
       <packagereq type="default">ruby193-rubygem-thor</packagereq>
