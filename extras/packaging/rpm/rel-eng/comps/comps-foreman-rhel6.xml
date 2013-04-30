@@ -27,6 +27,8 @@
       <packagereq type="default">ruby193-puppet</packagereq>
       <packagereq type="default">ruby193-ruby-augeas</packagereq>
       <packagereq type="default">ruby193-ruby-shadow</packagereq>
+      <packagereq type="default">ruby193-ruby-irb</packagereq>
+
       <packagereq type="default">ruby193-rubygem-actionmailer</packagereq>
       <packagereq type="default">ruby193-rubygem-actionpack</packagereq>
       <packagereq type="default">ruby193-rubygem-activemodel</packagereq>
@@ -45,7 +47,11 @@
       <packagereq type="default">ruby193-rubygem-bundler</packagereq>
       <packagereq type="default">ruby193-rubygem-bundler_ext</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-rails</packagereq>
+      <packagereq type="default">ruby193-rubygem-coffee-script</packagereq>
+      <packagereq type="default">ruby193-rubygem-daemons</packagereq>
+      <packagereq type="default">ruby193-rubygem-diff-lcs</packagereq>
       <packagereq type="default">ruby193-rubygem-erubis</packagereq>
+      <packagereq type="default">ruby193-rubygem-eventmachine</packagereq>
       <packagereq type="default">ruby193-rubygem-excon</packagereq>
       <packagereq type="default">ruby193-rubygem-execjs</packagereq>
       <packagereq type="default">ruby193-rubygem-fast_gettext</packagereq>
@@ -54,15 +60,20 @@
       <packagereq type="default">ruby193-rubygem-foremancli</packagereq>
       <packagereq type="default">ruby193-rubygem-formatador</packagereq>
       <packagereq type="default">ruby193-rubygem-gettext_i18n_rails</packagereq>
+      <packagereq type="default">ruby193-rubygem-hike</packagereq>
       <packagereq type="default">ruby193-rubygem-hirb-unicode</packagereq>
       <packagereq type="default">ruby193-rubygem-hirb</packagereq>
       <packagereq type="default">ruby193-rubygem-i18n</packagereq>
       <packagereq type="default">ruby193-rubygem-i18n_data</packagereq>
+      <packagereq type="default">ruby193-rubygem-io-console</packagereq>
       <packagereq type="default">ruby193-rubygem-journey</packagereq>
       <packagereq type="default">ruby193-rubygem-jquery-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-jquery-ui-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-json</packagereq>
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
+      <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
+      <packagereq type="default">ruby193-rubygem-multi_json</packagereq>
+      <packagereq type="default">ruby193-rubygem-net-http-persistent</packagereq>
       <packagereq type="default">ruby193-rubygem-net-ldap</packagereq>
       <packagereq type="default">ruby193-rubygem-net-ping</packagereq>
       <packagereq type="default">ruby193-rubygem-net-scp</packagereq>
@@ -74,6 +85,7 @@
       <packagereq type="default">ruby193-rubygem-rack-cache</packagereq>
       <packagereq type="default">ruby193-rubygem-rack-ssl</packagereq>
       <packagereq type="default">ruby193-rubygem-rack-test</packagereq>
+      <packagereq type="default">ruby193-rubygem-rack</packagereq>
       <packagereq type="default">ruby193-rubygem-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-railties</packagereq>
       <packagereq type="default">ruby193-rubygem-rake</packagereq>
@@ -99,6 +111,8 @@
       <packagereq type="default">ruby193-rubygem-therubyracer</packagereq>
       <packagereq type="default">ruby193-rubygem-thin</packagereq>
       <packagereq type="default">ruby193-rubygem-thor</packagereq>
+      <packagereq type="default">ruby193-rubygem-tilt</packagereq>
+      <packagereq type="default">ruby193-rubygem-treetop</packagereq>
       <packagereq type="default">ruby193-rubygem-trollop</packagereq>
       <packagereq type="default">ruby193-rubygem-twitter-bootstrap-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-tzinfo</packagereq>
