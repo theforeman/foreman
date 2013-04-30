@@ -1,4 +1,4 @@
-$(document).ready(function($) {
+$(function() {
   var clone = $('.persist-header').clone();
   $('.persist-header').after(clone);
   $('.persist-header:first').hide();
