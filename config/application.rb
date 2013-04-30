@@ -49,6 +49,13 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/services)
     config.autoload_paths += %W(#{config.root}/app/observers)
     config.autoload_paths += %W(#{config.root}/app/mailers)
+    # add STI folders to load path - adding all folders caused a LoadError - Expected /app/models/host/base.rb to define Base
+    # config.autoload_paths += Dir["#{config.root}/app/models/**/"]
+    config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
+    config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
+    config.autoload_paths += %W(#{config.root}/app/models/parameters)
+    config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
+    config.autoload_paths += %W(#{config.root}/app/models/trends)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
