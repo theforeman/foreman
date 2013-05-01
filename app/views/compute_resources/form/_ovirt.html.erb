@@ -1,6 +1,6 @@
 <%= text_f f, :url, :class => "input-xlarge", :help_block => _("e.g. https://ovirt.example.com:8443/api") %>
 <%= text_f f, :user, :help_block => _("e.g. admin@internal") %>
-<%= password_f f, :password, :placeholder => f.object.id ? "********" : "" %>
+<%= password_f f, :password, :placeholder => password_placeholder(f.object) %>
 <% datacenters = (f.object.uuid.nil? && controller.action_name != 'test_connection')  ? [] : f.object.datacenters rescue []%>
 <%= selectable_f(f, :uuid, datacenters, {}, {:label => _('Datacenter'),
                  :help_inline => link_to_function(datacenters.empty? ? _("Load Datacenters") : _("Test Connection"), "testConnection(this)",

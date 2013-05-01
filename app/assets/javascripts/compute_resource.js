@@ -26,7 +26,8 @@ function providerSelected(item)
 }
 
 function testConnection(item) {
-  var cr_id = $("form").data('id')
+  var cr_id = $("form").data('id');
+  var password = $("input[id$='password']").val();
   $('#test_connection_indicator').show();
   $.ajax({
     type:'put',
@@ -38,6 +39,8 @@ function testConnection(item) {
       $('#compute_connection').prepend(res.find(".alert-message"));
     },
     complete:function (result) {
+      //we need to restore the password field as it is not sent back from the server.
+      $("input[id$='password']").val(password);
       $('#test_connection_indicator').hide();
       $('[rel="twipsy"]').tooltip();
     }
