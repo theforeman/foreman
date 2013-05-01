@@ -1,5 +1,6 @@
 // Array contains list of host ids
 $.foremanSelectedHosts = readFromCookie();
+$.cookieName = "_ForemanSelected" + window.location.pathname.replace(/\//,"");
 
 // triggered by a host checkbox change
 function hostChecked(box) {
@@ -8,7 +9,7 @@ function hostChecked(box) {
     addHostId(cid);
   else
     rmHostId(cid);
-  $.cookie("_ForemanSelectedHosts", JSON.stringify($.foremanSelectedHosts));
+  $.cookie($.cookieName, JSON.stringify($.foremanSelectedHosts));
   toggle_actions();
   update_counter($("span.select_count"));
   return false;
@@ -27,7 +28,7 @@ function rmHostId(id) {
 
 function readFromCookie() {
   try {
-    if (r = $.cookie("_ForemanSelectedHosts"))
+    if (r = $.cookie($.cookieName))
       return $.parseJSON(r);
     else
       return [];
@@ -62,7 +63,7 @@ $(function() {
 });
 
 function removeForemanHostsCookie() {
-  $.cookie("_ForemanSelectedHosts", null);
+  $.cookie($.cookieName, null);
 }
 
 function resetSelection() {
