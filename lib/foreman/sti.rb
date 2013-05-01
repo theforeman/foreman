@@ -21,10 +21,11 @@ module Foreman
       end
     end
     def save_with_type(*args)
-      self.class.instance_variable_set("@finder_needs_type_condition", :false) if self.type_changed?
+      type_changed = self.type_changed?
+      self.class.instance_variable_set("@finder_needs_type_condition", :false) if type_changed
       value = save_without_type(*args)
-      self.class.instance_variable_set("@finder_needs_type_condition", :true)  if self.type_changed?
-      return value
+    ensure
+      self.class.instance_variable_set("@finder_needs_type_condition", :true) if type_changed
     end
   end
 end
