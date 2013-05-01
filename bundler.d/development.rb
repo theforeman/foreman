@@ -13,4 +13,6 @@ group :development do
 
   # for generating i18n files
   gem 'gettext', '>= 1.9.3', :require => false
+  # for generating foreign key migrations
+  gem 'immigrant'
 end
