@@ -71,7 +71,8 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_destroy
     ptable = Ptable.first
-    ptable.hosts = []
+    ptable.hosts.delete_all
+    ptable.hostgroups.delete_all
     delete :destroy, {:id => ptable}, set_session_user
     assert_redirected_to ptables_url
     assert !Ptable.exists?(ptable.id)
@@ -79,7 +80,8 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_destroy_json
     ptable = Ptable.first
-    ptable.hosts = []
+    ptable.hosts.delete_all
+    ptable.hostgroups.delete_all
     delete :destroy, {:format => "json", :id => ptable}, set_session_user
     ptable = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok

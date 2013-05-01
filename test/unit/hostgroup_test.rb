@@ -57,8 +57,9 @@ class HostgroupTest < ActiveSupport::TestCase
     record =  Hostgroup.first
     as_admin do
       record.hosts.destroy_all
+      record.hostgroup_classes.destroy_all
+      assert record.destroy
     end
-    assert record.destroy
     assert record.frozen?
   end
 

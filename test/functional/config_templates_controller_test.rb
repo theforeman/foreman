@@ -41,7 +41,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   def test_create_valid_json
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     post :create, {:format=> "json", :config_template => {:template => "This is a test template",
-      :template_kind_id => 1, :name => "RandomName"}}, set_session_user
+      :template_kind_id => TemplateKind.first.id, :name => "RandomName"}}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["config_template"]["name"] == "RandomName"
     assert_response :created

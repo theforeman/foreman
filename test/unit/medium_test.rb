@@ -86,9 +86,10 @@ class MediumTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Medium.first
     as_admin do
-      record.hosts = []
+      record.hosts.delete_all
+      record.hostgroups.delete_all
+      assert record.destroy
     end
-    assert record.destroy
     assert record.frozen?
   end
 
@@ -111,7 +112,7 @@ class MediumTest < ActiveSupport::TestCase
     record      =  Medium.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.delete_all
     end
     assert !record.save
     assert record.valid?

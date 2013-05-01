@@ -260,8 +260,9 @@ class HostTest < ActiveSupport::TestCase
     setup_user_and_host
     as_admin do
       @one.roles = [Role.find_by_name("Destroy hosts")]
+      @host.host_classes.delete_all
+      assert @host.destroy
     end
-    assert @host.destroy
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -270,8 +271,9 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles = [Role.find_by_name("Destroy hosts")]
       @host.update_attribute :owner,  users(:one)
+      @host.host_classes.delete_all
+      assert @host.destroy
     end
-    assert @host.destroy
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -344,8 +346,9 @@ class HostTest < ActiveSupport::TestCase
 
   test "models are updated when host.model has no value" do
     h = hosts(:one)
+    f = fact_names(:kernelversion)
     as_admin do
-      FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => 1)
+      FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => f.id)
     end
     assert_difference('Model.count') do
     facts = YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))

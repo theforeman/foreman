@@ -178,6 +178,9 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
     record =  AuthSourceLdap.first
+    as_admin do
+      record.users.delete_all
+    end
     assert record.destroy
     assert record.frozen?
   end
