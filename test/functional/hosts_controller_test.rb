@@ -800,7 +800,7 @@ class HostsControllerTest < ActionController::TestCase
   test "can change sti type to valid subtype" do
     class Host::Valid < Host::Base ; end
     put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
-    @host = Host.find(@host.id)
+    @host = Host::Base.find(@host.id)
     assert_equal "Host::Valid", @host.type
   end
 
