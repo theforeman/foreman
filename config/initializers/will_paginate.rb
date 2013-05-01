@@ -4,7 +4,7 @@ require 'will_paginate/array'
 module WillPaginate
   module ActionView
     class BootstrapLinkRenderer < LinkRenderer
-     protected
+      protected
 
       def html_container(html)
         tag :div, tag(:ul, html), container_attributes
