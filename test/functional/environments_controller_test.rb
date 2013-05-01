@@ -97,8 +97,12 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   def setup_import_classes
-    Puppetclass.delete_all
-    Environment.delete_all
+    as_admin do
+      Host::Managed.update_all(:environment_id => nil)
+      Hostgroup.update_all(:environment_id => nil)
+      Puppetclass.destroy_all
+      Environment.destroy_all
+    end
     @request.env["HTTP_REFERER"] = environments_url
     # This is the database status
     # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
@@ -181,6 +185,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       host = hosts(:one)
+      Environment.find_by_name("env1").puppetclasses += [puppetclasses(:one)]
       host.environment_id = Environment.find_by_name("env1").id
       assert host.save!
       assert host.errors.empty?
@@ -204,7 +209,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       Environment.create :name => "env3"
-      Environment.delete_all(:name => "env2")
+      Environment.find_by_name("env2").destroy
     end
     #db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}

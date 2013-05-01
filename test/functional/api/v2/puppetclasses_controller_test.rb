@@ -94,6 +94,8 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should destroy puppetclasss" do
+    HostClass.delete_all
+    HostgroupClass.delete_all
     assert_difference('Puppetclass.count', -1) do
       delete :destroy, { :id => puppetclasses(:one).to_param }
     end

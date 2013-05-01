@@ -585,7 +585,6 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts in trusted hosts list and SSL cert should get externalNodes successfully' do
-    SmartProxy.delete_all
     User.current = nil
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true

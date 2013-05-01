@@ -77,7 +77,8 @@ class ArchitectureTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Architecture.first
     as_admin do
-      record.hosts = []
+      record.hosts.delete_all
+      record.hostgroups.delete_all
     end
     assert record.destroy
     assert record.frozen?

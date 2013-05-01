@@ -105,9 +105,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Operatingsystem.first
     as_admin do
-      record.hosts = []
+      record.hosts.delete_all
+      record.hostgroups.delete_all
+      assert record.destroy
     end
-    assert record.destroy
     assert record.frozen?
   end
 

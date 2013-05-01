@@ -2,8 +2,6 @@ require 'test_helper'
 
 class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
 
-  valid_attrs = { :template => "This is a test template", :template_kind_id => 1, :name => "RandomName" }
-
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)
@@ -26,6 +24,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should create valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
+    valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:gpxe).id, :name => "RandomName" }
     post :create, { :config_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["config_template"]["name"] == "RandomName"
