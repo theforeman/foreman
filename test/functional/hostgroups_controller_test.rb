@@ -48,7 +48,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     pc = Puppetclass.first
     post :create, {:format => "json", "hostgroup" => {"name"=>"test_it", "group_parameters_attributes"=>{"1272344174448"=>{"name"=>"x", "value"=>"y", "_destroy"=>""}}, "puppetclass_ids"=>["", pc.id.to_s]}}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
-    assert template["hostgroup"]["name"] = "test_it"
+    assert_equal "test_it", template["hostgroup"]["name"]
     assert_response :created
   end
 

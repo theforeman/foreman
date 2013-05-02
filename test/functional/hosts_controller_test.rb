@@ -708,7 +708,7 @@ class HostsControllerTest < ActionController::TestCase
                                        :host_ids => Host.all.map(&:id)
                                        }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert flash[:notice], "Updated hosts: Changed Location"
+    assert_equal "Updated hosts: Changed Location", flash[:notice]
   end
   test "update multiple location updates location of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -741,7 +741,7 @@ class HostsControllerTest < ActionController::TestCase
                                        :host_ids => Host.all.map(&:id)
                                        }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert flash[:error], "Cannot update organization to organization 1 because of mismatch in settings"
+    assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
   test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -773,7 +773,7 @@ class HostsControllerTest < ActionController::TestCase
                                        :host_ids => Host.all.map(&:id)
                                        }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert flash[:notice], "Updated hosts: Changed Organization"
+    assert_equal "Updated hosts: Changed Organization", flash[:notice]
   end
   test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
