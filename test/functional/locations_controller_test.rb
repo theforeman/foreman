@@ -19,7 +19,7 @@ class LocationsControllerTest < ActionController::TestCase
     post :update, {:commit => "Submit", :id => location.id, :location => {:name => "New Name"} }, set_session_user
     updated_location = Location.find_by_id(location.id)
 
-    assert updated_location.name = location.name
+    assert_equal "New Name", updated_location.name
     assert_redirected_to locations_path
   end
 
