@@ -21,6 +21,7 @@
       <%= text_f f, :firstname %>
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
+      <%= selectable_f(f, :locale, FastGettext.human_available_locales, {:include_blank => _("Browser locale")}) %>
 
       <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true}, {:onchange => 'auth_source_selected()', :label => _("Authorized by")}) unless @editing_self
       %>

@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
   # standard layout to all controllers
   helper 'layout'
 
-  before_filter :set_gettext_locale
   before_filter :require_ssl, :require_login
+  before_filter :set_gettext_locale_db, :set_gettext_locale
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :welcome, :only => :index, :unless => :api_request?
@@ -59,6 +59,12 @@ class ApplicationController < ActionController::Base
 
   def available_sso
     @available_sso ||= SSO.get_available(self)
+  end
+
+  # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
+  # from db. It must be called after require_login.
+  def set_gettext_locale_db
+    params[:locale] ||= User.current.try(:locale)
   end
 
   # Force a user to login if authentication is enabled

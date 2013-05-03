@@ -9,20 +9,38 @@ else
   locale_type = :mo
 end
 
-if Rails.env.test?
-  # in test mode we do not support i18n
-  default_available_locales = []
-else
-  default_available_locales = Dir.entries(locale_dir).reject {|d| d =~ /(^\.|pot$)/ }
+begin
+  if Rails.env.test?
+    # in test mode we do not support i18n
+    FastGettext.default_available_locales = ['en']
+  else
+    FastGettext.default_available_locales =
+      Dir.glob("#{Rails.root}/locale/*/foreman.#{locale_type}").collect {|x| x.split('/')[-2]}
+  end
+rescue Exception => e
+  Rails.log.warn "Unable to set available locales: #{e}"
+  FastGettext.default_available_locales = ['en']
 end
 
+# initialize fast gettext
 FastGettext.add_text_domain 'foreman',
   :path => locale_dir,
   :type => locale_type,
   :ignore_fuzzy => true,
   :report_warning => false
-FastGettext.default_available_locales = ['en'] + default_available_locales
 FastGettext.default_text_domain = 'foreman'
+
+# create list of human-readable locale names
+FastGettext.class.class_eval { attr_accessor :human_available_locales }
+FastGettext.human_available_locales = []
+FastGettext.default_available_locales.sort.each do |locale|
+  FastGettext.locale = locale
+  # TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Português)
+  human_locale = _("locale_name")
+  human_locale = locale if human_locale == "locale_name"
+  FastGettext.human_available_locales << [ human_locale, locale ]
+end
+FastGettext.locale = "en"
 
 # When mark_translated setting is set, we will wrap all translated strings
 # which is useful when translating code base.
