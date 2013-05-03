@@ -1,6 +1,6 @@
 class GroupParameter < Parameter
   belongs_to :hostgroup, :foreign_key => :reference_id
-  audited :except => [:priority], :associated_with => :hostgroup
+  audited :except => [:priority], :associated_with => :hostgroup, :allow_mass_assignment => true
   validates_uniqueness_of :name, :scope => :reference_id
 
   private

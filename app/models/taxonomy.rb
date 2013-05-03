@@ -1,5 +1,5 @@
 class Taxonomy < ActiveRecord::Base
-  audited
+  audited :allow_mass_assignment => true
   has_associated_audits
 
   serialize :ignore_types, Array

@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   include Authorization
   include Foreman::ThreadSession::UserModel
   include Taxonomix
-  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
+  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
   self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
 
   attr_protected :password_hash, :password_salt, :admin

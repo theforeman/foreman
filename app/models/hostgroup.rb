@@ -20,8 +20,7 @@ class Hostgroup < ActiveRecord::Base
   after_save :set_other_labels, :on => [:update, :destroy]
 
   alias_attribute :os, :operatingsystem
-  audited :except => [:label]
-
+  audited :except => [:label], :allow_mass_assignment => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   # with proc support, default_scope can no longer be chained
