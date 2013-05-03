@@ -1,14 +1,15 @@
 class Setting < ActiveRecord::Base
   self.inheritance_column = 'category'
 
-  attr_accessible :name, :value, :description, :category, :settings_type, :default
-  # audit the changes to this model
-  audited :only => [:value], :on => [:update], :allow_mass_assignment => true
-
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts }
+
+  attr_accessible :name, :value, :description, :category, :settings_type, :default
+  # audit the changes to this model
+  audited :only => [:value], :on => [:update], :allow_mass_assignment => true
+
   validates_presence_of :name, :description
   validates_presence_of :default, :unless => Proc.new {|s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
   validates_inclusion_of :default, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
