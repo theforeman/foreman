@@ -37,6 +37,9 @@ class User < ActiveRecord::Base
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update
 
+  validates :locale, :format => { :with => /^\w{2}([_-]\w{2})?$/ }, :allow_blank => true
+  before_validation :normalize_locale
+
   validates_uniqueness_of :login, :message => N_("already exists")
   validates_presence_of :login, :auth_source_id
   validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
@@ -218,6 +221,10 @@ class User < ActiveRecord::Base
       end
       user
     end
+  end
+
+  def normalize_locale
+    self.locale = nil if locale.empty?
   end
 
   def normalize_mail

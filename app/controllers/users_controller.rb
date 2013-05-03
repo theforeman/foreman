@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   before_filter :find_user, :only => [:edit, :update, :destroy]
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
-  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :only => [:login, :logout]
+  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout]
   after_filter       :update_activity_time, :only => :login
 
   attr_accessor :editing_self
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     # Remove keys for restricted variables when the user is editing their own account
     if editing_self
       for key in params[:user].keys
-        params[:user].delete key unless %w{password_confirmation password mail firstname lastname}.include? key
+        params[:user].delete key unless %w{password_confirmation password mail firstname lastname locale}.include? key
       end
       User.current.editing_self = true
     end
@@ -71,6 +71,9 @@ class UsersController < ApplicationController
     # make sure users cache are expired (assuming some permissions changed etc)
     expire_fragment("tabs_and_title_records-#{@user.id}")
     User.current.editing_self = false if editing_self
+
+    # Remove locale from the session when set to "Browser Locale" and editing self
+    session.delete(:locale) if params[:user][:locale].try(:empty?) and params[:id].to_i == User.current.id
   end
 
   def destroy
@@ -89,6 +92,7 @@ class UsersController < ApplicationController
   # Stores the user id in the session and redirects required URL or default homepage
   def login
     session[:user] = User.current = nil
+    session[:locale] = nil
     if request.post?
       user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
       if user.nil?
