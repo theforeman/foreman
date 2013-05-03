@@ -152,7 +152,7 @@ class Host::Managed < Host::Base
   scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).select('hosts.*') }
 
   # audit the changes to this model
-  audited :except => [:last_report, :puppet_status, :last_compile]
+  audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
   has_associated_audits
 
   # some shortcuts

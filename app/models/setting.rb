@@ -3,7 +3,7 @@ class Setting < ActiveRecord::Base
 
   attr_accessible :name, :value, :description, :category, :settings_type, :default
   # audit the changes to this model
-  audited :only => [:value], :on => [:update]
+  audited :only => [:value], :on => [:update], :allow_mass_assignment => true
 
   TYPES= %w{ integer boolean hash array }
   FROZEN_ATTRS = %w{ name default description category }
