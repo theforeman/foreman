@@ -2,11 +2,11 @@ require 'foreman'
 
 # We may be executing something like rake db:migrate:reset, which destroys this table
 # only continue if the table exists
-if (Setting.first rescue(false))
-  # Avoid lazy-loading in development mode
-  %w[General Puppet Auth Provisioning].each do |c|
-    require_dependency Rails.root.join('app', 'models', 'setting', c.downcase).to_s
-  end if Rails.env.development?
+if (Setting.table_exists? rescue(false))
+  # in this phase, the classes are not fully loaded yet, load them
+  Dir[File.join(Rails.root, "app/models/setting/*.rb")].each do |f|
+    require_dependency(f)
+  end
 
   Setting.descendants.each(&:load_defaults)
 end
