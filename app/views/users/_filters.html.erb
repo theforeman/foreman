@@ -17,7 +17,7 @@
         <%= multiple_checkboxes f, :compute_resources, @user, ComputeResource, :label=>'' %>
   <% end %>
 
-    <%= field_set_tag _("Hostgroup hosts") do %>
+    <%= field_set_tag _("Host group hosts") do %>
         <%= f.select :hostgroups_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
         <%= multiple_checkboxes f, :hostgroups, @user, Hostgroup, :label=>'' %>
   <% end %>

@@ -3,7 +3,7 @@
 <%= form_for @config_template, :html => { :multipart => true } do |f| %>
     <%= base_errors_for @config_template %>
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Config Template") %></a></li>
+      <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Provisioning Template") %></a></li>
       <li><a href="#template_associations" data-toggle="tab"><%= _("Association") %></a></li>
       <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     </ul>
@@ -56,7 +56,7 @@
                   </div>
               <% end -%>
           <% else -%>
-              <%= alert :header => _('No History Found'), :text => _('Save something and try again') %>
+              <%= alert :header => _('No history found'), :text => _('Save something and try again') %>
           <% end %>
         </div>
       </div>
@@ -70,14 +70,14 @@
           <div class="alert alert-message alert-success">
             <a class="close" href="#" data-dismiss="alert">&times;</a>
 
-            <h3><%= _("How Templates are determined") %><br></h3>
+            <h3><%= _("How templates are determined") %><br></h3>
 
             <p><%= _("When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments") %></p>
 
             <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:") %></p>
             <ul>
-              <li><%= _("Host-group and Environment") %></li>
-              <li><%= _("Host-group only") %></li>
+              <li><%= _("Host group and Environment") %></li>
+              <li><%= _("Host group only") %></li>
               <li><%= _("Environment only") %></li>
               <li><%= _("Operating system default") %></li>
             </ul>

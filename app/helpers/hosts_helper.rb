@@ -165,13 +165,13 @@ module HostsHelper
     rescue => e
       return case e.to_s
       when "Must provide an operating systems"
-        _("Unable to find templates As this Host has no Operating System")
+        _("Unable to find templates as this host has no operating system")
       else
         e.to_s
       end
     end
 
-    return _("No Template found") if templates.empty?
+    return _("No template found") if templates.empty?
     content_tag :table, :class=>"table table-bordered table-striped" do
       content_tag(:th, _("Template Type")) + content_tag(:th) +
       templates.sort{|t,x| t.template_kind <=> x.template_kind}.map do |tmplt|
@@ -193,7 +193,7 @@ module HostsHelper
       [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
       [_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
       [_("Operating System"), (link_to(host.os, hosts_path(:search => "os = #{host.os.name}")) if host.os)],
-      [_("Host Group"), (link_to(host.hostgroup, hosts_path(:search => "hostgroup = #{host.hostgroup}")) if host.hostgroup)],
+      [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => "hostgroup = #{host.hostgroup}")) if host.hostgroup)],
     ]
     fields += [[_("Location"), (link_to(host.location.name, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.name, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]

@@ -3,8 +3,8 @@ module TrendsHelper
   include CommonParametersHelper
 
   def trendable_types new_record
-    options = {_('Environment') => 'Environment', _('Operating System') => 'Operatingsystem',
-     _('Model') => 'Model', _('Facts') =>'FactName',_('Host Group') => 'Hostgroup', _('Compute Resource') => 'ComputeResource'}
+    options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
+     _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     if new_record
       existing = ForemanTrend.includes(:trendable).types.map(&:to_s)
       options.delete_if{ |k,v|  existing.include?(v) }
