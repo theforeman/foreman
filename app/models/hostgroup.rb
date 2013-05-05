@@ -20,7 +20,8 @@ class Hostgroup < ActiveRecord::Base
   after_save :set_other_labels, :on => [:update, :destroy]
 
   alias_attribute :os, :operatingsystem
-  audited
+  audited :except => [:label]
+
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   # with proc support, default_scope can no longer be chained
@@ -132,7 +133,7 @@ class Hostgroup < ActiveRecord::Base
   private
 
   def set_label
-    self.label = get_label if (name_changed? || ancestry_changed?)
+    self.label = get_label if (name_changed? || ancestry_changed? || label.blank?)
   end
 
   def set_other_labels
