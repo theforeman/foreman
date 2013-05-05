@@ -1,6 +1,6 @@
 class HostClass < ActiveRecord::Base
   include Authorization
-  audited :associated_with => :host
+  audited :associated_with => :host, :allow_mass_assignment => true
   belongs_to_host :foreign_key => :host_id
   belongs_to :puppetclass
 

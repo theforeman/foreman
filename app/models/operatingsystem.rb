@@ -28,7 +28,7 @@ class Operatingsystem < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   before_save :deduce_family
-  audited
+  audited :allow_mass_assignment => true
   default_scope :order => 'LOWER(operatingsystems.name)'
 
   scoped_search :on => :name, :complete_value => :true

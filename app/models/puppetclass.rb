@@ -17,7 +17,7 @@ class Puppetclass < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
-  audited
+  audited :allow_mass_assignment => true
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   before_destroy EnsureNotUsedBy.new(:hostgroups)
