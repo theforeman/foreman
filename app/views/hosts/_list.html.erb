@@ -4,10 +4,10 @@
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
     <th class=''><%= sort :name, :as => _('Name') %></th>
-    <th class="hidden-phone"><%= sort :os, :as => _("Operating<br>system") %></th>
+    <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
     <th class="hidden-phone"><%= sort :environment, :as => _('Environment') %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :model, :as => _('Model') %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host Group") %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :last_report, :as => _('Last report') %></th>
     <th></th>
   </tr>

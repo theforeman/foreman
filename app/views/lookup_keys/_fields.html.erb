@@ -26,7 +26,7 @@
 
     <legend>Override Value For Specific Hosts</legend>
     <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :value => f.object.path,
-                   :help_inline => popover("?", _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"), :title => _("The order in which values are resolved")).html_safe
+                   :help_inline => popover("?", _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"), :title => _("The order in which values are resolved")).html_safe
     %>
 
     <%# the following field is required to see child validations %>

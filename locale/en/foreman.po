@@ -1,18 +1,18 @@
-# Template file for strings which can be localized in the Foreman Application.
 #
 # This file is distributed under the same license as the Foreman.
 #
 # Translators:
-# Bryan Kearney
 #
-#, fuzzy
+#
+# Translators:
+# domcleal <dcleal@redhat.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-23 15:23+0200\n"
-"PO-Revision-Date: 2013-03-01 15:45-0500\n"
-"Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
+"POT-Creation-Date: 2013-05-07 18:30+0100\n"
+"PO-Revision-Date: 2013-05-07 13:46+0100\n"
+"Last-Translator: domcleal <dcleal@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%s - Press Shift-F12 to release the cursor."
+msgstr ""
+
+msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
 msgid "%s Distribution"
@@ -64,13 +67,12 @@ msgid_plural "%s weeks ago"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "%{count} hosts with no %{taxonomy_single} assigned"
-msgstr ""
+msgid "%{count} host with no %{taxonomy_single} assigned"
+msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%{default_value} is not one of %{validator_rule}"
-msgstr ""
-
-msgid "%{host} - %{time} ago"
 msgstr ""
 
 msgid "%{name} changed from %{label1} to %{label2}"
@@ -103,13 +105,13 @@ msgstr ""
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
-msgid "*Clear Hostgroup*"
-msgstr ""
-
 msgid "*Clear environment*"
 msgstr ""
 
-msgid "*Inherit from hostgroup*"
+msgid "*Clear host group*"
+msgstr ""
+
+msgid "*Inherit from host group*"
 msgstr ""
 
 msgid "<b>Description:</b> %{key}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
@@ -128,7 +130,7 @@ msgstr ""
 msgid "A"
 msgstr ""
 
-msgid "A Host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
+msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr ""
 
 msgid "A medium represents the source of one or more operating system's installation files, accessible via the network.\\n  It will probably be a mirror from the internet or a copy of one or more CD or DVDs."
@@ -173,9 +175,6 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr ""
 
-msgid "Add Combination"
-msgstr ""
-
 msgid "Add Filter"
 msgstr ""
 
@@ -198,6 +197,9 @@ msgid "Add Volume"
 msgstr ""
 
 msgid "Add a fact filter"
+msgstr ""
+
+msgid "Add combination"
 msgstr ""
 
 msgid "Add:"
@@ -236,8 +238,9 @@ msgstr ""
 msgid "All Environments"
 msgstr ""
 
-msgid "All Hostgroups"
-msgstr ""
+#, fuzzy
+msgid "All Host Groups"
+msgstr "Host Group"
 
 msgid "All Media"
 msgstr ""
@@ -284,6 +287,9 @@ msgstr ""
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr ""
 
+msgid "Any Context"
+msgstr ""
+
 msgid "Any Location"
 msgstr ""
 
@@ -311,18 +317,12 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Are you sure?"
 msgstr ""
 
 msgid "Assign All"
-msgstr ""
-
-msgid "Assign All %{count} Hosts with No %{taxonomy_type} to %{taxonomy_name}"
-msgstr ""
-
-msgid "Assign All %{count} Hosts with No %{taxonomy_upcase} to %{taxonomy_name}"
 msgstr ""
 
 msgid "Assign Hosts to %s"
@@ -337,10 +337,15 @@ msgstr ""
 msgid "Assign Selected Hosts"
 msgstr ""
 
+msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
+msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Assign to %s"
 msgstr ""
 
-msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected Hosts are currently using."
+msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr ""
 
 msgid "Association"
@@ -357,47 +362,47 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Action"
-msgstr ""
+msgstr "Action"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Associated name"
-msgstr ""
+msgstr "Associated name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Associated type"
-msgstr ""
+msgstr "Associated type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Auditable name"
-msgstr ""
+msgstr "Auditable name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Auditable type"
-msgstr ""
+msgstr "Auditable type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Audited changes"
-msgstr ""
+msgstr "Audited changes"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Comment"
-msgstr ""
+msgstr "Comment"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Remote address"
-msgstr ""
+msgstr "Remote address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|User type"
-msgstr ""
+msgstr "User type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Username"
-msgstr ""
+msgstr "Username"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Version"
-msgstr ""
+msgstr "Version"
 
 msgid "Audits"
 msgstr ""
@@ -408,51 +413,51 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Account"
-msgstr ""
+msgstr "Account username"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Account password"
-msgstr ""
+msgstr "Account password"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr firstname"
-msgstr ""
+msgstr "First name attribute"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr lastname"
-msgstr ""
+msgstr "Surname attribute"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr login"
-msgstr ""
+msgstr "Login name attribute"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr mail"
-msgstr ""
+msgstr "Email address attribute"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
-msgstr ""
+msgstr "Base DN"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
-msgstr ""
+msgstr "Server"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Onthefly register"
-msgstr ""
+msgstr "Automatically create accounts in Foreman"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Port"
-msgstr ""
+msgstr "Port"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
-msgstr ""
+msgstr "TLS"
 
 msgid "Authentication Source Configuration"
 msgstr ""
@@ -530,23 +535,23 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Controller"
-msgstr ""
+msgstr "Controller"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Owner type"
-msgstr ""
+msgstr "Owner type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Public"
-msgstr ""
+msgstr "Public"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Query"
-msgstr ""
+msgstr "Search query"
 
 msgid "Bootable"
 msgstr ""
@@ -603,6 +608,9 @@ msgid "Change Environment"
 msgstr ""
 
 msgid "Change Group"
+msgstr ""
+
+msgid "Change your avatar at gravatar.com"
 msgstr ""
 
 msgid "Changed environments and puppet classes"
@@ -668,56 +676,50 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Attrs"
-msgstr ""
+msgstr "Attributes"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Description"
-msgstr ""
+msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Password"
-msgstr ""
+msgstr "Password"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Url"
-msgstr ""
+msgstr "URL"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|User"
-msgstr ""
+msgstr "Username"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Uuid"
-msgstr ""
+msgstr "UUID"
 
 msgid "Config Retrieval"
 msgstr ""
 
-msgid "Config Template"
-msgstr ""
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
-msgstr ""
-
-msgid "Config templates"
-msgstr ""
+msgstr "Provisioning template"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Snippet"
-msgstr ""
+msgstr "Snippet"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Template"
-msgstr ""
+msgstr "Template"
 
 msgid "Configuration"
 msgstr ""
@@ -903,11 +905,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Fullname"
-msgstr ""
+msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
-msgstr ""
+msgstr "DNS domain"
 
 #. host's status: first character of "error"
 msgid "E"
@@ -931,9 +933,6 @@ msgstr ""
 msgid "Edit Bookmark"
 msgstr ""
 
-msgid "Edit Config Template"
-msgstr ""
-
 msgid "Edit Domain"
 msgstr ""
 
@@ -941,9 +940,6 @@ msgid "Edit Environment"
 msgstr ""
 
 msgid "Edit Global Parameter"
-msgstr ""
-
-msgid "Edit Host"
 msgstr ""
 
 msgid "Edit LDAP Auth Source"
@@ -961,7 +957,7 @@ msgstr ""
 msgid "Edit Parameters"
 msgstr ""
 
-msgid "Edit Partition table"
+msgid "Edit Partition Table"
 msgstr ""
 
 msgid "Edit Properties"
@@ -981,6 +977,10 @@ msgstr ""
 
 msgid "Edit Subnet"
 msgstr ""
+
+#, fuzzy
+msgid "Edit Template"
+msgstr "Provisioning template"
 
 msgid "Edit Trend %s"
 msgstr ""
@@ -1063,7 +1063,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Error"
 msgstr ""
@@ -1096,11 +1096,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "Facts"
 msgstr ""
@@ -1163,7 +1163,7 @@ msgid "Failed to import report"
 msgstr ""
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
-msgstr ""
+msgstr "Failed to initialise the PuppetCA proxy: %s"
 
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr ""
@@ -1210,7 +1210,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
@@ -1296,9 +1296,6 @@ msgstr ""
 msgid "Future content goes here!"
 msgstr ""
 
-msgid "General"
-msgstr ""
-
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr ""
 
@@ -1317,7 +1314,7 @@ msgstr ""
 msgid "Global variable or class Parameter, not both"
 msgstr ""
 
-msgid "Good Host Reports in the last %s"
+msgid "Good host reports in the last %s"
 msgstr ""
 
 msgid "Hardware"
@@ -1350,11 +1347,9 @@ msgstr ""
 msgid "Host Configuration Status"
 msgstr ""
 
-msgid "Host Group"
-msgstr ""
-
+#, fuzzy
 msgid "Host Groups"
-msgstr ""
+msgstr "Host Group"
 
 msgid "Host Parameters"
 msgstr ""
@@ -1363,6 +1358,30 @@ msgid "Host audit entries"
 msgstr ""
 
 msgid "Host details"
+msgstr ""
+
+msgid "Host group"
+msgstr ""
+
+msgid "Host group / Environment"
+msgstr ""
+
+#, fuzzy
+msgid "Host group and Environment"
+msgstr "Environment"
+
+msgid "Host group configuration"
+msgstr ""
+
+#, fuzzy
+msgid "Host group hosts"
+msgstr "Host Group"
+
+#, fuzzy
+msgid "Host group only"
+msgstr "Host Group"
+
+msgid "Host groups"
 msgstr ""
 
 msgid "Host is pending for Build"
@@ -1374,139 +1393,121 @@ msgstr ""
 msgid "Host times seems to be adrift!"
 msgstr ""
 
-msgid "Host-group and Environment"
-msgstr ""
-
-msgid "Host-group only"
-msgstr ""
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Build"
-msgstr ""
+msgstr "Build mode"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Certname"
-msgstr ""
+msgstr "Certificate name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Comment"
-msgstr ""
+msgstr "Comment"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Disk"
-msgstr ""
+msgstr "Custom partition table"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Enabled"
-msgstr ""
+msgstr "Enabled"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Environment"
-msgstr ""
+msgstr "Environment"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
-msgstr ""
+msgstr "Image filename"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Installed at"
-msgstr ""
+msgstr "Installed at"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Ip"
-msgstr ""
+msgstr "IP address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last compile"
-msgstr ""
+msgstr "Last catalog compile time"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last freshcheck"
-msgstr ""
+msgstr "Last fresh check time"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last report"
-msgstr ""
+msgstr "Last report time"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Mac"
-msgstr ""
+msgstr "MAC address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Managed"
-msgstr ""
+msgstr "Managed mode"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Owner type"
-msgstr ""
+msgstr "Owner type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Puppet status"
-msgstr ""
+msgstr "Puppet status"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Root pass"
-msgstr ""
+msgstr "Root password"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Serial"
-msgstr ""
+msgstr "Serial number"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Use image"
-msgstr ""
+msgstr "Use an image"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Uuid"
-msgstr ""
+msgstr "UUID"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
-msgstr ""
-
-msgid "Hostgroup / Environment"
-msgstr ""
-
-msgid "Hostgroup configuration"
-msgstr ""
-
-msgid "Hostgroup hosts"
-msgstr ""
-
-msgid "Hostgroups"
-msgstr ""
+msgstr "Host Group"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
-msgstr ""
+msgstr "Ancestry"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Image file"
-msgstr ""
+msgstr "Image filename"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Label"
-msgstr ""
+msgstr "Label"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
-msgstr ""
+msgstr "Root password"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Use image"
-msgstr ""
+msgstr "Use an image"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Vm defaults"
-msgstr ""
+msgstr "Virtual machine defaults"
 
 msgid "Hosts"
 msgstr ""
@@ -1514,13 +1515,7 @@ msgstr ""
 msgid "Hosts Inventory"
 msgstr ""
 
-msgid "Hosts With Alerts Disabled"
-msgstr ""
-
-msgid "Hosts With No Reports"
-msgstr ""
-
-msgid "Hosts in Error State"
+msgid "Hosts in error state"
 msgstr ""
 
 msgid "Hosts that had pending changes"
@@ -1535,13 +1530,19 @@ msgstr ""
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr ""
 
+msgid "Hosts with alerts disabled"
+msgstr ""
+
 msgid "Hosts with errors"
+msgstr ""
+
+msgid "Hosts with no reports"
 msgstr ""
 
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-msgid "How Templates are determined"
+msgid "How templates are determined"
 msgstr ""
 
 msgid "How values are validated"
@@ -1598,18 +1599,21 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Iam role"
-msgstr ""
+msgstr "IAM role"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
-msgstr ""
+msgstr "Username"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Uuid"
+msgstr "UUID"
+
+msgid "Import"
 msgstr ""
 
 msgid "Import Subnets"
@@ -1645,7 +1649,7 @@ msgstr ""
 msgid "In Progress"
 msgstr ""
 
-msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a hostgroup to further refine the behavior of the puppet runtime."
+msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr ""
 
 msgid "Include this host within Foreman reporting"
@@ -1705,11 +1709,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
-msgstr ""
+msgstr "Secret"
 
 msgid "Keys"
 msgstr ""
@@ -1760,7 +1764,7 @@ msgid "Loading Images information"
 msgstr ""
 
 msgid "Location"
-msgstr ""
+msgstr "FOO"
 
 msgid "Location configuration"
 msgstr ""
@@ -1769,7 +1773,7 @@ msgid "Location/Organization"
 msgstr ""
 
 msgid "Locations"
-msgstr ""
+msgstr "FOOS"
 
 msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
 msgstr ""
@@ -1783,7 +1787,7 @@ msgstr ""
 msgid "Logged-in"
 msgstr ""
 
-msgid "Login &#187;"
+msgid "Login"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -1796,55 +1800,55 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
-msgstr ""
+msgstr "Default value"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Description"
-msgstr ""
+msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Is param"
-msgstr ""
+msgstr "Is parameter"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
-msgstr ""
+msgstr "Parameter"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key type"
-msgstr ""
+msgstr "Parameter type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "Number of values"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
-msgstr ""
+msgstr "Override"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
+msgstr "Path"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Required"
-msgstr ""
+msgstr "Required"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
-msgstr ""
+msgstr "Validator rule"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator type"
-msgstr ""
+msgstr "Validator type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
-msgstr ""
+msgstr "Match"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "MAC Address"
 msgstr ""
@@ -1861,13 +1865,19 @@ msgstr ""
 msgid "Manage Bookmarks"
 msgstr ""
 
+msgid "Manage Locations"
+msgstr ""
+
+msgid "Manage Organizations"
+msgstr ""
+
 msgid "Manage host"
 msgstr ""
 
 msgid "Manually Assign"
 msgstr ""
 
-msgid "Manually select and assign Hosts with No %s"
+msgid "Manually select and assign hosts with no %s"
 msgstr ""
 
 msgid "Matcher"
@@ -1888,27 +1898,27 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Config path"
-msgstr ""
+msgstr "NFS configuration path"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Image path"
-msgstr ""
+msgstr "NFS image path"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Media path"
-msgstr ""
+msgstr "NFS media path"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Os family"
-msgstr ""
+msgstr "Operating system family"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Path"
-msgstr ""
+msgstr "Path"
 
 msgid "Memory"
 msgstr ""
@@ -1922,11 +1932,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Message|Digest"
-msgstr ""
+msgstr "Digest"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Message|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "Metrics"
 msgstr ""
@@ -1949,19 +1959,19 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
-msgstr ""
+msgstr "Hardware model"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
-msgstr ""
+msgstr "Information"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Vendor class"
-msgstr ""
+msgstr "Vendor class"
 
 msgid "Modified"
 msgstr ""
@@ -2039,8 +2049,9 @@ msgstr ""
 msgid "New Host"
 msgstr ""
 
-msgid "New Hostgroup"
-msgstr ""
+#, fuzzy
+msgid "New Host Group"
+msgstr "Host Group"
 
 msgid "New Image"
 msgstr ""
@@ -2072,10 +2083,7 @@ msgstr ""
 msgid "New Parameter"
 msgstr ""
 
-msgid "New Partition Table layout"
-msgstr ""
-
-msgid "New Partition table layout"
+msgid "New Partition Table"
 msgstr ""
 
 msgid "New Proxy"
@@ -2114,13 +2122,7 @@ msgstr ""
 msgid "New compute resource"
 msgstr ""
 
-msgid "New hostgroup"
-msgstr ""
-
 msgid "New installation medium"
-msgstr ""
-
-msgid "New partition table"
 msgstr ""
 
 msgid "New role"
@@ -2128,51 +2130,24 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
-msgstr ""
+msgstr "Attributes"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
-msgstr ""
+msgstr "IP address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Mac"
-msgstr ""
+msgstr "MAC address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
 msgstr ""
 
-msgid "No Environment selected!"
-msgstr ""
-
-msgid "No History Found"
-msgstr ""
-
-msgid "No Hostgroup selected!"
-msgstr ""
-
-msgid "No Hosts selected"
-msgstr ""
-
-msgid "No Preference"
-msgstr ""
-
-msgid "No Subnets selected"
-msgstr ""
-
 msgid "No TFTP proxies defined, can't continue"
-msgstr ""
-
-msgid "No Template found"
-msgstr ""
-
-msgid "No Trend Counter Defined."
-msgstr ""
-
-msgid "No Trend Counter Found."
 msgstr ""
 
 msgid "No changes"
@@ -2181,13 +2156,25 @@ msgstr ""
 msgid "No domains"
 msgstr ""
 
+msgid "No environment selected!"
+msgstr ""
+
 msgid "No features found on this proxy, please make sure you enable at least one feature"
 msgstr ""
 
 msgid "No finish templates were found for this host, make sure you define at least one in your %s settings"
 msgstr ""
 
+msgid "No history found"
+msgstr ""
+
+msgid "No host group selected!"
+msgstr ""
+
 msgid "No hosts are mismatched!"
+msgstr ""
+
+msgid "No hosts selected"
 msgstr ""
 
 msgid "No hosts were found with that id or name"
@@ -2197,6 +2184,9 @@ msgid "No new subnets found"
 msgstr ""
 
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
+msgstr ""
+
+msgid "No preference"
 msgstr ""
 
 msgid "No puppet activity for this host in the last %s days"
@@ -2211,7 +2201,19 @@ msgstr ""
 msgid "No subnets"
 msgstr ""
 
+msgid "No subnets selected"
+msgstr ""
+
+msgid "No template found"
+msgstr ""
+
 msgid "No templates found!"
+msgstr ""
+
+msgid "No trend counter defined."
+msgstr ""
+
+msgid "No trend counter found."
 msgstr ""
 
 msgid "No value error"
@@ -2253,15 +2255,15 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Content"
-msgstr ""
+msgstr "Content"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Global"
-msgstr ""
+msgstr "Global"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Level"
-msgstr ""
+msgstr "Level"
 
 msgid "Notification disabled"
 msgstr ""
@@ -2281,7 +2283,7 @@ msgstr ""
 msgid "Number of Hosts"
 msgstr ""
 
-msgid "Number of Values"
+msgid "Number of values"
 msgstr ""
 
 #. host's status: first character of "OK"
@@ -2354,16 +2356,14 @@ msgstr ""
 msgid "Operating Systems"
 msgstr ""
 
+#, fuzzy
+msgid "Operating system"
+msgstr "Name"
+
 msgid "Operating system default"
 msgstr ""
 
 msgid "Operating systems"
-msgstr ""
-
-msgid "Operating<br>System"
-msgstr ""
-
-msgid "Operating<br>system"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -2372,23 +2372,23 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
-msgstr ""
+msgstr "Major version"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Minor"
-msgstr ""
+msgstr "Minor version"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Nameindicator"
-msgstr ""
+msgstr "Name indicator"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Release name"
-msgstr ""
+msgstr "Release name"
 
 msgid "Operation"
 msgstr ""
@@ -2435,17 +2435,17 @@ msgstr ""
 msgid "Other reports for this host"
 msgstr ""
 
-msgid "Out Of Sync Hosts"
+msgid "Out of sync"
 msgstr ""
 
-msgid "Out of sync"
+msgid "Out of sync Hosts"
 msgstr ""
 
 msgid "Override Value"
 msgstr ""
 
 msgid "Override a Puppetclass Parameter"
-msgstr ""
+msgstr "Override a Puppet class parameter"
 
 msgid "Override this value"
 msgstr ""
@@ -2493,23 +2493,23 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Priority"
-msgstr ""
+msgstr "Priority"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "Parent"
 msgstr ""
 
-msgid "Partition Table"
+msgid "Partition Tables"
 msgstr ""
 
-msgid "Partition Tables"
+msgid "Partition table"
 msgstr ""
 
 msgid "Partition table configuration"
@@ -2563,7 +2563,10 @@ msgstr ""
 msgid "Please save the Operating System first and try again."
 msgstr ""
 
-msgid "Please select an Environment first"
+msgid "Please select an environment first"
+msgstr ""
+
+msgid "Please select an image"
 msgstr ""
 
 msgid "Please try to update your request"
@@ -2623,33 +2626,42 @@ msgstr ""
 msgid "Provisioning Support is disabled or this host is not managed"
 msgstr ""
 
+#, fuzzy
+msgid "Provisioning Template"
+msgstr "Provisioning template"
+
 msgid "Provisioning Template content changed %s"
 msgstr ""
 
 msgid "Provisioning Templates"
 msgstr ""
 
+#, fuzzy
+msgid "Provisioning template"
+msgstr "Provisioning template"
+
+#, fuzzy
+msgid "Provisioning templates"
+msgstr "Provisioning templates"
+
 msgid "Proxies"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable"
-msgstr ""
+msgstr "Partition Table"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Layout"
-msgstr ""
+msgstr "Layout"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
-msgstr ""
-
-msgid "Puppet"
-msgstr ""
+msgstr "Operating system family"
 
 msgid "Puppet CA"
 msgstr ""
@@ -2693,6 +2705,9 @@ msgstr ""
 msgid "Puppet classes and environment importer"
 msgstr ""
 
+msgid "Puppet environments"
+msgstr ""
+
 msgid "Puppet error on %s"
 msgstr ""
 
@@ -2707,11 +2722,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass"
-msgstr ""
+msgstr "Puppet class"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
-msgstr ""
+msgstr "Class name"
 
 msgid "Querying instance details for %s"
 msgstr ""
@@ -2782,15 +2797,15 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report|Metrics"
-msgstr ""
+msgstr "Metrics"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report|Reported at"
-msgstr ""
+msgstr "Report time"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Required Parameter"
 msgstr ""
@@ -2828,15 +2843,15 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role|Builtin"
-msgstr ""
+msgstr "Built-in"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role|Permissions"
-msgstr ""
+msgstr "Permissions"
 
 msgid "Run Puppet"
 msgstr ""
@@ -2895,19 +2910,13 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
+msgid "Select Action"
+msgstr ""
+
 msgid "Select All"
 msgstr ""
 
-msgid "Select Environment"
-msgstr ""
-
-msgid "Select Host Group"
-msgstr ""
-
 msgid "Select Hosts"
-msgstr ""
-
-msgid "Select Hosts to Assign to %s"
 msgstr ""
 
 msgid "Select Location"
@@ -2920,6 +2929,18 @@ msgid "Select a period"
 msgstr ""
 
 msgid "Select all"
+msgstr ""
+
+msgid "Select all items in this page"
+msgstr ""
+
+msgid "Select environment"
+msgstr ""
+
+msgid "Select host group"
+msgstr ""
+
+msgid "Select hosts to assign to %s"
 msgstr ""
 
 msgid "Select template"
@@ -2949,27 +2970,27 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Category"
-msgstr ""
+msgstr "Category"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Default"
-msgstr ""
+msgstr "Default"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Description"
-msgstr ""
+msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Settings type"
-msgstr ""
+msgstr "Settings type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "Should Foreman automate certificate signing upon provisioning new host"
 msgstr ""
@@ -3034,7 +3055,7 @@ msgstr ""
 msgid "Size (GB)"
 msgstr ""
 
-msgid "Skip Assign Hosts and Proceed to Edit %s Settings"
+msgid "Skip assign hosts and proceed to edit %s settings"
 msgstr ""
 
 msgid "Skipped"
@@ -3064,11 +3085,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Url"
-msgstr ""
+msgstr "URL"
 
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr ""
@@ -3088,11 +3109,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source|Digest"
-msgstr ""
+msgstr "Digest"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "State"
 msgstr ""
@@ -3121,43 +3142,43 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
-msgstr ""
+msgstr "Primary DNS server"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns secondary"
-msgstr ""
+msgstr "Secondary DNS server"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|From"
-msgstr ""
+msgstr "Start of IP range"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Gateway"
-msgstr ""
+msgstr "Gateway address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Mask"
-msgstr ""
+msgstr "Network mask"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Network"
-msgstr ""
+msgstr "Network address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Priority"
-msgstr ""
+msgstr "Priority"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|To"
-msgstr ""
+msgstr "End of IP range"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
-msgstr ""
+msgstr "VLAN ID"
 
 msgid "Success"
 msgstr ""
@@ -3201,7 +3222,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "TaxableTaxonomy|Taxable type"
-msgstr ""
+msgstr "Taxable type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy"
@@ -3209,11 +3230,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
-msgstr ""
+msgstr "All objects"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Template / Hardware Profile to use"
 msgstr ""
@@ -3233,7 +3254,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "TemplateKind|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Templates"
 msgstr ""
@@ -3281,7 +3302,7 @@ msgid "The class of CPU supplied in this machine. This is primarily used by Spar
 msgstr ""
 
 msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
-msgstr ""
+msgstr "The class of the machine as reported by the OpenBoot PROM. This is primarily used by Solaris SPARC builds and can be left blank for other architectures. The value can be determined on Solaris via `uname -i|cut -f2 -d`."
 
 msgid "The default administrator email address"
 msgstr ""
@@ -3325,7 +3346,7 @@ msgstr ""
 msgid "The full DNS Domain name"
 msgstr ""
 
-msgid "The hostgroup's classes and the hostgroup's variables are included in the external node information when the puppetmaster compiles the host's configuration."
+msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
 msgstr ""
 
 msgid "The hostname where your Foreman instance is reachable"
@@ -3340,7 +3361,7 @@ msgstr ""
 msgid "The marked fields will need reviewing"
 msgstr ""
 
-msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
+msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
 msgstr ""
 
 msgid "The order in which values are resolved"
@@ -3355,17 +3376,13 @@ msgstr ""
 msgid "The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc"
 msgstr ""
 
-msgid "There are"
+msgid "There are two strategies when using host groups."
 msgstr ""
 
-msgid "There are two strategies when using hostgroups."
-msgstr ""
-
-msgid "There aren't any locations yet."
-msgstr ""
-
-msgid "There aren't any organizations yet."
-msgstr ""
+msgid "There is"
+msgid_plural "There are"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "There was an error creating the PXE Default file: %s"
 msgstr ""
@@ -3421,11 +3438,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Token|Expires"
-msgstr ""
+msgstr "Expires"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Token|Value"
-msgstr ""
+msgstr "Value"
 
 msgid "Total"
 msgstr ""
@@ -3449,7 +3466,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "TrendCounter|Count"
-msgstr ""
+msgstr "Count"
 
 msgid "Trends"
 msgstr ""
@@ -3459,19 +3476,19 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact name"
-msgstr ""
+msgstr "Fact name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact value"
-msgstr ""
+msgstr "Fact value"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Name"
-msgstr ""
+msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Trendable type"
-msgstr ""
+msgstr "Trend type"
 
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
@@ -3500,7 +3517,7 @@ msgstr ""
 msgid "Unable to find proper authentication method"
 msgstr ""
 
-msgid "Unable to find templates As this Host has no Operating System"
+msgid "Unable to find templates as this host has no operating system"
 msgstr ""
 
 msgid "Unable to generate output, Check log files\\n"
@@ -3536,10 +3553,10 @@ msgstr ""
 msgid "Updated all hosts!"
 msgstr ""
 
-msgid "Updated hosts: Changed Environment"
+msgid "Updated hosts: changed environment"
 msgstr ""
 
-msgid "Updated hosts: Changed Hostgroup"
+msgid "Updated hosts: changed host group"
 msgstr ""
 
 msgid "Use Signo SSO for login"
@@ -3577,19 +3594,19 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Andor"
-msgstr ""
+msgstr "and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Criteria"
-msgstr ""
+msgstr "Criteria"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Operator"
-msgstr ""
+msgstr "Operator"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserRole|Inherited from"
-msgstr ""
+msgstr "Inherited from"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
@@ -3601,11 +3618,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
-msgstr ""
+msgstr "Member type"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Username"
 msgstr ""
@@ -3615,63 +3632,63 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Admin"
-msgstr ""
+msgstr "Administrator"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Compute resources andor"
-msgstr ""
+msgstr "Compute resources and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Domains andor"
-msgstr ""
+msgstr "Domains and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Facts andor"
-msgstr ""
+msgstr "Facts and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Filter on owner"
-msgstr ""
+msgstr "Filter on owner"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
-msgstr ""
+msgstr "First name"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Hostgroups andor"
-msgstr ""
+msgstr "Host groups and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Last login on"
-msgstr ""
+msgstr "Last login time"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Lastname"
-msgstr ""
+msgstr "Surname"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Locations andor"
-msgstr ""
+msgstr "Locations and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Login"
-msgstr ""
+msgstr "Username"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
-msgstr ""
+msgstr "Email address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Organizations andor"
-msgstr ""
+msgstr "Organizations and/or"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
-msgstr ""
+msgstr "Password hash"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password salt"
-msgstr ""
+msgstr "Password salt"
 
 msgid "Using the organization system provides a way to group resources together for easy management."
 msgstr ""
@@ -3682,10 +3699,13 @@ msgstr ""
 msgid "VCenter/Server"
 msgstr ""
 
-msgid "Valid Host group and Environment Combinations"
+msgid "VM"
 msgstr ""
 
 msgid "Valid from"
+msgstr ""
+
+msgid "Valid host group and environment combinations"
 msgstr ""
 
 msgid "Validation types"
@@ -3707,9 +3727,6 @@ msgid "Version"
 msgstr ""
 
 msgid "View last report details"
-msgstr ""
-
-msgid "Virtual Machine"
 msgstr ""
 
 msgid "Virtual Machines"
@@ -3742,13 +3759,13 @@ msgstr ""
 msgid "What is a <a href=\"%s\" rel=\"external\">Smart variable</a>?"
 msgstr ""
 
-msgid "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)"
-msgstr ""
-
 msgid "When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:"
 msgstr ""
 
 msgid "When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments"
+msgstr ""
+
+msgid "When host and host group have different environments should all classes be included (regardless if they exists or not in the other environment)"
 msgstr ""
 
 msgid "When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see"
@@ -3826,7 +3843,7 @@ msgstr ""
 msgid "You may also find the"
 msgstr ""
 
-msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a hostgroup called <b>host-type-ldap-server</b> and add the required classes into the hostgroup configuration."
+msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
 msgstr ""
 
 msgid "You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also turn on unattended mode operation in which Foreman creates and manages the configuration files necessary to completely configure a new host."
@@ -4051,10 +4068,17 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr ""
 
+msgid "items selected. Uncheck to Clear"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
+
+#, fuzzy
+msgid "location"
+msgstr "FOO"
 
 msgid "locations"
 msgstr ""
@@ -4086,8 +4110,9 @@ msgstr ""
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-msgid "not has %s"
-msgstr ""
+#, fuzzy
+msgid "organization"
+msgstr "Organizations and/or"
 
 msgid "organizations"
 msgstr ""
@@ -4098,7 +4123,7 @@ msgstr ""
 msgid "page"
 msgstr ""
 
-msgid "parameters require an associated domain, host or hostgroup"
+msgid "parameters require an associated domain, host or host group"
 msgstr ""
 
 msgid "plus all"
