@@ -1,7 +1,7 @@
 class SmartProxy < ActiveRecord::Base
   include Authorization
   include Taxonomix
-  ProxyFeatures = %w[ TFTP BMC DNS DHCP Puppetca Puppet]
+
   attr_accessible :name, :url, :location_ids, :organization_ids
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
@@ -28,7 +28,19 @@ class SmartProxy < ActiveRecord::Base
       order("LOWER(smart_proxies.name)")
     end
   }
-  ProxyFeatures.each {|f| scope "#{f.downcase}_proxies".to_sym, where(:features => {:name => f}).joins(:features) }
+
+  def self.name_map
+    {
+      "tftp"     => Feature.find_by_name("TFTP"),
+      "bmc"      => Feature.find_by_name("BMC"),
+      "dns"      => Feature.find_by_name("DNS"),
+      "dhcp"     => Feature.find_by_name("DHCP"),
+      "puppetca" => Feature.find_by_name("Puppet CA"),
+      "puppet"   => Feature.find_by_name("Puppet")
+    }
+  end
+
+  name_map.each {|f,v| scope "#{f}_proxies".to_sym, where(:features => {:name => v.try(:name)}).joins(:features) }
 
   def hostname
     # This will always match as it is validated
@@ -41,17 +53,6 @@ class SmartProxy < ActiveRecord::Base
 
   def to_param
     "#{id}-#{name.parameterize}"
-  end
-
-  def self.name_map
-    {
-      "tftp"     => Feature.find_by_name("TFTP"),
-      "bmc"      => Feature.find_by_name("BMC"),
-      "dns"      => Feature.find_by_name("DNS"),
-      "dhcp"     => Feature.find_by_name("DHCP"),
-      "puppetca" => Feature.find_by_name("Puppet CA"),
-      "puppet"   => Feature.find_by_name("Puppet")
-    }
   end
 
   def self.smart_proxy_ids_for(hosts)
