@@ -1,4 +1,4 @@
-class SmartProxies::PuppetcaController < ApplicationController
+class PuppetcaController < ApplicationController
   before_filter :find_proxy
 
   def index

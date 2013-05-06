@@ -154,8 +154,8 @@ Foreman::Application.routes.draw do
 
   resources :smart_proxies, :except => [:show] do
     constraints(:id => /[^\/]+/) do
-      resources :puppetca, :controller => "SmartProxies::Puppetca", :only => [:index, :update, :destroy]
-      resources :autosign, :controller => "SmartProxies::Autosign", :only => [:index, :new, :create, :destroy]
+      resources :puppetca, :only => [:index, :update, :destroy]
+      resources :autosign, :only => [:index, :new, :create, :destroy]
     end
   end
 

@@ -1,6 +1,4 @@
-require_dependency "proxy_api"
-
-class SmartProxies::AutosignController < ApplicationController
+class AutosignController < ApplicationController
   before_filter :find_proxy, :setup_proxy
 
   def index

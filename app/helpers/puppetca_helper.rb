@@ -1,4 +1,4 @@
-module SmartProxies::PuppetcaHelper
+module PuppetcaHelper
   def state_filter
     select_tag "Filter", options_for_select(["", "revoked", "pending", "valid"], params[:state]),
                :onchange => "window.location.href = '#{smart_proxy_puppetca_index_path(@proxy)}' + (this.value == '' ? '' : ('?state=' + this.value))"
