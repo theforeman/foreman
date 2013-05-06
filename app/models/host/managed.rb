@@ -21,10 +21,6 @@ class Host::Managed < Host::Base
 
   has_one :token, :foreign_key => :host_id, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
 
-  has_many :lookup_values, :finder_sql => Proc.new { normalize_hostname; %Q{ SELECT lookup_values.* FROM lookup_values WHERE (lookup_values.match = 'fqdn=#{fqdn}') } }, :dependent => :destroy
-  # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
-  accepts_nested_attributes_for :lookup_values
-
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
   define_model_callbacks :provision, :only => :before
@@ -191,24 +187,6 @@ class Host::Managed < Host::Base
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
   after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
-
-  # Replacement of accepts_nested_attributes_for :lookup_values,
-  # to work around the lack of `host_id` column in lookup_values.
-  def lookup_values_attributes= lookup_values_attributes
-    lookup_values_attributes.each_value do |attribute|
-      attr = attribute.dup
-      if attr.has_key? :id
-        lookup_value = lookup_values.find attr.delete(:id)
-        if lookup_value
-          mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
-          lookup_value.attributes = attr
-          mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
-        end
-      elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
-        lookup_values.build(attr)
-      end
-    end
-  end
 
   def <=>(other)
     self.name <=> other.name
@@ -730,6 +708,11 @@ class Host::Managed < Host::Base
   end
 
   private
+
+  def lookup_value_match
+    normalize_hostname
+    "fqdn=#{fqdn}"
+  end
 
   def lookup_keys_params
     return {} unless Setting["Enable_Smart_Variables_in_ENC"]

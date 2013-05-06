@@ -131,6 +131,10 @@ class Hostgroup < ActiveRecord::Base
 
   private
 
+  def lookup_value_match
+    "hostgroup=#{to_label}"
+  end
+
   def set_label
     self.label = get_label if (name_changed? || ancestry_changed? || label.blank?)
   end

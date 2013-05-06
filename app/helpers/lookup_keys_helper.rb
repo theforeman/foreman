@@ -75,14 +75,33 @@ module LookupKeysHelper
     klass.class_params.override.where(:environment_classes => {:environment_id => host.environment_id}) + klass.lookup_keys
   end
 
-  def key_with_diagnostic host, key
+  def key_with_diagnostic obj, key
+    if (obj.class.model_name=="host")
+      host_key_with_diagnostic obj, key
+    else
+      hostgroup_key obj, key
+    end
+  end
+
+  def hostgroup_key hostgroup, key
+    original_value = key.value_before_type_cast key.default_value
+    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => "default value"})
+    content_tag :div, :class => ['control-group', 'condensed'] do
+    row_count = original_value.to_s.lines.count rescue 1
+          text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
+                        :class => ['span5'], :'data-property' => 'value', :disabled => true) +
+          content_tag(:span, :class => "help-inline") { diagnostic_helper }
+         end
+  end
+
+  def host_key_with_diagnostic host, key
      errors = Set.new
      value = key.value_for host, :skip_fqdn => true
      original_value = key.value_before_type_cast value
      new_value = key.value_for host
 
      diagnostic_class = []
-     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{key}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :key => key.key_type, :matcher => used_matcher(host, key)})
+     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => used_matcher(host, key)})
      if new_value.blank? && !new_value.is_a?(FalseClass)
        if key.required
          diagnostic_class << 'error'

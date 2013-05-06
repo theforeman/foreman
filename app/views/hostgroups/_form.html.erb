@@ -49,6 +49,13 @@
     </div>
 
     <div class="tab-pane" id="params">
+      <h6><%= _('Puppet classes Parameters') -%></h6>
+      <p/>
+      <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
+      <h6><%= _('Hostgroup Parameters') -%></h6>
+      <p/>
+      <%= render "common_parameters/puppetclasses_parameters", :f => f %>
+      <p/>
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
 
