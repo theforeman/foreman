@@ -13,11 +13,11 @@
   </tr>
   <% @certificates.each do |cert| -%>
       <tr>
-        <td><%= h cert.name %> </td>
-        <td><%= h cert.state %></td>
+        <td><%= cert.name %> </td>
+        <td><%= cert.state %></td>
         <td><%= time_column cert.valid_from %></td>
         <td><%= time_column cert.expires_at, :tense => :future %></td>
-        <td><%= h cert.fingerprint %></td>
+        <td><%= cert.fingerprint %></td>
         <td>
           <%= action_buttons(
                   if cert.state == "pending"

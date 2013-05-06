@@ -1,4 +1,3 @@
-require_dependency "proxy_api"
 require "time"
 
 class SmartProxies::PuppetCA
