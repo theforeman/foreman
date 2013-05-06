@@ -186,8 +186,6 @@ class Host::Managed < Host::Base
     validates_presence_of    :ptable_id, :message => N_("cant be blank unless a custom partition has been defined"),
       :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
     validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8"), :allow_blank => true, :allow_nil => true
-
-    validates_presence_of :puppet_proxy_id, :if => Proc.new {|h| h.managed? } if SETTINGS[:unattended]
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
