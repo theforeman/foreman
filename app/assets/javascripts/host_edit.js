@@ -406,7 +406,7 @@ function override_class_param(item){
   var t = param.find('[data-property=type]').text();
 
   $('#puppetclasses_parameters').find('.btn-success').click();
-  var new_param = param.closest('.tab-pane').find('[id*=host_lookup_values]:visible').last().parent();
+  var new_param = param.closest('.tab-pane').find('[id*=_lookup_values]:visible').last().parent();
   new_param.find('[data-property=lookup_key_id]').val(id);
   new_param.find('[data-property=class]').val(c);
   new_param.find('[data-property=name]').val(n);
