@@ -26,6 +26,7 @@ all-mo: $(MOFILES)
 	! grep -q msgid $@
 
 check: $(POXFILES)
+	msgfmt -c ${POTFILE}
 
 # Merge PO files
 update-po:
