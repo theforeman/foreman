@@ -5,9 +5,9 @@
   <tr>
     <td>
       <%= link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn') %>
-      <%= link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => @host), :title => _("Browse host facts") , :class => 'btn') %>
-      <%= link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => @host), :title => _("Browse host reports") , :class => 'btn') %>
-      <%= link_to(_("YAML"), externalNodes_host_path(:name => @host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') %>
+      <%= link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => @host), :title => _("Browse host facts") , :class => 'btn') if @host.try(:puppet_proxy) %>
+      <%= link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => @host), :title => _("Browse host reports") , :class => 'btn') if @host.try(:puppet_proxy) %>
+      <%= link_to(_("YAML"), externalNodes_host_path(:name => @host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') if @host.try(:puppet_proxy) %>
     </td>
   </tr>
 </table>

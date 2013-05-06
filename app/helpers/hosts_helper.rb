@@ -243,9 +243,11 @@ module HostsHelper
           )
         end,
         button_group(
+          if host.try(:puppet_proxy)
             link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_action => :edit),
                                   :disabled => !Setting[:puppetrun],
                                   :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
+          end
         ),
         button_group(
             link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host, :auth_action => :destroy),
