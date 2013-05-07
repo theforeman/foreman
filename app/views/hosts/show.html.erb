@@ -16,6 +16,9 @@
       <%  if @vm %>
         <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
       <% end %>
+      <% if bmc_available? %>
+        <li><a href="#bmc" data-toggle="tab">BMC</a></li>
+      <% end %>
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="properties">
@@ -37,6 +40,11 @@
           <%= render("compute_resources_vms/show/#{@host.compute_resource.provider.downcase}") rescue nil %>
         <% end %>
       </div>
+      <% if bmc_available? %>
+        <div class="tab-pane" id="bmc">
+         <%= render :partial => "hosts/bmc", :locals => { :host => @host } %>
+        </div>
+      <% end %>
 
     </div>
   </div>

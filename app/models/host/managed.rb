@@ -731,6 +731,23 @@ class Host::Managed < Host::Base
     tax_organization.import_missing_ids if organization
   end
 
+  def get_bmc_interface
+    url       = SmartProxy.select { |f| f.features.map(&:name).include? "BMC" }.first.url
+    interface = interfaces.select { |i| i.attrs[:provider] == "IPMI" }.first
+    bmc       = ProxyAPI::BMC.new( { :host_ip => interface.ip,
+                                     :url     => url,
+                                     :user    => interface.username,
+                                     :password => interface.password } )
+  end
+
+  def ipmi_power(action)
+    get_bmc_interface.power(:action => action)
+  end
+
+  def ipmi_boot(booting_device)
+    get_bmc_interface.boot({:function => 'bootdevice', :device => booting_device})
+  end
+
   private
 
   def lookup_keys_params

@@ -20,7 +20,7 @@ class HostsController < ApplicationController
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
     :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
-    storeconfig_klasses clone pxe_config toggle_manage power console]
+    storeconfig_klasses clone pxe_config toggle_manage power console ipmi_power ipmi_boot]
   before_filter :taxonomy_scope, :only => [:hostgroup_or_environment_selected, :process_hostgroup]
   before_filter :set_host_type, :only => [:update]
   helper :hosts, :reports
@@ -213,6 +213,27 @@ class HostsController < ApplicationController
       process_success :success_redirect => :back, :success_msg => _("%{vm} is now %{state}") % { :vm => vm, :state => vm.state.capitalize }
     rescue => e
       process_error :redirect => :back, :error_msg => _("Failed to %{action} %{vm}: %{e}") % { :action => action, :vm => vm, :e => e }
+    end
+  end
+
+  def ipmi_power
+    action = params[:ipmi_action]
+    begin
+      @host.ipmi_power(action)
+      process_success :success_redirect => :back, :success_msg => "#{@host.name} is now powered #{action.downcase}"
+    rescue => e
+      process_error :redirect => :back, :error_msg => "Failed to #{action} #{@host}: #{e}"
+    end
+
+  end
+
+  def ipmi_boot
+    device = params[:ipmi_device]
+    begin
+      @host.ipmi_boot(device)
+      process_success :success_redirect => :back, :success_msg => "#{@host.name} now boots from #{device.downcase}"
+    rescue => e
+      process_error :redirect => :back, :error_msg => "Failed to boot from #{device} at #{@host}: #{e}"
     end
   end
 
