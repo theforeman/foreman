@@ -39,6 +39,14 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost.company.com", host.name
   end
 
+  test "should not append domainname to fqdn" do
+    host = Host.create :name => "myhost.sub.comp.net", :mac => "aabbccddeeff", :ip => "123.01.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"),
+      :certname => "myhost.sub.comp.net",
+      :managed => false
+    assert_equal "myhost.sub.comp.net", host.name
+  end
+
   test "should save hosts with full stop in their name" do
     host = Host.create :name => "my.host.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
       :domain => Domain.find_or_create_by_name("company.com")

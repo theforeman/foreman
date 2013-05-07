@@ -772,7 +772,7 @@ class Host::Managed < Host::Base
         old_domain = Domain.find(changed_attributes["domain_id"])
         self.name.gsub(old_domain.to_s,"")
       end
-      self.name += ".#{domain}" unless name =~ /.#{domain}$/i
+      self.name += ".#{domain}" unless name =~ /\./i
     end
   end
 
