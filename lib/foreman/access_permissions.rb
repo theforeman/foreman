@@ -425,15 +425,15 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :smart_proxies_autosign do |map|
-    map.permission :view_smart_proxies_autosign,    {:smart_proxies_autosign => [:index, :show]}
-    map.permission :create_smart_proxies_autosign,  {:smart_proxies_autosign => [:new, :create]}
-    map.permission :destroy_smart_proxies_autosign, {:smart_proxies_autosign => [:destroy]}
+    map.permission :view_smart_proxies_autosign,    {:autosign => [:index, :show]}
+    map.permission :create_smart_proxies_autosign,  {:autosign => [:new, :create]}
+    map.permission :destroy_smart_proxies_autosign, {:autosign => [:destroy]}
   end
 
   map.security_block :smart_proxies_puppetca do |map|
-    map.permission :view_smart_proxies_puppetca,    {:smart_proxies_puppetca => [:index]}
-    map.permission :edit_smart_proxies_puppetca,    {:smart_proxies_puppetca => [:update]}
-    map.permission :destroy_smart_proxies_puppetca, {:smart_proxies_puppetca => [:destroy]}
+    map.permission :view_smart_proxies_puppetca,    {:puppetca => [:index]}
+    map.permission :edit_smart_proxies_puppetca,    {:puppetca => [:update]}
+    map.permission :destroy_smart_proxies_puppetca, {:puppetca => [:destroy]}
   end
 
   map.security_block :subnets do |map|
