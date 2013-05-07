@@ -18,6 +18,29 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should create regular user" do
+    post :create, {
+      :commit => "Submit",
+      :user => {
+        :login => "foo",
+        :mail => "foo@bar.com",
+      }
+    }, set_session_user
+    assert_equal @response.status, 200
+  end
+
+  test "should create admin user" do
+    post :create, {
+      :commit => "Submit",
+      :user => {
+        :login => "foo",
+        :admin => true,
+        :mail => "foo@bar.com",
+      }
+    }, set_session_user
+    assert_equal @response.status, 200
+  end
+
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
