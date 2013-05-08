@@ -32,4 +32,31 @@ module DashboardHelper
     link_to name, hosts_path(:search => search),:class=>"dashboard-links"
   end
 
+  def latest_events
+    # 7 reports + header fits the events box nicely...
+    summary = Report.my_reports.interesting.search_for('reported > "7 days ago"').limit(7)
+  end
+
+  def translated_header(shortname, longname)
+    "<th><span class='small' title='' data-original-title='#{longname}'>#{shortname}</span></th>"
+  end
+
+  def latest_headers
+    string =  "<th>#{_("Host")}</th>"
+    # TRANSLATORS: initial character of Applied
+    string += translated_header(_('A'),_('Applied'))
+    # TRANSLATORS: initial character of Restarted
+    string += translated_header(_('R'),_('Restarted'))
+    # TRANSLATORS: initial character of Failed
+    string += translated_header(_('F'),_('Failed'))
+    # TRANSLATORS: Failed initial characters of Restarts
+    string += translated_header(_('FR'),_('Failed Restarts'))
+    # TRANSLATORS: initial character of Skipped
+    string += translated_header(_('S'),_('Skipped'))
+    # TRANSLATORS: initial character of Pending
+    string += translated_header(_('P'),_('Pending'))
+
+    string.html_safe
+  end
+
 end
