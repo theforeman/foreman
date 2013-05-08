@@ -210,7 +210,7 @@ Foreman::AccessControl.map do |map|
     tasks_ajax_actions = [:show]
 
     map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending,
-                                      :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search],
+                                      :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => :template,
                                      :"api/v1/hosts" => [:index, :show, :status],
@@ -244,6 +244,7 @@ Foreman::AccessControl.map do |map|
                                     :tasks => tasks_ajax_actions}
     map.permission :power_hosts,   {:hosts => [:power]}
     map.permission :console_hosts, {:hosts => [:console]}
+    map.permission :ipmi_boot, {:hosts => [:ipmi_boot]}
     map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun]}
   end
 
