@@ -32,6 +32,8 @@ module Foreman
       end
       "#{code}: #{translated_msg}"
     end
+
+    alias :to_s :message
   end
 
 end

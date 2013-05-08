@@ -164,7 +164,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise ::Foreman::Exception(N_("%s console is not supported at this time"), provider)
+    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider)
   end
 
   # by default, our compute providers do not support updating an existing instance
