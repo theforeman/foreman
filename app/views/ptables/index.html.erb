@@ -1,11 +1,11 @@
-<% title _("Partition tables") %>
-<% title_actions display_link_if_authorized(_("New Partition table layout"), hash_for_new_ptable_path), help_path %>
+<% title _("Partition Tables") %>
+<% title_actions display_link_if_authorized(_("New Partition Table"), hash_for_new_ptable_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
     <th><%= sort :name, :as => s_("Ptable|Name") %></th>
     <th><%= s_("Ptable|Os family") %></th>
-    <th><%= _("Operating Systems") %></th>
+    <th><%= _("Operating systems") %></th>
     <th></th>
   </tr>
   <% for ptable in @ptables %>

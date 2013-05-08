@@ -291,7 +291,7 @@ class HostsController < ApplicationController
   def update_multiple_hostgroup
     # simple validations
     unless (id=params["hostgroup"]["id"])
-      error _('No Hostgroup selected!')
+      error _('No host group selected!')
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
     hg = Hostgroup.find(id) rescue nil
@@ -301,7 +301,7 @@ class HostsController < ApplicationController
       host.save(:validate => false)
     end
 
-    notice _('Updated hosts: Changed Hostgroup')
+    notice _('Updated hosts: changed host group')
     # We prefer to go back as this does not lose the current search
     redirect_back_or_to hosts_path
   end
@@ -312,7 +312,7 @@ class HostsController < ApplicationController
   def update_multiple_environment
     # simple validations
     if (params[:environment].nil?) or (id=params["environment"]["id"]).nil?
-      error _('No Environment selected!')
+      error _('No environment selected!')
       redirect_to(select_multiple_environment_hosts_path) and return
     end
 
@@ -324,7 +324,7 @@ class HostsController < ApplicationController
       host.save(:validate => false)
     end
 
-    notice _('Updated hosts: Changed Environment')
+    notice _('Updated hosts: changed environment')
     redirect_back_or_to hosts_path
   end
 
@@ -525,7 +525,7 @@ class HostsController < ApplicationController
         redirect_to(hosts_path) and return false
       end
     else
-      error _('No Hosts selected')
+      error _('No hosts selected')
       redirect_to(hosts_path) and return false
     end
 

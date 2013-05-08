@@ -11,10 +11,10 @@
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
     <th class=''><%= sort :name %></th>
-    <th class="hidden-phone"><%= sort :os, :as => _("Operating<br>System") %></th>
+    <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
     <th class="hidden-phone"><%= sort :environment %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host Group") %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
   </tr>
   <% hosts.each do |host| %>
     <tr>

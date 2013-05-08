@@ -5,7 +5,7 @@
   <div class="alert alert-message alert-info">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
 
-    <p><strong><%= _("No Trend Counter Defined.") %></strong></p>
+    <p><strong><%= _("No trend counter defined.") %></strong></p>
 
     <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br>
       <%= _("To start collecting trend data, set a cron job to execute 'rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval %></p>
@@ -16,7 +16,7 @@
  <div class="alert alert-message alert-info">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
 
-    <p><strong><%= _("No Trend Counter Found.") %></strong></p>
+    <p><strong><%= _("No trend counter found.") %></strong></p>
 
    <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
    </p>

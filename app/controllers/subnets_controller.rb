@@ -74,7 +74,7 @@ class SubnetsController < ApplicationController
 
   def create_multiple
     if params[:subnets].empty?
-      return redirect_to subnets_path, :notice => _("No Subnets selected")
+      return redirect_to subnets_path, :notice => _("No subnets selected")
     end
 
     @subnets = Subnet.create(params[:subnets]).reject { |s| s.errors.empty? }

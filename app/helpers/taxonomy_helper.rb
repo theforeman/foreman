@@ -29,16 +29,16 @@ module TaxonomyHelper
       end
   end
 
-  def taxonomies_plural
-    controller_name
+  def taxonomy_single
+    _(controller_name.singularize)
   end
 
-  def taxonomy_single
-    controller_name.singularize
+  def taxonomy_title
+    _(controller_name.singularize.titleize)
   end
 
   def taxonomy_upcase
-    controller_name.humanize.titleize
+    _(controller_name.humanize.titleize)
   end
 
   def wizard_header(current, *args)

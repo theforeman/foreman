@@ -13,7 +13,7 @@
         <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
       <% end -%>
       <li><a href="#environments" data-toggle="tab"><%= _("Environments") %></a></li>
-      <li><a href="#hostgroups" data-toggle="tab"><%= _("Hostgroups") %></a></li>
+      <li><a href="#hostgroups" data-toggle="tab"><%= _("Host groups") %></a></li>
       <% if (taxonomy.is_a?(Organization) && SETTINGS[:locations_enabled]) %>
         <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
       <% elsif SETTINGS[:organizations_enabled] %>
@@ -64,9 +64,9 @@
         </div>
 
         <div class="tab-pane" id="template">
-          <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Templates"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Config Template")) %>
+          <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Templates"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Provisioning template")) %>
           <%= multiple_selects f, :config_templates, ConfigTemplate, taxonomy.selected_ids[:config_template_ids],
-            {:disabled => taxonomy.used_and_selected_ids[:config_template_ids], :label => _("Config templates")},
+            {:disabled => taxonomy.used_and_selected_ids[:config_template_ids], :label => _("Provisioning templates")},
             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:config_template_ids].to_json} %>
         </div>
 
@@ -86,9 +86,9 @@
       </div>
 
       <div class="tab-pane" id="hostgroups">
-        <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Hostgroups"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Hostgroup")) %>
+        <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Host Groups"), :multiple => true, :onchange => 'ignore_checked(this)'}, _("Hostgroup")) %>
         <%= multiple_selects f, :hostgroups, Hostgroup, taxonomy.selected_ids[:hostgroup_ids],
-          {:disabled => taxonomy.used_and_selected_ids[:hostgroup_ids], :label => _("Hostgroups")},
+          {:disabled => taxonomy.used_and_selected_ids[:hostgroup_ids], :label => _("Host groups")},
           {'data-mismatches' => taxonomy.need_to_be_selected_ids[:hostgroup_ids].to_json} %>
      </div>
 

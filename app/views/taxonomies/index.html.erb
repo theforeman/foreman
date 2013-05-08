@@ -1,12 +1,12 @@
-<% title _(taxonomy_upcase.pluralize) %>
+<% title taxonomy_upcase %>
 
-<% title_actions display_link_if_authorized((_("New %s") % _(taxonomy_upcase)), hash_for_new_taxonomy_path), link_to(_("Mismatches Report"), mismatches_taxonomies_path, :class => 'btn'), help_path %>
+<% title_actions display_link_if_authorized((_("New %s") % taxonomy_title), hash_for_new_taxonomy_path), link_to(_("Mismatches Report"), mismatches_taxonomies_path, :class => 'btn'), help_path %>
 
 <% if @count_nil_hosts > 0 %>
 <div class="alert alert-message alert-block alert">
     <strong><%= _("Notice:") %></strong>
-    <%= _('There are') %>
-    <%= link_to _("%{count} hosts with no %{taxonomy_single} assigned") % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => _("not has %s") % taxonomy_single)  %>
+    <%= n_('There is', 'There are', @count_nil_hosts) %>
+    <%= link_to n_("%{count} host with no %{taxonomy_single} assigned", "%{count} hosts with no %{taxonomy_single} assigned", @count_nil_hosts) % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => "not has #{controller_name.singularize}")  %>
 </div>
 <% end %>
 
@@ -20,14 +20,14 @@
   <% @taxonomies.each do |taxonomy| %>
     <tr class="<%= cycle("even", "odd") -%>">
       <td><%= link_to taxonomy.to_label, edit_taxonomy_path(taxonomy) %></td>
-      <td><%= link_to @counter[taxonomy.id] || 0, hosts_path(:search => "#{taxonomy_single} = #{taxonomy}") %></td>
+      <td><%= link_to @counter[taxonomy.id] || 0, hosts_path(:search => "#{controller_name.singularize} = #{taxonomy}") %></td>
       <td>
         <%= action_buttons(
           display_link_if_authorized(_("Edit"), hash_for_edit_taxonomy_path(taxonomy) ),
           display_link_if_authorized(_("Clone"), hash_for_clone_taxonomy_path(taxonomy) ),
           display_delete_if_authorized(hash_for_taxonomy_path(taxonomy), :confirm => _("Delete %s?") % taxonomy.name, :action => :destroy),
-          (link_to((_("Select Hosts to Assign to %s") % taxonomy.name), assign_hosts_taxonomy_path(taxonomy)) if @count_nil_hosts > 0),
-          (link_to(_("Assign All %{count} Hosts with No %{taxonomy_upcase} to %{taxonomy_name}") % {:count =>@count_nil_hosts, :taxonomy_upcase => taxonomy_upcase, :taxonomy_name => taxonomy.name}  ,
+          (link_to((_("Select hosts to assign to %s") % taxonomy.name), assign_hosts_taxonomy_path(taxonomy)) if @count_nil_hosts > 0),
+          (link_to(n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) % {:count => @count_nil_hosts, :taxonomy_single => taxonomy_single, :taxonomy_name => taxonomy.name}  ,
               assign_all_hosts_taxonomy_path(taxonomy),
               :method => :post) if @count_nil_hosts > 0)
           )%>

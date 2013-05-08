@@ -12,8 +12,8 @@
 
     <div class="tab-pane active form-horizontal" id="primary">
       <%= text_f f, :name %>
-      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :class=>'span4', :label=> _('Puppet Environments'), :disabled => true %>
-      <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => _("Hostgroups") %>
+      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :class=>'span4', :label=> _('Puppet environments'), :disabled => true %>
+      <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => _("Host groups") %>
     </div>
 
     <div class="tab-pane lookup-keys-container" id="smart_class_param">
