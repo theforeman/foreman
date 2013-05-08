@@ -8,6 +8,7 @@ module Hostext
         scoped_search :on => :name,          :complete_value => true, :default_order => true
         scoped_search :on => :last_report,   :complete_value => true
         scoped_search :on => :ip,            :complete_value => true
+        scoped_search :on => :comment,       :complete_value => true
         scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
         scoped_search :on => :puppet_status, :offset => 0, :word_size => Report::BIT_NUM*4, :complete_value => {:true => true, :false => false}, :rename => :'status.interesting'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("applied"),         :word_size => Report::BIT_NUM, :rename => :'status.applied'
