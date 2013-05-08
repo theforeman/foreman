@@ -14,7 +14,27 @@
   <div class="row-fluid">
     <div class="span5 stats-well">
       <h4 style="text-align: center;"><%= _("Latest Events") %></h4>
-      <%= _('Future content goes here!') %>
+      <% events = latest_events %>
+      <% if events.empty? -%>
+        <p style="text-align: center;"><%= _("No interesting reports received in the last week") %></p>
+      <% else -%>
+        <table class="table table-bordered table-striped ellipsis">
+          <tr>
+            <%= latest_headers %>
+          </tr>
+          <% events.each do |report| -%>
+            <tr>
+              <td><%= link_to h(trunc(report.host, 14)), host_reports_path(report.host) %></td>
+              <td><%= report_event_column(report.applied, "label-info") %></td>
+              <td><%= report_event_column(report.restarted, "label-info") %></td>
+              <td><%= report_event_column(report.failed, "label-important") %></td>
+              <td><%= report_event_column(report.failed_restarts, "label-warning") %></td>
+              <td><%= report_event_column(report.skipped, "label-info") %></td>
+              <td><%= report_event_column(report.pending, "label-info") %></td>
+            </tr>
+          <% end -%>
+        </table>
+      <% end -%>
     </div>
     <div class="span7 stats-well">
       <h4 style="text-align: center;"><%= n_("Run distribution in the last %s minute", "Run distribution in the last %s minutes", Setting[:puppet_interval]) % Setting[:puppet_interval] %></h4>
