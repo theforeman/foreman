@@ -49,7 +49,7 @@ module DashboardHelper
     string += translated_header(_('R'),_('Restarted'))
     # TRANSLATORS: initial character of Failed
     string += translated_header(_('F'),_('Failed'))
-    # TRANSLATORS: Failed initial characters of Restarts
+    # TRANSLATORS: initial characters of Failed Restarts
     string += translated_header(_('FR'),_('Failed Restarts'))
     # TRANSLATORS: initial character of Skipped
     string += translated_header(_('S'),_('Skipped'))
