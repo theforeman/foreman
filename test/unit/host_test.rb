@@ -446,7 +446,7 @@ class HostTest < ActiveSupport::TestCase
   test "host puppet classes must belong to the host environment" do
     h = hosts(:redhat)
 
-    pc = puppetclasses(:two)
+    pc = puppetclasses(:three)
     h.puppetclasses << pc
     assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
     assert !h.valid?
