@@ -13,3 +13,8 @@ two:
   puppetclass: one
   environment: production
   lookup_key: complex
+
+three:
+  puppetclass: two
+  environment: production
+  lookup_key: five

@@ -142,7 +142,12 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :external_variables do |map|
-    map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search],
+    map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search,
+                                                                  :host_or_hostgroup_smart_parameters,
+                                                                  :host_or_hostgroup_smart_class_parameters,
+                                                                  :puppet_smart_parameters,
+                                                                  :puppet_smart_class_parameters
+                                                                  ],
                                                  :lookup_values => [:index]}
     map.permission :create_external_variables,  {:lookup_keys => [:new, :create],
                                                  :lookup_values => [:create]}
@@ -388,7 +393,12 @@ Foreman::AccessControl.map do |map|
                                           :"api/v1/puppetclasses" => [:index, :show],
                                           :"api/v2/puppetclasses" => [:index, :show],
                                           :"api/v1/lookup_keys" => [:index, :show],
-                                          :"api/v2/lookup_keys" => [:index, :show]
+                                          :"api/v2/lookup_keys" => [:index, :show,
+                                                                    :host_or_hostgroup_smart_parameters,
+                                                                    :host_or_hostgroup_smart_class_parameters,
+                                                                    :puppet_smart_parameters,
+                                                                    :puppet_smart_class_parameters
+                                                                    ]
                                         }
     map.permission :create_puppetclasses,  {:puppetclasses => [:new, :create],
                                           :"api/v1/puppetclasses" => [:create],

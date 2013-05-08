@@ -30,3 +30,19 @@ complex:
   default_value: 'secret'
   override: true
   path: 'organization,location'
+
+four:
+  key: special_info
+  key_type: string
+  validator_rule:
+  default_value: 'secret'
+  override: true
+  puppetclass : two
+  path: 'organization,location'
+
+five:
+  key: custom_class_param
+  key_type: string
+  validator_rule:
+  default_value: 'abcdef'
+  path: 'organization,location'

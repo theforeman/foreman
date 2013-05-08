@@ -76,6 +76,8 @@ Foreman::Application.routes.draw do
           end
           resources :puppetclasses, :only => [:index, :show]
           resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
+          match '/smart_parameters', :to => 'lookup_keys#host_or_hostgroup_smart_parameters'
+          match '/smart_class_parameters', :to => 'lookup_keys#host_or_hostgroup_smart_class_parameters'
         end
 
         resources :domains, :only => [] do
@@ -102,7 +104,9 @@ Foreman::Application.routes.draw do
       resources :environments, :only => [] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        resources :puppetclasses, :only => [:index, :show]
+        resources :puppetclasses, :except => [:new, :edit] do
+          match '/smart_class_parameters', :to => 'lookup_keys#puppet_smart_class_parameters'
+        end
       end
 
       resources :hostgroups, :only => [] do
@@ -113,6 +117,8 @@ Foreman::Application.routes.draw do
             delete '/', :to => :reset
           end
         end
+        match '/smart_parameters', :to => 'lookup_keys#host_or_hostgroup_smart_parameters'
+        match '/smart_class_parameters', :to => 'lookup_keys#host_or_hostgroup_smart_class_parameters'
         resources :puppetclasses, :only => [:index, :show]
         resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
       end
@@ -140,7 +146,14 @@ Foreman::Application.routes.draw do
         end
       end
 
-      resources :puppetclasses, :except => [:new, :edit]
+      resources :puppetclasses, :except => [:new, :edit] do
+        resources :environments, :except => [:new, :edit] do
+          match '/smart_class_parameters', :to => 'lookup_keys#puppet_smart_class_parameters'
+        end
+        match '/smart_parameters', :to => 'lookup_keys#puppet_smart_parameters'
+      end
+
+      resources :lookup_keys, :path => 'smart_variables', :except => [:new, :edit]
 
       if SETTINGS[:locations_enabled]
         resources :locations, :except => [:new, :edit] do
