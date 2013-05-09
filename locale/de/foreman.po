@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 15:20+0100\n"
+"POT-Creation-Date: 2013-05-09 21:04+0200\n"
 "PO-Revision-Date: 2013-05-09 09:31+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -123,7 +123,7 @@ msgstr "Hostgruppen"
 msgid "*Inherit from host group*"
 msgstr "Hostgruppen"
 
-msgid "<b>Description:</b> %{key}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
+msgid "<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
 msgstr ""
 
 msgid "<b>Source:</b> %s"
@@ -135,7 +135,7 @@ msgstr ""
 msgid "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
 
-#. host's status: first character of "active" initial character of Applied
+#. initial character of Applied host's status: first character of "active"
 msgid "A"
 msgstr ""
 
@@ -603,6 +603,10 @@ msgstr ""
 msgid "Browse host reports"
 msgstr ""
 
+#, fuzzy
+msgid "Browser locale"
+msgstr "Benutzer"
+
 msgid "Build"
 msgstr ""
 
@@ -894,6 +898,10 @@ msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts (default is 123123)"
 msgstr ""
+
+#, fuzzy
+msgid "Default value"
+msgstr "Fact Filter"
 
 #, fuzzy
 msgid "Delete"
@@ -1213,10 +1221,6 @@ msgstr "Nachname"
 
 #, fuzzy
 msgid "Fact Values"
-msgstr "Fact Filter"
-
-#, fuzzy
-msgid "Fact error"
 msgstr "Fact Filter"
 
 msgid "Fact filters"
@@ -1547,6 +1551,10 @@ msgstr "Hostgruppen Hosts"
 #, fuzzy
 msgid "Host group only"
 msgstr "Hostgruppen"
+
+#, fuzzy
+msgid "Host group parameters"
+msgstr "Eigentschaften editieren"
 
 #, fuzzy
 msgid "Host groups"
@@ -2590,9 +2598,6 @@ msgstr ""
 msgid "Once installed you should head over to"
 msgstr ""
 
-msgid "One or more unknown facts were encountered during evaluation:"
-msgstr ""
-
 msgid "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)"
 msgstr ""
 
@@ -2753,7 +2758,7 @@ msgstr ""
 msgid "Owner changed to %s"
 msgstr ""
 
-#. host's status: first character of "pending" initial character of Pending
+#. initial character of Pending host's status: first character of "pending"
 msgid "P"
 msgstr ""
 
@@ -3009,6 +3014,10 @@ msgid "Puppet classes and environment importer"
 msgstr ""
 
 #, fuzzy
+msgid "Puppet classes parameters"
+msgstr "Eigentschaften editieren"
+
+#, fuzzy
 msgid "Puppet environments"
 msgstr "Umgebungen"
 
@@ -3199,7 +3208,7 @@ msgstr ""
 msgid "Runtime"
 msgstr ""
 
-#. host's status: first character of "sync" (out of sync) initial character of Skipped
+#. initial character of Skipped host's status: first character of "sync" (out of sync)
 msgid "S"
 msgstr ""
 
@@ -3344,6 +3353,9 @@ msgid "Should Foreman update a host's environment from its facts"
 msgstr ""
 
 msgid "Should Foreman use gravatar to display user icons"
+msgstr ""
+
+msgid "Should Foreman use host group ancestors matchers to set puppet classes parameters values"
 msgstr ""
 
 msgid "Should Foreman use random UUID's for certificate signing instead of hostnames"
@@ -4511,6 +4523,10 @@ msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
+#. Provide locale name in native language (e.g. English, Deutsch or Português)
+msgid "locale_name"
+msgstr ""
+
 #, fuzzy
 msgid "location"
 msgstr "Lokation"
@@ -4715,6 +4731,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "Edit Host"
 #~ msgstr "Editiere %s"
+
+#, fuzzy
+#~ msgid "Fact error"
+#~ msgstr "Fact Filter"
 
 #~ msgid "First Name"
 #~ msgstr "Vornamen"

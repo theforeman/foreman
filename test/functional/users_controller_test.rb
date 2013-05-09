@@ -113,6 +113,16 @@ class UsersControllerTest < ActionController::TestCase
     assert !User.exists?(user.id)
   end
 
+  test "should modify session when locale is updated" do
+    User.current = User.admin
+    put :update, {:commit => "Submit", :id => User.admin.id, :user => { :locale => "cs" } }, set_session_user
+    assert_redirected_to users_url
+    assert User.admin.locale == "cs"
+    put :update, {:commit => "Submit", :id => User.admin.id, :user => { :locale => "" } }, set_session_user
+    assert User.admin.locale.nil?
+    assert session[:locale].nil?
+  end
+
   test "should not delete same user" do
     return unless SETTINGS[:login]
     @request.env['HTTP_REFERER'] = users_path
