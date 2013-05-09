@@ -26,7 +26,7 @@ namespace :locale do
   end
 
   # just revert to the traditional underscore.
-  GettextI18nRailsJs::JsAndCoffeeParser.js_gettext_function = '_'
+  GettextI18nRailsJs::JsAndCoffeeParser.js_gettext_function = '_' if defined? GettextI18nRailsJs
 
   desc 'Extract strings from codebase'
   task :find_code => [:find_model, "gettext:find", "gettext:po_to_json"]
