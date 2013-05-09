@@ -78,7 +78,8 @@ class ApplicationController < ActionController::Base
         if available_sso.present?
           if available_sso.authenticated?
             user = User.unscoped.find_by_login(available_sso.user)
-            User.logout_path = available_sso.logout_path if available_sso.support_logout?
+            session[:logout_path] = available_sso.logout_path if available_sso.support_logout?
+            update_activity_time
           elsif available_sso.support_login?
             available_sso.authenticate!
             return

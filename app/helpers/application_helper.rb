@@ -294,7 +294,7 @@ module ApplicationHelper
   end
 
   def sign_out_url
-    User.logout_path + URI.escape(logout_users_url)
+    (session[:logout_path] || '') + URI.escape(logout_users_url)
   end
 
   private
