@@ -29,16 +29,20 @@ class LookupKeyTest < ActiveSupport::TestCase
   def test_fetching_the_correct_value_to_a_given_key
     key   = ""
     value = ""
+    puppetclass = puppetclasses(:one)
+
     as_admin do
-      key   = LookupKey.create!(:key => "dns", :path => "domain\npuppetversion", :puppetclass => puppetclasses(:one),:override=>true)
+      key   = LookupKey.create!(:key => "dns", :path => "domain\npuppetversion", :puppetclass => puppetclass,:override=>true)
       value = LookupValue.create!(:value => "[1.2.3.4,2.3.4.5]", :match => "domain =  mydomain.net", :lookup_key => key)
+      EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:production), :lookup_key => key)
     end
 
     key.reload
     assert key.lookup_values_count > 0
     host = hosts(:one)
     host.domain = domains(:mydomain)
-    assert_equal value.value, key.value_for(host)
+
+    assert_equal value.value, Classification.new(:host=>host).enc['base']['dns']
   end
 
   def test_path2match_single_hostgroup_path
@@ -60,22 +64,31 @@ class LookupKeyTest < ActiveSupport::TestCase
 
     host2 = hosts(:minimal)
     host2.hostgroup = hostgroups(:unusual)
+    host2.environment = environments(:testing)
+
+    host3 = hosts(:redhat)
+    host3.environment = environments(:testing)
 
     default = "default"
     key    = ""
     value1 = ""
     value2 = ""
+    puppetclass = Puppetclass.first
     as_admin do
-      key    = LookupKey.create!(:key => "dns", :path => "environment, hostgroup \n hostgroup", :puppetclass => Puppetclass.first, :default_value => default, :override=>true)
-      value1 = LookupValue.create!(:value => "v1", :match => "environment = testing, hostgroup = Common", :lookup_key => key)
-      value2 = LookupValue.create!(:value => "v2", :match => "hostgroup = Unusual", :lookup_key => key)
+      key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
+      value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
+      value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
+      EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing), :lookup_key => key)
+      HostClass.create!(:host => host,:puppetclass=>puppetclass)
+      HostClass.create!(:host => host2,:puppetclass=>puppetclass)
+      HostClass.create!(:host => host3,:puppetclass=>puppetclass)
     end
 
     key.reload
 
-    assert_equal value1.value, key.value_for(host)
-    assert_equal value2.value, key.value_for(host2)
-    assert_equal default, key.value_for(hosts(:redhat))
+    assert_equal value1.value, Classification.new(:host=>host).enc['apache']['dns']
+    assert_equal value2.value, Classification.new(:host=>host2).enc['apache']['dns']
+    assert_equal default, Classification.new(:host=>host3).enc['apache']['dns']
   end
 
   def test_value_should_not_be_changed

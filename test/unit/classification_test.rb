@@ -35,8 +35,6 @@ class ClassificationTest < ActiveSupport::TestCase
     enc = classification.enc
 
     key.reload
-    # ensures it works per key (as it was before the optimization)
-    assert_equal value.value, key.value_for(hosts(:one))
     assert_equal value.value, enc['base']['cluster']
   end
   private

@@ -27,6 +27,10 @@ class Classification
     klasses
   end
 
+  def inherited_values
+    values_hash true #skip fqdn
+  end
+
   private
 
   attr_reader :host
@@ -58,15 +62,16 @@ class Classification
     end.map(&:path_elements).flatten(1).uniq
   end
 
-  def values_hash
+  def values_hash skip_fqdn = false
     values = {}
     path2matches.each do |match|
       LookupValue.where(:match => match).where(:lookup_key_id => class_parameters.map(&:id)).each do |value|
         key_id = value.lookup_key_id
         values[key_id] ||= {}
-        key = @keys.detect{|k| k.id == value.lookup_key_id }
+        key = class_parameters.detect{|k| k.id == value.lookup_key_id }
         name = key.to_s
         element = match.split(LookupKey::EQ_DELM).first
+        next if skip_fqdn && element=="fqdn"
         if values[key_id][name].nil?
           values[key_id][name] = {:value => value.value, :element => element}
         else
@@ -89,15 +94,33 @@ class Classification
     h
   end
 
+  def hostgroup_matches
+    @hostgroup_matches ||= matches_for host.hostgroup
+  end
+
+  def matches_for hostgroup
+    matches = []
+    path = hostgroup.to_label
+    while path.include?("/")
+      path = path[0..path.rindex("/")-1]
+      matches << "hostgroup#{LookupKey::EQ_DELM}#{path}"
+    end if hostgroup
+    matches
+  end
+
 # Generate possible lookup values type matches to a given host
   def path2matches
     matches = []
     possible_value_orders.each do |rule|
-      match = []
-      Array.wrap(rule).each do |element|
-        match << "#{element}#{LookupKey::EQ_DELM}#{attr_to_value(element)}"
+      match = Array.wrap(rule).map do |element|
+        "#{element}#{LookupKey::EQ_DELM}#{attr_to_value(element)}"
       end
       matches << match.join(LookupKey::KEY_DELM)
+
+      hostgroup_matches.each do |hostgroup_match|
+        match[match.index{|m|m =~ /hostgroup\s*=/}]=hostgroup_match
+        matches << match.join(LookupKey::KEY_DELM)
+      end if Array.wrap(rule).include?("hostgroup") && Setting["host_group_matchers_inheritance"]
     end
     matches
   end

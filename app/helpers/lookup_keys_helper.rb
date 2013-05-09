@@ -64,28 +64,14 @@ module LookupKeysHelper
                 "</dl>"), :title => _("Validation types")).html_safe}
   end
 
-  def used_matcher host, key
-    infos = { :used_matcher => nil }
-    key.value_for host, :obs_matcher_block => Proc.new { |h| infos = h }, :skip_fqdn => true
-    origin = infos[:used_matcher] || '(default value)'
-    origin.gsub(/=.*$/,'')
-  end
-
   def overridable_lookup_keys klass, host
     klass.class_params.override.where(:environment_classes => {:environment_id => host.environment_id}) + klass.lookup_keys
   end
 
-  def key_with_diagnostic obj, key
-    if (obj.class.model_name=="host")
-      host_key_with_diagnostic obj, key
-    else
-      hostgroup_key obj, key
-    end
-  end
-
-  def hostgroup_key hostgroup, key
-    original_value = key.value_before_type_cast key.default_value
-    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => "default value"})
+  def hostgroup_key_with_diagnostic hostgroup, key
+    value, origin = hostgroup.inherited_lookup_value key
+    original_value = key.value_before_type_cast value
+    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
     content_tag :div, :class => ['control-group', 'condensed'] do
     row_count = original_value.to_s.lines.count rescue 1
           text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
@@ -94,15 +80,15 @@ module LookupKeysHelper
          end
   end
 
-  def host_key_with_diagnostic host, key
-     errors = Set.new
-     value = key.value_for host, :skip_fqdn => true
+  def host_key_with_diagnostic host, value_hash, key
+     value = value_hash[key.id] ? value_hash[key.id][key.key][:value] : key.default_value
+     matcher = value_hash[key.id] ? value_hash[key.id][key.key][:element] : _("Default value")
      original_value = key.value_before_type_cast value
-     new_value = key.value_for host
+     no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
 
      diagnostic_class = []
-     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => used_matcher(host, key)})
-     if new_value.blank? && !new_value.is_a?(FalseClass)
+     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher})
+     if no_value
        if key.required
          diagnostic_class << 'error'
          diagnostic_helper = popover(_('No value error'), _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description)
@@ -111,11 +97,7 @@ module LookupKeysHelper
          diagnostic_helper = popover(_('No value warning'), _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description)
        end
      end
-     if errors.size > 0
-       diagnostic_class.delete 'warning'
-       diagnostic_class << 'error'
-       diagnostic_helper = popover(_('Fact error'), _('One or more unknown facts were encountered during evaluation:') + '<ul>' + errors.sort.map {|v| "<li>#{v}</li>" }.join + '</ul>')
-     end
+
      content_tag :div, :class => ['control-group', 'condensed'] + diagnostic_class do
       row_count = original_value.to_s.lines.count rescue 1
       text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,

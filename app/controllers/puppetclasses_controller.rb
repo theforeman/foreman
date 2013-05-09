@@ -62,7 +62,9 @@ class PuppetclassesController < ApplicationController
   # form AJAX methods
   def parameters
     puppetclass = Puppetclass.find(params[:id])
-    render :partial => "puppetclasses/class_parameters", :locals => {:klass => puppetclass, :host => refresh_host}
+    render :partial => "puppetclasses/class_parameters", :locals => {
+        :puppetclass => puppetclass,
+        :obj => refresh_host}
   end
 
   private
