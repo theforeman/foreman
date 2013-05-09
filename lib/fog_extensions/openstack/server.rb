@@ -35,6 +35,10 @@ module FogExtensions
       def network
       end
 
+      def reset
+        reboot('HARD')
+      end
+
     end
   end
 end

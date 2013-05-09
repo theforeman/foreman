@@ -654,6 +654,10 @@ class Host::Managed < Host::Base
     new
   end
 
+  def bmc_nic
+    interfaces.bmc.first
+  end
+
   def sp_ip
     bmc_nic.try(:ip)
   end
@@ -729,6 +733,32 @@ class Host::Managed < Host::Base
     tax_organization.import_missing_ids if organization
   end
 
+  def bmc_proxy
+    @bmc_proxy ||= bmc_nic.proxy
+  end
+
+  def bmc_available?
+    ipmi = bmc_nic
+    return false if ipmi.nil?
+    ipmi.password.present? && ipmi.username.present? && ipmi.provider == 'IPMI'
+  end
+
+  def power
+    opts = {:host => self}
+    if compute_resource_id && uuid
+      VirtPowerManager.new(opts)
+    elsif bmc_available?
+      BMCPowerManager.new(opts)
+    else
+      raise ::Foreman::Exception.new(N_("Unknown power management support - can't continue"))
+    end
+  end
+
+
+  def ipmi_boot(booting_device)
+    bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
+  end
+
   private
 
   def lookup_keys_params
@@ -744,10 +774,6 @@ class Host::Managed < Host::Base
 
   def lookup_keys_class_params
     Classification.new(:host => self).enc
-  end
-
-  def bmc_nic
-    interfaces.bmc.first
   end
 
   # ensure that host name is fqdn

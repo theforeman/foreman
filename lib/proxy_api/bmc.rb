@@ -41,7 +41,8 @@ module ProxyAPI
       case args[:action]
       when "on?", "off?", "status"
         args[:action].chop! if args[:action].include?('?')
-        parse get(bmc_url_for('power',args[:action]), args)
+        response = parse(get(bmc_url_for('power',args[:action]), args))
+        response.is_a?(Hash) ?  response['result'] : response
       when "on", "off", "cycle", "soft"
         res = parse put(args, bmc_url_for('power',args[:action]))
         # This is a simple action, just return the result of the action
@@ -71,7 +72,8 @@ module ProxyAPI
       # get "/bmc/:host/lan/:action"
       case args[:action]
       when "ip", "netmask", "mac", "gateway"
-        parse get(bmc_url_for('lan',args[:action]), args)
+        response = parse(get(bmc_url_for('lan',args[:action]), args))
+        response.is_a?(Hash) ?  response['result'] : response
       else
         raise NoMethodError
       end

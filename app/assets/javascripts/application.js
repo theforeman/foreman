@@ -162,7 +162,7 @@ function template_info(div, url) {
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
-                  $(div).html("<div class='alert alert-warning'><a class='close' data-di  smiss='alert'>&times;</a><p>Sorry but no templates were configured.</p></div>");
+                  $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>_('Sorry but no templates were configured.')</p></div>");
                 }
               });
 }
@@ -347,3 +347,14 @@ function update_puppetclasses(element) {
 function foreman_url(path) {
   return URL_PREFIX + path;
 }
+
+$(function() {
+  $('*[data-ajax-url]').each(function() {
+    var url = $(this).attr('data-ajax-url');
+    $(this).load(url, function(response, status, xhr) {
+      if (status == "error") {
+        $(this).closest(".tab-content").find("#spinner").html(_('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+      }
+    });
+  });
+});
