@@ -1,5 +1,5 @@
 <%= javascript 'host_edit' %>
-<%= form_for @hostgroup do |f| %>
+<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -49,10 +49,10 @@
     </div>
 
     <div class="tab-pane" id="params">
-      <h6><%= _('Puppet classes Parameters') -%></h6>
+      <h6><%= _('Puppet classes parameters') -%></h6>
       <p/>
       <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
-      <h6><%= _('Hostgroup Parameters') -%></h6>
+      <h6><%= _('Host group parameters') -%></h6>
       <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p/>

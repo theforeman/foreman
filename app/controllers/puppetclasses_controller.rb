@@ -62,9 +62,10 @@ class PuppetclassesController < ApplicationController
   # form AJAX methods
   def parameters
     puppetclass = Puppetclass.find(params[:id])
+    obj = params['host'] ? refresh_host : refresh_hostgroup
     render :partial => "puppetclasses/class_parameters", :locals => {
         :puppetclass => puppetclass,
-        :obj => refresh_host}
+        :obj => obj}
   end
 
   private
@@ -78,9 +79,19 @@ class PuppetclassesController < ApplicationController
       end
       @host.attributes = params['host']
     else
-      @host ||= Host::Managed.new(params['host'])
+      @host = Host::Managed.new(params['host'])
     end
-    return @host
+    @host
+  end
+
+  def refresh_hostgroup
+    @hostgroup = Hostgroup.find_by_id(params['host_id'])
+    if @hostgroup
+      @hostgroup.attributes = params['hostgroup']
+    else
+      @hostgroup = Hostgroup.new(params['hostgroup'])
+    end
+    @hostgroup
   end
 
 
