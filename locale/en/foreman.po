@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-09 09:42+0100\n"
-"PO-Revision-Date: 2013-05-09 09:32+0100\n"
+"PO-Revision-Date: 2013-05-09 14:45+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
 "Language: en\n"
@@ -1817,7 +1817,7 @@ msgid "Loading parameters..."
 msgstr ""
 
 msgid "Location"
-msgstr "FOO"
+msgstr ""
 
 msgid "Location configuration"
 msgstr ""
@@ -1826,7 +1826,7 @@ msgid "Location/Organization"
 msgstr ""
 
 msgid "Locations"
-msgstr "FOOS"
+msgstr ""
 
 msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
 msgstr ""
@@ -4192,9 +4192,8 @@ msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#, fuzzy
 msgid "location"
-msgstr "FOO"
+msgstr ""
 
 msgid "locations"
 msgstr ""
