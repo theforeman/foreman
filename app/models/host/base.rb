@@ -122,7 +122,7 @@ module Host
 
     def is_name_downcased?
       return unless name.present?
-      errors.add(:name, _("must be downcase")) unless name == name.downcase
+      errors.add(:name, _("must be lowercase")) unless name == name.downcase
     end
 
     def facts_hash
