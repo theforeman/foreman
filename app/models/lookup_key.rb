@@ -56,27 +56,6 @@ class LookupKey < ActiveRecord::Base
     key
   end
 
-  # params:
-  #   +host: The considered Host instance.
-  #   +options+: A hash containing the following, optional keys:
-  #   +obs_matcher_block+: Callback to notify with extra information.
-  #                        It is given a hash having the following structure:
-  #                        +{ :host => #<Host>, :used_matched => "fact=value", :value => #<Value> }+
-  #     +skip_fqdn+: Boolean value indicating whether to skip the fqdn matcher. Defaults to false.
-  #                  Useful to give the previous value, prior to an eventual override.
-  def value_for host, options = {}
-    skip_fqdn = options[:skip_fqdn] || false
-    obs_matcher_block = options[:obs_matcher_block]
-    path2matches(host).each do |match|
-      next if skip_fqdn and match =~ /^fqdn\s*=/
-      if (v = lookup_values.find_by_match(match))
-        obs_matcher_block.call({:host => host, :used_matcher => match, :value => v.value}) if obs_matcher_block
-        return v.value
-      end
-    end if (!is_param || (is_param && override)) && lookup_values.any?
-    default_value
-  end
-
   def path
     path = read_attribute(:path)
     path.blank? ? array2path(Setting["Default_variables_Lookup_Path"]) : path

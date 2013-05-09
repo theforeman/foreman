@@ -8,7 +8,7 @@
   </tr>
   </thead>
   <tbody>
-  <%= render :partial => "puppetclasses/class_parameters", :collection => interesting_klasses(obj), :as => :klass,
-             :locals => { :type => obj.class.to_s.downcase, :host => obj } %>
+  <%= render :partial => "puppetclasses/class_parameters", :collection => interesting_klasses(obj), :as => :puppetclass,
+             :locals => { :obj => obj } %>
   </tbody>
 </table>
