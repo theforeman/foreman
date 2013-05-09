@@ -4207,7 +4207,7 @@ msgstr ""
 msgid "must be an array"
 msgstr ""
 
-msgid "must be downcase"
+msgid "must be lowercase"
 msgstr ""
 
 msgid "must be specified if from is defined"
