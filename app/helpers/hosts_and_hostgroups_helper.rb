@@ -53,27 +53,27 @@ module HostsAndHostgroupsHelper
   end
 
   def puppet_master_fields f
-    ca      = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
-    # do not show the ca proxy, if we have only one of those and its the same as the puppet proxy
-    fields =  puppet_ca(f) unless ca.to_a.count == 1 and ca.map(&:id) == proxies.map(&:id)
-    "#{fields} #{puppet_master(f)}".html_safe
+    "#{puppet_ca(f)} #{puppet_master(f)}".html_safe
   end
 
   def puppet_ca f
-    # if we are not using provisioning, not much point in presenting the CA option (assuming your CA is already set otherwise)
-    return unless SETTINGS[:unattended]
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
+    # Don't show this if we have no CA proxies, otherwise always include blank
+    # so the user can choose not to sign the puppet cert on this host
+    proxies = SmartProxy.puppetca_proxies
+    return if proxies.count == 0
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
-             { :include_blank => proxies.to_a.count > 1 },
+             { :include_blank => true },
              { :label       => _("Puppet CA"),
                :help_inline => _("Use this puppet server as a CA server") }
   end
 
   def puppet_master f
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
+    # Don't show this if we have no Puppet proxies, otherwise always include blank
+    # so the user can choose not to use puppet on this host
+    proxies = SmartProxy.puppet_proxies
+    return if proxies.count == 0
     select_f f, :puppet_proxy_id, proxies, :id, :name,
-             { :include_blank => proxies.to_a.count > 1 },
+             { :include_blank => true },
              { :label       => _("Puppet Master"),
                :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
   end
