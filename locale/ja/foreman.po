@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 09:42+0100\n"
+"POT-Creation-Date: 2013-05-09 15:20+0100\n"
 "PO-Revision-Date: 2013-05-09 09:31+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -70,6 +70,12 @@ msgstr[0] ""
 msgid "%{default_value} is not one of %{validator_rule}"
 msgstr ""
 
+msgid "%{host} is now %{state}"
+msgstr ""
+
+msgid "%{host} now boots from %{device}"
+msgstr ""
+
 msgid "%{name} changed from %{label1} to %{label2}"
 msgstr ""
 
@@ -80,9 +86,6 @@ msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
 msgid "%{value} is not one of %{rules}"
-msgstr ""
-
-msgid "%{vm} is now %{state}"
 msgstr ""
 
 msgid "%{vm} is now %{vm_state}"
@@ -488,6 +491,9 @@ msgstr ""
 msgid "B"
 msgstr ""
 
+msgid "BIOS"
+msgstr ""
+
 msgid "BMC"
 msgstr ""
 
@@ -548,6 +554,9 @@ msgstr ""
 msgid "Bookmark|Query"
 msgstr ""
 
+msgid "Boot device"
+msgstr ""
+
 msgid "Bootable"
 msgstr ""
 
@@ -567,6 +576,9 @@ msgid "Build PXE Default"
 msgstr ""
 
 msgid "Build from OS image"
+msgstr ""
+
+msgid "CDROM"
 msgstr ""
 
 msgid "CPUs"
@@ -612,6 +624,9 @@ msgid "Change your avatar at gravatar.com"
 msgstr ""
 
 msgid "Changed environments and puppet classes"
+msgstr ""
+
+msgid "Chassis"
 msgstr ""
 
 msgid "Check all"
@@ -1083,6 +1098,9 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
+msgid "Error has occurred while communicating with %{cr}: %{e}"
+msgstr ""
+
 msgid "Errors only"
 msgstr ""
 
@@ -1146,7 +1164,7 @@ msgstr ""
 msgid "Failed restarts"
 msgstr ""
 
-msgid "Failed to %{action} %{vm}: %{e}"
+msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
 msgid "Failed to add %{name} to autosign file: %{e}"
@@ -1156,6 +1174,9 @@ msgid "Failed to cancel pending build for %s"
 msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
+msgstr ""
+
+msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
 msgid "Failed to create a compute %{compute_resource} instance %{name}: %{message}\\n "
@@ -1174,6 +1195,9 @@ msgid "Failed to fetch boot files"
 msgstr ""
 
 msgid "Failed to fetch boot files: %s"
+msgstr ""
+
+msgid "Failed to fetch: "
 msgstr ""
 
 msgid "Failed to generate %{template_kind} template: %{e}"
@@ -1326,6 +1350,9 @@ msgid "Full name describing the domain"
 msgstr ""
 
 msgid "Full trace"
+msgstr ""
+
+msgid "Gateway"
 msgstr ""
 
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
@@ -1585,6 +1612,9 @@ msgstr ""
 msgid "Howtos"
 msgstr ""
 
+msgid "IP"
+msgstr ""
+
 msgid "IP Address"
 msgstr ""
 
@@ -1717,6 +1747,9 @@ msgstr ""
 msgid "Invalid Host"
 msgstr ""
 
+msgid "Invalid power state request: %{action}, supported actions are %{supported}"
+msgstr ""
+
 msgid "Invalid query"
 msgstr ""
 
@@ -1802,6 +1835,9 @@ msgid "Loading"
 msgstr ""
 
 msgid "Loading ..."
+msgstr ""
+
+msgid "Loading BMC information ..."
 msgstr ""
 
 msgid "Loading Images information"
@@ -1898,6 +1934,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
+msgstr ""
+
+msgid "MAC"
 msgstr ""
 
 msgid "MAC Address"
@@ -2058,6 +2097,9 @@ msgid "Name"
 msgstr ""
 
 msgid "Nest"
+msgstr ""
+
+msgid "Netmask"
 msgstr ""
 
 msgid "Netmask for this subnet"
@@ -2537,6 +2579,9 @@ msgstr ""
 
 #. host's status: first character of "pending" initial character of Pending
 msgid "P"
+msgstr ""
+
+msgid "PXE"
 msgstr ""
 
 msgid "PXE Default file has been deployed to all Smart Proxies"
@@ -3183,6 +3228,9 @@ msgstr ""
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
+msgid "Sorry but no templates were configured."
+msgstr ""
+
 msgid "Sorry, these hosts do not have parameters assigned to them, you must add them first."
 msgstr ""
 
@@ -3202,6 +3250,9 @@ msgid "State"
 msgstr ""
 
 msgid "Statistics"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 msgid "Storage"
@@ -3514,6 +3565,9 @@ msgstr ""
 msgid "Time in minutes installation tokens should be valid for, 0 to disable"
 msgstr ""
 
+msgid "Timeout has occurred while communicating with %s"
+msgstr ""
+
 msgid "To define trend counters, use the Add Trend Counter button."
 msgstr ""
 
@@ -3611,6 +3665,9 @@ msgstr ""
 msgid "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
 msgstr ""
 
+msgid "Unable to find a proxy with BMC feature"
+msgstr ""
+
 msgid "Unable to find proper authentication method"
 msgstr ""
 
@@ -3629,6 +3686,9 @@ msgstr ""
 msgid "Undo remove"
 msgstr ""
 
+msgid "Unknown"
+msgstr ""
+
 msgid "Unknown Power State"
 msgstr ""
 
@@ -3636,6 +3696,9 @@ msgid "Unknown action name for success message: %s"
 msgstr ""
 
 msgid "Unknown fact"
+msgstr ""
+
+msgid "Unknown power management support - can't continue"
 msgstr ""
 
 msgid "Unknown user"
@@ -3773,6 +3836,11 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 #, fuzzy
 msgid "User|Lastname"
+msgstr "ユーザー名"
+
+#. "Table name" or "Table name|Column name" for error messages
+#, fuzzy
+msgid "User|Locale"
 msgstr "ユーザー名"
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -4253,7 +4321,13 @@ msgstr ""
 msgid "plus all"
 msgstr ""
 
+msgid "poweroff"
+msgstr ""
+
 msgid "puppet class browser"
+msgstr ""
+
+msgid "reboot"
 msgstr ""
 
 msgid "remove"
@@ -4266,6 +4340,9 @@ msgid "remove value"
 msgstr ""
 
 msgid "remove volume"
+msgstr ""
+
+msgid "reset"
 msgstr ""
 
 msgid "revoked"
@@ -4284,6 +4361,15 @@ msgid "should be 8 characters or more"
 msgstr ""
 
 msgid "should follow this format: 0,9600n8"
+msgstr ""
+
+msgid "start"
+msgstr ""
+
+msgid "state"
+msgstr ""
+
+msgid "stop"
 msgstr ""
 
 msgid "these hosts for a build operation on next boot"

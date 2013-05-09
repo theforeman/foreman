@@ -409,6 +409,8 @@ _('User|Last login on')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Lastname')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('User|Locale')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Locations andor')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Login')
