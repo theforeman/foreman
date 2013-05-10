@@ -75,6 +75,7 @@ Foreman::Application.configure do
                   ace/theme-twilight
                   ace/theme-dawn
                   ace/theme-clouds
+                  ace/theme-textmate
                   ace/mode-diff
                   ace/mode-ruby
                   ace/keybinding-vim
