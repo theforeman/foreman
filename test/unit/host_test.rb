@@ -70,6 +70,13 @@ class HostTest < ActiveSupport::TestCase
     assert Host.find_by_name('a.server.b.domain')
   end
 
+  test "should import facts idempotently" do
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+    value_ids = Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+    assert_equal value_ids, Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
+  end
+
   test "should not save if neither ptable or disk are defined when the host is managed" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
