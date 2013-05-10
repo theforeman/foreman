@@ -58,10 +58,10 @@ module Host
 
       deletions = []
       fact_values.includes(:fact_name).each do |value|
-        deletions << value['id'] and next unless facts.include?(value['name'])
+        deletions << value['id'] and next unless facts.include?(value.name)
         # Now store them for later testing.
-        db_facts[value['name']] ||= []
-        db_facts[value['name']] << value
+        db_facts[value.name] ||= []
+        db_facts[value.name] << value
       end
 
       # Now get rid of any parameters whose value list is different.
@@ -69,9 +69,11 @@ module Host
       # a single value, but in the most common case (a single value has changed)
       # this makes sense.
       db_facts.each do |name, value_hashes|
-        values = value_hashes.collect { |v| v['value'] }
+        db_values = value_hashes.collect { |v| v['value'] }
+        value = facts[name]
+        values = value.is_a?(Array) ? value : [value.to_s]
 
-        unless values == facts[name]
+        unless db_values == values
           value_hashes.each { |v| deletions << v['id'] }
         end
       end
