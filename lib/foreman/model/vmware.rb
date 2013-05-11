@@ -59,6 +59,18 @@ module Foreman::Model
       dc.datastores.all(:accessible => true)
     end
 
+    def hardware_profiles
+      servertypes
+    end
+    
+    def hardware_profile(id)
+      servertypes.get(id)
+    end
+
+    def servertypes
+      @servertypes ||= dc.servertypes.all()
+    end
+
     def test_connection
       super
       errors[:server] and errors[:user].empty? and errors[:password] and update_public_key and datacenters
@@ -174,6 +186,7 @@ module Foreman::Model
         :interfaces => [new_interface],
         :volumes    => [new_volume],
         :datacenter => datacenter,
+        :guest_id   => "otherGuest64"
       }.merge(super)
     end
 

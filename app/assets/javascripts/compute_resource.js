@@ -77,6 +77,43 @@ function add_network_interface(item){
   $('[id$='+new_id+'_network]').val(item.network);
 }
 
+function add_network_interfacetype(item) {
+  var itypes=$('#interfacetypes')
+  var opt = document.createElement("option");
+  var itype = itypes[0]
+  itypes.disabled = true;
+  opt.value = item.name;
+  opt.text = item.name;
+  
+  itype.add(opt, null)
+}
+
+function vsphere_hwpSelected(item) {
+  var servertype = $(item).val()
+  var url = $(item).attr('data-url');
+
+  $('#hwp_indicator').show();
+  $('#interfacetypes').children('option').remove()
+  $.ajax({
+      type:'post',
+      url: url,
+      data:'hwp_id=' + servertype,
+      success: function(result){
+        $.each(result.interfacetypes, function() {add_network_interfacetype(this);});
+        $('#network_interfaces').children('.fields').remove();
+//        $.each(result.interfaces, function() {add_network_interface(this);});
+//        $('#volumes').children('.fields').remove();
+//        $.each(result.volumes, function() {add_volume(this);});
+      },
+      complete: function(result){
+        item=$('#network_interfaces').children('a')[0]
+        add_child_node(item)
+        $('#hwp_indicator').hide();
+        $('[rel="twipsy"]').tooltip();
+      }
+    })
+}
+
 // fill in the template volumes.
 function add_volume(item){
   var new_id = add_child_node($("#volumes .add_nested_fields"));
@@ -121,3 +158,4 @@ function ovirt_clusterSelected(item){
       }
     })
 }
+
