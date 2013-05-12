@@ -194,7 +194,7 @@ function load_puppet_class_parameters(item) {
     success: function(result, textstatus, xhr) {
       var params = $(result);
       placeholder.replaceWith(params);
-      params.find('a[rel="popover"]').popover();
+      params.find('a[rel="popover"]').popover({html: true});
       if (params.find('.error').length > 0) $('#params-tab').addClass('tab-error');
     }
   });
