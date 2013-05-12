@@ -6,9 +6,9 @@
   <div class="alert alert-message alert-block alert-error">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
     <h3><%= _("Host times seems to be adrift!") %></h3>
-    <%= (_("Host reported time is <em>%s</em>") % @report.reported_at).html_raw %> <br/>
-    <%= (_("Foreman report creation time is <em>%s</em>") % @report.created_at).html_raw %> <br/>
-    <%= (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@report.reported_at, @report.created_at, true)).html_raw %>
+    <%= (_("Host reported time is <em>%s</em>") % @report.reported_at).html_safe %> <br/>
+    <%= (_("Foreman report creation time is <em>%s</em>") % @report.created_at).html_safe %> <br/>
+    <%= (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@report.reported_at, @report.created_at, true)).html_safe %>
   </div>
 <% end -%>
 
