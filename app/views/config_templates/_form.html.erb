@@ -1,5 +1,6 @@
-<%= javascript 'config_template', 'ace/ace', 'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/mode-diff',
-               'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs' %>
+<%= javascript 'config_template', 'ace/ace',
+               'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/theme-textmate',
+               'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs' %>
 <%= form_for @config_template, :html => { :multipart => true } do |f| %>
     <%= base_errors_for @config_template %>
     <ul class="nav nav-tabs" data-tabs="tabs">
