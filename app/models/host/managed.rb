@@ -352,6 +352,7 @@ class Host::Managed < Host::Base
   def params
     host_params.update(lookup_keys_params)
   end
+
   def clear_host_parameters_cache!
     @cached_host_params = nil
   end
@@ -746,17 +747,11 @@ class Host::Managed < Host::Base
 
   def lookup_keys_params
     return {} unless Setting["Enable_Smart_Variables_in_ENC"]
-
-    p = {}
-    klasses = all_puppetclasses.map(&:id).flatten
-    LookupKey.where(:puppetclass_id => klasses ).each do |k|
-      p[k.to_s] = k.value_for(self)
-    end unless klasses.empty?
-    p
+    Classification::GlobalParam.new(:host => self).enc
   end
 
   def lookup_keys_class_params
-    Classification.new(:host => self).enc
+    Classification::ClassParam.new(:host => self).enc
   end
 
   # ensure that host name is fqdn

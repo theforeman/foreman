@@ -1,5 +1,5 @@
 <% lookup_keys = overridable_lookup_keys(puppetclass, obj) %>
-<% value_hash  = Classification.new(:host=>obj).inherited_values if obj.class.model_name == "Host" %>
+<% value_hash  = Classification::ClassParam.new(:host=>obj).inherited_values if obj.class.model_name == "Host" %>
 <% lookup_keys.each_with_index do |key,i| -%>
     <tr id="puppetclass_<%= puppetclass.id %>_params[<%= key.id %>]">
       <%= content_tag :td, (i == 0 ? {:rowspan => lookup_keys.size} : {:class => 'hide'}) do
