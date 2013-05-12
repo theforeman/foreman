@@ -4,7 +4,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
   #TODO: add more tests here
   def setup
-    @classification = Classification.new(:host => hosts(:one))
+    @classification = Classification::ClassParam.new(:host => hosts(:one))
   end
 
   test 'it should return puppetclasses' do
