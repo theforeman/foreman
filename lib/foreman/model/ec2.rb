@@ -39,6 +39,7 @@ module Foreman::Model
         iam_hash = image.iam_role.present? ? {:iam_instance_profile_name => image.iam_role} : {}
         args.merge!(iam_hash)
       end
+      args[:groups].reject!(&:empty?) if args.has_key?(:groups)
       super(args)
     end
 
