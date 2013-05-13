@@ -13,7 +13,7 @@
       <li><a href="#network" data-toggle="tab"><%= _('Network') -%></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') -%></a></li>
       <% if authorized_for("Compute::Resources::Vms", :create) -%>
-        <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab">Virtual Machine</a></li>
+        <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') -%></a></li>
       <% end -%>
     <% end -%>
     <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') -%></a></li>
