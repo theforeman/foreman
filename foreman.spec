@@ -364,16 +364,18 @@ install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp/pids
 install -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
-install -Dp -m0644 foreman.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-install -Dp -m0755 foreman.init %{buildroot}%{_initrddir}/%{name}
-install -Dp -m0644 %{confdir}/logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-install -Dp -m0644 foreman.cron.d %{buildroot}%{_sysconfdir}/cron.d/%{name}
+install -Dp -m0644 %{confdir}/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -Dp -m0755 %{confdir}/%{name}.init %{buildroot}%{_initrddir}/%{name}
+install -Dp -m0644 %{confdir}/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -Dp -m0644 %{confdir}/%{name}.cron.d %{buildroot}%{_sysconfdir}/cron.d/%{name}
+
+install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
+install -pm 644 %{confdir}/%{name}.repo $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 
 cp -p Gemfile.in %{buildroot}%{_datadir}/%{name}/Gemfile.in
 cp -p -r app bundler.d config config.ru extras lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
-#chmod a+x %{buildroot}%{_datadir}/%{name}/script/{console,dbconsole,runner}
 rm -rf %{buildroot}%{_datadir}/%{name}/extras/{jumpstart,spec}
-# remove all test units from productive release
+# remove all test units from produciton release
 find %{buildroot}%{_datadir}/%{name} -type d -name "test" |xargs rm -rf
 
 # Move config files to %{_sysconfdir}
@@ -401,7 +403,7 @@ ln -sv %{_localstatedir}/lib/%{name}/public %{buildroot}%{_datadir}/%{name}/publ
 ln -sv %{_localstatedir}/log/%{name} %{buildroot}%{_datadir}/%{name}/log
 
 # Put tmp files in %{_localstatedir}/lib/%{name}/tmp
-ln -sv %{_localstatedir}/lib/%{name}/tmp %{buildroot}%{homedir}/tmp
+ln -sv %{_localstatedir}/run/%{name} %{buildroot}%{_datadir}/%{name}/tmp
 echo %{version} > %{buildroot}%{_datadir}/%{name}/VERSION
 
 %clean
@@ -467,11 +469,15 @@ if [ ! -d $varlibdir/%{name} -a -d $datadir/tmp -a ! -L $datadir/tmp ]; then
 fi
 
 %post
+if [ ! -f %{_datadir}/%{name}/config/initializers/local_secret_token.rb ]; then
+  touch %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+  chmod 0640 %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+  chgrp foreman %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+  %{scl_rake} -f %{_datadir}/%{name}/Rakefile security:generate_token >/dev/null 2>&1 || :
+fi
 /sbin/chkconfig --add %{name} || :
-(/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
-[ -f %{homedir}/config/initializers/local_secret_token.rb ] || \
-  %{scl_rake} -f %{homedir}/Rakefile security:generate_token >/dev/null 2>&1 || :
-exit 0
+  (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
+  exit 0
 
 %posttrans
 # We need to run the db:migrate after the  install transaction

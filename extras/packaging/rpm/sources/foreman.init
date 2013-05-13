@@ -12,6 +12,10 @@ if [ -f /etc/sysconfig/foreman ]; then
     . /etc/sysconfig/foreman
 fi
 
+function run_in_scl() {
+   scl enable ruby193 "thin $*"
+}
+
 prog=foreman
 THIN=/usr/bin/thin
 RETVAL=0
@@ -26,9 +30,9 @@ if [[ -z $FOREMAN_PID ]]
 then
     if [[ $FOREMAN_USE_THIN = 1 ]]
     then
-	FOREMAN_PID=${FOREMAN_HOME}/tmp/pids/thin.*.pid
+        FOREMAN_PID=${FOREMAN_HOME}/tmp/pids/thin.*.pid
     else
-	FOREMAN_PID=${FOREMAN_HOME}/tmp/pids/server.pid
+        FOREMAN_PID=${FOREMAN_HOME}/tmp/pids/server.pid
     fi
 fi
 
@@ -36,22 +40,22 @@ start() {
     echo -n $"Starting $prog: "
     if [[ $FOREMAN_USE_THIN = 1 ]]
     then
-	$THIN start --user ${FOREMAN_USER} \
-	    --environment $FOREMAN_ENV \
-	    --group ${FOREMAN_USER} \
-	    --config /etc/foreman/thin.yml \
-	    --rackup "${FOREMAN_HOME}/config.ru"
+        $THIN start --user ${FOREMAN_USER} \
+            --environment $FOREMAN_ENV \
+            --group ${FOREMAN_USER} \
+            --config /etc/foreman/thin.yml \
+            --rackup "${FOREMAN_HOME}/config.ru"
     else
-	cd ${FOREMAN_HOME}
-	daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d ${FOREMAN_EXTRA_ARGS} > /dev/null
+        cd ${FOREMAN_HOME}
+        daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d ${FOREMAN_EXTRA_ARGS} > /dev/null
     fi
     RETVAL=$?
     if [ $RETVAL = 0 ]
     then
-	echo_success
-	touch /var/lock/subsys/foreman
+        echo_success
+        touch /var/lock/subsys/foreman
     else
-	echo_failure
+        echo_failure
     fi
 
     echo
@@ -62,15 +66,15 @@ stop() {
     RETVAL=0
     for PID in $FOREMAN_PID
     do
-	if [ -f ${PID} ]; then
-	    killproc -p ${PID}
-	    RESULT=$? && [[ $RETVAL = 0 ]] && RETVAL=$RESULT
-	else
-	    echo -n $"Foreman was not running.";
-	    failure $"Foreman was not running.";
-	    echo
-	    RETVAL=1
-	fi
+        if [ -f ${PID} ]; then
+            killproc -p ${PID}
+            RESULT=$? && [[ $RETVAL = 0 ]] && RETVAL=$RESULT
+        else
+            echo -n $"Foreman was not running.";
+            failure $"Foreman was not running.";
+            echo
+            RETVAL=1
+        fi
     done
     echo
     [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/foreman
@@ -80,12 +84,12 @@ stop() {
 restart() {
     if [ ${FOREMAN_USE_PASSENGER} = 1 ]
     then
-	railsrestart
-	RETVAL=$?
+        railsrestart
+        RETVAL=$?
     else
-	stop
-	start
-	RETVAL=$?
+        stop
+        start
+        RETVAL=$?
     fi
 }
 
@@ -95,9 +99,9 @@ railsrestart() {
     RETVAL=$?
     if [ $RETVAL = 0 ]
     then
-	echo_success
+        echo_success
     else
-	echo_failure
+        echo_failure
     fi
 
     echo
@@ -107,48 +111,49 @@ railsrestart() {
 # See how we were called.
 case "$1" in
     start|stop)
-	if [ ${FOREMAN_USE_PASSENGER} = 1 ]
-	then
-	    echo -n "Foreman is running under passenger"
-	    echo_passed
-	    echo
-	else
-	    $1
-	fi
-	RETVAL=$?
+        if [ ${FOREMAN_USE_PASSENGER} = 1 ]
+        then
+            echo -n "Foreman is running under passenger"
+            echo_passed
+            echo
+        else
+            $1
+        fi
+        RETVAL=$?
     ;;
     restart)
-	restart
+        restart
     ;;
     status)
-	echo -n "Foreman"
-	if [ ${FOREMAN_USE_PASSENGER} = 1 ]
-	then
-	    echo -n " is running under passenger"
-	    echo_passed
-	    echo
-	    RETVAL=1
-	else
-	    RETVAL=1
-	    for PID in $FOREMAN_PID
-	    do
-		status -p $PID
-		RETURN=$? && [ "$RETVAL" != 0 ] && RETVAL=$RETURN
-	    done
-	fi
+        echo -n "Foreman"
+        if [ ${FOREMAN_USE_PASSENGER} = 1 ]
+        then
+            echo -n " is running under passenger"
+            echo_passed
+            echo
+            RETVAL=1
+        else
+            for PID in $FOREMAN_PID
+            do
+                status -p $PID
+                STATUS=$?
+                if [ 0$RETVAL -eq 0 ] ; then
+                  RETVAL=$STATUS
+                fi
+            done
+        fi
+        RETVAL=${RETVAL:-1}
     ;;
     condrestart)
-	if [ -e /var/lock/subsys/foreman ]; then
-	    restart
-	    RETVAL=$?
-	else
-	    RETVAL=0
-	fi
-	;;
+        if [ -e /var/lock/subsys/foreman ]; then
+            restart
+            RETVAL=$?
+        fi
+        ;;
 
     *)
-	echo $"Usage: $prog {start|stop|restart|condrestart}"
-	exit 1
+        echo $"Usage: $prog {start|stop|restart|condrestart}"
+        exit 1
 esac
 
 exit $RETVAL
