@@ -68,10 +68,13 @@
       <packagereq type="default">ruby193-rubygem-execjs</packagereq>
       <packagereq type="default">ruby193-rubygem-fast_gettext</packagereq>
       <packagereq type="default">ruby193-rubygem-ffi</packagereq>
+      <packagereq type="default">ruby193-rubygem-flot-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-fog</packagereq>
       <packagereq type="default">ruby193-rubygem-foremancli</packagereq>
       <packagereq type="default">ruby193-rubygem-formatador</packagereq>
+      <packagereq type="default">ruby193-rubygem-gettext</packagereq>
       <packagereq type="default">ruby193-rubygem-gettext_i18n_rails</packagereq>
+      <packagereq type="default">ruby193-rubygem-gettext_i18n_rails_js</packagereq>
       <packagereq type="default">ruby193-rubygem-hike</packagereq>
       <packagereq type="default">ruby193-rubygem-hirb-unicode</packagereq>
       <packagereq type="default">ruby193-rubygem-hirb</packagereq>
@@ -82,6 +85,7 @@
       <packagereq type="default">ruby193-rubygem-jquery-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-jquery-ui-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-json</packagereq>
+      <packagereq type="default">ruby193-rubygem-levenshtein</packagereq>
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
       <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
       <packagereq type="default">ruby193-rubygem-multi_json</packagereq>
@@ -94,6 +98,7 @@
       <packagereq type="default">ruby193-rubygem-oauth</packagereq>
       <packagereq type="default">ruby193-rubygem-pg</packagereq>
       <packagereq type="default">ruby193-rubygem-polyglot</packagereq>
+      <packagereq type="default">ruby193-rubygem-po_to_json</packagereq>
       <packagereq type="default">ruby193-rubygem-quiet_assets</packagereq>
       <packagereq type="default">ruby193-rubygem-rabl</packagereq>
       <packagereq type="default">ruby193-rubygem-rack-cache</packagereq>
