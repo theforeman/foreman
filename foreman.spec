@@ -63,15 +63,15 @@ Requires: %{?scl_prefix}rubygem(oauth)
 Requires: %{?scl_prefix}rubygem(rabl) >= 0.7.5
 Requires: %{?scl_prefix}rubygem(rake) >= 0.8.3
 Requires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
-Requires: %{?scl_prefix}rubygem(ruby_parser) < 3.1.0
 Requires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
-Requires: %{?scl_prefix}rubygem(apipie-rails) = 0.0.16
+Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.16
 Requires: %{?scl_prefix}rubygem(bundler_ext)
 Requires: %{?scl_prefix}rubygem(thin)
 Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.4.8
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
-Requires: %{?scl_prefix}rubygem(therubyracer) =  0.11.3
+Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
 BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
@@ -80,8 +80,11 @@ BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.16
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
 BuildRequires: %{?scl_prefix}rubygem(coffee-rails) => 3.2.1
+BuildRequires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
 BuildRequires: %{?scl_prefix}rubygem(fast_gettext)
 BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
+BuildRequires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 BuildRequires: %{?scl_prefix}rubygem(jquery-rails)
 BuildRequires: %{?scl_prefix}rubygem(jquery-ui-rails)
 BuildRequires: %{?scl_prefix}rubygem(less-rails)
@@ -103,7 +106,7 @@ BuildRequires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.2
 BuildRequires: %{?scl_prefix}rubygem(rails)
 BuildRequires: %{?scl_prefix}rubygem(quiet_assets)
 BuildRequires: %{?scl_prefix}rubygem(spice-html5-rails)
-BuildRequires: %{?scl_prefix}rubygem(flot-rails)
+BuildRequires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 BuildRequires: %{?scl_prefix}facter
 BuildRequires: %{?scl_prefix}puppet >= 0.24.4
 BuildRequires: puppet
@@ -202,6 +205,8 @@ Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
 Requires: %{?scl_prefix}rubygem(uglifier)
 Requires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
+Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
+Requires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
 
 %description assets
 Meta package to install asset pipeline support.
@@ -339,8 +344,8 @@ plugins required for Foreman to work.
 		script/rails script/performance/profiler script/performance/benchmarker script/foreman-config ; do
 	    sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' $f
     done
-    sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' foreman.init
-    sed -ri '1,$s|THIN=/usr/bin/thin|THIN="run_in_scl"|' foreman.init
+    sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' %{confdir}/foreman.init
+    sed -ri '1,$s|THIN=/usr/bin/thin|THIN="run_in_scl"|' %{confdir}/foreman.init
 %endif
 
 mv Gemfile Gemfile.in
@@ -348,10 +353,11 @@ mv Gemfile Gemfile.in
 # upstream bug https://github.com/wvanbergen/scoped_search/issues/53
 sed -i "s/gem 'scoped_search'/gem 'sprockets'\n&/" Gemfile.in
 cp config/database.yml.example config/database.yml
+cp config/settings.yaml.example config/settings.yaml
 export BUNDLER_EXT_NOSTRICT=1
 export BUNDLER_EXT_GROUPS="default assets"
 %{scl_rake} assets:precompile:all RAILS_ENV=production --trace
-rm config/database.yml
+rm config/database.yml config/settings.yaml
 
 %install
 rm -rf %{buildroot}
@@ -424,7 +430,7 @@ rm -rf %{buildroot}
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
 %attr(-,%{name},root) %{_datadir}/%{name}/config.ru
 %attr(-,%{name},root) %{_datadir}/%{name}/config/environment.rb
-%ghost %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+%ghost %attr(0640,root,%{name}) %{_datadir}/%{name}/config/initializers/local_secret_token.rb
 
 %pre
 # Add the "foreman" user and group

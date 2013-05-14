@@ -4,7 +4,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem "jquery-rails", "2.0.3"
   gem 'jquery-ui-rails'
-  gem "therubyracer", '0.11.3'
+  gem "therubyracer", '0.11.3', :require => 'v8'
   gem "twitter-bootstrap-rails"
   gem "spice-html5-rails"
   gem "flot-rails", '0.0.3'
