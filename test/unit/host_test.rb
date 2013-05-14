@@ -160,6 +160,17 @@ class HostTest < ActiveSupport::TestCase
     User.current    = @one
   end
 
+  def setup_filtered_user
+    # Can't use `setup_user_and_host` as it deletes the UserFacts
+    @one             = users(:one)
+    @one.hostgroups  = []
+    @one.domains     = []
+    @one.user_facts  = [user_facts(:one)]
+    @one.facts_andor = "and"
+    @one.save!
+    User.current    = @one
+  end
+
   test "host cannot be edited without permission" do
     setup_user_and_host
     as_admin do
@@ -293,6 +304,36 @@ class HostTest < ActiveSupport::TestCase
       @host.save!
     end
     assert !@host.destroy
+    assert_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "fact filters restrict the my_hosts scope" do
+    setup_filtered_user
+    assert_equal 1, Host.my_hosts.count
+    assert_equal 'my5name.mydomain.net', Host.my_hosts.first.name
+  end
+
+  test "host can be edited when user fact filter permits" do
+    setup_filtered_user
+    as_admin do
+      @one.roles  = [Role.find_by_name("Edit hosts")]
+      @host       = hosts(:one)
+      @host.owner = users(:two)
+      @host.save!
+    end
+    assert @host.update_attributes(:name => "blahblahblah")
+    assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "host cannot be edited when user fact filter denies" do
+    setup_filtered_user
+    as_admin do
+      @one.roles  = [Role.find_by_name("Edit hosts")]
+      @host       = hosts(:two)
+      @host.owner = users(:two)
+      @host.save!
+    end
+    assert !@host.update_attributes(:name => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
