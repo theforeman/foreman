@@ -1,7 +1,4 @@
 # The audit class is part of audited plugin
-# we reopen here to add search functionality
-require 'audited'
-
 module AuditExtentions
   def self.included(base)
     base.send :include, InstanceMethods
@@ -58,6 +55,3 @@ module AuditExtentions
     end
   end
 end
-
-Audit = Audited.audit_class
-Audit.send(:include, AuditExtentions)
