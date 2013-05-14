@@ -17,11 +17,12 @@ function run_in_scl() {
 }
 
 prog=foreman
-THIN=run_in_scl
+THIN=/usr/bin/thin
 RETVAL=0
 FOREMAN_PORT=${FOREMAN_PORT:-3000}
 FOREMAN_USER=${FOREMAN_USER:-foreman}
 FOREMAN_HOME=${FOREMAN_HOME:-/usr/share/foreman}
+export HOME=$FOREMAN_HOME
 FOREMAN_ENV=${FOREMAN_ENV:-production}
 FOREMAN_USE_PASSENGER=${FOREMAN_USE_PASSENGER:-0}
 FOREMAN_USE_THIN=${FOREMAN_USE_THIN:-0}
@@ -47,7 +48,7 @@ start() {
             --rackup "${FOREMAN_HOME}/config.ru"
     else
         cd ${FOREMAN_HOME}
-        daemon --user ${FOREMAN_USER} /usr/bin/ruby193-ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d ${FOREMAN_EXTRA_ARGS} > /dev/null
+        daemon --user ${FOREMAN_USER} /usr/bin/ruby ${FOREMAN_HOME}/script/rails s -p ${FOREMAN_PORT} -e ${FOREMAN_ENV} -d ${FOREMAN_EXTRA_ARGS} > /dev/null
     fi
     RETVAL=$?
     if [ $RETVAL = 0 ]
