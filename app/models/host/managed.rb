@@ -131,7 +131,9 @@ class Host::Managed < Host::Base
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
     end
-    {:conditions => conditions}
+
+    { :joins => ufs.empty? ? nil : :fact_values,
+      :conditions => conditions }
   }
 
   scope :completer_scope, lambda { my_hosts }
