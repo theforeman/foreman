@@ -82,21 +82,17 @@ module Host
       FactValue.delete(deletions) unless deletions.empty?
 
       # Get FactNames in one call
-      fact_names = FactName.where(:name => facts.keys)
+      fact_names = FactName.maximum(:id, :group => 'name')
 
       # Create any needed new FactNames
-      facts.keys.dup.delete_if { |n| fact_names.map(&:name).include? n }.each do |needed|
-        fact_names << FactName.create(:name => needed)
-      end
-
-      # Lastly, add any new parameters.
-      fact_names.each do |fact_name|
-        next if db_facts.include?(fact_name.name)
-        value = facts[fact_name.name]
+      facts.each do |name, value|
+        next if db_facts.include?(name)
         values = value.is_a?(Array) ? value : [value]
+
         values.each do |v|
           next if v.nil?
-          fact_values.build(:value => v, :fact_name => fact_name)
+          fact_values.build(:value => v, :fact_name => fact_names.keys.include?(name) ?
+                                         fact_names[name] : FactName.create!(:name => name))
         end
       end
     end
