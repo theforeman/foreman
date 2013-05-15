@@ -37,12 +37,14 @@ module Hostext
         scoped_search :in => :organization, :on => :name, :rename => :organization, :complete_value => true if SETTINGS[:organizations_enabled]
 
         if SETTINGS[:unattended]
-          scoped_search :in => :subnet,      :on => :network, :complete_value => true, :rename => :subnet
-          scoped_search :on => :mac,           :complete_value => true
-          scoped_search :on => :uuid,          :complete_value => true
-          scoped_search :on => :build,         :complete_value => {:true => true, :false => false}
-          scoped_search :on => :installed_at,  :complete_value => true
-          scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => :os
+          scoped_search :in => :subnet,          :on => :network, :complete_value => true, :rename => :subnet
+          scoped_search :on => :mac,                              :complete_value => true
+          scoped_search :on => :uuid,                             :complete_value => true
+          scoped_search :on => :build,                            :complete_value => {:true => true, :false => false}
+          scoped_search :on => :installed_at,                     :complete_value => true
+          scoped_search :in => :operatingsystem, :on => :name,    :complete_value => true, :rename => :os
+          scoped_search :in => :operatingsystem, :on => :major,   :complete_value => true, :rename => :os_major
+          scoped_search :in => :operatingsystem, :on => :minor,   :complete_value => true, :rename => :os_minor
         end
 
         if SETTINGS[:login]
