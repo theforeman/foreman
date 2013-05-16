@@ -29,8 +29,6 @@
                    :help_inline => popover("?", _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"), :title => _("The order in which values are resolved")).html_safe
     %>
 
-    <%# the following field is required to see child validations %>
-    <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
     <div class="children_fields">
       <%= new_child_fields_template(f, :lookup_values, {:partial => "lookup_keys/value"}) %>
       <%= f.fields_for :lookup_values do |lookup_values| %>

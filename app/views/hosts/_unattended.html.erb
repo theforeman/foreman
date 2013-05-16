@@ -17,8 +17,6 @@
           <%= render 'common/domain', :item => @host %>
         </span>
         <%= text_f f, :ip, :help_inline => _("IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you") , :autocomplete => 'off'%>
-        <%# the following field is required to see child validations %>
-        <%= f.hidden_field :updated_at, :value => Time.now.to_i %>
         <%= f.fields_for :interfaces do |interfaces| %>
           <%= render 'hosts/interfaces', :f => interfaces  %>
         <% end %>
