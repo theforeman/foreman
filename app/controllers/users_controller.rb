@@ -112,7 +112,7 @@ class UsersController < ApplicationController
   # Clears the rails session and redirects to the login action
   def logout
     TopbarSweeper.expire_cache(self)
-
+    sso_logout_path = get_sso_method.try(:logout_url)
     session[:user] = @user = User.current = nil
     if flash[:notice] or flash[:error]
       flash.keep
@@ -120,7 +120,7 @@ class UsersController < ApplicationController
       session.clear
       notice _("Logged out - See you soon")
     end
-    redirect_to login_users_path
+    redirect_to sso_logout_path || login_users_path
   end
 
   private

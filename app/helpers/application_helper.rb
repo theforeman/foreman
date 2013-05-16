@@ -293,10 +293,6 @@ module ApplicationHelper
     "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?d=mm&s=30"
   end
 
-  def sign_out_url
-    (session[:logout_path] || '') + URI.escape(logout_users_url)
-  end
-
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"

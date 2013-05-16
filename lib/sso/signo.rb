@@ -2,7 +2,7 @@ module SSO
   class Signo < Base
     attr_reader :env, :headers
     delegate :env, :to => :request
-    delegate :headers, :to => :controller
+    delegate :headers, :session, :root_url, :to => :controller
 
     def available?
       Setting['signo_sso'] && defined?(Rack::OpenID) && !controller.api_request?
@@ -15,17 +15,14 @@ module SSO
       !@failed
     end
 
-    def support_logout?
+    def support_expiration?
       true
-    end
-
-    def logout_path
-      "#{Setting['signo_url']}/logout?return_url="
     end
 
     def authenticated?
       if (response = env[Rack::OpenID::RESPONSE])
-        parse_open_id(response)
+        store if (result = parse_open_id(response))
+        result
       else
         false
       end
@@ -39,11 +36,27 @@ module SSO
         controller.render :text => '', :status => 401
       else
         # we have no cookie yet so we plain redirect to OpenID provider to login
-        controller.redirect_to "#{Setting['signo_url']}?return_url=#{URI.escape(request.url)}"
+        controller.redirect_to login_url
       end
     end
 
+    def login_url
+      "#{Setting['signo_url']}?return_url=#{URI.escape(request.url)}"
+    end
+
+    def logout_url
+      "#{Setting['signo_url']}/logout?return_url=#{URI.escape(root_url)}"
+    end
+
+    def expiration_url
+      "#{login_url}&notice=expired"
+    end
+
     private
+
+    def store
+      session[:sso_method] = self.class.to_s
+    end
 
     def parse_open_id(response)
       case response.status
