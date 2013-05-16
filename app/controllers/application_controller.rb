@@ -72,11 +72,9 @@ class ApplicationController < ActionController::Base
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
-
         if available_sso.present?
           if available_sso.authenticated?
             user = User.unscoped.find_by_login(available_sso.user)
-            session[:logout_path] = available_sso.logout_path if available_sso.support_logout?
             update_activity_time
           elsif available_sso.support_login?
             available_sso.authenticate!
@@ -201,9 +199,25 @@ class ApplicationController < ActionController::Base
 
   def expire_session
     logger.info "Session for #{current_user} is expired."
+    sso = get_sso_method
     reset_session
-    flash[:warning] = _("Your session has expired, please login again")
-    redirect_to login_users_path
+    if sso.nil? || !sso.support_expiration?
+      flash[:warning] = _("Your session has expired, please login again")
+      redirect_to login_users_path
+    else
+      redirect_to sso.expiration_url
+    end
+  end
+
+  # returns current SSO method object according to session
+  # nil is returned if nothing was found or invalid method is stored
+  def get_sso_method
+    if (sso_method_class = session[:sso_method])
+      sso_method_class.constantize.new(self)
+    end
+  rescue NameError
+    logger.error "Unknown SSO method #{sso_method_class}"
+    nil
   end
 
   def ajax?

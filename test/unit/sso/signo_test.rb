@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class SignoTest < ActiveSupport::TestCase
-  def test_logout_path_can_be_appended
-    assert_equal get_signo_method.logout_path.last, '='
-  end
-
   def test_casual_request_authenticated?
     assert !get_signo_method.authenticated?
   end
@@ -19,6 +15,7 @@ class SignoTest < ActiveSupport::TestCase
 
     stub(signo).parse_open_id { true }
     assert signo.authenticated?
+    assert_equal signo.session[:sso_method], 'SSO::Signo'
   end
 
   def test_parse_open_id_success
@@ -72,9 +69,13 @@ class SignoTest < ActiveSupport::TestCase
     stub(request).env { req }
     cookies = Hash.new
     stub(request).cookies { cookies }
+    stub(request).url { 'https://localhost/wherever/am?i=whoever&am=i' }
     headers = Hash.new
     stub(controller).headers { headers }
     stub(controller).request { request }
+    session = Hash.new
+    stub(controller).session { session }
+    stub(controller).root_url { 'https://localhost/foreman?a=b&c=d' }
 
     controller
   end
