@@ -810,6 +810,13 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal old_type, @host.type
   end
 
+  test "blank root password submitted does not erase existing password" do
+    old_root_pass = @host.root_pass
+    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => ''} }, set_session_user
+    @host = Host.find(@host.id)
+    assert_equal old_root_pass, @host.root_pass
+  end
+
   private
   def initialize_host
     User.current = users(:admin)
@@ -823,7 +830,8 @@ class HostsControllerTest < ActionController::TestCase
                         :environment_id     => environments(:production).id,
                         :subnet_id          => subnets(:one).id,
                         :disk            => "empty partition",
-                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id
+                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id,
+                        :root_pass          => "123456789",
                        )
   end
 end

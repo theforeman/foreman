@@ -45,7 +45,7 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass %>
+      <%= password_f f, :root_pass, :placeholder => password_placeholder(f.object) %>
     </div>
 
     <div class="tab-pane" id="params">
