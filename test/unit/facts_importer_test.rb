@@ -40,6 +40,13 @@ class FactsImporterTest < ActiveSupport::TestCase
     assert_kind_of Domain, importer.domain
   end
 
+  test "should make non-numeric os version strings into numeric" do
+    @importer = Facts::Importer.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'1&2.3y4'})
+    data = importer.operatingsystem
+    assert_equal '12', data.major
+    assert_equal '34', data.minor
+  end
+
   private
 
   def facts
