@@ -88,8 +88,10 @@ class ComputeResourcesController < ApplicationController
 
   def hardware_profile_selected
     compute = @compute_resource.hardware_profile(params[:hwp_id])
-    compute.interfaces
-    compute.volumes
+    compute.interfaces if compute.respond_to? :interfaces
+    compute.volumes if compute.respond_to? :volumes
+    compute.interfacetypes if compute.respond_to? :interfacetypes
+
     respond_to do |format|
       format.json { render :json => compute }
     end
