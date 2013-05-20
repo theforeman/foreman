@@ -17,8 +17,16 @@ class TopbarSweeper < ActionController::Caching::Sweeper
     expire_cache_for(record)
   end
 
+  def self.fragment_name
+    "tabs_and_title_records-#{User.current.id}"
+  end
+
+  def self.expire_cache(controller)
+    controller.expire_fragment(TopbarSweeper.fragment_name) if User.current
+  end
+
   private
   def expire_cache_for(record)
-    expire_fragment("tabs_and_title_records-#{User.current.id}") if User.current
+    expire_fragment(TopbarSweeper.fragment_name) if User.current
   end
 end
