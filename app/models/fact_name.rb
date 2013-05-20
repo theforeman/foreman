@@ -10,6 +10,8 @@ class FactName < ActiveRecord::Base
 
   default_scope :order => 'LOWER(fact_names.name)'
 
+  validate :name, :uniqueness => true
+
   def to_param
     name
   end
