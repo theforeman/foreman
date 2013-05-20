@@ -2,7 +2,7 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   AJAX_REQUESTS = %w{hardware_profile_selected cluster_selected}
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy] + AJAX_REQUESTS
+  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy, :ping] + AJAX_REQUESTS
 
   def index
     begin
@@ -70,6 +70,12 @@ class ComputeResourcesController < ApplicationController
   def provider_selected
     @compute_resource = ComputeResource.new_provider :provider => params[:provider]
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }
+  end
+
+  def ping
+    respond_to do |format|
+      format.json {render :json => errors_hash(@compute_resource.ping)}
+    end
   end
 
   def test_connection

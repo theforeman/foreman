@@ -115,3 +115,10 @@ border-bottom-color: #ffffff;
 .title_filter form{
   margin: 0;
 }
+
+.tab-pane{
+  min-height: 420px;
+}
+#about .tab-pane{
+  max-height: 420px;
+}

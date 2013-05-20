@@ -65,6 +65,11 @@ class ComputeResource < ActiveRecord::Base
     valid?
   end
 
+  def ping
+    test_connection
+    errors
+  end
+
   def save_vm uuid, attr
     vm = find_vm_by_uuid(uuid)
     vm.attributes.merge!(attr.symbolize_keys)
