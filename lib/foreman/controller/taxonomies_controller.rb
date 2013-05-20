@@ -91,7 +91,7 @@ module Foreman::Controller::TaxonomiesController
     taxonomy_class.current = @taxonomy
     session[taxonomy_id] = @taxonomy ? @taxonomy.id : nil
 
-    expire_fragment("tabs_and_title_records-#{User.current.id}")
+    TopbarSweeper.expire_cache(self)
     redirect_back_or_to root_url
   end
 
@@ -99,7 +99,7 @@ module Foreman::Controller::TaxonomiesController
     taxonomy_class.current = nil
     session[taxonomy_id] = nil
 
-    expire_fragment("tabs_and_title_records-#{User.current.id}")
+    TopbarSweeper.expire_cache(self)
     redirect_back_or_to root_url
   end
 
