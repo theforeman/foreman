@@ -78,21 +78,21 @@ module Host
         end
       end
 
-      # Perform our deletions.
       FactValue.delete(deletions) unless deletions.empty?
 
       # Get FactNames in one call
       fact_names = FactName.maximum(:id, :group => 'name')
 
       # Create any needed new FactNames
+      facts['_timestamp'] = facts.delete(:_timestamp) if facts.include?(:_timestamp)
       facts.each do |name, value|
         next if db_facts.include?(name)
         values = value.is_a?(Array) ? value : [value]
 
         values.each do |v|
           next if v.nil?
-          fact_values.build(:value => v, :fact_name => fact_names.keys.include?(name) ?
-                                         fact_names[name] : FactName.create!(:name => name))
+          fact_values.build(:value => v,
+                            :fact_name_id => fact_names[name] || FactName.create!(:name => name).id)
         end
       end
     end
