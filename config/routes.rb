@@ -155,6 +155,9 @@ Foreman::Application.routes.draw do
 
 
   resources :smart_proxies, :except => [:show] do
+    member do
+      post 'ping'
+    end
     constraints(:id => /[^\/]+/) do
       resources :puppetca, :only => [:index, :update, :destroy]
       resources :autosign, :only => [:index, :new, :create, :destroy]
@@ -249,6 +252,7 @@ Foreman::Application.routes.draw do
         member do
           post 'hardware_profile_selected'
           post 'cluster_selected'
+          post 'ping'
         end
         constraints(:id => /[^\/]+/) do
           resources :vms, :controller => "compute_resources_vms" do
@@ -329,6 +333,9 @@ Foreman::Application.routes.draw do
         post 'import_mismatches'
       end
     end
+  end
+
+  resources :about, :only => :index do
   end
 
 end

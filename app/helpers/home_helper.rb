@@ -48,7 +48,7 @@ module HomeHelper
       [_('Settings'),               :settings]
     ]
 
-    authorized_menu_actions(choices)
+    authorized_menu_actions(choices)+[[_('About'), :about]]
   end
 
   def authorized_menu_actions(choices)
