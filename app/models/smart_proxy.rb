@@ -26,8 +26,14 @@ class SmartProxy < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(smart_proxies.name)")
+      order("smart_proxies.name")
     end
+  }
+
+  scope :my_proxies, lambda {
+    user = User.current
+    conditions = user.admin? || user.allowed_to?({:controller => :smart_proxy, :action => :index}) ? {} : '1 = 0'
+    where(conditions)
   }
 
   def self.name_map
@@ -70,6 +76,11 @@ class SmartProxy < ActiveRecord::Base
     ids.flatten.compact.map{|i| i.to_i}.uniq
   end
 
+  def ping
+    associate_features
+    errors
+  end
+
   private
 
   def sanitize_url
@@ -91,7 +102,7 @@ class SmartProxy < ActiveRecord::Base
       end
     rescue => e
       errors.add(:base, _("Unable to communicate with the proxy: %s") % e)
-      errors.add(:base, _("Please check the proxy is configured and running on the host before saving."))
+      errors.add(:base, _("Please check the proxy is configured and running on the host."))
     end
     features.any?
   end

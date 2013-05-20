@@ -7,7 +7,7 @@
 //= require charts
 //= require topbar
 //= require vendor
-//= require_self
+//= require about
 
 $(function() {
   onContentLoad();
