@@ -5,6 +5,8 @@ module Api
 
     before_filter :set_default_response_format, :authorize, :add_version_header
 
+    cache_sweeper :topbar_sweeper
+
     respond_to :json
 
     after_filter do
