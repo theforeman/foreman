@@ -16,9 +16,9 @@
       <h4 style="text-align: center;"><%= _("Latest Events") %></h4>
       <% events = latest_events %>
       <% if events.empty? -%>
-        <p style="text-align: center;"><%= _("No interesting reports received in the last week") %></p>
+        <p class="ca"><%= _("No interesting reports received in the last week") %></p>
       <% else -%>
-        <table class="table table-bordered table-striped ellipsis">
+        <table class="table table-striped ellipsis">
           <tr>
             <%= latest_headers %>
           </tr>
