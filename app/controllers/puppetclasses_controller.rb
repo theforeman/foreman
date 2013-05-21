@@ -3,6 +3,8 @@ class PuppetclassesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :find_by_name, :only => [:edit, :update, :destroy, :assign]
   before_filter :setup_search_options, :only => :index
+  before_filter :reset_redirect_to_url, :only => :index
+  before_filter :store_redirect_to_url, :only => :edit
 
   def index
     begin
@@ -42,7 +44,7 @@ class PuppetclassesController < ApplicationController
   def update
     if @puppetclass.update_attributes(params[:puppetclass])
       notice _("Successfully updated puppetclass.")
-      redirect_to puppetclasses_url
+      redirect_back_or_default(puppetclasses_url)
     else
       render :action => 'edit'
     end
@@ -90,6 +92,19 @@ class PuppetclassesController < ApplicationController
       @hostgroup = Hostgroup.new(params['hostgroup'])
     end
     @hostgroup
+  end
+
+  def reset_redirect_to_url
+    session[:redirect_to_url] = nil
+  end
+
+  def store_redirect_to_url
+    session[:redirect_to_url] ||= request.referer
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(session[:redirect_to_url] || default)
+    session[:redirect_to_url] = nil
   end
 
 
