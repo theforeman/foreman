@@ -338,14 +338,17 @@ plugins required for Foreman to work.
 %setup -q
 
 %build
-#replace shebangs for SCL
+#replace shebangs and binaries in scripts for SCL
 %if %{?scl:1}%{!?scl:0}
-    for f in extras/query/ssh_using_foreman extras/rdoc/rdoc_prepare_script.rb extras/cli/foremancli \
-		script/rails script/performance/profiler script/performance/benchmarker script/foreman-config ; do
-	    sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' $f
-    done
-    sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' %{confdir}/foreman.init
-    sed -ri '1,$s|THIN=/usr/bin/thin|THIN="run_in_scl"|' %{confdir}/foreman.init
+  # shebangs
+  for f in extras/query/ssh_using_foreman extras/rdoc/rdoc_prepare_script.rb extras/cli/foremancli \
+  script/rails script/performance/profiler script/performance/benchmarker script/foreman-config ; do
+    sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' $f
+  done
+  sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' %{confdir}/foreman.init
+  sed -ri '1,$s|THIN=/usr/bin/thin|THIN="run_in_scl"|' %{confdir}/foreman.init
+  # script content
+  sed -ri 'sX/usr/bin/rakeX%{scl_rake}X' extras/dbmigrate
 %endif
 
 mv Gemfile Gemfile.in
