@@ -68,6 +68,7 @@ Foreman::Application.routes.draw do
 
       constraints(:id => /[^\/]+/) do
         resources :hosts, :only => [] do
+          get :puppetrun, :on => :member
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :to => :reset
