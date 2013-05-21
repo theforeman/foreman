@@ -161,6 +161,20 @@ module Foreman::Model
       end
     end
 
+    def update_required?(old_attrs, new_attrs)
+      return true if super(old_attrs, new_attrs)
+
+      new_attrs[:interfaces_attributes].each do |key, interface|
+        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
+      end if new_attrs[:interfaces_attributes]
+
+      new_attrs[:volumes_attributes].each do |key, volume|
+        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
+      end if new_attrs[:volumes_attributes]
+
+      false
+    end
+
     protected
 
     def bootstrap(args)
@@ -193,21 +207,6 @@ module Foreman::Model
       ca_url.port = 80 if ca_url.port == 443
       Net::HTTP.get(ca_url).to_s
     end
-
-    def update_required?(old_attrs, new_attrs)
-      return true if super(old_attrs, new_attrs)
-
-      new_attrs[:interfaces_attributes].each do |key, interface|
-        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
-      end if new_attrs[:interfaces_attributes]
-
-      new_attrs[:volumes_attributes].each do |key, volume|
-        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
-      end if new_attrs[:volumes_attributes]
-
-      false
-    end
-
 
     private
     def create_interfaces(vm, attrs)
