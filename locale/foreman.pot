@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 21:04+0200\n"
+"POT-Creation-Date: 2013-05-21 14:26+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -128,10 +128,6 @@ msgstr ""
 msgid "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
 
-#. initial character of Applied host's status: first character of "active"
-msgid "A"
-msgstr ""
-
 msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr ""
 
@@ -153,6 +149,9 @@ msgstr ""
 msgid "API Key"
 msgstr ""
 
+msgid "About"
+msgstr ""
+
 msgid "Accept these environment changes found in puppet?"
 msgstr ""
 
@@ -172,6 +171,10 @@ msgid "Active"
 msgstr ""
 
 msgid "Active Hosts"
+msgstr ""
+
+#. host's status: first character of "active"
+msgid "Active|A"
 msgstr ""
 
 msgid "Add Bookmark"
@@ -301,6 +304,10 @@ msgid "Applicable<br>Operating Systems"
 msgstr ""
 
 msgid "Applied"
+msgstr ""
+
+#. initial character of Applied
+msgid "Applied|A"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -490,10 +497,6 @@ msgstr ""
 msgid "Average swap usage"
 msgstr ""
 
-#. host's status: first character of "build"
-msgid "B"
-msgstr ""
-
 msgid "BIOS"
 msgstr ""
 
@@ -582,6 +585,10 @@ msgid "Build PXE Default"
 msgstr ""
 
 msgid "Build from OS image"
+msgstr ""
+
+#. host's status: first character of "build"
+msgid "Build|B"
 msgstr ""
 
 msgid "CDROM"
@@ -761,6 +768,9 @@ msgstr ""
 msgid "Connecting (unencrypted) to: %s"
 msgstr ""
 
+msgid "Connecting.."
+msgstr ""
+
 msgid "Console"
 msgstr ""
 
@@ -783,10 +793,6 @@ msgid "Create a Smart Proxy"
 msgstr ""
 
 msgid "Ctrl-Alt-Del"
-msgstr ""
-
-#. host's status: first character of "disabled"
-msgid "D"
 msgstr ""
 
 msgid "DHCP Proxy"
@@ -903,6 +909,10 @@ msgstr ""
 msgid "Disable alerts for selected hosts"
 msgstr ""
 
+#. host's status: first character of "disabled"
+msgid "Disabled|D"
+msgstr ""
+
 msgid "Disk"
 msgstr ""
 
@@ -949,10 +959,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
-msgstr ""
-
-#. host's status: first character of "error"
-msgid "E"
 msgstr ""
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
@@ -1113,18 +1119,14 @@ msgstr ""
 msgid "Errors only"
 msgstr ""
 
+#. host's status: first character of "error"
+msgid "Error|E"
+msgstr ""
+
 msgid "Expand the chart"
 msgstr ""
 
 msgid "Expires"
-msgstr ""
-
-#. initial character of Failed
-msgid "F"
-msgstr ""
-
-#. initial characters of Failed Restarts
-msgid "FR"
 msgstr ""
 
 msgid "Fact Chart"
@@ -1165,6 +1167,10 @@ msgid "Failed"
 msgstr ""
 
 msgid "Failed Restarts"
+msgstr ""
+
+#. initial characters of Failed Restarts
+msgid "Failed Restarts|FR"
 msgstr ""
 
 msgid "Failed restarts"
@@ -1266,6 +1272,10 @@ msgstr ""
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
+#. initial character of Failed
+msgid "Failed|F"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
 msgstr ""
@@ -1323,6 +1333,12 @@ msgid "For example, there might be a data center in London and one in Virginia; 
 msgstr ""
 
 msgid "For internal Users, simply create a new user at the"
+msgstr ""
+
+msgid "Foreman Developers"
+msgstr ""
+
+msgid "Foreman Users"
 msgstr ""
 
 msgid "Foreman can use LDAP based service for user information and authentication."
@@ -1624,6 +1640,9 @@ msgstr ""
 msgid "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you"
 msgstr ""
 
+msgid "IRC"
+msgstr ""
+
 msgid "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
 msgstr ""
 
@@ -1765,6 +1784,9 @@ msgid "Invalid type requested for host creation via facts: %s"
 msgstr ""
 
 msgid "Inventory browser"
+msgstr ""
+
+msgid "Issue tracker"
 msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage"
@@ -1953,6 +1975,12 @@ msgstr ""
 msgid "Mail is Required"
 msgstr ""
 
+msgid "Mailing lists"
+msgstr ""
+
+msgid "Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:"
+msgstr ""
+
 msgid "Manage Bookmarks"
 msgstr ""
 
@@ -2080,10 +2108,6 @@ msgid "Must specify a Smart Proxy to use"
 msgstr ""
 
 msgid "My account"
-msgstr ""
-
-#. host's status: first character of "no reports"
-msgid "N"
 msgstr ""
 
 msgid "N/A"
@@ -2255,6 +2279,9 @@ msgstr ""
 msgid "No changes"
 msgstr ""
 
+msgid "No compute resource to show"
+msgstr ""
+
 msgid "No domains"
 msgstr ""
 
@@ -2301,6 +2328,13 @@ msgid "No report"
 msgstr ""
 
 msgid "No reports"
+msgstr ""
+
+#. host's status: first character of "no reports"
+msgid "No reports|N"
+msgstr ""
+
+msgid "No smart proxies to show"
 msgstr ""
 
 msgid "No subnets"
@@ -2391,10 +2425,6 @@ msgstr ""
 msgid "Number of values"
 msgstr ""
 
-#. host's status: first character of "OK"
-msgid "O"
-msgstr ""
-
 msgid "OAuth consumer key"
 msgstr ""
 
@@ -2402,6 +2432,10 @@ msgid "OAuth consumer secret"
 msgstr ""
 
 msgid "OK"
+msgstr ""
+
+#. host's status: first character of "OK"
+msgid "OK|O"
 msgstr ""
 
 msgid "OS Distribution"
@@ -2575,10 +2609,6 @@ msgstr ""
 msgid "Owner changed to %s"
 msgstr ""
 
-#. initial character of Pending host's status: first character of "pending"
-msgid "P"
-msgstr ""
-
 msgid "PXE"
 msgstr ""
 
@@ -2643,6 +2673,10 @@ msgstr ""
 msgid "Pending changes"
 msgstr ""
 
+#. host's status: first character of "pending" initial character of Pending
+msgid "Pending|P"
+msgstr ""
+
 msgid "Permission denied"
 msgstr ""
 
@@ -2661,7 +2695,7 @@ msgstr ""
 msgid "Please Select an Image"
 msgstr ""
 
-msgid "Please check the proxy is configured and running on the host before saving."
+msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
 msgid "Please request the required privileges from a foreman administrator"
@@ -2746,9 +2780,6 @@ msgid "Provisioning Template content changed %s"
 msgstr ""
 
 msgid "Provisioning Templates"
-msgstr ""
-
-msgid "Provisioning template"
 msgstr ""
 
 msgid "Provisioning templates"
@@ -2842,10 +2873,6 @@ msgid "Puppetclass|Name"
 msgstr ""
 
 msgid "Querying instance details for %s"
-msgstr ""
-
-#. initial character of Restarted
-msgid "R"
 msgstr ""
 
 msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current facts and reports"
@@ -2948,6 +2975,10 @@ msgstr ""
 msgid "Restarted"
 msgstr ""
 
+#. initial character of Restarted
+msgid "Restarted|R"
+msgstr ""
+
 msgid "Revert"
 msgstr ""
 
@@ -2997,10 +3028,6 @@ msgid "Running on"
 msgstr ""
 
 msgid "Runtime"
-msgstr ""
-
-#. initial character of Skipped host's status: first character of "sync" (out of sync)
-msgid "S"
 msgstr ""
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
@@ -3193,6 +3220,10 @@ msgstr ""
 msgid "Skipped"
 msgstr ""
 
+#. initial character of Skipped
+msgid "Skipped|S"
+msgstr ""
+
 msgid "Smart Class Parameter"
 msgstr ""
 
@@ -3354,6 +3385,16 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
+#. host's status: first character of "sync" (out of sync)
+msgid "Sync|S"
+msgstr ""
+
+msgid "System Information"
+msgstr ""
+
+msgid "System Status"
+msgstr ""
+
 msgid "TFTP Proxy"
 msgstr ""
 
@@ -3422,6 +3463,9 @@ msgid "The Audit Comment field is saved with the template auditing to document t
 msgstr ""
 
 msgid "The Default path in which Foreman resolves host specific variables"
+msgstr ""
+
+msgid "The Foreman community uses on the irc.freenode.net servers. You can get general support in #theforeman, while development chat takes place in #theforeman-dev."
 msgstr ""
 
 msgid "The NFS path to the image directory."
@@ -3895,13 +3939,16 @@ msgstr ""
 msgid "Verify"
 msgstr ""
 
-msgid "Version"
+msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
 msgid "View Diff"
 msgstr ""
 
 msgid "View last report details"
+msgstr ""
+
+msgid "Virtual Machine"
 msgstr ""
 
 msgid "Virtual Machines"
@@ -3926,6 +3973,9 @@ msgid "Warning!"
 msgstr ""
 
 msgid "Warnings and errors"
+msgstr ""
+
+msgid "We use Redmine to report and track bugs and feature requests, which can be found here:"
 msgstr ""
 
 msgid "Welcome"
@@ -4244,6 +4294,9 @@ msgid "is invalid - only  http://, https:// are allowed"
 msgstr ""
 
 msgid "is not allowed to change"
+msgstr ""
+
+msgid "issue tracker"
 msgstr ""
 
 msgid "items selected. Uncheck to Clear"
