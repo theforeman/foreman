@@ -23,7 +23,7 @@
 
   <%= textarea_f f, :disk, :class => "input-xxlarge", :rows => "4",
            :help_block => _("What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field") %>
-  <%= password_f f, :root_pass, :placeholder => password_placeholder(f.object) %>
+  <%= password_f f, :root_pass %>
 </div>
 
 <div id='image_provisioning' <%= display? !image_provisioning      %> >

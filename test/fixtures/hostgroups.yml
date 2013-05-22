@@ -9,7 +9,6 @@ common:
   medium: one
   puppet_proxy: puppetmaster
   domain: mydomain
-  root_pass: $1$foreman$NW1XVtbk4/XkJqmKNrFWV0
 
 unusual:
   name: Unusual

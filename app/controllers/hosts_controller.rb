@@ -104,7 +104,6 @@ class HostsController < ApplicationController
   def update
     forward_url_options
     Taxonomy.no_taxonomy_scope do
-      (params[:host][:root_pass] = @host.root_pass) if params[:host] && params[:host][:root_pass].blank?
       if @host.update_attributes(params[:host])
         process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
       else

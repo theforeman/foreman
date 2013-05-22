@@ -75,7 +75,6 @@ class HostgroupsController < ApplicationController
   end
 
   def update
-    (params[:hostgroup][:root_pass] = @hostgroup.root_pass) if params[:hostgroup] && params[:hostgroup][:root_pass].blank?
     if @hostgroup.update_attributes(params[:hostgroup])
       process_success
     else
