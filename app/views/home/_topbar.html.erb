@@ -11,7 +11,7 @@
 <div id='current_tab' data-controller='<%=controller_name.gsub(/_.*/,"s")%>' data-settings='<%= class_for_setting_page %>'> </div>
 
 <% if User.current -%>
-  <% cache("tabs_and_title_records-#{User.current.id}") do %>
+  <% cache(TopbarSweeper.fragment_name) do %>
     <div class="nav-collapse collapse nav1">
       <ul class="nav" id="menu">
       <%= render "home/org_switcher" %>
