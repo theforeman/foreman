@@ -245,7 +245,9 @@ Foreman::AccessControl.map do |map|
     map.permission :power_hosts,   {:hosts => [:power]}
     map.permission :console_hosts, {:hosts => [:console]}
     map.permission :ipmi_boot, {:hosts => [:ipmi_boot]}
-    map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun]}
+    map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun],
+                                      :"api/v2/hosts" => [:puppetrun]
+                                      }
   end
 
   map.security_block :host_editing do |map|
