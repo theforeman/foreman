@@ -174,3 +174,8 @@ attribute35:
   category: Setting::Auth
   default: "https://localhost:3002"
   description: "Where Signo runs"
+attribute36:
+  name: create_new_host_when_facts_are_uploaded
+  category: Setting::Puppet
+  default: "true"
+  description: Foreman will create the host when new facts are received
