@@ -3,7 +3,7 @@
 <%= title_actions link_to_if_authorized(_("Host details"),
                                         hash_for_host_path(:id => @audit.auditable.to_param),
                                         :title => _("Host details"),
-                                        :class => 'btn btn-info') if @audit.auditable_type == 'Host' %>
+                                        :class => 'btn btn-info') if @audit.auditable_type == 'Host' && @audit.auditable %>
 <%= title_actions link_to 'Back', :back, :class=>'btn' %>
 <% tmplt =  audit_template?(@audit) %>
 
