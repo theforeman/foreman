@@ -6,7 +6,7 @@ module Api
 
       before_filter :find_resource, :only => %w{show update destroy status puppetrun}
 
-      api :GET, "/hosts/:id/puppetrun", "Force a puppet run off the agent."
+      api :GET, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
 
       def puppetrun
         process_response @host.puppetrun!
