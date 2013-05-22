@@ -67,8 +67,8 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  def value= val
-    v = (val.nil? or val == default) ?  nil : val.to_yaml
+  def value=(v)
+    v = v.to_yaml unless v.nil?
     self.class.cache.delete(name.to_s)
     write_attribute :value, v
   end
@@ -80,7 +80,8 @@ class Setting < ActiveRecord::Base
   alias_method :value_before_type_cast, :value
 
   def default
-    YAML.load(read_attribute(:default))
+    d = read_attribute(:default)
+    d.nil? ? nil : YAML.load(d)
   end
 
   def default=(v)
