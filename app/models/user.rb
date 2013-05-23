@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update
 
-  validates :locale, :format => { :with => /^\w{2}([_-]\w{2})?$/ }, :allow_blank => true
+  validates :locale, :format => { :with => /^\w{2}([_-]\w{2})?$/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
   validates_uniqueness_of :login, :message => N_("already exists")
@@ -224,7 +224,9 @@ class User < ActiveRecord::Base
   end
 
   def normalize_locale
-    self.locale = nil if locale.empty?
+    if self.respond_to?(:locale)
+      self.locale = nil if locale.empty?
+    end
   end
 
   def normalize_mail
