@@ -14,8 +14,8 @@
 %endif
 
 Name:   foreman
-Version: 1.1.9999
-Release:1
+Version: 1.2.0
+Release: 0.1.RC1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -505,6 +505,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.1.RC1
+- Release 1.2.0-RC1
 * Tue Apr 30 2013 Sam Kottler <shk@redhat.com> 1.1.9999-1
 - Updated to 1.1.9999 (1.2-pre)
 * Fri Feb 15 2013 shk@redhat.com 1.1-3
