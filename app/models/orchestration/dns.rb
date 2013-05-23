@@ -10,11 +10,11 @@ module Orchestration::DNS
   module InstanceMethods
 
     def dns?
-      name.present? and ip.present? and !domain.nil? and !domain.proxy.nil? and managed?
+      name.present? and ip_available? and !domain.nil? and !domain.proxy.nil? and managed?
     end
 
     def reverse_dns?
-      name.present? and ip.present? and !subnet.nil? and subnet.dns? and managed?
+      name.present? and ip_available? and !subnet.nil? and subnet.dns? and managed?
     end
 
     def dns_a_record
@@ -124,6 +124,10 @@ module Orchestration::DNS
       status = failure(_("DNS A Records %s already exists") % dns_a_record.conflicts.to_sentence, nil, :conflict) if dns? and dns_a_record and dns_a_record.conflicting?
       status &= failure(_("DNS PTR Records %s already exists") % dns_ptr_record.conflicts.to_sentence, nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
       status
+    end
+
+    def ip_available?
+      ip.present? || (capabilities.include?(:image) && compute_resource.provided_attributes.keys.include?(:ip))
     end
 
   end
