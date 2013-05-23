@@ -662,4 +662,34 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.first.hostgroup_id, hostgroup.id
   end
 
+  test "merge_facts adds new facts" do
+    h = hosts(:one)
+    h.merge_facts({'foo' => 'bar', 'kernelversion' => '2.6.9', 'ipaddress' => '10.0.19.33'})
+    assert_equal 'bar', (h.fact_values.index_by(&:name))['foo'].value
+  end
+
+  test "merge_facts removes deleted facts" do
+    h = hosts(:one)
+    h.merge_facts({'ipaddress' => '10.0.19.33'})
+    assert !(h.fact_values.index_by(&:name)).include?('kernelversion')
+  end
+
+  test "merge_facts updates fact values" do
+    h = hosts(:one)
+    h.merge_facts({'kernelversion' => '3.8.11', 'ipaddress' => '10.0.19.33'})
+    assert_equal '3.8.11', h.fact_values.index_by(&:name)['kernelversion'].value
+  end
+
+  test "merge_facts shouldn't set nil values" do
+    h = hosts(:one)
+    h.merge_facts({'kernelversion' => nil, 'ipaddress' => '10.0.19.33'})
+    assert !(h.fact_values.index_by(&:name)).include?('kernelversion')
+  end
+
+  test "merge_facts should update multi-values" do
+    h = hosts(:one)
+    h.merge_facts({'kernelversion' => '2.6.9', 'ipaddress' => ['10.0.19.33', '10.1.19.33']})
+    assert (fv = h.fact_values.index_by(&:value)).include?('10.0.19.33')
+    assert fv.include?('10.1.19.33')
+  end
 end
