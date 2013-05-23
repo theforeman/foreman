@@ -12,7 +12,7 @@ class AddInternalAuth < ActiveRecord::Migration
     src.update_attribute :name, "Internal"
     user.auth_source_id = src.id
     user.password="changeme"
-    if user.without_auditing { user.save(:validate => false) }
+    if user.save_without_auditing
       say "****************************************************************************************"
       say "The newly created internal account named admin has been allocated a password of 'changeme'"
       say "Set this to something else in the settings/users page"
