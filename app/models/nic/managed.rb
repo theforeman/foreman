@@ -15,7 +15,7 @@ module Nic
 
     # Interface normally are not executed by them self, so we use the host queue and related methods.
     # this ensures our orchestration works on both a host and a managed interface
-    delegate :progress_report_id, :require_ip_validation?, :overwrite?, :capabilities, :managed?, :to => :host
+    delegate :progress_report_id, :require_ip_validation?, :overwrite?, :capabilities, :managed?, :compute_resource, :to => :host
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
