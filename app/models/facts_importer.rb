@@ -30,6 +30,8 @@ module Facts
           end
         end
         major, minor = orel.split(".")
+        major.gsub!(/\D/,'') unless is_numeric? major
+        minor.gsub!(/\D/,'') unless is_numeric? minor
         minor        ||= ""
         args = { :name => os_name, :major => major, :minor => minor }
         os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
@@ -116,6 +118,15 @@ module Facts
     def os_name
       facts[:operatingsystem].blank? ? raise(N_("invalid facts, missing operating system value")) : facts[:operatingsystem]
     end
+
+    def is_numeric?(string)
+      begin
+        !!Integer(string)
+      rescue ArgumentError, TypeError
+        false
+      end
+    end
+
   end
 
 end
