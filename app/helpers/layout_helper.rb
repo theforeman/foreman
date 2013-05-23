@@ -162,7 +162,16 @@ module LayoutHelper
   end
 
   def page_entries_info(collection, options = {})
-    html = super(collection, options)
+    html = if collection.total_entries == 0
+             _("No entries found")
+           else
+             if collection.total_pages < 2
+               n_("Displaying <b>%{count}</b> entry", "Displaying <b>all %{count}</b> entries", collection.total_entries) % {:count => collection.total_entries}
+             else
+               _("Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total") %
+                   { :from => collection.offset + 1, :to => collection.offset + collection.length, :count => collection.total_entries }
+             end
+           end.html_safe
     html += options[:more].html_safe if options[:more]
     content_tag(
       :div,content_tag(
