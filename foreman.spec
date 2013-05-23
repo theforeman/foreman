@@ -505,6 +505,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.2.RC1
+- Change to release candidate URL in foreman.repo
 * Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.1.RC1
 - Release 1.2.0-RC1
 * Tue Apr 30 2013 Sam Kottler <shk@redhat.com> 1.1.9999-1

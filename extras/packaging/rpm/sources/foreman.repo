@@ -1,11 +1,11 @@
 [foreman]
 name=foreman
-baseurl=http://yum.theforeman.org/releases/latest/el6/$basearch
+baseurl=http://yum.theforeman.org/rc/el6/$basearch
 gpgcheck=0
 enabled=1
 
 [foreman-source]
 name=foreman-source
-baseurl=http://yum.theforeman.org/releases/latest/el6/source
+baseurl=http://yum.theforeman.org/rc/el6/source
 gpgcheck=0
 enabled=0
