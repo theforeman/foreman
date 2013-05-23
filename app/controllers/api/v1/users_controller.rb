@@ -36,8 +36,8 @@ module Api
       end
 
       def create
-        @user       = User.new(params[:user].except(:admin))
-        @user.admin = params[:user][:admin]
+        admin = params[:user].delete(:admin)
+        @user = User.new(params[:user]) { |u| u.admin = admin }
         if @user.save
           @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
           process_success
