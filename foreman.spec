@@ -351,7 +351,12 @@ plugins required for Foreman to work.
   sed -ri 'sX/usr/bin/rakeX%{scl_rake}X' extras/dbmigrate
 %endif
 
+#build locale files
+make -C locale all-mo
+
+#use Bundler_ext instead of Bundler
 mv Gemfile Gemfile.in
+
 # fix the issue with loading scoped_search
 # upstream bug https://github.com/wvanbergen/scoped_search/issues/53
 sed -i "s/gem 'scoped_search'/gem 'sprockets'\n&/" Gemfile.in
