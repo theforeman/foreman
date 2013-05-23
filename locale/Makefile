@@ -6,13 +6,16 @@
 # make tx-update - download and merge translations from Transifex
 # make clean - clean everything
 #
-POTFILE = foreman.pot
+DOMAIN = foreman
+POTFILE = $(DOMAIN).pot
+MOFILE = $(DOMAIN).mo
 POFILES = $(shell find . -name '*.po')
 MOFILES = $(patsubst %.po,%.mo,$(POFILES))
 POXFILES = $(patsubst %.po,%.pox,$(POFILES))
 
 %.mo: %.po
-	msgfmt -o $@ $<
+	mkdir -p $(shell dirname $@)/LC_MESSAGES
+	msgfmt -o $(shell dirname $@)/LC_MESSAGES/$(MOFILE) $<
 
 # Generate MO files from PO files
 all-mo: $(MOFILES)
@@ -53,3 +56,4 @@ tx-update: tx-pull update-po
 clean:
 	-rm -f messages.mo
 	find . \( -name "*.mo" -o -name "*.pox" \) -exec rm -f '{}' ';'
+	find . -path *LC_MESSAGES | xargs rm -rf
