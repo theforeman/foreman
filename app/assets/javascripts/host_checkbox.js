@@ -11,7 +11,7 @@ function hostChecked(box) {
     rmHostId(cid);
   $.cookie($.cookieName, JSON.stringify($.foremanSelectedHosts));
   toggle_actions();
-  update_counter($("span.select_count"));
+  update_counter();
   return false;
 }
 
@@ -58,7 +58,7 @@ $(function() {
       boxes[0].checked = true;
   }
   toggle_actions();
-  update_counter($("span.select_count"));
+  update_counter();
   return false;
 });
 
@@ -78,7 +78,7 @@ function cleanHostsSelection() {
   });
   resetSelection();
   toggle_actions();
-  update_counter($("span.select_count"));
+  update_counter();
   return false;
 }
 
@@ -134,10 +134,10 @@ $(function() {
 
 });
 
-function update_counter(id) {
+function update_counter() {
   var item = $("#check_all");
   if ($.foremanSelectedHosts) {
-    id.text($.foremanSelectedHosts.length);
+    $(".select_count").text($.foremanSelectedHosts.length);
     item.attr("checked", $.foremanSelectedHosts.length > 0 );
   }
   var title = "";
