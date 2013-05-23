@@ -28,7 +28,6 @@ function computeResourceSelected(item){
   }
 }
 
-
 function update_capabilities(capabilities){
   var build = (/build/i.test(capabilities));
   var image = (/image/i.test(capabilities));
@@ -329,7 +328,7 @@ function update_provisioning_image(){
   var os_id = $('[id$="_operatingsystem_id"]').val();
   if((compute_id == undefined) || (compute_id == "") || (arch_id == "") || (os_id == "")) return;
   var term = 'operatingsystem=' + os_id + ' architecture=' + arch_id;
-  var image_options = $("[id$=compute_attributes_image_id]").empty();
+  var image_options = $('#image_selection select').empty();
   $.ajax({
       data:'search=' + encodeURIComponent(term),
       type:'get',
@@ -462,21 +461,21 @@ function onHostEditLoad(){
     submit_host($form);
     return false;
   });
-
-  $('#host_provision_method_build').on('click', function(){
-    $('#network_provisioning').show();
-    $('#image_provisioning').hide();
-  });
-  $('#host_provision_method_image').on('click', function(){
-    $('#network_provisioning').hide();
-    $('#image_provisioning').show();
-  });
-
   $('#image_selection').appendTo($('#image_provisioning'));
   $('#params-tab').on('shown', function(){mark_params_override()});
   $('#host_location_id').change();
   $('#host_organization_id').change();
 }
+
+$(document).on('change', '#host_provision_method_build', function () {
+  $('#network_provisioning').show();
+  $('#image_provisioning').hide();
+});
+
+$(document).on('change', '#host_provision_method_image', function () {
+  $('#network_provisioning').hide();
+  $('#image_provisioning').show();
+});
 
 $(document).on('change', '.interface_domain', function () {
   interface_domain_selected(this);
