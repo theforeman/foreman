@@ -17,7 +17,7 @@ class Setting::General < Setting
         self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"),60),
         self.set('max_trend', N_("Max days for Trends graphs"),30),
         self.set('use_gravatar', N_("Should Foreman use gravatar to display user icons"),true)
-      ].each { |s| self.create s.update(:category => "Setting::General")}
+      ].each { |s| self.create! s.update(:category => "Setting::General")}
     end
 
     true
