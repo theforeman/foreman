@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -139,7 +139,7 @@ Summary: Foreman libvirt support
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(virt) >= 0.2.1
 Requires: %{name} = %{version}-%{release}
-Requires: foreman-ec2 = %{version}-%{release}
+Requires: foreman-compute = %{version}-%{release}
 Obsoletes: foreman-virt < 1.0.0
 Provides: foreman-virt = 1.0.0
 
@@ -153,7 +153,7 @@ Meta Package to install requirements for virt support
 Summary: Foreman ovirt support
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.15
-Requires: foreman-ec2 = %{version}-%{release}
+Requires: foreman-compute = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 
 %description ovirt
@@ -162,18 +162,21 @@ Meta Package to install requirements for ovirt support
 %files ovirt
 %{_datadir}/%{name}/bundler.d/ovirt.rb
 
-%package ec2
-Summary: Foreman ec2 support
+%package compute
+Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem-fog >= 1.8.0
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0
 Provides: foreman-fog = 1.0.0
+Obsoletes: foreman-ec2
+Provides: foreman-ec2
 
-%description ec2
-Meta Package to install requirements for ec2 support
+%description compute
+Meta Package to install requirements for compute resource support, in
+particular, Amazon EC2, OpenStack and Rackspace.
 
-%files ec2
+%files compute
 %{_datadir}/%{name}/bundler.d/fog.rb
 
 %package vmware
@@ -181,7 +184,7 @@ Summary: Foreman vmware support
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(rbvmomi)
 Requires: %{name} = %{version}-%{release}
-Requires: foreman-ec2 = %{version}-%{release}
+Requires: foreman-compute = %{version}-%{release}
 
 %description vmware
 Meta Package to install requirements for vmware support
@@ -287,7 +290,7 @@ Requires: %{name} = %{version}-%{release}
 Requires: %{name}-cli = %{version}-%{release}
 Requires: %{name}-libvirt = %{version}-%{release}
 Requires: %{name}-ovirt = %{version}-%{release}
-Requires: %{name}-ec2 = %{version}-%{release}
+Requires: %{name}-compute = %{version}-%{release}
 Requires: %{name}-vmware = %{version}-%{release}
 Requires: %{name}-console = %{version}-%{release}
 Requires: %{name}-mysql = %{version}-%{release}
@@ -505,6 +508,11 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Sat May 25 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-2
+- Rename foreman-ec2 to foreman-compute
+- Update dbmigrate for SCL (Lukas Zapletal)
+* Mon May 20 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-1
+- Updated to 1.2.9999 (1.3-pre)
 * Tue Apr 30 2013 Sam Kottler <shk@redhat.com> 1.1.9999-1
 - Updated to 1.1.9999 (1.2-pre)
 * Fri Feb 15 2013 shk@redhat.com 1.1-3
