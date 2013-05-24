@@ -18,6 +18,7 @@
       <packagereq type="default">foreman-postgresql</packagereq>
       <packagereq type="default">foreman-mysql</packagereq>
       <packagereq type="default">foreman-mysql2</packagereq>
+      <packagereq type="default">foreman-release</packagereq>
       <packagereq type="default">foreman-sqlite</packagereq>
       <packagereq type="default">foreman-vmware</packagereq>
       <packagereq type="default">foreman-proxy</packagereq>
@@ -40,6 +41,8 @@
       <packagereq type="default">rubygem-jquery-ui-rails</packagereq>
       <packagereq type="default">rubygem-less</packagereq>
       <packagereq type="default">rubygem-less-rails</packagereq>
+      <packagereq type="default">rubygem-mysql</packagereq>
+      <packagereq type="default">rubygem-mysql2</packagereq>
       <packagereq type="default">rubygem-net-scp</packagereq>
       <packagereq type="default">rubygem-net-ssh</packagereq>
       <packagereq type="default">rubygem-oauth</packagereq>
