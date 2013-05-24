@@ -6,15 +6,6 @@ class SettingTest < ActiveSupport::TestCase
     Setting.cache.clear
   end
 
-# commenting out due a failure in our CI
-  # def test_settings_should_save_complex_types
-  #   assert (Setting.create(:name => "foo", :value => [1,2,3,'b'], :default => ['b',"b"], :description => "test foo" ))
-  #   s = Setting.find_by_name "foo"
-  #   assert_equal [1,2,3,'b'], s.value
-  #   assert_equal ['b',"b"], s.default
-  #   assert_equal "array", s.settings_type
-  # end
-
   def test_should_not_find_a_value_if_doesnt_exists
     assert_nil Setting["no_such_thing"]
   end
@@ -24,135 +15,298 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal 5, Setting["foo"]
   end
 
-  # def test_should_find_setting_via_method_missing_too
-  #   assert Setting.create(:name => "bar", :value => "baz", :default => "x", :description => "test bar")
-  #   assert_equal Setting["bar"], Setting.bar
-  #   assert_equal "baz", Setting.bar
-  # end
-
-  # def test_settings_with_the_same_value_as_default_should_save_the_value
-  #   assert Setting.create(:name => "foo", :value => "bar", :default => "bar", :description => "x")
-  #   s = Setting.find_by_name "foo"
-  #   assert_nil s.read_attribute(:value)
-  #   assert_equal "bar", Setting.foo
-  # end
-
-  def test_should_save_settings_type
-    assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
-    assert_equal "integer", Setting.find_by_name("foo").try(:settings_type)
+  def test_should_find_setting_via_method_missing_too
+    assert Setting.create(:name => "bar", :value => "baz", :default => "x", :description => "test bar")
+    assert_equal Setting["bar"], Setting.bar
+    assert_equal "baz", Setting.bar
   end
 
-  def test_should_not_allowed_to_change_frozen_attributes
-    assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
+  def test_settings_with_the_same_value_as_default_should_not_save_the_value
+    assert Setting.create(:name => "foo", :value => "bar", :default => "bar", :description => "x")
     s = Setting.find_by_name "foo"
-    s.name = "boo"
-    assert !s.save
-    assert_equal s.errors[:name], ["is not allowed to change"]
+    assert_nil s.read_attribute(:value)
+    assert_equal "bar", Setting.foo
+  end
+
+  def test_should_not_allow_to_change_frozen_attributes
+    check_frozen_change :name, "new value"
+    check_frozen_change :default, "new value"
+    check_frozen_change :description, "new value"
   end
 
   def test_name_could_be_a_symbol_or_a_string
     assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
-    assert_equal Setting["foo"], Setting[:foo]
+    assert_equal 5, Setting[:foo]
+    assert_equal 5, Setting["foo"]
+  end
+
+  def test_should_save_value_on_assignment
+    assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
 
     Setting[:foo] = 3
-    assert_equal 3,Setting["foo"]
+    setting = Setting.find_by_name("foo")
+
+    assert_equal 3, Setting["foo"]
+    assert_equal 3, setting.value
   end
 
-  def test_boolean_values_should_have_setting_type_for_false
-    assert Setting.create!(:name => "oo", :default => false, :description => "test foo")
-    assert_equal "boolean", Setting.find_by_name("oo").settings_type
-    assert_equal false, Setting["oo"]
+  def test_default_value_can_be_nil
+    assert Setting.create(:name => "foo", :default => nil, :description => "test foo")
+    assert_equal nil, Setting["foo"]
   end
 
-  def test_boolean_values_should_have_setting_type_for_true
-    assert Setting.create(:name => "oo", :default => true, :description => "test foo")
-    assert_equal "boolean", Setting.find_by_name("oo").settings_type
-    assert_equal true, Setting["oo"]
+  def test_should_return_updated_value_only_after_it_gets_presistent
+    setting = Setting.create(:name => "foo", :value => 5, :default => 5, :description => "test foo")
+
+    setting.value = 3
+    assert_equal 5, Setting["foo"]
+
+    setting.save
+    assert_equal 3, setting.value
   end
 
-  test "idle_timeout should not be zero" do
-    setting = Setting.find_by_name('idle_timeout')
-    if setting
-      setting.value = 0
-    else
-      setting = Setting.new(:name => 'idle_timeout', :value => 0, :default => 60 )
-    end
+  def test_second_time_create_persists_only_default_value
+    setting = Setting.create(:name => "foo", :value => 8, :default => 2, :description => "test foo")
+    assert_equal 8, setting.value
+    assert_equal 2, setting.default
 
-    assert setting.invalid?
-    assert_equal "must be greater than 0", setting.errors[:value].join('; ')
+    setting = Setting.create(:name => "foo", :value => 9, :default => 3, :description => "test foo")
+    assert_equal 8, setting.value
+    assert_equal 3, setting.default
   end
 
-  test "entries_per_page should not be zero" do
-    setting = Setting.find_by_name('entries_per_page')
-    if setting
-      setting.value = 0
-    else
-      setting = Setting.new(:name => 'entries_per_page', :value => 0, :default => 20 )
-    end
-    assert setting.invalid?
-    assert_equal "must be greater than 0", setting.errors[:value].join('; ')
+  def test_set_method_prepares_attrs_for_creation
+    options = Setting.set "test_attr", "some_description", "default_value", "my_value"
+    assert_equal "test_attr", options[:name]
+    assert_equal "some_description", options[:description]
+    assert_equal "default_value", options[:default]
+    assert_equal "my_value", options[:value]
   end
 
-  test "puppet_interval should not be zero" do
-    setting = Setting.find_by_name('puppet_interval')
-    if setting
-      setting.value = 0
-    else
-      setting = Setting.new(:name => 'puppet_interval', :value => 0, :default => 30 )
-    end
-    assert setting.invalid?
-    assert_equal "must be greater than 0", setting.errors[:value].join('; ')
+  def test_set_method_uses_values_from_SETTINGS
+    SETTINGS[:test_attr] = "ape"
+    options = Setting.set "test_attr", "some_description", "default_value"
+    assert_equal "ape", options[:value]
+
+    options = Setting.set "test_attr", "some_description", "default_value", "my_value"
+    assert_equal "my_value", options[:value]
   end
 
+
+  # tests for saving settings attributes
+  def test_settings_should_save_arrays
+    check_properties_saved_and_loaded_ok :name => "foo", :value => [1,2,3,'b'], :default => ['b',"b"], :description => "test foo"
+  end
+
+  def test_settings_should_save_hashes
+    check_properties_saved_and_loaded_ok :name => "foo", :value => {"a" => "A"}, :default => {"b" => "B"}, :description => "test foo"
+  end
+
+  def test_settings_should_save_booleans
+    check_properties_saved_and_loaded_ok :name => "foo", :value => true, :default => false, :description => "test foo"
+  end
+
+  def test_settings_should_save_integers
+    check_properties_saved_and_loaded_ok :name => "foo", :value => 32, :default => 83, :description => "test foo"
+  end
+
+  def test_settings_should_save_strings
+    check_properties_saved_and_loaded_ok :name => "foo", :value => "  value  ", :default => "default", :description => "test foo"
+  end
+
+
+  # tests for choosing correct type
+  def test_should_autoselect_correct_type_for_integer_value
+    check_correct_type_for "integer", 5
+  end
+
+  def test_should_autoselect_correct_type_for_array_value
+    check_correct_type_for "array", [1, 2, 3]
+  end
+
+  def test_should_autoselect_correct_type_for_hash_value
+    check_correct_type_for "hash", {"a" => "A"}
+  end
+
+  def test_should_autoselect_correct_type_for_string_value
+    check_correct_type_for "string", "some value"
+  end
+
+  def test_should_autoselect_correct_type_for_boolean_value
+    check_correct_type_for "boolean", true
+    check_correct_type_for "boolean", false
+  end
+
+
+  # tests for caching
   def test_returns_value_from_cache
-    assert Setting.create!(:name => "test_cache", :default => 1, :description => "test foo")
-    Setting.test_cache = 2
-    assert_equal Setting.test_cache, Setting.find_by_name('test_cache').value
-    assert_equal Rails.cache.read('test_cache'), Setting.find_by_name('test_cache').value
-
+    check_value_returns_from_cache_with :name => "test_cache", :default => 1, :value => 2, :description => "test foo"
   end
 
   def test_boolean_false_returns_from_cache
-    assert Setting.find_or_create_by_name(:name => "enc_environment", :default => true, :description => "test false")
-    #setter method, deletes cache
-    Setting.enc_environment = false
-    #first time getter method, write the cache
-    assert_equal Setting.enc_environment, false
-    #second time getter method, reads from the cache
-    assert_equal Setting.enc_environment, Setting.find_by_name('enc_environment').value
+    check_value_returns_from_cache_with :name => "test_cache", :default => true, :value => false, :description => "test foo"
   end
 
   def test_boolean_true_returns_from_cache
-    assert Setting.find_or_create_by_name(:name => "enc_environment", :default => true, :description => "test true")
-    #setter method, deletes cache
-    Setting.enc_environment = true
+    check_value_returns_from_cache_with :name => "test_cache", :default => true, :value => true, :description => "test foo"
+  end
+
+
+  # tests for default type constraints
+  test "arrays cannot be empty by default" do
+    check_setting_did_not_save_with :name => "foo", :value => [], :default => ["a", "b", "c"], :description => "test foo"
+  end
+
+  test "hashes can be empty by default" do
+    check_properties_saved_and_loaded_ok :name => "foo", :value => {}, :default => {"a" => "A"}, :description => "test foo"
+  end
+
+  test "integer attributes can be zero by default" do
+    check_properties_saved_and_loaded_ok :name => "foo83", :value => 0, :default => 0, :description => "test foo"
+  end
+
+
+  # test particular settings
+  test "idle_timeout should not be zero" do
+    check_zero_value_not_allowed_for 'idle_timeout'
+  end
+
+  test "entries_per_page should not be zero" do
+    check_zero_value_not_allowed_for 'entries_per_page'
+  end
+
+  test "puppet_interval should not be zero" do
+    check_zero_value_not_allowed_for 'puppet_interval'
+  end
+
+  test "trusted_puppetmaster_hosts can be empty array" do
+    check_empty_array_allowed_for "trusted_puppetmaster_hosts"
+  end
+
+
+  # test parsing string values
+  test "parse boolean attribute from string" do
+    check_parsed_value "boolean", true, "true"
+    check_parsed_value "boolean", false, "false"
+    check_parsed_value "boolean", true, "True"
+    check_parsed_value "boolean", false, "False"
+    check_parsed_value_failure "boolean", "1"
+    check_parsed_value_failure "boolean", "0"
+    check_parsed_value_failure "boolean", "unknown"
+  end
+
+  test "parse integer attribute from string" do
+    check_parsed_value "integer", 8, "8"
+    check_parsed_value_failure "integer", "unknown"
+  end
+
+  test "parse array attribute from string" do
+    check_parsed_value "array", [], "[]"
+    check_parsed_value "array", ["a", "b"], "[a,b]"
+    check_parsed_value "array", ["a", "b"], "[ a, b ]"
+    check_parsed_value "array", [1, 2], "[1, 2]"
+    check_parsed_value_failure "array", "1234"
+  end
+
+  test "parse string attribute from string" do
+    check_parsed_value "string", "ahoy", "ahoy"
+    check_parsed_value "string", "ahoy", " ahoy "
+    check_parsed_value "string", "123", "123"
+  end
+
+  test "parse hash attribute raises exception without settings_type" do
+    setting = Setting.new(:name => "foo", :default => "default", :settings_type => "hash")
+    assert_raises(NotImplementedError) do
+      setting.parse_string_value("some_value")
+    end
+  end
+
+  test "parse attribute raises exception without settings_type" do
+    setting = Setting.new(:name => "foo", :default => "default")
+    assert_raises(Foreman::Exception) do
+      setting.parse_string_value("some_value")
+    end
+  end
+
+  private
+
+  def check_parsed_value settings_type, expected_value, string_value
+    setting = Setting.new(:name => "foo", :default => "default", :settings_type => settings_type)
+    setting.parse_string_value(string_value)
+
+    assert_equal expected_value, setting.value
+  end
+
+  def check_parsed_value_failure settings_type, string_value
+    setting = Setting.new(:name => "foo", :default => "default", :settings_type => settings_type)
+    setting.parse_string_value(string_value)
+
+    assert_equal "default", setting.value
+    assert setting.errors[:value].join(";").include?("invalid value")
+  end
+
+  def check_frozen_change attr_name, value
+    assert Setting.find_or_create_by_name(:name => "foo", :default => 5, :description => "test foo")
+    setting = Setting.find_by_name("foo")
+
+    setting.send("#{attr_name}=", value)
+    assert !setting.save, "Setting allowed to save new value for frozen attribute '#{attr_name}'"
+    assert setting.errors[attr_name].join(";").include?("is not allowed to change")
+  end
+
+  def check_zero_value_not_allowed_for setting_name
+    setting = Setting.find_or_create_by_name(setting_name, :value => 0, :default => 30)
+    setting.value = 0
+
+    assert setting.invalid?
+    assert setting.errors[:value].join(";").include?("must be greater than 0")
+
+    setting.value = 1
+    assert !setting.invalid?
+  end
+
+  def check_empty_array_allowed_for setting_name
+    setting = Setting.find_or_create_by_name(setting_name, :value => [], :default => [])
+    setting.value = []
+    assert !setting.invalid?
+
+    setting.value = [1]
+    assert !setting.invalid?
+  end
+
+  def check_correct_type_for type, value
+    assert Setting.create(:name => "foo", :default => value, :description => "test foo")
+    assert_equal type, Setting.find_by_name("foo").try(:settings_type)
+  end
+
+  def check_properties_saved_and_loaded_ok options={}
+    assert Setting.find_or_create_by_name(options)
+    s = Setting.find_by_name options[:name]
+    assert_equal options[:value], s.value
+    assert_equal options[:default], s.default
+  end
+
+  def check_setting_did_not_save_with options={}
+     setting = Setting.new(options)
+     assert !setting.save
+  end
+
+  def check_value_returns_from_cache_with options={}
+    name = options[:name].to_s
+
+    #cache must be cleared on create
+    Rails.cache.write(name, "old value")
+    assert Setting.create(options)
+    assert_nil Rails.cache.read(name)
+
     #first time getter method, write the cache
-    assert_equal Setting.enc_environment, true
-    #second time getter method, reads from the cache
-    assert_equal Setting.enc_environment, Setting.find_by_name('enc_environment').value
+    Rails.cache.delete(name)
+    assert_equal options[:value], Setting[name]
+    assert_equal options[:value], Rails.cache.read(name)
+
+    #setter method deletes the cache
+    Setting[name] = options[:value]
+    assert_nil Rails.cache.read(name)
   end
 
-  test "arrays cannot be empty" do
-    setting = Setting.find_by_name('Default_variables_Lookup_Path')
-    assert setting.save
-    assert_equal "array", setting.settings_type
-    orig = setting.value
-    setting.value = "[test]"
-    assert setting.save
-    setting.value = "[]"
-    assert !setting.save
-    setting.value = orig
-    assert setting.save
-  end
-
-  test "trusted_puppetmaster_hosts may be an empty array" do
-    setting = Setting.find_by_name('trusted_puppetmaster_hosts')
-    setting.save
-    assert_equal "array", setting.settings_type
-    setting.value = "[test]"
-    assert setting.save
-    setting.value = "[]"
-    assert setting.save
-    assert_equal [], setting.value
-  end
 end

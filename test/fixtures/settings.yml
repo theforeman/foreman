@@ -1,5 +1,6 @@
 attributes1:
   name: administrator
+  settings_type: string
   category: Setting::General
   default: root@some.host.fqdn
   description: The Default administrator email address

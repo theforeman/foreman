@@ -12,7 +12,7 @@ class SettingsController < ApplicationController
 
   def update
     @setting = Setting.find(params[:id])
-    if @setting.update_attributes(params[:setting])
+    if @setting.parse_string_value(params[:setting][:value]) && @setting.save
       process_success
     else
       process_error
