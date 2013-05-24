@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.2.0
-Release: 0.1.RC1%{?dist}
+Release: 0.2.RC1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
