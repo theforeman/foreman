@@ -19,7 +19,7 @@ class Setting::Auth < Setting
         self.set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY'),
         self.set('signo_sso', N_('Use Signo SSO for login'), false),
         self.set('signo_url', N_('Signo SSO url'), "https://#{fqdn}/signo")
-      ].compact.each { |s| self.create s.update(:category => "Setting::Auth")}
+      ].compact.each { |s| self.create! s.update(:category => "Setting::Auth")}
     end
 
     true

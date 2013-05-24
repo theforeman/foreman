@@ -26,7 +26,7 @@ class Setting::Puppet < Setting
         self.set('update_environment_from_facts', N_("Should Foreman update a host's environment from its facts"), false),
         self.set('remove_classes_not_in_environment', N_("When host and host group have different environments should all classes be included (regardless if they exists or not in the other environment)"), false),
         self.set('host_group_matchers_inheritance', N_("Should Foreman use host group ancestors matchers to set puppet classes parameters values"), true)
-      ].compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
+      ].compact.each { |s| self.create! s.update(:category => "Setting::Puppet")}
 
       true
 

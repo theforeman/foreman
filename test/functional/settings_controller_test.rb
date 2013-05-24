@@ -8,13 +8,13 @@ class SettingsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Setting::General.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Setting::General.first, :format => "json"}, set_session_user
+    put :update, {:id => Setting::General.first, :format => "json", :setting => {}}, set_session_user
     assert_response :unprocessable_entity
   end
 
   def test_update_valid
     Setting::General.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Setting::General.first}, set_session_user
+    put :update, {:id => Setting::General.first, :setting => {}}, set_session_user
     assert_redirected_to settings_url
   end
 
