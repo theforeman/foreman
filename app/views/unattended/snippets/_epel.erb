@@ -1,15 +1,2 @@
-<%
-  epel_url = "http://dl.fedoraproject.org/pub/epel/$major/$arch/epel-release-$os.noarch.rpm"
-
-  case @host.operatingsystem.major
-  when "4"
-  epel_url.gsub!("$os","4-10")
-  when "5"
-  epel_url.gsub!("$os","5-4")
-  when "6"
-  epel_url.gsub!("$os","6-8")
-  else
-  ""
-  end
--%>
-su -c 'rpm -Uvh <%= @host.os.medium_uri(@host, epel_url) %>'
+repo --name="Extra Packages for Enterprise Linux" --baseurl="http://dl.fedoraproject.org/pub/epel/$major/$arch"
+yum -t -y -e 0 install epel-release
