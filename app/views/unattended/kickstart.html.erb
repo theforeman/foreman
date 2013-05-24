@@ -6,10 +6,23 @@ keyboard us
 skipx
 network --bootproto <%= @static ? "static" : "dhcp" %> --hostname <%= @host %>
 rootpw --iscrypted <%= root_pass %>
-firewall --service=ssh
-authconfig --useshadow --enablemd5
+firewall --<%= @host.operatingsystem.major.to_i >= 6 ? "service=" : "" %>ssh
+authconfig --useshadow --passalgo=sha512 --kickstart
 timezone UTC
-bootloader --location=mbr --append="nofb quiet splash=quiet" --md5pass=<%= root_pass %>
+<% if @host.operatingsystem.name == "Fedora" -%>
+repo --name=fedora-everything --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %>
+<% end -%>
+<% if @host.operatingsystem.name == "Fedora" and @host.operatingsystem.major.to_i <= 16 -%>
+# Bootloader exception for Fedora 16:
+bootloader --append="nofb quiet splash=quiet <%=ks_console%>" <%= grub_pass %>
+part biosboot --fstype=biosboot --size=1
+<% else -%>
+bootloader --location=mbr --append="nofb quiet splash=quiet" <%= grub_pass %>
+<% end -%>
+<% if @host.os.name == "RedHat" -%>
+key --skip
+<% end -%>
+
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
 <% else -%>
@@ -18,24 +31,38 @@ bootloader --location=mbr --append="nofb quiet splash=quiet" --md5pass=<%= root_
 text
 reboot
 
-%packages --excludedocs --nobase
+%packages
+yum
+dhclient
 ntp
 wget
 @Core
+<%= "%end\n" if @host.operatingsystem.name == "Fedora" %>
 
 <% if @dynamic -%>
 %pre
 <%= @host.diskLayout %>
 <% end -%>
 
+%post --nochroot
+exec < /dev/tty3 > /dev/tty3
+#changing to VT 3 so that we can see whats going on....
+/usr/bin/chvt 3
+(
+cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
+/usr/bin/chvt 1
+) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
+<%= "%end\n" if @host.operatingsystem.name == "Fedora" %>
+
 %post
 logger "Starting anaconda <%= @host %> postinstall"
-
-#changing to VT 3 that we can see whats going on....
+exec < /dev/tty3 > /dev/tty3
+#changing to VT 3 so that we can see whats going on....
 /usr/bin/chvt 3
+(
 #update local time
 echo "updating system time"
-/usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "ntp" %>
+/usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "0.fedora.pool.ntp.org" %>
 /usr/sbin/hwclock --systohc
 
 # install epel if we can
@@ -57,9 +84,7 @@ EOF
 
 # Disable most things. Puppet will activate these if required.
 echo "Disabling various system services"
-<% %w{autofs gpm sendmail cups iptables ip6tables auditd arptables_jf xfs pcmcia isdn rawdevices hpoj bluetooth openibd avahi-daemon avahi-dnsconfd hidd hplip pcscd restorecond mcstrans rhnsd yum-updatesd}.each do |service| -%>
-  /sbin/chkconfig --level 345 <%= service %> off 2>/dev/null
-<% end -%>
+services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables_jf,xfs,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd,restorecond,mcstrans,rhnsd,yum-updatesd
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
 
@@ -68,4 +93,8 @@ sync
 # Inform the build system that we are done.
 echo "Informing Foreman that we are built"
 wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+# Sleeping an hour for debug
+) 2>&1 | tee /root/install.post.log
 exit 0
+
+<%= "%end\n" if @host.operatingsystem.name == "Fedora" -%>
