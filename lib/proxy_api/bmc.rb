@@ -1,5 +1,5 @@
 module ProxyAPI
-  class BMC < Resource
+  class BMC < ProxyAPI::Resource
 
     def initialize args
       @target = args[:host_ip] || '127.0.0.1'
