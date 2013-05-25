@@ -1,5 +1,5 @@
 module ProxyAPI
-  class TFTP < Resource
+  class TFTP < ProxyAPI::Resource
     def initialize args
       @url     = args[:url] + "/tftp"
       @variant = args[:variant]
