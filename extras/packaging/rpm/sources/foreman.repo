@@ -1,13 +1,13 @@
 [foreman]
-name=foreman
-baseurl=http://yum.theforeman.org/releases/latest/el6/$basearch
+name=Foreman nightly
+baseurl=http://yum.theforeman.org/nightly/$DIST/$basearch
 enabled=1
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 [foreman-source]
-name=foreman-source
-baseurl=http://yum.theforeman.org/releases/latest/el6/source
+name=Foreman nightly - source
+baseurl=http://yum.theforeman.org/nightly/$DIST/source
 enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman

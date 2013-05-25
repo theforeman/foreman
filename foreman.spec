@@ -381,7 +381,8 @@ install -Dp -m0644 %{confdir}/%{name}.logrotate %{buildroot}%{_sysconfdir}/logro
 install -Dp -m0644 %{confdir}/%{name}.cron.d %{buildroot}%{_sysconfdir}/cron.d/%{name}
 
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
-install -pm 644 %{confdir}/%{name}.repo $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
+sed "s/\$DIST/$(echo %{?dist} | sed 's/^\.//')/g" %{confdir}/%{name}.repo > $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/%{name}.repo
+chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/%{name}.repo
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 install -pm 644 %{confdir}/%{name}.gpg $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
@@ -514,6 +515,7 @@ fi
 * Sat May 25 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-2
 - Distribute GPG key
 - Rename foreman-ec2 to foreman-compute
+- Replace dist in foreman.repo
 - Update dbmigrate for SCL (Lukas Zapletal)
 * Mon May 20 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-1
 - Updated to 1.2.9999 (1.3-pre)
