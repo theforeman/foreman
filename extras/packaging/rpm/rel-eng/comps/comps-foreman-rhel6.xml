@@ -10,9 +10,9 @@
     <packagelist>
       <packagereq type="default">foreman</packagereq>
       <packagereq type="default">foreman-cli</packagereq>
+      <packagereq type="default">foreman-compute</packagereq>
       <packagereq type="default">foreman-console</packagereq>
       <packagereq type="default">foreman-devel</packagereq>
-      <packagereq type="default">foreman-ec2</packagereq>
       <packagereq type="default">foreman-libvirt</packagereq>
       <packagereq type="default">foreman-ovirt</packagereq>
       <packagereq type="default">foreman-postgresql</packagereq>
