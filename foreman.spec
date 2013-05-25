@@ -133,6 +133,7 @@ Fedora. This package contains the repository configuration for Yum.
 
 %files release
 %config(noreplace) %{_sysconfdir}/yum.repos.d/*
+/etc/pki/rpm-gpg/*
 
 %package libvirt
 Summary: Foreman libvirt support
@@ -381,6 +382,8 @@ install -Dp -m0644 %{confdir}/%{name}.cron.d %{buildroot}%{_sysconfdir}/cron.d/%
 
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 install -pm 644 %{confdir}/%{name}.repo $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
+install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
+install -pm 644 %{confdir}/%{name}.gpg $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 cp -p Gemfile.in %{buildroot}%{_datadir}/%{name}/Gemfile.in
 cp -p -r app bundler.d config config.ru extras lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
@@ -509,6 +512,7 @@ fi
 
 %changelog
 * Sat May 25 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-2
+- Distribute GPG key
 - Rename foreman-ec2 to foreman-compute
 - Update dbmigrate for SCL (Lukas Zapletal)
 * Mon May 20 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-1

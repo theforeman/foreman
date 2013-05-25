@@ -1,11 +1,13 @@
 [foreman]
 name=foreman
 baseurl=http://yum.theforeman.org/releases/latest/el6/$basearch
-gpgcheck=0
 enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 [foreman-source]
 name=foreman-source
 baseurl=http://yum.theforeman.org/releases/latest/el6/source
-gpgcheck=0
 enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman
