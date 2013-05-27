@@ -1,6 +1,5 @@
 %global homedir %{_datadir}/%{name}
 %global confdir extras/packaging/rpm/sources
-%global scl ruby193
 
 %if "%{?scl}" == "ruby193"
     %global scl_prefix %{scl}-
@@ -511,6 +510,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.3.RC1
+- Don't force SCL
 * Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.2.RC1
 - Change to release candidate URL in foreman.repo
 * Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.1.RC1
