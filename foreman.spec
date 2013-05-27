@@ -1,6 +1,5 @@
 %global homedir %{_datadir}/%{name}
 %global confdir extras/packaging/rpm/sources
-%global scl ruby193
 
 %if "%{?scl}" == "ruby193"
     %global scl_prefix %{scl}-
@@ -505,6 +504,11 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-2
+- Don't force SCL
+- Update dbmigrate for SCL (Lukas Zapletal)
+* Mon May 20 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-1
+- Updated to 1.2.9999 (1.3-pre)
 * Tue Apr 30 2013 Sam Kottler <shk@redhat.com> 1.1.9999-1
 - Updated to 1.1.9999 (1.2-pre)
 * Fri Feb 15 2013 shk@redhat.com 1.1-3
