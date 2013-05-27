@@ -98,13 +98,13 @@ module Orchestration
         # of the error instead of explode.
         rescue Net::LeaseConflict => e
           task.status = "failed"
-          failure _("DHCP has a lease at %s") % e
+          failure _("DHCP has a lease at %s") % e, e.backtrace
         rescue RestClient::Exception => e
           task.status = "failed"
-          failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => proxy_error(e) }
+          failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => proxy_error(e) }, e.backtrace
         rescue => e
           task.status = "failed"
-          failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }
+          failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }, e.backtrace
         end
       end
 
