@@ -48,7 +48,7 @@ class Host::Managed < Host::Base
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
-      :image_build?, :pxe_build?
+      :image_build?, :pxe_build?, :otp
   end
 
   attr_reader :cached_host_params
@@ -126,6 +126,7 @@ class Host::Managed < Host::Base
     include Orchestration::TFTP
     include Orchestration::Puppetca
     include Orchestration::SSHProvision
+    include Orchestration::Realm
     include HostTemplateHelpers
 
     validates :ip, :uniqueness => true, :if => Proc.new {|host| host.require_ip_validation?}
@@ -207,6 +208,7 @@ class Host::Managed < Host::Base
 
     # delete all expired tokens
     self.build        = false
+    self.otp          = nil
     self.installed_at = Time.now.utc if installed
     self.save
   rescue => e
@@ -220,7 +222,7 @@ class Host::Managed < Host::Base
   end
 
   # Cleans Certificate and enable Autosign
-  # Called after a host is given their provisioning template
+  # Called before a host is given their provisioning template
   # Returns : Boolean status of the operation
   def handle_ca
     # If there's no puppetca, tell the caller that everything is ok
@@ -241,6 +243,20 @@ class Host::Managed < Host::Base
     end
 
     setAutosign
+  end
+
+  # Request a new OTP for a host
+  def handle_realm
+    return true unless realm?
+
+    # If no OTP is set, then this is probably a rebuild
+    if self.otp.blank?
+      logger.info "Setting realm for host #{name}"
+      set_realm :rebuild => true
+      self.save!
+    else
+      true
+    end
   end
 
   # returns the host correct disk layout, custom or common
@@ -502,7 +518,7 @@ class Host::Managed < Host::Base
     return unless hostgroup
     assign_hostgroup_attributes(%w{environment_id domain_id puppet_proxy_id puppet_ca_proxy_id compute_profile_id})
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
+      assign_hostgroup_attributes(%w{operatingsystem_id architecture_id realm_id})
       assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
     end
   end
@@ -668,6 +684,10 @@ class Host::Managed < Host::Base
 
     [domain, hostgroup.try(:domain)].compact.each do |d|
       ids << d.dns_id
+    end
+
+    [realm, hostgroup.try(:realm)].compact.each do |r|
+      ids << r.realm_proxy_id
     end
 
     [puppet_proxy_id, puppet_ca_proxy_id, hostgroup.try(:puppet_proxy_id), hostgroup.try(:puppet_ca_proxy_id)].compact.each do |p|

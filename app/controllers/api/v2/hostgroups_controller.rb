@@ -38,6 +38,7 @@ module Api
           param :puppet_ca_proxy_id, :number
           param :subnet_id, :number
           param :domain_id, :number
+          param :realm_id, :number
           param :puppet_proxy_id, :number
         end
       end

@@ -164,6 +164,10 @@ Foreman::Application.routes.draw do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         end
+        resources :realms, :except => [:new, :edit] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        end
         resources :domains, :except => [:new, :edit] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
@@ -216,6 +220,7 @@ Foreman::Application.routes.draw do
 
           # scoped by location
           resources :domains, :only => [:index, :show]
+          resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
           resources :hostgroups, :only => [:index, :show]
           resources :environments, :only => [:index, :show]
@@ -235,6 +240,7 @@ Foreman::Application.routes.draw do
            # scoped by location AND organization
           resources :organizations, :except => [:new, :edit] do
             resources :domains, :only => [:index, :show]
+            resources :realms, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
             resources :hostgroups, :only => [:index, :show]
             resources :environments, :only => [:index, :show]
@@ -254,6 +260,7 @@ Foreman::Application.routes.draw do
 
           # scoped by organization
           resources :domains, :only => [:index, :show]
+          resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
           resources :hostgroups, :only => [:index, :show]
           resources :environments, :only => [:index, :show]
@@ -273,6 +280,7 @@ Foreman::Application.routes.draw do
           # scoped by location AND organization
           resources :locations, :except => [:new, :edit] do
             resources :domains, :only => [:index, :show]
+            resources :realms, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
             resources :hostgroups, :only => [:index, :show]
             resources :environments, :only => [:index, :show]

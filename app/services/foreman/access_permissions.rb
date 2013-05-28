@@ -125,6 +125,21 @@ Foreman::AccessControl.map do |map|
                                       }
   end
 
+  map.security_block :realms do |map|
+    map.permission :view_realms,       {:realms => [:index, :show, :auto_complete_search],
+                                      :"api/v2/realms" => [:index, :show]
+    }
+    map.permission :create_realms,      {:realms => [:new, :create],
+                                      :"api/v2/realms" => [:create]
+    }
+    map.permission :edit_realms,       {:realms => [:edit, :update],
+                                      :"api/v2/realms" => [:update]
+    }
+    map.permission :destroy_realms,    {:realms => [:destroy],
+                                      :"api/v2/realms" => [:destroy]
+    }
+  end
+
   map.security_block :domains do |map|
     map.permission :view_domains,       {:domains => [:index, :show, :auto_complete_search],
                                       :"api/v1/domains" => [:index, :show],

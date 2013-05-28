@@ -478,6 +478,7 @@ class HostsController < ApplicationController
     @domain          = @hostgroup.domain
     @subnet          = @hostgroup.subnet
     @compute_profile = @hostgroup.compute_profile
+    @realm           = @hostgroup.realm
 
     @host = if params[:host][:id]
       host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])

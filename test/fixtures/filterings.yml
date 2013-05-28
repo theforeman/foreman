@@ -232,6 +232,18 @@ manager_21_3:
 manager_22_0:
   filter: manager_22
   permission: edit_classes
+manager_23_0:
+  filter: manager_23
+  permission: view_realms
+manager_23_1:
+  filter: manager_23
+  permission: create_realms
+manager_23_2:
+  filter: manager_23
+  permission: edit_realms
+manager_23_3:
+  filter: manager_23
+  permission: destroy_realms
 edit_partition_tables_1_0:
   filter: edit_partition_tables_1
   permission: view_ptables
@@ -319,6 +331,9 @@ viewer_20_0:
 viewer_21_0:
   filter: viewer_21
   permission: view_users
+viewer_22_0:
+  filter: viewer_22
+  permission: view_realms
 default_user_1_0:
   filter: default_user_1
   permission: view_hosts
@@ -373,6 +388,9 @@ default_user_15_0:
 default_user_16_0:
   filter: default_user_16
   permission: view_facts
+default_user_17_0:
+  filter: default_user_17
+  permission: view_realms
 anonymous_1_0:
   filter: anonymous_1
   permission: view_hosts
