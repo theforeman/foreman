@@ -119,6 +119,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.current, @user
   end
 
+  test "#admin should create new one if it's missing" do
+    old_admin = User.admin
+    assert old_admin.delete
+    assert_nil User.find_by_login(old_admin.login)
+    assert_present User.admin
+  end
+
   def setup_user operation
     @one = users(:one)
     as_admin do
