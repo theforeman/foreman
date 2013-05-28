@@ -134,15 +134,6 @@ class UsersControllerTest < ActionController::TestCase
     assert @request.flash[:notice] == "You are currently logged in, suicidal?"
   end
 
-  test "should recreate the admin account" do
-    return true unless SETTINGS[:login]
-    return true unless SETTINGS[:login] == false
-    User.admin.delete # Of course we only use destroy in the codebase
-    assert User.find_by_login("admin").nil?
-    get :index, {}, {:user => nil}
-    assert !User.find_by_login("admin").nil?
-  end
-
   test 'user with viewer rights should fail to edit a user' do
     get :edit, {:id => User.first.id}
     assert_equal @response.status, 403
