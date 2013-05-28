@@ -232,6 +232,9 @@ class UnattendedController < ApplicationController
   def waik_attributes
   end
 
+  def memdisk_attributes
+  end
+
   private
 
   def safe_render template

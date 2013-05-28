@@ -48,7 +48,8 @@ class Operatingsystem < ActiveRecord::Base
                'Windows' => %r{Windows}i,
                'Archlinux' => %r{Archlinux}i,
                'Gentoo' => %r{Gentoo}i,
-               'Solaris' => %r{Solaris}i }
+               'Solaris' => %r{Solaris}i,
+               'Freebsd' => %r{FreeBSD}i }
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
