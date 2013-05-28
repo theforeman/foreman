@@ -91,7 +91,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def puppetclass_ids
-    classes.reorder('').pluck(:id)
+    classes.reorder('').pluck('puppetclasses.id')
   end
 
   def inherited_lookup_value key
