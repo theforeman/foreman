@@ -310,6 +310,12 @@ Foreman::Application.routes.draw do
       end
     end
 
+    resources :realms, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
     match 'unattended/template/:id/:hostgroup', :to => "unattended#template"
   end
 

@@ -194,6 +194,7 @@ module HostsHelper
   def overview_fields host
     fields = [
       [_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
+      [_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")) if host.realm)],
       [_("IP Address"), host.ip],
       [_("MAC Address"), host.mac],
       [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],

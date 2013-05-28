@@ -42,6 +42,8 @@ manager_21:
   role_id: 1
 manager_22:
   role_id: 1
+manager_23:
+  role_id: 1
 edit_partition_tables_1:
   role_id: 2
 view_hosts_1:
@@ -90,6 +92,8 @@ viewer_20:
   role_id: 5
 viewer_21:
   role_id: 5
+viewer_22:
+  role_id: 5
 default_user_1:
   role_id: 6
 default_user_2:
@@ -121,6 +125,8 @@ default_user_14:
 default_user_15:
   role_id: 6
 default_user_16:
+  role_id: 6
+default_user_17:
   role_id: 6
 anonymous_1:
   role_id: 7

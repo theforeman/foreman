@@ -30,6 +30,8 @@ module Hostext
       scoped_search :in => :hostgroup,   :on => :id,      :complete_value => false, :rename => :hostgroup_id, :only_explicit => true
       scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
       scoped_search :in => :domain,      :on => :id,      :complete_value => true,  :rename => :domain_id
+      scoped_search :in => :realm,       :on => :name,    :complete_value => true,  :rename => :realm
+      scoped_search :in => :realm,       :on => :id,      :complete_value => true,  :rename => :realm_id
       scoped_search :in => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster

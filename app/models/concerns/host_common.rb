@@ -16,6 +16,7 @@ module HostCommon
     belongs_to :puppet_proxy,    :class_name => "SmartProxy"
     belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
     belongs_to :domain,          :counter_cache => counter_cache
+    belongs_to :realm,           :counter_cache => counter_cache
     belongs_to :subnet
     belongs_to :compute_profile
 

@@ -24,3 +24,6 @@ bmc:
 
 chefproxy:
   name: Chef Proxy
+
+realm:
+  name: Realm

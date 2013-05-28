@@ -7,6 +7,7 @@ default_permissions =
                                   :view_compute_resources_vms, :create_compute_resources_vms, :edit_compute_resources_vms, :destroy_compute_resources_vms, :power_compute_resources_vms, :console_compute_resources_vms,
                                   :view_templates, :create_templates, :edit_templates, :destroy_templates, :deploy_templates,
                                   :view_domains, :create_domains, :edit_domains, :destroy_domains,
+                                  :view_realms, :create_realms, :edit_realms, :destroy_realms,
                                   :view_environments, :create_environments, :edit_environments, :destroy_environments, :import_environments,
                                   :view_external_variables, :create_external_variables, :edit_external_variables, :destroy_external_variables,
                                   :view_globals, :create_globals, :edit_globals, :destroy_globals,
@@ -39,7 +40,7 @@ default_permissions =
                                   :view_ptables, :view_globals, :view_external_variables, :view_authenticators,
                                   :access_settings, :access_dashboard, :view_reports, :view_facts, :view_smart_proxies,
                                   :view_subnets, :view_statistics, :view_organizations, :view_usergroups, :view_users,
-                                  :view_audit_logs],
+                                  :view_audit_logs, :view_realms],
       'Site manager'          => [:view_architectures, :view_audit_logs, :view_authenticators, :access_dashboard,
                                   :view_domains, :view_environments, :import_environments, :view_external_variables,
                                   :create_external_variables, :edit_external_variables, :destroy_external_variables,
@@ -50,7 +51,7 @@ default_permissions =
                                   :import_puppetclasses, :view_reports, :destroy_reports, :access_settings,
                                   :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
                                   :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
-                                  :destroy_usergroups, :view_users, :edit_users],
+                                  :destroy_usergroups, :view_users, :edit_users, :view_realms],
     }
 
 default_user_permissions = [:view_hosts, :view_puppetclasses, :view_hostgroups, :view_domains,
@@ -58,7 +59,7 @@ default_user_permissions = [:view_hosts, :view_puppetclasses, :view_hostgroups, 
                             :view_architectures, :view_ptables, :view_globals, :view_external_variables,
                             :view_authenticators, :access_settings, :access_dashboard,
                             :view_reports, :view_subnets, :view_facts, :view_locations,
-                            :view_organizations, :view_statistics]
+                            :view_organizations, :view_statistics, :view_realms]
 anonymous_permissions    = [:view_hosts, :view_bookmarks, :view_tasks]
 
 Role.without_auditing do
