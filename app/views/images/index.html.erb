@@ -2,14 +2,16 @@
 
 <% title_actions display_link_if_authorized(_("New Image"), hash_for_new_compute_resource_image_path) %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" data-table='inline'>
+  <thead>
   <tr>
-    <th><%= sort :name, :as => s_("Image|Name") %></th>
+    <th><%= _("Image|Name") %></th>
     <th><%= _("Operating System") %></th>
-    <th><%= s_("Image|Username") %></th>
-    <th><%= s_("Image|Uuid") %></th>
+    <th><%= _("Image|Username") %></th>
+    <th><%= _("Image|Uuid") %></th>
     <th></th>
   </tr>
+  </thead>
   <% @images.each do |image| %>
   <tr>
     <td><%= image.name %></td>
