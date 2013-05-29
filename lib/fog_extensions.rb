@@ -15,6 +15,11 @@ begin
   require 'fog/libvirt'
   require 'fog/libvirt/models/compute/server'
   Fog::Compute::Libvirt::Server.send(:include, FogExtensions::Libvirt::Server)
+  # temporary fix for id attribute until next fog release (probably 1.11.2)
+  require 'fog/libvirt/models/compute/nic'
+  unless Fog::Compute::Libvirt::Nic.instance_methods.include?(:id)
+    Fog::Compute::Libvirt::Nic.attribute(:id)
+  end
 
   require 'fog/ovirt'
   require 'fog/ovirt/models/compute/server'
