@@ -50,8 +50,7 @@ function testConnection(item) {
 function ovirt_hwpSelected(item){
   var hwp = $(item).val();
   var url = $(item).attr('data-url');
-
-  $('#hwp_indicator').show();
+  $(item).indicator_show();
   $.ajax({
       type:'post',
       url: url,
@@ -64,8 +63,8 @@ function ovirt_hwpSelected(item){
         $('#volumes').children('.fields').remove();
         $.each(result.volumes, function() {add_volume(this);});
       },
-      complete: function(result){
-        $('#hwp_indicator').hide();
+      complete: function(){
+        $(item).indicator_hide();
         $('[rel="twipsy"]').tooltip();
       }
     })
@@ -104,7 +103,7 @@ function bootable_radio(item){
 function ovirt_clusterSelected(item){
   var cluster = $(item).val();
   var url = $(item).attr('data-url');
-  $('#cluster_indicator').show();
+  $(item).indicator_show();
   $.ajax({
       type:'post',
       url: url,
@@ -115,8 +114,8 @@ function ovirt_clusterSelected(item){
           network_options.append($("<option />").val(this.id).text(this.name));
         });
       },
-      complete: function(result){
-        $('#cluster_indicator').hide();
+      complete: function(){
+        $(item).indicator_hide();
         $('[rel="twipsy"]').tooltip();
       }
     })

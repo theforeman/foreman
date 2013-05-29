@@ -9,7 +9,7 @@
     </div>
 
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
-                 {:help_inline => image_tag("/assets/spinner.gif", :id => "domain_indicator", :class => "hide"),
+                 {:help_inline => :indicator,
                   :onchange => 'domain_selected(this);', :'data-url' => domain_selected_hosts_path} %>
     <% if @host.capabilities.include?(:build) %>
       <div id='manage_network'>
