@@ -143,7 +143,6 @@
       <packagereq type="default">ruby193-rubygem-uglifier</packagereq>
       <packagereq type="default">ruby193-rubygem-unicode-display_width</packagereq>
       <packagereq type="default">ruby193-rubygem-uuidtools</packagereq>
-      <packagereq type="default">ruby193-rubygem-virt</packagereq>
       <packagereq type="default">ruby193-rubygem-will_paginate</packagereq>
       <packagereq type="default">ruby193-rubygem-wirb</packagereq>
       <packagereq type="default">ruby193-rubygems</packagereq>
