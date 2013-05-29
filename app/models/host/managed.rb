@@ -605,7 +605,7 @@ class Host::Managed < Host::Base
   end
 
   def capabilities
-    compute_resource_id ? compute_resource.capabilities : [:build]
+    compute_resource ? compute_resource.capabilities : [:build]
   end
 
   def provider
