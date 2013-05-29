@@ -4,7 +4,7 @@ $(function() {
     var url = $(this).attr('data-url');
     $(this).load(url + ' table', function(response, status, xhr) {
       if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(Jed.sprintf(_("There was an error listing VMs: %(status) %(statusText)"), {status: xhr.status, statusText: xhr.statusText}));
+        $(this).closest(".tab-content").find("#spinner").html(Jed.sprintf(_("There was an error listing VMs: %(status)s %(statusText)s"), {status: xhr.status, statusText: xhr.statusText}));
       }
       $('.dropdown-toggle').dropdown();
       onContentLoad();

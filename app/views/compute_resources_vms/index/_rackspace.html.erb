@@ -7,7 +7,7 @@
       <th></th>
     </tr>
   </thead>
-  <% @compute_resource.vms.each do |vm| -%>
+  <% @vms.each do |vm| -%>
     <tr>
       <td><%= vm.name %></td>
       <td><%= vm.flavor.name %></td>
