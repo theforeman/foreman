@@ -10,14 +10,15 @@
     <packagelist>
       <packagereq type="default">foreman</packagereq>
       <packagereq type="default">foreman-cli</packagereq>
+      <packagereq type="default">foreman-compute</packagereq>
       <packagereq type="default">foreman-console</packagereq>
       <packagereq type="default">foreman-devel</packagereq>
-      <packagereq type="default">foreman-ec2</packagereq>
       <packagereq type="default">foreman-libvirt</packagereq>
       <packagereq type="default">foreman-ovirt</packagereq>
       <packagereq type="default">foreman-postgresql</packagereq>
       <packagereq type="default">foreman-mysql</packagereq>
       <packagereq type="default">foreman-mysql2</packagereq>
+      <packagereq type="default">foreman-release</packagereq>
       <packagereq type="default">foreman-sqlite</packagereq>
       <packagereq type="default">foreman-vmware</packagereq>
       <packagereq type="default">foreman-proxy</packagereq>
@@ -89,6 +90,8 @@
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
       <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
       <packagereq type="default">ruby193-rubygem-multi_json</packagereq>
+      <packagereq type="default">ruby193-rubygem-mysql</packagereq>
+      <packagereq type="default">ruby193-rubygem-mysql2</packagereq>
       <packagereq type="default">ruby193-rubygem-net-http-persistent</packagereq>
       <packagereq type="default">ruby193-rubygem-net-ldap</packagereq>
       <packagereq type="default">ruby193-rubygem-net-ping</packagereq>
