@@ -9,7 +9,7 @@
       <li><a href="#network" data-toggle="tab"><%= _('Network') -%></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') -%></a></li>
     <% end -%>
-    <li><a href="#params" data-toggle="tab"><%= _('Parameters') -%></a></li>
+    <li><a href="#params" id='params-tab' data-toggle="tab"><%= _('Parameters') -%></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') -%></a></li>
     <% end %>
@@ -23,7 +23,7 @@
     <div class="tab-pane active" id="primary">
       <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hosts_path,
-                      :help_inline => image_tag('/assets/spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
+                      :help_inline => :indicator } %>
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
         {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>

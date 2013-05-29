@@ -358,3 +358,11 @@ $(function() {
     });
   });
 });
+
+$.fn.indicator_show = function(){
+  $(this).parent().find('img').show();
+}
+
+$.fn.indicator_hide = function(){
+  $(this).parent().find('img').hide();
+}

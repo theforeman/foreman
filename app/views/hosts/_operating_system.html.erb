@@ -1,6 +1,7 @@
 
 <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
-    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected')} %>
+    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'),
+    :help_inline => :indicator} %>
 
 <span id="os_select">
   <%= render 'common/os_selection/architecture', :item => @host %>

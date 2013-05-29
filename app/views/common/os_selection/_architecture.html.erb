@@ -4,6 +4,7 @@
     {:id => type + "_operatingsystem_id", :name => type + "[operatingsystem_id]",
       :label => _("Operating system"),
       :disabled => arch_oss.empty? ? true : false,
+      :help_inline => :indicator,
       :onchange => 'os_selected(this);', :'data-url' => method_path('os_selected')}
   %>
 <% end -%>
