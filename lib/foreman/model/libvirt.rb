@@ -129,7 +129,7 @@ module Foreman::Model
         :boot_order => %w[network hd],
         :nics       => [new_nic],
         :volumes    => [new_volume],
-        :display    => { :type => 'vnc', :listen => Setting[:default_console_address], :password => random_password, :port => '-1' }
+        :display    => { :type => 'vnc', :listen => Setting[:libvirt_default_console_address], :password => random_password, :port => '-1' }
       }
     end
 
