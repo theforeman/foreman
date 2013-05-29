@@ -4,8 +4,13 @@
                :locals => { :f => compute, :compute_resource => compute_resource, :arch => @host.try(:architecture_id) || params[:architecture_id], :os => @host.try(:operatingsystem_id) || params[:operatingsystem_id] } %>
   <% else %>
     <div class="alert alert-message alert-block alert-warning base in fade">
-      <h4><%= _("'%{host}' not found on '%{resource}'") % { :host => @host.name, :resource => compute_resource } %></h4>
-      <p><%= _("'%s' could be deleted.") % @host.name %></p>
+      <% if @host %>
+        <h4><%= _("'%{host}' not found on '%{resource}'") % { :host => @host.name, :resource => compute_resource } %></h4>
+        <p><%= _("'%{host}' could be deleted or '%{resource}' is not responding.") % {:host => @host.name, :resource => compute_resource} %></p>
+      <% else %>
+        <h4><%= _("Failed connecting to %s") % compute_resource %></h4>
+        <p><%= _("Errors: ") + compute_resource.errors.full_messages.to_sentence %></p>
+      <% end %>
     </div>
   <% end%>
   <%= hidden_field_tag 'capabilities', compute_resource.capabilities %>
