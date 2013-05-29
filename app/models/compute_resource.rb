@@ -92,7 +92,8 @@ class ComputeResource < ActiveRecord::Base
 
   # returns a new fog server instance
   def new_vm attr={}
-    client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys)
+    test_connection
+    client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys) if errors.empty?
   end
 
   # return fog new interface ( network adapter )
