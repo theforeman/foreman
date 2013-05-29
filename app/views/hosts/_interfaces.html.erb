@@ -7,12 +7,12 @@
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
                  { :include_blank => accessible_domains.any? ? true : _("No domains")},
                  { :disabled => accessible_domains.empty? ? true : false,
-                   :help_inline => image_tag("/assets/spinner.gif", :class => "indicator hide"),
+                   :help_inline => :indicator,
                    :class => 'interface_domain', :'data-url' => domain_selected_hosts_path } %>
     <%= select_f f, :subnet_id, domain_subnets, :id, :title,
                  { :include_blank => domain_subnets.any? ? true : _("No subnets")},
                  { :disabled => domain_subnets.empty? ? true : false,
-                   :help_inline => image_tag("/assets/spinner.gif", :class => "indicator hide"),
+                   :help_inline => :indicator,
                    :class => 'interface_subnet', :'data-url' => freeip_subnets_path } %>
     <%= text_f f, :ip  %>
 

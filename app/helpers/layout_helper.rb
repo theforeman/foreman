@@ -116,9 +116,8 @@ module LayoutHelper
   def field(f, attr, options = {})
     fluid = options[:fluid]
     error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
-    inline = options.delete(:help_inline)
-    inline = error.to_sentence.html_safe unless error.empty?
-    help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
+    help_inline = help_inline(options.delete(:help_inline), error)
+
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "control-group #{fluid ? "row-fluid" : ""} #{error.empty? ? "" : 'error'}" do
       label   = options.delete(:label)
@@ -128,6 +127,18 @@ module LayoutHelper
         content_tag(:div, :class => "controls") do
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe
+    end
+  end
+
+  def help_inline(inline, error)
+    help_inline = error.empty? ? inline : error.to_sentence.html_safe
+    case help_inline
+      when blank?
+        ""
+      when :indicator
+        content_tag(:span, image_tag('/assets/spinner.gif', :class => 'hide'), :class => "help-inline")
+      else
+        content_tag(:span, help_inline, :class => "help-inline")
     end
   end
 

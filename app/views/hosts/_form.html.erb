@@ -31,7 +31,7 @@
           { :disabled => !@host.new_record?,
             :onchange => 'organization_changed(this);', :label => _("Organization"), :'data-host-id' => @host.id,
           :'data-url' => process_taxonomy_hosts_path, :selected => Organization.my_organizations,
-          :help_inline => image_tag('/assets/spinner.gif', :id => 'organization_indicator', :class => 'hide').html_safe } %>
+          :help_inline => :indicator } %>
       <% end %>
 
       <% if show_location_tab? %>
@@ -40,23 +40,24 @@
           { :disabled => !@host.new_record?,
             :onchange => 'location_changed(this);', :label => _("Location"), :"data-host-id" => @host.id,
             :'data-url' => process_taxonomy_hosts_path, :selected => Location.my_locations,
-            :help_inline => image_tag('/assets/spinner.gif', :id => 'location_indicator', :class => 'hide').html_safe } %>
+            :help_inline => :indicator } %>
       <% end %>
 
       <%= select_f f, :compute_resource_id, ComputeResource.my_compute_resources, :id, :to_label,
         { :include_blank => _('Bare Metal') },
         {:label => _("Deploy on"), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path ,
-         :onchange => 'computeResourceSelected(this);'} if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
+         :onchange => 'computeResourceSelected(this);',
+         :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
 
       <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
         { :include_blank => true},
         { :onchange => 'hostgroup_changed(this);' , :'data-host-id' => @host.id,
-          :'data-url' => @host.new_record? ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path ,
-          :help_inline => image_tag('/assets/spinner.gif', :id => 'hostgroup_indicator', :class => 'hide').html_safe } %>
+          :'data-url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path ,
+          :help_inline => :indicator } %>
 
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
-          {:onchange => 'update_puppetclasses(this);', :'data-url' => hostgroup_or_environment_selected_hosts_path,
-          :'data-host-id' => @host.id} %>
+          {:onchange => 'hostgroup_or_environment_changed(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
+          :'data-host-id' => @host.id, :help_inline => :indicator} %>
       <%= puppet_master_fields f %>
     </div>
 
