@@ -94,7 +94,7 @@ module Foreman::Model
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
       password = random_password
-      vm.update_display(:password => password, :listen => '0.0.0.0')
+      vm.update_display(:password => password, :listen => Setting[:default_console_address])
       WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type =>  vm.display[:type].downcase, :name=> vm.name)
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
@@ -127,7 +127,7 @@ module Foreman::Model
         :boot_order => %w[network hd],
         :nics       => [new_nic],
         :volumes    => [new_volume],
-        :display    => { :type => 'vnc', :listen => '0.0.0.0', :password => random_password, :port => '-1' }
+        :display    => { :type => 'vnc', :listen => Setting[:default_console_address], :password => random_password, :port => '-1' }
       }
     end
 
