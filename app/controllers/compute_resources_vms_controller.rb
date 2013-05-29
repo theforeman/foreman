@@ -8,6 +8,8 @@ class ComputeResourcesVmsController < ApplicationController
       format.html
       format.json { render :json => @vms }
     end
+  rescue => e
+    render :partial => 'compute_resources_vms/error', :locals => { :errors => e.message }
   end
 
   def new
