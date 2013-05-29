@@ -94,7 +94,9 @@ module Foreman::Model
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
       password = random_password
-      vm.update_display(:password => password, :listen => Setting[:default_console_address])
+      # Listen address cannot be updated while the guest is running
+      # When we update the display password, we pass the existing listen address
+      vm.update_display(:password => password, :listen => vm.display[:listen])
       WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type =>  vm.display[:type].downcase, :name=> vm.name)
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
