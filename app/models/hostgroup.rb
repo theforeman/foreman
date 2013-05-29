@@ -83,7 +83,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def diskLayout
-    ptable.layout
+    ptable.layout.gsub("\r","")
   end
 
   def classes
@@ -130,7 +130,7 @@ class Hostgroup < ActiveRecord::Base
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    read_attribute(:root_pass) || nested_root_pw
+    read_attribute(:root_pass) || nested_root_pw || Setting[:root_pass]
   end
 
   def get_label
