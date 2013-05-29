@@ -2,12 +2,12 @@
 name=Foreman RC
 baseurl=http://yum.theforeman.org/rc/$DIST/$basearch
 enabled=1
-gpgcheck=0
+gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 [foreman-source]
 name=Foreman RC - source
 baseurl=http://yum.theforeman.org/rc/$DIST/source
 enabled=0
-gpgcheck=0
+gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman

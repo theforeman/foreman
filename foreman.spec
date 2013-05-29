@@ -519,7 +519,7 @@ fi
 %changelog
 * Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.3.RC1
 - Don't force SCL
-- Distribute GPG key
+- Distribute GPG key, enable GPG checking
 - Replace dist in foreman.repo
 - Rename foreman-ec2 to foreman-compute
 * Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.2.RC1
