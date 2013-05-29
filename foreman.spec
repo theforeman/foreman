@@ -110,6 +110,7 @@ BuildRequires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 BuildRequires: %{?scl_prefix}facter
 BuildRequires: %{?scl_prefix}puppet >= 0.24.4
 BuildRequires: puppet
+BuildRequires: gettext
 
 %package cli
 Summary: Foreman CLI
