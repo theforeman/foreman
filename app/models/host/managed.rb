@@ -396,14 +396,17 @@ class Host::Managed < Host::Base
         return raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
     end
 
+    h = nil
     if name == certname or certname.nil?
       h = Host.find_by_name name
     else
       h = Host.find_by_certname certname
       h ||= Host.find_by_name name
     end
-    h ||= Host.new :name => name
 
+    h ||= Host.new(:name => name) if Setting[:create_new_host_when_facts_are_uploaded]
+
+    return true if h.nil?
     h.save(:validate => false) if h.new_record?
     h.importFacts(name, values)
   end
