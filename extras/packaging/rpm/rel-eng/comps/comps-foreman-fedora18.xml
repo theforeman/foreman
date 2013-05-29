@@ -57,7 +57,6 @@
       <packagereq type="default">rubygem-spice-html5-rails</packagereq>
       <packagereq type="default">rubygem-twitter-bootstrap-rails</packagereq>
       <packagereq type="default">rubygem-unicode-display_width</packagereq>
-      <packagereq type="default">rubygem-virt</packagereq>
       <packagereq type="default">rubygem-wirb</packagereq>
     </packagelist>
   </group>
