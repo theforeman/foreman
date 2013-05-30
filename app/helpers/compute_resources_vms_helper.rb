@@ -42,4 +42,20 @@ module ComputeResourcesVmsHelper
     options
   end
 
+  def libvirt_networks(compute)
+    networks   = compute.networks
+    interfaces = compute.interfaces
+    select     = []
+    select << _('Physical (Bridge)') if interfaces.any?
+    select << _('Virtual (NAT)')     if networks.any?
+    select
+  end
+
+  def hide_libvirt_network(networks, interfaces)
+    return true  if interfaces.empty?
+    return true  if interfaces.any? && networks.any?
+    return false if interfaces.any? && networks.empty?
+    true
+  end
+
 end

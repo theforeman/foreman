@@ -60,8 +60,12 @@ module Foreman::Model
       client.pools rescue []
     end
 
-    def networks
+    def interfaces
       client.interfaces rescue []
+    end
+
+    def networks
+      client.networks rescue []
     end
 
     def new_vm attr={ }
@@ -113,7 +117,11 @@ module Foreman::Model
 
     def client
       # WARNING potential connection leak
+      tries ||= 3
       Thread.current[url] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
+    rescue Libvirt::RetrieveError
+      Thread.current[url] = nil
+      retry unless (tries -= 1).zero?
     end
 
     def disconnect
