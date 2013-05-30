@@ -121,8 +121,10 @@ class HostsController < ApplicationController
 
   # form AJAX methods
   def compute_resource_selected
-    compute = ComputeResource.find(params[:compute_resource_id]) if params[:compute_resource_id].to_i > 0
-    render :partial => "compute", :locals => {:compute_resource => compute} if compute
+    Taxonomy.no_taxonomy_scope do
+      compute = ComputeResource.find(params[:host][:compute_resource_id]) if params[:host][:compute_resource_id].to_i > 0
+      render :partial => "compute", :locals => ({:compute_resource => compute} if compute )
+    end
   end
 
   def hostgroup_or_environment_selected
@@ -438,8 +440,15 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-
     @host = Host.new(params[:host])
+    # revert compute resource to "Bare Metal" (nil) if selected
+    # compute resource is not included taxonomy
+    Taxonomy.as_taxonomy @organization , @location do
+      @host.compute_resource_id = ComputeResource.find_by_id(@host.compute_resource_id).try(:id)
+      unless ComputeResource.find_by_id(@host.compute_resource_id)
+        @host.compute_resource_id = nil
+      end
+    end
     render :partial => 'form'
   end
 
@@ -489,6 +498,7 @@ class HostsController < ApplicationController
       @organization = Organization.find_by_id(params[:host][:organization_id])
       @location = Location.find_by_id(params[:host][:location_id])
     end
+
     if SETTINGS[:organizations_enabled]
       @organization ||= Organization.current
       @organization ||= Organization.my_organizations.first

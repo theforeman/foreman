@@ -1,6 +1,5 @@
 function computeResourceSelected(item){
   var compute = $(item).val();
-  var attrs = attribute_hash(['architecture_id', 'compute_resource_id', 'operatingsystem_id']);
   if(compute=='') { //Bare Metal
     $('#mac_address').show();
     $("#model_name").show();
@@ -15,11 +14,12 @@ function computeResourceSelected(item){
     $("#model_name").hide();
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
+    var data = $('form').serialize().replace('method=put', 'method=post');
     var url = $(item).attr('data-url');
     $.ajax({
       type:'post',
       url: url,
-      data: attrs,
+      data: data,
       success: function(result){
         $('#compute_resource').html(result);
         update_capabilities($('#capabilities').val());
@@ -230,6 +230,10 @@ function update_form(element) {
     success: function(response) {
       $('form').html(response);
       $("[id$='subnet_id']").first().change();
+      // to handle case if def process_taxonomy changed compute_resource_id to nil
+      if( !$('#host_compute_resource_id').val() ) {
+        $('#host_compute_resource_id').change();
+      }
       onContentLoad();
     }
   })
