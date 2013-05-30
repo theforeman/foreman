@@ -120,3 +120,36 @@ function ovirt_clusterSelected(item){
       }
     })
 }
+
+function libvirt_network_selected(item){
+  selected = $(item).val();
+  dropdown = $(item).closest('select');
+  bridge   = $(item).parentsUntil('.fields').parent().find('#bridge');
+  nat      = $(item).parentsUntil('.fields').parent().find('#nat');
+  switch (selected) {
+    case '':
+      disable_libvirt_dropdown(bridge);
+      disable_libvirt_dropdown(nat);
+      break;
+    case 'network':
+      disable_libvirt_dropdown(bridge);
+      enable_libvirt_dropdown(nat);
+      break;
+    case 'bridge':
+      disable_libvirt_dropdown(nat);
+      enable_libvirt_dropdown(bridge);
+      break;
+  }
+  return false;
+}
+
+function disable_libvirt_dropdown(item){
+  item.hide();
+  item.attr("disabled",true);
+}
+
+function enable_libvirt_dropdown(item){
+  item.attr("disabled",false);
+  item.find(':input').attr('disabled',false)
+  item.show();
+}
