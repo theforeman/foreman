@@ -221,8 +221,8 @@ $(document).ready(function() {
 
 //add bookmark dialog
 $(function() {
-  $('#bookmarks-modal .btn-primary').click(function(){
-    $("#bookmark_submit").click();
+  $('#bookmarks-modal .modal-footer .btn-primary').on('click', function(){
+     $('#bookmarks-modal .modal-body .btn-primary').click();
   });
   $("#bookmarks-modal").bind('shown', function () {
     var query = encodeURI($("#search").val());
