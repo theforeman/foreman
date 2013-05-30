@@ -6,7 +6,7 @@ class HostsController < ApplicationController
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
@@ -18,7 +18,7 @@ class HostsController < ApplicationController
     :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
     storeconfig_klasses clone pxe_config toggle_manage power console bmc ipmi_boot]
-  before_filter :taxonomy_scope, :only => [:hostgroup_or_environment_selected, :process_hostgroup]
+  before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   helper :hosts, :reports
 
@@ -103,6 +103,7 @@ class HostsController < ApplicationController
       if @host.update_attributes(params[:host])
         process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
       else
+        taxonomy_scope
         load_vars_for_ajax
         offer_to_overwrite_conflicts
         process_error
@@ -423,9 +424,6 @@ class HostsController < ApplicationController
     @hostgroup = Hostgroup.find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
-    organization = Organization.find(params[:host][:organization_id]) unless params[:host][:organization_id].empty?
-    location = Location.find(params[:host][:location_id]) unless params[:host][:location_id].empty?
-
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
     @environment     = @hostgroup.environment
@@ -434,23 +432,15 @@ class HostsController < ApplicationController
 
     @host = Host.new(params[:host])
     @host.set_hostgroup_defaults
-
-    Taxonomy.as_taxonomy organization, location do
-      render :partial => "form"
-    end
+    render :partial => "form"
 
   end
 
   def process_taxonomy
-    location = organization = nil
-    organization = Organization.find(params[:host][:organization_id]) unless params[:host][:organization_id].empty?
-    location = Location.find(params[:host][:location_id]) unless params[:host][:location_id].empty?
-    return head(:not_found) unless location || organization
+    return head(:not_found) unless @location || @organization
 
     @host = Host.new(params[:host])
-    Taxonomy.as_taxonomy organization, location do
-      render :partial => "form"
-    end
+    render :partial => 'form'
   end
 
 
@@ -495,8 +485,18 @@ class HostsController < ApplicationController
   end
 
   def taxonomy_scope
-    @organization = params[:organization_id].blank? ? nil : Organization.find(Array.wrap(params[:organization_id]))
-    @location     = params[:location_id].blank? ? nil : Location.find(Array.wrap(params[:location_id]))
+    if params[:host]
+      @organization = Organization.find_by_id(params[:host][:organization_id])
+      @location = Location.find_by_id(params[:host][:location_id])
+    end
+    if SETTINGS[:organizations_enabled]
+      @organization ||= Organization.current
+      @organization ||= Organization.my_organizations.first
+    end
+    if SETTINGS[:locations_enabled]
+      @location ||= Location.current
+      @location ||= Location.my_locations.first
+    end
   end
 
   def find_by_name
@@ -510,6 +510,7 @@ class HostsController < ApplicationController
   def load_vars_for_ajax
     return unless @host
 
+    taxonomy_scope
     @environment     = @host.environment
     @architecture    = @host.architecture
     @domain          = @host.domain

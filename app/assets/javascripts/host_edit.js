@@ -464,8 +464,6 @@ function onHostEditLoad(){
   });
   $('#image_selection').appendTo($('#image_provisioning'));
   $('#params-tab').on('shown', function(){mark_params_override()});
-  $('#host_location_id').change();
-  $('#host_organization_id').change();
 }
 
 $(document).on('change', '#host_provision_method_build', function () {
