@@ -1,30 +1,48 @@
-<% title _("Changed environments and puppet classes") -%>
+<% title _("Changed environments") -%>
 <%= form_tag eval("obsolete_and_new_#{controller_name}_path") do -%>
-  <fieldset>
-    <legend><%= _("Accept these environment changes found in puppet?") %> </legend>
-      <table class="table table-striped">
-        <th><%= _("Environment") %></th><th><%= _("Operation") %></th><th><%= _("Puppet Modules") %></th>
-        <% for kind in ["new", "obsolete", "updated"] -%>
-          <% unless (envs = @changed[kind]).empty? -%>
-            <% for env in envs.keys.sort -%>
-              <tr>
-                <td>
-                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, true %>
-                  <%= env -%>
-                </td>
-                <td>
-                  <%= {"new" => _("Add:"), "obsolete" => _("Remove:"), "updated" => _("Update:")}[kind] -%>
-                </td>
-                <td>
-                  <% pcs = @changed[kind][env] -%>
-                  <%= class_update_text pcs, env %>
-                </td>
-              </tr>
-            <% end -%>
-          <% end -%>
+  <h4><%= _("Select the changes you want to realize in Foreman") %></h4>
+  <h6>
+  <%= _("Toggle") %>:
+  <%= link_to_function(icon_text("check", _("New")),
+                       "toggleCheckboxesBySelector('.env_select_boxes_new')",
+                       :title => _("Check/Uncheck new")) %> |
+  <%= link_to_function(icon_text("check", _("Updated")),
+                       "toggleCheckboxesBySelector('.env_select_boxes_updated')",
+                       :title => _("Check/Uncheck updated")) %> |
+  <%= link_to_function(icon_text("check", _("Obsolete")),
+                       "toggleCheckboxesBySelector('.env_select_boxes_obsolete')",
+                       :title => _("Check/Uncheck obsolete")) %>
+  </h6>
+  <table class="table table-striped table-bordered">
+    <tr>
+      <th class="ca">
+        <%= link_to_function(icon_text("check"),
+                             "toggleCheckboxesBySelector('.env_select_boxes')",
+                             :title => _("Check/Uncheck all")) %>
+      </th>
+      <th><%= _("Environment") %></th><th><%= _("Operation") %></th><th><%= _("Puppet Modules") %></th>
+      <% for kind in ["new", "obsolete", "updated"] -%>
+        <% unless (envs = @changed[kind]).empty? -%>
+          <% for env in envs.keys.sort -%>
+          <tr>
+            <td>
+              <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, false, :class => "env_select_boxes env_select_boxes_#{kind} env_select_boxes_env_#{env}" %>
+            </td>
+            <td>
+              <%= link_to_function("#{env}", "toggleCheckboxesBySelector('.env_select_boxes_env_#{env}')", :title => _("Check/Uncheck all %s changes") % env) %>
+            </td>
+            <td>
+              <%= {"new" => _("Add:"), "obsolete" => _("Remove:"), "updated" => _("Update:")}[kind] -%>
+            </td>
+            <td>
+              <% pcs = @changed[kind][env] -%>
+              <%= class_update_text pcs, env %>
+            </td>
+          </tr>
         <% end -%>
-    </table>
-  </fieldset>
+      <% end -%>
+    <% end -%>
+  </table>
   <div>
     <%= link_to _("Cancel"), eval("#{controller_name}_path"), :class => "btn" %>
     <%= submit_tag _("Update"), :class => "btn btn-primary" %>

@@ -31,7 +31,7 @@ module PuppetclassesAndEnvironmentsHelper
       end
     end
     hash.keys.sort.map do |key|
-      link_to_function key, { :rel => "popover", "data-content" => hash[key].sort.join('<br>').html_safe, "data-original-title" => key }
+      link_to key,{}, {:remote => true, :rel => "popover", :data => {"content" => hash[key].sort.join('<br>').html_safe, "original-title" => key}}
     end.to_sentence.html_safe
 
   end
