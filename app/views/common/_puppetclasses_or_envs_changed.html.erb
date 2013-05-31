@@ -1,15 +1,39 @@
 <% title _("Changed environments and puppet classes") -%>
 <%= form_tag eval("obsolete_and_new_#{controller_name}_path") do -%>
   <fieldset>
-    <legend><%= _("Accept these environment changes found in puppet?") %> </legend>
-      <table class="table table-striped">
-        <th><%= _("Environment") %></th><th><%= _("Operation") %></th><th><%= _("Puppet Modules") %></th>
+    <legend><%= _("Select the changes you want to realize in Foreman") %> </legend>
+    <table class="table table-striped">
+      <tr>
+        <th class="ca">
+          <%= _("Toggle") %>
+        </th>
+        <th class="ca" colspan="3">
+          <%= link_to_function("#{image_tag('toggle_check.png')} #{_("All")}".html_safe,
+                               "toggleCheckboxesBySelector('.env_select_boxes')", 
+                               :title => _("Check/Uncheck all")) %> |
+          <%= link_to_function("#{image_tag('toggle_check.png')} #{_("New")}".html_safe,
+                               "toggleCheckboxesBySelector('.env_select_boxes_new')", 
+                               :title => _("Check/Uncheck new")) %> |
+          <%= link_to_function("#{image_tag('toggle_check.png')} #{_("Updated")}".html_safe,
+                                "toggleCheckboxesBySelector('.env_select_boxes_updated')", 
+                               :title => _("Check/Uncheck updated")) %> |
+          <%= link_to_function("#{image_tag('toggle_check.png')} #{_("Obsolete")}".html_safe,
+                               "toggleCheckboxesBySelector('.env_select_boxes_obsolete')", 
+                               :title => _("Check/Uncheck obsolete")) %>
+        </th>
+      </tr>
+      <tr>
+      <th class="ca">
+      </th>
+      <th><%= _("Environment") %></th><th><%= _("Operation") %></th><th><%= _("Puppet Modules") %></th>
         <% for kind in ["new", "obsolete", "updated"] -%>
           <% unless (envs = @changed[kind]).empty? -%>
             <% for env in envs.keys.sort -%>
               <tr>
                 <td>
-                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, true %>
+                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, false, :class => "env_select_boxes env_select_boxes_#{kind}" %>
+                </td>
+                <td>
                   <%= env -%>
                 </td>
                 <td>
