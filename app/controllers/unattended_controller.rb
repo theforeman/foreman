@@ -229,6 +229,11 @@ class UnattendedController < ApplicationController
     @mediapath = os.mediumpath @host
   end
 
+  def memdisk_attributes
+    os         = @host.operatingsystem
+    @mediapath = os.mediumpath @host
+  end
+
   def waik_attributes
   end
 

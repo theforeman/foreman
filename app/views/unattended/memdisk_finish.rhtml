@@ -1,0 +1,7 @@
+cat > /usr/local/etc/puppet/puppet.conf << EOF
+<%= snippets "puppet.conf" %>
+EOF
+/usr/local/bin/augtool -s set /files/etc/rc.conf/puppet_enable '\"YES\"'
+/usr/bin/touch /usr/local/etc/puppet/namespaceauth.conf
+/usr/local/bin/puppet agent --config /urs/local/etc/puppet/puppet.conf --onetime --tags no_such_tag --server <%= @host.puppetmaster %>
+/usr/local/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
