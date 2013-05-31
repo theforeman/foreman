@@ -122,7 +122,7 @@ module LayoutHelper
     content_tag :div, :class => "control-group #{fluid ? "row-fluid" : ""} #{error.empty? ? "" : 'error'}" do
       label   = options.delete(:label)
 
-      label ||= ((clazz = f.object.class.base_class).respond_to?(:gettext_translation_for_attribute_name) &&
+      label ||= ((clazz = gettext_key(f.object.class)).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f
 
       label_tag(attr, label, :class=>"control-label").html_safe +
@@ -130,6 +130,10 @@ module LayoutHelper
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe
     end
+  end
+
+  def gettext_key(aclass)
+    aclass.respond_to?(:base_class) ? aclass.base_class : aclass
   end
 
   def help_inline(inline, error)
