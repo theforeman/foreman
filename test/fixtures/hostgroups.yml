@@ -9,10 +9,12 @@ common:
   medium: one
   puppet_proxy: puppetmaster
   domain: mydomain
+  label: Common
 
 unusual:
   name: Unusual
   puppet_proxy: puppetmaster
+  label: Unusual
 
 db:
   name: db
@@ -22,3 +24,4 @@ db:
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
+  label: db

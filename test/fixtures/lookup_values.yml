@@ -1,0 +1,26 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  match: fqdn=my5name.mydomain.net
+  lookup_key: one
+  value: 8080
+
+two:
+  match: hostgroup=db
+  lookup_key: one
+  value: 4567
+
+three:
+  match: fqdn=nomatch.com
+  lookup_key: one
+  value: 3000
+
+hosttwo:
+  match: fqdn=temp.yourdomain.net
+  lookup_key: complex
+  value: 8080
+
+hostgroupcommon:
+  match: hostgroup=Common
+  lookup_key: complex
+  value: 8080
