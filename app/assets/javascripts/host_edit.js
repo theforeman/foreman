@@ -15,11 +15,19 @@ function computeResourceSelected(item){
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
     var data = $('form').serialize().replace('method=put', 'method=post');
+    $('#compute_resource').html($("<p><img src='/assets/spinner.gif' /> " + _('Loading virtual machine details...') + "</p>"));
+    $('#compute_resource_tab a').removeClass('tab-error');
+    $(item).indicator_show();
     var url = $(item).attr('data-url');
     $.ajax({
       type:'post',
       url: url,
       data: data,
+      complete: function(){$(item).indicator_hide()},
+      error: function(jqXHR, status, error){
+        $('#compute_resource').html(_("Error loading virtual machine details: ") + error);
+        $('#compute_resource_tab a').addClass('tab-error');
+      },
       success: function(result){
         $('#compute_resource').html(result);
         update_capabilities($('#capabilities').val());
