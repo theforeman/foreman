@@ -1,6 +1,6 @@
 // Array contains list of host ids
-$.foremanSelectedHosts = readFromCookie();
 $.cookieName = "_ForemanSelected" + window.location.pathname.replace(/\//,"");
+$.foremanSelectedHosts = readFromCookie();
 
 // triggered by a host checkbox change
 function hostChecked(box) {
