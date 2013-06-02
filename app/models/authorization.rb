@@ -25,9 +25,9 @@ module Authorization
     return true if operation == "edit" and new_record?
 
     klass   = self.class.name.downcase
-    klass.gsub!(/authsource.*/, "authenticator")
-    klass.gsub!(/commonparameter.*/, "global_variable")
-    klasses = klass.pluralize
+    klasses   = self.class.name.tableize
+    klasses.gsub!(/auth_source.*/, "authenticators")
+    klasses.gsub!(/common_parameters.*/, "global_variables")
     return true if User.current and User.current.allowed_to?("#{operation}_#{klasses}".to_sym)
 
     errors.add :base, _("You do not have permission to %{operation} this %{klass}") % { :operation => operation, :klass => klass }
