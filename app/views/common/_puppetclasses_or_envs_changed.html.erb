@@ -8,9 +8,6 @@
           <%= _("Toggle") %>
         </th>
         <th class="ca" colspan="3">
-          <%= link_to_function("#{image_tag('toggle_check.png')} #{_("All")}".html_safe,
-                               "toggleCheckboxesBySelector('.env_select_boxes')", 
-                               :title => _("Check/Uncheck all")) %> |
           <%= link_to_function("#{image_tag('toggle_check.png')} #{_("New")}".html_safe,
                                "toggleCheckboxesBySelector('.env_select_boxes_new')", 
                                :title => _("Check/Uncheck new")) %> |
@@ -24,6 +21,9 @@
       </tr>
       <tr>
       <th class="ca">
+          <%= link_to_function("#{image_tag('toggle_check.png')} #{_("All")}".html_safe,
+                               "toggleCheckboxesBySelector('.env_select_boxes')", 
+                               :title => _("Check/Uncheck all")) %>
       </th>
       <th><%= _("Environment") %></th><th><%= _("Operation") %></th><th><%= _("Puppet Modules") %></th>
         <% for kind in ["new", "obsolete", "updated"] -%>
