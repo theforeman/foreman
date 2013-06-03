@@ -20,7 +20,7 @@ class ConfigTemplate < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(config_templates.name)")
+      order("config_templates.name")
     end
   }
 
