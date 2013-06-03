@@ -10,7 +10,7 @@
           <th>
             <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
             <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                 :title => _("Check all/Uncheck all"))
+                                 :title => _("Check/Uncheck all"))
             %>
           </th>
         <% end %>
@@ -31,7 +31,7 @@
           <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
             <td>
               <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                   :title => _("Check all/Uncheck all"))
+                                   :title => _("Check/Uncheck all"))
               %>
               <%= permission.name.to_s.humanize %>
             </td>
