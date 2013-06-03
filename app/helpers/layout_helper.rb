@@ -158,6 +158,8 @@ module LayoutHelper
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
+    options[:previous_label] ||= _('&#8592; Previous')
+    options[:next_label] ||= _('Next &#8594;')
     super collection, options
   end
 
