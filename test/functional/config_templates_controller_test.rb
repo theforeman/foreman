@@ -14,11 +14,11 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   def test_show_json
-    get :show, {:id => ConfigTemplate.first.to_param, :format => "json"}, set_session_user
+    get :show, {:id => config_templates(:pxekickstart).to_param, :format => "json"}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
     assert !template.empty?
     assert_response :success
-    assert_equal template["config_template"]["name"], ConfigTemplate.first.name
+    assert_equal template["config_template"]["name"], config_templates(:pxekickstart).name
   end
 
   def test_new
@@ -48,39 +48,39 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => ConfigTemplate.first.to_param}, set_session_user
+    get :edit, {:id => config_templates(:pxekickstart).to_param}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     ConfigTemplate.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => ConfigTemplate.first.to_param}, set_session_user
+    put :update, {:id => config_templates(:pxekickstart).to_param}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => ConfigTemplate.first.to_param}, set_session_user
+    put :update, {:id => config_templates(:pxekickstart).to_param}, set_session_user
     assert_redirected_to config_templates_url
   end
 
   def test_update_valid_json
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, {:format => "json", :id => ConfigTemplate.first.to_param,
+    put :update, {:format => "json", :id => config_templates(:pxekickstart).to_param,
       :config_template => {:template => "blah"}}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
   end
 
   def test_destroy_should_fail_with_assoicated_hosts
-    config_template = ConfigTemplate.first
+    config_template = config_templates(:pxekickstart)
     delete :destroy, {:id => config_template.to_param}, set_session_user
     assert_redirected_to config_templates_url
     assert ConfigTemplate.exists?(config_template.id)
   end
 
   def test_destroy
-    config_template = ConfigTemplate.first
+    config_template = config_templates(:pxekickstart)
     config_template.os_default_templates.clear
     delete :destroy, {:id => config_template.to_param}, set_session_user
     assert_redirected_to config_templates_url
@@ -88,7 +88,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_json
-    config_template = ConfigTemplate.first
+    config_template = config_templates(:pxekickstart)
     config_template.os_default_templates.clear
     delete :destroy, {:format => "json", :id => config_template.to_param}, set_session_user
     template = ActiveSupport::JSON.decode(@response.body)
@@ -109,19 +109,19 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   def test_audit_comment
     ConfigTemplate.auditing_enabled = true
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => ConfigTemplate.first.to_param, :format => :json,
+    put :update, {:id => config_templates(:pxekickstart).to_param, :format => :json,
                   :config_template => {:audit_comment => "aha", :template => "tmp" }}, set_session_user
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert !template.empty?
-    assert_equal "aha", ConfigTemplate.first.audits.last.comment
+    assert_equal "aha", config_templates(:pxekickstart).audits.last.comment
   end
 
   def test_history_in_edit
     setup_users
     ConfigTemplate.auditing_enabled = true
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    template = ConfigTemplate.first
+    template = config_templates(:pxekickstart)
     template.template = template.template.upcase
     assert template.save
     assert_equal template.audits.count, 1

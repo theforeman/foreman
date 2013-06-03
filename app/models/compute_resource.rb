@@ -26,7 +26,7 @@ class ComputeResource < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(compute_resources.name)")
+      order("compute_resources.name")
     end
   }
 
