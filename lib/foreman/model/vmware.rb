@@ -61,12 +61,17 @@ module Foreman::Model
 
     def test_connection
       super
-      errors[:server] and errors[:user].empty? and errors[:password] and update_public_key and datacenters
+      if errors[:server].empty? and errors[:user].empty? and errors[:password].empty?
+        update_public_key
+        datacenters
+      end
     rescue => e
       errors[:base] << e.message
     end
 
     def new_vm attr={ }
+      test_connection
+      return unless errors.empty?
       opts = vm_instance_defaults.merge(attr.to_hash).symbolize_keys
 
       # convert rails nested_attributes into a plain hash

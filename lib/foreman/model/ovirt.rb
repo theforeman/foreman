@@ -109,7 +109,7 @@ module Foreman::Model
     end
 
     def new_vm(attr={})
-      vm = client.servers.new vm_instance_defaults.merge(attr)
+      vm = super
       interfaces = nested_attributes_for :interfaces, attr[:interfaces_attributes]
       interfaces.map{ |i| vm.interfaces << new_interface(i)}
       volumes = nested_attributes_for :volumes, attr[:volumes_attributes]
