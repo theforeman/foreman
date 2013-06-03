@@ -20,6 +20,13 @@ class BookmarkTest < ActiveSupport::TestCase
     end
   end
 
+  test "validation fails when invalid controller name stored" do
+    b = Bookmark.create :name => "controller_test", :controller => "hosts", :query => "foo=bar", :public => true
+    assert b.valid?
+    b.controller = "foo bar"
+    assert_not b.valid?
+  end
+
   private
 
   def enable_login &block

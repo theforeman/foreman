@@ -5,6 +5,9 @@ class Bookmark < ActiveRecord::Base
   validates_uniqueness_of :name, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates_presence_of :name, :controller, :query
   validates_format_of :controller, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
+  validates :controller, :inclusion => {
+                         :in => ["dashboard"] + ActiveRecord::Base.connection.tables.map(&:to_s),
+                         :message => _("%{value} is not a valid controller") }
   default_scope lambda { order(:name) }
   before_validation :set_default_user
 

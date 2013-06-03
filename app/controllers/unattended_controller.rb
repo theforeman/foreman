@@ -181,7 +181,7 @@ class UnattendedController < ApplicationController
 
   def load_template_vars
     # load the os family default variables
-    eval "#{@host.os.pxe_type}_attributes"
+    send "#{@host.os.pxe_type}_attributes"
   end
 
   def jumpstart_attributes

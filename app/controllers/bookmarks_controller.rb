@@ -28,7 +28,7 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       if @bookmark.save
-        format.html { redirect_to(eval(@bookmark.controller+"_path"), :notice => _('Bookmark was successfully created.')) }
+        format.html { redirect_to send("#{@bookmark.controller}_path"), :notice => _('Bookmark was successfully created.') }
       else
         format.html { render :action => "new" }
       end

@@ -41,8 +41,8 @@ module Foreman::Controller::HostDetails
   def assign_parameter name, root = ""
     taxonomy_scope
     Taxonomy.as_taxonomy @organization, @location do
-      if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.classify}.find(params['#{name}_id'])")
-        item = eval("@#{controller_name.singularize} || #{controller_name.classify}.new(params[:#{controller_name.singularize}])")
+      if params["#{name}_id"].to_i > 0 and instance_variable_set("@#{name}",name.classify.constantize.find(params["#{name}_id"]))
+        item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(params[controller_name.singularize])
         render :partial => root + name, :locals => { :item => item }
       else
         head(:not_found)
@@ -58,7 +58,7 @@ module Foreman::Controller::HostDetails
   # @host = Host.new params[:host]
   def item_object
     name = item_name
-    eval("@#{name} = #{name.classify}.new params[:#{name}]")
+    instance_variable_set("@#{name}", name.classify.constantize.new(params[name.to_sym]))
   end
 
   def taxonomy_scope

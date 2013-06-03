@@ -1,4 +1,4 @@
-<%= form_tag eval("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search row-fluid" do %>
+<%= form_tag send("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search row-fluid" do %>
     <div class="btn-toolbar btn-toolbar-condensed">
     <div class="btn-group span12">
       <div class="span9">
@@ -12,7 +12,7 @@
       <ul class="dropdown-menu pull-right">
         <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>
         <% bookmarks.each do |bookmark| -%>
-            <li><%= link_to_if_authorized bookmark.name, eval("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
+            <li><%= link_to_if_authorized bookmark.name, send("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
         <% end -%>
         <li class="divider"></li>
         <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",

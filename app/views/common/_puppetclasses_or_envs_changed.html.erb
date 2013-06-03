@@ -1,5 +1,5 @@
 <% title _("Changed environments") -%>
-<%= form_tag eval("obsolete_and_new_#{controller_name}_path") do -%>
+<%= form_tag send("obsolete_and_new_#{controller_name}_path") do -%>
   <h4><%= _("Select the changes you want to realize in Foreman") %></h4>
   <h6>
   <%= _("Toggle") %>:
@@ -44,7 +44,7 @@
     <% end -%>
   </table>
   <div>
-    <%= link_to _("Cancel"), eval("#{controller_name}_path"), :class => "btn" %>
+    <%= link_to _("Cancel"), send("#{controller_name}_path"), :class => "btn" %>
     <%= submit_tag _("Update"), :class => "btn btn-primary" %>
   </div>
 <% end -%>
