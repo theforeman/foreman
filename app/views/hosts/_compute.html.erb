@@ -9,7 +9,7 @@
         <p><%= _("'%{host}' could be deleted or '%{resource}' is not responding.") % {:host => @host.name, :resource => compute_resource} %></p>
       <% else %>
         <h4><%= _("Failed connecting to %s") % compute_resource %></h4>
-        <p><%= _("Errors: ") + compute_resource.errors.full_messages.to_sentence %></p>
+        <p><%= _("Errors: %s") % compute_resource.errors.full_messages.to_sentence %></p>
       <% end %>
     </div>
   <% end%>
