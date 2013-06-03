@@ -78,7 +78,7 @@ module HomeHelper
   end
 
   def menu(tab, myBookmarks ,path = nil)
-    path ||= eval("hash_for_#{tab}_path")
+    path ||= send("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
     b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
     out = content_tag :li, :id => "menu_tab_#{tab}" do
@@ -99,7 +99,7 @@ module HomeHelper
   def allowed_choices choices, action = "index"
     choices.map do |opt|
       name, kontroller = opt
-      url = eval("#{kontroller}_url")
+      url = send("#{kontroller}_url")
       authorized_for(kontroller, action) ? [name, url] : nil
     end.compact.sort
   end

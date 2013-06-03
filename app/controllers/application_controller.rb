@@ -141,7 +141,7 @@ class ApplicationController < ActionController::Base
     obj = controller_name.singularize
     # determine if we are searching for a numerical id or plain name
     cond = "find_by_" + ((id =~ /^\d+$/ && (id=id.to_i)) ? "id" : "name")
-    not_found and return unless eval("@#{obj} = #{obj.camelize}.#{cond}(id)")
+    not_found and return unless instance_variable_set("@#{obj}", obj.camelize.constantize.send(cond, id))
   end
 
   def notice notice
@@ -232,10 +232,10 @@ class ApplicationController < ActionController::Base
   end
 
   def process_success hash = {}
-    hash[:object]                 ||= eval("@#{controller_name.singularize}")
+    hash[:object]                 ||= instance_variable_get("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
     hash[:success_msg]            ||= "Successfully #{action_name.pluralize.sub(/es$/,"ed").sub(/ys$/, "yed")} #{hash[:object_name]}."
-    hash[:success_redirect]       ||= eval("#{controller_name}_url")
+    hash[:success_redirect]       ||= send("#{controller_name}_url")
     hash[:json_code]                = :created if action_name == "create"
 
     return render :json => {:redirect => hash[:success_redirect]} if hash[:redirect_xhr]
@@ -250,13 +250,13 @@ class ApplicationController < ActionController::Base
   end
 
   def process_error hash = {}
-    hash[:object] ||= eval("@#{controller_name.singularize}")
+    hash[:object] ||= instance_variable_get("@#{controller_name.singularize}")
 
     case action_name
     when "create" then hash[:render] ||= "new"
     when "update" then hash[:render] ||= "edit"
     else
-      hash[:redirect] ||= eval("#{controller_name}_url")
+      hash[:redirect] ||= send("#{controller_name}_url")
     end
 
     hash[:json_code] ||= :unprocessable_entity

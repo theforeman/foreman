@@ -4,7 +4,7 @@ module CommonParametersHelper
     return true if authorized_for(controller, action)
 
     operation = "#{action}_my_#{controller.singularize}".to_sym
-    User.current.allowed_to?(operation) and User.current.send(controller).include?(eval("@#{controller.singularize}"))
+    User.current.allowed_to?(operation) and User.current.send(controller).include?(instance_variable_get("@#{controller.singularize}"))
   end
 
   def parameters_title

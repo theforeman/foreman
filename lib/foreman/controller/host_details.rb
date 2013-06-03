@@ -43,8 +43,8 @@ module Foreman::Controller::HostDetails
     @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
     @location = params[:location_id] ? Location.find(params[:location_id]) : nil
     Taxonomy.as_taxonomy @organization, @location do
-      if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
-        item = eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new(params[:#{controller_name.singularize}])")
+      if params["#{name}_id"].to_i > 0 and instance_variable_set("@#{name}",name.classify.constantize.find(params["#{name}_id"]))
+        item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(params[controller_name.singularize])
         render :partial => root + name, :locals => { :item => item }
       else
         head(:not_found)
@@ -60,7 +60,7 @@ module Foreman::Controller::HostDetails
   # @host = Host.new params[:host]
   def item_object
     name = item_name
-    eval("@#{name} = #{name.capitalize}.new params[:#{name}]")
+    instance_variable_set("@#{name}", name.classify.constantize.new(params[name.to_sym]))
   end
 
 end

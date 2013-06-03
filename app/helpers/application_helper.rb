@@ -167,7 +167,7 @@ module ApplicationHelper
   end
 
   def auto_complete_search(method, val,tag_options = {}, completion_options = {})
-    path = eval("#{controller_name}_path")
+    path = send("#{controller_name}_path")
     options = tag_options.merge(:class => "auto_complete_input")
     text_field_tag(method, val, options) + auto_complete_clear_value_button(method) +
       auto_complete_field_jquery(method, "#{path}/auto_complete_#{method}", completion_options)
@@ -178,7 +178,7 @@ module ApplicationHelper
   end
 
   def method_path method
-    eval("#{method}_#{controller_name}_path")
+    send("#{method}_#{controller_name}_path")
   end
 
   def edit_textfield(object, property, options={})
