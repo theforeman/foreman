@@ -6,7 +6,7 @@ module Hostext
         belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
 
         scoped_search :on => :name,          :complete_value => true, :default_order => true
-        scoped_search :on => :last_report,   :complete_value => true
+        scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
         scoped_search :on => :ip,            :complete_value => true
         scoped_search :on => :comment,       :complete_value => true
         scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
@@ -41,7 +41,7 @@ module Hostext
           scoped_search :on => :mac,                              :complete_value => true
           scoped_search :on => :uuid,                             :complete_value => true
           scoped_search :on => :build,                            :complete_value => {:true => true, :false => false}
-          scoped_search :on => :installed_at,                     :complete_value => true
+          scoped_search :on => :installed_at,                     :complete_value => true, :only_explicit => true
           scoped_search :in => :operatingsystem, :on => :name,    :complete_value => true, :rename => :os
           scoped_search :in => :operatingsystem, :on => :major,   :complete_value => true, :rename => :os_major
           scoped_search :in => :operatingsystem, :on => :minor,   :complete_value => true, :rename => :os_minor

@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
   scoped_search :on => :lastname, :complete_value => :true
   scoped_search :on => :mail, :complete_value => :true
   scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :last_login_on, :complete_value => :true
+  scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
   default_scope lambda {
