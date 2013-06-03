@@ -228,7 +228,7 @@ function update_form(element) {
     data: data,
     complete: function(){  $(element).indicator_hide();},
     success: function(response) {
-      $('form').html(response);
+      $('form').replaceWith(response);
       $("[id$='subnet_id']").first().change();
       // to handle case if def process_taxonomy changed compute_resource_id to nil
       if( !$('#host_compute_resource_id').val() ) {
