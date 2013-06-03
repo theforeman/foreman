@@ -30,7 +30,7 @@
   <% end %>
 </table>
 
-  <%= page_entries_info hosts, :more => " - <strong><span class='select_count'>0</span></strong> Selected" %>
+  <%= page_entries_info hosts, :more => _(" - <b class='select_count'>%s</b> selected") % 0 %>
   <%= will_paginate hosts %>
   </div>
 </div>
