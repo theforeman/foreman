@@ -25,7 +25,7 @@ class Medium < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(media.name)")
+      order("media.name")
     end
   }
   scoped_search :on => :name, :complete_value => :true, :default_order => true

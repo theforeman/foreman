@@ -10,11 +10,11 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should get template detail" do
-    get :show, { :id => ConfigTemplate.first.to_param }
+    get :show, { :id => config_templates(:pxekickstart).to_param }
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert !template.empty?
-    assert_equal template["config_template"]["name"], ConfigTemplate.first.name
+    assert_equal template["config_template"]["name"], config_templates(:pxekickstart).name
   end
 
   test "should not create invalid" do
@@ -32,28 +32,28 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid" do
-    put :update, { :id              => ConfigTemplate.first.to_param,
+    put :update, { :id              => config_templates(:pxekickstart).to_param,
                    :config_template => { :name => "" } }
     assert_response 422
   end
 
   test "should update valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, { :id              => ConfigTemplate.first.to_param,
+    put :update, { :id              => config_templates(:pxekickstart).to_param,
                    :config_template => { :template => "blah" } }
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
   end
 
   test "should not destroy template with associated hosts" do
-    config_template = ConfigTemplate.first
+    config_template = config_templates(:pxekickstart)
     delete :destroy, { :id => config_template.to_param }
     assert_response 422
     assert ConfigTemplate.exists?(config_template.id)
   end
 
   test "should destroy" do
-    config_template = ConfigTemplate.first
+    config_template = config_templates(:pxekickstart)
     config_template.os_default_templates.clear
     delete :destroy, { :id => config_template.to_param }
     template = ActiveSupport::JSON.decode(@response.body)
@@ -71,9 +71,9 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   test "should add audit comment" do
     ConfigTemplate.auditing_enabled = true
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, { :id              => ConfigTemplate.first.to_param,
+    put :update, { :id              => config_templates(:pxekickstart).to_param,
                    :config_template => { :audit_comment => "aha", :template => "tmp" } }
     assert_response :success
-    assert_equal "aha", ConfigTemplate.first.audits.last.comment
+    assert_equal "aha", config_templates(:pxekickstart).audits.last.comment
   end
 end
