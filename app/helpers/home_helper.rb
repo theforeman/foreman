@@ -78,7 +78,7 @@ module HomeHelper
   end
 
   def menu(tab, label, path = nil)
-    path ||= eval("hash_for_#{tab}_path")
+    path ||= send("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
     content_tag(:li, :class => "menu_tab_#{tab} ") do
       link_to_if_authorized(label, path)
@@ -102,7 +102,7 @@ module HomeHelper
   def allowed_choices choices, action = "index"
     choices.map do |opt|
       name, kontroller = opt
-      url = eval("#{kontroller}_url")
+      url = send("#{kontroller}_url")
       authorized_for(kontroller, action) ? [name, url] : nil
     end.compact.sort
   end

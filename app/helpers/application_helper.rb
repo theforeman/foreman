@@ -155,7 +155,7 @@ module ApplicationHelper
   end
 
   def auto_complete_search(name, val, options = {})
-    path = eval("#{controller_name}_path")
+    path = send("#{controller_name}_path")
     options.merge!(:class => "autocomplete-input", :'data-url' => "#{path}/auto_complete_#{name}" )
     text_field_tag(name, val, options)
   end
@@ -165,7 +165,7 @@ module ApplicationHelper
   end
 
   def method_path method
-    eval("#{method}_#{controller_name}_path")
+    send("#{method}_#{controller_name}_path")
   end
 
   def edit_textfield(object, property, options={})
