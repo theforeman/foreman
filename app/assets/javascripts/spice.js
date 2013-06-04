@@ -43,9 +43,9 @@ function connectXPI() {
   disconnect();
   var pluginobj = document.embeds[0];
   pluginobj.hostIP = attrs.data('address');
-  pluginobj.SecurePort = attrs.data('secure_port');
+  pluginobj.SecurePort = attrs.data('secure-port');
   pluginobj.Password = attrs.data('password');
-  pluginobj.TrustStore = decodeURIComponent(attrs.data('ca_cert'));
+  pluginobj.TrustStore = decodeURIComponent(attrs.data('ca-cert'));
   pluginobj.SSLChannels = String("all");
   pluginobj.fullScreen = false;
   pluginobj.Title = attrs.data('title');
