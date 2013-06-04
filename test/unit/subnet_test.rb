@@ -179,4 +179,55 @@ class SubnetTest < ActiveSupport::TestCase
     assert s.save
   end
 
+  test "should strip whitespace before save" do
+    s = subnets(:one)
+    s.network = " 10.0.0.22   "
+    s.mask = " 255.255.255.0   "
+    s.gateway = " 10.0.0.138   "
+    s.dns_primary = " 10.0.0.50   "
+    s.dns_secondary = " 10.0.0.60   "
+    assert s.save
+    assert_equal "10.0.0.22", s.network
+    assert_equal "255.255.255.0", s.mask
+    assert_equal "10.0.0.138", s.gateway
+    assert_equal "10.0.0.50", s.dns_primary
+    assert_equal "10.0.0.60", s.dns_secondary
+  end
+
+  test "should fix typo with extra dots to single dot" do
+    s = subnets(:one)
+    s.network = "10..0.0..22"
+    assert s.save
+    assert_equal "10.0.0.22", s.network
+  end
+
+  test "should fix typo with extra 5 after 255" do
+    s = subnets(:one)
+    s.mask = "2555.255.25555.0"
+    assert s.save
+    assert_equal "255.255.255.0", s.mask
+  end
+
+  test "should not allow an address great than 15 characters" do
+    s = subnets(:one)
+    s.mask = "255.255.255.1111"
+    refute s.save
+    assert_match /must be at most 15 characters/, s.errors.full_messages.join("\n")
+  end
+
+  test "should invalidate addresses are indeed invalid" do
+    s = subnets(:one)
+    # trailing dot
+    s.network = "100.101.102.103."
+    refute s.valid?
+    # more than 3 characters
+    s.network = "1234.101.102.103"
+    # missing dot
+    s.network = "100101.102.103."
+    refute s.valid?
+    # missing number
+    s.network = "100.101.102"
+    refute s.valid?
+  end
+
 end
