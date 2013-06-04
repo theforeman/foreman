@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-21 14:26+0100\n"
+"POT-Creation-Date: 2013-06-04 18:08+0100\n"
 "PO-Revision-Date: 2013-05-09 09:31+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -99,7 +99,10 @@ msgstr ""
 msgid "%{vm} is now %{vm_state}"
 msgstr ""
 
-msgid "'%s' could be deleted."
+msgid "&#8592; Previous"
+msgstr ""
+
+msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr ""
 
 msgid "'%{host}' not found on '%{resource}'"
@@ -122,6 +125,9 @@ msgstr "Hostgruppen"
 #, fuzzy
 msgid "*Inherit from host group*"
 msgstr "Hostgruppen"
+
+msgid "<b class='select_count'>0</b> selected"
+msgstr ""
 
 msgid "<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
 msgstr ""
@@ -987,6 +993,14 @@ msgstr "Vornamen"
 msgid "Display the templates that will be used to provision this host"
 msgstr ""
 
+msgid "Displaying <b>%{count}</b> entry"
+msgid_plural "Displaying <b>all %{count}</b> entries"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
+msgstr ""
+
 msgid "Document root where puppetdoc files should be created"
 msgstr ""
 
@@ -1201,7 +1215,13 @@ msgstr ""
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr ""
 
+msgid "Error loading virtual machine information: %s"
+msgstr ""
+
 msgid "Errors only"
+msgstr ""
+
+msgid "Errors: %s"
 msgstr ""
 
 #. host's status: first character of "error"
@@ -1264,6 +1284,9 @@ msgstr ""
 
 #. initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
+msgstr ""
+
+msgid "Failed connecting to %s"
 msgstr ""
 
 msgid "Failed restarts"
@@ -1997,12 +2020,15 @@ msgstr ""
 msgid "Loading Images information"
 msgstr ""
 
-msgid "Loading Virtual Machines information ..."
-msgstr ""
-
 #, fuzzy
 msgid "Loading parameters..."
 msgstr "Eigentschaften editieren"
+
+msgid "Loading virtual machine information ..."
+msgstr ""
+
+msgid "Loading virtual machines information ..."
+msgstr ""
 
 #, fuzzy
 msgid "Location"
@@ -2277,6 +2303,9 @@ msgstr ""
 msgid "Network Based"
 msgstr ""
 
+msgid "Network Type"
+msgstr ""
+
 msgid "Network interfaces"
 msgstr ""
 
@@ -2409,6 +2438,9 @@ msgstr "Neuer Benutzer"
 msgid "New window"
 msgstr "Neue Lokation"
 
+msgid "Next &#8594;"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
 msgstr ""
@@ -2431,6 +2463,9 @@ msgstr ""
 msgid "No TFTP proxies defined, can't continue"
 msgstr ""
 
+msgid "No bridges"
+msgstr ""
+
 msgid "No changes"
 msgstr ""
 
@@ -2441,6 +2476,10 @@ msgstr "Rechnerresource"
 #, fuzzy
 msgid "No domains"
 msgstr "Alle Domains"
+
+#, fuzzy
+msgid "No entries found"
+msgstr "Vorlagen"
 
 #, fuzzy
 msgid "No environment selected!"
@@ -2471,6 +2510,9 @@ msgid "No hosts were found with that id or name"
 msgstr ""
 
 msgid "No interesting reports received in the last week"
+msgstr ""
+
+msgid "No networks"
 msgstr ""
 
 msgid "No new subnets found"
@@ -2875,6 +2917,9 @@ msgid "Permissions"
 msgstr ""
 
 msgid "Permissions report"
+msgstr ""
+
+msgid "Physical (Bridge)"
 msgstr ""
 
 msgid "Please Confirm"
@@ -3322,10 +3367,6 @@ msgstr "Selektierte Hosts sind nun %s zugewiesen"
 msgid "Select template"
 msgstr "Alle Templates"
 
-#, fuzzy
-msgid "Selected"
-msgstr "Selektiere Hosts"
-
 msgid "Selected hosts are now assigned to %s"
 msgstr "Selektierte Hosts sind nun %s zugewiesen"
 
@@ -3716,6 +3757,9 @@ msgstr ""
 msgid "The Foreman community uses on the irc.freenode.net servers. You can get general support in #theforeman, while development chat takes place in #theforeman-dev."
 msgstr ""
 
+msgid "The IP address that should be used for the console listen address when provisioning new virtual machines via Libvirt"
+msgstr ""
+
 msgid "The NFS path to the image directory."
 msgstr ""
 
@@ -3829,7 +3873,10 @@ msgstr[1] ""
 msgid "There was an error creating the PXE Default file: %s"
 msgstr ""
 
-msgid "There was an error listing VMs: %(status) %(statusText)"
+msgid "There was an error listing VMs: %(status)s %(statusText)s"
+msgstr ""
+
+msgid "There was an error listing VMs: %s"
 msgstr ""
 
 msgid "There was an error rendering the %s template: "
@@ -4215,6 +4262,9 @@ msgid "View Diff"
 msgstr ""
 
 msgid "View last report details"
+msgstr ""
+
+msgid "Virtual (NAT)"
 msgstr ""
 
 msgid "Virtual Machine"
@@ -4842,6 +4892,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "Root Password"
 #~ msgstr "Passwort"
+
+#, fuzzy
+#~ msgid "Selected"
+#~ msgstr "Selektiere Hosts"
 
 #, fuzzy
 #~ msgid "Template"
