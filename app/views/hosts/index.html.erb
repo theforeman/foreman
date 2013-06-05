@@ -1,4 +1,4 @@
 <% if authorized? -%>
-  <% title_actions multiple_actions_select, (link_to_if_authorized "New Host", hash_for_new_host_path) -%>
+  <% title_actions multiple_actions_select, (link_to_if_authorized _("New Host"), hash_for_new_host_path) -%>
 <% end -%>
-<%= render 'list', :hosts => @hosts, :header => @title || "Hosts"  %>
+<%= render 'list', :hosts => @hosts, :header => @title || _("Hosts")  %>

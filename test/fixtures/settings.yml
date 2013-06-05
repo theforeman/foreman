@@ -1,156 +1,181 @@
 attributes1:
   name: administrator
-  category: General
+  category: Setting::General
   default: root@some.host.fqdn
   description: The Default administrator email address
 attributes2:
   name: foreman_url
-  category: General
+  category: Setting::General
   default: http://foreman.some.host.fqdn
   description: The URL Foreman should point to in emails etc
 attributes3:
   name: root_pass
-  category: Provisioning
+  category: Setting::Provisioning
   default: xybxa6JUkz63w
   description: Default root password on provisioned hosts default is 123123
 attributes4:
   name: safemode_render
-  category: Provisioning
+  category: Setting::Provisioning
   default: "true"
   description: Enable safe mode config templates rendinging(recommended)
 attributes5:
   name: ssl_certificate
-  category: Provisioning
+  category: Setting::Provisioning
   default: /var/lib/puppet/ssl/certs/some.host.fqdn
   description: SSL Certificate path that foreman would use to communicate with its proxies
 attributes6:
   name: ssl_ca_file
-  category: Provisioning
+  category: Setting::Provisioning
   default: /var/lib/puppet/ssl/certs/ca.pem
   description: SSL CA file that foreman would use to communicate with its proxies
 attributes7:
   name: ssl_priv_key
-  category: Provisioning
+  category: Setting::Provisioning
   default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
   description: SSL Private Key file that foreman would use to communicate with its proxies
 attributes8:
   name: puppet_interval
   settings_type: integer
-  category: Puppet
+  category: Setting::Puppet
   default: 30
-  description: Puppet interval in minutes
+  description: Setting::Puppet interval in minutes
 attributes9:
   name: default_puppet_environment
-  category: Puppet
+  category: Setting::Puppet
   default: production
-  description: "The Puppet environment foreman would default to in case it can't auto detect it"
+  description: "The Setting::Puppet environment foreman would default to in case it can't auto detect it"
 attributes10:
   name: modulepath
-  category: Puppet
+  category: Setting::Puppet
   default: /etc/puppet/modules
-  description: "The Puppet default module path in case that Foreman can't auto detect it"
+  description: "The Setting::Puppet default module path in case that Foreman can't auto detect it"
 attributes11:
   name: document_root
-  category: Puppet
+  category: Setting::Puppet
   default: /home/olevy/git/foreman/public/puppet/rdoc
   description: Document root where puppetdoc files should be created
 attributes12:
   name: puppet_server
-  category: Puppet
+  category: Setting::Puppet
   default: puppet
-  description: Default Puppet Server hostname
+  description: Default Setting::Puppet Server hostname
 attributes13:
   name: failed_report_email_notification
-  category: Puppet
+  category: Setting::Puppet
   default: "false"
   description: Enable Email Alerts per each failed puppet report
 attributes14:
   name: Default_variables_Lookup_Path
-  category: Puppet
+  category: Setting::Puppet
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
 attributes15:
   name: manage_puppetca
-  category: Provisioning
-  default: true
+  category: Setting::Provisioning
+  default: "true"
   description: Should Foreman manage host certificates when provisioning hosts
 attributes16:
   name: entries_per_page
-  category: General
+  category: Setting::General
   default: 20
   description: The amount of records shown per page in foreman
 attributes17:
   name: update_environment_from_facts
-  category: Puppet
-  default: false
+  category: Setting::Puppet
+  default: "false"
   description: Foreman will update a hosts environment from its facts
 attributes18:
   name: idle_timeout
-  category: General
+  category: Setting::General
   default: 5
   description: idle timeout
 attributes19:
   name: enc_environment
-  category: Puppet
-  default: true
+  category: Setting::Puppet
+  default: "true"
   description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
 attributes20:
   name: use_uuid_for_certificates
-  category: Puppet
-  default: false
+  category: Setting::Puppet
+  default: "false"
   description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
 attributes21:
   name: query_local_nameservers
-  category: Provisioning
-  default: false
+  category: Setting::Provisioning
+  default: "false"
   description: "Should Foreman query the locally configured name server or the SOA/NS authorities"
 attributes22:
   name: remote_addr
-  category: Provisioning
+  category: Setting::Provisioning
   default: "127.0.0"
   description: "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
 attributes23:
   name: authorize_login_delegation
-  category: General
-  default: false
-  description: "Authorize login delegation with REMOTE_USER environment variable"
+  category: Setting::General
+  default: "false"
+  description: "Setting::Authorize login delegation with REMOTE_USER environment variable"
 attributes24:
   name: authorize_login_delegation_api
-  category: General
-  default: false
-  description: "Authorize login delegation with REMOTE_USER environment variable for API calls"
+  category: Setting::General
+  default: "false"
+  description: "Setting::Authorize login delegation with REMOTE_USER environment variable for API calls"
 attributes25:
   name: Parametrized_Classes_in_ENC
-  category: Puppet
-  default: false
-  description: "Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml output?"
+  category: Setting::Puppet
+  default: "false"
+  description: "Should Foreman use the new format (2.6.5+) to answer Setting::Puppet in its ENC yaml output?"
 attribute26:
   name: token_duration
-  category: Provisioning
+  category: Setting::Provisioning
   default: 0
   description: "Time in minutes installation tokens should be valid for, 0 to disable"
 attribute27:
   name: restrict_registered_puppetmasters
-  category: Auth
-  default: true
-  description: "Only known Smart Proxies with the Puppet feature can access fact/report importers and ENC output"
+  category: Setting::Auth
+  default: "true"
+  description: "Only known Smart Proxies with the Setting::Puppet feature can access fact/report importers and ENC output"
 attribute28:
   name: require_ssl_puppetmasters
-  category: Auth
-  default: true
+  category: Setting::Auth
+  default: "true"
   description: "Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)"
 attribute29:
   name: ssl_client_dn_env
-  category: Auth
+  category: Setting::Auth
   default: "SSL_CLIENT_S_DN"
   description: "Environment variable containing the subject DN from a client SSL certificate"
 attribute30:
   name: ssl_client_verify_env
-  category: Auth
+  category: Setting::Auth
   default: "SSL_CLIENT_VERIFY"
   description: "Environment variable containing the verification status of a client SSL certificate"
 attribute31:
   name: remove_classes_not_in_environment
-  category: Puppet
-  default: false
+  category: Setting::Puppet
+  default: "false"
   description: "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)"
+attribute32:
+  name: trusted_puppetmaster_hosts
+  category: Setting::Auth
+  default: []
+  description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
+attribute33:
+  name: use_gravatar
+  category: Setting::General
+  default: "true"
+  description: "Should Foreman use gravatar to display user icons"
+attribute34:
+  name: signo_sso
+  category: Setting::Auth
+  default: "false"
+  description: "Use SSO"
+attribute35:
+  name: signo_url
+  category: Setting::Auth
+  default: "https://localhost:3002"
+  description: "Where Signo runs"
+attribute36:
+  name: puppetrun
+  category: Setting::Puppet
+  default: "true"
+  description: "Enables Puppetrun Support"

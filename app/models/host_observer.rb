@@ -1,4 +1,5 @@
 class HostObserver < ActiveRecord::Observer
+  observe Host::Base
 
   # Sets and expire provisioning tokens
   # this has to happen post validation and before the orchesration queue is starting to 

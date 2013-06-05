@@ -3,7 +3,7 @@ class SettingsController < ApplicationController
   before_filter :require_admin
 
   def index
-    @settings = Setting.search_for(params[:search])
+    @settings = Setting.live_descendants.search_for(params[:search])
     respond_to do |format|
       format.html
       format.json { render :json => @settings.all}

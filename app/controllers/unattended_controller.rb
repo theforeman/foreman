@@ -1,5 +1,5 @@
 class UnattendedController < ApplicationController
-  layout nil
+  layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
   PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","pxelinux").map(&:name)
@@ -12,11 +12,12 @@ class UnattendedController < ApplicationController
   FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
-  skip_before_filter :require_ssl, :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy
-
-  # require logged in user to see templates in spoof mode
-  before_filter do |c|
-    c.send(:require_login) if c.params.keys.include?("spoof")
+  FILTERS = [:require_ssl, :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
+  FILTERS.each do |f|
+    define_method("#{f}_with_unattended") do
+      send("#{f}_without_unattended") if params.keys.include?("spoof")
+    end
+    alias_method_chain f, :unattended
   end
 
   # We want to find out our requesting host
@@ -158,7 +159,7 @@ class UnattendedController < ApplicationController
     # This should terminate the before_filter and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
-    render(:text => "Failed to clean any old certificates or add the autosign entry. Terminating the build!", :status => 500) unless @host.handle_ca
+    render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => 500) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
@@ -247,7 +248,7 @@ class UnattendedController < ApplicationController
     begin
       render :inline => "<%= unattended_render(@unsafe_template).html_safe %>" and return
     rescue Exception => exc
-      msg = "There was an error rendering the " + template_name + " template: "
+      msg = _("There was an error rendering the %s template: ") % (template_name)
       render :text => msg + exc.message, :status => 500 and return
     end
   end

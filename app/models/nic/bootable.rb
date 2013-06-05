@@ -5,7 +5,7 @@ module Nic
     delegate :jumpstart?, :build?, :to => :host
 
     # ensure that we can only have one bootable interface
-    validates_uniqueness_of :type, :scope => :host_id, :message => "Only one bootable interface is allowed"
+    validates_uniqueness_of :type, :scope => :host_id, :message => N_("Only one bootable interface is allowed")
 
     def dhcp_record
       return unless dhcp? or @dhcp_record

@@ -6,8 +6,9 @@ module Hostext
         belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
 
         scoped_search :on => :name,          :complete_value => true, :default_order => true
-        scoped_search :on => :last_report,   :complete_value => true
+        scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
         scoped_search :on => :ip,            :complete_value => true
+        scoped_search :on => :comment,       :complete_value => true
         scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
         scoped_search :on => :puppet_status, :offset => 0, :word_size => Report::BIT_NUM*4, :complete_value => {:true => true, :false => false}, :rename => :'status.interesting'
         scoped_search :on => :puppet_status, :offset => Report::METRIC.index("applied"),         :word_size => Report::BIT_NUM, :rename => :'status.applied'
@@ -19,6 +20,7 @@ module Hostext
 
         scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
         scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
+        scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :hostgroup_fullname
         scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
         scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
         scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
@@ -35,12 +37,14 @@ module Hostext
         scoped_search :in => :organization, :on => :name, :rename => :organization, :complete_value => true if SETTINGS[:organizations_enabled]
 
         if SETTINGS[:unattended]
-          scoped_search :in => :subnet,      :on => :network, :complete_value => true, :rename => :subnet
-          scoped_search :on => :mac,           :complete_value => true
-          scoped_search :on => :uuid,          :complete_value => true
-          scoped_search :on => :build,         :complete_value => {:true => true, :false => false}
-          scoped_search :on => :installed_at,  :complete_value => true
-          scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => :os
+          scoped_search :in => :subnet,          :on => :network, :complete_value => true, :rename => :subnet
+          scoped_search :on => :mac,                              :complete_value => true
+          scoped_search :on => :uuid,                             :complete_value => true
+          scoped_search :on => :build,                            :complete_value => {:true => true, :false => false}
+          scoped_search :on => :installed_at,                     :complete_value => true, :only_explicit => true
+          scoped_search :in => :operatingsystem, :on => :name,    :complete_value => true, :rename => :os
+          scoped_search :in => :operatingsystem, :on => :major,   :complete_value => true, :rename => :os_major
+          scoped_search :in => :operatingsystem, :on => :minor,   :complete_value => true, :rename => :os_minor
         end
 
         if SETTINGS[:login]

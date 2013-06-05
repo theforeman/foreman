@@ -1,13 +1,13 @@
-<% title_actions link_to("New Domain", new_domain_path) %>
-<% title "Domain configuration" %>
+<% title_actions link_to(_("New Domain"), new_domain_path) %>
+<% title _("Domain Configuration") %>
 <div id="welcome">
   <p>
-  Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>
+  <%= _("Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>
   then the domain is <b>somewhere.com</b>. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made
-  by machines at that site.
+  by machines at that site.").html_safe %>
   </p>
   <p>
-  The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,
-  and also available as an external node parameter
+  <%= _("The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,
+  and also available as an external node parameter").html_safe %>
   </p>
 </div>

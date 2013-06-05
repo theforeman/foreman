@@ -1,3 +1,3 @@
 group :ovirt do
-  gem "rbovirt", ">= 0.0.15"
+  gem "rbovirt", ">= 0.0.20"
 end

@@ -1,16 +1,16 @@
-<% title "Users" %>
+<% title _("Users") %>
 
-<% title_actions  display_link_if_authorized("New User", hash_for_new_user_path) %>
+<% title_actions  display_link_if_authorized(_("New User"), hash_for_new_user_path) %>
 
 <table class="table table-bordered table-striped table-condensed">
   <tr>
-    <th><%= sort :login %></th>
-    <th><%= sort :firstname %></th>
-    <th><%= sort :lastname %></th>
-    <th><%= sort :mail %></th>
-    <th><%= sort :admin %></th>
-    <th><%= sort :last_login_on %></th>
-    <th>Authorized by</th>
+    <th><%= sort :login, :as => s_("User|Login") %></th>
+    <th><%= sort :firstname, :as => s_("User|Firstname")%></th>
+    <th><%= sort :lastname, :as => s_("User|Lastname") %></th>
+    <th><%= sort :mail, :as => s_("User|Mail") %></th>
+    <th><%= sort :admin, :as => s_("User|Admin") %></th>
+    <th><%= sort :last_login_on, :as => s_("User|Last login on") %></th>
+    <th><%= _("Authorized by") %></th>
     <th></th>
   </tr>
   <% for user in @users %>
@@ -22,7 +22,7 @@
       <td><%=checked_icon user.admin? %></td>
       <td><%=h last_login_on_column(user)%></td>
       <td><%=h auth_source_column(user)%></td>
-      <td><%= display_delete_if_authorized hash_for_user_path(:id => user), :confirm => "Delete #{user.name}?" %></td>
+      <td><%= display_delete_if_authorized hash_for_user_path(:id => user), :confirm => _("Delete %s?") % user.name %></td>
     </tr>
   <% end %>
 </table>

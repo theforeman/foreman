@@ -1,15 +1,15 @@
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped ellipsis">
   <tr>
     <% unless params[:host_id] -%>
       <th><%= sort :host %></th>
     <% end -%>
-    <th><%= sort :reported, :as => "Last report" %></th>
-    <th class="small"><%= sort :applied %></th>
-    <th class="small"><%= sort :restarted %></th>
-    <th class="small"><%= sort :failed %></th>
-    <th class="small"><%= sort :failed_restarts, :as => "Restart<br>Failures" %></th>
-    <th class="small"><%= sort :skipped %></th>
-    <th class="small"><%= sort :pending %></th>
+    <th><%= sort :reported, :as => _("Last report") %></th>
+    <th class="small"><%= sort :applied, :as => _("Applied") %></th>
+    <th class="small"><%= sort :restarted, :as => _("Restarted") %></th>
+    <th class="small"><%= sort :failed, :as => _("Failed") %></th>
+    <th class="small"><%= sort :failed_restarts, :as => _("Restart<br>Failures").html_safe %></th>
+    <th class="small"><%= sort :skipped, :as => _("Skipped") %></th>
+    <th class="small"><%= sort :pending, :as => _("Pending") %></th>
     <th class="small"></th>
   </tr>
   <% for report in @reports %>
@@ -25,7 +25,7 @@
       <td><%= report_event_column(report.skipped, "label-info") %></td>
       <td><%= report_event_column(report.pending, "label-info") %></td>
       <td align="right">
-        <%= display_delete_if_authorized hash_for_report_path(:id => report.id), :confirm => "Delete report for #{report.host.name}?" %>
+        <%= display_delete_if_authorized hash_for_report_path(:id => report.id), :confirm => _("Delete report for %s?") % report.host.name %>
       </td>
     </tr>
   <% end %>

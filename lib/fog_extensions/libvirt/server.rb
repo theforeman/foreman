@@ -19,6 +19,11 @@ module FogExtensions
         attributes[:memory_size] = mem.to_i / 1024 if mem
       end
 
+      def reset
+        poweroff
+        start
+      end
+
     end
   end
 end

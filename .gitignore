@@ -5,6 +5,7 @@ log/*.log
 tmp/
 db/schema.rb
 config/settings.yaml
+config/settings.plugins.d
 config/email.yaml
 config/database.yml
 config/initializers/local_secret_token.rb
@@ -14,6 +15,14 @@ bundler.d/Gemfile.local.rb
 .idea
 *.pyc
 public/apipie-cache
+public/assets
 .DS_Store
 foreman_client
 doc/apidoc*
+.rbenv*
+.rvmrc*
+.ruby-version
+locale/*.mo
+locale/*/*.pox
+locale/*/LC_MESSAGES
+coverage/

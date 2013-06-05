@@ -1,14 +1,15 @@
 class Puppetclass < ActiveRecord::Base
   include Authorization
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :hostgroups, :through => :hostgroup_classes
   has_many :host_classes, :dependent => :destroy
-  has_many :hosts, :through => :host_classes
+  has_many_hosts :through => :host_classes
 
-  has_many :lookup_keys, :inverse_of => :puppetclass
+  has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   # param classes
   has_many :class_params, :through => :environment_classes, :uniq => true,
@@ -17,10 +18,8 @@ class Puppetclass < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
   validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
-  audited
+  audited :allow_mass_assignment => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
-  before_destroy EnsureNotUsedBy.new(:hostgroups)
   default_scope :order => 'puppetclasses.name'
 
   scoped_search :on => :name, :complete_value => :true
@@ -154,7 +153,7 @@ class Puppetclass < ActiveRecord::Base
     conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
     direct     = Puppetclass.joins(:hosts).where(conditions).select('puppetclasses.id').map(&:id).uniq
     hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
-    indirect   = HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck(:puppetclass_id).uniq
+    indirect   = hostgroup.blank? ? [] : HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck('DISTINCT puppetclass_id')
     return { :conditions => "1=0" } if direct.blank? && indirect.blank?
 
     puppet_classes = (direct + indirect).uniq

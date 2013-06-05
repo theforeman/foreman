@@ -1,5 +1,3 @@
-require 'foreman/controller/smart_proxy_auth'
-
 class FactValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::SmartProxyAuth
@@ -27,20 +25,34 @@ class FactValuesController < ApplicationController
 
   def create
     Taxonomy.no_taxonomy_scope do
-      imported = Host.importHostAndFacts params.delete("facts")
+      imported = detect_host_type.importHostAndFacts params.delete("facts")
       respond_to do |format|
         format.yml {
           if imported
-            render :text => "Imported facts", :status => 200 and return
+            render :text => _("Imported facts"), :status => 200 and return
           else
-            render :text => "Failed to import facts", :status => 400
+            render :text => _("Failed to import facts"), :status => 400
           end
         }
       end
     end
   rescue Exception => e
     logger.warn "Failed to import facts: #{e}"
-    render :text => "Failed to import facts: #{e}", :status => 400
+    render :text => _("Failed to import facts: %s") % (e), :status => 400
+  end
+
+  private
+
+  def detect_host_type
+    return Host::Managed if params[:type].blank?
+    if params[:type].constantize.new.kind_of?(Host::Base)
+      logger.debug "Creating host of type: #{params[:type]}"
+      return params[:type].constantize
+    else
+      raise ::Foreman::Exception.new(N_("Invalid type requested for host creation via facts: %s"), params[:type])
+    end
+  rescue => e
+      logger.warn _("A problem occurred when detecting host type: %s") % (e.message)
   end
 
 end

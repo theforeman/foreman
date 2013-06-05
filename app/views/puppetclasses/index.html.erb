@@ -1,14 +1,14 @@
-<% title "Puppet classes" %>
+<% title _("Puppet classes") %>
 
-<% title_actions import_proxy_select(hash_for_import_environments_puppetclasses_path), button_group(display_link_if_authorized("New Puppetclass", hash_for_new_puppetclass_path)) %>
+<% title_actions import_proxy_select(hash_for_import_environments_puppetclasses_path), button_group(display_link_if_authorized(_("New Puppet class"), hash_for_new_puppetclass_path)) %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th><%= sort :environment, :as => "Environments" %> and documentation</th>
-    <th>Host Group</th>
-    <th>Hosts</th>
-    <th>Keys</th>
+    <th><%= sort :name, :as => s_("Puppetclass|Name") %></th>
+    <th><%= sort :environment, :as => _("Environments and documentation") %></th>
+    <th><%= _('Host group') -%></th>
+    <th><%= _('Hosts') -%></th>
+    <th><%= _('Keys') -%></th>
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
@@ -23,7 +23,7 @@
       <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td><%= @keys_counter[puppetclass.name] || 0 %> </td>
       <td>
-        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass), :confirm => "Delete #{puppetclass.name}?" %>
+        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass), :confirm => _("Delete %s?") % puppetclass.name %>
       </td>
     </tr>
   <% end %>

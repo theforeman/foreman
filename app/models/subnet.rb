@@ -2,7 +2,10 @@ require 'ipaddr'
 class Subnet < ActiveRecord::Base
   include Authorization
   include Taxonomix
-  has_many :hosts
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
+  has_many_hosts
+  has_many :hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"
@@ -23,8 +26,6 @@ class Subnet < ActiveRecord::Base
       order('vlanid')
     end
   }
-
-  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
@@ -124,14 +125,14 @@ class Subnet < ActiveRecord::Base
   private
 
   def validate_ranges
-    errors.add(:from, "invalid IP address")            if from.present? and !from =~ Net::Validations::IP_REGEXP
-    errors.add(:to, "invalid IP address")              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
-    errors.add(:from, "does not belong to subnet")     if from.present? and not self.contains?(f=IPAddr.new(from))
-    errors.add(:to, "does not belong to subnet")       if to.present?   and not self.contains?(t=IPAddr.new(to))
-    errors.add(:from, "can't be bigger than to range") if from.present? and t.present? and f > t
+    errors.add(:from, _("invalid IP address"))            if from.present? and !from =~ Net::Validations::IP_REGEXP
+    errors.add(:to, _("invalid IP address"))              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
+    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
     if from.present? or to.present?
-      errors.add(:from, "must be specified if to is defined")   if from.blank?
-      errors.add(:to,   "must be specified if from is defined") if to.blank?
+      errors.add(:from, _("must be specified if to is defined"))   if from.blank?
+      errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
   end
 
@@ -139,7 +140,7 @@ class Subnet < ActiveRecord::Base
     return if domains.empty?
     domains.each do |d|
       conds = new_record? ? ['name = ?', name] : ['subnets.name = ? AND subnets.id != ?', name, id]
-      errors.add(:name, "domain #{d} already has a subnet with this name") if d.subnets.where(conds).first
+      errors.add(:name, _("domain %s already has a subnet with this name") % d) if d.subnets.where(conds).first
     end
   end
 end

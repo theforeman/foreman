@@ -1,9 +1,9 @@
-<% title "Partition table configuration" %>
-<% title_actions link_to("New partition table", new_ptable_path) %>
+<% title _("Partition table configuration") %>
+<% title_actions link_to(_("New Partition Table"), new_ptable_path) %>
 <div id="welcome">
-  <p> A partition table entry represents either </p>
+  <p> <%= _("A partition table entry represents either") %> </p>
   <ul>
-    <li> An explicit layout for the partitions of your hard drive(s). E.G.</li>
+    <li> <%= _("An explicit layout for the partitions of your hard drive(s). E.G.") %></li>
 <pre>
 zerombr yes
 clearpart --all --initlabel
@@ -11,7 +11,7 @@ part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
 part swap  --recommended
 </pre>
-  <li>A script to dynamically calculate the desired sizes. E.G.</li>
+  <li><%= _("A script to dynamically calculate the desired sizes. E.G.") %></li>
 <pre>
 #Dynamic - The below code is to manage the swap size
 
@@ -40,13 +40,13 @@ EOF
 </pre>
   </ul>
   <p>
-  The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior
-  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process.
+  <%= _("The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior
+  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process.").html_safe %>
   </p>
   <p>
-  The dynamic partitioning style is currently only available for the Redhat family of operating systems, all others must provide an explicit list of partitions and sizes.
+  <%= _("The dynamic partitioning style is currently only available for the Redhat family of operating systems, all others must provide an explicit list of partitions and sizes.") %>
   </p>
   <p>
-  You may also associate one or more operating systems with this partition table or alternatively set this up later on the <%= link_to "Operating systems", operatingsystems_path -%> page.
+  <%= (_("You may also associate one or more operating systems with this partition table or alternatively set this up later on the %s page") % (link_to _("Operating systems"), operatingsystems_path)).html_safe %>
   </p>
 </div>

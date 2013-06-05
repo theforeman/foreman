@@ -1,0 +1,10 @@
+# Foreman logs:
+/var/log/foreman/*.log {
+  daily
+  missingok
+  rotate 14
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+}

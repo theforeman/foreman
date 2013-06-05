@@ -8,7 +8,7 @@ contributors = []
 changelog_file = "CHANGELOG"
 contributors_file = "Contributors"
 
-cmd.each do |l|
+cmd.each_line do |l|
   date, author, subject = l.chomp.split("::")
   date, time, zone = date.split(" ")
 

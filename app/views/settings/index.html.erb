@@ -1,25 +1,25 @@
-<% title "Settings" %>
+<% title _("Settings") %>
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
-      <a href='<%= "##{category}" %>'  data-toggle="tab"><%= "#{category}" %></a>
+      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(short_cat(category)) %></a>
     </li>
   <% end %>
 </ul>
 <div class="tab-content">
   <% @settings.group_by(&:category).each do |category, setting| %>
-      <div class="tab-pane <%= "active" if category == @settings.first.category  %>" id='<%= category %>' >
+      <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
         <table class="table table-bordered table-striped">
           <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Description</th>
+            <th><%= s_("Setting|Name") %></th>
+            <th><%= s_("Setting|Value") %></th>
+            <th><%= s_("Setting|Description") %></th>
           </tr>
           <% setting.each do |item| %>
             <tr>
               <td><%=h item.name %></td>
               <td class="setting_value"><%= value(item) %></td>
-              <td><%=h item.description %></td>
+              <td><%=h _(item.description) %></td>
             </tr>
           <% end %>
         </table>

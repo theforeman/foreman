@@ -1,14 +1,14 @@
 <table class="table table-condensed" id="inherited_puppetclasses_parameters">
   <thead>
   <tr>
-    <th class='span3'>Puppet class</th>
-    <th class='span2'>Name</th>
-    <th class='span7'>Value</th>
-    <th>Actions</th>
+    <th class='span3'><%= _('Puppet class') %></th>
+    <th class='span2'><%= _('Name') %></th>
+    <th class='span7'><%= _('Value') %></th>
+    <th><%= _('Actions') %></th>
   </tr>
   </thead>
   <tbody>
-  <%= render :partial => "puppetclasses/class_parameters", :collection => interesting_klasses(obj), :as => :klass,
-             :locals => { :type => obj.class.to_s.downcase, :host => obj } %>
+  <%= render :partial => "puppetclasses/class_parameters", :collection => interesting_klasses(obj), :as => :puppetclass,
+             :locals => { :obj => obj } %>
   </tbody>
 </table>

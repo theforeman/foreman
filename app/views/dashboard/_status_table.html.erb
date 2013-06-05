@@ -1,0 +1,32 @@
+<h4 class="header"><%= _('Host Configuration Status') -%></h4>
+<ul>
+  <li>
+    <%= searchable_links _('Hosts that had performed modifications without error'), "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)" %>
+    <h4><%= @report[:active_hosts_ok_enabled] %></h4>
+  </li>
+  <li>
+    <%= searchable_links _('Hosts in error state'), "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0) and status.enabled = true" %>
+    <h4><%= @report[:bad_hosts_enabled] %></h4>
+  </li>
+  <li>
+    <%=searchable_links _("Good host reports in the last %s") % time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago), "last_report > \"#{Setting[:puppet_interval]+5} minutes ago\" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0" %>
+    <h4><%= @report[:ok_hosts_enabled] %></h4>
+  </li>
+  <li>
+    <%= searchable_links _('Hosts that had pending changes'), 'status.pending > 0 and status.enabled = true' %>
+    <h4><%= @report[:pending_hosts_enabled] %></h4>
+  </li>
+  <li>
+    <%= searchable_links _('Out of sync Hosts'), "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true" %>
+    <h4><%= @report[:out_of_sync_hosts_enabled] %></h4>
+  </li>
+  <li>
+    <%= searchable_links _('Hosts with no reports'), "not has last_report and status.enabled = true" %>
+    <h4><%= @report[:reports_missing] %></h4>
+  </li>
+  <li>
+    <%= searchable_links _('Hosts with alerts disabled'), "status.enabled = false" %>
+    <h4><%= @report[:disabled_hosts] %></h4>
+  </li>
+  <h4 class="total"><%= _("Total Hosts: %s") % @report[:total_hosts] %></h4>
+</ul>

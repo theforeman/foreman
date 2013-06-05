@@ -62,12 +62,9 @@ module LayoutHelper
 
   def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options={})
     if associations.count > 5
-      field(f, attr,options) do
-        selected_ids = klass.send(ActiveModel::Naming.plural(associations.first)).select("#{associations.first.class.table_name}.id").map(&:id)
-        attr_ids = (attr.to_s.singularize+"_ids").to_sym
-        hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
-        hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
-      end
+      associated_obj = klass.send(ActiveModel::Naming.plural(associations.first))
+      selected_ids = associated_obj.select("#{associations.first.class.table_name}.id").map(&:id)
+      multiple_selects(f, attr, associations, selected_ids, options, html_options)
     else
       field(f, attr, options) do
         authorized_edit_habtm klass, associations, options[:prefix]
@@ -76,26 +73,17 @@ module LayoutHelper
   end
 
   # add hidden field for options[:disabled]
-  def multiple_selects(f, attr, klass, associations, selected_ids, options={}, html_options={})
+  def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
     field(f, attr,options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
-      hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '')
+      hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '', :id=>'')
       options[:disabled] ||=[]
       options[:disabled].each do |disabled_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value )
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'' )
       end
-      hidden_fields + f.collection_select(attr_ids, associations.all, :id, :to_s ,options.merge(:selected => selected_ids), html_options.merge(:multiple => true))
-    end
-  end
-
-  def multiple_select_array(f, field_name, klass, array_list, selected_ids, options={}, html_options={})
-    field(f, field_name,options) do
-      hidden_fields = f.hidden_field(field_name, :multiple => true, :value => '')
-      options[:disabled] ||=[]
-      options[:disabled].each do |disabled_value|
-        hidden_fields += f.hidden_field(field_name, :multiple => true, :value => disabled_value )
-      end
-      hidden_fields + f.select(field_name, options_for_select(array_list, :selected => selected_ids), options,html_options.merge(:multiple => true))
+      hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s },
+                                          :id, :to_s ,options.merge(:selected => selected_ids),
+                                          html_options.merge(:multiple => true))
     end
   end
 
@@ -128,24 +116,44 @@ module LayoutHelper
   def field(f, attr, options = {})
     fluid = options[:fluid]
     error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
-    inline = options.delete(:help_inline)
-    inline = error.to_sentence.html_safe unless error.empty?
-    help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
+    help_inline = help_inline(options.delete(:help_inline), error)
+
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     content_tag :div, :class => "control-group #{fluid ? "row-fluid" : ""} #{error.empty? ? "" : 'error'}" do
-      label_tag(attr, options.delete(:label), :class=>"control-label").html_safe +
+      label   = options.delete(:label)
+
+      label ||= ((clazz = gettext_key(f.object.class)).respond_to?(:gettext_translation_for_attribute_name) &&
+                  s_(clazz.gettext_translation_for_attribute_name attr)) if f
+
+      label_tag(attr, label, :class=>"control-label").html_safe +
         content_tag(:div, :class => "controls") do
           yield.html_safe + help_inline.html_safe + help_block.html_safe
         end.html_safe
     end
   end
 
+  def gettext_key(aclass)
+    aclass.respond_to?(:base_class) ? aclass.base_class : aclass
+  end
+
+  def help_inline(inline, error)
+    help_inline = error.empty? ? inline : error.to_sentence.html_safe
+    case help_inline
+      when blank?
+        ""
+      when :indicator
+        content_tag(:span, image_tag('/assets/spinner.gif', :class => 'hide'), :class => "help-inline")
+      else
+        content_tag(:span, help_inline, :class => "help-inline")
+    end
+  end
+
   def submit_or_cancel f, overwrite = false, args = { }
     args[:cancel_path] ||= eval "#{controller_name}_path"
     content_tag(:div, :class => "form-actions") do
-      text    = overwrite ? "Overwrite" : "Submit"
+      text    = overwrite ? _("Overwrite") : _("Submit")
       options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
-      link_to("Cancel", args[:cancel_path], :class => "btn") + " " +
+      link_to(_("Cancel"), args[:cancel_path], :class => "btn") + " " +
       f.submit(text, options)
     end
   end
@@ -153,13 +161,13 @@ module LayoutHelper
   def base_errors_for obj
     unless obj.errors[:base].blank?
       content_tag(:div, :class => "alert alert-message alert-block alert-error base in fade") do
-        "<a class='close' href='#' data-dismiss='alert'>&times;</a><h4>Unable to save</h4> ".html_safe + obj.errors[:base].map {|e| "<li>#{e}</li>"}.to_s.html_safe
+        ("<a class='close' href='#' data-dismiss='alert'>&times;</a><h4>" + _("Unable to save") + "</h4> " + obj.errors[:base].map {|e| "<li>#{e}</li>"}.join).html_safe
       end
     end
   end
 
   def popover title, msg, options = {}
-    link_to_function icon_text("info-sign"), { :rel => "popover", "data-content" => msg, "data-original-title" => title}.merge(options)
+    link_to icon_text("info-sign"), {}, {:remote => true, :rel => "popover", :data => {"content" => msg, "original-title" => title} }.merge(options)
   end
 
    def will_paginate(collection = nil, options = {})
@@ -167,11 +175,22 @@ module LayoutHelper
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
+    options[:previous_label] ||= _('&#8592; Previous')
+    options[:next_label] ||= _('Next &#8594;')
     super collection, options
   end
 
   def page_entries_info(collection, options = {})
-    html = super(collection, options)
+    html = if collection.total_entries == 0
+             _("No entries found")
+           else
+             if collection.total_pages < 2
+               n_("Displaying <b>%{count}</b> entry", "Displaying <b>all %{count}</b> entries", collection.total_entries) % {:count => collection.total_entries}
+             else
+               _("Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total") %
+                   { :from => collection.offset + 1, :to => collection.offset + collection.length, :count => collection.total_entries }
+             end
+           end.html_safe
     html += options[:more].html_safe if options[:more]
     content_tag(
       :div,content_tag(
@@ -202,8 +221,8 @@ module LayoutHelper
 
   def alert opts = {}
     opts[:close] ||= true
-    opts[:header] ||= "Warning!"
-    opts[:text] ||= "Alert"
+    opts[:header] ||= _("Warning!")
+    opts[:text] ||= _("Alert")
     content_tag :div, :class => "alert #{opts[:class]}" do
       result = "".html_safe
       result += alert_close if opts[:close]

@@ -65,13 +65,13 @@ class HostsControllerTest < ActionController::TestCase
         :host => {:name => "myotherfullhost",
           :mac => "aabbecddee06",
           :ip => "2.3.4.125",
-          :domain => domains(:mydomain),
-          :operatingsystem => operatingsystems(:redhat),
-          :architecture => architectures(:x86_64),
-          :environment => environments(:production),
-          :subnet => subnets(:one),
+          :domain_id => domains(:mydomain).id,
+          :operatingsystem_id => operatingsystems(:redhat).id,
+          :architecture_id => architectures(:x86_64).id,
+          :environment_id => environments(:production).id,
+          :subnet_id => subnets(:one).id,
           :disk => "empty partition",
-          :puppet_proxy => smart_proxies(:puppetmaster)
+          :puppet_proxy_id => smart_proxies(:puppetmaster).id
         }
       }, set_session_user
     end
@@ -82,16 +82,15 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference 'Host.count' do
       post :create, { :format => "json", :commit => "Create",
         :host => {:name => "myotherfullhost",
-          :mac => "aabbecddee06",
+          :mac => "e4:1f:22:cc:36:55",
           :ip => "2.3.4.125",
-          :domain => domains(:mydomain),
-          :operatingsystem => operatingsystems(:redhat),
-          :architecture => architectures(:x86_64),
-          :environment => environments(:production),
-          :subnet => subnets(:one),
+          :domain_id => domains(:mydomain).id,
+          :operatingsystem_id => operatingsystems(:redhat).id,
+          :architecture_id => architectures(:x86_64).id,
+          :environment_id => environments(:production).id,
+          :subnet_id => subnets(:one).id,
           :disk => "empty partition",
-          :puppet_proxy => smart_proxies(:puppetmaster)
-
+          :puppet_proxy_id => smart_proxies(:puppetmaster).id
         }
       }, set_session_user
     end
@@ -148,20 +147,21 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "externalNodes should render correctly when format text/html is given" do
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
   end
 
   test "externalNodes should render yml request correctly" do
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
     assert_response :success
     assert_template :text => @host.info.to_yaml
   end
 
   test "when host is saved after setBuild, the flash should inform it" do
-    mock(@host).setBuild {true}
-    mock(Host).find_by_name(@host.name) {@host}
+    Host.any_instance.stubs(:setBuild).returns(true)
     @request.env['HTTP_REFERER'] = hosts_path
 
     get :setBuild, {:id => @host.name}, set_session_user
@@ -172,8 +172,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "when host is not saved after setBuild, the flash should inform it" do
-    mock(@host).setBuild {false}
-    mock(Host).find_by_name(@host.name) {@host}
+    Host.any_instance.stubs(:setBuild).returns(false)
     @request.env['HTTP_REFERER'] = hosts_path
 
     get :setBuild, {:id => @host.name}, set_session_user
@@ -215,7 +214,7 @@ class HostsControllerTest < ActionController::TestCase
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert_contains @response.body, /#{@host1.shortname}/
+    assert_match /#{@host1.shortname}/, @response.body
   end
 
   test 'user with edit host rights and domain is set should fail to view host2' do
@@ -329,7 +328,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'multiple without hosts' do
     post :update_multiple_hostgroup, {}, set_session_user
     assert_redirected_to hosts_url
-    assert_equal "No Hosts selected", flash[:error]
+    assert_equal "No hosts selected", flash[:error]
 
     # now try to pass an invalid id
     post :update_multiple_hostgroup, {:host_ids => [-1], :host_names => ["no.such.host"]}, set_session_user
@@ -392,6 +391,31 @@ class HostsControllerTest < ActionController::TestCase
       set_session_user.merge(:user => User.first.id)
     assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
     assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
+  end
+
+  test "should inherit the hostgroup environment if *inherit from hostgroup* selected" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    setup_multiple_environments
+    assert @host1.environment == environments(:production)
+    assert @host2.environment == environments(:production)
+
+    hostgroup = hostgroups(:common)
+    hostgroup.environment = environments(:global_puppetmaster)
+    hostgroup.save(:validate => false)
+
+    @host1.hostgroup = hostgroup
+    @host1.save(:validate => false)
+    @host2.hostgroup = hostgroup
+    @host2.save(:validate => false)
+
+    params = { :host_ids => [@host1.id, @host2.id],
+      :environment => { :id => 'inherit' } }
+
+    post :update_multiple_environment, params,
+      set_session_user.merge(:user => User.first.id)
+
+    assert Host.find(@host1.id).environment == hostgroup.environment
+    assert Host.find(@host2.id).environment == hostgroup.environment
   end
 
   test "user with edit host rights with update parameters should change parameters" do
@@ -460,6 +484,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "if only authorize_login_delegation is set, REMOTE_USER should be
         ignored for API requests" do
+    Setting[:signo_sso] = false
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)
@@ -472,6 +497,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "if both authorize_login_delegation{,_api} are unset,
         REMOTE_USER should ignored in all cases" do
+    Setting[:signo_sso] = false
     Setting[:authorize_login_delegation] = false
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)
@@ -549,6 +575,20 @@ class HostsControllerTest < ActionController::TestCase
     User.current = nil
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts in trusted hosts list and SSL cert should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    Setting[:trusted_puppetmaster_hosts] = ['else.where']
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
@@ -667,7 +707,7 @@ class HostsControllerTest < ActionController::TestCase
                                        :host_ids => Host.all.map(&:id)
                                        }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert flash[:notice], "Updated hosts: Changed Location"
+    assert_equal "Updated hosts: Changed Location", flash[:notice]
   end
   test "update multiple location updates location of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -683,7 +723,7 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 16 do
+    assert_difference "location.taxable_taxonomies.count", 17 do
       post :update_multiple_location, {
                                          :location => {:id => location.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)
@@ -700,7 +740,7 @@ class HostsControllerTest < ActionController::TestCase
                                        :host_ids => Host.all.map(&:id)
                                        }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert flash[:error], "Cannot update organization to organization 1 because of mismatch in settings"
+    assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
   test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -732,7 +772,7 @@ class HostsControllerTest < ActionController::TestCase
                                        :host_ids => Host.all.map(&:id)
                                        }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert flash[:notice], "Updated hosts: Changed Organization"
+    assert_equal "Updated hosts: Changed Organization", flash[:notice]
   end
   test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -748,12 +788,26 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 16 do
+    assert_difference "organization.taxable_taxonomies.count", 17 do
       post :update_multiple_organization, {
                                          :organization => {:id => organization.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)
                                          }, set_session_user
     end
+  end
+
+  test "can change sti type to valid subtype" do
+    class Host::Valid < Host::Base ; end
+    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    @host = Host::Base.find(@host.id)
+    assert_equal "Host::Valid", @host.type
+  end
+
+  test "cannot change sti type to invalid subtype" do
+    old_type = @host.type
+    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid"} }, set_session_user
+    @host = Host.find(@host.id)
+    assert_equal old_type, @host.type
   end
 
   private
@@ -763,13 +817,13 @@ class HostsControllerTest < ActionController::TestCase
     @host = Host.create(:name => "myfullhost",
                         :mac             => "aabbecddeeff",
                         :ip              => "2.3.4.99",
-                        :domain          => domains(:mydomain),
-                        :operatingsystem => operatingsystems(:redhat),
-                        :architecture    => architectures(:x86_64),
-                        :environment     => environments(:production),
-                        :subnet          => subnets(:one),
+                        :domain_id          => domains(:mydomain).id,
+                        :operatingsystem_id => operatingsystems(:redhat).id,
+                        :architecture_id    => architectures(:x86_64).id,
+                        :environment_id     => environments(:production).id,
+                        :subnet_id          => subnets(:one).id,
                         :disk            => "empty partition",
-                        :puppet_proxy    => smart_proxies(:puppetmaster)
+                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id
                        )
   end
 end

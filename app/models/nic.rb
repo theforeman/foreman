@@ -5,10 +5,10 @@ module Nic
     include Authorization
     include Foreman::STI
 
-    set_table_name :nics
+    self.table_name = 'nics'
 
     attr_accessible :host_id, :host,
-                    :mac,
+                    :mac, :name,
                     :_destroy # used for nested_attributes
 
     before_validation :normalize_mac
@@ -26,7 +26,7 @@ module Nic
     scope :interfaces, where(:type => "Nic::Interface")
     scope :managed, where(:type => "Nic::Managed")
 
-    belongs_to :host, :inverse_of => :interfaces
+    belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Managed"
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
@@ -43,10 +43,10 @@ module Nic
         value = self.send(attr)
         unless value.blank?
           if host.send(attr) == value
-            errors.add attr, "Can't use the same value as the primary interface"
+            errors.add(attr, _("Can't use the same value as the primary interface"))
             failed = true
           elsif Host.where(attr => value).limit(1).pluck(attr).any?
-            errors.add attr, "already in use"
+            errors.add(attr, _("already in use"))
             failed = true
           end
         end

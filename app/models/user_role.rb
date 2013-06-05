@@ -22,6 +22,8 @@ class UserRole < ActiveRecord::Base
   validates_presence_of :role
   validates_presence_of :user
 
+  validates_uniqueness_of :user_id, :scope => :role_id, :message => "has this role already"
+
   def inherited?
     !inherited_from.nil?
   end

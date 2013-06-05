@@ -71,7 +71,8 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_destroy
     ptable = Ptable.first
-    ptable.hosts = []
+    ptable.hosts.delete_all
+    ptable.hostgroups.delete_all
     delete :destroy, {:id => ptable}, set_session_user
     assert_redirected_to ptables_url
     assert !Ptable.exists?(ptable.id)
@@ -79,7 +80,8 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_destroy_json
     ptable = Ptable.first
-    ptable.hosts = []
+    ptable.hosts.delete_all
+    ptable.hostgroups.delete_all
     delete :destroy, {:format => "json", :id => ptable}, set_session_user
     ptable = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
@@ -118,25 +120,25 @@ class PtablesControllerTest < ActionController::TestCase
   def setup_edit_user
     @user = User.find_by_login("one")
     @user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer'), Role.find_by_name('Edit partition tables')]
-    @request.session[:user] = @user.id
   end
-
 
   test 'user with editing rights should succeed in editing a partition table' do
     setup_edit_user
-    get :edit, {:id => Ptable.first.id}, set_session_user
+    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
 
   test 'user with editing rights should succeed in deleting a partition table' do
     setup_edit_user
-    delete :destroy, {:id => Ptable.first.id}
-    assert flash[:notice] = "Successfully destroyed partition table."
+    delete :destroy, {:id => ptables(:four).id}, set_session_user.merge(:user => users(:one).id)
+    assert_redirected_to ptables_url
+    assert_equal "Successfully deleted four.", flash[:notice]
   end
 
   test 'user with editing rights should succeed in creating a partition table' do
     setup_edit_user
-    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}
-    assert flash[:notice] = "Successfully created partition table."
+    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user.merge(:user => users(:one).id)
+    assert_redirected_to ptables_url
+    assert_equal "Successfully created dummy.", flash[:notice]
   end
 end

@@ -19,7 +19,7 @@ class LocationsControllerTest < ActionController::TestCase
     post :update, {:commit => "Submit", :id => location.id, :location => {:name => "New Name"} }, set_session_user
     updated_location = Location.find_by_id(location.id)
 
-    assert updated_location.name = location.name
+    assert_equal "New Name", updated_location.name
     assert_redirected_to locations_path
   end
 
@@ -39,7 +39,7 @@ class LocationsControllerTest < ActionController::TestCase
 
     assert_difference('Location.count', -1) do
       delete :destroy, {:id => location}, set_session_user
-      assert_contains flash[:notice], "Successfully destroyed #{location}."
+      assert_match /Successfully deleted/, flash[:notice]
     end
   end
 
@@ -55,7 +55,7 @@ class LocationsControllerTest < ActionController::TestCase
   end
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 16 do
+    assert_difference "location.taxable_taxonomies.count", 17 do
       post :assign_all_hosts, {:id => location.id}, set_session_user
     end
   end
@@ -136,6 +136,14 @@ class LocationsControllerTest < ActionController::TestCase
     assert_equal new_location.config_template_ids, location.config_template_ids
     assert_equal new_location.compute_resource_ids, location.compute_resource_ids
     assert_equal new_location.organization_ids, location.organization_ids
+  end
+
+  test "should clear out Location.current" do
+    @request.env['HTTP_REFERER'] = root_url
+    get :clear, {}, set_session_user
+    assert_equal Location.current, nil
+    assert_equal session[:location_id], nil
+    assert_redirected_to root_url
   end
 
 end

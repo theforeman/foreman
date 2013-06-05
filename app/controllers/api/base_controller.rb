@@ -5,6 +5,8 @@ module Api
 
     before_filter :set_default_response_format, :authorize, :add_version_header
 
+    cache_sweeper :topbar_sweeper
+
     respond_to :json
 
     after_filter do
@@ -74,6 +76,14 @@ module Api
       end
 
       true
+    end
+
+    def require_admin
+      auth = Api::Authorization.new self
+      unless auth.is_admin?
+        render_error('admin permissions required', :status => :unauthorized, :locals => { :user_login => auth.user_login })
+        return false
+      end
     end
 
     def deny_access(details = nil)

@@ -1,5 +1,3 @@
-require 'foreman/controller/host_details'
-
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
@@ -34,15 +32,15 @@ class HostgroupsController < ApplicationController
 
   # Clone the hostgroup
   def clone
-    new = @hostgroup.clone
+    new = @hostgroup.dup
     load_vars_for_ajax
     new.puppetclasses = @hostgroup.puppetclasses
     # Clone any parameters as well
-    @hostgroup.group_parameters.each{|param| new.group_parameters << param.clone}
+    @hostgroup.group_parameters.each{|param| new.group_parameters << param.dup}
     new.name = ""
     new.valid?
     @hostgroup = new
-    notice "The following fields would need reviewing"
+    notice _("The following fields would need reviewing")
     render :action => :new
   end
 
@@ -59,6 +57,8 @@ class HostgroupsController < ApplicationController
     if @hostgroup.save
       # Add the new hostgroup to the user's filters
       @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
+      @hostgroup.users << users_in_ancestors
+
       process_success
     else
       load_vars_for_ajax
@@ -109,6 +109,12 @@ class HostgroupsController < ApplicationController
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
     @domain          = @hostgroup.domain
+  end
+
+  def users_in_ancestors
+    @hostgroup.ancestors.map do |ancestor|
+      ancestor.users.reject { |u| @hostgroup.users.include?(u) }
+    end.flatten.uniq
   end
 
 end

@@ -70,7 +70,8 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   def test_destroy
     operatingsystem = Operatingsystem.first
-    operatingsystem.hosts = []
+    operatingsystem.hosts.delete_all
+    operatingsystem.hostgroups.delete_all
     delete :destroy, {:id => operatingsystem}, set_session_user
     assert_redirected_to operatingsystems_url
     assert !Operatingsystem.exists?(operatingsystem.id)
@@ -78,7 +79,8 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   def test_destroy_json
     operatingsystem = Operatingsystem.first
-    operatingsystem.hosts = []
+    operatingsystem.hosts.delete_all
+    operatingsystem.hostgroups.delete_all
     delete :destroy, {:format => "json", :id => operatingsystem}, set_session_user
     os = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok

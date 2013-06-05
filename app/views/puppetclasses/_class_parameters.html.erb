@@ -1,15 +1,16 @@
-<% lookup_keys = overridable_lookup_keys(klass, host) %>
+<% lookup_keys = overridable_lookup_keys(puppetclass, obj) %>
+<% value_hash  = Classification::ClassParam.new(:host=>obj).inherited_values if obj.class.model_name == "Host" %>
 <% lookup_keys.each_with_index do |key,i| -%>
-    <tr id="puppetclass_<%= klass.id %>_params[<%= key.id %>]">
+    <tr id="puppetclass_<%= puppetclass.id %>_params[<%= key.id %>]">
       <%= content_tag :td, (i == 0 ? {:rowspan => lookup_keys.size} : {:class => 'hide'}) do
         # In order to use the class .hide-first-col, we must have an extra, invisible cell.
         # Plus, we make the class name available from javascript without having to look at any previous row.
-        content_tag :span, klass.name, :'data-property' => 'class'
+        content_tag :span, puppetclass.name, :'data-property' => 'class'
       end %>
       <td><%= content_tag :span, key.key, :class => "span2", :'data-property' => 'name' %></td>
-      <td><%= key_with_diagnostic(host, key) %></td>
+      <td><%= obj.class.model_name == "Host" ? host_key_with_diagnostic(obj, value_hash, key) : hostgroup_key_with_diagnostic(obj, key)%></td>
       <td>
-          <%= link_to_function("override", "override_class_param(this)", :title => "Override this value",
+          <%= link_to_function(_("override"), "override_class_param(this)", :title => _("Override this value"),
                                :'data-tag' => 'override', :class =>"btn") if authorized_via_my_scope("host_editing", "create_params") %>
       </td>
     </tr>

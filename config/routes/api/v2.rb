@@ -20,7 +20,6 @@ Foreman::Application.routes.draw do
           end
           resources :audits        ,:only => :index
           resources :facts         ,:only => :index, :controller => :fact_values
-          resources :puppetclasses ,:only => :index
           get :status, :on => :member
         end
         resources :compute_resources, :except => [:new, :edit] do
@@ -29,7 +28,7 @@ Foreman::Application.routes.draw do
       end
       resources :dashboard, :only => [:index]
       resources :environments, :except => [:new, :edit]
-      resources :fact_values, :except => [:new, :edit]
+      resources :fact_values, :only => [:index]
       resources :hostgroups, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
       resources :media, :except => [:new, :edit]
@@ -40,7 +39,6 @@ Foreman::Application.routes.draw do
         end
       end
       resources :ptables, :except => [:new, :edit]
-      resources :puppetclasses, :except => [:new, :edit]
       resources :roles, :except => [:new, :edit]
       resources :reports, :only => [:index, :show, :destroy] do
         get :last, :on => :collection
@@ -67,6 +65,142 @@ Foreman::Application.routes.draw do
         resources :template_combinations, :only => [:index, :create]
       end
       resources :template_combinations, :only => [:show, :destroy]
+
+      constraints(:id => /[^\/]+/) do
+        resources :hosts, :only => [] do
+          get :puppetrun, :on => :member
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
+          end
+          resources :puppetclasses, :only => [:index, :show]
+          resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
+        end
+
+        resources :domains, :only => [] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
+          end
+        end
+
+        resources :compute_resources, :only => [] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        end
+      end
+
+      resources :subnets, :only => [] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
+      resources :environments, :only => [] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :puppetclasses, :only => [:index, :show]
+      end
+
+      resources :hostgroups, :only => [] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :to => :reset
+          end
+        end
+        resources :puppetclasses, :only => [:index, :show]
+        resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
+      end
+
+      resources :smart_proxies, :only => [] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
+      resources :users, :only => [] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
+      resources :media, :only => [] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
+      resources :operatingsystems, :only => [] do
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :to => :reset
+          end
+        end
+      end
+
+      resources :puppetclasses, :except => [:new, :edit]
+
+      if SETTINGS[:locations_enabled]
+        resources :locations, :except => [:new, :edit] do
+
+          # scoped by location
+          resources :domains, :only => [:index, :show]
+          resources :subnets, :only => [:index, :show]
+          resources :hostgroups, :only => [:index, :show]
+          resources :environments, :only => [:index, :show]
+          resources :users, :only => [:index, :show]
+          resources :config_templates, :only => [:index, :show]
+          resources :compute_resources, :only => [:index, :show]
+          resources :media, :only => [:index, :show]
+          resources :smart_proxies, :only => [:index, :show]
+
+          # scoped by location AND organization
+          resources :organizations, :except => [:new, :edit] do
+            resources :domains, :only => [:index, :show]
+            resources :subnets, :only => [:index, :show]
+            resources :hostgroups, :only => [:index, :show]
+            resources :environments, :only => [:index, :show]
+            resources :users, :only => [:index, :show]
+            resources :config_templates, :only => [:index, :show]
+            resources :compute_resources, :only => [:index, :show]
+            resources :media, :only => [:index, :show]
+            resources :smart_proxies, :only => [:index, :show]
+          end
+
+        end
+      end
+
+      if SETTINGS[:organizations_enabled]
+        resources :organizations, :except => [:new, :edit] do
+
+          # scoped by organization
+          resources :domains, :only => [:index, :show]
+          resources :subnets, :only => [:index, :show]
+          resources :hostgroups, :only => [:index, :show]
+          resources :environments, :only => [:index, :show]
+          resources :users, :only => [:index, :show]
+          resources :config_templates, :only => [:index, :show]
+          resources :compute_resources, :only => [:index, :show]
+          resources :media, :only => [:index, :show]
+          resources :smart_proxies, :only => [:index, :show]
+
+          # scoped by location AND organization
+          resources :locations, :except => [:new, :edit] do
+            resources :domains, :only => [:index, :show]
+            resources :subnets, :only => [:index, :show]
+            resources :hostgroups, :only => [:index, :show]
+            resources :environments, :only => [:index, :show]
+            resources :users, :only => [:index, :show]
+            resources :config_templates, :only => [:index, :show]
+            resources :compute_resources, :only => [:index, :show]
+            resources :media, :only => [:index, :show]
+            resources :smart_proxies, :only => [:index, :show]
+          end
+
+        end
+      end
     end
 
     match '*other', :to => 'v1/home#route_error', :constraints => ApiConstraints.new(:version => 2)

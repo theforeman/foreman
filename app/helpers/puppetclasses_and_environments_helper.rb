@@ -1,20 +1,20 @@
 module PuppetclassesAndEnvironmentsHelper
   def class_update_text pcs, env
     if pcs.empty?
-      "Empty environment"
+      _("Empty environment")
     elsif pcs == ["_destroy_"]
-      "Deleted environment"
+      _("Deleted environment")
     elsif pcs.delete "_destroy_"
-      "Deleted environment #{env} and " + pcs.to_sentence
+      _("Deleted environment %{env} and %{pcs}") % { :env => env, :pcs => pcs.to_sentence }
     else
       pretty_print(pcs.is_a?(Hash) ? pcs.keys : pcs)
     end
   end
 
   def import_proxy_select hash
-    toolbar_action_buttons(
+    select_action_button( _('Import'),
       SmartProxy.puppet_proxies.map do |proxy|
-        display_link_if_authorized("Import from #{proxy.name}", hash.merge(:proxy => proxy), :class=>'btn')
+        display_link_if_authorized(_("Import from %s") % proxy.name, hash.merge(:proxy => proxy), :class=>'btn')
       end.flatten
     )
   end

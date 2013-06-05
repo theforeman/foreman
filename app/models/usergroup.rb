@@ -5,13 +5,14 @@ class Usergroup < ActiveRecord::Base
   has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User'
   has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
 
-  has_many :hosts, :as => :owner
+  has_many_hosts :as => :owner
   validates_uniqueness_of :name
   before_destroy EnsureNotUsedBy.new(:hosts, :usergroups)
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
   default_scope :order => 'LOWER(usergroups.name)'
+  scoped_search :on => :name, :complete_value => :true
   validate :ensure_uniq_name
 
   # This methods retrieves all user addresses in a usergroup
@@ -54,7 +55,7 @@ class Usergroup < ActiveRecord::Base
   end
 
   def ensure_uniq_name
-    errors.add :name, "is already used by a user account" if User.where(:login => name).first
+    errors.add :name, _("is already used by a user account") if User.where(:login => name).first
   end
 
 end

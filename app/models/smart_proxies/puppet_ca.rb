@@ -1,4 +1,3 @@
-require_dependency "proxy_api"
 require "time"
 
 class SmartProxies::PuppetCA
@@ -14,7 +13,7 @@ class SmartProxies::PuppetCA
     class << self
 
       def all(proxy)
-        raise "Must specify a Smart Proxy to use" if proxy.nil?
+        raise ::Foreman::Exception.new(N_("Must specify a Smart Proxy to use")) if proxy.nil?
 
         unless (certs = Rails.cache.read("ca_#{proxy.id}"))
           api = ProxyAPI::Puppetca.new({:url => proxy.url})
@@ -43,7 +42,7 @@ class SmartProxies::PuppetCA
     end
 
   def sign
-    raise "unable to sign a non pending certificate" unless state == "pending"
+    raise ::Foreman::Exception.new(N_("unable to sign a non pending certificate")) unless state == "pending"
     proxy = SmartProxy.find(smart_proxy_id)
     Rails.cache.delete("ca_#{proxy.id}") if Rails.env.production?
     ProxyAPI::Puppetca.new({:url => proxy.url}).sign_certificate name

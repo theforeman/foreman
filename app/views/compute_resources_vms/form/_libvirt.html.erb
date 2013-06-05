@@ -8,11 +8,11 @@
   <%= new_child_fields_template(f, :nics, {
       :object  => compute_resource.new_nic,
       :partial => 'compute_resources_vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
+  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do -%>
     <%= f.fields_for :nics do |i| %>
       <%= render 'compute_resources_vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link "+ Add Interface", :nics, { :class => "info", :title => 'add new network interface' } %>
+    <%= add_child_link '+ ' + _("Add Interface"), :nics, { :class => "info", :title => _('add new network interface') } %>
   <% end -%>
 </div>
 
@@ -21,13 +21,13 @@
   <%= new_child_fields_template(f, :volumes, {
       :object  => compute_resource.new_volume,
       :partial => 'compute_resources_vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Storage", :id => "storage_volumes", :title => 'Storage' do -%>
+  <%= field_set_tag "Storage", :id => "storage_volumes", :title => _('Storage') do -%>
     <%= f.fields_for :volumes do |i| %>
       <%= render 'compute_resources_vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new storage volume' } %>
+    <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new storage volume') } %>
   <% end -%>
 </div>
 <!--TODO # Move to a helper-->
-<% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => "Power ON this machine" } if new %>
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>

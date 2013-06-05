@@ -1,5 +1,7 @@
 class HostMailer < ActionMailer::Base
   helper :reports
+
+  default :content_type => "text/html", :from => Setting[:email_reply_address] || "noreply@foreman.exmaple.org"
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
 
 
@@ -11,18 +13,18 @@ class HostMailer < ActionMailer::Base
     filter = []
 
     if (@url = Setting[:foreman_url]).empty?
-      raise ":foreman_url: entry in Foreman configuration file, see http://theforeman.org/projects/foreman/wiki/Mail_Notifications"
+      raise ::Foreman::Exception.new N_("':foreman_url:' entry in Foreman configuration file, see http://theforeman.org/projects/foreman/wiki/Mail_Notifications")
     end
 
     if options[:env]
       hosts = envhosts = options[:env].hosts
-      raise "unable to find any hosts for puppet environment=#{env}" if envhosts.size == 0
+      raise (_("unable to find any hosts for puppet environment=%s") % env) if envhosts.size == 0
       filter << "Environment=#{options[:env].name}"
     end
     name,value = options[:factname],options[:factvalue]
     if name and value
-      facthosts = Host.with_fact(name,value)
-      raise "unable to find any hosts with the fact name=#{name} and value=#{value}" if facthosts.empty?
+      facthosts = Host.search_for("facts.#{name}=#{value}")
+      raise (_("unable to find any hosts with the fact name=%{name} and value=%{value}") % { :name => name, :value => value }) if facthosts.empty?
       filter << "Fact #{name}=#{value}"
       # if environment and facts are defined together, we use a merge of both
       hosts = envhosts.empty? ? facthosts : envhosts & facthosts
@@ -30,15 +32,12 @@ class HostMailer < ActionMailer::Base
 
     if hosts.empty?
       # print out an error if we couldn't find any hosts that match our request
-      raise "unable to find any hosts that match your request" if options[:env] or options[:factname]
+      raise ::Foreman::Exception.new(N_("unable to find any hosts that match your request")) if options[:env] or options[:factname]
       # we didnt define a filter, use all hosts instead
-      hosts=Host
+      hosts = Host::Managed
     end
     email = options[:email] || Setting[:administrator]
-    raise "unable to find recipients" if email.empty?
-    recipients email
-    from Setting["email_reply_address"]
-    sent_on Time.now
+    raise ::Foreman::Exception.new(N_("unable to find recipients")) if email.empty?
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, hosts.all).sort
     total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}
@@ -50,26 +49,29 @@ class HostMailer < ActionMailer::Base
       total_metrics["failed_restarts"] += data_hash[:metrics]["failed_restarts"]
     end
     total = 0 ; total_metrics.values.each { |v| total += v }
-    subject "Summary Puppet report from Foreman - F:#{total_metrics["failed"]} R:#{total_metrics["restarted"]} S:#{total_metrics["skipped"]} A:#{total_metrics["applied"]} FR:#{total_metrics["failed_restarts"]} T:#{total}"
-    content_type "text/html"
+    subject = _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
+      :failed => total_metrics["failed"],
+      :restarted => total_metrics["restarted"],
+      :skipped => total_metrics["skipped"],
+      :applied => total_metrics["applied"],
+      :failed_restarts => total_metrics["failed_restarts"],
+      :total => total_metrics["total"]
+    }
     @hosts = host_data
     @timerange = time
     @out_of_sync = hosts.out_of_sync
     @disabled = hosts.alerts_disabled
     @filter = filter
+    mail(:to => email, :subnet => subject)
   end
 
   def error_state(report)
     host = report.host
     email = host.owner.recipients if SETTINGS[:login] and not host.owner.nil?
     email = Setting[:administrator]   if email.empty?
-    raise "unable to find recipients" if email.empty?
-    recipients email
-    from Setting["email_reply_address"]
-    subject "Puppet error on #{host.to_label}"
-    sent_on Time.now
-    content_type "text/html"
+    raise ::Foreman::Exception.new(N_("unable to find recipients")) if email.empty?
     @report = report
     @host = host
+    mail(:to => email, :subject => (_("Puppet error on %s") % host.to_label))
   end
 end

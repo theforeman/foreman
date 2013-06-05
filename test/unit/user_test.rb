@@ -119,6 +119,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.current, @user
   end
 
+  test "#admin should create new one if it's missing" do
+    old_admin = User.admin
+    assert old_admin.delete
+    assert_nil User.find_by_login(old_admin.login)
+    assert_present User.admin
+  end
+
   def setup_user operation
     @one = users(:one)
     as_admin do
@@ -180,6 +187,12 @@ class UserTest < ActiveSupport::TestCase
   test "should not be able to rename the admin account" do
     u = User.find_by_login("admin")
     u.login = "root"
+    assert !u.save
+  end
+
+  test "should not be able to remove the admin flag from the admin account" do
+    u = User.find_by_login("admin")
+    u.admin = false
     assert !u.save
   end
 

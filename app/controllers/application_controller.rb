@@ -1,5 +1,3 @@
-require 'foreman/controller/auto_complete_search'
-
 class ApplicationController < ActionController::Base
   include Foreman::ThreadSession::Cleaner
 
@@ -12,13 +10,14 @@ class ApplicationController < ActionController::Base
   helper 'layout'
 
   before_filter :require_ssl, :require_login
+  before_filter :set_gettext_locale_db, :set_gettext_locale
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
 
-  cache_sweeper :topbar_sweeper, :unless => :api_request?
+  cache_sweeper :topbar_sweeper
 
   def welcome
     @searchbar = true
@@ -29,6 +28,10 @@ class ApplicationController < ActionController::Base
     end
   rescue
     not_found
+  end
+
+  def api_request?
+    request.format.json? or request.format.yaml?
   end
 
   protected
@@ -52,6 +55,15 @@ class ApplicationController < ActionController::Base
     redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
   end
 
+  def available_sso
+    @available_sso ||= SSO.get_available(self)
+  end
+
+  # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
+  # from db. It must be called after require_login.
+  def set_gettext_locale_db
+    params[:locale] ||= User.current.try(:locale)
+  end
 
   # Force a user to login if authentication is enabled
   # Sets User.current to the logged in user, or to admin if logins are not used
@@ -60,12 +72,16 @@ class ApplicationController < ActionController::Base
       # User is not found or first login
       if SETTINGS[:login]
         # authentication is enabled
-
-        # If REMOTE_USER is provided by the web server then
-        # authenticate the user without using password.
-        if remote_user_provided?
-          user = User.unscoped.find_by_login(@remote_user)
-          logger.warn("Failed REMOTE_USER authentication from #{request.remote_ip}") unless user
+        if available_sso.present?
+          if available_sso.authenticated?
+            user = User.unscoped.find_by_login(available_sso.user)
+            update_activity_time
+          elsif available_sso.support_login?
+            available_sso.authenticate!
+            return
+          else
+            logger.warn("SSO failed, falling back to login form")
+          end
         # Else, fall back to the standard authentication mechanism,
         # only if it's an API request.
         elsif api_request?
@@ -94,7 +110,7 @@ class ApplicationController < ActionController::Base
 
   def require_mail
     if User.current && User.current.mail.blank?
-      notice "Mail is Required"
+      notice _("Mail is Required")
       redirect_to edit_user_path(:id => User.current)
     end
   end
@@ -105,7 +121,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    render :text => 'Invalid query', :status => 400
+    render :text => _('Invalid query'), :status => 400
   end
 
   def not_found(exception = nil)
@@ -117,10 +133,6 @@ class ApplicationController < ActionController::Base
       format.yml { head :status => 404}
     end
     true
-  end
-
-  def api_request?
-    request.format.json? or request.format.yaml?
   end
 
   # this method sets the Current user to be the Admin
@@ -187,9 +199,25 @@ class ApplicationController < ActionController::Base
 
   def expire_session
     logger.info "Session for #{current_user} is expired."
+    sso = get_sso_method
     reset_session
-    flash[:warning] = "Your session has expired, please login again"
-    redirect_to login_users_path
+    if sso.nil? || !sso.support_expiration?
+      flash[:warning] = _("Your session has expired, please login again")
+      redirect_to login_users_path
+    else
+      redirect_to sso.expiration_url
+    end
+  end
+
+  # returns current SSO method object according to session
+  # nil is returned if nothing was found or invalid method is stored
+  def get_sso_method
+    if (sso_method_class = session[:sso_method])
+      sso_method_class.constantize.new(self)
+    end
+  rescue NameError
+    logger.error "Unknown SSO method #{sso_method_class}"
+    nil
   end
 
   def ajax?
@@ -234,18 +262,29 @@ class ApplicationController < ActionController::Base
   def process_success hash = {}
     hash[:object]                 ||= eval("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
-    hash[:success_msg]            ||= "Successfully #{action_name.pluralize.sub(/es$/,"ed").sub(/ys$/, "yed")} #{hash[:object_name]}."
+    unless hash[:success_msg]
+      hash[:success_msg] = case action_name
+                           when "create"
+                             _("Successfully created %s.") % hash[:object_name]
+                           when "update"
+                             _("Successfully updated %s.") % hash[:object_name]
+                           when "destroy"
+                             _("Successfully deleted %s.") % hash[:object_name]
+                           else
+                             raise Foreman::Exception.new(N_("Unknown action name for success message: %s"), action_name)
+                           end
+    end
     hash[:success_redirect]       ||= eval("#{controller_name}_url")
     hash[:json_code]                = :created if action_name == "create"
 
     return render :json => {:redirect => hash[:success_redirect]} if hash[:redirect_xhr]
 
     respond_to do |format|
-        format.html do
-          notice hash[:success_msg]
-          redirect_to hash[:success_redirect] and return
-        end
-        format.json { render :json => hash[:object], :status => hash[:json_code]}
+      format.html do
+        notice hash[:success_msg]
+        redirect_to hash[:success_redirect] and return
+      end
+      format.json { render :json => hash[:object], :status => hash[:json_code]}
     end
   end
 
@@ -261,7 +300,7 @@ class ApplicationController < ActionController::Base
 
     hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
-    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| "Conflict - #{e}"}].flatten
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten
     respond_to do |format|
       format.html do
@@ -321,9 +360,9 @@ class ApplicationController < ActionController::Base
 
     if User.current && User.current.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?
-        redirect_to locations_path, :notice => "You must create at least one location before continuing."
+        redirect_to locations_path, :notice => _("You must create at least one location before continuing.")
       elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
-        redirect_to organizations_path, :notice => "You must create at least one organization before continuing."
+        redirect_to organizations_path, :notice => _("You must create at least one organization before continuing.")
       end
     end
   end
@@ -335,6 +374,10 @@ class ApplicationController < ActionController::Base
     include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
     include += [:fact_values] if User.current.user_facts.any?
     include
+  end
+
+  def errors_hash errors
+    errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
   end
 
 end

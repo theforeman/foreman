@@ -2,12 +2,12 @@
   <%= base_errors_for @environment %>
   <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _('Primary') -%></a></li>
       <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab">Locations</a></li>
+        <li><a href="#locations" data-toggle="tab"><%= _('Locations') -%></a></li>
       <% end %>
       <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab">Organizations</a></li>
+        <li><a href="#organizations" data-toggle="tab"><%= _('Organizations') -%></a></li>
       <% end %>
     </ul>
 
@@ -19,13 +19,13 @@
 
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <%= multiple_checkboxes f, :locations, @environment, Location, { :prefix => "environment" } %>
+          <%= multiple_checkboxes f, :locations, @environment, Location, { :prefix => "environment", :label => _("Locations") } %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @environment, Organization, { :prefix => "environment" } %>
+          <%= multiple_checkboxes f, :organizations, @environment, Organization, { :prefix => "environment", :label => _("Organizations") } %>
         </div>
       <% end %>
     </div>

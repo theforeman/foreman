@@ -97,7 +97,6 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
-      args[:display] = 'VNC'
       vm = super args
       begin
         create_interfaces(vm, args[:interfaces_attributes])
@@ -110,7 +109,7 @@ module Foreman::Model
     end
 
     def new_vm(attr={})
-      vm = client.servers.new vm_instance_defaults.merge(attr)
+      vm = super
       interfaces = nested_attributes_for :interfaces, attr[:interfaces_attributes]
       interfaces.map{ |i| vm.interfaces << new_interface(i)}
       volumes = nested_attributes_for :volumes, attr[:volumes_attributes]
@@ -150,10 +149,30 @@ module Foreman::Model
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
       if vm.display[:type] =~ /spice/i
-        {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port],:ticket => vm.ticket, :ca_cert => cacert}
+        xpi_opts = {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port], :ca_cert => cacert}
+        opts = if vm.display[:secure_port]
+                 { :host_port => vm.display[:secure_port], :ssl_target => true }
+               else
+                 { :host_port => vm.display[:port] }
+               end
+        WsProxy.start(opts.merge(:host => vm.display[:address], :password => vm.ticket)).merge(xpi_opts).merge(:type => 'spice')
       else
-        VNCProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket)
+        WsProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket).merge(:name => vm.name, :type => 'vnc')
       end
+    end
+
+    def update_required?(old_attrs, new_attrs)
+      return true if super(old_attrs, new_attrs)
+
+      new_attrs[:interfaces_attributes].each do |key, interface|
+        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
+      end if new_attrs[:interfaces_attributes]
+
+      new_attrs[:volumes_attributes].each do |key, volume|
+        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
+      end if new_attrs[:volumes_attributes]
+
+      false
     end
 
     protected
@@ -176,29 +195,18 @@ module Foreman::Model
       )
     end
 
+    def api_version
+      @api_version ||= client.send(:client).api_version
+    end
+
     def cacert
       ca_url = URI.parse(url)
       ca_url.path = "/ca.crt"
       ca_url.scheme = "http"
       ca_url.port = 8080 if ca_url.port == 8443
       ca_url.port = 80 if ca_url.port == 443
-      Net::HTTP.get(ca_url).to_s.gsub(/\n/, '\\n')
+      Net::HTTP.get(ca_url).to_s
     end
-
-    def update_required?(old_attrs, new_attrs)
-      return true if super(old_attrs, new_attrs)
-
-      new_attrs[:interfaces_attributes].each do |key, interface|
-        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
-      end if new_attrs[:interfaces_attributes]
-
-      new_attrs[:volumes_attributes].each do |key, volume|
-        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
-      end if new_attrs[:volumes_attributes]
-
-      false
-    end
-
 
     private
     def create_interfaces(vm, attrs)
@@ -216,8 +224,8 @@ module Foreman::Model
     def create_volumes(vm, attrs)
       #add volumes
       volumes = nested_attributes_for :volumes, attrs
-      #The blocking true is a work-around for ovirt bug, it should be removed.
-      volumes.map{ |vol| vm.add_volume({:bootable => 'false',:blocking => true}.merge(vol)) if vol[:id].blank?}
+      #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
+      volumes.map{ |vol| vm.add_volume({:bootable => 'false',:blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?}
       vm.volumes.reload
     end
 
@@ -232,8 +240,8 @@ module Foreman::Model
     def update_volumes(vm, attrs)
       volumes = nested_attributes_for :volumes, attrs
       volumes.each do |volume|
-        vm.destroy_volume(:id => volume[:id], :blocking => true) if volume[:_delete] == '1' && volume[:id].present?
-        vm.add_volume({:bootable => 'false',:blocking => true}.merge(volume)) if volume[:id].blank?
+        vm.destroy_volume(:id => volume[:id], :blocking => api_version.to_f < 3.1) if volume[:_delete] == '1' && volume[:id].present?
+        vm.add_volume({:bootable => 'false', :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
     end
 

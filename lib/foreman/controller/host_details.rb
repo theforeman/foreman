@@ -20,8 +20,7 @@ module Foreman::Controller::HostDetails
     respond_to do |format|
       format.html {assign_parameter "domain", "common/"}
       format.json do
-        @organization = params[:organization_id].blank? ? nil : Organization.find(params[:organization_id])
-        @location     = params[:location_id].blank? ? nil : Location.find(params[:location_id])
+        taxonomy_scope
         Taxonomy.as_taxonomy @organization, @location do
           if (domain = Domain.find(params[:domain_id]))
             render :json => domain.subnets
@@ -40,11 +39,10 @@ module Foreman::Controller::HostDetails
 
   private
   def assign_parameter name, root = ""
-    @organization = params[:organization_id] ? Organization.find(params[:organization_id]) : nil
-    @location = params[:location_id] ? Location.find(params[:location_id]) : nil
+    taxonomy_scope
     Taxonomy.as_taxonomy @organization, @location do
-      if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.capitalize}.find(params['#{name}_id'])")
-        item = eval("@#{controller_name.singularize} || #{controller_name.singularize.capitalize}.new(params[:#{controller_name.singularize}])")
+      if params["#{name}_id"].to_i > 0 and eval("@#{name} = #{name.classify}.find(params['#{name}_id'])")
+        item = eval("@#{controller_name.singularize} || #{controller_name.classify}.new(params[:#{controller_name.singularize}])")
         render :partial => root + name, :locals => { :item => item }
       else
         head(:not_found)
@@ -60,7 +58,12 @@ module Foreman::Controller::HostDetails
   # @host = Host.new params[:host]
   def item_object
     name = item_name
-    eval("@#{name} = #{name.capitalize}.new params[:#{name}]")
+    eval("@#{name} = #{name.classify}.new params[:#{name}]")
+  end
+
+  def taxonomy_scope
+    @organization = params[:organization_id].blank? ? nil : Organization.find(Array.wrap(params[:organization_id]))
+    @location     = params[:location_id].blank? ? nil : Location.find(Array.wrap(params[:location_id]))
   end
 
 end

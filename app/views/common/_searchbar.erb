@@ -2,11 +2,9 @@
     <div class="btn-toolbar btn-toolbar-condensed">
     <div class="btn-group span12">
       <div class="span9">
-        <%= auto_complete_search(:search, params[:search].try(:squeeze," "),
-                                 {:placeholder => "Filter ..."},
-                                 { :delay => 100, :min_length => -1 }).html_safe %>
-        </div>
-      <button class="btn hidden-phone" onclick="$('.form-search').submit()"><%= icon_text("search", "Search") %></button>
+        <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
+      </div>
+      <button class="btn hidden-phone" onclick="$('.form-search').submit()"><%= icon_text("search", _("Search")) %></button>
 
       <button class="btn dropdown-toggle" data-toggle="dropdown">
         <i class="caret"></i>
@@ -17,7 +15,7 @@
             <li><%= link_to_if_authorized bookmark.name, eval("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
         <% end -%>
         <li class="divider"></li>
-        <li><%= link_to_function 'Bookmark this search', "$('#bookmarks-modal').modal();",
+        <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
                                  {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
       </ul>
     </div>
@@ -27,13 +25,13 @@
 <div id="bookmarks-modal" class="modal hide fade">
   <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Add Bookmark</h3>
+    <h3><%= _("Add Bookmark") %></h3>
   </div>
   <div class="modal-body">
 
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-primary">Submit</a>
-    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="#" class="btn btn-primary"><%= _("Submit") %></a>
+    <a href="#" class="btn" data-dismiss="modal"><%= _("Cancel") %></a>
   </div>
 </div>

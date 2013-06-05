@@ -1,9 +1,25 @@
 <div class="fields">
-  <% if (networks = compute_resource.networks).any? -%>
-    <%= selectable_f f, :bridge, networks.map(&:name), { }, :class => "span2", :label => "Network",
-                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
-  <% else -%>
-    <%= text_f f, :bridge, :class => "span2", :label => "Network", :help_block => "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)",
-               :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => 'remove network interface', :class => 'label label-important' }) %>
-  <% end -%>
+  <% nat    = compute_resource.networks -%>
+  <% bridge = compute_resource.interfaces -%>
+
+  <%= selectable_f f, :type, libvirt_networks(compute_resource), {},
+                   { :label    => _('Network Type'), :help_inline =>
+                       remove_child_link('X', f, { :method => :'_delete', :title => _('remove network interface'),
+                                                   :class  => 'label label-important' }),
+                     :onchange => 'libvirt_network_selected(this)' } %>
+  <div id='nat' class='<%= 'hide' if f.object.type != 'network' %>'>
+    <%= selectable_f f, :network, nat.map(&:name),
+                     { :include_blank => nat.any? ? false : _("No networks") },
+                     { :class => "span2", :label => _("Network"), :disabled => f.object.type != 'network' } %>
+  </div>
+
+  <div id='bridge' class='<%= 'hide' if f.object.type != 'bridge' %>'>
+    <% if bridge.any? -%>
+      <%= selectable_f f, :bridge, bridge.map(&:name),
+                       { :include_blank => bridge.any? ? false : _("No bridges") },
+                       { :class => "span2", :label => _("Network"), :disabled => f.object.type != 'bridge' } %>
+    <% else -%>
+      <%= text_f f, :bridge, :class => "span2", :label => _("Network"), :help_block => _("your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)") -%>
+    <% end -%>
+  </div>
 </div>

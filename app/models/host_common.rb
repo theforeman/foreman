@@ -17,6 +17,27 @@ module HostCommon
       belongs_to :subnet
 
       before_save :check_puppet_ca_proxy_is_required?
+      has_many :lookup_values, :finder_sql => Proc.new { %Q{ SELECT lookup_values.* FROM lookup_values WHERE (lookup_values.match = '#{lookup_value_match}') } }, :dependent => :destroy
+      # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
+      accepts_nested_attributes_for :lookup_values
+
+      # Replacement of accepts_nested_attributes_for :lookup_values,
+      # to work around the lack of `host_id` column in lookup_values.
+      def lookup_values_attributes= lookup_values_attributes
+        lookup_values_attributes.each_value do |attribute|
+          attr = attribute.dup
+          if attr.has_key? :id
+            lookup_value = lookup_values.find attr.delete(:id)
+            if lookup_value
+              mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
+              lookup_value.attributes = attr
+              mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
+            end
+          elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
+            LookupValue.create(attr.merge(:match => lookup_value_match))
+          end
+        end
+      end
     end
   end
 

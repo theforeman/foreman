@@ -1,5 +1,3 @@
-require 'foreman/controller/smart_proxy_auth'
-
 class ReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::SmartProxyAuth
@@ -38,9 +36,9 @@ class ReportsController < ApplicationController
   def create
     Taxonomy.no_taxonomy_scope do
       if Report.import params.delete("report") || request.body
-        render :text => "Imported report", :status => 200 and return
+        render :text => _("Imported report"), :status => 200 and return
       else
-        render :text => "Failed to import report", :status => 500
+        render :text => _("Failed to import report"), :status => 500
       end
     end
   rescue => e
@@ -50,7 +48,7 @@ class ReportsController < ApplicationController
   def destroy
     @report = Report.find(params[:id])
     if @report.destroy
-      notice "Successfully destroyed report."
+      notice _("Successfully destroyed report.")
     else
       error @report.errors.full_messages.join("<br/>")
     end

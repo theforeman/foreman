@@ -2,7 +2,7 @@ require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Rackspace].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
-  audited :except => [:password, :attrs]
+  audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
@@ -12,13 +12,13 @@ class ComputeResource < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   include Authorization
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
+  validates_format_of :name, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
   validates_uniqueness_of :name
   validates_presence_of :provider, :in => PROVIDERS
   validates_presence_of :url
   scoped_search :on => :name, :complete_value => :true
   before_save :sanitize_url
-  has_many :hosts
+  has_many_hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
 
@@ -26,7 +26,7 @@ class ComputeResource < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(compute_resources.name)")
+      order("compute_resources.name")
     end
   }
 
@@ -45,11 +45,11 @@ class ComputeResource < ActiveRecord::Base
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
-    raise "must provide a provider" unless provider = args[:provider]
+    raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args[:provider]
     PROVIDERS.each do |p|
       return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
-    raise "unknown Provider"
+    raise ::Foreman::Exception.new N_("unknown provider")
   end
 
   def capabilities
@@ -63,6 +63,11 @@ class ComputeResource < ActiveRecord::Base
 
   def test_connection
     valid?
+  end
+
+  def ping
+    test_connection
+    errors
   end
 
   def save_vm uuid, attr
@@ -87,7 +92,8 @@ class ComputeResource < ActiveRecord::Base
 
   # returns a new fog server instance
   def new_vm attr={}
-    client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys)
+    test_connection
+    client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys) if errors.empty?
   end
 
   # return fog new interface ( network adapter )
@@ -164,7 +170,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise "#{provider} console is not supported at this time"
+    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider)
   end
 
   # by default, our compute providers do not support updating an existing instance
@@ -172,10 +178,14 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def available_images
+    []
+  end
+
   protected
 
   def client
-    raise "Not implemented"
+    raise ::Foreman::Exception.new N_("Not implemented")
   end
 
   def sanitize_url
@@ -217,7 +227,7 @@ class ComputeResource < ActiveRecord::Base
         return true if ComputeResource.my_compute_resources.include? self
       end
     end
-    errors.add :base, "You do not have permission to #{operation} this compute resource"
+    errors.add :base, _("You do not have permission to %s this compute resource") % operation
     false
   end
 

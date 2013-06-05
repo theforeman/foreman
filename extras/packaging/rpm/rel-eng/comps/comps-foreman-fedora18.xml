@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE comps PUBLIC "-//Red Hat, Inc.//DTD Comps info//EN" "comps.dtd">
+
+<comps>
+  <group>
+    <id>foreman</id>
+    <name>Foreman</name>
+    <description>Packages for the Foreman</description>
+    <uservisible>true</uservisible>
+    <packagelist>
+      <packagereq type="default">foreman</packagereq>
+      <packagereq type="default">foreman-cli</packagereq>
+      <packagereq type="default">foreman-compute</packagereq>
+      <packagereq type="default">foreman-console</packagereq>
+      <packagereq type="default">foreman-devel</packagereq>
+      <packagereq type="default">foreman-libvirt</packagereq>
+      <packagereq type="default">foreman-ovirt</packagereq>
+      <packagereq type="default">foreman-postgresql</packagereq>
+      <packagereq type="default">foreman-mysql</packagereq>
+      <packagereq type="default">foreman-mysql2</packagereq>
+      <packagereq type="default">foreman-release</packagereq>
+      <packagereq type="default">foreman-sqlite</packagereq>
+      <packagereq type="default">foreman-vmware</packagereq>
+      <packagereq type="default">foreman-proxy</packagereq>
+
+      <packagereq type="default">foreman-installer</packagereq>
+
+      <packagereq type="default">rubygem-ancestry</packagereq>
+      <packagereq type="default">rubygem-apipie-rails</packagereq>
+      <packagereq type="default">rubygem-awesome_print</packagereq>
+      <packagereq type="default">rubygem-bundler_ext</packagereq>
+      <packagereq type="default">rubygem-daemons</packagereq>
+      <packagereq type="default">rubygem-excon</packagereq>
+      <packagereq type="default">rubygem-flot-rails</packagereq>
+      <packagereq type="default">rubygem-fog</packagereq>
+      <packagereq type="default">rubygem-foremancli</packagereq>
+      <packagereq type="default">rubygem-gettext_i18n_rails</packagereq>
+      <packagereq type="default">rubygem-gettext_i18n_rails_js</packagereq>
+      <packagereq type="default">rubygem-hirb</packagereq>
+      <packagereq type="default">rubygem-hirb-unicode</packagereq>
+      <packagereq type="default">rubygem-jquery-ui-rails</packagereq>
+      <packagereq type="default">rubygem-less</packagereq>
+      <packagereq type="default">rubygem-less-rails</packagereq>
+      <packagereq type="default">rubygem-mysql</packagereq>
+      <packagereq type="default">rubygem-mysql2</packagereq>
+      <packagereq type="default">rubygem-net-scp</packagereq>
+      <packagereq type="default">rubygem-net-ssh</packagereq>
+      <packagereq type="default">rubygem-oauth</packagereq>
+      <packagereq type="default">rubygem-quiet_assets</packagereq>
+      <packagereq type="default">rubygem-rabl</packagereq>
+      <packagereq type="default">rubygem-rkerberos</packagereq>
+      <packagereq type="default">rubygem-ruby2ruby</packagereq>
+      <packagereq type="default">rubygem-ruby_parser</packagereq>
+      <packagereq type="default">rubygem-safemode</packagereq>
+      <packagereq type="default">rubygem-scoped_search</packagereq>
+      <packagereq type="default">rubygem-sexp_processor</packagereq>
+      <packagereq type="default">rubygem-spice-html5-rails</packagereq>
+      <packagereq type="default">rubygem-twitter-bootstrap-rails</packagereq>
+      <packagereq type="default">rubygem-unicode-display_width</packagereq>
+      <packagereq type="default">rubygem-wirb</packagereq>
+    </packagelist>
+  </group>
+</comps>

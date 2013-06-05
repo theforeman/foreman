@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HostMailerTest < ActionMailer::TestCase
   def setup
+    disable_orchestration
     @host = hosts(:one)
     @env = environments(:production)
     as_admin do
@@ -10,7 +11,7 @@ class HostMailerTest < ActionMailer::TestCase
       @env.hosts << @host
       @env.save
     end
-    User.current = User.find_by_login "admin"
+    User.current = User.admin
     Setting[:foreman_url] = "http://localhost:3000/hosts/:id"
 
     @options = {}

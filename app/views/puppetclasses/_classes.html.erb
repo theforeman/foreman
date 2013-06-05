@@ -7,9 +7,9 @@
           <ul id="pc_<%= list.first %>" style="display: none;">
             <% for klass in list.last.sort -%>
               <% unless authorized_for(:host_editing, :edit_classes) -%>
-                <li data-original-title="Not authorized to edit classes" rel="twipsy" style='colour:black;'><%= h klass.name %></li>
+                <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy"><%= h klass.name %></li>
               <% else -%>
-                <% style = selected_puppet_classes.include?(klass) ? "hide" : "#{cycle('even', 'odd')}" %>
+                <% style = selected_puppet_classes.include?(klass) ? "hide" : "" %>
                 <%= content_tag_for :li, klass, :class=> style do %>
                   <%= link_to_add_puppetclass(klass, @host, type) %>
                 <% end -%>

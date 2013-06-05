@@ -92,15 +92,15 @@ class LocationTest < ActiveSupport::TestCase
     # run selected_ids method
     selected_ids = location.selected_ids
     # get results from taxable_taxonomies
-    environment_ids = location.environments.pluck(:id)
-    hostgroup_ids = location.hostgroups.pluck(:id)
-    subnet_ids = location.subnets.pluck(:id)
-    domain_ids = location.domains.pluck(:id)
-    medium_ids = location.media.pluck(:id)
-    user_ids = location.users.pluck(:id)
-    smart_proxy_ids = location.smart_proxies.pluck(:id)
-    config_template_ids = location.config_templates.pluck(:id)
-    compute_resource_ids = location.compute_resources.pluck(:id)
+    environment_ids = location.environments.pluck('environments.id')
+    hostgroup_ids = location.hostgroups.pluck('hostgroups.id')
+    subnet_ids = location.subnets.pluck('subnets.id')
+    domain_ids = location.domains.pluck('domains.id')
+    medium_ids = location.media.pluck('media.id')
+    user_ids = location.users.pluck('users.id')
+    smart_proxy_ids = location.smart_proxies.pluck('smart_proxies.id')
+    config_template_ids = location.config_templates.pluck('config_templates.id')
+    compute_resource_ids = location.compute_resources.pluck('compute_resources.id')
     # check if they match
     assert_equal selected_ids[:environment_ids], environment_ids
     assert_equal selected_ids[:hostgroup_ids], hostgroup_ids
@@ -129,22 +129,22 @@ class LocationTest < ActiveSupport::TestCase
     location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     # run selected_ids method
     selected_ids = location.selected_ids
-    # should return empty [] for array
-    assert_equal selected_ids[:environment_ids], Array.new
-    assert_equal selected_ids[:hostgroup_ids], Array.new
-    assert_equal selected_ids[:subnet_ids], Array.new
-    assert_equal selected_ids[:domain_ids], Array.new
-    assert_equal selected_ids[:medium_ids], Array.new
-    assert_equal selected_ids[:user_ids], Array.new
-    assert_equal selected_ids[:smart_proxy_ids], Array.new
-    assert_equal selected_ids[:config_template_ids], Array.new
-    assert_equal selected_ids[:compute_resource_ids], Array.new
+    # should return all when type is ignored
+    assert_equal selected_ids[:environment_ids], Environment.pluck(:id)
+    assert_equal selected_ids[:hostgroup_ids], Hostgroup.pluck(:id)
+    assert_equal selected_ids[:subnet_ids], Subnet.pluck(:id)
+    assert_equal selected_ids[:domain_ids], Domain.pluck(:id)
+    assert_equal selected_ids[:medium_ids], Medium.pluck(:id)
+    assert_equal selected_ids[:user_ids], User.pluck(:id)
+    assert_equal selected_ids[:smart_proxy_ids], SmartProxy.pluck(:id)
+    assert_equal selected_ids[:config_template_ids], ConfigTemplate.pluck(:id)
+    assert_equal selected_ids[:compute_resource_ids], ComputeResource.pluck(:id)
   end
 
   #Clone
-  test "it should clone location with all assocations" do
+  test "it should clone location with all associations" do
     location = taxonomies(:location1)
-    location_dup = location.clone
+    location_dup = location.dup
     location_dup.name = "location_dup_name"
     assert location_dup.save!
     assert_equal, location_dup.environment_ids = location.environment_ids

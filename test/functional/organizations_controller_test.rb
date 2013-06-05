@@ -19,7 +19,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     post :update, {:commit => "Submit", :id => organization.id, :organization => {:name => "New Name"} }, set_session_user
     updated_organization = Organization.find_by_id(organization.id)
 
-    assert updated_organization.name = organization.name
+    assert_equal "New Name", updated_organization.name
     assert_redirected_to organizations_path
   end
 
@@ -39,7 +39,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_difference('Organization.count', -1) do
       delete :destroy, {:id => organization}, set_session_user
-      assert_contains flash[:notice], "Successfully destroyed #{organization}."
+      assert_match /Successfully deleted/, flash[:notice]
     end
   end
 
@@ -55,7 +55,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 16 do
+    assert_difference "organization.taxable_taxonomies.count", 17 do
       post :assign_all_hosts, {:id => organization.id}, set_session_user
     end
   end
@@ -138,5 +138,11 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal new_organization.location_ids, organization.location_ids
   end
 
-
+  test "should clear out Organization.current" do
+    @request.env['HTTP_REFERER'] = root_url
+    get :clear, {}, set_session_user
+    assert_equal Organization.current, nil
+    assert_equal session[:organization_id], nil
+    assert_redirected_to root_url
+  end
 end

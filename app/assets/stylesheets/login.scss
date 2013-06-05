@@ -1,0 +1,62 @@
+@import "mixin";
+@import "colors";
+
+$frame_gradient_start: #ffffff;
+$frame_gradient_end: #e9e9e9;
+$side_gradient_start: $primary_color;
+$side_gradient_end: $primary_color;
+
+.login-container{
+  position: relative;
+  width: 500px;
+  height: 265px;
+  margin: 150px auto;
+  padding: 10px;
+  background-size: 100%;
+  @include linear-gradient($frame_gradient_start, $frame_gradient_end);
+  @include border_radius(7px, 7px, 7px, 7px);
+  -webkit-box-shadow: #acacac 0px 12px 15px -8px;
+  -moz-box-shadow: #acacac 0px 12px 15px -8px;
+  box-shadow: #acacac 0px 12px 15px -8px;
+  & .aside {
+    width: 140px;
+    height: 265px;
+    float: left;
+    @include linear-gradient($side_gradient_start, $side_gradient_end);
+    @include border_radius(7px, 0, 0, 7px);
+  }
+  & .section {
+    width: 360px;
+    position: relative;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    min-height: 265px;
+    height: 265px;
+    width: 360px;
+    background: #f9f9f9;
+    padding: 0 30px;
+    @include border_radius(0, 7px, 7px, 0);
+    -webkit-box-shadow: inset -15px -15px 30px -7px #d9d9d9, inset 0px -15px 130px #d9d9d9;
+    -moz-box-shadow: inset -15px -15px 30px -7px #d9d9d9, inset 0px -15px 130px #d9d9d9;
+    box-shadow: inset -15px -15px 30px -7px #d9d9d9, inset 0px -15px 130px #d9d9d9;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#88d9d9d9,endColorstr=#33d9d9d9);
+  }
+}
+#login-form{
+  margin: 40px 0 0 0;
+  height: 265px;
+  font-family: Overpass !important;
+  & .btn{
+    margin-right: 16px;
+  }
+}
+
+
+.login-logo{
+  margin-top: 88.33333px;
+  width: 130px;
+  margin-left: 5px;
+}
+

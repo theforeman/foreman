@@ -39,6 +39,14 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost.company.com", host.name
   end
 
+  test "should not append domainname to fqdn" do
+    host = Host.create :name => "myhost.sub.comp.net", :mac => "aabbccddeeff", :ip => "123.01.02.03",
+      :domain => Domain.find_or_create_by_name("company.com"),
+      :certname => "myhost.sub.comp.net",
+      :managed => false
+    assert_equal "myhost.sub.comp.net", host.name
+  end
+
   test "should save hosts with full stop in their name" do
     host = Host.create :name => "my.host.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
       :domain => Domain.find_or_create_by_name("company.com")
@@ -63,6 +71,18 @@ class HostTest < ActiveSupport::TestCase
 
   test "should import facts from yaml of a new host" do
     assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+  end
+
+  test "should downcase fqdn facts from yaml of a new host" do
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts_with_caps.yml")))
+    assert Host.find_by_name('a.server.b.domain')
+  end
+
+  test "should import facts idempotently" do
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+    value_ids = Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+    assert_equal value_ids, Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
   end
 
   test "should not save if neither ptable or disk are defined when the host is managed" do
@@ -145,6 +165,17 @@ class HostTest < ActiveSupport::TestCase
     @host           = hosts(:one)
     @host.owner     = users(:two)
     @host.save!
+    User.current    = @one
+  end
+
+  def setup_filtered_user
+    # Can't use `setup_user_and_host` as it deletes the UserFacts
+    @one             = users(:one)
+    @one.hostgroups  = []
+    @one.domains     = []
+    @one.user_facts  = [user_facts(:one)]
+    @one.facts_andor = "and"
+    @one.save!
     User.current    = @one
   end
 
@@ -255,8 +286,9 @@ class HostTest < ActiveSupport::TestCase
     setup_user_and_host
     as_admin do
       @one.roles = [Role.find_by_name("Destroy hosts")]
+      @host.host_classes.delete_all
+      assert @host.destroy
     end
-    assert @host.destroy
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -265,8 +297,9 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles = [Role.find_by_name("Destroy hosts")]
       @host.update_attribute :owner,  users(:one)
+      @host.host_classes.delete_all
+      assert @host.destroy
     end
-    assert @host.destroy
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -279,6 +312,36 @@ class HostTest < ActiveSupport::TestCase
       @host.save!
     end
     assert !@host.destroy
+    assert_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "fact filters restrict the my_hosts scope" do
+    setup_filtered_user
+    assert_equal 1, Host.my_hosts.count
+    assert_equal 'my5name.mydomain.net', Host.my_hosts.first.name
+  end
+
+  test "host can be edited when user fact filter permits" do
+    setup_filtered_user
+    as_admin do
+      @one.roles  = [Role.find_by_name("Edit hosts")]
+      @host       = hosts(:one)
+      @host.owner = users(:two)
+      @host.save!
+    end
+    assert @host.update_attributes(:name => "blahblahblah")
+    assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
+  end
+
+  test "host cannot be edited when user fact filter denies" do
+    setup_filtered_user
+    as_admin do
+      @one.roles  = [Role.find_by_name("Edit hosts")]
+      @host       = hosts(:two)
+      @host.owner = users(:two)
+      @host.save!
+    end
+    assert !@host.update_attributes(:name => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -332,15 +395,16 @@ class HostTest < ActiveSupport::TestCase
  test "custom_disk_partition_with_erb" do
    h = hosts(:one)
    h.disk = "<%= 1 + 1 %>"
-   h.save
-
+   assert h.save
+   assert h.disk.present?
    assert_equal "2", h.diskLayout
  end
 
   test "models are updated when host.model has no value" do
     h = hosts(:one)
+    f = fact_names(:kernelversion)
     as_admin do
-      FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => 1)
+      FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => f.id)
     end
     assert_difference('Model.count') do
     facts = YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
@@ -374,13 +438,13 @@ class HostTest < ActiveSupport::TestCase
 
     pc = puppetclasses(:two)
     h.puppetclasses << pc
-    assert !h.environment.puppetclasses.include?(pc)
+    assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
     assert !h.valid?
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
   test "when changing host environment, its puppet classes should be verified" do
-    h = hosts(:one)
+    h = hosts(:two)
     pc = puppetclasses(:one)
     h.puppetclasses << pc
     assert h.save
@@ -583,6 +647,19 @@ class HostTest < ActiveSupport::TestCase
     Setting[:token_duration] = 30
     h = hosts(:one)
     assert_equal h.token, nil
+  end
+
+  test "can search hosts by hostgroup" do
+    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    # search hosts by hostgroup label
+    hosts = Host.search_for("hostgroup_fullname = #{hostgroup.label}")
+    assert_equal hosts.count, 1  #host_db in hosts.yml
+    assert_equal hosts.first.hostgroup_id, hostgroup.id
   end
 
 end

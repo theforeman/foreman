@@ -92,15 +92,15 @@ class OrganizationTest < ActiveSupport::TestCase
     # run selected_ids method
     selected_ids = organization.selected_ids
     # get results from taxable_taxonomies
-    environment_ids = organization.environments.pluck(:id)
-    hostgroup_ids = organization.hostgroups.pluck(:id)
-    subnet_ids = organization.subnets.pluck(:id)
-    domain_ids = organization.domains.pluck(:id)
-    medium_ids = organization.media.pluck(:id)
-    user_ids = organization.users.pluck(:id)
-    smart_proxy_ids = organization.smart_proxies.pluck(:id)
-    config_template_ids = organization.config_templates.pluck(:id)
-    compute_resource_ids = organization.compute_resources.pluck(:id)
+    environment_ids = organization.environment_ids
+    hostgroup_ids = organization.hostgroup_ids
+    subnet_ids = organization.subnet_ids
+    domain_ids = organization.domain_ids
+    medium_ids = organization.medium_ids
+    user_ids = organization.user_ids
+    smart_proxy_ids = organization.smart_proxy_ids
+    config_template_ids = organization.config_template_ids
+    compute_resource_ids = organization.compute_resource_ids
     # check if they match
     assert_equal selected_ids[:environment_ids], environment_ids
     assert_equal selected_ids[:hostgroup_ids], hostgroup_ids
@@ -129,22 +129,22 @@ class OrganizationTest < ActiveSupport::TestCase
     organization.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     # run selected_ids method
     selected_ids = organization.selected_ids
-    # should return empty [] for array
-    assert_equal selected_ids[:environment_ids], Array.new
-    assert_equal selected_ids[:hostgroup_ids], Array.new
-    assert_equal selected_ids[:subnet_ids], Array.new
-    assert_equal selected_ids[:domain_ids], Array.new
-    assert_equal selected_ids[:medium_ids], Array.new
-    assert_equal selected_ids[:user_ids], Array.new
-    assert_equal selected_ids[:smart_proxy_ids], Array.new
-    assert_equal selected_ids[:config_template_ids], Array.new
-    assert_equal selected_ids[:compute_resource_ids], Array.new
+    # should return all when type is ignored
+    assert_equal selected_ids[:environment_ids], Environment.pluck(:id)
+    assert_equal selected_ids[:hostgroup_ids], Hostgroup.pluck(:id)
+    assert_equal selected_ids[:subnet_ids], Subnet.pluck(:id)
+    assert_equal selected_ids[:domain_ids], Domain.pluck(:id)
+    assert_equal selected_ids[:medium_ids], Medium.pluck(:id)
+    assert_equal selected_ids[:user_ids], User.pluck(:id)
+    assert_equal selected_ids[:smart_proxy_ids], SmartProxy.pluck(:id)
+    assert_equal selected_ids[:config_template_ids], ConfigTemplate.pluck(:id)
+    assert_equal selected_ids[:compute_resource_ids], ComputeResource.pluck(:id)
   end
 
   #Clone
-  test "it should clone organization with all assocations" do
+  test "it should clone organization with all associations" do
     organization = taxonomies(:organization1)
-    organization_dup = organization.clone
+    organization_dup = organization.dup
     organization_dup.name = "organization_dup_name"
     assert organization_dup.save!
     assert_equal, organization_dup.environment_ids = organization.environment_ids

@@ -10,7 +10,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
       :mac                => '52:53:00:1e:85:93',
       :architecture_id    => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id => Operatingsystem.find_by_name('Redhat').id,
-      :puppet_proxy_id    => 7
+      :puppet_proxy_id    => smart_proxies(:one).id
     }
   end
 

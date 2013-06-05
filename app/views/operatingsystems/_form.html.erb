@@ -1,10 +1,10 @@
 <%= form_for @operatingsystem do |f| %>
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Operating System</a></li>
-    <li><a href="#params" data-toggle="tab">Parameters</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
+    <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
     <% if SETTINGS[:unattended] -%>
-      <li><a href="#templates" data-toggle="tab">Templates</a></li>
+      <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
     <% end -%>
   </ul>
 
@@ -12,19 +12,19 @@
 
     <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :name, :help_inline => "e.g. RedHat" %>
-      <%= text_f f, :major, :help_inline => "e.g. 6", :class => "input-small" %>
-      <%= text_f f, :minor, :help_inline => "e.g. 2", :class => "input-small" %>
-      <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => "Choose a family"},
-        { :label => "OS Family", :help_inline => "The Operating System type", :onchange => 'show_release(this);'}
+      <%= text_f f, :name, :help_inline => _("e.g. RedHat") %>
+      <%= text_f f, :major, :help_inline => _("e.g. 6"), :class => "input-small" %>
+      <%= text_f f, :minor, :help_inline => _("e.g. 2"), :class => "input-small" %>
+      <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")},
+        { :label => _("OS Family"), :help_inline => _("The Operating System type"), :onchange => 'show_release(this);'}
       %>
       <div id="release_name" <%= display?(!@operatingsystem.use_release_name?) %>>
-        <%= text_f f, :release_name, :help_inline => "e.g. karmic, lucid, hw0910 etc" %>
+        <%= text_f f, :release_name, :help_inline => _("e.g. karmic, lucid, hw0910 etc") %>
       </div>
 
-      <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture %>
-      <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => "Partition tables" %>
-      <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => "Installation media" %>
+      <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>
+      <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => _("Partition tables") %>
+      <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation media") %>
     </div>
 
     <%= render('template_defaults', :f => f) if SETTINGS[:unattended] -%>

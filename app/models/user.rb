@@ -5,11 +5,12 @@ class User < ActiveRecord::Base
   include Authorization
   include Foreman::ThreadSession::UserModel
   include Taxonomix
-  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
-  self.auditing_enabled = !defined?(Rake)
+  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
+  self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
 
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation, :editing_self
+  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_admin_is_not_deleted
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
@@ -17,11 +18,12 @@ class User < ActiveRecord::Base
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
-  has_many :user_roles
+  has_many :user_roles, :dependent => :destroy
   has_many :roles, :through => :user_roles
   has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
   has_and_belongs_to_many :domains,           :join_table => "user_domains"
-  has_and_belongs_to_many :hostgroups,        :join_table => "user_hostgroups"
+  has_many :user_hostgroups, :dependent => :destroy
+  has_many :hostgroups, :through => :user_hostgroups
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
 
@@ -35,7 +37,10 @@ class User < ActiveRecord::Base
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update
 
-  validates_uniqueness_of :login, :message => "already exists"
+  validates :locale, :format => { :with => /^\w{2}([_-]\w{2})?$/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
+  before_validation :normalize_locale
+
+  validates_uniqueness_of :login, :message => N_("already exists")
   validates_presence_of :login, :auth_source_id
   validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
@@ -44,8 +49,7 @@ class User < ActiveRecord::Base
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i, :allow_nil => true
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
-  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
+  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin
   before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
@@ -54,7 +58,7 @@ class User < ActiveRecord::Base
   scoped_search :on => :lastname, :complete_value => :true
   scoped_search :on => :mail, :complete_value => :true
   scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :last_login_on, :complete_value => :true
+  scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
   default_scope lambda {
@@ -219,6 +223,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def normalize_locale
+    if self.respond_to?(:locale)
+      self.locale = nil if locale.empty?
+    end
+  end
+
   def normalize_mail
     self.mail.gsub!(/\s/,'') unless mail.blank?
   end
@@ -227,7 +237,7 @@ class User < ActiveRecord::Base
 
   def name_used_in_a_usergroup
     if Usergroup.all.map(&:name).include?(self.login)
-      errors.add :base, "A usergroup already exists with this name"
+      errors.add(:base, _("A user group already exists with this name"))
     end
   end
 
@@ -239,6 +249,13 @@ class User < ActiveRecord::Base
       errors.add :base, "Can't delete internal admin account"
       logger.warn "Unable to delete internal admin account"
       false
+    end
+  end
+
+  # The admin account must always retain the "Administrator" flag to function
+  def ensure_admin_remains_admin
+    if login == "admin" and admin_changed? and admin == false
+      errors.add :admin, "Can't remove Administrator flag from internal protected <b>admin</b> account".html_safe
     end
   end
 

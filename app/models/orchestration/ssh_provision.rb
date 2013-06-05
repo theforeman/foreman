@@ -21,13 +21,13 @@ module Orchestration::SSHProvision
     # I guess this is not going to happen on create as we might not have an ip address yet.
     def queue_ssh_provision_create
 
-      post_queue.create(:name   => "Preparing Post installation script for #{self}", :priority => 2000,
+      post_queue.create(:name   => _("Preparing Post installation script for %s") % self, :priority => 2000,
                    :action => [self, :setSSHProvisionScript])
-      post_queue.create(:name   => "Waiting for #{self} to come online", :priority => 2001,
+      post_queue.create(:name   => _("Waiting for %s to come online") % self, :priority => 2001,
                    :action => [self, :setSSHWaitForResponse])
-      post_queue.create(:name   => "Enable Certificate generation for #{self}", :priority => 2002,
+      post_queue.create(:name   => _("Enable Certificate generation for %s") % self, :priority => 2002,
                    :action => [self, :setSSHCert])
-      post_queue.create(:name   => "Configuring instance #{self} via SSH", :priority => 2003,
+      post_queue.create(:name   => _("Configuring instance %s via SSH") % self, :priority => 2003,
                    :action => [self, :setSSHProvision])
     end
 
@@ -50,12 +50,12 @@ module Orchestration::SSHProvision
       elsif vm.respond_to?(:password) and vm.password.present?
         credentials = { :password => vm.password, :auth_methods => ["password"] }
       else
-        raise 'Unable to find proper authentication method'
+        raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
       end
       self.client = Foreman::Provision::SSH.new ip, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
 
     rescue => e
-      failure "Failed to login via SSH to #{name}: #{e}", e.backtrace
+      failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
     end
 
     def delSSHWaitForResponse; end
@@ -69,10 +69,10 @@ module Orchestration::SSHProvision
     def delSSHCert
       # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
       if puppetca?
-        respond_to?(:initialize_puppetca) && initialize_puppetca && delCertificate && delAutosign
+        respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
       end
     rescue => e
-      failure "Failed to remove certificates for #{name}: #{e}", e.backtrace
+      failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
     end
 
     def setSSHProvision
@@ -85,14 +85,14 @@ module Orchestration::SSHProvision
         # calling validations would trigger the whole orchestration layer again, we don't want it while we are inside an orchestration action ourselves.
         h.save(:validate => false)
         # but it does mean we need to manually remove puppetca autosign, remove this when we no longer part of after_commit callback
-        respond_to?(:initialize_puppetca) && initialize_puppetca && delAutosign if puppetca?
+        respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
 
       else
-        raise "Provision script had a non zero exit, removing instance"
+        raise ::Foreman::Exception.new(N_("Provision script had a non zero exit, removing instance"))
       end
 
     rescue => e
-      failure "Failed to launch script on #{name}: #{e}", e.backtrace
+      failure _("Failed to launch script on %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
     end
 
   end
@@ -109,13 +109,7 @@ module Orchestration::SSHProvision
       status = false
     end
     status = false if template.nil?
-    failure "No finish templates were found for this host, make sure you define at least one in your #{os} settings" unless status
-    image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
-    unless (self.image = Image.find_by_uuid(image_uuid))
-      status &= failure("Must define an Image to use")
-    end
-
-    status
+    failure(_("No finish templates were found for this host, make sure you define at least one in your %s settings") % os ) unless status
   end
 
 end

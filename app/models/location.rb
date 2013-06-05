@@ -2,7 +2,7 @@ class Location < Taxonomy
   include Foreman::ThreadSession::LocationModel
 
   has_and_belongs_to_many :organizations
-  has_many :hosts, :dependent => :nullify
+  has_many_hosts :dependent => :nullify
 
   scope :completer_scope, lambda { my_locations }
 
@@ -16,7 +16,7 @@ class Location < Taxonomy
         where(conditions).reorder('type, name')
       }
 
-  def clone
+  def dup
     new = super
     new.organizations = organizations
     new

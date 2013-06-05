@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => "Remove Parameter")
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => _("Remove Parameter"))
   end
 
   def trunc text, length
@@ -38,29 +38,15 @@ module ApplicationHelper
     link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
-  def toggle_div divs
-    update_page do |page|
-      (divs.is_a?(Array) ? divs : divs.to_s).each_line do |div|
-        # add jquery '#div' to the div if its missing
-        div = div.to_s
-        div = "##{div}" if div[0] != "#"
-        page << "if ($('#{div}').is(':visible')) {"
-        page[div].hide()
-        page << "} else {"
-        page[div].show
-        page << "}"
-      end
-    end
-  end
-
   def link_to_remove_puppetclass klass, host
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
     link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
-                     :'data-original-title'=>"Click to remove #{klass}", :rel=>'twipsy',
+                     :'data-original-title'=>_("Click to remove %s") % klass, :rel=>'twipsy',
                      :'data-url' => parameters_puppetclass_path( :id => klass.id),
                      :'data-host-id' => host.id,
-                     :class=>"ui-icon ui-icon-minus")
+                     :'data-animation' => "",
+                     :class=>"icon-remove-sign")
   end
 
   def link_to_add_puppetclass klass, host, type
@@ -70,8 +56,9 @@ module ApplicationHelper
                        :'data-class-id' => klass.id, 'data-type' => type,
                        :'data-url' => parameters_puppetclass_path( :id => klass.id),
                        :'data-host-id' => host.try(:id),
-                       :'data-original-title' => "Click to add #{klass}", :rel => 'twipsy',
-                       :class => "ui-icon ui-icon-plus")
+                       :'data-original-title' => _("Click to add %s") % klass, :rel => 'twipsy',
+                       :'data-animation' => "",
+                       :class => "icon-plus-sign")
   end
 
   def add_html_classes options, classes
@@ -85,9 +72,9 @@ module ApplicationHelper
     options
   end
 
-  def check_all_links(form_name=':checkbox')
-    link_to_function("Check all", "checkAll('#{form_name}', true)") +
-    link_to_function("Uncheck all", "checkAll('#{form_name}', false)")
+  def check_all_roles_links
+    link_to(_("Check all"), "#", :id => "check_all_roles", :remote => true) +
+    link_to(_("Uncheck all"), "#", :id => "uncheck_all_roles", :remote => true)
   end
 
   # Return true if user is authorized for controller/action, otherwise false
@@ -115,8 +102,8 @@ module ApplicationHelper
 
   def display_delete_if_authorized(options ={}, html_options ={})
     options = {:auth_action => :destroy}.merge(options)
-    html_options = {:confirm => 'Are you sure?', :method => :delete, :class => 'delete'}.merge(html_options)
-    display_link_if_authorized("Delete", options, html_options)
+    html_options = {:confirm => _('Are you sure?'), :method => :delete, :class => 'delete'}.merge(html_options)
+    display_link_if_authorized(_("Delete"), options, html_options)
   end
   # Display a link if user is authorized, otherwise nothing
   # +name+    : String to be displayed
@@ -166,15 +153,14 @@ module ApplicationHelper
     end
   end
 
-  def auto_complete_search(method, val,tag_options = {}, completion_options = {})
+  def auto_complete_search(name, val, options = {})
     path = eval("#{controller_name}_path")
-    options = tag_options.merge(:class => "auto_complete_input")
-    text_field_tag(method, val, options) + auto_complete_clear_value_button(method) +
-      auto_complete_field_jquery(method, "#{path}/auto_complete_#{method}", completion_options)
+    options.merge!(:class => "autocomplete-input", :'data-url' => "#{path}/auto_complete_#{name}" )
+    text_field_tag(name, val, options)
   end
 
   def help_path
-    link_to "Help", :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
+    link_to _("Help"), :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
   def method_path method
@@ -193,33 +179,84 @@ module ApplicationHelper
     edit_inline(object, property, options.merge({:type => "edit_select"}))
   end
 
-  def pie_chart name, title, data, options = {}
-    link_to_function(content_tag(:h4,title,:class=>'ca'), "expand_chart(this)") +
+  def flot_pie_chart name, title, data, options = {}
+    data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if  data.is_a?(Hash)
+    header = content_tag(:h4,(options[:show_title]) ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
+    link_to_function(header, "expand_chart(this)")+
+        content_tag(:div, nil,
+                    { :id    => name,
+                      :class => 'statistics-pie',
+                      :data  => {
+                        :'title'  => title,
+                        :'series' => data,
+                        :'url'    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
+                      }
+                    }.merge(options))
+  end
+
+  def flot_chart name, xaxis_label, yaxis_label, data, options = {}
+    data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if  data.is_a?(Hash)
     content_tag(:div, nil,
-                { :id             => name,
-                  :class          => 'statistics_pie',
-                  :'chart-name'   => name,
-                  :'chart-title'  => title,
-                  :'chart-data'   => data.to_a.to_json,
-                  :'chart-href'   => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
+                { :id    => name,
+                  :class => 'statistics-chart',
+                  :data  => {
+                      :'legend-options' => options.delete(:legend),
+                      :'xaxis-label'    => xaxis_label,
+                      :'yaxis-label'    => yaxis_label,
+                      :'series'         => data
+                  }
                 }.merge(options))
   end
 
-  def bar_chart name, title, subtitle, labels, data, options = {}
+  def flot_bar_chart name, xaxis_label, yaxis_label, data, options = {}
+    i=0
+    ticks = nil
+    if data.is_a?(Array)
+      data = data.map do |kv|
+        ticks ||=[]
+        ticks << [i+=1,kv[0].to_s.humanize ]
+        [i,kv[1]]
+      end
+    elsif  data.is_a?(Hash)
+      data = data.map do |k,v|
+        ticks ||=[]
+        ticks << [i+=1,k.to_s.humanize ]
+        [i,v]
+      end
+    end
+
     content_tag(:div, nil,
-                { :id             => name,
-                  :class          => 'statistics_bar',
-                  :'chart-name'   => name,
-                  :'chart-title'  => title,
-                  :'chart-subtitle' => subtitle,
-                  :'chart-labels' => labels.to_a.to_json,
-                  :'chart-data'   => data.to_a.to_json
+                { :id   => name,
+                  :data => {
+                    :'xaxis-label' => xaxis_label,
+                    :'yaxis-label' => yaxis_label,
+                    :'chart'   => data,
+                    :'ticks'   => ticks
+                  }
                 }.merge(options))
   end
 
   def action_buttons(*args)
     content_tag(:div, :class => "btn-toolbar btn-toolbar-condensed") do
       toolbar_action_buttons args
+    end
+  end
+
+  def select_action_button(title, *args)
+    # the no-buttons code is needed for users with less permissions
+    return unless args
+    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
+    return if args.length == 0
+
+    #single button
+    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+
+    #multiple options
+    content_tag(:div, :class=>'btn-group') do
+    link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn dropdown-toggle", :'data-toggle'=>'dropdown') +
+        content_tag(:ul,:class=>"dropdown-menu") do
+          args.map{|option| content_tag(:li,option)}.join(" ").html_safe
+        end
     end
   end
 
@@ -245,9 +282,10 @@ module ApplicationHelper
   end
 
   def gravatar_image_tag(email, html_options = {})
-    default_image = "/images/user.jpg"
+    default_image = path_to_image("user.jpg")
     html_options.merge!(:onerror=>"this.src='#{default_image}'")
-    image_tag(gravatar_url(email, default_image), html_options)
+    image_url = Setting["use_gravatar"] ? gravatar_url(email, default_image) : default_image
+    return image_tag(image_url, html_options)
   end
 
   def gravatar_url(email, default_image)
@@ -263,7 +301,7 @@ module ApplicationHelper
     klass      = options[:type]
     update_url = options[:update_url] || url_for(object)
 
-    opts = { :title => "Click to edit", "data-url" => update_url, :class => "editable #{klass}",
+    opts = { :title => _("Click to edit"), "data-url" => update_url, :class => "editable #{klass}",
       :name => name, "data-field" => property, :value => value, :select_values => options[:select_values]}
 
     content_tag_for :span, object, opts do

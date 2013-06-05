@@ -1,15 +1,14 @@
-<% title "Trends" %>
+<% title _("Trends") %>
 
-<% title_actions display_link_if_authorized("Add Trend Counter", hash_for_new_trend_path) %>
+<% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path) %>
 <% if @trends.empty? -%>
   <div class="alert alert-message alert-info">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
 
-    <p><strong>No Trend Counter Defined.</strong></p>
+    <p><strong><%= _("No trend counter defined.") %></strong></p>
 
-    <p>To define trend counters, use the Add Trend Counter button.<br>
-      To start collecting trend data, set a cron job to execute 'rake trends:counter' every Puppet Interval
-      (<%= Setting.puppet_interval %> minutes).</p>
+    <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br>
+      <%= _("To start collecting trend data, set a cron job to execute 'rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval %></p>
   </div>
 <% end %>
 
@@ -17,27 +16,25 @@
  <div class="alert alert-message alert-info">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
 
-    <p><strong>No Trend Counter Found.</strong></p>
+    <p><strong><%= _("No trend counter found.") %></strong></p>
 
-   <p>To start collecting trend data, set a cron job to execute
-     <span class="black">RAILS_ENV=production bundle exec rake trends:counter</span>
-     every Puppet Interval (<%= Setting.puppet_interval %> minutes)
+   <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
    </p>
  </div>
 <% end %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th class='span10'>Name</th>
-    <th class='span2'>Action</th>
+    <th class='span10'><%= _("Name") %></th>
+    <th class='span2'><%= _("Action") %></th>
   </tr>
   <% @trends.each do |trend| %>
     <tr>
-      <td><%= link_to trend.type_name, trend_path(:id => trend), :title => "Show Trends" %></td>
+      <td><%= link_to trend.to_label, trend_path(:id => trend), :title => _("Show Trends") %></td>
       <td>
         <%= action_buttons(
-                display_link_if_authorized("Edit", hash_for_edit_trend_path(:id => trend)),
-                display_delete_if_authorized(hash_for_trend_path(:id => trend), :confirm => "Delete all the trend history for #{trend.type_name}?")) %>
+                display_link_if_authorized(_("Edit"), hash_for_edit_trend_path(:id => trend)),
+                display_delete_if_authorized(hash_for_trend_path(:id => trend), :confirm => _("Delete all the trend history for %s?") % trend.type_name)) %>
       </td>
     </tr>
   <% end %>
@@ -46,5 +43,5 @@
 <%= page_entries_info @trend, :model => "trends" %>
 <%= will_paginate @trend %>
 <% unless TrendCounter.unconfigured? %>
-  Last updated <%= time_ago_in_words TrendCounter.order(:created_at).last.created_at %> ago
+  <%= _("Last updated %s ago") % (time_ago_in_words TrendCounter.order(:created_at).last.created_at) %>
 <% end %>

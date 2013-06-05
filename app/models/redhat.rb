@@ -27,7 +27,7 @@ class Redhat < Operatingsystem
     when "5"
       epel_url.gsub!("$os","5-4")
     when "6"
-       epel_url.gsub!("$os","6-5")
+       epel_url.gsub!("$os","6-8")
     else
       return ""
     end

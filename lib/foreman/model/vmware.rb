@@ -61,12 +61,17 @@ module Foreman::Model
 
     def test_connection
       super
-      errors[:server] and errors[:user].empty? and errors[:password] and update_public_key and datacenters
+      if errors[:server].empty? and errors[:user].empty? and errors[:password].empty?
+        update_public_key
+        datacenters
+      end
     rescue => e
       errors[:base] << e.message
     end
 
     def new_vm attr={ }
+      test_connection
+      return unless errors.empty?
       opts = vm_instance_defaults.merge(attr.to_hash).symbolize_keys
 
       # convert rails nested_attributes into a plain hash
@@ -113,7 +118,7 @@ module Foreman::Model
       #NOTE this requires the following port to be open on your ESXi FW
       values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true }
       vm.config_vnc(values)
-      VNCProxy.start :host => vm.hypervisor, :host_port => values[:port], :password => values[:password]
+      WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
     end
 
     def new_interface attr = { }

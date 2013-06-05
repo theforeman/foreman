@@ -1,17 +1,20 @@
 class Environment < ActiveRecord::Base
   include Taxonomix
+  include Authorization
+
+  before_destroy EnsureNotUsedBy.new(:hosts)
+
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
-  has_many :hosts
+  has_many_hosts
+  has_many :hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of :name, :with => /^[\w\d]+$/, :message => "is alphanumeric and cannot contain spaces"
-  has_many :config_templates, :through => :template_combinations, :dependent => :destroy
-  has_many :template_combinations
-
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  validates_format_of :name, :with => /^[\w\d]+$/, :message => N_("is alphanumeric and cannot contain spaces")
+  has_many :config_templates, :through => :template_combinations
+  has_many :template_combinations, :dependent => :destroy
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -35,7 +38,7 @@ class Environment < ActiveRecord::Base
     def puppetEnvs proxy = nil
 
       url = (proxy || SmartProxy.puppet_proxies.first).try(:url)
-      raise "Can't find a valid Foreman Proxy with a Puppet feature" if url.blank?
+      raise ::Foreman::Exception.new(N_("Can't find a valid Foreman Proxy with a Puppet feature")) if url.blank?
       proxy = ProxyAPI::Puppet.new :url => url
       HashWithIndifferentAccess[proxy.environments.map { |e|
         [e, HashWithIndifferentAccess[proxy.classes(e).map {|k|
