@@ -81,8 +81,8 @@ module LookupKeysHelper
   end
 
   def host_key_with_diagnostic host, value_hash, key
-     value = value_hash[key.id] ? value_hash[key.id][key.key][:value] : key.default_value
-     matcher = value_hash[key.id] ? value_hash[key.id][key.key][:element] : _("Default value")
+     value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
+     value, matcher = value_for_key ? [value_for_key[:value], value_for_key[:element]] : [key.default_value, _("Default value")]
      original_value = key.value_before_type_cast value
      no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
 
