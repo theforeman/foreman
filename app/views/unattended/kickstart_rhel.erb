@@ -1,0 +1,87 @@
+install
+<%= @mediapath %>
+lang en_US.UTF-8
+selinux --permissive
+keyboard us
+skipx
+network --bootproto <%= @static ? "static" : "dhcp" %> --hostname <%= @host %>
+rootpw --iscrypted <%= root_pass %>
+firewall --<%= @host.operatingsystem.major.to_i >= 6 ? "service=" : "" %>ssh
+authconfig --useshadow --passalgo=sha256 --kickstart
+timezone UTC
+services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables_jf,xfs,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd,restorecond,mcstrans,rhnsd,yum-updatesd
+
+repo --name="Extra Packages for Enterprise Linux" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %>
+
+bootloader --location=mbr --append="nofb quiet splash=quiet" <%= grub_pass %>
+key --skip
+
+<% if @dynamic -%>
+%include /tmp/diskpart.cfg
+<% else -%>
+<%= @host.diskLayout %>
+<% end -%>
+
+text
+reboot
+
+%packages --ignoremissing
+yum
+dhclient
+ntp
+wget
+@Core
+epel-release
+puppet
+
+<% if @dynamic -%>
+%pre
+<%= @host.diskLayout %>
+<% end -%>
+
+%post --nochroot
+exec < /dev/tty3 > /dev/tty3
+#changing to VT 3 so that we can see whats going on....
+/usr/bin/chvt 3
+(
+cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
+/usr/bin/chvt 1
+) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
+
+%post
+logger "Starting anaconda <%= @host %> postinstall"
+exec < /dev/tty3 > /dev/tty3
+#changing to VT 3 so that we can see whats going on....
+/usr/bin/chvt 3
+(
+#update local time
+echo "updating system time"
+/usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "0.fedora.pool.ntp.org" %>
+/usr/sbin/hwclock --systohc
+
+<%= snippets "redhat_register" %>
+
+# update all the base packages from the updates repository
+yum -t -y -e 0 update
+
+# and add the puppet package
+yum -t -y -e 0 install puppet
+
+echo "Configuring puppet"
+cat > /etc/puppet/puppet.conf << EOF
+<%= snippets "puppet.conf" %>
+EOF
+
+# Setup puppet to run on system reboot
+/sbin/chkconfig --level 345 puppet on
+
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %>  --no-daemonize
+
+sync
+
+# Inform the build system that we are done.
+echo "Informing Foreman that we are built"
+wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+# Sleeping an hour for debug
+) 2>&1 | tee /root/install.post.log
+exit 0

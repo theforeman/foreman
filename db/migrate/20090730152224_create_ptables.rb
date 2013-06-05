@@ -7,8 +7,28 @@ class CreatePtables < ActiveRecord::Migration
       t.references :operatingsystem
       t.timestamps
     end
-    Ptable.create :name => "RedHat default", :layout =>"zerombr yes\nclearpart --all --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --fstype ext3 --size=1024 --grow\npart swap  --recommended"
-    Ptable.create :name => "Ubuntu default", :layout =>"d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular\nd-i partman-auto/init_automatically_partition select Guided - use entire disk\nd-i partman/confirm_write_new_label boolean true\nd-i partman/choose_partition select \\\nFinish partitioning and write changes to disk\nd-i partman/confirm boolean true\n"
+    Ptable.create :name => "RedHat default", :layout =>"zerombr\nclearpart --all --initlabel\nautopart\n"
+    Ptable.create :name => "Ubuntu default", :layout => <<EOF
+<% if @host.params['install-disk'] -%>
+d-i partman-auto/disk string <%= @host.params['install-disk'] %>
+<% else -%>
+d-i partman-auto/disk string /dev/sda /dev/vda
+<% end -%>
+
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/method string regular
+d-i partman-auto/init_automatically_partition select Guided - use entire disk
+d-i partman-auto/choose_recipe All files in one partition
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition select \
+Finish partitioning and write changes to disk
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+EOF
 
     create_table :operatingsystems_ptables, :id => false do |t|
       t.references :ptable, :null => false
