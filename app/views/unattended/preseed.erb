@@ -6,6 +6,12 @@ d-i console-setup/variant USA
 d-i console-setup/layout USA
 d-i console-setup/layoutcode string us
 
+<% if @host.operatingsystem.name == "Debian" -%>
+<% if @host.operatingsystem.major.to_i >= 7 -%>
+d-i keymap select us
+<% end -%>
+<% end -%>
+
 # Network configuration
 d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname string <%= @host %>
@@ -46,11 +52,26 @@ user-setup-udeb passwd/root-login boolean true
 d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
+<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+# Puppetlabs repo
+d-i apt-setup/local1/repository string \
+    http://apt.puppetlabs.com/ <%= @host.operatingsystem.release_name %> main
+    d-i apt-setup/local1/comment string Puppetlabs packages
+    d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
+<% end -%>
+
 # Install minimal task set (see tasksel --task-packages minimal)
 tasksel tasksel/first multiselect minimal
 
+<% if @host.operatingsystem.name == "Ubuntu" and @host.operatingsystem.major.to_i == 10 -%>
+  <% puppet_package = "puppet/lucid-backports" -%>
+d-i apt-setup/backports boolean true
+<% else -%>
+  <% puppet_package = "puppet" -%>
+<% end -%>
+
 # Install some base packages
-d-i pkgsel/include string puppet lsb-release openssh-server
+d-i pkgsel/include string <%= puppet_package %> lsb-release openssh-server
 d-i pkgsel/update-policy select unattended-upgrades
 
 popularity-contest popularity-contest/participate boolean false

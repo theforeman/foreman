@@ -1,3 +1,3 @@
 group :libvirt do
-  gem "ruby-libvirt", :require => 'libvirt'
+#  gem "ruby-libvirt", :require => 'libvirt'
 end
