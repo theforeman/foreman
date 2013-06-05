@@ -10,18 +10,23 @@ class AddDefaultTemplates < ActiveRecord::Migration
           :name                => "Kickstart Default",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Redhat.all.map(&:id),
-          :template            => File.read("#{Rails.root}/app/views/unattended/kickstart.html.erb"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/kickstart.erb"))
+        ConfigTemplate.create(
+          :name                => "RHEL Kickstart Default",
+          :template_kind_id    => kind.id,
+          :operatingsystem_ids => Redhat.all.map(&:id),
+          :template            => File.read("#{Rails.root}/app/views/unattended/kickstart_rhel.erb"))
         ConfigTemplate.create(
           :name                => "Preseed Default",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Debian.all.map(&:id),
-          :template            => File.read("#{Rails.root}/app/views/unattended/preseed.html.erb"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/preseed.erb"))
       when /finish/
         ConfigTemplate.create(
           :name                => "Preseed Default Finish",
           :template_kind_id    => kind.id,
           :operatingsystem_ids => Debian.all.map(&:id),
-          :template            => File.read("#{Rails.root}/app/views/unattended/preseed_finish.html.erb"))
+          :template            => File.read("#{Rails.root}/app/views/unattended/preseed_finish.erb"))
       when /pxelinux/i
         ConfigTemplate.create(
           :name                => "Kickstart default PXElinux",
