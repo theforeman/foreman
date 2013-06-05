@@ -296,7 +296,7 @@ function attribute_hash(attributes){
           attrs[attributes[i]].push($(item).val());
         })
       }else{
-        attrs[attributes[i]] = attr.val();
+        if (attr.val() != null) attrs[attributes[i]] = attr.val();
       }
     }
   }
