@@ -146,6 +146,54 @@ class UserTest < ActiveSupport::TestCase
     assert !record.new_record?
   end
 
+  test "non-admin user with create permissions should not be able to create admin" do
+    setup_user "create"
+    record               = User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id
+    record.password_hash = "asd"
+    record.admin         = true
+    assert_not record.save
+    assert_not record.valid?
+    assert_includes record.errors.keys, :admin
+    assert record.new_record?
+  end
+
+  test "non-admin user can't assign roles he does not have himself" do
+    setup_user "create"
+    create_role          = Role.find_by_name 'create_users'
+    extra_role           = Role.find_or_create_by_name :name => "foobar"
+    record               = User.new :login    => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
+                                    :role_ids => [extra_role.id, create_role.id].map(&:to_s)
+    record.password_hash = "asd"
+    assert_not record.save
+    assert_not record.valid?
+    assert_includes record.errors.keys, :role_ids
+    assert record.new_record?
+  end
+
+  test "non-admin user can delegate roles he has assigned already" do
+    setup_user "create"
+    create_role          = Role.find_by_name 'create_users'
+    record               = User.new :login    => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
+                                    :role_ids => [create_role.id.to_s]
+    record.password_hash = "asd"
+    assert record.valid?
+    assert record.save
+    assert_not record.new_record?
+  end
+
+  test "admin can set admin flag and set any role" do
+    as_admin do
+      extra_role           = Role.find_or_create_by_name :name => "foobar"
+      record               = User.new :login    => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
+                                      :role_ids => [extra_role.id].map(&:to_s)
+      record.password_hash = "asd"
+      record.admin         = true
+      assert record.save
+      assert record.valid?
+      assert_not record.new_record?
+    end
+  end
+
   test "user with view permissions should not be able to create" do
     setup_user "view"
     record =  User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id
@@ -173,6 +221,68 @@ class UserTest < ActiveSupport::TestCase
     setup_user "edit"
     record      = users(:one)
     record.login = "renamed"
+    assert record.save
+  end
+
+  test "user cannot assign role he has not assigned himself" do
+    setup_user "edit"
+    extra_role      = Role.find_or_create_by_name :name => "foobar"
+    record          = users(:one)
+    record.role_ids = [extra_role.id]
+    assert_not record.save
+    assert_not record.valid?
+    assert_includes record.errors.keys, :role_ids
+  end
+
+  test "user can assign role he has assigned himself" do
+    setup_user "edit"
+    edit_role       = Role.find_by_name 'edit_users'
+    record          = users(:one)
+    record.role_ids = [edit_role.id]
+    assert record.valid?
+    assert record.save
+  end
+
+  test "user cannot escalate his own roles" do
+    setup_user "edit"
+    extra_role      = Role.find_or_create_by_name :name => "foobar"
+    record = User.current
+    record.role_ids = record.role_ids + [extra_role.id]
+    refute record.save
+    refute record.valid?
+  end
+
+  test "admin can add any role" do
+    as_admin do
+      extra_role      = Role.find_or_create_by_name :name => "foobar"
+      record          = users(:one)
+      record.role_ids = [extra_role.id]
+      assert record.valid?
+      assert record.save
+    end
+  end
+
+  test "admin can update admin flag" do
+    as_admin do
+      record       = users(:one)
+      record.admin = true
+      assert record.valid?
+      assert record.save
+    end
+  end
+
+  test "user can not update admin flag" do
+    setup_user "edit"
+    record       = users(:two)
+    record.admin = true
+    assert_not record.save
+    assert_not record.valid?
+    assert_includes record.errors.keys, :admin
+  end
+
+  test "user can save user if he does not change roles" do
+    setup_user "edit"
+    record = users(:two)
     assert record.save
   end
 
@@ -204,6 +314,53 @@ class UserTest < ActiveSupport::TestCase
   test "email with whitespaces should be stripped" do
     u = User.create! :auth_source => auth_sources(:one), :login => "boo", :mail => "b oo@localhost "
     assert_equal u.mail, "boo@localhost"
+  end
+
+  test "use that can change admin flag #can_assign? any role" do
+    user       = users(:one)
+    extra_role = Role.find_or_create_by_name :name => "foobar"
+    user.stub :can_change_admin_flag?, true do
+      assert user.can_assign?([extra_role.id])
+    end
+  end
+
+  test "admin #can_change_admin_flag?" do
+    as_admin do
+      assert User.current.can_change_admin_flag?
+    end
+  end
+
+  test "non admin user #can_assign? only his assigned roles" do
+    user   = users(:one)
+    foobar = Role.find_or_create_by_name :name => "foobar"
+    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    user.roles<< foobar
+
+    assert user.can_assign?([foobar.id])
+    refute user.can_assign?([foobar.id, barfoo.id])
+    refute user.can_assign?([barfoo.id])
+    assert user.can_assign?([])
+  end
+
+  test "role_ids change detection" do
+    user   = users(:one)
+    foobar = Role.find_or_create_by_name :name => "foobar"
+    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    user.roles<< foobar
+
+    user.role_ids = [foobar.id]
+    refute user.role_ids_changed?
+
+    user.role_ids = [foobar.id, barfoo.id]
+    assert user.role_ids_changed?
+    assert_equal user.role_ids_was, [foobar.id]
+
+    # order does not matter
+    user.role_ids = [barfoo.id, foobar.id]
+    refute user.role_ids_changed?
+    user.role_ids = [foobar.id, barfoo.id]
+    refute user.role_ids_changed?
+    assert_equal user.role_ids_was, [foobar.id, barfoo.id]
   end
 
 end
