@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
 
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_admin_is_not_deleted
-  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed
+  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_privileges_not_escalated
   before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
@@ -186,6 +186,31 @@ class User < ActiveRecord::Base
     organizations.any?
   end
 
+  # user must be assigned all given roles in order to delegate them
+  def can_assign?(roles)
+    can_change_admin_flag? || roles.all? { |r| self.role_ids_was.include?(r) }
+  end
+
+  # only admin can change admin flag
+  def can_change_admin_flag?
+    self.admin?
+  end
+
+  def role_ids_with_change_detection=(roles)
+    @role_ids_changed = roles.uniq.select(&:present?).map(&:to_i).sort != role_ids.sort
+    @role_ids_was = role_ids.clone
+    self.role_ids_without_change_detection = roles
+  end
+  alias_method_chain(:role_ids=, :change_detection)
+
+  def role_ids_changed?
+    @role_ids_changed
+  end
+
+  def role_ids_was
+    @role_ids_was ||= role_ids
+  end
+
   private
 
   def prepare_password
@@ -245,6 +270,25 @@ class User < ActiveRecord::Base
   def ensure_admin_is_not_renamed
     if login_changed? and login_was == "admin"
       errors.add :login, "Can't rename internal protected <b>admin</b> account to #{login}".html_safe
+    end
+  end
+
+  def ensure_privileges_not_escalated
+    ensure_admin_not_escalated
+    ensure_roles_not_escalated
+  end
+
+  def ensure_roles_not_escalated
+    roles_check = self.new_record? ? self.role_ids.present? : self.role_ids_changed?
+    if roles_check && !User.current.can_assign?(self.role_ids)
+      errors.add :role_ids, "You can't assign some of roles you selected"
+    end
+  end
+
+  def ensure_admin_not_escalated
+    admin_check = self.new_record? ? self.admin? : self.admin_changed?
+    if admin_check && !User.current.can_change_admin_flag?
+      errors.add :admin, "You can't change Administrator flag"
     end
   end
 end

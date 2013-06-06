@@ -101,4 +101,20 @@ class RoleTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe ".for_current_user" do
+    context "there are two roles, one of them is assigned to current user" do
+      let(:first) { Role.create(:name => 'First') }
+      let(:second) { Role.create(:name => 'Second') }
+      before do
+        User.current = users(:one)
+        User.current.roles<< first
+      end
+
+      subject { Role.for_current_user.all }
+      it { subject.must_include(first) }
+      it { subject.wont_include(second) }
+    end
+
+  end
 end

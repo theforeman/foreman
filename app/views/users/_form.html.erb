@@ -31,8 +31,8 @@
         <%= password_f f, :password_confirmation, :label => "Verify" %>
       </div>
       <% unless @editing_self -%>
-        <%= checkbox_f f, :admin, :label => "Administrator" %>
-        <%= multiple_checkboxes f, :roles, @user, Role.givable %>
+        <%= checkbox_f f, :admin, :label => "Administrator" if User.current.can_change_admin_flag? %>
+        <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => 'Roles'} %>
       <% end %>
     </div>
 
