@@ -452,13 +452,6 @@
 
 }(window.jQuery);
 
-$(function(){
-  $('select[multiple]').multiSelect({
-    disabledClass : 'disabled disabled_item',
-    selectableHeader: $("<div class='ms-header'>" + _('All items') + " <input placeholder='" + _('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + _('Select All') + "' class='ms-select-all pull-right icon-plus icon-white'></a></div>"),
-    selectionHeader: $("<div class='ms-header'>" + _('Selected items') + "<a href='#' title='" + _('Deselect All') + "' class='ms-deselect-all pull-right icon-minus icon-white'></a></div>")
-  });
-});
 $(document).on('click', '.ms-select-all', function () {
   $(this).closest('.controls').find('select[multiple]').multiSelect('select_all');
   return false;
@@ -472,24 +465,13 @@ $(document).on('keyup', '.ms-filter', function() {
   ms_filter(this);
 });
 
-$(function(){
-  $('select[multiple]').each(function(i,item){
-    var mismatches = $(item).attr('data-mismatches');
-    if (!(mismatches == null || mismatches == 'undefined')) {
-      var missing_ids = $.parseJSON(mismatches);
-      $.each(missing_ids, function(index,missing_id){
-        opt_id = (missing_id +"").replace(/[^A-Za-z0-9]*/gi, '_')+'-selectable';
-        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: _("Select this since it belongs to a host"), placement: "left"});
-      })
-    }
-  })
-});
 $.extend($.expr[':'], {
   'containsi': function(elem, i, match)
   {
     return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
   }
 });
+
 function ms_filter(item){
   var term = $(item).val().trim();
   var selectable =   $(item).closest('.ms-selectable').find('.ms-elem-selectable');
@@ -500,4 +482,27 @@ function ms_filter(item){
   } else {
     selectable.removeClass('hide');
   }
+}
+
+$(function(){
+  multiSelectOnLoad()
+})
+
+function multiSelectOnLoad(){
+  $('select[multiple]').multiSelect({
+    disabledClass : 'disabled disabled_item',
+    selectableHeader: $("<div class='ms-header'>" + _('All items') + " <input placeholder='" + _('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + _('Select All') + "' class='ms-select-all pull-right icon-plus icon-white'></a></div>"),
+    selectionHeader: $("<div class='ms-header'>" + _('Selected items') + "<a href='#' title='" + _('Deselect All') + "' class='ms-deselect-all pull-right icon-minus icon-white'></a></div>")
+  });
+
+  $('select[multiple]').each(function(i,item){
+    var mismatches = $(item).attr('data-mismatches');
+    if (!(mismatches == null || mismatches == 'undefined')) {
+      var missing_ids = $.parseJSON(mismatches);
+      $.each(missing_ids, function(index,missing_id){
+        opt_id = (missing_id +"").replace(/[^A-Za-z0-9]*/gi, '_')+'-selectable';
+        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: _("Select this since it belongs to a host"), placement: "left"});
+      })
+    }
+  })
 }
