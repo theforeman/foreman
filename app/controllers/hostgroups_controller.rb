@@ -26,7 +26,18 @@ class HostgroupsController < ApplicationController
   end
 
   def nest
-    @hostgroup = Hostgroup.new(:parent_id => params[:id])
+    @parent = Hostgroup.find(params[:id])
+    @hostgroup = @parent.dup
+    #overwrite parent_id and name
+    @hostgroup.parent_id = params[:id]
+    @hostgroup.name = ""
+
+    load_vars_for_ajax
+    @hostgroup.puppetclasses = @parent.puppetclasses
+    @hostgroup.locations = @parent.locations
+    @hostgroup.organizations = @parent.organizations
+    # Clone any parameters as well
+    @hostgroup.group_parameters.each{|param| @parent.group_parameters << param.dup}
     render :action => :new
   end
 
@@ -35,6 +46,8 @@ class HostgroupsController < ApplicationController
     new = @hostgroup.dup
     load_vars_for_ajax
     new.puppetclasses = @hostgroup.puppetclasses
+    new.locations = @hostgroup.locations
+    new.organizations = @hostgroup.organizations
     # Clone any parameters as well
     @hostgroup.group_parameters.each{|param| new.group_parameters << param.dup}
     new.name = ""
