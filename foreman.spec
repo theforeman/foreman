@@ -138,7 +138,7 @@ Fedora. This package contains the repository configuration for Yum.
 %package libvirt
 Summary: Foreman libvirt support
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem(virt) >= 0.2.1
+Requires: %{?scl_prefix}rubygem(ruby-libvirt)
 Requires: %{name} = %{version}-%{release}
 Requires: foreman-compute = %{version}-%{release}
 Obsoletes: foreman-virt < 1.0.0
@@ -525,6 +525,7 @@ fi
 - Replace dist in foreman.repo
 - Rename foreman-ec2 to foreman-compute
 - foreman-debug tool now installed into /usr/sbin (Lukas Zapletal)
+- fix libvirt package dependency on ruby-libvirt
 * Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.2.RC1
 - Change to release candidate URL in foreman.repo
 * Thu May 23 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.1.RC1
