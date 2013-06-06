@@ -19,6 +19,7 @@
       <packagereq type="default">foreman-mysql</packagereq>
       <packagereq type="default">foreman-mysql2</packagereq>
       <packagereq type="default">foreman-release</packagereq>
+      <packagereq type="default">foreman-selinux</packagereq>
       <packagereq type="default">foreman-sqlite</packagereq>
       <packagereq type="default">foreman-vmware</packagereq>
       <packagereq type="default">foreman-proxy</packagereq>
@@ -46,6 +47,7 @@
       <packagereq type="default">rubygem-net-scp</packagereq>
       <packagereq type="default">rubygem-net-ssh</packagereq>
       <packagereq type="default">rubygem-oauth</packagereq>
+      <packagereq type="default">rubygem-po_to_json</packagereq>
       <packagereq type="default">rubygem-quiet_assets</packagereq>
       <packagereq type="default">rubygem-rabl</packagereq>
       <packagereq type="default">rubygem-rkerberos</packagereq>

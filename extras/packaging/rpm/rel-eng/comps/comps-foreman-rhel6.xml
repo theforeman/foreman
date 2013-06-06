@@ -19,6 +19,7 @@
       <packagereq type="default">foreman-mysql</packagereq>
       <packagereq type="default">foreman-mysql2</packagereq>
       <packagereq type="default">foreman-release</packagereq>
+      <packagereq type="default">foreman-selinux</packagereq>
       <packagereq type="default">foreman-sqlite</packagereq>
       <packagereq type="default">foreman-vmware</packagereq>
       <packagereq type="default">foreman-proxy</packagereq>
@@ -37,6 +38,7 @@
       <packagereq type="default">ruby193-runtime</packagereq>
       <packagereq type="default">ruby193-hiera</packagereq>
       <packagereq type="default">ruby193-libselinux-ruby</packagereq>
+      <packagereq type="default">ruby193-mod_passenger</packagereq>
       <packagereq type="default">ruby193-puppet</packagereq>
       <packagereq type="default">ruby193-ruby-augeas</packagereq>
       <packagereq type="default">ruby193-ruby-shadow</packagereq>
@@ -61,6 +63,7 @@
       <packagereq type="default">ruby193-rubygem-coffee-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-script</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-script-source</packagereq>
+      <packagereq type="default">ruby193-rubygem-daemon_controller</packagereq>
       <packagereq type="default">ruby193-rubygem-daemons</packagereq>
       <packagereq type="default">ruby193-rubygem-diff-lcs</packagereq>
       <packagereq type="default">ruby193-rubygem-erubis</packagereq>
@@ -86,6 +89,8 @@
       <packagereq type="default">ruby193-rubygem-jquery-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-jquery-ui-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-json</packagereq>
+      <packagereq type="default">ruby193-rubygem-less</packagereq>
+      <packagereq type="default">ruby193-rubygem-less-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-levenshtein</packagereq>
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
       <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
@@ -99,6 +104,9 @@
       <packagereq type="default">ruby193-rubygem-net-ssh</packagereq>
       <packagereq type="default">ruby193-rubygem-nokogiri</packagereq>
       <packagereq type="default">ruby193-rubygem-oauth</packagereq>
+      <packagereq type="default">ruby193-rubygem-passenger</packagereq>
+      <packagereq type="default">ruby193-rubygem-passenger-native</packagereq>
+      <packagereq type="default">ruby193-rubygem-passenger-native-libs</packagereq>
       <packagereq type="default">ruby193-rubygem-pg</packagereq>
       <packagereq type="default">ruby193-rubygem-polyglot</packagereq>
       <packagereq type="default">ruby193-rubygem-po_to_json</packagereq>
@@ -148,8 +156,13 @@
       <packagereq type="default">ruby193-rubygems</packagereq>
       <packagereq type="default">ruby193-v8</packagereq>
 
+      <packagereq type="default">mod_passenger</packagereq>
+      <packagereq type="default">rubygem-daemon_controller</packagereq>
       <packagereq type="default">rubygem-highline</packagereq>
       <packagereq type="default">rubygem-rkerberos</packagereq>
+      <packagereq type="default">rubygem-passenger</packagereq>
+      <packagereq type="default">rubygem-passenger-native</packagereq>
+      <packagereq type="default">rubygem-passenger-native-libs</packagereq>
     </packagelist>
   </group>
 </comps>
