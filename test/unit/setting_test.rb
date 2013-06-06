@@ -237,13 +237,25 @@ class SettingTest < ActiveSupport::TestCase
 
   test "parse hash attribute raises exception without settings_type" do
     setting = Setting.new(:name => "foo", :default => "default", :settings_type => "hash")
-    assert_raises(NotImplementedError) do
+    assert_raises(Foreman::Exception) do
       setting.parse_string_value("some_value")
     end
   end
 
-  test "parse attribute raises exception without settings_type" do
+  test "parse attribute without settings_type defaults to string" do
     setting = Setting.new(:name => "foo", :default => "default")
+    setting.parse_string_value(12345)
+    setting.save
+    assert_equal "string", setting.settings_type
+    assert_equal "12345", setting.value
+  end
+
+  test "parse attribute raises exception for undefined types" do
+    class CustomSetting < Setting
+      TYPES << "custom_type"
+    end
+
+    setting = CustomSetting.new(:name => "foo", :default => "default", :settings_type => "custom_type")
     assert_raises(Foreman::Exception) do
       setting.parse_string_value("some_value")
     end

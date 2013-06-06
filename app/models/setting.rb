@@ -85,7 +85,6 @@ class Setting < ActiveRecord::Base
   def default=(v)
     write_attribute :default, v.to_yaml
   end
-
   alias_method :default_before_type_cast, :default
 
 
@@ -124,14 +123,15 @@ class Setting < ActiveRecord::Base
         return false
       end
 
-    when "string"
+    when "string", nil
+      #string is taken as default setting type for parsing
       self.value = val.to_s.strip
 
     when "hash"
-      raise NotImplementedError, "parsing hash from string is not supported"
+      raise Foreman::Exception, "parsing hash from string is not supported"
 
     else
-      raise Foreman::Exception, "no settings type set"
+      raise Foreman::Exception.new(N_("parsing settings type '%s' from string is not defined"), settings_type)
 
     end
     return true
