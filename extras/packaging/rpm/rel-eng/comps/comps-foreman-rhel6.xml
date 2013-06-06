@@ -63,6 +63,7 @@
       <packagereq type="default">ruby193-rubygem-coffee-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-script</packagereq>
       <packagereq type="default">ruby193-rubygem-coffee-script-source</packagereq>
+      <packagereq type="default">ruby193-rubygem-commonjs</packagereq>
       <packagereq type="default">ruby193-rubygem-daemon_controller</packagereq>
       <packagereq type="default">ruby193-rubygem-daemons</packagereq>
       <packagereq type="default">ruby193-rubygem-diff-lcs</packagereq>
@@ -92,6 +93,7 @@
       <packagereq type="default">ruby193-rubygem-less</packagereq>
       <packagereq type="default">ruby193-rubygem-less-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-levenshtein</packagereq>
+      <packagereq type="default">ruby193-rubygem-locale</packagereq>
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
       <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
       <packagereq type="default">ruby193-rubygem-multi_json</packagereq>

@@ -30,6 +30,7 @@
       <packagereq type="default">rubygem-apipie-rails</packagereq>
       <packagereq type="default">rubygem-awesome_print</packagereq>
       <packagereq type="default">rubygem-bundler_ext</packagereq>
+      <packagereq type="default">rubygem-commonjs</packagereq>
       <packagereq type="default">rubygem-daemons</packagereq>
       <packagereq type="default">rubygem-excon</packagereq>
       <packagereq type="default">rubygem-flot-rails</packagereq>
