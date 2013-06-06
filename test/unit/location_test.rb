@@ -24,7 +24,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'it should show the name for to_s' do
     location = Location.new :name => "location name"
-    assert location.to_s == "Location name"
+    assert location.to_s == "location name"
   end
 
   test 'location is invalid without any taxable_taxonomies' do
