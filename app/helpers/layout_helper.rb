@@ -67,7 +67,7 @@ module LayoutHelper
       multiple_selects(f, attr, associations, selected_ids, options, html_options)
     else
       field(f, attr, options) do
-        authorized_edit_habtm klass, associations, options[:prefix]
+        authorized_edit_habtm klass, associations, options[:prefix], html_options
       end
     end
   end

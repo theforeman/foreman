@@ -104,4 +104,18 @@ module TaxonomyHelper
     is_location? ? :location_ids : :organization_ids
   end
 
+  def organization_selects(f, selected_ids, options = {}, options_html = {})
+    taxonomy_selects(f, selected_ids, Organization, 'Organizations', options, options_html)
+  end
+
+  def location_selects(f, selected_ids, options = {}, options_html = {})
+    taxonomy_selects(f, selected_ids, Location, 'Locations', options, options_html)
+  end
+
+  def taxonomy_selects(f, selected_ids, taxonomy, label, options = {}, options_html = {})
+    options[:disabled] = Array.wrap(options[:disabled]) + Array.wrap(taxonomy.current.try(:id))
+    options[:label]    ||= _(label)
+    multiple_selects f, label.downcase, taxonomy, selected_ids, options, options_html
+  end
+
 end
