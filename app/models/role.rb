@@ -21,6 +21,7 @@ class Role < ActiveRecord::Base
   BUILTIN_ANONYMOUS     = 2
 
   scope :givable, { :conditions => "builtin = 0", :order => 'name' }
+  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     { :conditions => "#{compare} builtin = 0" }
