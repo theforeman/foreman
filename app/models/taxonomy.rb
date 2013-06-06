@@ -32,7 +32,7 @@ class Taxonomy < ActiveRecord::Base
   end
 
   def to_label
-    name =~ /[A-Z]/ ? name : name.capitalize
+    name
   end
 
   def self.locations_enabled
