@@ -38,10 +38,32 @@ module Taxonomix
   module InstanceMethods
     def set_current_taxonomy
       if self.new_record? && self.errors.empty?
-        self.locations    << Location.current      if Taxonomy.locations_enabled and Location.current
-        self.organizations << Organization.current if Taxonomy.organizations_enabled and Organization.current
+        self.locations     << Location.current     if add_current_location?
+        self.organizations << Organization.current if add_current_organization?
       end
     end
+
+    def add_current_organization?
+      add_current_taxonomy?(:organization)
+    end
+
+    def add_current_location?
+      add_current_taxonomy?(:location)
+    end
+
+    def add_current_taxonomy?(taxonomy)
+      klass, association = case taxonomy
+                             when :organization
+                               [Organization, :organizations]
+                             when :location
+                               [Location, :locations]
+                             else
+                               raise ArgumentError, "unknown taxonomy #{taxonomy}"
+                           end
+      current_taxonomy = klass.current
+      Taxonomy.enabled?(taxonomy) && current_taxonomy && !self.send(association).include?(current_taxonomy)
+    end
+
   end
 
 end
