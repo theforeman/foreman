@@ -181,13 +181,13 @@ Foreman::AccessControl.map do |map|
                                             :"api/v1/hostgroups" => [:index, :show],
                                             :"api/v2/hostgroups" => [:index, :show]
                                           }
-    map.permission :create_hostgroups,     {:hostgroups => [:new, :create, :clone].push(*ajax_actions),
+    map.permission :create_hostgroups,     {:hostgroups => [:new, :create, :clone, :nest, :process_hostgroup].push(*ajax_actions),
                                             :host => host_ajax_actions,
                                             :puppetclasses => pc_ajax_actions,
                                             :"api/v1/hostgroups" => [:create, :clone],
                                             :"api/v2/hostgroups" => [:create, :clone]
                                           }
-    map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :nest].push(*ajax_actions),
+    map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :process_hostgroup].push(*ajax_actions),
                                             :host => host_ajax_actions,
                                             :puppetclasses => pc_ajax_actions,
                                             :"api/v1/hostgroups" => [:update],
