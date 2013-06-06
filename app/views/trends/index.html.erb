@@ -40,8 +40,8 @@
   <% end %>
 </table>
 
-<%= page_entries_info @trend, :model => "trends" %>
-<%= will_paginate @trend %>
+<%= page_entries_info @trends %>
+<%= will_paginate @trends %>
 <% unless TrendCounter.unconfigured? %>
   <%= _("Last updated %s ago") % (time_ago_in_words TrendCounter.order(:created_at).last.created_at) %>
 <% end %>
