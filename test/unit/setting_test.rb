@@ -75,6 +75,27 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal 3, setting.default
   end
 
+  def test_second_time_create_exclamation_persists_only_default_value
+    setting = Setting.create!(:name => "foo", :value => 8, :default => 2, :description => "test foo")
+    assert_equal 8, setting.value
+    assert_equal 2, setting.default
+
+    setting = Setting.create!(:name => "foo", :value => 9, :default => 3, :description => "test foo")
+    assert_equal 8, setting.value
+    assert_equal 3, setting.default
+  end
+
+  def test_create_with_missing_attrs_does_not_persist
+    setting = Setting.create(:name => "foo")
+    assert_equal false, setting.persisted?
+  end
+
+  def test_create_exclamation_with_missing_attrs_raises_exception
+    assert_raises(ActiveRecord::RecordInvalid) do
+      setting = Setting.create!(:name => "foo")
+    end
+  end
+
   def test_set_method_prepares_attrs_for_creation
     options = Setting.set "test_attr", "some_description", "default_value", "my_value"
     assert_equal "test_attr", options[:name]

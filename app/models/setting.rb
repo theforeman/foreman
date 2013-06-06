@@ -137,8 +137,6 @@ class Setting < ActiveRecord::Base
     return true
   end
 
-  private
-
   def self.create opts
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       super opts
@@ -147,6 +145,17 @@ class Setting < ActiveRecord::Base
       s
     end
   end
+
+  def self.create! opts
+    if (s = Setting.find_by_name(opts[:name].to_s)).nil?
+      super opts
+    else
+      s.update_attribute(:default, opts[:default])
+      s
+    end
+  end
+
+  private
 
   def self.cache
     Rails.cache
