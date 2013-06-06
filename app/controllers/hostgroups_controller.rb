@@ -98,6 +98,22 @@ class HostgroupsController < ApplicationController
     render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup)}
   end
 
+  def process_hostgroup
+
+    @parent = Hostgroup.find(params[:hostgroup][:parent_id]) if params[:hostgroup][:parent_id].to_i > 0
+    return head(:not_found) unless @parent
+
+    @hostgroup = Hostgroup.new(params[:hostgroup])
+    @hostgroup.architecture       ||= @parent.architecture
+    @hostgroup.operatingsystem    ||= @parent.operatingsystem
+    @hostgroup.domain             ||= @parent.domain
+    @hostgroup.subnet             ||= @parent.subnet
+    @hostgroup.environment        ||= @parent.environment
+
+    load_vars_for_ajax
+    render :partial => "form"
+  end
+
   private
 
   def find_hostgroup
@@ -109,6 +125,8 @@ class HostgroupsController < ApplicationController
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
     @domain          = @hostgroup.domain
+    @subnet          = @hostgroup.subnet
+    @environment     = @hostgroup.environment
   end
 
   def users_in_ancestors

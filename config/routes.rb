@@ -135,6 +135,7 @@ Foreman::Application.routes.draw do
       post 'domain_selected'
       post 'use_image_selected'
       post 'medium_selected'
+      post 'process_hostgroup'
     end
   end
 
