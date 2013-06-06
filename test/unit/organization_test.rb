@@ -24,7 +24,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'it should show the name for to_s' do
     organization = Organization.new :name => "organization1"
-    assert organization.to_s == "Organization1"
+    assert organization.to_s == "organization1"
   end
 
     test 'organization is invalid without any taxable_taxonomies' do
