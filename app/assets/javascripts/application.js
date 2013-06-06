@@ -65,6 +65,8 @@ function onContentLoad(){
   $('a[disabled="disabled"]').click(function() {
     return false;
   });
+
+  multiSelectOnLoad();
 }
 
 function remove_fields(link) {
