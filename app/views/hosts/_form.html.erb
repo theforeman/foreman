@@ -4,7 +4,7 @@
 
 <% Taxonomy.as_taxonomy @organization , @location do %>
 
-  <%= form_for @host,  :html => {:data => {:id => @host.try(:id), :submit => 'progress_bar'}} do |f| %>
+  <%= form_for @host,  :html => {:data => {:id => @host.try(:id), :type_changed => @host.type_changed?, :submit => 'progress_bar'}} do |f| %>
     <%= base_errors_for @host %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">

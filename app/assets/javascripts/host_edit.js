@@ -210,7 +210,8 @@ function load_puppet_class_parameters(item) {
 
 function hostgroup_changed(element) {
   var host_id = $("form").data('id')
-  if (!host_id){ // a new host
+  var host_changed = $("form").data('type-changed')
+  if (!host_id || host_changed ){ // a new host
     update_form(element);
   } else { // edit host
     update_puppetclasses(element);
