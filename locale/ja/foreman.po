@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-04 18:08+0100\n"
+"POT-Creation-Date: 2013-06-06 16:27+0100\n"
 "PO-Revision-Date: 2013-05-09 09:31+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -4103,6 +4103,9 @@ msgstr ""
 msgid "You do not have permission to %s this Operating System parameter"
 msgstr ""
 
+msgid "You do not have permission to %s this Smart Variable"
+msgstr ""
+
 msgid "You do not have permission to %s this compute resource"
 msgstr ""
 
@@ -4391,6 +4394,9 @@ msgid "must be"
 msgstr ""
 
 msgid "must be an array"
+msgstr ""
+
+msgid "must be at most 15 characters"
 msgstr ""
 
 msgid "must be lowercase"
