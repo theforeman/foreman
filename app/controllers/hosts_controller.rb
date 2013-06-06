@@ -436,7 +436,14 @@ class HostsController < ApplicationController
     @domain          = @hostgroup.domain
     @subnet          = @hostgroup.subnet
 
-    @host = Host.new(params[:host])
+    @host = if params[:host][:id]
+      host = Host::Base.find(params[:host][:id])
+      host = host.becomes Host::Managed
+      host.update_attributes(params[:host])
+      host
+    else
+      Host.new(params[:host])
+    end
     @host.set_hostgroup_defaults
     render :partial => "form"
 

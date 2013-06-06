@@ -209,12 +209,15 @@ function load_puppet_class_parameters(item) {
 }
 
 function hostgroup_changed(element) {
-  var host_id = $("form").data('id')
-  if (!host_id){ // a new host
-    update_form(element);
-  } else { // edit host
+  var host_id = $("form").data('id');
+  var host_changed = $("form").data('type-changed');
+  if (host_changed ){
+    update_form(element,{data:"&host[id]="+host_id});
+  } else if (host_id) { // edit host
     update_puppetclasses(element);
     reload_host_params();
+  } else { // a new host
+    update_form(element);
   }
 }
 
@@ -227,9 +230,10 @@ function location_changed(element) {
 }
 
 
-function update_form(element) {
+function update_form(element, options) {
   var url = $(element).data('url');
   var data = $('form').serialize().replace('method=put', 'method=post');
+  if (options.data) data = data+options.data;
   $(element).indicator_show();
   $.ajax({
     type: 'post',
