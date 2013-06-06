@@ -22,7 +22,7 @@
 
     <div class="tab-pane active" id="primary">
       <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
-                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hosts_path,
+                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
                       :help_inline => :indicator } %>
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
