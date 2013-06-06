@@ -33,7 +33,8 @@
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @domain, Organization, :label => _("Organizations") %>
+        <%= multiple_checkboxes f, :organizations, @domain, Organization, {},
+          { :disabled => Array.wrap(Organization.current.try(:id)), :label => _("Organizations") } %>
       </div>
     <% end %>
 
