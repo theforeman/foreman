@@ -61,13 +61,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= multiple_selects f, :locations, Location, @hostgroup.location_ids, :label => _("Locations") %>
+        <%= location_selects f, @hostgroup.location_ids %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= multiple_selects f, :organizations, Organization, @hostgroup.organization_ids, :label => _("Organizations") %>
+        <%= organization_selects f, @hostgroup.organization_ids %>
       </div>
     <% end %>
   </div>

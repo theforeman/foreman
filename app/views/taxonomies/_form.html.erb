@@ -94,15 +94,15 @@
 
       <% if taxonomy.is_a?(Location) && SETTINGS[:locations_enabled] %>
         <div class="tab-pane" id="organizations">
-          <%= multiple_selects f, :organizations, Organization, taxonomy.selected_ids[:organization_ids],
-            {:disabled => taxonomy.used_and_selected_ids[:organization_ids], :label => _("Organizations")},
-            {'data-mismatches' => taxonomy.need_to_be_selected_ids[:organization_ids].to_json} %>
+          <%= organization_selects f, taxonomy.selected_ids[:organization_ids],
+                                   { :disabled => taxonomy.used_and_selected_ids[:organization_ids] },
+                                   { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:organization_ids].to_json } %>
         </div>
       <% elsif taxonomy.is_a?(Organization) && SETTINGS[:organizations_enabled] %>
         <div class="tab-pane" id="locations">
-          <%= multiple_selects f, :locations, Location, taxonomy.selected_ids[:location_ids],
-            {:disabled => taxonomy.used_and_selected_ids[:location_ids], :label => _("Locations")},
-            {'data-mismatches' => taxonomy.need_to_be_selected_ids[:location_ids].to_json} %>
+          <%= location_selects f, taxonomy.selected_ids[:location_ids],
+                               { :disabled => taxonomy.used_and_selected_ids[:location_ids] },
+                               { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:location_ids].to_json } %>
         </div>
       <% end %>
 

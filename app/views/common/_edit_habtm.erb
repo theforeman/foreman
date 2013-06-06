@@ -10,7 +10,8 @@
       <li>
       <%= content_tag_for :label, association do %>
         <% check_box_name = "#{prefix || klass.class.model_name.tableize.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]" %>
-        <%= check_box_tag(check_box_name, association.id, selected_ids.include?(association.id)) %>
+        <%= check_box_tag(check_box_name, association.id, selected_ids.include?(association.id),
+                          :disabled => options[:disabled].present? && options[:disabled].include?(association.id)) %>
         <%= contract association %>
         <%= hidden_field_tag check_box_name %>
       <% end -%>
