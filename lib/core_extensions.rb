@@ -39,7 +39,7 @@ class ActiveRecord::Base
     def before_destroy(record)
       klasses.each do |klass|
         record.send(klass.to_sym).each do |what|
-          record.errors.add :base, "#{record} is used by #{what}"
+          record.errors.add :base, _("%{record} is used by %{what}") % { :record => record, :what => what }
         end
       end
       if record.errors.empty?

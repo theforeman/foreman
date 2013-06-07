@@ -800,7 +800,7 @@ class Host::Managed < Host::Base
 
     puppetclasses.select("puppetclasses.id,puppetclasses.name").uniq.each do |e|
       unless environment.puppetclasses.map(&:id).include?(e.id)
-        errors.add(:puppetclasses, "#{e} does not belong to the #{environment} environment")
+        errors.add(:puppetclasses, _("%{e} does not belong to the %{environment} environment") % { :e => e, :environment => environment })
         status = false
       end
     end if environment

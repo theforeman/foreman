@@ -272,7 +272,7 @@ class User < ActiveRecord::Base
   # admin account automatically
   def ensure_admin_is_not_deleted
     if login == "admin"
-      errors.add :base, "Can't delete internal admin account"
+      errors.add :base, _("Can't delete internal admin account")
       logger.warn "Unable to delete internal admin account"
       false
     end
@@ -281,13 +281,13 @@ class User < ActiveRecord::Base
   # The admin account must always retain the "Administrator" flag to function
   def ensure_admin_remains_admin
     if login == "admin" and admin_changed? and admin == false
-      errors.add :admin, "Can't remove Administrator flag from internal protected <b>admin</b> account".html_safe
+      errors.add :admin, _("Can't remove Administrator flag from internal protected <b>admin</b> account").html_safe
     end
   end
 
   def ensure_admin_is_not_renamed
     if login_changed? and login_was == "admin"
-      errors.add :login, "Can't rename internal protected <b>admin</b> account to #{login}".html_safe
+      errors.add :login, (_("Can't rename internal protected <b>admin</b> account to %s") % login).html_safe
     end
   end
 
