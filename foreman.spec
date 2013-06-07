@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.0
-Release: 0.3.RC1%{?dist}
+Release: 0.3.RC2%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -519,7 +519,7 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
-* Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.3.RC1
+* Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.3.RC2
 - Don't force SCL
 - Distribute GPG key, enable GPG checking
 - Replace dist in foreman.repo

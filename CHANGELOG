@@ -1,4 +1,148 @@
+2013-06-07	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.0-RC2
+	* fixes #2627 - depend on libvirt, not virt, add missing comps entries (cherry picked from commit 7ac08e59f58eba3c7218bc82b0e88394568501fa)
+	* fixes #2608 - add passenger, selinux to comps (cherry picked from commit 989f9de937feebd0fe598fc322ae534d22dcfefd)
+
+2013-06-07	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2631 - fix remote code execution via controller name (CVE-2013-2121) (cherry picked from commit ef4b97d177c58c9532730d53dca0517bc869a0ce)
+	* fixes #2625 - hostgroup nest and clone methods (cherry picked from commit e0f4f396c24f3ee64e83c479c5d741113af060f3)
+	* fixes #2616 - Hostgroup fields not populating when parent fields are selected (cherry picked from commit 1bd19611c2420923350b72f150774134b5b179db)
+
+2013-06-07	Marek Hulan <mhulan@redhat.com>
+	* fixes #2630 - restrict assignment of roles to those a user has (CVE-2013-2113) (cherry picked from commit bae665de387d63f93740670ec2542db90084d0eb)
+
+2013-06-07	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #2038 - updated config and partition table templates using ones from the community repository (cherry picked from commit cb92c0be69a00142158d884e05097b47d20480da)
+
+2013-06-07	Amos Benari <abenari@redhat.com>
+	* reload multy-select js (cherry picked from commit ba946542626d16f65a5e99144f9e5c3856609eff)
+	* fixes #2296 Hostgroup subnet field was not enabled after selecting domain (cherry picked from commit 04157eeddffa70104c82d7b6529c3a5aad3daefb)
+
+2013-06-06	Dominic Cleal <dcleal@redhat.com>
+	* i18n - updating translations from transifex
+	* i18n - adding fr, en_GB languages (cherry picked from commit 4e23701dfab08cb90680897e56f0327e95b12741)
+
+2013-06-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2615 - failed to save host group
+
+2013-06-06	Amos Benari <abenari@redhat.com>
+	* fixes #2621 search box and search button alignment on firefox. (cherry picked from commit d8ba88420c96ca38a8924892db51730e92686373)
+
+2013-06-06	Joseph Mitchell Magen <jmagen@redhat.com>
+	* re-fixes #2549 - default location bug was introduced in commit 66afbc33 that is fixed (cherry picked from commit 946ba662d8fd565bfc70b39a6ca2cf39025b3105)
+	* fixes #2386 - permission failure on create_lookup_value (cherry picked from commit 6c492cce87e0f2ec6c9f4a15115f4394ce542979)
+	* fixes #2623 - trends link was broken (cherry picked from commit 4c268e837977d189638e681559539f96ed8e03d8)
+
+2013-06-05	Amos Benari <abenari@redhat.com>
+	* fixes #2617 Can't edit a host once it's created (cherry picked from commit 31b0ec6e23eea12ec76e25c1082174ebe83fd965)
+
+2013-06-05	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2558 - foreman-debug script in /usr/sbin (cherry picked from commit 664905e830de7c1489026278500f04afb12c43c2)
+
+2013-06-05	Libor Zoubek <lzoubek@jezzovo.net>
+	* fixes #2607 - add autocomplete=false attribute to root_host_pass input x (cherry picked from commit 0c6065e6633b4d377062c90013439b99db1e3bf0)
+
+2013-06-05	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2285 - subnet validation - length of addresses, strip whitespace and fix common typos (cherry picked from commit 31aa5db511a6decf800e68a2b6f6eb3dbf0ae29c)
+
+2013-06-04	Dominic Cleal <dcleal@redhat.com>
+	* refresh locales
+	* fixes #2603 - handle missing compute_resources param loading VM tab (cherry picked from commit 446fce677185cde7215c602a0e476f3692e36ad4)
+
+2013-06-04	Amos Benari <abenari@redhat.com>
+	* fixes #2570 'New Window' button on HTML5 spice client page does not work (cherry picked from commit 9dd435a704956981a3ce0c5bb43bc9fe1a9f4fe6)
+	* fixes #2594 missing progress indicator on compute resource selection (cherry picked from commit 5d8ef4cbb518477e0b166bf7903f3b0128df2992)
+	* fixes #2606 fix display of compute resource errors (cherry picked from commit 95be09637360db50222dc783e4b8d16b04934870)
+	* fixed #2534 fixes #2495 paginator has i18n issues (cherry picked from commit 1bf7cc358e00092d2cee38cc83cb753ed31ffa89)
+	* fixes #2604 searching for hosts with digits can lead to unexpected results (cherry picked from commit 273b110af4c3f9416ec237f4880ce0406d5f795c)
+
+2013-06-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2565 - new / edit host ajax call create nested forms (cherry picked from commit 0df38871a1a9c3dedfab5d1472f5816d891273b5)
+	* fixes #2541 - multiple host checkbox selections clears when moving to next page (cherry picked from commit ba6a7b33a96c384c6f653718bcc2ccbaebdc92a1)
+	* fixes #2545 - EC2 instance does not show EC2 related options in Edit page. (cherry picked from commit 7164f367646dcd30b53f53d0865788ce15c3666d)
+	* fixes #1951 - support for libvirt named networks
+
+2013-06-04	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2602 - scoped_search error when using postgresql (cherry picked from commit 93ce3a18eea3bd04b09dc7b55a5c513f973736f5)
+	* fixes #2590 - bookmarks modal form is now working (cherry picked from commit 56469be738cc5f2388f7e43dca0ee5492de1dbf5)
+
+2013-06-04	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2588 - fixed regression introduced earlier: localization works for non-AR classes too now (cherry picked from commit b08d7e45fbdea5f80fad5254e70d8b2004c05e36)
+	* fixes #2588 - table name used for localization is being determined correctly now for sti classes. (cherry picked from commit 2e1e6f713d49ef6f5274d798f8882faa2579f680)
+
+2013-05-30	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2587 - migration to increase varchar length of media.name and other string fields (cherry picked from commit ea5a012715ce2112c5d880b8f7562bcbb444e67d)
+	* fixes #2549, fixes #2544 - new host organization and location should default to current context if it exists (cherry picked from commit 66afbc33721b39f768d4fba7f6d134bfe8188467)
+
+2013-05-30	Ryan Davies <ryan@ryandavies.co.nz>
+	* fixes #2562 libvirt domain listen address, add libvirt_default_console_address setting (cherry picked from commit 710dfa86835e7b8b430cf59646a7888746c3b0bc)
+
+2013-05-29	Dominic Cleal <dcleal@redhat.com>
+	* Enable yum gpgcheck for RCs
+	* fixes #2579 - explicitly list field name, workaround rails #5990 (cherry picked from commit 65f764d6081b04cd03fa56a78e6281b5221b0bac)
+	* fixes #2555, #2560 - add foreman-release and MySQL gems to comps (cherry picked from commit 259a849c2525b1cf8771b18f60272c1d97d3e7b1)
+	* fixes #2106, #2123, #2561 - sign RPMs, rename -ec2 to -compute, fix foreman.repo URLs (cherry picked from commit 3afbd14599a8f0cc2178df638f4570b68ad441ed)
+	* fixes #2573 - refresh Fedora 18 comps, don't force SCL (cherry picked from commit b5885038577dafc6533831829150eee03b51b233)
+
+2013-05-29	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2538 - hostgroup provisioning falls back to root_pass setting (cherry picked from commit d56112fb7edf4230c3397cfec77d81b635fe441d)
+	* fixes #2493 Unable to load audit, underlying cause No such file to load -- audit (cherry picked from commit fa4869907eb7a9a5a494a0281ea9a9f102c95ef5)
+	* fixes #2539 - added API puppetrun access permission and test (cherry picked from commit 0fda4cf6098f491f067a00a7547e703e8632f035)
+	* fixes #2335 - update puppetclass redirects to referrer page (cherry picked from commit fb95b3c779953dd59278edd16770fe0384e1e6e9)
+
+2013-05-29	Arnoud de Jonge <arnoud.dejonge@nxs.nl>
+	* fixes #2539 - puppetrun API added. (cherry picked from commit f2fed493701bf8cee17515d7fae803d0e65ae42d)
+
+2013-05-29	Daniel Lobato <elobatocs@gmail.com>
+	* Avoid inheriting from Puppet
+
+2013-05-29	Marek Hulan <mhulan@redhat.com>
+	* Refs #2002 - Fog quick hack (cherry picked from commit b2c8312c6919423a7d77c36468fc8d62dbe874cc)
+
+2013-05-29	Sam Kottler <shk@redhat.com>
+	* Fixes #2584: Remove rubygem-virt from comps (cherry picked from commit 0bca93e35db285be6ce1a9e2176a23b655dd4712)
+
+2013-05-29	Amos Benari <abenari@redhat.com>
+	* fixes #2582 indicators for all. (cherry picked from commit 89b9ecb070b530641b005a1ef1437b7e3ed19c3d)
+
+2013-05-29	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #2581 - missing buildrequire gettext (cherry picked from commit 39a842b10db823e485b485c0b0bd49f3fb14e4b0)
+
+2013-05-28	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2519 - Protect locale changes from validation failure so that password validation can be run (cherry picked from commit a2a5a5fef2950c0a60c5aec3378277e2c5cb47bd)
+	* Fixes #2372 - Strip non-digit characters from non-numeric OS versions (cherry picked from commit fe838fad64723c17a4f69d37355927214cba4592)
+
+2013-05-28	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2542 - sort image listing with datatables (cherry picked from commit af1b63500af591325ccdbe0dbfc9caac232cd37c)
+	* fixes #2546 - audit details error - undefined method 'map' for string (cherry picked from commit ff9597b46bc8aa7f93ac25a942a2b109afee8d7e)
+	* fixes #2537 - audit details on deleted host fail (cherry picked from commit 23db9bad8b8595c7bb88cd016983fd0945ec79ae)
+
+2013-05-28	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #2536 - loading locale .mo files in production mode
+
+2013-05-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2563 - fallback user image has wrong path (cherry picked from commit c7846bcd8040c560717b8c036f447456e1319aa8)
+	* fixes #2325 No A record created in domain when provisioning image based vm (cherry picked from commit 3b6d152746d63444ce0ae2044cec4cbb8f224882)
+	* fixes #2551 new host image not always visible under openstack (cherry picked from commit 511e8f789155d6e5914bbdb5c1810aca70572d15)
+
+2013-05-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2567 - handle backtraces correctly in compute orchestration errors (cherry picked from commit dd2b55dc928cf2ef0dc8befcb867a9816864239b)
+
+2013-05-28	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2571 - Deleted admin is recreated (cherry picked from commit 4df2e17b75c65fa657ef9499ccf9c71547f11dcf)
+	* Fixes #2502 - session expiration updates
+
+2013-05-28	Ivan Necas <inecas@redhat.com>
+	* fixes #2553 let setting admin attribute on user creation (cherry picked from commit 7fab6ba6c7e6085bee5149953aa52a59d83e62f4)
+
+2013-05-28	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2550 Puppetclass search_by_host doesn't return all classes for an unknown host
+
+2013-05-24	Dominic Cleal <dcleal@redhat.com>
+	* Fix release number
+
 2013-05-23	Dominic Cleal <dcleal@redhat.com>
+	* Change to release candidate URL in foreman.repo
 	* Release 1.2.0-RC1
 	* fixes #2548 - add non-SCL dependencies to comps for publishing (cherry picked from commit 4eab96a1a0227ec780e7f4b9a286324b7ee980f0)
 
