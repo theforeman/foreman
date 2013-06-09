@@ -384,11 +384,11 @@ class Host::Managed < Host::Base
     facts = YAML::load yaml
     case facts
       when Puppet::Node::Facts
-        certname = facts.values["certname"]
+        certname = facts.name
         name     = facts.values["fqdn"].downcase
         values   = facts.values
       when Hash
-        certname = facts["certname"]
+        certname = facts["clientcert"] || facts["certname"]
         name     = facts["fqdn"].downcase
         values   = facts
         return raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
