@@ -1,4 +1,4 @@
-<%= form_for @architecture do |f| %>
+<%= form_for @architecture, :url => (@architecture.new_record? ? architectures_path : architecture_path(:id => @architecture.id)) do |f| %>
   <%= base_errors_for @architecture %>
   <%= text_f f, :name %>
   <%= multiple_checkboxes(f, :operatingsystems, @architecture, Operatingsystem, :label => _("Operating Systems")) %>

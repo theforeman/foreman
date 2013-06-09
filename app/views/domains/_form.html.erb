@@ -1,4 +1,4 @@
-<%= form_for @domain do |f| %>
+<%= form_for @domain, :url => (@domain.new_record? ? domains_path : domain_path(:id => @domain.id)) do |f| %>
   <%= base_errors_for @domain %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Domain") %></a></li>

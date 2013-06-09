@@ -1,4 +1,4 @@
-<%= form_for @environment do |f| %>
+<%= form_for @environment, :url => (@environment.new_record? ? environments_path : environment_path(:id => @environment.id)) do |f| %>
   <%= base_errors_for @environment %>
   <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
