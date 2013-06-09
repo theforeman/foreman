@@ -73,7 +73,7 @@
       </div>
 
       <%= f.hidden_field :managed %>
-      <%= f.hidden_field :progress_report_id %>
+      <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
       <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
 
       <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed -%>
