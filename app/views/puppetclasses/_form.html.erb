@@ -1,6 +1,6 @@
 <%= javascript "lookup_keys" %>
 
-<%= form_for @puppetclass, :html=>{:class=>"well"} do |f| %>
+<%= form_for @puppetclass, :html => {:class=>"well"}, :url => (@puppetclass.new_record? ? puppetclasses_path : puppetclass_path(:id => @puppetclass.id)) do |f| %>
   <%= base_errors_for @puppetclass %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Puppet Class') -%></a></li>
