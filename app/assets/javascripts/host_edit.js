@@ -59,7 +59,7 @@ function update_capabilities(capabilities){
 
 var stop_pooling;
 
-function submit_host(form){
+function submit_host(){
   var url = window.location.pathname.replace(/\/edit$|\/new$/,'');
   if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/hosts'); }
   $('#host_submit').attr('disabled', true);
@@ -71,7 +71,7 @@ function submit_host(form){
   $.ajax({
     type:'POST',
     url: url,
-    data: form.serialize(),
+    data: $('form').serialize(),
     success: function(response){
       if(response.redirect){
         window.location.replace(response.redirect);
@@ -470,14 +470,15 @@ function onHostEditLoad(){
    $('#host-conflicts-modal').click(function(){
      $('#host-conflicts-modal').modal('hide');
    });
-  var $form = $("[data-submit='progress_bar']");
-  $form.on('submit', function(){
-    submit_host($form);
-    return false;
-  });
   $('#image_selection').appendTo($('#image_provisioning'));
   $('#params-tab').on('shown', function(){mark_params_override()});
 }
+
+$(document).on('submit',"[data-submit='progress_bar']", function() {
+  submit_host();
+  return false;
+});
+
 
 $(document).on('change', '#host_provision_method_build', function () {
   $('#network_provisioning').show();
