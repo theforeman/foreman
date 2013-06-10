@@ -67,7 +67,7 @@ Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.16
 Requires: %{?scl_prefix}rubygem(bundler_ext)
 Requires: %{?scl_prefix}rubygem(thin)
 Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.4.8
-Requires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+Requires: %{?scl_prefix}rubygem(gettext_i18n_rails) >= 0.10.0
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 Requires: %{?scl_prefix}rubygem(therubyracer)
@@ -81,7 +81,7 @@ BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
 BuildRequires: %{?scl_prefix}rubygem(coffee-rails) => 3.2.1
 BuildRequires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
 BuildRequires: %{?scl_prefix}rubygem(fast_gettext)
-BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails) >= 0.10.0
 BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 BuildRequires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 BuildRequires: %{?scl_prefix}rubygem(jquery-rails)
