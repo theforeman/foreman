@@ -524,11 +524,17 @@ class HostsController < ApplicationController
   end
 
   def find_by_name
-    # find host first, if we fail, do nothing
-    params[:id].downcase! if params[:id].present?
-    super
-    return false unless @host
-    deny_access and return unless User.current.admin? or Host.my_hosts.include?(@host)
+    not_found and return false if (id = params[:id]).blank?
+    # determine if we are searching for a numerical id or plain name
+
+    if id =~ /^\d+$/
+      @host = Host::Base.my_hosts.find_by_id id.to_i
+    else
+      @host = Host::Base.my_hosts.find_by_name id.downcase
+      @host ||= Host::Base.my_hosts.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
+    end
+
+    not_found and return false unless @host
   end
 
   def load_vars_for_ajax
