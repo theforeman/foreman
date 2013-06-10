@@ -8,7 +8,7 @@ module Facts
 
     def operatingsystem
       orel    = case os_name
-                  when /(suse|sles)/i
+                  when /(suse|sles|gentoo)/i
                     facts[:operatingsystemrelease]
                   else
                     facts[:lsbdistrelease] || facts[:operatingsystemrelease]
