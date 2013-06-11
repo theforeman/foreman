@@ -273,4 +273,12 @@ module HostsHelper
       :os   => host.try(:operatingsystem_id) || (params[:host] && params[:host][:operatingsystem_id])
     }
   end
+
+  def show_appropriate_host_buttons(host)
+    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn'),
+      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn') if host.facts_hash.present?),
+      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn') if host.reports.present?),
+      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') if SmartProxy.puppet_proxies.present?)
+    ].compact
+  end
 end
