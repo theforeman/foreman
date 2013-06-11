@@ -143,7 +143,7 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, image_tag('/assets/spinner.gif', :class => 'hide'), :class => "help-inline")
+        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-inline")
       else
         content_tag(:span, help_inline, :class => "help-inline")
     end

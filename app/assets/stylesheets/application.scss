@@ -347,3 +347,10 @@ table.table thead .sorting_desc_disabled { background: #f9f9f9 url('sort_desc_di
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
 }
+
+.spinner-placeholder{
+  width: 16px;
+  height: 16px;
+  background: url('spinner.gif');
+  text-indent: 20px;
+}
