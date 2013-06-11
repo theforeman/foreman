@@ -15,7 +15,7 @@ function computeResourceSelected(item){
     $("#compute_resource_tab").show();
     $('#vm_details').empty();
     var data = $('form').serialize().replace('method=put', 'method=post');
-    $('#compute_resource').html($("<p><img src='/assets/spinner.gif' /> " + _('Loading virtual machine information ...') + "</p>"));
+    $('#compute_resource').html(spinner_placeholder(_('Loading virtual machine information ...')));
     $('#compute_resource_tab a').removeClass('tab-error');
     $(item).indicator_show();
     var url = $(item).attr('data-url');
@@ -193,7 +193,7 @@ function load_puppet_class_parameters(item) {
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
-      '<td colspan="5"><p><img src="/assets/spinner.gif" alt="' + _('Wait') + '" /> ' + _('Loading parameters...') + '</p></td>'+'</tr>');
+      '<td colspan="5">' + spinner_placeholder(_('Loading parameters...')) + '</td></tr>');
   $('#inherited_puppetclasses_parameters').append(placeholder);
   $.ajax({
     url: url,
@@ -454,7 +454,7 @@ function reload_puppetclass_params(){
 function load_with_placeholder(target, url, data){
   if(url==undefined) return;
   var placeholder = $('<tr id="' + target + '_loading" >'+
-            '<td colspan="4"><p><img src="/assets/spinner.gif" alt="' + _('Wait') + '" /> ' + _('Loading parameters...') + '</p></td></tr>');
+            '<td colspan="4">'+ spinner_placeholder(_('Loading parameters...')) + '</td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);
         $.ajax({
           type:'post',
