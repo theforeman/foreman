@@ -209,12 +209,13 @@ class HostsController < ApplicationController
 
   def bmc
     render :partial => 'bmc', :locals => { :host => @host }
-  rescue => e
-    #TODO: hack
-    error = e.try(:original_exception).try(:response) || e.to_s
-    logger.warn "failed to fetch bmc information: #{error}"
-    logger.debug e.backtrace
-    render :text => "Failure: #{error}"
+  rescue ActionView::Template::Error => exception
+    origin = exception.try(:original_exception)
+    message = (origin || exception).message
+    logger.warn "Failed to fetch bmc information: #{message}"
+    logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
+    logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
+    render :text => "Failure: #{message}"
   end
 
   def ipmi_boot
