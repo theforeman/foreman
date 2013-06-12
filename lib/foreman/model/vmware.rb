@@ -5,7 +5,6 @@ module Foreman::Model
 
     NETWORK_INTERFACE_TYPES = %w(VirtualE1000)
     validates_presence_of :user, :password, :server, :datacenter
-    before_create :update_public_key
 
     def self.model_name
       ComputeResource.model_name
@@ -62,7 +61,6 @@ module Foreman::Model
     def test_connection
       super
       if errors[:server].empty? and errors[:user].empty? and errors[:password].empty?
-        update_public_key
         datacenters
       end
     rescue => e
@@ -135,17 +133,6 @@ module Foreman::Model
       client.datacenters.get(datacenter)
     end
 
-    def update_public_key
-      return unless pubkey_hash.blank?
-      client
-    rescue => e
-      if e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
-        self.pubkey_hash = $1
-      else
-        raise e
-      end
-    end
-
     def pubkey_hash
       attrs[:pubkey_hash]
     end
@@ -155,6 +142,7 @@ module Foreman::Model
     end
 
     def client
+      tries   ||=2
       @client ||= ::Fog::Compute.new(
         :provider                     => "vsphere",
         :vsphere_username             => user,
@@ -162,6 +150,14 @@ module Foreman::Model
         :vsphere_server               => server,
         :vsphere_expected_pubkey_hash => pubkey_hash
       )
+    rescue => e
+      if pubkey_hash.blank? && e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
+        self.pubkey_hash = $1
+        save unless new_record?
+        retry unless (tries -= 1).zero?
+      else
+        raise e
+      end
     end
 
     def unused_vnc_port ip
