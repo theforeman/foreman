@@ -318,7 +318,6 @@ Meta Package to install requirements for devel support
 Summary: Foreman test support
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(mocha)
-Requires: %{?scl_prefix}rubygem(shoulda)
 Requires: %{?scl_prefix}rubygem(rr)
 Requires: %{?scl_prefix}rubygem(rake)
 Requires: %{?scl_prefix}rubygem(maruku)
