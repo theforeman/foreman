@@ -440,7 +440,7 @@ class HostsController < ApplicationController
     @host = if params[:host][:id]
       host = Host::Base.find(params[:host][:id])
       host = host.becomes Host::Managed
-      host.update_attributes(params[:host])
+      host.attributes = params[:host]
       host
     else
       Host.new(params[:host])
