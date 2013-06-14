@@ -164,7 +164,7 @@ function template_info(div, url) {
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
-                  $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>_('Sorry but no templates were configured.')</p></div>");
+                  $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>" + _('Sorry but no templates were configured.') + "</p></div>");
                 }
               });
 }
