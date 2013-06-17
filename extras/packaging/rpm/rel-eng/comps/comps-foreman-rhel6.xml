@@ -99,6 +99,7 @@
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
       <packagereq type="default">ruby193-rubygem-maruku</packagereq>
       <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
+      <packagereq type="default">ruby193-rubygem-minitest</packagereq>
       <packagereq type="default">ruby193-rubygem-mocha</packagereq>
       <packagereq type="default">ruby193-rubygem-multi_json</packagereq>
       <packagereq type="default">ruby193-rubygem-mysql2</packagereq>
