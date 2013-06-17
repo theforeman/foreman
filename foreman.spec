@@ -224,6 +224,8 @@ Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(awesome_print)
 Requires: %{?scl_prefix}rubygem(hirb-unicode)
 Requires: %{?scl_prefix}rubygem(wirb)
+# minitest - workaround until Rails 4.0 (#2650)
+Requires: %{?scl_prefix}rubygem(minitest)
 Requires: %{name} = %{version}-%{release}
 
 %description console
