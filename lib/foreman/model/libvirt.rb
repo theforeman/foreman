@@ -40,7 +40,7 @@ module Foreman::Model
       16*1024*1024*1024
     end
 
-    def test_connection
+    def test_connection options = {}
       super
       errors[:url].empty? and hypervisor
     rescue => e
