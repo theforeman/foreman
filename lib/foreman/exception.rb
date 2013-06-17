@@ -36,4 +36,10 @@ module Foreman
     alias :to_s :message
   end
 
+  class FingerprintException < Exception
+    def fingerprint
+      @params[0]
+    end
+  end
+
 end

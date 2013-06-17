@@ -28,6 +28,7 @@ function providerSelected(item)
 function testConnection(item) {
   var cr_id = $("form").data('id');
   var password = $("input[id$='password']").val();
+  $('.tab-error').removeClass('tab-error');
   $('#test_connection_indicator').show();
   $.ajax({
     type:'put',

@@ -60,7 +60,7 @@ module Foreman::Model
       client.flavors
     end
 
-    def test_connection
+    def test_connection options = {}
       super
       errors[:user].empty? and errors[:password].empty? and regions
     rescue Fog::Compute::AWS::Error => e

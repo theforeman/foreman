@@ -29,4 +29,14 @@ module ComputeResourcesHelper
   def password_placeholder(obj)
     obj.id ? "********" : ""
   end
+
+  def list_datacenters compute
+    return [] unless compute.uuid || controller.action_name == 'test_connection'
+    compute.datacenters
+  rescue Foreman::FingerprintException => e
+    compute.errors[:pubkey_hash] = e
+    []
+  rescue
+    []
+  end
 end
