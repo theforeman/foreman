@@ -22,7 +22,7 @@ module Foreman::Model
       [:image]
     end
 
-    def test_connection
+    def test_connection options = {}
       super
       errors[:user].empty? and errors[:password] and tenants
     rescue => e

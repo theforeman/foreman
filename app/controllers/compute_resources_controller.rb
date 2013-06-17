@@ -88,7 +88,7 @@ class ComputeResourcesController < ApplicationController
     else
       @compute_resource = ComputeResource.new_provider(params[:compute_resource])
     end
-    @compute_resource.test_connection
+    @compute_resource.test_connection :force => true
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }
   end
 

@@ -61,7 +61,7 @@ class ComputeResource < ActiveRecord::Base
     {:uuid => :identity}
   end
 
-  def test_connection
+  def test_connection options = {}
     valid?
   end
 

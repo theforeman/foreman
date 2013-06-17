@@ -60,7 +60,7 @@ module Foreman::Model
       client.images
     end
 
-    def test_connection
+    def test_connection options = {}
       super and flavors
     rescue Excon::Errors::Unauthorized => e
       errors[:base] << e.response.body
