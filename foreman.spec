@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -198,12 +198,13 @@ Summary: Foreman asset pipeline support
 Group: Applications/system
 Requires: %{name} = %{version}-%{release}
 Requires: %{?scl_prefix}rubygem(coffee-rails) >= 3.2.1
-Requires: %{?scl_prefix}rubygem(coffee-rails) < 3.2.2
-Requires: %{?scl_prefix}rubygem(jquery-rails) = 2.0.3
+Requires: %{?scl_prefix}rubygem(coffee-rails) < 3.3
+Requires: %{?scl_prefix}rubygem(jquery-rails) >= 2.0.2
+Requires: %{?scl_prefix}rubygem(jquery-rails) < 2.1
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(quiet_assets)
 Requires: %{?scl_prefix}rubygem(sass-rails) >= 3.2.3
-Requires: %{?scl_prefix}rubygem(sass-rails) < 3.2.4
+Requires: %{?scl_prefix}rubygem(sass-rails) < 3.3
 Requires: %{?scl_prefix}rubygem(spice-html5-rails)
 Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
@@ -520,6 +521,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Jun 17 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-5
+- fix asset dependency versions
+- add minitest dependency for console (Lukas Zapletal)
 * Thu Jun 06 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-4
 - fix libvirt package dependency on ruby-libvirt
 * Wed Jun 05 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-3
