@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-06 16:27+0100\n"
+"POT-Creation-Date: 2013-06-17 17:38+0100\n"
 "PO-Revision-Date: 2013-05-09 09:31+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -83,6 +83,9 @@ msgid "%{task} task failed with the following error: %{e}"
 msgstr ""
 
 msgid "%{value} does not belong to %{os} operating system"
+msgstr ""
+
+msgid "%{value} is not a valid controller"
 msgstr ""
 
 msgid "%{value} is not one of %{rules}"
@@ -3660,6 +3663,9 @@ msgstr ""
 msgid "This page will self destruct once data comes in."
 msgstr ""
 
+msgid "This page will self destruct once inventory data comes in."
+msgstr ""
+
 msgid "Time in Seconds"
 msgstr ""
 
@@ -4097,6 +4103,12 @@ msgstr ""
 msgid "You can find details of how to set up the proxy at"
 msgstr ""
 
+msgid "You can't assign some of roles you selected"
+msgstr ""
+
+msgid "You can't change Administrator flag"
+msgstr ""
+
 msgid "You cannot remove %s that are used by hosts."
 msgstr ""
 
@@ -4130,10 +4142,10 @@ msgstr ""
 msgid "You do not have permission to %{operation} this %{klass}"
 msgstr ""
 
-msgid "You don"
+msgid "You don't seem to have any Hosts, for more information see"
 msgstr ""
 
-msgid "You don't seem to have any Hosts, for more information see"
+msgid "You don't seem to have any facts, if you wish to configure it, please follow"
 msgstr ""
 
 msgid "You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow"
@@ -4399,6 +4411,12 @@ msgstr ""
 msgid "must be at most 15 characters"
 msgstr ""
 
+msgid "must be boolean"
+msgstr ""
+
+msgid "must be integer"
+msgstr ""
+
 msgid "must be lowercase"
 msgstr ""
 
@@ -4438,6 +4456,9 @@ msgstr ""
 msgid "parameters require an associated domain, host or host group"
 msgstr ""
 
+msgid "parsing settings type '%s' from string is not defined"
+msgstr ""
+
 msgid "pending"
 msgstr ""
 
@@ -4472,6 +4493,9 @@ msgid "revoked"
 msgstr ""
 
 msgid "select an owner"
+msgstr ""
+
+msgid "setting up facts"
 msgstr ""
 
 msgid "setting up reporting"

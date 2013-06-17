@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-06 16:27+0100\n"
+"POT-Creation-Date: 2013-06-17 17:38+0100\n"
 "PO-Revision-Date: 2013-05-17 08:56+0000\n"
 "Last-Translator: fbarbeira <fbarbeira@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
@@ -92,6 +92,10 @@ msgstr "%{task} tareas han fallado con el error: %{e}"
 
 msgid "%{value} does not belong to %{os} operating system"
 msgstr "%{value} no pertenece al sistema operativo %{os}"
+
+#, fuzzy
+msgid "%{value} is not a valid controller"
+msgstr "%{value} no es una de "
 
 msgid "%{value} is not one of %{rules}"
 msgstr "%{value} no es una de "
@@ -3663,6 +3667,9 @@ msgstr ""
 msgid "This page will self destruct once data comes in."
 msgstr ""
 
+msgid "This page will self destruct once inventory data comes in."
+msgstr ""
+
 msgid "Time in Seconds"
 msgstr ""
 
@@ -4087,6 +4094,12 @@ msgstr ""
 msgid "You can find details of how to set up the proxy at"
 msgstr ""
 
+msgid "You can't assign some of roles you selected"
+msgstr ""
+
+msgid "You can't change Administrator flag"
+msgstr ""
+
 msgid "You cannot remove %s that are used by hosts."
 msgstr ""
 
@@ -4120,10 +4133,10 @@ msgstr ""
 msgid "You do not have permission to %{operation} this %{klass}"
 msgstr ""
 
-msgid "You don"
+msgid "You don't seem to have any Hosts, for more information see"
 msgstr ""
 
-msgid "You don't seem to have any Hosts, for more information see"
+msgid "You don't seem to have any facts, if you wish to configure it, please follow"
 msgstr ""
 
 msgid "You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow"
@@ -4390,6 +4403,14 @@ msgstr "debe ser un array"
 msgid "must be at most 15 characters"
 msgstr ""
 
+#, fuzzy
+msgid "must be boolean"
+msgstr "debe ser un array"
+
+#, fuzzy
+msgid "must be integer"
+msgstr "debe ser un array"
+
 msgid "must be lowercase"
 msgstr ""
 
@@ -4429,6 +4450,9 @@ msgstr "página"
 msgid "parameters require an associated domain, host or host group"
 msgstr ""
 
+msgid "parsing settings type '%s' from string is not defined"
+msgstr ""
+
 msgid "pending"
 msgstr ""
 
@@ -4464,6 +4488,10 @@ msgstr ""
 
 msgid "select an owner"
 msgstr "seleccionar un dueño"
+
+#, fuzzy
+msgid "setting up facts"
+msgstr "Importando Datos de Puppet"
 
 msgid "setting up reporting"
 msgstr ""
