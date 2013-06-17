@@ -98,6 +98,7 @@
       <packagereq type="default">ruby193-rubygem-locale</packagereq>
       <packagereq type="default">ruby193-rubygem-mail</packagereq>
       <packagereq type="default">ruby193-rubygem-maruku</packagereq>
+      <packagereq type="default">ruby193-rubygem-metaclass</packagereq>
       <packagereq type="default">ruby193-rubygem-mime-types</packagereq>
       <packagereq type="default">ruby193-rubygem-mocha</packagereq>
       <packagereq type="default">ruby193-rubygem-multi_json</packagereq>
@@ -149,6 +150,7 @@
       <packagereq type="default">ruby193-rubygem-spice-html5-rails</packagereq>
       <packagereq type="default">ruby193-rubygem-sprockets</packagereq>
       <packagereq type="default">ruby193-rubygem-sqlite3</packagereq>
+      <packagereq type="default">ruby193-rubygem-syntax</packagereq>
       <packagereq type="default">ruby193-rubygem-therubyracer</packagereq>
       <packagereq type="default">ruby193-rubygem-thin</packagereq>
       <packagereq type="default">ruby193-rubygem-thor</packagereq>
