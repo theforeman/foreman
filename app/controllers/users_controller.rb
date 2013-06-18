@@ -49,7 +49,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    admin = params[:user].delete :admin
     # Remove keys for restricted variables when the user is editing their own account
     if editing_self
       for key in params[:user].keys
@@ -58,12 +57,10 @@ class UsersController < ApplicationController
       User.current.editing_self = true
     end
 
-    # Only an admin can update admin attribute of another use
+    # Only an admin can update admin attribute of another user
     # this is required, as the admin field is blacklisted above
-    if User.current.admin
-      @user.admin = admin
-      return process_error unless @user.valid?
-    end
+    admin = params[:user].delete :admin
+    @user.admin = admin if User.current.admin
 
     if @user.update_attributes(params[:user])
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
