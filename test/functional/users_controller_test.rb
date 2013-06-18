@@ -185,4 +185,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_template :edit
   end
 
+  test "should be able to create user without mail and update the mail later" do
+     user = User.create :login => "mailess", :mail=> "", :auth_source => auth_sources(:one)
+
+     update_hash = {"user"=>{
+       "login"  => user.login,
+       "mail"  => "you@have.mail"},
+       "commit" => "Submit",
+       "id"     => user.id}
+     put :update, update_hash, set_session_user.merge(:user => user.id)
+
+     assert !User.find_by_login(user.login).mail.blank?
+   end
+
 end
