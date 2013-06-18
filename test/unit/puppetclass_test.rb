@@ -91,4 +91,25 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert_equal [], Puppetclass.search_for("host = imaginaryhost.nodomain.what")
   end
 
+  test "user without create external_variables permission cannot create smart variable for puppetclass" do
+    setup_user "edit"
+    nested_lookup_key_params = {:new_1372154591368 => {:key=>"test_param", :key_type=>"string", :default_value => "7777", :path =>"fqdn\r\nhostgroup\r\nos\r\ndomain"}}
+    refute Puppetclass.first.update_attributes(:lookup_keys_attributes => nested_lookup_key_params)
+  end
+
+  test "user with create external_variables permission can create smart variable for puppetclass" do
+    @one = users(:one)
+    # add permission for user :one
+    as_admin do
+      role = Role.find_or_create_by_name :name => "testing_role"
+      role.permissions = [:edit_puppetclasses, :create_external_variables]
+      @one.roles = [role]
+      @one.save!
+    end
+    as_user :one do
+      nested_lookup_key_params = {:new_1372154591368 => {:key=>"test_param", :key_type=>"string", :default_value => "7777", :path =>"fqdn\r\nhostgroup\r\nos\r\ndomain"}}
+      assert Puppetclass.first.update_attributes(:lookup_keys_attributes => nested_lookup_key_params)
+    end
+  end
+
 end
