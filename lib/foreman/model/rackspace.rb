@@ -99,10 +99,11 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      {
-        :flavor_id => 1, #256 server
-        :name      => "foreman-#{Foreman.uuid}",
-      }
+      #256 server
+      super.merge(
+        :flavor_id => 1
+      )
     end
+
   end
 end
