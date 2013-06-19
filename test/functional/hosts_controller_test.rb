@@ -114,19 +114,19 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Host.first.name}, set_session_user
+    put :update, {:id => Host.first.name, :host => {}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Host.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Host.first.name}, set_session_user
+    put :update, {:id => Host.first.name, :host => {}}, set_session_user
     assert_redirected_to host_url(assigns(:host))
   end
 
   def test_update_valid_json
     Host.any_instance.stubs(:valid?).returns(true)
-    put :update, {:format => "json", :id => Host.first.name}, set_session_user
+    put :update, {:format => "json", :id => Host.first.name, :host => {}}, set_session_user
     host = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
   end
@@ -810,6 +810,24 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal old_type, @host.type
   end
 
+  test "blank root password submitted does not erase existing password" do
+    old_root_pass = @host.root_pass
+    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => ''} }, set_session_user
+    @host = Host.find(@host.id)
+    assert_equal old_root_pass, @host.root_pass
+  end
+
+  test "blank BMC password submitted does not erase existing password" do
+    bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
+                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+    assert bmc1.save
+    old_password = bmc1.password
+    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, set_session_user
+    @host = Host.find(@host.id)
+    assert_equal old_password, @host.interfaces.bmc.first.password
+  end
+
+
   private
   def initialize_host
     User.current = users(:admin)
@@ -823,7 +841,8 @@ class HostsControllerTest < ActionController::TestCase
                         :environment_id     => environments(:production).id,
                         :subnet_id          => subnets(:one).id,
                         :disk            => "empty partition",
-                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id
+                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id,
+                        :root_pass          => "123456789"
                        )
   end
 end
