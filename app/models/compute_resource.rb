@@ -144,9 +144,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def vm_instance_defaults
-    {
-      'name' => "foreman_#{Time.now.to_i}",
-    }
+    ActiveSupport::HashWithIndifferentAccess.new(:name => "foreman_#{Time.now.to_i}")
   end
 
   def hardware_profiles(opts={})
