@@ -20,7 +20,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create regular user" do
     post :create, {
-      :commit => "Submit",
       :user => {
         :login => "foo",
         :mail => "foo@bar.com",
@@ -31,7 +30,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create admin user" do
     post :create, {
-      :commit => "Submit",
       :user => {
         :login => "foo",
         :admin => true,
@@ -44,7 +42,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    put :update, { :commit => "Submit", :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
+    put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
     mod_user = User.find_by_id(user.id)
 
     assert mod_user.login == "johnsmith"
@@ -56,7 +54,7 @@ class UsersControllerTest < ActionController::TestCase
 
     assert user.roles =([roles(:anonymous)])
 
-    put :update, { :commit => "Submit", :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
+    put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
     mod_user = User.find_by_id(user.id)
 
     assert mod_user.roles =([roles(:anonymous)])
@@ -67,7 +65,7 @@ class UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, {:commit => "Submit", :id => user.id,
+    put :update, {:id => user.id,
                   :user => {
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy"
                   },
@@ -83,7 +81,7 @@ class UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, {:commit => "Submit", :id => user.id,
+    put :update, {:id => user.id,
                   :user => {
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY"
                   },
@@ -99,7 +97,7 @@ class UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, {:commit => "Submit", :id => user.id,
+    put :update, {:id => user.id,
                   :user => { :login => "foobar" },
                  }, set_session_user
 
@@ -115,10 +113,10 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should modify session when locale is updated" do
     User.current = User.admin
-    put :update, {:commit => "Submit", :id => User.admin.id, :user => { :locale => "cs" } }, set_session_user
+    put :update, {:id => User.admin.id, :user => { :locale => "cs" } }, set_session_user
     assert_redirected_to users_url
     assert User.admin.locale == "cs"
-    put :update, {:commit => "Submit", :id => User.admin.id, :user => { :locale => "" } }, set_session_user
+    put :update, { :id => User.admin.id, :user => { :locale => "" } }, set_session_user
     assert User.admin.locale.nil?
     assert session[:locale].nil?
   end
@@ -159,7 +157,6 @@ class UsersControllerTest < ActionController::TestCase
 
     update_hash = {"user"=>{ "login"         => sample_user.login,
       "hostgroup_ids" => ["", Hostgroup.find_by_name("root").id.to_s] },
-      "commit"        => "Submit",
       "id"            => sample_user.id }
 
     put :update, update_hash , set_session_user
@@ -177,7 +174,6 @@ class UsersControllerTest < ActionController::TestCase
     update_hash = {"user"=>{
       "login"  => target.login,
       "admin"  => false},
-      "commit" => "Submit",
       "id"     => target.id}
     put :update, update_hash, set_session_user.merge(:user => user.id)
 
@@ -191,7 +187,6 @@ class UsersControllerTest < ActionController::TestCase
      update_hash = {"user"=>{
        "login"  => user.login,
        "mail"  => "you@have.mail"},
-       "commit" => "Submit",
        "id"     => user.id}
      put :update, update_hash, set_session_user.merge(:user => user.id)
 
