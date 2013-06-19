@@ -100,6 +100,13 @@ class HostsController < ApplicationController
   def update
     forward_url_options
     Taxonomy.no_taxonomy_scope do
+      # remove from hash :root_pass and bmc :password if blank?
+      params[:host].except!(:root_pass) if params[:host][:root_pass].blank?
+      if @host.type == "Host::Managed" && params[:host][:interfaces_attributes]
+        params[:host][:interfaces_attributes].each do |k, v|
+          params[:host][:interfaces_attributes]["#{k}"].except!(:password) if params[:host][:interfaces_attributes]["#{k}"][:password].blank?
+        end
+      end
       if @host.update_attributes(params[:host])
         process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
       else

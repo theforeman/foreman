@@ -45,6 +45,7 @@ module LayoutHelper
   def password_f(f, attr, options = {})
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
+      options[:placeholder] ||= password_placeholder(f.object)
       f.password_field attr, options
     end
   end
