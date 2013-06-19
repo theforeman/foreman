@@ -97,7 +97,7 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
-      vm = super args
+      vm = super({ :first_boot_dev => 'network' }.merge(args))
       begin
         create_interfaces(vm, args[:interfaces_attributes])
         create_volumes(vm, args[:volumes_attributes])
