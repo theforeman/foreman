@@ -86,6 +86,8 @@ class HostgroupsController < ApplicationController
   end
 
   def update
+    # remove from hash :root_pass if blank?
+    params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
     if @hostgroup.update_attributes(params[:hostgroup])
       process_success
     else

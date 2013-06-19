@@ -498,7 +498,6 @@ class HostTest < ActiveSupport::TestCase
 
   test "should pass through existing salt when saving root pw" do
     h = hosts(:redhat)
-    pw = h.root_pass
     pass = "$1$jmUiJ3NW$bT6CdeWZ3a6gIOio5qW0f1"
     h.root_pass = pass
     h.hostgroup = nil
@@ -512,7 +511,7 @@ class HostTest < ActiveSupport::TestCase
     h.hostgroup = hostgroups(:common)
     assert h.save
     h.hostgroup.update_attribute(:root_pass, "abc")
-    assert !(h.root_pass.nil? || h.root_pass.empty?) && h.root_pass != Setting[:root_pass]
+    assert h.root_pass.present? && h.root_pass != Setting[:root_pass]
   end
 
   test "should use a nested hostgroup parent root password" do
@@ -524,8 +523,17 @@ class HostTest < ActiveSupport::TestCase
     hg.root_pass = nil
     hg.parent.update_attribute(:root_pass, "abc")
     hg.save
-    assert !(h.root_pass.nil? || h.root_pass.empty?) && h.root_pass != Setting[:root_pass]
+    assert h.root_pass.present? && h.root_pass != Setting[:root_pass]
   end
+
+  test "should use settings root password" do
+    h = hosts(:redhat)
+    h.root_pass = nil
+    h.hostgroup = nil
+    assert h.save
+    assert h.root_pass.present? && h.root_pass == Setting[:root_pass]
+  end
+
 
   test "should save uuid on managed hosts" do
     Setting[:use_uuid_for_certificates] = true

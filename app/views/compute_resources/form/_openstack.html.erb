@@ -1,6 +1,6 @@
 <%= text_f f, :url, :class => "input-xlarge", :help_block => _("e.g. http://openstack:5000/v2.0/tokens") %>
 <%= text_f f, :user %>
-<%= password_f f, :password, :placeholder => password_placeholder(f.object) %>
+<%= password_f f, :password %>
 
 <% tenants = f.object.tenants rescue [] %>
 <%= selectable_f(f, :tenant, tenants, {}, {:label => _('Tenant'), :disabled => tenants.empty?,
