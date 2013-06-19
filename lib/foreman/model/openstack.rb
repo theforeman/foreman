@@ -97,10 +97,9 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      {
-        :name      => "foreman-#{Foreman.uuid}",
-        :key_name  => key_pair.name,
-      }
+      super.merge(
+        :key_name  => key_pair.name
+      )
     end
 
     def assign_floating_ip(address, vm)

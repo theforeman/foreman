@@ -134,13 +134,13 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      {
+      super.merge(
         :memory     => 768*1024*1024,
         :boot_order => %w[network hd],
         :nics       => [new_nic],
         :volumes    => [new_volume],
         :display    => { :type => 'vnc', :listen => Setting[:libvirt_default_console_address], :password => random_password, :port => '-1' }
-      }
+      )
     end
 
     def create_volumes args

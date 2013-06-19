@@ -120,11 +120,10 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      {
+      super.merge(
         :flavor_id => "m1.small",
-        :name      => "foreman-#{Foreman.uuid}",
-        :key_pair  => key_pair,
-      }
+        :key_pair  => key_pair
+      )
     end
   end
 end
