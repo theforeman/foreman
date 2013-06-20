@@ -122,10 +122,11 @@ elsif options[:key_values].any?
     old_value = setting.value
     if value == :unset
       value = nil
+    elsif complex_type?(setting.settings_type)
+      setting.value = typecast_value(setting.settings_type, value)
     else
-      value = typecast_value(setting.settings_type, value)
+      setting.parse_string_value(value)
     end
-    setting.value = value
     if setting.valid? && old_value != setting.value
       setting.save! unless options[:dry]
       changed_settings << setting
