@@ -2,7 +2,7 @@ module Nic
   class BMC < Managed
 
     ATTRIBUTES = [:username, :password, :provider]
-    attr_accessible *ATTRIBUTES
+    attr_accessible :updated_at, *ATTRIBUTES
 
     PROVIDERS = %w(IPMI)
     validates_inclusion_of :provider, :in => PROVIDERS
