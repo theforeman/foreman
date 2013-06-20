@@ -827,6 +827,33 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal old_password, @host.interfaces.bmc.first.password
   end
 
+  # To test that work-around works for Rails bug with accepts_nested_attributes_for and serialized child field
+  # Note that both :mac annd :updated_at are dirty in :interfaces_attributes
+  # For unknown reason, the test didn't pass if only :updated_at was dirty, but it works in the UI to only pass :updated_at
+  test "BMC password updates successful in attrs serialized field if updated_at is passed explictedly" do
+    bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
+                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+    assert bmc1.save
+    new_password = "topsecret"
+    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password, :mac => "32:54:00:b0:0c:fd", :updated_at => Time.now, :id => bmc1.id} } } }, set_session_user
+    @host = Host.find(@host.id)
+    assert_equal new_password, @host.interfaces.bmc.first.password
+  end
+
+  # To test Rails bug still exists with accepts_nested_attributes_for and serialized child field
+  test "BMC password does not update due to Rails bug" do
+    bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
+                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+    assert bmc1.save
+    new_password = "topsecret"
+    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password} } } }, set_session_user
+    @host = Host.find(@host.id)
+    # assert bug that password was NOT updated to "topsecret" because :password (in serialized attrs field) was the only parameter that changed
+    refute_equal 'topsecret', @host.interfaces.bmc.first.password
+    assert_equal 'abc123456', @host.interfaces.bmc.first.password
+  end
+
+
 
   private
   def initialize_host
