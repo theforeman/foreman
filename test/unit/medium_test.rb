@@ -17,6 +17,12 @@ class MediumTest < ActiveSupport::TestCase
     assert !medium.name.strip.squeeze(" ").empty?
     assert !medium.save
 
+    medium.name = "Archlinux mirror      thing", :path => "http://www.google.com"
+    assert !medium.save
+
+    medium.name = "Archlinux mirror thing ", :path => "http://www.google.com"
+    assert !medium.save
+
     medium.name.strip!.squeeze!(" ")
     assert medium.save!
   end
