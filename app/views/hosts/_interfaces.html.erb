@@ -22,6 +22,10 @@
       <%= password_f f, :password, ifs_bmc_opts(f.object) %>
       <%# TODO: current rails version does not allow to pass a selected value where there is no method (e.g. providers below) rescue here is a hack %>
       <%= selectable_f f, :provider, Nic::BMC::PROVIDERS, {:selected => nil}, ifs_bmc_opts(f.object) rescue f.hidden_field :provider, :value => 'IPMI' %>
+      <%# Hack for Rails bug in 3.2.13 - serialized field attrs does not update through accepts_nested_attributes_for if it's
+          the only field that is dirty. If updated_at is explicited updated, then attrs will also be updated correctly %>
+      <%= f.hidden_field :updated_at, :value => Time.now %>
+
     <% end %>
 
   <% end %>
