@@ -1,3 +1,86 @@
+2013-06-21	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.0-RC3
+	* refresh locales
+	* fixes #2686 - use setting model's string parser to update values (cherry picked from commit 5d9073bba52b502b08b8b67b7f546eb4d481e5c1) (cherry picked from commit 65ae867c347ad93ce08e85397d55188d9b6220cb)
+
+2013-06-21	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2655 - Display Host buttons on unmanaged hosts if a puppet proxy exists (cherry picked from commit e902d93997b7ed04cc06cebe03674752fafc758d)
+
+2013-06-21	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2489 - fixes BMC password caused by rails bug accepts_nested_attributes_for and serialized child field (cherry picked from commit eaa6aec0023de21f0565b33e98f4c68990c0c2e2)
+	* fixes #2484 - host, hostgroup, and BMC passwords were overwritten as blank (cherry picked from commit 3595a70c5fa8f59ae48cd67cf009dbc839a14861)
+
+2013-06-20	Ivan Necas <inecas@redhat.com>
+	* fixes #2685 incorrect and inefficient regexp checking medium name format
+
+2013-06-20	Amos Benari <abenari@redhat.com>
+	* fixes #2679 pie get error when the label is too long (cherry picked from commit 3de840c1263eea516673191bd6ccdf446a928d19)
+	* fixes #2669 username first name and last name doesn't accept i18n characters (cherry picked from commit aa925f8009b7024dbb77c797d95c14b2e725a1d7)
+	* fixes #2639 After creating user with empty e-mail it becomes impossible to add it. (cherry picked from commit 802ae177dc9d35c3fc3889fa34b24e7f32001eb8)
+	* fixes #2656 error connecting to vsphere after upgrade to ruby 1.9.3 (cherry picked from commit 617ee75f8c0f8d239564f3fd48d92a2d772eeb8b)
+	* fixes #2646 Asset icon URLs are incorrect when under a different base URL (cherry picked from commit 1546388e9c82f6382be1ec35738489e8c9458c69)
+
+2013-06-20	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2610 - fixed the boot device order for oVirt VMs created in Foreman (cherry picked from commit e34f713634a44986695f266ba442f2e07bfaea63)
+
+2013-06-20	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2674 - Add tmpdfiles.d configuration for systemd to rpm spec (cherry picked from commit d30ac557d1d260bfdae13164cd83deca27c371cc)
+
+2013-06-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2612 - move Task into Orchestration namespace due to RbVmomi conflict (cherry picked from commit 467ea135da2b2309d306fd7e97d5c52a9ab00dbe)
+
+2013-06-17	Dominic Cleal <dcleal@redhat.com>
+	* refresh locales
+	* fixes #2670 - fix apostrophe quoting issue (cherry picked from commit 4298bd841c3fb2b3f639f06d4cbbb3901f56ec06) (cherry picked from commit be36bef41104ff5ca26cfb36818bdc1cbc7f5b15)
+	* refs #2650 - fix minitest version (cherry picked from commit 9e3f1dff75a3a60568fa39fd3b8c52665f9819ac)
+	* fixes #2649 - asset dependency versions, missing test dependencies (cherry picked from commit 54125f045c98734ff0a9d6321296bcbbb11bd664)
+
+2013-06-17	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2650 - adding minitest dependency for console (cherry picked from commit 95234b21bc9fba36206274f8996a0f933b2d4d33)
+	* fixes #2649 - adding missing devel deps
+
+2013-06-17	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2667 - Don't save during process_hostgroup (cherry picked from commit b751fea393439dc653e90d2aa9d06b4015797c9f)
+
+2013-06-17	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2583 - error message is now properly i18n-ed (cherry picked from commit 8f3d76af2aa55d486b2d52558aa91e2d62cafbe3)
+
+2013-06-14	Amos Benari <abenari@redhat.com>
+	* fixes #2663 javascript errors on the host form (cherry picked from commit d592994bf9554dcbffbbc3895e76d5646f4739fb)
+
+2013-06-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2640 - use relative user logout path (cherry picked from commit 1ff6a50c16ef6e8bf8b1aa709ec2f8769ba70d79)
+	* Fixes #2619 - don't display full output from proxy
+
+2013-06-14	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2657 - Use twitter-bootstrap-rails version 2.2.6 (cherry picked from commit a8d06d2d9289ac925d4a2d5ec1c52665c100830f)
+
+2013-06-12	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2334 - location matcher doesn't match on smart parameters (cherry picked from commit c7f527779d80e1cc78e1f3b02a6ba7bfc081a95d)
+
+2013-06-12	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #2660 - settings, improve tests and fixes
+	* fixes #2343 - override default settings with custom values
+
+2013-06-12	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2644 - Refactor Host find_by_name to use several ways to find a host, and refactor my_hosts scope to Host
+	* Fixes #2643 - Check for operatingsystem before orchestrating TFTP (cherry picked from commit d2e50bbbf7d84fde6d846f5a821cf7e2c28fbfb3)
+	* Fixes #2642 - Display build button if host type has changed (cherry picked from commit 4cdd3291c6756d966ae52b7dc6cdc6a9fdf855fb)
+	* Fixes #2641 - Add type_changed check to JS to allow form to refresh when provisioning a discovered host (cherry picked from commit c5e90813c8cb1e031ae43dd6f00b359119958a19)
+
+2013-06-11	Amos Benari <abenari@redhat.com>
+	* fixes #2636 host submit missing progress-bar when installed at sub-domain (cherry picked from commit 92326dd2588338079a10f11c676380d75b3a4d1f)
+	* fixes #1938 Foreman shouldn't use the FQDN fact to identify the node when facts are uploaded (cherry picked from commit baeb54f19a67ef8e5fbce513548cda1653341e17)
+
+2013-06-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2633 - enable generate_token rake task to run from elsewhere (cherry picked from commit a5f4453257060e0e02b7fdd7498e2f5936c38a27)
+
+2013-06-11	Antony Perigault <antony.perigault@1000mercis.com>
+	* Use facts[:operatingsystemrelease] to determined gentoo release (cherry picked from commit ef3a1338a05c0d8689dfa87ec7cd6f4bc07312f7)
+
+2013-06-11	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2622 - error messages with HTML properly escaped (cherry picked from commit c8d1c6d713cc412bc4ab30b74e60e2ff98d8b74a)
+
 2013-06-07	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.2.0-RC2
 	* fixes #2627 - depend on libvirt, not virt, add missing comps entries (cherry picked from commit 7ac08e59f58eba3c7218bc82b0e88394568501fa)

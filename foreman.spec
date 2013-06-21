@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.0
-Release: 0.4.RC2%{?dist}
+Release: 0.4.RC3%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -528,7 +528,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
-* Mon Jun 17 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.4.RC2
+* Fri Jun 21 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.4.RC3
+- Release 1.2.0-RC3
 - fix asset dependency versions
 - add minitest dependency for console (Lukas Zapletal)
 * Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.3.RC2
