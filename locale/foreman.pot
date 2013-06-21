@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-17 17:38+0100\n"
+"POT-Creation-Date: 2013-06-21 09:07+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -3611,6 +3611,9 @@ msgstr ""
 msgid "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).\\n          for example <em>http://mirror.averse.net/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>."
 msgstr ""
 
+msgid "The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"
+msgstr ""
+
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
@@ -4014,9 +4017,6 @@ msgid "Virtual Machines on %s"
 msgstr ""
 
 msgid "Volumes"
-msgstr ""
-
-msgid "Wait"
 msgstr ""
 
 msgid "Waiting for %s to come online"
