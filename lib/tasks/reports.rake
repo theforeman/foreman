@@ -77,6 +77,6 @@ namespace :reports do
 
     options[:email] = ENV['email'] if ENV['email']
 
-    HostMailer.deliver_summary(options)
+    HostMailer.summary(options)
   end
 end
