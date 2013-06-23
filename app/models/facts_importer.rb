@@ -30,10 +30,9 @@ module Facts
           end
         end
         major, minor = orel.split(".")
-        major.gsub!(/\D/,'') unless is_numeric? major
-        minor.gsub!(/\D/,'') unless is_numeric? minor
-        minor        ||= ""
-        args = { :name => os_name, :major => major, :minor => minor }
+        major.to_s.gsub!(/\D/,'') unless is_numeric? major
+        minor.to_s.gsub!(/\D/,'') unless is_numeric? minor
+        args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
         os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
         if os_name[/debian|ubuntu/i] or os.family == 'Debian'
           os.release_name = facts[:lsbdistcodename]

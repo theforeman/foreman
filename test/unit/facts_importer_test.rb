@@ -47,6 +47,14 @@ class FactsImporterTest < ActiveSupport::TestCase
     assert_equal '34', data.minor
   end
 
+  test "should allow OS version minor component to be nil" do
+    @importer = Facts::Importer.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'6'})
+    data = importer.operatingsystem
+    assert_equal "AnyOS 6", data.to_s
+    assert_equal '6', data.major
+    assert_empty data.minor
+  end
+
   private
 
   def facts
