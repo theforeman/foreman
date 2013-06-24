@@ -4,5 +4,5 @@ group :console do
   gem 'awesome_print', :require => 'ap'
 
   # minitest - workaround until Rails 4.0 (#2650)
-  gem 'minitest', '~> 4.7'
+  gem 'minitest', '~> 4.7', :require => 'minitest/unit'
 end
