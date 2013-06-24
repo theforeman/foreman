@@ -62,7 +62,7 @@ class HostMailer < ActionMailer::Base
     @out_of_sync = hosts.out_of_sync
     @disabled = hosts.alerts_disabled
     @filter = filter
-    mail(:to => email, :subnet => subject)
+    mail(:to => email, :subject => subject)
   end
 
   def error_state(report)
