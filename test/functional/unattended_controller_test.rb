@@ -156,6 +156,17 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  # All the following tests excercise the renderer, and should probably be reviewed
+  # once the refactoring of foreman_url is complete
+  test "template should contain tokens when tokens enabled and present for the host" do
+    Setting[:token_duration] = 30
+    Setting[:foreman_url]    = "test.host"
+    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
+    hosts(:ubuntu).create_token(:value => "aaaaad", :expires => Time.now + 5.minutes)
+    get :preseed
+    assert @response.body.include?("wget http://test.host/unattended/finish?token=aaaaad")
+  end
+
   test "hosts with unknown ip and valid token should render a template" do
     Setting[:token_duration] = 30
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
@@ -204,17 +215,25 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_equal h.ip, h_new.ip
   end
 
-  # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
-  test "template should contain tokens when tokens enabled and present for the host" do
+  test "hosts with a template proxy which supplies a templateServer should use it" do
+    ProxyAPI::Template.any_instance.stubs(:template_url).returns('someproxy:8443')
     Setting[:token_duration] = 30
     Setting[:unattended_url]    = "http://test.host"
-    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    get :provision
-    assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
+    @request.env["REMOTE_ADDR"] = '127.0.0.1'
+    hosts(:templater).create_token(:value => "aaaaad", :expires => Time.now + 5.minutes)
+    get :provision, {'token' => hosts(:templater).token.value }
+    assert @response.body.include?("http://someproxy:8443/unattended/finish?token=aaaaad")
   end
 
-  # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
+  test "hosts with a template proxy with no templateServer should use the proxy name" do
+    Setting[:token_duration] = 30
+    Setting[:unattended_url]    = "http://test.host"
+    @request.env["REMOTE_ADDR"] = '127.0.0.1'
+    hosts(:templater).create_token(:value => "aaaaae", :expires => Time.now + 5.minutes)
+    get :provision, {'token' => hosts(:templater).token.value }
+    assert @response.body.include?("http://somewhere.again/unattended/finish?token=aaaaae")
+  end
+
   test "template should not contain https when ssl enabled" do
     @request.env["HTTPS"] = "on"
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip

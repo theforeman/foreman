@@ -96,7 +96,7 @@ class LocationsControllerTest < ActionController::TestCase
   end
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 7 do
+    assert_difference "location.taxable_taxonomies.count", 16 do
       post :assign_all_hosts, {:id => location.id}, set_session_user
     end
   end
