@@ -20,11 +20,11 @@ module SSO
     # if your SSO method supports logout page, you should store it into a session[:logout_url]
     # during this method execution
     def authenticated?
-      raise NotImplemented, 'authenticated? not implemented for this authentication method'
+      raise NotImplementedError, "#{__method__} not implemented for this authentication method"
     end
 
     def authenticate!
-      raise NotImplemented, 'authenticate! not implemented for this authentication method'
+      raise NotImplementedError, "#{__method__} not implemented for this authentication method"
     end
   end
 end
