@@ -20,6 +20,7 @@ class HostsController < ApplicationController
     storeconfig_klasses clone pxe_config toggle_manage power console bmc ipmi_boot]
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
+  before_filter :remove_empty_params, :only => [:create]
   helper :hosts, :reports
 
   def index (title = nil)
@@ -608,6 +609,13 @@ class HostsController < ApplicationController
   # is rendered differently and the next save operation will be forced
   def offer_to_overwrite_conflicts
     @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
+  end
+
+  # for multi select lists, a hidden field is created on html incase none of the
+  # values in the select list are selected. however, this creates an empty string in the param
+  # list, which will generate an error when passed along to fog
+  def remove_empty_params
+    params[:host][:compute_attributes][:security_group_ids].delete_if{ |sg| sg.empty? }
   end
 
 end
