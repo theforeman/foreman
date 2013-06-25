@@ -5,5 +5,9 @@ FactoryGirl.define do
     mask "255.255.255.0"
     association :dhcp, :factory => :smart_proxy
     association :dns, :factory => :smart_proxy
+
+    trait :tftp do
+      association :tftp, :factory => :template_smart_proxy
+    end
   end
 end

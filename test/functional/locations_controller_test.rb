@@ -94,6 +94,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :locations, :action => :index
     assert_equal flash[:notice], "All hosts previously with no location are now assigned to Location 1"
   end
+
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
     domain = FactoryGirl.create(:domain, :locations => [taxonomies(:location2)])
