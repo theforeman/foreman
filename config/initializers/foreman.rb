@@ -2,7 +2,6 @@ require 'foreman/access_permissions'
 require 'menu/loader'
 require 'dashboard/loader'
 require 'foreman/plugin'
-require 'foreman/renderer'
 require 'foreman/controller'
 require 'net'
 require 'foreman/provision' if SETTINGS[:unattended]
