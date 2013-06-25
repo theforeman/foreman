@@ -2,7 +2,6 @@
 # This class is the both parent
 module Nic
   class Base < ActiveRecord::Base
-    include Authorization
     include Foreman::STI
 
     self.table_name = 'nics'
