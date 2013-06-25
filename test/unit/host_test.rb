@@ -670,4 +670,21 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.first.hostgroup_id, hostgroup.id
   end
 
+  test "non-admin user with edit_hosts permission can update interface" do
+    @one = users(:one)
+    # add permission for user :one
+    as_admin do
+      role = Role.find_or_create_by_name :name => "testing_role"
+      role.permissions = [:edit_hosts]
+      @one.roles = [role]
+      @one.save!
+    end
+    h = hosts(:one)
+    assert h.interfaces.create :mac => "cabbccddeeff", :host => hosts(:one), :type => 'Nic::BMC',
+                               :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35"
+    as_user :one do
+      assert h.update_attributes!("interfaces_attributes" => {"0" => {"mac"=>"59:52:10:1e:45:16"}})
+    end
+  end
+
 end
