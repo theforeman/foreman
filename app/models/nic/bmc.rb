@@ -15,9 +15,13 @@ module Nic
 
       define_method "#{method}=" do |value|
         self.attrs         ||= { }
+        old_value = attrs[method]
         self.attrs[method] = value
+        # attrs_will_change! makes the record dirty. Otherwise, rails has a bug that it won't save if no other field is changed.
+        self.attrs_will_change! if (old_value != value)
       end
     end
+
 
     def proxy
       # try to find a bmc proxy in the same subnet as our bmc device
