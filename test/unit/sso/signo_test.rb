@@ -36,6 +36,7 @@ class SignoTest < ActiveSupport::TestCase
 
   def test_authenticate_without_cookie
     controller = get_controller
+    stub(controller.request).params { { } }
     stub(controller.request).url { 'https://localhost/foreman?a=b&c=d' }
     signo = get_signo_method(controller)
     url   = Setting['signo_url'] + "?return_url=#{URI.escape('https://localhost/foreman?a=b&c=d')}"
@@ -46,6 +47,19 @@ class SignoTest < ActiveSupport::TestCase
   def test_authenticate_with_cookie
     controller = get_controller
     stub(controller.request).cookies { { 'username' => 'ares' } }
+    stub(controller).render { 'correct render' }
+    signo    = get_signo_method(controller)
+    response = signo.authenticate!
+
+    assert_equal response, 'correct render'
+    assert signo.headers.keys.include?('WWW-Authenticate')
+    assert signo.headers['WWW-Authenticate'].include?('/user/ares')
+  end
+
+  def test_authenticate_with_username
+    controller = get_controller
+    stub(controller.request).cookies { { } }
+    stub(controller.request).params { { :username => 'ares' } }
     stub(controller).render { 'correct render' }
     signo    = get_signo_method(controller)
     response = signo.authenticate!
