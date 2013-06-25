@@ -217,6 +217,10 @@ module Foreman #:nodoc:
       Foreman::Controller::Renderer::ALLOWED_VARIABLES.concat(variables)
     end
 
+    def override_foreman_url(foreman_url_provider)
+      Foreman::Controller::ForemanUrlRenderable::FOREMAN_URL_PROVIDER_WRAP.provider = foreman_url_provider
+    end
+
     # Add Compute resource
     def compute_resource(provider)
       SETTINGS[provider.name.split('::').last.downcase.to_sym] = true

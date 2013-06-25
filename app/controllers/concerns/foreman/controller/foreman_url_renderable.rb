@@ -1,4 +1,26 @@
 module Foreman::Controller::ForemanUrlRenderable
+  class ForemanUrlProvider
+    attr_accessor :provider
+
+    def initialize(provider = nil)
+      @provider = nil
+    end
+
+    def override?(host)
+      @provider.override?(host)
+    end
+
+    def foreman_url(*args)
+      if @provider.present?
+        @provider.foreman_url(*args)
+      else
+        raise 'provider missing'
+      end
+    end
+  end
+
+  FOREMAN_URL_PROVIDER_WRAP =  ForemanUrlProvider.new
+
   #returns the URL for Foreman based on the required action
   def foreman_url(action = 'provision')
     # Only proxy templates if both the proxy and the host support it
@@ -7,7 +29,9 @@ module Foreman::Controller::ForemanUrlRenderable
 
     proxy = host.try(:subnet).try(:tftp)
 
-    if @template_url && @host.try(:token).present?
+    if FOREMAN_URL_PROVIDER_WRAP.provider.present? && FOREMAN_URL_PROVIDER_WRAP.provider.override?(proxy) && host.try(:token).present?
+      FOREMAN_URL_PROVIDER_WRAP.foreman_url(action, proxy, host.token)
+    elsif @template_url && @host.try(:token).present?
       foreman_url_from_uri(action, @template_url, host.token)
     elsif proxy.present? && proxy.try(:features).map(&:name).include?('Templates') && host.try(:token).present?
       foreman_url_from_templates_smart_proxy_plugin(action, proxy, host.token)

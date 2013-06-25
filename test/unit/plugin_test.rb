@@ -236,4 +236,17 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal [ "test1", "test2", "test3", "test4" ], @klass.tests_to_skip["FooTest"]
   end
 
+  def test_override_foreman_url
+    foreman_url_provider = "a object that provides forman_url()"
+    Foreman::Plugin.register :foreman_url_override_plugin do
+      override_foreman_url "a object that provides forman_url()"
+    end
+    assert_equal  Foreman::Controller::ForemanUrlRenderable::FOREMAN_URL_PROVIDER_WRAP.provider, foreman_url_provider
+
+    #cleanup
+    Foreman::Plugin.register :foreman_url_override_plugin do
+      override_foreman_url nil
+    end
+  end
+
 end

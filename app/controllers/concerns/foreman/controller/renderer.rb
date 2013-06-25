@@ -77,6 +77,7 @@ module Foreman
         allowed_variables[:template_name] = template_name
         render_safe content, ALLOWED_HELPERS, allowed_variables
       end
+
       alias_method :pxe_render, :unattended_render
 
       def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
