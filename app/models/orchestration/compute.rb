@@ -30,11 +30,15 @@ module Orchestration::Compute
       new_record? ? queue_compute_create : queue_compute_update
     end
 
+    def provided_attributes
+      compute_resource.provided_attributes(self)
+    end
+
     def queue_compute_create
       queue.create(:name   => _("Settings up compute instance %s") % self, :priority => 1,
                    :action => [self, :setCompute])
       queue.create(:name   => _("Acquiring IP address for %s") % self, :priority => 2,
-                   :action => [self, :setComputeIP]) if compute_resource.provided_attributes.keys.include?(:ip)
+                   :action => [self, :setComputeIP]) if provided_attributes.keys.include?(:ip)
       queue.create(:name   => _("Querying instance details for %s") % self, :priority => 3,
                    :action => [self, :setComputeDetails])
       queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
@@ -63,7 +67,7 @@ module Orchestration::Compute
 
     def setComputeDetails
       if vm
-        attrs = compute_resource.provided_attributes
+        attrs = provided_attributes
         normalize_addresses if attrs.keys.include?(:mac) or attrs.keys.include?(:ip)
 
         attrs.each do |foreman_attr, fog_attr |
@@ -87,7 +91,7 @@ module Orchestration::Compute
     def delComputeDetails; end
 
     def setComputeIP
-      attrs = compute_resource.provided_attributes
+      attrs = provided_attributes
       if attrs.keys.include?(:ip)
         logger.info "waiting for instance to acquire ip address"
         vm.wait_for { self.send(attrs[:ip]).present? }

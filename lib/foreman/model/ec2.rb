@@ -2,6 +2,7 @@ module Foreman::Model
   class EC2 < ComputeResource
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
+    delegate :subnets, :to => :client
 
     validates_presence_of :user, :password
     after_create :setup_key_pair
@@ -11,8 +12,8 @@ module Foreman::Model
       "#{name} (#{region}-#{provider_friendly_name})"
     end
 
-    def provided_attributes
-      super.merge({ :ip => :public_ip_address })
+    def provided_attributes host
+      super(host).merge({ :ip => (host.managed_ip == 'private' ? :private_ip_address : :public_ip_address) })
     end
 
     def self.model_name
@@ -42,11 +43,15 @@ module Foreman::Model
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
       super(args)
     end
-
-    def security_groups
-      client.security_groups.map(&:name)
+  
+    def security_groups vpc=nil
+      if vpc.nil?
+        client.security_groups
+      else
+        client.security_groups.map{|sg| sg if sg.vpc_id == vpc }
+      end
     end
-
+    
     def regions
       return [] if user.blank? or password.blank?
       @regions ||= client.describe_regions.body["regionInfo"].map { |r| r["regionName"] }
