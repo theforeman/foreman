@@ -25,7 +25,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should get index filtered by name" do
-    get :index, { :search => "name=\"TFTP Proxy\"" }
+    get :index, { :search => "name ~ \"*TFTP*\"" }
     assert_response :success
     refute_empty assigns(:smart_proxies)
     smart_proxies = ActiveSupport::JSON.decode(@response.body)

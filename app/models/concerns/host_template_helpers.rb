@@ -33,6 +33,21 @@ module HostTemplateHelpers
     port     = config.port || request.port
     host     = config.host || request.host
 
+    @host ||= self
+    proxy = @host.try(:subnet).try(:tftp)
+
+    if proxy.present? && proxy.try(:features).map(&:name).include?('Templates') && @host.try(:token).present?
+      url = ProxyAPI::Template.new(:url => proxy.url).template_url
+      if url.nil?
+        logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
+        url = proxy.url
+      end
+      uri      = URI.parse(url)
+      host     = uri.host
+      port     = uri.port
+      protocol = uri.scheme
+    end
+
     url_for :only_path => false, :controller => "/unattended", :action => action,
       :protocol  => protocol, :host => host, :port => port,
       :token     => (@host.token.value unless @host.token.nil?)

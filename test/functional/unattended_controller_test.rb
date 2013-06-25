@@ -17,6 +17,13 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64)
                                    )
+      @host_with_template_subnet = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
+                                    :operatingsystem => operatingsystems(:ubuntu1010),
+                                    :ptable => ptables(:ubuntu),
+                                    :medium => media(:ubuntu),
+                                    :subnet => FactoryGirl.create(:subnet, :tftp),
+                                    :architecture => architectures(:x86_64)
+                                   )
     end
   end
 
@@ -208,6 +215,18 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  # All the following tests exercise the renderer, and should probably be reviewed
+  # once the refactoring of foreman_url is complete
+  test "template should contain tokens when tokens enabled and present for the host" do
+    token = "mytoken"
+    Setting[:token_duration] = 30
+    Setting[:unattended_url]    = "https://test.host"
+    @request.env["REMOTE_ADDR"] = @ub_host.ip
+    @ub_host.create_token(:value => token, :expires => Time.now + 5.minutes)
+    get :provision, {'token' => @ub_host.token.value }
+    assert @response.body.include?("#{Setting[:unattended_url]}:443/unattended/finish?token=#{token}")
+  end
+
   test "hosts with unknown ip and valid token should render a template" do
     Setting[:token_duration] = 30
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
@@ -280,6 +299,24 @@ class UnattendedControllerTest < ActionController::TestCase
       assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
     end
   end # end of context "location or organizations are not enabled"
+
+  test "hosts with a template proxy which supplies a templateServer should use it" do
+    template_server_from_proxy = 'https://someproxy:8443'
+    ProxyAPI::Template.any_instance.stubs(:template_url).returns(template_server_from_proxy)
+    @request.env["REMOTE_ADDR"] = '127.0.0.1'
+    @host_with_template_subnet.create_token(:value => "aaaaad", :expires => Time.now + 5.minutes)
+    get :provision, {'token' => @host_with_template_subnet.token.value }
+    assert @response.body.include?("#{template_server_from_proxy}/unattended/finish?token=aaaaad")
+  end
+
+  test "hosts with a template proxy with no templateServer should use the proxy name" do
+    Setting[:token_duration] = 30
+    Setting[:unattended_url]    = "http://test.host"
+    @request.env["REMOTE_ADDR"] = '127.0.0.1'
+    @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now + 5.minutes)
+    get :provision, {'token' => @host_with_template_subnet.token.value }
+    assert @response.body.include?("#{@host_with_template_subnet.subnet.tftp.url}/unattended/finish?token=aaaaae")
+  end
 
   # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
   test "template should not contain https when ssl enabled" do
