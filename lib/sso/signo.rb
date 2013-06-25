@@ -29,7 +29,7 @@ module SSO
     end
 
     def authenticate!
-      if (username = request.cookies['username'])
+      if (username = request.cookies['username'] || request.params[:username])
         # we already have cookie
         identifier                  = "#{Setting['signo_url']}/user/#{username}"
         headers['WWW-Authenticate'] = Rack::OpenID.build_header({ :identifier => identifier })
