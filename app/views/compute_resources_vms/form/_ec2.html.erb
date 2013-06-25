@@ -29,6 +29,3 @@
 <%= fields_for "#{type}", host do |host_form|
   selectable_f host_form, :managed_ip, {'Public'=>'public', 'Private'=>'private'}, {}, { :label => 'Managed IP' }
 end %>
-
-<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
-
