@@ -5,6 +5,30 @@
 -%>
 
 <div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty? } %></div>
-<%= selectable_f f, :groups, compute_resource.security_groups, {}, { :multiple => true, :label => _("Security Groups") } %>
+<% security_groups = compute_resource.security_groups %>
+<%= selectable_f f, :security_group_ids, security_groups.map{|sg| sg.group_id if sg.vpc_id.nil?}.compact!,
+  {},
+  { :multiple => true, :label => "Security Groups" } %>
+<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
+<% if (subnets = compute_resource.subnets).any? -%>
+  <%  vpc_sg_hash = Hash.new
+    subnet_vpc_hash = Hash.new
+    security_groups.map{ |sg|
+  if not sg.vpc_id.nil?
+    vpc_id = sg.vpc_id
+  else
+    vpc_id = 'ec2'
+  end
+    ( vpc_sg_hash[vpc_id] ||= []) << sg.group_id
+    subnets.map{|sub| subnet_vpc_hash[sub.subnet_id]=sub.vpc_id}
+  } %>
+
+  <%= select_f f, :subnet_id, subnets, :subnet_id, :cidr_block,  {:include_blank => "EC2"}, {:label => "Subnet", :onchange => "ec2_vpcSelected(this, #{vpc_sg_hash.to_json}, #{subnet_vpc_hash.to_json});"} %>
+<% end -%>
+
+<%= fields_for "#{type}", host do |host_form|
+  selectable_f host_form, :managed_ip, {'Public'=>'public', 'Private'=>'private'}, {}, { :label => 'Managed IP' }
+end %>
+
 <%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
 

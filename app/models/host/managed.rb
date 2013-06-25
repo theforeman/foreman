@@ -50,6 +50,7 @@ class Host::Managed < Host::Base
   end
 
   attr_reader :cached_host_params
+  attr_accessor :managed_ip
 
   default_scope lambda {
       org = Organization.current
@@ -265,6 +266,10 @@ class Host::Managed < Host::Base
 
   def all_puppetclasses
     hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
+  end
+
+  def provided_attributes
+    compute_resource.provided_attributes(self)
   end
 
   # provide information about each node, mainly used for puppet external nodes
@@ -550,7 +555,7 @@ class Host::Managed < Host::Base
   end
 
   def require_ip_validation?
-    managed? and !compute? or (compute? and !compute_resource.provided_attributes.keys.include?(:ip))
+    managed? and !compute? or (compute? and !provided_attributes.keys.include?(:ip))
   end
 
   # if certname does not exist, use hostname instead
