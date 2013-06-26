@@ -517,7 +517,7 @@ class Host::Managed < Host::Base
   def rundeck
     rdecktags = puppetclasses_names.map{|k| "class=#{k}"}
     unless self.params["rundeckfacts"].empty?
-      rdecktags += self.params["rundeckfacts"].split(",").map{|rdf| "#{rdf}=#{fact(rdf)[0].value}"}
+      rdecktags += self.params["rundeckfacts"].gsub(/\s+/, '').split(',').map { |rdf| "#{rdf}=" + (facts_hash[rdf] || "undefined") }
     end
     { name => { "description" => comment, "hostname" => name, "nodename" => name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
