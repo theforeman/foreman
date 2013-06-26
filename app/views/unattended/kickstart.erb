@@ -13,7 +13,7 @@ services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables
 
 <% if @host.operatingsystem.name == "Fedora" -%>
 repo --name=fedora-everything --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %>
-<% elsif @host.operatingsystem.family == "Redhat" and !@host.operatingsystem.name.match(/fedora/i) %>
+<% elsif @host.operatingsystem.family == "Redhat" %>
 repo --name="Extra Packages for Enterprise Linux" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %>
 <% end -%>
 
