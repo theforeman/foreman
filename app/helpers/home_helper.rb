@@ -5,6 +5,10 @@ module HomeHelper
   end
 
   def setting_options
+    authorized_menu_actions(settings_menu_items)+[[_('About'), :about]]
+  end
+
+  def settings_menu_items
     configuration_group =
         [[_('Environments'),          :environments],
         [_('Global Parameters'),      :common_parameters],
@@ -12,7 +16,7 @@ module HomeHelper
         [_('Puppet Classes'),         :puppetclasses],
         [_('Smart Variables'),        :lookup_keys],
         [_('Smart Proxies'),          :smart_proxies]]
-    choices = [ [:group, _("Configuration"), configuration_group]]
+    menu_items = [ [:group, _("Configuration"), configuration_group]]
 
     if SETTINGS[:unattended]
       provisioning_group =
@@ -25,13 +29,13 @@ module HomeHelper
           [_('Partition Tables'),       :ptables],
           [_('Provisioning Templates'), :config_templates],
           [_('Subnets'),                :subnets]]
-      choices += [[:divider], [:group, _("Provisioning"), provisioning_group]]
+      menu_items += [[:divider], [:group, _("Provisioning"), provisioning_group]]
     end
 
     if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
-      choices += [[:divider]]
-      choices += [ [_('Locations'), :locations] ]         if SETTINGS[:locations_enabled]
-      choices += [ [_('Organizations'), :organizations] ] if SETTINGS[:organizations_enabled]
+      menu_items += [[:divider]]
+      menu_items += [ [_('Locations'), :locations] ]         if SETTINGS[:locations_enabled]
+      menu_items += [ [_('Organizations'), :organizations] ] if SETTINGS[:organizations_enabled]
     end
 
     users_group =
@@ -40,15 +44,14 @@ module HomeHelper
       [_('User Groups'),            :usergroups]]
     users_group += [[_('Roles'),     :roles]] if User.current && User.current.admin?
 
-    choices += [[:divider], [:group, _("Users"), users_group] ] if SETTINGS[:login]
+    menu_items += [[:divider], [:group, _("Users"), users_group] ] if SETTINGS[:login]
 
-    choices += [
+    menu_items += [
       [:divider],
       [_('Bookmarks'),              :bookmarks],
       [_('Settings'),               :settings]
     ]
-
-    authorized_menu_actions(choices)+[[_('About'), :about]]
+    menu_items
   end
 
   def authorized_menu_actions(choices)
