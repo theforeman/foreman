@@ -180,6 +180,16 @@ class ComputeResource < ActiveRecord::Base
     []
   end
 
+  def set_console_password?
+    self.attrs[:setpw] == 1 || self.attrs[:setpw].nil?
+  end
+
+  def set_console_password=(setpw)
+    self.attrs[:setpw] = setpw.to_i
+  rescue
+    # passed something non-integer, don't set it
+  end
+
   protected
 
   def client
@@ -191,6 +201,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def random_password
+    return nil unless set_console_password?
     n = 8
     chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     (0...n).map { chars[rand(chars.length)].chr }.join
