@@ -57,7 +57,7 @@ module Foreman::Model
     end
     private :test_https_required
 
-    def test_connection
+    def test_connection options = {}
       super
       errors[:url].empty? && datacenters && test_https_required
     rescue => e
