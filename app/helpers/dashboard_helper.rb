@@ -12,13 +12,13 @@ module DashboardHelper
   end
 
   def render_overview report, options = {}
-    data = [{:label=>_('Active'), :data => report[:active_hosts_ok_enabled],:color => "#4572A7"},
-            {:label=>_('Error'), :data =>report[:bad_hosts_enabled], :color => "#AA4643"},
-            {:label=>_('OK'), :data =>report[:ok_hosts_enabled],:color => "#89A54E"},
-        {:label=>_('Pending changes'), :data =>report[:pending_hosts_enabled],:color => "#80699B"},
-        {:label=>_('Out of sync'), :data =>report[:out_of_sync_hosts_enabled],:color => "#3D96AE"},
-        {:label=>_('No report'), :data =>report[:reports_missing],:color => "#DB843D"},
-        {:label=>_('Notification disabled'), :data =>report[:disabled_hosts],:color => "#92A8CD"}]
+    data = [{:label=>_('Active'), :data => report[:active_hosts_ok_enabled],:color => report_color[:active_hosts_ok_enabled]},
+            {:label=>_('Error'), :data =>report[:bad_hosts_enabled], :color => report_color[:bad_hosts_enabled]},
+            {:label=>_('OK'), :data =>report[:ok_hosts_enabled],:color => report_color[:ok_hosts_enabled]},
+            {:label=>_('Pending changes'), :data =>report[:pending_hosts_enabled],:color => report_color[:pending_hosts_enabled]},
+            {:label=>_('Out of sync'), :data =>report[:out_of_sync_hosts_enabled],:color => report_color[:out_of_sync_hosts_enabled]},
+            {:label=>_('No report'), :data =>report[:reports_missing],:color => report_color[:reports_missing]},
+            {:label=>_('Notification disabled'), :data =>report[:disabled_hosts],:color => report_color[:disabled_hosts]}]
     flot_pie_chart 'overview', _('Host Configuration Status'), data, options
   end
 
@@ -27,9 +27,14 @@ module DashboardHelper
     flot_bar_chart("run_distribution", _("Minutes Ago"), _("Number Of Clients"), data, options)
   end
 
-  def searchable_links name, search
+  def searchable_links name, search, counter
     search += " and #{params[:search]}" unless params[:search].blank?
-    link_to name, hosts_path(:search => search),:class=>"dashboard-links"
+    content_tag :li do
+      content_tag(:i, raw('&nbsp;'), :class=>'label', :style => "background-color:" + report_color[counter]) +
+      raw('&nbsp;')+
+      link_to(name, hosts_path(:search => search),:class=>"dashboard-links") +
+      content_tag(:h4,@report[counter])
+    end
   end
 
   def latest_events
@@ -57,6 +62,18 @@ module DashboardHelper
     string += translated_header(s_('Pending|P'), _('Pending'))
 
     string.html_safe
+  end
+
+  def report_color
+    {
+        :active_hosts_ok_enabled => "#4572A7",
+        :bad_hosts_enabled => "#AA4643",
+        :ok_hosts_enabled => "#89A54E",
+        :pending_hosts_enabled => "#80699B",
+        :out_of_sync_hosts_enabled => "#3D96AE",
+        :reports_missing => "#DB843D",
+        :disabled_hosts => "#92A8CD"
+    }
   end
 
 end
