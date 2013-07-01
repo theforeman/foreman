@@ -19,7 +19,7 @@ module DashboardHelper
             {:label=>_('Out of sync'), :data =>report[:out_of_sync_hosts_enabled],:color => report_color[:out_of_sync_hosts_enabled]},
             {:label=>_('No report'), :data =>report[:reports_missing],:color => report_color[:reports_missing]},
             {:label=>_('Notification disabled'), :data =>report[:disabled_hosts],:color => report_color[:disabled_hosts]}]
-    flot_pie_chart 'overview', _('Host Configuration Status'), data, options
+    flot_pie_chart 'overview', _('Host Configuration Status'), data, options.merge(:search => "search_by_legend")
   end
 
   def render_run_distribution hosts, options = {}
