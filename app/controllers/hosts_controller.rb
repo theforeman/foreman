@@ -521,6 +521,9 @@ class HostsController < ApplicationController
       @location     ||= @host.location
     end
 
+    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
+    @location ||= Location.find_by_id(params[:location_id]) if params[:location_id]
+
     if SETTINGS[:organizations_enabled]
       @organization ||= Organization.current
       @organization ||= Organization.my_organizations.first
