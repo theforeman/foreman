@@ -296,7 +296,7 @@ Foreman::Application.routes.draw do
   resources :tasks, :only => [:show]
 
   if SETTINGS[:locations_enabled]
-    resources :locations do
+    resources :locations, :except => [:show] do
       resources :hosts, :only => :index
       member do
         get 'select'
@@ -317,7 +317,7 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:organizations_enabled]
-    resources :organizations do
+    resources :organizations, :except => [:show] do
       member do
         get 'select'
         match "clone" => 'organizations#clone_taxonomy'
