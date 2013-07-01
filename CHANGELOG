@@ -1,3 +1,41 @@
+2013-07-01	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.0
+	* refresh locales
+	* fixes #2727 - fix oVirt test connection method definition (cherry picked from commit 025ab6bcabeaec072381526c6b05ad1a2d974434)
+
+2013-07-01	Amos Benari <abenari@redhat.com>
+	* fixes #2665 - search on click in dashboard pie chart (cherry picked from commit 2af890f2037658f86ce0856f5d5ba6d5691c2a38)
+	* fixes #2731 - add color legend to the dashboard (cherry picked from commit 3a124d9974f702560a13adf8e4c6d7f78f7f4684)
+
+2013-07-01	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2707 - host save fails for non-admin if host has a BMC interface (cherry picked from commit 5a56d4d36f6bee4e75ca4a496512b406fb55ae1a)
+	* fixes #2713 - do not update nics table on every host update as a workaround to bug #2489 (cherry picked from commit ecd9c9c66389eae0a159485b18afab61e6ee3d04)
+	* fixes #2728 - POST /api/hostgroups does not accept ancestry (cherry picked from commit 5f7b64bd2d70057b752c9a6e171e4d5a11a1348f)
+
+2013-06-28	Amos Benari <abenari@redhat.com>
+	* part of a fix to #2716 error in discovery plugin menu and user without provisioning permissions the other part is a fix to the discovery plugin. (cherry picked from commit f039437bf004b2ddecea12f24219ba1cb2d5136c)
+
+2013-06-28	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Fixes #2712 - Handle Net
+
+2013-06-28	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2645 - non-admin users can now create smart variables (cherry picked from commit ff2677e3c6689388958f055c50ad075191510e87)
+	* fixes #2317 - VM's with the name foreman_######## (cherry picked from commit 557b8543c26619442be7412ddd5780ec7c550605)
+	* fixes #2404 - prevents 404 when updating invalid name used as id (cherry picked from commit 696420ff788834dad99352d326fa74fd764572cd)
+	* fixes #2690 - undefined method gsub! for nil:NilClass on fact import (cherry picked from commit 9628014a44c9bbea74c62c0c8c2916937e9c98c4)
+	* fixes #2697 again - HostMailer typo and .deliver (cherry picked from commit 0a93217273d8b41f4d1d91e29c2be9c4547c90d3)
+	* fixes #2697 - HostMailer summary is broken (cherry picked from commit 8e851ef524a3348c1587e53e3c2da616fdbe1fdc) (cherry picked from commit 7ff08812e42c2688a995caca60ad236e67a2814e)
+
+2013-06-28	Sam Kottler <shk@redhat.com>
+	* fixes #2724 - use __method__ instead of static method names in SSO (cherry picked from commit 6326752f626f7b7565118db7627f715429652b4f)
+
+2013-06-28	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2710 - removed a superfluous os name check that was tripping up safemode. (cherry picked from commit c9d6c478febab78d1543f89066c33e1ecf1059f8)
+	* fixes #2695: Updated fedora and ubuntu mirror urls (cherry picked from commit 53bd7e1fb635bfa46d8e1d9ed483eb5415dbbe2d)
+
+2013-06-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2701 - require correct minitest file
+
 2013-06-21	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.2.0-RC3
 	* refresh locales

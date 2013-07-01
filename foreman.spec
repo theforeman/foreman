@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.0
-Release: 0.4.RC3%{?dist}
+Release: 1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -528,11 +528,14 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Jul 01 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-1
+- Release 1.2.0
 * Fri Jun 21 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.4.RC3
 - Release 1.2.0-RC3
 - fix asset dependency versions
 - add minitest dependency for console (Lukas Zapletal)
 * Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-0.3.RC2
+- Release 1.2.0-RC2
 - Don't force SCL
 - Distribute GPG key, enable GPG checking
 - Replace dist in foreman.repo

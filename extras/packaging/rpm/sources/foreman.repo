@@ -1,13 +1,13 @@
 [foreman]
-name=Foreman RC
-baseurl=http://yum.theforeman.org/rc/$DIST/$basearch
+name=Foreman stable
+baseurl=http://yum.theforeman.org/releases/1.2/$DIST/$basearch
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 [foreman-source]
-name=Foreman RC - source
-baseurl=http://yum.theforeman.org/rc/$DIST/source
+name=Foreman stable - source
+baseurl=http://yum.theforeman.org/releases/1.2/$DIST/source
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-foreman
