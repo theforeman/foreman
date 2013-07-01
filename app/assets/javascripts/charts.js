@@ -213,16 +213,21 @@ function bind_hover_event(target, formater){
 function search_on_click(event, item) {
   var link = $(event.currentTarget).data('url');
   if (link == undefined) return;
-  if (link.indexOf("~VAL2~") != -1) {
-    var strSplit = item.series.label.split(" ");
-    var val1 = strSplit[0];
-    var val2 = strSplit[1];
-    link = link.replace("~VAL2~", val2);
+  if (link.indexOf("search_by_legend") != -1){
+    var selector = '.label[style*="background-color:' + item.series.color +'"]';
+    link = $(event.currentTarget).parents('.stats-well').find(selector).next('a').attr('href')
   } else {
-    var val1 = item.series.label;
-    if (val1.indexOf(" ") != -1) val1 = '"' + val1 +'"';
+    if (link.indexOf("~VAL2~") != -1) {
+      var strSplit = item.series.label.split(" ");
+      var val1 = strSplit[0];
+      var val2 = strSplit[1];
+      link = link.replace("~VAL2~", val2);
+    } else {
+      var val1 = item.series.label;
+      if (val1.indexOf(" ") != -1) val1 = '"' + val1 +'"';
+    }
+    link = link.replace("~VAL1~", val1);
   }
-  link = link.replace("~VAL1~", val1);
   event.preventDefault();
   window.location.href = link;
 }
