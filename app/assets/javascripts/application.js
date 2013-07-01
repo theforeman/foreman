@@ -290,7 +290,7 @@ function show_release(element){
 function attribute_hash(attributes){
   var attrs = {};
   for (i=0;i < attributes.length; i++) {
-    var attr = $('*[id*='+attributes[i]+']');
+    var attr = $('*[id$='+attributes[i]+']');
     if (attr.size() > 0) {
       if(attr.attr("type")=="checkbox"){
         attrs[attributes[i]] = [];

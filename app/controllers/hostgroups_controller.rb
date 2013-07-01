@@ -129,6 +129,11 @@ class HostgroupsController < ApplicationController
     render :partial => "form"
   end
 
+  def taxonomy_scope
+    @organization = Organization.current if SETTINGS[:organizations_enabled]
+    @location     = Location.current     if SETTINGS[:locations_enabled]
+  end
+
   private
 
   def find_hostgroup
