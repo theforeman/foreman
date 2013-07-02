@@ -1,7 +1,6 @@
 module FogExtensions
   module Openstack
     module Server
-
       extend ActiveSupport::Concern
 
       included do

@@ -1,6 +1,7 @@
 # various methods which gets added to the puppetclasses and environments controllers
 
 module Foreman::Controller::Environments
+  extend ActiveSupport::Concern
 
   def import_environments
     begin
