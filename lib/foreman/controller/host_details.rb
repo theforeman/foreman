@@ -61,9 +61,4 @@ module Foreman::Controller::HostDetails
     instance_variable_set("@#{name}", name.classify.constantize.new(params[name.to_sym]))
   end
 
-  def taxonomy_scope
-    @organization = params[:organization_id].blank? ? nil : Organization.find(Array.wrap(params[:organization_id]))
-    @location     = params[:location_id].blank? ? nil : Location.find(Array.wrap(params[:location_id]))
-  end
-
 end
