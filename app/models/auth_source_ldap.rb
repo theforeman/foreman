@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'net/ldap'
-require 'iconv'
 
 class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port
@@ -63,7 +62,7 @@ class AuthSourceLdap < AuthSource
     # return user's attributes
     attrs
   rescue Net::LDAP::LdapError => text
-    raise "LdapError: " + text
+    raise "LdapError: %s" % text
   end
 
   # test the connection to the LDAP
@@ -71,7 +70,7 @@ class AuthSourceLdap < AuthSource
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     ldap_con.open { }
   rescue Net::LDAP::LdapError => text
-    raise "LdapError: " + text
+    raise "LdapError: %s" % text
   end
 
   def auth_method_name

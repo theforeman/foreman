@@ -5,13 +5,13 @@
 <%= select_f f, :cluster, clusters, :id, :name, { },
              { :disabled    => !new, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_clusterSelected(this);',
-               :help_inline => image_tag('spinner.gif', :id => 'cluster_indicator', :class => 'hide').html_safe } %>
+               :help_inline => :indicator } %>
 <%= f.hidden_field :cluster if !new %>
-<%= select_f f, :template, compute_resource.hardware_profiles, :id, :name, {},
+<%= select_f f, :template, compute_resource.hardware_profiles, :id, :name, {:include_blank => _("Select template")},
              { :disabled    => !new, :'data-url' => hardware_profile_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_hwpSelected(this);',
-               :help_inline => image_tag('spinner.gif', :id => 'hwp_indicator', :class => 'hide').html_safe,
-               :help_block  => "Template / Hardware Profile to use"} %>
+               :help_inline => :indicator,
+               :help_block  => _("Template / Hardware Profile to use")} %>
 <%= f.hidden_field :template if !new %>
 
 <div class='hardware_profile'>
@@ -21,23 +21,23 @@
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,
         :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
+    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces", :title => _('Networks') do -%>
       <%= f.fields_for :interfaces do |i| %>
         <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
       <% end -%>
-      <%= add_child_link "+ Add Interface", :interfaces, { :class => "info", :title => 'add new network interface' } %>
+      <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
     <% end -%>
 
     <%= new_child_fields_template(f, :volumes, {
             :object  => compute_resource.new_volume,
             :partial => 'compute_resources_vms/form/ovirt/volume', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag "Volumes", :id => "volumes", :title => 'Volumes' do -%>
+    <%= field_set_tag _("Volumes"), :id => "volumes", :title => _('Volumes') do -%>
         <%= f.fields_for :volumes do |i| %>
             <%= render 'compute_resources_vms/form/ovirt/volume', :f => i, :compute_resource => compute_resource %>
         <% end -%>
-        <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new volume' } %>
+        <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new volume') } %>
     <% end -%>
   </div>
 </div>
-<% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => "Power ON this machine" } if new %>
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>

@@ -1,7 +1,7 @@
 module Net
   module Validations
 
-    IP_REGEXP  = /(\d{1,3}\.){3}\d{1,3}/
+    IP_REGEXP  = /^(\d{1,3}\.){3}\d{1,3}$/
     MAC_REGEXP = /^([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}$/i
     class Error < RuntimeError;
     end

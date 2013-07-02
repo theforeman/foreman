@@ -1,12 +1,12 @@
-<% title "Manage Bookmarks" %>
+<% title _("Manage Bookmarks") %>
 <div class="title_action"></div>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th>Name</th>
-    <th>Query</th>
-    <th>Page</th>
-    <th>Public</th>
+    <th><%= s_("Bookmark|Name") %></th>
+    <th><%= s_("Bookmark|Query") %></th>
+    <th><%= s_("Bookmark|Controller") %></th>
+    <th><%= s_("Bookmark|Public") %></th>
     <th></th>
   </tr>
   <% for bookmark in @bookmarks %>
@@ -16,7 +16,7 @@
       <td><%=h bookmark.controller %></td>
       <td><%=h bookmark.public %></td>
       <td align="right">
-        <%= display_delete_if_authorized hash_for_bookmark_path(:id => bookmark.name), :confirm => "Delete #{bookmark.name}?"  %>
+        <%= display_delete_if_authorized hash_for_bookmark_path(:id => bookmark.name), :confirm => _("Delete %s?") % bookmark.name  %>
       </td>
     </tr>
   <% end %>

@@ -1,11 +1,11 @@
 class Parameter < ActiveRecord::Base
-  belongs_to :host, :foreign_key => :reference_id
+  belongs_to_host :foreign_key => :reference_id
   include Authorization
 
   validates_presence_of   :name, :value
-  validates_format_of     :name,  :without => /\s/, :message => "can't contain white spaces"
+  validates_format_of     :name,  :without => /\s/, :message => N_("can't contain white spaces")
 
-  validates_presence_of :reference_id, :message => "parameters require an associated domain, host or hostgroup", :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
+  validates_presence_of :reference_id, :message => N_("parameters require an associated domain, host or host group"), :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
   attr_accessor :nested
   before_validation :strip_whitespaces

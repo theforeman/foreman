@@ -1,3 +1,4 @@
+# TRANSLATORS: do not translate
 desc <<-END_DESC
 Expire Reports automatically
 
@@ -20,6 +21,7 @@ namespace :reports do
     Report.expire(conditions)
   end
 end
+# TRANSLATORS: do not translate
 desc <<-END_DESC
 Send an email summarising hosts reports (and lack of it).
 
@@ -75,6 +77,6 @@ namespace :reports do
 
     options[:email] = ENV['email'] if ENV['email']
 
-    HostMailer.deliver_summary(options)
+    HostMailer.summary(options).deliver
   end
 end

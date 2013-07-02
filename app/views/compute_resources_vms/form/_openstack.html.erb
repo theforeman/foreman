@@ -1,6 +1,17 @@
-<%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => 'Flavor' %>
-<div id='image_selection'><%= select_f f, :image_ref, compute_resource.images, :uuid, :name, {:include_blank =>'Please Select an Image'}, :label => "Image" %></div>
+<% new = f.object && f.object.id.blank? -%>
+<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
+<%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => _('Flavor') %>
+<%
+   arch ||= nil ; os ||= nil
+   images = possible_images(compute_resource, arch, os)
+-%>
+<div id='image_selection'>
+  <%= select_f f, :image_ref, images, :uuid, :name,
+               { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
+               { :disabled => images.empty?, :label => _("Image") } %>
+</div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name %>
 
-<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => "Security Group"  %>
+<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security Group")  %>
+<%= selectable_f f, :network, compute_resource.address_pools, { :prompt => "None" }, { :label => _("Floating IP network") } %>
 

@@ -19,4 +19,9 @@ module SettingsHelper
   rescue
     setting.value
   end
+
+  def short_cat category
+    category.gsub(/Setting::/,'')
+  end
+
 end

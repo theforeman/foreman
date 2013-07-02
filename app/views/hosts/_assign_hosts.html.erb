@@ -4,17 +4,17 @@
 
 <%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path do |f| %>
   <%= base_errors_for taxonomy %>
-  <%= wizard_header 3, "Create "+taxonomy.class.name,"Select Hosts", "Assign Selected Hosts" %>
+  <%= wizard_header 3, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Assign Selected Hosts") %>
 <div class="row">
   <div class="span11">
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
-    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => "Select All" } %></th>
+    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
     <th class=''><%= sort :name %></th>
-    <th class="hidden-phone"><%= sort :os, :as => "Operating<br>System" %></th>
+    <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
     <th class="hidden-phone"><%= sort :environment %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => "Host Group" %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
   </tr>
   <% hosts.each do |host| %>
     <tr>
@@ -30,13 +30,13 @@
   <% end %>
 </table>
 
-  <%= page_entries_info hosts, :more => " - <strong><span class='select_count'>0</span></strong> Selected" %>
+  <%= page_entries_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
   <%= will_paginate hosts %>
   </div>
 </div>
   <%= content_tag(:div, :class => "form-actions") do %>
-    <%= link_to("Cancel", "#{controller_name}_path", :class => "btn") %>
-    <%= f.submit("Assign to #{@taxonomy_type}", :class => "btn btn-success") %>
+    <%= link_to(_("Cancel"), "#{controller_name}_path", :class => "btn") %>
+    <%= f.submit(_("Assign to %s") % @taxonomy_type, :class => "btn btn-success") %>
   <% end %>
 
 <% end %>

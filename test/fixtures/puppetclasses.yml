@@ -5,3 +5,9 @@ one:
 
 two:
   name: apache
+
+three:
+  name: git
+
+four:
+  name: vim

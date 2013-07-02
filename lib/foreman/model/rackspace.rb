@@ -60,7 +60,7 @@ module Foreman::Model
       client.images
     end
 
-    def test_connection
+    def test_connection options = {}
       super and flavors
     rescue Excon::Errors::Unauthorized => e
       errors[:base] << e.response.body
@@ -99,10 +99,11 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      {
-        :flavor_id => 1, #256 server
-        :name      => "foreman-#{Foreman.uuid}",
-      }
+      #256 server
+      super.merge(
+        :flavor_id => 1
+      )
     end
+
   end
 end

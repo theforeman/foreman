@@ -56,9 +56,10 @@ class HostgroupTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Hostgroup.first
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
+      record.hostgroup_classes.destroy_all
+      assert record.destroy
     end
-    assert record.destroy
     assert record.frozen?
   end
 
@@ -81,7 +82,7 @@ class HostgroupTest < ActiveSupport::TestCase
     record      =  Hostgroup.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert !record.save
     assert record.valid?
@@ -124,10 +125,15 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should inherit parent classes" do
-   assert (top = Hostgroup.create(:name => "topA", "puppetclass_ids"=>[Puppetclass.first.id]))
-   assert (second = Hostgroup.create(:name => "secondB", :parent_id => top.id, "puppetclass_ids"=>[Puppetclass.last.id]))
+    child, top = nil
+    as_admin do
+      top = Hostgroup.create!(:name => "topA")
+      top.puppetclasses << Puppetclass.first
+      child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
+      child.puppetclasses << Puppetclass.last
+    end
 
-   assert_equal [Puppetclass.first, Puppetclass.last].sort, second.classes.sort
+    assert_equal [Puppetclass.first, Puppetclass.last].sort, child.classes.sort
   end
 
   test "should remove relationships if deleting a parent hostgroup" do
@@ -138,6 +144,36 @@ class HostgroupTest < ActiveSupport::TestCase
    assert !second.is_root?
    assert top.destroy
    assert Hostgroup.find(second.id).is_root?
+  end
+
+  test "changing name of hostgroup updates other hostgroup labels" do
+    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    # change name of parent
+    assert parent_hostgroup.update_attributes(:name => "new_common")
+    # check if hostgroup(:db) label changed
+    hostgroup.reload
+    assert_equal "new_common/db", hostgroup.label
+  end
+
+  test "deleting a hostgroup updates other hostgroup labels" do
+    #setup - get label "common/db"
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+    hostgroup.reload
+    assert_equal "Common/db", hostgroup.label
+
+    #destory parent hostgroup
+    assert parent_hostgroup.destroy
+    # check if hostgroup(:db) label changed
+    hostgroup.reload
+    assert_equal "db", hostgroup.label
   end
 
 end

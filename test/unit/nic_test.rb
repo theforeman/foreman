@@ -13,13 +13,13 @@ class NicTest < ActiveSupport::TestCase
 
   test "should create simple interface" do
     i = ''
-    assert_nothing_raised { i = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one) }
+    i = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one)
     assert_equal "Nic::Base", i.class.to_s
   end
 
   test "type casting should return the correct class" do
     i = ''
-    assert_nothing_raised { i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => hosts(:one), :name => hosts(:one).name + "!", :type => "Nic::Interface" }
+    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => hosts(:one), :name => hosts(:one).name + "!", :type => "Nic::Interface"
     assert_equal "Nic::Interface", i.type
   end
 

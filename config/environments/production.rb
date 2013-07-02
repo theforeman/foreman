@@ -22,7 +22,7 @@ Foreman::Application.configure do
   # config.log_level = :debug
 
   # Use a different logger for distributed setups
-  # config.logger = SyslogLogger.new
+  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
@@ -46,4 +46,70 @@ Foreman::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
+
+  # Fallback to assets pipeline if a precompiled asset is missed:
+  # that's the case when an engine with it's own assets is added to Foreman later in production.
+  config.assets.compile = true
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
+
+  # Defaults to Rails.root.join("public/assets")
+  # config.assets.manifest = YOUR_PATH
+
+  # Add the fonts path
+  config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+
+  # Precompile additional assets
+  config.assets.precompile += %w( .svg .eot .woff .ttf )
+
+  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+  #  config.assets.precompile += %w()
+  #
+  javascript = %w(compute_resource
+                  lookup_keys
+                  config_template
+                  ace/ace
+                  ace/theme-twilight
+                  ace/theme-dawn
+                  ace/theme-clouds
+                  ace/theme-textmate
+                  ace/mode-diff
+                  ace/mode-ruby
+                  ace/keybinding-vim
+                  ace/keybinding-emacs
+                  diff
+                  host_edit
+                  jquery.cookie
+                  host_checkbox
+                  nfs_visibility
+                  noVNC/base64
+                  noVNC/des
+                  noVNC/display
+                  noVNC/input
+                  noVNC/jsunzip
+                  noVNC/logo
+                  noVNC/playback
+                  noVNC/rfb
+                  noVNC/ui
+                  noVNC/util
+                  noVNC/websock
+                  noVNC/webutil
+                  noVNC
+                  reports
+                  spice
+                  trends
+                  charts
+                  taxonomy
+                  gettext/all
+                 )
+  stylesheets = %w( )
+
+  config.assets.precompile += javascript.map{|js| js + ".js"} + stylesheets + %w(background-size.htc)
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # config.force_ssl = true
 end

@@ -190,7 +190,7 @@ class ReportTest < ActiveSupport::TestCase
   test "it should not import finished_catalog_run messages" do
     return true if Facter.puppetversion < "2.6"
     r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.12-noops.yaml"))
-    assert_does_not_contain(r.messages.map(&:value), /Finished catalog run in/)
+    assert_no_match "/Finished catalog run in/", r.messages.map(&:value).to_s
   end
 
 end

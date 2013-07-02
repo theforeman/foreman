@@ -1,7 +1,7 @@
 <% new = f.object && f.object.new? -%>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new %>
-<%= text_f f, :memory_mb, :class => "span2", :disabled => !new, :label => "Memory(MB)" %>
+<%= text_f f, :memory_mb, :class => "span2", :disabled => !new, :label => _("Memory (MB)") %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "span2", :disabled => !new %>
 <%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "span2", :disabled => !new %>
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => "Folder", :class => "span2", :disabled => !new } %>
@@ -11,11 +11,11 @@
   <%= new_child_fields_template(f, :interfaces, {
       :object  => compute_resource.new_interface,
       :partial => 'compute_resources_vms/form/vmware/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
+  <%= field_set_tag _("Network interfaces"), :id => "network_interfaces", :title => _('Networks') do -%>
     <%= f.fields_for :interfaces do |i| %>
       <%= render 'compute_resources_vms/form/vmware/network', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link "+ Add Interface", :interfaces, { :class => "info", :title => 'add new network interface' } %>
+    <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
   <% end -%>
 </div>
 
@@ -24,14 +24,14 @@
   <%= new_child_fields_template(f, :volumes, {
       :object  => compute_resource.new_volume,
       :partial => 'compute_resources_vms/form/vmware/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Storage", :id => "storage_volumes", :title => 'Storage' do -%>
+  <%= field_set_tag _("Storage"), :id => "storage_volumes", :title => _('Storage') do -%>
     <%= f.fields_for :volumes do |i| %>
       <%= render 'compute_resources_vms/form/vmware/volume', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new storage volume' } %>
+    <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new storage volume') } %>
   <% end -%>
 </div>
 
 <!--TODO # Move to a helper-->
-<% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => "Power ON this machine" } if new and controller_name == 'hosts' %>
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new and controller_name == 'hosts' %>

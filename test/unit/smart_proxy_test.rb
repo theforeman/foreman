@@ -21,7 +21,9 @@ def test_should_not_be_modified_if_has_no_leading_slashes
     proxy = SmartProxy.new
     proxy.name = "test a proxy"
     proxy.url  = "http://some.proxy:4568/"
-    assert proxy.save
+    as_admin do
+      assert proxy.save
+    end
     assert_equal proxy.url, "http://some.proxy:4568"
   end
 end

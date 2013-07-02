@@ -1,5 +1,5 @@
 class Taxonomy < ActiveRecord::Base
-  audited
+  audited :allow_mass_assignment => true
   has_associated_audits
 
   serialize :ignore_types, Array
@@ -32,15 +32,15 @@ class Taxonomy < ActiveRecord::Base
   end
 
   def to_label
-    name =~ /[A-Z]/ ? name : name.capitalize
+    name
   end
 
   def self.locations_enabled
-    SETTINGS[:locations_enabled]
+    enabled?(:location)
   end
 
   def self.organizations_enabled
-    SETTINGS[:organizations_enabled]
+    enabled?(:organization)
   end
 
   def self.no_taxonomy_scope
@@ -55,6 +55,24 @@ class Taxonomy < ActiveRecord::Base
         yield if block_given?
       end
     end
+  end
+
+  def self.enabled?(taxonomy)
+    case taxonomy
+      when :organization
+        SETTINGS[:organizations_enabled]
+      when :location
+        SETTINGS[:locations_enabled]
+      else
+        raise ArgumentError, "unknown taxonomy #{taxonomy}"
+    end
+  end
+
+  def self.ignore?(taxable_type)
+    Array.wrap(self.current).each{ |current|
+      return true if current.ignore?(taxable_type)
+    }
+    false
   end
 
   def ignore?(taxable_type)
@@ -75,7 +93,7 @@ class Taxonomy < ActiveRecord::Base
     includes(:hosts).map { |taxonomy| taxonomy.mismatches }
   end
 
-  def clone
+  def dup
     new = super
     new.name = ""
     new.users             = users
@@ -89,6 +107,25 @@ class Taxonomy < ActiveRecord::Base
     new
   end
 
+  # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organizations_ids since these aren't ignored
+  (TaxHost::HASH_KEYS - [:location_ids, :organizations_ids]).each do |key|
+    # def domain_ids
+    #  if ignore?("Domain")
+    #   Domain.pluck(:id)
+    # else
+    #   self.taxable_taxonomies.where(:taxable_type => "Domain").pluck(:taxable_id)
+    # end
+    define_method(key) do
+      klass = hash_key_to_class(key)
+      if ignore?(klass)
+        return User.unscoped.except_admin.pluck(:id) if klass == "User"
+        return klass.constantize.pluck(:id)
+      else
+        taxable_taxonomies.where(:taxable_type => klass).pluck(:taxable_id)
+      end
+    end
+  end
+
   private
 
   delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans, :to => :tax_host
@@ -100,6 +137,10 @@ class Taxonomy < ActiveRecord::Base
 
   def tax_host
     @tax_host ||= TaxHost.new(self)
+  end
+
+  def hash_key_to_class(key)
+    key.to_s.gsub(/_ids?$/, '').classify
   end
 
 end

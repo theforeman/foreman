@@ -38,4 +38,18 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should create nested hostgroup with a parent" do
+    assert_difference('Hostgroup.count') do
+      post :create, { :hostgroup => valid_attrs.merge(:parent_id => hostgroups(:common).id) }
+    end
+    assert_response :success
+    assert_equal hostgroups(:common).id.to_s, Hostgroup.unscoped.order(:id).last.ancestry
+  end
+
+  test "should update a hostgroup to nested by passing parent_id" do
+    put :update, { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
+    assert_response :success
+    assert_equal hostgroups(:common).id.to_s, Hostgroup.find_by_name("db").ancestry
+  end
+
 end

@@ -8,7 +8,7 @@
     </div>
     <div class="span5">
       <%= f.text_field :criteria %>
-      <%= authorized_for(params[:controller], params[:action]) ? link_to_remove_fields("remove", f) : "" %>
+      <%= authorized_for(params[:controller], params[:action]) ? link_to_remove_fields(_("remove"), f) : "" %>
     </div>
   </div>
 </div>

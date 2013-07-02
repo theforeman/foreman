@@ -1,4 +1,4 @@
-require 'task'
+require 'orchestration/task'
 module Orchestration
   # Represents tasks queue for orchestration
   class Queue

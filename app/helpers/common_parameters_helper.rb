@@ -4,18 +4,18 @@ module CommonParametersHelper
     return true if authorized_for(controller, action)
 
     operation = "#{action}_my_#{controller.singularize}".to_sym
-    User.current.allowed_to?(operation) and User.current.send(controller).include?(eval("@#{controller.singularize}"))
+    User.current.allowed_to?(operation) and User.current.send(controller).include?(instance_variable_get("@#{controller.singularize}"))
   end
 
   def parameters_title
-    "Parameters that would be associated with hosts in this #{type}"
+    _("Parameters that would be associated with hosts in this %s") % (type)
   end
 
   def parameter_value_field value
     content_tag :div, :class => "control-group condensed"  do
       text_area_tag("value_#{value[:value]}", value[:value], :rows => (value[:value].to_s.lines.count || 1 rescue 1),
                     :class => "span5", :disabled => true) +
-      content_tag(:span, :class => "help-inline") { popover("Additional info", "<b>Source:</b> #{value[:source]}")}
+      content_tag(:span, :class => "help-inline") { popover(_("Additional info"), _("<b>Source:</b> %s") % (value[:source]))}
     end
   end
 

@@ -4,11 +4,11 @@ class ClassificationTest < ActiveSupport::TestCase
 
   #TODO: add more tests here
   def setup
-    @classification = Classification.new(:host => hosts(:one))
+    @classification = Classification::ClassParam.new(:host => hosts(:one))
   end
 
   test 'it should return puppetclasses' do
-    assert classification.send(:puppetclass_ids).include?(puppetclasses(:one).id)
+    assert classification.send(:puppetclass_ids).map(&:to_i).include?(puppetclasses(:one).id)
   end
 
   test 'classes should have parameters' do
@@ -35,8 +35,6 @@ class ClassificationTest < ActiveSupport::TestCase
     enc = classification.enc
 
     key.reload
-    # ensures it works per key (as it was before the optimization)
-    assert_equal value.value, key.value_for(hosts(:one))
     assert_equal value.value, enc['base']['cluster']
   end
   private

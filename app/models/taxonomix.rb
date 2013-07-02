@@ -16,13 +16,14 @@ module Taxonomix
 
       def self.with_taxonomy_scope
         scope =  block_given? ? yield : where('1=1')
-        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current.id)}) #{user_conditions}") if SETTINGS[:locations_enabled] && Location.current && !Location.current.ignore?(self.to_s)
-        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current.id)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current && !Organization.current.ignore?(self.to_s)
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current)}) #{user_conditions}") if SETTINGS[:locations_enabled] && Location.current && !Location.ignore?(self.to_s)
+        scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current && !Organization.ignore?(self.to_s)
         scope.readonly(false)
       end
 
-      def self.inner_select taxonomy_id
-        "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' AND taxonomy_id in (#{taxonomy_id}) "
+      def self.inner_select taxonomy
+        taxonomy_ids = Array.wrap(taxonomy).map(&:id).join(',')
+        "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' AND taxonomy_id in (#{taxonomy_ids}) "
       end
 
       # I the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
@@ -37,9 +38,30 @@ module Taxonomix
   module InstanceMethods
     def set_current_taxonomy
       if self.new_record? && self.errors.empty?
-        self.locations    << Location.current      if Taxonomy.locations_enabled and Location.current
-        self.organizations << Organization.current if Taxonomy.organizations_enabled and Organization.current
+        self.locations     << Location.current     if add_current_location?
+        self.organizations << Organization.current if add_current_organization?
       end
+    end
+
+    def add_current_organization?
+      add_current_taxonomy?(:organization)
+    end
+
+    def add_current_location?
+      add_current_taxonomy?(:location)
+    end
+
+    def add_current_taxonomy?(taxonomy)
+      klass, association = case taxonomy
+                             when :organization
+                               [Organization, :organizations]
+                             when :location
+                               [Location, :locations]
+                             else
+                               raise ArgumentError, "unknown taxonomy #{taxonomy}"
+                           end
+      current_taxonomy = klass.current
+      Taxonomy.enabled?(taxonomy) && current_taxonomy && !self.send(association).include?(current_taxonomy)
     end
 
   end

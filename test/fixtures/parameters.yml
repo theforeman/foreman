@@ -9,7 +9,7 @@ domain:
   name: parameter
   value: value1
   type: DomainParameter
-  domain: one
+  domain: mydomain
 
 host:
   name: host1
@@ -22,3 +22,9 @@ group:
   value: group1
   type: GroupParameter
   hostgroup: common
+
+os:
+  name: os1
+  value: os1
+  type: OsParameter
+  operatingsystem: redhat

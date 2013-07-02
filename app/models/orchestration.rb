@@ -98,13 +98,13 @@ module Orchestration
         # of the error instead of explode.
         rescue Net::LeaseConflict => e
           task.status = "failed"
-          failure "DHCP has a lease at #{e}"
+          failure _("DHCP has a lease at %s") % e, e.backtrace
         rescue RestClient::Exception => e
           task.status = "failed"
-          failure "#{task.name} task failed with the following error: #{proxy_error e}"
+          failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => proxy_error(e) }, e.backtrace
         rescue => e
           task.status = "failed"
-          failure "#{task.name} task failed with the following error: #{e}"
+          failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }, e.backtrace
         end
       end
 
@@ -124,7 +124,7 @@ module Orchestration
           execute({:action => task.action, :rollback => true})
         rescue => e
           # if the operation failed, we can just report upon it
-          failure "Failed to perform rollback on #{task.name} - #{e}"
+          failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }
         end
       end
 
@@ -147,11 +147,11 @@ module Orchestration
         end
         met = met.to_sym
       end
-      if obj.respond_to?(met)
+      if obj.respond_to?(met,true)
         return obj.send(met)
       else
-        failure "invalid method #{met}"
-        raise "invalid method #{met}"
+        failure _("invalid method %s") % met
+        raise ::Foreman::Exception.new(N_("invalid method %s"), met)
       end
     end
 

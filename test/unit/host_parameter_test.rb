@@ -55,9 +55,8 @@ class HostParameterTest < ActiveSupport::TestCase
       @one.domains = [domains(:mydomain)]
       @one.save!
     end
-    assert_nothing_raised do
-      HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    end
+    host_parameter = HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    assert host_parameter
   end
 
   test "user with create permissions should not be able to create when not permitted" do
@@ -77,9 +76,8 @@ class HostParameterTest < ActiveSupport::TestCase
     as_admin do
       @one.domains = []
     end
-    assert_nothing_raised do
-      HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    end
+    host_parameter = HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    assert host_parameter
   end
 
   test "user with view permissions should not be able to create" do

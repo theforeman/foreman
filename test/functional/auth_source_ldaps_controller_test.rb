@@ -42,6 +42,7 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
 
   def test_destroy
     auth_source_ldap = AuthSourceLdap.first
+    User.where(:auth_source_id => auth_source_ldap.id).delete_all
     delete :destroy, {:id => auth_source_ldap}, set_session_user
     assert_redirected_to auth_source_ldaps_url
     assert !AuthSourceLdap.exists?(auth_source_ldap.id)

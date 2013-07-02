@@ -4,9 +4,13 @@
     <h3>Conflicts have been detected</h3>
   </div>
   <div class="modal-body">
-    <p> The following entries were found conflicting with what foreman wanted to apply.</p>
+    <p>
+    <%= _('The following entries were found conflicting with what foreman wanted to apply.') %>
+    </p>
 
-    <p> Please review them carefully, if you are certain that they should be removed, please click on overwrite.</p>
+    <p>
+    <%= _('Please review them carefully, if you are certain that they should be removed, please click on overwrite.') %>
+    </p>
 
     <div class="alert alert-message alert-block base">
       <% conflict_objects(@host.errors).each do |obj| -%>

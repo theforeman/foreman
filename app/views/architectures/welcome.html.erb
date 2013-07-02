@@ -1,14 +1,14 @@
-<% title_actions link_to("New architecture", new_architecture_path) %>
-<% title "Architecture configuration" %>
+<% title_actions link_to(_("New architecture"), new_architecture_path) %>
+<% title _("Architecture configuration") %>
 <div id="welcome">
   <p>
-  Before you proceed to using Foreman you should provide information about one or more architectures.
+  <%= _("Before you proceed to using Foreman you should provide information about one or more architectures.") %>
   </p>
 
   <p>
-  Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems.
+  <%= _("Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems.").html_safe %>
   </p>
   <p>
-  Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations.
+  <%= _("Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations.") %>
   </p>
 </div>

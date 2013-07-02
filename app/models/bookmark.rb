@@ -4,8 +4,11 @@ class Bookmark < ActiveRecord::Base
 
   validates_uniqueness_of :name, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates_presence_of :name, :controller, :query
-  validates_format_of :controller, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
-  default_scope :order => :name
+  validates_format_of :controller, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
+  validates :controller, :inclusion => {
+                         :in => ["dashboard"] + ActiveRecord::Base.connection.tables.map(&:to_s),
+                         :message => _("%{value} is not a valid controller") }
+  default_scope lambda { order(:name) }
   before_validation :set_default_user
 
   scope :my_bookmarks, lambda {
@@ -17,7 +20,7 @@ class Bookmark < ActiveRecord::Base
     {:conditions => conditions}
   }
 
-  scope :controller, lambda{|*args| {:conditions => ["controller = ?", (args.first || '')]}}
+  scope :controller, lambda { |*args| where("controller = ?", (args.first || '')) }
 
   def set_default_user
     self.owner ||= User.current

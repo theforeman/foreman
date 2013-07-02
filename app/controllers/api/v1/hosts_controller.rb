@@ -84,6 +84,7 @@ module Api
 
       api :GET, "/hosts/:id/status", "Get status of host"
       param :id, :identifier_dottable, :required => true
+      # TRANSLATORS: API documentation - do not translate
       description <<-eos
 Return value may either be one of the following:
 

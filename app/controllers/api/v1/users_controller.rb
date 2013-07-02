@@ -21,6 +21,7 @@ module Api
       end
 
       api :POST, "/users/", "Create an user."
+      # TRANSLATORS: API documentation - do not translate
       description <<-DOC
         Adds role 'Anonymous' to the user by default
       DOC
@@ -35,8 +36,8 @@ module Api
       end
 
       def create
-        @user       = User.new(params[:user])
-        @user.admin = params[:user][:admin]
+        admin = params[:user].delete(:admin)
+        @user = User.new(params[:user]) { |u| u.admin = admin }
         if @user.save
           @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
           process_success
@@ -46,6 +47,7 @@ module Api
       end
 
       api :PUT, "/users/:id/", "Update an user."
+      # TRANSLATORS: API documentation - do not translate
       description <<-DOC
         Adds role 'Anonymous' to the user if it is not already present.
         Only admin can set admin account.

@@ -1,14 +1,14 @@
-<% title "Mismatches" %>
+<% title _("Mismatches") %>
 
 <% if @mismatches.flatten.length > 0 %>
   <% link_post =SETTINGS[:locations_enabled] ? import_mismatches_locations_path : import_mismatches_organiztions_path %>
-  <%= title_actions link_to("Fix All Mismatches", link_post,
+  <%= title_actions link_to(_("Fix All Mismatches"), link_post,
               :class => 'btn btn-success', :method => :post) %>
 
   <table class="table table-bordered table-striped">
     <tr>
-      <th><%= "Location/Organization" %></th>
-      <th><%= "Mismatch Details" %></th>
+      <th><%= _("Location/Organization") %></th>
+      <th><%= _("Mismatch Details") %></th>
     </tr>
     <% @mismatches.each do |mismatch| %>
       <% if !mismatch.empty? %>
@@ -32,6 +32,6 @@
     <% end %>
   </table>
 <% else %>
-  No hosts are mismatched!<br />
-  All hosts data matches configurations for locations and organizations.
+  <%= _("No hosts are mismatched!") %><br />
+  <%= _("All hosts data matches configurations for locations and organizations.") %>
 <% end %>

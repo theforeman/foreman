@@ -23,6 +23,7 @@ module Api
       api :POST, "/hostgroups/", "Create an hostgroup."
       param :hostgroup, Hash, :required => true do
         param :name, String, :required => true
+        param :parent_id, :number
         param :environment_id, :number
         param :operatingsystem_id, :number
         param :architecture_id, :number
@@ -43,6 +44,7 @@ module Api
       param :id, :identifier, :required => true
       param :hostgroup, Hash, :required => true do
         param :name, String
+        param :parent_id, :number
         param :environment_id, :number
         param :operatingsystem_id, :number
         param :architecture_id, :number

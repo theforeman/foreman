@@ -1,14 +1,14 @@
 module HostsAndHostgroupsHelper
-  def hostgroup_name group, max_length = 1000
-    return if group.blank?
-    options = (group.to_s.size > max_length) ? {:'data-original-title'=> group.to_s, :rel=>'twipsy'} : {}
-    nesting = group.to_s.gsub(/[^\/]+\/?$/, "")
-    nesting = truncate(nesting, :length => max_length - group.name.size) if nesting.size > 0
-    name =  truncate(group.name.to_s, :length => max_length - nesting.size)
+  def hostgroup_name(hostgroup, max_length = 1000)
+    return if hostgroup.blank?
+    options = (hostgroup.label.to_s.size > max_length) ? {:'data-original-title'=> hostgroup.label, :rel=>'twipsy'} : {}
+    nesting = hostgroup.label.to_s.gsub(/[^\/]+\/?$/, "")
+    nesting = truncate(nesting, :length => max_length - hostgroup.name.to_s.size) if nesting.to_s.size > 0
+    name =  truncate(hostgroup.name, :length => max_length - nesting.to_s.size)
     link_to_if_authorized(
         content_tag(:span,
             content_tag(:span, nesting, :class => "gray") + name, options),
-        hash_for_edit_hostgroup_path(:id => group))
+        hash_for_edit_hostgroup_path(:id => hostgroup))
   end
 
   def model_name host
@@ -23,7 +23,7 @@ module HostsAndHostgroupsHelper
   end
 
   def parent_classes obj
-    return obj.hostgroup.classes if obj.is_a?(Host) and obj.hostgroup
+    return obj.hostgroup.classes if obj.kind_of?(Host::Base) and obj.hostgroup
     return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(Hostgroup)
     []
   end
@@ -53,29 +53,29 @@ module HostsAndHostgroupsHelper
   end
 
   def puppet_master_fields f
-    ca      = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
-    # do not show the ca proxy, if we have only one of those and its the same as the puppet proxy
-    fields =  puppet_ca(f) unless ca.to_a.count == 1 and ca.map(&:id) == proxies.map(&:id)
-    "#{fields} #{puppet_master(f)}".html_safe
+    "#{puppet_ca(f)} #{puppet_master(f)}".html_safe
   end
 
   def puppet_ca f
-    # if we are not using provisioning, not much point in presenting the CA option (assuming your CA is already set otherwise)
-    return unless SETTINGS[:unattended]
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
+    # Don't show this if we have no CA proxies, otherwise always include blank
+    # so the user can choose not to sign the puppet cert on this host
+    proxies = SmartProxy.puppetca_proxies
+    return if proxies.count == 0
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
-             { :include_blank => proxies.to_a.count > 1 },
-             { :label       => "Puppet CA",
-               :help_inline => "Use this puppet server as a CA server" }
+             { :include_blank => true },
+             { :label       => _("Puppet CA"),
+               :help_inline => _("Use this puppet server as a CA server") }
   end
 
   def puppet_master f
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
+    # Don't show this if we have no Puppet proxies, otherwise always include blank
+    # so the user can choose not to use puppet on this host
+    proxies = SmartProxy.puppet_proxies
+    return if proxies.count == 0
     select_f f, :puppet_proxy_id, proxies, :id, :name,
-             { :include_blank => proxies.to_a.count > 1 },
-             { :label       => "Puppet Master",
-               :help_inline => "Use this puppet server as an initial Puppet Server or to execute puppet runs" }
+             { :include_blank => true },
+             { :label       => _("Puppet Master"),
+               :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
   end
 
   def interesting_klasses obj

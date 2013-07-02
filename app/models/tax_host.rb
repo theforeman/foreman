@@ -31,23 +31,38 @@ class TaxHost
     return @selected_ids if @selected_ids
     ids         = HashWithIndifferentAccess.new
     ids.default = []
+    #types NOT ignored - get ids that are selected
     taxonomy.taxable_taxonomies.without(taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
       ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
     end
+    #types that ARE ignored - get ALL ids for object
+    Array(taxonomy.ignore_types).each do |taxonomy_type|
+      ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id)
+    end
+
     ids["#{opposite_taxonomy_type}_ids"] = taxonomy.send("#{opposite_taxonomy_type}_ids")
     @selected_ids                        = ids
   end
 
   def used_and_selected_ids
     @used_and_selected_ids ||= Hash[hash_keys.map do |col|
-      [col, used_ids[col] & selected_ids[col]] # & operator to intersect COMMON elements of arrays
+      if taxonomy.ignore?(hash_key_to_class(col))
+        [col, used_ids[col] ] # used_ids only if ignore selected
+      else
+        [col, used_ids[col] & selected_ids[col]] # & operator to intersect COMMON elements of arrays
+      end
     end]
   end
 
   def need_to_be_selected_ids
     @need_to_be_selected_ids ||= Hash[hash_keys.map do |col|
-      [col, used_ids[col] - selected_ids[col]] # - operator find NON-common elements of arrays
+      if taxonomy.ignore?(hash_key_to_class(col))
+        [col, [] ] # empty array since nothing needs to be selected
+      else
+        [col, used_ids[col] - selected_ids[col]] # - operator find NON-common elements of arrays
+      end
     end]
+
   end
 
   def missing_ids
@@ -102,7 +117,7 @@ class TaxHost
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
         found_orphan = true
-        taxonomy.errors.add(taxable_type.tableize, "You cannot remove #{taxable_type.tableize.humanize.downcase} that are used by hosts.")
+        taxonomy.errors.add(taxable_type.tableize, _("You cannot remove %s that are used by hosts.") % taxable_type.tableize.humanize.downcase)
       end
     end
     !found_orphan
@@ -115,8 +130,6 @@ class TaxHost
     #   return taxonomy.hosts.pluck(:domain_id)
     # end
     define_method "#{key}s".to_sym do
-      return [] if taxonomy.ignore?(hash_key_to_class(key))
-
       #TODO see if distinct pluck makes more sense
       hosts.map(&key).uniq.compact
     end
@@ -124,18 +137,15 @@ class TaxHost
 
   # populate used_ids for 3 non-standard_id's
   def user_ids(hosts = self.hosts)
-    return [] if taxonomy.ignore?("User")
     #TODO: when migrating to rails 3.1+ switch to inner select on users.
     User.unscoped.joins(:direct_hosts).where({ :hosts => { :id => hosts }, :users => { :admin => false } }).pluck('DISTINCT users.id')
   end
 
   def config_template_ids(hosts = self.hosts)
-    return [] if taxonomy.ignore?("ConfigTemplate")
     ConfigTemplate.template_ids_for(hosts)
   end
 
   def smart_proxy_ids(hosts = self.hosts)
-    return [] if taxonomy.ignore?("SmartProxy")
     SmartProxy.smart_proxy_ids_for(hosts)
   end
 

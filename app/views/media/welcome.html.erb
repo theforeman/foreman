@@ -1,19 +1,19 @@
-<% title_actions link_to("New installation medium", new_medium_path) %>
-<% title "Installation medium configuration" %>
+<% title_actions link_to(_("New installation medium"), new_medium_path) %>
+<% title _("Installation medium configuration") %>
 <div id="welcome">
   <p>
-  A medium represents the source of one or more operating system's installation files, accessible via the network.
-  It will probably be a mirror from the internet or a copy of one or more CD or DVDs.
+  <%= _("A medium represents the source of one or more operating system's installation files, accessible via the network.
+  It will probably be a mirror from the internet or a copy of one or more CD or DVDs.") %>
   </p>
   <p>
-  For example, if you have copied several redhat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you
+  <%= _("For example, if you have copied several redhat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you
   could create a single medium entry describing them all.
-  The entry, which could be just named "redhat" could contain a path like this <em>"http://server/redhat/$version/$arch"</em>
+  The entry, which could be just named 'redhat' could contain a path like this <em>'http://server/redhat/$version/$arch'</em>").html_safe %>
   </p>
   <p>
-  <span class="label label-info">Notice</span> The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpolated back into the path specification to calculate the true URL address.
+  <span class="label label-info"><%= _("Notice") %></span> <%= _("The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpolated back into the path specification to calculate the true URL address.").html_safe %>
   </p>
   <p>
-  You may also associate one or more operating systems with this medium or alternatively set this up later on the <%= link_to "Operating systems", operatingsystems_path -%> page.
+  <%= (_("You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page.") % link_to(_("Operating systems"), operatingsystems_path)).html_safe %>
   </p>
 </div>

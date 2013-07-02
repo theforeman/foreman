@@ -1,15 +1,19 @@
 <% title "#{@audit.action.camelize} #{audited_type @audit}: #{audit_title @audit}" %>
 
+<%= title_actions link_to_if_authorized(_("Host details"),
+                                        hash_for_host_path(:id => @audit.auditable.to_param),
+                                        :title => _("Host details"),
+                                        :class => 'btn btn-info') if @audit.auditable_type == 'Host' && @audit.auditable %>
 <%= title_actions link_to 'Back', :back, :class=>'btn' %>
 <% tmplt =  audit_template?(@audit) %>
 
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <% if tmplt -%>
-      <li class="active"><a href="#tab0" data-toggle="tab">Template Diff</a></li>
+      <li class="active"><a href="#tab0" data-toggle="tab"><%= _('Template Diff') -%></a></li>
     <% end -%>
-    <li class='<%= "active" unless tmplt %>' ><a href="#tab1" data-toggle="tab">Details</a></li>
-    <li><a href="#tab2" data-toggle="tab">History</a></li>
+    <li class='<%= "active" unless tmplt %>' ><a href="#tab1" data-toggle="tab"><%= _('Details') -%></a></li>
+    <li><a href="#tab2" data-toggle="tab"><%= _('History') -%></a></li>
   </ul>
   <div class="tab-content">
     <% if tmplt -%>
@@ -20,12 +24,12 @@
     <div class='tab-pane <%= "active" unless tmplt%>' id="tab1">
       <table class="table table-bordered table-striped">
         <tr>
-          <th>Item</th>
+          <th><%= _('Item') -%></th>
           <% if @audit.action == 'update' %>
-              <th>Old</th>
-              <th>New</th>
+            <th><%= _('Old') -%></th>
+            <th><%= _('New') -%></th>
           <% else %>
-            <th>Value</th>
+            <th><%= _('Value') -%></th>
           <% end  %>
         </tr>
         <% @audit.audited_changes.each do |name,change| -%>

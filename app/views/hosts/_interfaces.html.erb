@@ -1,20 +1,20 @@
 <div class="fields">
-  <%= field_set_tag "Interface #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => 'remove network interface', :'data-placement' => 'left',
+  <%= field_set_tag _("Interface").html_safe + " #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => _('remove network interface'), :'data-placement' => 'left',
                                                              :class => 'fr badge badge-important'})}".html_safe, :id => "interface" do -%>
-    <%= selectable_f f, :type, [["Interface", Nic::Managed],["BMC", Nic::BMC]], {}, :class => 'interface_type', :disabled => !f.object.new_record? %>
-    <%= text_f f, :mac, :label => "MAC" %>
-    <%= text_f f, :name, :help_inline => "DNS name" %>
+    <%= selectable_f f, :type, [[_("Interface"), Nic::Managed],[_("BMC"), Nic::BMC]], {}, :class => 'interface_type', :disabled => !f.object.new_record? %>
+    <%= text_f f, :mac %>
+    <%= text_f f, :name, :help_inline => _("DNS name") %>
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
-                 { :include_blank => accessible_domains.any? ? true : "No domains"},
+                 { :include_blank => accessible_domains.any? ? true : _("No domains")},
                  { :disabled => accessible_domains.empty? ? true : false,
-                   :help_inline => image_tag("spinner.gif", :class => "indicator hide"),
+                   :help_inline => :indicator,
                    :class => 'interface_domain', :'data-url' => domain_selected_hosts_path } %>
     <%= select_f f, :subnet_id, domain_subnets, :id, :title,
-                 { :include_blank => domain_subnets.any? ? true : "No subnets"},
+                 { :include_blank => domain_subnets.any? ? true : _("No subnets")},
                  { :disabled => domain_subnets.empty? ? true : false,
-                   :help_inline => image_tag("spinner.gif", :class => "indicator hide"),
+                   :help_inline => :indicator,
                    :class => 'interface_subnet', :'data-url' => freeip_subnets_path } %>
-    <%= text_f f, :ip, :label => "IP"  %>
+    <%= text_f f, :ip  %>
 
     <%# hack to get BMC attributes show up without AJAX -%>
     <%= content_tag :span, :id => 'bmc_fields', :class => f.object.is_a?(Nic::BMC) ? '' : 'hide' do %>

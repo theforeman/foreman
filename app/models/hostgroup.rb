@@ -3,22 +3,24 @@ class Hostgroup < ActiveRecord::Base
   include Authorization
   include Taxonomix
   include HostCommon
+  before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes
-  has_and_belongs_to_many :users, :join_table => "user_hostgroups"
+  has_many :user_hostgroups, :dependent => :destroy
+  has_many :users, :through => :user_hostgroups
   validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
+  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
-  has_many :hosts
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  has_many_hosts
+  has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
-  has_many :template_combinations
   before_save :remove_duplicated_nested_class
+  before_save :set_label, :on => [:create, :update, :destroy]
+  after_save :set_other_labels, :on => [:update, :destroy]
 
   alias_attribute :os, :operatingsystem
-  alias_attribute :label, :to_label
-  audited
+  audited :except => [:label], :allow_mass_assignment => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   # with proc support, default_scope can no longer be chained
@@ -26,6 +28,7 @@ class Hostgroup < ActiveRecord::Base
   default_scope lambda { with_taxonomy_scope }
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :label, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
@@ -63,9 +66,8 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def to_label
-    return unless name
-    return name if ancestry.empty?
-    ancestors.map{|a| a.name + "/"}.join + name
+    return label if label
+    get_label
   end
 
   def to_param
@@ -81,7 +83,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def diskLayout
-    ptable.layout
+    ptable.layout.gsub("\r","")
   end
 
   def classes
@@ -89,7 +91,16 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def puppetclass_ids
-    classes.reorder('').pluck(:id)
+    classes.reorder('').pluck('puppetclasses.id')
+  end
+
+  def inherited_lookup_value key
+    ancestors.reverse.each do |hg|
+      if(v = LookupValue.where(:lookup_key_id => key.id, :id => hg.lookup_values).first)
+        return v.value, hg.to_label
+      end
+    end if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+    return key.default_value, _("Default value")
   end
 
   # returns self and parent parameters as a hash
@@ -119,10 +130,33 @@ class Hostgroup < ActiveRecord::Base
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    read_attribute(:root_pass) || nested_root_pw
+    read_attribute(:root_pass) || nested_root_pw || Setting[:root_pass]
+  end
+
+  def get_label
+    return name if ancestry.empty?
+    ancestors.map{|a| a.name + "/"}.join + name
   end
 
   private
+
+  def lookup_value_match
+    "hostgroup=#{to_label}"
+  end
+
+  def set_label
+    self.label = get_label if (name_changed? || ancestry_changed? || label.blank?)
+  end
+
+  def set_other_labels
+    if name_changed? || ancestry_changed?
+      Hostgroup.where("ancestry IS NOT NULL").each do |hostgroup|
+        if hostgroup.path_ids.include?(self.id)
+          hostgroup.update_attributes(:label => hostgroup.get_label)
+        end
+      end
+    end
+  end
 
   def nested_root_pw
     Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|

@@ -41,7 +41,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "new host should create a dhcp reservation" do
-    h = hosts(:dhcp).clone
+    h = hosts(:dhcp).dup
     assert h.new_record?
     h.name = "dummy-123"
     h.ip = "2.3.4.101"
@@ -53,7 +53,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "new host should create a BMC dhcp reservation" do
     User.current = users(:admin)
-    h            = hosts(:dhcp).clone
+    h            = hosts(:dhcp).dup
     assert h.new_record?
     h.name                  = "dummy-123"
     h.ip                    = "2.3.4.101"

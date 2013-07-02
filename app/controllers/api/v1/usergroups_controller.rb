@@ -6,9 +6,11 @@ module Api
       api :GET, "/usergroups/", "List all usergroups."
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
+      param :search, String, :desc => "filter results"
+      param :order, String, :desc => "sort results"
 
       def index
-        @usergroups = Usergroup.paginate(paginate_options)
+        @usergroups = Usergroup.search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/usergroups/:id/", "Show a usergroup."

@@ -22,6 +22,15 @@ module Api
       return true
     end
 
+    def is_admin?
+      return true unless SETTINGS[:login]
+      return true if User.current && User.current.admin?
+      authorization_method = oauth? ? :oauth : :http_basic
+      User.current         = send(authorization_method) || (return false)
+      return User.current.admin? if User.current
+      return false
+    end
+
     def authorize
       User.current.allowed_to?(
         :controller => controller.params[:controller].gsub(/::/, "_").underscore,
@@ -55,7 +64,7 @@ module Api
         user_name = controller.request.headers['foreman_user']
         if Setting['oauth_map_users'] && user_name != 'admin'
           User.find_by_login(user_name).tap do |obj|
-            Rails.logger.warn "Oauth: maping to user '#{user_name}' failed" if obj.nil?
+            Rails.logger.warn "Oauth: mapping to user '#{user_name}' failed" if obj.nil?
           end
         else
           User.admin

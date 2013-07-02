@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class TFTPOrchestrationTest < ActiveSupport::TestCase
+  setup :disable_orchestration
+
   def test_host_should_have_tftp
     if unattended?
       h = hosts(:one)
@@ -20,8 +22,10 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   def test_generate_pxe_template_for_build
     if unattended?
       h = hosts(:one)
-      h.setBuild
-      as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
+      as_admin do
+        h.setBuild
+        h.update_attribute :operatingsystem, operatingsystems(:centos5_3)
+      end
       Setting[:foreman_url] = "ahost.com:3000"
 
       template = h.send(:generate_pxe_template).split("~")

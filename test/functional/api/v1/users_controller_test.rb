@@ -116,6 +116,19 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     end
   end
 
+  test 'admin user can be created' do
+    user = users(:one)
+    user.update_attribute :admin, true
+
+    as_user :one do
+      post :create, { :user => {
+          :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
+      }
+      assert_response :success
+      assert User.find_by_login('new_admin').admin?
+    end
+  end
+
 # do we support this?
 =begin
   test "should recreate the admin account" do

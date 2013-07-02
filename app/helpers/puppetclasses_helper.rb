@@ -11,6 +11,6 @@ module PuppetclassesHelper
     # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/4544-rails3-activerecord-sqlite3-lost-column-type-when-using-views#ticket-4544-2
     @host_counter[klass.id.to_s] || @host_counter[klass.id.to_i] || 0
   rescue
-    "N/A"
+    _("N/A")
   end
 end

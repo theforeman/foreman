@@ -1,0 +1,19 @@
+--- specifications/actionmailer-3.0.20.gemspec.orig	2012-04-10 19:00:26.418585327 -0400
++++ specifications/actionmailer-3.0.20.gemspec	2012-04-10 18:55:55.816837727 -0400
+@@ -22,13 +22,13 @@
+
+     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+       s.add_runtime_dependency(%q<actionpack>, ["= 3.0.20"])
+-      s.add_runtime_dependency(%q<mail>, ["~> 2.2.19"])
++      s.add_runtime_dependency(%q<mail>, ["~> 2.3.0"])
+     else
+       s.add_dependency(%q<actionpack>, ["= 3.0.20"])
+-      s.add_dependency(%q<mail>, ["~> 2.2.19"])
++      s.add_dependency(%q<mail>, ["~> 2.3.0"])
+     end
+   else
+     s.add_dependency(%q<actionpack>, ["= 3.0.20"])
+-    s.add_dependency(%q<mail>, ["~> 2.2.19"])
++    s.add_dependency(%q<mail>, ["~> 2.3.0"])
+   end
+ end

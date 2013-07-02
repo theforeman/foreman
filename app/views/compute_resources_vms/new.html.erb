@@ -1,5 +1,5 @@
 <%= javascript 'compute_resource', 'lookup_keys' %>
-<% title "New Virtual Machine" %>
+<% title _("New Virtual Machine") %>
 
 <%= form_tag compute_resource_vms_path(@compute_resource) do %>
   <%= fields_for "vm", @vm do |f| %>

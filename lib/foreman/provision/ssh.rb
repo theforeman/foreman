@@ -83,6 +83,14 @@ class Foreman::Provision::SSH
         logger.debug "Host unreachable for #{address}, retrying"
         sleep(2)
         retry
+      rescue Net::SSH::Disconnect
+        logger.debug "Host dropping connections for #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Net::SSH::ConnectionTimeout
+        logger.debug "Host timed out for #{address}, retrying"
+        sleep(2)
+        retry
       rescue Timeout::Error
         retry
       rescue => e

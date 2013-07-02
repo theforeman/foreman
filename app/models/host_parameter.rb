@@ -1,6 +1,6 @@
 class HostParameter < Parameter
-  belongs_to :host, :foreign_key => :reference_id
-  audited :except => [:priority], :associated_with => :host
+  belongs_to_host :foreign_key => :reference_id
+  audited :except => [:priority], :associated_with => :host, :allow_mass_assignment => true
   validates_uniqueness_of :name, :scope => :reference_id
 
   def to_s
@@ -14,7 +14,7 @@ class HostParameter < Parameter
 
     (auth = User.current.allowed_to?("#{operation}_params".to_sym)) and Host.my_hosts.include?(host)
 
-    errors.add :base, "You do not have permission to #{operation} this domain" unless auth
+    errors.add(:base, _("You do not have permission to %s this domain") % operation) unless auth
     auth
   end
 end

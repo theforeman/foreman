@@ -17,7 +17,7 @@ module Orchestration::Puppetca
       @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
       true
     rescue => e
-      failure "Failed to initialize the Puppetca proxy: #{e}"
+      failure _("Failed to initialize the PuppetCA proxy: %s") % e
     end
 
     # Removes the host's puppet certificate from the puppetmaster's CA
@@ -25,7 +25,7 @@ module Orchestration::Puppetca
       logger.info "Remove puppet certificate for #{name}"
       puppetca.del_certificate certname
     rescue => e
-      failure "Failed to remove #{name}'s puppet certificate: #{proxy_error e}"
+      failure _("Failed to remove %{name}'s puppet certificate: %{e}") % { :name => name, :e => proxy_error(e) }
     end
 
     # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
@@ -36,7 +36,7 @@ module Orchestration::Puppetca
       logger.info "Adding autosign entry for #{name}"
       puppetca.set_autosign certname
     rescue => e
-      failure "Failed to add #{name} to autosign file: #{proxy_error e}"
+      failure _("Failed to add %{name} to autosign file: %{e}") % { :name => name, :e => proxy_error(e) }
     end
 
     # Removes the host's name from the autosign.conf file
@@ -44,7 +44,7 @@ module Orchestration::Puppetca
       logger.info "Delete the autosign entry for #{name}"
       puppetca.del_autosign certname
     rescue => e
-      failure "Failed to remove #{self} from the autosign file: #{proxy_error e}"
+      failure _("Failed to remove %{self} from the autosign file: %{e}") % { :self => self, :e => proxy_error(e) }
     end
 
     private
@@ -62,7 +62,7 @@ module Orchestration::Puppetca
     def queue_puppetca_update
       # Host has been built --> remove auto sign
       if old.build? and !build?
-        queue.create(:name => "Delete autosign entry for #{self}", :priority => 50,
+        queue.create(:name => _("Delete autosign entry for %s") % self, :priority => 50,
                      :action => [self, :delAutosign])
       end
     end
@@ -70,9 +70,9 @@ module Orchestration::Puppetca
     def queue_puppetca_destroy
       return unless puppetca? and errors.empty?
       return unless Setting[:manage_puppetca]
-      queue.create(:name => "Delete PuppetCA certificates for #{self}", :priority => 50,
+      queue.create(:name => _("Delete PuppetCA certificates for %s") % self, :priority => 50,
                    :action => [self, :delCertificate])
-      queue.create(:name => "Delete PuppetCA certificates for #{self}", :priority => 55,
+      queue.create(:name => _("Delete PuppetCA certificates for %s") % self, :priority => 55,
                    :action => [self, :delAutosign])
     end
   end

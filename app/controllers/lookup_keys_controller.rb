@@ -23,7 +23,7 @@ class LookupKeysController < ApplicationController
     if (name = params[:host_id]).blank? or (host = Host.find_by_name(name)).blank?
       value = @lookup_key
     else
-      value = { :value => @lookup_key.value_for(host) }
+      value = { :value => Classification::GlobalParam.new(:host=>host).enc[@lookup_key.key] }
     end
 
     respond_to do |format|

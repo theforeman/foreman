@@ -1,54 +1,57 @@
 module HomeHelper
 
   def class_for_setting_page
-    setting_options.map{|o| o[1]}.include?(controller_name.to_sym) ? "active" : ""
+    setting_options.flatten.include?(controller_name.to_sym) ? "active" : ""
   end
 
   def setting_options
+    authorized_menu_actions(settings_menu_items)+[[_('About'), :about]]
+  end
+
+  def settings_menu_items
     configuration_group =
-        [['Environments',           :environments],
-        ['Global Parameters',      :common_parameters],
-        ['Host Groups',            :hostgroups],
-        ['Puppet Classes',         :puppetclasses],
-        ['Smart Variables',        :lookup_keys],
-        ['Smart Proxies',          :smart_proxies]]
-    choices = [ [:group, "Configuration", configuration_group]]
+        [[_('Environments'),          :environments],
+        [_('Global Parameters'),      :common_parameters],
+        [_('Host Groups'),            :hostgroups],
+        [_('Puppet Classes'),         :puppetclasses],
+        [_('Smart Variables'),        :lookup_keys],
+        [_('Smart Proxies'),          :smart_proxies]]
+    menu_items = [ [:group, _("Configuration"), configuration_group]]
 
     if SETTINGS[:unattended]
       provisioning_group =
-          [['Architectures',          :architectures],
-          ['Compute Resources',      :compute_resources],
-          ['Domains',                :domains],
-          ['Hardware Models',        :models],
-          ['Installation Media',     :media],
-          ['Operating Systems',      :operatingsystems],
-          ['Partition Tables',       :ptables],
-          ['Provisioning Templates', :config_templates],
-          ['Subnets',                :subnets]]
-      choices += [[:divider], [:group, "Provisioning", provisioning_group]]
+          [[_('Architectures'),          :architectures],
+          [_('Compute Resources'),      :compute_resources],
+          [_('Domains'),                :domains],
+          [_('Hardware Models'),        :models],
+          [_('Installation Media'),     :media],
+          [_('Operating Systems'),      :operatingsystems],
+          [_('Partition Tables'),       :ptables],
+          [_('Provisioning Templates'), :config_templates],
+          [_('Subnets'),                :subnets]]
+      menu_items += [[:divider], [:group, _("Provisioning"), provisioning_group]]
     end
 
     if (SETTINGS[:organizations_enabled] or SETTINGS[:locations_enabled])
-      choices += [[:divider]]
-      choices += [ ['Locations', :locations] ]         if SETTINGS[:locations_enabled]
-      choices += [ ['Organizations', :organizations] ] if SETTINGS[:organizations_enabled]
+      menu_items += [[:divider]]
+      menu_items += [ [_('Locations'), :locations] ]         if SETTINGS[:locations_enabled]
+      menu_items += [ [_('Organizations'), :organizations] ] if SETTINGS[:organizations_enabled]
     end
 
     users_group =
-      [['LDAP Authentication',    :auth_source_ldaps],
-      ['Users',                  :users],
-      ['User Groups',            :usergroups]]
-    users_group += [['Roles',     :roles]] if User.current && User.current.admin?
+      [[_('LDAP Authentication'),    :auth_source_ldaps],
+      [_('Users'),                  :users],
+      [_('User Groups'),            :usergroups]]
+    users_group += [[_('Roles'),     :roles]] if User.current && User.current.admin?
 
-    choices += [[:divider], [:group, "Users", users_group] ] if SETTINGS[:login]
+    menu_items += [[:divider], [:group, _("Users"), users_group] ] if SETTINGS[:login]
 
-    choices += [
+    menu_items += [
       [:divider],
-      ['Bookmarks',              :bookmarks],
-      ['Settings',               :settings]
+      [_('Bookmarks'),              :bookmarks],
+      [_('Settings'),               :settings]
     ]
-
-    authorized_menu_actions(choices)
+    menu_items
   end
 
   def authorized_menu_actions(choices)
@@ -77,38 +80,39 @@ module HomeHelper
     choices
   end
 
-  def menu(tab, myBookmarks ,path = nil)
-    path ||= eval("hash_for_#{tab}_path")
+  def menu(tab, label, path = nil)
+    path ||= send("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
-    b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
-    out = content_tag :li, :id => "menu_tab_#{tab}" do
-      link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
+    content_tag(:li, :class => "menu_tab_#{tab} ") do
+      link_to_if_authorized(label, path)
     end
-    out +=  content_tag :li, :class => "dropdown hidden-tablet hidden-phone "  do
-      link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret hidden-phone hidden-tablet'), "#", :class => "dropdown-toggle narrow-left hidden-phone hidden-tablet") + menu_dropdown(b)
-    end unless b.empty?
-    out
   end
 
-  def menu_dropdown bookmark
-    return "" if bookmark.empty?
-    render("bookmarks/list", :bookmarks => bookmark)
+  def org_switcher_title
+    title = if Organization.current && Location.current
+      Organization.current.to_label + "@" + Location.current.to_label
+    elsif Organization.current
+      Organization.current.to_label
+    elsif Location.current
+      Location.current.to_label
+    else
+      _("Any Context")
+    end
+    title
   end
 
   # filters out any non allowed actions from the setting menu.
   def allowed_choices choices, action = "index"
     choices.map do |opt|
       name, kontroller = opt
-      url = eval("#{kontroller}_url")
+      url = send("#{kontroller}_url")
       authorized_for(kontroller, action) ? [name, url] : nil
     end.compact.sort
   end
 
   def user_header
-    summary = content_tag(:span, "#{User.current.to_label}  ", :class=>'text-label')
-    summary += content_tag(:span, Organization.current.to_label, :class=>'boxed-label') if Organization.current
-    summary += content_tag(:span, Location.current.to_label, :class=>'boxed-label') if Location.current
-    summary += gravatar_image_tag(User.current.mail, :class=>'gravatar', :alt=>'Change your avatar at gravatar.com') + content_tag(:span, "", :class=>'caret')
+    summary = gravatar_image_tag(User.current.mail, :class=>'gravatar small', :alt=>_('Change your avatar at gravatar.com')) +
+              "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
     link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
   end
 

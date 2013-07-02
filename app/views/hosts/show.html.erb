@@ -5,16 +5,19 @@
 <%= host_title_actions(@host, @vm) %>
 <% content_for(:search_bar) {reports_show} %>
 
-<div class="row-fluid">
+<div id="host-show" class="row-fluid">
   <div class="span4">
     <ul id="myTab" class="nav nav-tabs">
-      <li class="active"><a href="#properties" data-toggle="tab">Properties</a></li>
-      <li><a href="#metrics" data-toggle="tab">Metrics</a></li>
+      <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
+      <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>
       <% if SETTINGS[:unattended] %>
-        <li><a href="#template" data-toggle="tab">Templates</a></li>
+        <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
       <% end %>
       <%  if @vm %>
-          <li><a href="#vm" data-toggle="tab">Virtual Machine</a></li>
+        <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
+      <% end %>
+      <% if @host.bmc_available? %>
+        <li><a href="#bmc" data-toggle="tab"><%= _('BMC') %></a></li>
       <% end %>
     </ul>
     <div id="myTabContent" class="tab-content">
@@ -23,7 +26,7 @@
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 -%>
-            <p>No puppet activity for this host in the last <%= @range %> days</p>
+            <p><%= _('No puppet activity for this host in the last %s days') % @range %></p>
         <% else -%>
             <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end -%>
@@ -37,11 +40,28 @@
           <%= render("compute_resources_vms/show/#{@host.compute_resource.provider.downcase}") rescue nil %>
         <% end %>
       </div>
+      <% if @host.bmc_available? %>
+        <div id="bmc" class="tab-pane" data-ajax-url=<%= bmc_host_path(@host) %>>
+          <p id="spinner">
+            <%= image_tag '/assets/spinner.gif' %>
+            <%= _('Loading BMC information ...') %>
+          </p>
+        </div>
+
+      <% end %>
 
     </div>
   </div>
   <div class="span8">
-    <%= runtime_chart 'runtime_graph', 'Runtime', "last #{@range} days", @host.runtime_chart(@range.days.ago) %>
-    <%= report_status_chart 'resource_graph', 'Resources', "last #{@range} days", @host.resources_chart(@range.days.ago) %>
+    <div class="stats-well">
+      <h4 class="ca"><%= _("Runtime") %></h4>
+      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
+      <%= flot_chart 'runtime_graph','', _('Time in Seconds'), runtime_chart(@range.days.ago), :class=>"statistics-chart stack" %>
+    </div>
+    <div class="stats-well">
+      <h4 class="ca"><%= _("Resources") %></h4>
+      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
+      <%= flot_chart 'resource_graph', '', _("Number of Events"), resources_chart(@range.days.ago) %>
+    </div>
   </div>
 </div>

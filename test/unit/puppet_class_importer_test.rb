@@ -39,7 +39,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
 
   test "should obey config/ignored_environments.yml" do
     as_admin do
-      Environment.delete_all
+      Environment.destroy_all
     end
 
     importer = get_an_instance

@@ -3,7 +3,7 @@ class SettingsController < ApplicationController
   before_filter :require_admin
 
   def index
-    @settings = Setting.search_for(params[:search])
+    @settings = Setting.live_descendants.search_for(params[:search])
     respond_to do |format|
       format.html
       format.json { render :json => @settings.all}
@@ -12,7 +12,7 @@ class SettingsController < ApplicationController
 
   def update
     @setting = Setting.find(params[:id])
-    if @setting.update_attributes(params[:setting])
+    if @setting.parse_string_value(params[:setting][:value]) && @setting.save
       process_success
     else
       process_error

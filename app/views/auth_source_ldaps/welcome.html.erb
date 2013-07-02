@@ -1,8 +1,8 @@
-<% title_actions link_to("New authentication source", new_auth_source_ldap_path) %>
-<% title "Authentication source configuration" %>
+<% title_actions link_to(_("New authentication source"), new_auth_source_ldap_path) %>
+<% title _("Authentication Source Configuration") %>
 <div id="welcome">
-  <p> Foreman can use LDAP based service for user information and authentication.<p>
+  <p> <%= _("Foreman can use LDAP based service for user information and authentication.") %><p>
 
-  <p> The authentication process currently requires an LDAP provider, such as <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>.</p>
+  <p> <%= _("The authentication process currently requires an LDAP provider, such as <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>.").html_safe %></p>
 </div>
 

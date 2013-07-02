@@ -1,7 +1,8 @@
 class Report < ActiveRecord::Base
   include Authorization
   include ReportCommon
-  belongs_to :host
+
+  belongs_to_host
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
@@ -14,7 +15,7 @@ class Report < ActiveRecord::Base
   scoped_search :in => :messages, :on => :value,                         :rename => :log
   scoped_search :in => :sources,  :on => :value,                         :rename => :resource
 
-  scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported
+  scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
   scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
 
   scoped_search :on => :status, :offset => METRIC.index("applied"),         :word_size => BIT_NUM, :rename => :applied
@@ -74,7 +75,7 @@ class Report < ActiveRecord::Base
   #imports a YAML report into database
   def self.import(yaml)
     report = YAML.load(yaml)
-    raise "Invalid report" unless report.is_a?(Puppet::Transaction::Report)
+    raise ::Foreman::Exception.new(N_("Invalid report")) unless report.is_a?(Puppet::Transaction::Report)
     logger.info "processing report for #{report.host}"
     begin
       host = Host.find_by_certname report.host
@@ -133,7 +134,7 @@ class Report < ActiveRecord::Base
   # TODO: improve SQL query (so its not N+1 queries)
   def self.summarise(time = 1.day.ago, *hosts)
     list = {}
-    raise "invalid host list" unless hosts
+    raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
     hosts.flatten.each do |host|
       # set default of 0 per metric
       metrics = {}
@@ -208,7 +209,7 @@ class Report < ActiveRecord::Base
       # skipping catalog summary run messages, we dont want them in our db too
       next if r.message =~ /^Finished catalog run in \d+.\d+ seconds$/
       message = Message.find_or_create r.message
-      source  = Source.find_or_create_by_value r.source
+      source  = Source.find_or_create r.source
       log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
       log.errors.empty?
     end
@@ -243,9 +244,9 @@ class Report < ActiveRecord::Base
   end
 
   def summaryStatus
-    return "Failed"   if error?
-    return "Modified" if changes?
-    return "Success"
+    return _("Failed")   if error?
+    return _("Modified") if changes?
+    return _("Success")
   end
 
   private
@@ -344,7 +345,7 @@ class Report < ActiveRecord::Base
     return true if operation == "create"
     return true if operation == "destroy" and User.current.allowed_to?(:destroy_reports)
 
-    errors.add :base, "You do not have permission to #{operation} this report"
+    errors.add(:base, _("You do not have permission to %s this report") % operation)
     false
   end
 

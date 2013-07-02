@@ -1,14 +1,14 @@
 <table class="table table-bordered" data-table='inline'>
   <thead>
     <tr>
-      <th> Name </th>
-      <th> CPUs </th>
-      <th> Memory </th>
-      <th> Power </th>
+      <th><%= _('Name') -%></th>
+      <th><%= _('CPUs') -%></th>
+      <th><%= _('Memory') -%></th>
+      <th><%= _('Power') -%></th>
       <th></th>
     </tr>
   </thead>
-  <% @compute_resource.vms.each do |vm| -%>
+  <% @vms.each do |vm| -%>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.uuid) %></td>
       <td><%= vm.cpus %></td>

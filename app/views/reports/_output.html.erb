@@ -1,6 +1,6 @@
 <table id='report_log' class="table table-bordered table-striped">
   <tr>
-    <th>Level</th><th>Resource</th><th>message</th>
+    <th><%= _("Level") %></th><th><%= _("Resource") %></th><th><%= _("message") %></th>
   </tr>
   <% logs.each do |log| -%>
       <tr>
@@ -9,5 +9,5 @@
         <td><%= h log.message %></td>
       </tr>
   <% end -%>
-  <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3"> Nothing to show </td></tr>
+  <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3"> <%= _("Nothing to show") %> </td></tr>
 </table>

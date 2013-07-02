@@ -2,14 +2,31 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-if defined?(Bundler)
-  Class.new Rails::Railtie do
-    console {Foreman.setup_console}
+if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
+  # If there is a Gemfile.in file, we will not use Bundler but BundlerExt
+  # gem which parses this file and loads all dependencies from the system
+  # rathern then trying to download them from rubygems.org. It always
+  # loads all gemfile groups.
+  require 'bundler_ext'
+  BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :all)
+else
+  # If you have a Gemfile, require the gems listed there
+  # Note that :default, :test, :development, :production, and :assets groups
+  # will be included by default (and dependending on the current environment)
+  if defined?(Bundler)
+    Class.new Rails::Railtie do
+      console {Foreman.setup_console}
+    end
+    Bundler.require(*Rails.groups(:assets => %w(development test)))
+    begin 
+      Bundler.require(:libvirt) if SETTINGS[:unattended]
+    rescue LoadError
+      puts "Libvirt bindings are missing - hypervisor management is disabled"
+    end
   end
-  Bundler.require(:default, Rails.env)
 end
+
+SETTINGS[:libvirt] = SETTINGS[:unattended] && defined?(Libvirt)
 
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
@@ -19,11 +36,7 @@ Bundler.require(:jsonp) if SETTINGS[:support_jsonp]
 module Foreman
   class Application < Rails::Application
     # Setup additional routes by loading all routes file from routes directory
-    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/*.rb")]
-
-    # Setup api routes by loading all routes file from routes/api directory
-    config.paths.config.routes.concat Dir[Rails.root.join("config/routes/api/*.rb")]
-
+    config.paths["config/routes"] += Dir[Rails.root.join("config/routes/**/*.rb")]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -31,7 +44,9 @@ module Foreman
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += Dir["#{config.root}/lib"]
+    config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
+    config.autoload_paths += Dir[ Rails.root.join('app', 'models', 'power_manager') ]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -50,10 +65,6 @@ module Foreman
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery)
-    #config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-
     # Disable fieldWithErrors divs
     config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
 
@@ -63,7 +74,19 @@ module Foreman
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :account_password, :facts, :root_pass, :value, :report, :password_confirmation, :secret]
 
-    config.session_store :active_record_store
+    # Enable escaping HTML in JSON.
+    config.active_support.escape_html_entities_in_json = true
+
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    # config.active_record.schema_format = :sql
+
+    # Enforce whitelist mode for mass assignment.
+    # This will create an empty whitelist of attributes available for mass-assignment for all models
+    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
+    # parameters by using an attr_accessible or attr_protected declaration.
+    config.active_record.whitelist_attributes = false
 
     # enables in memory cache store with ttl
     #config.cache_store = TimedCachedStore.new
@@ -71,6 +94,12 @@ module Foreman
 
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
   end
 
   def self.setup_console

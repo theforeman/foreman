@@ -1,8 +1,11 @@
-<% title "Puppet Reports" %>
+<% title _("Puppet Reports") %>
 <div id="welcome">
   <p>
-  You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow <%= link_to "setting up reporting", "http://theforeman.org/projects/foreman/wiki/Puppet_Reports", :rel => "external" %> and <%= link_to "Email reporting", "http://theforeman.org/projects/foreman/wiki/Mail_Notifications", :rel => "external" %>.
+  <%= _("You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow") %>
+  <%= link_to _("setting up reporting"), "http://theforeman.org/projects/foreman/wiki/Puppet_Reports", :rel => "external" %>
+  <%= _("and") %>
+  <%= link_to _("e-mail reporting"), "http://theforeman.org/projects/foreman/wiki/Mail_Notifications", :rel => "external" %>.
   </p>
 
-  <p>This page will self destruct once a report comes in.</p>
+  <p><%= _('This page will self destruct once a report comes in.') %></p>
 </div>

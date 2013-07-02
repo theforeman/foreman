@@ -119,22 +119,22 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
   test "template should contain tokens when tokens enabled and present for the host" do
     Setting[:token_duration] = 30
     Setting[:foreman_url]    = "test.host"
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    template = get :preseed
-    expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_tokenised_template")
-    assert_equal template.body, expected
+    get :preseed
+    assert @response.body.include?("d-i preseed/late_command string wget http://test.host/unattended/finish?token=aaaaaa -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh")
   end
 
+  # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
   test "template should not contain https when ssl enabled" do
     @request.env["HTTPS"] = "on"
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    template = get :preseed
-    expected = File.read(Pathname.new(__FILE__).parent.parent + "fixtures/sample_http_preseed_template")
-    assert_equal template.body, expected
+    get :preseed
+    assert_no_match(/https/, @response.body)
   end
 
 end

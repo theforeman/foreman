@@ -3,6 +3,7 @@ module Api
     class MediaController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
+      # TRANSLATORS: API documentation - do not translate
       PATH_INFO = <<-eos
 The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
 
@@ -13,6 +14,7 @@ will be substituted for the version of the operating system.
 Solaris and Debian media may also use $release.
       eos
 
+      # TRANSLATORS: API documentation - do not translate
       OS_FAMILY_INFO = <<-eos
 The family that the operating system belongs to.
 

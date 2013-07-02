@@ -1,4 +1,809 @@
+2013-07-01	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.0
+	* refresh locales
+	* fixes #2727 - fix oVirt test connection method definition (cherry picked from commit 025ab6bcabeaec072381526c6b05ad1a2d974434)
+
+2013-07-01	Amos Benari <abenari@redhat.com>
+	* fixes #2665 - search on click in dashboard pie chart (cherry picked from commit 2af890f2037658f86ce0856f5d5ba6d5691c2a38)
+	* fixes #2731 - add color legend to the dashboard (cherry picked from commit 3a124d9974f702560a13adf8e4c6d7f78f7f4684)
+
+2013-07-01	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2707 - host save fails for non-admin if host has a BMC interface (cherry picked from commit 5a56d4d36f6bee4e75ca4a496512b406fb55ae1a)
+	* fixes #2713 - do not update nics table on every host update as a workaround to bug #2489 (cherry picked from commit ecd9c9c66389eae0a159485b18afab61e6ee3d04)
+	* fixes #2728 - POST /api/hostgroups does not accept ancestry (cherry picked from commit 5f7b64bd2d70057b752c9a6e171e4d5a11a1348f)
+
+2013-06-28	Amos Benari <abenari@redhat.com>
+	* part of a fix to #2716 error in discovery plugin menu and user without provisioning permissions the other part is a fix to the discovery plugin. (cherry picked from commit f039437bf004b2ddecea12f24219ba1cb2d5136c)
+
+2013-06-28	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Fixes #2712 - Handle Net
+
+2013-06-28	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2645 - non-admin users can now create smart variables (cherry picked from commit ff2677e3c6689388958f055c50ad075191510e87)
+	* fixes #2317 - VM's with the name foreman_######## (cherry picked from commit 557b8543c26619442be7412ddd5780ec7c550605)
+	* fixes #2404 - prevents 404 when updating invalid name used as id (cherry picked from commit 696420ff788834dad99352d326fa74fd764572cd)
+	* fixes #2690 - undefined method gsub! for nil:NilClass on fact import (cherry picked from commit 9628014a44c9bbea74c62c0c8c2916937e9c98c4)
+	* fixes #2697 again - HostMailer typo and .deliver (cherry picked from commit 0a93217273d8b41f4d1d91e29c2be9c4547c90d3)
+	* fixes #2697 - HostMailer summary is broken (cherry picked from commit 8e851ef524a3348c1587e53e3c2da616fdbe1fdc) (cherry picked from commit 7ff08812e42c2688a995caca60ad236e67a2814e)
+
+2013-06-28	Sam Kottler <shk@redhat.com>
+	* fixes #2724 - use __method__ instead of static method names in SSO (cherry picked from commit 6326752f626f7b7565118db7627f715429652b4f)
+
+2013-06-28	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2710 - removed a superfluous os name check that was tripping up safemode. (cherry picked from commit c9d6c478febab78d1543f89066c33e1ecf1059f8)
+	* fixes #2695: Updated fedora and ubuntu mirror urls (cherry picked from commit 53bd7e1fb635bfa46d8e1d9ed483eb5415dbbe2d)
+
+2013-06-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2701 - require correct minitest file
+
+2013-06-21	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.0-RC3
+	* refresh locales
+	* fixes #2686 - use setting model's string parser to update values (cherry picked from commit 5d9073bba52b502b08b8b67b7f546eb4d481e5c1) (cherry picked from commit 65ae867c347ad93ce08e85397d55188d9b6220cb)
+
+2013-06-21	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2655 - Display Host buttons on unmanaged hosts if a puppet proxy exists (cherry picked from commit e902d93997b7ed04cc06cebe03674752fafc758d)
+
+2013-06-21	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2489 - fixes BMC password caused by rails bug accepts_nested_attributes_for and serialized child field (cherry picked from commit eaa6aec0023de21f0565b33e98f4c68990c0c2e2)
+	* fixes #2484 - host, hostgroup, and BMC passwords were overwritten as blank (cherry picked from commit 3595a70c5fa8f59ae48cd67cf009dbc839a14861)
+
+2013-06-20	Ivan Necas <inecas@redhat.com>
+	* fixes #2685 incorrect and inefficient regexp checking medium name format
+
+2013-06-20	Amos Benari <abenari@redhat.com>
+	* fixes #2679 pie get error when the label is too long (cherry picked from commit 3de840c1263eea516673191bd6ccdf446a928d19)
+	* fixes #2669 username first name and last name doesn't accept i18n characters (cherry picked from commit aa925f8009b7024dbb77c797d95c14b2e725a1d7)
+	* fixes #2639 After creating user with empty e-mail it becomes impossible to add it. (cherry picked from commit 802ae177dc9d35c3fc3889fa34b24e7f32001eb8)
+	* fixes #2656 error connecting to vsphere after upgrade to ruby 1.9.3 (cherry picked from commit 617ee75f8c0f8d239564f3fd48d92a2d772eeb8b)
+	* fixes #2646 Asset icon URLs are incorrect when under a different base URL (cherry picked from commit 1546388e9c82f6382be1ec35738489e8c9458c69)
+
+2013-06-20	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2610 - fixed the boot device order for oVirt VMs created in Foreman (cherry picked from commit e34f713634a44986695f266ba442f2e07bfaea63)
+
+2013-06-20	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2674 - Add tmpdfiles.d configuration for systemd to rpm spec (cherry picked from commit d30ac557d1d260bfdae13164cd83deca27c371cc)
+
+2013-06-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2612 - move Task into Orchestration namespace due to RbVmomi conflict (cherry picked from commit 467ea135da2b2309d306fd7e97d5c52a9ab00dbe)
+
+2013-06-17	Dominic Cleal <dcleal@redhat.com>
+	* refresh locales
+	* fixes #2670 - fix apostrophe quoting issue (cherry picked from commit 4298bd841c3fb2b3f639f06d4cbbb3901f56ec06) (cherry picked from commit be36bef41104ff5ca26cfb36818bdc1cbc7f5b15)
+	* refs #2650 - fix minitest version (cherry picked from commit 9e3f1dff75a3a60568fa39fd3b8c52665f9819ac)
+	* fixes #2649 - asset dependency versions, missing test dependencies (cherry picked from commit 54125f045c98734ff0a9d6321296bcbbb11bd664)
+
+2013-06-17	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2650 - adding minitest dependency for console (cherry picked from commit 95234b21bc9fba36206274f8996a0f933b2d4d33)
+	* fixes #2649 - adding missing devel deps
+
+2013-06-17	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2667 - Don't save during process_hostgroup (cherry picked from commit b751fea393439dc653e90d2aa9d06b4015797c9f)
+
+2013-06-17	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2583 - error message is now properly i18n-ed (cherry picked from commit 8f3d76af2aa55d486b2d52558aa91e2d62cafbe3)
+
+2013-06-14	Amos Benari <abenari@redhat.com>
+	* fixes #2663 javascript errors on the host form (cherry picked from commit d592994bf9554dcbffbbc3895e76d5646f4739fb)
+
+2013-06-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2640 - use relative user logout path (cherry picked from commit 1ff6a50c16ef6e8bf8b1aa709ec2f8769ba70d79)
+	* Fixes #2619 - don't display full output from proxy
+
+2013-06-14	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2657 - Use twitter-bootstrap-rails version 2.2.6 (cherry picked from commit a8d06d2d9289ac925d4a2d5ec1c52665c100830f)
+
+2013-06-12	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2334 - location matcher doesn't match on smart parameters (cherry picked from commit c7f527779d80e1cc78e1f3b02a6ba7bfc081a95d)
+
+2013-06-12	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #2660 - settings, improve tests and fixes
+	* fixes #2343 - override default settings with custom values
+
+2013-06-12	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2644 - Refactor Host find_by_name to use several ways to find a host, and refactor my_hosts scope to Host
+	* Fixes #2643 - Check for operatingsystem before orchestrating TFTP (cherry picked from commit d2e50bbbf7d84fde6d846f5a821cf7e2c28fbfb3)
+	* Fixes #2642 - Display build button if host type has changed (cherry picked from commit 4cdd3291c6756d966ae52b7dc6cdc6a9fdf855fb)
+	* Fixes #2641 - Add type_changed check to JS to allow form to refresh when provisioning a discovered host (cherry picked from commit c5e90813c8cb1e031ae43dd6f00b359119958a19)
+
+2013-06-11	Amos Benari <abenari@redhat.com>
+	* fixes #2636 host submit missing progress-bar when installed at sub-domain (cherry picked from commit 92326dd2588338079a10f11c676380d75b3a4d1f)
+	* fixes #1938 Foreman shouldn't use the FQDN fact to identify the node when facts are uploaded (cherry picked from commit baeb54f19a67ef8e5fbce513548cda1653341e17)
+
+2013-06-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2633 - enable generate_token rake task to run from elsewhere (cherry picked from commit a5f4453257060e0e02b7fdd7498e2f5936c38a27)
+
+2013-06-11	Antony Perigault <antony.perigault@1000mercis.com>
+	* Use facts[:operatingsystemrelease] to determined gentoo release (cherry picked from commit ef3a1338a05c0d8689dfa87ec7cd6f4bc07312f7)
+
+2013-06-11	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2622 - error messages with HTML properly escaped (cherry picked from commit c8d1c6d713cc412bc4ab30b74e60e2ff98d8b74a)
+
+2013-06-07	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.0-RC2
+	* fixes #2627 - depend on libvirt, not virt, add missing comps entries (cherry picked from commit 7ac08e59f58eba3c7218bc82b0e88394568501fa)
+	* fixes #2608 - add passenger, selinux to comps (cherry picked from commit 989f9de937feebd0fe598fc322ae534d22dcfefd)
+
+2013-06-07	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2631 - fix remote code execution via controller name (CVE-2013-2121) (cherry picked from commit ef4b97d177c58c9532730d53dca0517bc869a0ce)
+	* fixes #2625 - hostgroup nest and clone methods (cherry picked from commit e0f4f396c24f3ee64e83c479c5d741113af060f3)
+	* fixes #2616 - Hostgroup fields not populating when parent fields are selected (cherry picked from commit 1bd19611c2420923350b72f150774134b5b179db)
+
+2013-06-07	Marek Hulan <mhulan@redhat.com>
+	* fixes #2630 - restrict assignment of roles to those a user has (CVE-2013-2113) (cherry picked from commit bae665de387d63f93740670ec2542db90084d0eb)
+
+2013-06-07	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #2038 - updated config and partition table templates using ones from the community repository (cherry picked from commit cb92c0be69a00142158d884e05097b47d20480da)
+
+2013-06-07	Amos Benari <abenari@redhat.com>
+	* reload multy-select js (cherry picked from commit ba946542626d16f65a5e99144f9e5c3856609eff)
+	* fixes #2296 Hostgroup subnet field was not enabled after selecting domain (cherry picked from commit 04157eeddffa70104c82d7b6529c3a5aad3daefb)
+
+2013-06-06	Dominic Cleal <dcleal@redhat.com>
+	* i18n - updating translations from transifex
+	* i18n - adding fr, en_GB languages (cherry picked from commit 4e23701dfab08cb90680897e56f0327e95b12741)
+
+2013-06-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2615 - failed to save host group
+
+2013-06-06	Amos Benari <abenari@redhat.com>
+	* fixes #2621 search box and search button alignment on firefox. (cherry picked from commit d8ba88420c96ca38a8924892db51730e92686373)
+
+2013-06-06	Joseph Mitchell Magen <jmagen@redhat.com>
+	* re-fixes #2549 - default location bug was introduced in commit 66afbc33 that is fixed (cherry picked from commit 946ba662d8fd565bfc70b39a6ca2cf39025b3105)
+	* fixes #2386 - permission failure on create_lookup_value (cherry picked from commit 6c492cce87e0f2ec6c9f4a15115f4394ce542979)
+	* fixes #2623 - trends link was broken (cherry picked from commit 4c268e837977d189638e681559539f96ed8e03d8)
+
+2013-06-05	Amos Benari <abenari@redhat.com>
+	* fixes #2617 Can't edit a host once it's created (cherry picked from commit 31b0ec6e23eea12ec76e25c1082174ebe83fd965)
+
+2013-06-05	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2558 - foreman-debug script in /usr/sbin (cherry picked from commit 664905e830de7c1489026278500f04afb12c43c2)
+
+2013-06-05	Libor Zoubek <lzoubek@jezzovo.net>
+	* fixes #2607 - add autocomplete=false attribute to root_host_pass input x (cherry picked from commit 0c6065e6633b4d377062c90013439b99db1e3bf0)
+
+2013-06-05	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2285 - subnet validation - length of addresses, strip whitespace and fix common typos (cherry picked from commit 31aa5db511a6decf800e68a2b6f6eb3dbf0ae29c)
+
+2013-06-04	Dominic Cleal <dcleal@redhat.com>
+	* refresh locales
+	* fixes #2603 - handle missing compute_resources param loading VM tab (cherry picked from commit 446fce677185cde7215c602a0e476f3692e36ad4)
+
+2013-06-04	Amos Benari <abenari@redhat.com>
+	* fixes #2570 'New Window' button on HTML5 spice client page does not work (cherry picked from commit 9dd435a704956981a3ce0c5bb43bc9fe1a9f4fe6)
+	* fixes #2594 missing progress indicator on compute resource selection (cherry picked from commit 5d8ef4cbb518477e0b166bf7903f3b0128df2992)
+	* fixes #2606 fix display of compute resource errors (cherry picked from commit 95be09637360db50222dc783e4b8d16b04934870)
+	* fixed #2534 fixes #2495 paginator has i18n issues (cherry picked from commit 1bf7cc358e00092d2cee38cc83cb753ed31ffa89)
+	* fixes #2604 searching for hosts with digits can lead to unexpected results (cherry picked from commit 273b110af4c3f9416ec237f4880ce0406d5f795c)
+
+2013-06-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2565 - new / edit host ajax call create nested forms (cherry picked from commit 0df38871a1a9c3dedfab5d1472f5816d891273b5)
+	* fixes #2541 - multiple host checkbox selections clears when moving to next page (cherry picked from commit ba6a7b33a96c384c6f653718bcc2ccbaebdc92a1)
+	* fixes #2545 - EC2 instance does not show EC2 related options in Edit page. (cherry picked from commit 7164f367646dcd30b53f53d0865788ce15c3666d)
+	* fixes #1951 - support for libvirt named networks
+
+2013-06-04	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2602 - scoped_search error when using postgresql (cherry picked from commit 93ce3a18eea3bd04b09dc7b55a5c513f973736f5)
+	* fixes #2590 - bookmarks modal form is now working (cherry picked from commit 56469be738cc5f2388f7e43dca0ee5492de1dbf5)
+
+2013-06-04	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2588 - fixed regression introduced earlier: localization works for non-AR classes too now (cherry picked from commit b08d7e45fbdea5f80fad5254e70d8b2004c05e36)
+	* fixes #2588 - table name used for localization is being determined correctly now for sti classes. (cherry picked from commit 2e1e6f713d49ef6f5274d798f8882faa2579f680)
+
+2013-05-30	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2587 - migration to increase varchar length of media.name and other string fields (cherry picked from commit ea5a012715ce2112c5d880b8f7562bcbb444e67d)
+	* fixes #2549, fixes #2544 - new host organization and location should default to current context if it exists (cherry picked from commit 66afbc33721b39f768d4fba7f6d134bfe8188467)
+
+2013-05-30	Ryan Davies <ryan@ryandavies.co.nz>
+	* fixes #2562 libvirt domain listen address, add libvirt_default_console_address setting (cherry picked from commit 710dfa86835e7b8b430cf59646a7888746c3b0bc)
+
+2013-05-29	Dominic Cleal <dcleal@redhat.com>
+	* Enable yum gpgcheck for RCs
+	* fixes #2579 - explicitly list field name, workaround rails #5990 (cherry picked from commit 65f764d6081b04cd03fa56a78e6281b5221b0bac)
+	* fixes #2555, #2560 - add foreman-release and MySQL gems to comps (cherry picked from commit 259a849c2525b1cf8771b18f60272c1d97d3e7b1)
+	* fixes #2106, #2123, #2561 - sign RPMs, rename -ec2 to -compute, fix foreman.repo URLs (cherry picked from commit 3afbd14599a8f0cc2178df638f4570b68ad441ed)
+	* fixes #2573 - refresh Fedora 18 comps, don't force SCL (cherry picked from commit b5885038577dafc6533831829150eee03b51b233)
+
+2013-05-29	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2538 - hostgroup provisioning falls back to root_pass setting (cherry picked from commit d56112fb7edf4230c3397cfec77d81b635fe441d)
+	* fixes #2493 Unable to load audit, underlying cause No such file to load -- audit (cherry picked from commit fa4869907eb7a9a5a494a0281ea9a9f102c95ef5)
+	* fixes #2539 - added API puppetrun access permission and test (cherry picked from commit 0fda4cf6098f491f067a00a7547e703e8632f035)
+	* fixes #2335 - update puppetclass redirects to referrer page (cherry picked from commit fb95b3c779953dd59278edd16770fe0384e1e6e9)
+
+2013-05-29	Arnoud de Jonge <arnoud.dejonge@nxs.nl>
+	* fixes #2539 - puppetrun API added. (cherry picked from commit f2fed493701bf8cee17515d7fae803d0e65ae42d)
+
+2013-05-29	Daniel Lobato <elobatocs@gmail.com>
+	* Avoid inheriting from Puppet
+
+2013-05-29	Marek Hulan <mhulan@redhat.com>
+	* Refs #2002 - Fog quick hack (cherry picked from commit b2c8312c6919423a7d77c36468fc8d62dbe874cc)
+
+2013-05-29	Sam Kottler <shk@redhat.com>
+	* Fixes #2584: Remove rubygem-virt from comps (cherry picked from commit 0bca93e35db285be6ce1a9e2176a23b655dd4712)
+
+2013-05-29	Amos Benari <abenari@redhat.com>
+	* fixes #2582 indicators for all. (cherry picked from commit 89b9ecb070b530641b005a1ef1437b7e3ed19c3d)
+
+2013-05-29	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #2581 - missing buildrequire gettext (cherry picked from commit 39a842b10db823e485b485c0b0bd49f3fb14e4b0)
+
+2013-05-28	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2519 - Protect locale changes from validation failure so that password validation can be run (cherry picked from commit a2a5a5fef2950c0a60c5aec3378277e2c5cb47bd)
+	* Fixes #2372 - Strip non-digit characters from non-numeric OS versions (cherry picked from commit fe838fad64723c17a4f69d37355927214cba4592)
+
+2013-05-28	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2542 - sort image listing with datatables (cherry picked from commit af1b63500af591325ccdbe0dbfc9caac232cd37c)
+	* fixes #2546 - audit details error - undefined method 'map' for string (cherry picked from commit ff9597b46bc8aa7f93ac25a942a2b109afee8d7e)
+	* fixes #2537 - audit details on deleted host fail (cherry picked from commit 23db9bad8b8595c7bb88cd016983fd0945ec79ae)
+
+2013-05-28	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #2536 - loading locale .mo files in production mode
+
+2013-05-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2563 - fallback user image has wrong path (cherry picked from commit c7846bcd8040c560717b8c036f447456e1319aa8)
+	* fixes #2325 No A record created in domain when provisioning image based vm (cherry picked from commit 3b6d152746d63444ce0ae2044cec4cbb8f224882)
+	* fixes #2551 new host image not always visible under openstack (cherry picked from commit 511e8f789155d6e5914bbdb5c1810aca70572d15)
+
+2013-05-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2567 - handle backtraces correctly in compute orchestration errors (cherry picked from commit dd2b55dc928cf2ef0dc8befcb867a9816864239b)
+
+2013-05-28	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2571 - Deleted admin is recreated (cherry picked from commit 4df2e17b75c65fa657ef9499ccf9c71547f11dcf)
+	* Fixes #2502 - session expiration updates
+
+2013-05-28	Ivan Necas <inecas@redhat.com>
+	* fixes #2553 let setting admin attribute on user creation (cherry picked from commit 7fab6ba6c7e6085bee5149953aa52a59d83e62f4)
+
+2013-05-28	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2550 Puppetclass search_by_host doesn't return all classes for an unknown host
+
+2013-05-24	Dominic Cleal <dcleal@redhat.com>
+	* Fix release number
+
+2013-05-23	Dominic Cleal <dcleal@redhat.com>
+	* Change to release candidate URL in foreman.repo
+	* Release 1.2.0-RC1
+	* fixes #2548 - add non-SCL dependencies to comps for publishing (cherry picked from commit 4eab96a1a0227ec780e7f4b9a286324b7ee980f0)
+
+2013-05-23	Amos Benari <abenari@redhat.com>
+	* fixes #2316 Adding a disk to an existing RHEV 3.1 VM via Foreman results in an error (cherry picked from commit 0e5696d392b7e26dfc975d85d304a6b3bb1fa9fb)
+	* fixes #2522 dashboard events table should not have a border and is too long (cherry picked from commit 40b834e3af07916056d314503bc0de81f60dfe1e)
+
+2013-05-23	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2509, fixes #2507: few issues around Host
+
+2013-05-23	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2498 FactNames are not precreated
+	* fixes #2499 Add os_minor and os_major autocomplete (cherry picked from commit d17e67c219ab07860b4bb1a2ce480c78cf963022)
+
+2013-05-23	Mikael Fridh <frimik@gmail.com>
+	* fixes #2130 - normalize_hostname appends domainname to fqdn
+
+2013-05-23	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2440 remove unused files, code, unnecessary require statements (cherry picked from commit f3dd3bb605197b4ed66be83678b6895b5abe0cd9)
+	* fixes #2197 - form fields for new host are scoped by location and organization on load (cherry picked from commit 671b7907dd397c1623208815505f5f09f43dcc28)
+	* fixes #2485 - updated_at = NULL (cherry picked from commit 27120f6239e252fb392ad3d61e68d7fc4dd0c740)
+
+2013-05-23	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2497 - Join to the fact_values table when a user fact-filter is applied (cherry picked from commit 9ae88fc3e7e4621df841eb6fb43fe938db4e52a5)
+
+2013-05-23	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #2513 - orgs created in katello do not appear in org filtering
+
+2013-05-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2458 - Directory structure precreated (cherry picked from commit fa375e9b6dd052724814e1416fb5805c7b680ed3)
+
+2013-05-21	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2516 - dbmigrate changes for SCL (cherry picked from commit 7908aba2a8097bbff1bbf1ba441644ce8512b295)
+
+2013-05-21	Amos Benari <abenari@redhat.com>
+	* fixes #2526 Favicon only shows up if foreman is deployed in the root context (cherry picked from commit ecc106ace7d609e529e9472eb490765f59dcf028)
+	* fixes #2511 Footer should be replaced with an about page (cherry picked from commit 8b80115c2a88fd84aec52840bbfcd949b38e4343)
+
+2013-05-21	Dominic Cleal <dcleal@redhat.com>
+	* refresh locales
+	* fixes #2491, fixes #2487 - i18n issues (cherry picked from commit 0ee000ea77b63260f244f93afe9037630c59c5cb)
+
+2013-05-20	Dominic Cleal <dcleal@redhat.com>
+	* RPM packaging fixes
+
+2013-05-14	Sam Kottler <shk@redhat.com>
+	* Updated the spec for packaging Foreman on top of a Ruby 1.9.3 software collection (cherry picked from commit 346742902d8548e46877a214b2143dd79c3c4c69)
+
+2013-05-13	Ivan Necas <inecas@redhat.com>
+	* fixes #2492 Fallback to assets pipeline if a precompiled asset is missed in production
+
+2013-05-13	Stef Telford <stef@ummon.com>
+	* fixes #2490 - filter empty EC2 security groups (cherry picked from commit 11ea79ceacc2c9d0f2abed59a922b80d58c9031a)
+
+2013-05-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2481 - invalid state in BMC power dropdown (cherry picked from commit 930772e27b0c702835f328a7c12e73e0f5f9dbec)
+	* fixes #2480 - undefined method `html_raw' (cherry picked from commit 3d35e11f7d20ed107e0b568ba4e7f0143b1a3d48)
+
+2013-05-13	Amos Benari <abenari@redhat.com>
+	* fixes #2488 - hosts/<fqdn>/lookupkeys/<key-id> api is broken (cherry picked from commit 16ac09dfe738b9ebcde0bd9eb854095c9e8ef7b3)
+	* fixes #2396 Popups show escaped HTML (cherry picked from commit 371c2e864dc1671046514a7bcaee22097d3e05f1)
+	* fixes #2478 - smart-variable in ENC stopped working (cherry picked from commit 3a96ba00c7f5c698eb5c9441be69f3f82f263e9a)
+
+2013-05-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2453 - fix aggressive truncation of hostgroups < 26 chars (cherry picked from commit 3cda1a7360cb4f27b7dff8db6717cdc91e1ca904)
+	* fixes #2486 - ensure facts import is idempotent when values are unchanged (cherry picked from commit 6dffd64b9d1e0be4cdf76534877438f52c42f200)
+
+2013-05-13	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #2246 deleting an environment also deletes associated templates (cherry picked from commit af92531881ea038d792e48d6883082c66a51660a)
+
+2013-05-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2476 - precompile and include textmate theme (cherry picked from commit d84bc5f5d5104a6e0615fbb4797a4caf6d0d4a0b)
+
+2013-05-09	Antony Perigault <antony.perigault@1000mercis.com>
+	* Add Gentoo operating system
+
+2013-05-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2460 - session expiration fix for SSO
+
+2013-05-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2281 - don't allow admin flag to be removed from admin account
+	* refresh locales
+	* remove test translations
+	* gettext_i18n_rails_js shouldn't be required in prod setups to run rake tasks
+	* fixes #2420 - extract strings for i18n from JavaScript, various i18n fixes
+	* fixes #2426 - translate model and column names to English
+
+2013-05-09	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2444 - locale selector in user account
+	* fixes #2401 - cannot create new admin user
+
+2013-05-09	Amos Benari <abenari@redhat.com>
+	* refs #2132 - fixes ajax on puppetclass update, and some typos.
+	* fixes #2220 - Suport hostgroup puppet classes parameters inheritance.
+	* fixes #2132 Smart Variables in hostgroup. 1. Show smart variables in hostgroup view. 2. Added the GUI to override smart variables values in host group.
+
+2013-05-09	Og B. Maciel <ogmaciel@gnome.org>
+	* Changed validation text s/must be downcase/must be lowercase.
+
+2013-05-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixed #2474 - Foreman Exceptions are not initalized correctly
+
+2013-05-09	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #426 expose BMC information in foreman UI
+
+2013-05-09	Joseph Mitchell Magen <jmagen@redhat.com>
+	* refs #2400 clean up tests so there are no orphaned foreign keys
+	* fixes #2422 Rails 3.2: before_destroy / dependent => :destroy ordering
+	* fixes #2421 added missing has_many :hostgroups and missing :dependent => destroy
+
+2013-05-09	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2461 - Allow user to not have a puppet proxy
+	* Fixes #2459 - Create ProxyFeature methods from symbol name, lookup on real text
+
+2013-05-08	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2475 - search hosts based on comments
+
+2013-05-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes translator comment
+
+2013-05-08	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2406 - add recent report summary to dashboard latest events box
+
+2013-05-07	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2472 - prevent duplicate users from hostgroup ancestors
+
+2013-05-07	Sam Kottler <sam@kottlerdevelopment.com>
+	* Added core runtime packages to the RHEL6 comp
+
+2013-05-07	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2463 - update permissions to follow controller move
+	* fixes #2432 - use absolute controller path for navbar links
+
+2013-05-07	Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+	* Typo fix
+
+2013-05-07	Lukas Zapletal <lzap+git@redhat.com>
+	* fixing transifex parse error
+	* fixes #2434 - foreman-debug script
+	* removing ruby-debug from development group
+
+2013-05-07	Andy Taylor <andy.taylor@sift.com>
+	* Fixes #2265 - Broken hosts_and_facts detection
+
+2013-05-07	Ivan Necas <inecas@redhat.com>
+	* Fixes #2454 - Fix loading settings in production
+
+2013-05-06	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2463 - move test files to follow controller move
+
+2013-05-06	Sam Kottler <sam@kottlerdevelopment.com>
+	* Added additional DB packages
+
+2013-05-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2463 fixed nested puppetca and autosign controllers
+	* fixes #2393 - Couple of models broken with audited 3.0.0
+
+2013-05-06	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2455 hostgroup not saving
+
+2013-05-05	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2452 - allow nil form, used for checkboxes in taxonomies wizard
+
+2013-05-03	Michael Moll <kvedulv@kvedulv.de>
+	* add SLES and SLED to Suse family
+
+2013-05-03	Dominic Cleal <dcleal@redhat.com>
+	* Fix tests misusing assert and assignment vs. comparison
+
+2013-05-03	Amos Benari <abenari@redhat.com>
+	* intruducing color variable and mixin in the scss files
+
+2013-05-03	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fix finder_needs_type check in sti mixin
+
+2013-05-01	Amos Benari <abenari@redhat.com>
+	* fixes #2450 - cookie name based on pathname to be able to reuse the js in other pages
+	* fixes #2361 do not reset password on test connection.
+
+2013-05-01	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2361 empty password does not invalidate compute resource
+
+2013-05-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes UI errors in trend pages
+
+2013-04-30	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2378 - added Minitest and other code cleanups
+
+2013-04-30	Sam Kottler <shk@redhat.com>
+	* Added even more dependencies to the RHEL6 comp
+
+2013-04-30	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2439 - Add true to respond_to? calls for initialize_puppetca
+
+2013-04-30	Amos Benari <abenari@redhat.com>
+	* fixes #2441
+
+2013-04-29	Amos Benari <abenari@redhat.com>
+	* new top-bar navigation design and a new login page
+
+2013-04-29	Sam Kottler <sam@kottlerdevelopment.com>
+	* Added a lot more dependencies to the RHEL6 comp
+
+2013-04-29	Marek Hulan <mhulan@redhat.com>
+	* fixes #2429 - change OpenID storage to be permanent
+
+2013-04-26	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2433 - fix orchestration respond_to? test to work on ruby 2.0
+
+2013-04-26	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #2428 - a workaround for an issue with SETTINGS[:libvirt] not being properly initialized in rpm environments
+
+2013-04-26	Sam Kottler <sam@kottlerdevelopment.com>
+	* Added rails and dependencies to comp
+
+2013-04-26	Marc Grimme <marc.grimme@googlemail.com>
+	* fixes #2430 - undefined method gettext_translation_for_attribute_name
+
+2013-04-25	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2407 - Add STI to settings model
+
+2013-04-25	Ivan Necas <inecas@redhat.com>
+	* Always use multi-select widget for taxonomies in host group
+
+2013-04-24	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2248 adds api controllers and actions to access_permissions.rb
+
+2013-04-24	Amos Benari <abenari@redhat.com>
+	* fixes #2425 Allow find_multiple to work on all Host types
+
+2013-04-24	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2427 - use RUBY_VERSION for pre-Bundler 1.3 compatibility
+	* fixes #2367 - Ruby 2.0 support
+	* fixes #2359 - update EPEL release number
+	* Feature #2368 - host list popups and various fixes
+	* Feature #2368 - i18n extracting strings
+	* Feature #2368 - use N_ for model validators
+	* fixes #2419 - disable DNS orchestration during host mailer tests
+
+2013-04-24	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2368 - finishing transifex.com integration
+	* Feature #2368 - form helpers, exceptions and fixes
+	* Feature #2368 - merging new strings
+	* Feature #2368 - i18n extracting and locale rake task
+	* Feature #2368 - adding Rails i18n yml files
+	* Feature #2368 - i18n extracting strings
+	* Feature #2368 - i18n extracting strings
+	* Feature #2368 - i18n integrating Transifex
+	* Feature #2368 - renaming i18n domain to 'foreman.pot'
+
+2013-04-24	Sébastien Bernard <sbernard@nerim.net>
+	* fixes #2416 - use relative URL prefix for environment import buttons
+
+2013-04-24	Sam Kottler <shk@redhat.com>
+	* Fixes #2408: don't try to reset the password in rake permissions:reset if Facter.domain is nil
+
+2013-04-24	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2410 - Set auditable type to 'Host'
+
+2013-04-24	Daniel Lobato Garcia <elobatocs@gmail.com>
+	* Feature #2368 - adding Spanish translation
+
+2013-04-24	Bryan Kearney <bkearney@redhat.com>
+	* Feature #2368 - i18n extracting strings
+
+2013-04-24	Thomas Bendler <thomas.bendler@gmail.com>
+	* Feature #2368 - adding German translation file
+
+2013-04-24	Daniel Lobato <elobatocs@gmail.com>
+	* Adds an id primary key field to the user_hostgroup relationship
+
+2013-04-23	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2263 continuation - turn off auditing for migration of adding Hostgroup label
+
+2013-04-22	Marek Hulan <ares@igloonet.cz>
+	* fixes #2417 - SSO abstractioning
+
+2013-04-22	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2360 loading parameters on host edit form when hostgroup or environment is changed
+
+2013-04-22	Bryan Kearney <bkearney@redhat.com>
+	* fixes #2247 Provides an option to disable the use of gravatara
+
+2013-04-21	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2263 search Hostgroup by label
+	* refs #2254 - STI Host relationships
+
+2013-04-21	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2405 - disable DNS orchestration during TFTP tests, causing timeouts
+
+2013-04-17	Sam Kottler <shk@redhat.com>
+	* Use https when accessing Rubygems.org
+	* Added f18 releases to tito and fixed some typos
+	* Added RHEL6 and F18 comps
+	* Bumped the Rails version to match what's in the nightly tag
+
+2013-04-14	Ivan Necas <inecas@redhat.com>
+	* fixes #2398 - fix ruby 1.9 issue when loading free ip, causing {} in URL
+
+2013-04-12	Daniel Lobato <elobatocs@gmail.com>
+	* Enforce hostgroup/role uniqueness on User relation
+
+2013-04-11	Ohad Levy <ohadlevy@gmail.com>
+	* [refactor] breakdown of proxy api classes
+
+2013-04-11	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2390 - Add :host_id to BMC options hash
+
+2013-04-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2327 - add simplecov code coverage reports
+
+2013-04-10	Amos Benari <abenari@redhat.com>
+	* flot charts
+
+2013-04-10	Ohad Levy <ohadlevy@gmail.com>
+	* fixes failing test/fixture introduced in 7ff39bfa
+
+2013-04-10	Daniel Lobato <elobatocs@gmail.com>
+	* Added link to host on some audit entries
+
+2013-04-10	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2389 - Add basic support for plugin config to live in separate files
+
+2013-04-10	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2385 - use Capybara 2.0.x for Ruby 1.8 compatibility
+	* fixes #2153 - add trusted_puppetmaster_hosts setting to permit puppetmaster access
+
+2013-04-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2377 - refresh column info after editing Medium
+
+2013-04-08	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2376 Update migrations to match new rails3.2 paths
+
+2013-04-08	David Schmitt <david@dasz.at>
+	* Small typo in foreman-config output
+
+2013-04-08	Ohad Levy <ohadlevy@gmail.com>
+	* addes missing taxonomy asset
+
+2013-04-04	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2371 - removed iconv - causing deprecation notice - block in require: iconv will be deprecated in the future, use String#encode instead
+
+2013-04-04	Ohad Levy <ohadlevy@gmail.com>
+	* more minor fixes around asset pipeline changes
+
+2013-04-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes missing assets files
+
+2013-04-03	Sam Kottler <shk@redhat.com>
+	* Removed unnecessary script related to SElinux
+
+2013-04-03	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Remove .DS_Store file
+
+2013-04-03	Amos Benari <abenari@redhat.com>
+	* fixes wrong spice JS referenec
+
+2013-04-02	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2351 Downcase fqdn when importing facts, for hostname validation consistency
+
+2013-04-02	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2365 added quiet assets gem
+	* fixes #2362 ImagesHelper - not showing field if no images
+	* fixes #2366 removes duplicate gems in bundler/test.rb
+
+2013-04-02	Amos Benari <abenari@redhat.com>
+	* moved spice console to spice-html5-rails gem
+	* upgrade foreman to rails 3.2.13
+
+2013-04-02	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2358 - remove duplicate epel/HTTP proxy snippets
+
+2013-03-28	Sam Kottler <shk@redhat.com>
+	* Added files for building via Tito
+
+2013-03-14	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2250 API v2 add/remove puppetclasses from hosts and hostgroups
+	* fixes #2318 - API v2 documentation for parameters to include real paths rather than /references/:id
+	* fixes #2319 make HostClass and HostgroupClass unique puppetclass_id by scope
+	* fixes #2322 ActiveModel
+	* fixes #2323 syntax error in host_mailer
+
+2013-03-14	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #2324 Refactoring of Host STI
+
+2013-03-14	Ivan Necas <inecas@redhat.com>
+	* Load the apipie documentation when calling '/api'
+
+2013-03-14	Bryan Kearney <bkearney@redhat.com>
+	* Use proper syntax for step 2 title, comment by Joseph Magen
+	* Add localization calls to the subnets and the trenda pages.
+
+2013-03-11	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2291 undefined method 'to_a' for 75:String when creating host WITH taxonomy
+	* fixes #2272 setup capybara and spork and modified test_helper for future integration testing
+
+2013-03-11	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2299 - Parameters Controller (API v2) can reset parameters (delete them all)
+
+2013-03-11	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Downgrade the libvirt bindings warning to print
+
+2013-03-11	Bryan Kearney <bkearney@redhat.com>
+	* Added gettext calls to the usergroups and roles pages.
+	* Add gettext calls to the common views, application controller, and application helper objects.
+	* Add gettext calls to the locations pages and the user pages.
+
+2013-03-10	Ohad Levy <ohadlevy@gmail.com>
+	* switch to latest released fog
+
+2013-03-04	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2278 orchestration test failure
+	* fixes #2274 renamed test/unit/orchestration.rb to test/unit/orchestration_test.rb
+
+2013-03-04	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2219 - Hostgroup ownership is hierarchical
+
+2013-03-04	Ivan Necas <inecas@redhat.com>
+	* fixes #2275 - include ThreadSession
+
+2013-03-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2277 - adds spice html5 support
+
+2013-03-03	Sam Kottler <shk@redhat.com>
+	* Added a build script for updating and generating policies and packages
+
+2013-03-03	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2268 - exec puppet in Bundler-less env, don't touch PATH when puppetgem is set
+	* fixes #2264 - replace fulltext sources.value index with digest
+	* fixes #2256 - support minitest in jenkins rake tasks, add missing yaml require breaking bundler, fix version test for Ruby 1.9.2
+	* fixes #2202 - add all unassigned actions to appropriate permissions
+
+2013-03-03	Ivan Necas <inecas@redhat.com>
+	* fixes #2273 - authorization over environment model
+	* foreman-config - dry run
+
+2013-03-03	Bryan Kearney <bkearney@redhat.com>
+	* fixes #2269 - Add gettext framework to foreman.
+
+2013-03-03	Jeff Palmer <jpalmer@voalte.com>
+	* fixes #2266 - API doesn't honor 'view_facts' permission
+
+2013-03-01	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2262 - handle strings from PostgreSQL
+
+2013-02-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #2253 adds openstack floating ip support
+	* fixes #2252 - add supports to openstack log console
+	* fixes #2251 - adds openstack image listing
+
+2013-02-26	Amos Benari <abenari@redhat.com>
+	* fixes #2222 hostgroup form can be scoped by multiple taxonomys.
+
+2013-02-25	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2242 - concatenate HTML errors, don't use Array#to_s on Ruby 1.9
+
+2013-02-25	Amos Benari <abenari@redhat.com>
+	* fixes #2163 New host installation fails with RHEV 3.1
+	* fixes #2224 Selecting a RHEV 3.1 template does not work properly
+	* Do not block create and destroy volume if api version is 3.1 or later.
+	* added blank option in ovirt select template.
+	* fixed test connection for existing compute-resource.
+
+2013-02-25	Ohad Levy <ohadlevy@gmail.com>
+	* refs #2254 - minor fixes related to facts import
+	* refs #2254 - minor fixes related to host form
+
+2013-02-25	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* fixes #2254 - Add STI to hosts table
+
+2013-02-21	Amos Benari <abenari@redhat.com>
+	* fixes #2221 - non admin user can't set build flag for multiple hosts
+
+2013-02-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes broken build
+	* Ensures that unused API v2 routes are not added when using nested routes
+
+2013-02-21	Joseph Mitchell Magen <jmagen@redhat.com>
+	* ignore .rvmrc
+	* fixes #1988 - CRUD Actions for nested parameters for host, domain, hostgroup, os
+	* fixes #2239 API v2 CRUD for locations and organizations and added nested loc/org
+	* edited TaxHost - selected_ids and used_ids do NOT return [] if ignored?
+
+2013-02-21	Lukas Zapletal <lzap+git@redhat.com>
+	* bundler_ext require statements
+	* bundler_ext initial support
+
+2013-02-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2217 - initialize Regexp constants here to stop duplicate warnings
+	* fixes #2100 - fix regexp overflow on MRI 1.8 with older safemode/ruby_parser
+	* fixes #2203 - add locations/organizations to subnet edit page
+
+2013-02-20	David Swift <dswift@pccowboy.com>
+	* fixes #2229 add an IAM role field to a compute image.
+
+2013-02-20	Amos Benari <abenari@redhat.com>
+	* added filter to the multy select component.
+
+2013-02-20	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes 2228 json parsing failed
+
+2013-02-19	Daniel Lobato <elobatocs@gmail.com>
+	* Order multi-select options alphabetically
+
+2013-02-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2198 - add AJAX routes to existing permissions to fix non-admin UI
+
+2013-02-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2196 - create tmp/ if it doesn't exist
+	* fixes #2110 - bump safemode to support !=
+
+2013-02-12	Daniel Lobato <elobatocs@gmail.com>
+	* Feature: #686 - Hosts can inherit environment from hostgroup
+
+2013-02-12	Gaël Chamoulaud <gael@redhat.com>
+	* Fixes #2199: Fix install media submit/cancel buttons when locations/orgs disabled - When locations and Organizations are disabled, the submit/cancel Buttons are not well displayed when you want to add a new medium.
+
+2013-02-12	Dennis Hoppe <dennis.hoppe@debian-solutions.de>
+	* fixes #2193 SQL error on Postgres 9.1 for classes_from_storeconfigs
+
+2013-02-06	Ohad Levy <ohadlevy@gmail.com>
+	* Revert "ptables - displaying os_family and layout in api show and list"
+	* Revert "ptables - validation for OS families"
+
+2013-02-06	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2166 - error when clearing location
+
+2013-02-06	Tomas Strachota <tstrachota@redhat.com>
+	* ptables - validation for OS families
+	* ptables - displaying os_family and layout in api show and list
+
+2013-02-06	Ivan Necas <inecas@redhat.com>
+	* Using Apipie versioning features and Maruku for markdown
+
+2013-02-06	Daniel Lobato <elobatocs@gmail.com>
+	* API now allows for search of usergroups
+
 2013-02-01	Ohad Levy <ohadlevy@gmail.com>
+	* bump version to 1.1
+	* released 1.1
 	* refs #2141 - ensures no duplicate trends are created
 	* include nested host routes in the api documentation
 

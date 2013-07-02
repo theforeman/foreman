@@ -1,14 +1,14 @@
 <table class="table table-bordered" data-table="inline">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>DNS</th>
-      <th>Type</th>
-      <th>State</th>
+      <th><%= _('Name') -%></th>
+      <th><%= _('DNS') -%></th>
+      <th><%= _('Type') -%></th>
+      <th><%= _('State') -%></th>
       <th></th>
     </tr>
   </thead>
-  <% @compute_resource.vms.each do |vm| -%>
+  <% @vms.each do |vm| -%>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
       <td><%= vm.dns %></td>

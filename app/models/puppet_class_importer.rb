@@ -87,7 +87,7 @@ class PuppetClassImporter
   # Changes in the params are categorized to new parameters, removed parameters and parameters with a new
   # default value.
   def compare_classes(environment, klass, db_params)
-    return [] unless (actual_class = actual_classes(environment)[klass])
+    return nil unless (actual_class = actual_classes(environment)[klass])
     actual_params  = actual_class.parameters
     db_param_names = db_params.map(&:to_s)
 

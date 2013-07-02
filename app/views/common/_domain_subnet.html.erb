@@ -1,6 +1,7 @@
 <%= fields_for item do |f| %>
   <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
-    {:onchange => 'domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
+    {:help_inline => :indicator, :label => _("Domain"),
+     :onchange => 'domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
 
   <span id="subnet_select">
     <%= render 'common/domain', :item => item %>

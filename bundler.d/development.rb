@@ -1,10 +1,9 @@
 group :development do
-  # To use debugger
-  gem "ruby-debug", :platforms => :ruby_18
-  gem "ruby-debug19", :platforms => :ruby_19
-  gem 'redcarpet', '<= 2.1.0'
-  gem 'single_test'
+  gem 'maruku'
   gem 'pry'
   gem "term-ansicolor"
 #  gem 'rack-mini-profiler'
+
+  # for generating i18n files
+  gem 'gettext', '>= 1.9.3', :require => false
 end

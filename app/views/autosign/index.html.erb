@@ -1,0 +1,21 @@
+<% title _("Autosign entries for %s") % @proxy %>
+
+<% title_actions display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy)),
+  autosign_form %>
+
+<table class='table table-bordered table-striped table-condensed'>
+  <tr>
+    <th><%= _("Name") %></th>
+    <th></th>
+  </tr>
+  <% @autosign.each do |cert| -%>
+      <tr>
+        <td><%= h cert%> </td>
+        <td>
+          <%= action_buttons(display_delete_if_authorized hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert), :class => 'delete')%>
+        </td>
+      </tr>
+  <% end -%>
+</table>
+<%= page_entries_info @autosign %>
+<%= will_paginate @autosign %>

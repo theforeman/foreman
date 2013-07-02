@@ -7,22 +7,34 @@ class PuppetSetting
 
   def get(*name)
     cmd = "#{puppetmaster} --configprint #{name.join(",")} 2>&1"
-    values = `#{cmd}`
+
+    values = if !SETTINGS[:puppetgem] && defined? Bundler && Bundler.responds_to(:with_clean_env)
+      # execute in a clean env to prevent bundler interfering with loading Ruby for Puppet
+      Bundler.with_clean_env do
+        `#{cmd}`
+      end
+    else
+      # if puppetgem is set, the user intends to rely on bundler
+      `#{cmd}`
+    end
     raise "unable to get #{name.inspect} Puppet setting, `#{cmd}` returned #{$?}: #{values}" unless $?.success?
+
     if name.size > 1
       # Parse key = value lines into hash
-      values = HashWithIndifferentAccess[values.lines.map {|kv| kv.chomp.split(' = ', 2) }]
+      HashWithIndifferentAccess[values.lines.map {|kv| kv.chomp.split(' = ', 2) }]
+    else
+      HashWithIndifferentAccess[name.first.to_s, values.chomp]
     end
-    values
   end
 
   private
 
   def puppetmaster
     unless @puppetmaster
-      # puppetmasterd is the old method of using puppet master which is new in puppet 2.6
-      default_path = ["/usr/sbin", "/opt/puppet/bin", "/usr/bin"]
+      # puppetgem allows the user to prefer their default PATH
+      default_path = SETTINGS[:puppetgem] ? [] : ["/usr/sbin", "/opt/puppet/bin", "/usr/bin"]
 
+      # puppetmasterd is the old method of using puppet master which is new in puppet 2.6
       if Puppet::PUPPETVERSION.to_i < 3
         @puppetmaster = which('puppetmasterd', default_path) || which('puppet', default_path)
       else

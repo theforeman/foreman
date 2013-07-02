@@ -4,7 +4,7 @@ class Domain < ActiveRecord::Base
   include Authorization
   include Taxonomix
 
-  has_many :hosts
+  has_many_hosts
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets)
@@ -12,6 +12,7 @@ class Domain < ActiveRecord::Base
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
   has_and_belongs_to_many :users, :join_table => "user_domains"
   has_many :interfaces, :class_name => 'Nic::Base'
 
@@ -27,7 +28,7 @@ class Domain < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("LOWER(domains.name)")
+      order("domains.name")
     end
   }
 
@@ -59,7 +60,7 @@ class Domain < ActiveRecord::Base
       end
     end
 
-    errors.add :base, "You do not have permission to #{operation} this domain"
+    errors.add(:base, _("You do not have permission to %s this domain") % operation)
     false
   end
 

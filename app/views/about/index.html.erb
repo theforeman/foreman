@@ -1,0 +1,81 @@
+<% title _("About") %>
+
+<div class="row" id="about">
+  <% if @proxies.any? || @compute_resources.any? %>
+    <div class="span7">
+
+      <div class="stats-well">
+        <h4><%=_("System Status")%></h4>
+        <ul class="nav nav-tabs" data-tabs="tabs">
+          <li class="active"><a href="#smart_proxies" data-toggle="tab"><%= _('Smart Proxies') -%></a></li>
+          <li><a href="#compute_resources" data-toggle="tab"><%= _('Compute Resources') -%></a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="smart_proxies">
+            <% if @proxies.empty? %>
+              <p class="ca"><%= _("No smart proxies to show") %></p>
+            <% else %>
+              <table class="table table-striped">
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Features") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+                <% @proxies.each do |proxy| %>
+                  <tr>
+                    <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
+                    <td><%=h proxy.features.to_sentence %></td>
+                    <td><div class="proxy-status" data-url=<%= ping_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
+                  </tr>
+                <% end %>
+              </table>
+            <% end %>
+          </div>
+          <div class="tab-pane" id="compute_resources">
+            <% if @compute_resources.empty? %>
+              <p class="ca"><%= _("No compute resource to show") %></p>
+            <% else %>
+              <table class="table table-striped">
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Type") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+                <% @compute_resources.each do |compute| %>
+                  <tr>
+                    <td><%= link_to compute.name, compute %></td>
+                    <td><%= compute.provider_friendly_name %></td>
+                    <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= _("Connecting..") %></div></td>
+                  </tr>
+                <% end %>
+              </table>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="span5">
+    <div class="stats-well">
+      <h4><%= _("Support") %></h4>
+      <h6><%= _("IRC") %></h6>
+      <%= _("The Foreman community uses on the irc.freenode.net servers. You can get general support in #theforeman, while development chat takes place in #theforeman-dev.")%>
+      <h6><%= _("Mailing lists") %></h6>
+      <%= _("Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:") %>
+      <ul>
+        <li><%= link_to _("Foreman Users"), "http://groups.google.com/group/foreman-users", :rel => "external" %></li>
+        <li><%= link_to _("Foreman Developers"), "http://groups.google.com/group/foreman-dev", :rel => "external" %></li>
+      </ul>
+      <h6><%= _("Issue tracker") %></h6>
+      <%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %>
+      <h6><%= _("Documentation") %></h6>
+      <%= link_to _('Wiki'),"http://theforeman.org/wiki/foreman", :rel => "external" %>
+    </div>
+    <div class="stats-well">
+      <h4><%= _("System Information") %> </h4>
+      <p><%= (_("Version %{version}  © 2009-%{year} Paul Kelly and %{author}") % {:version => SETTINGS[:version], :year=>DateTime.now.year, :author=>link_to("Ohad Levy", "mailto:ohadlevy@gmail.com" )}).html_safe %></p>
+    </div>
+  </div>
+</div>
+</div>

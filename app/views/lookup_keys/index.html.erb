@@ -1,10 +1,10 @@
-<% title "Smart variables" %>
+<% title _("Smart variables") %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :key, :as => "Variable" %></th>
-    <th><%= sort :puppetclass %></th>
-    <th>Number of Values</th>
+    <th><%= sort :key, :as => _("Variable") %></th>
+    <th><%= sort :puppetclass, :as => _("Puppetclass") %></th>
+    <th><%= _('Number of values') -%></th>
     <th></th>
   </tr>
 
@@ -14,9 +14,9 @@
     <% puppet_class = lookup_key.param_class %>
     <td><%= link_to_if_authorized h(puppet_class), hash_for_edit_puppetclass_path(:id => puppet_class) if puppet_class %></td>
     <td><%=h lookup_key.lookup_values.count %></td>
-    <td><%= display_delete_if_authorized hash_for_lookup_key_path(:id => lookup_key), :confirm => "Delete #{lookup_key.key}?" %></td>
+    <td><%= display_delete_if_authorized hash_for_lookup_key_path(:id => lookup_key), :confirm => _("Delete %s?") % lookup_key.key %></td>
   </tr>
 <% end %>
 </table>
-<%= page_entries_info @lookup_keys, :model => "Smart Variables"%>
+<%= page_entries_info @lookup_keys %>
 <%= will_paginate     @lookup_keys %>

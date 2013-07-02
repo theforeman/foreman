@@ -1,0 +1,25 @@
+<% @totaltime = metrics.delete('total') %>
+<% metrics.delete_if{ |k,v| v < 0.001 } %>
+<div class="row-fluid">
+  <div class="stats-well span4">
+    <h4 class="ca" ><%= _('Report Metrics') -%></h4>
+    <div style="margin-top:50px;padding-bottom: 40px;">
+    <%= flot_pie_chart("metrics" ,_("Report Metrics"), metrics, :class => "statistics-pie small")%>
+    </div>
+  </div>
+  <div class="stats-well span4">
+    <h4 class="ca" ><%= _('Report Status') -%></h4>
+    <%= flot_bar_chart("status" ,"", _("Number of Events"), status, :class => "statistics-bar")%>
+  </div>
+  <div class="span4">
+    <table class='table table-bordered table-striped' style="height: 398px;">
+      <% metrics.sort.each do |title, value|-%>
+        <tr>
+          <td> <%= title %> </td>
+          <td> <%= metric value %> </td>
+        </tr>
+        <% end %>
+      <tr><th><%= _("Total") %></th><th><%= metric (@totaltime || @report.runtime) %></th></tr>
+    </table>
+  </div>
+</div>

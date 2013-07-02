@@ -24,7 +24,7 @@ class SubnetTest < ActiveSupport::TestCase
     @subnet.mask = nil
     assert !@subnet.save
 
-    set_attr(:mask=)
+    @subnet.mask = "255.255.255.0"
     assert @subnet.save
   end
 
@@ -51,11 +51,11 @@ class SubnetTest < ActiveSupport::TestCase
   test "the name should be unique in the domain scope" do
     create_a_domain_with_the_subnet
 
-    other_subnet = Subnet.create( :mask => "111.111.111.1",
+    other_subnet = Subnet.new( :mask => "111.111.111.1",
                                  :network => "255.255.252.0",
                                  :name => "valid",
-                                 :domains => [@domain] )
-    other_subnet.valid?
+                                 :domain_ids => [domains(:mydomain).id] )
+    assert !other_subnet.valid?
     assert !other_subnet.save
   end
 
@@ -66,8 +66,9 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should find the subnet by ip" do
-    set_attr(:network=, :mask=, :domains=, :name=)
+    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
     assert @subnet.save
+    assert @subnet.domain_ids = [domains(:mydomain).id]
     assert_equal @subnet, Subnet.subnet_for("123.123.123.1")
   end
 
@@ -79,9 +80,10 @@ class SubnetTest < ActiveSupport::TestCase
 
   def create_a_domain_with_the_subnet
     @domain = Domain.find_or_create_by_name("domain")
-    set_attr(:network=, :mask=, :name=)
-    @subnet.domains = [@domain]
-    @subnet.save
+    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
+    assert @subnet.save
+    assert @subnet.domain_ids = [domains(:mydomain).id]
+    @subnet.save!
   end
 
   def setup_user operation
@@ -97,15 +99,17 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "user with create permissions should be able to create" do
     setup_user "create"
-    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
+    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0"
+    assert record.domain_ids = [Domain.first.id]
     assert record.valid?
     assert !record.new_record?
   end
 
   test "user with view permissions should not be able to create" do
     setup_user "view"
-    record =  Subnet.create :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
+    record =  Subnet.new :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0"
     assert record.valid?
+    assert !record.save
     assert record.new_record?
   end
 
@@ -173,6 +177,57 @@ class SubnetTest < ActiveSupport::TestCase
     assert !s.save
     s.to   = "2.3.4.17"
     assert s.save
+  end
+
+  test "should strip whitespace before save" do
+    s = subnets(:one)
+    s.network = " 10.0.0.22   "
+    s.mask = " 255.255.255.0   "
+    s.gateway = " 10.0.0.138   "
+    s.dns_primary = " 10.0.0.50   "
+    s.dns_secondary = " 10.0.0.60   "
+    assert s.save
+    assert_equal "10.0.0.22", s.network
+    assert_equal "255.255.255.0", s.mask
+    assert_equal "10.0.0.138", s.gateway
+    assert_equal "10.0.0.50", s.dns_primary
+    assert_equal "10.0.0.60", s.dns_secondary
+  end
+
+  test "should fix typo with extra dots to single dot" do
+    s = subnets(:one)
+    s.network = "10..0.0..22"
+    assert s.save
+    assert_equal "10.0.0.22", s.network
+  end
+
+  test "should fix typo with extra 5 after 255" do
+    s = subnets(:one)
+    s.mask = "2555.255.25555.0"
+    assert s.save
+    assert_equal "255.255.255.0", s.mask
+  end
+
+  test "should not allow an address great than 15 characters" do
+    s = subnets(:one)
+    s.mask = "255.255.255.1111"
+    refute s.save
+    assert_match /must be at most 15 characters/, s.errors.full_messages.join("\n")
+  end
+
+  test "should invalidate addresses are indeed invalid" do
+    s = subnets(:one)
+    # trailing dot
+    s.network = "100.101.102.103."
+    refute s.valid?
+    # more than 3 characters
+    s.network = "1234.101.102.103"
+    # missing dot
+    s.network = "100101.102.103."
+    refute s.valid?
+    # missing number
+    s.network = "100.101.102"
+    refute s.valid?
   end
 
 end

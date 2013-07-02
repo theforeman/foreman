@@ -63,7 +63,8 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   def test_destroy
     architecture = Architecture.first
-    architecture.hosts = []
+    architecture.hosts.delete_all
+    architecture.hostgroups.delete_all
     delete :destroy, {:id => architecture.name}, set_session_user
     assert_redirected_to architectures_url
     assert !Architecture.exists?(architecture.id)
@@ -71,7 +72,8 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   def test_destroy_json
     architecture = Architecture.first
-    architecture.hosts = []
+    architecture.hosts.delete_all
+    architecture.hostgroups.delete_all
     delete :destroy, {:format => "json", :id => architecture.name}, set_session_user
     arch = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok

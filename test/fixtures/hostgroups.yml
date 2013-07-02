@@ -9,10 +9,13 @@ common:
   medium: one
   puppet_proxy: puppetmaster
   domain: mydomain
+  label: Common
+  root_pass: $1$foreman$NW1XVtbk4/XkJqmKNrFWV0
 
 unusual:
   name: Unusual
   puppet_proxy: puppetmaster
+  label: Unusual
 
 db:
   name: db
@@ -22,3 +25,4 @@ db:
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
+  label: db

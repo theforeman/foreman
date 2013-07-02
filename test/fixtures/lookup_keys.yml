@@ -11,8 +11,8 @@ two:
   key: ssl_port
   key_type: integer
   validator_type: list
-  validator_rule: 443,8443
-  puppetclass : one
+  validator_rule: '443,8443'
+  puppetclass: one
   default_value: 443
 
 three:
@@ -29,4 +29,4 @@ complex:
   validator_rule:
   default_value: 'secret'
   override: true
-  path: organization,location
+  path: 'organization,location'

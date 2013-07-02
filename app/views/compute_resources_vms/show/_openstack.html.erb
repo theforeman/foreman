@@ -4,7 +4,12 @@
     <tr><th colspan="2">Properties</th></tr>
 
     <%= prop :availability_zone %>
-    <%= prop :first_private_ip_address %>
+    <% @vm.all_addresses.each do |address| %>
+      <tr>
+        <td><%= address["pool"] %> network</td>
+        <td><%= address["ip"] %> (floating), <%= address["fixed_ip"] %> (fixed ip) </td>
+      </tr>
+    <% end -%>
     <%= prop :state %>
     <%= prop :created_at %>
     <%= prop :tenant %>

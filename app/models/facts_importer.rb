@@ -8,7 +8,7 @@ module Facts
 
     def operatingsystem
       orel    = case os_name
-                  when /(suse|sles)/i
+                  when /(suse|sles|gentoo)/i
                     facts[:operatingsystemrelease]
                   else
                     facts[:lsbdistrelease] || facts[:operatingsystemrelease]
@@ -30,8 +30,9 @@ module Facts
           end
         end
         major, minor = orel.split(".")
-        minor        ||= ""
-        args = { :name => os_name, :major => major, :minor => minor }
+        major.to_s.gsub!(/\D/,'') unless is_numeric? major
+        minor.to_s.gsub!(/\D/,'') unless is_numeric? minor
+        args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
         os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
         if os_name[/debian|ubuntu/i] or os.family == 'Debian'
           os.release_name = facts[:lsbdistcodename]
@@ -114,8 +115,17 @@ module Facts
     private
 
     def os_name
-      facts[:operatingsystem].blank? ? raise("invalid facts, missing operatingsystem value") : facts[:operatingsystem]
+      facts[:operatingsystem].blank? ? raise(N_("invalid facts, missing operating system value")) : facts[:operatingsystem]
     end
+
+    def is_numeric?(string)
+      begin
+        !!Integer(string)
+      rescue ArgumentError, TypeError
+        false
+      end
+    end
+
   end
 
 end

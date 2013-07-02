@@ -1,16 +1,16 @@
 <%= form_for [@compute_resource, @image] do |f| %>
   <%= base_errors_for @image %>
   <%= text_f   f, :name %>
-  <%=  f.hidden_field :compute_resource_id, :value => @compute_resource.id %>
-  <%# select_f f, :compute_resource_id, ComputeResource.all, :id, :to_label %>
+  <%= f.hidden_field :compute_resource_id, :value => @compute_resource.id %>
   <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
   <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
-  <%= text_f f, :username, :value => @image.username || "root", :help_inline => "The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc" %>
-  <% if @compute_resource.provider == 'Rackspace' %>
-    <%= select_f f, :uuid, @compute_resource.available_images.to_a.sort! {|a,b| a.name.downcase <=> b.name.downcase}, :id, :name, {}, :label => 'Image' %>
-  <% else %>
-	  <%= text_f f, :uuid, :label => "Image ID", :help_inline => "Image ID as provided by the compute resource, e.g. ami-.." %>
-  <% end%>
+  <%= text_f f, :username, :value => @image.username || "root", :help_inline => _("The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc") %>
+  <%= image_field(f) %>
+  <% if @compute_resource.provider == 'EC2' %>
+    <%# TODO - Get IAM roles from AWS and display in select drop %>
+    <%= text_f f, :iam_role, :help_inline => _("(optional) IAM Role for Fog to use when creating this image.") %>
+  <% end %>
+
   <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>
 <% end %>
 

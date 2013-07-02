@@ -1,13 +1,14 @@
-<% title_actions import_proxy_select(hash_for_import_environments_environments_path), button_group(display_link_if_authorized("New Environment", hash_for_new_environment_path)) %>
-<% title "Environment configuration" %>
+<% title_actions import_proxy_select(hash_for_import_environments_environments_path), button_group(display_link_if_authorized(_("New Environment"), hash_for_new_environment_path)) %>
+<% title _("Environment configuration") %>
 <div id="welcome">
   <p>
-  If you are planning to use Foreman as an external node classifier you should provide information
-  about one or more environments. This information is commonly imported from a pre-existing puppet configuration by the use of the <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external">Puppet classes and environment importer</a>
+  <%= _('If you are planning to use Foreman as an external node classifier you should provide information about one or more environments.') -%>
+  <%= _('This information is commonly imported from a pre-existing puppet configuration by the use of the') -%>
+  <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external"><%= _('Puppet classes and environment importer') %></a>
   </p>
 
   <p>
-  Environments may be manually created and only require the name of the environment to be declared.
+  <%= _('Environments may be manually created and only require the name of the environment to be declared.') -%>
   </p>
 
 </div>

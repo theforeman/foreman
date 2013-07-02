@@ -1,8 +1,8 @@
 <div class="fields">
   <div class="control-group <%= 'error' if f.object.errors.any? %>">
-    <%= content_tag(:input, '', :class => "span2", :disabled => true,  :value => 'Global', :type=> :text ) if controller_name == 'hosts' %>
-    <%= f.text_field(:name,  :class => "span2", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Name") %>
-    <%= f.text_area(:value, :class => "span5", :rows => line_count(f, :value), :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => "Value") %>
+    <%= content_tag(:input, '', :class => "span2", :disabled => true,  :value => _('Global'), :type=> :text ) if controller_name =~ /(host|hostgroup)/ %>
+    <%= f.text_field(:name,  :class => "span2", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => _("Name")) %>
+    <%= f.text_area(:value, :class => "span5", :rows => line_count(f, :value), :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => _("Value")) %>
     <span class="help-inline">
       <%= link_to_remove_fields("remove", f) if authorized_via_my_scope("host_editing", "destroy_params") %>
     </span>

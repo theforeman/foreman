@@ -1,5 +1,5 @@
 <div id="notice" style="clear:both;">
-  <%= field_set_tag "Notifications" do %>
+  <%= field_set_tag _("Notifications") do %>
     <table width="100%">
       <% for notice in  @notices-%>
         <tr>
@@ -17,4 +17,4 @@
     </table>
   <% end %>
 </div>
-<%= link_to_function "Toggle notifications section", toggle_div(:notice), :style => "float:right;color:red"%>
+<%= link_to_function _("Toggle notifications section"), toggle_div(:notice), :style => "float:right;color:red"%>

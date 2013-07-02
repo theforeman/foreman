@@ -17,6 +17,12 @@ class MediumTest < ActiveSupport::TestCase
     assert !medium.name.strip.squeeze(" ").empty?
     assert !medium.save
 
+    medium.name = "Archlinux mirror      thing"
+    assert !medium.save
+
+    medium.name = "Archlinux mirror thing "
+    assert !medium.save
+
     medium.name.strip!.squeeze!(" ")
     assert medium.save!
   end
@@ -86,9 +92,10 @@ class MediumTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Medium.first
     as_admin do
-      record.hosts = []
+      record.hosts.delete_all
+      record.hostgroups.delete_all
+      assert record.destroy
     end
-    assert record.destroy
     assert record.frozen?
   end
 
@@ -111,7 +118,7 @@ class MediumTest < ActiveSupport::TestCase
     record      =  Medium.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.delete_all
     end
     assert !record.save
     assert record.valid?

@@ -7,9 +7,11 @@ class EnvironmentTest < ActiveSupport::TestCase
   end
 
   test "name should be unique" do
-    env = Environment.create :name => "foo"
-    env2 = Environment.new :name => env.name
-    assert !env2.valid?
+    as_admin do
+      env = Environment.create :name => "foo"
+      env2 = Environment.new :name => env.name
+      assert !env2.valid?
+    end
   end
 
   test "name should have no spaces" do

@@ -3,7 +3,10 @@ require 'uri'
 
 class Operatingsystem < ActiveRecord::Base
   include Authorization
-  has_many :hosts
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  has_many_hosts
+  has_many :hostgroups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
@@ -14,20 +17,19 @@ class Operatingsystem < ActiveRecord::Base
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
     :reject_if => lambda { |v| v[:config_template_id].blank? }
 
-  validates_presence_of :major, :message => "Operating System version is required"
+  validates_presence_of :major, :message => N_("Operating System version is required")
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
-
+  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   validates_numericality_of :major
   validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
+  validates_format_of :name, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
   before_save :deduce_family
-  audited
+  audited :allow_mass_assignment => true
   default_scope :order => 'LOWER(operatingsystems.name)'
 
   scoped_search :on => :name, :complete_value => :true
@@ -42,9 +44,10 @@ class Operatingsystem < ActiveRecord::Base
 
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
                'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
-               'Suse'    => %r{OpenSuSE}i,
+               'Suse'    => %r{OpenSuSE|SLES|SLED}i,
                'Windows' => %r{Windows}i,
                'Archlinux' => %r{Archlinux}i,
+               'Gentoo' => %r{Gentoo}i,
                'Solaris' => %r{Solaris}i }
 
   class Jail < Safemode::Jail
@@ -159,7 +162,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def image_extension
-    raise "Attempting to construct a operatingsystem image filename but #{family} cannot be built from an image"
+    raise ::Foreman::Exception.new(N_("Attempting to construct an operating system image filename but %s cannot be built from an image"), family)
   end
 
   # If this OS family requires access to its media via NFS
@@ -185,8 +188,8 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def boot_files_uri(medium, architecture)
-    raise "invalid medium for #{to_s}" unless media.include?(medium)
-    raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
+    raise (_("invalid medium for %s") % to_s) unless media.include?(medium)
+    raise (_("invalid architecture for %s") % to_s) unless architectures.include?(architecture)
     eval("#{self.family}::PXEFILES").values.collect do |img|
       medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end

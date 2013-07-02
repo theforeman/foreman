@@ -155,7 +155,7 @@ module Foreman
                 :view_statistics]
             end
             if reset or Role.anonymous.permissions.empty?
-              Role.anonymous.update_attribute :permissions, [:view_hosts, :view_bookmarks]
+              Role.anonymous.update_attribute :permissions, [:view_hosts, :view_bookmarks, :view_tasks]
             end
           end
           true

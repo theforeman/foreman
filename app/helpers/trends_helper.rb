@@ -2,20 +2,9 @@ module TrendsHelper
 
   include CommonParametersHelper
 
-  def trend_chart name, title, subtitle, data, options = {}
-    content_tag(:div, nil,
-                { :id             => name,
-                  :class          => 'trend_chart',
-                  :'chart-name'   => name,
-                  :'chart-title'  => title,
-                  :'chart-subtitle'  => subtitle,
-                  :'chart-data-hostcount'  => data.to_a.to_json
-                }.merge(options))
-  end
-
   def trendable_types new_record
-    options = {'Environment' => 'Environment', 'Operating System' => 'Operatingsystem',
-     'Model' => 'Model', 'Facts' =>'FactName','Host Group' => 'Hostgroup', 'Compute Resource' => 'ComputeResource'}
+    options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
+     _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     if new_record
       existing = ForemanTrend.includes(:trendable).types.map(&:to_s)
       options.delete_if{ |k,v|  existing.include?(v) }
@@ -25,10 +14,8 @@ module TrendsHelper
 
   def trend_days_filter
     form_tag @trend, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
-        content_tag(:span, "Trend of the last ") +
-        select(nil, 'range', 1..Setting.max_trend, {:selected => range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}) +
-        content_tag(:span, " days.")
-      end
+      content_tag(:span, (_("Trend of the last %s days.") % select(nil, 'range', 1..Setting.max_trend, {:selected => range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"})).html_safe)
+    end
   end
 
   def trend_title trend
@@ -40,13 +27,13 @@ module TrendsHelper
   end
 
   def chart_data trend, from = Setting.max_trend, to = Time.now
+    chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
     values = trend.values
     labels = {}
-    values.includes(:trendable).each {|v| labels[v.id] = v.to_label}
-
-    values.includes(:trend_counters).where(["trend_counters.created_at > ?", from]).reorder("trend_counters.created_at").map do |value|
+    values.includes(:trendable).each {|v| labels[v.id] = [v.to_label, trend_path(:id => v)]}
+    values.includes(:trend_counters).where(["trend_counters.created_at > ?", from]).reorder("trend_counters.created_at").each_with_index.map do |value, idx|
       data =  value.trend_counters.map { |t|  [t.created_at.to_i*1000, t.count]  }
-      {:name => labels[value.id], :data =>data } unless data.empty?
+      {:label => labels[value.id][0], :href=>labels[value.id][1], :data =>data, :color => chart_colors[idx % chart_colors.size()] } unless data.empty?
     end.compact
   end
 

@@ -57,10 +57,10 @@ module Api
       def check_feature_type
         return if params[:type].nil?
 
-        allowed_types = SmartProxy::ProxyFeatures.map{|f| f.downcase}
+        allowed_types = SmartProxy.name_map.keys
 
         if not allowed_types.include? params[:type].downcase
-          raise ArgumentError, "Invalid feature type. Select one of: #{SmartProxy::ProxyFeatures.join(", ")}."
+          raise ArgumentError, "Invalid feature type. Select one of: #{SmartProxy.name_map.keys.join(", ")}."
         end
       end
 

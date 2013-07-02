@@ -1,8 +1,8 @@
 module FactValuesHelper
 
   def fact_from record
-    time_ago_in_words(record.host.last_compile) + " ago"
+    _("%s ago") % time_ago_in_words(record.host.last_compile)
   rescue
-    "N/A"
+    _("N/A")
   end
 end

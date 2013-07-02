@@ -15,7 +15,10 @@ class LookupKey < ActiveRecord::Base
   belongs_to :puppetclass
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
-  has_one :param_class, :through => :environment_classes, :source => :puppetclass
+  has_many :param_classes, :through => :environment_classes, :source => :puppetclass
+  def param_class
+    param_classes.first
+  end
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
@@ -35,7 +38,7 @@ class LookupKey < ActiveRecord::Base
 
   scoped_search :on => :key, :complete_value => true, :default_order => true
   scoped_search :on => :override, :complete_value => {:true => true, :false => false}
-  scoped_search :in => :param_class, :on => :name, :rename => :puppetclass, :complete_value => true
+  scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
   default_scope :order => 'lookup_keys.key'
@@ -45,33 +48,16 @@ class LookupKey < ActiveRecord::Base
     override.joins(:environment_classes).where(:environment_classes => {:puppetclass_id => puppetclass_ids, :environment_id => environment_id})
   }
 
+  scope :global_parameters_for_class, lambda {|puppetclass_ids|
+    where(:puppetclass_id => puppetclass_ids)
+  }
+
   def to_param
     "#{id}-#{key}"
   end
 
   def to_s
     key
-  end
-
-  # params:
-  #   +host: The considered Host instance.
-  #   +options+: A hash containing the following, optional keys:
-  #   +obs_matcher_block+: Callback to notify with extra information.
-  #                        It is given a hash having the following structure:
-  #                        +{ :host => #<Host>, :used_matched => "fact=value", :value => #<Value> }+
-  #     +skip_fqdn+: Boolean value indicating whether to skip the fqdn matcher. Defaults to false.
-  #                  Useful to give the previous value, prior to an eventual override.
-  def value_for host, options = {}
-    skip_fqdn = options[:skip_fqdn] || false
-    obs_matcher_block = options[:obs_matcher_block]
-    path2matches(host).each do |match|
-      next if skip_fqdn and match =~ /^fqdn\s*=/
-      if (v = lookup_values.find_by_match(match))
-        obs_matcher_block.call({:host => host, :used_matcher => match, :value => v.value}) if obs_matcher_block
-        return v.value
-      end
-    end if (!is_param || (is_param && override)) && lookup_values.any?
-    default_value
   end
 
   def path
@@ -126,7 +112,7 @@ class LookupKey < ActiveRecord::Base
 
   # Generate possible lookup values type matches to a given host
   def path2matches host
-    raise "Invalid Host" unless host.is_a?(Host)
+    raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
     matches = []
     path_elements.each do |rule|
       match = []
@@ -156,7 +142,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def array2path array
-    raise "invalid path" unless array.is_a?(Array)
+    raise ::Foreman::Exception.new(N_("invalid path")) unless array.is_a?(Array)
     array.map do |sub_array|
       sub_array.is_a?(Array) ? sub_array.join(KEY_DELM) : sub_array
     end.join("\n")
@@ -169,7 +155,7 @@ class LookupKey < ActiveRecord::Base
       self.default_value = cast_validate_value self.default_value
       true
     rescue
-      errors.add(:default_value, "is invalid")
+      errors.add(:default_value, _("is invalid"))
       false
     end
   end
@@ -241,18 +227,18 @@ class LookupKey < ActiveRecord::Base
 
   def ensure_type
     if puppetclass_id.present? and is_param?
-      self.errors.add(:base, 'Global variable or class Parameter, not both')
+      self.errors.add(:base, _('Global variable or class Parameter, not both'))
     end
   end
 
   def validate_regexp
     return true unless (validator_type == 'regexp')
-    errors.add(:default_value, "is invalid") and return false unless (default_value =~ /#{validator_rule}/)
+    errors.add(:default_value, _("is invalid")) and return false unless (default_value =~ /#{validator_rule}/)
   end
 
   def validate_list
     return true unless (validator_type == 'list')
-    errors.add(:default_value, "#{default_value} is not one of #{validator_rule}") and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
+    errors.add(:default_value, _("%{default_value} is not one of %{validator_rule}") % { :default_value => default_value, :validator_rule => validator_rule }) and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
   end
 
 end

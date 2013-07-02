@@ -24,6 +24,8 @@ class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should destroy puppetclasss" do
+    HostClass.delete_all
+    HostgroupClass.delete_all
     assert_difference('Puppetclass.count', -1) do
       delete :destroy, { :id => puppetclasses(:one).to_param }
     end
@@ -35,6 +37,13 @@ class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
     assert !fact_values.empty?
+  end
+
+  test "should not get puppetclasses for nonexistent host" do
+    get :index, {"search" => "host = imaginaryhost.nodomain.what" }
+    assert_response :success
+    fact_values = ActiveSupport::JSON.decode(@response.body)
+    assert fact_values.empty?
   end
 
 end

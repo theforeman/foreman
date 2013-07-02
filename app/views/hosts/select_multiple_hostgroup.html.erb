@@ -1,6 +1,6 @@
 <%= render 'selected_hosts', :hosts => @hosts %>
 
-<% form_for :hostgroup, :url => update_multiple_hostgroup_hosts_path(:host_ids => params[:host_ids]) do |f| %>
-  <%= f.select :id, [["Select Host Group","disabled"],["*Clear Hostgroup*", "" ]] + Hostgroup.all.map{|h| [h.to_label, h.id]}.sort,{},
+<%= form_for :hostgroup, :url => update_multiple_hostgroup_hosts_path(:host_ids => params[:host_ids]) do |f| %>
+  <%= f.select :id, [[_("Select host group"),"disabled"],[_("*Clear host group*"), "" ]] + Hostgroup.all.map{|h| [h.to_label, h.id]}.sort,{},
         :onchange => "toggle_multiple_ok_button(this)" %>
 <% end %>

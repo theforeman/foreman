@@ -2,12 +2,10 @@
 <%= javascript_include_tag :defaults %>
 <div id="content" class="container">
 <div class="alert alert-message alert-block alert-error">
-  <h3>Oops</h3>
+  <h3><%= _('Oops') %></h3>
   <p>
-  Either you didn't generate the puppetdocs (see <a rel="external" href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser>here</a>) or
-  the class <strong><%= name -%></strong> could not be found in environment <strong><%= environment -%></strong><br/>
-  Please ensure that the class <strong><%= name -%></strong>'s declaration is accessible via the modulepath associated with <strong><%= environment -%></strong>.
+  <%= _('Either you didn''t generate the puppetdocs (see <a rel="external" href="%{url}">here</a>) or the class <strong>%{name}</strong> could not be found in environment <strong>%{environment}</strong><br/> Please ensure that the class <strong>%{name}</strong>''s declaration is accessible via the modulepath associated with <strong>%{environment}</strong>.') % { :name => name, :environment => environment, :url => 'http://theforeman.org/projects/foreman/wiki/Puppet_class_browser' } %>
   </p>
-  <%= link_to "Back", puppetclasses_path, :class => "btn" %>
+  <%= link_to _("Back"), puppetclasses_path, :class => "btn" %>
 </div>
 </div>

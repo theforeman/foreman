@@ -1,14 +1,14 @@
 begin
-  require 'ci/reporter/rake/test_unit'
+  require "ci/reporter/rake/minitest"
   namespace :jenkins do
-    task :unit => ["jenkins:setup:test_unit", 'rake:test']
+    task :unit => ["jenkins:setup:minitest", 'rake:test']
 
     namespace :setup do
       task :pre_ci do
         ENV["CI_REPORTS"] = 'jenkins/reports/unit/'
         gem 'ci_reporter'
       end
-      task :test_unit => [:pre_ci, "ci:setup:testunit"]
+      task :minitest  => [:pre_ci, "ci:setup:minitest"]
     end
   end
 rescue LoadError

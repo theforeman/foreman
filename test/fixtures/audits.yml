@@ -4,14 +4,12 @@ one:
   created_at: 2009-12-14 08:01:17
   username:
   action: update
-  id: "1"
   user_type:
   associated_type: Host
   user_id:
   version: "1"
   associated_id: "272"
-  auditable_type: "Host"
-  auditable_id: hosts(:one).id
+  auditable: one (Host)
   audited_changes: |
     ---
     architecture_id:
