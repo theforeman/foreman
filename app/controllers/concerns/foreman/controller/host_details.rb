@@ -2,6 +2,7 @@
 # Mainly used within the host and the hostgroup controllers
 
 module Foreman::Controller::HostDetails
+  extend ActiveSupport::Concern
 
   def architecture_selected
     assign_parameter "architecture", "common/os_selection/"

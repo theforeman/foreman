@@ -1,6 +1,7 @@
 module FogExtensions
   module Vsphere
     module Folder
+      extend ActiveSupport::Concern
       def to_label
         if parent and parent != datacenter
           "#{parent} / #{name}"

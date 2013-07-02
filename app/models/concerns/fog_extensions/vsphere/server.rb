@@ -1,6 +1,7 @@
 module FogExtensions
   module Vsphere
     module Server
+      extend ActiveSupport::Concern
 
       def to_s
         name
