@@ -27,6 +27,7 @@
       <packagereq type="default">foreman-vmware</packagereq>
 
       <packagereq type="default">foreman-installer</packagereq>
+      <packagereq type="default">rubygem-foreman_api</packagereq>
 
       <packagereq type="default">rubygem-ancestry</packagereq>
       <packagereq type="default">rubygem-apipie-rails</packagereq>
