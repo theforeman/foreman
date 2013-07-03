@@ -33,11 +33,14 @@ Spork.prefork do
     set_fixture_class({ :hosts => Host::Base })
 
     # for backwards compatibility to between Minitest syntax
-    alias :assert_not       :refute
-    alias :assert_no_match  :refute_match
-    alias :assert_not_nil   :refute_nil
-    alias :assert_not_equal :refute_equal
-    alias :assert_raise     :assert_raises
+    alias_method :assert_not,       :refute
+    alias_method :assert_no_match,  :refute_match
+    alias_method :assert_not_nil,   :refute_nil
+    alias_method :assert_not_equal, :refute_equal
+    alias_method :assert_raise,     :assert_raises
+    class <<self
+      alias_method :test,  :it
+    end
 
     # Add more helper methods to be used by all tests here...
     def logger
