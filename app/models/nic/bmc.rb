@@ -5,7 +5,7 @@ module Nic
     attr_accessible :updated_at, *ATTRIBUTES
 
     PROVIDERS = %w(IPMI)
-    validates_inclusion_of :provider, :in => PROVIDERS
+    validates :provider, :inclusion => {:in => PROVIDERS}
 
     ATTRIBUTES.each do |method|
       define_method method do

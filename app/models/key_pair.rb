@@ -1,5 +1,5 @@
 class KeyPair < ActiveRecord::Base
   belongs_to :compute_resource
-  validates_presence_of :name, :secret, :compute_resource_id
-  validates_uniqueness_of :compute_resource_id
+  validates :name, :secret, :presence => true
+  validates :compute_resource_id, :presence => true, :uniqueness => true
 end

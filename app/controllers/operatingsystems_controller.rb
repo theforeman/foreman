@@ -3,13 +3,13 @@ class OperatingsystemsController < ApplicationController
   before_filter :find_os, :only => %w{show edit update destroy bootfiles}
 
   def index
-    values = Operatingsystem.search_for(params[:search], :order => params[:order])
+    values = Operatingsystem.includes(:media, :architectures, :ptables).search_for(params[:search], :order => params[:order])
     respond_to do |format|
       format.html do
         @operatingsystems = values.paginate(:page => params[:page])
-        @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems.all})
+        @counter = Host.group(:operatingsystem_id).where(:operatingsystem_id => @operatingsystems.pluck(:id)).count
       end
-      format.json { render :json => values.all(:include => [:media, :architectures, :ptables]) }
+      format.json { render :json => values.all }
     end
   end
 

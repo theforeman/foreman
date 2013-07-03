@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
 
-  scope :except_admin, where(:admin => false)
-  scope :only_admin, where(:admin => true)
+  scope :except_admin, lambda { where(:admin => false) }
+  scope :only_admin, lambda { where(:admin => true) }
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -39,14 +39,12 @@ class User < ActiveRecord::Base
   validates :locale, :format => { :with => /^\w{2}([_-]\w{2})?$/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
-  validates_uniqueness_of :login, :message => N_("already exists")
-  validates_presence_of :login, :auth_source_id
-  validates_presence_of :password_hash, :if => Proc.new {|user| user.manage_password?}
+  validates :login, :presence => true, :uniqueness => {:message => N_("already exists")},
+                    :format => {:with => /^[[:alnum:]_\-@\.]*$/}, :length => {:maximum => 100}
+  validates :auth_source_id, :presence => true
+  validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
-  validates_format_of :login, :with => /^[[:alnum:]_\-@\.]*$/
-  validates_length_of :login, :maximum => 100
-  validates_format_of :firstname, :lastname, :with => /^[[:alnum:]\s'_\-\.]*$/, :allow_nil => true
-  validates_length_of :firstname, :lastname, :maximum => 30, :allow_nil => true
+  validates :firstname, :lastname, :format => {:with => /^[[:alnum:]\s'_\-\.]*$/}, :length => {:maximum => 30}, :allow_nil => true
 
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
            :ensure_privileges_not_escalated

@@ -5,7 +5,7 @@ module Foreman::Model
   class Vmware < ComputeResource
 
     NETWORK_INTERFACE_TYPES = %w(VirtualE1000)
-    validates_presence_of :user, :password, :server, :datacenter
+    validates :user, :password, :server, :datacenter, :presence => true
     before_create :update_public_key
 
     def self.model_name

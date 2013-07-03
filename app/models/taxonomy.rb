@@ -3,8 +3,7 @@ class Taxonomy < ActiveRecord::Base
   has_associated_audits
 
   serialize :ignore_types, Array
-  validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :type
+  validates :name, :presence => true, :uniqueness => {:scope => :type}
 
   belongs_to :user
   before_destroy EnsureNotUsedBy.new(:hosts)
@@ -128,16 +127,17 @@ class Taxonomy < ActiveRecord::Base
 
   private
 
-  delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans, :to => :tax_host
+    delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
+             :to => :tax_host
 
-  def sanitize_ignored_types
-    self.ignore_types ||= []
-    self.ignore_types = self.ignore_types.compact.uniq
-  end
+    def sanitize_ignored_types
+      self.ignore_types ||= []
+      self.ignore_types = self.ignore_types.compact.uniq
+    end
 
-  def tax_host
-    @tax_host ||= TaxHost.new(self)
-  end
+    def tax_host
+      @tax_host ||= TaxHost.new(self)
+    end
 
   def hash_key_to_class(key)
     key.to_s.gsub(/_ids?$/, '').classify

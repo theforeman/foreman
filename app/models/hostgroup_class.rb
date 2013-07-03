@@ -5,8 +5,9 @@ class HostgroupClass < ActiveRecord::Base
   belongs_to :puppetclass
 
   attr_accessible :hostgroup_id, :hostgroup, :puppetclass_id, :puppetclass
-  validates_presence_of :hostgroup_id, :puppetclass_id
-  validates :puppetclass_id, :uniqueness => {:scope => :hostgroup_id}
+
+  validates :hostgroup_id, :presence => true
+  validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :hostgroup_id}
 
   def name
     "#{hostgroup} - #{puppetclass}"

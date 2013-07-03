@@ -1,7 +1,7 @@
 module Foreman::Model
   class Libvirt < ComputeResource
 
-    validates_format_of :url, :with => URI.regexp
+    validates :url, :format => { :with => URI.regexp }
 
     def provided_attributes
       super.merge({:mac => :mac})

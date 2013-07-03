@@ -1,7 +1,7 @@
 class Message < ActiveRecord::Base
   has_many :reports, :through => :logs
   has_many :logs
-  validates_presence_of :value, :digest
+  validates :value, :digest, :presence => true
 
   def to_s
     value

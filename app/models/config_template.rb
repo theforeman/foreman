@@ -4,9 +4,9 @@ class ConfigTemplate < ActiveRecord::Base
   audited :allow_mass_assignment => true
   self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
   attr_accessible :name, :template, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystem_ids, :audit_comment
-  validates_presence_of :name, :template
-  validates_presence_of :template_kind_id, :unless => Proc.new {|t| t.snippet }
-  validates_uniqueness_of :name
+  validates :name, :presence => true, :uniqueness => true
+  validates :name, :template, :presence => true
+  validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   has_many :hostgroups, :through => :template_combinations
   has_many :environments, :through => :template_combinations

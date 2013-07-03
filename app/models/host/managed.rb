@@ -67,36 +67,32 @@ class Host::Managed < Host::Base
   scope :no_location, lambda { where(:location_id => nil) }
   scope :no_organization, lambda { where(:organization_id => nil) }
 
-  scope :with_error, { :conditions => "(puppet_status > 0) and
+  scope :with_error, lambda { where("(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )"
+    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )")
   }
 
-  scope :without_error, { :conditions =>
-    "((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
-     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)"
+  scope :without_error, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
+     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)")
   }
 
-  scope :with_changes, { :conditions => "(puppet_status > 0) and
+  scope :with_changes, lambda { where("(puppet_status > 0) and
     ( ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )"
+    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )")
   }
 
-  scope :without_changes, { :conditions =>
-    "((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
-     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)"
+  scope :without_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
+     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)")
   }
 
-  scope :with_pending_changes,    { :conditions =>
-    "(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)" }
-  scope :without_pending_changes, { :conditions =>
-    "((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)" }
+  scope :with_pending_changes, lambda { where("(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)") }
+  scope :without_pending_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)") }
 
   scope :successful, lambda { without_changes.without_error.without_pending_changes}
 
-  scope :alerts_disabled, {:conditions => ["enabled = ?", false] }
+  scope :alerts_disabled, lambda { where(:enabled => false) }
 
-  scope :alerts_enabled, {:conditions => ["enabled = ?", true] }
+  scope :alerts_enabled, lambda { where(:enabled => true) }
 
   scope :completer_scope, lambda { |opts| my_hosts }
 
@@ -104,8 +100,7 @@ class Host::Managed < Host::Base
     if fromtime.nil? or totime.nil?
       raise ::Foreman.Exception.new(N_("invalid time range"))
     else
-      { :joins      => "INNER JOIN reports ON reports.host_id = hosts.id",
-        :conditions => ["reports.reported_at BETWEEN ? AND ?", fromtime, totime] }
+      joins("INNER JOIN reports ON reports.host_id = hosts.id").where("reports.reported_at BETWEEN ? AND ?", fromtime, totime)
     end
   }
 
@@ -120,7 +115,7 @@ class Host::Managed < Host::Base
   alias_attribute :arch, :architecture
   alias_attribute :fqdn, :name
 
-  validates_presence_of :environment_id
+  validates :environment_id, :presence => true
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
@@ -134,18 +129,16 @@ class Host::Managed < Host::Base
     include Orchestration::SSHProvision
     include HostTemplateHelpers
 
-    validates_uniqueness_of  :ip, :if => Proc.new {|host| host.require_ip_validation?}
-    validates_uniqueness_of  :mac, :unless => Proc.new { |host| host.compute? or !host.managed }
-    validates_presence_of    :architecture_id, :operatingsystem_id, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :domain_id, :if => Proc.new {|host| host.managed}
-    validates_presence_of    :mac, :unless => Proc.new { |host| host.compute? or !host.managed  }
-
-    validates_length_of      :root_pass, :minimum => 8, :too_short => _('should be 8 characters or more')
-    validates_format_of      :mac, :with => Net::Validations::MAC_REGEXP, :unless => Proc.new { |host| host.compute? or !host.managed }
-    validates_format_of      :ip,        :with => Net::Validations::IP_REGEXP, :if => Proc.new { |host| host.require_ip_validation? }
-    validates_presence_of    :ptable_id, :message => N_("cant be blank unless a custom partition has been defined"),
-      :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
-    validates_format_of      :serial,    :with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8"), :allow_blank => true, :allow_nil => true
+    validates :ip, :uniqueness => true, :if => Proc.new {|host| host.require_ip_validation?}
+    validates :mac, :uniqueness => true, :format => {:with => Net::Validations::MAC_REGEXP}, :unless => Proc.new { |host| host.compute? or !host.managed }
+    validates :architecture_id, :operatingsystem_id, :domain_id, :presence => true, :if => Proc.new {|host| host.managed}
+    validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
+    validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
+    validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
+    validates :ptable_id, :presence => {:message => N_("cant be blank unless a custom partition has been defined")},
+                          :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
+    validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
+                       :allow_blank => true, :allow_nil => true
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :set_default_user, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
@@ -180,11 +173,11 @@ class Host::Managed < Host::Base
 
   def clearReports
     # Remove any reports that may be held against this host
-    Report.delete_all("host_id = #{id}")
+    Report.where("host_id = #{id}").delete_all
   end
 
   def clearFacts
-    FactValue.delete_all("host_id = #{id}")
+    FactValue.where("host_id = #{id}").delete_all
   end
 
   def set_token
@@ -195,7 +188,7 @@ class Host::Managed < Host::Base
 
   def expire_tokens
     # this clean up other hosts as well, but reduce the need for another task to cleanup tokens.
-    Token.delete_all(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id])
+    Token.where(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id]).delete_all
   end
 
   # Called from the host build post install process to indicate that the base build has completed
@@ -447,7 +440,7 @@ class Host::Managed < Host::Base
   # returns sorted hash
   def self.count_distribution assocication
     output = []
-    count(:group => assocication).each do |k,v|
+    group(assocication).count.each do |k,v|
       begin
         output << {:label => k.to_label, :data => v }  unless v == 0
       rescue
