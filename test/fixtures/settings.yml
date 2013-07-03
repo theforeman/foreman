@@ -185,3 +185,8 @@ attribute37:
   category: Setting::Puppet
   default: "true"
   description: "Foreman will create the host when new facts are received"
+attribute38:
+  name: update_ip_from_built_request
+  category: Setting::Provisioning
+  default: "true"
+  description: "Should we use the originating IP of the built request to update the Host's IP?"
