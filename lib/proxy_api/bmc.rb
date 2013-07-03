@@ -1,5 +1,6 @@
 module ProxyAPI
   class BMC < ProxyAPI::Resource
+    SUPPORTED_BOOT_DEVICES = %w[disk cdrom pxe bios]
 
     def initialize args
       @target = args[:host_ip] || '127.0.0.1'
@@ -19,12 +20,11 @@ module ProxyAPI
 
     # Perform a boot operation on the bmc device
     def boot args
-      valid_boot_devices = %w[disk cdrom pxe bios]
       # valid additional arguments args[:reboot] = true|false, args[:persistent] = true|false
       #  put "/bmc/:host/chassis/config/?:function?/?:action?" do
       case args[:function]
       when "bootdevice"
-        if valid_boot_devices.include?(args[:device])
+        if SUPPORTED_BOOT_DEVICES.include?(args[:device])
           parse put(args, bmc_url_for('config',"#{args[:function]}/#{args[:device]}"))
         else
           raise NoMethodError

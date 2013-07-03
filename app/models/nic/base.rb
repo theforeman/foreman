@@ -56,5 +56,6 @@ module Nic
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)
     end
+
   end
 end
