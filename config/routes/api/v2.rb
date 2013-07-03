@@ -72,6 +72,9 @@ Foreman::Application.routes.draw do
         resources :hosts, :only => [] do
           get :puppetrun, :on => :member
           post :facts, :on => :collection
+          put 'power', :on => :member
+          put 'boot' , :on => :member
+
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :to => :reset
@@ -81,6 +84,7 @@ Foreman::Application.routes.draw do
           resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
           match '/smart_parameters', :to => 'lookup_keys#host_or_hostgroup_smart_parameters'
           match '/smart_class_parameters', :to => 'lookup_keys#host_or_hostgroup_smart_class_parameters'
+          resources :interfaces, :except => [:new, :edit]
         end
 
         resources :domains, :only => [] do

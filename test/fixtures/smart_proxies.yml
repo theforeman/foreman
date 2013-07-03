@@ -21,3 +21,8 @@ puppetmaster:
 four:
   name: Unused Proxy
   url: http://else.where:4567
+
+bmc:
+  name: BMC proxy
+  url: http://else.where:4567
+  features: bmc

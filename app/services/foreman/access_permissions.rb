@@ -219,15 +219,16 @@ Foreman::AccessControl.map do |map|
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => :template,
                                      :"api/v1/hosts" => [:index, :show, :status],
-                                     :"api/v2/hosts" => [:index, :show, :status]
-
+                                     :"api/v2/hosts" => [:index, :show, :status],
+                                     :"api/v2/interfaces" => [:index, :show]
                                   }
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
                                     :compute_resources => cr_ajax_actions,
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                      :"api/v1/hosts" => [:create],
-                                     :"api/v2/hosts" => [:create]
+                                     :"api/v2/hosts" => [:create],
+                                     :"api/v2/interfaces" => [:create]
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
                                       :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
@@ -240,20 +241,23 @@ Foreman::AccessControl.map do |map|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :"api/v1/hosts" => [:update],
-                                    :"api/v2/hosts" => [:update]
+                                    :"api/v2/hosts" => [:update],
+                                    :"api/v2/interfaces" => [:create, :update, :destroy]
                                   }
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy],
                                     :"api/v1/hosts" => [:destroy],
-                                    :"api/v2/hosts" => [:destroy]
+                                    :"api/v2/hosts" => [:destroy],
+                                    :"api/v2/interfaces" => [:destroy]
                                   }
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
                                     :tasks => tasks_ajax_actions}
-    map.permission :power_hosts,   {:hosts => [:power]}
-    map.permission :console_hosts, {:hosts => [:console]}
-    map.permission :ipmi_boot, {:hosts => [:ipmi_boot]}
+    map.permission :power_hosts,   {:hosts          => [:power],
+                                    :"api/v2/hosts" => [:power] }
+    map.permission :console_hosts, {:hosts => [:console] }
+    map.permission :ipmi_boot, { :hosts          => [:ipmi_boot],
+                                 :"api/v2/hosts" => [:boot] }
     map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun],
-                                      :"api/v2/hosts" => [:puppetrun]
-                                      }
+                                      :"api/v2/hosts" => [:puppetrun] }
   end
 
   map.security_block :host_editing do |map|

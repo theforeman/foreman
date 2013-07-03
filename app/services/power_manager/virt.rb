@@ -22,13 +22,28 @@ module PowerManager
       vm.state
     end
 
-    (SUPPORTED_ACTIONS - ['state']).each do |method|
+    (SUPPORTED_ACTIONS - ['state', 'status']).each do |method|
       define_method method do
-        vm.send(method.to_sym)
+        vm.send(action_map[method.to_sym])
       end
     end
 
     private
     attr_reader :vm
+
+    def action_map
+      {
+        :on       => 'start',
+        :off      => 'stop',
+        :soft     => 'reboot',
+        :cycle    => 'reset',
+        :status   => 'state',
+        :start    => 'start',
+        :stop     => 'stop',
+        :poweroff => 'poweroff',
+        :reset    => 'reset',
+        :state    => 'state'
+      }
+    end
   end
 end

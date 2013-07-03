@@ -5,10 +5,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     @json  ||= JSON.parse(Pathname.new("#{Rails.root}/test/fixtures/brslc022.facts.json").read)
   end
 
-  def setup
-    User.current = users(:one) #use an unpriviledged user, not apiadmin
-  end
-
   fixtures
 
   test "should run puppet for specific host" do
@@ -46,6 +42,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'when ":restrict_registered_puppetmasters" is false, HTTP requests should be able to import facts' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = false
     SETTINGS[:require_ssl] = false
 
@@ -57,6 +54,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts with a registered smart proxy on should import facts successfully' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = false
 
@@ -68,6 +66,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts without a registered smart proxy on should not be able to import facts' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = false
 
@@ -79,6 +78,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts with a registered smart proxy and SSL cert should import facts successfully' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
 
@@ -92,6 +92,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts without a registered smart proxy but with an SSL cert should not be able to import facts' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
 
@@ -105,6 +106,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts with an unverified SSL cert should not be able to import facts' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
 
@@ -118,6 +120,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'when "require_ssl_puppetmasters" and "require_ssl" are true, HTTP requests should not be able to import facts' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
     SETTINGS[:require_ssl] = true
@@ -130,6 +133,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to import facts' do
+    User.current = users(:one) #use an unprivileged user, not apiadmin
     # since require_ssl_puppetmasters is only applicable to HTTPS connections, both should be set
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
@@ -162,6 +166,43 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     post :facts, {:name => hostname, :facts => facts}, set_session_user
     assert_response :unprocessable_entity
     assert_equal 'A stub failure', JSON.parse(response.body)['host']['errors']['foo'].first
+  end
+
+  context 'BMC proxy operations' do
+    setup :initialize_proxy_ops
+
+    def initialize_proxy_ops
+      User.current = users(:apiadmin)
+      nics(:bmc).update_attribute(:host_id, hosts(:one).id)
+    end
+
+    test "power call to interface" do
+      ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
+      put :power, { :id => hosts(:one).to_param, :power_action => 'status' }
+      assert_response :success
+      assert @response.body =~ /on/
+    end
+
+    test "wrong power call fails gracefully" do
+      put :power, { :id => hosts(:one).to_param, :power_action => 'wrongmethod' }
+      assert_response 422
+      assert @response.body =~ /Available methods are/
+    end
+
+    test "boot call to interface" do
+      ProxyAPI::BMC.any_instance.stubs(:boot).with(:function => 'bootdevice', :device => 'bios').
+                                              returns( { "action" => "bios", "result" => true } .to_json)
+      put :boot, { :id => hosts(:one).to_param, :device => 'bios' }
+      assert_response :success
+      assert @response.body =~ /true/
+    end
+
+    test "wrong boot call to interface fails gracefully" do
+      put :boot, { :id => hosts(:one).to_param, :device => 'wrongbootdevice' }
+      assert_response 422
+      assert @response.body =~ /Available devices are/
+    end
+
   end
 
 end
