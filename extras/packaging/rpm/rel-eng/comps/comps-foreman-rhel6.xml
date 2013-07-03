@@ -108,7 +108,6 @@
       <packagereq type="default">ruby193-rubygem-mysql</packagereq>
       <packagereq type="default">ruby193-rubygem-net-http-persistent</packagereq>
       <packagereq type="default">ruby193-rubygem-net-ldap</packagereq>
-      <packagereq type="default">ruby193-rubygem-net-ping</packagereq>
       <packagereq type="default">ruby193-rubygem-net-scp</packagereq>
       <packagereq type="default">ruby193-rubygem-net-ssh</packagereq>
       <packagereq type="default">ruby193-rubygem-nokogiri</packagereq>
