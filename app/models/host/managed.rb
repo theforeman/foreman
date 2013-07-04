@@ -98,7 +98,7 @@ class Host::Managed < Host::Base
 
   scope :alerts_enabled, {:conditions => ["enabled = ?", true] }
 
-  scope :completer_scope, lambda { my_hosts }
+  scope :completer_scope, lambda { |opts| my_hosts }
 
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?

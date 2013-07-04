@@ -687,4 +687,13 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "can auto-complete searches by host name" do
+    as_admin do
+      completions = Host::Managed.complete_for("name =")
+      Host::Managed.all.each do |h|
+        assert completions.include?("name = #{h.name}"), "completion missing: #{h}"
+      end
+    end
+  end
+
 end
