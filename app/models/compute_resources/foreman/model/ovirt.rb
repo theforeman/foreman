@@ -31,6 +31,18 @@ module Foreman::Model
       16*1024*1024*1024
     end
 
+    def quotas
+      client.quotas
+    end
+
+    def ovirt_quota=(ovirt_quota_id)
+      self.attrs[:ovirt_quota_id] = ovirt_quota_id
+    end     
+
+    def ovirt_quota
+      self.attrs[:ovirt_quota_id]
+    end
+
     def hardware_profiles(opts={})
       client.templates
     end
@@ -97,7 +109,7 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
-      vm = super({ :first_boot_dev => 'network' }.merge(args))
+      vm = super({ :first_boot_dev => 'network', :quota => self.attrs[:ovirt_quota_id] }.merge(args))
       begin
         create_interfaces(vm, args[:interfaces_attributes])
         create_volumes(vm, args[:volumes_attributes])
@@ -225,7 +237,7 @@ module Foreman::Model
       #add volumes
       volumes = nested_attributes_for :volumes, attrs
       #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
-      volumes.map{ |vol| vm.add_volume({:bootable => 'false',:blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?}
+      volumes.map{ |vol| vm.add_volume({:bootable => 'false', :quota => self.attrs[:ovirt_quota_id], :blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?}
       vm.volumes.reload
     end
 
@@ -241,7 +253,7 @@ module Foreman::Model
       volumes = nested_attributes_for :volumes, attrs
       volumes.each do |volume|
         vm.destroy_volume(:id => volume[:id], :blocking => api_version.to_f < 3.1) if volume[:_delete] == '1' && volume[:id].present?
-        vm.add_volume({:bootable => 'false', :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
+        vm.add_volume({:bootable => 'false', :quota => self.attrs[:ovirt_quota_id], :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
     end
 

@@ -83,6 +83,9 @@ function add_volume(item){
   disable_element($('[id$='+new_id+'_size_gb]').val(item.size_gb));
   disable_element($('[id$='+new_id+'_storage_domain]').val(item.storage_domain));
   disable_element( $('[id$='+new_id+'_bootable_true]').attr('checked', item.bootable));
+  if (item.quota != '') {
+    disable_element($('[id$='+new_id+'_quota]').val(item.quota));
+  }
   $('[id$='+new_id+'_id]').val(7);
   $('[id$='+new_id+'_storage_domain]').next().hide();
 }
@@ -120,6 +123,10 @@ function ovirt_clusterSelected(item){
         $('[rel="twipsy"]').tooltip();
       }
     })
+}
+
+function ovirt_datacenterSelected(item){
+  testConnection($('#test_connection_button'));
 }
 
 function libvirt_network_selected(item){
