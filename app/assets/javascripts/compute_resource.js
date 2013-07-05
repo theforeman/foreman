@@ -122,6 +122,10 @@ function ovirt_clusterSelected(item){
     })
 }
 
+function ovirt_datacenterSelected(item){
+  testConnection($('#test_connection_button'));
+}
+
 function libvirt_network_selected(item){
   selected = $(item).val();
   dropdown = $(item).closest('select');
