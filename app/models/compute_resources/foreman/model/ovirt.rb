@@ -31,6 +31,14 @@ module Foreman::Model
       16*1024*1024*1024
     end
 
+    def quotas
+      client.quotas
+    end
+
+    def quota(id)
+      client.quota.get(id)
+    end
+
     def hardware_profiles(opts={})
       client.templates
     end

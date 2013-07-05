@@ -48,6 +48,18 @@ function testConnection(item) {
   });
 }
 
+function ovirt_quotaSelected(item) {
+  var qid = $(item).val();
+  $("#host_compute_attributes_volumes_attributes_new_volumes_quota option").each(function() {
+    opt = $(this)
+    if(opt[0].value == qid) {
+      opt.attr("selected","selected");
+    } else {
+      opt.attr("selected", false);
+    }
+  });
+}
+
 function ovirt_hwpSelected(item){
   var hwp = $(item).val();
   var url = $(item).attr('data-url');
@@ -83,6 +95,9 @@ function add_volume(item){
   disable_element($('[id$='+new_id+'_size_gb]').val(item.size_gb));
   disable_element($('[id$='+new_id+'_storage_domain]').val(item.storage_domain));
   disable_element( $('[id$='+new_id+'_bootable_true]').attr('checked', item.bootable));
+  if (item.quota != '') {
+    disable_element($('[id$='+new_id+'_quota]').val(item.quota));
+  }
   $('[id$='+new_id+'_id]').val(7);
   $('[id$='+new_id+'_storage_domain]').next().hide();
 }

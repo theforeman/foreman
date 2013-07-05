@@ -7,6 +7,10 @@
     <%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
                  { }, :label => _('Storage Domain'), :disabled => disabled, :class => "span2",
                  :help_inline=> remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-important' }) %>
+    <%= select_f f, :quota, compute_resource.quotas, :id, :name, 
+                 f.object.quota.nil? ? {:selected => compute_resource.default_quota_id} : {:selected => f.object.quota},
+                 { :onchange    => 'ovirt_quotaSelected(this);', :help_inline => image_tag('spinner.gif', :id => 'quota_indicator', :class => 'hide').html_safe, 
+                 :help_block  => "Quota to use"} %>
     <%= f.hidden_field :storage_domain if disabled %>
     <%= f.hidden_field :id %>
     <%= field(f, :bootable, :label => _('Bootable')) do
