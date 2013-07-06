@@ -30,8 +30,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_should_not_allow_to_change_frozen_attributes
     check_frozen_change :name, "new value"
-    check_frozen_change :default, "new value"
-    check_frozen_change :description, "new value"
+    check_frozen_change :category, "Auth"
   end
 
   def test_name_could_be_a_symbol_or_a_string
@@ -83,6 +82,12 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.create!(:name => "foo", :value => 9, :default => 3, :description => "test foo")
     assert_equal 8, setting.value
     assert_equal 3, setting.default
+  end
+
+  def test_create_exclamation_updates_description
+    Setting.create!(:name => 'administrator', :description => 'Test', :default => 'root@localhost')
+    s = Setting.find_by_name 'administrator'
+    assert_equal 'Test', s.description
   end
 
   def test_create_with_missing_attrs_does_not_persist
