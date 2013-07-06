@@ -4,7 +4,7 @@ class Location < Taxonomy
   has_and_belongs_to_many :organizations
   has_many_hosts :dependent => :nullify
 
-  scope :completer_scope, lambda { my_locations }
+  scope :completer_scope, lambda { |opts| my_locations }
 
   scope :my_locations, lambda {
         user = User.current
