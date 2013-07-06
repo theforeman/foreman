@@ -2,7 +2,7 @@ class Setting < ActiveRecord::Base
   self.inheritance_column = 'category'
 
   TYPES= %w{ integer boolean hash array string }
-  FROZEN_ATTRS = %w{ name default description category }
+  FROZEN_ATTRS = %w{ name category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts }
 
@@ -158,7 +158,7 @@ class Setting < ActiveRecord::Base
 
   def self.create_existing(s, opts)
     bypass_readonly(s) do
-      to_update = {:default => opts[:default]}
+      to_update = Hash[opts.select { |k,v| [:default, :description].include? k }]
       to_update.merge!(:value => SETTINGS[opts[:name].to_sym]) if SETTINGS.key?(opts[:name].to_sym)
       s.update_attributes(to_update)
     end
