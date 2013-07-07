@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
+  name: bigcompute
   description: MyString
   url: qemu://stam/system
   user: MyString
@@ -36,3 +36,12 @@ openstack:
   password: 1234567
   uuid: yourcompute
   type: Foreman::Model::Openstack
+
+ec2:
+  name: amazon123
+  description: yourcompute
+  url: eu-west-1
+  user: MyString
+  password: MyString
+  uuid: 234234234324
+  type: Foreman::Model::EC2

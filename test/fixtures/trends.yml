@@ -1,9 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  trendable_type: MyString
+  trendable_type: Operatingsystem
   trendable_id: 1
+  type: "ForemanTrend"
 
 two:
-  trendable_type: MyString
+  trendable_type: Model
   trendable_id: 1
+  type: "ForemanTrend"
