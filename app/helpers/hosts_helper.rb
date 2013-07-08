@@ -194,7 +194,7 @@ module HostsHelper
       [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
       [_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
       [_("Operating System"), (link_to(host.os, hosts_path(:search => "os = #{host.os.name}")) if host.os)],
-      [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => "hostgroup = #{host.hostgroup}")) if host.hostgroup)],
+      [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %Q{hostgroup_fullname = "#{host.hostgroup}"})) if host.hostgroup)],
     ]
     fields += [[_("Location"), (link_to(host.location.name, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.name, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
