@@ -127,7 +127,7 @@ module Orchestration::DNS
     end
 
     def ip_available?
-      ip.present? || (capabilities.include?(:image) && compute_resource.provided_attributes.keys.include?(:ip))
+      ip.present? || (capabilities.include?(:image) && compute_resource.provided_attributes(self).keys.include?(:ip))
     end
 
   end
