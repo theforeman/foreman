@@ -11,7 +11,7 @@
   <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe %>
   <%= text_f f, :base_dn, :label => "basedn", :class => "input-xxlarge" %>
   <%= checkbox_f f, :onthefly_register,
-    :help_inline => _("LDAP user will have his Foreman account automatically created the first time he logs into Foreman") %>
+    :help_inline => _("LDAP user will have their Foreman account automatically created the first time they log into Foreman") %>
   <%= field_set_tag(_("LDAP Attributes mapping")) do %>
     <%= text_f f, :attr_login, :help_inline => _("e.g. uid") %>
     <%= text_f f, :attr_firstname, :help_inline => _("e.g. givenName") %>
