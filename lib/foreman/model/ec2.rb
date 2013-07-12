@@ -49,7 +49,7 @@ module Foreman::Model
       if vpc.nil?
         client.security_groups
       else
-        client.security_groups.map{|sg| sg if sg.vpc_id == vpc }
+        client.security_groups.find_all{ |sg| sg.vpc_id == vpc }
       end
     end
     
