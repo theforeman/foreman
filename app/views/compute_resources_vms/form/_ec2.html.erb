@@ -9,14 +9,14 @@
 <% security_groups = compute_resource.security_groups %>
 <%= selectable_f f, :security_group_ids, security_groups.map{|sg| [sg.name, sg.group_id,] if sg.vpc_id.nil?}.compact!,
   {},
-  { :multiple => true, :label => "Security Groups" } %>
+  { :multiple => true, :label => _("Security groups") } %>
 
 <%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
 
 <% if (subnets = compute_resource.subnets).any? -%>
   <%= select_f f, :subnet_id, subnets, :subnet_id, :cidr_block,  
                 {:include_blank => "EC2"}, 
-                {:label => "Subnet", :onchange => "ec2_vpcSelected(this, #{vpc_security_group_hash(security_groups).to_json}, #{subnet_vpc_hash(subnets).to_json});"} %>
+                {:label => _("Subnet"), :onchange => "ec2_vpcSelected(this, #{vpc_security_group_hash(security_groups).to_json}, #{subnet_vpc_hash(subnets).to_json});"} %>
 <% end -%>
 
-<%= selectable_f f, :managed_ip, {'Public'=>'public', 'Private'=>'private'}, {}, { :label => "Security Groups" } %>
+<%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP") } %>
