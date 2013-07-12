@@ -150,15 +150,17 @@ function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var type = $(item).attr('data-type');
   $(item).tooltip('hide');
-  var content = $(item).parent().clone();
+  var content = $(item).closest('li').clone();
   content.attr('id', 'selected_puppetclass_'+ id);
   content.append("<input id='" + type +"_puppetclass_ids_' name='" + type +"[puppetclass_ids][]' type='hidden' value=" +id+ ">");
   content.children('span').tooltip();
 
   var link = content.children('a');
-  link.attr('onclick', 'remove_puppet_class(this)');
-  link.attr('data-original-title', _('Click to undo adding this class'));
-  link.removeClass('icon-plus-sign').addClass('icon-remove-sign').tooltip();
+  var links = content.find('a');
+  links.attr('onclick', 'remove_puppet_class(this)');
+  links.attr('data-original-title', _('Click to undo adding this class'));
+  links.tooltip();
+  link.removeClass('icon-plus-sign').addClass('icon-remove-sign');
 
   $('#selected_classes').append(content);
 

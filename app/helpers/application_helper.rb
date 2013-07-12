@@ -41,25 +41,40 @@ module ApplicationHelper
 
   def link_to_remove_puppetclass klass, host
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
-    content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
-    link_to_function("","remove_puppet_class(this)", :'data-class-id'=>klass.id,
-                     :'data-original-title'=>_("Click to remove %s") % klass, :rel=>'twipsy',
-                     :'data-url' => parameters_puppetclass_path( :id => klass.id),
-                     :'data-host-id' => host.id,
+    functions_options = { :klass => klass, :host => host, :css_class => ''}
+    text = remove_link_to_function(truncate(klass.name, :length => 28), functions_options)
+    content_tag(:span, text, options).html_safe +
+        remove_link_to_function('', functions_options.merge(:css_class => 'icon-remove-sign'))
+
+  end
+
+  def remove_link_to_function(text, options)
+    link_to_function(text,"remove_puppet_class(this)", :'data-class-id'=>options[:klass].id,
+                     :'data-original-title'=>_("Click to remove %s") % options[:klass], :rel=>'twipsy',
+                     :'data-url' => parameters_puppetclass_path( :id => options[:klass].id),
+                     :'data-host-id' => options[:host].id,
                      :'data-animation' => "",
-                     :class=>"icon-remove-sign")
+                     :class=>options[:css_class])
   end
 
   def link_to_add_puppetclass klass, host, type
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
-    content_tag(:span, truncate(klass.name, :length => 28), options).html_safe +
-    link_to_function("", "add_puppet_class(this)",
-                       :'data-class-id' => klass.id, 'data-type' => type,
-                       :'data-url' => parameters_puppetclass_path( :id => klass.id),
-                       :'data-host-id' => host.try(:id),
-                       :'data-original-title' => _("Click to add %s") % klass, :rel => 'twipsy',
-                       :'data-animation' => "",
-                       :class => "icon-plus-sign")
+    function_options = { :klass => klass, :host => host, :type => type }
+    text             = add_link_to_function(truncate(klass.name, :length => 28), function_options)
+
+    content_tag(:span, text, options).html_safe +
+        add_link_to_function('', function_options.merge(:css_class => 'icon-plus-sign'))
+
+  end
+
+  def add_link_to_function(text, options)
+    link_to_function(text, "add_puppet_class(this)",
+                     :'data-class-id'       => options[:klass].id, 'data-type' => options[:type],
+                     :'data-url'            => parameters_puppetclass_path(:id => options[:klass].id),
+                     :'data-host-id'        => options[:host].try(:id),
+                     :'data-original-title' => _("Click to add %s") % options[:klass], :rel => 'twipsy',
+                     :'data-animation'      => "",
+                     :class                 => options[:css_class])
   end
 
   def add_html_classes options, classes
