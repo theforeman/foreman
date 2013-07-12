@@ -115,10 +115,12 @@ div.flash.notice {
   margin-left: 10px;
   margin-bottom: 0px;
 }
-.puppetclass a, .puppetclass li a, .selected_puppetclass a, .selected_puppetclass li a {
-  color: #333;
-  float: right;
-  margin-right: 10px;
+.puppetclass, .puppetclass li, .selected_puppetclass, .selected_puppetclass li {
+  a { color: #333; }
+  a.icon-remove-sign, a.icon-plus-sign {
+    float: right;
+    margin-right: 10px;
+  }
 }
 
 #title_action {
