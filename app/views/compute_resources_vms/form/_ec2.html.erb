@@ -7,7 +7,7 @@
 <div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty? } %></div>
 
 <% security_groups = compute_resource.security_groups %>
-<%= selectable_f f, :security_group_ids, security_groups.map{|sg| sg.group_id if sg.vpc_id.nil?}.compact!,
+<%= selectable_f f, :security_group_ids, security_groups.map{|sg| [sg.name, sg.group_id,] if sg.vpc_id.nil?}.compact!,
   {},
   { :multiple => true, :label => "Security Groups" } %>
 
