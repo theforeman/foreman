@@ -3,6 +3,7 @@ require 'uri'
 
 class Operatingsystem < ActiveRecord::Base
   include Authorization
+  include ValidateOsFamily
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
@@ -29,6 +30,7 @@ class Operatingsystem < ActiveRecord::Base
   #TODO: add validation for name and major uniqueness
 
   before_save :deduce_family
+
   audited :allow_mass_assignment => true
   default_scope lambda { order('operatingsystems.name') }
 
@@ -68,6 +70,7 @@ class Operatingsystem < ActiveRecord::Base
   def self.families
     FAMILIES.keys.sort
   end
+  validate_inclusion_in_families :type
 
   def self.families_as_collection
     families.map{|e| OpenStruct.new(:name => e, :value => e) }
@@ -190,14 +193,8 @@ class Operatingsystem < ActiveRecord::Base
 
   private
   def deduce_family
-    if self.family.blank?
-      found = nil
-      for f in self.class.families
-        if name =~ FAMILIES[f]
-          found = f
-        end
-      end
-      self.family = found
+    family ||= self.class.families.find do |f|
+      name =~ FAMILIES[f]
     end
   end
 

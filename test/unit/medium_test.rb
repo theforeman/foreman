@@ -121,4 +121,29 @@ class MediumTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test "os family can be one of defined os families" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => Operatingsystem.families[0]
+    assert medium.valid?
+  end
+
+  test "os family can't be anything else than defined os families" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => "unknown"
+    assert !medium.valid?
+  end
+
+  test "os family can be nil" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => nil
+    assert medium.valid?
+  end
+
+  test "setting os family to a blank string is valid" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => ""
+    assert medium.valid?
+  end
+
+  test "blank os family is saved as nil" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => ""
+    assert_equal nil, medium.os_family
+  end
+
 end
