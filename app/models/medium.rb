@@ -1,6 +1,7 @@
 class Medium < ActiveRecord::Base
   include Authorization
   include Taxonomix
+  include ValidateOsFamily
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
@@ -19,6 +20,8 @@ class Medium < ActiveRecord::Base
   validates :media_path, :config_path, :image_path, :allow_blank => true,
                 :format => { :with => VALID_NFS_PATH, :message => N_("does not appear to be a valid nfs mount path")},
                 :if => Proc.new { |m| m.respond_to? :media_path }
+
+  validate_inclusion_in_families :os_family
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

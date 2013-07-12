@@ -4,6 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   include Authorization
+  include ValidateOsFamily
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
@@ -12,6 +13,7 @@ class Ptable < ActiveRecord::Base
   validates :layout, :presence => true
   validates :name, :uniqueness => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
   default_scope lambda { order('ptables.name') }
+  validate_inclusion_in_families :os_family
 
   scoped_search :on => :name, :complete_value => true, :default_order => true
   scoped_search :on => :layout, :complete_value => false

@@ -166,4 +166,34 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert_equal ["centos 5.3"], medium.operatingsystem_names
   end
 
+
+  describe "families" do
+    let(:os) { Operatingsystem.new :name => "dummy", :major => 7 }
+
+    test "os family can be one of defined os families" do
+      os.family = Operatingsystem.families[0]
+      assert os.valid?
+    end
+
+    test "os family can't be anything else than defined os families" do
+      os.family = "unknown"
+      assert !os.valid?
+    end
+
+    test "os family can be nil" do
+      os.family = nil
+      assert os.valid?
+    end
+
+    test "setting os family to a blank string is valid" do
+      os.family = ""
+      assert os.valid?
+    end
+
+    test "blank os family is saved as nil" do
+      os.family = ""
+      assert_equal nil, os.family
+    end
+  end
+
 end

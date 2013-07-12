@@ -26,6 +26,31 @@ class PtableTest < ActiveSupport::TestCase
     assert !partition_table.save
   end
 
+  test "os family can be one of defined os families" do
+    partition_table = Ptable.new :name => "Archlinux default", :layout => "any layout", :os_family => Operatingsystem.families[0]
+    assert partition_table.valid?
+  end
+
+  test "os family can't be anything else than defined os families" do
+    partition_table = Ptable.new :name => "Archlinux default", :layout => "any layout", :os_family => "unknown"
+    assert !partition_table.valid?
+  end
+
+  test "os family can be nil" do
+    partition_table = Ptable.new :name => "Archlinux default", :layout => "any layout", :os_family => nil
+    assert partition_table.valid?
+  end
+
+  test "setting os family to a blank string is valid" do
+    partition_table = Ptable.new :name => "Archlinux default", :layout => "any layout", :os_family => ""
+    assert partition_table.valid?
+  end
+
+  test "blank os family is saved as nil" do
+    partition_table = Ptable.new :name => "Archlinux default", :layout => "any layout", :os_family => ""
+    assert_equal nil, partition_table.os_family
+  end
+
   # I'm commenting this one out for now, as I'm not sure that its actully needed
   # besides, it breaks the inital db migration
   #  test "layout can't contain trailing white spaces" do
