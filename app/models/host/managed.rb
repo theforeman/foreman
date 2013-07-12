@@ -50,7 +50,6 @@ class Host::Managed < Host::Base
   end
 
   attr_reader :cached_host_params
-  attr_accessor :managed_ip
 
   default_scope lambda {
       org = Organization.current

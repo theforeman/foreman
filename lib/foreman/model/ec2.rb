@@ -13,7 +13,7 @@ module Foreman::Model
     end
 
     def provided_attributes host
-      super(host).merge({ :ip => (host.managed_ip == 'private' ? :private_ip_address : :public_ip_address) })
+      super(host).merge({ :ip => :vm_ip_address })
     end
 
     def self.model_name
@@ -41,6 +41,7 @@ module Foreman::Model
         args.merge!(iam_hash)
       end
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
+      args[:security_group_ids].reject!(&:empty?) if args.has_key?(:security_group_ids)
       super(args)
     end
   

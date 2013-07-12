@@ -160,10 +160,10 @@ function ec2_vpcSelected(form, security_groups, subnets){
   if(form.value != ''){
     vpc=subnets[form.value]
   } else {
-    vpc = 'ec2'
+    vpc = {'vpc_id': 'ec2', 'subnet_name': 'ec2'};
   }
-  for(sg in security_groups[vpc]){
-    $('#host_compute_attributes_security_group_ids').append('<option value="'+security_groups[vpc][sg]+'">'+security_groups[vpc][sg]+' - '+vpc+'</option>');
+  for(sg in security_groups[vpc.vpc_id]){
+    $('#host_compute_attributes_security_group_ids').append('<option value="'+security_groups[vpc.vpc_id][sg].group_id+'">'+security_groups[vpc.vpc_id][sg].group_name+' - '+vpc.subnet_name+'</option>');
   }
 }
 

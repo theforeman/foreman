@@ -1,6 +1,9 @@
 module FogExtensions
   module AWS
     module Server
+
+      attr_accessor :managed_ip
+
       def to_s
         tags["Name"] || identity
       end
@@ -11,6 +14,10 @@ module FogExtensions
 
       def dns
          dns_name || private_dns_name
+      end
+
+      def vm_ip_address
+        managed_ip == 'private' ? private_ip_address : public_ip_address
       end
 
       def poweroff
