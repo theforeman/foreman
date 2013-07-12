@@ -57,7 +57,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # attributes that this provider can provide back to the host object
-  def provided_attributes host
+  def provided_attributes
     {:uuid => :identity}
   end
 

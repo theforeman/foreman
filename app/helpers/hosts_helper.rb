@@ -269,8 +269,7 @@ module HostsHelper
   end
 
   def args_for_compute_resource_partial(host)
-    { :host => host,
-      :arch => host.try(:architecture_id)    || (params[:host] && params[:host][:architecture_id]),
+    { :arch => host.try(:architecture_id)    || (params[:host] && params[:host][:architecture_id]),
       :os   => host.try(:operatingsystem_id) || (params[:host] && params[:host][:operatingsystem_id])
     }
   end

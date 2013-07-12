@@ -267,10 +267,6 @@ class Host::Managed < Host::Base
     hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
   end
 
-  def provided_attributes
-    compute_resource.provided_attributes(self)
-  end
-
   # provide information about each node, mainly used for puppet external nodes
   # TODO: remove hard coded default parameters into some selectable values in the database.
   def info
@@ -557,7 +553,7 @@ class Host::Managed < Host::Base
   end
 
   def require_ip_validation?
-    managed? and !compute? or (compute? and !provided_attributes.keys.include?(:ip))
+    managed? and !compute? or (compute? and !compute_resource.provided_attributes.keys.include?(:ip))
   end
 
   # if certname does not exist, use hostname instead

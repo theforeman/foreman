@@ -12,8 +12,8 @@ module Foreman::Model
       "#{name} (#{region}-#{provider_friendly_name})"
     end
 
-    def provided_attributes host
-      super(host).merge({ :ip => :vm_ip_address })
+    def provided_attributes
+      super.merge({ :ip => :vm_ip_address })
     end
 
     def self.model_name
