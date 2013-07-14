@@ -8,7 +8,7 @@
   <%= text_f f, :port %>
   <%= checkbox_f f, :tls %>
   <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
-  <%= password_f f, :account_password, :onfocus => "this.value='';", :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe %>
+  <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe %>
   <%= text_f f, :base_dn, :label => "basedn", :class => "input-xxlarge" %>
   <%= checkbox_f f, :onthefly_register,
     :help_inline => _("LDAP user will have his Foreman account automatically created the first time he logs into Foreman") %>
