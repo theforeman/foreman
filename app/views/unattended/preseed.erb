@@ -24,7 +24,7 @@ d-i hw-detect/load_firmware boolean true
 d-i mirror/country string manual
 d-i mirror/http/hostname string <%= @preseed_server %>
 d-i mirror/http/directory string <%= @preseed_path %>
-d-i mirror/http/proxy string
+d-i mirror/http/proxy string <%= @host.parameters['preseed-proxy'] ? @host.parameters['preseed-proxy'] : '' %>
 d-i mirror/codename string <%= @host.operatingsystem.release_name %>
 d-i mirror/suite string <%= @host.operatingsystem.release_name %>
 d-i mirror/udeb/suite string <%= @host.operatingsystem.release_name %>
