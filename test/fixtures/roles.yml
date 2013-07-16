@@ -82,6 +82,7 @@ manager:
     - :edit_organizations
     - :create_organizations
     - :destroy_organizations
+    - :edit_classes
 
 edit_partition_tables:
   name: Edit partition tables
