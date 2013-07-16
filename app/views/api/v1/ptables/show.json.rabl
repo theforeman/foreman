@@ -1,3 +1,3 @@
 object @ptable
 
-attributes :name, :id, :created_at, :updated_at
+attributes :name, :id, :layout, :os_family, :created_at, :updated_at
