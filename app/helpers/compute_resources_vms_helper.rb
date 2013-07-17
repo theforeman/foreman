@@ -66,4 +66,8 @@ module ComputeResourcesVmsHelper
     subnet_vpc_hash
   end
 
+  def compute_object_vpc_id(form)
+    form.object.network_interfaces && form.object.network_interfaces[0]["vpcId"]
+  end
+
 end

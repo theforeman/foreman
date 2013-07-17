@@ -17,7 +17,7 @@ module FogExtensions
       end
 
       def vm_ip_address
-        managed_ip == 'private' ? :private_ip_address : :public_ip_address
+        managed_ip == 'private' ? private_ip_address : public_ip_address
       end
 
       def poweroff
