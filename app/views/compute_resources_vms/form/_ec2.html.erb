@@ -1,3 +1,5 @@
+<% vpc_id = compute_object_vpc_id(f) %>
+
 <%= select_f f, :flavor_id, compute_resource.flavors, :id, :to_label %>
 <%
    arch ||= nil ; os ||= nil
@@ -6,17 +8,19 @@
 
 <div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty? } %></div>
 
-<% security_groups = compute_resource.security_groups %>
-<%= selectable_f f, :security_group_ids, security_groups.map{|sg| [sg.name, sg.group_id,] if sg.vpc_id.nil?}.compact!,
-  {},
-  { :multiple => true, :label => _("Security groups") } %>
+<% if ( groups = security_groups_for_vpc(compute_resource.security_groups, vpc_id)) %>
+	<%= selectable_f f, :security_group_ids, groups, {},
+	  { :multiple => true, :label => _("Security groups"), :disabled => !@host.nil?, 
+	  	:data => {  :security_groups => vpc_security_group_hash(compute_resource.security_groups), 
+	  				:subnets => subnet_vpc_hash(compute_resource.subnets)} } %>
+<% end %>
 
 <%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
 
-<% if (subnets = compute_resource.subnets).any? -%>
-  <%= select_f f, :subnet_id, subnets, :subnet_id, :cidr_block,  
+<% if compute_resource.subnets.any? -%>
+  <%= select_f f, :subnet_id, compute_resource.subnets, :subnet_id, :cidr_block,  
                 {:include_blank => "EC2"}, 
-                {:label => _("Subnet"), :onchange => "ec2_vpcSelected(this, #{vpc_security_group_hash(security_groups).to_json}, #{subnet_vpc_hash(subnets).to_json});"} %>
+                {:label => _("Subnet"), :onchange => "ec2_vpcSelected(this);"} %>
 <% end -%>
 
 <%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP") } %>

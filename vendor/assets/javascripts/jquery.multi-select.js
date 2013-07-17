@@ -18,7 +18,7 @@
   * ====================== */
 
   var MultiSelect = function (element, options) {
-    this.options =  options;
+    this.options = options;
     this.$element = $(element);
     this.$container = $('<div id="ms-'+this.$element.attr('id')+'" class="ms-container"></div>');
     this.$selectableContainer = $('<div class="ms-selectable"></div>');
@@ -121,13 +121,8 @@
             that.$selectionUl.find('.ms-optgroup-label').hide();
 
             if ($(this).prop('disabled') || ms.prop('disabled')){
-              if (this.selected) {
-                selectedLi.prop('disabled', true);
-                selectedLi.addClass(that.options.disabledClass);
-              } else {
-                selectableLi.prop('disabled', true);
-                selectableLi.addClass(that.options.disabledClass);
-              }
+              selectableLi.prop('disabled', true);
+              selectableLi.addClass(that.options.disabledClass);
             }
 
             if (optgroupId){
@@ -140,17 +135,15 @@
           }
         });
 
-        if (that.options.selectableHeader)
-          that.$selectableContainer.append(that.options.selectableHeader.clone());
+        if (that.options.selectableHeader){
+          that.$selectableContainer.append(that.options.selectableHeader);
+        }
         that.$selectableContainer.append(that.$selectableUl);
-        if (that.options.selectableFooter)
-          that.$selectableContainer.append(that.options.selectableFooter);
-
-        if (that.options.selectionHeader)
-          that.$selectionContainer.append(that.options.selectionHeader.clone());
-        that.$selectionContainer.append(that.$selectionUl);
-        if (that.options.selectionFooter)
-          that.$selectionContainer.append(that.options.selectionFooter);
+        
+        if (that.options.selectionHeader){
+          that.$selectionContainer.append(that.options.selectionHeader);
+        }
+        this.$selectionContainer.append(that.$selectionUl);
 
         that.$container.append(that.$selectableContainer);
         that.$container.append(that.$selectionContainer);
@@ -223,9 +216,9 @@
             if (liFocused.length >0){
               var method = keyContainer == 'ms-selectable' ? 'select' : 'deselect';
               if (keyContainer == 'ms-selectable'){
-                that.select(liFocused.data('ms-value'));
+                that.select(liFocused.attr('id').replace('-selectable', ''));
               } else {
-                that.deselect(liFocused.data('ms-value'));
+                that.deselect(liFocused.attr('id').replace('-selection', ''));
               }
               lis.removeClass('ms-hover');
               that.scrollTo = 0;
@@ -271,7 +264,7 @@
             } else {
               that.$selectableUl.focusin();
               that.$selectionUl.focusout();
-            }
+            }        
           }
         }
 
@@ -292,8 +285,13 @@
     },
 
     'refresh' : function() {
+      this.destroy();
+      this.$element.multiSelect(this.options);
+    },
+
+    'destroy' : function(){
       $("#ms-"+this.$element.attr("id")).remove();
-      this.init(this.options);
+      this.$element.removeData('multiselect');
     },
 
     'select' : function(value, method){
@@ -426,7 +424,7 @@
   $.fn.multiSelect = function () {
     var option = arguments[0],
         args = arguments;
-
+    
     return this.each(function () {
       var $this = $(this),
           data = $this.data('multiselect'),
@@ -446,7 +444,7 @@
     selectableOptgroup: false,
     disabledClass : 'disabled',
     dblClick : false
-  };
+  }
 
   $.fn.multiSelect.Constructor = MultiSelect
 

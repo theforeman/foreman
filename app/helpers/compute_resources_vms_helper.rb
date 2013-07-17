@@ -66,4 +66,11 @@ module ComputeResourcesVmsHelper
     subnet_vpc_hash
   end
 
+  def compute_object_vpc_id(form)
+    form.object.network_interfaces && form.object.network_interfaces[0]["vpcId"]
+  end
+
+  def security_groups_for_vpc(security_groups, vpc_id) 
+    security_groups.map{ |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id}.compact!
+  end
 end

@@ -46,11 +46,9 @@ module Foreman::Model
     end
   
     def security_groups vpc=nil
-      if vpc.nil?
-        client.security_groups
-      else
-        client.security_groups.find_all{ |sg| sg.vpc_id == vpc }
-      end
+      groups = client.security_groups
+      groups.reject! { |sg| sg.vpc_id != vpc } if vpc
+      groups
     end
     
     def regions
