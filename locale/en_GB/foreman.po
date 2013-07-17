@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 09:53+0100\n"
-"PO-Revision-Date: 2013-06-22 08:18+0000\n"
+"POT-Creation-Date: 2013-07-17 16:28+0100\n"
+"PO-Revision-Date: 2013-07-04 08:41+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/foreman/language/en_GB/)\n"
 "Language: en_GB\n"
@@ -1420,6 +1420,9 @@ msgstr ""
 msgid "Foreman ticketing system"
 msgstr ""
 
+msgid "Foreman will create the host when new facts are received"
+msgstr ""
+
 msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
 msgstr ""
 
@@ -1698,7 +1701,7 @@ msgstr ""
 msgid "IRC"
 msgstr ""
 
-msgid "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr ""
 
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
@@ -1880,7 +1883,7 @@ msgstr ""
 msgid "LDAP Authentication"
 msgstr ""
 
-msgid "LDAP user will have his Foreman account automatically created the first time he logs into Foreman"
+msgid "LDAP users will have their Foreman account automatically created the first time they log into Foreman"
 msgstr ""
 
 msgid "Last report"

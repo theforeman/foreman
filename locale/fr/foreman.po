@@ -10,15 +10,16 @@
 # kyzh <florentin.raud@gmail.com>, 2013
 # domcleal <dcleal@redhat.com>, 2013
 # kyzh <florentin.raud@gmail.com>, 2013
+# gchamoul <gael@redhat.com>, 2013
 # mcanevet <mickael.canevet@camptocamp.com>, 2013
 # fitzdsl <rvrignaud@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 09:53+0100\n"
-"PO-Revision-Date: 2013-07-01 12:20+0000\n"
-"Last-Translator: domcleal <dcleal@redhat.com>\n"
+"POT-Creation-Date: 2013-07-17 16:28+0100\n"
+"PO-Revision-Date: 2013-07-10 19:40+0000\n"
+"Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -81,9 +82,8 @@ msgstr[1] "%{count} hôtes avec aucune %{taxonomy_single} assignée"
 msgid "%{default_value} is not one of %{validator_rule}"
 msgstr "%{default_value} n'est pas inclus dans %{validator_rule}"
 
-#, fuzzy
 msgid "%{e} does not belong to the %{environment} environment"
-msgstr "%{value} ne fait pas partie du système d'exploitation %{os}"
+msgstr "%{e} n'appartient pas à l'environnement %{environment}"
 
 msgid "%{host} is now %{state}"
 msgstr "%{host} est maintenant %{state}"
@@ -95,7 +95,7 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} changé de %{label1} pour %{label2}"
 
 msgid "%{record} is used by %{what}"
-msgstr ""
+msgstr "%{record} est utilisé par %{what}"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} tâche échouée avec l'erreur suivante: %{e}"
@@ -497,7 +497,7 @@ msgid "Authorize login delegation with REMOTE_USER environment variable for API 
 msgstr "Permettre la délégation d'authentification avec la variable d'environnement REMOTE_USER pour les appels à l'API"
 
 msgid "Authorized by"
-msgstr "Authorisé par"
+msgstr "Autorisé par"
 
 msgid "Autosign"
 msgstr "Autosign"
@@ -620,18 +620,17 @@ msgstr "CPUs"
 msgid "Can't delete built-in role"
 msgstr "Imposible d'effacer les rôles pré-définis"
 
-#, fuzzy
 msgid "Can't delete internal admin account"
-msgstr "Imposible d'effacer les rôles pré-définis"
+msgstr "Impossible de supprimer le compte admin interne"
 
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "Impossible de trouver un proxy foreman ayant la fonction puppet"
 
 msgid "Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr ""
+msgstr "Impossible de supprimer le drapeau Administrateur de l'utilisateur interne <b>admin</b>"
 
 msgid "Can't rename internal protected <b>admin</b> account to %s"
-msgstr ""
+msgstr "Impossible de renommer le compte interne protégé <b>admin</b> en %s"
 
 msgid "Can't use the same value as the primary interface"
 msgstr "Impossible de réutiliser la même valeur que pour l'interface principale."
@@ -666,9 +665,8 @@ msgstr "Changer le Groupe"
 msgid "Change your avatar at gravatar.com"
 msgstr "Changer votre avatar sur gravatar.com"
 
-#, fuzzy
 msgid "Changed environments"
-msgstr "Changer l'Environnement"
+msgstr "Environnements modifiés"
 
 msgid "Chassis"
 msgstr "Chassis"
@@ -679,25 +677,20 @@ msgstr "Tout cocher"
 msgid "Check all/Uncheck all"
 msgstr "Tout sélectionner / Tout désélectionner"
 
-#, fuzzy
 msgid "Check/Uncheck all"
-msgstr "Tout sélectionner / Tout désélectionner"
+msgstr "Cocher / Tout décocher"
 
-#, fuzzy
 msgid "Check/Uncheck all %s changes"
-msgstr "Tout sélectionner / Tout désélectionner"
+msgstr "Tout Cocher / Décocher les %s changements"
 
-#, fuzzy
 msgid "Check/Uncheck new"
-msgstr "Tout sélectionner / Tout désélectionner"
+msgstr "Cocher / Décocher les nouveaux"
 
-#, fuzzy
 msgid "Check/Uncheck obsolete"
-msgstr "Tout sélectionner / Tout désélectionner"
+msgstr "Cocher / Décocher les obsolètes"
 
-#, fuzzy
 msgid "Check/Uncheck updated"
-msgstr "Tout sélectionner / Tout désélectionner"
+msgstr "Cocher / Décocher les mis à jour "
 
 msgid "Choose a family"
 msgstr "Sélectionner une famille"
@@ -1433,6 +1426,9 @@ msgstr "L'heure de création du rapport Foreman est <em>%s</em>"
 msgid "Foreman ticketing system"
 msgstr "Gestionnaire de tickets Foreman"
 
+msgid "Foreman will create the host when new facts are received"
+msgstr ""
+
 msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
 msgstr "Par défaut, Foreman opère en mode anonyme où toute opération est réalisée sans référence à l'utilisateur réalisant la tâche."
 
@@ -1711,7 +1707,8 @@ msgstr "Adresse IP pour cet hôte. Si le Smart Proxy DHCP est activé, la valeur
 msgid "IRC"
 msgstr "IRC"
 
-msgid "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+#, fuzzy
+msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr "Si Foreman est situé derrière Passenger ou un répartiteur de charge distant, l'adresse IP visible peut être inscrite ici"
 
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
@@ -1893,7 +1890,8 @@ msgstr "Correspondance des Attributs LDAP"
 msgid "LDAP Authentication"
 msgstr "Authentification LDAP"
 
-msgid "LDAP user will have his Foreman account automatically created the first time he logs into Foreman"
+#, fuzzy
+msgid "LDAP users will have their Foreman account automatically created the first time they log into Foreman"
 msgstr "Les utilisateurs LDAP verront leur compte Foreman créé automatiquement à la première connexion à Foreman"
 
 msgid "Last report"
@@ -2534,7 +2532,7 @@ msgid "OS Image"
 msgstr "Image du système d'exploitation"
 
 msgid "Obsolete"
-msgstr ""
+msgstr "Obsolète"
 
 msgid "Off"
 msgstr "Arrêt"
@@ -3192,7 +3190,7 @@ msgid "Select template"
 msgstr "Choisir un modèle"
 
 msgid "Select the changes you want to realize in Foreman"
-msgstr ""
+msgstr "Sélectionner les changements que vous voulez voir appliqué par Foreman"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "Les hôtes sélectionnés sont maintenant assignés à %s"
@@ -3736,7 +3734,7 @@ msgid "To update the class signature, go to the Puppet Classes page and select \
 msgstr "Pour mettre à jour les signatures des classes, allez sur la page Puppet Classes et choisissez \"Import\"."
 
 msgid "Toggle"
-msgstr ""
+msgstr "Commuter"
 
 msgid "Toggle notifications section"
 msgstr "Changer l'état de la section des notifiations"
@@ -3871,9 +3869,8 @@ msgstr "Mise à jour"
 msgid "Update:"
 msgstr "Mise à jour:"
 
-#, fuzzy
 msgid "Updated"
-msgstr "Mise à jour"
+msgstr "Mis à jour"
 
 msgid "Updated all hosts!"
 msgstr "Tous les hôtes ont été mis à jour!"
@@ -4621,9 +4618,3 @@ msgstr "vous devez probablement d'abord configurer votre %s "
 
 msgid "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
 msgstr "votre hôte Libvirt ne supporte pas le listing d'interface, merci de saisir ici le nom de l'interface pont (par ex. br0)"
-
-#~ msgid "Accept these environment changes found in puppet?"
-#~ msgstr "Prendre en compte les changements de l'environnement Puppet ?"
-
-#~ msgid "Changed environments and puppet classes"
-#~ msgstr "Environnements et classes Puppet changés"

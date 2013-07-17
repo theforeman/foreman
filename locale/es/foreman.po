@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 09:53+0100\n"
-"PO-Revision-Date: 2013-06-29 22:56+0000\n"
+"POT-Creation-Date: 2013-07-17 16:28+0100\n"
+"PO-Revision-Date: 2013-07-04 18:40+0000\n"
 "Last-Translator: carmela <carmela.rubinos@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "Language: es\n"
@@ -84,9 +84,8 @@ msgstr[1] "Existen %{count} equipos sin %{taxonomy_single} asignada"
 msgid "%{default_value} is not one of %{validator_rule}"
 msgstr "%{default_value} no es una de %{validator_rule}"
 
-#, fuzzy
 msgid "%{e} does not belong to the %{environment} environment"
-msgstr "%{value} no pertenece al sistema operativo %{os}"
+msgstr "%{e} no pertenece al entorno %{environment}"
 
 msgid "%{host} is now %{state}"
 msgstr "%{host} ahora está %{state}"
@@ -98,7 +97,7 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} ha cambiado de %{label1} a %{label2}"
 
 msgid "%{record} is used by %{what}"
-msgstr ""
+msgstr "%{record} está siendo usado por %{what}"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} tareas han fallado con el error: %{e}"
@@ -623,18 +622,17 @@ msgstr "Procesadores"
 msgid "Can't delete built-in role"
 msgstr "No se puede eliminar rol incorporado"
 
-#, fuzzy
 msgid "Can't delete internal admin account"
-msgstr "No se puede eliminar rol incorporado"
+msgstr "No se puede eliminar la cuenta de administración interna"
 
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "No se encuentra un Proxy Foreman con características de Puppet habilitadas"
 
 msgid "Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr ""
+msgstr "No se puede eliminar la etiqueta de Administrador desde la cuenta protegida <b>administración</b>"
 
 msgid "Can't rename internal protected <b>admin</b> account to %s"
-msgstr ""
+msgstr "No se puede renombrar la cuenta interna de <b>administración</b> a %s"
 
 msgid "Can't use the same value as the primary interface"
 msgstr "No puede usar el mismo valor que en la interfaz primaria"
@@ -669,9 +667,8 @@ msgstr "Cambiar Grupo"
 msgid "Change your avatar at gravatar.com"
 msgstr "Cambia tu avatar en gravatar.com"
 
-#, fuzzy
 msgid "Changed environments"
-msgstr "Cambiar Entorno"
+msgstr "Entornos modificados"
 
 msgid "Chassis"
 msgstr "Chasis"
@@ -682,25 +679,20 @@ msgstr "Marcar todos"
 msgid "Check all/Uncheck all"
 msgstr "Marcar todos/Desmarcar todos"
 
-#, fuzzy
 msgid "Check/Uncheck all"
-msgstr "Marcar todos/Desmarcar todos"
+msgstr "Marcar/Desmarcar todos"
 
-#, fuzzy
 msgid "Check/Uncheck all %s changes"
-msgstr "Marcar todos/Desmarcar todos"
+msgstr "Marcar/Desmarcar todos los cambios %s"
 
-#, fuzzy
 msgid "Check/Uncheck new"
-msgstr "Marcar todos/Desmarcar todos"
+msgstr "Marcar/Desmarcar nuevos"
 
-#, fuzzy
 msgid "Check/Uncheck obsolete"
-msgstr "Marcar todos/Desmarcar todos"
+msgstr "Marcar/Desmarcar obsoletos"
 
-#, fuzzy
 msgid "Check/Uncheck updated"
-msgstr "Marcar todos/Desmarcar todos"
+msgstr "Marcar/Desmarcar actualizados"
 
 msgid "Choose a family"
 msgstr "Elegir una familia"
@@ -1436,6 +1428,9 @@ msgstr "El tiempo de creación del informe de Foreman es <em>%s</em>"
 msgid "Foreman ticketing system"
 msgstr "Sistema de tickets de Foreman"
 
+msgid "Foreman will create the host when new facts are received"
+msgstr ""
+
 msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
 msgstr "Foreman, de forma predeterminada, opera en modo anónimo en donde todas las operaciones son ejecutadas sin hacer referencia al usuario que está ejecutando la tarea."
 
@@ -1714,7 +1709,8 @@ msgstr "Dirección IP para este equipo, si el DHCP Smart Proxy está habilitado,
 msgid "IRC"
 msgstr "IRC"
 
-msgid "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+#, fuzzy
+msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr "Si Foreman se está ejecutando con Passenger o un balanceador de carga remoto, la ip debe ser especificada aquí"
 
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
@@ -1896,7 +1892,8 @@ msgstr "Mapeo de Atributos LDAP"
 msgid "LDAP Authentication"
 msgstr "Autenticación LDAP"
 
-msgid "LDAP user will have his Foreman account automatically created the first time he logs into Foreman"
+#, fuzzy
+msgid "LDAP users will have their Foreman account automatically created the first time they log into Foreman"
 msgstr "El usuario LDAP tendrá su cuenta Foreman creada automáticamente la primera vez que acceda a Foreman"
 
 msgid "Last report"
@@ -2537,7 +2534,7 @@ msgid "OS Image"
 msgstr "Imagen SO"
 
 msgid "Obsolete"
-msgstr ""
+msgstr "Obsoleto"
 
 msgid "Off"
 msgstr "Apagado"
@@ -3195,7 +3192,7 @@ msgid "Select template"
 msgstr "Selecciona plantilla"
 
 msgid "Select the changes you want to realize in Foreman"
-msgstr ""
+msgstr "Selecciona los cambios que deseas realizar en Foreman"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "Los equipos seleccionados han sido asignados a %s"
@@ -3737,7 +3734,7 @@ msgid "To update the class signature, go to the Puppet Classes page and select \
 msgstr "Para actualizar la firma de clase, selecciona \"Importar\" en la página de Clases de Puppet."
 
 msgid "Toggle"
-msgstr ""
+msgstr "Palanca"
 
 msgid "Toggle notifications section"
 msgstr "Sección de notificaciones Palanca"
@@ -3872,9 +3869,8 @@ msgstr "Actualizar"
 msgid "Update:"
 msgstr "Actualizar:"
 
-#, fuzzy
 msgid "Updated"
-msgstr "Actualizar"
+msgstr "Actualizado"
 
 msgid "Updated all hosts!"
 msgstr "¡Todos los equipos actualizados!"
@@ -4622,9 +4618,3 @@ msgstr "probablemente se necesite configurar el %s primero."
 
 msgid "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
 msgstr "el equipo libvirt no soporta listar interfaces, por favor, introduce aquí el nombre del bridge (ej, br0)"
-
-#~ msgid "Accept these environment changes found in puppet?"
-#~ msgstr "¿Aceptar estos cambios en el entorno detectados en puppet?"
-
-#~ msgid "Changed environments and puppet classes"
-#~ msgstr "Modificados entornos y clases puppet"
