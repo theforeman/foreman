@@ -54,10 +54,10 @@ user-setup-udeb passwd/make-user boolean false
 
 <% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
 # Puppetlabs repo
-d-i apt-setup/local1/repository string \
+d-i apt-setup/local0/repository string \
     http://apt.puppetlabs.com/ <%= @host.operatingsystem.release_name %> main
-    d-i apt-setup/local1/comment string Puppetlabs packages
-    d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
+    d-i apt-setup/local0/comment string Puppetlabs packages
+    d-i apt-setup/local0/key string http://apt.puppetlabs.com/pubkey.gpg
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)
