@@ -142,6 +142,11 @@ class ApplicationController < ActionController::Base
     User.current = User.admin
   end
 
+  def model_of_controller
+    controller_path.singularize.camelize.gsub('/','::').constantize
+  end
+
+
   # searches for an object based on its name and assign it to an instance variable
   # required for models which implement the to_param method
   #
@@ -150,10 +155,11 @@ class ApplicationController < ActionController::Base
   def find_by_name
     not_found and return if (id = params[:id]).blank?
 
-    obj = controller_name.singularize
+    name = controller_name.singularize
+    model = model_of_controller
     # determine if we are searching for a numerical id or plain name
     cond = "find_by_" + ((id =~ /^\d+$/ && (id=id.to_i)) ? "id" : "name")
-    not_found and return unless instance_variable_set("@#{obj}", obj.camelize.constantize.send(cond, id))
+    not_found and return unless instance_variable_set("@#{name}", model.send(cond, id))
   end
 
   def notice notice
