@@ -91,10 +91,10 @@ module Api
         param :description, String
         param :validator_type, String
         param :validator_rule, String
-        param :is_param, :boolean
+        param :is_param, :bool
         param :key_type, String
-        param :override, :boolean
-        param :required, :boolean
+        param :override, :bool
+        param :required, :bool
       end
 
       def create
@@ -112,10 +112,10 @@ module Api
         param :description, String
         param :validator_type, String
         param :validator_rule, String
-        param :is_param, :boolean
+        param :is_param, :bool
         param :key_type, String
-        param :override, :boolean
-        param :required, :boolean
+        param :override, :bool
+        param :required, :bool
       end
 
       def update
