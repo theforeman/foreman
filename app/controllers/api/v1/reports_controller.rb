@@ -33,8 +33,8 @@ module Api
 
       def last
         conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
-        max_id = Report.my_reports.maximum(:id, :conditions => conditions)
-        @report = Report.find(max_id, :include => { :logs => [:message, :source] })
+        max_id = Report.my_reports.where(conditions).maximum(:id)
+        @report = Report.includes(:logs => [:message, :source]).find(max_id)
         render :show
       end
 

@@ -5,7 +5,7 @@ class LookupKeysController < ApplicationController
 
   def index
     begin
-      values = LookupKey.search_for(params[:search], :order => params[:order])
+      values = LookupKey.includes(:puppetclass).search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
       values = LookupKey.search_for ""
@@ -13,7 +13,7 @@ class LookupKeysController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @lookup_keys = values.paginate(:page => params[:page], :include => [:puppetclass])
+        @lookup_keys = values.paginate(:page => params[:page])
       end
       format.json { render :json => values}
     end

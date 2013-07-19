@@ -1,3 +1,9 @@
+require 'foreman/access_permissions'
+require 'foreman/default_data/loader'
+require 'foreman/renderer'
+require 'foreman/controller'
+require 'net'
+require 'foreman/provision' if SETTINGS[:unattended]
 require 'foreman'
 
 # We may be executing something like rake db:migrate:reset, which destroys this table

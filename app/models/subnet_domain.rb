@@ -2,8 +2,8 @@ class SubnetDomain < ActiveRecord::Base
   belongs_to :domain
   belongs_to :subnet
 
-  validates_presence_of :subnet_id, :domain_id
-  validates_uniqueness_of :domain_id, :scope => :subnet_id
+  validates :subnet_id, :presence => true
+  validates :domain_id, :presence => true, :uniqueness => {:scope => :subnet_id}
 
   def to_s
     "#{domain} : #{subnet}"

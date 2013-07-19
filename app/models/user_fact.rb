@@ -4,11 +4,9 @@ class UserFact < ActiveRecord::Base
   belongs_to :user
   belongs_to :fact_name
 
-  validates_inclusion_of :andor,    :in => %w{and or}
-  validates_inclusion_of :operator, :in => %w{= !=  > >= < <= }
-  validates_presence_of  :fact_name
-  validates_presence_of  :criteria
-  validates_presence_of  :user
+  validates :andor, :inclusion => {:in => %w{and or}}
+  validates :operator, :inclusion => {:in => %w{= !=  > >= < <= }}
+  validates :fact_name, :criteria, :user, :presence => true
   before_validation :set_defaults
 
   def to_s

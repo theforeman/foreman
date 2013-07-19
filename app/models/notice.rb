@@ -3,9 +3,9 @@ class Notice < ActiveRecord::Base
 
   TYPES = %w{message warning}
   before_validation :set_default_notice_level
-  validates_inclusion_of :level, :in => TYPES
+  validates :level, :inclusion => { :in => TYPES }
 
-  validates_presence_of :content
+  validates :content, :presence => true
   before_save :add_to_users
 
   def to_s

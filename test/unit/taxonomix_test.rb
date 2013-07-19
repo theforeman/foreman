@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class TaxonomixDummy
-  include Taxonomix::InstanceMethods
+class TaxonomixDummy < ActiveRecord::Base
+  include Taxonomix
 
   attr_accessor :locations, :organizations
 

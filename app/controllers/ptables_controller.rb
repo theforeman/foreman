@@ -3,9 +3,9 @@ class PtablesController < ApplicationController
   before_filter :find_ptable, :only => %w{show edit update destroy}
 
   def index
-    values = Ptable.search_for(params[:search], :order => params[:order])
+    values = Ptable.includes(:operatingsystems).search_for(params[:search], :order => params[:order])
     respond_to do |format|
-      format.html { @ptables = values.paginate :page => params[:page], :include => [:operatingsystems] }
+      format.html { @ptables = values.paginate :page => params[:page] }
       format.json { render :json => values }
     end
   end

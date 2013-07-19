@@ -43,7 +43,7 @@ class HostsController < ApplicationController
       format.yaml do
         render :text => if params["rundeck"]
           result = {}
-          search.all(:include => included_associations).each{|h| result.update(h.rundeck)}
+          search.includes(included_associations).each{|h| result.update(h.rundeck)}
           result
         else
           search.all(:select => "hosts.name").map(&:name)

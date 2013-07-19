@@ -15,12 +15,10 @@ class Puppetclass < ActiveRecord::Base
   has_many :class_params, :through => :environment_classes, :uniq => true,
     :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
   accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
-  validates_uniqueness_of :name
-  validates_presence_of :name
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
+  validates :name, :uniqueness => true, :presence => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain white spaces.") }
   audited :allow_mass_assignment => true
 
-  default_scope :order => 'puppetclasses.name'
+  default_scope lambda { order('puppetclasses.name') }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"

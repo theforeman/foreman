@@ -7,7 +7,7 @@ class DomainsController < ApplicationController
     respond_to do |format|
       format.html do
         @domains = values.paginate :page => params[:page]
-        @counter = Host.count(:group => :domain_id, :conditions => {:domain_id => @domains.all})
+        @counter = Host.group(:domain_id).where(:domain_id => @domains.pluck(:id)).count
       end
       format.json { render :json => values }
     end
