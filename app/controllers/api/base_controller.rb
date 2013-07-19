@@ -45,6 +45,7 @@ module Api
       if resource.permission_failed?
         deny_access
       else
+        log_resource_errors resource
         render_error 'unprocessable_entity', :status => :unprocessable_entity
       end
     end
@@ -60,6 +61,10 @@ module Api
       else
         process_resource_error
       end
+    end
+
+    def log_resource_errors(resource)
+      logger.error "Unprocessable entity #{resource.class.name} (id: #{resource.try(:id) || "new"}):\n  #{resource.errors.full_messages.join("\n  ")}\n"
     end
 
     def authorize
