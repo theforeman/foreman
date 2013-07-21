@@ -30,7 +30,7 @@ class Operatingsystem < ActiveRecord::Base
 
   before_save :deduce_family
   audited :allow_mass_assignment => true
-  default_scope :order => 'LOWER(operatingsystems.name)'
+  default_scope :order => 'operatingsystems.name'
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :major, :complete_value => :true
