@@ -149,7 +149,7 @@ module Foreman::Model
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
       if vm.display[:type] =~ /spice/i
-        xpi_opts = {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port], :ca_cert => cacert}
+        xpi_opts = {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port], :ca_cert => cacert, :subject => vm.display[:subject] }
         opts = if vm.display[:secure_port]
                  { :host_port => vm.display[:secure_port], :ssl_target => true }
                else

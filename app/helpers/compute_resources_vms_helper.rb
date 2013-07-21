@@ -37,6 +37,7 @@ module ComputeResourcesVmsHelper
       :address     => console[:address],
       :secure_port => console[:secure_port],
       :ca_cert     => URI.escape(console[:ca_cert]),
+      :subject     => console[:subject],
       :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
     ) if supports_spice_xpi?
     options
