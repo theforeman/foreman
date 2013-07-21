@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -153,7 +153,7 @@ Meta Package to install requirements for virt support
 %package ovirt
 Summary: Foreman ovirt support
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.15
+Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.21
 Requires: foreman-compute = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 
@@ -530,6 +530,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Jul 24 2013 Jason Montleon <jmontleo@redhat.com> 1.2.9999-7
+- Update rbovirt dependency version to 0.0.21 to support sending the host ssl certificate subject as an option to the xpi plugin
 * Fri Jul 19 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-6
 - add foreman-rake to /usr/sbin
 * Mon Jun 17 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-5

@@ -49,5 +49,6 @@ function connectXPI() {
   pluginobj.SSLChannels = String("all");
   pluginobj.fullScreen = false;
   pluginobj.Title = attrs.data('title');
+  pluginobj.HostSubject = attrs.data('subject');
   pluginobj.connect();
 }
