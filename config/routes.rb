@@ -252,12 +252,14 @@ Foreman::Application.routes.draw do
           post 'hardware_profile_selected'
           post 'cluster_selected'
           post 'ping'
+          put 'associate'
         end
         constraints(:id => /[^\/]+/) do
           resources :vms, :controller => "compute_resources_vms" do
             member do
               put 'power'
               put 'pause'
+              put 'associate'
               get 'console'
             end
           end

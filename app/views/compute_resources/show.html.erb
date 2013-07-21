@@ -1,7 +1,8 @@
 <%= javascript "compute_resource" %>
 <% title @compute_resource.name %>
 
-<% title_actions link_to(_('Edit'), edit_compute_resource_path(@compute_resource), :class => "btn")  %>
+<% title_actions display_link_if_authorized(_("Associate VMs"), hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource), :title=> _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn"),
+   link_to(_('Edit'), edit_compute_resource_path(@compute_resource), :class => "btn")  %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
   <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>

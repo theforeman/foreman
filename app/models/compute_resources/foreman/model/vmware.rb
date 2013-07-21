@@ -138,6 +138,10 @@ module Foreman::Model
       attrs[:pubkey_hash] = key
     end
 
+    def associated_host(vm)
+      Host.my_hosts.where(:mac => vm.mac).first
+    end
+
     private
 
     def dc

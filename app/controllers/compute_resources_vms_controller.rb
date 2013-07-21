@@ -1,6 +1,6 @@
 class ComputeResourcesVmsController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_vm, :only => [:show, :power, :pause, :console]
+  before_filter :find_vm, :only => [:show, :power, :pause, :console, :associate]
 
   def index
     @vms = @compute_resource.vms.all(params[:filters] || {})
@@ -21,6 +21,22 @@ class ComputeResourcesVmsController < ApplicationController
       process_success :success_redirect => compute_resource_vms_path(@compute_resource)
     else
       process_error :redirect => new_compute_resource_vm_path(@compute_resource), :object => @compute_resource
+    end
+  end
+
+  def associate
+    if Host.where(:uuid => @vm.identity).any?
+      process_error(:error_msg => _("VM already associated with a host"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
+    else
+      host = @compute_resource.associated_host(@vm) if @compute_resource.respond_to?(:associated_host)
+      if host.present?
+        host.uuid = @vm.identity
+        host.compute_resource_id = @compute_resource.id
+        host.save!(:validate => false) # don't want to trigger callbacks
+        process_success(:success_msg => _("VM associated to host #{host.name}"), :success_redirect => host_path(host))
+      else
+        process_error(:error_msg => _("No host found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
+      end
     end
   end
 

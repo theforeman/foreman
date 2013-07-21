@@ -126,6 +126,10 @@ module Foreman::Model
       client.nodes.first
     end
 
+    def associated_host(vm)
+      Host.my_hosts.where(:mac => vm.mac).first
+    end
+
     protected
 
     def client

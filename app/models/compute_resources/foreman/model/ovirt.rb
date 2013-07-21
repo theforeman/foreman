@@ -175,6 +175,10 @@ module Foreman::Model
       false
     end
 
+    def associated_host(vm)
+      Host.my_hosts.where(:mac => vm.mac).first
+    end
+
     protected
 
     def bootstrap(args)
