@@ -2,7 +2,7 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   AJAX_REQUESTS = %w{hardware_profile_selected cluster_selected}
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy, :ping] + AJAX_REQUESTS
+  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy, :ping, :associate] + AJAX_REQUESTS
 
   def index
     begin
@@ -47,6 +47,24 @@ class ComputeResourcesController < ApplicationController
   end
 
   def edit
+  end
+
+  def associate
+    count = 0
+    if @compute_resource.respond_to?(:associated_host)
+      @compute_resource.vms.each do |vm|
+        if Host.where(:uuid => vm.identity).empty?
+          host = @compute_resource.associated_host(vm)
+          if host.present?
+            host.uuid = vm.identity
+            host.compute_resource_id = @compute_resource.id
+            host.save!(:validate => false) # don't want to trigger callbacks
+            count += 1
+          end
+        end
+      end
+    end
+    process_success(:success_msg => n_("%s VM associated to a host", "%s VMs associated to hosts", count) % count)
   end
 
   def update
