@@ -696,6 +696,15 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "can auto-complete searches by facts" do
+    as_admin do
+      completions = Host::Managed.complete_for("facts.")
+      FactName.order(:name).each do |fact|
+        assert completions.include?(" facts.#{fact.name} "), "completion missing: #{fact}"
+      end
+    end
+  end
+
   test "#rundeck returns hash" do
     h = hosts(:one)
     rundeck = h.rundeck

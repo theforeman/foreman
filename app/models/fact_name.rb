@@ -8,7 +8,7 @@ class FactName < ActiveRecord::Base
   scope :no_timestamp_fact, :conditions => ["fact_names.name <> ?",:_timestamp]
   scope :timestamp_facts,   :conditions => ["fact_names.name = ?", :_timestamp]
 
-  default_scope :order => 'LOWER(fact_names.name)'
+  default_scope :order => 'fact_names.name'
 
   validate :name, :uniqueness => true
 

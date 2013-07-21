@@ -11,7 +11,7 @@ class Usergroup < ActiveRecord::Base
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
-  default_scope :order => 'LOWER(usergroups.name)'
+  default_scope :order => 'usergroups.name'
   scoped_search :on => :name, :complete_value => :true
   validate :ensure_uniq_name
 
