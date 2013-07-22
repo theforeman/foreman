@@ -19,9 +19,13 @@ module Api::V2::TaxonomiesController
   end
 
   api :GET, '/:resource_id', 'List all :resource_id'
+  param :search, String, :desc => "filter results"
+  param :order, String, :desc => "sort results"
+  param :page, String, :desc => "paginate results"
+  param :per_page, String, :desc => "number of entries per request"
   def index
     if @nested_obj
-      #@taxonomies = @domain.locations.paginate(paginate_options)
+      #@taxonomies = @domain.locations.search_for(*search_options).paginate(paginate_options)
       @taxonomies = @nested_obj.send(taxonomies_plural).search_for(*search_options).paginate(paginate_options)
     else
       @taxonomies = taxonomy_class.search_for(*search_options).paginate(paginate_options)
@@ -81,12 +85,7 @@ module Api::V2::TaxonomiesController
   end
 
   def taxonomy_id
-    case controller_name
-      when 'organizations'
-        :organization_id
-      when 'locations'
-        :location_id
-    end
+    "#{taxonomy_single}_id".to_sym
   end
 
   def taxonomy_single
@@ -102,12 +101,7 @@ module Api::V2::TaxonomiesController
   end
 
   def find_taxonomy
-    case controller_name
-      when 'organizations'
-        @taxonomy = @organization = Organization.find(params[:id])
-      when 'locations'
-        @taxonomy = @location = Location.find(params[:id])
-    end
+    @taxonomy = find_resource
   end
 
 end
