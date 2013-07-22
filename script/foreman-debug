@@ -151,13 +151,13 @@ done
 # determine distribution family
 if [ -f /etc/debian_version ]; then
     OS=debian
-    OS_RELEASE=$(lsb_release -sr)
+    OS_RELEASE=$(head -n1 /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
     OS=redhat
-    OS_RELEASE=$(lsb_release -sr)
+    OS_RELEASE=$(head -n1 /etc/redhat-release)
 elif type -p lsb_release >/dev/null; then
-    OS=$(lsb_release -si)
-    OS_RELEASE=$(lsb_release -sr)
+    OS=$(lsb_release -si 2>/dev/null)
+    OS_RELEASE=$(lsb_release -sr 2>/dev/null)
 elif type -p rpm >/dev/null; then
     OS=$(rpm -q --whatprovides redhat-release --queryformat '%{NAME}')
     OS_RELEASE=$(rpm -q --whatprovides redhat-release --queryformat '%{VERSION}')
