@@ -727,4 +727,13 @@ class HostTest < ActiveSupport::TestCase
     assert rundeck[h.name]['tags'].include?('ipaddress=10.0.19.33'), 'ipaddress fact missing'
   end
 
+  test "should accept lookup_values_attributes" do
+    h = hosts(:redhat)
+    as_admin do
+      assert_difference "LookupValue.count" do
+        assert h.update_attributes(:lookup_values_attributes => {"0" => {:lookup_key_id => lookup_keys(:one).id, :value => "8080" }})
+      end
+    end
+  end
+
 end
