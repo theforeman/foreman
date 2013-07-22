@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class UnattendedControllerTest < ActionController::TestCase
+  setup do
+    Host::Managed.any_instance.stubs(:handle_ca).returns(true)
+  end
+
   test "should get a kickstart" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{hosts(:redhat).mac}"
     get :kickstart
