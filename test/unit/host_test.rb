@@ -386,19 +386,39 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate({:kind => "finish"})
   end
 
- test "when provisioning a new host we should not call puppetca if its disabled" do
-   # TODO improve this test :-)
-   Setting[:manage_puppetca] = false
-   assert hosts(:one).handle_ca
- end
+  test "handle_ca must not perform actions when the manage_puppetca setting is false" do
+    h = hosts(:one)
+    Setting[:manage_puppetca] = false
+    h.expects(:initialize_puppetca).never()
+    h.expects(:setAutosign).never()
+    assert h.handle_ca
+  end
 
- test "custom_disk_partition_with_erb" do
-   h = hosts(:one)
-   h.disk = "<%= 1 + 1 %>"
-   assert h.save
-   assert h.disk.present?
-   assert_equal "2", h.diskLayout
- end
+  test "handle_ca must not perform actions when no Puppet CA proxy is associated" do
+    h = hosts(:one)
+    Setting[:manage_puppetca] = true
+    refute h.puppetca?
+    h.expects(:initialize_puppetca).never()
+    assert h.handle_ca
+  end
+
+  test "handle_ca must call initialize, delete cert and add autosign methods" do
+    h = hosts(:dhcp)
+    Setting[:manage_puppetca] = true
+    assert h.puppetca?
+    h.expects(:initialize_puppetca).returns(true)
+    h.expects(:delCertificate).returns(true)
+    h.expects(:setAutosign).returns(true)
+    assert h.handle_ca
+  end
+
+  test "custom_disk_partition_with_erb" do
+    h = hosts(:one)
+    h.disk = "<%= 1 + 1 %>"
+    assert h.save
+    assert h.disk.present?
+    assert_equal "2", h.diskLayout
+  end
 
   test "models are updated when host.model has no value" do
     h = hosts(:one)

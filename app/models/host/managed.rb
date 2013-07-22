@@ -221,11 +221,9 @@ class Host::Managed < Host::Base
   # Called after a host is given their provisioning template
   # Returns : Boolean status of the operation
   def handle_ca
-    return true if Rails.env == "test"
     return true unless Setting[:manage_puppetca]
-    if puppetca?
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
-    end
+    return true unless puppetca?
+    respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
   end
 
   # returns the host correct disk layout, custom or common
