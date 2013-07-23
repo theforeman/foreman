@@ -14,7 +14,7 @@ function show_diff(item){
         .css("position","relative")
         .css("padding-top","0")
         .height('380')
-        .width('680');
+        .width('522');
 
   var editor = ace.edit("diff-modal-editor");
   editor.setTheme("ace/theme/clouds");
