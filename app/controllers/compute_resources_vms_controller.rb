@@ -3,7 +3,7 @@ class ComputeResourcesVmsController < ApplicationController
   before_filter :find_vm, :only => [:show, :power, :console]
 
   def index
-    @vms = @compute_resource.vms.all(params[:filters] || {})
+    @vms = @compute_resource.type == 'Foreman::Model::Rackspace' ? @compute_resource.vms.all : @compute_resource.vms.all(params[:filters] || {})
     respond_to do |format|
       format.html
       format.json { render :json => @vms }
