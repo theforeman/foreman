@@ -94,7 +94,14 @@ module Foreman::Model
     private
 
     def client
-      @client = Fog::Compute.new(:provider => "Rackspace", :version => 'v2', :rackspace_api_key => password, :rackspace_username => user, :rackspace_auth_url => url, :rackspace_endpoint => endpoint)
+      @client = Fog::Compute.new(
+        :provider => "Rackspace",
+        :version => 'v2',
+        :rackspace_api_key => password,
+        :rackspace_username => user,
+        :rackspace_auth_url => url,
+        :rackspace_compute_url => endpoint
+      )
       return @client
     end
 
