@@ -690,9 +690,9 @@ class Host::Managed < Host::Base
   def power
     opts = {:host => self}
     if compute_resource_id && uuid
-      VirtPowerManager.new(opts)
+      PowerManager::Virt.new(opts)
     elsif bmc_available?
-      BMCPowerManager.new(opts)
+      PowerManager::BMC.new(opts)
     else
       raise ::Foreman::Exception.new(N_("Unknown power management support - can't continue"))
     end
