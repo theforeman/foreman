@@ -307,7 +307,7 @@ module ApplicationHelper
 
   def gravatar_url(email, default_image)
     return default_image if email.blank?
-    "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?d=mm&s=30"
+    "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?d=mm&s=30"
   end
 
   private
