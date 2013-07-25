@@ -62,36 +62,35 @@ class PuppetclassesController < ApplicationController
   # form AJAX methods
   def parameters
     puppetclass = Puppetclass.find(params[:id])
-    obj = params['host'] ? refresh_host : refresh_hostgroup
     render :partial => "puppetclasses/class_parameters", :locals => {
         :puppetclass => puppetclass,
-        :obj => obj}
+        :obj => get_host_or_hostgroup}
   end
 
   private
 
-  def refresh_host
-    @host = Host::Base.find_by_id(params['host_id'])
-    if @host
-      unless @host.kind_of?(Host::Managed)
-        @host      = @host.becomes(Host::Managed)
-        @host.type = "Host::Managed"
+  def get_host_or_hostgroup
+    # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
+    if params['host_id'] == 'null'
+      @obj = Host::Managed.new(params['host']) if params['host']
+      @obj ||= Hostgroup.new(params['hostgroup']) if params['hostgroup']
+    else
+      if params['host']
+        @obj = Host::Base.find(params['host_id'])
+        unless @obj.kind_of?(Host::Managed)
+          @obj      = @obj.becomes(Host::Managed)
+          @obj.type = "Host::Managed"
+        end
+        # puppetclass_ids is removed since it causes an insert on host_classes before form is submitted
+        @obj.attributes = params['host'].except!(:puppetclass_ids)
+      elsif params['hostgroup']
+        # hostgroup.id is assigned to params['host_id'] by host_edit.js#load_puppet_class_parameters
+        @obj = Hostgroup.find(params['host_id'])
+        # puppetclass_ids is removed since it causes an insert on hostgroup_classes before form is submitted
+        @obj.attributes = params['hostgroup'].except!(:puppetclass_ids)
       end
-      @host.attributes = params['host']
-    else
-      @host = Host::Managed.new(params['host'])
     end
-    @host
-  end
-
-  def refresh_hostgroup
-    @hostgroup = Hostgroup.find_by_id(params['host_id'])
-    if @hostgroup
-      @hostgroup.attributes = params['hostgroup']
-    else
-      @hostgroup = Hostgroup.new(params['hostgroup'])
-    end
-    @hostgroup
+    @obj
   end
 
   def reset_redirect_to_url
