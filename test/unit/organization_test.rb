@@ -112,7 +112,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:config_template_ids], config_template_ids
     assert_equal selected_ids[:compute_resource_ids], compute_resource_ids
     # match to manually generated taxable_taxonomies
-    assert_equal selected_ids[:environment_ids], Array.new
+    assert_equal selected_ids[:environment_ids], Array(environments(:production).id)
     assert_equal selected_ids[:hostgroup_ids], Array.new
     assert_equal selected_ids[:subnet_ids].sort, Array(subnets(:one).id)
     assert_equal selected_ids[:domain_ids], Array.new
