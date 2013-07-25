@@ -184,6 +184,7 @@ function remove_puppet_class(item){
 
 function load_puppet_class_parameters(item) {
   var id = $(item).attr('data-class-id');
+  // host_id could be either host.id OR hostgroup.id depending on which form
   var host_id = $("form").data('id')
   if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
