@@ -36,7 +36,7 @@ module Foreman::Model
     end
 
     def quota(id)
-      client.quota.get(id)
+      client.quotas.get(id)
     end
 
     def hardware_profiles(opts={})
