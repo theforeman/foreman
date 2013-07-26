@@ -98,6 +98,10 @@ class Foreman::Provision::SSH
         logger.debug "Host timed out for #{address}, retrying"
         sleep(2)
         retry
+      rescue Net::SSH::AuthenticationFailed
+        logger.debug "Auth failed for #{username} at #{address}.. retrying"
+        sleep(2)
+        retry
       rescue Timeout::Error
         retry
       rescue => e
