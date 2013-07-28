@@ -17,29 +17,6 @@ class Redhat < Operatingsystem
     end
   end
 
-  # installs the epel repo
-  def epel host
-    epel_url = "http://dl.fedoraproject.org/pub/epel/$major/$arch/epel-release-$os.noarch.rpm"
-
-    case host.operatingsystem.major
-    when "4"
-      epel_url.gsub!("$os","4-10")
-    when "5"
-      epel_url.gsub!("$os","5-4")
-    when "6"
-       epel_url.gsub!("$os","6-8")
-    else
-      return ""
-    end
-    "su -c 'rpm -Uvh #{medium_uri(host, epel_url)}'"
-  end
-
-  def yumrepo host
-    if host.respond_to? :yumrepo
-      "--enablerepo #{repo}"
-    end
-  end
-
   # Override the class representation, as this breaks many rails helpers
   def class
     Operatingsystem
