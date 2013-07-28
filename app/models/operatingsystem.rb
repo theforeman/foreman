@@ -51,7 +51,7 @@ class Operatingsystem < ActiveRecord::Base
                'Solaris' => %r{Solaris}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
+    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
   end
 
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
@@ -71,6 +71,19 @@ class Operatingsystem < ActiveRecord::Base
 
   def self.families_as_collection
     families.map{|e| OpenStruct.new(:name => e, :value => e) }
+  end
+
+  # Operating system family can override this method to provide an array of
+  # hashes, each describing a repository. For example, to describe a yum repo,
+  # the following structure can be returned by the method:
+  # [{ :baseurl => "https://dl.thesource.com/get/it/here",
+  #    :name => "awesome",
+  #    :description => "awesome product repo"",
+  #    :enabled => 1,
+  #    :gpgcheck => 1
+  #  }]
+  def repos host
+    []
   end
 
   def medium_uri host, url = nil
