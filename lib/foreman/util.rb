@@ -21,5 +21,11 @@ module Foreman
     def secure_token
       SecureRandom.base64(96).tr('+/=', '-_*')
     end
+
+    # recommended to make encryption_key at least 32 bytes. Ex. SecureRandom.hex(20)
+    def secure_encryption_key
+      SecureRandom.hex(20)
+    end
+
   end
 end
