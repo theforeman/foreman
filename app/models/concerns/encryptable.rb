@@ -20,17 +20,21 @@ module Encryptable
     end
 
     def matches_prefix?(str)
-      ENCRYPTION_PREFIX == str[0..(ENCRYPTION_PREFIX.length - 1)]
+      ENCRYPTION_PREFIX == str.to_s[0..(ENCRYPTION_PREFIX.length - 1)]
     end
 
     def puts_and_logs(msg)
       logger.info msg
-      puts msg if defined?(Rake)
+      puts msg if defined?(Rake) && !Rails.env.test?
     end
 
     def is_encryptable?(str)
-      return true unless matches_prefix?(str)
-      puts_and_logs "String starts with the prefix '#{ENCRYPTION_PREFIX}', so #{self.class.name} #{name} was not encrypted again"
+      return true if !matches_prefix?(str) && str.present?
+      if str.blank?
+        puts_and_logs "String is empty', so #{self.class.name} #{name} was not encrypted"
+      else
+        puts_and_logs "String starts with the prefix '#{ENCRYPTION_PREFIX}', so #{self.class.name} #{name} was not encrypted again"
+      end
       false
     end
 
@@ -41,12 +45,13 @@ module Encryptable
     end
 
     def encrypt_field(str)
-      return str unless is_encryptable?(str)
+      return str.to_s unless is_encryptable?(str)
       encryptor = ActiveSupport::MessageEncryptor.new(ENCRYPTION_KEY)
       begin
         # add prefix to encrypted string
-        str = "#{ENCRYPTION_PREFIX}#{encryptor.encrypt_and_sign(str)}"
+        str_encrypted = "#{ENCRYPTION_PREFIX}#{encryptor.encrypt_and_sign(str)}"
         puts_and_logs "Successfully encrypted field for #{self.class.name} #{name}"
+        str = str_encrypted
       rescue
         puts_and_logs "WARNING: Encryption failed for string. Please check that the ENCRYPTION_KEY has not changed."
       end
@@ -58,9 +63,10 @@ module Encryptable
       encryptor = ActiveSupport::MessageEncryptor.new(ENCRYPTION_KEY)
       begin
         # remove prefix before decrypting string
-        str_no_prefix = str.gsub(ENCRYPTION_PREFIX, "")
-        str = encryptor.decrypt_and_verify(str_no_prefix)
+        str_no_prefix = str.gsub(/^#{ENCRYPTION_PREFIX}/, "")
+        str_decrypted = encryptor.decrypt_and_verify(str_no_prefix)
         puts_and_logs "Successfully decrypted field for #{self.class.name} #{name}"
+        str = str_decrypted
       rescue ActiveSupport::MessageVerifier::InvalidSignature
         puts_and_logs "WARNING: Decryption failed for string. Please check that the ENCRYPTION_KEY has not changed."
       end

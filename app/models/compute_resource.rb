@@ -1,6 +1,8 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
+  include Encryptable
+  encrypts :password
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Rackspace].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
