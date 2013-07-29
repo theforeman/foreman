@@ -59,7 +59,7 @@
             :help_inline => :indicator } %>
 
         <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
-            {:onchange => 'hostgroup_or_environment_changed(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
+            {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
             :'data-host-id' => @host.id, :help_inline => :indicator} %>
         <%= puppet_master_fields f %>
       </div>
