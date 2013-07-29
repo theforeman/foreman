@@ -207,7 +207,7 @@ class HostsController < ApplicationController
   end
 
   def power
-    return invalid_request if params[:power_action].blank?
+    return invalid_request unless PowerManager::SUPPORTED_ACTIONS.include? (params[:power_action])
     @host.power.send(params[:power_action].to_sym)
     process_success :success_redirect => :back, :success_msg => _("%{host} is now %{state}") % { :host => @host, :state => _(@host.power.state) }
   rescue => e
@@ -226,13 +226,12 @@ class HostsController < ApplicationController
   end
 
   def ipmi_boot
-    device = params[:ipmi_device]
-    begin
-      @host.ipmi_boot(device)
-      process_success :success_redirect => :back, :success_msg => _("%{host} now boots from %{device}") % { :host => @host.name, :device => _(BOOT_DEVICES[device.downcase.to_sym] || device) }
-    rescue => e
-      process_error :redirect => :back, :error_msg => _("Failed to configure %{host} to boot from %{device}: %{e}") % { :device => _(BOOT_DEVICES[device.downcase.to_sym] || device), :host => @host.name, :e => e }
-    end
+    device    = params[:ipmi_device]
+    device_id = BOOT_DEVICES.stringify_keys[device.downcase] || device
+    @host.ipmi_boot(device)
+    process_success :success_redirect => :back, :success_msg => _("%{host} now boots from %{device}") % { :host => @host.name, :device => _(device_id) }
+  rescue => e
+    process_error :redirect => :back, :error_msg => _("Failed to configure %{host} to boot from %{device}: %{e}") % { :device => _(device_id), :host => @host.name, :e => e }
   end
 
   def console
