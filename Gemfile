@@ -3,7 +3,7 @@ require File.expand_path('../lib/regexp_extensions', __FILE__)
 
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.14'
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
 gem "audited-activerecord", "3.0.0"
