@@ -2,6 +2,12 @@ class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :require_admin
 
+  #This can happen in development when removing a plugin
+  rescue_from ActiveRecord::SubclassNotFound do |e|
+    type = (e.to_s =~ /\'(Setting::.*)\'\./) ? $1 : 'STI-Type'
+    render :text => (e.to_s+"<br><b>run Setting.delete_all(:category=>'#{type}'}') to recover.</b>").html_safe, :status=> 500
+  end
+
   def index
     @settings = Setting.live_descendants.search_for(params[:search])
     respond_to do |format|
