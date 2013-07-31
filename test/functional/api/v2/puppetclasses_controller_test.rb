@@ -26,7 +26,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
-    assert_equal 1, puppetclasses.length
+    assert_equal 2, puppetclasses.length
   end
 
   test "should show puppetclass for host" do
