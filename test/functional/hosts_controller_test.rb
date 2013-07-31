@@ -475,6 +475,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = true
     set_remote_user_to users(:admin)
+    User.current = nil # User.current is admin at this point (from initialize_host)
     host = Host.first
     get :show, {:id => host.to_param, :format => 'json'}
     assert_response :success
@@ -488,6 +489,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)
+    User.current = nil # User.current is admin at this point (from initialize_host)
     host = Host.first
     get :show, {:id => host.to_param, :format => 'json'}
     assert_response 401
@@ -501,6 +503,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:authorize_login_delegation] = false
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)
+    User.current = nil # User.current is admin at this point (from initialize_host)
     host = Host.first
     get :show, {:id => host.to_param, :format => 'json'}
     assert_response 401

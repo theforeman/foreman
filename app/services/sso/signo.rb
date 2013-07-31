@@ -33,10 +33,8 @@ module SSO
         # we already have cookie
         identifier                  = "#{Setting['signo_url']}/user/#{username}"
         headers['WWW-Authenticate'] = Rack::OpenID.build_header({ :identifier => identifier })
+        self.has_rendered = true
         controller.render :text => '', :status => 401
-      else
-        # we have no cookie yet so we plain redirect to OpenID provider to login
-        controller.redirect_to login_url
       end
     end
 

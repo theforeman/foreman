@@ -1,7 +1,7 @@
 module SSO
   class Base
     attr_reader :controller
-    attr_accessor :user
+    attr_accessor :user, :has_rendered
     delegate :request, :to => :controller
 
     def initialize(controller)
@@ -10,6 +10,11 @@ module SSO
 
     def support_login?
       false
+    end
+
+    # Override this value on SSO objects to redirect your users to a custom auth path
+    def login_url
+      controller.login_users_path
     end
 
     # don't forget to implement expiration_url method if your SSO method changes this to true
