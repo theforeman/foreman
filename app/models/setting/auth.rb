@@ -18,7 +18,8 @@ class Setting::Auth < Setting
         self.set('ssl_client_dn_env', N_('Environment variable containing the subject DN from a client SSL certificate'), 'SSL_CLIENT_S_DN'),
         self.set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY'),
         self.set('signo_sso', N_('Use Signo SSO for login'), false),
-        self.set('signo_url', N_('Signo SSO url'), "https://#{fqdn}/signo")
+        self.set('signo_url', N_('Signo SSO url'), "https://#{fqdn}/signo"),
+        self.set('login_delegation_logout_url', N_('Redirect your users to this url on logout (Apache SSO should also be enabled)'), 'https://logouturl')
       ].compact.each { |s| self.create! s.update(:category => "Setting::Auth")}
     end
 

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Foreman::Controller::Authentication
   include Foreman::ThreadSession::Cleaner
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -37,9 +38,9 @@ class ApplicationController < ActionController::Base
   protected
 
   # Authorize the user for the requested action
-  def authorize(ctrl = params[:controller], action = params[:action])
-    allowed = User.current.allowed_to?({:controller => ctrl.gsub(/::/, "_").underscore, :action => action})
-    allowed ? true : deny_access
+  def authorize
+    (render :json => { :error => "Authentication error" }, :status => :unauthorized and return) unless User.current.present?
+    authorized ? true : deny_access
   end
 
   def deny_access
@@ -55,57 +56,10 @@ class ApplicationController < ActionController::Base
     redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
   end
 
-  def available_sso
-    @available_sso ||= SSO.get_available(self)
-  end
-
   # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
   # from db. It must be called after require_login.
   def set_gettext_locale_db
     params[:locale] ||= User.current.try(:locale)
-  end
-
-  # Force a user to login if authentication is enabled
-  # Sets User.current to the logged in user, or to admin if logins are not used
-  def require_login
-    unless session[:user] and (User.current = User.unscoped.find(session[:user]))
-      # User is not found or first login
-      if SETTINGS[:login]
-        # authentication is enabled
-        if available_sso.present?
-          if available_sso.authenticated?
-            user = User.unscoped.find_by_login(available_sso.user)
-            update_activity_time
-          elsif available_sso.support_login?
-            available_sso.authenticate!
-            return
-          else
-            logger.warn("SSO failed, falling back to login form")
-          end
-        # Else, fall back to the standard authentication mechanism,
-        # only if it's an API request.
-        elsif api_request?
-          user = authenticate_or_request_with_http_basic { |u, p| User.try_to_login(u, p) }
-          logger.warn("Failed Basic Auth authentication request from #{request.remote_ip}") unless user
-        end
-
-        if user.is_a?(User)
-          logger.info("Authorized user #{user.login}(#{user.to_label})")
-          User.current = user
-          session[:user] = User.current.id unless api_request?
-          return !User.current.nil?
-        end
-
-        unless api_request?
-          session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
-          redirect_to login_users_path and return
-        end
-      else
-        # We assume we always have a user logged in, if authentication is disabled, the user is the build-in admin account.
-        User.current = User.admin
-        session[:user] = User.current.id unless api_request?
-      end
-    end
   end
 
   def require_mail

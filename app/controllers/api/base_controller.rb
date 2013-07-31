@@ -1,6 +1,7 @@
 module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
+    include Foreman::Controller::Authentication
     include Foreman::ThreadSession::Cleaner
 
     before_filter :set_default_response_format, :authorize, :add_version_header
@@ -33,6 +34,10 @@ module Api
 
     def resource_class
       @resource_class ||= resource_name.camelize.constantize
+    end
+
+    def api_request?
+      true
     end
 
     protected
@@ -68,14 +73,12 @@ module Api
     end
 
     def authorize
-      auth = Api::Authorization.new self
-
-      unless auth.authenticate
-        render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => auth.user_login })
+      unless authenticate
+        render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @available_sso.user })
         return false
       end
 
-      unless auth.authorize
+      unless authorized
         deny_access
         return false
       end
@@ -84,9 +87,8 @@ module Api
     end
 
     def require_admin
-      auth = Api::Authorization.new self
-      unless auth.is_admin?
-        render_error('admin permissions required', :status => :unauthorized, :locals => { :user_login => auth.user_login })
+      unless is_admin?
+        render_error('admin permissions required', :status => :unauthorized, :locals => { :user_login => @available_sso.user })
         return false
       end
     end

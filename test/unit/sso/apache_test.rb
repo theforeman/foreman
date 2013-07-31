@@ -5,6 +5,7 @@ class ApacheTest < ActiveSupport::TestCase
     apache = get_apache_method
     assert apache.authenticated?
     assert_equal apache.user, 'ares'
+    assert_equal apache.session[:sso_method], 'SSO::Apache'
   end
 
   def test_available?
@@ -31,7 +32,8 @@ class ApacheTest < ActiveSupport::TestCase
   end
 
   def get_controller(api_request)
-    controller = Struct.new(:request).new(Struct.new(:env).new({ 'REMOTE_USER' => 'ares' }))
+    controller = Struct.new(:request, :session).new(Struct.new(:env).new({ 'REMOTE_USER' => 'ares' }))
+    controller.session = {}
     stub(controller).api_request? { api_request }
     controller
   end

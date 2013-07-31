@@ -79,7 +79,7 @@ class FactValuesControllerTest < ActionController::TestCase
 
     Resolv.any_instance.stubs(:getnames).returns(['another.host'])
     post :create, {:facts => fact_fixture, :format => "yml"}
-    assert_equal 403, @response.status
+    assert_response :forbidden
   end
 
   test 'hosts with a registered smart proxy and SSL cert should import facts successfully' do
@@ -101,7 +101,7 @@ class FactValuesControllerTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     post :create, {:facts => fact_fixture, :format => "yml"}
-    assert_equal 403, @response.status
+    assert_response :forbidden
   end
 
   test 'hosts with an unverified SSL cert should not be able to import facts' do
@@ -112,7 +112,7 @@ class FactValuesControllerTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=secure.host'
     @request.env['SSL_CLIENT_VERIFY'] = 'FAILED'
     post :create, {:facts => fact_fixture, :format => "yml"}
-    assert_equal 403, @response.status
+    assert_response :forbidden
   end
 
   test 'when "require_ssl_puppetmasters" and "require_ssl" are true, HTTP requests should not be able to import facts' do
@@ -122,7 +122,7 @@ class FactValuesControllerTest < ActionController::TestCase
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     post :create, {:facts => fact_fixture, :format => "yml"}
-    assert_equal 403, @response.status
+    assert_response :forbidden
   end
 
   test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to import facts' do
