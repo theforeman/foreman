@@ -19,13 +19,13 @@ module Orchestration::SSHProvision
   # I guess this is not going to happen on create as we might not have an ip address yet.
   def queue_ssh_provision_create
 
-    post_queue.create(:name   => _("Preparing Post installation script for %s") % self, :priority => 2000,
+    post_queue.create(:name   => _("Prepare post installation script for %s") % self, :priority => 2000,
                  :action => [self, :setSSHProvisionScript])
-    post_queue.create(:name   => _("Waiting for %s to come online") % self, :priority => 2001,
+    post_queue.create(:name   => _("Wait for %s to come online") % self, :priority => 2001,
                  :action => [self, :setSSHWaitForResponse])
-    post_queue.create(:name   => _("Enable Certificate generation for %s") % self, :priority => 2002,
+    post_queue.create(:name   => _("Enable certificate generation for %s") % self, :priority => 2002,
                  :action => [self, :setSSHCert])
-    post_queue.create(:name   => _("Configuring instance %s via SSH") % self, :priority => 2003,
+    post_queue.create(:name   => _("Configure instance %s via SSH") % self, :priority => 2003,
                  :action => [self, :setSSHProvision])
   end
 

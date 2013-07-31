@@ -29,11 +29,11 @@ module Orchestration::Compute
   end
 
   def queue_compute_create
-    queue.create(:name   => _("Settings up compute instance %s") % self, :priority => 1,
+    queue.create(:name   => _("Set up compute instance %s") % self, :priority => 1,
                  :action => [self, :setCompute])
-    queue.create(:name   => _("Acquiring IP address for %s") % self, :priority => 2,
+    queue.create(:name   => _("Acquire IP address for %s") % self, :priority => 2,
                  :action => [self, :setComputeIP]) if compute_resource.provided_attributes.keys.include?(:ip)
-    queue.create(:name   => _("Querying instance details for %s") % self, :priority => 3,
+    queue.create(:name   => _("Query instance details for %s") % self, :priority => 3,
                  :action => [self, :setComputeDetails])
     queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
                  :action => [self, :setComputePowerUp]) if compute_attributes[:start] == '1'
@@ -41,7 +41,7 @@ module Orchestration::Compute
 
   def queue_compute_update
     return unless compute_update_required?
-    logger.debug("Detected a change is required for Compute resource")
+    logger.debug("Detected a change is required for compute resource")
     queue.create(:name   => _("Compute resource update for %s") % old, :priority => 7,
                  :action => [self, :setComputeUpdate])
   end
