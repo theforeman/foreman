@@ -5,9 +5,9 @@ module Api
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
       before_filter :setup_search_options, :only => :index
-      before_filter :find_nested_object, :only => [:host_or_hostgroup_smart_parameters,
-                                                   :host_or_hostgroup_smart_class_parameters,
-                                                   :puppet_smart_parameters]
+      before_filter :find_required_nested_object, :only => [:host_or_hostgroup_smart_parameters,
+                                                            :host_or_hostgroup_smart_class_parameters,
+                                                            :puppet_smart_parameters]
       before_filter :find_environment, :only => :puppet_smart_class_parameters
       before_filter :find_puppetclass, :only => :puppet_smart_class_parameters
 
@@ -130,8 +130,9 @@ module Api
       end
 
       private
-      attr_reader :nested_obj
 
+      # need to find_puppetclass or find_environment in separate method, since find_nested_object is only one level deep
+      # and puppet_smart_class_parameters reviews two levels deep (puppetclass and environment)
       def find_puppetclass
         if params[:puppetclass_id]
           resource_identifying_attributes.each do |key|
@@ -154,20 +155,9 @@ module Api
         render_error 'not_found', :status => :not_found and return false
       end
 
-
-      def find_nested_object
-        params.keys.each do |param|
-          if param =~ /(\w+)_id$/
-            resource_identifying_attributes.each do |key|
-              find_method = "find_by_#{key}"
-              @nested_obj ||= $1.camelize.constantize.send(find_method, params[param])
-            end
-          end
-        end
-        return nested_obj if nested_obj
-        render_error 'not_found', :status => :not_found and return false
+      def allowed_nested_id
+        %w(environment_id puppetclass_id host_id hostgroup_id)
       end
-
 
     end
   end

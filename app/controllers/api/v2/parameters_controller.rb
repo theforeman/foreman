@@ -6,7 +6,7 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :find_nested_object, :only => [:index, :show, :create, :reset]
+      before_filter :find_required_nested_object, :only => [:index, :show, :create, :reset]
 
       resource_description do
         # TRANSLATORS: API documentation - do not translate
@@ -105,24 +105,14 @@ module Api
       end
 
       private
-      attr_reader :nested_obj
-
-      def find_nested_object
-        params.keys.each do |param|
-          if param =~ /(\w+)_id$/
-            resource_identifying_attributes.each do |key|
-              find_method = "find_by_#{key}"
-              @nested_obj ||= $1.classify.constantize.send(find_method, params[param])
-            end
-          end
-        end
-        return nested_obj if nested_obj
-        render_error 'not_found', :status => :not_found and return false
-      end
 
       def parameters_method
         # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
         nested_obj.is_a?(Hostgroup) ? :group_parameters : :parameters
+      end
+
+      def allowed_nested_id
+        %w(host_id hostgroup_id domain_id operatingsystem_id)
       end
 
     end
