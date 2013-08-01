@@ -331,6 +331,18 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'my5name.mydomain.net', Host.my_hosts.first.name
   end
 
+  test "sti types altered in memory with becomes are still contained in my_hosts scope" do
+    class Host::Valid < Host::Base ; belongs_to :domain ; end
+    h = Host::Valid.new :name => "mytestvalidhost.foo.com"
+    setup_user_and_host
+    as_admin do
+      @one.domains = [domains(:yourdomain)] # ensure it matches the user filters
+      h.update_attribute :domain,  domains(:yourdomain)
+    end
+    h_new = h.becomes(Host::Managed) # change the type to break normal AR `==` method
+    assert Host::Base.my_hosts.include?(h_new)
+  end
+
   test "host can be edited when user fact filter permits" do
     setup_filtered_user
     as_admin do
