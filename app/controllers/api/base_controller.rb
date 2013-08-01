@@ -165,5 +165,22 @@ module Api
       end
     end
 
+    private
+    attr_reader :nested_obj
+
+    def find_nested_object
+      params.keys.each do |param|
+        if param =~ /(\w+)_id$/
+          resource_identifying_attributes.each do |key|
+            find_method = "find_by_#{key}"
+            @nested_obj ||= $1.camelize.constantize.send(find_method, params[param])
+          end
+        end
+      end
+      return @nested_obj if @nested_obj
+      return nil if ["puppetclasses", "locations", "organizations"].include?(controller_name)
+      render_error 'not_found', :status => :not_found and return false
+    end
+
   end
 end

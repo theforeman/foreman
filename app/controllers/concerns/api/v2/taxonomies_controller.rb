@@ -72,18 +72,6 @@ module Api::V2::TaxonomiesController
     end
   end
 
-  def find_nested_object
-    params.keys.each do |param|
-      if param =~ /(\w+)_id$/
-        resource_identifying_attributes.each do |key|
-          find_method = "find_by_#{key}"
-          @nested_obj ||= $1.classify.constantize.send(find_method, params[param])
-        end
-      end
-    end
-    return @nested_obj
-  end
-
   def taxonomy_id
     "#{taxonomy_single}_id".to_sym
   end
