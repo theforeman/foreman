@@ -1,7 +1,7 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
-  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Rackspace].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
+  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
@@ -86,7 +86,7 @@ class ComputeResource < ActiveRecord::Base
 
   def provider_friendly_name
     list = SETTINGS[:libvirt] ? ["Libvirt"] : []
-    list += %w[ oVirt EC2 VMWare OpenStack Rackspace ]
+    list += %w[ oVirt EC2 VMWare OpenStack Rackspace GCE]
     list[PROVIDERS.index(provider)] rescue ""
   end
 

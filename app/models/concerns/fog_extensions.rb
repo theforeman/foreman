@@ -12,6 +12,14 @@ begin
   require 'fog/aws/models/compute/server'
   Fog::Compute::AWS::Server.send(:include, FogExtensions::AWS::Server)
 
+  require 'fog/google'
+  require 'fog/google/models/compute/image'
+  Fog::Compute::Google::Image.send(:include, FogExtensions::Google::Image)
+  require 'fog/google/models/compute/server'
+  Fog::Compute::Google::Server.send(:include, FogExtensions::Google::Server)
+  require 'fog/google/models/compute/flavor'
+  Fog::Compute::Google::Flavor.send(:include, FogExtensions::Google::Flavor)
+
   require 'fog/libvirt'
   require 'fog/libvirt/models/compute/server'
   Fog::Compute::Libvirt::Server.send(:include, FogExtensions::Libvirt::Server)
