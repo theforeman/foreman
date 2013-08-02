@@ -1,0 +1,30 @@
+<% title @vm.name %>
+<div class='span12'>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th colspan="2">Properties</th>
+    </tr>
+    <tr>
+      <td>State</td>
+      <td><%= @vm.state.downcase %></td>
+    </tr>
+    <tr>
+      <td>Machine Type</td>
+      <td><%= @vm.pretty_machine_type %></td>
+    </tr>
+    <tr>
+      <td>Zone</td>
+      <td><%= @vm.zone %></td>
+    </tr>
+    <tr>
+      <td>Private IP</td>
+      <td><%= @vm.private_ip_address %></td>
+    </tr>
+    <% if @vm.public_ip_address.present? -%>
+      <tr>
+        <td>Public IP</td>
+        <td><%= @vm.public_ip_address %></td>
+      </tr>
+    <% end -%>
+  </table>
+</div>

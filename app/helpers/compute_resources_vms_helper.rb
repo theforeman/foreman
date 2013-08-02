@@ -74,12 +74,12 @@ module ComputeResourcesVmsHelper
       actions << vm_power_action(vm)
     end
 
-    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))
+    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))
   end
 
   def default_available_actions(vm)
     [vm_power_action(vm),
-     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))]
+     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))]
   end
 
   def vpc_security_group_hash(security_groups)
