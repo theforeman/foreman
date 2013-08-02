@@ -207,6 +207,8 @@ class PuppetClassImporter
       key = db_class.class_params.find_by_key param_name
       if key.override == false
         key.default_value = value
+        key.key_type = nil
+        key.validator_type = nil
         key.save!
       end
     end
