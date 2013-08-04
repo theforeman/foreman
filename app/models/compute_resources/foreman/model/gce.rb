@@ -2,6 +2,7 @@ module Foreman::Model
   class GCE < ComputeResource
     has_one :key_pair, :foreign_key => :compute_resource_id
     after_create :setup_key_pair
+    after_destroy :destroy_key_pair
 
     def capabilities
 	[:image]
@@ -36,7 +37,7 @@ module Foreman::Model
       else
         args['external_ip']=true
       end
-      ssh = { :user => 'root', :public_key_path => '/opt/rvrignaud/foreman/id_dsa.pub' }
+      ssh = { :user => 'root', :public_key => self.key_pair.public }
       args.merge! ssh
       vm = super(args)
       rescue Exception => e
@@ -53,16 +54,17 @@ module Foreman::Model
 	    ComputeResource.model_name
     end
 
-    def provider_friendly_name
-      "Google Compute Engine"
-    end
-
     def setup_key_pair
+      require 'sshkey'
       name = "foreman-#{id}#{Foreman.uuid}"
-      private_key = File.read('/opt/rvrignaud/foreman/id_dsa')
-      KeyPair.create! :name => name, :compute_resource_id => self.id, :secret => private_key
+      key = ::SSHKey.generate
+      KeyPair.create! :name => name, :compute_resource_id => self.id, :secret => key.private_key, :public => key.public_key
     end
 
+    def destroy_key_pair
+      key_pair = KeyPair.find_by_compute_resource_id(self.id)
+      key_pair.destroy
+    end
 
 
      private
