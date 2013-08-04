@@ -58,7 +58,7 @@ module Foreman::Model
       require 'sshkey'
       name = "foreman-#{id}#{Foreman.uuid}"
       key = ::SSHKey.generate
-      KeyPair.create! :name => name, :compute_resource_id => self.id, :secret => key.private_key, :public => key.public_key
+      KeyPair.create! :name => name, :compute_resource_id => self.id, :secret => key.private_key, :public => key.ssh_public_key
     end
 
     def destroy_key_pair

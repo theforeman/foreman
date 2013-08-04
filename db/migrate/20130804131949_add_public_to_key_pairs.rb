@@ -1,5 +1,5 @@
 class AddPublicToKeyPairs < ActiveRecord::Migration
   def change
-    add_column :key_pairs, :public, :string
+    add_column :key_pairs, :public, :text
   end
 end
