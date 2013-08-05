@@ -37,7 +37,7 @@ module Foreman::Model
       else
         args['external_ip']=true
       end
-      ssh = { :user => 'root', :public_key => self.key_pair.public }
+      ssh = { :user => self.images.first.username, :public_key => self.key_pair.public }
       args.merge! ssh
       vm = super(args)
       rescue Exception => e
