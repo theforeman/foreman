@@ -5,7 +5,7 @@ module Foreman::Model
     after_destroy :destroy_key_pair
 
     def capabilities
-	[:image]
+      [:image]
     end
 
     def provided_attributes
@@ -13,11 +13,11 @@ module Foreman::Model
     end
 
     def zones
-	 client.list_zones.body['items'].map{ |zone| zone['name'] }
+      client.list_zones.body['items'].map{ |zone| zone['name'] }
     end
 
     def networks
-	 client.list_networks.body['items'].map{|n| n['name']}
+      client.list_networks.body['items'].map{|n| n['name']}
     end
 
     def flavors
@@ -51,7 +51,7 @@ module Foreman::Model
     end 
 
     def self.model_name
-	    ComputeResource.model_name
+      ComputeResource.model_name
     end
 
     def setup_key_pair
