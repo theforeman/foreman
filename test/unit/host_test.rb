@@ -765,4 +765,20 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "can search hosts by params" do
+    parameter = parameters(:host)
+    hosts = Host.search_for("params.host1 = host1")
+    assert_equal hosts.count, 1
+    assert_equal hosts.first.params['host1'], 'host1'
+  end
+
+  test "can search hosts by inherited params from a hostgroup" do
+    host = hosts(:one)
+    host.update_attribute(:hostgroup, hostgroups(:inherited))
+    GroupParameter.create( { :name => 'foo', :value => 'bar', :hostgroup => host.hostgroup.parent } )
+    hosts = Host.search_for("params.foo = bar")
+    assert_equal hosts.count, 1
+    assert_equal hosts.first.params['foo'], 'bar'
+  end
+
 end
