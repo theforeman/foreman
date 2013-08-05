@@ -482,7 +482,7 @@ class Host::Managed < Host::Base
     current = User.current
     if (operation == "edit") or operation == "destroy"
       if current.allowed_to?("#{operation}_hosts".to_sym)
-        return true if Host.my_hosts.include? self
+        return true if Host::Base.my_hosts.include? self
       end
     else # create
       if current.allowed_to?(:create_hosts)
