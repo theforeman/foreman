@@ -28,3 +28,4 @@ os:
   value: os1
   type: OsParameter
   operatingsystem: redhat
+

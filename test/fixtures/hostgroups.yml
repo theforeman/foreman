@@ -26,3 +26,13 @@ db:
   medium: one
   puppet_proxy: puppetmaster
   label: db
+
+parent:
+  name: Parent
+  label: Parent
+  id: 1
+
+inherited:
+  name: inherited
+  label: Parent/inherited
+  ancestry: 1
