@@ -1,3 +1,64 @@
+2013-08-05	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.1
+
+2013-08-05	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2872 - default password not listed in debug script
+
+2013-08-05	Amos Benari <abenari@redhat.com>
+	* added a HTML id to the operating system ui tab
+
+2013-07-31	Dominic Cleal <dcleal@redhat.com>
+	* Update test fixtures, partial backport of 248cad83
+
+2013-07-29	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2851 - refresh puppet classes on environment change
+	* fixes #2837 add an interface to add repositories to kickstart
+
+2013-07-29	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2788 - changes to fixtures and tests in preparation for testing adding/removing puppetclasses
+	* fixes #2788 - adding / removing puppet classes updates the change even if the form is not submitted
+
+2013-07-29	Ian Mordey <ian.mordey@wandisco.com>
+	* Fixes #2839 - retry SSH authentication issues with cloud-init
+
+2013-07-25	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2693 - don't cause handle_ca error when no Puppet CA associated with host
+
+2013-07-24	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2801 - remove LOWER() in default_scope of models that could cause PG error
+
+2013-07-24	Sam Kottler <shk@redhat.com>
+	* Fixes #2826: only run set_code() on submit if the config template editor is already in diff mode
+
+2013-07-22	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2373 - only reference unattended subnet path when in unattended mode
+
+2013-07-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2808 - pin nokogiri to 1.5.x for Ruby 1.8 (cherry picked from commit 0b547e84f7342cbb809ffe5e1f171c0f4b1e8f05)
+
+2013-07-19	Sam Kottler <shk@redhat.com>
+	* fixes #2797 - Submit the final code, not the diff in the config template editor (cherry picked from commit 99b2e61bed1474451fdef1852d484f009dc4cb2f)
+
+2013-07-19	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2779 - permission problem with non-admin adding puppetclasses to hosts and hostgroups (cherry picked from commit 05fbe52cacb64700af76f8f072b2ff5cd16c23cc)
+
+2013-07-19	Andy Bohne <bohne.andrew@pennmutual.com>
+	* fixes #1770 - Refactored rdeckfacts definition to use facts_hash (cherry picked from commit 86e9a056e5a1d24b9532674d5f14762a1bd9ab78)
+
+2013-07-18	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2791 - ptable api was missing :layout and :os_family (cherry picked from commit 774ed2d2ac6af23369eafa7658b0a446f3b63adf)
+	* fixes #2782 - LDAP password overwritten as blank (cherry picked from commit 6a44fab1a948116e93b4690996ae92cfc5d8db03)
+
+2013-07-18	Amos Benari <abenari@redhat.com>
+	* fixes #2772 cloning locations and organizations is broken (cherry picked from commit 532d961537f8cd639a4b35f35ed4e6210a3ba83c)
+
+2013-07-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2747 - scoped search lambda takes one argument (cherry picked from commit bae0bea90d8096e7a787984b7167d13627da94fd)
+
+2013-07-04	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2734 - wrong taxonomy scope on hostgroup and host form (cherry picked from commit 01122c8be7115fb6c5baf7db9c8a140abda17df3)
+	* fixes #2732 - 404 error Location Not Found on Mismatches Report if a location is selected (cherry picked from commit e75ffa1d19586969f799a1b5a7ec0473ec8933cc)
+
 2013-07-01	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.2.0
 	* refresh locales

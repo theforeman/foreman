@@ -1,7 +1,7 @@
 <%= javascript 'config_template', 'ace/ace',
                'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/theme-textmate',
                'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs' %>
-<%= form_for @config_template, :html => { :multipart => true } do |f| %>
+<%= form_for @config_template, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
     <%= base_errors_for @config_template %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Provisioning Template") %></a></li>

@@ -386,19 +386,39 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate({:kind => "finish"})
   end
 
- test "when provisioning a new host we should not call puppetca if its disabled" do
-   # TODO improve this test :-)
-   Setting[:manage_puppetca] = false
-   assert hosts(:one).handle_ca
- end
+  test "handle_ca must not perform actions when the manage_puppetca setting is false" do
+    h = hosts(:one)
+    Setting[:manage_puppetca] = false
+    h.expects(:initialize_puppetca).never()
+    h.expects(:setAutosign).never()
+    assert h.handle_ca
+  end
 
- test "custom_disk_partition_with_erb" do
-   h = hosts(:one)
-   h.disk = "<%= 1 + 1 %>"
-   assert h.save
-   assert h.disk.present?
-   assert_equal "2", h.diskLayout
- end
+  test "handle_ca must not perform actions when no Puppet CA proxy is associated" do
+    h = hosts(:one)
+    Setting[:manage_puppetca] = true
+    refute h.puppetca?
+    h.expects(:initialize_puppetca).never()
+    assert h.handle_ca
+  end
+
+  test "handle_ca must call initialize, delete cert and add autosign methods" do
+    h = hosts(:dhcp)
+    Setting[:manage_puppetca] = true
+    assert h.puppetca?
+    h.expects(:initialize_puppetca).returns(true)
+    h.expects(:delCertificate).returns(true)
+    h.expects(:setAutosign).returns(true)
+    assert h.handle_ca
+  end
+
+  test "custom_disk_partition_with_erb" do
+    h = hosts(:one)
+    h.disk = "<%= 1 + 1 %>"
+    assert h.save
+    assert h.disk.present?
+    assert_equal "2", h.diskLayout
+  end
 
   test "models are updated when host.model has no value" do
     h = hosts(:one)
@@ -436,7 +456,7 @@ class HostTest < ActiveSupport::TestCase
   test "host puppet classes must belong to the host environment" do
     h = hosts(:redhat)
 
-    pc = puppetclasses(:two)
+    pc = puppetclasses(:three)
     h.puppetclasses << pc
     assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
     assert !h.valid?
@@ -685,6 +705,45 @@ class HostTest < ActiveSupport::TestCase
     as_user :one do
       assert h.update_attributes!("interfaces_attributes" => {"0" => {"mac"=>"59:52:10:1e:45:16"}})
     end
+  end
+
+  test "can auto-complete searches by host name" do
+    as_admin do
+      completions = Host::Managed.complete_for("name =")
+      Host::Managed.all.each do |h|
+        assert completions.include?("name = #{h.name}"), "completion missing: #{h}"
+      end
+    end
+  end
+
+  test "can auto-complete searches by facts" do
+    as_admin do
+      completions = Host::Managed.complete_for("facts.")
+      FactName.order(:name).each do |fact|
+        assert completions.include?(" facts.#{fact.name} "), "completion missing: #{fact}"
+      end
+    end
+  end
+
+  test "#rundeck returns hash" do
+    h = hosts(:one)
+    rundeck = h.rundeck
+    assert_kind_of Hash, rundeck
+    assert_equal ['my5name.mydomain.net'], rundeck.keys
+    assert_kind_of Hash, rundeck[h.name]
+    assert_equal 'my5name.mydomain.net', rundeck[h.name]['hostname']
+    assert_equal ['class=base'], rundeck[h.name]['tags']
+  end
+
+  test "#rundeck returns extra facts as tags" do
+    h = hosts(:one)
+    h.params['rundeckfacts'] = "kernelversion, ipaddress\n"
+    h.save!
+
+    rundeck = h.rundeck
+    assert rundeck[h.name]['tags'].include?('class=base'), 'puppet class missing'
+    assert rundeck[h.name]['tags'].include?('kernelversion=2.6.9'), 'kernelversion fact missing'
+    assert rundeck[h.name]['tags'].include?('ipaddress=10.0.19.33'), 'ipaddress fact missing'
   end
 
 end

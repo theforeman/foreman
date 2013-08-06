@@ -723,7 +723,7 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 17 do
+    assert_difference "location.taxable_taxonomies.count", 14 do
       post :update_multiple_location, {
                                          :location => {:id => location.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)
@@ -788,7 +788,7 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 17 do
+    assert_difference "organization.taxable_taxonomies.count", 14 do
       post :update_multiple_organization, {
                                          :organization => {:id => organization.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)
@@ -836,6 +836,23 @@ class HostsControllerTest < ActionController::TestCase
     put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password, :mac => bmc1.mac} } } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal new_password, @host.interfaces.bmc.first.password
+  end
+
+  test "index returns YAML output for rundeck" do
+    get :index, {:format => 'yaml', :rundeck => true}, set_session_user
+    hosts = YAML.load(@response.body)
+    assert !hosts.empty?
+    host = Host.first
+    assert_equal host.os.name, hosts[host.name]["osName"]  # rundeck-specific field
+  end
+
+  test "show returns YAML output for rundeck" do
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'yaml', :rundeck => true}, set_session_user
+    yaml = YAML.load(@response.body)
+    assert_kind_of Hash, yaml[host.name]
+    assert_equal host.name, yaml[host.name]["hostname"]
+    assert_equal host.os.name, yaml[host.name]["osName"]  # rundeck-specific field
   end
 
   private

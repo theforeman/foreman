@@ -211,6 +211,7 @@ class UnattendedController < ApplicationController
     @mediapath = os.mediumpath @host
     @epel      = os.epel      @host
     @yumrepo   = os.yumrepo   @host
+    @repos     = os.repos @host
 
     # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?

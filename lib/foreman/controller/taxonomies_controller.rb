@@ -37,7 +37,7 @@ module Foreman::Controller::TaxonomiesController
   # cannot name this method "clone" since Object has a clone method and the mixin doesn't overwrite it
   def clone_taxonomy
     @old_name = @taxonomy.name
-    @taxonomy = @taxonomy.clone
+    @taxonomy = @taxonomy.dup
     render 'taxonomies/clone'
   end
 
@@ -104,7 +104,9 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def mismatches
-    @mismatches = Taxonomy.all_mismatcheds
+    Taxonomy.no_taxonomy_scope do
+      @mismatches = Taxonomy.all_mismatcheds
+    end
     render 'taxonomies/mismatches'
   end
 

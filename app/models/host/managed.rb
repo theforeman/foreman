@@ -98,7 +98,7 @@ class Host::Managed < Host::Base
 
   scope :alerts_enabled, {:conditions => ["enabled = ?", true] }
 
-  scope :completer_scope, lambda { my_hosts }
+  scope :completer_scope, lambda { |opts| my_hosts }
 
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?
@@ -221,11 +221,9 @@ class Host::Managed < Host::Base
   # Called after a host is given their provisioning template
   # Returns : Boolean status of the operation
   def handle_ca
-    return true if Rails.env == "test"
     return true unless Setting[:manage_puppetca]
-    if puppetca?
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
-    end
+    return true unless puppetca?
+    respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
   end
 
   # returns the host correct disk layout, custom or common
@@ -517,7 +515,7 @@ class Host::Managed < Host::Base
   def rundeck
     rdecktags = puppetclasses_names.map{|k| "class=#{k}"}
     unless self.params["rundeckfacts"].empty?
-      rdecktags += self.params["rundeckfacts"].split(",").map{|rdf| "#{rdf}=#{fact(rdf)[0].value}"}
+      rdecktags += self.params["rundeckfacts"].gsub(/\s+/, '').split(',').map { |rdf| "#{rdf}=" + (facts_hash[rdf] || "undefined") }
     end
     { name => { "description" => comment, "hostname" => name, "nodename" => name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
