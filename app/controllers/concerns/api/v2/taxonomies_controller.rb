@@ -6,7 +6,7 @@ module Api::V2::TaxonomiesController
                                                 domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
                                                 medium_ids smart_proxy_ids environment_ids user_ids organization_ids
                                                 }
-    before_filter :find_nested_object, :only => %w(index show)
+    before_filter :find_optional_nested_object, :only => %w(index show)
     before_filter :params_match_database, :only => %w(create update)
   end
 
@@ -90,6 +90,10 @@ module Api::V2::TaxonomiesController
 
   def find_taxonomy
     @taxonomy = find_resource
+  end
+
+  def allowed_nested_id
+    %w(domain_id compute_resource_id subnet_id environment_id hostgroup_id smart_proxy_id user_id medium_id organization_id location_id)
   end
 
 end

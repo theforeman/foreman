@@ -5,7 +5,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_nested_object, :only => [:index, :show]
+      before_filter :find_optional_nested_object, :only => [:index, :show]
 
       api :GET, "/puppetclasses/", "List all puppetclasses."
       api :GET, "/hosts/:host_id/puppetclasses", "List all puppetclasses for host"
@@ -38,6 +38,10 @@ module Api
         if nested_obj
           @puppetclass = nested_obj.puppetclasses.find(params[:id])
         end
+      end
+
+      def allowed_nested_id
+        %w(environment_id host_id hostgroup_id)
       end
 
     end

@@ -6,7 +6,7 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :find_nested_object, :only => [:index, :show, :create, :reset]
+      before_filter :find_required_nested_object, :only => [:index, :show, :create, :reset]
 
       resource_description do
         # TRANSLATORS: API documentation - do not translate
@@ -109,6 +109,10 @@ module Api
       def parameters_method
         # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
         nested_obj.is_a?(Hostgroup) ? :group_parameters : :parameters
+      end
+
+      def allowed_nested_id
+        %w(host_id hostgroup_id domain_id operatingsystem_id)
       end
 
     end
