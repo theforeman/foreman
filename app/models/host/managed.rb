@@ -345,15 +345,17 @@ class Host::Managed < Host::Base
     case facts
       when Puppet::Node::Facts
         certname = facts.name
-        name     = facts.values["fqdn"].downcase
-        values   = facts.values
+        name = facts.values["fqdn"].try(:downcase)
+        name ||= certname.downcase
+        values = facts.values
       when Hash
         certname = facts["clientcert"] || facts["certname"]
-        name     = facts["fqdn"].downcase
-        values   = facts
-        return raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
+        name = facts["fqdn"].try(:downcase)
+        name ||= certname.downcase
+        values = facts
+        raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
       else
-        return raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
+        raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
     end
 
     h = nil

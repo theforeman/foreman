@@ -78,6 +78,11 @@ class HostTest < ActiveSupport::TestCase
     assert Host.find_by_name('a.server.b.domain')
   end
 
+  test "should return downcased certname when fqdn fact doesn't exist" do
+    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts_with_no_fqdn.yml")))
+    assert Host.find_by_name('sinn1636.lan')
+  end
+
   test "should import facts idempotently" do
     assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
     value_ids = Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
