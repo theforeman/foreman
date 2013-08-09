@@ -22,6 +22,14 @@ module Foreman::Model
       [:image]
     end
 
+    def tenant
+      attrs[:tenant]
+    end
+
+    def tenant=(name)
+      attrs[:tenant] = name
+    end
+
     def test_connection options = {}
       super
       errors[:user].empty? and errors[:password] and tenants
@@ -73,7 +81,11 @@ module Foreman::Model
     private
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => :openstack, :openstack_api_key => password, :openstack_username => user, :openstack_auth_url => url)
+      @client ||= ::Fog::Compute.new(:provider           => :openstack,
+                                     :openstack_api_key  => password  ,
+                                     :openstack_username => user      ,
+                                     :openstack_auth_url => url       ,
+                                     :openstack_tenant   => tenant)
     end
 
     def setup_key_pair
