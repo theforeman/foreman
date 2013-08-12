@@ -115,7 +115,7 @@ module Facts
     private
 
     def os_name
-      facts[:operatingsystem].blank? ? raise(N_("invalid facts, missing operating system value")) : facts[:operatingsystem]
+      facts[:operatingsystem].blank? ? raise(::Foreman::Exception.new("invalid facts, missing operating system value")) : facts[:operatingsystem]
     end
 
     def is_numeric?(string)

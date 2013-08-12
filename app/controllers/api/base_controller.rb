@@ -93,6 +93,10 @@ module Api
       end
     end
 
+    def set_admin_user
+      User.current = User.admin
+    end
+
     def deny_access(details = nil)
       render_error 'access_denied', :status => :forbidden, :locals => { :details => details }
       false

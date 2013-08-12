@@ -55,15 +55,16 @@ module Host
       super - [ inheritance_column ]
     end
 
-    def self.importHostAndFacts yaml
+    def self.importHostAndFacts json
+      # noop, overridden by STI descendants
+      return self, true
     end
 
-    # import host facts, required when running without storeconfigs.
-    # expect a Puppet::Node::Facts
-    def importFacts name, facts
+    # expect a facts hash
+    def importFacts facts
 
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
-      raise ::Foreman::Exception.new(N_("Host is pending for Build")) if build
+      raise ::Foreman::Exception.new("Host is pending for Build") if build
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
 
@@ -84,9 +85,6 @@ module Host
       # TODO: if it was installed by Foreman and there is a mismatch,
       # we should probably send out an alert.
       return self.save(:validate => false)
-
-    rescue Exception => e
-      logger.warn "Failed to save #{name}: #{e}"
     end
 
     # Inspired from Puppet::Rails:Host

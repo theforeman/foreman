@@ -340,43 +340,31 @@ class Host::Managed < Host::Base
     @cached_host_params = hp
   end
 
-  def self.importHostAndFacts yaml
-    facts = YAML::load yaml
-    case facts
-      when Puppet::Node::Facts
-        certname = facts.name
-        name = facts.values["fqdn"].try(:downcase)
-        name ||= certname.downcase
-        values = facts.values
-      when Hash
-        certname = facts["clientcert"] || facts["certname"]
-        name = facts["fqdn"].try(:downcase)
-        name ||= certname.downcase
-        values = facts
-        raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
-      else
-        raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
-    end
+  # JSON is auto-parsed by the API, so these should be in the right format
+  def self.importHostAndFacts hostname, facts, certname = nil
+    raise(::Foreman::Exception.new("Invalid Facts, must be a Hash")) unless facts.is_a?(Hash)
+    raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
 
-    h = nil
-    if name == certname or certname.nil?
-      h = Host.find_by_name name
-    else
-      h = Host.find_by_certname certname
-      h ||= Host.find_by_name name
-    end
+    # downcase everything
+    hostname.try(:downcase!)
+    certname.try(:downcase!)
 
-    h ||= Host.new(:name => name) if Setting[:create_new_host_when_facts_are_uploaded]
+    h = certname.present? ? Host.find_by_certname(certname) : nil
+    h ||= Host.find_by_name hostname
+    h ||= Host.new(:name => hostname, :certname => certname) if Setting[:create_new_host_when_facts_are_uploaded]
 
-    return true if h.nil?
+    return Host.new, true if h.nil?
+    # if we were given a certname but found the Host by hostname we should update the certname
+    h.certname = certname if certname.present?
     h.save(:validate => false) if h.new_record?
-    h.importFacts(name, values)
+    state = h.importFacts(facts)
+    return h, state
   end
 
   def attributes_to_import_from_facts
     attrs = []
     attrs = [:mac, :ip] unless managed? and Setting[:ignore_puppet_facts_for_provisioning]
-    super + [:domain, :architecture, :operatingsystem, :model, :certname] + attrs
+    super + [:domain, :architecture, :operatingsystem] + attrs
   end
 
   def populateFieldsFromFacts facts = self.facts_hash

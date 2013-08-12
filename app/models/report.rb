@@ -117,9 +117,6 @@ class Report < ActiveRecord::Base
       r = self.create!(:host => host, :reported_at => report.time.utc, :status => st, :metrics => self.m2h(report.metrics))
       # Store all Puppet message logs
       r.import_log_messages report
-      # if we are using storeconfigs then we already have the facts
-      # so we can refresh foreman internal fields accordingly
-      host.populateFieldsFromFacts if Setting[:using_storeconfigs] == true
       r.inspect_report
       return r
     rescue Exception => e

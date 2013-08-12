@@ -1,5 +1,3 @@
-require 'puppet/rails'
-
 class UserFact < ActiveRecord::Base
   belongs_to :user
   belongs_to :fact_name

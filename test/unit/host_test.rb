@@ -63,38 +63,57 @@ class HostTest < ActiveSupport::TestCase
     assert !host.new_record?
   end
 
-  test "should import facts from yaml stream" do
+  test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    assert h.importFacts("sinn1636.lan", YAML::load_file(File.expand_path(File.dirname(__FILE__) + "/facts.yml")).values)
+    assert h.importFacts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
   end
 
-  test "should import facts from yaml of a new host" do
-    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
+  test "should import facts from json of a new host when certname is not specified" do
+    refute Host.find_by_name('sinn1636.lan')
+    raw = parse_json_fixture('/facts.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'])
+    assert Host.find_by_name('sinn1636.lan')
   end
 
-  test "should downcase fqdn facts from yaml of a new host" do
-    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts_with_caps.yml")))
-    assert Host.find_by_name('a.server.b.domain')
-  end
-
-  test "should return downcased certname when fqdn fact doesn't exist" do
-    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts_with_no_fqdn.yml")))
+  test "should downcase hostname parameter from json of a new host" do
+    raw = parse_json_fixture('/facts_with_caps.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'])
     assert Host.find_by_name('sinn1636.lan')
   end
 
   test "should import facts idempotently" do
-    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
-    value_ids = Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
-    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
-    assert_equal value_ids, Host.find_by_name('a.server.b.domain').fact_values.map(&:id)
+    raw = parse_json_fixture('/facts_with_caps.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'])
+    value_ids = Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
+    assert Host.importHostAndFacts(raw['name'], raw['facts'])
+    assert_equal value_ids, Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
+  end
+
+  test "should find a host by certname not fqdn when provided" do
+    Host.new(:name => 'sinn1636.fail', :certname => 'sinn1636.lan.cert').save(:validate => false)
+    assert Host.find_by_name('sinn1636.fail').ip.nil?
+    # hostname in the json is sinn1636.lan, so if the facts have been updated for
+    # this host, it's a successful identification by certname
+    raw = parse_json_fixture('/facts_with_certname.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
+    assert_equal '10.35.27.2', Host.find_by_name('sinn1636.fail').ip
+  end
+
+  test "should update certname when host is found by hostname and certname is provided" do
+    Host.new(:name => 'sinn1636.lan', :certname => 'sinn1636.cert.fail').save(:validate => false)
+    assert_equal 'sinn1636.cert.fail', Host.find_by_name('sinn1636.lan').certname
+    raw = parse_json_fixture('/facts_with_certname.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
+    assert_equal 'sinn1636.lan.cert', Host.find_by_name('sinn1636.lan').certname
   end
 
   test "host is not created when uploading facts if setting is false" do
     Setting[:create_new_host_when_facts_are_uploaded] = false
     assert_equal false, Setting[:create_new_host_when_facts_are_uploaded]
-    assert Host.importHostAndFacts(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
-    host = Host.find_by_name('a.server.b.domain')
+    raw = parse_json_fixture('/facts_with_certname.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
+    host = Host.find_by_name('sinn1636.lan')
     Setting[:create_new_host_when_facts_are_uploaded] =
         Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     assert_nil host
@@ -454,8 +473,8 @@ class HostTest < ActiveSupport::TestCase
       FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => f.id)
     end
     assert_difference('Model.count') do
-    facts = YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml")))
-      h.populateFieldsFromFacts facts.values
+    facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
+      h.populateFieldsFromFacts facts['facts']
     end
   end
 
@@ -796,6 +815,12 @@ class HostTest < ActiveSupport::TestCase
     hosts = Host.search_for("params.foo = bar")
     assert_equal hosts.count, 1
     assert_equal hosts.first.params['foo'], 'bar'
+  end
+
+  private
+
+  def parse_json_fixture(relative_path)
+    return JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + relative_path)))
   end
 
 end

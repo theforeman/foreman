@@ -1,13 +1,38 @@
 class CreateHosts < ActiveRecord::Migration
   def self.up
 
-    # we are only creating the full database if the hosts table doesn't exists, if it does, we assume that store config is already configured
-    unless Host.table_exists?
-      require 'puppet/rails/database/schema'
-      Puppet[:dbadapter]= ActiveRecord::Base.configurations[Rails.env]["adapter"].sub("mysql2", "mysql")
-      Puppet::Rails::Schema.init
-      Puppet::Rails.migrate()
+    # Copied from the Puppet schema to replace loading their schema directly
+    create_table :hosts do |t|
+      t.column :name, :string, :null => false
+      t.column :ip, :string
+      t.column :environment, :text
+      t.column :last_compile, :datetime
+      t.column :last_freshcheck, :datetime
+      t.column :last_report, :datetime
+      #Use updated_at to automatically add timestamp on save.
+      t.column :updated_at, :datetime
+      t.column :source_file_id, :integer
+      t.column :created_at, :datetime
     end
+    add_index :hosts, :source_file_id, :integer => true
+    add_index :hosts, :name
+
+    create_table :fact_names do |t|
+      t.column :name, :string, :null => false
+      t.column :updated_at, :datetime
+      t.column :created_at, :datetime
+    end
+    add_index :fact_names, :name
+
+    create_table :fact_values do |t|
+      t.column :value, :text, :null => false
+      t.column :fact_name_id, :integer, :null => false
+      t.column :host_id, :integer, :null => false
+      t.column :updated_at, :datetime
+      t.column :created_at, :datetime
+    end
+    add_index :fact_values, :fact_name_id, :integer => true
+    add_index :fact_values, :host_id, :integer => true
 
     add_column :hosts, :mac, :string, :limit => 17, :default => ""
     add_column :hosts, :sp_mac, :string, :limit => 17, :default => ""
@@ -34,14 +59,8 @@ class CreateHosts < ActiveRecord::Migration
   end
 
   def self.down
-    # we are using storeconfigs
-    if Puppet.settings.instance_variable_get(:@values)[:puppetmasterd][:storeconfigs]
-      remove_columns :hosts, :mac, :sp_mac, :sp_ip, :sp_name, :root_pass, :serial,
-        :puppetmaster, :puppet_status, :domain_id, :architecture_id, :operatingsystem_id,
-        :environment_id, :subnet_id, :sp_subnet_id, :ptable_id, :hosttype_id,
-        :medium_id, :build, :comment, :disk, :installed_at
-    else
-      drop_table :hosts
-    end
+    drop_table :hosts
+    drop_table :fact_names
+    drop_table :fact_values
   end
 end

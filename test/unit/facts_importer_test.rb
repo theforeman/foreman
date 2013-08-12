@@ -20,7 +20,7 @@ class FactsImporterTest < ActiveSupport::TestCase
 
   test "should raise on an invalid os" do
     @importer = Facts::Importer.new({})
-    assert_raise RuntimeError do
+    assert_raise ::Foreman::Exception do
       importer.operatingsystem
     end
   end
@@ -58,8 +58,8 @@ class FactsImporterTest < ActiveSupport::TestCase
   private
 
   def facts
-  #  return Facter.to_hash
-    @yaml ||= YAML::load(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.yml"))).values
+  #  return the equivalent of Facter.to_hash
+    @json ||= JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts']
   end
 
 end
