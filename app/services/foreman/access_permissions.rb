@@ -559,6 +559,7 @@ Foreman::AccessControl.map do |map|
                                 :"api/v1/fact_values" => [:index, :show],
                                 :"api/v2/fact_values" => [:index, :show]
                               }
+    map.permission :upload_facts, {:"api/v2/hosts" => [:facts] }
   end
 
   map.security_block :audit_logs do |map|
