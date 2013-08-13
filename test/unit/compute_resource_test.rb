@@ -85,4 +85,26 @@ class ComputeResourceTest < ActiveSupport::TestCase
     record.name = "renamed"
     assert !record.save
   end
+
+  test "password is saved encrypted when updated" do
+    compute_resource = compute_resources(:one)
+    compute_resource.password = "123456"
+    as_admin do
+      assert compute_resource.save
+    end
+    assert_equal compute_resource.password, "123456"
+    refute_equal compute_resource.password_in_db, "123456"
+  end
+
+  test "password is saved encrypted when created" do
+    Fog.mock!
+    compute_resource = ComputeResource.new_provider(:name => "new12345", :provider => "EC2", :url => "eu-west-1",
+                                                    :user => "username", :password => "abcdef")
+    as_admin do
+      assert compute_resource.save!
+    end
+    assert_equal compute_resource.password, "abcdef"
+    refute_equal compute_resource.password_in_db, "abcdef"
+  end
+
 end
