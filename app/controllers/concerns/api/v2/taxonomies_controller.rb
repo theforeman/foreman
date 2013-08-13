@@ -6,7 +6,7 @@ module Api::V2::TaxonomiesController
                                                 domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
                                                 medium_ids smart_proxy_ids environment_ids user_ids organization_ids
                                                 }
-    before_filter :find_nested_object, :only => %w(index show)
+    before_filter :find_optional_nested_object, :only => %w(index show)
     before_filter :params_match_database, :only => %w(create update)
   end
 
@@ -72,18 +72,6 @@ module Api::V2::TaxonomiesController
     end
   end
 
-  def find_nested_object
-    params.keys.each do |param|
-      if param =~ /(\w+)_id$/
-        resource_identifying_attributes.each do |key|
-          find_method = "find_by_#{key}"
-          @nested_obj ||= $1.classify.constantize.send(find_method, params[param])
-        end
-      end
-    end
-    return @nested_obj
-  end
-
   def taxonomy_id
     "#{taxonomy_single}_id".to_sym
   end
@@ -102,6 +90,10 @@ module Api::V2::TaxonomiesController
 
   def find_taxonomy
     @taxonomy = find_resource
+  end
+
+  def allowed_nested_id
+    %w(domain_id compute_resource_id subnet_id environment_id hostgroup_id smart_proxy_id user_id medium_id organization_id location_id)
   end
 
 end
