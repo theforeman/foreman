@@ -1,0 +1,17 @@
+<table class="table table-bordered" data-table="inline">
+  <thead>
+    <tr>
+      <th><%= _('Name') -%></th>
+      <th><%= _('Type') -%></th>
+      <th><%= _('State') -%></th>
+      <th></th>
+    </tr>
+  </thead>
+  <% @vms.each do |vm| -%>
+    <tr>
+      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
+      <td><%= vm.machine_type.split('/')[-1] %></td>
+      <td> <%= vm.state.downcase %></td>
+    </tr>
+  <% end -%>
+</table>
