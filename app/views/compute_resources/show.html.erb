@@ -32,6 +32,8 @@
         <td><%= _("URL") %></td>
         <td><%= @compute_resource.url %></td>
       </tr>
+      <% # optional extra display elements based on type %>
+      <%= render "compute_resources/show/#{@compute_resource.provider.downcase}" %>
     </table>
   </div>
   <div id="vms" class="tab-pane" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
