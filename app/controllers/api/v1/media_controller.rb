@@ -44,6 +44,7 @@ Available families:
         param :name, String, :required => true, :desc => "Name of media"
         param :path, String, :required => true, :desc => PATH_INFO
         param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
+        param :operatingsystem_ids, Array, :require => false
       end
 
       def create
@@ -56,6 +57,7 @@ Available families:
         param :name, String, :desc => "Name of media"
         param :path, String, :desc => PATH_INFO
         param :os_family, String, :allow_nil => true, :desc => OS_FAMILY_INFO
+        param :operatingsystem_ids, Array, :require => false
       end
       api :PUT, "/media/:id/", "Update a medium."
 
