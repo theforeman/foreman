@@ -5,8 +5,16 @@ module ComputeResourcesHelper
     state ? link : ""
   end
 
-  def vm_state s
-    s ? ' ' + _("Off") : ' ' + _("On")
+  def vm_state vm
+    if vm.state == 'PAUSED'
+      ' ' + _("Paused")
+    else
+      vm.ready? ? _("On") : _("Off")
+    end
+  end
+
+  def action_string vm
+    vm.ready? ? ' ' + _("Off") : ' ' + _("On")
   end
 
   def vm_power_class s
@@ -15,9 +23,19 @@ module ComputeResourcesHelper
 
   def vm_power_action vm
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)
-    html = vm.ready? ? { :confirm => _('Are you sure?'), :class => "btn btn-small btn-danger" } : { :class => "btn btn-small btn-info" }
+    html = vm.ready? ? { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm } , :class => "btn btn-danger" } :
+                       { :class => "btn btn-info" }
 
-    display_link_if_authorized (_("Power %s") % vm_state(vm.ready?)), opts, html.merge(:method => :put)
+    display_link_if_authorized "Power #{action_string(vm)}", opts, html.merge(:method => :put)
+  end
+
+  def vm_pause_action vm
+    opts = hash_for_pause_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)
+    pause_action = vm.ready? ? _('Pause') : _('Resume')
+    html = vm.state.downcase == 'paused' ? { :class => "btn btn-info" } :
+                                           { :confirm =>_("Are you sure you want to %{act} %{vm}?") % { :act => pause_action.downcase, :vm => vm } , :class => "btn btn-danger" }
+
+    display_link_if_authorized pause_action, opts, html.merge(:method => :put)
   end
 
   def memory_options max_memory

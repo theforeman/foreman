@@ -1,6 +1,6 @@
 class ComputeResourcesVmsController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_vm, :only => [:show, :power, :console]
+  before_filter :find_vm, :only => [:show, :power, :pause, :console]
 
   def index
     @vms = @compute_resource.vms.all(params[:filters] || {})
@@ -32,16 +32,11 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def power
-    action = @vm.ready? ? :stop : :start
+    run_vm_action(@vm.ready? ? :stop : :start)
+  end
 
-    if (@vm.send(action) rescue false)
-      @vm.reload
-      notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
-      redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
-    else
-      error _("failed to %{action} %{vm}") % {:action => action, :vm => @vm}
-      redirect_to :back
-    end
+  def pause
+    run_vm_action(@vm.ready? ? :pause : :start)
   end
 
   def destroy
@@ -75,6 +70,17 @@ class ComputeResourcesVmsController < ApplicationController
 
   def find_vm
     @vm = @compute_resource.find_vm_by_uuid params[:id]
+  end
+
+  def run_vm_action(action)
+    if (@vm.send(action) rescue false)
+      @vm.reload
+      notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
+      redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
+    else
+      error _("failed to %{action} %{vm}") % {:action => _(action), :vm => @vm}
+      redirect_to :back
+    end
   end
 
 end
