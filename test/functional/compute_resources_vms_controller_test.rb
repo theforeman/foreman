@@ -117,6 +117,22 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     assert_response 403
   end
 
+  test "should pause openstack vm" do
+    Fog.mock!
+    @compute_resource = compute_resources(:openstack)
+    @compute_resource.tenant = 'personal'
+    Fog.credentials[:openstack_auth_url] = @compute_resource.url
+    @test_vm = @compute_resource.vms.create({:flavor_ref => 2, :name => 'test', :image_ref => 2})
+    as_admin { @compute_resource.save }
+    setup_user "power"
+
+    Fog::Compute::OpenStack::Server.any_instance.expects(:state).returns('ACTIVE').at_least_once
+    Fog::Compute::OpenStack::Server.any_instance.expects(:pause).returns(true)
+    get :pause, { :format => 'json', :id => @test_vm.id, :compute_resource_id => @compute_resource.to_param}, set_session_user
+    assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
+    Fog.unmock!
+  end
+
   test "should power vm" do
     setup_user "power"
 
@@ -133,6 +149,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get_test_vm
     assert @test_vm.ready?
   end
+
 
   def get_test_vm
     @compute_resource.vms.index {|vm| vm.name == "test" and @test_vm = vm}

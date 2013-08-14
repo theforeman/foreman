@@ -11,7 +11,7 @@
     <tr>
       <td><%= vm.name %></td>
       <td><%= vm.flavor.name %></td>
-      <td <%= vm_power_class(vm.ready?) %>> <%= vm_state(!vm.ready?) %> </td>
+      <td <%= vm_power_class(vm.ready?) %>> <%= vm_state(vm) %> </td>
       <td>
         <%= action_buttons(
                 vm_power_action(vm),

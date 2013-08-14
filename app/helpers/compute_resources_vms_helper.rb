@@ -54,4 +54,32 @@ module ComputeResourcesVmsHelper
     select
   end
 
+  def available_actions(vm)
+    case vm
+    when Fog::Compute::OpenStack::Server
+      openstack_available_actions(vm)
+    else
+      default_available_actions(vm)
+    end
+  end
+
+  def openstack_available_actions(vm)
+    actions = []
+    if vm.state == 'ACTIVE'
+      actions << vm_power_action(vm)
+      actions << vm_pause_action(vm)
+    elsif vm.state == 'PAUSED'
+      actions << vm_pause_action(vm)
+    else
+      actions << vm_power_action(vm)
+    end
+
+    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))
+  end
+
+  def default_available_actions(vm)
+    [vm_power_action(vm),
+     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))]
+  end
+
 end

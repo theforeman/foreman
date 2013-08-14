@@ -68,7 +68,7 @@ Foreman::AccessControl.map do |map|
     map.permission :create_compute_resources_vms,  {:compute_resources_vms => [:new, :create]}
     map.permission :edit_compute_resources_vms,    {:compute_resources_vms => [:edit, :update]}
     map.permission :destroy_compute_resources_vms, {:compute_resources_vms => [:destroy]}
-    map.permission :power_compute_resources_vms,   {:compute_resources_vms => [:power]}
+    map.permission :power_compute_resources_vms,   {:compute_resources_vms => [:power, :pause]}
     map.permission :console_compute_resources_vms, {:compute_resources_vms => [:console]}
   end
 

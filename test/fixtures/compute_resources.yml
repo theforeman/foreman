@@ -26,3 +26,12 @@ yourcompute:
   password: 1234567
   uuid: yourcompute
   type: Foreman::Model::Libvirt
+
+openstack:
+  name: openstackcr
+  description: computeresource
+  url: test:///default
+  user: MyString
+  password: 1234567
+  uuid: yourcompute
+  type: Foreman::Model::Openstack

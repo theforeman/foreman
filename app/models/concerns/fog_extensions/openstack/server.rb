@@ -11,6 +11,22 @@ module FogExtensions
         name
       end
 
+      def start
+        if state.downcase == 'paused'
+          service.unpause_server(id)
+        else
+          service.resume_server(id)
+        end
+      end
+
+      def stop
+        service.suspend_server(id)
+      end
+
+      def pause
+        service.pause_server(id)
+      end
+
       def tenant
         service.tenants.detect{|t| t.id == tenant_id }
       end
