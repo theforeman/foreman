@@ -77,6 +77,12 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert !@auth_source_ldap.save
   end
 
+  test "the ldap_filter should not exceed the 255 characters" do
+    set_all_required_attributes
+    assigns_a_string_of_length_greater_than(255, :ldap_filter=)
+    assert !@auth_source_ldap.save
+  end
+
   test "the attr_login should not exceed the 30 characters" do
     missing(:attr_login=)
     assigns_a_string_of_length_greater_than(30, :attr_login=)
@@ -108,6 +114,25 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     @auth_source_ldap.port = 123
     assert @auth_source_ldap.save
+  end
+
+  test "invalid ldap_filter fails validation" do
+    @auth_source_ldap.ldap_filter = "("
+    assert !@auth_source_ldap.valid?
+  end
+
+  test "valid ldap_filter passes validation" do
+    missing(:ldap_filter)
+    assert @auth_source_ldap.valid?
+
+    @auth_source_ldap.ldap_filter = ""
+    assert @auth_source_ldap.valid?
+
+    @auth_source_ldap.ldap_filter = "   "
+    assert @auth_source_ldap.valid?
+
+    @auth_source_ldap.ldap_filter = "key=value"
+    assert @auth_source_ldap.valid?
   end
 
   test "should strip the ldap attributes before validate" do

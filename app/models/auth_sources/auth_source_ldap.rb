@@ -21,9 +21,10 @@ class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port
   validates_presence_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :if => Proc.new { |auth| auth.onthefly_register? }
   validates_length_of :name, :host, :account_password, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :base_dn, :maximum => 255, :allow_nil => true
+  validates_length_of :account, :base_dn, :ldap_filter, :maximum => 255, :allow_nil => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
+  validate :validate_ldap_filter, :unless => Proc.new { |auth| auth.ldap_filter.blank? }
 
   before_validation :strip_ldap_attributes
   after_initialize :set_defaults
@@ -123,12 +124,19 @@ class AuthSourceLdap < AuthSource
     end]
   end
 
+  def validate_ldap_filter
+    Net::LDAP::Filter.construct(ldap_filter)
+  rescue Net::LDAP::LdapError => text
+    errors.add(:ldap_filter, _("invalid LDAP filter syntax"))
+  end
+
   def search_for_user_entries(login, password)
     user          = effective_user(login)
     pass          = use_user_login_for_auth? ? password : account_password
     ldap_con      = initialize_ldap_con(user, pass)
     login_filter  = Net::LDAP::Filter.eq(attr_login, login)
     object_filter = Net::LDAP::Filter.eq("objectClass", "*")
+    object_filter = object_filter & Net::LDAP::Filter.construct(ldap_filter) unless ldap_filter.blank?
 
     # search for a match for our authenticating user.
     entries       = ldap_con.search(:base       => base_dn,

@@ -7,6 +7,7 @@ one:
   account: 
   account_password: 
   base_dn: dn=x,dn=y
+  ldap_filter:
   attr_login: uid
   attr_firstname: givenName
   attr_lastname: sn
