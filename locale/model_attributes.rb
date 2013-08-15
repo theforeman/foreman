@@ -119,8 +119,6 @@ _('Host::Base|Disk')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Enabled')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Host::Base|Environment')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Image file')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Installed at')

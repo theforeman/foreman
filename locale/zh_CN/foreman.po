@@ -5,14 +5,15 @@
 # Translators:
 #
 #
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 16:28+0100\n"
-"PO-Revision-Date: 2013-08-15 10:38+0100\n"
-"Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
-"Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
+"POT-Creation-Date: 2013-08-15 10:48+0100\n"
+"PO-Revision-Date: 2013-08-14 02:40+0000\n"
+"Last-Translator: dingtim\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,56 +21,51 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%s - Press Shift-F12 to release the cursor."
-msgstr ""
+msgstr "%s - 点击 Shift-F12 刷新。"
 
 msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
 msgid "%s Distribution"
-msgstr ""
+msgstr "%s 分布式"
 
 msgid "%s Host"
-msgstr ""
+msgstr "%s 主机"
 
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
 msgid "%s Template"
-msgstr ""
+msgstr "%s 模板"
 
 msgid "%s ago"
-msgstr ""
+msgstr "%s 前"
 
 msgid "%s console is not supported at this time"
-msgstr ""
+msgstr "%s 的控制台不支持"
 
 msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "%s selected hosts"
-msgstr ""
+msgstr "%s 所选主机"
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "%{default_value} is not one of %{validator_rule}"
 msgstr ""
@@ -165,128 +161,129 @@ msgid "API Key"
 msgstr ""
 
 msgid "About"
-msgstr ""
+msgstr "关于"
 
 msgid "Access Key"
 msgstr ""
 
-msgid "Acquiring IP address for %s"
-msgstr ""
+#, fuzzy
+msgid "Acquire IP address for %s"
+msgstr "本机MAC地址"
 
 msgid "Action"
-msgstr ""
+msgstr "动作"
 
 msgid "Actions"
-msgstr ""
+msgstr "操作"
 
 msgid "Active"
-msgstr ""
+msgstr "激活"
 
 msgid "Active Hosts"
-msgstr ""
+msgstr "主机激活"
 
 #. host's status: first character of "active"
 msgid "Active|A"
 msgstr ""
 
 msgid "Add Bookmark"
-msgstr ""
+msgstr "增加书签"
 
 msgid "Add Filter"
-msgstr ""
+msgstr "增加过滤"
 
 msgid "Add Interface"
-msgstr ""
+msgstr "增加接口"
 
 msgid "Add Matcher-Value"
 msgstr ""
 
 msgid "Add Parameter"
-msgstr ""
+msgstr "增加参数"
 
 msgid "Add Trend Counter"
 msgstr ""
 
 msgid "Add Variable"
-msgstr ""
+msgstr "添加变量"
 
 msgid "Add Volume"
 msgstr ""
 
 msgid "Add a fact filter"
-msgstr ""
+msgstr "添加详情过滤"
 
 msgid "Add combination"
-msgstr ""
+msgstr "添加组合"
 
 msgid "Add:"
-msgstr ""
+msgstr "添加："
 
 msgid "Additional Information"
-msgstr ""
+msgstr "附加信息"
 
 msgid "Additional info"
-msgstr ""
+msgstr "附加信息"
 
 msgid "Additional information about this host"
-msgstr ""
+msgstr "本机附加信息"
 
 msgid "Additional steps"
-msgstr ""
+msgstr "额外的步骤"
 
 msgid "Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab."
-msgstr ""
+msgstr "此外，您可能会限制用户基于多个标准的权限，请检查的“角色设置“选项卡。"
 
 msgid "After you have decided on the two primary modes of operation and performed any appropriate imports then it would be good idea if you visited some of the other configuration pages to see if additional setup is required under the Additional settings select box on the top right."
 msgstr ""
 
 msgid "Alert"
-msgstr ""
+msgstr "告警"
 
 msgid "Alerts disabled"
-msgstr ""
+msgstr "告警禁用"
 
 msgid "All Compute Resources"
-msgstr ""
+msgstr "所有的计算机资源"
 
 msgid "All Domains"
-msgstr ""
+msgstr "所有域"
 
 msgid "All Environments"
-msgstr ""
+msgstr "所有的环境"
 
 msgid "All Host Groups"
-msgstr ""
+msgstr "所有的主机组"
 
 msgid "All Media"
-msgstr ""
+msgstr "所有的介质"
 
 msgid "All Puppet Classes for %s"
-msgstr ""
+msgstr "%s 所有的puppet 类"
 
 msgid "All Reports"
-msgstr ""
+msgstr "所有的报告"
 
 msgid "All Smart Proxies"
-msgstr ""
+msgstr "所有智能代理"
 
 msgid "All Subnets"
-msgstr ""
+msgstr "所有子网"
 
 msgid "All Templates"
-msgstr ""
+msgstr "所有模板"
 
 msgid "All Users"
-msgstr ""
+msgstr "所有用户"
 
 msgid "All hosts data matches configurations for locations and organizations."
-msgstr ""
+msgstr "该位置和组织下所有配置的主机"
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr ""
 
 msgid "All messages"
-msgstr ""
+msgstr "所有信息"
 
 msgid "All mismatches between hosts and %s have been fixed"
 msgstr ""
@@ -298,78 +295,77 @@ msgid "All non public permissions successfully updated"
 msgstr ""
 
 msgid "Allocated"
-msgstr ""
+msgstr "已分配"
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr ""
 
 msgid "Any Context"
-msgstr ""
+msgstr "任意上下文"
 
 msgid "Any Location"
-msgstr ""
+msgstr "任意位置"
 
 msgid "Any Organization"
-msgstr ""
+msgstr "任意组织"
 
 msgid "Applicable<br>Operating Systems"
 msgstr ""
 
 msgid "Applied"
-msgstr ""
+msgstr "已批准"
 
 #. initial character of Applied
 msgid "Applied|A"
-msgstr ""
+msgstr "应用|A"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
-msgstr ""
+msgstr "架构"
 
 msgid "Architecture Distribution"
-msgstr ""
+msgstr "分布架构"
 
 msgid "Architecture configuration"
-msgstr ""
+msgstr "架构配置"
 
 msgid "Architectures"
-msgstr ""
+msgstr "架构"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
-msgstr ""
+msgstr "架构|名"
 
 msgid "Are you sure?"
-msgstr ""
+msgstr "确认？"
 
 msgid "Assign All"
-msgstr ""
+msgstr "全部分配"
 
 msgid "Assign Hosts to %s"
-msgstr ""
+msgstr "将主机分配到 %s"
 
 msgid "Assign Location"
-msgstr ""
+msgstr "指定位置"
 
 msgid "Assign Organization"
-msgstr ""
+msgstr "指定组织"
 
 msgid "Assign Selected Hosts"
-msgstr ""
+msgstr "指定选定的主机"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "Assign to %s"
-msgstr ""
+msgstr "分配到 %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
-msgstr ""
+msgstr "分配主机到 %{taxonomy_name}同时更新为 %{taxonomy_name}，包括选定主机目前正在使用的所有资源。"
 
 msgid "Association"
-msgstr ""
+msgstr "组合"
 
 msgid "At present, authentication is performed against the internal Database or a LDAP service provided by one or more LDAP servers."
 msgstr ""
@@ -378,7 +374,7 @@ msgid "Attempting to construct an operating system image filename but %s cannot 
 msgstr ""
 
 msgid "Audit Comment"
-msgstr ""
+msgstr "审计备注"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Action"
@@ -425,47 +421,47 @@ msgid "Audited::Adapters::ActiveRecord::Audit|Version"
 msgstr ""
 
 msgid "Audits"
-msgstr ""
+msgstr "审计"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Auth source"
-msgstr ""
+msgstr "认证源"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Account"
-msgstr ""
+msgstr "认证源|账号"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Account password"
-msgstr ""
+msgstr "认证源|密码"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr firstname"
-msgstr ""
+msgstr "认证源|姓"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr lastname"
-msgstr ""
+msgstr "认证源|名"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr login"
-msgstr ""
+msgstr "认证源|验证"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr mail"
-msgstr ""
+msgstr "认证源|邮箱"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
-msgstr ""
+msgstr "认证源|根"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
-msgstr ""
+msgstr "认证源|主机"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Name"
-msgstr ""
+msgstr "认证源|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Onthefly register"
@@ -473,14 +469,14 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Port"
-msgstr ""
+msgstr "认证源|端口"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
-msgstr ""
+msgstr "认证源|"
 
 msgid "Authentication Source Configuration"
-msgstr ""
+msgstr "配置验证"
 
 msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr ""
@@ -492,40 +488,40 @@ msgid "Authorized by"
 msgstr ""
 
 msgid "Autosign"
-msgstr ""
+msgstr "自动签名"
 
 msgid "Autosign Entries"
-msgstr ""
+msgstr "自动签名条目"
 
 msgid "Autosign entries for %s"
-msgstr ""
+msgstr "为 %s 自动签名的条目"
 
 msgid "Available Classes"
-msgstr ""
+msgstr "可用类"
 
 msgid "Average memory usage"
-msgstr ""
+msgstr "内存平均使用情况"
 
 msgid "Average swap usage"
-msgstr ""
+msgstr "交换分区平均使用情况"
 
 msgid "BIOS"
-msgstr ""
+msgstr "BIOS"
 
 msgid "BMC"
-msgstr ""
+msgstr "BMC"
 
 msgid "Back"
-msgstr ""
+msgstr "后退"
 
 msgid "Back to host"
-msgstr ""
+msgstr "转到主机"
 
 msgid "Back to host list"
-msgstr ""
+msgstr "转到主机列表"
 
 msgid "Bare Metal"
-msgstr ""
+msgstr "裸机"
 
 msgid "Before you can use Foreman for the first time there are a few tasks that must be performed."
 msgstr ""
@@ -535,85 +531,85 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark"
-msgstr ""
+msgstr "收藏"
 
 msgid "Bookmark this search"
-msgstr ""
+msgstr "收藏本搜索"
 
 msgid "Bookmark was successfully created."
-msgstr ""
+msgstr "成功创建收藏"
 
 msgid "Bookmark was successfully updated."
-msgstr ""
+msgstr "成功修改收藏"
 
 msgid "Bookmarks"
-msgstr ""
+msgstr "收藏"
 
 msgid "Bookmarks configuration"
-msgstr ""
+msgstr "收藏设置"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Controller"
-msgstr ""
+msgstr "收藏|控制器"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Name"
-msgstr ""
+msgstr "收藏|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Owner type"
-msgstr ""
+msgstr "收藏|所有者类型"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Public"
-msgstr ""
+msgstr "收藏|公开"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Query"
-msgstr ""
+msgstr "收藏|查询"
 
 msgid "Boot device"
-msgstr ""
+msgstr "引导设备"
 
 msgid "Bootable"
-msgstr ""
+msgstr "可引导"
 
 msgid "Browse host facts"
-msgstr ""
+msgstr "浏览主机详情"
 
 msgid "Browse host reports"
-msgstr ""
+msgstr "浏览主机报告"
 
 msgid "Browser locale"
-msgstr ""
+msgstr "浏览本地化"
 
 msgid "Build"
-msgstr ""
+msgstr "创建"
 
 msgid "Build Hosts"
-msgstr ""
+msgstr "创建主机"
 
 msgid "Build PXE Default"
-msgstr ""
+msgstr "创建默认PXE"
 
 msgid "Build from OS image"
-msgstr ""
+msgstr "从系统介质创建"
 
 #. host's status: first character of "build"
 msgid "Build|B"
-msgstr ""
+msgstr "创建|B"
 
 msgid "CDROM"
-msgstr ""
+msgstr "光驱"
 
 msgid "CPUs"
-msgstr ""
+msgstr "处理器"
 
 msgid "Can't delete built-in role"
-msgstr ""
+msgstr "无法删除内置角色"
 
 msgid "Can't delete internal admin account"
-msgstr ""
+msgstr "无法删除内部管理员帐户"
 
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr ""
@@ -628,55 +624,55 @@ msgid "Can't use the same value as the primary interface"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 msgid "Cancel Build"
-msgstr ""
+msgstr "取消创建"
 
 msgid "Cancel build request for this host"
-msgstr ""
+msgstr "取消创建主机的操作"
 
 msgid "Canceled pending build for %s"
-msgstr ""
+msgstr "取消 %s 创建"
 
 msgid "Canvas not supported."
-msgstr ""
+msgstr "不支持"
 
 msgid "Certificate Name"
-msgstr ""
+msgstr "证书名称"
 
 msgid "Certificates"
-msgstr ""
+msgstr "证书"
 
 msgid "Change Environment"
-msgstr ""
+msgstr "改变环境"
 
 msgid "Change Group"
-msgstr ""
+msgstr "改变组"
 
 msgid "Change your avatar at gravatar.com"
-msgstr ""
+msgstr "头像更改"
 
 msgid "Changed environments"
-msgstr ""
+msgstr "改变环境"
 
 msgid "Chassis"
-msgstr ""
+msgstr "机架"
 
 msgid "Check all"
-msgstr ""
+msgstr "选择所有"
 
 msgid "Check all/Uncheck all"
-msgstr ""
+msgstr "选择所有/取消所有选择"
 
 msgid "Check/Uncheck all"
-msgstr ""
+msgstr "选择/取消所有选择"
 
 msgid "Check/Uncheck all %s changes"
-msgstr ""
+msgstr "选择/不选择 %s 的所有修改"
 
 msgid "Check/Uncheck new"
-msgstr ""
+msgstr "选择/不选择"
 
 msgid "Check/Uncheck obsolete"
 msgstr ""
@@ -685,286 +681,297 @@ msgid "Check/Uncheck updated"
 msgstr ""
 
 msgid "Choose a family"
-msgstr ""
+msgstr "选择一个家庭"
 
 msgid "Choose a provider"
-msgstr ""
+msgstr "选择一个提供者"
 
 msgid "Class Distribution"
-msgstr ""
+msgstr "组分布"
 
 msgid "Classes"
-msgstr ""
+msgstr "类型"
 
 msgid "Click to add %s"
 msgstr ""
 
 msgid "Click to edit"
-msgstr ""
+msgstr "点击编辑"
 
 msgid "Click to edit.."
-msgstr ""
+msgstr "点击编辑。"
 
 msgid "Click to remove %s"
-msgstr ""
+msgstr "点击删除 %s"
 
 msgid "Click to undo adding this class"
-msgstr ""
+msgstr "点击撤销添加的类"
 
 msgid "Client SSL certificates are used to identify Smart Proxies accessing fact/report importers and ENC output over HTTPS (:require_ssl should also be enabled)"
 msgstr ""
 
 msgid "Clone"
-msgstr ""
+msgstr "克隆"
 
 msgid "Clone %s"
-msgstr ""
+msgstr "克隆 %s"
 
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 msgid "Code"
-msgstr ""
+msgstr "代码"
 
 msgid "Compute Resource"
-msgstr ""
+msgstr "计算机资源"
 
 msgid "Compute Resources"
-msgstr ""
+msgstr "计算机资源"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
-msgstr ""
+msgstr "计算机资源"
 
 msgid "Compute resource update for %s"
-msgstr ""
+msgstr "%s 计算机资源"
 
 msgid "Compute resources"
-msgstr ""
+msgstr "计算机资源"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Attrs"
-msgstr ""
+msgstr "计算机资源|属性"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Description"
-msgstr ""
+msgstr "计算机资源|描述"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Name"
-msgstr ""
+msgstr "计算机资源|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Password"
-msgstr ""
+msgstr "计算机资源|密码"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Url"
-msgstr ""
+msgstr "计算机资源|地址"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|User"
-msgstr ""
+msgstr "计算机资源|用户名"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Uuid"
-msgstr ""
+msgstr "计算机资源|Uuid"
 
 msgid "Config Retrieval"
-msgstr ""
+msgstr "配置检索"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
-msgstr ""
+msgstr "配置模板"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
-msgstr ""
+msgstr "模板配置|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Snippet"
-msgstr ""
+msgstr "模板配置|片段"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Template"
-msgstr ""
+msgstr "模板配置|模板"
 
 msgid "Configuration"
-msgstr ""
+msgstr "配置"
 
-msgid "Configuring instance %s via SSH"
-msgstr ""
+#, fuzzy
+msgid "Configure instance %s via SSH"
+msgstr "通过 SSH 配置实例 %s"
 
 msgid "Conflict - %s"
-msgstr ""
+msgstr "冲突 - %s"
 
 msgid "Connected (unencrypted) to: %s"
-msgstr ""
+msgstr "（未加密）连接为：%s"
 
 msgid "Connecting (unencrypted) to: %s"
-msgstr ""
+msgstr "（未加密）连接到：%s"
 
 msgid "Connecting.."
-msgstr ""
+msgstr "连接中"
 
 msgid "Console"
+msgstr "控制台"
+
+msgid "Console passwords"
 msgstr ""
 
 msgid "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
-msgstr ""
+msgstr "未能发现名为\"PXE Default File\"的配置模板，请创建。"
 
 msgid "Create %s"
-msgstr ""
+msgstr "新建 %s"
 
 msgid "Create DHCP Settings for %s"
-msgstr ""
+msgstr "为 %s 新建DHCP设置"
 
 msgid "Create DNS record for %s"
-msgstr ""
+msgstr "为 %s 新建DNS记录"
 
 msgid "Create Reverse DNS record for %s"
-msgstr ""
+msgstr "为 %s 新建反向解析DNS记录"
 
 msgid "Create a Smart Proxy"
-msgstr ""
+msgstr "新建智能代理"
 
 msgid "Ctrl-Alt-Del"
-msgstr ""
+msgstr "重启"
 
 msgid "DHCP Proxy"
-msgstr ""
+msgstr "DHCP代理"
 
 msgid "DHCP Proxy to use within this subnet"
-msgstr ""
+msgstr "本子网使用的DHCP代理"
 
 msgid "DHCP conflicts removal for %s"
-msgstr ""
+msgstr "去除 %s DHCP冲突"
 
 msgid "DHCP has a lease at %s"
-msgstr ""
+msgstr "%s 的DHCP过期"
 
 msgid "DHCP not supported for this NIC"
-msgstr ""
+msgstr "此网卡不支持DHCP"
 
 msgid "DHCP records %s already exists"
-msgstr ""
+msgstr "DHCP记录已经存在"
 
 msgid "DNS"
-msgstr ""
+msgstr "域名"
 
 msgid "DNS A Records %s already exists"
-msgstr ""
+msgstr "%s 的域名A记录已经存在"
 
 msgid "DNS PTR Records %s already exists"
-msgstr ""
+msgstr "%s 的域名PTR记录已经存在"
 
 msgid "DNS Proxy"
-msgstr ""
+msgstr "域名代理"
 
 msgid "DNS Proxy to use within this domain"
-msgstr ""
+msgstr "本域使用的域名代理"
 
 msgid "DNS Proxy to use within this subnet"
-msgstr ""
+msgstr "本子网使用的域名代理"
 
 msgid "DNS name"
-msgstr ""
+msgstr "DNS名称"
 
 msgid "Dashboard"
-msgstr ""
+msgstr "仪表板"
 
 msgid "Data Store"
-msgstr ""
+msgstr "数据存储"
 
 msgid "Datacenter"
-msgstr ""
+msgstr "数据中心"
 
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
 msgid "Default Puppet server hostname"
-msgstr ""
+msgstr "默认puppet服务器名"
 
 msgid "Default encrypted root password on provisioned hosts (default is 123123)"
-msgstr ""
+msgstr "默认加密超级用户口令（默认为123123）"
 
 msgid "Default value"
-msgstr ""
+msgstr "默认值"
 
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 msgid "Delete %s?"
-msgstr ""
+msgstr "删除 %s"
 
 msgid "Delete Hosts"
-msgstr ""
+msgstr "删除主机"
 
 msgid "Delete PuppetCA certificates for %s"
-msgstr ""
+msgstr "删除 %s的证书"
 
 msgid "Delete all the trend history for %s?"
-msgstr ""
+msgstr "删除 %s 的所有趋势记录"
 
 msgid "Delete autosign entry for %s"
-msgstr ""
+msgstr "删除 %s 的自动签名"
 
 msgid "Delete report for %s?"
-msgstr ""
+msgstr "删除 %s 的报告"
 
 msgid "Deleted environment"
-msgstr ""
+msgstr "删除环境"
 
 msgid "Deleted environment %{env} and %{pcs}"
-msgstr ""
+msgstr "删除 %{env} 和 %{pcs} 的环境"
 
 msgid "Deleting this group will unlink its nested groups and any associated puppet classes and / or parameters"
 msgstr ""
 
 msgid "Deploy on"
-msgstr ""
+msgstr "部署到"
 
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 msgid "Destroy"
-msgstr ""
+msgstr "销毁"
 
 msgid "Destroyed selected hosts"
-msgstr ""
+msgstr "销毁选择主机"
 
 msgid "Details"
-msgstr ""
+msgstr "详情"
 
 msgid "Diff View"
-msgstr ""
+msgstr "比对检视"
 
 msgid "Disable Notifications"
-msgstr ""
+msgstr "停用通知"
 
 msgid "Disable alerts for selected hosts"
-msgstr ""
+msgstr "停止选择主机的警告"
+
+#, fuzzy
+msgid "Disabled"
+msgstr "停止|D"
 
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
-msgstr ""
+msgstr "停止|D"
 
 msgid "Disk"
-msgstr ""
+msgstr "磁盘"
 
 msgid "Display"
-msgstr ""
+msgstr "显示"
 
 msgid "Display Name"
-msgstr ""
+msgstr "显示名称"
 
 msgid "Display the templates that will be used to provision this host"
-msgstr ""
+msgstr "显示的模板将被用来提供主机"
+
+#, fuzzy
+msgid "Display type"
+msgstr "显示名称"
 
 msgid "Displaying <b>%{count}</b> entry"
 msgid_plural "Displaying <b>all %{count}</b> entries"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
 msgstr ""
@@ -973,37 +980,37 @@ msgid "Document root where puppetdoc files should be created"
 msgstr ""
 
 msgid "Documentation"
-msgstr ""
+msgstr "文档"
 
 msgid "Does not match selected Subnet"
-msgstr ""
+msgstr "与选择的子网不匹配"
 
 msgid "Does not update ipaddress and MAC values from Puppet facts"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
-msgstr ""
+msgstr "域"
 
 msgid "Domain Configuration"
-msgstr ""
+msgstr "域配置"
 
 msgid "Domain hosts"
-msgstr ""
+msgstr "域主机"
 
 msgid "Domains"
-msgstr ""
+msgstr "域名"
 
 msgid "Domains in which this subnet is part"
-msgstr ""
+msgstr "该部分子网的域名"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Fullname"
-msgstr ""
+msgstr "域|全名"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
-msgstr ""
+msgstr "域|名称"
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
 msgstr ""
@@ -1012,125 +1019,129 @@ msgid "Each entries represent a particular hardware architecture, most commonly 
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 msgid "Edit %s"
-msgstr ""
+msgstr "编辑 %s"
 
 msgid "Edit Architecture"
-msgstr ""
+msgstr "编辑架构"
 
 msgid "Edit Bookmark"
-msgstr ""
+msgstr "编辑收藏"
 
 msgid "Edit Domain"
-msgstr ""
+msgstr "编辑域"
 
 msgid "Edit Environment"
-msgstr ""
+msgstr "编辑环境"
 
 msgid "Edit Global Parameter"
-msgstr ""
+msgstr "编辑全局参数"
 
 msgid "Edit LDAP Auth Source"
-msgstr ""
+msgstr "编辑LDAP认证源"
 
 msgid "Edit Medium"
-msgstr ""
+msgstr "编辑中"
 
 msgid "Edit Model"
-msgstr ""
+msgstr "编辑模型"
 
 msgid "Edit Operating System"
-msgstr ""
+msgstr "编辑操作系统"
 
 msgid "Edit Parameters"
-msgstr ""
+msgstr "编辑参数"
 
 msgid "Edit Partition Table"
-msgstr ""
+msgstr "编辑分区表"
 
 msgid "Edit Properties"
-msgstr ""
+msgstr "编辑属性"
 
 msgid "Edit Proxy"
-msgstr ""
+msgstr "编辑代理"
 
 msgid "Edit Puppet Class %s"
-msgstr ""
+msgstr "编辑 %s"
 
 msgid "Edit Roles"
-msgstr ""
+msgstr "编辑规则"
 
 msgid "Edit Smart Variable"
-msgstr ""
+msgstr "编辑智能参数"
 
 msgid "Edit Subnet"
-msgstr ""
+msgstr "编辑子网"
 
 msgid "Edit Template"
-msgstr ""
+msgstr "编辑模板"
 
 msgid "Edit Trend %s"
-msgstr ""
+msgstr "编辑 %s 的走势"
 
 msgid "Edit User"
-msgstr ""
+msgstr "编辑用户"
 
 msgid "Edit User group"
-msgstr ""
+msgstr "编辑用户组"
 
 msgid "Edit your host"
-msgstr ""
+msgstr "编辑主机"
 
 msgid "Editing %s"
-msgstr ""
+msgstr "%s 编辑中"
 
 msgid "Editing compute"
-msgstr ""
+msgstr "计算机编辑中"
 
 msgid "Either you didnt generate the puppetdocs (see <a rel=\"external\" href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be found in environment <strong>%{environment}</strong><br/> Please ensure that the class <strong>%{name}</strong>s declaration is accessible via the modulepath associated with <strong>%{environment}</strong>."
 msgstr ""
 
 msgid "Empty environment"
-msgstr ""
-
-msgid "Enable Certificate generation for %s"
-msgstr ""
+msgstr "空环境"
 
 msgid "Enable Email alerts per each failed Puppet report"
-msgstr ""
+msgstr "启用电子邮件警报"
 
 msgid "Enable Notifications"
-msgstr ""
+msgstr "启用提醒"
 
 msgid "Enable alerts for selected hosts"
-msgstr ""
+msgstr "启用选择主机的告警"
+
+#, fuzzy
+msgid "Enable certificate generation for %s"
+msgstr "启用 %s 的证书生成"
 
 msgid "Enable rebuild on next host boot"
-msgstr ""
+msgstr "启用开机重建"
 
 msgid "Enable safe mode config templates rendering (recommended)"
-msgstr ""
+msgstr "启用安全模式配置（推荐）"
 
 msgid "Enable this host for provisioning"
+msgstr "启用此主机配置"
+
+msgid "Enabled"
 msgstr ""
 
 msgid "Enabled %s for rebuild on next boot"
-msgstr ""
+msgstr "启用 %s 重启后重建"
 
 msgid "Enables Puppetrun support"
-msgstr ""
+msgstr "启用 Puppetrun 支持"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
-msgstr ""
+msgstr "环境"
 
 msgid "Environment configuration"
-msgstr ""
+msgstr "环境设置"
 
 msgid "Environment only"
-msgstr ""
+msgstr "环境"
 
 msgid "Environment variable containing the subject DN from a client SSL certificate"
 msgstr ""
@@ -1139,95 +1150,95 @@ msgid "Environment variable containing the verification status of a client SSL c
 msgstr ""
 
 msgid "Environments"
-msgstr ""
+msgstr "环境"
 
 msgid "Environments Distribution"
-msgstr ""
+msgstr "分布式环境"
 
 msgid "Environments and documentation"
-msgstr ""
+msgstr "环境和文档"
 
 msgid "Environments may be manually created and only require the name of the environment to be declared."
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
-msgstr ""
+msgstr "环境|名称"
 
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 msgid "Error has occurred while communicating with %{cr}: %{e}"
-msgstr ""
+msgstr "在与 %{cr}: %{e} 通讯时发生错误"
 
 msgid "Error loading virtual machine information: %s"
-msgstr ""
+msgstr "加载虚拟机 %s 的信息时错误"
 
 msgid "Errors only"
-msgstr ""
+msgstr "错误"
 
 msgid "Errors: %s"
-msgstr ""
+msgstr "错误： %s"
 
 #. host's status: first character of "error"
 msgid "Error|E"
-msgstr ""
+msgstr "错误|E"
 
 msgid "Expand the chart"
-msgstr ""
+msgstr "展开图表"
 
 msgid "Expires"
-msgstr ""
+msgstr "过期"
 
 msgid "Fact Chart"
 msgstr ""
 
 msgid "Fact Name"
-msgstr ""
+msgstr "图表名称"
 
 msgid "Fact Values"
 msgstr ""
 
 msgid "Fact filters"
-msgstr ""
+msgstr "详情过滤"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
-msgstr ""
+msgstr "详情名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
-msgstr ""
+msgstr "详情值"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Name"
-msgstr ""
+msgstr "详情|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
-msgstr ""
+msgstr "详情|值"
 
 msgid "Facts"
-msgstr ""
+msgstr "详情"
 
 msgid "Fail on Mismatch"
-msgstr ""
+msgstr "匹配失败"
 
 msgid "Failed"
-msgstr ""
+msgstr "失败"
 
 msgid "Failed Restarts"
-msgstr ""
+msgstr "重启失败"
 
 #. initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
-msgstr ""
+msgstr "重启失败|FR"
 
 msgid "Failed connecting to %s"
-msgstr ""
+msgstr "连接 %s 失败"
 
 msgid "Failed restarts"
-msgstr ""
+msgstr "重启失败"
 
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
@@ -1248,7 +1259,7 @@ msgid "Failed to create a compute %{compute_resource} instance %{name}: %{messag
 msgstr ""
 
 msgid "Failed to delete TFTP: %s"
-msgstr ""
+msgstr "删除TFTP：%s 失败"
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
@@ -1257,13 +1268,13 @@ msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr ""
 
 msgid "Failed to fetch boot files"
-msgstr ""
+msgstr "无法提取引导文件"
 
 msgid "Failed to fetch boot files: %s"
-msgstr ""
+msgstr "无法提取引导文件：%s"
 
 msgid "Failed to fetch: "
-msgstr ""
+msgstr "无法获取："
 
 msgid "Failed to generate %{template_kind} template: %{e}"
 msgstr ""
@@ -1275,13 +1286,13 @@ msgid "Failed to import %{klass} for %{name}: doesn't exists in our database - i
 msgstr ""
 
 msgid "Failed to import facts"
-msgstr ""
+msgstr "无法导入详情"
 
 msgid "Failed to import facts: %s"
-msgstr ""
+msgstr "无法导入详情：%s"
 
 msgid "Failed to import report"
-msgstr ""
+msgstr "无法导入报告"
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr ""
@@ -1327,57 +1338,57 @@ msgstr ""
 
 #. initial character of Failed
 msgid "Failed|F"
-msgstr ""
+msgstr "失败|F"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
-msgstr ""
+msgstr "特性"
 
 msgid "Features"
-msgstr ""
+msgstr "特性"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature|Name"
-msgstr ""
+msgstr "特性|名称"
 
 msgid "Fetch TFTP boot files for %s"
-msgstr ""
+msgstr "提取TFTP引导文件：%s"
 
 msgid "Filter"
-msgstr ""
+msgstr "筛选"
 
 msgid "Filter %s"
-msgstr ""
+msgstr "筛选 %s"
 
 msgid "Filter Parameters"
-msgstr ""
+msgstr "筛选参数"
 
 msgid "Filter classes"
-msgstr ""
+msgstr "筛选类"
 
 msgid "Filters"
-msgstr ""
+msgstr "筛选"
 
 msgid "Fingerprint"
-msgstr ""
+msgstr "指纹"
 
 msgid "Fix %s on Mismatch"
-msgstr ""
+msgstr "修复与 %s 的不匹配"
 
 msgid "Fix All Mismatches"
-msgstr ""
+msgstr "修复所有不匹配"
 
 msgid "Fix Mismatches"
-msgstr ""
+msgstr "修复不匹配"
 
 msgid "Flavor"
-msgstr ""
+msgstr "尝试"
 
 msgid "Floating IP network"
-msgstr ""
+msgstr "浮动IP"
 
 msgid "For Roles and permissions, see the"
-msgstr ""
+msgstr "对于角色和权限，请参阅"
 
 msgid "For example, if you have copied several redhat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you\\n  could create a single medium entry describing them all.\\n  The entry, which could be just named 'redhat' could contain a path like this <em>'http://server/redhat/$version/$arch'</em>"
 msgstr ""
@@ -1428,103 +1439,103 @@ msgid "Full name describing the domain"
 msgstr ""
 
 msgid "Full trace"
-msgstr ""
+msgstr "全跟踪"
 
 msgid "Gateway"
-msgstr ""
+msgstr "网关"
 
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
-msgstr ""
+msgstr "一般的有用信息，例如硬件这种需要一个特殊的BIOS设置"
 
 msgid "Generated %s ago"
-msgstr ""
+msgstr "%s 前产生"
 
 msgid "Generated at %s"
-msgstr ""
+msgstr "通过 %s 产生"
 
 msgid "Global"
-msgstr ""
+msgstr "全局"
 
 msgid "Global Parameters"
-msgstr ""
+msgstr "全局参数"
 
 msgid "Global variable or class Parameter, not both"
-msgstr ""
+msgstr "全局变量或类的参数，而不是两个"
 
 msgid "Good host reports in the last %s"
 msgstr ""
 
 msgid "Hardware"
-msgstr ""
+msgstr "硬件"
 
 msgid "Hardware Model"
-msgstr ""
+msgstr "硬件型号"
 
 msgid "Hardware Models"
-msgstr ""
+msgstr "硬件型号"
 
 msgid "Help"
-msgstr ""
+msgstr "帮助"
 
 msgid "Help!"
-msgstr ""
+msgstr "帮助！"
 
 msgid "Here you can manage bookmarks. Bookmarks are saved search queries."
 msgstr ""
 
 msgid "History"
-msgstr ""
+msgstr "历史"
 
 msgid "Host"
-msgstr ""
+msgstr "主机"
 
 msgid "Host Architecture"
-msgstr ""
+msgstr "主机架构"
 
 msgid "Host Configuration Status"
-msgstr ""
+msgstr "主机配置状态"
 
 msgid "Host Groups"
-msgstr ""
+msgstr "主机组"
 
 msgid "Host Parameters"
-msgstr ""
+msgstr "主机参数"
 
 msgid "Host audit entries"
-msgstr ""
+msgstr "主机审计项"
 
 msgid "Host details"
-msgstr ""
+msgstr "主机详情"
 
 msgid "Host group"
-msgstr ""
+msgstr "主机组"
 
 msgid "Host group / Environment"
-msgstr ""
+msgstr "主机组 / 环境"
 
 msgid "Host group and Environment"
-msgstr ""
+msgstr "主机组和环境"
 
 msgid "Host group configuration"
-msgstr ""
+msgstr "配置主机组"
 
 msgid "Host group hosts"
-msgstr ""
+msgstr "主机组主机"
 
 msgid "Host group only"
-msgstr ""
+msgstr "仅主机组"
 
 msgid "Host group parameters"
-msgstr ""
+msgstr "主机组参数"
 
 msgid "Host groups"
-msgstr ""
+msgstr "主机组"
 
 msgid "Host is pending for Build"
-msgstr ""
+msgstr "主机待建立"
 
 msgid "Host reported time is <em>%s</em>"
-msgstr ""
+msgstr "主机报告时间是 <em>%s</em>"
 
 msgid "Host times seems to be adrift!"
 msgstr ""
@@ -1547,10 +1558,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Enabled"
-msgstr ""
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Environment"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -1615,7 +1622,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
-msgstr ""
+msgstr "主机组"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
@@ -1646,19 +1653,19 @@ msgid "Hostgroup|Vm defaults"
 msgstr ""
 
 msgid "Hosts"
-msgstr ""
+msgstr "主机"
 
 msgid "Hosts Inventory"
-msgstr ""
+msgstr "发现主机"
 
 msgid "Hosts in error state"
-msgstr ""
+msgstr "主机处于错误状态"
 
 msgid "Hosts that had pending changes"
-msgstr ""
+msgstr "主机修改挂起"
 
 msgid "Hosts that had performed modifications without error"
-msgstr ""
+msgstr "主机已进行了修改，未发生错误"
 
 msgid "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
 msgstr ""
@@ -1667,31 +1674,31 @@ msgid "Hosts which didn't run puppet in the last %s"
 msgstr ""
 
 msgid "Hosts with alerts disabled"
-msgstr ""
+msgstr "主机告警禁用"
 
 msgid "Hosts with errors"
-msgstr ""
+msgstr "主机有错误"
 
 msgid "Hosts with no reports"
-msgstr ""
+msgstr "主机没有报告"
 
 msgid "Hosts with notifications disabled"
-msgstr ""
+msgstr "主机通知禁用"
 
 msgid "How templates are determined"
-msgstr ""
+msgstr "如何确定模板"
 
 msgid "How values are validated"
-msgstr ""
+msgstr "如何验证值"
 
 msgid "Howtos"
-msgstr ""
+msgstr "如何"
 
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 msgid "IP Address"
-msgstr ""
+msgstr "IP地址"
 
 msgid "IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you"
 msgstr ""
@@ -1725,19 +1732,19 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image"
-msgstr ""
+msgstr "介质"
 
 msgid "Image Based"
-msgstr ""
+msgstr "基础介质"
 
 msgid "Image ID"
-msgstr ""
+msgstr "介质编号"
 
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
 msgid "Images"
-msgstr ""
+msgstr "介质"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Iam role"
@@ -1756,31 +1763,31 @@ msgid "Image|Uuid"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 msgid "Import Subnets"
-msgstr ""
+msgstr "导入子网"
 
 msgid "Import from %s"
-msgstr ""
+msgstr "从 %s 导入"
 
 msgid "Import subnets"
-msgstr ""
+msgstr "导入子网"
 
 msgid "Import your data"
-msgstr ""
+msgstr "导入数据"
 
 msgid "Important"
-msgstr ""
+msgstr "重要"
 
 msgid "Imported Subnets"
-msgstr ""
+msgstr "导入子网"
 
 msgid "Imported facts"
-msgstr ""
+msgstr "导入详情"
 
 msgid "Imported report"
-msgstr ""
+msgstr "导入报告"
 
 msgid "Importing Puppet Facts"
 msgstr ""
@@ -1789,7 +1796,7 @@ msgid "Importing Puppet classes and environments"
 msgstr ""
 
 msgid "In Progress"
-msgstr ""
+msgstr "出来中"
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr ""
@@ -1798,7 +1805,7 @@ msgid "Include this host within Foreman reporting"
 msgstr ""
 
 msgid "Included Classes"
-msgstr ""
+msgstr "包含的类"
 
 msgid "Included Parameters via inheritance"
 msgstr ""
@@ -1807,40 +1814,40 @@ msgid "Incorrect username or password"
 msgstr ""
 
 msgid "Installation Media"
-msgstr ""
+msgstr "安装介质"
 
 msgid "Installation media"
-msgstr ""
+msgstr "安装介质"
 
 msgid "Installation medium configuration"
-msgstr ""
+msgstr "配置安装介质"
 
 msgid "Interface"
-msgstr ""
+msgstr "接口"
 
 msgid "Invalid Facts, much be a Puppet::Node::Facts or a Hash"
 msgstr ""
 
 msgid "Invalid Host"
-msgstr ""
+msgstr "无效主机"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
 
 msgid "Invalid query"
-msgstr ""
+msgstr "无效查询"
 
 msgid "Invalid report"
-msgstr ""
+msgstr "无效报告"
 
 msgid "Invalid search query: %s"
-msgstr ""
+msgstr "无效查询：%s"
 
 msgid "Invalid type requested for host creation via facts: %s"
 msgstr ""
 
 msgid "Inventory browser"
-msgstr ""
+msgstr "库存检索"
 
 msgid "Issue tracker"
 msgstr ""
@@ -1849,7 +1856,7 @@ msgid "It is not possible to assign provisioning templates at this stage"
 msgstr ""
 
 msgid "Item"
-msgstr ""
+msgstr "项"
 
 msgid "Key Binding"
 msgstr ""
@@ -1885,10 +1892,10 @@ msgid "LDAP users will have their Foreman account automatically created the firs
 msgstr ""
 
 msgid "Last report"
-msgstr ""
+msgstr "最后的报告"
 
 msgid "Last updated %s ago"
-msgstr ""
+msgstr "最后更新在 %s 前"
 
 msgid "Latest Events"
 msgstr ""
@@ -1903,46 +1910,46 @@ msgid "Listing compute resources"
 msgstr ""
 
 msgid "Load Datacenters"
-msgstr ""
+msgstr "加载数据中心"
 
 msgid "Load Regions"
-msgstr ""
+msgstr "加载区"
 
 msgid "Load Tenants"
 msgstr ""
 
 msgid "Loading"
-msgstr ""
+msgstr "加载中"
 
 msgid "Loading ..."
-msgstr ""
+msgstr "加载中。。。"
 
 msgid "Loading BMC information ..."
-msgstr ""
+msgstr "正在加载BMC信息"
 
 msgid "Loading Images information"
-msgstr ""
+msgstr "正在加载介质信息"
 
 msgid "Loading parameters..."
-msgstr ""
+msgstr "正在加载擦拭"
 
 msgid "Loading virtual machine information ..."
-msgstr ""
+msgstr "正在加载虚拟机信息"
 
 msgid "Loading virtual machines information ..."
-msgstr ""
+msgstr "正在加载虚拟机的详细信息..."
 
 msgid "Location"
-msgstr ""
+msgstr "位置"
 
 msgid "Location configuration"
-msgstr ""
+msgstr "位置配置"
 
 msgid "Location/Organization"
-msgstr ""
+msgstr "位置/组织"
 
 msgid "Locations"
-msgstr ""
+msgstr "位置"
 
 msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
 msgstr ""
@@ -1951,21 +1958,21 @@ msgid "Log out idle users after a certain number of minutes"
 msgstr ""
 
 msgid "Logged out - See you soon"
-msgstr ""
+msgstr "登出"
 
 msgid "Logged-in"
 msgstr ""
 
 msgid "Login"
-msgstr ""
+msgstr "登录"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Lookup key"
-msgstr ""
+msgstr "查找键"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Lookup value"
-msgstr ""
+msgstr "查找值"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
@@ -2020,46 +2027,46 @@ msgid "LookupValue|Value"
 msgstr ""
 
 msgid "MAC"
-msgstr ""
+msgstr "MAC"
 
 msgid "MAC Address"
-msgstr ""
+msgstr "MAC地址"
 
 msgid "MAC address for this host"
-msgstr ""
+msgstr "本机MAC地址"
 
 msgid "Machine Type"
-msgstr ""
+msgstr "机器型号"
 
 msgid "Mail is Required"
-msgstr ""
+msgstr "mail为必填项"
 
 msgid "Mailing lists"
-msgstr ""
+msgstr "邮件列表"
 
 msgid "Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:"
 msgstr ""
 
 msgid "Manage Bookmarks"
-msgstr ""
+msgstr "管理手册"
 
 msgid "Manage Locations"
-msgstr ""
+msgstr "管理位置"
 
 msgid "Manage Organizations"
-msgstr ""
+msgstr "管理组织"
 
 msgid "Manage host"
-msgstr ""
+msgstr "管理主机"
 
 msgid "Manually Assign"
-msgstr ""
+msgstr "手动分配"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr ""
 
 msgid "Matcher"
-msgstr ""
+msgstr "匹配"
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>"
 msgstr ""
@@ -2068,15 +2075,15 @@ msgid "Max days for Trends graphs"
 msgstr ""
 
 msgid "Media"
-msgstr ""
+msgstr "介质"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
-msgstr ""
+msgstr "介质"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Config path"
-msgstr ""
+msgstr "介质|配置路径"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Image path"
@@ -2099,75 +2106,75 @@ msgid "Medium|Path"
 msgstr ""
 
 msgid "Memory"
-msgstr ""
+msgstr "内存"
 
 msgid "Memory (MB)"
-msgstr ""
+msgstr "内存 (MB)"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Message"
-msgstr ""
+msgstr "信息"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Message|Digest"
-msgstr ""
+msgstr "留言|精华"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Message|Value"
-msgstr ""
+msgstr "留言|值"
 
 msgid "Metrics"
-msgstr ""
+msgstr "指标"
 
 msgid "Minutes Ago"
-msgstr ""
+msgstr "分钟前"
 
 msgid "Mismatch Details"
-msgstr ""
+msgstr "详情不匹配"
 
 msgid "Mismatches"
-msgstr ""
+msgstr "不匹配"
 
 msgid "Mismatches Report"
-msgstr ""
+msgstr "报告不匹配"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model"
-msgstr ""
+msgstr "型号"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
-msgstr ""
+msgstr "型号|硬件型号"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
-msgstr ""
+msgstr "型号|信息"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Name"
-msgstr ""
+msgstr "型号|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Vendor class"
-msgstr ""
+msgstr "型号|供应商类别"
 
 msgid "Modified"
-msgstr ""
+msgstr "修改"
 
 msgid "More"
-msgstr ""
+msgstr "更多"
 
 msgid "Must provide an operating systems"
-msgstr ""
+msgstr "必须提供一种操作系统"
 
 msgid "Must provide template kind"
-msgstr ""
+msgstr "必须提供一种模板"
 
 msgid "Must specify a Smart Proxy to use"
-msgstr ""
+msgstr "必须指定一个智能代理"
 
 msgid "My account"
-msgstr ""
+msgstr "我的账号"
 
 msgid "N/A"
 msgstr ""
@@ -2179,142 +2186,142 @@ msgid "NIC"
 msgstr ""
 
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 msgid "Nest"
 msgstr ""
 
 msgid "Netmask"
-msgstr ""
+msgstr "掩码"
 
 msgid "Netmask for this subnet"
-msgstr ""
+msgstr "子网掩码"
 
 msgid "Network"
-msgstr ""
+msgstr "网络"
 
 msgid "Network Based"
-msgstr ""
+msgstr "基本网络"
 
 msgid "Network Type"
-msgstr ""
+msgstr "网络类型"
 
 msgid "Network interfaces"
-msgstr ""
+msgstr "网络接口"
 
 msgid "Networks"
-msgstr ""
+msgstr "网络"
 
 msgid "New"
-msgstr ""
+msgstr "新建"
 
 msgid "New %s"
-msgstr ""
+msgstr "新建 %s"
 
 msgid "New Architecture"
-msgstr ""
+msgstr "新建架构"
 
 msgid "New Autosign Entry"
-msgstr ""
+msgstr "新建自动签名"
 
 msgid "New Bookmark"
-msgstr ""
+msgstr "新建收藏"
 
 msgid "New Compute Resource"
-msgstr ""
+msgstr "新建计算机资源"
 
 msgid "New Domain"
-msgstr ""
+msgstr "新建域"
 
 msgid "New Environment"
-msgstr ""
+msgstr "新建环境"
 
 msgid "New Global Parameter"
-msgstr ""
+msgstr "新建全局参数"
 
 msgid "New Host"
-msgstr ""
+msgstr "新建主机"
 
 msgid "New Host Group"
-msgstr ""
+msgstr "新建主机组"
 
 msgid "New Image"
-msgstr ""
+msgstr "新建图像"
 
 msgid "New LDAP Auth Source"
-msgstr ""
+msgstr "新增LDAP认证源"
 
 msgid "New LDAP Source"
-msgstr ""
+msgstr "新建LDAP源"
 
 msgid "New Location"
-msgstr ""
+msgstr "新建外置"
 
 msgid "New Medium"
-msgstr ""
+msgstr "新建媒体"
 
 msgid "New Model"
-msgstr ""
+msgstr "新建型号"
 
 msgid "New Operating System"
-msgstr ""
+msgstr "新建操作系统"
 
 msgid "New Operating system"
-msgstr ""
+msgstr "新建操作系统"
 
 msgid "New Organization"
-msgstr ""
+msgstr "新建组织"
 
 msgid "New Parameter"
-msgstr ""
+msgstr "新建参数"
 
 msgid "New Partition Table"
-msgstr ""
+msgstr "新建分区表"
 
 msgid "New Proxy"
-msgstr ""
+msgstr "新建代理"
 
 msgid "New Puppet class"
-msgstr ""
+msgstr "新建Puppet类"
 
 msgid "New Role"
-msgstr ""
+msgstr "新建角色"
 
 msgid "New Subnet"
-msgstr ""
+msgstr "新建子网"
 
 msgid "New Template"
-msgstr ""
+msgstr "新建模板"
 
 msgid "New Trend"
-msgstr ""
+msgstr "新建趋势"
 
 msgid "New User"
-msgstr ""
+msgstr "新建用户"
 
 msgid "New User group"
-msgstr ""
+msgstr "新建用户组"
 
 msgid "New Virtual Machine"
-msgstr ""
+msgstr "新建虚拟主机"
 
 msgid "New architecture"
-msgstr ""
+msgstr "新增架构"
 
 msgid "New authentication source"
-msgstr ""
+msgstr "新建认证源"
 
 msgid "New compute resource"
-msgstr ""
+msgstr "新建计算机资源"
 
 msgid "New installation medium"
-msgstr ""
+msgstr "新建安装介质"
 
 msgid "New role"
-msgstr ""
+msgstr "新建角色"
 
 msgid "New window"
-msgstr ""
+msgstr "新窗口"
 
 msgid "Next &#8594;"
 msgstr ""
@@ -2339,25 +2346,25 @@ msgid "No %{template_kind} templates were found for this host, make sure you def
 msgstr ""
 
 msgid "No TFTP proxies defined, can't continue"
-msgstr ""
+msgstr "未定义TFTP代理，不能继续"
 
 msgid "No bridges"
-msgstr ""
+msgstr "没有桥"
 
 msgid "No changes"
-msgstr ""
+msgstr "未变更"
 
 msgid "No compute resource to show"
-msgstr ""
+msgstr "没有可显示的计算机资源"
 
 msgid "No domains"
-msgstr ""
+msgstr "没有域"
 
 msgid "No entries found"
-msgstr ""
+msgstr "没有找到条目"
 
 msgid "No environment selected!"
-msgstr ""
+msgstr "没有选择的环境！"
 
 msgid "No features found on this proxy, please make sure you enable at least one feature"
 msgstr ""
@@ -2366,135 +2373,135 @@ msgid "No finish templates were found for this host, make sure you define at lea
 msgstr ""
 
 msgid "No history found"
-msgstr ""
+msgstr "没有发现历史信息"
 
 msgid "No host group selected!"
-msgstr ""
+msgstr "没有选择主机组"
 
 msgid "No hosts are mismatched!"
-msgstr ""
+msgstr "没有主机不匹配！"
 
 msgid "No hosts selected"
-msgstr ""
+msgstr "没有选择主机"
 
 msgid "No hosts were found with that id or name"
-msgstr ""
+msgstr "没有发现该ID或者名称的主机"
 
 msgid "No interesting reports received in the last week"
 msgstr ""
 
 msgid "No networks"
-msgstr ""
+msgstr "没有网络"
 
 msgid "No new subnets found"
-msgstr ""
+msgstr "没有发现新子网"
 
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
 msgstr ""
 
 msgid "No preference"
-msgstr ""
+msgstr "没有要求"
 
 msgid "No puppet activity for this host in the last %s days"
 msgstr ""
 
 msgid "No report"
-msgstr ""
+msgstr "没有报告"
 
 msgid "No reports"
-msgstr ""
+msgstr "没有报告"
 
 #. host's status: first character of "no reports"
 msgid "No reports|N"
-msgstr ""
+msgstr "没有报告|N"
 
 msgid "No smart proxies to show"
-msgstr ""
+msgstr "没有智能代理来显示"
 
 msgid "No subnets"
-msgstr ""
+msgstr "没有子网"
 
 msgid "No subnets selected"
-msgstr ""
+msgstr "没有选择子网"
 
 msgid "No template found"
-msgstr ""
+msgstr "没有发现模板"
 
 msgid "No templates found!"
-msgstr ""
+msgstr "没有发现模板"
 
 msgid "No trend counter defined."
-msgstr ""
+msgstr "没有趋势计数器定义。"
 
 msgid "No trend counter found."
-msgstr ""
+msgstr "没有趋势计数器定义。"
 
 msgid "No value error"
-msgstr ""
+msgstr "无值错误"
 
 msgid "No value warning"
-msgstr ""
+msgstr "没有警告"
 
 msgid "None"
-msgstr ""
+msgstr "无"
 
 msgid "None Found"
-msgstr ""
+msgstr "没有发现"
 
 msgid "Not Found"
-msgstr ""
+msgstr "没有发现"
 
 msgid "Not authorized to edit classes"
-msgstr ""
+msgstr "未授权编辑类"
 
 msgid "Not implemented"
-msgstr ""
+msgstr "未实现"
 
 msgid "Not relevant for snippet"
-msgstr ""
+msgstr "不相关的片段"
 
 msgid "Note: %s "
-msgstr ""
+msgstr "注：%s"
 
 msgid "Nothing to show"
-msgstr ""
+msgstr "没有内容可显示"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice"
-msgstr ""
+msgstr "注意"
 
 msgid "Notice:"
-msgstr ""
+msgstr "注意："
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Content"
-msgstr ""
+msgstr "注意|内容"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Global"
-msgstr ""
+msgstr "注意|全局"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Level"
-msgstr ""
+msgstr "注意|级别"
 
 msgid "Notification disabled"
-msgstr ""
+msgstr "禁用通知"
 
 msgid "Notifications"
-msgstr ""
+msgstr "通知"
 
 msgid "Number Of Clients"
-msgstr ""
+msgstr "客户数"
 
 msgid "Number of CPUs"
-msgstr ""
+msgstr "CPU数"
 
 msgid "Number of Events"
-msgstr ""
+msgstr "事件数"
 
 msgid "Number of Hosts"
-msgstr ""
+msgstr "主机数"
 
 msgid "Number of values"
 msgstr ""
@@ -2506,14 +2513,14 @@ msgid "OAuth consumer secret"
 msgstr ""
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. host's status: first character of "OK"
 msgid "OK|O"
-msgstr ""
+msgstr "OK|O"
 
 msgid "OS Distribution"
-msgstr ""
+msgstr "系统分发"
 
 msgid "OS Family"
 msgstr ""
@@ -2525,10 +2532,10 @@ msgid "Obsolete"
 msgstr ""
 
 msgid "Off"
-msgstr ""
+msgstr "关闭"
 
 msgid "Old"
-msgstr ""
+msgstr "旧的"
 
 msgid "On"
 msgstr ""
@@ -2561,44 +2568,44 @@ msgid "Open Spice in a new window"
 msgstr ""
 
 msgid "Operating Mode"
-msgstr ""
+msgstr "操作模式"
 
 msgid "Operating System"
-msgstr ""
+msgstr "操作系统"
 
 msgid "Operating System Family"
-msgstr ""
+msgstr "操作系统家族"
 
 msgid "Operating System version is required"
-msgstr ""
+msgstr "操作系统版本必须指定"
 
 msgid "Operating Systems"
-msgstr ""
+msgstr "操作系统"
 
 msgid "Operating system"
-msgstr ""
+msgstr "操作系统"
 
 msgid "Operating system default"
-msgstr ""
+msgstr "默认操作系统"
 
 msgid "Operating systems"
-msgstr ""
+msgstr "操作系统"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
-msgstr ""
+msgstr "操作系统"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
-msgstr ""
+msgstr "操作系统|主要"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Minor"
-msgstr ""
+msgstr "操作系统|次要"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Name"
-msgstr ""
+msgstr "操作系统|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Nameindicator"
@@ -2609,7 +2616,7 @@ msgid "Operatingsystem|Release name"
 msgstr ""
 
 msgid "Operation"
-msgstr ""
+msgstr "作业"
 
 msgid "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br><b>Description:</b> %s"
 msgstr ""
@@ -2636,13 +2643,13 @@ msgid "Order"
 msgstr ""
 
 msgid "Organization"
-msgstr ""
+msgstr "组织"
 
 msgid "Organization configuration"
-msgstr ""
+msgstr "组织配置"
 
 msgid "Organizations"
-msgstr ""
+msgstr "组织"
 
 msgid "Organizations also work nicely in tandem with"
 msgstr ""
@@ -2651,16 +2658,16 @@ msgid "Organizations are particularly useful for Foreman installations where sev
 msgstr ""
 
 msgid "Other reports for this host"
-msgstr ""
+msgstr "本机的其他报告"
 
 msgid "Out of sync"
-msgstr ""
+msgstr "不同步"
 
 msgid "Out of sync Hosts"
-msgstr ""
+msgstr "不同步的主机"
 
 msgid "Override Value"
-msgstr ""
+msgstr "值覆盖"
 
 msgid "Override a Puppetclass Parameter"
 msgstr ""
@@ -2669,114 +2676,114 @@ msgid "Override this value"
 msgstr ""
 
 msgid "Overview"
-msgstr ""
+msgstr "概况"
 
 msgid "Overwrite"
-msgstr ""
+msgstr "覆盖"
 
 msgid "Owned By"
-msgstr ""
+msgstr "所有者"
 
 msgid "Owned hosts"
-msgstr ""
+msgstr "主机所有者"
 
 msgid "Owner"
-msgstr ""
+msgstr "所有者"
 
 msgid "Owner changed to %s"
-msgstr ""
+msgstr "%s 所有者修改"
 
 msgid "PXE"
-msgstr ""
+msgstr "PXE"
 
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
-msgstr ""
+msgstr "参数"
 
 msgid "Parameter name"
-msgstr ""
+msgstr "参数名称"
 
 msgid "Parameter type"
-msgstr ""
+msgstr "参数类型"
 
 msgid "Parameters"
-msgstr ""
+msgstr "参数"
 
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
-msgstr ""
+msgstr "参数|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Priority"
-msgstr ""
+msgstr "参数|优先"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Value"
-msgstr ""
+msgstr "参数|值"
 
 msgid "Parent"
 msgstr ""
 
 msgid "Partition Tables"
-msgstr ""
+msgstr "分区表"
 
 msgid "Partition table"
-msgstr ""
+msgstr "分区表"
 
 msgid "Partition table configuration"
-msgstr ""
+msgstr "配置分区表"
 
 msgid "Partition tables"
-msgstr ""
+msgstr "分区表"
 
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 msgid "Pending"
-msgstr ""
+msgstr "挂起的"
 
 msgid "Pending Hosts"
-msgstr ""
+msgstr "挂起的主机"
 
 msgid "Pending Installation"
-msgstr ""
+msgstr "挂起的安装"
 
 msgid "Pending changes"
-msgstr ""
+msgstr "挂起的修改"
 
-#. host's status: first character of "pending" initial character of Pending
+#. initial character of Pending host's status: first character of "pending"
 msgid "Pending|P"
 msgstr ""
 
 msgid "Permission denied"
-msgstr ""
+msgstr "权限不足"
 
 msgid "Permissions"
-msgstr ""
+msgstr "权限"
 
 msgid "Permissions report"
-msgstr ""
+msgstr "权限报告"
 
 msgid "Physical (Bridge)"
 msgstr ""
 
 msgid "Please Confirm"
-msgstr ""
+msgstr "请确认"
 
 msgid "Please Select"
-msgstr ""
+msgstr "请选择"
 
 msgid "Please Select an Image"
-msgstr ""
+msgstr "请选择介质"
 
 msgid "Please check the proxy is configured and running on the host."
-msgstr ""
+msgstr "请检查代理是否已配置并在此主机上运行"
 
 msgid "Please request the required privileges from a foreman administrator"
 msgstr ""
@@ -2788,28 +2795,28 @@ msgid "Please save the Operating System first and try again."
 msgstr ""
 
 msgid "Please select"
-msgstr ""
+msgstr "请选择"
 
 msgid "Please select an environment first"
-msgstr ""
+msgstr "请先选择环境"
 
 msgid "Please select an image"
-msgstr ""
+msgstr "请选择介质"
 
 msgid "Please try to update your request"
-msgstr ""
+msgstr "请尝试更新"
 
 msgid "Please wait..."
-msgstr ""
+msgstr "请稍等。。。"
 
 msgid "Power"
-msgstr ""
+msgstr "开启"
 
 msgid "Power %s"
-msgstr ""
+msgstr "开启 %s"
 
 msgid "Power ON this machine"
-msgstr ""
+msgstr "开启本机"
 
 msgid "Power up compute instance %s"
 msgstr ""
@@ -2817,11 +2824,11 @@ msgstr ""
 msgid "Power%s"
 msgstr ""
 
-msgid "Preparing Post installation script for %s"
+msgid "Prepare post installation script for %s"
 msgstr ""
 
 msgid "Preview"
-msgstr ""
+msgstr "预览"
 
 msgid "Primary"
 msgstr ""
@@ -2833,10 +2840,10 @@ msgid "Proceed to Edit"
 msgstr ""
 
 msgid "Properties"
-msgstr ""
+msgstr "属性"
 
 msgid "Provider"
-msgstr ""
+msgstr "提供者"
 
 msgid "Provision"
 msgstr ""
@@ -2866,7 +2873,7 @@ msgid "Provisioning templates"
 msgstr ""
 
 msgid "Proxies"
-msgstr ""
+msgstr "代理"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable"
@@ -2952,7 +2959,7 @@ msgstr ""
 msgid "Puppetclass|Name"
 msgstr ""
 
-msgid "Querying instance details for %s"
+msgid "Query instance details for %s"
 msgstr ""
 
 msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current facts and reports"
@@ -2993,7 +3000,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report"
-msgstr ""
+msgstr "报告"
 
 msgid "Report Already Deleted"
 msgstr ""
@@ -3011,10 +3018,10 @@ msgid "Reported at %s "
 msgstr ""
 
 msgid "Reporting"
-msgstr ""
+msgstr "报告中"
 
 msgid "Reports"
-msgstr ""
+msgstr "报告"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr ""
@@ -3041,23 +3048,23 @@ msgid "Reset zoom"
 msgstr ""
 
 msgid "Resolve"
-msgstr ""
+msgstr "解决"
 
 msgid "Resource"
-msgstr ""
+msgstr "资源"
 
 msgid "Resources"
-msgstr ""
+msgstr "资源"
 
 msgid "Restart<br>Failures"
-msgstr ""
+msgstr "重启 失败"
 
 msgid "Restarted"
-msgstr ""
+msgstr "已重启"
 
 #. initial character of Restarted
 msgid "Restarted|R"
-msgstr ""
+msgstr "已重启|R"
 
 msgid "Revert"
 msgstr ""
@@ -3066,17 +3073,17 @@ msgid "Revert to revision from: %s"
 msgstr ""
 
 msgid "Review"
-msgstr ""
+msgstr "审核"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
-msgstr ""
+msgstr "角色"
 
 msgid "Role is in use"
-msgstr ""
+msgstr "使用的角色"
 
 msgid "Roles"
-msgstr ""
+msgstr "角色"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role|Builtin"
@@ -3091,7 +3098,7 @@ msgid "Role|Permissions"
 msgstr ""
 
 msgid "Run Puppet"
-msgstr ""
+msgstr "运行 Puppet"
 
 msgid "Run Puppet on the following hosts"
 msgstr ""
@@ -3099,16 +3106,15 @@ msgstr ""
 msgid "Run distribution in the last %s minute"
 msgid_plural "Run distribution in the last %s minutes"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "Run puppet"
-msgstr ""
+msgstr "运行 puppet"
 
 msgid "Running on"
-msgstr ""
+msgstr "运行中"
 
 msgid "Runtime"
-msgstr ""
+msgstr "运行时"
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr ""
@@ -3120,16 +3126,16 @@ msgid "SSL Private Key file that Foreman will use to communicate with its proxie
 msgstr ""
 
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 msgid "Save something and try again"
 msgstr ""
 
 msgid "Scope"
-msgstr ""
+msgstr "范围"
 
 msgid "Search"
-msgstr ""
+msgstr "搜"
 
 msgid "Secret Key"
 msgstr ""
@@ -3141,22 +3147,22 @@ msgid "Security Groups"
 msgstr ""
 
 msgid "Select"
-msgstr ""
+msgstr "选择"
 
 msgid "Select Action"
-msgstr ""
+msgstr "选择执行"
 
 msgid "Select All"
-msgstr ""
+msgstr "选择所有"
 
 msgid "Select Hosts"
-msgstr ""
+msgstr "选择主机"
 
 msgid "Select Location"
-msgstr ""
+msgstr "选择位置"
 
 msgid "Select Organization"
-msgstr ""
+msgstr "选择组织"
 
 msgid "Select a period"
 msgstr ""
@@ -3191,15 +3197,18 @@ msgstr ""
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr ""
 
+msgid "Set a randomly generated password on the display connection"
+msgstr ""
+
+msgid "Set up compute instance %s"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
-msgstr ""
+msgstr "设置"
 
 msgid "Settings"
-msgstr ""
-
-msgid "Settings up compute instance %s"
-msgstr ""
+msgstr "设置"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Category"
@@ -3258,14 +3267,17 @@ msgstr ""
 msgid "Should the smart variables be exposed via the ENC yaml output?"
 msgstr ""
 
-msgid "Show Diff"
+msgid "Should we use the originating IP of the built request to update the host's IP?"
 msgstr ""
+
+msgid "Show Diff"
+msgstr "显示区别"
 
 msgid "Show Host"
-msgstr ""
+msgstr "显示主机"
 
 msgid "Show Trends"
-msgstr ""
+msgstr "显示趋势"
 
 msgid "Show all %s fact values"
 msgstr ""
@@ -3283,10 +3295,10 @@ msgid "Show log messages:"
 msgstr ""
 
 msgid "Sign"
-msgstr ""
+msgstr "登入"
 
 msgid "Sign Out"
-msgstr ""
+msgstr "登出"
 
 msgid "Signo SSO url"
 msgstr ""
@@ -3298,37 +3310,37 @@ msgid "Skip assign hosts and proceed to edit %s settings"
 msgstr ""
 
 msgid "Skipped"
-msgstr ""
+msgstr "忽略"
 
 #. initial character of Skipped
 msgid "Skipped|S"
-msgstr ""
+msgstr "忽略|S"
 
 msgid "Smart Class Parameter"
-msgstr ""
+msgstr "智能代理参数"
 
 msgid "Smart Proxies"
-msgstr ""
+msgstr "智能代理"
 
 msgid "Smart Proxy"
-msgstr ""
+msgstr "智能代理"
 
 msgid "Smart Variables"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
-msgstr ""
+msgstr "智能代理"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "智能变量"
 
 msgid "Smart-Proxy Installation"
-msgstr ""
+msgstr "安装智能代理"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Name"
-msgstr ""
+msgstr "智能代理|名称"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Url"
@@ -3351,7 +3363,7 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source"
-msgstr ""
+msgstr "源"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source|Digest"
@@ -3362,32 +3374,32 @@ msgid "Source|Value"
 msgstr ""
 
 msgid "State"
-msgstr ""
+msgstr "状态"
 
 msgid "Statistics"
-msgstr ""
+msgstr "统计"
 
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 msgid "Storage"
-msgstr ""
+msgstr "存储"
 
 msgid "Storage Domain"
-msgstr ""
+msgstr "存储域"
 
 msgid "Storage Pool"
-msgstr ""
+msgstr "存储池"
 
 msgid "Submit"
-msgstr ""
+msgstr "提交"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
-msgstr ""
+msgstr "子网"
 
 msgid "Subnets"
-msgstr ""
+msgstr "提交"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
@@ -3430,16 +3442,16 @@ msgid "Subnet|Vlanid"
 msgstr ""
 
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 msgid "Successfully created %s."
-msgstr ""
+msgstr "成功创建 %s "
 
 msgid "Successfully created puppetclass."
-msgstr ""
+msgstr "成功创建 puppet 类"
 
 msgid "Successfully deleted %s."
-msgstr ""
+msgstr "成功删除 %s."
 
 msgid "Successfully destroyed puppetclass."
 msgstr ""
@@ -3448,35 +3460,35 @@ msgid "Successfully destroyed report."
 msgstr ""
 
 msgid "Successfully executed, check log files for more details"
-msgstr ""
+msgstr "成功执行，更多细节查询日志"
 
 msgid "Successfully executed, check reports and/or log files for more details"
-msgstr ""
+msgstr "成功执行，更多细节查询报告或者日志"
 
 msgid "Successfully updated %s."
-msgstr ""
+msgstr "成功更新 %s."
 
 msgid "Successfully updated puppetclass."
-msgstr ""
+msgstr "成功更新 puppet 类"
 
 msgid "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr ""
 
 msgid "Support"
-msgstr ""
+msgstr "支持"
 
 #. host's status: first character of "sync" (out of sync)
 msgid "Sync|S"
-msgstr ""
+msgstr "同步|S"
 
 msgid "System Information"
-msgstr ""
+msgstr "系统信息"
 
 msgid "System Status"
-msgstr ""
+msgstr "系统状态"
 
 msgid "TFTP Proxy"
-msgstr ""
+msgstr "TFTP代理"
 
 msgid "TFTP Proxy to use within this subnet"
 msgstr ""
@@ -3508,7 +3520,7 @@ msgid "Template / Hardware Profile to use"
 msgstr ""
 
 msgid "Template Diff"
-msgstr ""
+msgstr "模板比较"
 
 msgid "Template Type"
 msgstr ""
@@ -3528,13 +3540,13 @@ msgid "TemplateKind|Name"
 msgstr ""
 
 msgid "Templates"
-msgstr ""
+msgstr "模板"
 
 msgid "Tenant"
 msgstr ""
 
 msgid "Test Connection"
-msgstr ""
+msgstr "测试连接"
 
 msgid "The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,\\n  and also available as an external node parameter"
 msgstr ""
@@ -3662,7 +3674,6 @@ msgstr ""
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] ""
-msgstr[1] ""
 
 msgid "There was an error creating the PXE Default file: %s"
 msgstr ""
@@ -3740,21 +3751,21 @@ msgid "Token|Value"
 msgstr ""
 
 msgid "Total"
-msgstr ""
+msgstr "总"
 
 msgid "Total Hosts: %s"
-msgstr ""
+msgstr "主机合计: %s"
 
 msgid "Total memory usage"
-msgstr ""
+msgstr "总的内存使用情况"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend"
-msgstr ""
+msgstr "趋势"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend counter"
-msgstr ""
+msgstr "趋势统计"
 
 msgid "Trend of the last %s days."
 msgstr ""
@@ -3764,7 +3775,7 @@ msgid "TrendCounter|Count"
 msgstr ""
 
 msgid "Trends"
-msgstr ""
+msgstr "趋势"
 
 msgid "Trends for %s"
 msgstr ""
@@ -3789,13 +3800,13 @@ msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
 msgid "Type"
-msgstr ""
+msgstr "类型"
 
 msgid "URL"
-msgstr ""
+msgstr "链接"
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr ""
@@ -3822,46 +3833,46 @@ msgid "Unable to generate output, Check log files\\n"
 msgstr ""
 
 msgid "Unable to save"
-msgstr ""
+msgstr "无法保存"
 
 msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo remove"
-msgstr ""
+msgstr "撤销删除"
 
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 msgid "Unknown Power State"
-msgstr ""
+msgstr "电源状态未知"
 
 msgid "Unknown action name for success message: %s"
 msgstr ""
 
 msgid "Unknown fact"
-msgstr ""
+msgstr "未知详情"
 
 msgid "Unknown power management support - can't continue"
 msgstr ""
 
 msgid "Unknown user"
-msgstr ""
+msgstr "未知用户"
 
 msgid "Unmanage host"
-msgstr ""
+msgstr "取消管理主机"
 
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 msgid "Update:"
-msgstr ""
+msgstr "更新："
 
 msgid "Updated"
-msgstr ""
+msgstr "更新"
 
 msgid "Updated all hosts!"
-msgstr ""
+msgstr "更新所有主机！"
 
 msgid "Updated hosts: changed environment"
 msgstr ""
@@ -3886,21 +3897,21 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User"
-msgstr ""
+msgstr "用户"
 
 msgid "User Authentication"
-msgstr ""
+msgstr "用户身份验证"
 
 msgid "User Groups"
-msgstr ""
+msgstr "用户组"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"
-msgstr ""
+msgstr "用户详情"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User role"
-msgstr ""
+msgstr "用户角色"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Andor"
@@ -3920,11 +3931,11 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
-msgstr ""
+msgstr "用户组"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup member"
-msgstr ""
+msgstr "用户组成员"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
@@ -3932,13 +3943,13 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
-msgstr ""
+msgstr "用户组|名称"
 
 msgid "Username"
-msgstr ""
+msgstr "用户名"
 
 msgid "Users"
-msgstr ""
+msgstr "用户"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Admin"
@@ -4026,7 +4037,7 @@ msgid "Validation types"
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "值"
 
 msgid "Variable"
 msgstr ""
@@ -4050,10 +4061,10 @@ msgid "Virtual (NAT)"
 msgstr ""
 
 msgid "Virtual Machine"
-msgstr ""
+msgstr "虚拟机"
 
 msgid "Virtual Machines"
-msgstr ""
+msgstr "虚拟机"
 
 msgid "Virtual Machines on %s"
 msgstr ""
@@ -4061,7 +4072,7 @@ msgstr ""
 msgid "Volumes"
 msgstr ""
 
-msgid "Waiting for %s to come online"
+msgid "Wait for %s to come online"
 msgstr ""
 
 msgid "Warning"
@@ -4077,7 +4088,7 @@ msgid "We use Redmine to report and track bugs and feature requests, which can b
 msgstr ""
 
 msgid "Welcome"
-msgstr ""
+msgstr "欢迎"
 
 msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
 msgstr ""
@@ -4104,10 +4115,10 @@ msgid "Which is an offset of <b>%s</b>"
 msgstr ""
 
 msgid "Wiki"
-msgstr ""
+msgstr "Wiki"
 
 msgid "YAML"
-msgstr ""
+msgstr "YAML"
 
 msgid "You Are about to change the default PXE menu on all configured TFTP servers - continue ?"
 msgstr ""
@@ -4166,10 +4177,16 @@ msgstr ""
 msgid "You do not have permission to %{operation} this %{klass}"
 msgstr ""
 
+msgid "You do not have permission to edit Puppet classes on this host"
+msgstr ""
+
+msgid "You do not have permission to edit Puppet classes on this host group"
+msgstr ""
+
 msgid "You don't seem to have any Hosts, for more information see"
 msgstr ""
 
-msgid "You don't seem to have any facts, if you wish to configure it, please follow"
+msgid "You don't seem to have any facts yet. If you wish to configure fact pushing, please follow"
 msgstr ""
 
 msgid "You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow"
@@ -4233,10 +4250,10 @@ msgid "add new volume"
 msgstr ""
 
 msgid "already exists"
-msgstr ""
+msgstr "已经存在"
 
 msgid "already in use"
-msgstr ""
+msgstr "使用中"
 
 msgid "and"
 msgstr ""
@@ -4289,7 +4306,7 @@ msgstr ""
 msgid "e.g. http://openstack:5000/v2.0/tokens"
 msgstr ""
 
-msgid "e.g. https://identity.api.rackspacecloud.com"
+msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
 msgid "e.g. https://ovirt.example.com:8443/api"
@@ -4329,16 +4346,16 @@ msgid "for more details."
 msgstr ""
 
 msgid "free (GB)"
-msgstr ""
+msgstr "空闲 (GB)"
 
 msgid "free memory (GB)"
-msgstr ""
+msgstr "内存空闲 (GB)"
 
 msgid "free swap (GB)"
-msgstr ""
+msgstr "交换分区空闲 (GB)"
 
 msgid "here"
-msgstr ""
+msgstr "这里"
 
 msgid "in %s"
 msgstr ""
@@ -4350,10 +4367,10 @@ msgid "included already from host group"
 msgstr ""
 
 msgid "invalid IP address"
-msgstr ""
+msgstr "非法IP地址"
 
 msgid "invalid architecture for %s"
-msgstr ""
+msgstr " %s 是非法结构"
 
 msgid "invalid facts hash"
 msgstr ""
@@ -4371,25 +4388,25 @@ msgid "invalid method %s"
 msgstr ""
 
 msgid "invalid path"
-msgstr ""
+msgstr "非法路径"
 
 msgid "invalid time range"
-msgstr ""
+msgstr "时间区间错误"
 
 msgid "invalid type %s"
-msgstr ""
+msgstr "错误类型 %s"
 
 msgid "invalid type: %s requested"
-msgstr ""
+msgstr "错误类型： 正确 %s "
 
 msgid "invalid value: %s"
-msgstr ""
+msgstr "非法值： %s"
 
 msgid "is alphanumeric and cannot contain spaces"
 msgstr ""
 
 msgid "is already used by a user account"
-msgstr ""
+msgstr "已经被用户使用"
 
 msgid "is invalid"
 msgstr ""
@@ -4412,71 +4429,70 @@ msgstr ""
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
-msgstr[1] ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
 msgstr ""
 
 msgid "location"
-msgstr ""
+msgstr "位置"
 
 msgid "locations"
-msgstr ""
+msgstr "位置"
 
 msgid "message"
-msgstr ""
+msgstr "信息"
 
 msgid "must be"
-msgstr ""
+msgstr "必须是"
 
 msgid "must be an array"
-msgstr ""
+msgstr "必须是列表"
 
 msgid "must be at most 15 characters"
-msgstr ""
+msgstr "必须是15个字符"
 
 msgid "must be boolean"
-msgstr ""
+msgstr "必须是布尔型"
 
 msgid "must be integer"
-msgstr ""
+msgstr "必须是整型"
 
 msgid "must be lowercase"
-msgstr ""
+msgstr "必须小写"
 
 msgid "must be specified if from is defined"
-msgstr ""
+msgstr "需从已有定义中选择"
 
 msgid "must be specified if to is defined"
-msgstr ""
+msgstr "需增加到预定义列表中"
 
 msgid "must match"
-msgstr ""
+msgstr "必须匹配"
 
 msgid "must provide a provider"
-msgstr ""
+msgstr "必须提供供应者"
 
 msgid "must set host and port"
-msgstr ""
+msgstr "必须设置主机和端口"
 
 msgid "new"
-msgstr ""
+msgstr "新建"
 
 msgid "no puppet proxy defined - cant continue"
-msgstr ""
+msgstr "未定义 puppet proxy - 停止"
 
 msgid "organization"
-msgstr ""
+msgstr "组织"
 
 msgid "organizations"
-msgstr ""
+msgstr "组织"
 
 msgid "override"
-msgstr ""
+msgstr "覆盖"
 
 msgid "page"
-msgstr ""
+msgstr "页"
 
 msgid "parameters require an associated domain, host or host group"
 msgstr ""
@@ -4491,64 +4507,64 @@ msgid "plus all"
 msgstr ""
 
 msgid "poweroff"
-msgstr ""
+msgstr "关闭"
 
 msgid "puppet class browser"
-msgstr ""
+msgstr "浏览puppet 类"
 
 msgid "reboot"
-msgstr ""
+msgstr "重启"
 
 msgid "remove"
-msgstr ""
+msgstr "删除"
 
 msgid "remove network interface"
-msgstr ""
+msgstr "删除网络接口"
 
 msgid "remove value"
-msgstr ""
+msgstr "删除值"
 
 msgid "remove volume"
 msgstr ""
 
 msgid "reset"
-msgstr ""
+msgstr "重置"
 
 msgid "revoked"
 msgstr ""
 
 msgid "select an owner"
-msgstr ""
+msgstr "选择所有者"
 
 msgid "setting up facts"
-msgstr ""
+msgstr "设置详情"
 
 msgid "setting up reporting"
-msgstr ""
+msgstr "设置报告"
 
 msgid "settings"
-msgstr ""
+msgstr "设置"
 
 msgid "should be 8 characters or more"
-msgstr ""
+msgstr "不少于8个字符"
 
 msgid "should follow this format: 0,9600n8"
-msgstr ""
+msgstr "格式参考： 0,9600n8"
 
 msgid "start"
-msgstr ""
+msgstr "开始"
 
 msgid "state"
-msgstr ""
+msgstr "状态"
 
 msgid "stop"
-msgstr ""
+msgstr "停止"
 
 msgid "these hosts for a build operation on next boot"
 msgstr ""
 
 msgid "this page"
-msgstr ""
+msgstr "该页"
 
 msgid "to indicate your selections."
 msgstr ""
@@ -4575,31 +4591,31 @@ msgid "unknown provider"
 msgstr ""
 
 msgid "used (GB)"
-msgstr ""
+msgstr "已使用 (GB)"
 
 msgid "used memory (GB)"
-msgstr ""
+msgstr "内存已使用 (GB)"
 
 msgid "used swap (GB)"
-msgstr ""
+msgstr "缓存已使用 (GB)"
 
 msgid "useful."
-msgstr ""
+msgstr "可用。"
 
 msgid "using %s"
-msgstr ""
+msgstr "使用 %s"
 
 msgid "using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - %{path})"
 msgstr ""
 
 msgid "valid"
-msgstr ""
+msgstr "合法"
 
 msgid "value to use when there is no match"
 msgstr ""
 
 msgid "you may use %s"
-msgstr ""
+msgstr "可用使用 %s"
 
 msgid "you probably need to configure your %s first."
 msgstr ""

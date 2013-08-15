@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 16:28+0100\n"
-"PO-Revision-Date: 2013-07-04 18:40+0000\n"
+"POT-Creation-Date: 2013-08-15 10:48+0100\n"
+"PO-Revision-Date: 2013-07-18 19:40+0000\n"
 "Last-Translator: carmela <carmela.rubinos@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "Language: es\n"
@@ -180,7 +180,8 @@ msgstr "Acerca de"
 msgid "Access Key"
 msgstr "Clave de Acceso"
 
-msgid "Acquiring IP address for %s"
+#, fuzzy
+msgid "Acquire IP address for %s"
 msgstr "Adquiriendo dirección IP para %s"
 
 msgid "Action"
@@ -802,7 +803,8 @@ msgstr "Plantilla"
 msgid "Configuration"
 msgstr "Configuración"
 
-msgid "Configuring instance %s via SSH"
+#, fuzzy
+msgid "Configure instance %s via SSH"
 msgstr "Configurando instancia %s mediante SSH"
 
 msgid "Conflict - %s"
@@ -819,6 +821,9 @@ msgstr "Conectando..."
 
 msgid "Console"
 msgstr "Terminal"
+
+msgid "Console passwords"
+msgstr ""
 
 msgid "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
 msgstr "No ha sido posible encontrar una Plantilla de Configuración con el nombre \"PXE Default File\", es necesario crear una."
@@ -955,6 +960,10 @@ msgstr "Deshabilitar Notificaciones"
 msgid "Disable alerts for selected hosts"
 msgstr "Deshabilitar alertas para los equipos seleccionados"
 
+#, fuzzy
+msgid "Disabled"
+msgstr "D"
+
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
 msgstr "D"
@@ -970,6 +979,10 @@ msgstr "Nombre para mostrar"
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "Mostrar las plantillas que van a ser usadas para aprovisionar este equipo"
+
+#, fuzzy
+msgid "Display type"
+msgstr "Nombre para mostrar"
 
 msgid "Displaying <b>%{count}</b> entry"
 msgid_plural "Displaying <b>all %{count}</b> entries"
@@ -1105,9 +1118,6 @@ msgstr "Aunque no hubieras generado los puppetdocs (see <a rel=\"external\" href
 msgid "Empty environment"
 msgstr "Entorno vacío"
 
-msgid "Enable Certificate generation for %s"
-msgstr "Habilitar generación de certificado para %s"
-
 msgid "Enable Email alerts per each failed Puppet report"
 msgstr "Habilitar alertas por correo electrónico para cada informe de Puppet fallido"
 
@@ -1117,6 +1127,10 @@ msgstr "Habilitar Notificaciones"
 msgid "Enable alerts for selected hosts"
 msgstr "Habilitar alertas para los equipos seleccionados"
 
+#, fuzzy
+msgid "Enable certificate generation for %s"
+msgstr "Habilitar generación de certificado para %s"
+
 msgid "Enable rebuild on next host boot"
 msgstr "Habilitar reconstrucción el siguiente arranque"
 
@@ -1125,6 +1139,10 @@ msgstr "Habilitar el modo seguro de renderizado de plantillas de configuración 
 
 msgid "Enable this host for provisioning"
 msgstr "Habilita este equipo para aprovisionamiento"
+
+#, fuzzy
+msgid "Enabled"
+msgstr "TablaP"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr "%s habilitado para ser reconstruido en el siguiente arranque"
@@ -1429,7 +1447,7 @@ msgid "Foreman ticketing system"
 msgstr "Sistema de tickets de Foreman"
 
 msgid "Foreman will create the host when new facts are received"
-msgstr ""
+msgstr "Foreman creará el equipo cuando se reciban los datos"
 
 msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
 msgstr "Foreman, de forma predeterminada, opera en modo anónimo en donde todas las operaciones son ejecutadas sin hacer referencia al usuario que está ejecutando la tarea."
@@ -1558,10 +1576,6 @@ msgstr "Disco"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Enabled"
 msgstr "Habilitado"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Environment"
-msgstr "Entorno"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
@@ -1709,9 +1723,8 @@ msgstr "Dirección IP para este equipo, si el DHCP Smart Proxy está habilitado,
 msgid "IRC"
 msgstr "IRC"
 
-#, fuzzy
 msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
-msgstr "Si Foreman se está ejecutando con Passenger o un balanceador de carga remoto, la ip debe ser especificada aquí"
+msgstr "Si Foreman se está ejecutando con Passenger o un balanceador de carga remoto, la IP debe ser configurada aquí. Ésta es una expresión regular, así que permite múltiples balanceadores de carga, ej: (10.0.0.1|127.0.0.1)"
 
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
 msgstr "Si está seleccionado, aparecerá un error si no existe un valor predeterminado y no existe ninguna concordancia que pueda proporcionar el valor."
@@ -1892,9 +1905,8 @@ msgstr "Mapeo de Atributos LDAP"
 msgid "LDAP Authentication"
 msgstr "Autenticación LDAP"
 
-#, fuzzy
 msgid "LDAP users will have their Foreman account automatically created the first time they log into Foreman"
-msgstr "El usuario LDAP tendrá su cuenta Foreman creada automáticamente la primera vez que acceda a Foreman"
+msgstr "Los usuarios LDAP dispondrán de su cuenta Foreman automáticamente creada la primera vez que se autentiquen en Foreman"
 
 msgid "Last report"
 msgstr "Último informe"
@@ -2762,7 +2774,7 @@ msgstr "Instalaciones Pendientes"
 msgid "Pending changes"
 msgstr "Cambios Pendientes"
 
-#. host's status: first character of "pending" initial character of Pending
+#. initial character of Pending host's status: first character of "pending"
 msgid "Pending|P"
 msgstr "P"
 
@@ -2829,7 +2841,8 @@ msgstr "Arranca la instancia %s"
 msgid "Power%s"
 msgstr "Enciende %s"
 
-msgid "Preparing Post installation script for %s"
+#, fuzzy
+msgid "Prepare post installation script for %s"
 msgstr "Preparando el script Post instalación para %s"
 
 msgid "Preview"
@@ -2964,7 +2977,8 @@ msgstr "Clasepuppet"
 msgid "Puppetclass|Name"
 msgstr "Nombre"
 
-msgid "Querying instance details for %s"
+#, fuzzy
+msgid "Query instance details for %s"
 msgstr "Preguntando detalles de instancia para %s"
 
 msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current facts and reports"
@@ -3203,15 +3217,19 @@ msgstr "Imagen seleccionada no pertenece a %s"
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "La carga de un fichero prevalecerá sobre el editor, se cargará el contenido del fichero"
 
+msgid "Set a randomly generated password on the display connection"
+msgstr ""
+
+#, fuzzy
+msgid "Set up compute instance %s"
+msgstr "Configura la instancia %s"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
 msgstr "Preferencia"
 
 msgid "Settings"
 msgstr "Preferencias"
-
-msgid "Settings up compute instance %s"
-msgstr "Configura la instancia %s"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Category"
@@ -3269,6 +3287,9 @@ msgstr "Foreman debería usar OAuth para la autorización API"
 
 msgid "Should the smart variables be exposed via the ENC yaml output?"
 msgstr "¿Deberían ser visibles las variables inteligentes en las salida YAML de ENC?"
+
+msgid "Should we use the originating IP of the built request to update the host's IP?"
+msgstr ""
 
 msgid "Show Diff"
 msgstr "Mostrar diferencias"
@@ -4073,7 +4094,8 @@ msgstr "Máquinas Virtuales en %s"
 msgid "Volumes"
 msgstr "Volúmenes"
 
-msgid "Waiting for %s to come online"
+#, fuzzy
+msgid "Wait for %s to come online"
 msgstr "Esperando a que %s sea accesible"
 
 msgid "Warning"
@@ -4178,10 +4200,19 @@ msgstr "No tienes permiso para %s esta plantilla"
 msgid "You do not have permission to %{operation} this %{klass}"
 msgstr "No tienes permiso para %{operation} %{klass}"
 
+#, fuzzy
+msgid "You do not have permission to edit Puppet classes on this host"
+msgstr "No tienes permiso para %s este equipo"
+
+#, fuzzy
+msgid "You do not have permission to edit Puppet classes on this host group"
+msgstr "No tienes permiso para %s este equipo"
+
 msgid "You don't seem to have any Hosts, for more information see"
 msgstr "Parece que no existe ningún equipo, para más información mira"
 
-msgid "You don't seem to have any facts, if you wish to configure it, please follow"
+#, fuzzy
+msgid "You don't seem to have any facts yet. If you wish to configure fact pushing, please follow"
 msgstr "Parece que no existe ningún dato, si quieres configurarlo, por favor sigue"
 
 msgid "You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow"
@@ -4301,7 +4332,8 @@ msgstr "e.g. givenName"
 msgid "e.g. http://openstack:5000/v2.0/tokens"
 msgstr "ej http://openstack:5000/v2.0/tokens"
 
-msgid "e.g. https://identity.api.rackspacecloud.com"
+#, fuzzy
+msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "ej https://identity.api.rackspacecloud.com"
 
 msgid "e.g. https://ovirt.example.com:8443/api"
@@ -4618,3 +4650,6 @@ msgstr "probablemente se necesite configurar el %s primero."
 
 msgid "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
 msgstr "el equipo libvirt no soporta listar interfaces, por favor, introduce aquí el nombre del bridge (ej, br0)"
+
+#~ msgid "Host::Base|Environment"
+#~ msgstr "Entorno"
