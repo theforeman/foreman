@@ -12,6 +12,7 @@ class Parameter < ActiveRecord::Base
   after_initialize :set_priority
 
   PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :os_parameter => 2, :group_parameter => 3 , :host_parameter => 4}
+  scope :properties, lambda { where(:is_property => true) }
 
   def self.reassign_priorities
     # priorities will be reassigned because of after_initialize

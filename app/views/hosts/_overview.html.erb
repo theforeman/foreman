@@ -21,4 +21,10 @@
       <td><%= value %></td>
     </tr>
   <% end -%>
+  <% host.host_parameters.properties.each do |host_parameter| -%>
+    <tr>
+      <td><%= host_parameter.name %></td>
+      <td><%= link_to(host_parameter.value, hosts_path(:search => "params.#{host_parameter.name} = #{host_parameter.value}")) %></td>
+    </tr>
+  <% end %>
 </table>
