@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -166,7 +166,7 @@ Meta Package to install requirements for ovirt support
 %package compute
 Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem-fog >= 1.8.0
+Requires: %{?scl_prefix}rubygem-fog >= 1.15.0
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0
 Provides: foreman-fog = 1.0.0
@@ -530,6 +530,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Aug 16 2013 Sam Kottler <shk@redhat.com> 1.2.9999-8
+- Update fog dependency to 1.15.0 to fix rackspace VM listing issue
 * Wed Jul 24 2013 Jason Montleon <jmontleo@redhat.com> 1.2.9999-7
 - Update rbovirt dependency version to 0.0.21 to support sending the host ssl certificate subject as an option to the xpi plugin
 * Fri Jul 19 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-6
