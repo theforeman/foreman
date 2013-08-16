@@ -1,3 +1,3 @@
 group :fog do
- gem 'fog', '>= 1.10'
+ gem 'fog', '>= 1.15'
 end
