@@ -55,7 +55,11 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def to_s
-    hostname =~ /^puppet\./ ? "puppet" : hostname
+    if Setting[:legacy_puppet_hostname]
+      hostname =~ /^puppet\./ ? "puppet" : hostname
+    else
+      hostname
+    end
   end
 
   def to_param
