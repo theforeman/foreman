@@ -190,3 +190,8 @@ attribute38:
   category: Setting::Provisioning
   default: "true"
   description: "Should we use the originating IP of the built request to update the Host's IP?"
+attribute39:
+  name: legacy_puppet_hostname
+  category: Setting::Puppet
+  default: "false"
+  description: "Foreman will truncate hostname to 'puppet' if it starts with puppet"
