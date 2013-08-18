@@ -22,4 +22,6 @@
       <%= text_f f, :bridge, :class => "span2", :label => _("Network"), :help_block => _("your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)") -%>
     <% end -%>
   </div>
+  <%= selectable_f f, :model, %w(virtio rtl8139 ne2k_pci pcnet e1000), {},
+                   { :label => _('NIC type'), :class => 'span2' } %>
 </div>
