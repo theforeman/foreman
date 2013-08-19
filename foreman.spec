@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 9%{?dist}
+Release: 10%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -65,7 +65,7 @@ Requires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.22
 Requires: %{?scl_prefix}rubygem(bundler_ext)
 Requires: %{?scl_prefix}rubygem(thin)
-Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.4.8
+Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.8.0
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails) >= 0.10.0
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
@@ -527,6 +527,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Sep 09 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-10
+- Added dependency on fast_gettext 0.8 (multi-domain support)
 * Mon Sep 02 2013 Greg Sutcliffe <gsutclif@redhat.com> 1.2.9999-9
 - Remove Puppet from core requirements
 * Fri Aug 16 2013 Sam Kottler <shk@redhat.com> 1.2.9999-8
