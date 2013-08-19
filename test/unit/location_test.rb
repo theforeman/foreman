@@ -78,7 +78,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:domain_ids].sort, Array([domains(:yourdomain).id, domains(:mydomain).id]).sort
     assert_equal used_ids[:medium_ids].sort, Array(media(:one).id).sort
     assert_equal used_ids[:compute_resource_ids].sort, Array(compute_resources(:one).id).sort
-    assert_equal used_ids[:user_ids], Array.new
+    assert_equal used_ids[:user_ids], [users(:restricted).id]
     assert_equal used_ids[:smart_proxy_ids].sort, Array([smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:puppetmaster).id]).sort
     assert_equal used_ids[:config_template_ids].sort, Array(config_templates(:mystring2).id).sort
   end

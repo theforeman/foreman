@@ -26,6 +26,7 @@ yourcompute:
   password: 1234567
   uuid: yourcompute
   type: Foreman::Model::Libvirt
+  users: restricted
 
 openstack:
   name: openstackcr

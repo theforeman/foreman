@@ -66,6 +66,10 @@ module Api
         process_response @compute_resource.destroy
       end
 
+      def resource_scope
+        resource_class.my_compute_resources
+      end
+
     end
   end
 end

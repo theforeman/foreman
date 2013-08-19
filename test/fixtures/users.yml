@@ -18,6 +18,16 @@ two:
   last_login_on: 2009-10-12 21:50:04
   auth_source: one
 
+restricted:
+  login: restricted
+  firstname: Restricted
+  lastname: User
+  mail: userrestricted@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: one
+  filter_on_owner: true
+
 admin:
   login: admin
   firstname: Admin
