@@ -29,7 +29,7 @@ namespace :locale do
   GettextI18nRailsJs::JsAndCoffeeParser.js_gettext_function = '_' if defined? GettextI18nRailsJs
 
   desc 'Extract strings from codebase'
-  task :find_code => [:find_model, "gettext:find", "gettext:po_to_json"]
+  task :find_code => ["gettext:find", "gettext:po_to_json"]
 
   desc 'Extract strings from model and from codebase'
   task :find => [:find_model, :find_code] do
