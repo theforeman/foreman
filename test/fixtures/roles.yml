@@ -197,3 +197,24 @@ none_compute_resources:
   permissions: |
     ---
 
+manage_compute_resources:
+  name: View compute resources
+  id: "11"
+  builtin: "0"
+  permissions: |
+    ---
+    - :view_compute_resources
+    - :create_compute_resources
+    - :edit_compute_resources
+    - :destroy_compute_resources
+
+manage_hosts:
+  name: CRUD hosts
+  id: "12"
+  builtin: "0"
+  permissions: |
+    ---
+    - :create_hosts
+    - :edit_hosts
+    - :destroy_hosts
+    - :view_hosts

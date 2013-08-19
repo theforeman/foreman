@@ -35,6 +35,10 @@ module Api
       @resource_class ||= resource_name.camelize.constantize
     end
 
+    def resource_scope
+      @resource_scope ||= resource_class.scoped
+    end
+
     protected
 
     def process_resource_error(options = { })
@@ -105,8 +109,8 @@ module Api
       resource = resource_identifying_attributes.find do |key|
         next if key=='id' and params[:id].to_i == 0
         method = "find_by_#{key}"
-        resource_class.respond_to?(method) and
-          (resource = resource_class.send method, params[:id]) and
+        resource_scope.respond_to?(method) and
+          (resource = resource_scope.send method, params[:id]) and
           break resource
       end
 
