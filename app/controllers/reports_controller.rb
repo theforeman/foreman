@@ -1,8 +1,6 @@
 class ReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  include Foreman::Controller::SmartProxyAuth
 
-  add_puppetmaster_filters :create
   before_filter :setup_search_options, :only => :index
 
   def index
@@ -31,18 +29,6 @@ class ReportsController < ApplicationController
       format.html { @offset = @report.reported_at - @report.created_at }
       format.json { render :json => @report }
     end
-  end
-
-  def create
-    Taxonomy.no_taxonomy_scope do
-      if Report.import params.delete("report") || request.body
-        render :text => _("Imported report"), :status => 200 and return
-      else
-        render :text => _("Failed to import report"), :status => 500
-      end
-    end
-  rescue => e
-    render :text => e.to_s, :status => 500
   end
 
   def destroy

@@ -66,6 +66,7 @@ Foreman::Application.routes.draw do
         resources :template_combinations, :only => [:index, :create]
       end
       resources :template_combinations, :only => [:show, :destroy]
+      resources :reports, :only => [:create]
 
       constraints(:id => /[^\/]+/) do
         resources :hosts, :only => [] do

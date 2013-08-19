@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -36,7 +36,6 @@ Requires: %{?scl_prefix}ruby(abi) = 1.9.1
 %endif
 Requires: %{?scl_prefix}rubygems
 Requires: %{?scl_prefix}facter
-Requires(pre): %{?scl_prefix}puppet >= 0.24.4
 Requires: wget
 Requires: /etc/cron.d
 Requires(pre):  shadow-utils
@@ -107,8 +106,6 @@ BuildRequires: %{?scl_prefix}rubygem(quiet_assets)
 BuildRequires: %{?scl_prefix}rubygem(spice-html5-rails)
 BuildRequires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 BuildRequires: %{?scl_prefix}facter
-BuildRequires: %{?scl_prefix}puppet >= 0.24.4
-BuildRequires: puppet
 BuildRequires: gettext
 
 %package cli
@@ -464,7 +461,7 @@ rm -rf %{buildroot}
 # Add the "foreman" user and group
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
-useradd -r -g %{name} -G puppet -d %{homedir} -s /sbin/nologin -c "Foreman" %{name}
+useradd -r -g %{name} -d %{homedir} -s /sbin/nologin -c "Foreman" %{name}
 exit 0
 
 %pretrans
@@ -530,6 +527,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Sep 02 2013 Greg Sutcliffe <gsutclif@redhat.com> 1.2.9999-9
+- Remove Puppet from core requirements
 * Fri Aug 16 2013 Sam Kottler <shk@redhat.com> 1.2.9999-8
 - Update fog dependency to 1.15.0 to fix rackspace VM listing issue
 * Wed Jul 24 2013 Jason Montleon <jmontleo@redhat.com> 1.2.9999-7

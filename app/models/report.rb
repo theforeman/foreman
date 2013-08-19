@@ -72,57 +72,45 @@ class Report < ActiveRecord::Base
     (metrics[:time][:total] || metrics[:time].values.sum).round(2) rescue 0
   end
 
-  #imports a YAML report into database
-  def self.import(yaml)
-    report = YAML.load(yaml)
-    raise ::Foreman::Exception.new(N_("Invalid report")) unless report.is_a?(Puppet::Transaction::Report)
-    logger.info "processing report for #{report.host}"
-    begin
-      host = Host.find_by_certname report.host
-      host ||= Host.find_by_name report.host
-      host ||= Host.new :name => report.host
+  #imports a report hash into database
+  def self.import(report)
+    raise ::Foreman::Exception.new("Invalid report") unless report.is_a?(Hash)
+    logger.info "processing report for #{report['host']}"
 
-      # parse report metrics
-      raise "Invalid report: can't find metrics information for #{host} at #{report.id}" if report.metrics.nil?
+    # Find the host
+    host = Host.find_by_certname report['host']
+    host ||= Host.find_by_name report['host']
+    host ||= Host.new :name => report['host']
 
-      case
-      when report.instance_variables.detect {|v| v.to_s == "@environment"}
-        @format = 3
-      when report.instance_variables.detect {|v| v.to_s == "@report_format"}
-        @format = 2
-      when report.instance_variables.detect {|v| v.to_s == "@resource_statuses"}
-        @format = 1
-      else
-        @format = 0
-      end
+    # Set the report time
+    time = Time.parse(report['reported_at']).utc
 
-      # convert report status to bit field
-      st = calc_status(metrics_to_hash(report))
+    # convert report status to bit field
+    st = calc_status(report['status'])
 
-      # update host record
-      # we update our host record, so we wont need to lookup the report information just to display the host list / info
-      # save our report time
-      host.last_report = report.time.utc if host.last_report.nil? or host.last_report.utc < report.time.utc
+    # update host record
+    # we update our host record, so we wont need to lookup the report information just
+    # to display the host list / info
+    # save our report time
+    host.last_report = time if host.last_report.nil? or host.last_report.utc < time
 
-      # we save the raw bit status value in our host too.
-      host.puppet_status = st
+    # we save the raw bit status value in our host too.
+    host.puppet_status = st
 
-      # we save the host without validation for two reasons:
-      # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
-      # 2. We want this to be fast and light on the db.
-      # at this point, the report is important, not as much of the host
-      host.save(:validate => false)
+    # we save the host without validation for two reasons:
+    # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
+    # 2. We want this to be fast and light on the db.
+    # at this point, the report is important, not the host
+    host.save(:validate => false)
 
-      # and save our report
-      r = self.create!(:host => host, :reported_at => report.time.utc, :status => st, :metrics => self.m2h(report.metrics))
-      # Store all Puppet message logs
-      r.import_log_messages report
-      r.inspect_report
-      return r
-    rescue Exception => e
-      logger.warn "Failed to process report for #{report.host} due to:#{e}"
-      false
-    end
+    # and save our report
+    r = self.new(:host => host, :reported_at => time, :status => st, :metrics => report['metrics'])
+    return r unless r.save
+    # Store all Puppet message logs
+    r.import_log_messages report
+    # Check for errors
+    r.inspect_report
+    return r
   end
 
   # returns a hash of hosts and their recent reports metric counts which have values
@@ -200,14 +188,19 @@ class Report < ActiveRecord::Base
   end
 
   def import_log_messages report
-    report.logs.each do |r|
-      # skipping debug messages, we dont want them in our db
-      next if r.level == :debug
-      # skipping catalog summary run messages, we dont want them in our db too
-      next if r.message =~ /^Finished catalog run in \d+.\d+ seconds$/
-      message = Message.find_or_create r.message
-      source  = Source.find_or_create r.source
-      log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => r.level
+    report['logs'].each do |r|
+      # Parse the API format
+      level = r['log']['level']
+      msg   = r['log']['messages']['message']
+      src   = r['log']['sources']['source']
+
+      message = Message.find_or_create msg
+      source  = Source.find_or_create src
+
+      # Symbols get turned into strings via the JSON API, so convert back here if it matches
+      # and expected log level. Log objects can't be created without one, so raise if not
+      raise ::Foreman::Exception.new("Invalid log level: #{level}") unless LOG_LEVELS.include? level
+      log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => level.to_sym
       log.errors.empty?
     end
   end
@@ -216,7 +209,7 @@ class Report < ActiveRecord::Base
     if error?
       # found a report with errors
       # notify via email IF enabled is set to true
-      logger.warn "#{report.host} is disabled - skipping." and return if host.disabled?
+      logger.warn "#{report['host']} is disabled - skipping." and return if host.disabled?
 
       logger.debug "error detected, checking if we need to send an email alert"
       HostMailer.error_state(self).deliver if Setting[:failed_report_email_notification]
@@ -234,7 +227,7 @@ class Report < ActiveRecord::Base
   def as_json(options={})
     {:report =>
       { :reported_at => reported_at, :status => status,
-        :host => host.name, :metrics => metrics, :logs => logs.all(:include => [:source, :message]),
+        :host => host.name, :metrics => metrics, :logs => logs,
         :id => id, :summary => summaryStatus
       },
     }
@@ -248,90 +241,17 @@ class Report < ActiveRecord::Base
 
   private
 
-  # Converts metrics form Puppet report into a hash
-  # this hash is required by the calc_status method
-  def self.metrics_to_hash(report)
-    report_status = {}
-    metrics = report.metrics.with_indifferent_access
-
-    # find our metric values
-    METRIC.each do |m|
-      if @format == 0
-        report_status[m] = metrics["resources"][m.to_sym] unless metrics["resources"].nil?
-      else
-        h=translate_metrics_to26(m)
-        mv = metrics[h[:type]]
-        report_status[m] = mv[h[:name].to_sym] + mv[h[:name].to_s] rescue nil
-      end
-      report_status[m] ||= 0
-    end
-
-    # special fix for false warning about skips
-    # sometimes there are skip values, but there are no error messages, we ignore them.
-    if report_status["skipped"] > 0 and ((report_status.values.sum) - report_status["skipped"] == report.logs.size)
-      report_status["skipped"] = 0
-    end
-    # fix for reports that contain no metrics (i.e. failed catalog)
-    if @format > 1 and report.respond_to?(:status) and report.status == "failed"
-      report_status["failed"] += 1
-    end
-    return report_status
-  end
-
-
-  # return all metrics as a hash
-  def self.m2h metrics
-    h = {}
-    metrics.each do |title, mtype|
-      h[mtype.name] ||= {}
-      mtype.values.each{|m| h[mtype.name].merge!({m[0] => m[2]})}
-    end
-    return h
-  end
-
-
   # converts a hash into a bit field
   # expects a metrics_to_hash kind of hash
+  # see the report_processor for the implementation
   def self.calc_status (hash = {})
     st = 0
     hash.each do |type, value|
+      value = value.to_i # JSON does everything as strings
       value = MAX if value > MAX # we store up to 2^BIT_NUM -1 values as we want to use only BIT_NUM bits.
       st |= value << (BIT_NUM*METRIC.index(type))
     end
     return st
-  end
-
-  def validate_meteric (type, name)
-    log.metrics[type][name].to_f
-  rescue Exception => e
-    logger.warn "failed to process report due to #{e}"
-    nil
-  end
-
-  # The metrics layout has changed in Puppet 2.6.x release,
-  # this method attempts to align the bit value metrics and the new name scheme in 2.6.x
-  # returns a hash of { :type => "metric type", :name => "metric_name"}
-  def self.translate_metrics_to26 metric
-    case metric
-    when "applied"
-      case @format
-      when 0..1
-        { :type => "total", :name => :changes}
-      else
-        { :type => "changes", :name => "total"}
-      end
-    when "failed_restarts"
-      case @format
-      when 0..1
-        { :type => "resources", :name => metric}
-      else
-        { :type => "resources", :name => "failed_to_restart"}
-      end
-    when "pending"
-      { :type => "events", :name => "noop" }
-    else
-      { :type => "resources", :name => metric}
-    end
   end
 
   def enforce_permissions operation

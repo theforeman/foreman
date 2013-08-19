@@ -551,6 +551,7 @@ Foreman::AccessControl.map do |map|
                                       :"api/v1/reports" => [:destroy],
                                       :"api/v2/reports" => [:destroy]
     }
+    map.permission :upload_reports,  {:"api/v2/reports" => [:create] }
   end
 
   map.security_block :facts do |map|

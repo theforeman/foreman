@@ -2,6 +2,7 @@ module ReportCommon
   METRIC = %w[applied restarted failed failed_restarts skipped pending]
   BIT_NUM = 6
   MAX = (1 << BIT_NUM) -1 # maximum value per metric
+  LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
 
   extend ActiveSupport::Concern
 

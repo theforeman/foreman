@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ReportTest < ActiveSupport::TestCase
   def setup
-    User.current = User.find_by_login "admin"
-    @r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-skipped.yaml"))
+    User.current = User.admin
+    @r=Report.import read_json_fixture("/../fixtures/report-skipped.json")
   end
 
   test "it should not change host report status when we have skipped reports but there are no log entries" do
@@ -20,39 +20,6 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal @r.failed_restarts, 12
     assert_equal @r.skipped, 3
     assert_equal @r.pending, 4
-  end
-
-  test "it should keep applied metrics" do
-    @r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-applied.yaml"))
-    assert_equal 3, @r.applied
-  end
-
-  test "it should keep applied and restarted metrics on reports from 2.6.5+ versions" do
-    return true if Facter.puppetversion < "2.6"
-    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.5.yaml"))
-    assert_equal 1, r.applied
-    assert_equal 1, r.restarted
-  end
-
-  test "it should keep failure metrics on reports from 2.6.5+ versions" do
-    return true if Facter.puppetversion < "2.6"
-    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.5-errors.yaml"))
-    assert_equal 1, r.failed
-  end
-
-  test "it should support noops/pending in 2.6.12 reports" do
-    return true if Facter.puppetversion < "2.6"
-    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.12-noops.yaml"))
-    assert_equal 10, r.pending
-  end
-
-  test "it should support puppet 3.0.1 reports" do
-    if Facter.puppetversion < "2.6"
-      puts "Skippet puppet3 test, version: #{Facter.puppetversion}"
-      return true
-    end
-    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-3.0.1.yaml"))
-    assert_equal 1, r.applied
   end
 
   test "it should true on error? if there were errors" do
@@ -154,9 +121,33 @@ class ReportTest < ActiveSupport::TestCase
     assert !record.save
     assert record.valid?
   end
+
   test "it should import reports with no metrics" do
-    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.yaml"))
+    r=Report.import read_json_fixture("/../fixtures/report-empty.json")
     assert r
+  end
+
+  test "when notification is set to true, if report has an error, a mail to admin should be sent" do
+    setup_for_email_reporting
+    Setting[:failed_report_email_notification] = true
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      Report.import read_json_fixture("/../fixtures/report-errors.json")
+    end
+  end
+
+  test "when notification is set to false, if the report has an error, no mail should be sent" do
+    setup_for_email_reporting
+    Setting[:failed_report_email_notification] = false
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      Report.import read_json_fixture("/../fixtures/report-errors.json")
+    end
+  end
+
+  test "if report has no error, no mail should be sent" do
+    setup_for_email_reporting
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      Report.import read_json_fixture("/../fixtures/report-applied.json")
+    end
   end
 
   def setup_for_email_reporting
@@ -165,32 +156,8 @@ class ReportTest < ActiveSupport::TestCase
     Setting[:failed_report_email_notification] = true
   end
 
-  test "when notification fails, if report has an error a mail to admin should be sent" do
-    setup_for_email_reporting
-    assert_difference 'ActionMailer::Base.deliveries.size' do
-      Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-errors.yaml"))
-    end
-  end
-
-  test "when notification doesn't fails, if report has an error, no mail should be sent" do
-    setup_for_email_reporting
-    Setting[:failed_report_email_notification] = false
-    assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-errors.yaml"))
-    end
-  end
-
-  test "if report has no error, no mail should be sent" do
-    setup_for_email_reporting
-    assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-applied.yaml"))
-    end
-  end
-
-  test "it should not import finished_catalog_run messages" do
-    return true if Facter.puppetversion < "2.6"
-    r=Report.import File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-2.6.12-noops.yaml"))
-    assert_no_match "/Finished catalog run in/", r.messages.map(&:value).to_s
+  def read_json_fixture(file)
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + file)))
   end
 
 end
