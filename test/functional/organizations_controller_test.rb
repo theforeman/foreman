@@ -43,6 +43,21 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should clear the session if the user deleted their current organization" do
+    organization = Organization.create!(:name => "random-house")
+    Organization.current = organization
+
+    delete :destroy, {:id => organization.id}, set_session_user.merge(:organization_id => organization.id)
+
+    assert_equal Organization.current, nil
+    assert_equal session[:organization_id], nil
+  end
+
+  test "should display a warning if current organization has been deleted" do
+    get :index, {}, set_session_user.merge(:organization_id => 1234)
+    assert_equal "Organization you had selected as your context has been deleted.", flash[:warning]
+  end
+
   # Assign All Hosts
   test "should assign all hosts with no organization to selected organization" do
     organization = taxonomies(:organization1)
@@ -53,6 +68,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :organizations, :action => :index
     assert_equal flash[:notice], "All hosts previously with no organization are now assigned to Organization 1"
   end
+
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 14 do

@@ -81,6 +81,7 @@ module Foreman::Controller::TaxonomiesController
 
   def destroy
     if @taxonomy.destroy
+      clear_current_taxonomy_from_session if session[taxonomy_id] == @taxonomy.id
       process_success
     else
       process_error
@@ -96,11 +97,14 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def clear
+    clear_current_taxonomy_from_session
+    redirect_back_or_to root_url
+  end
+
+  def clear_current_taxonomy_from_session
     taxonomy_class.current = nil
     session[taxonomy_id] = nil
-
     TopbarSweeper.expire_cache(self)
-    redirect_back_or_to root_url
   end
 
   def mismatches
