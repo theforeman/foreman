@@ -343,10 +343,11 @@ class ApplicationController < ActionController::Base
       Organization.current = if orgs.count == 1 && !User.current.admin?
                                orgs.first
                              elsif session[:organization_id]
-                               orgs.find(session[:organization_id])
+                               orgs.find_by_id(session[:organization_id])
                              else
                                nil
                              end
+      warning _("Organization you had selected as your context has been deleted.") if (session[:organization_id] && Organization.current == nil)
     end
 
     if SETTINGS[:locations_enabled]
@@ -354,10 +355,11 @@ class ApplicationController < ActionController::Base
       Location.current = if locations.count == 1 && !User.current.admin?
                            locations.first
                          elsif session[:location_id]
-                           locations.find(session[:location_id])
+                           locations.find_by_id(session[:location_id])
                          else
                            nil
                          end
+      warning _("Location you had selected as your context has been deleted.") if (session[:location_id] && Location.current == nil)
     end
   end
 

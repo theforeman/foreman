@@ -43,6 +43,21 @@ class LocationsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should clear the session if the user deleted their current location" do
+    location = Location.create!(:name => "random-location")
+    Location.current = location
+
+    delete :destroy, {:id => location.id}, set_session_user.merge(:location_id => location.id)
+
+    assert_equal Location.current, nil
+    assert_equal session[:location_id], nil
+  end
+
+  test "should display a warning if current location has been deleted" do
+    get :index, {}, set_session_user.merge(:location_id => 1234)
+    assert_equal "Location you had selected as your context has been deleted.", flash[:warning]
+  end
+
   # Assign All Hosts
   test "should assign all hosts with no location to selected location" do
     location = taxonomies(:location1)
