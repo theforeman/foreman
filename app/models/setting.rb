@@ -7,6 +7,7 @@ class Setting < ActiveRecord::Base
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts }
 
   attr_accessible :name, :value, :description, :category, :settings_type, :default
+
   # audit the changes to this model
   audited :only => [:value], :on => [:update], :allow_mass_assignment => true
 
@@ -23,6 +24,7 @@ class Setting < ActiveRecord::Base
   before_save :clear_value_when_default
   before_save :clear_cache
   validate :validate_frozen_attributes
+  after_find :readonly_when_overriden_in_SETTINGS
   default_scope order(:name)
 
   # The DB may contain settings from disabled plugins - filter them out here
@@ -137,20 +139,17 @@ class Setting < ActiveRecord::Base
     return true
   end
 
-  def self.create opts
-    if (s = Setting.find_by_name(opts[:name].to_s)).nil?
-      super opts
+  def self.init_on_startup!(name, description, default, value = nil)
+    if (s = Setting.find_by_name(name.to_s)).nil?
+      create!(:name => name, :value => SETTINGS[name.to_sym] || value, :description => description, :default => default)
     else
-      s.update_attribute(:default, opts[:default])
-      s
-    end
-  end
+      s.instance_variable_set("@readonly", false) if (saved_readonly_state = s.readonly?)
 
-  def self.create! opts
-    if (s = Setting.find_by_name(opts[:name].to_s)).nil?
-      super opts
-    else
-      s.update_attribute(:default, opts[:default])
+      to_update = {:default => default}
+      to_update.merge!(:value => SETTINGS[name.to_sym]) if SETTINGS.key?(name.to_sym)
+      s.update_attributes(to_update)
+
+      s.readonly! if saved_readonly_state
       s
     end
   end
@@ -198,6 +197,10 @@ class Setting < ActiveRecord::Base
     # ensures we don't have cache left overs in settings
     Rails.logger.debug "removing #{name.to_s} from cache"
     Setting.cache.delete(name.to_s)
+  end
+
+  def readonly_when_overriden_in_SETTINGS
+    readonly! if !new_record? && SETTINGS.key?(name.to_sym)
   end
 
   # Methods for loading default settings
