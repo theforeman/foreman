@@ -9,6 +9,7 @@ class LookupValue < ActiveRecord::Base
   validate :validate_list, :validate_regexp
 
   serialize :value
+  attr_name :value
 
   scope :default, :conditions => { :match => "default" }, :limit => 1
 
