@@ -12,9 +12,18 @@ module HasManyCommon
 
   module ClassMethods
 
-    # default is :name
+    # default is :name if model has name, otherwise, use :id so it doesn't error
+    # most likely model will have attr_name :field to overwrite this
     def attribute_name
-      :name
+      if has_name?
+        :name
+      else
+        :id
+      end
+    end
+
+    def has_name?(field="name")
+      self.column_names.include?(field)
     end
 
     # default attribute used by *_names and *_name is :name
