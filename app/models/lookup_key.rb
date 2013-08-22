@@ -35,6 +35,7 @@ class LookupKey < ActiveRecord::Base
   validate :ensure_type
 
   before_save :sanitize_path
+  attr_name :key
 
   scoped_search :on => :key, :complete_value => true, :default_order => true
   scoped_search :on => :override, :complete_value => {:true => true, :false => false}

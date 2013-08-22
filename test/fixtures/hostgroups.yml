@@ -34,5 +34,6 @@ parent:
 
 inherited:
   name: inherited
+  environment: production
   label: Parent/inherited
   ancestry: 1

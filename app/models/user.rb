@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   has_many :hostgroups, :through => :user_hostgroups
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
+  attr_name :login
 
   scope :except_admin, where(:admin => false)
   scope :only_admin, where(:admin => true)
