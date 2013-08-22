@@ -12,8 +12,9 @@ module HasManyCommon
 
   module ClassMethods
 
-    # default is :name if model has name, otherwise, use :id so it doesn't error
-    # most likely model will have attr_name :field to overwrite this
+    # default attribute used by *_names and *_name is :name
+    # if :name doesn't exist, :id is used, so it doesn't error out if attr_name :field is not defined
+    # most likely model will have attr_name :field to overwrite attribute_name
     def attribute_name
       if has_name?
         :name
@@ -26,16 +27,24 @@ module HasManyCommon
       self.column_names.include?(field)
     end
 
-    # default attribute used by *_names and *_name is :name
-    # Model class can call this class method to override attribute_name
+    # class method in model to overwrite default attribute_name
     # Ex.
     # Class Hostgroup
     #   attr_name :label
-    #
     def attr_name(attribute)
-      define_singleton_method "attribute_name" do
-        attribute
+      # method define_singleton_method does not exist in Ruby 1.8.7
+      # define_singleton_method "attribute_name" do
+      #   attribute
+      # end
+      #
+      self_class.send(:define_method, "attribute_name") do
+         attribute
       end
+
+    end
+
+    def self_class
+      class << self; self end
     end
 
     #### has_many ####
