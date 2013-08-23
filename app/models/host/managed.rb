@@ -221,11 +221,9 @@ class Host::Managed < Host::Base
   # Called after a host is given their provisioning template
   # Returns : Boolean status of the operation
   def handle_ca
-    return true if Rails.env == "test"
     return true unless Setting[:manage_puppetca]
-    if puppetca?
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
-    end
+    return true unless puppetca?
+    respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
   end
 
   # returns the host correct disk layout, custom or common
@@ -347,15 +345,17 @@ class Host::Managed < Host::Base
     case facts
       when Puppet::Node::Facts
         certname = facts.name
-        name     = facts.values["fqdn"].downcase
-        values   = facts.values
+        name = facts.values["fqdn"].try(:downcase)
+        name ||= certname.downcase
+        values = facts.values
       when Hash
         certname = facts["clientcert"] || facts["certname"]
-        name     = facts["fqdn"].downcase
-        values   = facts
-        return raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
+        name = facts["fqdn"].try(:downcase)
+        name ||= certname.downcase
+        values = facts
+        raise(::Foreman::Exception.new(N_("invalid facts hash"))) unless name and values
       else
-        return raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
+        raise(::Foreman::Exception.new(N_("Invalid Facts, much be a Puppet::Node::Facts or a Hash")))
     end
 
     h = nil
@@ -484,7 +484,7 @@ class Host::Managed < Host::Base
     current = User.current
     if (operation == "edit") or operation == "destroy"
       if current.allowed_to?("#{operation}_hosts".to_sym)
-        return true if Host.my_hosts.include? self
+        return true if Host::Base.my_hosts.include? self
       end
     else # create
       if current.allowed_to?(:create_hosts)
@@ -520,7 +520,7 @@ class Host::Managed < Host::Base
   def rundeck
     rdecktags = puppetclasses_names.map{|k| "class=#{k}"}
     unless self.params["rundeckfacts"].empty?
-      rdecktags += self.params["rundeckfacts"].split(",").map{|rdf| "#{rdf}=#{fact(rdf)[0].value}"}
+      rdecktags += self.params["rundeckfacts"].gsub(/\s+/, '').split(',').map { |rdf| "#{rdf}=" + (facts_hash[rdf] || "undefined") }
     end
     { name => { "description" => comment, "hostname" => name, "nodename" => name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
@@ -692,9 +692,9 @@ class Host::Managed < Host::Base
   def power
     opts = {:host => self}
     if compute_resource_id && uuid
-      VirtPowerManager.new(opts)
+      PowerManager::Virt.new(opts)
     elsif bmc_available?
-      BMCPowerManager.new(opts)
+      PowerManager::BMC.new(opts)
     else
       raise ::Foreman::Exception.new(N_("Unknown power management support - can't continue"))
     end

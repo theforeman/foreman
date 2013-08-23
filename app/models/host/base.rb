@@ -172,5 +172,12 @@ module Host
       name
     end
 
+    def ==(comparison_object)
+      super ||
+        comparison_object.is_a?(Host::Base) &&
+        id.present? &&
+        comparison_object.id == id
+    end
+
   end
 end

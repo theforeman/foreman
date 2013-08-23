@@ -2,7 +2,7 @@
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
-    <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
+    <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
     <% if SETTINGS[:unattended] -%>
       <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
     <% end -%>

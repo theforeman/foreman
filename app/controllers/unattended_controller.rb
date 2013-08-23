@@ -45,6 +45,7 @@ class UnattendedController < ApplicationController
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
+    update_ip if Setting[:update_ip_from_built_request]
     head(@host.built ? :created : :conflict)
   end
 
@@ -117,12 +118,7 @@ class UnattendedController < ApplicationController
 
   def find_host_by_ip_or_mac
     # try to find host based on our client ip address
-    ip = request.env['REMOTE_ADDR']
-
-    # check if someone is asking on behave of another system (load balance etc)
-    if request.env['HTTP_X_FORWARDED_FOR'].present? and (ip =~ Regexp.new(Setting[:remote_addr]))
-      ip = request.env['HTTP_X_FORWARDED_FOR']
-    end
+    ip = ip_from_request_env
 
     # in case we got back multiple ips (see #1619)
     ip = ip.split(',').first
@@ -209,8 +205,7 @@ class UnattendedController < ApplicationController
     os         = @host.operatingsystem
     @osver     = os.major.to_i
     @mediapath = os.mediumpath @host
-    @epel      = os.epel      @host
-    @yumrepo   = os.yumrepo   @host
+    @repos     = os.repos @host
 
     # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
@@ -234,6 +229,30 @@ class UnattendedController < ApplicationController
 
   private
 
+  # This method updates the IP held by Foreman from the incoming request.
+  # Useful on unmanaged DHCP systems, with token-based installs where Foreman
+  # doesn't know the IP in advance (and has been given a fake one just to make
+  # the form save)
+  def update_ip
+    ip = ip_from_request_env
+    logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
+
+    # @host has been changed even if the save fails, so we have to change it back
+    old_ip = @host.ip
+    @host.ip = old_ip unless @host.update_attributes({'ip' => ip})
+  end
+
+  def ip_from_request_env
+    ip = request.env['REMOTE_ADDR']
+
+    # check if someone is asking on behalf of another system (load balance etc)
+    if request.env['HTTP_X_FORWARDED_FOR'].present? and (ip =~ Regexp.new(Setting[:remote_addr]))
+      ip = request.env['HTTP_X_FORWARDED_FOR']
+    end
+
+    ip
+  end
+
   def safe_render template
     template_name = ""
     if template.is_a?(String)
@@ -252,6 +271,5 @@ class UnattendedController < ApplicationController
       render :text => msg + exc.message, :status => 500 and return
     end
   end
-
 
 end

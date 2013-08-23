@@ -1,6 +1,7 @@
 #!/bin/bash
 # :vim:sw=2:ts=2:et:
 export LC_ALL=C
+export SCLNAME=ruby193
 
 usage() {
 cat <<USAGE
@@ -151,13 +152,13 @@ done
 # determine distribution family
 if [ -f /etc/debian_version ]; then
     OS=debian
-    OS_RELEASE=$(lsb_release -sr)
+    OS_RELEASE=$(head -n1 /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
     OS=redhat
-    OS_RELEASE=$(lsb_release -sr)
+    OS_RELEASE=$(head -n1 /etc/redhat-release)
 elif type -p lsb_release >/dev/null; then
-    OS=$(lsb_release -si)
-    OS_RELEASE=$(lsb_release -sr)
+    OS=$(lsb_release -si 2>/dev/null)
+    OS_RELEASE=$(lsb_release -sr 2>/dev/null)
 elif type -p rpm >/dev/null; then
     OS=$(rpm -q --whatprovides redhat-release --queryformat '%{NAME}')
     OS_RELEASE=$(rpm -q --whatprovides redhat-release --queryformat '%{VERSION}')
@@ -215,7 +216,9 @@ printv "Collecting Foreman-related information"
 add_cmd "ruby --version" "version_ruby"
 add_cmd "puppet --version" "version_puppet"
 add_cmd "gem list" "gem_list"
+add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
+add_cmd "scl enable $SCLNAME 'bundle --local --gemfile=/usr/share/foreman/Gemfile'" "bundle_list_scl"
 add_cmd "facter" "facts"
 add_files /etc/foreman{,-proxy}/*.yaml /var/log/foreman{,-proxy}/*.log
 add_files /usr/share/foreman/Gemfile*
@@ -235,7 +238,8 @@ add_files /etc/puppet/ssl/ca/inventory.txt /var/lib/puppet/ssl/ca/inventory.txt
 add_cmd "find /etc/puppet/modules -exec ls -ld {} +" "puppet_manifests_tree"
 add_files /etc/{httpd,apache2}/conf/*
 add_files /etc/{httpd,apache2}/conf.d/*
-add_cmd "echo 'select id,name,value from settings' | su postgres -c 'psql foreman'" "foreman_settings_table"
+add_cmd "echo \"select id,name,value from settings where name not like '%pass'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
+add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
 
 add_files /etc/{sysconfig,default}/foreman{,-proxy}
 add_files /etc/{sysconfig,default}/dhcp*

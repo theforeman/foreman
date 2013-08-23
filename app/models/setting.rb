@@ -26,7 +26,7 @@ class Setting < ActiveRecord::Base
   default_scope order(:name)
 
   # The DB may contain settings from disabled plugins - filter them out here
-  scope :live_descendants, lambda { where(:category => self.descendants.map(&:to_s)) }
+  scope :live_descendants, lambda { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :description, :complete_value => :true

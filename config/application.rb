@@ -18,7 +18,7 @@ else
       console {Foreman.setup_console}
     end
     Bundler.require(*Rails.groups(:assets => %w(development test)))
-    begin 
+    begin
       Bundler.require(:libvirt) if SETTINGS[:unattended]
     rescue LoadError
       puts "Libvirt bindings are missing - hypervisor management is disabled"
@@ -47,6 +47,19 @@ module Foreman
     config.autoload_paths += Dir["#{config.root}/lib"]
     config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
     config.autoload_paths += Dir[ Rails.root.join('app', 'models', 'power_manager') ]
+    config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/services"]
+    config.autoload_paths += Dir["#{config.root}/app/observers"]
+    config.autoload_paths += Dir["#{config.root}/app/mailers"]
+
+    config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
+    config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
+    config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
+    config.autoload_paths += %W(#{config.root}/app/models/parameters)
+    config.autoload_paths += %W(#{config.root}/app/models/trends)
+    config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
+
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

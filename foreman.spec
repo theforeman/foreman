@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 5%{?dist}
+Release: 8%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -153,7 +153,7 @@ Meta Package to install requirements for virt support
 %package ovirt
 Summary: Foreman ovirt support
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.15
+Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.21
 Requires: foreman-compute = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 
@@ -166,7 +166,7 @@ Meta Package to install requirements for ovirt support
 %package compute
 Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem-fog >= 1.8.0
+Requires: %{?scl_prefix}rubygem-fog >= 1.15.0
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0
 Provides: foreman-fog = 1.0.0
@@ -354,7 +354,7 @@ plugins required for Foreman to work.
   sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' %{confdir}/foreman.init
   sed -ri '1,$s|THIN=/usr/bin/thin|THIN="run_in_scl"|' %{confdir}/foreman.init
   # script content
-  sed -ri 'sX/usr/bin/rakeX%{scl_rake}X' extras/dbmigrate
+  sed -ri 'sX/usr/bin/rakeX%{scl_rake}X' extras/dbmigrate script/foreman-rake
 %endif
 
 #build locale files
@@ -383,6 +383,7 @@ install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp/pids
 install -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
 install -Dp -m0755 script/%{name}-debug %{buildroot}%{_sbindir}/%{name}-debug
+install -Dp -m0755 script/%{name}-rake %{buildroot}%{_sbindir}/%{name}-rake
 install -Dp -m0644 %{confdir}/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -Dp -m0755 %{confdir}/%{name}.init %{buildroot}%{_initrddir}/%{name}
 install -Dp -m0644 %{confdir}/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -443,6 +444,7 @@ rm -rf %{buildroot}
 %exclude %{_datadir}/%{name}/app/assets
 %{_initrddir}/%{name}
 %{_sbindir}/%{name}-debug
+%{_sbindir}/%{name}-rake
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
@@ -528,6 +530,12 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Aug 16 2013 Sam Kottler <shk@redhat.com> 1.2.9999-8
+- Update fog dependency to 1.15.0 to fix rackspace VM listing issue
+* Wed Jul 24 2013 Jason Montleon <jmontleo@redhat.com> 1.2.9999-7
+- Update rbovirt dependency version to 0.0.21 to support sending the host ssl certificate subject as an option to the xpi plugin
+* Fri Jul 19 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-6
+- add foreman-rake to /usr/sbin
 * Mon Jun 17 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-5
 - fix asset dependency versions
 - add minitest dependency for console (Lukas Zapletal)

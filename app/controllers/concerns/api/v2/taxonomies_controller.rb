@@ -6,7 +6,7 @@ module Api::V2::TaxonomiesController
                                                 domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
                                                 medium_ids smart_proxy_ids environment_ids user_ids organization_ids
                                                 }
-    before_filter :find_nested_object, :only => %w(index show)
+    before_filter :find_optional_nested_object, :only => %w(index show)
     before_filter :params_match_database, :only => %w(create update)
   end
 
@@ -19,9 +19,13 @@ module Api::V2::TaxonomiesController
   end
 
   api :GET, '/:resource_id', 'List all :resource_id'
+  param :search, String, :desc => "filter results"
+  param :order, String, :desc => "sort results"
+  param :page, String, :desc => "paginate results"
+  param :per_page, String, :desc => "number of entries per request"
   def index
     if @nested_obj
-      #@taxonomies = @domain.locations.paginate(paginate_options)
+      #@taxonomies = @domain.locations.search_for(*search_options).paginate(paginate_options)
       @taxonomies = @nested_obj.send(taxonomies_plural).search_for(*search_options).paginate(paginate_options)
     else
       @taxonomies = taxonomy_class.search_for(*search_options).paginate(paginate_options)
@@ -68,25 +72,8 @@ module Api::V2::TaxonomiesController
     end
   end
 
-  def find_nested_object
-    params.keys.each do |param|
-      if param =~ /(\w+)_id$/
-        resource_identifying_attributes.each do |key|
-          find_method = "find_by_#{key}"
-          @nested_obj ||= $1.classify.constantize.send(find_method, params[param])
-        end
-      end
-    end
-    return @nested_obj
-  end
-
   def taxonomy_id
-    case controller_name
-      when 'organizations'
-        :organization_id
-      when 'locations'
-        :location_id
-    end
+    "#{taxonomy_single}_id".to_sym
   end
 
   def taxonomy_single
@@ -102,12 +89,11 @@ module Api::V2::TaxonomiesController
   end
 
   def find_taxonomy
-    case controller_name
-      when 'organizations'
-        @taxonomy = @organization = Organization.find(params[:id])
-      when 'locations'
-        @taxonomy = @location = Location.find(params[:id])
-    end
+    @taxonomy = find_resource
+  end
+
+  def allowed_nested_id
+    %w(domain_id compute_resource_id subnet_id environment_id hostgroup_id smart_proxy_id user_id medium_id organization_id location_id)
   end
 
 end

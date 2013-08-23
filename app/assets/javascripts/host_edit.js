@@ -151,15 +151,17 @@ function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var type = $(item).attr('data-type');
   $(item).tooltip('hide');
-  var content = $(item).parent().clone();
+  var content = $(item).closest('li').clone();
   content.attr('id', 'selected_puppetclass_'+ id);
   content.append("<input id='" + type +"_puppetclass_ids_' name='" + type +"[puppetclass_ids][]' type='hidden' value=" +id+ ">");
   content.children('span').tooltip();
 
   var link = content.children('a');
-  link.attr('onclick', 'remove_puppet_class(this)');
-  link.attr('data-original-title', _('Click to undo adding this class'));
-  link.removeClass('icon-plus-sign').addClass('icon-remove-sign').tooltip();
+  var links = content.find('a');
+  links.attr('onclick', 'remove_puppet_class(this)');
+  links.attr('data-original-title', _('Click to undo adding this class'));
+  links.tooltip();
+  link.removeClass('icon-plus-sign').addClass('icon-remove-sign');
 
   $('#selected_classes').append(content);
 
@@ -185,6 +187,7 @@ function remove_puppet_class(item){
 
 function load_puppet_class_parameters(item) {
   var id = $(item).attr('data-class-id');
+  // host_id could be either host.id OR hostgroup.id depending on which form
   var host_id = $("form").data('id')
   if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded

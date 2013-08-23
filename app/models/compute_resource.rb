@@ -1,6 +1,8 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
+  include Encryptable
+  encrypts :password
   PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware Openstack Rackspace].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
@@ -180,6 +182,14 @@ class ComputeResource < ActiveRecord::Base
     []
   end
 
+  def set_console_password?
+    self.attrs[:setpw] == 1 || self.attrs[:setpw].nil?
+  end
+
+  def set_console_password=(setpw)
+    self.attrs[:setpw] = setpw.to_i
+  end
+
   protected
 
   def client
@@ -191,6 +201,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def random_password
+    return nil unless set_console_password?
     n = 8
     chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     (0...n).map { chars[rand(chars.length)].chr }.join

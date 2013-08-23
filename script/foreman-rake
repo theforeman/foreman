@@ -1,0 +1,17 @@
+#!/bin/bash
+USERNAME=$(/usr/bin/id -un)
+RAKE_CMD=/usr/bin/rake
+BUNDLER_CMD=""
+
+die() {
+  echo $*; exit 1
+}
+
+cd ~foreman || die "Cannot change to foreman home directory"
+[ -f Gemfile ] && BUNDLER_CMD="bundle exec"
+CMD="$BUNDLER_CMD $RAKE_CMD $*"
+if [ $USERNAME = foreman ]; then
+  RAILS_ENV=production $CMD
+else
+  su - foreman -s /bin/bash -c "RAILS_ENV=production $CMD"
+fi

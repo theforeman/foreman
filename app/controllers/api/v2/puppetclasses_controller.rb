@@ -5,7 +5,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_nested_object, :only => [:index, :show]
+      before_filter :find_optional_nested_object, :only => [:index, :show]
 
       api :GET, "/puppetclasses/", "List all puppetclasses."
       api :GET, "/hosts/:host_id/puppetclasses", "List all puppetclasses for host"
@@ -35,24 +35,13 @@ module Api
       param :id, String, :required => true, :desc => "id of puppetclass"
 
       def show
-        if @nested_obj
-          @puppetclass = @nested_obj.puppetclasses.find(params[:id])
+        if nested_obj
+          @puppetclass = nested_obj.puppetclasses.find(params[:id])
         end
       end
 
-      private
-      attr_reader :nested_obj
-
-      def find_nested_object
-        params.keys.each do |param|
-          if param =~ /(\w+)_id$/
-            resource_identifying_attributes.each do |key|
-              find_method = "find_by_#{key}"
-              @nested_obj ||= $1.classify.constantize.send(find_method, params[param])
-            end
-          end
-        end
-        return @nested_obj
+      def allowed_nested_id
+        %w(environment_id host_id hostgroup_id)
       end
 
     end

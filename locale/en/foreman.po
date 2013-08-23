@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 09:53+0100\n"
-"PO-Revision-Date: 2013-05-09 14:45+0100\n"
+"POT-Creation-Date: 2013-08-15 10:48+0100\n"
+"PO-Revision-Date: 2013-08-15 10:46+0100\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
 "Language: en\n"
@@ -171,7 +171,7 @@ msgstr ""
 msgid "Access Key"
 msgstr ""
 
-msgid "Acquiring IP address for %s"
+msgid "Acquire IP address for %s"
 msgstr ""
 
 msgid "Action"
@@ -796,7 +796,7 @@ msgstr "Template"
 msgid "Configuration"
 msgstr ""
 
-msgid "Configuring instance %s via SSH"
+msgid "Configure instance %s via SSH"
 msgstr ""
 
 msgid "Conflict - %s"
@@ -812,6 +812,9 @@ msgid "Connecting.."
 msgstr ""
 
 msgid "Console"
+msgstr ""
+
+msgid "Console passwords"
 msgstr ""
 
 msgid "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
@@ -950,6 +953,9 @@ msgstr ""
 msgid "Disable alerts for selected hosts"
 msgstr ""
 
+msgid "Disabled"
+msgstr ""
+
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
 msgstr ""
@@ -964,6 +970,9 @@ msgid "Display Name"
 msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
+msgstr ""
+
+msgid "Display type"
 msgstr ""
 
 msgid "Displaying <b>%{count}</b> entry"
@@ -1101,9 +1110,6 @@ msgstr ""
 msgid "Empty environment"
 msgstr ""
 
-msgid "Enable Certificate generation for %s"
-msgstr ""
-
 msgid "Enable Email alerts per each failed Puppet report"
 msgstr ""
 
@@ -1111,6 +1117,9 @@ msgid "Enable Notifications"
 msgstr ""
 
 msgid "Enable alerts for selected hosts"
+msgstr ""
+
+msgid "Enable certificate generation for %s"
 msgstr ""
 
 msgid "Enable rebuild on next host boot"
@@ -1121,6 +1130,10 @@ msgstr ""
 
 msgid "Enable this host for provisioning"
 msgstr ""
+
+#, fuzzy
+msgid "Enabled"
+msgstr "Partition Table"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
@@ -1424,6 +1437,9 @@ msgstr ""
 msgid "Foreman ticketing system"
 msgstr ""
 
+msgid "Foreman will create the host when new facts are received"
+msgstr ""
+
 msgid "Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task."
 msgstr ""
 
@@ -1557,10 +1573,6 @@ msgstr "Custom partition table"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Enabled"
 msgstr "Enabled"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Environment"
-msgstr "Environment"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
@@ -1708,7 +1720,7 @@ msgstr ""
 msgid "IRC"
 msgstr ""
 
-msgid "If Foreman is running behind Passenger or a remote loadbalancer, the ip should be set here"
+msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr ""
 
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
@@ -1890,7 +1902,7 @@ msgstr ""
 msgid "LDAP Authentication"
 msgstr ""
 
-msgid "LDAP user will have his Foreman account automatically created the first time he logs into Foreman"
+msgid "LDAP users will have their Foreman account automatically created the first time they log into Foreman"
 msgstr ""
 
 msgid "Last report"
@@ -2762,7 +2774,7 @@ msgstr ""
 msgid "Pending changes"
 msgstr ""
 
-#. host's status: first character of "pending" initial character of Pending
+#. initial character of Pending host's status: first character of "pending"
 msgid "Pending|P"
 msgstr ""
 
@@ -2829,7 +2841,7 @@ msgstr ""
 msgid "Power%s"
 msgstr ""
 
-msgid "Preparing Post installation script for %s"
+msgid "Prepare post installation script for %s"
 msgstr ""
 
 msgid "Preview"
@@ -2967,7 +2979,7 @@ msgstr "Puppet class"
 msgid "Puppetclass|Name"
 msgstr "Class name"
 
-msgid "Querying instance details for %s"
+msgid "Query instance details for %s"
 msgstr ""
 
 msgid "Rebuild %s on next reboot?\\nThis would also delete all of its current facts and reports"
@@ -3208,14 +3220,17 @@ msgstr ""
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr ""
 
+msgid "Set a randomly generated password on the display connection"
+msgstr ""
+
+msgid "Set up compute instance %s"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
-
-msgid "Settings up compute instance %s"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3273,6 +3288,9 @@ msgid "Should foreman use OAuth for authorization in API"
 msgstr ""
 
 msgid "Should the smart variables be exposed via the ENC yaml output?"
+msgstr ""
+
+msgid "Should we use the originating IP of the built request to update the host's IP?"
 msgstr ""
 
 msgid "Show Diff"
@@ -4081,7 +4099,7 @@ msgstr ""
 msgid "Volumes"
 msgstr ""
 
-msgid "Waiting for %s to come online"
+msgid "Wait for %s to come online"
 msgstr ""
 
 msgid "Warning"
@@ -4186,10 +4204,16 @@ msgstr ""
 msgid "You do not have permission to %{operation} this %{klass}"
 msgstr ""
 
+msgid "You do not have permission to edit Puppet classes on this host"
+msgstr ""
+
+msgid "You do not have permission to edit Puppet classes on this host group"
+msgstr ""
+
 msgid "You don't seem to have any Hosts, for more information see"
 msgstr ""
 
-msgid "You don't seem to have any facts, if you wish to configure it, please follow"
+msgid "You don't seem to have any facts yet. If you wish to configure fact pushing, please follow"
 msgstr ""
 
 msgid "You don't seem to have any reports, if you wish to configure Puppet to forward it reports to Foreman, please follow"
@@ -4309,7 +4333,7 @@ msgstr ""
 msgid "e.g. http://openstack:5000/v2.0/tokens"
 msgstr ""
 
-msgid "e.g. https://identity.api.rackspacecloud.com"
+msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
 msgid "e.g. https://ovirt.example.com:8443/api"
@@ -4436,7 +4460,7 @@ msgstr[1] ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
-msgstr ""
+msgstr "English (United States)"
 
 msgid "location"
 msgstr ""
@@ -4627,6 +4651,9 @@ msgstr ""
 
 msgid "your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
 msgstr ""
+
+#~ msgid "Host::Base|Environment"
+#~ msgstr "Environment"
 
 #, fuzzy
 #~ msgid "Provisioning template"

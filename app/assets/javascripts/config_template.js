@@ -122,6 +122,12 @@ function set_diff_mode(item){
   session.setValue(patch);
 }
 
+function submit_code() {
+  if($('.template_text').hasClass('diffMode')) {
+    set_code();
+  }
+}
+
 function IE_diff_mode(item){
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').contents().text() , $('#new').contents().text());
   item.val(patch);

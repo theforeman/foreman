@@ -36,9 +36,12 @@ module ComputeResourcesVmsHelper
     options.merge!(
       :address     => console[:address],
       :secure_port => console[:secure_port],
-      :ca_cert     => URI.escape(console[:ca_cert]),
+      :subject     => console[:subject],
       :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
     ) if supports_spice_xpi?
+    options.merge!(
+      :ca_cert     => URI.escape(console[:ca_cert])
+    ) if console[:ca_cert].present?
     options
   end
 
@@ -67,7 +70,7 @@ module ComputeResourcesVmsHelper
   end
 
   def compute_object_vpc_id(form)
-    form.object.network_interfaces && form.object.network_interfaces[0]["vpcId"]
+    form.object.network_interfaces[0]["vpcId"] rescue nil
   end
 
   def security_groups_for_vpc(security_groups, vpc_id) 

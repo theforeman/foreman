@@ -3,7 +3,7 @@ require File.expand_path('../lib/regexp_extensions', __FILE__)
 
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.14'
 gem 'json'
 gem 'rest-client', :require => 'rest_client'
 gem "audited-activerecord", "3.0.0"
@@ -20,6 +20,9 @@ if RUBY_VERSION =~ /^1\.8/
   # Older version of safemode for Ruby 1.8, as the latest causes regexp overflows (#2100)
   gem 'safemode', '~> 1.0.1'
   gem 'ruby_parser', '>= 2.3.1', '< 3.0'
+
+  # Used in fog, rbovirt etc.  1.6.0 breaks Ruby 1.8 compatibility.
+  gem 'nokogiri', '~> 1.5.0'
 else
   # Newer version of safemode contains fixes for Ruby 1.9
   gem 'safemode', '~> 1.2'
