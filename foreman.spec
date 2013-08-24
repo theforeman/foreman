@@ -495,6 +495,7 @@ rm -rf %{buildroot}
 %{_sbindir}/%{name}-rake
 %{_mandir}/man8
 %config(noreplace) %{_sysconfdir}/%{name}
+%ghost %attr(0640,root,%{name}) %config(noreplace) %{_sysconfdir}/%{name}/encryption_key.rb
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config %{_sysconfdir}/cron.d/%{name}
@@ -504,7 +505,13 @@ rm -rf %{buildroot}
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
 %attr(-,%{name},root) %{_datadir}/%{name}/config.ru
 %attr(-,%{name},root) %{_datadir}/%{name}/config/environment.rb
-%ghost %attr(0640,root,%{name}) %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+# Symlink to /etc, EL6 needs attrs for ghost files, Fedora doesn't
+%if 0%{?rhel} == 6
+%ghost %attr(0777,root,root) %{_datadir}/%{name}/config/initializers/encryption_key.rb
+%else
+%ghost %{_datadir}/%{name}/config/initializers/encryption_key.rb
+%endif
+%ghost %attr(0640,root,%{name}) %config(noreplace) %{_datadir}/%{name}/config/initializers/local_secret_token.rb
 # Only need tmpfiles on systemd (F17 and up)
 %if 0%{?rhel} > 6 || 0%{?fedora} > 16
 %{_prefix}/lib/tmpfiles.d/%{name}.conf
@@ -551,19 +558,39 @@ if [ ! -d $varlibdir/%{name} -a -d $datadir/tmp -a ! -L $datadir/tmp ]; then
 fi
 
 %post
+# secret token used for cookie signing etc.
 if [ ! -f %{_datadir}/%{name}/config/initializers/local_secret_token.rb ]; then
   touch %{_datadir}/%{name}/config/initializers/local_secret_token.rb
-  chmod 0640 %{_datadir}/%{name}/config/initializers/local_secret_token.rb
+  chmod 0660 %{_datadir}/%{name}/config/initializers/local_secret_token.rb
   chgrp foreman %{_datadir}/%{name}/config/initializers/local_secret_token.rb
-  %{scl_rake} -f %{_datadir}/%{name}/Rakefile security:generate_token >/dev/null 2>&1 || :
+  %{foreman_rake} security:generate_token >/dev/null 2>&1 || :
+  chmod 0640 %{_datadir}/%{name}/config/initializers/local_secret_token.rb
 fi
+
+# encryption key used to encrypt DB contents
+# move the generated key file to /etc/foreman/ so users back it up, symlink to it from ~foreman
+if [ ! -e %{_datadir}/%{name}/config/initializers/encryption_key.rb -a \
+     ! -e %{_sysconfdir}/%{name}/encryption_key.rb ]; then
+  touch %{_datadir}/%{name}/config/initializers/encryption_key.rb
+  chmod 0660 %{_datadir}/%{name}/config/initializers/encryption_key.rb
+  chgrp foreman %{_datadir}/%{name}/config/initializers/encryption_key.rb
+  %{foreman_rake} security:generate_encryption_key >/dev/null 2>&1 || :
+  chmod 0640 %{_datadir}/%{name}/config/initializers/encryption_key.rb
+  mv %{_datadir}/%{name}/config/initializers/encryption_key.rb %{_sysconfdir}/%{name}/
+fi
+if [ ! -e %{_datadir}/%{name}/config/initializers/encryption_key.rb -a \
+     -e %{_sysconfdir}/%{name}/encryption_key.rb ]; then
+  ln -s %{_sysconfdir}/%{name}/encryption_key.rb %{_datadir}/%{name}/config/initializers/
+fi
+
 /sbin/chkconfig --add %{name} || :
-  (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
-  exit 0
+(/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
+exit 0
 
 %posttrans
 # We need to run the db:migrate after the install transaction
-%{foreman_rake} db:migrate >> %{_localstatedir}/log/%{name}/db_migrate.log 2>&1 || :
+# always attempt to reencrypt after update in case new fields can be encrypted
+%{foreman_rake} db:migrate db:compute_resources:encrypt >> %{_localstatedir}/log/%{name}/db_migrate.log 2>&1 || :
 %{foreman_rake} db:seed >> %{_localstatedir}/log/%{name}/db_seed.log 2>&1 || :
 (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
 exit 0
@@ -584,6 +611,7 @@ fi
 * Thu Jan 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.develop
 - Bump version to 1.5-develop
 - Remove rails3_before_render dependency
+- generate encryption key and encrypt data in postinstall (#2929)
 
 * Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
 - Bump and change versioning scheme, don't overwrite VERSION (#3712)
