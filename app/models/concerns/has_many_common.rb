@@ -75,11 +75,6 @@ module HasManyCommon
       super
     end
 
-    def has_and_belongs_to_many(association, options = {})
-      belongs_to_name_for(association, options)
-      super
-    end
-
     def belongs_to_name_for(association, options)
       assoc = association.to_s.tableize.singularize
 
