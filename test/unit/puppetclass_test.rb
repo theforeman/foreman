@@ -112,4 +112,18 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
   end
 
+  test "Puppetclass singularize from custom inflection" do
+    assert_equal "Puppetclass", "Puppetclass".singularize
+    assert_equal "Puppetclass", "Puppetclasses".singularize
+    assert_equal "puppetclass", "puppetclass".singularize
+    assert_equal "puppetclass", "puppetclasses".singularize
+  end
+
+  test "Puppetclass classify from custom inflection" do
+    assert_equal "Puppetclass", "Puppetclass".classify
+    assert_equal "Puppetclass", "Puppetclasses".classify
+    assert_equal "Puppetclass", "puppetclass".classify
+    assert_equal "Puppetclass", "puppetclasses".classify
+  end
+
 end
