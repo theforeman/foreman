@@ -136,12 +136,12 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   def set_session_user
-    User.current = users(:admin) unless User.current
+    User.current = users(:admin) unless User.current.present?
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
   def setup_user operation
-    @one = users(:one)
+    @one = users(:two)
     @request.session[:user] = @one.id
     as_admin do
       @one.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]

@@ -17,14 +17,34 @@ module Taxonomix
   module ClassMethods
     def with_taxonomy_scope
       scope =  block_given? ? yield : where('1=1')
-      scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current)}) #{user_conditions}") if SETTINGS[:locations_enabled] && Location.current && !Location.ignore?(self.to_s)
-      scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current && !Organization.ignore?(self.to_s)
+
+      if SETTINGS[:locations_enabled] && !Location.ignore?(self.to_s)
+        scope = if Location.current
+          scope.where(
+              "#{self.table_name}.id in (#{entity_ids_in_taxonomies(Location.current)}) #{user_conditions}")
+        else
+          scope.where(
+              "#{self.table_name}.id in (#{entity_ids_in_taxonomies(Location.my_locations)}) or #{self.table_name}.id not in (#{entity_ids_not_in_taxonomy_type('Location')}) #{user_conditions}")
+        end
+      end
+
+      if SETTINGS[:organizations_enabled] && !Organization.ignore?(self.to_s)
+        scope = if Organization.current
+          scope.where("#{self.table_name}.id in (#{entity_ids_in_taxonomies(Organization.current)}) #{user_conditions}")
+        else
+          scope.where("#{self.table_name}.id in (#{entity_ids_in_taxonomies(Organization.my_organizations)}) or #{self.table_name}.id not in (#{entity_ids_not_in_taxonomy_type('Organization')}) #{user_conditions}")
+        end
+      end
       scope.readonly(false)
     end
 
-    def inner_select taxonomy
+    def entity_ids_in_taxonomies taxonomy
       taxonomy_ids = Array.wrap(taxonomy).map(&:id).join(',')
       "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' AND taxonomy_id in (#{taxonomy_ids}) "
+    end
+
+    def entity_ids_not_in_taxonomy_type type
+      "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' and taxonomy_id in (select id from taxonomies where type='#{type}')"
     end
 
     # I the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.

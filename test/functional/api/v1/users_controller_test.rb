@@ -5,7 +5,8 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   valid_attrs = { :login => "johnsmith" }
 
   def setup
-    setup_users
+    User.current = users(:admin)
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:admin).login, "secret")
   end
 
   test "should get index" do
@@ -14,7 +15,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => users(:one).to_param }
+    get :show, { :id => users(:internal).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -77,56 +78,47 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "should not delete same user" do
-    user = users(:one)
+    user = users(:internal)
     user.update_attribute :admin, true
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, "secret")
 
-    as_user :one do
-      delete :destroy, { :id => user.id }
-      assert_response :forbidden
+    delete :destroy, { :id => user.id }
+    assert_response :forbidden
 
-      response = ActiveSupport::JSON.decode(@response.body)
-      assert response['details'] == "You are trying to delete your own account"
-      assert response['message'] == "Access denied"
-      assert User.exists?(user)
-    end
-  end
-
-  def user_one_as_anonymous_viewer
-    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response['details'] == "You are trying to delete your own account"
+    assert response['message'] == "Access denied"
+    assert User.exists?(user)
   end
 
   test 'user with viewer rights should fail to edit a user' do
-    user_one_as_anonymous_viewer
-    user = nil
-    as_user :admin do
-      user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-      user.save
-    end
-    as_user :one do
-      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
-      assert_response :forbidden
-    end
+    user = User.create! :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+
+    users(:internal).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:internal).login, "secret")
+
+    put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+    assert_response :forbidden
   end
 
   test 'user with viewer rights should succeed in viewing users' do
-    user_one_as_anonymous_viewer
-    as_user :one do
-      get :index
-      assert_response :success
-    end
+    users(:internal).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:internal).login, "secret")
+
+    get :index
+    assert_response :success
   end
 
   test 'admin user can be created' do
-    user = users(:one)
+    user = users(:internal)
     user.update_attribute :admin, true
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, "secret")
 
-    as_user :one do
-      post :create, { :user => {
-          :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
-      }
-      assert_response :success
-      assert User.find_by_login('new_admin').admin?
-    end
+    post :create, { :user => {
+        :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
+    }
+    assert_response :success
+    assert User.find_by_login('new_admin').admin?
   end
 
 # do we support this?

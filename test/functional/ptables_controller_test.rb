@@ -89,25 +89,25 @@ class PtablesControllerTest < ActionController::TestCase
   end
 
   def setup_view_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    @request.session[:user] = users(:two).id
+    users(:two).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a partition table' do
     setup_view_user
-    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:two).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to delete a partition table' do
     setup_view_user
-    delete :destroy, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
+    delete :destroy, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:two).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to create a partition table' do
     setup_view_user
-    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user.merge(:user => users(:one).id)
+    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user.merge(:user => users(:two).id)
     assert_equal @response.status, 403
   end
 
@@ -118,26 +118,26 @@ class PtablesControllerTest < ActionController::TestCase
   end
 
   def setup_edit_user
-    @user = User.find_by_login("one")
+    @user = users(:two)
     @user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer'), Role.find_by_name('Edit partition tables')]
   end
 
   test 'user with editing rights should succeed in editing a partition table' do
     setup_edit_user
-    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:two).id)
     assert_response :success
   end
 
   test 'user with editing rights should succeed in deleting a partition table' do
     setup_edit_user
-    delete :destroy, {:id => ptables(:four).id}, set_session_user.merge(:user => users(:one).id)
+    delete :destroy, {:id => ptables(:four).id}, set_session_user.merge(:user => users(:two).id)
     assert_redirected_to ptables_url
     assert_equal "Successfully deleted four.", flash[:notice]
   end
 
   test 'user with editing rights should succeed in creating a partition table' do
     setup_edit_user
-    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user.merge(:user => users(:one).id)
+    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user.merge(:user => users(:two).id)
     assert_redirected_to ptables_url
     assert_equal "Successfully created dummy.", flash[:notice]
   end

@@ -18,9 +18,9 @@ class BasicTest < ActiveSupport::TestCase
   end
 
   test 'does not reauthenticate if user.current is set' do
-    User.current = users(:one)
+    User.current = users(:two)
     basic = SSO::Basic.new(get_basic_controller(true))
-    assert_equal users(:one).login, basic.authenticated?
+    assert_equal users(:two).login, basic.authenticated?
   end
 
   def get_basic_controller(api_request)

@@ -102,17 +102,21 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def use_restricted_user
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:restricted).login, "secret")
+  end
+
   test "should not allow access to a host out of users hosts scope" do
-    as_user :restricted do
-      get :show, { :id => hosts(:one).to_param }
-    end
+    use_restricted_user
+    get :show, { :id => hosts(:one).to_param }
+
     assert_response :not_found
   end
 
   test "should not list a host out of users hosts scope" do
-    as_user :restricted do
-      get :index, {}
-    end
+    use_restricted_user
+    get :index, {}
+
     assert_response :success
     hosts = ActiveSupport::JSON.decode(@response.body)
     ids = hosts.map { |hash| hash['host']['id'] }
@@ -121,23 +125,23 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   end
 
   test "should not update host out of users hosts scope" do
-    as_user :restricted do
-      put :update, { :id => hosts(:one).to_param }
-    end
+    use_restricted_user
+    put :update, { :id => hosts(:one).to_param }
+
     assert_response :not_found
   end
 
   test "should not delete hosts out of users hosts scope" do
-    as_user :restricted do
-      delete :destroy, { :id => hosts(:one).to_param }
-    end
+    use_restricted_user
+    delete :destroy, { :id => hosts(:one).to_param }
+
     assert_response :not_found
   end
 
   test "should not show status of hosts out of users hosts scope" do
-    as_user :restricted do
-      get :status, { :id => hosts(:one).to_param }
-    end
+    use_restricted_user
+    get :status, { :id => hosts(:one).to_param }
+
     assert_response :not_found
   end
 end

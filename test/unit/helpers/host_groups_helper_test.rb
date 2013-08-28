@@ -4,6 +4,8 @@ class HostGroupsHelperTest < ActionView::TestCase
   include HostsAndHostgroupsHelper
   include ApplicationHelper
 
+  setup { User.current = nil }
+
   test "should have the full string of the parent class if the child is a substring" do
     test_group = Hostgroup.create(:name => "test/st")
     assert_match /test\/st/, hostgroup_name(test_group)

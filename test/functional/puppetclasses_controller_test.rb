@@ -2,6 +2,11 @@ require 'test_helper'
 
 class PuppetclassesControllerTest < ActionController::TestCase
   include LookupKeysHelper
+
+  def setup
+    User.current = User.admin
+  end
+
   def test_index
     get :index, {}, set_session_user
     assert_template 'index'

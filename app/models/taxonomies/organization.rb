@@ -7,14 +7,13 @@ class Organization < Taxonomy
   scope :completer_scope, lambda { |opts| my_organizations }
 
   scope :my_organizations, lambda {
-      user = User.current
-      if user.admin?
-        conditions = { }
-      else
-        conditions = sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.organization_ids])
-      end
-      where(conditions).reorder('type, name')
-    }
+    conditions = if User.current.admin?
+      { }
+    else
+      sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.organization_ids])
+    end
+    where(conditions).reorder('type, name')
+  }
 
   def dup
     new = super

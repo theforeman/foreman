@@ -77,19 +77,19 @@ class MediaControllerTest < ActionController::TestCase
   end
 
   def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    @request.session[:user] = users(:two).id
+    users(:two).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a medium' do
     setup_user
-    get :edit, {:id => Medium.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => Medium.first.id}, set_session_user.merge(:user => users(:two).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing media' do
     setup_user
-    get :index, {}, set_session_user.merge(:user => users(:one).id)
+    get :index, {}, set_session_user.merge(:user => users(:two).id)
     assert_response :success
   end
 end

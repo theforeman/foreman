@@ -21,9 +21,9 @@ class OauthTest < ActiveSupport::TestCase
   end
 
   test 'does not reauthenticate if user.current is set' do
-    User.current = users(:one)
+    User.current = users(:two)
     oauth = SSO::Oauth.new(get_controller(true))
-    assert_equal users(:one), oauth.authenticated?
+    assert_equal users(:two), oauth.authenticated?
   end
 
   def get_controller(api_request)

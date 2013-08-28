@@ -6,13 +6,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def setup
-    User.current = users(:one) #use an unpriviledged user, not apiadmin
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:internal).login, "secret")
   end
 
-  fixtures
+  def use_apiadmin
+    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:apiadmin).login, "secret")
+  end
 
   test "should run puppet for specific host" do
-    User.current=nil
+    use_apiadmin
+
     any_instance_of(ProxyAPI::Puppet) do |klass|
       stub(klass).run { true }
     end
@@ -21,27 +24,30 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def test_create_valid_node_from_json_facts_object_without_certname
-    User.current=nil
+    use_apiadmin
+
     hostname = fact_json['name']
     facts    = fact_json['facts']
-    post :facts, {:name => hostname, :facts => facts}, set_session_user
+    post :facts, {:name => hostname, :facts => facts}
     assert_response :success
   end
 
   def test_create_valid_node_from_json_facts_object_with_certname
-    User.current=nil
+    use_apiadmin
+
     hostname = fact_json['name']
     certname = fact_json['certname']
     facts    = fact_json['facts']
-    post :facts, {:name => hostname, :certname => certname, :facts => facts}, set_session_user
+    post :facts, {:name => hostname, :certname => certname, :facts => facts}
     assert_response :success
   end
 
   def test_create_invalid
-    User.current=nil
+    use_apiadmin
+
     hostname = fact_json['name']
     facts    = fact_json['facts'].except('operatingsystem')
-    post :facts, {:name => hostname, :facts => facts}, set_session_user
+    post :facts, {:name => hostname, :facts => facts}
     assert_response :unprocessable_entity
   end
 
@@ -143,23 +149,26 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "when a bad :type is requested, :unprocessable_entity is returned" do
-    User.current=nil
+    use_apiadmin
+
     hostname = fact_json['name']
     facts    = fact_json['facts']
-    post :facts, {:name => hostname, :facts => facts, :type => "Host::Invalid"}, set_session_user
+    post :facts, {:name => hostname, :facts => facts, :type => "Host::Invalid"}
     assert_response :unprocessable_entity
     assert_equal JSON.parse(response.body)['message'], 'ERF51-2640: A problem occurred when detecting host type: uninitialized constant Host::Invalid'
   end
 
   test "when the imported host failed to save, :unprocessable_entity is returned" do
+    use_apiadmin
+
     Host::Managed.any_instance.stubs(:save).returns(false)
     errors = ActiveModel::Errors.new(Host::Managed.new)
     errors.add :foo, 'A stub failure'
     Host::Managed.any_instance.stubs(:errors).returns(errors)
-    User.current=nil
+
     hostname = fact_json['name']
     facts    = fact_json['facts']
-    post :facts, {:name => hostname, :facts => facts}, set_session_user
+    post :facts, {:name => hostname, :facts => facts}
     assert_response :unprocessable_entity
     assert_equal 'A stub failure', JSON.parse(response.body)['host']['errors']['foo'].first
   end

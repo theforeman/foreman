@@ -26,7 +26,7 @@ module Foreman
       end
 
       def clear_thread
-        if Thread.current[:user] && !Rails.env.test?
+        if Thread.current[:user]
           Rails.logger.warn("Current user is set, but not expected. Clearing")
           Thread.current[:user] = nil
         end
@@ -68,7 +68,7 @@ module Foreman
         # @param [block] block to execute
         def as login
           old_user = current
-          self.current = User.find_by_login(login)
+          self.current = User.unscoped.find_by_login(login)
           yield if block_given?
         ensure
           self.current = old_user

@@ -62,11 +62,7 @@ class User < ActiveRecord::Base
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
 
-  default_scope lambda {
-    with_taxonomy_scope do
-      order('firstname')
-    end
-  }
+  default_scope lambda { with_taxonomy_scope { order('firstname') } }
 
   def to_label
     (firstname.present? || lastname.present?) ? "#{firstname} #{lastname}" : login
@@ -101,6 +97,14 @@ class User < ActiveRecord::Base
 
   def self.admin
     unscoped.find_by_login 'admin' or create_admin
+  end
+
+  def self.guest
+    User.new(:login => "_foreman_guest") { |u| u.readonly! }
+  end
+
+  def guest?
+    login == "_foreman_guest"
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source

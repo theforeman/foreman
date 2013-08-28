@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  def setup
+  setup do
     setup_users
   end
 
@@ -43,8 +43,8 @@ class UsersControllerTest < ActionController::TestCase
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
     put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
-    mod_user = User.find_by_id(user.id)
 
+    mod_user = User.find_by_id(user.id)
     assert mod_user.login == "johnsmith"
     assert_redirected_to users_path
   end
@@ -55,8 +55,8 @@ class UsersControllerTest < ActionController::TestCase
     assert user.roles =([roles(:anonymous)])
 
     put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
-    mod_user = User.find_by_id(user.id)
 
+    mod_user = User.find_by_id(user.id)
     assert mod_user.roles =([roles(:anonymous)])
   end
 
@@ -70,8 +70,8 @@ class UsersControllerTest < ActionController::TestCase
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy"
                   },
                  }, set_session_user
-    mod_user = User.find_by_id(user.id)
 
+    mod_user = User.find_by_id(user.id)
     assert mod_user.matching_password?("dummy")
     assert_redirected_to users_path
   end
@@ -86,8 +86,8 @@ class UsersControllerTest < ActionController::TestCase
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY"
                   },
                  }, set_session_user
-    mod_user = User.find_by_id(user.id)
 
+    mod_user = User.find_by_id(user.id)
     assert  mod_user.matching_password?("changeme")
     assert_template :edit
   end
@@ -142,14 +142,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should clear the current user after processing the request" do
+  test "should reset the current user to nil after processing the request" do
     get :index, {}, set_session_user
     assert User.current.nil?
   end
 
   test "should set user as owner of hostgroup children if owner of hostgroup root" do
     User.current = User.first
-    sample_user = users(:one)
+    sample_user = users(:two)
 
     Hostgroup.new(:name => "root").save
     Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
@@ -161,8 +161,8 @@ class UsersControllerTest < ActionController::TestCase
 
     put :update, update_hash , set_session_user
 
-    assert_equal Hostgroup.find_by_name("first").users.first , sample_user
-    assert_equal Hostgroup.find_by_name("second").users.first, sample_user
+    assert Hostgroup.find_by_name("first").users.pluck(:id).include?(sample_user.id)
+    assert Hostgroup.find_by_name("second").users.pluck(:id).include?(sample_user.id)
   end
 
   test "should not be able to remove the admin flag from the admin account" do

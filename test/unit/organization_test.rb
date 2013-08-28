@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
+  def setup
+    User.current = users(:one)
+  end
+
   test 'it should not save with an empty name' do
     organization = Organization.new
     assert !organization.save
@@ -85,10 +89,6 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'it should return selected_ids array of selected values only (when types are not ignored)' do
     organization = taxonomies(:organization1)
-    #fixtures for taxable_taxonomies don't work, on has_many :through polymorphic
-    # so I created assocations here.
-    organization.subnet_ids = Array(subnets(:one).id)
-    organization.smart_proxy_ids = Array(smart_proxies(:puppetmaster).id)
     # run selected_ids method
     selected_ids = organization.selected_ids
     # get results from taxable_taxonomies
@@ -117,8 +117,8 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:subnet_ids].sort, Array(subnets(:one).id)
     assert_equal selected_ids[:domain_ids], Array.new
     assert_equal selected_ids[:medium_ids], Array.new
-    assert_equal selected_ids[:user_ids], Array.new
-    assert_equal selected_ids[:smart_proxy_ids].sort, Array(smart_proxies(:puppetmaster).id)
+    assert_equal selected_ids[:user_ids], Array(users(:one).id)
+    assert_equal selected_ids[:smart_proxy_ids].sort, Array(smart_proxies(:one).id)
     assert_equal selected_ids[:config_template_ids], Array.new
     assert_equal selected_ids[:compute_resource_ids], Array.new
   end

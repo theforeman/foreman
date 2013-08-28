@@ -191,32 +191,22 @@ class HostTest < ActiveSupport::TestCase
   end
 
   def setup_user_and_host
-    @one            = users(:one)
-    @one.hostgroups = []
-    @one.domains    = []
-    @one.user_facts = []
-    @one.save!
-    @host           = hosts(:one)
-    @host.owner     = users(:two)
-    @host.save!
-    User.current    = @one
+    @host = hosts(:one)
+    @host.update_attribute(:owner, users(:two))
+    User.current = (@user = users(:host_tests_user))
   end
 
   def setup_filtered_user
     # Can't use `setup_user_and_host` as it deletes the UserFacts
-    @one             = users(:one)
-    @one.hostgroups  = []
-    @one.domains     = []
-    @one.user_facts  = [user_facts(:one)]
-    @one.facts_andor = "and"
-    @one.save!
-    User.current    = @one
+    @user = users(:host_tests_user)
+    @user.update_attributes!(:user_facts => [user_facts(:one)], :facts_andor => "and")
+    User.current = @user
   end
 
   test "host cannot be edited without permission" do
     setup_user_and_host
     as_admin do
-      @one.roles = [Role.find_by_name("Viewer")]
+      @user.roles = [Role.find_by_name("Viewer")]
     end
     assert !@host.update_attributes(:name => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -225,7 +215,7 @@ class HostTest < ActiveSupport::TestCase
   test "any host can be edited when permitted" do
     setup_user_and_host
     as_admin do
-      @one.roles      = [Role.find_by_name("Edit hosts")]
+      @user.roles      = [Role.find_by_name("Edit hosts")]
     end
     assert @host.update_attributes(:name => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -234,8 +224,8 @@ class HostTest < ActiveSupport::TestCase
   test "hosts can be edited when domains permit" do
     setup_user_and_host
     as_admin do
-      @one.roles      = [Role.find_by_name("Edit hosts")]
-      @one.domains    = [Domain.find_by_name("mydomain.net")]
+      @user.roles      = [Role.find_by_name("Edit hosts")]
+      @user.domains    = [Domain.find_by_name("mydomain.net")]
     end
     assert @host.update_attributes(:name => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -244,8 +234,8 @@ class HostTest < ActiveSupport::TestCase
   test "hosts cannot be edited when domains deny" do
     setup_user_and_host
     as_admin do
-      @one.roles      = [Role.find_by_name("Edit hosts")]
-      @one.domains    = [Domain.find_by_name("yourdomain.net")]
+      @user.roles      = [Role.find_by_name("Edit hosts")]
+      @user.domains    = [Domain.find_by_name("yourdomain.net")]
     end
     assert !@host.update_attributes(:name => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -254,12 +244,12 @@ class HostTest < ActiveSupport::TestCase
   test "host cannot be created without permission" do
     setup_user_and_host
     as_admin do
-      @one.roles = [Role.find_by_name("Viewer")]
+      @user.roles = [Role.find_by_name("Viewer")]
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.09",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
-                       :architecture => architectures(:x86_64), :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster),
-                       :subnet => subnets(:one), :disk => "empty partition")
+                       :architecture => architectures(:x86_64), :environment => environments(:testing), :puppet_proxy => smart_proxies(:puppetmaster),
+                       :subnet => subnets(:two), :disk => "empty partition")
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -267,12 +257,12 @@ class HostTest < ActiveSupport::TestCase
   test "any host can be created when permitted" do
     setup_user_and_host
     as_admin do
-      @one.roles = [Role.find_by_name("Create hosts")]
+      @user.roles = [Role.find_by_name("Create hosts")]
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.11",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),  :puppet_proxy => smart_proxies(:puppetmaster),
-                       :architecture => architectures(:x86_64), :environment => environments(:production),
-                       :subnet => subnets(:one), :disk => "empty partition")
+                       :architecture => architectures(:x86_64), :environment => environments(:testing),
+                       :subnet => subnets(:two), :disk => "empty partition")
     assert !host.new_record?
     assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
   end
@@ -280,13 +270,13 @@ class HostTest < ActiveSupport::TestCase
   test "hosts can be created when hostgroups permit" do
     setup_user_and_host
     as_admin do
-      @one.roles      = [Role.find_by_name("Create hosts")]
-      @one.hostgroups = [Hostgroup.find_by_name("Common")]
+      @user.roles      = [Role.find_by_name("Create hosts")]
+      @user.hostgroups = [Hostgroup.find_by_name("Common")]
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.4",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
-                       :architecture => architectures(:x86_64), :environment => environments(:production),
-                       :subnet => subnets(:one),
+                       :architecture => architectures(:x86_64), :environment => environments(:testing),
+                       :subnet => subnets(:two),
                        :disk => "empty partition", :hostgroup => hostgroups(:common))
     assert !host.new_record?
     assert_no_match /do not have permission/, host.errors.full_messages.join("\n")
@@ -295,13 +285,13 @@ class HostTest < ActiveSupport::TestCase
   test "hosts cannot be created when hostgroups deny" do
     setup_user_and_host
     as_admin do
-      @one.roles      = [Role.find_by_name("Create hosts")]
-      @one.hostgroups = [Hostgroup.find_by_name("Unusual")]
+      @user.roles      = [Role.find_by_name("Create hosts")]
+      @user.hostgroups = [Hostgroup.find_by_name("Unusual")]
     end
     host = Host.create(:name => "blahblah", :mac => "aabbecddee19", :ip => "2.3.4.9",
                        :domain => domains(:mydomain),  :operatingsystem => operatingsystems(:centos5_3),
-                       :architecture => architectures(:x86_64), :environment => environments(:production),
-                       :subnet => subnets(:one),
+                       :architecture => architectures(:x86_64), :environment => environments(:testing),
+                       :subnet => subnets(:two),
                        :disk => "empty partition", :hostgroup => hostgroups(:common))
     assert host.new_record?
     assert_match /do not have permission/, host.errors.full_messages.join("\n")
@@ -310,7 +300,7 @@ class HostTest < ActiveSupport::TestCase
   test "host cannot be destroyed without permission" do
     setup_user_and_host
     as_admin do
-      @one.roles = [Role.find_by_name("Viewer")]
+      @user.roles = [Role.find_by_name("Viewer")]
     end
     assert !@host.destroy
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -319,7 +309,7 @@ class HostTest < ActiveSupport::TestCase
   test "any host can be destroyed when permitted" do
     setup_user_and_host
     as_admin do
-      @one.roles = [Role.find_by_name("Destroy hosts")]
+      @user.roles = [Role.find_by_name("Destroy hosts")]
       @host.host_classes.delete_all
       assert @host.destroy
     end
@@ -329,8 +319,8 @@ class HostTest < ActiveSupport::TestCase
   test "hosts can be destroyed when ownership permits" do
     setup_user_and_host
     as_admin do
-      @one.roles = [Role.find_by_name("Destroy hosts")]
-      @host.update_attribute :owner,  users(:one)
+      @user.roles = [Role.find_by_name("Destroy hosts")]
+      @host.update_attribute :owner,  users(:host_tests_user)
       @host.host_classes.delete_all
       assert @host.destroy
     end
@@ -340,10 +330,8 @@ class HostTest < ActiveSupport::TestCase
   test "hosts cannot be destroyed when ownership denies" do
     setup_user_and_host
     as_admin do
-      @one.roles   = [Role.find_by_name("Destroy hosts")]
-      @one.domains = [domains(:yourdomain)] # This does not grant access but does ensure that access is constrained
-      @host.owner  = users(:two)
-      @host.save!
+      @user.roles   = [Role.find_by_name("Destroy hosts")]
+      @user.domains = [domains(:yourdomain)] # This does not grant access but does ensure that access is constrained
     end
     assert !@host.destroy
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -358,9 +346,9 @@ class HostTest < ActiveSupport::TestCase
   test "sti types altered in memory with becomes are still contained in my_hosts scope" do
     class Host::Valid < Host::Base ; belongs_to :domain ; end
     h = Host::Valid.new :name => "mytestvalidhost.foo.com"
-    setup_user_and_host
+    User.current = (@user = users(:host_tests_user))
     as_admin do
-      @one.domains = [domains(:yourdomain)] # ensure it matches the user filters
+      @user.domains = [domains(:yourdomain)] # ensure it matches the user filters
       h.update_attribute :domain,  domains(:yourdomain)
     end
     h_new = h.becomes(Host::Managed) # change the type to break normal AR `==` method
@@ -370,10 +358,9 @@ class HostTest < ActiveSupport::TestCase
   test "host can be edited when user fact filter permits" do
     setup_filtered_user
     as_admin do
-      @one.roles  = [Role.find_by_name("Edit hosts")]
-      @host       = hosts(:one)
-      @host.owner = users(:two)
-      @host.save!
+      @user.roles = [Role.find_by_name("Edit hosts")]
+      @host = hosts(:one)
+      @host.update_attributes!(:owner => users(:two))
     end
     assert @host.update_attributes(:name => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
@@ -382,10 +369,9 @@ class HostTest < ActiveSupport::TestCase
   test "host cannot be edited when user fact filter denies" do
     setup_filtered_user
     as_admin do
-      @one.roles  = [Role.find_by_name("Edit hosts")]
+      @user.roles  = [Role.find_by_name("Edit hosts")]
       @host       = hosts(:two)
-      @host.owner = users(:two)
-      @host.save!
+      @host.update_attributes!(:owner => users(:two))
     end
     assert !@host.update_attributes(:name => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")

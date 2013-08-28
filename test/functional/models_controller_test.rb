@@ -48,13 +48,13 @@ class ModelsControllerTest < ActionController::TestCase
   end
 
   def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    @request.session[:user] = users(:two).id
+    users(:two).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a model' do
     setup_user
-    get :edit, {:id => Model.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => Model.first.id}, set_session_user.merge(:user => users(:two).id)
     assert_equal @response.status, 403
   end
 
