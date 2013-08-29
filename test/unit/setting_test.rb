@@ -65,26 +65,6 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal 3, setting.value
   end
 
-  def test_second_time_create_persists_only_default_value
-    setting = Setting.create(:name => "foo", :value => 8, :default => 2, :description => "test foo")
-    assert_equal 8, setting.value
-    assert_equal 2, setting.default
-
-    setting = Setting.create(:name => "foo", :value => 9, :default => 3, :description => "test foo")
-    assert_equal 8, setting.value
-    assert_equal 3, setting.default
-  end
-
-  def test_second_time_create_exclamation_persists_only_default_value
-    setting = Setting.create!(:name => "foo", :value => 8, :default => 2, :description => "test foo")
-    assert_equal 8, setting.value
-    assert_equal 2, setting.default
-
-    setting = Setting.create!(:name => "foo", :value => 9, :default => 3, :description => "test foo")
-    assert_equal 8, setting.value
-    assert_equal 3, setting.default
-  end
-
   def test_create_with_missing_attrs_does_not_persist
     setting = Setting.create(:name => "foo")
     assert_equal false, setting.persisted?
@@ -113,6 +93,25 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "my_value", options[:value]
   end
 
+  def test_attributes_in_SETTINGS_are_readonly
+    setting_name = "foo_#{rand(1000000).to_s}"
+    Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
+    SETTINGS[setting_name.to_sym] = "no-bar"
+
+    persisted = Setting.find_by_name(setting_name)
+    assert persisted.readonly?
+  end
+
+  def test_value_is_updated_after_change_in_SETTINGS
+    setting_name = "foo_#{rand(1000000).to_s}"
+    Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
+
+    SETTINGS.stubs(:key?).with(setting_name.to_sym).returns(true)
+    SETTINGS.stubs(:[]).with(setting_name.to_sym).returns("no-bar")
+
+    persisted = Setting.init_on_startup!(setting_name, "foo", "default")
+    assert_equal "no-bar", persisted.value
+  end
 
   # tests for saving settings attributes
   def test_settings_should_save_arrays
