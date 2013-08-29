@@ -40,8 +40,13 @@ class SignoTest < ActiveSupport::TestCase
     stub(controller.request).url { 'https://localhost/foreman?a=b&c=d' }
     signo = get_signo_method(controller)
     url   = Setting['signo_url'] + "?return_url=#{URI.escape('https://localhost/foreman?a=b&c=d')}"
-    mock(controller).redirect_to(url) { 'correct redirect' }
-    assert_equal signo.authenticate!, 'correct redirect'
+    Setting['signo_sso'] = true
+    controller.send(:extend, Foreman::Controller::Authentication)
+    stub(controller).api_request? { false }
+    stub(controller.request).authorization {}
+    stub(controller.request).fullpath {}
+    controller.expects(:redirect_to).with(url).once
+    controller.authenticate
   end
 
   def test_authenticate_with_cookie
