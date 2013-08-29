@@ -31,6 +31,7 @@ Spork.prefork do
 
     fixtures :all
     set_fixture_class({ :hosts => Host::Base })
+    set_fixture_class :nics => Nic::BMC
 
     # for backwards compatibility to between Minitest syntax
     alias_method :assert_not,       :refute

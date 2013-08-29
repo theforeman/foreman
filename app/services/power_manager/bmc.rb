@@ -23,7 +23,12 @@ module PowerManager
           :poweroff => 'off',
           :reboot   => 'soft',
           :reset    => 'cycle',
-          :state    => 'status'
+          :state    => 'status',
+          :on       => 'on',
+          :off      => 'off',
+          :soft     => 'soft',
+          :cycle    => 'cycle',
+          :status   => 'status'
       }
     end
 
