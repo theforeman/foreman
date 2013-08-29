@@ -1,10 +1,13 @@
 module FogExtensions
   module AWS
     module Server
-      extend ActiveSupport::Concern
+<<<<<<< HEAD:lib/fog_extensions/aws/server.rb
 
       attr_accessor :managed_ip
 
+=======
+      extend ActiveSupport::Concern
+>>>>>>> upstream/develop:app/models/concerns/fog_extensions/aws/server.rb
       def to_s
         tags["Name"] || identity
       end

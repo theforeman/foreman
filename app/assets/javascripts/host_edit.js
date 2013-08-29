@@ -55,6 +55,7 @@ function update_capabilities(capabilities){
   $('#image_provisioning').empty();
   $('#image_selection').appendTo($('#image_provisioning'));
   update_provisioning_image();
+  multiSelectOnLoad();
 }
 
 var stop_pooling;
