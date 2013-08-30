@@ -193,5 +193,5 @@ attribute38:
 attribute39:
   name: legacy_puppet_hostname
   category: Setting::Puppet
-  default: false
+  default: "false"
   description: "Foreman will truncate hostname to 'puppet' if it starts with puppet"
