@@ -10,5 +10,5 @@ group :assets do
   gem "flot-rails", '0.0.3'
   gem "quiet_assets"
   gem 'gettext_i18n_rails_js', '>= 0.0.8'
-  gem 'gettext', '>= 1.9.3', :require => false
+  gem 'gettext', '~> 2.0', :require => false
 end

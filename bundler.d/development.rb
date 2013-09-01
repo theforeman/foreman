@@ -5,5 +5,5 @@ group :development do
 #  gem 'rack-mini-profiler'
 
   # for generating i18n files
-  gem 'gettext', '>= 1.9.3', :require => false
+  gem 'gettext', '~> 2.0', :require => false
 end
