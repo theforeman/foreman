@@ -1,3 +1,3 @@
-collection @parameters, :object_root => :parameter
+collection @parameters
 
 extends "api/v2/parameters/show"

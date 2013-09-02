@@ -29,7 +29,7 @@ module Api
                      else
                        nested_obj.puppetclasses.search_for(*search_options)
                    end
-        render :json => Puppetclass.classes2hash(values.paginate(paginate_options))
+        @puppetclasses = Puppetclass.classes2hash(values.paginate(paginate_options))
       end
 
       api :GET, "/puppetclasses/:id", "Show a puppetclass"

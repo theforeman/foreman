@@ -1,3 +1,3 @@
-collection @interfaces, :object_root => :interface
+collection @interfaces
 
 extends "api/v2/interfaces/show"

@@ -6,8 +6,8 @@ class Api::V2::HostClassesControllerTest < ActionController::TestCase
     get :index, {:host_id => hosts(:one).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
-    assert_equal puppetclasses.length, 1
+    assert !puppetclasses['results'].empty?
+    assert_equal puppetclasses['results'].length, 1
   end
 
   test "should add a puppetclass to a host" do

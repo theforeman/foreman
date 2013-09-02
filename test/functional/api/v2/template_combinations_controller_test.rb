@@ -5,7 +5,7 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, {:config_template_id => config_templates(:mystring2).id}
     template_combinations = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 2, template_combinations.size, "Should contain template_combinations in the response"
+    assert_equal 2, template_combinations['results'].size, "Should contain template_combinations in the response"
     assert_response :success
   end
 

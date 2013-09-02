@@ -21,7 +21,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     smart_proxies = ActiveSupport::JSON.decode(@response.body)
     assert !smart_proxies.empty?
 
-    returned_proxy_ids = smart_proxies.map { |p| p["smart_proxy"]["id"] }
+    returned_proxy_ids = smart_proxies['results'].map { |p| p["id"] }
     expected_proxy_ids = SmartProxy.tftp_proxies.map { |p| p.id }
     assert returned_proxy_ids == expected_proxy_ids
   end

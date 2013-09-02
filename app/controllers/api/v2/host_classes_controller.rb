@@ -10,7 +10,7 @@ module Api
       api :GET, "/hosts/:host_id/puppetclass_ids/", "List all puppetclass id's for host"
 
       def index
-        render :json => HostClass.where(:host_id => host_id).pluck('puppetclass_id')
+        render :json => { @root_node_name => HostClass.where(:host_id => host_id).pluck('puppetclass_id') }
       end
 
       api :POST, "/hosts/:host_id/puppetclass_ids", "Add a puppetclass to host"

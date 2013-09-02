@@ -18,10 +18,10 @@ module Api
         @swap_free   = FactValue.my_facts.mem_average "swapfree"
         @mem_totsize = FactValue.my_facts.mem_sum "memorysize"
         @mem_totfree = FactValue.my_facts.mem_sum "memoryfree"
-        render :json => { :statistics => { :os_count    => @os_count, :arch_count => @arch_count,
+        render :json => { :os_count    => @os_count, :arch_count => @arch_count,
                                             :env_count   => @env_count, :klass_count => @klass_count, :cpu_count => @cpu_count,
                                             :model_count => @model_count, :mem_size => @mem_size, :mem_free => @mem_free, :swap_size => @swap_size,
-                                            :swap_free   => @swap_free, :mem_totsize => @mem_totsize, :mem_totfree => @mem_totfree } }
+                                            :swap_free   => @swap_free, :mem_totsize => @mem_totsize, :mem_totfree => @mem_totfree }
       end
 
     end

@@ -6,8 +6,8 @@ class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
     get :index, {:hostgroup_id => hostgroups(:common).id }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
-    assert_equal puppetclasses.length, 1
+    assert !puppetclasses['results'].empty?
+    assert_equal puppetclasses['results'].length, 1
   end
 
   test "should add a puppetclass to a hostgroup" do

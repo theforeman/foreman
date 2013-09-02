@@ -43,7 +43,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {"search" => "host = imaginaryhost.nodomain.what" }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert fact_values.empty?
+    assert fact_values['results'].empty?
   end
 
   test "should get puppetclasses for host" do
@@ -66,8 +66,8 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:environment_id => environments(:production).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
-    assert_equal 3, puppetclasses.length
+    assert !puppetclasses['results'].empty?
+    assert_equal 3, puppetclasses['results'].length
   end
 
   test "should show puppetclass for host" do
