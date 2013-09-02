@@ -54,7 +54,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:compute_resources)
     compute_resources = ActiveSupport::JSON.decode(@response.body)
-    ids               = compute_resources.map { |hash| hash['compute_resource']['id'] }
+    ids               = compute_resources['results'].map { |hash| hash['id'] }
     assert !ids.include?(compute_resources(:mycompute).id)
     assert ids.include?(compute_resources(:yourcompute).id)
   end

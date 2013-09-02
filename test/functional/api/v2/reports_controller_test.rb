@@ -122,7 +122,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
-    assert !reports.empty?
+    assert !reports['results'].empty?
   end
 
   test "should show individual record" do
@@ -144,8 +144,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
-    assert !reports.empty?
-    assert_equal 1, reports.count
+    assert !reports['results'].empty?
+    assert_equal 1, reports['results'].count
   end
 
   test "should return empty result for host with no reports" do
@@ -153,8 +153,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
-    assert reports.empty?
-    assert_equal 0, reports.count
+    assert reports['results'].empty?
+    assert_equal 0, reports['results'].count
   end
 
   test "should get last report" do

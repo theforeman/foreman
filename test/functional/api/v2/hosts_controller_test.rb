@@ -116,7 +116,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
     assert_response :success
     hosts = ActiveSupport::JSON.decode(@response.body)
-    ids = hosts.map { |hash| hash['host']['id'] }
+    ids = hosts['results'].map { |hash| hash['id'] }
     assert !ids.include?(hosts(:one).id)
     assert ids.include?(hosts(:owned_by_restricted).id)
   end

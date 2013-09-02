@@ -7,7 +7,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   def test_index
     get :index
     subnets = ActiveSupport::JSON.decode(@response.body)
-    assert subnets.is_a?(Array)
+    assert subnets['results'].is_a?(Array)
     assert_response :success
     assert !subnets.empty?
 

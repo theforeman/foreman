@@ -1,4 +1,4 @@
-collection @available_images, :object_root => :image
+collection @available_images
 
 node :uuid do |img|
   img.id

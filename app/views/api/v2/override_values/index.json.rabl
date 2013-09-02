@@ -1,3 +1,3 @@
-collection @override_values, :root => :override_values, :object_root => false
+collection @override_values
 
 extends "api/v2/override_values/show"
