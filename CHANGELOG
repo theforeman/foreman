@@ -1,3 +1,16 @@
+2013-09-03	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.2
+
+2013-09-03	Marek Hulan <mhulan@redhat.com>
+	* fixes #2863 - restrict APIs to resources that a user is permitted to manage (CVE-2013-4182)
+	* fixes #2860 - don't convert arbitrary input into symbols (CVE-2013-4180)
+
+2013-09-02	Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+	* fixes #3010 - use the correct helper function name
+
+2013-09-02	Dominic Cleal <dcleal@redhat.com>
+	* fixes #3005 - restrict gettext to Ruby 1.8 compatible version
+
 2013-08-05	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.2.1
 

@@ -13,7 +13,7 @@
 %endif
 
 Name:   foreman
-Version: 1.2.1
+Version: 1.2.2
 Release: 1%{?dist}
 Summary:Systems Management web application
 
@@ -528,6 +528,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Tue Sep 03 2013 Dominic Cleal <dcleal@redhat.com> 1.2.2-1
+- Release 1.2.2
 * Mon Aug 05 2013 Dominic Cleal <dcleal@redhat.com> 1.2.1-1
 - Release 1.2.1
 * Mon Jul 01 2013 Dominic Cleal <dcleal@redhat.com> 1.2.0-1
