@@ -63,4 +63,81 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should be able to create hosts even when restricted" do
+    disable_orchestration
+    assert_difference('Host.count') do
+      post :create, { :host => valid_attrs }
+    end
+    assert_response :success
+  end
+
+  test "should allow access to restricted user who owns the host" do
+    as_user :restricted do
+      get :show, { :id => hosts(:owned_by_restricted).to_param }
+    end
+    assert_response :success
+  end
+
+  test "should allow to update for restricted user who owns the host" do
+    disable_orchestration
+    as_user :restricted do
+      put :update, { :id => hosts(:owned_by_restricted).to_param, :host => {} }
+    end
+    assert_response :success
+  end
+
+  test "should allow destroy for restricted user who owns the hosts" do
+    assert_difference('Host.count', -1) do
+      as_user :restricted do
+        delete :destroy, { :id => hosts(:owned_by_restricted).to_param }
+      end
+    end
+    assert_response :success
+  end
+
+  test "should allow show status for restricted user who owns the hosts" do
+    as_user :restricted do
+      get :status, { :id => hosts(:owned_by_restricted).to_param }
+    end
+    assert_response :success
+  end
+
+  test "should not allow access to a host out of users hosts scope" do
+    as_user :restricted do
+      get :show, { :id => hosts(:one).to_param }
+    end
+    assert_response :not_found
+  end
+
+  test "should not list a host out of users hosts scope" do
+    as_user :restricted do
+      get :index, {}
+    end
+    assert_response :success
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    ids = hosts.map { |hash| hash['host']['id'] }
+    assert !ids.include?(hosts(:one).id)
+    assert ids.include?(hosts(:owned_by_restricted).id)
+  end
+
+  test "should not update host out of users hosts scope" do
+    as_user :restricted do
+      put :update, { :id => hosts(:one).to_param }
+    end
+    assert_response :not_found
+  end
+
+  test "should not delete hosts out of users hosts scope" do
+    as_user :restricted do
+      delete :destroy, { :id => hosts(:one).to_param }
+    end
+    assert_response :not_found
+  end
+
+  test "should not show status of hosts out of users hosts scope" do
+    as_user :restricted do
+      get :status, { :id => hosts(:one).to_param }
+    end
+    assert_response :not_found
+  end
 end
