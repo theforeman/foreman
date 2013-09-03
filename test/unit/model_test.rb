@@ -56,7 +56,7 @@ class ModelTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Model.first
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert record.destroy
     assert record.frozen?
@@ -81,7 +81,7 @@ class ModelTest < ActiveSupport::TestCase
     record      =  Model.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert !record.save
     assert record.valid?

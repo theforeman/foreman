@@ -32,7 +32,7 @@ class DomainParameterTest < ActiveSupport::TestCase
       role = Role.find_or_create_by_name :name => "#{operation}_domains"
       role.permissions = ["#{operation}_domains".to_sym]
       @one.roles = [role]
-      @one.domains = []
+      @one.domains.destroy_all
       @one.save!
     end
     User.current = @one
@@ -61,7 +61,7 @@ class DomainParameterTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create when unconstrained" do
     setup_user "create"
     as_admin do
-      @one.domains = []
+      @one.domains.destroy_all
     end
     record =  DomainParameter.create :name => "dummy", :value => "value", :reference_id => domains(:mydomain).id
     assert record.valid?

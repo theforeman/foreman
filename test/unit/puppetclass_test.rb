@@ -56,7 +56,8 @@ class PuppetclassTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Puppetclass.first
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
+      record.lookup_keys.destroy_all
     end
     assert record.destroy
     assert record.frozen?
@@ -81,7 +82,7 @@ class PuppetclassTest < ActiveSupport::TestCase
     record      =  Puppetclass.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert !record.save
     assert record.valid?

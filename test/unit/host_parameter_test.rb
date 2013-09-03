@@ -41,9 +41,9 @@ class HostParameterTest < ActiveSupport::TestCase
       role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
       role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles      = [role]
-      @one.domains    = []
-      @one.hostgroups = []
-      @one.user_facts = []
+      @one.domains.destroy_all
+      @one.hostgroups.destroy_all
+      @one.user_facts.destroy_all
       @one.save!
     end
     User.current = @one
@@ -74,7 +74,7 @@ class HostParameterTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create when unconstrained" do
     setup_user "create"
     as_admin do
-      @one.domains = []
+      @one.domains.destroy_all
     end
     host_parameter = HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
     assert host_parameter

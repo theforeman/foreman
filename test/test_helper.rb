@@ -24,6 +24,11 @@ Spork.prefork do
   # Turn of Apipie validation for tests
   Apipie.configuration.validate = false
 
+  # To prevent Postgres' errors "permission denied: "RI_ConstraintTrigger"
+  if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
+    ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
+  end
+
   class ActiveSupport::TestCase
     # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
     # Note: You'll currently still have to declare fixtures explicitly in integration tests

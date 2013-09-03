@@ -11,7 +11,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       role = Role.find_or_create_by_name :name => "#{operation}_compute_resources"
       role.permissions = ["#{operation}_compute_resources".to_sym]
       @one.roles = [role]
-      @one.compute_resources = []
+      @one.compute_resources.destroy_all
       @one.save!
     end
     User.current = @one

@@ -94,7 +94,10 @@ class RoleTest < ActiveSupport::TestCase
 
     context "with a missing anonymous role" do
       setup do
-        Role.delete_all("builtin = #{Role::BUILTIN_ANONYMOUS}")
+        role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
+        user_ids = UserRole.where(:role_id => role_ids)
+        UserRole.where(:role_id => role_ids).destroy_all
+        Role.where(:id => role_ids).delete_all
       end
 
       should "create a new anonymous role" do
@@ -120,7 +123,10 @@ class RoleTest < ActiveSupport::TestCase
 
     context "with a missing default_user role" do
       setup do
-        Role.delete_all("builtin = #{Role::BUILTIN_DEFAULT_USER}")
+        role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
+        user_ids = UserRole.where(:role_id => role_ids)
+        UserRole.where(:role_id => role_ids).destroy_all
+        Role.where(:id => role_ids).delete_all
       end
 
       should "create a new default_user role" do
