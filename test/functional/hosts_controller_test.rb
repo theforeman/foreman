@@ -190,9 +190,9 @@ class HostsControllerTest < ActionController::TestCase
   def setup_user_and_host operation
     as_admin do
       @one             = users(:one)
-      @one.domains     = []
-      @one.hostgroups  = []
-      @one.user_facts  = []
+      @one.domains.destroy_all
+      @one.hostgroups.destroy_all
+      @one.user_facts.destroy_all
       @host1           = hosts(:one)
       @host1.owner     = users(:admin)
       @host1.save!

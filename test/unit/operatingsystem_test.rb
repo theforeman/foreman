@@ -131,7 +131,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     record      =  Operatingsystem.first
     record.name = "renamed"
     as_admin do
-      record.hosts = []
+      record.hosts.destroy_all
     end
     assert !record.save
     assert record.valid?

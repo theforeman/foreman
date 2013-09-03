@@ -192,9 +192,9 @@ class HostTest < ActiveSupport::TestCase
 
   def setup_user_and_host
     @one            = users(:one)
-    @one.hostgroups = []
-    @one.domains    = []
-    @one.user_facts = []
+    @one.hostgroups.destroy_all
+    @one.domains.destroy_all
+    @one.user_facts.destroy_all
     @one.save!
     @host           = hosts(:one)
     @host.owner     = users(:two)
@@ -205,8 +205,8 @@ class HostTest < ActiveSupport::TestCase
   def setup_filtered_user
     # Can't use `setup_user_and_host` as it deletes the UserFacts
     @one             = users(:one)
-    @one.hostgroups  = []
-    @one.domains     = []
+    @one.hostgroups.destroy_all
+    @one.domains.destroy_all
     @one.user_facts  = [user_facts(:one)]
     @one.facts_andor = "and"
     @one.save!

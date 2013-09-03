@@ -34,7 +34,7 @@ class GroupParameterTest < ActiveSupport::TestCase
       role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
       role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles = [role]
-      @one.hostgroups = []
+      @one.hostgroups.destroy_all
       @one.save!
     end
     User.current = @one
@@ -63,7 +63,7 @@ class GroupParameterTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create when unconstrained" do
     setup_user "create", "params"
     as_admin do
-      @one.hostgroups = []
+      @one.hostgroups.destroy_all
     end
     record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => hostgroups(:common).id
     assert record.valid?

@@ -55,7 +55,7 @@ class DomainTest < ActiveSupport::TestCase
     assert location2.save!
 
     domain = Domain.create :name => "test.net"
-    domain.locations = []
+    domain.locations.destroy_all
     domain.locations.push location1
     domain.locations.push location2
     assert domain.save!
@@ -78,7 +78,7 @@ class DomainTest < ActiveSupport::TestCase
       role = Role.find_or_create_by_name :name => "#{operation}_domains"
       role.permissions = ["#{operation}_domains".to_sym]
       @one.roles = [role]
-      @one.domains = []
+      @one.domains.destroy_all
       @one.save!
     end
     User.current = @one
