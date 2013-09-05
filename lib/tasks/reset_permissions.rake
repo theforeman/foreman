@@ -1,3 +1,4 @@
+require 'facter'
 namespace :permissions do
   desc 'Reset Administrator user permissions to defaults'
   task :reset => :environment do

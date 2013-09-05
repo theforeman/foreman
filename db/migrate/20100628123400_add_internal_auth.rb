@@ -1,3 +1,4 @@
+require 'facter'
 class AddInternalAuth < ActiveRecord::Migration
 
   def self.up
