@@ -1,3 +1,11 @@
+#kind: PXELinux
+#name: Community Preseed PXE
+#oses:
+#- Debian 6.0
+#- Debian 7.0
+#- Ubuntu 10.04
+#- Ubuntu 12.04
+#- Ubuntu 13.04
 <% if @host.operatingsystem.name == "Debian" -%>
 <% keyboard_params = "auto=true console-keymaps-at/keymap=us keymap=us domain=#{@host.domain}" -%>
 <% else -%>
