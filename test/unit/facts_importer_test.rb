@@ -55,6 +55,20 @@ class FactsImporterTest < ActiveSupport::TestCase
     assert_empty data.minor
   end
 
+  test "release_name should be nil when lsbdistcodename isn't set on Debian" do
+    @importer = Facts::Importer.new(debian_facts.delete_if { |k,v| k == "lsbdistcodename" })
+    assert_equal nil, @importer.operatingsystem.release_name
+  end
+
+  test "should set os.release_name to the lsbdistcodename fact on Debian" do
+    @importer = Facts::Importer.new(debian_facts)
+    assert_equal 'wheezy', @importer.operatingsystem.release_name
+  end
+
+  test "should not set os.release_name to the lsbdistcodename on non-Debian OS" do
+    assert_not_equal 'Santiago', @importer.operatingsystem.release_name
+  end
+
   private
 
   def facts
@@ -62,4 +76,7 @@ class FactsImporterTest < ActiveSupport::TestCase
     @json ||= JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts']
   end
 
+  def debian_facts
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_debian.json')))['facts']
+  end
 end

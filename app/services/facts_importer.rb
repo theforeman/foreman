@@ -34,7 +34,7 @@ module Facts
         minor.to_s.gsub!(/\D/,'') unless is_numeric? minor
         args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
         os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
-        if os_name[/debian|ubuntu/i] or os.family == 'Debian'
+        if facts[:lsbdistcodename] and (os_name[/debian|ubuntu/i] or os.family == 'Debian')
           os.release_name = facts[:lsbdistcodename]
           os.save
         end
