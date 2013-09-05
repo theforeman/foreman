@@ -1,3 +1,4 @@
+require 'facter'
 class AddOwnerToHosts < ActiveRecord::Migration
   class User < ActiveRecord::Base; end
   class Host < ActiveRecord::Base; end

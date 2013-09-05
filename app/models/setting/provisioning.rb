@@ -1,3 +1,4 @@
+require 'facter'
 class Setting::Provisioning < Setting
 
   def self.load_defaults
