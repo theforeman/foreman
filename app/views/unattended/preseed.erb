@@ -1,3 +1,11 @@
+#kind: provision
+#name: Community Preseed
+#oses:
+#- Debian 6.0
+#- Debian 7.0
+#- Ubuntu 10.04
+#- Ubuntu 12.04
+#- Ubuntu 13.04
 # Locale, country and keyboard settings
 d-i debian-installer/locale string en_US
 d-i console-setup/ask_detect boolean false
@@ -6,10 +14,8 @@ d-i console-setup/variant USA
 d-i console-setup/layout USA
 d-i console-setup/layoutcode string us
 
-<% if @host.operatingsystem.name == "Debian" -%>
-<% if @host.operatingsystem.major.to_i >= 7 -%>
+<% if @host.operatingsystem.name == "Debian" && @host.operatingsystem.major.to_i >= 7 -%>
 d-i keymap select us
-<% end -%>
 <% end -%>
 
 # Network configuration
@@ -31,11 +37,14 @@ d-i mirror/udeb/suite string <%= @host.operatingsystem.release_name %>
 
 # Time settings
 d-i clock-setup/utc boolean true
+<% if @host.params['time-zone'] -%>
+d-i time/zone string <%= @host.params['time-zone'] %>
+<% else -%>
 d-i time/zone string UTC
+<% end -%>
 
 # NTP
 d-i clock-setup/ntp boolean true
-d-i clock-setup/ntp-server string ntp
 
 # Set alignment for automatic partitioning
 # Choices: cylinder, minimal, optimal
@@ -53,11 +62,18 @@ d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
 <% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
-# Puppetlabs repo
+# Puppetlabs products
+d-i apt-setup/local0/repository string \
+      http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> main
+d-i apt-setup/local0/comment string Puppetlabs products
+d-i apt-setup/local0/source boolean true
+d-i apt-setup/local0/key string http://apt.puppetlabs.com/pubkey.gpg
+# Puppetlabs dependencies
 d-i apt-setup/local1/repository string \
-    http://apt.puppetlabs.com/ <%= @host.operatingsystem.release_name %> main
-    d-i apt-setup/local1/comment string Puppetlabs packages
-    d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
+      http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> dependencies
+d-i apt-setup/local1/comment string Puppetlabs dependencies
+d-i apt-setup/local1/source boolean true
+d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)
