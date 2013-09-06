@@ -188,6 +188,7 @@ class Report < ActiveRecord::Base
   end
 
   def import_log_messages report
+    return if report['logs'].empty?
     report['logs'].each do |r|
       # Parse the API format
       level = r['log']['level']
