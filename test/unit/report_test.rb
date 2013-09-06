@@ -127,6 +127,11 @@ class ReportTest < ActiveSupport::TestCase
     assert r
   end
 
+  test "it should import reports where logs is nil" do
+    r=Report.import read_json_fixture("/../fixtures/report-no-logs.json")
+    assert r
+  end
+
   test "when notification is set to true, if report has an error, a mail to admin should be sent" do
     setup_for_email_reporting
     Setting[:failed_report_email_notification] = true
