@@ -4,7 +4,7 @@
 #
 # To run this you need rspec and i18n-spec gems installed
 #
-pushd config/locales
+pushd $(git rev-parse --show-cdup)/config/locales
 REPODIR=$(pwd)
 UPSTEAM_CLONE=$(mktemp -d -q)
 trap "rm -rf $UPSTEAM_CLONE" EXIT

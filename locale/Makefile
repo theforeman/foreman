@@ -44,13 +44,20 @@ uniq-po:
 	done
 
 tx-pull:
-	tx pull -a -f -r foreman.foreman
-	git commit -a -m 'i18n - updating translations from transifex'
-	-git add -A
-	-git commit -a -m 'i18n - adding new languages from transifex'
+	tx pull -f -r foreman.foreman
+	-git commit -a -m "i18n - extracting new, updating rails, pulling from tx"
 
-tx-update: tx-pull update-po
-	-git commit -a -m 'i18n - merging gettext po files'
+update-rails:
+	../script/update-rails-locales.sh
+
+extract-strings:
+	bundle exec rake locale:find
+
+tx-update: update-rails tx-pull extract-strings
+	# merging po files is unnecessary when using transifex.com (amend that)
+	git checkout -- ../locale/*/*po
+	git commit -a --amend -m "i18n - extracting new, updating rails, pulling from tx"
+	-echo Changes commited!
 
 # Remove all MO files
 clean:
