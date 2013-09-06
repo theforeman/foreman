@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd config/locales
+pushd $(git rev-parse --show-cdup)/config/locales
 I18N_BRANCH="rails-3-x"
 TMP=$(mktemp)
 for FILE in *yml; do
