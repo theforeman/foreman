@@ -2,6 +2,7 @@ module Foreman::Model
   class EC2 < ComputeResource
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
+    delegate :subnets, :to => :client
 
     validates_presence_of :user, :password
     after_create :setup_key_pair
@@ -12,7 +13,7 @@ module Foreman::Model
     end
 
     def provided_attributes
-      super.merge({ :ip => :public_ip_address })
+      super.merge({ :ip => :vm_ip_address })
     end
 
     def self.model_name
@@ -40,11 +41,14 @@ module Foreman::Model
         args.merge!(iam_hash)
       end
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
+      args[:security_group_ids].reject!(&:empty?) if args.has_key?(:security_group_ids)
       super(args)
     end
 
-    def security_groups
-      client.security_groups.map(&:name)
+    def security_groups vpc=nil
+      groups = client.security_groups
+      groups.reject! { |sg| sg.vpc_id != vpc } if vpc
+      groups
     end
 
     def regions

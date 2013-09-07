@@ -11,8 +11,12 @@
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
                  {:help_inline => :indicator,
                   :onchange => 'domain_selected(this);', :'data-url' => domain_selected_hosts_path} %>
+
+    <div id='manage_network'>
+    </div>
+
     <% if @host.capabilities.include?(:build) %>
-      <div id='manage_network'>
+      <div id='manage_network_build'>
         <span id="subnet_select">
           <%= render 'common/domain', :item => @host %>
         </span>

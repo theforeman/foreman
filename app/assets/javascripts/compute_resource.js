@@ -154,3 +154,19 @@ function enable_libvirt_dropdown(item){
   item.find(':input').attr('disabled',false)
   item.show();
 }
+
+function ec2_vpcSelected(form){
+  sg_select = $('.security_group_ids')
+  sg_select.empty();
+  security_groups = jQuery.parseJSON( sg_select.attr('data-security-groups') );
+  subnets = jQuery.parseJSON( sg_select.attr('data-subnets') );
+  if(form.value != ''){
+    vpc=subnets[form.value]
+  } else {
+    vpc = {'vpc_id': 'ec2', 'subnet_name': 'ec2'};
+  }
+  for(sg in security_groups[vpc.vpc_id]){
+     sg_select.append($('<option />').val(security_groups[vpc.vpc_id][sg].group_id).text(security_groups[vpc.vpc_id][sg].group_name+' - '+vpc.subnet_name));
+  }
+  sg_select.multiSelect("refresh");
+}

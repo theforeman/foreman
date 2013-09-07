@@ -41,10 +41,10 @@ function update_capabilities(capabilities){
   var build = (/build/i.test(capabilities));
   var image = (/image/i.test(capabilities));
   if (build){
-    $('#manage_network').show();
+    $('#manage_network_build').show();
     $('#host_provision_method_build').click();
   } else {
-    $('#manage_network').hide();
+    $('#manage_network_build').hide();
     $('#host_provision_method_image').click();
   }
   if(build && image){
@@ -55,6 +55,9 @@ function update_capabilities(capabilities){
   $('#image_provisioning').empty();
   $('#image_selection').appendTo($('#image_provisioning'));
   update_provisioning_image();
+  $('#manage_network').empty();
+  $('#subnet_selection').appendTo($('#manage_network'));
+  multiSelectOnLoad();
 }
 
 var stop_pooling;
@@ -253,6 +256,7 @@ function update_form(element, options) {
       if( !$('#host_compute_resource_id').val() ) {
         $('#host_compute_resource_id').change();
       }
+      update_capabilities($('#host_compute_resource_id').val() ? $('#capabilities').val() : 'build');
       onContentLoad();
     }
   })
