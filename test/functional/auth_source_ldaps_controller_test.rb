@@ -41,6 +41,8 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
+    User.current = users(:admin)
+
     auth_source_ldap = AuthSourceLdap.first
     User.where(:auth_source_id => auth_source_ldap.id).delete_all
     delete :destroy, {:id => auth_source_ldap}, set_session_user

@@ -33,3 +33,13 @@ fix:
   taxonomy: organization1
   taxable: production
   taxable_type: "Environment"
+
+seven:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "User"
+
+eight:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "User"

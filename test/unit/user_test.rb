@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  def setup
-    User.current = User.find_by_login "admin"
+  setup do
     @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
   end
 
@@ -87,7 +86,7 @@ class UserTest < ActiveSupport::TestCase
   test "when a user login, his last login time should be updated" do
     user = users(:internal)
     last_login = user.last_login_on
-    assert_not_nil User.try_to_login(user.login, "changeme")
+    assert_not_nil User.try_to_login(user.login, "secret")
     assert_not_equal last_login, User.find(user.id).last_login_on
   end
 

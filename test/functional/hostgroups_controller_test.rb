@@ -91,8 +91,8 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   def setup_user operation
-    @request.session[:user] = users(:one).id
-    @one = users(:one)
+    @request.session[:user] = users(:two).id
+    @one = users(:two)
     as_admin do
       @one.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
       role = Role.find_or_create_by_name :name => "hostgroups"
@@ -105,13 +105,13 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a hostgroup ' do
     setup_user "view"
-    get :edit, {:id => Hostgroup.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => Hostgroup.first.id}, set_session_user.merge(:user => users(:two).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing hostgroups' do
     setup_user "view"
-    get :index, {}, set_session_user.merge(:user => users(:one).id)
+    get :index, {}, set_session_user.merge(:user => users(:two).id)
     assert_response :success
   end
 

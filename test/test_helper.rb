@@ -68,12 +68,11 @@ Spork.prefork do
     end
 
     def setup_users
-      User.current = users :admin
-      user = User.find_by_login("one")
+      User.current = users(:admin)
+      user = users(:one)
       @request.session[:user] = user.id
       @request.session[:expires_at] = 5.minutes.from_now
-      user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-      user.save!
+      user.update_attributes!(:roles => [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')])
     end
 
     def setup_user operation, type=""
@@ -110,6 +109,27 @@ Spork.prefork do
     def disable_orchestration
       ActiveSupport::TestCase.disable_orchestration
     end
+
+    # from active_support/testing/assertions.rb and modified to restore User.current
+    # as controllers reset User.current to nil after handling of a request
+    def assert_difference(expression, difference = 1, message = nil, &block)
+      expressions = Array.wrap expression
+
+      exps = expressions.map { |e|
+        e.respond_to?(:call) ? e : lambda { eval(e, block.binding) }
+      }
+      before = exps.map { |e| e.call }
+
+      current_user = User.current
+      yield
+      User.current = current_user
+
+      expressions.zip(exps).each_with_index do |(code, e), i|
+        error  = "#{code.inspect} didn't change by #{difference}"
+        error  = "#{message}.\n#{error}" if message
+        assert_equal(before[i] + difference, e.call, error)
+      end
+    end
   end
 
   # Transactional fixtures do not work with Selenium tests, because Capybara
@@ -129,10 +149,42 @@ Spork.prefork do
     helper Rails.application.routes.url_helpers
   end
 
+  class Location
+    scope :my_locations, lambda {
+      conditions = if Rails.env.test? && User.current.nil?
+        {}
+      elsif User.current.admin?
+        { }
+      else
+        sanitize_sql_for_conditions([" (taxonomies.id in (?)) ", User.current.location_ids])
+      end
+      where(conditions).reorder('type, name')
+    }
+  end
+
+  class Organization
+    scope :my_organizations, lambda {
+      conditions = if Rails.env.test? && User.current.nil?
+        {}
+      elsif User.current.admin?
+        { }
+      else
+        sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.organization_ids])
+      end
+      where(conditions).reorder('type, name')
+    }
+  end
 end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
+  class ActiveSupport::TestCase
+    setup :set_admin
+    def set_admin
+      User.current = User.unscoped.find_by_login("admin")
+    end
+  end
+
   class ActionController::TestCase
     setup :setup_set_script_name, :set_api_user
 
@@ -142,12 +194,12 @@ Spork.each_run do
 
     def set_api_user
       return unless self.class.to_s[/api/i]
-      @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:apiadmin).login, "secret")
+      User.current = User.unscoped.find_by_login("apiadmin")
+      @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(User.current.login, "secret")
     end
   end
 
   class ActionDispatch::IntegrationTest
-
     setup :login_admin
 
     teardown do
@@ -164,7 +216,5 @@ Spork.each_run do
       fill_in "login_password", :with => "secret"
       click_button "Login"
     end
-
   end
-
 end

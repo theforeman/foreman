@@ -74,7 +74,7 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_role_in_use
-    users(:one).roles = [roles(:manager)] # make user one a manager
+    users(:two).roles = [roles(:manager)] # make user one a manager
     delete :destroy, {:id => roles(:manager)}, set_session_user
     assert_redirected_to roles_path
     assert_equal 'Role is in use', flash[:error]

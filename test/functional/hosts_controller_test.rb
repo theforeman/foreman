@@ -488,8 +488,9 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:signo_sso] = false
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = false
+
     set_remote_user_to users(:admin)
-    User.current = nil # User.current is admin at this point (from initialize_host)
+
     host = Host.first
     get :show, {:id => host.to_param, :format => 'json'}
     assert_response 401
@@ -637,7 +638,6 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to get externalNodes' do
-    User.current = nil
     # since require_ssl_puppetmasters is only applicable to HTTPS connections, both should be set
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = true
@@ -860,7 +860,6 @@ class HostsControllerTest < ActionController::TestCase
 
   private
   def initialize_host
-    User.current = users(:admin)
     disable_orchestration
     @host = Host.create(:name => "myfullhost",
                         :mac             => "aabbecddeeff",

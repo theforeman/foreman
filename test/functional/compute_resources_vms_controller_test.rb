@@ -2,14 +2,9 @@ require 'test_helper'
 
 class ComputeResourcesVmsControllerTest < ActionController::TestCase
   setup do
-#    Fog.mock!
     @compute_resource = compute_resources(:mycompute)
     @your_compute_resource = compute_resources(:yourcompute)
     get_test_vm
-  end
-
-  teardown do
-#    Fog.unmock!
   end
 
   test "should not get index when not permitted" do
@@ -143,7 +138,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get_test_vm
     assert !@test_vm.ready?
 
-    # Swith it back on for next tests
+    # Switch it back on for next tests
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
     assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     get_test_vm
@@ -156,12 +151,12 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   end
 
   def set_session_user
-    User.current = users(:admin) unless User.current
+    User.current = users(:admin) unless User.current.present?
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
   def setup_user operation
-    @one = users(:one)
+    @one = users(:two)
     @request.session[:user] = @one.id
     as_admin do
       @one.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]

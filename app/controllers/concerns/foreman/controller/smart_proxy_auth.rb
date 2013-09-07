@@ -18,7 +18,7 @@ module Foreman::Controller::SmartProxyAuth
 
   # Permits registered puppetmasters or a user with permission
   def require_puppetmaster_or_login
-    if !Setting[:restrict_registered_puppetmasters] or auth_smart_proxy(SmartProxy.puppet_proxies, Setting[:require_ssl_puppetmasters])
+    if !Setting[:restrict_registered_puppetmasters] or auth_smart_proxy(SmartProxy.puppet_proxies.unscoped, Setting[:require_ssl_puppetmasters])
       set_admin_user
       return true
     end

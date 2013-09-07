@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class EnvironmentsControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success
@@ -220,19 +219,14 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_equal "No changes to your environments detected", flash[:notice]
   end
 
-  def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-  end
-
   test 'user with viewer rights should fail to edit an environment' do
-    setup_user
+    setup_users
     get :edit, {:id => environments(:production).name}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing environments' do
-    setup_user
+    setup_users
     get :index, {}, set_session_user
     assert_response :success
   end

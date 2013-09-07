@@ -32,7 +32,7 @@ class BookmarkTest < ActiveSupport::TestCase
   def enable_login &block
     login            = SETTINGS[:login]
     SETTINGS[:login] = true
-    User.current = users(:one)
+    User.current = users(:two)
     yield
     SETTINGS[:login] = login
   end
