@@ -7,10 +7,6 @@ class Message < ActiveRecord::Base
     value
   end
 
-  def as_json(options={})
-    {:message => value }
-  end
-
   def self.find_or_create val
     digest = Digest::SHA1.hexdigest(val)
     Message.where(:digest => digest).first || Message.create(:value => val, :digest => digest)

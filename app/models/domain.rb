@@ -40,11 +40,6 @@ class Domain < ActiveRecord::Base
     name
   end
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:name, :id]}.merge(options))
-  end
-
   def enforce_permissions operation
     # We get called again with the operation being set to create
     return true if operation == "edit" and new_record?

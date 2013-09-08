@@ -88,11 +88,6 @@ class ConfigTemplate < ActiveRecord::Base
     false
   end
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:name, :template, :id, :snippet],:include => [:template_kind]}.merge(options))
-  end
-
   def self.build_pxe_default(renderer)
     if (proxies = SmartProxy.tftp_proxies).empty?
       error_msg = _("No TFTP proxies defined, can't continue")

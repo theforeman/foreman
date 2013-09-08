@@ -35,10 +35,6 @@ class Usergroup < ActiveRecord::Base
     group_list.sort.uniq
   end
 
-  def as_json(options={})
-    super({:only => [:name, :id]})
-  end
-
   protected
   # Recurses down the tree of usergroups and finds the users
   # [+group_list+]: Array of Usergroups that have already been processed
