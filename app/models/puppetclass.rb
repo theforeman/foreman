@@ -145,10 +145,6 @@ class Puppetclass < ActiveRecord::Base
     root
   end
 
-  def as_json(options={})
-    super({:only => [:name, :id], :include => [:lookup_keys]})
-  end
-
   def self.search_by_host(key, operator, value)
     conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
     direct     = Puppetclass.joins(:hosts).where(conditions).select('puppetclasses.id').map(&:id).uniq

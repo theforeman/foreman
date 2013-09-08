@@ -225,15 +225,6 @@ class Report < ActiveRecord::Base
     false
   end
 
-  def as_json(options={})
-    {:report =>
-      { :reported_at => reported_at, :status => status,
-        :host => host.name, :metrics => metrics, :logs => logs,
-        :id => id, :summary => summaryStatus
-      },
-    }
-  end
-
   def summaryStatus
     return _("Failed")   if error?
     return _("Modified") if changes?

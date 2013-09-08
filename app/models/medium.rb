@@ -32,11 +32,6 @@ class Medium < ActiveRecord::Base
   scoped_search :on => :path, :complete_value => :true
   scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:name, :id]}.merge(options))
-  end
-
   def media_host
     media_path.match(VALID_NFS_PATH)[1]
   end

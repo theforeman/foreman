@@ -26,11 +26,6 @@ class LookupValue < ActiveRecord::Base
     lookup_key.value_before_type_cast self.value
   end
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:value, :match, :lookup_key_id, :id]}.merge(options))
-  end
-
   private
 
   #TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)

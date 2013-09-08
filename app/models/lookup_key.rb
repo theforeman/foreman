@@ -100,11 +100,6 @@ class LookupKey < ActiveRecord::Base
     self.send(method, value) rescue raise TypeError
   end
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:key, :is_param, :required, :override, :description, :default_value, :id]}.merge(options))
-  end
-
   def path_elements
     path.split.map do |paths|
       paths.split(KEY_DELM).map do |element|

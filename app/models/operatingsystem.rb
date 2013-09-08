@@ -143,10 +143,6 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  def as_json(options={})
-    {:operatingsystem => {:name => to_s, :id => id, :media => media, :architectures => architectures, :ptables => ptables, :config_templates => config_templates}}
-  end
-
   def kernel arch
     bootfile(arch,:kernel)
   end
