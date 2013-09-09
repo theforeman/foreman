@@ -5,6 +5,7 @@ module Classification
 
     def initialize args = { }
       @host = args[:host]
+      @saferender = SafeRender.new(:variables => { :host => @host } )
     end
 
     #override to return the relevant enc data and format
@@ -71,11 +72,12 @@ module Classification
     end
 
     def value_of_key(key, values)
-      if values[key.id] and values[key.id][key.to_s]
+      value = if values[key.id] and values[key.id][key.to_s]
         values[key.id][key.to_s][:value]
       else
         key.default_value
       end
+      @saferender.parse(value)
     end
 
     def hostgroup_matches
