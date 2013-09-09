@@ -46,6 +46,7 @@ class HostsController < ApplicationController
           search.all(:select => "hosts.name").map(&:name)
         end.to_yaml
       end
+      format.json
     end
   end
 
@@ -59,6 +60,7 @@ class HostsController < ApplicationController
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
       format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
+      format.json
     end
   end
 

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActionView::MissingTemplate, :with => :api_deprecation_error
 
   # standard layout to all controllers
   helper 'layout'
@@ -86,6 +87,18 @@ class ApplicationController < ActionController::Base
       format.yml { head :status => 404}
     end
     true
+  end
+
+  def api_deprecation_error(exception = nil)
+    if request.format.json? && !request.env['REQUEST_URI'].match(/\/api\//i)
+      logger.error "#{exception.message} (#{exception.class})\n#{exception.backtrace.join("\n")}"
+      msg = "You must add /api/ to the beginning on your URI such as #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
+      logger.error "DEPRECATION: #{msg}."
+      render :json => {:message => msg}, :status => 400
+    else
+      raise exception
+    end
+
   end
 
   # this method sets the Current user to be the Admin
