@@ -33,7 +33,7 @@ class ComputeResourcesVmsController < ApplicationController
         host.uuid = @vm.identity
         host.compute_resource_id = @compute_resource.id
         host.save!(:validate => false) # don't want to trigger callbacks
-        process_success(:success_msg => _("VM associated to host #{host.name}"), :success_redirect => host_path(host))
+        process_success(:success_msg => _("VM associated to host %s") % host.name, :success_redirect => host_path(host))
       else
         process_error(:error_msg => _("No host found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
       end
