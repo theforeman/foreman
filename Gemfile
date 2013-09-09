@@ -1,5 +1,7 @@
-require File.expand_path('../config/settings', __FILE__)
-require File.expand_path('../lib/regexp_extensions', __FILE__)
+# foreman plugins import this file therefore __FILE__ cannot be used
+FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
+require File.expand_path('../config/settings', FOREMAN_GEMFILE)
+require File.expand_path('../lib/regexp_extensions', FOREMAN_GEMFILE)
 
 source 'https://rubygems.org'
 
@@ -29,7 +31,6 @@ else
   gem 'ruby_parser', '~> 3.0.0'
 end
 
-Dir["#{File.dirname(__FILE__)}/bundler.d/*.rb"].each do |bundle|
- # puts "adding custom gem file #{bundle}"
+Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
 end
