@@ -2,14 +2,8 @@ class ModelsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   def index
-    values = Model.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html do
-        @models  = values.paginate :page => params[:page]
-        @counter = Host.count(:group => :model_id, :conditions => {:model_id => @models.all})
-      end
-      format.json { render :json => values }
-    end
+    @models  = Model.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @counter = Host.count(:group => :model_id, :conditions => {:model_id => @models.all})
   end
 
   def new

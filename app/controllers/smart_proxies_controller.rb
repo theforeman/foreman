@@ -1,10 +1,7 @@
 class SmartProxiesController < ApplicationController
   before_filter :find_by_id, :only => [:edit, :update, :destroy, :ping]
   def index
-    respond_to do |format|
-      format.html {@proxies = SmartProxy.includes(:features).paginate :page => params[:page]}
-      format.json {render :json => SmartProxy.all}
-    end
+    @proxies = SmartProxy.includes(:features).paginate :page => params[:page]
   end
 
   def new

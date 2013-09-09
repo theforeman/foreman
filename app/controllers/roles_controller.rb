@@ -20,11 +20,7 @@ class RolesController < ApplicationController
   before_filter :require_admin
 
   def index
-    values = Role.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @roles = values.paginate :page => params[:page] }
-      format.json { render :json => values }
-    end
+    @roles = Role.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
   end
 
   def new

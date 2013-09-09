@@ -37,9 +37,6 @@ class HostsController < ApplicationController
         # rendering index page for non index page requests (out of sync hosts etc)
         render :index if title and (@title = title)
       end
-      # should you ever need more attributes just add to the :only array or specify :methods, :include, :except to the options hash
-      format.json { render :json => search.includes(included_associations).to_json({:only => [:name, :id, :hostgroup_id, :operatingsystem_id]}) }
-
       format.yaml do
         render :text => if params["rundeck"]
           result = {}
@@ -62,7 +59,6 @@ class HostsController < ApplicationController
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
       format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
-      format.json { render :json => @host.to_json({:methods => [:host_parameters], :include => :interfaces }) }
     end
   end
 

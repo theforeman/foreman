@@ -11,11 +11,7 @@ class ComputeResourcesController < ApplicationController
       error e.to_s
       values = ComputeResource.my_compute_resources.search_for ""
     end
-
-    respond_to do |format|
-      format.html { @compute_resources = values.paginate :page => params[:page] }
-      format.json { render :json => values }
-    end
+    @compute_resources = values.paginate :page => params[:page]
   end
 
   def new
@@ -23,10 +19,6 @@ class ComputeResourcesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html
-      format.json { render :json => @compute_resource }
-    end
   end
 
   def create

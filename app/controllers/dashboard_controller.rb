@@ -6,7 +6,6 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.html
       format.yaml { render :text => @report.to_yaml }
-      format.json { render :json => @report }
     end
   end
 

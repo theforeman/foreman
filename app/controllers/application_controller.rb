@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
-
   cache_sweeper :topbar_sweeper
 
   def welcome
@@ -235,17 +234,9 @@ class ApplicationController < ActionController::Base
                            end
     end
     hash[:success_redirect]       ||= send("#{controller_name}_url")
-    hash[:json_code]                = :created if action_name == "create"
 
-    return render :json => {:redirect => hash[:success_redirect]} if hash[:redirect_xhr]
-
-    respond_to do |format|
-      format.html do
-        notice hash[:success_msg]
-        redirect_to hash[:success_redirect] and return
-      end
-      format.json { render :json => hash[:object], :status => hash[:json_code]}
-    end
+    notice hash[:success_msg]
+    redirect_to hash[:success_redirect] and return
   end
 
   def process_error hash = {}
@@ -258,24 +249,18 @@ class ApplicationController < ActionController::Base
       hash[:redirect] ||= send("#{controller_name}_url")
     end
 
-    hash[:json_code] ||= :unprocessable_entity
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten
-    respond_to do |format|
-      format.html do
-        hash[:error_msg] = hash[:error_msg].join("<br/>")
-        if hash[:render]
-          flash.now[:error] = hash[:error_msg] unless hash[:error_msg].empty?
-          render hash[:render]
-          return
-        elsif hash[:redirect]
-          error(hash[:error_msg]) unless hash[:error_msg].empty?
-          redirect_to hash[:redirect]
-          return
-        end
-      end
-      format.json { render :json => {"errors" => hash[:object].errors.full_messages} , :status => hash[:json_code]}
+    hash[:error_msg] = hash[:error_msg].join("<br/>")
+    if hash[:render]
+      flash.now[:error] = hash[:error_msg] unless hash[:error_msg].empty?
+      render hash[:render]
+      return
+    elsif hash[:redirect]
+      error(hash[:error_msg]) unless hash[:error_msg].empty?
+      redirect_to hash[:redirect]
+      return
     end
   end
 

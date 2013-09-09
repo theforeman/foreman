@@ -1,6 +1,5 @@
 class LookupValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :reject_non_json_requests
   before_filter :find_by_id, :except => [:index, :create]
   before_filter :setup_search_options, :only => :index
 
@@ -11,13 +10,7 @@ class LookupValuesController < ApplicationController
       error e.to_s
       values = LookupValue.search_for ""
     end
-
-    respond_to do |format|
-      format.html do
-        @lookup_values = values.paginate(:page => params[:page])
-      end
-      format.json { render :json => values}
-    end
+    @lookup_values = values.paginate(:page => params[:page])
   end
 
   def create
@@ -46,10 +39,6 @@ class LookupValuesController < ApplicationController
   end
 
   private
-
-  def reject_non_json_requests
-    render_403 unless api_request?
-  end
 
   def find_by_id
     @lookup_value = LookupValue.find(params[:id])

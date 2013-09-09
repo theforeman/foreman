@@ -13,15 +13,9 @@ class PuppetclassesController < ApplicationController
       error e.to_s
       values = Puppetclass.search_for ""
     end
-
-    respond_to do |format|
-      format.html do
-        @puppetclasses = values.paginate(:page => params[:page])
-        @host_counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses.all}})
-        @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').count(:group => 'name')
-      end
-      format.json { render :json => Puppetclass.classes2hash(values.all(:select => "name, id")) }
-    end
+    @puppetclasses = values.paginate(:page => params[:page])
+    @host_counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses.all}})
+    @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').count(:group => 'name')
   end
 
   def new

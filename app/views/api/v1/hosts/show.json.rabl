@@ -1,6 +1,6 @@
 object @host
 
-attributes :name, :id, :ip, :environment_id, :environment, :last_report, :updated_at, :created_at, :mac,
+attributes :name, :id, :ip, :environment_id, :last_report, :updated_at, :created_at, :mac,
            :sp_mac, :sp_ip, :sp_name, :domain_id, :architecture_id, :operatingsystem_id,
            :environment_id, :subnet_id, :sp_subnet_id, :ptable_id, :medium_id, :build,
            :comment, :disk, :installed_at, :model_id, :hostgroup_id, :owner_id, :owner_type,
@@ -14,6 +14,10 @@ end
 
 if SETTINGS[:locations_enabled]
   attribute :location_id
+end
+
+child :environment do
+  attributes :id, :name
 end
 
 child :host_parameters do
