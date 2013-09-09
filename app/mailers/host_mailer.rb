@@ -81,7 +81,14 @@ class HostMailer < ActionMailer::Base
     @disabled = Host.alerts_disabled.select { |h| h.owner == user }
     mail(:to   => user.mail,
          :from => Setting["email_reply_address"],
-         :subject => _("Summary Puppet report from Foreman - F:#{total_metrics["failed"]} R:#{total_metrics["restarted"]} S:#{total_metrics["skipped"]} A:#{total_metrics["applied"]} FR:#{total_metrics["failed_restarts"]} T:#{total}"),
+         :subject => _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
+            :failed => total_metrics["failed"],
+            :restarted => total_metrics["restarted"],
+            :skipped => total_metrics["skipped"],
+            :applied => total_metrics["applied"],
+            :failed_restarts => total_metrics["failed_restarts"],
+            :total => total_metrics["total"]
+          },
          :date => Time.now )
   end
 

@@ -22,9 +22,9 @@
         <%= multiple_checkboxes f, :hostgroups, @user, Hostgroup, :label=>'' %>
     <% end %>
 
-    <%= field_set_tag _("Subscribe to hostgroups") do %>
+    <%= field_set_tag _("Subscribe to host groups") do %>
       <div class="control-group">
-        <%= _("Automatically add new hostgroups to this user.") %> <%= f.check_box :subscribe_to_all_hostgroups %>
+        <%= _("Automatically add new host groups to this user") %> <%= f.check_box :subscribe_to_all_hostgroups %>
       </div>
     <% end %>
 
