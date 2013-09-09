@@ -58,6 +58,7 @@ module Foreman::Model
     end
 
     def new_nic attr={ }
+      attr = { :model => 'virtio' }.merge(attr)
       client.nics.new attr
     end
 
