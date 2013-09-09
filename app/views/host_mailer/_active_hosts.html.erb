@@ -5,6 +5,18 @@
     text-align:center;
     background-color: #FF9933;">Hostname
   </th>
+  <th style="border: 1px solid #FF9933;
+    border-collapse: collapse;
+    padding: 4px;
+    text-align:center;
+    background-color: #FF9933;">Hostgroup
+  </th>
+  <th style="border: 1px solid #FF9933;
+    border-collapse: collapse;
+    padding: 4px;
+    text-align:center;
+    background-color: #FF9933;">Environment
+  </th>
   <% list.first.last[:metrics].keys.each do |header| -%>
     <th style="border: 1px solid #FF9933;
       border-collapse: collapse;
@@ -16,7 +28,14 @@
 </tr>
 <% list.each do |host,params| -%>
   <tr>
+    <% host_object = Host.find_by_name(host) %>
     <%= render 'link_to_host', :host => host %>
+    <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
+      <%= host_object.hostgroup %>
+    </td>
+    <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
+      <%= host_object.environment %>
+    </td>
     <% params[:metrics].each do |m,v| -%>
       <% if m =~ /failed|failed_restart/ and v > 0 -%>
         <td style="color:red;font-weight:bold;border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
@@ -29,6 +48,6 @@
         <%= v %>
       <% end -%>
     </td>
-  <% end -%>
-</tr>
+    <% end -%>
+  </tr>
 <% end -%>
