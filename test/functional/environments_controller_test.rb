@@ -8,14 +8,6 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:environments)
   end
 
-  test "should get json index" do
-    get :index, {:format => "json"}, set_session_user
-
-    envs = ActiveSupport::JSON.decode(@response.body)
-    assert !envs.empty?
-    assert_response :success
-  end
-
   test "should get new" do
     get :new, {}, set_session_user
     assert_response :success
@@ -26,15 +18,6 @@ class EnvironmentsControllerTest < ActionController::TestCase
       post :create, { :commit => "Create", :environment => {:name => "some_environment"} }, set_session_user
     end
     assert_redirected_to environments_path
-  end
-
-  test "should create new environment json" do
-    assert_difference 'Environment.count' do
-      post :create, {:format => "json", :commit => "Create", :environment => {:name => "some_environment"} }, set_session_user
-    end
-    env = ActiveSupport::JSON.decode(@response.body)
-    assert_equal "some_environment", env["environment"]["name"]
-    assert_response :created
   end
 
   test "should get edit" do
@@ -58,20 +41,6 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_redirected_to environments_path
   end
 
-  test "should update environment using json" do
-    setup_users
-    environment = Environment.new :name => "some_environment"
-    assert environment.save!
-
-    put :update, { :format => "json", :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
-    env = ActiveSupport::JSON.decode(@response.body)
-    assert_equal "other_environment", env["environment"]["name"]
-    env = Environment.find(environment)
-    assert env.name == "other_environment"
-    assert_response :ok
-  end
-
-
   test "should destroy environment" do
     setup_users
     environment = Environment.new :name => "some_environment"
@@ -82,18 +51,6 @@ class EnvironmentsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to environments_path
-  end
-
-  test "should destroy environment using json" do
-    setup_users
-    environment = Environment.new :name => "some_environment"
-    assert environment.save!
-
-    assert_difference('Environment.count', -1) do
-      delete :destroy, {:format => "json", :id => environment.name}, set_session_user
-    end
-    env = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
   end
 
   def setup_import_classes

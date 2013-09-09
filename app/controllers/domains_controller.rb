@@ -3,14 +3,8 @@ class DomainsController < ApplicationController
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
-    values = Domain.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html do
-        @domains = values.paginate :page => params[:page]
-        @counter = Host.count(:group => :domain_id, :conditions => {:domain_id => @domains.all})
-      end
-      format.json { render :json => values }
-    end
+    @domains = Domain.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @counter = Host.count(:group => :domain_id, :conditions => {:domain_id => @domains.all})
   end
 
   def new
@@ -19,9 +13,6 @@ class DomainsController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.json { render :json => @domain }
-    end
   end
 
   def create

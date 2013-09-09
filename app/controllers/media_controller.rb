@@ -3,17 +3,7 @@ class MediaController < ApplicationController
   before_filter :find_medium, :only => %w{show edit update destroy}
 
   def index
-    values = Medium.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @media = values.paginate(:page => params[:page], :include => [:operatingsystems]) }
-      format.json { render :json => values }
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.json { render :json => @medium.as_json({:only => [:name, :id, :path]}) }
-    end
+    @media = Medium.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :include => [:operatingsystems])
   end
 
   def new

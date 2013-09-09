@@ -28,11 +28,6 @@ class ImagesControllerTest < ActionController::TestCase
     assert_redirected_to compute_resource_path(@image.compute_resource)
   end
 
-  test "should show image" do
-    get :show, { :id => @image.to_param, :format => "json", :compute_resource_id => @image.compute_resource_id }, set_session_user
-    assert_response :success
-  end
-
   test "should get edit" do
     get :edit, { :id => @image.to_param, :compute_resource_id => @image.compute_resource_id }, set_session_user
     assert_response :success

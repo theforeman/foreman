@@ -3,11 +3,7 @@ class ArchitecturesController < ApplicationController
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
-    values = Architecture.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @architectures = values.paginate(:page => params[:page], :include => :operatingsystems) }
-      format.json { render :json => values }
-    end
+    @architectures = Architecture.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :include => :operatingsystems)
   end
 
   def new
@@ -15,9 +11,6 @@ class ArchitecturesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.json { render :json => @architecture }
-    end
   end
 
   def create

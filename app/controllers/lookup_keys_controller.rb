@@ -10,25 +10,7 @@ class LookupKeysController < ApplicationController
       error e.to_s
       values = LookupKey.search_for ""
     end
-
-    respond_to do |format|
-      format.html do
-        @lookup_keys = values.paginate(:page => params[:page], :include => [:puppetclass])
-      end
-      format.json { render :json => values}
-    end
-  end
-
-  def show
-    if (name = params[:host_id]).blank? or (host = Host.find_by_name(name)).blank?
-      value = @lookup_key
-    else
-      value = { :value => Classification::GlobalParam.new(:host=>host).enc[@lookup_key.key] }
-    end
-
-    respond_to do |format|
-      format.json { render :json => value }
-    end
+    @lookup_keys = values.paginate(:page => params[:page], :include => [:puppetclass])
   end
 
   def edit

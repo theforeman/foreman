@@ -12,13 +12,7 @@ class HostgroupsController < ApplicationController
       error e.to_s
       values = my_groups.search_for ""
     end
-
-    respond_to do |format|
-      format.html do
-        @hostgroups = values.paginate :page => params[:page]
-      end
-      format.json { render :json => values }
-    end
+    @hostgroups = values.paginate :page => params[:page]
   end
 
   def new
@@ -60,9 +54,6 @@ class HostgroupsController < ApplicationController
   def show
     auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
     not_found and return unless auth
-    respond_to do |format|
-      format.json { render :json => @hostgroup }
-    end
   end
 
   def create

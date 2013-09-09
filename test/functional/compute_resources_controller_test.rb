@@ -8,19 +8,15 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not get index when not permitted" do
     setup_user "none"
-    get :index, {:format => "json"}, set_session_user
+    get :index, {}, set_session_user
     assert_response 403
   end
 
   test "should get index" do
     setup_user "view"
-    get :index, {:format => "json"}, set_session_user
+    get :index, {}, set_session_user
     assert_response :success
-    computes = ActiveSupport::JSON.decode(@response.body)
-    assert !computes.empty?
-    assert computes.is_a?(Array)
-    assert computes.length == 1
-    assert computes.first["compute_resource"]["name"] == @compute_resource.name
+    assert_template 'index'
   end
 
   test "should not get new when not permitted" do

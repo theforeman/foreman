@@ -5,21 +5,11 @@ class EnvironmentsController < ApplicationController
   before_filter :find_by_name, :only => %w{show edit update destroy}
 
   def index
-    values = Environment.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html do
-        @environments = values.paginate :page => params[:page]
-        @counter      = Host.count(:group => :environment_id, :conditions => {:environment_id => @environments.all})
-      end
-      format.json { render :json => values.as_json }
-    end
+    @environments = Environment.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @counter      = Host.count(:group => :environment_id, :conditions => {:environment_id => @environments.all})
   end
 
   def show
-    respond_to do |format|
-      format.html { invalid_request }
-      format.json { render :json => @environment.as_json(:include => :hosts)}
-    end
   end
 
   def new
