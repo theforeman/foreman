@@ -158,6 +158,29 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "should save if owner_type is User or Usergroup" do
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+      :owner_type => "User" # should be Usergroup
+    assert host.valid?
+  end
+
+  test "should not save if owner_type is not User or Usergroup" do
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+      :owner_type => "UserGr(up" # should be Usergroup
+    assert !host.valid?
+  end
+
+  test "should save if owner_type is empty and Host is unmanaged" do
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+    assert host.valid?
+  end
+
   test "should import from external nodes output" do
     # create a dummy node
     Parameter.destroy_all
