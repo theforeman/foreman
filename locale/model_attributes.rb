@@ -43,6 +43,8 @@ _('AuthSource|Base dn')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('AuthSource|Host')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('AuthSource|Ldap filter')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('AuthSource|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('AuthSource|Onthefly register')
