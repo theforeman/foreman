@@ -104,15 +104,44 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "my_value", options[:value]
   end
 
-  def test_set_method_uses_values_from_SETTINGS
-    SETTINGS[:test_attr] = "ape"
+  def test_set_method_uses_values_from_args
     options = Setting.set "test_attr", "some_description", "default_value"
-    assert_equal "ape", options[:value]
+    refute options[:value]
 
     options = Setting.set "test_attr", "some_description", "default_value", "my_value"
     assert_equal "my_value", options[:value]
   end
 
+  def test_create_uses_values_from_SETTINGS
+    SETTINGS[:test_attr] = "ape"
+    options = Setting.create!(Setting.set("test_attr", "some_description", "default_value"))
+    assert_equal "ape", options.value
+  end
+
+  def test_create_doesnt_change_value_if_absent_from_SETTINGS
+    options = Setting.create!(Setting.set("unknown_attr", "some_description", "default_value"))
+    assert_equal "default_value", options.value
+  end
+
+  def test_attributes_in_SETTINGS_are_readonly
+    setting_name = "foo_#{rand(1000000).to_s}"
+    Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
+    SETTINGS[setting_name.to_sym] = "no-bar"
+
+    persisted = Setting.find_by_name(setting_name)
+    assert persisted.readonly?
+  end
+
+  def test_value_is_updated_after_change_in_SETTINGS
+    setting_name = "foo_#{rand(1000000).to_s}"
+    Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
+
+    SETTINGS.stubs(:key?).with(setting_name.to_sym).returns(true)
+    SETTINGS.stubs(:[]).with(setting_name.to_sym).returns("no-bar")
+
+    persisted = Setting.create!(:name => setting_name, :description => "foo", :default => "default")
+    assert_equal "no-bar", persisted.value
+  end
 
   # tests for saving settings attributes
   def test_settings_should_save_arrays
