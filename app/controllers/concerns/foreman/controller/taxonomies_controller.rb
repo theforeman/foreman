@@ -23,6 +23,7 @@ module Foreman::Controller::TaxonomiesController
         @counter = Host.group(taxonomy_id).where(taxonomy_id => values).count
         render 'taxonomies/index'
       end
+      format.json
     end
   end
 

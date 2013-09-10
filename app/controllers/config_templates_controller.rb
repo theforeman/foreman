@@ -13,13 +13,7 @@ class ConfigTemplatesController < ApplicationController
       error e.to_s
       values = ConfigTemplate.search_for ""
     end
-
-    respond_to do |format|
-      format.html do
-        @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
-      end
-      format.json { render :json => values}
-    end
+    @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
   end
 
   def new
@@ -27,10 +21,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html { return not_found }
-      format.json { render :json => @config_template }
-    end
+    return not_found
   end
 
   def create
@@ -69,16 +60,8 @@ class ConfigTemplatesController < ApplicationController
 
   def build_pxe_default
     status, msg = ConfigTemplate.build_pxe_default(self)
-
-    respond_to do |format|
-      format.html do
-        status == 200 ? notice(msg) : error(msg)
-        redirect_to :back
-      end
-      format.json do
-        render :json => msg, :status => status
-      end
-    end
+    status == 200 ? notice(msg) : error(msg)
+    redirect_to :back
   end
 
   private

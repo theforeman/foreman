@@ -10,10 +10,6 @@ class SettingsController < ApplicationController
 
   def index
     @settings = Setting.live_descendants.search_for(params[:search])
-    respond_to do |format|
-      format.html
-      format.json { render :json => @settings.all}
-    end
   end
 
   def update

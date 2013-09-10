@@ -18,15 +18,10 @@ class PuppetcaController < ApplicationController
       error e
       redirect_to :back and return
     end
-    respond_to do |format|
-      format.html do
-        begin
-          @certificates = certs.sort.paginate :page => params[:page], :per_page => params[:per_page] || 20
-        rescue => e
-          error e
-        end
-      end
-      format.json { render :json => certificates }
+    begin
+      @certificates = certs.sort.paginate :page => params[:page], :per_page => params[:per_page] || 20
+    rescue => e
+      error e
     end
   end
 

@@ -76,10 +76,6 @@ class Hostgroup < ActiveRecord::Base
     "#{id}-#{to_label.parameterize}"
   end
 
-  def as_json(options={})
-    super({:only => [:name, :subnet_id, :operatingsystem_id, :domain_id, :environment_id, :id, :ancestry], :methods => [:label, :parameters, :puppetclass_ids]})
-  end
-
   def hostgroup
     self
   end

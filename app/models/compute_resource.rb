@@ -166,11 +166,6 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
-  def as_json(options={})
-    options ||= {}
-    super({:except => [:password]}.merge(options))
-  end
-
   def console uuid = nil
     raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider)
   end

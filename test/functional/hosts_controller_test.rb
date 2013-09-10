@@ -8,20 +8,6 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
-  def test_show_json
-    host = Host.first
-    get :show, {:id => host.to_param, :format => 'json'}, set_session_user
-    json = ActiveSupport::JSON.decode(@response.body)
-    assert_equal host.name, json["host"]["name"]
-  end
-
-  def test_show_json_should_have_nested_host_params
-    host = Host.first
-    get :show, {:id => host.to_param, :format => 'json'}, set_session_user
-    json = ActiveSupport::JSON.decode(@response.body)
-    assert json["host"]["host_parameters"].is_a?(Array)
-  end
-
   def test_create_invalid
     Host.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
@@ -38,13 +24,6 @@ class HostsControllerTest < ActionController::TestCase
     get :index, {}, set_session_user
     assert_response :success
     assert_template 'index'
-  end
-
-  test "should get index via json" do
-    get :index, {:format => "json"}, set_session_user
-    assert_response :success
-    hosts = ActiveSupport::JSON.decode(@response.body)
-    assert !hosts.empty?
   end
 
   test "should render 404 when host is not found" do
@@ -78,28 +57,6 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns['host'])
   end
 
-  test "should create new host via json" do
-    assert_difference 'Host.count' do
-      post :create, { :format => "json", :commit => "Create",
-        :host => {:name => "myotherfullhost",
-          :mac => "e4:1f:22:cc:36:55",
-          :ip => "2.3.4.125",
-          :domain_id => domains(:mydomain).id,
-          :operatingsystem_id => operatingsystems(:redhat).id,
-          :architecture_id => architectures(:x86_64).id,
-          :environment_id => environments(:production).id,
-          :subnet_id => subnets(:one).id,
-          :disk => "empty partition",
-          :puppet_proxy_id => smart_proxies(:puppetmaster).id
-        }
-      }, set_session_user
-    end
-    host = ActiveSupport::JSON.decode(@response.body)
-    assert_response :created
-
-  end
-
-
   test "should get edit" do
     get :edit, {:id => @host.name}, set_session_user
     assert_response :success
@@ -124,26 +81,11 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns(:host))
   end
 
-  def test_update_valid_json
-    Host.any_instance.stubs(:valid?).returns(true)
-    put :update, {:format => "json", :id => Host.first.name, :host => {}}, set_session_user
-    host = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
-  end
-
   test "should destroy host" do
     assert_difference('Host.count', -1) do
       delete :destroy, {:id => @host.name}, set_session_user
     end
     assert_redirected_to hosts_url
-  end
-
-  test "should destroy host via json" do
-    assert_difference('Host.count', -1) do
-      delete :destroy, {:format => "json", :id => @host.name}, set_session_user
-    end
-    host = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
   end
 
   test "externalNodes should render correctly when format text/html is given" do
@@ -459,27 +401,13 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  test "should get disabled hosts for a user with a fact_filter via json" do
+  test "should get disabled hosts for a user with a fact_filter" do
     one = users(:one)
     one.roles << [roles(:manager)]
     fn  = FactName.create :name =>"architecture"
     ufact = UserFact.create :user => one, :fact_name => fn, :criteria => "="
     assert !(ufact.new_record?)
-
-    get :disabled, {:format => "json"}, {:user => one.id}
-    assert_response :success
-  end
-
-  test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
-        are set, authentication should succeed w/o valid session cookies" do
-    Setting[:authorize_login_delegation] = true
-    Setting[:authorize_login_delegation_api] = true
-    set_remote_user_to users(:admin)
-    User.current = nil # User.current is admin at this point (from initialize_host)
-    host = Host.first
-    get :show, {:id => host.to_param, :format => 'json'}
-    assert_response :success
-    get :show, {:id => host.to_param}
+    get :disabled, {:user => one.id}, set_session_user
     assert_response :success
   end
 

@@ -2,11 +2,7 @@ class SubnetsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   def index
-    values = Subnet.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @subnets = values.includes(:domains, :dhcp).paginate :page => params[:page] }
-      format.json { render :json => values }
-    end
+    @subnets = Subnet.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
   end
 
   def new

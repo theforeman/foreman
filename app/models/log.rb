@@ -18,8 +18,4 @@ class Log < ActiveRecord::Base
     LEVELS[level_id]
   end
 
-  def as_json(options={})
-    {:log => {:messages => message, :sources => source, :level => level}}
-  end
-
 end

@@ -17,9 +17,4 @@ class Architecture < ActiveRecord::Base
     name
   end
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:name, :id]}.merge(options))
-  end
-
 end

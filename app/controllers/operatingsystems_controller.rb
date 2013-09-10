@@ -3,24 +3,12 @@ class OperatingsystemsController < ApplicationController
   before_filter :find_os, :only => %w{show edit update destroy bootfiles}
 
   def index
-    values = Operatingsystem.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html do
-        @operatingsystems = values.paginate(:page => params[:page])
-        @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems.all})
-      end
-      format.json { render :json => values.all(:include => [:media, :architectures, :ptables]) }
-    end
+    @operatingsystems = Operatingsystem.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems.all})
   end
 
   def new
     @operatingsystem = Operatingsystem.new
-  end
-
-  def show
-    respond_to do |format|
-      format.json { render :json => @operatingsystem }
-    end
   end
 
   def create
@@ -54,18 +42,6 @@ class OperatingsystemsController < ApplicationController
       process_success
     else
       process_error
-    end
-  end
-
-  def bootfiles
-    medium = Medium.find_by_name(params[:medium])
-    arch =  Architecture.find_by_name(params[:architecture])
-    respond_to do |format|
-      format.json { render :json => @operatingsystem.pxe_files(medium, arch)}
-    end
-  rescue => e
-    respond_to do |format|
-      format.json { render :json => e.to_s, :status => :unprocessable_entity }
     end
   end
 

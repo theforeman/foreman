@@ -140,4 +140,22 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     end
     assert_response :not_found
   end
+
+  def set_remote_user_to user
+    @request.env['REMOTE_USER'] = user.login
+  end
+
+  test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
+        are set, authentication should succeed w/o valid session cookies" do
+    Setting[:authorize_login_delegation] = true
+    Setting[:authorize_login_delegation_api] = true
+    set_remote_user_to users(:admin)
+    User.current = nil # User.current is admin at this point (from initialize_host)
+    host = Host.first
+    get :show, {:id => host.to_param, :format => 'json'}
+    assert_response :success
+    get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
 end
