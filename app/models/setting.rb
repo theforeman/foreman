@@ -23,6 +23,7 @@ class Setting < ActiveRecord::Base
   before_save :clear_value_when_default
   before_save :clear_cache
   validate :validate_frozen_attributes
+  after_find :readonly_when_overridden_in_SETTINGS
   default_scope order(:name)
 
   # The DB may contain settings from disabled plugins - filter them out here
@@ -139,23 +140,37 @@ class Setting < ActiveRecord::Base
 
   def self.create opts
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
-      super opts
+      super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
-      s.update_attribute(:default, opts[:default])
-      s
+      create_existing(s, opts)
     end
   end
 
   def self.create! opts
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
-      super opts
+      super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
-      s.update_attribute(:default, opts[:default])
-      s
+      create_existing(s, opts)
     end
   end
 
   private
+
+  def self.create_existing(s, opts)
+    bypass_readonly(s) do
+      to_update = {:default => opts[:default]}
+      to_update.merge!(:value => SETTINGS[opts[:name].to_sym]) if SETTINGS.key?(opts[:name].to_sym)
+      s.update_attributes(to_update)
+    end
+    s
+  end
+
+  def self.bypass_readonly(s, &block)
+    s.instance_variable_set("@readonly", false) if (old_readonly = s.readonly?)
+    yield
+  ensure
+    s.readonly! if old_readonly
+  end
 
   def self.cache
     Rails.cache
@@ -200,6 +215,10 @@ class Setting < ActiveRecord::Base
     Setting.cache.delete(name.to_s)
   end
 
+  def readonly_when_overridden_in_SETTINGS
+    readonly! if !new_record? && SETTINGS.key?(name.to_sym)
+  end
+
   # Methods for loading default settings
 
   def self.load_defaults
@@ -210,7 +229,6 @@ class Setting < ActiveRecord::Base
   end
 
   def self.set name, description, default, value = nil
-    value ||= SETTINGS[name.to_sym]
     {:name => name, :value => value, :description => description, :default => default}
   end
 
