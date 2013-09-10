@@ -310,6 +310,20 @@ module ApplicationHelper
     "#{request.protocol}//secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?d=mm&s=30"
   end
 
+  def readonly_field(object, property, options={})
+    name       = "#{type}[#{property}]"
+    helper     = options[:helper]
+    value      = helper.nil? ? object.send(property) : self.send(helper, object)
+    klass      = options[:type]
+    title      = options[:title]
+
+    opts = { :title => title, :class => klass.to_s, :name => name, :value => value}
+
+    content_tag_for :span, object, opts do
+      h(value)
+    end
+  end
+
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"
