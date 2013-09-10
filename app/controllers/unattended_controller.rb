@@ -1,4 +1,5 @@
 class UnattendedController < ApplicationController
+  include DefaultSafeRender
   layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
@@ -265,7 +266,8 @@ class UnattendedController < ApplicationController
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template).html_safe %>" and return
+      @template = default_safe_render(@unsafe_template)
+      render :inline => "<%= @template.html_safe %>" and return
     rescue Exception => exc
       msg = _("There was an error rendering the %s template: ") % (template_name)
       render :text => msg + exc.message, :status => 500 and return

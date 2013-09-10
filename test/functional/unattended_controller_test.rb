@@ -110,9 +110,15 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
- test "requesting a template that does not exist should fail" do
+  test "requesting a template that does not exist should fail" do
     get :template, {:id => "kdsfjlkasjdfkl", :hostgroup => "Common"}
     assert_response :not_found
+  end
+
+  test "requesting a template with a snippet should be rendered" do
+    get :template, {:id => "WithSnippet", :hostgroup => "Common"}
+    assert_response :success
+    assert_equal 'with snippet~vardir = /var/lib/puppet~logdir = /var/log/puppet', @response.body
   end
 
   test "hosts with unknown ip and valid token should render a template" do

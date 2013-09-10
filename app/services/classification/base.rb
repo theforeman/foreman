@@ -4,8 +4,8 @@ module Classification
              :to => :host
 
     def initialize args = { }
-      @host = args[:host]
-      @safe_render = SafeRender.new(:variables => { :host => host } )
+      @host        = args[:host]
+      @safe_render = SafeRender.new(:variables => { :host => @host } )
     end
 
     #override to return the relevant enc data and format
