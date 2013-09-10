@@ -1,12 +1,6 @@
 <div id="parameters">
-  <% if defined?(sorted_params) %>
-    <%= f.fields_for type, sorted_params do |builder| -%>
-      <%= render "common_parameters/parameter", :f => builder %>
-    <% end -%>
-  <% else %>
-    <%= f.fields_for type do |builder| -%>
-      <%= render "common_parameters/parameter", :f => builder %>
-    <% end -%>
-  <% end %>
-  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields("+ Add Parameter", f, type, "common_parameters/parameter") : "" %>
+  <%= f.fields_for type do |builder| -%>
+    <%= render "common_parameters/parameter", :f => builder %>
+  <% end -%>
+  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, type, "common_parameters/parameter") : "" %>
 </div>

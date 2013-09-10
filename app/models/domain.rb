@@ -11,7 +11,7 @@ class Domain < ActiveRecord::Base
   has_many :subnet_domains, :dependent => :destroy
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
-  has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :order => "name ASC"
+  has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
   has_and_belongs_to_many :users, :join_table => "user_domains"
   has_many :interfaces, :class_name => 'Nic::Base'
