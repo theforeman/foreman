@@ -16,17 +16,17 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     execute "DELETE FROM user_facts WHERE fact_name_id NOT IN (SELECT id FROM fact_names) OR user_id NOT IN (SELECT id FROM users)"
     execute "DELETE FROM user_hostgroups WHERE hostgroup_id NOT IN (SELECT id FROM hostgroups) OR user_id NOT IN (SELECT id FROM users)"
     execute "DELETE FROM user_roles WHERE role_id NOT IN (SELECT id FROM roles) OR user_id NOT IN (SELECT id FROM users)"
-    KeyPair.where("compute_resource_id NOT IN (?)", ComputeResource.pluck(:id)).destroy_all
-    LookupKey.where("puppetclass_id NOT IN (?)", Puppetclass.pluck(:id)).destroy_all
-    LookupValue.where("lookup_key_id NOT IN (?)", LookupKey.pluck(:id)).destroy_all
-    FactValue.where("fact_name_id NOT IN (?) OR host_id NOT IN (?)", FactName.pluck(:id), Host::Base.pluck(:id)).destroy_all
-    TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.pluck(:id)).destroy_all
-    HostClass.where("host_id NOT IN (?) OR puppetclass_id NOT IN (?)", Host::Base.pluck(:id), Puppetclass.pluck(:id)).destroy_all
-    HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.pluck(:id), Puppetclass.pluck(:id)).destroy_all
-    Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).destroy_all
-    Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).destroy_all
-    Token.where("host_id NOT IN (?)", Host::Base.pluck(:id)).destroy_all
-    TrendCounter.where("trend_id NOT IN (?)", Trend.pluck(:id)).destroy_all
+    KeyPair.where("compute_resource_id NOT IN (?)", ComputeResource.pluck(:id)).delete_all
+    LookupKey.where("puppetclass_id NOT IN (?)", Puppetclass.pluck(:id)).delete_all
+    LookupValue.where("lookup_key_id NOT IN (?)", LookupKey.pluck(:id)).delete_all
+    FactValue.where("fact_name_id NOT IN (?) OR host_id NOT IN (?)", FactName.pluck(:id), Host::Base.pluck(:id)).delete_all
+    TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.pluck(:id)).delete_all
+    HostClass.where("host_id NOT IN (?) OR puppetclass_id NOT IN (?)", Host::Base.pluck(:id), Puppetclass.pluck(:id)).delete_all
+    HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.pluck(:id), Puppetclass.pluck(:id)).delete_all
+    Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).delete_all
+    Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
+    Token.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
+    TrendCounter.where("trend_id NOT IN (?)", Trend.pluck(:id)).delete_all
 
     # NULLIFY FOREIGN KEY VALUE IF IT HAS AN ORPHANED FOREIGN KEY
     Audit.unscoped.where("user_id NOT IN (?)", User.pluck(:id)).update_all(:user_id => nil)

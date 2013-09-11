@@ -2,8 +2,10 @@ class AddKeys < ActiveRecord::Migration
 
   def change
 
-    # turn off Foreign Key checks in MySQL only.  Postgresl uses "SET CONSTRAINTS ALL DEFERRED;" in test_helper
-    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
+    # turn off Foreign Key checks
+    if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
+      ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
+    elsif ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
       ActiveRecord::Migration.execute "SET FOREIGN_KEY_CHECKS=0;"
     end
     add_foreign_key "architectures_operatingsystems", "architectures", :name => "architectures_operatingsystems_architecture_id_fk"
