@@ -15,9 +15,6 @@ class ImagesController < ApplicationController
     @image = Image.new
   end
 
-  def show
-  end
-
   def create
     @image = Image.new(params[:image])
     if @image.save

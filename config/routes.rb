@@ -76,13 +76,12 @@ Foreman::Application.routes.draw do
         resources :audits        ,:only => :index
         resources :facts         ,:only => :index, :controller => :fact_values
         resources :puppetclasses ,:only => :index
-        resources :lookup_keys   ,:only => :show
       end
     end
 
 
     resources :bookmarks, :except => [:show]
-    resources :lookup_keys, :except => [:new, :create] do
+    resources :lookup_keys, :except => [:show, :new, :create] do
       resources :lookup_values, :only => [:index, :create, :update, :destroy]
       collection do
         get 'auto_complete_search'
@@ -102,12 +101,12 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
-  resources :common_parameters do
+  resources :common_parameters, :except => [:show] do
     collection do
       get 'auto_complete_search'
     end
   end
-  resources :environments do
+  resources :environments, :except => [:show] do
     collection do
       get 'import_environments'
       post 'obsolete_and_new'
@@ -120,7 +119,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :hostgroups do
+  resources :hostgroups, :except => [:show] do
     member do
       get 'nest'
       get 'clone'
@@ -137,7 +136,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :puppetclasses do
+  resources :puppetclasses, :except => [:show] do
     collection do
       get 'import_environments'
       post 'obsolete_and_new'
@@ -178,7 +177,7 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:login]
-    resources :usergroups
+    resources :usergroups, :except => [:show]
     resources :users, :except => [:show] do
       collection do
         get 'login'
@@ -188,7 +187,7 @@ Foreman::Application.routes.draw do
         get 'auto_complete_search'
       end
     end
-    resources :roles do
+    resources :roles, :except => [:show] do
       collection do
         get 'report'
         post 'report'
@@ -196,11 +195,11 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :auth_source_ldaps
+    resources :auth_source_ldaps, :except => [:show]
   end
 
   if SETTINGS[:unattended]
-    resources :config_templates do
+    resources :config_templates, :except => [:show] do
       collection do
         get 'auto_complete_search'
         get 'build_pxe_default'
@@ -208,14 +207,14 @@ Foreman::Application.routes.draw do
       end
     end
     constraints(:id => /[^\/]+/) do
-      resources :domains do
+      resources :domains, :except => [:show] do
         collection do
           get 'auto_complete_search'
         end
       end
     end
 
-    resources :operatingsystems do
+    resources :operatingsystems, :except => [:show] do
       member do
         get 'bootfiles'
       end
@@ -223,25 +222,25 @@ Foreman::Application.routes.draw do
         get 'auto_complete_search'
       end
     end
-    resources :media do
+    resources :media, :except => [:show] do
       collection do
         get 'auto_complete_search'
       end
     end
 
-    resources :models do
+    resources :models, :except => [:show] do
       collection do
         get 'auto_complete_search'
       end
     end
 
-    resources :architectures do
+    resources :architectures, :except => [:show] do
       collection do
         get 'auto_complete_search'
       end
     end
 
-    resources :ptables do
+    resources :ptables, :except => [:show] do
       collection do
         get 'auto_complete_search'
       end
@@ -270,7 +269,7 @@ Foreman::Application.routes.draw do
           get 'provider_selected'
           put  'test_connection'
         end
-        resources :images
+        resources :images, :except => [:show]
       end
     end
 
