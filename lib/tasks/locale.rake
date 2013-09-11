@@ -33,6 +33,10 @@ namespace :locale do
 
   desc 'Extract strings from model and from codebase'
   task :find => [:find_model, :find_code] do
+    # do not commit PO string merge into git (we are using transifex.com)
+    `git checkout -- locale/*/*.po`
+
+    # find malformed strings
     errors = File.open("locale/foreman.pot") {|f| f.grep /(%s.*%s|#\{)/}
     if errors.count > 0
       errors.each {|e| puts "MALFORMED: #{e}"}
