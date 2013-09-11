@@ -2,7 +2,7 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_hostgroup, :only => [:show, :edit, :update, :destroy, :clone]
+  before_filter :find_hostgroup, :only => [:edit, :update, :destroy, :clone]
 
   def index
     begin
@@ -49,11 +49,6 @@ class HostgroupsController < ApplicationController
     @hostgroup = new
     notice _("The following fields would need reviewing")
     render :action => :new
-  end
-
-  def show
-    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
-    not_found and return unless auth
   end
 
   def create

@@ -3,10 +3,6 @@ class AuthSourceLdapsController < ApplicationController
     @auth_source_ldaps = AuthSourceLdap.all
   end
 
-  def show
-    @auth_source_ldap = AuthSourceLdap.find(params[:id])
-  end
-
   def new
     @auth_source_ldap = AuthSourceLdap.new
   end

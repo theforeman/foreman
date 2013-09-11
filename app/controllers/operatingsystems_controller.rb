@@ -1,6 +1,6 @@
 class OperatingsystemsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_os, :only => %w{show edit update destroy bootfiles}
+  before_filter :find_os, :only => %w{edit update destroy bootfiles}
 
   def index
     @operatingsystems = Operatingsystem.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
