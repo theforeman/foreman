@@ -9,7 +9,7 @@ class LookupKeyTest < ActionDispatch::IntegrationTest
   test "edit page" do
     visit lookup_keys_path
     within(:xpath, "//table") do
-      click_link "cluster"
+      click_link "special_info"
     end
     fill_in "lookup_key_key", :with => "webport"
     select "base", :from => "lookup_key_puppetclass_id"

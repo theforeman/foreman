@@ -18,3 +18,8 @@ three:
   puppetclass: two
   environment: production
   lookup_key: five
+
+four:
+  puppetclass: four
+  environment: production
+  lookup_key: five_same_same

@@ -30,6 +30,7 @@ complex:
   default_value: 'secret'
   override: true
   path: 'organization,location'
+  is_param: true
 
 four:
   key: special_info
@@ -37,7 +38,7 @@ four:
   validator_rule:
   default_value: 'secret'
   override: true
-  puppetclass : two
+  puppetclass: two
   path: 'organization,location'
 
 five:
@@ -47,3 +48,13 @@ five:
   default_value: 'abcdef'
   path: 'organization,location'
   override: true
+  is_param: true
+
+five_same_name:
+  key: custom_class_param
+  key_type: string
+  validator_rule:
+  default_value: 'abcdef'
+  path: 'organization,location'
+  override: true
+  is_param: true

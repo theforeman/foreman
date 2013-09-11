@@ -57,6 +57,30 @@ class LookupKey < ActiveRecord::Base
     where(:puppetclass_id => puppetclass_ids)
   }
 
+  scope :smart_variables, lambda { where('lookup_keys.puppetclass_id > 0').readonly(false) }
+  scope :smart_class_parameters, lambda { where(:is_param => true).joins(:environment_classes).readonly(false) }
+
+  # new methods for API instead of revealing db names
+  alias_attribute :parameter, :key
+  alias_attribute :variable, :key
+  alias_attribute :parameter_type, :key_type
+  alias_attribute :variable_type, :key_type
+  alias_attribute :override_value_order, :path
+  alias_attribute :override_values_count, :lookup_values_count
+
+  # to prevent errors caused by find_resource from override_values controller
+  def self.find_by_name(str)
+    nil
+  end
+
+  def is_smart_variable?
+    puppetclass_id.to_i > 0
+  end
+
+  def is_smart_class_parameter?
+    is_param? && environment_classes.any?
+  end
+
   def to_param
     "#{id}-#{key}"
   end
