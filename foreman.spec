@@ -13,8 +13,8 @@
 %endif
 
 Name:   foreman
-Version: 1.2.9999
-Release: 11%{?dist}
+Version: 1.3.9999
+Release: 1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -530,100 +530,147 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Sep 11 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-1
+- Bump to version 1.3-develop
+
 * Wed Sep 11 2013 Dominic Cleal <dcleal@redhat.com> - 1.2.9999-11
 - Add new foreigner and immigrant dependencies
+
 * Mon Sep 09 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-10
 - Added dependency on fast_gettext 0.8 (multi-domain support)
+
 * Mon Sep 02 2013 Greg Sutcliffe <gsutclif@redhat.com> 1.2.9999-9
 - Remove Puppet from core requirements
+
 * Fri Aug 16 2013 Sam Kottler <shk@redhat.com> 1.2.9999-8
 - Update fog dependency to 1.15.0 to fix rackspace VM listing issue
+
 * Wed Jul 24 2013 Jason Montleon <jmontleo@redhat.com> 1.2.9999-7
 - Update rbovirt dependency version to 0.0.21 to support sending the host ssl certificate subject as an option to the xpi plugin
+
 * Fri Jul 19 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-6
 - add foreman-rake to /usr/sbin
+
 * Mon Jun 17 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-5
 - fix asset dependency versions
 - add minitest dependency for console (Lukas Zapletal)
+
 * Thu Jun 06 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-4
 - fix libvirt package dependency on ruby-libvirt
+
 * Wed Jun 05 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-3
 - foreman-debug tool now installed into /usr/sbin
+
 * Tue May 28 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-2
 - Don't force SCL
 - Distribute GPG key
 - Replace dist in foreman.repo
 - Rename foreman-ec2 to foreman-compute
 - Update dbmigrate for SCL (Lukas Zapletal)
+
 * Mon May 20 2013 Dominic Cleal <dcleal@redhat.com> 1.2.9999-1
 - Updated to 1.2.9999 (1.3-pre)
+
 * Tue Apr 30 2013 Sam Kottler <shk@redhat.com> 1.1.9999-1
 - Updated to 1.1.9999 (1.2-pre)
+
 * Fri Feb 15 2013 shk@redhat.com 1.1-3
 - Bumped safemode dependency
+
 * Thu Feb 14 2013 shk@redhat.com 1.1-2
 - Fixed baseurl in the -release subpackage.
 - Updated to 1.1-1
+
 * Mon Feb 4 2013 shk@redhat.com 1.1-1
 - 1.1 final.
+
 * Mon Jan 28 2013 shk@redhat.com 1.1RC5-2
 - Bumped fog version dependency
+
 * Fri Jan 25 2013 shk@redhat.com 1.1RC5-1
 - Updated Rails requirements and bumped to RC5.
+
 * Thu Dec 27 2012 shk@redhat.com 1.1RC3-1
 - Updated to 1.1RC3 and updated dependencies.
+
 * Wed Dec 19 2012 jmontleo@redhat.com 1.0.2-1
 - Fix Foreman SQL injection through search mechanism CVE-2012-5648
+
 * Thu Aug 09 2012 jmontleo@redhat.com 1.0.1-1
 - Version 1.0.1
+
 * Sun Aug 05 2012 jmontleo@redhat.com 1.0.0-2
 - Update to pull in fixes
+
 * Mon Jul 23 2012 jmontleo@redhat.com 1.0.0-1
 - Update packages for Foreman 1.0 Release and add support for using thin.
+
 * Wed Jul 18 2012 jmontleo@redhat.com 1.0.0-0.7
 - Updated pacakages for Foreman 1.0 RC5 and Proxy RC2
+
 * Thu Jul 05 2012 jmontleo@redhat.com 1.0.0-0.6
 - Fix foreman-release to account for different archs. Pull todays source.
+
 * Wed Jul 04 2012 jmontleo@redhat.com 1.0.0-0.5
 - Bump version number and rebuild for RC3
+
 * Sun Jul 01 2012 jmontleo@redhat.com 1.0.0-0.4
 - Pull todays develop branch to fix dbmigrate issue, add mistakenly deleted version string back, and replace foreman-fog with foreman-ec2 as it indicates more clearly what functionality the package provides.
+
 * Fri Jun 29 2012 jmontleo@redhat.com 1.0.0-0.3
 - More fixes for dbmigrate, foreman-cli and foreman-release added
+
 * Fri Jun 29 2012 jmontleo@redhat.com 1.0.0-0.2
 - Rebuild with develop branch from today for 1.0.0 RC2. Try to fix inconsistent db:migrate runs on upgrades.
+
 * Tue Jun 19 2012 jmontleo@redhat.com 0-5.1-20
 - Implement conf.d style Gemfile configuration for bundle to replace the ugly method used in previous rpm versions. Replace foreman-virt package with foreman-libvirt package as it was confusing to have fog virt ovirt and vmware.
+
 * Tue Jun 19 2012 jmontleo@redhat.com 0-5.1-9
 - Rebuild with todays develop branch. Add VERSION file 1688, add wget dependency 1514, update rbovirt dep to 0.0.12, and break out ovirt support to foreman-ovirt package.
+
 * Thu Jun 14 2012 jmontleo@redhat.com 0.5.1-8
 - Rebuild with todays develop branch.
+
 * Wed Jun 13 2012 jmontleo@redhat.com 0.5.1-7
 - Rebuild with todays develop branch. Add require for at least rubygem-rake 0.9.2.2. Run rake:db migrate on upgrade.
+
 * Wed May 30 2012 jmontleo@redhat.com 0.5.1-5
 - Rebuild with todays merge of compute resource RBAC patch
+
 * Tue May 29 2012 jmontleo@redhat.com 0.5.1-4
 - Fix rpm dependencies for foreman-virt and foreman-vmware to include foreman-fog
+
 * Tue May 29 2012 jmontleo@redhat.com 0.5.1-3
 - tidy up postinstall prepbundle.sh, rebuild with EC2 support, and split out foreman-fog and foreman-vmware support
+
 * Tue May 08 2012 jmontleo@redhat.com 0.5.1-1
 - adding prepbundle.sh to run post install of any foreman packages, other small fixes
+
 * Fri May 04 2012 jmontleo@redhat.com 0.5.1-0.2
 - updated foreman to develop branch from May 04 which included many fixes including no longer requiring foreman-virt
-* Mon Jan 11 2012 ohadlevy@gmail.com - 0.4.2
+
+* Wed Jan 11 2012 ohadlevy@gmail.com - 0.4.2
 - rebuilt
-* Mon Dec 6 2011 ohadlevy@gmail.com - 0.4.1
+
+* Tue Dec 6 2011 ohadlevy@gmail.com - 0.4.1
 - rebuilt
-* Thu Nov 08 2011 ohadlevy@gmail.com - 0.4
+
+* Tue Nov 08 2011 ohadlevy@gmail.com - 0.4
 - rebuilt
-* Thu Nov 07 2011 ohadlevy@gmail.com - 0.4rc5
+
+* Mon Nov 07 2011 ohadlevy@gmail.com - 0.4rc5
 - rebuilt
-* Thu Oct 25 2011 ohadlevy@gmail.com - 0.4rc4
+
+* Tue Oct 25 2011 ohadlevy@gmail.com - 0.4rc4
 - rebuilt
-* Thu Oct 18 2011 ohadlevy@gmail.com - 0.4rc3
+
+* Tue Oct 18 2011 ohadlevy@gmail.com - 0.4rc3
 - rebuilt
-* Sat Sep 28 2011 ohadlevy@gmail.com - 0.4rc2
+
+* Wed Sep 28 2011 ohadlevy@gmail.com - 0.4rc2
 - rebuilt
+
 * Sat Sep 10 2011 ohadlevy@gmail.com - 0.4rc1
 - rebuilt
 
@@ -647,8 +694,10 @@ fi
 
 * Sat Feb 12 2011 ohadlevy@gmail.com - 0.1.7-rc4.1
 - rebuilt
+
 * Mon Jan 31 2011 ohadlevy@gmail.com - 0.1.7-rc3.1
 - rebuilt
+
 * Tue Jan 18 2011 ohadlevy@gmail.com - 0.1.7-rc2.1
 - rebuilt
 
@@ -660,20 +709,26 @@ fi
 
 * Mon Nov 29 2010 ohadlevy@gmail.com - 0.1.6-3
 - rebuilt
-* Thu Nov 12 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6-1
+
+* Fri Nov 12 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6-1
 - Included fix for #461, as without it newly installed instances are not usable
+
 * Thu Nov 11 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6
 - New upstream version
-* Sun Oct 30 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc2
+
+* Sat Oct 30 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc2
 - New release candidate
 - Updated configuration file permssion not to break passenger
+
 * Sun Sep 19 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.6rc1
 - Removed the depenecy upon rack 1.0.1 as its now bundled within Foreman
+
 * Mon May 31 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.5-1
 - New upstream version
 - Added migration support between old directory layout to FHS compliancy, upgrades from 0.1-4.x should now work
 - Added support for logrotate
 - Cleanup old activescaffold plugin leftovers files
+
 * Fri Apr 30 2010 Todd Zullinger <tmz@pobox.com> - 0.1.4-4
 - Rework %%install for better FHS compliance
 - Misc. adjustments to match Fedora/EPEL packaging guidelines
@@ -681,14 +736,14 @@ fi
 - Use foreman as the primary group for the foreman user instead of puppet
 - This breaks compatibility with previous RPM, as directories can't be replaced with links easily.
 
-* Thu Apr 19 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1-4-3
+* Mon Apr 19 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1-4-3
 - added status to startup script
 - removed puppet module from the RPM
 
-* Thu Apr 12 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.4-2
+* Mon Apr 12 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.4-2
 - Added startup script for built in webrick server
 - Changed foreman user default shell to /sbin/nologin and is now part of the puppet group
 - defaults to sqlite database
 
-* Thu Apr 6 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.4-1
+* Tue Apr 6 2010 Ohad Levy <ohadlevy@gmail.com> - 0.1.4-1
 - Initial release.
