@@ -129,4 +129,13 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal default, param.default_value
     assert_equal default, param.default_value_before_type_cast
   end
+
+  test "this is a smart variable?" do
+    assert lookup_keys(:two).is_smart_variable?
+  end
+
+  test "this is a smart class parameter?" do
+    assert lookup_keys(:complex).is_smart_class_parameter?
+  end
+
 end

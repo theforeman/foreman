@@ -24,3 +24,8 @@ hostgroupcommon:
   match: hostgroup=Common
   lookup_key: complex
   value: 8080
+
+four:
+  match: hostgroup=Common
+  lookup_key: two
+  value: 8443
