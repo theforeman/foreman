@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.2.9999
-Release: 10%{?dist}
+Release: 11%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -72,6 +72,7 @@ Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
 BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
 BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
 BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.22
@@ -105,6 +106,7 @@ BuildRequires: %{?scl_prefix}rubygem(rails)
 BuildRequires: %{?scl_prefix}rubygem(quiet_assets)
 BuildRequires: %{?scl_prefix}rubygem(spice-html5-rails)
 BuildRequires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
+BuildRequires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
 BuildRequires: %{?scl_prefix}facter
 BuildRequires: gettext
 
@@ -306,6 +308,7 @@ Requires: %{?scl_prefix}rubygem(single_test)
 Requires: %{?scl_prefix}rubygem(pry)
 Requires: %{?scl_prefix}rubygem(term-ansicolor)
 Requires: %{?scl_prefix}rubygem(rack-mini-profiler)
+Requires: %{?scl_prefix}rubygem(immigrant)
 Requires: %{name}-assets = %{version}-%{release}
 
 %description devel
@@ -527,6 +530,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Sep 11 2013 Dominic Cleal <dcleal@redhat.com> - 1.2.9999-11
+- Add new foreigner and immigrant dependencies
 * Mon Sep 09 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-10
 - Added dependency on fast_gettext 0.8 (multi-domain support)
 * Mon Sep 02 2013 Greg Sutcliffe <gsutclif@redhat.com> 1.2.9999-9
