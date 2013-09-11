@@ -16,10 +16,10 @@ class HostgroupTest < ActionDispatch::IntegrationTest
 
   test "edit page" do
     visit hostgroups_path
-    click_link "Common"
-    fill_in "hostgroup_name", :with => "Common Old"
+    click_link "db"
+    fill_in "hostgroup_name", :with => "db Old"
     assert_submit_button(hostgroups_path)
-    assert page.has_link? 'Common Old'
+    assert page.has_link? 'db Old'
   end
 
 end

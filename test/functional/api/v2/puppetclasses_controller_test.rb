@@ -26,7 +26,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
-    assert_equal 2, puppetclasses.length
+    assert_equal 3, puppetclasses.length
   end
 
   test "should show puppetclass for host" do
@@ -48,21 +48,6 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
-  end
-
-  test "should give error if puppetclass is not in nested host" do
-    get :show, { :host_id => hosts(:one).to_param, :id => puppetclasses(:four).id }
-    assert_response :error
-  end
-
-  test "should give error if puppetclass is not in nested hostgroup" do
-    get :show, { :hostgroup_id => hostgroups(:common).to_param, :id => puppetclasses(:four).id }
-    assert_response :error
-  end
-
-  test "should give error if puppetclass is not in nested environment" do
-    get :show, { :environment_id => environments(:production).to_param, :id => puppetclasses(:four).id }
-    assert_response :error
   end
 
   # CRUD actions - same test as V1
