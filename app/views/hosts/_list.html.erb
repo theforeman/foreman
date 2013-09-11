@@ -20,7 +20,7 @@
       <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
       <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
       <td class="hidden-tablet hidden-phone ellipsis"><%= model_name host %></td>
-      <td class="hidden-tablet hidden-phone ellipsis"><%= hostgroup_name host.hostgroup, 26 %></td>
+      <td class="hidden-tablet hidden-phone ellipsis"><%= hostgroup_name(host.hostgroup, 26) if host.hostgroup %></td>
       <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
       <td>
         <%= action_buttons(
