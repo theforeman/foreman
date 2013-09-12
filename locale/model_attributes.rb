@@ -43,6 +43,8 @@ _('AuthSource|Base dn')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('AuthSource|Host')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('AuthSource|Ldap filter')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('AuthSource|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('AuthSource|Onthefly register')
@@ -178,6 +180,8 @@ _('Image|Uuid')
 _('Key pair')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('KeyPair|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('KeyPair|Public')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('KeyPair|Secret')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -420,6 +424,8 @@ _('User|Organizations andor')
 _('User|Password hash')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Password salt')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('User|Subscribe to all hostgroups')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User fact')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages

@@ -35,7 +35,7 @@ zh-CN:
       long: ! '%Y年%b%d日'
       short: ! '%b%d日'
     month_names:
-    -
+    - 
     - 一月
     - 二月
     - 三月
