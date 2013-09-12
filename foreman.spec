@@ -13,8 +13,8 @@
 %endif
 
 Name:   foreman
-Version: 1.2.9999
-Release: 11%{?dist}
+Version: 1.3.0
+Release: 0.1.RC1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -530,6 +530,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.1.RC1
+- Release 1.3.0-RC3
 * Wed Sep 11 2013 Dominic Cleal <dcleal@redhat.com> - 1.2.9999-11
 - Add new foreigner and immigrant dependencies
 * Mon Sep 09 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-10
