@@ -3769,6 +3769,9 @@ msgstr ""
 msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
 msgstr ""
 
+msgid "Thin Provision"
+msgstr ""
+
 msgid "This Puppet class has no parameters in its signature."
 msgstr ""
 
