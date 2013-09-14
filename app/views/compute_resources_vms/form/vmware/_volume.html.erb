@@ -3,6 +3,11 @@
   <%= text_f f, :name, :class => "input-mini", :label => "Name" %>
   <%= text_f f, :size_gb,
              :class       => "input-mini",
-             :label       => _("Size (GB)"),
-             :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important' }) %>
+             :label       => _("Size (GB)") %>
+  <%= checkbox_f f, :thin, {
+             :checked => true,
+             :label => _("Thin Provision"),
+             :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-important' }) },
+             true,
+             false %>
 </div>
