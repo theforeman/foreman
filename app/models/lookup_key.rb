@@ -12,7 +12,7 @@ class LookupKey < ActiveRecord::Base
 
   serialize :default_value
 
-  belongs_to :puppetclass
+  belongs_to :puppetclass, :inverse_of => :lookup_keys
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
@@ -27,7 +27,7 @@ class LookupKey < ActiveRecord::Base
 
   validates_uniqueness_of :key, :unless => Proc.new{|p| p.is_param?}
   validates_presence_of :key
-  validates_presence_of :puppetclass_id, :unless => Proc.new {|k| k.is_param?}
+  validates_presence_of :puppetclass, :unless => Proc.new {|k| k.is_param?}
   validates_inclusion_of :validator_type, :in => VALIDATOR_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
   validates_inclusion_of :key_type, :in => KEY_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
   validate :validate_list, :validate_regexp
