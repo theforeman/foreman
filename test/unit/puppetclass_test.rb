@@ -113,6 +113,14 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
   end
 
+  test "create puppetclass with smart variable as nested attribute" do
+    as_admin do
+      puppetclass = Puppetclass.new(:name => "PuppetclassWithSmartVariable", :lookup_keys_attributes => {"new_1372154591368" => {:key => 'smart_variable1'}})
+      assert puppetclass.save
+      assert_equal Puppetclass.unscoped.last.id, LookupKey.unscoped.last.puppetclass_id
+    end
+  end
+
   test "Puppetclass singularize from custom inflection" do
     assert_equal "Puppetclass", "Puppetclass".singularize
     assert_equal "Puppetclass", "Puppetclasses".singularize
