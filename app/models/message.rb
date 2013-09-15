@@ -12,4 +12,8 @@ class Message < ActiveRecord::Base
     Message.where(:digest => digest).first || Message.create(:value => val, :digest => digest)
   end
 
+  def skip_strip_attrs
+    ['value']
+  end
+
 end

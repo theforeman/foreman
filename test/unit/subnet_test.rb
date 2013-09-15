@@ -231,4 +231,11 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal "is invalid", s.errors[:network].first
   end
 
+  # test module StripWhitespace which strips leading and trailing whitespace on :name field
+  test "should strip whitespace on name" do
+    s = Subnet.new(:name => '    ABC Network     ', :network => "10.10.20.1", :mask => "255.255.255.0")
+    assert s.save!
+    assert_equal "ABC Network", s.name
+  end
+
 end

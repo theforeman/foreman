@@ -17,10 +17,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "name shouldn't contain white spaces" do
     operating_system = Operatingsystem.new :name => " U bun     tu ", :major => "9"
-    assert !operating_system.name.strip.squeeze(" ").tr(' ', '').empty?
+    assert !operating_system.name.squeeze(" ").tr(' ', '').empty?
     assert !operating_system.save
 
-    operating_system.name.strip!.squeeze!(" ").tr!(' ', '')
+    operating_system.name.squeeze!(" ").tr!(' ', '')
     assert !operating_system.name.include?(' ')
     assert operating_system.save
   end

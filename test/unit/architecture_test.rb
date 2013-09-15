@@ -17,10 +17,10 @@ class ArchitectureTest < ActiveSupport::TestCase
 
   test "name should not contain white spaces" do
     architecture = Architecture.new :name => " i38  6 "
-    assert !architecture.name.strip.squeeze(" ").tr(' ', '').empty?
+    assert !architecture.name.squeeze(" ").tr(' ', '').empty?
     assert !architecture.save
 
-    architecture.name.strip!.squeeze!(" ").tr!(' ', '')
+    architecture.name.squeeze!(" ").tr!(' ', '')
     assert architecture.save
   end
 

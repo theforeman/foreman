@@ -134,6 +134,10 @@ class ConfigTemplate < ActiveRecord::Base
     return [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
+  def skip_strip_attrs
+    ['template']
+  end
+
   private
 
   # check if our template is a snippet, and remove its associations just in case they were selected.

@@ -56,14 +56,14 @@ class RoleTest < ActiveSupport::TestCase
     role.wont_be :valid?
   end
 
-  it "should not allow a leading space on name" do
+  it "should strip leading space on name" do
     role = Role.new(:name => " a role name")
-    role.wont_be :valid?
+    role.must_be :valid?
   end
 
-  it "should not allow a trailing space on name" do
+  it "should strip a trailing space on name" do
     role = Role.new(:name => "a role name ")
-    role.wont_be :valid?
+    role.must_be :valid?
   end
 
   def test_add_permission
