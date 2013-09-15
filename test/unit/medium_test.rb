@@ -14,16 +14,13 @@ class MediumTest < ActiveSupport::TestCase
 
   test "name can't contain white spaces" do
     medium = Medium.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
-    assert !medium.name.strip.squeeze(" ").empty?
+    assert !medium.name.squeeze(" ").empty?
     assert !medium.save
 
     medium.name = "Archlinux mirror      thing"
     assert !medium.save
 
-    medium.name = "Archlinux mirror thing "
-    assert !medium.save
-
-    medium.name.strip!.squeeze!(" ")
+    medium.name.squeeze!(" ")
     assert medium.save!
   end
 

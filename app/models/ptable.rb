@@ -18,4 +18,8 @@ class Ptable < ActiveRecord::Base
   scoped_search :on => :layout, :complete_value => false
   scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
+  def skip_strip_attrs
+    ['layout']
+  end
+
 end

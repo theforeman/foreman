@@ -152,7 +152,6 @@ class Subnet < ActiveRecord::Base
   end
 
   def cleanup_ip(address)
-    address = address.strip
     address.gsub!(/\.\.+/, ".")
     address.gsub!(/2555+/, "255")
     address
