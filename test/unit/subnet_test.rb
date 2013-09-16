@@ -228,6 +228,7 @@ class SubnetTest < ActiveSupport::TestCase
     # missing number
     s.network = "100.101.102"
     refute s.valid?
+    assert_equal "is invalid", s.errors[:network].first
   end
 
 end
