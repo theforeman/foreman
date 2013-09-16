@@ -159,11 +159,11 @@ class Subnet < ActiveRecord::Base
   end
 
   def ensure_ip_addr_new
-    errors.add(:network, _("is invalid")) if network.present? && (IPAddr.new(network) rescue nil).nil?
-    errors.add(:mask, _("is invalid")) if mask.present? && (IPAddr.new(mask) rescue nil).nil?
-    errors.add(:gateway, _("is invalid")) if gateway.present? && (IPAddr.new(gateway) rescue nil).nil?
-    errors.add(:dns_primary, _("is invalid")) if dns_primary.present? && (IPAddr.new(dns_primary) rescue nil).nil?
-    errors.add(:dns_secondary, _("is invalid")) if dns_secondary.present? && (IPAddr.new(dns_secondary) rescue nil).nil?
+    errors.add(:network, _("is invalid")) if network.present? && (IPAddr.new(network) rescue nil).nil? && !errors.keys.include?(:network)
+    errors.add(:mask, _("is invalid")) if mask.present? && (IPAddr.new(mask) rescue nil).nil? && !errors.keys.include?(:mask)
+    errors.add(:gateway, _("is invalid")) if gateway.present? && (IPAddr.new(gateway) rescue nil).nil? && !errors.keys.include?(:gateway)
+    errors.add(:dns_primary, _("is invalid")) if dns_primary.present? && (IPAddr.new(dns_primary) rescue nil).nil? && !errors.keys.include?(:dns_primary)
+    errors.add(:dns_secondary, _("is invalid")) if dns_secondary.present? && (IPAddr.new(dns_secondary) rescue nil).nil? && !errors.keys.include?(:dns_secondary)
   end
 
 end
