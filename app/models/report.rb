@@ -7,13 +7,17 @@ class Report < ActiveRecord::Base
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
   has_one :environment, :through => :host
+  has_one :hostgroup, :through => :host
+
   validates_presence_of :host_id, :reported_at, :status
   validates_uniqueness_of :reported_at, :scope => :host_id
 
-  scoped_search :in => :host,     :on => :name, :complete_value => true, :rename => :host
-  scoped_search :in => :environment, :on => :name, :complete_value => true, :rename => :environment
-  scoped_search :in => :messages, :on => :value,                         :rename => :log
-  scoped_search :in => :sources,  :on => :value,                         :rename => :resource
+  scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
+  scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
+  scoped_search :in => :messages,    :on => :value,                          :rename => :log
+  scoped_search :in => :sources,     :on => :value,                          :rename => :resource
+  scoped_search :in => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup
+  scoped_search :in => :hostgroup,   :on => :label, :complete_value => true, :rename => :hostgroup_fullname
 
   scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
   scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
