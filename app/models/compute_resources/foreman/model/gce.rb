@@ -44,10 +44,6 @@ module Foreman::Model
       super.merge({ :ip => :public_ip_address })
     end
 
-    def vms
-      client.servers
-    end
-
     def zones
       client.list_zones.body['items'].map { |zone| zone['name'] }
     end
