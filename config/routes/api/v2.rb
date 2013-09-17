@@ -27,6 +27,7 @@ Foreman::Application.routes.draw do
         end
       end
       resources :dashboard, :only => [:index]
+      resources :statistics, :only => [:index]
       resources :environments, :except => [:new, :edit]
       resources :hostgroups, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
