@@ -304,7 +304,7 @@ class SettingTest < ActiveSupport::TestCase
     setting.parse_string_value(string_value)
 
     assert_equal "default", setting.value
-    assert setting.errors[:value].join(";").include?("invalid value")
+    assert setting.errors[:value].join(";").include?("is invalid")
   end
 
   def check_frozen_change attr_name, value

@@ -1,7 +1,6 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :require_admin
-
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
     type = (e.to_s =~ /\'(Setting::.*)\'\./) ? $1 : 'STI-Type'
@@ -15,9 +14,12 @@ class SettingsController < ApplicationController
   def update
     @setting = Setting.find(params[:id])
     if @setting.parse_string_value(params[:setting][:value]) && @setting.save
-      process_success
+      render :json => @setting
     else
-      process_error
+      error_msg = @setting.errors.full_messages
+      logger.error "Unprocessable entity Setting (id: #{@setting.id}):\n #{error_msg.join("\n  ")}\n"
+      render :json => {"errors" => error_msg}, :status => :unprocessable_entity
     end
   end
+
 end
