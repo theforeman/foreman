@@ -44,7 +44,7 @@ module Foreman::Model
       super.merge({ :ip => :public_ip_address })
     end
 
-    def vms
+    def vms(opts = {})
       client.servers
     end
 

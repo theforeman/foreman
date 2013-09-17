@@ -104,7 +104,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # return a list of virtual machines
-  def vms
+  def vms(opts = {})
     client.servers
   end
 
