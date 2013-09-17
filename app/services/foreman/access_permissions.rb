@@ -575,7 +575,10 @@ Foreman::AccessControl.map do |map|
     }
   end
   map.security_block :statistics do |map|
-    map.permission :view_statistics,  {:statistics  => [:index, :show]}
+    map.permission :view_statistics,  {:statistics  => [:index],
+                                       :"api/v1/statistics" => [:index],
+                                       :"api/v2/statistics" => [:index]
+                                      }
   end
 
   map.security_block :trends do |map|
