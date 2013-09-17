@@ -13,6 +13,10 @@ module FogExtensions
         @ready    = raw.runtime.powerState == "poweredOn"
       end
 
+      def state
+        raw.runtime.powerState
+      end
+
       private
       attr_reader :raw
     end
