@@ -104,7 +104,7 @@ class Setting < ActiveRecord::Base
       end
 
     when "integer"
-      if val =~ /\d+/
+      if val =~ /^\d+$/
         self.value = val.to_i
       else
         invalid_value_error _("must be integer")
@@ -177,7 +177,7 @@ class Setting < ActiveRecord::Base
   end
 
   def invalid_value_error error
-    errors.add(:value, _("invalid value: %s") % error)
+    errors.add(:value, _("is invalid: %s") % error)
   end
 
   def set_setting_type_from_value
