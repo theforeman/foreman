@@ -1,10 +1,10 @@
 require 'fog_extensions/vsphere/mini_servers'
 require 'foreman/exception'
+require 'rbvmomi'
 
 module Foreman::Model
   class Vmware < ComputeResource
 
-    NETWORK_INTERFACE_TYPES = %w(VirtualE1000)
     validates_presence_of :user, :password, :server, :datacenter
     before_create :update_public_key
 
@@ -56,6 +56,13 @@ module Foreman::Model
       dc.networks.all(:accessible => true)
     end
 
+    def nictypes
+      {
+        "E1000" => RbVmomi::VIM::VirtualE1000,
+        "VMXNET 3" => RbVmomi::VIM::VirtualVmxnet3 
+      }
+    end      
+
     def datastores
       dc.datastores.all(:accessible => true)
     end
@@ -87,8 +94,12 @@ module Foreman::Model
     end
 
     def create_vm args = { }
-      vm = new_vm(args)
+      # Convert interface type to RbVmomi class
+      args["interfaces_attributes"].each do |key, interface|
+        interface["type"] = nictypes[interface["type"]] || raise("Unknown NIC type: #{interface["type"]}")
+      end
 
+      vm = new_vm(args)
       vm.save
     rescue Fog::Errors::Error => e
       logger.debug e.backtrace
