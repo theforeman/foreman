@@ -62,7 +62,7 @@ Requires: %{?scl_prefix}rubygem(rabl) >= 0.7.5
 Requires: %{?scl_prefix}rubygem(rake) >= 0.8.3
 Requires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
-Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.22
+Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
 Requires: %{?scl_prefix}rubygem(bundler_ext)
 Requires: %{?scl_prefix}rubygem(thin)
 Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.8.0
@@ -75,7 +75,7 @@ Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
 Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
 BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
 BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
-BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.22
+BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
 BuildRequires: %{?scl_prefix}rubygem(coffee-rails) => 3.2.1
