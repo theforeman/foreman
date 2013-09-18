@@ -44,7 +44,7 @@ class ComputeResourcesController < ApplicationController
   def associate
     count = 0
     if @compute_resource.respond_to?(:associated_host)
-      @compute_resource.vms.each do |vm|
+      @compute_resource.vms(:eager_loading => true).each do |vm|
         if Host.where(:uuid => vm.identity).empty?
           host = @compute_resource.associated_host(vm)
           if host.present?
