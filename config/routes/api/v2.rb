@@ -69,6 +69,10 @@ Foreman::Application.routes.draw do
       resources :template_combinations, :only => [:show, :destroy]
       resources :reports, :only => [:create]
 
+      resources :compute_resources, :only => [] do
+        get :available_images, :on => :member
+      end
+
       constraints(:id => /[^\/]+/) do
         resources :hosts, :only => [] do
           get :puppetrun, :on => :member
