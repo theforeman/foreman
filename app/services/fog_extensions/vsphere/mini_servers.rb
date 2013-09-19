@@ -10,11 +10,26 @@ module FogExtensions
       end
 
       def all(filters = { })
-        dc.vmFolder.childEntity.grep(RbVmomi::VIM::VirtualMachine).map do |server|
-          MiniServer.new(server)
+        allbyfolder(dc.vmFolder, nil).map do |entry|
+          MiniServer.new(entry[:vm], entry[:path])
         end
       end
 
+      def allbyfolder(folder, path = nil)
+        ret = []
+        unless folder == @dc.vmFolder 
+          path = path.nil? ? folder.name : path + '/' + folder.name
+        end
+        folder.childEntity.each do |entity|
+          if entity.is_a?(RbVmomi::VIM::Folder)
+            ret = ret + (allbyfolder(entity, path))
+          elsif entity.is_a?(RbVmomi::VIM::VirtualMachine)
+            ret.push ({ :vm => entity, :path => path })
+          end
+        end
+        ret
+      end
+        
       private
       attr_reader :client, :dc
     end
