@@ -1,20 +1,21 @@
 module FogExtensions
   module Vsphere
     class MiniServer
-      attr_reader :name, :identity, :cpus, :memory, :ready
-      alias_method :ready?, :ready
+      attr_reader :name, :identity, :cpus, :memory, :state, :path
 
-      def initialize raw
+      def initialize (raw, path = nil, uuid = nil)
+        hardware  = raw.config.hardware
         @raw      = raw
         @name     = raw.name
-        @identity = raw.config.instanceUuid
-        @cpus     = raw.config.hardware.numCPU
-        @memory   = raw.config.hardware.memoryMB * 1024 * 1024
-        @ready    = raw.runtime.powerState == "poweredOn"
+        @identity = uuid
+        @cpus     = hardware.numCPU
+        @memory   = hardware.memoryMB * 1024 * 1024
+        @state    = raw.runtime.powerState
+        @path     = path
       end
 
-      def state
-        raw.runtime.powerState
+      def ready?
+        @state == "poweredOn"
       end
 
       private
