@@ -1,7 +1,7 @@
 module FogExtensions
   module Vsphere
     class MiniServer
-      attr_reader :name, :identity, :cpus, :memory, :ready
+      attr_reader :name, :identity, :cpus, :memory, :ready, :path
       alias_method :ready?, :ready
 
       def initialize (raw, path = nil)
@@ -16,10 +16,6 @@ module FogExtensions
 
       def state
         raw.runtime.powerState
-      end
-
-      def path
-        @path
       end
 
       private

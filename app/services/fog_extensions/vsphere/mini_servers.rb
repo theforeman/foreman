@@ -10,21 +10,19 @@ module FogExtensions
       end
 
       def all(filters = { })
-        ret = []
-        allbyfolder(dc.vmFolder, nil).each do |entry|
-          ret.push MiniServer.new(entry[:vm], entry[:path])
+        allbyfolder(dc.vmFolder, nil).map do |entry|
+          MiniServer.new(entry[:vm], entry[:path])
         end
-        ret
       end
 
-      def allbyfolder(folder, path = nil, recursing = false)
+      def allbyfolder(folder, path = nil)
         ret = []
-        if recursing
+        unless folder == @dc.vmFolder 
           path = path.nil? ? folder.name : path + '/' + folder.name
         end
         folder.childEntity.each do |entity|
           if entity.is_a?(RbVmomi::VIM::Folder)
-            ret = ret + (allbyfolder(entity, path, true))
+            ret = ret + (allbyfolder(entity, path))
           elsif entity.is_a?(RbVmomi::VIM::VirtualMachine)
             ret.push ({ :vm => entity, :path => path })
           end
