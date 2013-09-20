@@ -1,12 +1,15 @@
 <div class="fields">
   <% if (networks = compute_resource.networks).any? -%>
-    <%= selectable_f f, :type, compute_resource.nictypes.keys, { },
+    <%= select_f f, :type, compute_resource.nictypes, :last, :first, { },
                      :class       => "span2",
-                     :label       => _('NIC type')
+                     :label       => _('NIC type'),
+                     :disabled    => !new
     %>
-    <%= selectable_f f, :network, networks, { },
+    <%= select_f f, :network, networks, :id, :name, { },
                      :class       => "span2",
                      :label       => _('Network'),
-                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important' }) %>
+                     :disabled    => !new,
+                     :help_inline => !new ? nil : remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important' }) 
+    %>
   <% end -%>
 </div>
