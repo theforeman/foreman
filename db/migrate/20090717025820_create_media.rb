@@ -7,7 +7,7 @@ class CreateMedia < ActiveRecord::Migration
       t.references :operatingsystem
       t.timestamps
     end
-    Medium.create :name => "CentOS mirror", :path => "http://mirror.averse.net/centos/$major.$minor/os/$arch"
+    Medium.create :name => "CentOS mirror", :path => "http://mirror.centos.org/centos/$major.$minor/os/$arch"
     Medium.create :name => "Fedora Mirror", :path => "http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/$major/Fedora/$arch/os/"
     Medium.create :name => "Ubuntu Mirror", :path => "http://archive.ubuntu.com/ubuntu/"
 
