@@ -1,13 +1,14 @@
 <div class="fields">
-  <%= selectable_f f, :datastore, compute_resource.datastores, { }, :class => "span2", :label => _("Data Store") %>
-  <%= text_f f, :name, :class => "input-mini", :label => "Name" %>
+  <%= selectable_f f, :datastore, compute_resource.datastores, { }, :class => "span2", :label => _("Data Store"), :disabled => !new %>
+  <%= text_f f, :name, :class => "input-mini", :label => "Name", :disabled => !new %>
   <%= text_f f, :size_gb,
              :class       => "input-mini",
-             :label       => _("Size (GB)") %>
+             :label => _("Size (GB)"),
+             :disabled => !new %>
   <%= checkbox_f f, :thin, {
-             :checked => true,
              :label => _("Thin provision"),
-             :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-important' }) },
+             :disabled => !new,
+             :help_inline => !new ? nil : remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-important', :disabled => !new })},
              true,
              false %>
 </div>
