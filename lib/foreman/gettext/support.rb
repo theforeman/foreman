@@ -41,6 +41,7 @@ module Foreman::Gettext::Support
   end
 
   def self.register_human_localenames
+    original_locale = FastGettext.locale
     FastGettext.class.class_eval { attr_accessor :human_available_locales }
     FastGettext.human_available_locales = []
     FastGettext.default_available_locales.sort.each do |locale|
@@ -50,6 +51,8 @@ module Foreman::Gettext::Support
       human_locale = locale if human_locale == "locale_name"
       FastGettext.human_available_locales << [ human_locale, locale ]
     end
+  ensure
+    FastGettext.locale = original_locale
   end
 
 end
