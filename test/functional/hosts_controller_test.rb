@@ -126,7 +126,15 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_clone
     get :clone, {:id => Host.first.name}, set_session_user
+    assert assigns(:clone_host)
     assert_template 'new'
+  end
+
+  def test_clone_empties_fields
+    get :clone, {:id => Host.first.name}, set_session_user
+    refute assigns(:host).name
+    refute assigns(:host).ip
+    refute assigns(:host).mac
   end
 
   def setup_user_and_host operation
