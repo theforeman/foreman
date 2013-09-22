@@ -182,5 +182,12 @@ module Host
         comparison_object.id == id
     end
 
+    def dup
+      new = super
+      new.name = nil
+      new.ip = nil
+      new
+    end
+
   end
 end
