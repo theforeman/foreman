@@ -439,9 +439,9 @@ Foreman::AccessControl.map do |map|
                                           :"api/v1/smart_proxies" => [:create],
                                           :"api/v2/smart_proxies" => [:create]
     }
-    map.permission :edit_smart_proxies,    {:smart_proxies => [:edit, :update],
-                                          :"api/v1/smart_proxies" => [:update],
-                                          :"api/v2/smart_proxies" => [:update]
+    map.permission :edit_smart_proxies,    {:smart_proxies => [:edit, :update, :refresh],
+                                          :"api/v1/smart_proxies" => [:update, :refresh],
+                                          :"api/v2/smart_proxies" => [:update, :refresh]
     }
     map.permission :destroy_smart_proxies, {:smart_proxies => [:destroy],
                                           :"api/v1/smart_proxies" => [:destroy],

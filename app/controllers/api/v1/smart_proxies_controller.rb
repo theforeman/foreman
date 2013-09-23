@@ -1,7 +1,7 @@
 module Api
   module V1
     class SmartProxiesController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy refresh}
       before_filter :check_feature_type, :only => :index
 
       api :GET, "/smart_proxies/", "List all smart_proxies."
@@ -46,6 +46,13 @@ module Api
 
       def destroy
         process_response @smart_proxy.destroy
+      end
+
+      api :PUT, "/smart_proxies/:id/refresh", "Refresh smart proxy features"
+      param :id, String, :required => true
+
+      def refresh
+        process_response @smart_proxy.refresh.blank? && @smart_proxy.save
       end
 
       private

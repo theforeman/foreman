@@ -156,6 +156,7 @@ Foreman::Application.routes.draw do
   resources :smart_proxies, :except => [:show] do
     member do
       post 'ping'
+      put 'refresh'
     end
     constraints(:id => /[^\/]+/) do
       resources :puppetca, :only => [:index, :update, :destroy]

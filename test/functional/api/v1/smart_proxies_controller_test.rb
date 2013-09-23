@@ -69,4 +69,21 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   #   assert_response :unprocessable_entity
   # end
 
+  test "should refresh smart proxy features" do
+    proxy = smart_proxies(:one)
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    post :refresh, {:id => proxy}
+    assert_response :success
+  end
+
+  test "should return errors during smart proxy refresh" do
+    proxy = smart_proxies(:one)
+    errors = ActiveModel::Errors.new(Host::Managed.new)
+    errors.add :base, "Unable to communicate with the proxy: it's down"
+    SmartProxy.any_instance.stubs(:errors).returns(errors)
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    post :refresh, {:id => proxy}, set_session_user
+    assert_response :unprocessable_entity
+  end
+
 end
