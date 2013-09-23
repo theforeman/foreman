@@ -1,8 +1,36 @@
-2013-09-12	Dominic Cleal <dcleal@redhat.com>
-	* i18n - extracting new, updating rails, pulling from tx
+2013-09-23	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #2810 - more restful API v2 JSON responses in puppetclasses
+
+2013-09-20	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #3071 - OS edit failed on foreign keys since config_template_id was '0' on blank
+
+2013-09-20	snobear <jashby2@gmail.com>
+	* fixes #3087 - fix space before parenthesis warning
+
+2013-09-19	Joseph Mitchell Magen <jmagen@redhat.com>
+	* Fixes #2984 - API v1/v2 StatisticsController and remove JSON from UI controller
+	* fixes #3089 - Updating settings causes settings page to load again within the page
+	* fixes #3095 - for new trend, disable input of trend_name if not FactTrend
+	* fixes #3093 - invalid data for a subnet address or mask returns "is invalid and is invalid"
+	* fixes #3097 - foreign key error on deleting trend
+
+2013-09-19	Martin Matuska <martin@matuska.org>
+	* fixes #3110 Association of vSphere VMs fails
+	* fixes #3072 Vmware: error listing VMs
+	* fixes #3088 - Add checkbox to select thin or thick provision for vSphere volumes
+
+2013-09-19	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2764 - settings defined in settings.yaml file are now read-only
+
+2013-09-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2586 - Revert "Refs #2002 - Fog quick hack"
 
 2013-09-12	Lukas Zapletal <lzap+git@redhat.com>
+	* Release 1.3.0-RC1
 	* removing PO merge from commit when doing locale:find
+
+2013-09-12	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
 
 2013-09-12	Daniel Lobato <elobatocs@gmail.com>
 	* fixes #3064 - links to nested hostgroups use hostgroup_fullname
