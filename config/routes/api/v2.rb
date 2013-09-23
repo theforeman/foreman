@@ -44,7 +44,9 @@ Foreman::Application.routes.draw do
         get :last, :on => :collection
       end
       resources :settings, :only => [:index, :show, :update]
-      resources :smart_proxies, :except => [:new, :edit]
+      resources :smart_proxies, :except => [:new, :edit] do
+        put :refresh, :on => :member
+      end
       resources :subnets, :except => [:new, :edit]
       resources :usergroups, :except => [:new, :edit]
       resources :users, :except => [:new, :edit]

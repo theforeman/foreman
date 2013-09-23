@@ -50,4 +50,32 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert !SmartProxy.exists?(proxy.id)
   end
 
+  def test_refresh
+    proxy = smart_proxies(:one)
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    post :refresh, {:id => proxy}, set_session_user
+    assert_redirected_to smart_proxies_url
+    assert_equal "No changes found when refreshing features from DHCP Proxy.", flash[:notice]
+  end
+
+  def test_refresh_change
+    proxy = smart_proxies(:one)
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    SmartProxy.any_instance.stubs(:features).returns([features(:dns)]).then.returns([features(:dns), features(:tftp)])
+    post :refresh, {:id => proxy}, set_session_user
+    assert_redirected_to smart_proxies_url
+    assert_equal "Successfully refreshed features from DHCP Proxy.", flash[:notice]
+  end
+
+  def test_refresh_fail
+    proxy = smart_proxies(:one)
+    errors = ActiveModel::Errors.new(Host::Managed.new)
+    errors.add :base, "Unable to communicate with the proxy: it's down"
+    SmartProxy.any_instance.stubs(:errors).returns(errors)
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    post :refresh, {:id => proxy}, set_session_user
+    assert_redirected_to smart_proxies_url
+    assert_equal "Unable to communicate with the proxy: it's down", flash[:error]
+  end
+
 end

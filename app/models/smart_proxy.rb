@@ -80,7 +80,7 @@ class SmartProxy < ActiveRecord::Base
     ids.flatten.compact.map{|i| i.to_i}.uniq
   end
 
-  def ping
+  def refresh
     associate_features
     errors
   end
@@ -96,12 +96,12 @@ class SmartProxy < ActiveRecord::Base
 
     name_map = SmartProxy.name_map
     reason = false
-    self.features.clear
     begin
       reply = ProxyAPI::Features.new(:url => url).features
       if reply.is_a?(Array) and reply.any?
         self.features = reply.map{|f| name_map[f]}
       else
+        self.features.clear
         errors.add :base, _("No features found on this proxy, please make sure you enable at least one feature")
       end
     rescue => e
