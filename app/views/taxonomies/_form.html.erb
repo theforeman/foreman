@@ -16,7 +16,7 @@
       <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
       <% if (taxonomy.is_a?(Organization) && SETTINGS[:locations_enabled]) %>
         <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
-      <% elsif SETTINGS[:organizations_enabled] %>
+      <% elsif taxonomy.is_a?(Location) && SETTINGS[:organizations_enabled] %>
         <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
     <% end %>
     </ul>
