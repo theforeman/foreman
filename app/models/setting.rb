@@ -177,7 +177,7 @@ class Setting < ActiveRecord::Base
   end
 
   def invalid_value_error error
-    errors.add(:value, _("is invalid: %s") % error)
+    errors.add(:value, _("invalid value: %s") % error)
   end
 
   def set_setting_type_from_value
