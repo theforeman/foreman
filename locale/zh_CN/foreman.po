@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 10:48+0100\n"
-"PO-Revision-Date: 2013-08-22 08:50+0000\n"
-"Last-Translator: dingtim\n"
+"POT-Creation-Date: 2013-09-12 12:50+0100\n"
+"PO-Revision-Date: 2013-09-13 08:15+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,6 +39,10 @@ msgstr "%s 参数已变更，详情如下"
 
 msgid "%s Template"
 msgstr "%s 模板"
+
+msgid "%s VM associated to a host"
+msgid_plural "%s VMs associated to hosts"
+msgstr[0] ""
 
 msgid "%s ago"
 msgstr "%s 前"
@@ -111,11 +115,6 @@ msgstr "'%{host}' 不能删除或者 '%{resource}' 无响应。"
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' 在'%{resource}'中未发现"
 
-msgid ""
-"':foreman_url:' entry in Foreman configuration file, see "
-"http://theforeman.org/projects/foreman/wiki/Mail_Notifications"
-msgstr ""
-
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
@@ -172,9 +171,6 @@ msgstr ""
 
 msgid "A partition table entry represents either"
 msgstr "一个分区表项"
-
-msgid "A problem occurred when detecting host type: %s"
-msgstr "删除主机类型：%s 时发生错误。"
 
 msgid "A script to dynamically calculate the desired sizes. E.G."
 msgstr "动态计算所需的尺寸的脚本。 E.G."
@@ -367,6 +363,12 @@ msgstr "架构"
 msgid "Architecture|Name"
 msgstr "名"
 
+msgid "Are you sure you want to %{act} %{vm}?"
+msgstr ""
+
+msgid "Are you sure you want to power %{act} %{vm}?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr "确认？"
 
@@ -398,6 +400,18 @@ msgid ""
 "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to "
 "include all the resources that the selected hosts are currently using."
 msgstr "分配主机到 %{taxonomy_name}同时更新为 %{taxonomy_name}，包括选定主机目前正在使用的所有资源。"
+
+msgid "Associate VM"
+msgstr ""
+
+msgid "Associate VM to a Foreman host"
+msgstr ""
+
+msgid "Associate VMs"
+msgstr ""
+
+msgid "Associate VMs to Foreman hosts"
+msgstr ""
 
 msgid "Association"
 msgstr "组合"
@@ -499,6 +513,10 @@ msgid "AuthSource|Host"
 msgstr "主机"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Ldap filter"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Name"
 msgstr "名称"
 
@@ -527,6 +545,9 @@ msgstr "允许使用远程用户环境变量调用API"
 
 msgid "Authorized by"
 msgstr "授权"
+
+msgid "Automatically add new host groups to this user"
+msgstr ""
 
 msgid "Autosign"
 msgstr "自动签名"
@@ -563,6 +584,9 @@ msgstr "转到主机列表"
 
 msgid "Bare Metal"
 msgstr "裸机"
+
+msgid "Base DN"
+msgstr ""
 
 msgid ""
 "Before you can use Foreman for the first time there are a few tasks that "
@@ -687,6 +711,9 @@ msgstr "不支持"
 msgid "Certificate Name"
 msgstr "证书名称"
 
+msgid "Certificate path"
+msgstr ""
+
 msgid "Certificates"
 msgstr "证书"
 
@@ -752,6 +779,9 @@ msgstr "点击删除 %s"
 
 msgid "Click to undo adding this class"
 msgstr "点击撤销添加的类"
+
+msgid "Client Email"
+msgstr ""
 
 msgid ""
 "Client SSL certificates are used to identify Smart Proxies accessing "
@@ -880,6 +910,9 @@ msgstr "新建智能代理"
 
 msgid "Ctrl-Alt-Del"
 msgstr "重启"
+
+msgid "Custom LDAP search filter, <i>optional</i>"
+msgstr ""
 
 msgid "DHCP Proxy"
 msgstr "DHCP代理"
@@ -1062,6 +1095,9 @@ msgstr "全名"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "名称"
+
+msgid "EC2"
+msgstr ""
 
 msgid ""
 "Each architecture can also be associated with more than one operating system"
@@ -1255,6 +1291,9 @@ msgstr "展开图表"
 msgid "Expires"
 msgstr "过期"
 
+msgid "External IP"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "详情图"
 
@@ -1355,15 +1394,6 @@ msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - "
 "ignoring"
 msgstr ""
-
-msgid "Failed to import facts"
-msgstr "无法导入详情"
-
-msgid "Failed to import facts: %s"
-msgstr "无法导入详情：%s"
-
-msgid "Failed to import report"
-msgstr "无法导入报告"
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr ""
@@ -1504,9 +1534,6 @@ msgid ""
 "node requests made\\n  by machines at that site."
 msgstr ""
 
-msgid "Foreman is sharing its database with Puppet Store configs"
-msgstr ""
-
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
@@ -1520,6 +1547,9 @@ msgid "Foreman ticketing system"
 msgstr ""
 
 msgid "Foreman will create the host when new facts are received"
+msgstr ""
+
+msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 msgstr ""
 
 msgid ""
@@ -1558,6 +1588,9 @@ msgstr "全局变量或类的参数，而不是两个"
 
 msgid "Good host reports in the last %s"
 msgstr "在过去 %s 内的报告良好的主机"
+
+msgid "Google Project ID"
+msgstr ""
 
 msgid "Hardware"
 msgstr "硬件"
@@ -1624,9 +1657,6 @@ msgstr "主机组参数"
 
 msgid "Host groups"
 msgstr "主机组"
-
-msgid "Host is pending for Build"
-msgstr "主机待建立"
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "主机报告时间是 <em>%s</em>"
@@ -1899,12 +1929,6 @@ msgstr "重要"
 msgid "Imported Subnets"
 msgstr "导入子网"
 
-msgid "Imported facts"
-msgstr "导入详情"
-
-msgid "Imported report"
-msgstr "导入报告"
-
 msgid "Importing Puppet Facts"
 msgstr "导入Puppet详情"
 
@@ -1945,9 +1969,6 @@ msgstr "配置安装介质"
 msgid "Interface"
 msgstr "接口"
 
-msgid "Invalid Facts, much be a Puppet::Node::Facts or a Hash"
-msgstr ""
-
 msgid "Invalid Host"
 msgstr "无效主机"
 
@@ -1958,14 +1979,8 @@ msgstr ""
 msgid "Invalid query"
 msgstr "无效查询"
 
-msgid "Invalid report"
-msgstr "无效报告"
-
 msgid "Invalid search query: %s"
 msgstr "无效查询：%s"
-
-msgid "Invalid type requested for host creation via facts: %s"
-msgstr ""
 
 msgid "Inventory browser"
 msgstr "库存检索"
@@ -1991,6 +2006,10 @@ msgid "KeyPair|Name"
 msgstr "名称"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "KeyPair|Public"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "安全码"
 
@@ -2008,6 +2027,9 @@ msgstr "LDAP属性映射"
 
 msgid "LDAP Authentication"
 msgstr "LDAP身份验证"
+
+msgid "LDAP filter"
+msgstr ""
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first "
@@ -2041,6 +2063,9 @@ msgstr "加载区"
 msgid "Load Tenants"
 msgstr ""
 
+msgid "Load zones"
+msgstr ""
+
 msgid "Loading"
 msgstr "加载中"
 
@@ -2067,6 +2092,9 @@ msgstr "位置"
 
 msgid "Location configuration"
 msgstr "位置配置"
+
+msgid "Location you had selected as your context has been deleted."
+msgstr ""
 
 msgid "Location/Organization"
 msgstr "位置/组织"
@@ -2185,6 +2213,9 @@ msgstr "管理组织"
 
 msgid "Manage host"
 msgstr "管理主机"
+
+msgid "Managed IP"
+msgstr ""
 
 msgid "Manually Assign"
 msgstr "手动分配"
@@ -2315,6 +2346,9 @@ msgstr ""
 
 msgid "NIC"
 msgstr "NIC"
+
+msgid "NIC type"
+msgstr ""
 
 msgid "Name"
 msgstr "名称"
@@ -2511,6 +2545,9 @@ msgstr ""
 
 msgid "No history found"
 msgstr "没有发现历史信息"
+
+msgid "No host found to associate this VM with"
+msgstr ""
 
 msgid "No host group selected!"
 msgstr "没有选择主机组"
@@ -2791,6 +2828,9 @@ msgstr "组织"
 msgid "Organization configuration"
 msgstr "组织配置"
 
+msgid "Organization you had selected as your context has been deleted."
+msgstr ""
+
 msgid "Organizations"
 msgstr "组织"
 
@@ -2838,6 +2878,9 @@ msgstr "所有者"
 
 msgid "Owner changed to %s"
 msgstr "%s 所有者修改"
+
+msgid "Owner type needs to be one of the following: %s"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -2890,6 +2933,12 @@ msgstr "分区表"
 
 msgid "Password"
 msgstr "密码"
+
+msgid "Pause"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
 
 msgid "Pending"
 msgstr "挂起的"
@@ -2960,9 +3009,6 @@ msgstr "请稍等。。。"
 msgid "Power"
 msgstr "开启"
 
-msgid "Power %s"
-msgstr "开启 %s"
-
 msgid "Power ON this machine"
 msgstr "开启本机"
 
@@ -2983,6 +3029,9 @@ msgstr "主要"
 
 msgid "Primary Interface"
 msgstr "主接口"
+
+msgid "Private"
+msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "继续编辑"
@@ -3038,6 +3087,9 @@ msgstr "名称"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
 msgstr "操作系统集"
+
+msgid "Public"
+msgstr ""
 
 msgid "Puppet CA"
 msgstr "Puppet CA"
@@ -3110,9 +3162,17 @@ msgstr "名称"
 msgid "Query instance details for %s"
 msgstr "查询实例%s的详情"
 
+msgid "Quota ID"
+msgstr ""
+
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
 " and reports"
+msgstr ""
+
+msgid ""
+"Redirect your users to this url on logout (authorize_login_delegation should"
+" also be enabled)"
 msgstr ""
 
 msgid "Region"
@@ -3218,6 +3278,9 @@ msgstr "已重启"
 msgid "Restarted|R"
 msgstr "已重启"
 
+msgid "Resume"
+msgstr ""
+
 msgid "Revert"
 msgstr "还原"
 
@@ -3279,6 +3342,9 @@ msgid ""
 "SSL Private Key file that Foreman will use to communicate with its proxies"
 msgstr ""
 
+msgid "SafeRender#parse_string was passed a %s instead of a string"
+msgstr ""
+
 msgid "Save"
 msgstr "保存"
 
@@ -3297,8 +3363,8 @@ msgstr "密钥"
 msgid "Security Group"
 msgstr "安全组"
 
-msgid "Security Groups"
-msgstr "安全组"
+msgid "Security groups"
+msgstr ""
 
 msgid "Select"
 msgstr "选择"
@@ -3389,6 +3455,9 @@ msgid "Setting|Value"
 msgstr "值"
 
 msgid "Should Foreman automate certificate signing upon provisioning new host"
+msgstr ""
+
+msgid "Should Foreman parse ERB to return dynamic parameters?"
 msgstr ""
 
 msgid ""
@@ -3611,6 +3680,9 @@ msgstr "止"
 msgid "Subnet|Vlanid"
 msgstr "Vlan ID"
 
+msgid "Subscribe to host groups"
+msgstr ""
+
 msgid "Success"
 msgstr "成功"
 
@@ -3798,6 +3870,9 @@ msgid ""
 msgstr ""
 
 msgid "The email reply address for emails that Foreman is sending"
+msgstr ""
+
+msgid "The file path where your p12 file is located"
 msgstr ""
 
 msgid ""
@@ -4049,6 +4124,9 @@ msgstr "链接"
 msgid "UUID"
 msgstr "UUID"
 
+msgid "Unable to access key"
+msgstr ""
+
 msgid "Unable to communicate with the proxy: %s"
 msgstr ""
 
@@ -4259,6 +4337,10 @@ msgstr "Password hash"
 msgid "User|Password salt"
 msgstr "Password salt"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Subscribe to all hostgroups"
+msgstr ""
+
 msgid ""
 "Using the organization system provides a way to group resources together for"
 " easy management."
@@ -4272,6 +4354,12 @@ msgstr "VCenter/服务器"
 
 msgid "VM"
 msgstr "VM"
+
+msgid "VM already associated with a host"
+msgstr ""
+
+msgid "VM associated to host %s"
+msgstr ""
 
 msgid "Valid from"
 msgstr "有效期从"
@@ -4525,6 +4613,9 @@ msgstr ""
 msgid "Your session has expired, please login again"
 msgstr ""
 
+msgid "Zone"
+msgstr ""
+
 msgid "a script as well"
 msgstr "可用脚本"
 
@@ -4565,6 +4656,9 @@ msgid "can't contain white spaces"
 msgstr ""
 
 msgid "cant be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "cycle"
 msgstr ""
 
 msgid "does not appear to be a valid nfs mount path"
@@ -4660,14 +4754,11 @@ msgstr ""
 msgid "invalid IP address"
 msgstr "非法IP地址"
 
+msgid "invalid LDAP filter syntax"
+msgstr ""
+
 msgid "invalid architecture for %s"
 msgstr " %s 是非法结构"
-
-msgid "invalid facts hash"
-msgstr "无效详情"
-
-msgid "invalid facts, missing operating system value"
-msgstr "无效详情，缺少操作系统"
 
 msgid "invalid host list"
 msgstr "无效主机列表"
@@ -4773,6 +4864,12 @@ msgstr "新建"
 msgid "no puppet proxy defined - cant continue"
 msgstr "未定义 puppet proxy - 停止"
 
+msgid "off"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
 msgid "organization"
 msgstr "组织"
 
@@ -4842,11 +4939,17 @@ msgstr "不少于8个字符"
 msgid "should follow this format: 0,9600n8"
 msgstr "格式参考： 0,9600n8"
 
+msgid "soft"
+msgstr ""
+
 msgid "start"
 msgstr "开始"
 
 msgid "state"
 msgstr "状态"
+
+msgid "status"
+msgstr ""
 
 msgid "stop"
 msgstr "停止"

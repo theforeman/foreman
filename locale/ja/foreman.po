@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 10:48+0100\n"
-"PO-Revision-Date: 2013-08-16 08:14+0000\n"
+"POT-Creation-Date: 2013-09-12 12:50+0100\n"
+"PO-Revision-Date: 2013-09-13 08:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,10 @@ msgstr "%s アップデートされた設定、情報は下に調べて下さい
 
 msgid "%s Template"
 msgstr "%s テンプレート"
+
+msgid "%s VM associated to a host"
+msgid_plural "%s VMs associated to hosts"
+msgstr[0] ""
 
 msgid "%s ago"
 msgstr "%s 前"
@@ -110,11 +114,6 @@ msgstr ""
 msgid "'%{host}' not found on '%{resource}'"
 msgstr ""
 
-msgid ""
-"':foreman_url:' entry in Foreman configuration file, see "
-"http://theforeman.org/projects/foreman/wiki/Mail_Notifications"
-msgstr ""
-
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
@@ -170,9 +169,6 @@ msgid ""
 msgstr ""
 
 msgid "A partition table entry represents either"
-msgstr ""
-
-msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
 msgid "A script to dynamically calculate the desired sizes. E.G."
@@ -366,6 +362,12 @@ msgstr ""
 msgid "Architecture|Name"
 msgstr ""
 
+msgid "Are you sure you want to %{act} %{vm}?"
+msgstr ""
+
+msgid "Are you sure you want to power %{act} %{vm}?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr ""
 
@@ -396,6 +398,18 @@ msgstr ""
 msgid ""
 "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to "
 "include all the resources that the selected hosts are currently using."
+msgstr ""
+
+msgid "Associate VM"
+msgstr ""
+
+msgid "Associate VM to a Foreman host"
+msgstr ""
+
+msgid "Associate VMs"
+msgstr ""
+
+msgid "Associate VMs to Foreman hosts"
 msgstr ""
 
 msgid "Association"
@@ -498,6 +512,10 @@ msgid "AuthSource|Host"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Ldap filter"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Name"
 msgstr ""
 
@@ -525,6 +543,9 @@ msgid ""
 msgstr ""
 
 msgid "Authorized by"
+msgstr ""
+
+msgid "Automatically add new host groups to this user"
 msgstr ""
 
 msgid "Autosign"
@@ -561,6 +582,9 @@ msgid "Back to host list"
 msgstr ""
 
 msgid "Bare Metal"
+msgstr ""
+
+msgid "Base DN"
 msgstr ""
 
 msgid ""
@@ -686,6 +710,9 @@ msgstr ""
 msgid "Certificate Name"
 msgstr ""
 
+msgid "Certificate path"
+msgstr ""
+
 msgid "Certificates"
 msgstr ""
 
@@ -750,6 +777,9 @@ msgid "Click to remove %s"
 msgstr ""
 
 msgid "Click to undo adding this class"
+msgstr ""
+
+msgid "Client Email"
 msgstr ""
 
 msgid ""
@@ -878,6 +908,9 @@ msgid "Create a Smart Proxy"
 msgstr ""
 
 msgid "Ctrl-Alt-Del"
+msgstr ""
+
+msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr ""
 
 msgid "DHCP Proxy"
@@ -1060,6 +1093,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
+msgstr ""
+
+msgid "EC2"
 msgstr ""
 
 msgid ""
@@ -1254,6 +1290,9 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
+msgid "External IP"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr ""
 
@@ -1353,15 +1392,6 @@ msgstr ""
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - "
 "ignoring"
-msgstr ""
-
-msgid "Failed to import facts"
-msgstr ""
-
-msgid "Failed to import facts: %s"
-msgstr ""
-
-msgid "Failed to import report"
 msgstr ""
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
@@ -1503,9 +1533,6 @@ msgid ""
 "node requests made\\n  by machines at that site."
 msgstr ""
 
-msgid "Foreman is sharing its database with Puppet Store configs"
-msgstr ""
-
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
@@ -1519,6 +1546,9 @@ msgid "Foreman ticketing system"
 msgstr ""
 
 msgid "Foreman will create the host when new facts are received"
+msgstr ""
+
+msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 msgstr ""
 
 msgid ""
@@ -1556,6 +1586,9 @@ msgid "Global variable or class Parameter, not both"
 msgstr ""
 
 msgid "Good host reports in the last %s"
+msgstr ""
+
+msgid "Google Project ID"
 msgstr ""
 
 msgid "Hardware"
@@ -1622,9 +1655,6 @@ msgid "Host group parameters"
 msgstr ""
 
 msgid "Host groups"
-msgstr ""
-
-msgid "Host is pending for Build"
 msgstr ""
 
 msgid "Host reported time is <em>%s</em>"
@@ -1898,12 +1928,6 @@ msgstr ""
 msgid "Imported Subnets"
 msgstr ""
 
-msgid "Imported facts"
-msgstr ""
-
-msgid "Imported report"
-msgstr ""
-
 msgid "Importing Puppet Facts"
 msgstr ""
 
@@ -1944,9 +1968,6 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
-msgid "Invalid Facts, much be a Puppet::Node::Facts or a Hash"
-msgstr ""
-
 msgid "Invalid Host"
 msgstr ""
 
@@ -1957,13 +1978,7 @@ msgstr ""
 msgid "Invalid query"
 msgstr ""
 
-msgid "Invalid report"
-msgstr ""
-
 msgid "Invalid search query: %s"
-msgstr ""
-
-msgid "Invalid type requested for host creation via facts: %s"
 msgstr ""
 
 msgid "Inventory browser"
@@ -1990,6 +2005,10 @@ msgid "KeyPair|Name"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "KeyPair|Public"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr ""
 
@@ -2006,6 +2025,9 @@ msgid "LDAP Attributes mapping"
 msgstr ""
 
 msgid "LDAP Authentication"
+msgstr ""
+
+msgid "LDAP filter"
 msgstr ""
 
 msgid ""
@@ -2040,6 +2062,9 @@ msgstr ""
 msgid "Load Tenants"
 msgstr ""
 
+msgid "Load zones"
+msgstr ""
+
 msgid "Loading"
 msgstr ""
 
@@ -2065,6 +2090,9 @@ msgid "Location"
 msgstr ""
 
 msgid "Location configuration"
+msgstr ""
+
+msgid "Location you had selected as your context has been deleted."
 msgstr ""
 
 msgid "Location/Organization"
@@ -2183,6 +2211,9 @@ msgid "Manage Organizations"
 msgstr ""
 
 msgid "Manage host"
+msgstr ""
+
+msgid "Managed IP"
 msgstr ""
 
 msgid "Manually Assign"
@@ -2313,6 +2344,9 @@ msgid "NA"
 msgstr ""
 
 msgid "NIC"
+msgstr ""
+
+msgid "NIC type"
 msgstr ""
 
 msgid "Name"
@@ -2509,6 +2543,9 @@ msgid ""
 msgstr ""
 
 msgid "No history found"
+msgstr ""
+
+msgid "No host found to associate this VM with"
 msgstr ""
 
 msgid "No host group selected!"
@@ -2790,6 +2827,9 @@ msgstr ""
 msgid "Organization configuration"
 msgstr ""
 
+msgid "Organization you had selected as your context has been deleted."
+msgstr ""
+
 msgid "Organizations"
 msgstr ""
 
@@ -2836,6 +2876,9 @@ msgid "Owner"
 msgstr ""
 
 msgid "Owner changed to %s"
+msgstr ""
+
+msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
 msgid "PXE"
@@ -2889,6 +2932,12 @@ msgstr ""
 
 msgid "Password"
 msgstr "パスワード"
+
+msgid "Pause"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
 
 msgid "Pending"
 msgstr ""
@@ -2959,9 +3008,6 @@ msgstr ""
 msgid "Power"
 msgstr ""
 
-msgid "Power %s"
-msgstr ""
-
 msgid "Power ON this machine"
 msgstr ""
 
@@ -2981,6 +3027,9 @@ msgid "Primary"
 msgstr ""
 
 msgid "Primary Interface"
+msgstr ""
+
+msgid "Private"
 msgstr ""
 
 msgid "Proceed to Edit"
@@ -3036,6 +3085,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
+msgstr ""
+
+msgid "Public"
 msgstr ""
 
 msgid "Puppet CA"
@@ -3109,9 +3161,17 @@ msgstr ""
 msgid "Query instance details for %s"
 msgstr ""
 
+msgid "Quota ID"
+msgstr ""
+
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
 " and reports"
+msgstr ""
+
+msgid ""
+"Redirect your users to this url on logout (authorize_login_delegation should"
+" also be enabled)"
 msgstr ""
 
 msgid "Region"
@@ -3217,6 +3277,9 @@ msgstr ""
 msgid "Restarted|R"
 msgstr ""
 
+msgid "Resume"
+msgstr ""
+
 msgid "Revert"
 msgstr ""
 
@@ -3278,6 +3341,9 @@ msgid ""
 "SSL Private Key file that Foreman will use to communicate with its proxies"
 msgstr ""
 
+msgid "SafeRender#parse_string was passed a %s instead of a string"
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
@@ -3296,7 +3362,7 @@ msgstr ""
 msgid "Security Group"
 msgstr ""
 
-msgid "Security Groups"
+msgid "Security groups"
 msgstr ""
 
 msgid "Select"
@@ -3388,6 +3454,9 @@ msgid "Setting|Value"
 msgstr ""
 
 msgid "Should Foreman automate certificate signing upon provisioning new host"
+msgstr ""
+
+msgid "Should Foreman parse ERB to return dynamic parameters?"
 msgstr ""
 
 msgid ""
@@ -3610,6 +3679,9 @@ msgstr ""
 msgid "Subnet|Vlanid"
 msgstr ""
 
+msgid "Subscribe to host groups"
+msgstr ""
+
 msgid "Success"
 msgstr ""
 
@@ -3797,6 +3869,9 @@ msgid ""
 msgstr ""
 
 msgid "The email reply address for emails that Foreman is sending"
+msgstr ""
+
+msgid "The file path where your p12 file is located"
 msgstr ""
 
 msgid ""
@@ -4048,6 +4123,9 @@ msgstr ""
 msgid "UUID"
 msgstr ""
 
+msgid "Unable to access key"
+msgstr ""
+
 msgid "Unable to communicate with the proxy: %s"
 msgstr ""
 
@@ -4258,6 +4336,10 @@ msgstr ""
 msgid "User|Password salt"
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Subscribe to all hostgroups"
+msgstr ""
+
 msgid ""
 "Using the organization system provides a way to group resources together for"
 " easy management."
@@ -4270,6 +4352,12 @@ msgid "VCenter/Server"
 msgstr ""
 
 msgid "VM"
+msgstr ""
+
+msgid "VM already associated with a host"
+msgstr ""
+
+msgid "VM associated to host %s"
 msgstr ""
 
 msgid "Valid from"
@@ -4524,6 +4612,9 @@ msgstr ""
 msgid "Your session has expired, please login again"
 msgstr ""
 
+msgid "Zone"
+msgstr ""
+
 msgid "a script as well"
 msgstr ""
 
@@ -4564,6 +4655,9 @@ msgid "can't contain white spaces"
 msgstr ""
 
 msgid "cant be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "cycle"
 msgstr ""
 
 msgid "does not appear to be a valid nfs mount path"
@@ -4659,13 +4753,10 @@ msgstr ""
 msgid "invalid IP address"
 msgstr ""
 
+msgid "invalid LDAP filter syntax"
+msgstr ""
+
 msgid "invalid architecture for %s"
-msgstr ""
-
-msgid "invalid facts hash"
-msgstr ""
-
-msgid "invalid facts, missing operating system value"
 msgstr ""
 
 msgid "invalid host list"
@@ -4772,6 +4863,12 @@ msgstr ""
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
+msgid "off"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
 msgid "organization"
 msgstr ""
 
@@ -4841,10 +4938,16 @@ msgstr ""
 msgid "should follow this format: 0,9600n8"
 msgstr ""
 
+msgid "soft"
+msgstr ""
+
 msgid "start"
 msgstr ""
 
 msgid "state"
+msgstr ""
+
+msgid "status"
 msgstr ""
 
 msgid "stop"

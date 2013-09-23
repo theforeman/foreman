@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 12:50+0100\n"
+"POT-Creation-Date: 2013-09-23 12:25+0200\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -3769,6 +3769,9 @@ msgstr ""
 msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
 msgstr ""
 
+msgid "Thin provision"
+msgstr ""
+
 msgid "This Puppet class has no parameters in its signature."
 msgstr ""
 
@@ -3788,6 +3791,9 @@ msgid "This page will self destruct once data comes in."
 msgstr ""
 
 msgid "This page will self destruct once inventory data comes in."
+msgstr ""
+
+msgid "This setting is defined in the configuration file 'settings.yaml' and is read-only."
 msgstr ""
 
 msgid "Time in Seconds"
