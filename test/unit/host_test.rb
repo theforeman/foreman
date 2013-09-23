@@ -63,6 +63,18 @@ class HostTest < ActiveSupport::TestCase
     assert !host.new_record?
   end
 
+  test "non-admin user should be able to create host with new lookup value" do
+    User.current = users(:one)
+    User.current.roles << [roles(:manager)]
+    assert_difference('LookupValue.count') do
+      assert Host.create! :name => "abc.host123.com", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :environment => environments(:production), :disk => "empty partition",
+      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.host123.com"}}
+    end
+  end
+
   test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now

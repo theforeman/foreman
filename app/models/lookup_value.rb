@@ -7,6 +7,7 @@ class LookupValue < ActiveRecord::Base
   before_validation :sanitize_match
   before_validation :validate_and_cast_value
   validate :validate_list, :validate_regexp
+  attr_accessor :host_or_hostgroup
 
   serialize :value
   attr_name :value
@@ -62,10 +63,10 @@ class LookupValue < ActiveRecord::Base
     allowed = case match
       when /^fqdn=(.*)/
         # check if current fqdn is in our allowed list
-        Host.my_hosts.where(:name => $1).exists?
+        Host.my_hosts.where(:name => $1).exists? || self.host_or_hostgroup.try(:new_record?)
       when /^hostgroup=(.*)/
         # check if current hostgroup is in our allowed list
-        Hostgroup.my_groups.where(:label => $1).exists?
+        Hostgroup.my_groups.where(:label => $1).exists? || self.host_or_hostgroup.try(:new_record?)
       else
         false
     end

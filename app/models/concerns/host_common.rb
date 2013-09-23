@@ -33,7 +33,7 @@ module HostCommon
             mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
           end
         elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
-          LookupValue.create(attr.merge(:match => lookup_value_match))
+          LookupValue.create(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
         end
       end
     end
