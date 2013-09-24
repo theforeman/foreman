@@ -47,4 +47,15 @@ class ImagesControllerTest < ActionController::TestCase
 
     assert_redirected_to compute_resource_path(@image.compute_resource)
   end
+
+  # listing images in /hosts/new requries a JSON response from this controller
+  test "should list json images" do
+    # This value is tested by the depreciation warning in applicatio_controller
+    # so we need to set it or the test will crash
+    request.env['REQUEST_URI']="compute_resources/#{@image.compute_resource_id}/images"
+    get :index, { :format => :json, :compute_resource_id => @image.compute_resource_id }, set_session_user
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_equal 2, body.size
+  end
 end
