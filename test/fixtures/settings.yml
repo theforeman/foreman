@@ -200,3 +200,8 @@ attribute40:
   category: Setting::Puppet
   default: "true"
   description: "Should Foreman parse ERB to return dynamic parameters?"
+attribute41:
+  name: use_shortname_for_vms
+  category: Setting::Provisioning
+  default: "false"
+  description: "Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"
