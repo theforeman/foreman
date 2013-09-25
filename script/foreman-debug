@@ -238,6 +238,7 @@ add_files /etc/puppet/ssl/ca/inventory.txt /var/lib/puppet/ssl/ca/inventory.txt
 add_cmd "find /etc/puppet/modules -exec ls -ld {} +" "puppet_manifests_tree"
 add_files /etc/{httpd,apache2}/conf/*
 add_files /etc/{httpd,apache2}/conf.d/*
+add_files /var/log/{httpd,apache2}/*error_log
 add_cmd "echo \"select id,name,value from settings where name not like '%pass'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
 add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
 
