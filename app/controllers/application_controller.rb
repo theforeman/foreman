@@ -231,6 +231,11 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  # this is only used in hosts_controller (by SmartProxyAuth module) to render 403's
+  def render_error(msg, status)
+    render_403
+  end
+
   def process_success hash = {}
     hash[:object]                 ||= instance_variable_get("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
