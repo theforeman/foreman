@@ -50,8 +50,8 @@ Requires: %{?scl_prefix}rubygem(jquery-rails)
 Requires: %{?scl_prefix}rubygem(rest-client)
 Requires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(will_paginate) < 3.1.0
-Requires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
-Requires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
+Requires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
+Requires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
 Requires: %{?scl_prefix}rubygem(net-ldap)
 Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
@@ -73,8 +73,8 @@ Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
 Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
-BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
-BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
