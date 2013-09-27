@@ -176,4 +176,18 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "db", hostgroup.label
   end
 
+  test "should find associated lookup_values" do
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroups(:common).lookup_values.sort
+  end
+
+  test "should find associated lookup_values with unsafe SQL name" do
+    hostgroup = hostgroups(:common)
+    hostgroup.name = "Robert';"
+    hostgroup.save!
+    lv = lookup_values(:four)
+    lv.match = "hostgroup=#{hostgroup.name}"
+    lv.save!
+    assert_equal [lookup_values(:four)], hostgroup.lookup_values
+  end
+
 end
