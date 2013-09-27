@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.0
-Release: 0.2.RC2%{?dist}
+Release: 0.3.RC2%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -50,8 +50,8 @@ Requires: %{?scl_prefix}rubygem(jquery-rails)
 Requires: %{?scl_prefix}rubygem(rest-client)
 Requires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(will_paginate) < 3.1.0
-Requires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
-Requires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
+Requires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
+Requires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
 Requires: %{?scl_prefix}rubygem(net-ldap)
 Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
@@ -74,8 +74,8 @@ Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
 Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
-BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
-BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
@@ -532,6 +532,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Sep 27 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.3.RC2
+- Update rubygem-ancestry to 2.x
 * Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.2.RC2
 - Release 1.3.0-RC2
 * Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.1.RC1
