@@ -9,7 +9,7 @@ one:
 
 two:
   key: ssl_port
-  key_type: integer
+  key_type: string
   validator_type: list
   validator_rule: '443,8443'
   puppetclass: one
