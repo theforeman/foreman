@@ -394,11 +394,10 @@ install -Dp -m0644 %{confdir}/%{name}.cron.d %{buildroot}%{_sysconfdir}/cron.d/%
 install -Dp -m0644 %{confdir}/%{name}.tmpfiles %{buildroot}%{_prefix}/lib/tmpfiles.d/%{name}.conf
 %endif
 
-install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
-sed "s/\$DIST/$(echo %{?dist} | sed 's/^\.//')/g" %{confdir}/%{name}.repo > $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/%{name}.repo
-chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/%{name}.repo
-install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
-install -pm 644 %{confdir}/%{name}.gpg $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-foreman
+install -Dpm0644 %{confdir}/%{name}.repo %{buildroot}%{_sysconfdir}/yum.repos.d/%{name}.repo
+install -Dpm0644 %{confdir}/%{name}-plugins.repo %{buildroot}%{_sysconfdir}/yum.repos.d/%{name}-plugins.repo
+sed "s/\$DIST/$(echo %{?dist} | sed 's/^\.//')/g" -i %{buildroot}%{_sysconfdir}/yum.repos.d/%{name}*.repo
+install -Dpm0644 %{confdir}/%{name}.gpg %{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 cp -p Gemfile.in %{buildroot}%{_datadir}/%{name}/Gemfile.in
 cp -p -r app bundler.d config config.ru extras lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
@@ -535,8 +534,6 @@ fi
 * Tue Oct 01 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.4.RC3
 - Release 1.3.0-RC3
 * Fri Sep 27 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.3.RC2
-- Update rubygem-ancestry to 2.x
-* Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.2.RC2
 - Release 1.3.0-RC2
 * Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.1.RC1
 - Release 1.3.0-RC1
