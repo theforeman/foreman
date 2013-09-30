@@ -41,6 +41,8 @@ module Net
           m.gsub(/(..)/) { |mh| mh + ":" }[/.{17}/]
         when /([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}/
           m.split(":").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
+        when /([a-f0-9]{1,2}-){5}[a-f0-9]{1,2}/
+          m.split("-").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
       end
     end
   end

@@ -16,4 +16,22 @@ class ValidationsTest < ActiveSupport::TestCase
     end
   end
 
+  describe "mac normalization" do
+
+    let(:mac) { "aa:bb:cc:dd:ee:ff" }
+
+    test "should normalize dash separated format" do
+      Net::Validations.normalize_mac("aa-bb-cc-dd-ee-ff").must_equal(mac)
+    end
+
+    test "should normalize condensed format" do
+      Net::Validations.normalize_mac("aabbccddeeff").must_equal(mac)
+    end
+
+    test "should keep colon separated format" do
+      Net::Validations.normalize_mac("aa:bb:cc:dd:ee:ff").must_equal(mac)
+    end
+
+  end
+
 end
