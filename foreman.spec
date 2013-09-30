@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.9999
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -394,11 +394,10 @@ install -Dp -m0644 %{confdir}/%{name}.cron.d %{buildroot}%{_sysconfdir}/cron.d/%
 install -Dp -m0644 %{confdir}/%{name}.tmpfiles %{buildroot}%{_prefix}/lib/tmpfiles.d/%{name}.conf
 %endif
 
-install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
-sed "s/\$DIST/$(echo %{?dist} | sed 's/^\.//')/g" %{confdir}/%{name}.repo > $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/%{name}.repo
-chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/%{name}.repo
-install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
-install -pm 644 %{confdir}/%{name}.gpg $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-foreman
+install -Dpm0644 %{confdir}/%{name}.repo %{buildroot}%{_sysconfdir}/yum.repos.d/%{name}.repo
+install -Dpm0644 %{confdir}/%{name}-plugins.repo %{buildroot}%{_sysconfdir}/yum.repos.d/%{name}-plugins.repo
+sed "s/\$DIST/$(echo %{?dist} | sed 's/^\.//')/g" -i %{buildroot}%{_sysconfdir}/yum.repos.d/%{name}*.repo
+install -Dpm0644 %{confdir}/%{name}.gpg %{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-foreman
 
 cp -p Gemfile.in %{buildroot}%{_datadir}/%{name}/Gemfile.in
 cp -p -r app bundler.d config config.ru extras lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
@@ -532,6 +531,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Sep 30 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-3
+- Adding Foreman plugins repo
+
 * Fri Sep 27 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-2
 - Update rubygem-ancestry to 2.x
 
