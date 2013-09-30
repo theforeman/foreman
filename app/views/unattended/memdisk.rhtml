@@ -1,0 +1,67 @@
+# Basic pc-sysinstall based configuration
+#
+#
+installInteractive=no
+installMode=fresh
+installType=FreeBSD
+
+# install source configuration
+installMedium=ftp
+ftpPath=<%= @mediapath %>
+packageType=tar
+
+# base package name
+installFile=base.txz
+
+# set hostname
+hostname=<%= @host.name %>
+
+# enable DHCP on all interfaces
+netDev=AUTO-DHCP
+
+# inject the disk layout
+<%= @host.diskLayout %>
+
+# mount devfs
+runExtCommand=mount -t devfs devfs ${FSMNT}/dev
+
+# get and install kernel component
+runExtCommand=fetch -o /mnt/tmp/kernel.txz <%= @mediapath %>/kernel.txz
+runCommand=tar -xzf /tmp/kernel.txz
+runCommand=rm /tmp/kernel.txz
+
+# copy resolv.conf to enable dns in chroot
+runExtCommand=cp /etc/resolv.conf /mnt/etc/resolv.conf
+
+# install packages
+runCommand=pkg_add -r puppet
+runCommand=pkg_add -r wget
+
+# Root Password
+rootEncPass=<%= root_pass %>
+
+# setup rc.conf
+runCommand=echo 'sshd_enable="YES"' >>/etc/rc.conf
+runCommand=echo 'ntpd_enable="YES"' >>/etc/rc.conf
+
+# setup basic networking
+runCommand=echo 'ifconfig_bge0="DHCP"' >>/etc/rc.conf
+runCommand=echo 'ifconfig_em0="DHCP"' >>/etc/rc.conf
+runCommand=echo 'ifconfig_igb0="DHCP"' >>/etc/rc.conf
+runCommand=echo 'ifconfig_bce0="DHCP"' >>/etc/rc.conf
+runCommand=echo 'ifconfig_nfe0="DHCP"' >>/etc/rc.conf
+runCommand=hostname <%= @host.shortname %>
+
+# Set up date/time
+runCommand=cp /usr/share/zoneinfo/UTC /etc/localtime
+runCommand=touch /etc/wall_cmos_clock
+runCommand=adjkerntz -a
+
+# fetch and run finish template
+runExtCommand=fetch -o /mnt/tmp/finish.sh <%= foreman_url("finish") %>
+runCommand=chmod +x /tmp/finish.sh; /tmp/finish.sh
+
+#Clean up and reboot
+runExtCommand=umount ${FSMNT}/dev
+runCommand=shutdown -r now
+runExtCommand=shutdown -r now

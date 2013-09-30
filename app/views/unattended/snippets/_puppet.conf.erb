@@ -1,8 +1,12 @@
 #kind: snippet
 #name: puppet.conf
 [main]
+<% if @host.operatingsystem.name == "FreeBSD" -%>vardir = /var/puppet
+logdir = \$vardir/log
+<% else -%>
 vardir = /var/lib/puppet
 logdir = /var/log/puppet
+<% end -%>
 rundir = /var/run/puppet
 ssldir = \$vardir/ssl
 
