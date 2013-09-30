@@ -7,6 +7,8 @@ class Parameter < ActiveRecord::Base
 
   validates_presence_of :reference_id, :message => N_("parameters require an associated domain, host or host group"), :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
+  default_scope lambda { order("parameters.name") }
+
   attr_accessor :nested
   before_validation :strip_whitespaces
   after_initialize :set_priority
