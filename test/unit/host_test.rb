@@ -11,8 +11,18 @@ class HostTest < ActiveSupport::TestCase
     assert !host.save
   end
 
+  test "should fix mac address hyphens" do
+    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff"
+    assert_equal "aa:bb:cc:dd:ee:ff", host.mac
+  end
+
   test "should fix mac address" do
     host = Host.create :name => "myhost", :mac => "aabbccddeeff"
+    assert_equal "aa:bb:cc:dd:ee:ff", host.mac
+  end
+
+  test "should keep valid mac address" do
+    host = Host.create :name => "myhost", :mac => "aa:bb:cc:dd:ee:ff"
     assert_equal "aa:bb:cc:dd:ee:ff", host.mac
   end
 
