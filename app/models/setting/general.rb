@@ -16,7 +16,8 @@ class Setting::General < Setting
         self.set('authorize_login_delegation_api', N_("Authorize login delegation with REMOTE_USER environment variable for API calls too"),false),
         self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"),60),
         self.set('max_trend', N_("Max days for Trends graphs"),30),
-        self.set('use_gravatar', N_("Should Foreman use gravatar to display user icons"),true)
+        self.set('use_gravatar', N_("Should Foreman use gravatar to display user icons"),true),
+        self.set('application_title', N_("Customize Foreman's web UI title, use %s as a page name placeholder"), "%s")
       ].each { |s| self.create! s.update(:category => "Setting::General")}
     end
 
