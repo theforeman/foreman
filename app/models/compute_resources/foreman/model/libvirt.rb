@@ -107,7 +107,7 @@ module Foreman::Model
 
     def console uuid
       vm = find_vm_by_uuid(uuid)
-      raise "VM is not running!" unless vm.ready?
+      raise Foreman::Exception.new(N_("VM is not running!")) unless vm.ready?
       password = random_password
       # Listen address cannot be updated while the guest is running
       # When we update the display password, we pass the existing listen address
@@ -116,7 +116,7 @@ module Foreman::Model
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
         logger.warn e
-        raise "Unable to change VM display listen address, make sure the display is not attached to localhost only"
+        Foreman::Exception.new(N_("Unable to change VM display listen address, make sure the display is not attached to localhost only"))
       else
         raise e
       end
@@ -162,19 +162,28 @@ module Foreman::Model
     end
 
     def create_volumes args
-      vols = []
-      (volumes = args[:volumes]).each do |vol|
-        vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
-        vol.allocation = "0G"
-        vol.save
-        vols << vol
+      args[:volumes].each {|vol| validate_volume_capacity(vol)}
+      begin
+        vols = []
+        (volumes = args[:volumes]).each do |vol|
+          vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
+          vol.allocation = "0G"
+          vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
+          vol.save
+          vols << vol
+        end
+        vols
+      rescue => e
+        logger.debug "Failure detected #{e}: removing already created volumes" if vols.any?
+        vols.each { |vol| vol.destroy }
+        raise e
       end
-      vols
-    rescue => e
-      logger.debug "Failure detected #{e}: removing already created volumes" if vols.any?
-      vols.each { |vol| vol.destroy }
-      raise e
     end
 
+    def validate_volume_capacity(vol)
+      if vol.capacity.to_s.empty? or /^\d+G?$/.match(vol.capacity.to_s).nil?
+        raise Foreman::Exception.new(N_("Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."))
+      end
+    end
   end
 end
