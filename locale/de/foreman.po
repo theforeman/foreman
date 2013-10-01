@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 12:50+0100\n"
-"PO-Revision-Date: 2013-09-13 08:15+0000\n"
+"POT-Creation-Date: 2013-09-23 12:25+0200\n"
+"PO-Revision-Date: 2013-09-24 08:48+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -4011,6 +4011,9 @@ msgid ""
 "difference would be the parameter/variables settings)."
 msgstr "Diese beiden Optionen sind persönliche Entscheidungen und es liegt an dir (der Hauptunterschied sind Parameter/Variablen Einstellungen)."
 
+msgid "Thin provision"
+msgstr ""
+
 msgid "This Puppet class has no parameters in its signature."
 msgstr "Diese puppet Klasse hat keine Parameter in ihrer Signatur."
 
@@ -4035,6 +4038,11 @@ msgstr "Diese Seite wird sich, sobald Daten eintreffen, selbst zerstören."
 
 msgid "This page will self destruct once inventory data comes in."
 msgstr "Diese Seite wird sich, sobald Inventardaten eintreffen, selbst zerstören."
+
+msgid ""
+"This setting is defined in the configuration file 'settings.yaml' and is "
+"read-only."
+msgstr ""
 
 msgid "Time in Seconds"
 msgstr "Zeit in Sekunden"
