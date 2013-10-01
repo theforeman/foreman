@@ -150,5 +150,4 @@ module Orchestration::Compute
       failure(_("Selected image does not belong to %s") % compute_resource) and return false
     end
   end
-
 end
