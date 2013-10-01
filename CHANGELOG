@@ -1,5 +1,44 @@
+2013-10-01	Lukas Zapletal <lzap+git@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2013-09-30	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #3128 - add json format back to images_controller
+
+2013-09-30	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3147 - added httpd logs into foreman-debug
+	* fixes #3142 - update ancestry due to dependency issue in f19
+	* fixes #3167 - downgrade gettext_i18n_rails for gettext / 1.8 compat
+
+2013-09-30	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #3165 - /api/fact_values route missing from v2 API
+	* fixes #3139 - duplicate Organization tabs for Organization#edit
+
+2013-09-30	Florian Ernst <fe@LF.net>
+	* Fixes #2244: avoid constantly changing os.release_name
+
+2013-09-30	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* refs #3141 - added tests around Foreman
+	* fixes #3141: SmartPrpxyAuth no longer calls #render_403 method defined in ApplicationController
+	* fixes #3129: NoMethodError is no longer being raised when determining the value of a property
+
+2013-09-30	Dominic Cleal <dcleal@redhat.com>
+	* Fix test failure due to 846cc2da3ef1dd5afca7fa5122d3d6b202e2ad64
+
+2013-09-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Release 1.3.0-RC2
+	* i18n - extracting new, updating rails, pulling from tx
+	* Reverting string changes for 1.3
+	* fixes #3077 - locale was set to last language by default
+
 2013-09-23	Joseph Mitchell Magen <jmagen@redhat.com>
 	* fixes #2810 - more restful API v2 JSON responses in puppetclasses
+	* fixes #3090 - new puppetclass creation fails when adding smart variable
+
+2013-09-23	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #3120 - bumped version of apipie-rails
+
+2013-09-23	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Fixes #3130 - Use the standard CentOS mirror
 
 2013-09-20	Joseph Mitchell Magen <jmagen@redhat.com>
 	* fixes #3071 - OS edit failed on foreign keys since config_template_id was '0' on blank
