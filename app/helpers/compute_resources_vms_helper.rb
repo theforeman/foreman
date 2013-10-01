@@ -104,6 +104,6 @@ module ComputeResourcesVmsHelper
   end
 
   def security_groups_for_vpc(security_groups, vpc_id)
-    security_groups.map{ |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id}.compact!
+    security_groups.map{ |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id}.compact
   end
 end
