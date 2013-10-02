@@ -38,6 +38,14 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "blocks API deletion of hosts with children" do
+    assert hostgroups(:parent).has_children?
+    assert_no_difference('Hostgroup.count') do
+      delete :destroy, { :id => hostgroups(:parent).to_param }
+    end
+    assert_response :conflict
+  end
+
   test "should create nested hostgroup with a parent" do
     assert_difference('Hostgroup.count') do
       post :create, { :hostgroup => valid_attrs.merge(:parent_id => hostgroups(:common).id) }

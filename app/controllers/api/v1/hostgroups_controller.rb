@@ -64,7 +64,11 @@ module Api
       param :id, :identifier, :required => true
 
       def destroy
-        process_response @hostgroup.destroy
+        if @hostgroup.has_children?
+          render :json => {'message'=> _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.label } }, :status => :conflict
+        else
+          process_response @hostgroup.destroy
+        end
       end
 
     end

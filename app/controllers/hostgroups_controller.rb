@@ -83,10 +83,15 @@ class HostgroupsController < ApplicationController
   end
 
   def destroy
-    if @hostgroup.destroy
-      process_success
-    else
-      load_vars_for_ajax
+    begin
+      if @hostgroup.destroy
+        process_success
+      else
+        load_vars_for_ajax
+        process_error
+      end
+    rescue Ancestry::AncestryException
+      flash[:error] = _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.label }
       process_error
     end
   end
