@@ -33,7 +33,11 @@ Foreman::Application.routes.draw do
       end
       resources :dashboard, :only => [:index]
       resources :statistics, :only => [:index]
-      resources :environments, :except => [:new, :edit]
+      resources :environments, :except => [:new, :edit] do
+        resources :smart_proxies, :only => [] do
+          post :import_puppetclasses, :on => :member
+        end
+      end
       resources :fact_values, :only => [:index]
       resources :hostgroups, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
@@ -53,6 +57,10 @@ Foreman::Application.routes.draw do
       resources :settings, :only => [:index, :show, :update]
       resources :smart_proxies, :except => [:new, :edit] do
         put :refresh, :on => :member
+        post :import_puppetclasses, :on => :member
+        resources :environments, :only => [] do
+          post :import_puppetclasses, :on => :member
+        end
       end
       resources :subnets, :except => [:new, :edit]
       resources :usergroups, :except => [:new, :edit]

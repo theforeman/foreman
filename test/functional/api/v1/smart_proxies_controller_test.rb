@@ -86,4 +86,109 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  # same method as in EnvironmentsControllerTest
+  def setup_import_classes
+    as_admin do
+      Host::Managed.update_all(:environment_id => nil)
+      Hostgroup.update_all(:environment_id => nil)
+      Puppetclass.destroy_all
+      Environment.destroy_all
+    end
+    # This is the database status
+    # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
+    as_admin do
+      ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
+      for name in ["env1", "env2"] do
+        e = Environment.create!(:name => name)
+        e.puppetclasses = Puppetclass.all
+      end
+    end
+    # This is the on-disk status
+    # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
+    envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
+    pcs = [HashWithIndifferentAccess.new( "a" => { "name" => "a", "module" => "", "params"=> {'key' => 'special'}  } )]
+    classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
+    Environment.expects(:puppetEnvs).returns(envs).at_least(0)
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
+    ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
+  end
+
+
+  # puppetmaster proxy - import_puppetclasses tests
+
+  test "should import new environments" do
+    setup_import_classes
+    as_admin do
+      Host::Managed.update_all(:environment_id => nil)
+      Hostgroup.update_all(:environment_id => nil)
+      Puppetclass.destroy_all
+      Environment.destroy_all
+    end
+    assert_difference('Environment.count', 2) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+    end
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 2, response['environments_with_new_puppetclasses']
+  end
+
+  test "should import new puppetclasses" do
+    setup_import_classes
+    as_admin do
+      Host::Managed.update_all(:environment_id => nil)
+      Hostgroup.update_all(:environment_id => nil)
+      Puppetclass.destroy_all
+      Environment.destroy_all
+      assert_difference('Puppetclass.count', 1) do
+        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      end
+    end
+    assert_response :success
+  end
+
+  test "should obsolete environment" do
+    setup_import_classes
+    as_admin do
+      xyz_environment = Environment.create!(:name => 'xyz')
+    end
+    assert_difference('Environment.count', -1) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+    end
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+  end
+
+  test "should obsolete puppetclasses" do
+    setup_import_classes
+    as_admin do
+      environment = Environment.find_by_name("env1")
+      assert_difference('environment.puppetclasses.count', -2) do
+        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      end
+    end
+    assert_response :success
+  end
+
+  test "should update puppetclass smart class parameters" do
+    setup_import_classes
+    LookupKey.destroy_all
+    assert_difference('LookupKey.count', 2) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+    end
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+  end
+
+  test "no changes on import_puppetclasses" do
+    setup_import_classes
+    Puppetclass.find_by_name('b').destroy
+    Puppetclass.find_by_name('c').destroy
+    assert_difference('Environment.count', 0) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+    end
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 'Successfully updated environment and puppetclasses from the on-disk puppet installation', response['message']
+  end
+
 end
