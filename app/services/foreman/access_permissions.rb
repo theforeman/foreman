@@ -138,7 +138,13 @@ Foreman::AccessControl.map do |map|
                                            :"api/v1/environments" => [:destroy],
                                            :"api/v2/environments" => [:destroy]
     }
-    map.permission :import_environments,  {:environments => [:import_environments, :obsolete_and_new]}
+    map.permission :import_environments,  {:environments => [:import_environments, :obsolete_and_new],
+                                           :"api/v1/environments" => [:import_puppetclasses],
+                                           :"api/v2/environments" => [:import_puppetclasses],
+                                           :"api/v1/smart_proxies" => [:import_puppetclasses],
+                                           :"api/v2/smart_proxies" => [:import_puppetclasses]
+                                            }
+
   end
 
   map.security_block :external_variables do |map|
@@ -427,7 +433,12 @@ Foreman::AccessControl.map do |map|
                                           :"api/v1/puppetclasses" => [:destroy],
                                           :"api/v2/puppetclasses" => [:destroy]
                                         }
-    map.permission :import_puppetclasses,  {:puppetclasses => [:import_environments, :obsolete_and_new]}
+    map.permission :import_puppetclasses,  {:puppetclasses => [:import_environments, :obsolete_and_new],
+                                           :"api/v1/environments" => [:import_puppetclasses],
+                                           :"api/v2/environments" => [:import_puppetclasses],
+                                           :"api/v1/smart_proxies" => [:import_puppetclasses],
+                                           :"api/v2/smart_proxies" => [:import_puppetclasses]
+                                            }
   end
 
   map.security_block :smart_proxies do |map|

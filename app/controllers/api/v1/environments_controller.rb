@@ -1,6 +1,8 @@
 module Api
   module V1
     class EnvironmentsController < V1::BaseController
+
+      include Api::ImportPuppetclassesCommonController
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/environments/", "List all environments."
