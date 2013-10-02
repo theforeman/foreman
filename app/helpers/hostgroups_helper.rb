@@ -6,7 +6,7 @@ module HostgroupsHelper
     msg = [_("Are you sure?")]
     if group.has_children?
       msg << _("This group has nested groups!") + "\n"
-      msg << _("Deleting this group will unlink its nested groups and any associated puppet classes and / or parameters")
+      msg << _("Please delete all nested groups before deleting it.")
     end
     msg.join("\n")
   end

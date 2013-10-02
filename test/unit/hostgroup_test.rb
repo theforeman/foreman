@@ -54,7 +54,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
-    record =  Hostgroup.first
+    record = hostgroups(:common)
     as_admin do
       record.hosts.destroy_all
       record.hostgroup_classes.destroy_all
@@ -65,7 +65,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "user with edit permissions should not be able to destroy" do
     setup_user "edit"
-    record =  Hostgroup.first
+    record = hostgroups(:common)
     assert !record.destroy
     assert !record.frozen?
   end
@@ -136,14 +136,14 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal [Puppetclass.first, Puppetclass.last].sort, child.classes.sort
   end
 
-  test "should remove relationships if deleting a parent hostgroup" do
-   assert (top = Hostgroup.create(:name => "topA"))
-   assert (second = Hostgroup.create(:name => "secondB", :parent_id => top.id))
+  test "blocks deletion of hosts with children" do
+    top = Hostgroup.create(:name => "topA")
+    second = Hostgroup.create(:name => "secondB", :parent_id => top.id)
 
-   assert top.has_children?
-   assert !second.is_root?
-   assert top.destroy
-   assert Hostgroup.find(second.id).is_root?
+    assert top.has_children?
+    assert_raise Ancestry::AncestryException do
+      top.destroy
+    end
   end
 
   test "changing name of hostgroup updates other hostgroup labels" do
@@ -160,7 +160,7 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "new_common/db", hostgroup.label
   end
 
-  test "deleting a hostgroup updates other hostgroup labels" do
+  test "deleting a hostgroup with children does not change labels" do
     #setup - get label "common/db"
     hostgroup = hostgroups(:db)
     parent_hostgroup = hostgroups(:common)
@@ -169,11 +169,14 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup.reload
     assert_equal "Common/db", hostgroup.label
 
-    #destory parent hostgroup
-    assert parent_hostgroup.destroy
-    # check if hostgroup(:db) label changed
+    #attempt to destroy parent hostgroup
+    begin
+    assert_not parent_hostgroup.destroy
+    rescue Ancestry::AncestryException
+    end
+    # check if hostgroup(:db) label remains the same
     hostgroup.reload
-    assert_equal "db", hostgroup.label
+    assert_equal "Common/db", hostgroup.label
   end
 
   test "should find associated lookup_values" do
