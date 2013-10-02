@@ -182,7 +182,14 @@ $(document).ready(function() {
       var parsed = $.parseJSON(data);
       var key = $(this).attr('name').split("[")[0];
       var val = $(this).attr('data-field');
-      $(this).html(String(parsed[key][val]));
+
+      var editable_value = parsed[key][val];
+      if ($.isArray(editable_value))
+        editable_value = "[ "+editable_value.join(", ")+" ]";
+      else
+        editable_value = String(editable_value);
+
+      $(this).html(editable_value);
     },
     onerror     : function(settings, original, xhr) {
       original.reset();
