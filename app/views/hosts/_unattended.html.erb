@@ -20,7 +20,8 @@
         <span id="subnet_select">
           <%= render 'common/domain', :item => @host %>
         </span>
-        <%= text_f f, :ip, :help_inline => _("IP Address for this host, if DHCP Smart proxy is enabled, this should be auto suggested to you") , :autocomplete => 'off'%>
+        <%= text_f f, :ip, :autocomplete => 'off',
+          :help_inline => popover("?", _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"), :title => _("IP address for this host")).html_safe %>
         <%= f.fields_for :interfaces do |interfaces| %>
           <%= render 'hosts/interfaces', :f => interfaces  %>
         <% end %>
