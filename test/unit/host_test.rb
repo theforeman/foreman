@@ -4,6 +4,7 @@ class HostTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
     User.current = User.find_by_login "admin"
+    Setting[:token_duration] = 0
   end
 
   test "should not save without a hostname" do
@@ -906,6 +907,83 @@ class HostTest < ActiveSupport::TestCase
     assert Host.importHostAndFacts(raw['name'], raw['facts'], nil, sp.id)
     assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
   end
+
+  # Ip validations
+  test "unmanaged hosts don't require an IP" do
+    h=Host.new
+    refute h.require_ip_validation?
+  end
+
+  test "CR's without IP attribute don't require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the CR
+    h=Host.new :managed => true,
+      :compute_resource => compute_resources(:one),
+      :compute_attributes => {:fake => "data"}
+    refute h.require_ip_validation?
+  end
+
+  test "CR's with IP attribute do require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the CR
+    h=Host.new :managed => true,
+      :compute_resource => compute_resources(:openstack),
+      :compute_attributes => {:fake => "data"}
+    assert h.require_ip_validation?
+  end
+
+  test "hosts with a DNS-enabled Domain do require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the domain
+    h=Host.new :managed => true, :domain => domains(:mydomain)
+    assert h.require_ip_validation?
+  end
+
+  test "hosts without a DNS-enabled Domain don't require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the domain
+    h=Host.new :managed => true, :domain => domains(:useless)
+    refute h.require_ip_validation?
+  end
+
+  test "hosts with a DNS-enabled Subnet do require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+    h=Host.new :managed => true, :subnet => subnets(:one)
+    assert h.require_ip_validation?
+  end
+
+  test "hosts without a DNS-enabled Subnet don't require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+    h=Host.new :managed => true, :subnet => subnets(:four)
+    refute h.require_ip_validation?
+  end
+
+  test "hosts with a DHCP-enabled Subnet do require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+    h=Host.new :managed => true, :subnet => subnets(:two)
+    assert h.require_ip_validation?
+  end
+
+  test "hosts without a DHCP-enabled Subnet don't require an IP" do
+    Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+    h=Host.new :managed => true, :subnet => subnets(:four)
+    refute h.require_ip_validation?
+  end
+
+  test "with tokens enabled hosts don't require an IP" do
+    Setting[:token_duration] = 30
+    h=Host.new :managed => true
+    refute h.require_ip_validation?
+  end
+
+  test "with tokens disabled hosts do require an IP" do
+    h=Host.new :managed => true
+    assert h.require_ip_validation?
+  end
+
+  test "tokens disabled doesn't require an IP for image hosts" do
+    h=Host.new :managed => true
+    h.stubs(:capabilities).returns([:image])
+    refute h.require_ip_validation?
+  end
+
+  private
 
   def parse_json_fixture(relative_path)
     return JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + relative_path)))
