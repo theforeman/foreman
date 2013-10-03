@@ -24,15 +24,13 @@
         <td><%= @compute_resource.provider %></td>
       </tr>
 
+      <% unless @compute_resource.description.empty? -%>
       <tr>
         <td><%= _("Description") %></td>
         <td><%= @compute_resource.description %></td>
       </tr>
+      <% end -%>
 
-      <tr>
-        <td><%= _("URL") %></td>
-        <td><%= @compute_resource.url %></td>
-      </tr>
       <% # optional extra display elements based on type %>
       <%= render "compute_resources/show/#{@compute_resource.provider.downcase}" %>
     </table>
