@@ -4,7 +4,6 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     # DELETE ROW IF IT HAS AN ORPHANED FOREIGN KEY
     execute "DELETE FROM architectures_operatingsystems WHERE architecture_id NOT IN (SELECT id FROM architectures) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
     execute "DELETE FROM config_templates_operatingsystems WHERE config_template_id NOT IN (SELECT id FROM config_templates) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
-    execute "DELETE FROM environment_classes WHERE environment_id NOT IN (SELECT id FROM environments) OR lookup_key_id NOT IN (SELECT id FROM lookup_keys) OR puppetclass_id NOT IN (SELECT id FROM puppetclasses)"
     execute "DELETE FROM features_smart_proxies WHERE feature_id NOT IN (SELECT id FROM features) OR smart_proxy_id NOT IN (SELECT id FROM smart_proxies)"
     execute "DELETE FROM features_smart_proxies WHERE feature_id NOT IN (SELECT id FROM features) OR smart_proxy_id NOT IN (SELECT id FROM smart_proxies)"
     execute "DELETE FROM media_operatingsystems WHERE medium_id NOT IN (SELECT id FROM media) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
@@ -18,13 +17,14 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     execute "DELETE FROM user_roles WHERE role_id NOT IN (SELECT id FROM roles) OR user_id NOT IN (SELECT id FROM users)"
     KeyPair.where("compute_resource_id NOT IN (?)", ComputeResource.pluck(:id)).delete_all
     LookupKey.where("puppetclass_id NOT IN (?)", Puppetclass.pluck(:id)).delete_all
+    execute "DELETE FROM environment_classes WHERE environment_id NOT IN (SELECT id FROM environments) OR lookup_key_id NOT IN (SELECT id FROM lookup_keys) OR puppetclass_id NOT IN (SELECT id FROM puppetclasses)"
     LookupValue.where("lookup_key_id NOT IN (?)", LookupKey.pluck(:id)).delete_all
     FactValue.where("fact_name_id NOT IN (?) OR host_id NOT IN (?)", FactName.pluck(:id), Host::Base.pluck(:id)).delete_all
     TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.pluck(:id)).delete_all
     HostClass.where("host_id NOT IN (?) OR puppetclass_id NOT IN (?)", Host::Base.pluck(:id), Puppetclass.pluck(:id)).delete_all
     HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.pluck(:id), Puppetclass.pluck(:id)).delete_all
-    Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).delete_all
     Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
+    Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).delete_all
     Token.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
     TrendCounter.where("trend_id NOT IN (?)", Trend.pluck(:id)).delete_all
 
