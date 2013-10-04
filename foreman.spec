@@ -13,8 +13,8 @@
 %endif
 
 Name:   foreman
-Version: 1.2.2
-Release: 2%{?dist}
+Version: 1.2.3
+Release: 1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -528,6 +528,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Oct 04 2013 Dominic Cleal <dcleal@redhat.com> 1.2.3-1
+- Release 1.2.3
 * Mon Sep 30 2013 Dominic Cleal <dcleal@redhat.com> 1.2.2-2
 - Update rubygem-ancestry to 2.x (lzap+rpm[@]redhat.com)
 * Tue Sep 03 2013 Dominic Cleal <dcleal@redhat.com> 1.2.2-1
