@@ -12,10 +12,10 @@ class FactValue < ActiveRecord::Base
   scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
 
   scope :no_timestamp_facts, :include => [:fact_name],
-              :conditions => ["fact_names.name <> ?",:_timestamp]
+              :conditions => ["fact_names.name <> ?",'_timestamp']
 
   scope :timestamp_facts, :joins => [:fact_name],
-              :conditions => ["fact_names.name = ?",:_timestamp]
+              :conditions => ["fact_names.name = ?",'_timestamp']
 
   scope :my_facts, lambda {
     if User.current.admin? and Organization.current.nil? and Location.current.nil?

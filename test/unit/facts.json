@@ -1,6 +1,7 @@
 {
   "name": "sinn1636.lan",
   "facts": {
+    "_timestamp": "2013-10-04 14:17:07.886377 +01:00",
     "processor3": "Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz",
     "productname": "IBM System x -[7870K4G]-",
     "kernelmajversion": "2.6",

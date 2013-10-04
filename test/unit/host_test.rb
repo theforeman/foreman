@@ -119,6 +119,19 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host
   end
 
+  test "should convert a timestamp symbol key to a string key" do
+    raw                = parse_json_fixture('/facts.json')
+    name               = raw['name']
+    facts              = raw['facts']
+    time               = facts.delete('_timestamp')
+    facts[:_timestamp] = time
+    assert Host.importHostAndFacts(name, facts)
+    h = Host.find_by_name('sinn1636.lan')
+    refute h.facts_hash[:_timestamp]
+    assert_equal time, h.facts_hash['_timestamp']
+  end
+
+
   test "should not save if neither ptable or disk are defined when the host is managed" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
