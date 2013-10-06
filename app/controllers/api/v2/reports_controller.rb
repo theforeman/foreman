@@ -17,7 +17,7 @@ module Api
 
       def create
         @report = Report.import(params[:report])
-        process_response @report.valid?
+        process_response @report.errors.empty?
       rescue ::Foreman::Exception => e
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
       end
