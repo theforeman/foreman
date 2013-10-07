@@ -4,8 +4,8 @@ module Api
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
-      before_filter :find_resource, :except => :facts
-      add_puppetmaster_filters :facts
+      before_filter :find_resource, :except => [:facts, :enc_deprecation_msg]
+      add_puppetmaster_filters [:facts, :enc_deprecation_msg]
 
       api :GET, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
 
@@ -51,6 +51,13 @@ module Api
         process_response state
       rescue ::Foreman::Exception => e
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
+      end
+
+      def enc_deprecation_msg
+        msg  = "/fact_values/create is deprecated, update your ENC to POST facts to /api/hosts/facts\n"
+        msg += '  See the Foreman 1.3 release notes for a new example ENC script'
+        logger.error "DEPRECATION: #{msg}."
+        render :json => {:message => msg}, :status => 400
       end
 
       private
