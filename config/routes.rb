@@ -3,6 +3,9 @@ require 'api_constraints'
 Foreman::Application.routes.draw do
   #ENC requests goes here
   match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
+  # To be removed for 1.4
+  match 'reports/create',     :to => 'api/v2/reports#report_deprecation_msg', :via => 'post'
+  match 'fact_values/create', :to => 'api/v2/hosts#enc_deprecation_msg',      :via => 'post'
 
   resources :reports, :only => [:index, :show, :destroy] do
     collection do

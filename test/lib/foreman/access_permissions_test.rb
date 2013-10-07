@@ -23,6 +23,9 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     # No controller action actually exists, shouldn't be permitted either
     "audits/create", "audits/destroy", "audits/edit", "audits/new", "audits/update",
 
+    # Deprecated routes
+    "api/v2/hosts/enc_deprecation_msg", "api/v2/reports/report_deprecation_msg",
+
     # Apipie
     "apipie/apipies/index"
 
