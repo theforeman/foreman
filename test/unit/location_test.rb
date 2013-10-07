@@ -159,4 +159,11 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal, location_dup.organization_ids = location.organization_ids
   end
 
+  #Audit
+ test "it should have auditable_type as Location rather Taxonomy" do
+    location = taxonomies(:location2)
+    assert location.update_attributes!(:name => 'newname')
+    assert_equal 'Location', Audit.unscoped.last.auditable_type
+ end
+
 end
