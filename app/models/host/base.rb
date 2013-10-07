@@ -70,6 +70,12 @@ module Host
 
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new("Host is pending for Build") if build
+
+      # Ensure timestamp is always a string
+      if facts.include?(:_timestamp)
+        timestamp = facts.delete(:_timestamp)
+        facts['_timestamp'] = timestamp unless facts['_timestamp'].present?
+      end
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
 
@@ -124,7 +130,6 @@ module Host
       fact_names = FactName.maximum(:id, :group => 'name')
 
       # Create any needed new FactNames
-      facts['_timestamp'] = facts.delete(:_timestamp) if facts.include?(:_timestamp)
       facts.each do |name, value|
         next if db_facts.include?(name)
         values = value.is_a?(Array) ? value : [value]
