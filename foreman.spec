@@ -13,7 +13,7 @@
 %endif
 
 Name:   foreman
-Version: 1.2.2
+Version: 1.2.3
 Release: 1%{?dist}
 Summary:Systems Management web application
 
@@ -51,8 +51,8 @@ Requires: %{?scl_prefix}rubygem(jquery-rails)
 Requires: %{?scl_prefix}rubygem(rest-client)
 Requires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(will_paginate) < 3.1.0
-Requires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
-Requires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
+Requires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
+Requires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
 Requires: %{?scl_prefix}rubygem(net-ldap)
 Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
@@ -67,21 +67,21 @@ Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.16
 Requires: %{?scl_prefix}rubygem(bundler_ext)
 Requires: %{?scl_prefix}rubygem(thin)
 Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.4.8
-Requires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+Requires: %{?scl_prefix}rubygem(gettext_i18n_rails) < 1.0.0
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
-BuildRequires: %{?scl_prefix}rubygem(ancestry) < 1.4.0
-BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 1.3.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
+BuildRequires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.16
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
 BuildRequires: %{?scl_prefix}rubygem(coffee-rails) => 3.2.1
 BuildRequires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
 BuildRequires: %{?scl_prefix}rubygem(fast_gettext)
-BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails)
+BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails) < 1.0.0
 BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 BuildRequires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 BuildRequires: %{?scl_prefix}rubygem(jquery-rails)
@@ -528,6 +528,10 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Oct 04 2013 Dominic Cleal <dcleal@redhat.com> 1.2.3-1
+- Release 1.2.3
+* Mon Sep 30 2013 Dominic Cleal <dcleal@redhat.com> 1.2.2-2
+- Update rubygem-ancestry to 2.x (lzap+rpm[@]redhat.com)
 * Tue Sep 03 2013 Dominic Cleal <dcleal@redhat.com> 1.2.2-1
 - Release 1.2.2
 * Mon Aug 05 2013 Dominic Cleal <dcleal@redhat.com> 1.2.1-1

@@ -8,7 +8,7 @@ gem 'json'
 gem 'rest-client', :require => 'rest_client'
 gem "audited-activerecord", "3.0.0"
 gem "will_paginate", "~> 3.0.2"
-gem "ancestry", "~> 1.3"
+gem "ancestry", "~> 2.0"
 gem 'scoped_search', '>= 2.5'
 gem 'net-ldap'
 gem 'uuidtools'

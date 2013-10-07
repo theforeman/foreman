@@ -1,3 +1,13 @@
+2013-10-04	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.2.3
+
+2013-09-30	Dominic Cleal <dcleal@redhat.com>
+	* fixes #3160 - sanitize host/host group names in lookup_value associations (CVE-2013-4386)
+
+2013-09-30	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3142 - update ancestry due to dependency issue in f19
+	* fixes #3167 - downgrade gettext_i18n_rails for gettext / 1.8 compat
+
 2013-09-03	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.2.2
 
