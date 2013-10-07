@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
-      add_puppetmaster_filters :create
+      add_puppetmaster_filters [:create, :report_deprecation_msg]
 
       api :POST, "/reports/", "Create a report."
       param :report, Hash, :required => true do
@@ -20,6 +20,13 @@ module Api
         process_response @report.errors.empty?
       rescue ::Foreman::Exception => e
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
+      end
+
+      def report_deprecation_msg
+        msg  = "/reports/create is deprecated, update your report processor to POST to /api/reports\n"
+        msg += '  See the Foreman 1.3 release notes for a new example report processor'
+        logger.error "DEPRECATION: #{msg}."
+        render :json => {:message => msg}, :status => 400
       end
 
     end
