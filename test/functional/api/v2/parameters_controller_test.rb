@@ -65,6 +65,17 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should show correct parameter if id is name even if name is not unique" do
+    # parameters(:os).name = 'os1' in fixtures
+    # create DomainParamter with name name
+    assert Domain.first.parameters.create(:name => 'os1')
+    param = parameters(:os)
+    get :show, {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => param.name }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal param.id, show_response['parameter']['id']
+  end
+
   test "should create host parameter" do
     host = hosts(:one)
     assert_difference('host.parameters.count') do
