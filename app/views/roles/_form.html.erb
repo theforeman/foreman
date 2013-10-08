@@ -3,26 +3,38 @@
 <%= form_for @role do |f| %>
   <%= base_errors_for @role %>
 
-  <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
+  <%= text_f f, :name, :class => @role.builtin? ? "disabled" : "" %>
 
-  <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
-  <% perms_by_block.keys.sort.each do |block| %>
-    <div class="control-group">
-      <%= label_tag 'role[permissions]', block.humanize,:class=>"control-label" %>
-      <div class="controls">
-        <ul class="inputs-list">
-          <% perms_by_block[block].each do |permission| %>
-            <li>
-            <%= content_tag :div, 'role[permissions][]' do %>
-              <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name), :class => "role_checkbox" %>
-              <%= permission.name %>
-              <%= hidden_field_tag 'role[permissions][]' %>
-            <% end -%>
-            </li>
-          <% end %>
-        </ul>
+  <ul class='nav nav-tabs' data-tabs='tabs'>
+    <% letters.each_with_index do |letter, i| %>
+      <li class="<%= 'active' if i==0%>"><a href="#<%= letter %>" data-toggle='tab'><%= letter %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <% perms_by_letter.each do |letter, permissions| %>
+      <div class="tab-pane <%= 'active' if letter=='A' %>" id='<%= letter %>'>
+        <% perms_by_block(permissions).each do |block, perms| %>
+          <div class="control-group">
+            <%= label_tag 'role[permissions]', block.to_s.humanize, :class => "control-label" %>
+            <div class="controls">
+              <ul class="inputs-list">
+                <% perms.each do |perm| %>
+                  <li>
+                    <%= content_tag :div, 'role[permissions][]' do %>
+                      <%= check_box_tag 'role[permissions][]', perm.name, (@role.permissions.include? perm.name), :class => "role_checkbox" %>
+                      <%= perm.name %>
+                      <%= hidden_field_tag 'role[permissions][]' %>
+                    <% end -%>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+          </div>
+        <% end %>
       </div>
-    </div>
-  <% end -%>
+    <% end %>
+  </div>
   <%= submit_or_cancel f %>
 <% end -%>
