@@ -2,23 +2,34 @@
 
 <%= form_for @auth_source_ldap do |f| %>
   <%= base_errors_for @auth_source_ldap %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("LDAP server") %></a></li>
+    <li><a href="#account" data-toggle="tab"><%= _("Account") %></a></li>
+    <li><a href="#attributes" data-toggle="tab"><%= _("Attribute mappings") %></a></li>
+  </ul>
 
-  <%= text_f f, :name %>
-  <%= text_f f, :host %>
-  <%= text_f f, :port %>
-  <%= checkbox_f f, :tls %>
-  <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
-  <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe %>
-  <%= text_f f, :base_dn, :label => _("Base DN"), :class => "input-xxlarge" %>
-  <%= text_f f, :ldap_filter, :label => _("LDAP filter"), :help_inline => _("Custom LDAP search filter, <i>optional</i>").html_safe, :class => "input-xxlarge" %>
-    <%= checkbox_f f, :onthefly_register,
-    :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
-  <%= field_set_tag(_("LDAP Attributes mapping")) do %>
-    <%= text_f f, :attr_login, :help_inline => _("e.g. uid") %>
-    <%= text_f f, :attr_firstname, :help_inline => _("e.g. givenName") %>
-    <%= text_f f, :attr_lastname, :help_inline => _("e.g. sn") %>
-    <%= text_f f, :attr_mail, :help_inline => _("e.g. mail") %>
-  <% end -%>
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= text_f f, :host %>
+      <%= text_f f, :port %>
+      <%= checkbox_f f, :tls %>
+    </div>
+    <div class="tab-pane" id="account">
+      <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
+      <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe %>
+      <%= text_f f, :base_dn, :label => _("Base DN"), :class => "input-xxlarge" %>
+      <%= text_f f, :ldap_filter, :label => _("LDAP filter"), :help_inline => _("Custom LDAP search filter, <i>optional</i>").html_safe, :class => "input-xxlarge" %>
+      <%= checkbox_f f, :onthefly_register,
+                     :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
+    </div>
+    <div class="tab-pane" id="attributes">
+      <%= text_f f, :attr_login, :help_inline => _("e.g. uid") %>
+      <%= text_f f, :attr_firstname, :help_inline => _("e.g. givenName") %>
+      <%= text_f f, :attr_lastname, :help_inline => _("e.g. sn") %>
+      <%= text_f f, :attr_mail, :help_inline => _("e.g. mail") %>
+    </div>
+  </div>
 
   <%= submit_or_cancel f %>
 <% end %>

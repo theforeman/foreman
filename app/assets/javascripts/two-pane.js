@@ -132,7 +132,7 @@ function clear_errors(){
 
 // when ajax call hit a session time out it should handle the redirect to login correctly.
 function handle_redirect(response){
-  var redirect = response.redirect || $("form[action$='/login']", response).attr('action');
+  var redirect = response.redirect || $("form[action$='/users/login']", response).attr('action');
   if(redirect){
     window.location.replace(redirect);
   }

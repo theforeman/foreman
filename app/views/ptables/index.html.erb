@@ -1,7 +1,7 @@
 <% title _("Partition Tables") %>
 <% title_actions display_link_if_authorized(_("New Partition Table"), hash_for_new_ptable_path), help_path %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-two-pane">
   <tr>
     <th><%= sort :name, :as => s_("Ptable|Name") %></th>
     <th><%= s_("Ptable|Os family") %></th>

@@ -2,7 +2,7 @@
 
 <% title_actions display_link_if_authorized(_("New Domain"), hash_for_new_domain_path), help_path %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-two-pane">
   <tr>
     <th><%= sort :name, :as => s_("Domain|Fullname") %></th>
     <th><%=  _("Hosts") %></th>
