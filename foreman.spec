@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.0
-Release: 0.4.RC3%{?dist}
+Release: 0.5.RC4%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -531,6 +531,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Tue Oct 08 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.5.RC4
+- Release 1.3.0-RC4
 * Tue Oct 01 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.4.RC3
 - Release 1.3.0-RC3
 * Fri Sep 27 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.3.RC2

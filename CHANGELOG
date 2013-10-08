@@ -1,4 +1,35 @@
+2013-10-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Release 1.3.0-RC4
+	* Changing plugins url to point to 1.3
+
+2013-10-07	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Fixes #3208 - print warnings for old enc/report routes
+
+2013-10-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #3207 avoid extra validation calls when importing a report
+
+2013-10-07	Joseph Mitchell Magen <jmagen@redhat.com>
+	* fixes #3048 - Non Admin user fails to override parameters when creating new host
+	* fixes #3202 - PG constraints deferred and change destroy_all to delete_all
+
+2013-10-07	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2756 - update setting descriptions at startup
+	* fixes #3133 - fix security group filtering when no groups need filtering
+
+2013-10-07	Tomas Strachota <tstrachota@redhat.com>
+	* fixes #3180 - displaying array values in settings ui correctly
+
+2013-10-07	Luke Alford <luke.alford@tstllc.net>
+	* fixes #3106 - consistent sorting of common parameters by name
+
+2013-10-07	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2981 - adding plugins repo to foreman-release
+
+2013-10-04	Dominic Cleal <dcleal@redhat.com>
+	* fixes #3160 - sanitize host/host group names in lookup_value associations (CVE-2013-4386)
+
 2013-10-01	Lukas Zapletal <lzap+git@redhat.com>
+	* Release 1.3.0-RC3
 	* i18n - extracting new, updating rails, pulling from tx
 
 2013-09-30	Greg Sutcliffe <gsutclif@redhat.com>
