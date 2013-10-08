@@ -2,10 +2,12 @@
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
-    <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
     <% if SETTINGS[:unattended] -%>
+      <li><a href="#ptable" data-toggle="tab"><%= _("Partition table") %></a></li>
+      <li><a href="#media" data-toggle="tab"><%= _("Installation media") %></a></li>
       <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
     <% end -%>
+    <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
   </ul>
 
   <div class="tab-content">
@@ -23,12 +25,18 @@
       </div>
 
       <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>
-      <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => _("Partition tables") %>
-      <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation media") %>
     </div>
 
-    <%= render('template_defaults', :f => f) if SETTINGS[:unattended] -%>
+    <% if SETTINGS[:unattended] %>
+      <%= render('template_defaults', :f => f) %>
 
+      <div class="tab-pane" id="ptable">
+        <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => _("Partition tables") %>
+      </div>
+      <div class="tab-pane" id="media">
+        <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation media") %>
+      </div>
+    <% end %>
     <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
     </div>

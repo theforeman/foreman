@@ -4,6 +4,7 @@
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("User") %></a></li>
     <% unless @editing_self %>
+      <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
       <li><a href="#filters" data-toggle="tab"><%= _("Filters") %></a></li>
       <% if show_location_tab? %>
         <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
@@ -30,11 +31,13 @@
         <%= password_f f, :password, :label => _("Password") %>
         <%= password_f f, :password_confirmation, :label => _("Verify") %>
       </div>
-      <% unless @editing_self -%>
+    </div>
+    <% unless @editing_self -%>
+      <div class="tab-pane" id="roles">
         <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
         <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => _('Roles')} %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
     <% unless @editing_self -%>
       <div class="tab-pane" id="filters">

@@ -2,7 +2,7 @@
 <% title_actions link_to(_("New role"), new_role_path),
    link_to_if_authorized(_("Permissions report"), :action => 'report') %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-two-pane">
   <thead>
     <tr>
       <th><%= sort :name, :as => s_("Role|Name") %></th>
