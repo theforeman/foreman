@@ -222,9 +222,24 @@ class Host::Managed < Host::Base
   # Called after a host is given their provisioning template
   # Returns : Boolean status of the operation
   def handle_ca
+    # If there's no puppetca, tell the caller that everything is ok
     return true unless Setting[:manage_puppetca]
     return true unless puppetca?
-    respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && setAutosign
+
+    # From here out, we expect things to work and return true
+    return false unless respond_to?(:initialize_puppetca, true)
+    return false unless initialize_puppetca
+    return false unless delCertificate
+
+    # If the user has changed use_uuid_for_certificates to false,
+    # then null out the certname. This means we may revoke the hostname
+    # or UUID but will only set autosign for the hostname.
+    if !Setting[:use_uuid_for_certificates] && Foreman.is_uuid?(certname)
+      logger.info "Removing UUID certificate value #{certname} for host #{name}"
+      self.certname = nil
+    end
+
+    setAutosign
   end
 
   # returns the host correct disk layout, custom or common

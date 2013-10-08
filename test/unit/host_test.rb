@@ -493,6 +493,25 @@ class HostTest < ActiveSupport::TestCase
     assert h.handle_ca
   end
 
+  test "if the user toggles off the use_uuid_for_certificates option, revoke the UUID and autosign the hostname" do
+    h = hosts(:dhcp)
+    Setting[:manage_puppetca] = true
+    assert h.puppetca?
+
+    Setting[:use_uuid_for_certificates] = false
+    some_uuid = Foreman.uuid
+    h.certname = some_uuid
+
+    h.expects(:initialize_puppetca).returns(true)
+    mock_puppetca = Object.new
+    mock_puppetca.expects(:del_certificate).with(some_uuid).returns(true)
+    mock_puppetca.expects(:set_autosign).with(h.name).returns(true)
+    h.instance_variable_set("@puppetca", mock_puppetca)
+
+    assert h.handle_ca
+    assert_equal h.certname, h.name
+  end
+
   test "custom_disk_partition_with_erb" do
     h = hosts(:one)
     h.disk = "<%= 1 + 1 %>"
