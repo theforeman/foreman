@@ -38,7 +38,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
-  test "cannot create lookup value if user has no matching host/hostgroup" do
+  test "non-admin user cannot create lookup value if user has no matching host/hostgroup" do
     # Host.my_hosts returns only hosts(:one)
     user = users(:one)
     as_user :one do
@@ -46,6 +46,24 @@ class LookupKeyTest < ActiveSupport::TestCase
       refute Hostgroup.my_groups.where(:name => hosts(:two).try(:hostgroup).try(:name)).exists?
       lookup_value = LookupValue.new(valid_attrs2)
       refute lookup_value.save
+    end
+  end
+
+  test "any user including admin cannot create lookup value if match fqdn= does not match existing host" do
+    as_admin do
+      attrs = { :match => "fqdn=non.existing.com", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      lookup_value = LookupValue.new(attrs)
+      refute lookup_value.save
+      assert_match /Match fqdn=non.existing.com does not match an existing host/, lookup_value.errors.full_messages.join("\n")
+    end
+  end
+
+  test "any user including admin cannot create lookup value if match hostgroup= does not match existing hostgroup" do
+    as_admin do
+      attrs = { :match => "hostgroup=non_existing_group", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      lookup_value = LookupValue.new(attrs)
+      refute lookup_value.save
+      assert_match /Match hostgroup=non_existing_group does not match an existing hostgroup/, lookup_value.errors.full_messages.join("\n")
     end
   end
 

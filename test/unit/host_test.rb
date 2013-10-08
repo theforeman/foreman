@@ -67,11 +67,11 @@ class HostTest < ActiveSupport::TestCase
     User.current = users(:one)
     User.current.roles << [roles(:manager)]
     assert_difference('LookupValue.count') do
-      assert Host.create! :name => "abc.host123.com", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition",
-      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.host123.com"}}
+      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
     end
   end
 
@@ -253,7 +253,7 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles = [Role.find_by_name("Viewer")]
     end
-    assert !@host.update_attributes(:name => "blahblahblah")
+    assert !@host.update_attributes(:comment => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -262,7 +262,7 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       @one.roles      = [Role.find_by_name("Edit hosts")]
     end
-    assert @host.update_attributes(:name => "blahblahblah")
+    assert @host.update_attributes(:comment => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -272,7 +272,7 @@ class HostTest < ActiveSupport::TestCase
       @one.roles      = [Role.find_by_name("Edit hosts")]
       @one.domains    = [Domain.find_by_name("mydomain.net")]
     end
-    assert @host.update_attributes(:name => "blahblahblah")
+    assert @host.update_attributes(:comment => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -282,7 +282,7 @@ class HostTest < ActiveSupport::TestCase
       @one.roles      = [Role.find_by_name("Edit hosts")]
       @one.domains    = [Domain.find_by_name("yourdomain.net")]
     end
-    assert !@host.update_attributes(:name => "blahblahblah")
+    assert !@host.update_attributes(:comment => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -410,7 +410,7 @@ class HostTest < ActiveSupport::TestCase
       @host.owner = users(:two)
       @host.save!
     end
-    assert @host.update_attributes(:name => "blahblahblah")
+    assert @host.update_attributes(:comment => "blahblahblah")
     assert_no_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
@@ -422,7 +422,7 @@ class HostTest < ActiveSupport::TestCase
       @host.owner = users(:two)
       @host.save!
     end
-    assert !@host.update_attributes(:name => "blahblahblah")
+    assert !@host.update_attributes(:comment => "blahblahblah")
     assert_match /do not have permission/, @host.errors.full_messages.join("\n")
   end
 
