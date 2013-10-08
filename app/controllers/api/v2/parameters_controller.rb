@@ -5,8 +5,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :find_required_nested_object, :only => [:index, :show, :create, :reset]
+      before_filter :find_required_nested_object
+      before_filter :find_parameter, :only => [:show, :update, :destroy]
 
       resource_description do
         # TRANSLATORS: API documentation - do not translate
@@ -113,6 +113,15 @@ module Api
 
       def allowed_nested_id
         %w(host_id hostgroup_id domain_id operatingsystem_id)
+      end
+
+      def find_parameter
+        # nested_obj is required, so no need to check here
+        @parameters  = nested_obj.send(parameters_method)
+        @parameter   = @parameters.find_by_id(params[:id].to_i) if params[:id].to_i > 0
+        @parameter ||= @parameters.find_by_name(params[:id])
+        return @parameter if @parameter
+        render_error 'not_found', :status => :not_found and return false
       end
 
     end
