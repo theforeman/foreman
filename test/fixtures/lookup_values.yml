@@ -11,7 +11,7 @@ two:
   value: 4567
 
 three:
-  match: fqdn=nomatch.com
+  match: fqdn=suse01.yourdomain.net
   lookup_key: one
   value: 3000
 
