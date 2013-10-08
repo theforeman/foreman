@@ -24,7 +24,7 @@ module FogExtensions
           if entity.is_a?(RbVmomi::VIM::Folder)
             ret = ret + (allvmsbyfolder(entity, path))
           elsif entity.is_a?(RbVmomi::VIM::VirtualMachine)
-            if (uuid = entity.config.instanceUuid)
+            if (entity.config.template != true && uuid = entity.config.instanceUuid)
               ret.push ({ :vm => entity, :path => path, :uuid => uuid})
             end
           end
