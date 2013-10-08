@@ -6,6 +6,7 @@
 //= require twitter/bootstrap
 //= require charts
 //= require topbar
+//= require two-pane
 //= require vendor
 //= require about
 
@@ -14,7 +15,9 @@ $(function() {
 });
 
 function onContentLoad(){
-  $('.autocomplete-input').scopedSearch();
+  if($('.autocomplete-clear').size() == 0){
+    $('.autocomplete-input').scopedSearch();
+  }
 
   $('.flash.error').each(function(index, item) {
      if ($('.alert-message.alert-error.base').length == 0) {

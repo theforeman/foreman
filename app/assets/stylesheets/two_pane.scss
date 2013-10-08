@@ -1,0 +1,34 @@
+.table-two-pane{
+  .active{
+    background-color: #0072a0 !important;
+    a { color: #ffffff; }
+  }
+}
+
+.two-pane-right{
+  margin-left: -1px !important;
+  .form-actions{
+    margin-bottom: 0;
+    background-color: #ffffff;
+  }
+  .well{
+    margin-bottom: 0;
+    background-color: #ffffff;
+    border: 1px solid #0072a0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+  .tab-pane{
+    min-height: 300px;
+  }
+}
