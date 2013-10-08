@@ -1,6 +1,6 @@
 <div class="fields">
   <% if (networks = compute_resource.networks).any? -%>
-    <%= select_f f, :type, compute_resource.nictypes, :last, :first, { },
+    <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
                      :class       => "span2",
                      :label       => _('NIC type'),
                      :disabled    => !new
