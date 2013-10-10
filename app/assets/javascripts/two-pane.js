@@ -15,11 +15,9 @@ $(document).on('submit','.two-pane-right', function() {
   return false;
 });
 
-$(document).on('click', ".form-actions a", function(e) {
-  if ($('.table-two-pane').length) {
+$(document).on('click', ".two-pane-close", function(e) {
     e.preventDefault();
     two_pane_close();
-  }
 });
 
 // open the new/edit from in the right pane
@@ -91,7 +89,7 @@ function hide_columns(){
     $('.table-two-pane').wrap( "<div class='row'><div class='span3 two-pane-left'></div></div>");
   }
   var placeholder = spinner_placeholder(_('Loading'));
-  $('.two-pane-left').after("<div class='span9 two-pane-right'>" + placeholder + "</div>");
+  $('.two-pane-left').after("<div class='span9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
 
 }
 
@@ -103,8 +101,9 @@ function right_pane_content(response){
   if (form_content.length){
     $('.two-pane-right').html(form_content);
     $('.two-pane-right form').removeClass('form-horizontal');
+    $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
     $('.form-actions div').addClass('pull-right');
-
+    $('.form-actions a').addClass('two-pane-close');
   } else {
     // response is not a form use the entire page
     $('#content').replaceWith($("#content", response));

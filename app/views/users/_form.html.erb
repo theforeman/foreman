@@ -37,9 +37,7 @@
         <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
         <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => _('Roles')} %>
       </div>
-    <% end %>
 
-    <% unless @editing_self -%>
       <div class="tab-pane" id="filters">
         <%= render("filters", :f => f) %>
       </div>

@@ -1,6 +1,9 @@
+@import "mixin";
+@import "colors";
+
 .table-two-pane{
   .active{
-    background-color: #0072a0 !important;
+    background-color: $primary_gradient_start !important;
     a { color: #ffffff; }
   }
 }
@@ -12,23 +15,25 @@
     background-color: #ffffff;
   }
   .well{
+    min-height: 460px;
     margin-bottom: 0;
     background-color: #ffffff;
-    border: 1px solid #0072a0;
+    border: 1px solid $primary_gradient_start;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    @include box-shadow(inset, 0, 0, 5px, rgba(0, 0, 0, 0.2));
   }
   .tab-pane{
     min-height: 300px;
+  }
+  .close-button a{
+    font-size: 16px;
+    font-weight: bold;
+    color: #cccccc;
+    text-decoration: none;
   }
 }
