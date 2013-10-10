@@ -1,6 +1,9 @@
-$(document).on('click', ".table-two-pane a[href$='edit']", function(e) {
-  e.preventDefault();
-  two_pane_open(this);
+$(document).on('click', ".table-two-pane td", function(e) {
+  var item = $(this).find("a[href$='edit']");
+  if(item.length){
+    e.preventDefault();
+    two_pane_open(item);
+  }
 });
 
 $(document).on('click', "#title_action a[href$='new']", function(e) {

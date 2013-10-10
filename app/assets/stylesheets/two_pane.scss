@@ -2,9 +2,16 @@
 @import "colors";
 
 .table-two-pane{
-  .active{
-    background-color: $primary_gradient_start !important;
-    a { color: #ffffff; }
+  tbody tr{
+    &:hover>td,
+    &:hover>th
+    {
+      background-color: #f5f5f5;
+    }
+    td.active{
+      background-color: $primary_gradient_start;
+      a { color: #ffffff; }
+    }
   }
 }
 
