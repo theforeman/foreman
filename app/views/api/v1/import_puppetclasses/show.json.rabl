@@ -1,4 +1,4 @@
-object @environment
+object @environment => nil
 
 attributes :name
 
@@ -23,5 +23,5 @@ node(:obsolete_puppetclasses, :if => lambda { |environment| @changed['obsolete']
 end
 
 node(:removed_environment, :if => lambda { |environment| @changed['obsolete'][environment.name].present? && @changed['obsolete'][environment.name].match(/_destroy_/) }) do |environment|
-  environment.name.to_json
+  environment.name
 end

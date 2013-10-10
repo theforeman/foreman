@@ -191,4 +191,18 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     assert_equal 'Successfully updated environment and puppetclasses from the on-disk puppet installation', response['message']
   end
 
+  test "should import new environment that does not exist in db" do
+    setup_import_classes
+    as_admin do
+      env_name = 'env1'
+      assert Environment.find_by_name(env_name).destroy
+      assert_difference('Environment.count', 1) do
+        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :environment_id => env_name}, set_session_user
+      end
+      assert_response :success
+      response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal env_name, response['results']['name']
+    end
+  end
+
 end
