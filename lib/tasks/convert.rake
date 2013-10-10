@@ -79,6 +79,14 @@ namespace :db do
         self.inheritance_column = :_type_disabled
       end
 
+      # turn off Foreign Key checks for development db in case of a postgresql db
+      ActiveRecord::Base.establish_connection(:development)
+      if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
+        ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
+      elsif ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
+        ActiveRecord::Migration.execute "SET FOREIGN_KEY_CHECKS=0;"
+      end 
+
       ActiveRecord::Base.establish_connection(:production)
       skip_tables = ["schema_info", "schema_migrations"]
       (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
@@ -92,6 +100,8 @@ namespace :db do
         # turn off Foreign Key checks for development db - this is per session
         if DevelopmentModelClass.connection.adapter_name.downcase.starts_with? 'mysql'
           DevelopmentModelClass.connection.execute("SET FOREIGN_KEY_CHECKS=0;")
+        elsif DevelopmentModelClass.connection.adapter_name == 'PostgreSQL'
+          DevelopmentModelClass.connection.execute "SET CONSTRAINTS ALL DEFERRED;"
         end
         DevelopmentModelClass.set_table_name(table_name)
         DevelopmentModelClass.reset_column_information
