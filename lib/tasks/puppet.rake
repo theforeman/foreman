@@ -99,9 +99,11 @@ namespace :puppet do
       else
         unless args.batch
           puts "Scheduled changes to your environment"
-          puts "Create/update environments"
-          for env, classes in changes["new"]
-            print "%-15s: %s\n" % [env, classes.inspect]
+          ["new", "updated"].each do |c|
+            puts "#{c.titleize} environments"
+            for env, classes in changes[c]
+              print "%-15s: %s\n" % [env, classes.keys.to_sentence]
+            end
           end
           puts "Delete environments"
           for env, classes in changes["obsolete"]
@@ -121,9 +123,8 @@ namespace :puppet do
         errors = ""
         # Apply the filtered changes to the database
         begin
-          changed = { 'new' => changes["new"], 'obsolete' => changes["obsolete"] }
-          ['new', 'obsolete'].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].to_json } }
-          errors = PuppetClassImporter.new.obsolete_and_new(changed)
+          ['new', 'updated', 'obsolete'].each { |kind| changes[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].to_json } }
+          errors = PuppetClassImporter.new.obsolete_and_new(changes)
         rescue => e
           errors = e.message + "\n" + e.backtrace.join("\n")
         end
