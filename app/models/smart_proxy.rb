@@ -38,16 +38,16 @@ class SmartProxy < ActiveRecord::Base
 
   def self.name_map
     {
-      "tftp"     => Feature.find_by_name("TFTP"),
-      "bmc"      => Feature.find_by_name("BMC"),
-      "dns"      => Feature.find_by_name("DNS"),
-      "dhcp"     => Feature.find_by_name("DHCP"),
-      "puppetca" => Feature.find_by_name("Puppet CA"),
-      "puppet"   => Feature.find_by_name("Puppet")
+      "tftp"     => "TFTP",
+      "bmc"      => "BMC",
+      "dns"      => "DNS",
+      "dhcp"     => "DHCP",
+      "puppetca" => "Puppet CA",
+      "puppet"   => "Puppet"
     }
   end
 
-  name_map.each {|f,v| scope "#{f}_proxies".to_sym, where(:features => {:name => v.try(:name)}).joins(:features) }
+  name_map.each {|f,v| scope "#{f}_proxies".to_sym, where(:features => {:name => v}).joins(:features) }
 
   def hostname
     # This will always match as it is validated
@@ -99,7 +99,7 @@ class SmartProxy < ActiveRecord::Base
     begin
       reply = ProxyAPI::Features.new(:url => url).features
       if reply.is_a?(Array) and reply.any?
-        self.features = reply.map{|f| name_map[f]}
+        self.features = reply.map{|f| Feature.find_by_name(name_map[f])}
       else
         self.features.clear
         errors.add :base, _("No features found on this proxy, please make sure you enable at least one feature")

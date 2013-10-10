@@ -41,6 +41,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "puppet_proxy_by_ip should return puppet proxy if the host name is known" do
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    assert_equal smart_proxies(:puppetmaster), @controller.puppet_proxy_by_ip("1.2.3.4")
+  end
+
+  test "puppet_proxy_by_ip should return nil puppet proxy if the host name is unknown" do
+    Resolv.any_instance.stubs(:getnames).returns(['no.where'])
+    assert_equal nil, @controller.puppet_proxy_by_ip("1.2.3.4")
+  end
+
   test 'when ":restrict_registered_puppetmasters" is false, HTTP requests should be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_puppetmasters] = false
