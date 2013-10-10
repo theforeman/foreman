@@ -50,7 +50,9 @@ namespace :puppet do
       Dir["#{dir}/*.yaml"].each do |yaml|
         name = yaml.match(/.*\/(.*).yaml/)[1]
         puts "Importing #{name}"
-        Host.importHostAndFacts File.read yaml
+        puppet_facts = File.read(yaml)
+        facts_stripped_of_class_names = YAML::load(puppet_facts.gsub(/\!ruby\/object.*$/,''))
+        Host.importHostAndFacts facts_stripped_of_class_names['name'], facts_stripped_of_class_names['values'].with_indifferent_access
       end
     end
   end
