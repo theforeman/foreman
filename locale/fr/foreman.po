@@ -12,6 +12,7 @@
 # domcleal <dcleal@redhat.com>, 2013
 # fitzdsl <rvrignaud@gmail.com>, 2013
 # kyzh <florentin.raud@gmail.com>, 2013
+# fschaer <frederic.schaer@cea.fr>, 2013
 # gchamoul <gael@redhat.com>, 2013
 # gchamoul <gael@redhat.com>, 2013
 # Iouns <iounes.gardon@gmail.com>, 2013
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-23 12:25+0200\n"
-"PO-Revision-Date: 2013-09-24 08:48+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"POT-Creation-Date: 2013-10-01 09:25+0200\n"
+"PO-Revision-Date: 2013-10-11 08:00+0000\n"
+"Last-Translator: fschaer <frederic.schaer@cea.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,8 +55,8 @@ msgstr "%s Modèle"
 
 msgid "%s VM associated to a host"
 msgid_plural "%s VMs associated to hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " %s VM associée à un hôte"
+msgstr[1] " %s VM associées à un hôte"
 
 msgid "%s ago"
 msgstr "Il y a %s"
@@ -382,10 +383,10 @@ msgid "Architecture|Name"
 msgstr "Nom"
 
 msgid "Are you sure you want to %{act} %{vm}?"
-msgstr ""
+msgstr "Voulez-vous %{act} %{vm}?"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
-msgstr ""
+msgstr "Êtes vous sûr de vouloir %{act} %{vm}?"
 
 msgid "Are you sure?"
 msgstr "Êtes vous sûr ?"
@@ -421,16 +422,16 @@ msgid ""
 msgstr "Affecter les hôtes à %{taxonomy_name} va aussi mettre à jour %{taxonomy_name} pour inclure toutes les ressources que les hôtes sélectionnés sont en train d'utiliser."
 
 msgid "Associate VM"
-msgstr ""
+msgstr "Associer à une VM"
 
 msgid "Associate VM to a Foreman host"
-msgstr ""
+msgstr "Associer une VM à un hôte Foreman"
 
 msgid "Associate VMs"
-msgstr ""
+msgstr "Associer les VMs"
 
 msgid "Associate VMs to Foreman hosts"
-msgstr ""
+msgstr "Associer les VMs à des hôtes Foreman"
 
 msgid "Association"
 msgstr "Association"
@@ -533,7 +534,7 @@ msgstr "Hôte"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
-msgstr ""
+msgstr "Filtre LDAP"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Name"
@@ -566,7 +567,7 @@ msgid "Authorized by"
 msgstr "Autorisé par"
 
 msgid "Automatically add new host groups to this user"
-msgstr ""
+msgstr "Ajouter automatiquement les nouveaux groupes d'hôtes à cet utilisateur"
 
 msgid "Autosign"
 msgstr "Autosign"
@@ -605,7 +606,7 @@ msgid "Bare Metal"
 msgstr "Bare Metal"
 
 msgid "Base DN"
-msgstr ""
+msgstr "Base DN"
 
 msgid ""
 "Before you can use Foreman for the first time there are a few tasks that "
@@ -669,7 +670,7 @@ msgid "Browse host reports"
 msgstr "Voir les rapports de l'hôte"
 
 msgid "Browser locale"
-msgstr ""
+msgstr "Langue du navigateur (Locale)"
 
 msgid "Build"
 msgstr "Construire"
@@ -731,7 +732,7 @@ msgid "Certificate Name"
 msgstr "Nom du certificat"
 
 msgid "Certificate path"
-msgstr ""
+msgstr "Chemin du Certificat"
 
 msgid "Certificates"
 msgstr "Certificats"
@@ -800,7 +801,7 @@ msgid "Click to undo adding this class"
 msgstr "Cliquer pour annuler l'ajout de cette classe"
 
 msgid "Client Email"
-msgstr ""
+msgstr "Email Client"
 
 msgid ""
 "Client SSL certificates are used to identify Smart Proxies accessing "
@@ -931,7 +932,7 @@ msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
 
 msgid "Custom LDAP search filter, <i>optional</i>"
-msgstr ""
+msgstr "Filtre LDAP search spécifique, <i>optionnel</i>"
 
 msgid "DHCP Proxy"
 msgstr "DHCP Proxy"
@@ -1312,7 +1313,7 @@ msgid "Expires"
 msgstr "Expire"
 
 msgid "External IP"
-msgstr ""
+msgstr "IP Externe"
 
 msgid "Fact Chart"
 msgstr "Graphique des Facts"
@@ -1570,7 +1571,7 @@ msgid "Foreman will create the host when new facts are received"
 msgstr "Foreman créé l'hôte à la réception des facts"
 
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
-msgstr ""
+msgstr "Foreman va tronquer le nom d'hôte à 'puppet' si ce dernier commence par puppet"
 
 msgid ""
 "Foreman, by default, operates in anonymous mode where all operations are "
@@ -1610,7 +1611,7 @@ msgid "Good host reports in the last %s"
 msgstr "Bons rapports dans les derniers %s"
 
 msgid "Google Project ID"
-msgstr ""
+msgstr "ID Projet Google"
 
 msgid "Hardware"
 msgstr "Matériel"
@@ -2027,7 +2028,7 @@ msgstr "Nom"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Public"
-msgstr ""
+msgstr "Public"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
@@ -2049,7 +2050,7 @@ msgid "LDAP Authentication"
 msgstr "Authentification LDAP"
 
 msgid "LDAP filter"
-msgstr ""
+msgstr "Filtre LDAP"
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first "
@@ -2084,7 +2085,7 @@ msgid "Load Tenants"
 msgstr "Charger les locataires"
 
 msgid "Load zones"
-msgstr ""
+msgstr "Zones de charge"
 
 msgid "Loading"
 msgstr "Chargement"
@@ -2114,7 +2115,7 @@ msgid "Location configuration"
 msgstr "Configuration des localisations"
 
 msgid "Location you had selected as your context has been deleted."
-msgstr ""
+msgstr "La localisation que vous avez sélectionnée comme contexte a été effacée."
 
 msgid "Location/Organization"
 msgstr "Localisation/Organisation"
@@ -2235,7 +2236,7 @@ msgid "Manage host"
 msgstr "Gérer l'hôte"
 
 msgid "Managed IP"
-msgstr ""
+msgstr "IP gérée"
 
 msgid "Manually Assign"
 msgstr "Assignation Manuelle"
@@ -2368,7 +2369,7 @@ msgid "NIC"
 msgstr "Carte réseau"
 
 msgid "NIC type"
-msgstr ""
+msgstr "Type d'interface réseau"
 
 msgid "Name"
 msgstr "Nom"
@@ -2567,7 +2568,7 @@ msgid "No history found"
 msgstr "Aucun historique trouvé"
 
 msgid "No host found to associate this VM with"
-msgstr ""
+msgstr "Aucun hôte trouvé à associer à cette VM"
 
 msgid "No host group selected!"
 msgstr "Aucun groupe d'hôtes sélectionné !"
@@ -2849,7 +2850,7 @@ msgid "Organization configuration"
 msgstr "Configuration de l'Organisation"
 
 msgid "Organization you had selected as your context has been deleted."
-msgstr ""
+msgstr "L'organisation que vous avez sélectionné comme contexte a été effacée."
 
 msgid "Organizations"
 msgstr "Organisations"
@@ -2900,7 +2901,7 @@ msgid "Owner changed to %s"
 msgstr "Propriétaire changé à %s"
 
 msgid "Owner type needs to be one of the following: %s"
-msgstr ""
+msgstr "Le type de propriétaire doit être l'un des suivants: %s "
 
 msgid "PXE"
 msgstr "PXE"
@@ -2955,10 +2956,10 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 msgid "Paused"
-msgstr ""
+msgstr "En pause"
 
 msgid "Pending"
 msgstr "En cours"
@@ -3030,7 +3031,7 @@ msgid "Power"
 msgstr "Activer l'alimentation"
 
 msgid "Power ON this machine"
-msgstr "Activer l'alimentation de cette machine"
+msgstr "Allumer cette machine"
 
 msgid "Power up compute instance %s"
 msgstr "Activer l'alimentation de l'instance %s"
@@ -3051,7 +3052,7 @@ msgid "Primary Interface"
 msgstr "Interface Principale"
 
 msgid "Private"
-msgstr ""
+msgstr "Privé"
 
 msgid "Proceed to Edit"
 msgstr "Passer à l'édition"
@@ -3109,7 +3110,7 @@ msgid "Ptable|Os family"
 msgstr "Famille de systèmes d'exploitations"
 
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 msgid "Puppet CA"
 msgstr "Puppet CA"
@@ -3183,7 +3184,7 @@ msgid "Query instance details for %s"
 msgstr "Interrogation des détails de l'instance pour %s"
 
 msgid "Quota ID"
-msgstr ""
+msgstr "ID Quota"
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -3193,7 +3194,7 @@ msgstr "Reconstruire %s au prochain redémarrage ?\\nCela supprimera également 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
 " also be enabled)"
-msgstr ""
+msgstr "Redirige vos utilisateurs sur cette URL à la déconnexion (authorize_login_delegation doit être activé)"
 
 msgid "Region"
 msgstr "Région"
@@ -3299,7 +3300,7 @@ msgid "Restarted|R"
 msgstr ""
 
 msgid "Resume"
-msgstr ""
+msgstr "Reprise"
 
 msgid "Revert"
 msgstr "Revenir"
@@ -3364,7 +3365,7 @@ msgid ""
 msgstr "Le fichier de la clef privée SSL que Foreman utilisera pour communiquer avec ses proxies"
 
 msgid "SafeRender#parse_string was passed a %s instead of a string"
-msgstr ""
+msgstr "SafeRender#parse_string a transmis un %s au lieu d'une chaine de caractères"
 
 msgid "Save"
 msgstr "Sauvegarder"
@@ -3385,7 +3386,7 @@ msgid "Security Group"
 msgstr "Groupe de sécurité"
 
 msgid "Security groups"
-msgstr ""
+msgstr "Groupes de sécurité"
 
 msgid "Select"
 msgstr "Choisir"
@@ -3479,7 +3480,7 @@ msgid "Should Foreman automate certificate signing upon provisioning new host"
 msgstr "Foreman doit-il automatiser la signature de certificats au provisionnement d'un hôte ?"
 
 msgid "Should Foreman parse ERB to return dynamic parameters?"
-msgstr ""
+msgstr "Foreman doit-il analyser l'ERB pour renvoyer les paramètres dynamiques ?"
 
 msgid ""
 "Should Foreman provide puppet environment in ENC yaml output? (this avoids "
@@ -3702,7 +3703,7 @@ msgid "Subnet|Vlanid"
 msgstr "VLAN id"
 
 msgid "Subscribe to host groups"
-msgstr ""
+msgstr "Souscrire aux groupes d'hôtes"
 
 msgid "Success"
 msgstr "Succès"
@@ -3894,7 +3895,7 @@ msgid "The email reply address for emails that Foreman is sending"
 msgstr "L'adresse courrier électronique de réponse pour les courriers émis par Foreman"
 
 msgid "The file path where your p12 file is located"
-msgstr ""
+msgstr "Le chemin où se trouve votre fichier p12"
 
 msgid ""
 "The final entry, Operating System default, can be set by editing the %s "
@@ -4048,7 +4049,7 @@ msgstr "Cette page s'autodétruira quand des données d'inventaires arriveront."
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is "
 "read-only."
-msgstr ""
+msgstr "Ce paramètre est défini dans le fichier de configuration 'settings.yaml' et est en lecture seule."
 
 msgid "Time in Seconds"
 msgstr "Temps en secondes"
@@ -4155,7 +4156,7 @@ msgid "UUID"
 msgstr "UUID"
 
 msgid "Unable to access key"
-msgstr ""
+msgstr "Impossible d'accéder à la clef"
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Impossible de communiquer avec le proxy : %s"
@@ -4369,7 +4370,7 @@ msgstr "Sel du mot de passe"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Subscribe to all hostgroups"
-msgstr ""
+msgstr "Souscrire à tous les groupes d'hôtes"
 
 msgid ""
 "Using the organization system provides a way to group resources together for"
@@ -4386,10 +4387,10 @@ msgid "VM"
 msgstr "VM"
 
 msgid "VM already associated with a host"
-msgstr ""
+msgstr "Cette VM est déjà associée à un hôte"
 
 msgid "VM associated to host %s"
-msgstr ""
+msgstr "Cette VM est associée à l'hôte %s"
 
 msgid "Valid from"
 msgstr "Valable depuis"
@@ -4644,7 +4645,7 @@ msgid "Your session has expired, please login again"
 msgstr "Votre session a expiré, merci de vous réauthentifier"
 
 msgid "Zone"
-msgstr ""
+msgstr "Zone"
 
 msgid "a script as well"
 msgstr "tout comme un script "
@@ -4689,7 +4690,7 @@ msgid "cant be blank unless a custom partition has been defined"
 msgstr "ne peut être vide à moins qu'un partitionnement spécifique n'ait été défini"
 
 msgid "cycle"
-msgstr ""
+msgstr "cycle"
 
 msgid "does not appear to be a valid nfs mount path"
 msgstr "n’apparaît pas être un point de montage NFS valide"
@@ -4785,7 +4786,7 @@ msgid "invalid IP address"
 msgstr "Adresse IP invalide"
 
 msgid "invalid LDAP filter syntax"
-msgstr ""
+msgstr "Syntaxe du filtre LDAP incorrect"
 
 msgid "invalid architecture for %s"
 msgstr "architecture invalide pour %s"
@@ -4980,7 +4981,7 @@ msgid "state"
 msgstr "État "
 
 msgid "status"
-msgstr ""
+msgstr "status"
 
 msgid "stop"
 msgstr "Arrêt"
