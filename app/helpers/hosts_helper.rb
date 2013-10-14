@@ -162,7 +162,11 @@ module HostsHelper
       end
     end
     begin
-      templates = TemplateKind.all.map{|k| @host.configTemplate(:kind => k.name)}.compact
+      templates = Hash[TemplateKind.order(:name).map do |k|
+        template = @host.configTemplate(:kind => k.name)
+        next if template.nil?
+        [k.name, template]
+      end.compact]
     rescue => e
       return case e.to_s
       when "Must provide an operating systems"
@@ -175,12 +179,12 @@ module HostsHelper
     return _("No template found") if templates.empty?
     content_tag :table, :class=>"table table-bordered table-striped" do
       content_tag(:th, _("Template Type")) + content_tag(:th) +
-      templates.sort{|t,x| t.template_kind <=> x.template_kind}.map do |tmplt|
+      templates.map do |kind, tmplt|
         content_tag :tr do
-          content_tag(:td, _("%s Template") % tmplt.template_kind) +
+          content_tag(:td, _("%s Template") % kind) +
             content_tag(:td,
           link_to_if_authorized(icon_text('pencil'), hash_for_edit_config_template_path(:id => tmplt.to_param), :title => _("Edit"), :rel=>"external") +
-          link_to(icon_text('eye-open'), url_for(:controller => '/unattended', :action => tmplt.template_kind.name, :spoof => @host.ip), :title => _("Review"), :"data-provisioning-template" => true ))
+          link_to(icon_text('eye-open'), url_for(:controller => '/unattended', :action => kind, :spoof => @host.ip), :title => _("Review"), :"data-provisioning-template" => true ))
         end
       end.join(" ").html_safe
     end
@@ -276,9 +280,9 @@ module HostsHelper
 
   def show_appropriate_host_buttons(host)
     [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn'),
-      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn') if host.facts_hash.present?),
-      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn') if host.reports.present?),
-      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') if SmartProxy.puppet_proxies.present?)
+      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn') if host.fact_values.any?),
+      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn') if host.reports.any?),
+      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') if SmartProxy.puppet_proxies.any?)
     ].compact
   end
 end
