@@ -2,7 +2,7 @@
 
 <% title_actions import_proxy_select(hash_for_import_environments_environments_path), button_group(display_link_if_authorized(_("New Environment"), hash_for_new_environment_path)) %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-two-pane">
   <tr>
     <th><%= sort :name, :as => s_("Environment|Name") %></th>
     <th><%= _('Hosts') %></th>

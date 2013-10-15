@@ -34,10 +34,11 @@ table .span0{
 }
 
 .table th{
+  color: #777777;
   background: rgba(0, 0, 0, 0.08);
   & a {
     text-decoration: none;
-    color: #333333;
+    color: #777777;
   }
 }
 
