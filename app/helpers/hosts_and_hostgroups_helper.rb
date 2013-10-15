@@ -32,9 +32,9 @@ module HostsAndHostgroupsHelper
     (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all
   end
 
-  def domain_subnets
-    return [] if @domain.blank?
-    @domain.subnets
+  def domain_subnets(domain=@domain)
+    return [] if domain.blank?
+    domain.subnets
   end
 
   def arch_oss
