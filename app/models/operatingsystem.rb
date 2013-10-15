@@ -17,21 +17,20 @@ class Operatingsystem < ActiveRecord::Base
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
     :reject_if => lambda { |v| v[:config_template_id].blank? }
 
-  validates_presence_of :major, :message => N_("Operating System version is required")
+  validates :major, :numericality => true, :presence => { :message => N_("Operating System version is required") }
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :fullname
-  validates_numericality_of :major
-  validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
+  validates :minor, :numericality => true, :allow_nil => true, :allow_blank => true
+  validates :name, :format => {:with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")}
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
   before_save :deduce_family
   audited :allow_mass_assignment => true
-  default_scope :order => 'operatingsystems.name'
+  default_scope lambda { order('operatingsystems.name') }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :major, :complete_value => :true

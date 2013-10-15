@@ -11,8 +11,7 @@ module Host
     has_many :fact_names, :through => :fact_values
 
     alias_attribute :hostname, :name
-    validates_presence_of   :name
-    validates_uniqueness_of :name
+    validates :name, :presence => true, :uniqueness => true
     validate :is_name_downcased?
     validates_inclusion_of :owner_type,
                            :in          => OWNER_TYPES,
@@ -21,7 +20,7 @@ module Host
 
     scope :my_hosts, lambda {
       user                 = User.current
-      return { :conditions => "" } if user.admin? # Admin can see all hosts
+      return if user.admin? # Admin can see all hosts
 
       owner_conditions             = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
       domain_conditions            = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domain_ids)])
@@ -53,8 +52,7 @@ module Host
         conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
       end
 
-      { :joins => ufs.empty? ? nil : :fact_values,
-        :conditions => conditions }
+      joins(ufs.empty? ? nil : :fact_values).where(conditions)
     }
     def self.attributes_protected_by_default
       super - [ inheritance_column ]
@@ -121,7 +119,7 @@ module Host
       FactValue.delete(deletions) unless deletions.empty?
 
       # Get FactNames in one call
-      fact_names = FactName.maximum(:id, :group => 'name')
+      fact_names = FactName.group(:name).maximum(:id)
 
       # Create any needed new FactNames
       facts['_timestamp'] = facts.delete(:_timestamp) if facts.include?(:_timestamp)
@@ -165,7 +163,7 @@ module Host
 
     def facts_hash
       hash = {}
-      fact_values.all(:include => :fact_name).collect do |fact|
+      fact_values.includes(:fact_name).collect do |fact|
         hash[fact.fact_name.name] = fact.value
       end
       hash

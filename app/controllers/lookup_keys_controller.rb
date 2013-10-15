@@ -10,7 +10,7 @@ class LookupKeysController < ApplicationController
       error e.to_s
       values = LookupKey.search_for ""
     end
-    @lookup_keys = values.paginate(:page => params[:page], :include => [:puppetclass])
+    @lookup_keys = values.includes(:puppetclass).paginate(:page => params[:page])
   end
 
   def edit

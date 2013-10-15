@@ -2,8 +2,8 @@ class EnvironmentClass < ActiveRecord::Base
   belongs_to :environment
   belongs_to :puppetclass
   belongs_to :lookup_key
-  validates_uniqueness_of :lookup_key_id,  :scope => [:environment_id, :puppetclass_id]
-  validates_presence_of :puppetclass_id, :environment_id
+  validates :lookup_key_id, :uniqueness => {:scope => [:environment_id, :puppetclass_id]}
+  validates :puppetclass_id, :environment_id, :presence => true
 
   scope :parameters_for_class, lambda {|puppetclasses_ids, environment_id|
       all_parameters_for_class(puppetclasses_ids, environment_id).where(:lookup_keys => {:override => true})

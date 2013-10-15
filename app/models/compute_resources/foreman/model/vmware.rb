@@ -5,7 +5,7 @@ require 'rbvmomi'
 module Foreman::Model
   class Vmware < ComputeResource
 
-    validates_presence_of :user, :password, :server, :datacenter
+    validates :user, :password, :server, :datacenter, :presence => true
     before_create :update_public_key
 
     def self.model_name
@@ -59,9 +59,9 @@ module Foreman::Model
     def nictypes
       {
         "VirtualE1000" => "E1000",
-        "VirtualVmxnet3" => "VMXNET 3" 
+        "VirtualVmxnet3" => "VMXNET 3"
       }
-    end      
+    end
 
     def datastores
       dc.datastores.all(:accessible => true)

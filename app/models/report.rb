@@ -9,8 +9,8 @@ class Report < ActiveRecord::Base
   has_one :environment, :through => :host
   has_one :hostgroup, :through => :host
 
-  validates_presence_of :host_id, :reported_at, :status
-  validates_uniqueness_of :reported_at, :scope => :host_id
+  validates :host_id, :status, :presence => true
+  validates :reported_at, :presence => true, :uniqueness => {:scope => :host_id}
 
   scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
   scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
@@ -31,9 +31,7 @@ class Report < ActiveRecord::Base
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
-    if User.current.admin? and Organization.current.nil? and Location.current.nil?
-      { :conditions => "" }
-    else
+    unless User.current.admin? and Organization.current.nil? and Location.current.nil?
       #TODO: Remove pluck after upgrade to newer rails as it would be
       #done via INNER select automatically
       where(:reports => {:host_id => Host.my_hosts.pluck(:id)})
@@ -41,10 +39,10 @@ class Report < ActiveRecord::Base
   }
 
   # returns recent reports
-  scope :recent, lambda { |*args| {:conditions => ["reported_at > ?", (args.first || 1.day.ago)], :order => "reported_at"} }
+  scope :recent, lambda { |*args| where("reported_at > ?", (args.first || 1.day.ago)).order(:reported_at) }
 
   # with_changes
-  scope :interesting, {:conditions => "status != 0"}
+  scope :interesting, lambda { where("status <> 0") }
 
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
@@ -174,18 +172,18 @@ class Report < ActiveRecord::Base
     all_reports.uniq! ; used_messages.uniq! ; used_sources.uniq!
 
     # reports which have logs entries
-    used_reports = Report.all(:select => :id, :conditions => {:id => all_reports}).map(&:id)
+    used_reports = Report.where(:id => all_reports).pluck(:id)
 
     orphaned_logs = all_reports - used_reports
-    Log.delete_all({:report_id => orphaned_logs}) unless orphaned_logs.empty?
+    Log.where(:report_id => orphaned_logs).delete_all unless orphaned_logs.empty?
 
-    all_messages = Message.all(:select => :id).map(&:id)
+    all_messages = Message.pluck(:id)
     orphaned_messages = all_messages - used_messages
-    Message.delete_all({:id => orphaned_messages}) unless orphaned_messages.empty?
+    Message.where(:id => orphaned_messages).delete_all unless orphaned_messages.empty?
 
-    all_sources = Source.all(:select => :id).map(&:id)
+    all_sources = Source.pluck(:id)
     orphaned_sources = all_sources - used_sources
-    Source.delete_all({:id => orphaned_sources}) unless orphaned_sources.empty?
+    Source.where(:id => orphaned_sources).delete_all unless orphaned_sources.empty?
 
     logger.info Time.now.to_s + ": Expired #{count} Reports"
     return count

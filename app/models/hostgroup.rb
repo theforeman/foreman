@@ -9,8 +9,8 @@ class Hostgroup < ActiveRecord::Base
   has_many :puppetclasses, :through => :hostgroup_classes
   has_many :user_hostgroups, :dependent => :destroy
   has_many :users, :through => :user_hostgroups
-  validates_uniqueness_of :name, :scope => :ancestry, :case_sensitive => false
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")
+  validates :name, :uniqueness => {:scope => :ancestry, :case_sensitive => false },
+                   :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many_hosts
@@ -46,15 +46,13 @@ class Hostgroup < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_groups, lambda {
     user = User.current
-    if user.admin?
-      conditions = { }
-    else
+    unless user.admin?
       conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))", user.hostgroup_ids])
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
     end
-    {:conditions => conditions}
+    where(conditions)
   }
 
   class Jail < Safemode::Jail
@@ -109,7 +107,7 @@ class Hostgroup < ActiveRecord::Base
     ids << id unless new_record? or self.frozen?
     # need to pull out the hostgroups to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    groups = ids.size == 1 ? [self] : Hostgroup.sort_by_ancestry(Hostgroup.find(ids, :include => :group_parameters))
+    groups = ids.size == 1 ? [self] : Hostgroup.includes(:group_parameters).sort_by_ancestry(Hostgroup.find(ids))
     groups.each do |hg|
       hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :hostgroup} : p.value }
     end

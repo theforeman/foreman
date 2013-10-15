@@ -3,8 +3,8 @@ module Foreman::Model
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
     delegate :subnets, :to => :client
+    validates :user, :password, :presence => true
 
-    validates_presence_of :user, :password
     after_create :setup_key_pair
     after_destroy :destroy_key_pair
 

@@ -1,6 +1,6 @@
 class FactTrend < Trend
-  validates :trendable_id, :uniqueness => {:scope =>  [:trendable_type, :fact_value] }
-  validates_presence_of :trendable_id, :allow_blank => false
+
+  validates :trendable_id, :presence => true, :uniqueness => {:scope =>  [:trendable_type, :fact_value] }, :allow_blank => false
 
   before_save :update_fact_name
 

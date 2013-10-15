@@ -12,12 +12,19 @@ class Subnet < ActiveRecord::Base
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
   has_many :interfaces, :class_name => 'Nic::Base'
-  validates_presence_of   :network, :mask, :name
+  validates :network, :mask, :name, :presence => true
   validates_associated    :subnet_domains
-  validates_uniqueness_of :network
-  validates_format_of     :network, :mask,                        :with => Net::Validations::IP_REGEXP
-  validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true, :allow_nil => true
-  validates_length_of     :network, :mask, :gateway, :dns_primary, :dns_secondary, :maximum => 15, :message => _("must be at most 15 characters")
+  validates :network, :uniqueness => true,
+                      :format => {:with => Net::Validations::IP_REGEXP},
+                      :length => {:maximum => 15, :message => _("must be at most 15 characters")}
+  validates :gateway, :dns_primary, :dns_secondary,
+                      :allow_blank => true,
+                      :allow_nil => true,
+                      :format => {:with => Net::Validations::IP_REGEXP},
+                      :length => { :maximum => 15, :message => _("must be at most 15 characters") }
+  validates :mask,    :format => {:with => Net::Validations::IP_REGEXP},
+                      :length => {:maximum => 15, :message => _("must be at most 15 characters")}
+
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
   validate :name_should_be_uniq_across_domains

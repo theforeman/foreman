@@ -8,7 +8,7 @@ module Foreman::Model
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
 
-    validates_presence_of :user, :password
+    validates :user, :password, :presence => true
 
     def provided_attributes
       super.merge({ :ip => :floating_ip_address })

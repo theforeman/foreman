@@ -13,9 +13,9 @@ class UsersController < ApplicationController
       users = User.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      users = User.search_for('', :order => params[:order]).paginate :page => params[:page]
+      users = User.search_for('', :order => params[:order])
     end
-    @users = users.paginate :page => params[:page], :include => [:auth_source]
+    @users = users.includes(:auth_source).paginate(:page => params[:page])
   end
 
   def new

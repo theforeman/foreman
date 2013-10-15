@@ -3,9 +3,7 @@ module Nic
 
     attr_accessible :ip
 
-    validates_uniqueness_of :ip
-    validates_presence_of :ip
-    validates_format_of :ip, :with => Net::Validations::IP_REGEXP
+    validates :ip, :uniqueness => true, :presence => true, :format => {:with => Net::Validations::IP_REGEXP}
 
     validate :normalize_ip
 

@@ -19,8 +19,6 @@ class UserRole < ActiveRecord::Base
   belongs_to :user
   belongs_to :role
 
-  validates_presence_of :role
-  validates_presence_of :user
-
-  validates_uniqueness_of :user_id, :scope => :role_id, :message => "has this role already"
+  validates :role_id, :presence => true
+  validates :user_id, :presence => true, :uniqueness => {:scope => :role_id, :message => N_("has this role already")}
 end

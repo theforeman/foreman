@@ -2,7 +2,7 @@ class Log < ActiveRecord::Base
   belongs_to :message
   belongs_to :source
   belongs_to :report
-  validates_presence_of :message_id, :source_id, :report_id, :level_id
+  validates :message_id, :source_id, :report_id, :level_id, :presence => true
 
   LEVELS = [:debug, :info, :notice, :warning, :err, :alert, :emerg, :crit]
 
