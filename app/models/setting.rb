@@ -59,7 +59,7 @@ class Setting < ActiveRecord::Base
     method_name = method.to_s
 
     #setter method
-    if method_name =~ /=$/
+    if method_name =~ /=\Z/
       self[method_name.chomp("=")] = args.first
     #getter
     else
@@ -104,7 +104,7 @@ class Setting < ActiveRecord::Base
       end
 
     when "integer"
-      if val =~ /^\d+$/
+      if val =~ /\A\d+\Z/
         self.value = val.to_i
       else
         invalid_value_error _("must be integer")
@@ -112,7 +112,7 @@ class Setting < ActiveRecord::Base
       end
 
     when "array"
-      if val =~ /^\[.*\]$/
+      if val =~ /\A\[.*\]\Z/
         begin
           self.value = YAML.load(val.gsub(/(\,)(\S)/, "\\1 \\2"))
         rescue => e

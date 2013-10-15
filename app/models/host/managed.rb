@@ -167,8 +167,8 @@ class Host::Managed < Host::Base
   # supports a simple user, or a usergroup
   # selection parameter is expected to be an ActiveRecord id_and_type method (see Foreman's AR extentions).
   def is_owned_by=(selection)
-    oid = User.find(selection.to_i) if selection =~ (/-Users$/)
-    oid = Usergroup.find(selection.to_i) if selection =~ (/-Usergroups$/)
+    oid = User.find(selection.to_i) if selection =~ (/-Users\Z/)
+    oid = Usergroup.find(selection.to_i) if selection =~ (/-Usergroups\Z/)
     self.owner = oid
   end
 

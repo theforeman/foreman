@@ -34,7 +34,7 @@ module Host
         fact_conditions += sanitize_sql_for_conditions ["(hosts.id = fact_values.host_id and fact_values.fact_name_id = ? and fact_values.value #{user_fact.operator} ?)", user_fact.fact_name_id, user_fact.criteria]
         fact_conditions = user_fact.andor == "and" ? "(#{fact_conditions}) and " : "#{fact_conditions} or  "
       end
-      if (match = fact_conditions.match(/^(.*).....$/))
+      if (match = fact_conditions.match(/\A(.*).....\Z/))
         fact_conditions = "(#{match[1]})"
       end
 
@@ -48,7 +48,7 @@ module Host
         (conditions = (user.organizations_andor     == "and") ? "(#{conditions}) and #{organization_conditions} "     : "#{conditions} or #{organization_conditions} ")     unless orgs.empty?
         (conditions = (user.locations_andor         == "and") ? "(#{conditions}) and #{location_conditions} "         : "#{conditions} or #{location_conditions} ")         unless locs.empty?
         conditions.sub!(/\s*\(\)\s*/, "")
-        conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
+        conditions.sub!(/\A(?:\(\))?\s?(?:and|or)\s*/, "")
         conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
       end
 

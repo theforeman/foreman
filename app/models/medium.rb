@@ -9,7 +9,7 @@ class Medium < ActiveRecord::Base
   has_many :hostgroups
 
   # We need to include $ in this as $arch, $release, can be in this string
-  VALID_NFS_PATH=/^([-\w\d\.]+):(\/[\w\d\/\$\.]+)$/
+  VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
   validates :name, :uniqueness => true, :presence => true,
                    :format => { :with => /\A(\S+\s)*\S+\Z/, :message => N_("can't be blank or contain trailing white spaces.") }
   validates :path, :uniqueness => true, :presence => true,
