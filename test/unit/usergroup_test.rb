@@ -1,23 +1,25 @@
 require 'test_helper'
 
 class UsergroupTest < ActiveSupport::TestCase
+
   setup do
     User.current = User.find_by_login("admin")
   end
+
   test "usergroups should be creatable" do
-    assert Usergroup.create(:name => "name").valid?
+    assert FactoryGirl.build(:usergroup).valid?
   end
 
   test "name should be unique" do
-    one = Usergroup.create :name => "one"
-    two = Usergroup.create :name => "one"
+    one = FactoryGirl.create(:usergroup)
+    two = FactoryGirl.build(:usergroup, :name => one.name)
 
     assert !two.valid?
   end
 
   test "name is unique across user as well as usergroup" do
     user = User.create :auth_source => auth_sources(:one), :login => "user", :mail  => "user@someware.com"
-    usergroup  = Usergroup.create :name => "user"
+    usergroup = FactoryGirl.build(:usergroup, :name => user.login)
 
     assert !usergroup.valid?
   end
@@ -130,29 +132,29 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "user with destroy permissions should be able to destroy" do
+    record = FactoryGirl.create(:usergroup)
     setup_user "destroy"
-    record =  Usergroup.first
     assert record.destroy
     assert record.frozen?
   end
 
   test "user with edit permissions should not be able to destroy" do
+    record = FactoryGirl.create(:usergroup)
     setup_user "edit"
-    record =  Usergroup.first
     assert !record.destroy
     assert !record.frozen?
   end
 
   test "user with edit permissions should be able to edit" do
+    record = FactoryGirl.create(:usergroup)
     setup_user "edit"
-    record      =  Usergroup.first
     record.name = "renamed"
     assert record.save
   end
 
   test "user with destroy permissions should not be able to edit" do
+    record = FactoryGirl.create(:usergroup)
     setup_user "destroy"
-    record      =  Usergroup.first
     record.name = "renamed"
     assert !record.save
     assert record.valid?

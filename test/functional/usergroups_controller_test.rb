@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class UsergroupsControllerTest < ActionController::TestCase
+
+  def setup
+    as_admin { FactoryGirl.create(:usergroup) }
+  end
+
   def test_index
     get :index, {}, set_session_user
     assert_template 'index'

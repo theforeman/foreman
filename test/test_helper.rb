@@ -20,6 +20,7 @@ Spork.prefork do
   require 'rails/test_help'
   require "minitest/autorun"
   require 'capybara/rails'
+  require 'factory_girl_rails'
 
   # Turn of Apipie validation for tests
   Apipie.configuration.validate = false
