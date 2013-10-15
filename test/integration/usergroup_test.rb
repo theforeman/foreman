@@ -2,6 +2,10 @@ require 'test_helper'
 
 class UsergroupTest < ActionDispatch::IntegrationTest
 
+  def setup
+    as_admin { FactoryGirl.create(:usergroup, :name => "Admins") }
+  end
+
   test "index page" do
     assert_index_page(usergroups_path,"User Groups","New User group",false)
   end

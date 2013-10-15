@@ -14,4 +14,5 @@ group :test do
   gem 'database_cleaner', '0.9.1'
   gem 'launchy'
   gem 'spork'
+  gem 'factory_girl_rails', '~> 1.2', :require => false
 end
