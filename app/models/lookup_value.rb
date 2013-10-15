@@ -1,8 +1,7 @@
 class LookupValue < ActiveRecord::Base
   include Authorization
   belongs_to :lookup_key, :counter_cache => true
-  validates_uniqueness_of :match, :scope => :lookup_key_id
-  validates_presence_of :match
+  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
   before_validation :validate_and_cast_value
@@ -13,7 +12,7 @@ class LookupValue < ActiveRecord::Base
   serialize :value
   attr_name :value
 
-  scope :default, :conditions => { :match => "default" }, :limit => 1
+  scope :default, lambda { where(:match => "default").limit(1) }
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true

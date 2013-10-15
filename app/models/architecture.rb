@@ -7,8 +7,7 @@ class Architecture < ActiveRecord::Base
   has_many :hostgroups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :operatingsystems
-  validates_uniqueness_of :name
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")
+  validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
   audited :allow_mass_assignment => true
 
   scoped_search :on => :name, :complete_value => :true

@@ -25,11 +25,11 @@ class LookupKey < ActiveRecord::Base
 
   before_validation :validate_and_cast_default_value
 
-  validates_uniqueness_of :key, :unless => Proc.new{|p| p.is_param?}
-  validates_presence_of :key
-  validates_presence_of :puppetclass, :unless => Proc.new {|k| k.is_param?}
-  validates_inclusion_of :validator_type, :in => VALIDATOR_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
-  validates_inclusion_of :key_type, :in => KEY_TYPES, :message => "invalid", :allow_blank => true, :allow_nil => true
+  validates :key, :uniqueness => true, :unless => Proc.new{|p| p.is_param?}
+  validates :key, :presence => true
+  validates :puppetclass, :presence => true, :unless => Proc.new {|k| k.is_param?}
+  validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => "invalid"}, :allow_blank => true, :allow_nil => true
+  validates :key_type, :inclusion => {:in => KEY_TYPES, :message => "invalid"}, :allow_blank => true, :allow_nil => true
   validate :validate_list, :validate_regexp
   validates_associated :lookup_values
   validate :ensure_type
@@ -42,8 +42,9 @@ class LookupKey < ActiveRecord::Base
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
-  default_scope :order => 'lookup_keys.key'
-  scope :override, where(:override => true)
+  default_scope lambda { order('lookup_keys.key') }
+
+  scope :override, lambda { where(:override => true) }
 
   scope :smart_class_parameters_for_class, lambda {|puppetclass_ids, environment_id|
     joins(:environment_classes).where(:environment_classes => {:puppetclass_id => puppetclass_ids, :environment_id => environment_id})

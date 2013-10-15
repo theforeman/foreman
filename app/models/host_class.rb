@@ -4,8 +4,8 @@ class HostClass < ActiveRecord::Base
   belongs_to_host :foreign_key => :host_id
   belongs_to :puppetclass
 
-  validates_presence_of :host_id, :puppetclass_id
-  validates :puppetclass_id, :uniqueness => {:scope => :host_id}
+  validates :host_id, :presence => true
+  validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :host_id}
 
   def name
     "#{host} - #{puppetclass}"

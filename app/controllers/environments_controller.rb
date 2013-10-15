@@ -5,8 +5,8 @@ class EnvironmentsController < ApplicationController
   before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    @environments = Environment.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
-    @counter      = Host.count(:group => :environment_id, :conditions => {:environment_id => @environments.all})
+    @environments = Environment.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @counter      = Host.group(:environment_id).where(:environment_id => @environments.pluck(:id)).count
   end
 
   def new

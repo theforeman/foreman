@@ -49,7 +49,7 @@
             </ul>
 
             <div class="tab-content span7 smart-var-content">
-              <%= f.fields_for :class_params, f.object.class_params.all(:include => [:environment_classes, :environments, :lookup_values]) do |lookup_keys_form| %>
+              <%= f.fields_for :class_params, f.object.class_params.includes(:environment_classes, :environments, :lookup_values) do |lookup_keys_form| %>
                   <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
               <% end %>
             </div>

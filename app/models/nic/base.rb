@@ -12,18 +12,16 @@ module Nic
 
     before_validation :normalize_mac
 
-    validates_uniqueness_of :mac
-    validates_presence_of :mac
-    validates_format_of :mac, :with => Net::Validations::MAC_REGEXP
+    validates :mac, :uniqueness => true, :presence => true, :format => {:with => Net::Validations::MAC_REGEXP}
 
     validate :uniq_with_hosts
 
-    validates_presence_of :host
+    validates :host, :presence => true
 
-    scope :bootable, where(:type => "Nic::Bootable")
-    scope :bmc, where(:type => "Nic::BMC")
-    scope :interfaces, where(:type => "Nic::Interface")
-    scope :managed, where(:type => "Nic::Managed")
+    scope :bootable, lambda { where(:type => "Nic::Bootable") }
+    scope :bmc, lambda { where(:type => "Nic::BMC") }
+    scope :interfaces, lambda { where(:type => "Nic::Interface") }
+    scope :managed, lambda { where(:type => "Nic::Managed") }
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Managed"
     # keep extra attributes needed for sub classes.

@@ -17,9 +17,8 @@ class Domain < ActiveRecord::Base
   has_many :interfaces, :class_name => 'Nic::Base'
 
   accepts_nested_attributes_for :domain_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
-  validates_uniqueness_of :name
-  validates_uniqueness_of :fullname, :allow_blank => true, :allow_nil => true
-  validates_presence_of :name
+  validates :name, :presence => true, :uniqueness => true
+  validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
   scoped_search :on => [:name, :fullname], :complete_value => true
   scoped_search :in => :domain_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params

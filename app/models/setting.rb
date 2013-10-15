@@ -10,21 +10,21 @@ class Setting < ActiveRecord::Base
   # audit the changes to this model
   audited :only => [:value], :on => [:update], :allow_mass_assignment => true
 
-  validates_presence_of :name, :description
-  validates_uniqueness_of :name
-  validates_presence_of :default, :unless => Proc.new {|s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
-  validates_inclusion_of :default, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
-  validates_numericality_of :value, :if => Proc.new {|s| s.settings_type == "integer"}
-  validates_numericality_of :value, :if => Proc.new {|s| NONZERO_ATTRS.include?(s.name) }, :greater_than => 0
-  validates_inclusion_of :value, :in => [true,false], :if => Proc.new {|s| s.settings_type == "boolean"}
-  validates_presence_of :value, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
-  validates_inclusion_of :settings_type, :in => TYPES, :allow_nil => true, :allow_blank => true
+  validates :name, :presence => true, :uniqueness => true
+  validates :description, :presence => true
+  validates :default, :presence => true, :unless => Proc.new {|s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
+  validates :default, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
+  validates :value, :numericality => true, :if => Proc.new {|s| s.settings_type == "integer"}
+  validates :value, :numericality => {:greater_than => 0}, :if => Proc.new {|s| NONZERO_ATTRS.include?(s.name) }
+  validates :value, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
+  validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
+  validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   before_save :clear_cache
   validate :validate_frozen_attributes
   after_find :readonly_when_overridden_in_SETTINGS
-  default_scope order(:name)
+  default_scope lambda { order(:name) }
 
   # The DB may contain settings from disabled plugins - filter them out here
   scope :live_descendants, lambda { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }

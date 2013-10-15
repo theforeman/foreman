@@ -6,12 +6,12 @@ class Usergroup < ActiveRecord::Base
   has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
 
   has_many_hosts :as => :owner
-  validates_uniqueness_of :name
+  validates :name, :uniqueness => true
   before_destroy EnsureNotUsedBy.new(:hosts, :usergroups)
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
-  default_scope :order => 'usergroups.name'
+  default_scope lambda { order('usergroups.name') }
   scoped_search :on => :name, :complete_value => :true
   validate :ensure_uniq_name
 

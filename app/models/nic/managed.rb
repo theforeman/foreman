@@ -6,7 +6,7 @@ module Nic
 
     attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
 
-    validates_uniqueness_of :name, :scope => :domain_id
+    validates :name, :uniqueness => {:scope => :domain_id}
 
     belongs_to :subnet
     belongs_to :domain

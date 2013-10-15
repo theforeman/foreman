@@ -1,7 +1,7 @@
 module Foreman::Model
   class Rackspace < ComputeResource
 
-    validates_presence_of :user, :password, :region
+    validates :user, :password, :region, :presence => true
     validate :ensure_valid_region
 
     def provided_attributes

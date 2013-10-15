@@ -3,7 +3,7 @@ class ArchitecturesController < ApplicationController
   before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    @architectures = Architecture.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :include => :operatingsystems)
+    @architectures = Architecture.includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new

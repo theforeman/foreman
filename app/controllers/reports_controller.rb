@@ -14,12 +14,12 @@ class ReportsController < ApplicationController
     # are we searching for the last report?
     if params[:id] == "last"
       conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
-      params[:id] = Report.my_reports.maximum(:id, :conditions => conditions)
+      params[:id] = Report.my_reports.where(conditions).maximum(:id)
     end
 
     return not_found if params[:id].blank?
 
-    @report = Report.my_reports.find(params[:id], :include => { :logs => [:message, :source] })
+    @report = Report.my_reports.includes(:logs => [:message, :source]).find(params[:id])
     @offset = @report.reported_at - @report.created_at
   end
 
