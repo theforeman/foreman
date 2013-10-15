@@ -55,8 +55,8 @@
                       <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit) %>
                     </div>
                   </div>
-              <% end -%>
-          <% else -%>
+              <% end %>
+          <% else %>
               <%= alert :header => _('No history found'), :text => _('Save something and try again') %>
           <% end %>
         </div>

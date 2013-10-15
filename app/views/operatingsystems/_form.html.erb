@@ -2,7 +2,7 @@
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
-    <% if SETTINGS[:unattended] -%>
+    <% if SETTINGS[:unattended] %>
       <li><a href="#ptable" data-toggle="tab"><%= _("Partition table") %></a></li>
       <li><a href="#media" data-toggle="tab"><%= _("Installation media") %></a></li>
       <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>

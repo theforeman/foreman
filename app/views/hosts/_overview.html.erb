@@ -4,9 +4,9 @@
   </tr>
   <tr>
     <td>
-      <% show_appropriate_host_buttons(@host).each do |btn| -%>
+      <% show_appropriate_host_buttons(@host).each do |btn| %>
         <%= btn %>
-      <% end -%>
+      <% end %>
     </td>
   </tr>
 </table>
@@ -15,10 +15,10 @@
     <th><%= _('Properties') %></th>
     <th></th>
   </tr>
-  <% overview_fields(host).each do |name, value| -%>
+  <% overview_fields(host).each do |name, value| %>
     <tr>
       <td><%= name %></td>
       <td><%= value %></td>
     </tr>
-  <% end -%>
+  <% end %>
 </table>

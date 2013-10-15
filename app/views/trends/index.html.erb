@@ -1,7 +1,7 @@
 <% title _("Trends") %>
 
 <% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path) %>
-<% if @trends.empty? -%>
+<% if @trends.empty? %>
   <div class="alert alert-message alert-info">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
 

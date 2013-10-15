@@ -1,10 +1,10 @@
-<% new = f.object && f.object.id.blank? -%>
+<% new = f.object && f.object.id.blank? %>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
 <%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => _('Flavor') %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
--%>
+%>
 <div id='image_selection'>
   <%= select_f f, :image_ref, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },

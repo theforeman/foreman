@@ -5,7 +5,7 @@
       <%= contracted_host_list @user %>
       <%= expanded_host_list @user %>
     </div>
-    <% end -%>
+    <% end %>
 
     <%= field_set_tag _("Domain hosts") do %>
         <%= f.select :domains_andor, [[_("in domain"), "and"], [_("plus all"), "or"]], {}, :class => "input-small" %>
@@ -32,12 +32,12 @@
       <div class="control-group">
         <%= f.select :facts_andor, [[_("must match"), "and"], [_("plus all"), "or"]], {} ,:class => "input-small" %>
         <div class="offset1">
-          <%= f.fields_for :user_facts do |builder| -%>
+          <%= f.fields_for :user_facts do |builder| %>
               <%= render "user_fact", :f => builder %>
-          <% end -%>
-          <% if authorized_for(params[:controller], params[:action]) -%>
+          <% end %>
+          <% if authorized_for(params[:controller], params[:action]) %>
               <p><%= link_to_add_fields('+ ' + _("Add Filter"), f, :user_facts, "user_fact", :title => _("Add a fact filter")) %></p>
-          <% end -%>
+          <% end %>
         </div>
       </div>
   <% end %>

@@ -1,12 +1,12 @@
 <ul class="inputs-list">
-  <% if associations.empty? -%>
+  <% if associations.empty? %>
     <strong><%= _("None Found") %></strong>
-  <% else -%>
+  <% else %>
     <% association = associations.first %>
     <%= link_to_function(icon_text("check", ""), "toggleCheckboxesBySelector(\"[id$='#{ActiveModel::Naming.singular(association)}_ids_']\")",
                                          :title => _("Select all")) %>
     <% selected_ids = klass.send(ActiveModel::Naming.plural(association)).select("#{association.class.table_name}.id").map(&:id) %>
-    <% associations.sort{|a,b| a.to_s <=> b.to_s}.each do |association| -%>
+    <% associations.sort{|a,b| a.to_s <=> b.to_s}.each do |association| %>
       <li>
       <%= content_tag_for :label, association do %>
         <% check_box_name = "#{prefix || klass.class.model_name.tableize.singularize}[#{ActiveModel::Naming.singular(association)}_ids][]" %>
@@ -14,8 +14,8 @@
                           :disabled => options[:disabled].present? && options[:disabled].include?(association.id)) %>
         <%= contract association %>
         <%= hidden_field_tag check_box_name %>
-      <% end -%>
+      <% end %>
       </li>
-    <% end -%>
-  <% end -%>
+    <% end %>
+  <% end %>
 </ul>

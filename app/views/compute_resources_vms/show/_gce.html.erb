@@ -20,11 +20,11 @@
       <td>Private IP</td>
       <td><%= @vm.private_ip_address %></td>
     </tr>
-    <% if @vm.public_ip_address.present? -%>
+    <% if @vm.public_ip_address.present? %>
       <tr>
         <td>Public IP</td>
         <td><%= @vm.public_ip_address %></td>
       </tr>
-    <% end -%>
+    <% end %>
   </table>
 </div>

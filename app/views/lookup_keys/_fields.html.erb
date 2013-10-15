@@ -1,6 +1,6 @@
 
 <div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')%>' class='tab-pane fields' >
-  <% is_param = f.object.is_param -%>
+  <% is_param = f.object.is_param %>
 
   <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence,:class=>'span4', :label=> _('Puppet Environments'), :disabled=>true) if is_param%>
 
