@@ -14,10 +14,10 @@ class Medium < ActiveRecord::Base
                    :format => { :with => /\A(\S+\s)*\S+\Z/, :message => N_("can't be blank or contain trailing white spaces.") }
   validates :path, :uniqueness => true, :presence => true,
                    :format => { :with => /^(http|https|ftp|nfs):\/\//,
-                                :message => _("Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)")
+                                :message => N_("Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)")
                               }
   validates :media_path, :config_path, :image_path, :allow_blank => true,
-                :format => { :with => VALID_NFS_PATH, :message => _("does not appear to be a valid nfs mount path")},
+                :format => { :with => VALID_NFS_PATH, :message => N_("does not appear to be a valid nfs mount path")},
                 :if => Proc.new { |m| m.respond_to? :media_path }
 
   # with proc support, default_scope can no longer be chained
