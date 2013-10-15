@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <% hosts.each do |host| -%>
+        <% hosts.each do |host| %>
           <tr>
             <td><%=h host %> </td>
             <td><%=h host.try(:hostgroup) %></td>
@@ -24,7 +24,7 @@
             <td><%=h host.try(:organization) %></td>
             <% end %>
           </tr>
-        <% end -%>
+        <% end %>
       </tbody>
     </table>
   </div>

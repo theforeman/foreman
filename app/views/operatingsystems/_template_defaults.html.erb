@@ -1,19 +1,19 @@
 <div class="tab-pane" id="templates">
-  <% if @operatingsystem.new_record? -%>
+  <% if @operatingsystem.new_record? %>
     <div class="alert alert-message alert-block alert-warning">
       <p><strong><%= _("Notice") %></strong> <%= _("It is not possible to assign provisioning templates at this stage") %></p>
       <p><%= _("Please save the Operating System first and try again.") %></p>
     </div>
-  <% else -%>
-    <% if ConfigTemplate.joins(:operatingsystems).where(:operatingsystems => { :id => @operatingsystem.id }).empty? -%>
+  <% else %>
+    <% if ConfigTemplate.joins(:operatingsystems).where(:operatingsystems => { :id => @operatingsystem.id }).empty? %>
       <div class="alert alert-message alert-warning">
         <a class="close" href="#" data-dismiss="alert">&times;</a>
         <p><strong><%= _("No templates found!") %></strong> <%= (_("you probably need to configure your %s first.") % link_to("templates", config_templates_path)).html_safe %></p>
       </div>
-    <% end -%>
+    <% end %>
 
-    <%= f.fields_for :os_default_templates do |builder| -%>
+    <%= f.fields_for :os_default_templates do |builder| %>
       <%= render 'templates', :f => builder %>
-    <% end -%>
-  <% end -%>
+    <% end %>
+  <% end %>
 </div>

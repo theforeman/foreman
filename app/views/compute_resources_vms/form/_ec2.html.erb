@@ -2,18 +2,18 @@
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
--%>
+%>
 
 <div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty? } %></div>
 
 <%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
 
 <div id='subnet_selection'>
-<% if compute_resource.subnets.any? -%>
+<% if compute_resource.subnets.any? %>
   <%= select_f f, :subnet_id, compute_resource.subnets, :subnet_id, :cidr_block,
                 {:include_blank => _("EC2")},
                 {:label => _("Subnet"), :onchange => "ec2_vpcSelected(this);"} %>
-<% end -%>
+<% end %>
 
 <%
   vpc_id = compute_object_vpc_id(f)

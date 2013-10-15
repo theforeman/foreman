@@ -3,9 +3,9 @@
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
     <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
-    <% if SETTINGS[:unattended] -%>
+    <% if SETTINGS[:unattended] %>
       <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
-    <% end -%>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -27,7 +27,7 @@
       <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation media") %>
     </div>
 
-    <%= render('template_defaults', :f => f) if SETTINGS[:unattended] -%>
+    <%= render('template_defaults', :f => f) if SETTINGS[:unattended] %>
 
     <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>

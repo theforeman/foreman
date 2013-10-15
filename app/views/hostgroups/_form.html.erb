@@ -3,18 +3,18 @@
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') -%></a></li>
-    <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') -%></a></li>
-    <% if SETTINGS[:unattended] -%>
-      <li><a href="#network" data-toggle="tab"><%= _('Network') -%></a></li>
-      <li><a href="#os" data-toggle="tab"><%= _('Operating System') -%></a></li>
-    <% end -%>
-    <li><a href="#params" id='params-tab' data-toggle="tab"><%= _('Parameters') -%></a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
+    <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
+    <% if SETTINGS[:unattended] %>
+      <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
+      <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
+    <% end %>
+    <li><a href="#params" id='params-tab' data-toggle="tab"><%= _('Parameters') %></a></li>
     <% if show_location_tab? %>
-      <li><a href="#locations" data-toggle="tab"><%= _('Locations') -%></a></li>
+      <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
     <% if show_organization_tab? %>
-      <li><a href="#organizations" data-toggle="tab"><%= _('Organizations') -%></a></li>
+      <li><a href="#organizations" data-toggle="tab"><%= _('Organizations') %></a></li>
     <% end %>
   </ul>
 
@@ -32,11 +32,11 @@
     </div>
 
     <div class="tab-pane" id="puppet_klasses">
-      <% if @environment or @hostgroup.environment -%>
+      <% if @environment or @hostgroup.environment %>
         <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
-      <% else -%>
-        <p class="alert alert-message"><%= _('Please select an environment first') -%></p>
-      <% end -%>
+      <% else %>
+        <p class="alert alert-message"><%= _('Please select an environment first') %></p>
+      <% end %>
     </div>
 
     <div class="tab-pane" id="network">
@@ -49,10 +49,10 @@
     </div>
 
     <div class="tab-pane" id="params">
-      <h6><%= _('Puppet classes parameters') -%></h6>
+      <h6><%= _('Puppet classes parameters') %></h6>
       <p/>
       <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
-      <h6><%= _('Host group parameters') -%></h6>
+      <h6><%= _('Host group parameters') %></h6>
       <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p/>

@@ -10,7 +10,7 @@
     {:id => type + "_ptable_id", :name => type + "[ptable_id]", :label => _("Partition table"), :disabled => os_ptable.empty?}
   %>
 
-  <% if @operatingsystem and @operatingsystem.supports_image -%>
+  <% if @operatingsystem and @operatingsystem.supports_image %>
     <%= render "common/os_selection/image_details", {:item => item} %>
-  <% end -%>
-<% end -%>
+  <% end %>
+<% end %>

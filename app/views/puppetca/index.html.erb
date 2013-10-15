@@ -11,7 +11,7 @@
     <th><%= _("Fingerprint") %></th>
     <th></th>
   </tr>
-  <% @certificates.each do |cert| -%>
+  <% @certificates.each do |cert| %>
       <tr>
         <td><%= cert.name %> </td>
         <td><%= _(cert.state) %></td>
@@ -29,7 +29,7 @@
           %>
         </td>
       </tr>
-  <% end -%>
+  <% end %>
 </table>
 
 <%= page_entries_info @certificates  %>

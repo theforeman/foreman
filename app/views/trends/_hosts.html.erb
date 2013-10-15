@@ -1,7 +1,7 @@
 <% @trend.find_hosts.in_groups(4, false) do |group| %>
   <div class="span3">
     <td>
-      <% group.each do |host| -%>
+      <% group.each do |host| %>
         <ul class="base">
           <li>
             <%= link_to(host, host_path(:id => host), :title => _("Show Host")) %>
@@ -10,4 +10,4 @@
       <% end %>
     </td>
   </div>
-<% end -%>
+<% end %>

@@ -25,14 +25,14 @@
         <%= render :partial => "hosts/overview", :locals => { :host => @host } %>
       </div>
       <div class="tab-pane" id="metrics">
-        <% if @report_summary.size == 0 -%>
+        <% if @report_summary.size == 0 %>
             <p><%= _('No puppet activity for this host in the last %s days') % @range %></p>
-        <% else -%>
+        <% else %>
             <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
-        <% end -%>
+        <% end %>
       </div>
       <div class="tab-pane" id="template">
-        <%= show_templates -%>
+        <%= show_templates %>
       </div>
       <div class="tab-pane" id="vm">
         <%  if @vm %>

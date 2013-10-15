@@ -17,12 +17,12 @@
               <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name), :class => "role_checkbox" %>
               <%= permission.name %>
               <%= hidden_field_tag 'role[permissions][]' %>
-            <% end -%>
+            <% end %>
             </li>
           <% end %>
         </ul>
       </div>
     </div>
-  <% end -%>
+  <% end %>
   <%= submit_or_cancel f %>
-<% end -%>
+<% end %>
