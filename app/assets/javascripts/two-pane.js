@@ -107,11 +107,19 @@ function right_pane_content(response){
     $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
     $('.form-actions div').addClass('pull-right');
     $('.form-actions a').addClass('two-pane-close');
+    fix_multi_checkbox();
   } else {
     // response is not a form use the entire page
     $('#content').replaceWith($("#content", response));
   }
   onContentLoad();
+}
+
+function fix_multi_checkbox(){
+  $('.two-pane-right .icon-check').parents('.control-group').each(function(){
+    var label = $(this).find('.control-label').hide().text();
+    $(this).find('a').append(label).addClass('select-all');
+  })
 }
 
 // clear form errors classes.
