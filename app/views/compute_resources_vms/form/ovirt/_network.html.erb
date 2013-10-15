@@ -1,5 +1,5 @@
 <div class="fields">
-  <% if f.object._delete != '1' -%>
+  <% if f.object._delete != '1' %>
     <% disabled = (f.object.persisted? == "true" || f.object.persisted? == true) %>
     <%= text_f f, :name, :disabled => disabled, :class => "span2" %>
     <%= f.hidden_field :name if disabled %>
@@ -9,5 +9,5 @@
                  { }, :disabled => disabled, :class => "span2",
                  :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important' }) %>
     <%= f.hidden_field :network if disabled %>
-  <% end -%>
+  <% end %>
 </div>

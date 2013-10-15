@@ -6,16 +6,16 @@
   <tr>
     <th><%= sort :name, :as => s_("Puppetclass|Name") %></th>
     <th><%= sort :environment, :as => _("Environments and documentation") %></th>
-    <th><%= _('Host group') -%></th>
-    <th><%= _('Hosts') -%></th>
-    <th><%= _('Keys') -%></th>
+    <th><%= _('Host group') %></th>
+    <th><%= _('Hosts') %></th>
+    <th><%= _('Keys') %></th>
     <th></th>
   </tr>
   <% for puppetclass in @puppetclasses %>
     <tr>
       <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass) %></td>
       <td>
-        <% puppetclass.environments.uniq.each do |environment| -%>
+        <% puppetclass.environments.uniq.each do |environment| %>
           <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
         <% end %>
       </td>

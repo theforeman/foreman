@@ -21,22 +21,22 @@
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,
         :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces", :title => _('Networks') do -%>
+    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces", :title => _('Networks') do %>
       <%= f.fields_for :interfaces do |i| %>
         <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
-      <% end -%>
+      <% end %>
       <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
-    <% end -%>
+    <% end %>
 
     <%= new_child_fields_template(f, :volumes, {
             :object  => compute_resource.new_volume,
             :partial => 'compute_resources_vms/form/ovirt/volume', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag _("Volumes"), :id => "volumes", :title => _('Volumes') do -%>
+    <%= field_set_tag _("Volumes"), :id => "volumes", :title => _('Volumes') do %>
         <%= f.fields_for :volumes do |i| %>
             <%= render 'compute_resources_vms/form/ovirt/volume', :f => i, :compute_resource => compute_resource %>
-        <% end -%>
+        <% end %>
         <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new volume') } %>
-    <% end -%>
+    <% end %>
   </div>
 </div>
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>

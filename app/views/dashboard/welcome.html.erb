@@ -3,22 +3,22 @@
   <p>
     <%= _('Before you can use Foreman for the first time there are a few tasks that must be performed.') %>
 
-    <%= _('You must decide how you wish to use the software, and update the primary settings file <b>config/settings.yaml</b> and the').html_safe -%>
+    <%= _('You must decide how you wish to use the software, and update the primary settings file <b>config/settings.yaml</b> and the').html_safe %>
     <%= link_to _("settings"), settings_path %>
     <%= _('to indicate your selections.') %>
   </p>
 
-  <h2><%= _('Operating Mode') -%></h2>
+  <h2><%= _('Operating Mode') %></h2>
 
   <p>
     <%= _('You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also turn on unattended mode operation in which Foreman creates and manages the configuration files necessary to completely configure a new host.') %>
 
     <%= _('When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see') %>
-    <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external"><%= _('here') -%></a>
+    <a href=http://theforeman.org/projects/foreman/wiki/Unattended_installations rel="external"><%= _('here') %></a>
     <%= _('for more details.') %>
   </p>
 
-  <h2><%= _('Create a Smart Proxy') -%></h2>
+  <h2><%= _('Create a Smart Proxy') %></h2>
 
   <p>
     <%= _("If you're planning to do anything more than just handle reports, you'll be in need of a smart proxy - either on this machine or elsewhere on your network.") %>
@@ -26,14 +26,14 @@
     <a href=http://theforeman.org/projects/foreman/wiki/Smart-Proxy_Installation rel="external"><%= _('Smart-Proxy Installation') %></a>.
 
     <p>
-      <span class="label label-important"><%= _('Important') -%></span>
+      <span class="label label-important"><%= _('Important') %></span>
       <%= _('Once installed you should head over to') %>
       <a href=smart_proxies><%= _('Smart Proxies') %></a>
       <%= _('to point Foreman at it.') %>
     </p>
   </p>
 
-  <h2><%= _('User Authentication') -%></h2>
+  <h2><%= _('User Authentication') %></h2>
 
   <p>
     <%= _('Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task.') %>
@@ -44,7 +44,7 @@
       <%= _('Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab.') %>
     </p>
 
-    <% if SETTINGS[:login] -%>
+    <% if SETTINGS[:login] %>
       <ul>
         <li>
           <%= _('For internal Users, simply create a new user at the') %>
@@ -62,17 +62,17 @@
           <%= _('page') %>
         </li>
       </ul>
-    <% else -%>
-      <p><span class="label label-info"><%= _('Notice') -%></span>
+    <% else %>
+      <p><span class="label label-info"><%= _('Notice') %></span>
       <%= _('You would need to enable login in your settings.yml file first and restart foreman') %>
       </p>
-      <p><span class="label label-important"><%= _('Important') -%></span>
+      <p><span class="label label-important"><%= _('Important') %></span>
       <%= _('The default username and password are <b>admin</b> and <b>changeme</b>').html_safe %>
       </p>
-    <% end -%>
+    <% end %>
   </p>
 
-  <h2><%= _('Import your data') -%></h2>
+  <h2><%= _('Import your data') %></h2>
 
   <p>
     <%= _('Foreman comes with some importers to ease the burden of entering loads of data about your current installation.') %>
@@ -80,24 +80,24 @@
     <ul>
       <li>
         <%= _('Inventory browser') %>
-        - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Facts rel="external"><%= _('Importing Puppet Facts') -%></a>
+        - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Facts rel="external"><%= _('Importing Puppet Facts') %></a>
       </li>
       <li>
         <%= _('Puppet External Nodes') %>
-        - <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external"><%= _('Importing Puppet classes and environments') -%></a>
+        - <a href=http://theforeman.org/projects/foreman/wiki/External_Nodes rel="external"><%= _('Importing Puppet classes and environments') %></a>
       </li>
       <li>
         <%= _('Reporting') %>
-        - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Reports rel="external"><%= _('Puppet Reports integration') -%></a>
+        - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_Reports rel="external"><%= _('Puppet Reports integration') %></a>
       </li>
     </ul>
   </p>
 
-  <h2><%= _('Additional steps') -%></h2>
+  <h2><%= _('Additional steps') %></h2>
 
   <p>
     <%= _('You may optionally wish to generate the online documentation for your puppet classes') %>
-    - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser rel="external"><%= _('puppet class browser') -%></a>.
+    - <a href=http://theforeman.org/projects/foreman/wiki/Puppet_class_browser rel="external"><%= _('puppet class browser') %></a>.
   </p>
 
   <p>
@@ -106,12 +106,12 @@
 
   <p>
     <%= _('You may also find the') %>
-    <a href=http://theforeman.org/projects/foreman/wiki/Howtos rel="external"><%= _('Howtos') -%></a>
+    <a href=http://theforeman.org/projects/foreman/wiki/Howtos rel="external"><%= _('Howtos') %></a>
     <%= _('useful.') %>
   </p>
 
   <p>
-    <span class="label label-info"><%= _('Notice') -%></span>
+    <span class="label label-info"><%= _('Notice') %></span>
     <%= _('This page will self destruct once data comes in.') %>
   </p>
 

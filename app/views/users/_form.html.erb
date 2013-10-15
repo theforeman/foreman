@@ -11,7 +11,7 @@
       <% if show_organization_tab? %>
         <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
       <% end %>
-    <% end -%>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -30,13 +30,13 @@
         <%= password_f f, :password, :label => _("Password") %>
         <%= password_f f, :password_confirmation, :label => _("Verify") %>
       </div>
-      <% unless @editing_self -%>
+      <% unless @editing_self %>
         <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
         <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => _('Roles')} %>
       <% end %>
     </div>
 
-    <% unless @editing_self -%>
+    <% unless @editing_self %>
       <div class="tab-pane" id="filters">
         <%= render("filters", :f => f) %>
       </div>
@@ -56,4 +56,4 @@
     <% end %>
   </div>
   <%= submit_or_cancel f %>
-<% end -%>
+<% end %>

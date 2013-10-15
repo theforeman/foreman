@@ -14,9 +14,9 @@
   end %>
 </div>
 <div id='network_provisioning' <%= display? image_provisioning  %> >
-  <% if @host.new_record? or @host.type_changed? -%>
+  <% if @host.new_record? or @host.type_changed? %>
       <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
-  <% end -%>
+  <% end %>
   <span id="media_select">
     <%= render 'common/os_selection/operatingsystem', :item => @host %>
   </span>

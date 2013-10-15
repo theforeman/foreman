@@ -17,16 +17,16 @@
     text-align:center;
     background-color: #FF9933;">Environment
   </th>
-  <% list.first.last[:metrics].keys.each do |header| -%>
+  <% list.first.last[:metrics].keys.each do |header| %>
     <th style="border: 1px solid #FF9933;
       border-collapse: collapse;
       padding: 4px;
       text-align:center;
       background-color: #FF9933;"><%= header %>
     </th>
-  <% end -%>
+  <% end %>
 </tr>
-<% list.each do |host,params| -%>
+<% list.each do |host,params| %>
   <tr>
     <% host_object = Host.find_by_name(host) %>
     <%= render 'link_to_host', :host => host %>
@@ -36,18 +36,18 @@
     <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
       <%= host_object.environment %>
     </td>
-    <% params[:metrics].each do |m,v| -%>
-      <% if m =~ /failed|failed_restart/ and v > 0 -%>
+    <% params[:metrics].each do |m,v| %>
+      <% if m =~ /failed|failed_restart/ and v > 0 %>
         <td style="color:red;font-weight:bold;border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
-      <% else -%>
+      <% else %>
         <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
-      <% end -%>
-      <% if v > 0 -%>
+      <% end %>
+      <% if v > 0 %>
         <%= link_to v, reports_path(:search=>"#{host} and #{m} > 0", :host => @url, :only_path => false) %>
-      <% else -%>
+      <% else %>
         <%= v %>
-      <% end -%>
+      <% end %>
     </td>
-    <% end -%>
+    <% end %>
   </tr>
-<% end -%>
+<% end %>

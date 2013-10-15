@@ -2,12 +2,12 @@
   <tr>
     <th><%= _("Level") %></th><th><%= _("Resource") %></th><th><%= _("message") %></th>
   </tr>
-  <% logs.each do |log| -%>
+  <% logs.each do |log| %>
       <tr>
         <td><span <%= report_tag log.level %>><%= h log.level %></span></td>
         <td><%= h log.source %></td>
         <td><%= h log.message %></td>
       </tr>
-  <% end -%>
+  <% end %>
   <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3"> <%= _("Nothing to show") %> </td></tr>
 </table>

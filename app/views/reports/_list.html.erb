@@ -1,8 +1,8 @@
 <table class="table table-bordered table-striped ellipsis">
   <tr>
-    <% unless params[:host_id] -%>
+    <% unless params[:host_id] %>
       <th><%= sort :host %></th>
-    <% end -%>
+    <% end %>
     <th><%= sort :reported, :as => _("Last report") %></th>
     <th class="small"><%= sort :applied, :as => _("Applied") %></th>
     <th class="small"><%= sort :restarted, :as => _("Restarted") %></th>
@@ -14,9 +14,9 @@
   </tr>
   <% for report in @reports %>
     <tr>
-      <% unless params[:host_id] -%>
+      <% unless params[:host_id] %>
         <td><%= link_to h(report.host), host_reports_path(report.host) %></td>
-      <% end -%>
+      <% end %>
       <td><%= reported_at_column(report) %></td>
       <td><%= report_event_column(report.applied, "label-info") %></td>
       <td><%= report_event_column(report.restarted, "label-info") %></td>

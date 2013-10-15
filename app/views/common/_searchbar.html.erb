@@ -11,16 +11,16 @@
       </button>
       <ul class="dropdown-menu pull-right">
         <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>
-        <% bookmarks.each do |bookmark| -%>
+        <% bookmarks.each do |bookmark| %>
             <li><%= link_to_if_authorized bookmark.name, send("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
-        <% end -%>
+        <% end %>
         <li class="divider"></li>
         <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
                                  {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
       </ul>
     </div>
     </div>
-<% end -%>
+<% end %>
 
 <div id="bookmarks-modal" class="modal hide fade">
   <div class="modal-header">

@@ -11,10 +11,10 @@
     <th class="hidden-tablet hidden-phone"><%= sort :last_report, :as => _('Last report') %></th>
     <th></th>
   </tr>
-  <% hosts.each do |host| -%>
+  <% hosts.each do |host| %>
     <tr>
       <td class="ca">
-        <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' -%>
+        <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
       </td>
       <td class='ellipsis'><%= name_column(host) %> </td>
       <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
@@ -29,7 +29,7 @@
                     display_delete_if_authorized(hash_for_host_path(:id => host), :confirm => _("Delete %s?") % host.name, :action => :destroy))%>
       </td>
     </tr>
-  <% end -%>
+  <% end %>
 </table>
 <div id="confirmation-modal" class="modal hide fade">
   <div class="modal-header">
