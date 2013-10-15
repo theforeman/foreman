@@ -1,6 +1,5 @@
 require 'fog_extensions/vsphere/mini_servers'
 require 'foreman/exception'
-require 'rbvmomi'
 
 module Foreman::Model
   class Vmware < ComputeResource
