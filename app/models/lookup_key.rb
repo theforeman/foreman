@@ -28,8 +28,8 @@ class LookupKey < ActiveRecord::Base
   validates :key, :uniqueness => true, :unless => Proc.new{|p| p.is_param?}
   validates :key, :presence => true
   validates :puppetclass, :presence => true, :unless => Proc.new {|k| k.is_param?}
-  validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => "invalid"}, :allow_blank => true, :allow_nil => true
-  validates :key_type, :inclusion => {:in => KEY_TYPES, :message => "invalid"}, :allow_blank => true, :allow_nil => true
+  validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
+  validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validate :validate_list, :validate_regexp
   validates_associated :lookup_values
   validate :ensure_type

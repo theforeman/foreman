@@ -16,14 +16,14 @@ class Subnet < ActiveRecord::Base
   validates_associated    :subnet_domains
   validates :network, :uniqueness => true,
                       :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => {:maximum => 15, :message => _("must be at most 15 characters")}
+                      :length => {:maximum => 15, :message => N_("must be at most 15 characters")}
   validates :gateway, :dns_primary, :dns_secondary,
                       :allow_blank => true,
                       :allow_nil => true,
                       :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => { :maximum => 15, :message => _("must be at most 15 characters") }
+                      :length => { :maximum => 15, :message => N_("must be at most 15 characters") }
   validates :mask,    :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => {:maximum => 15, :message => _("must be at most 15 characters")}
+                      :length => {:maximum => 15, :message => N_("must be at most 15 characters")}
 
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
