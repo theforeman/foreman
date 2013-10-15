@@ -3,7 +3,7 @@ class Parameter < ActiveRecord::Base
   include Authorization
 
   validates :value, :presence => true
-  validates :name, :presence => true, :format => {:with => /^\S*$/, :message => N_("can't contain white spaces")}
+  validates :name, :presence => true, :format => {:with => /\A\S*\Z/, :message => N_("can't contain white spaces")}
   validates :reference_id, :presence => {:message => N_("parameters require an associated domain, host or host group")}, :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
   default_scope lambda { order("parameters.name") }

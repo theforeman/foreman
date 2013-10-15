@@ -35,7 +35,7 @@ class Role < ActiveRecord::Base
   serialize :permissions, Array
   attr_protected :builtin
 
-  validates :name, :presence => true, :uniqueness => true,  :length => {:maximum => 30}, :format => {:with => /^\w[\w\s\'\-]*\w$/i}
+  validates :name, :presence => true, :uniqueness => true,  :length => {:maximum => 30}, :format => {:with => /\A\w[\w\s\'\-]*\w\Z/i}
   validates :builtin, :inclusion => { :in => 0..2 }
 
   scoped_search :on => :name, :complete_value => true

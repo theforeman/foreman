@@ -210,7 +210,7 @@ class LookupKey < ActiveRecord::Base
   def cast_value_real value
     return value if value.is_a? Numeric
     if value.is_a?(String)
-      if value =~ /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?$/
+      if value =~ /\A[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\Z/
         value.to_f
       else
         cast_value_integer value

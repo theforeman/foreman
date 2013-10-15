@@ -181,7 +181,7 @@ module Foreman::Model
     end
 
     def validate_volume_capacity(vol)
-      if vol.capacity.to_s.empty? or /^\d+G?$/.match(vol.capacity.to_s).nil?
+      if vol.capacity.to_s.empty? or /\A\d+G?\Z/.match(vol.capacity.to_s).nil?
         raise Foreman::Exception.new(N_("Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."))
       end
     end

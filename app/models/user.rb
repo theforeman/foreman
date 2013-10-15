@@ -32,20 +32,20 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
-  validates :mail, :format => { :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})$/i },
+  validates :mail, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})\Z/i },
                    :length => { :maximum => 60 },
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update
 
-  validates :locale, :format => { :with => /^\w{2}([_-]\w{2})?$/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
+  validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
   validates :login, :presence => true, :uniqueness => {:message => N_("already exists")},
-                    :format => {:with => /^[[:alnum:]_\-@\.]*$/}, :length => {:maximum => 100}
+                    :format => {:with => /\A[[:alnum:]_\-@\.]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
-  validates :firstname, :lastname, :format => {:with => /^[[:alnum:]\s'_\-\.]*$/}, :length => {:maximum => 30}, :allow_nil => true
+  validates :firstname, :lastname, :format => {:with => /\A[[:alnum:]\s'_\-\.]*\Z/}, :length => {:maximum => 30}, :allow_nil => true
 
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
            :ensure_privileges_not_escalated
