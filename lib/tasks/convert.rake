@@ -89,6 +89,12 @@ namespace :db do
         ProductionModelClass.reset_column_information
 
         DevelopmentModelClass.establish_connection(:development)
+        # turn off Foreign Key checks for development db - this is per session
+        if DevelopmentModelClass.connection.adapter_name.downcase.starts_with? 'mysql'
+          DevelopmentModelClass.connection.execute("SET FOREIGN_KEY_CHECKS=0;")
+        elsif DevelopmentModelClass.connection.adapter_name == 'PostgreSQL'
+          DevelopmentModelClass.connection.execute "SET CONSTRAINTS ALL DEFERRED;"
+        end
         DevelopmentModelClass.set_table_name(table_name)
         DevelopmentModelClass.reset_column_information
         DevelopmentModelClass.record_timestamps = false
