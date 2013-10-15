@@ -5,16 +5,16 @@ RAILS_ENV=production
 FOREMAN_HOME=/usr/share/foreman
 
 # Clean up the session entries in the database
-15 23 * * *     foreman    cd ${FOREMAN_HOME} && /usr/bin/ruby193-rake db:sessions:clear >/var/log/foreman/cron.log 2>&1
+15 23 * * *     foreman    /usr/sbin/foreman-rake db:sessions:clear >/var/log/foreman/cron.log 2>&1
 
 # Send out daily summary
-0 7 * * *       foreman    cd ${FOREMAN_HOME} && /usr/bin/ruby193-rake reports:summarize >/var/log/foreman/cron.log 2>&1
+0 7 * * *       foreman    /usr/sbin/foreman-rake reports:summarize >/var/log/foreman/cron.log 2>&1
 
 # Expire old reports
-30 7 * * *      foreman    cd ${FOREMAN_HOME} && /usr/bin/ruby193-rake reports:expire >/var/log/foreman/cron.log 2>&1
+30 7 * * *      foreman    /usr/sbin/foreman-rake reports:expire >/var/log/foreman/cron.log 2>&1
 
 # Collects trends data
-*/30 * * * *    foreman    cd ${FOREMAN_HOME} && /usr/bin/ruby193-rake trends:counter >/var/log/foreman/cron.log 2>&1
+*/30 * * * *    foreman    /usr/sbin/foreman-rake trends:counter >/var/log/foreman/cron.log 2>&1
 
 # Only use the following cronjob if you're not using the ENC or ActiveRecord-based storeconfigs
 # Get the node.rb / ENC script and store at /etc/puppet/node.rb:
@@ -25,5 +25,5 @@ FOREMAN_HOME=/usr/share/foreman
 # Warning: ActiveRecord-based storeconfigs is deprecated from Foreman 1.1 and Puppet 3.0
 #   see http://projects.theforeman.org/wiki/foreman/ReleaseNotes#11-stable
 # Only use the following cronjob if you're using ActiveRecord storeconfigs!
-#*/30 * * * *    foreman    cd ${FOREMAN_HOME} && /usr/bin/ruby193-rake puppet:migrate:populate_hosts >/var/log/foreman/cron.log 2>&1
+#*/30 * * * *    foreman    /usr/sbin/foreman-rake puppet:migrate:populate_hosts >/var/log/foreman/cron.log 2>&1
 
