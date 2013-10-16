@@ -1,7 +1,5 @@
 var $editor
 
-jQuery.fn.exists = function(){return ($(this).length > 0);}
-
 $(document).on('ContentLoad', function(){onEditorLoad()});
 
 $(document).on('click','#config_template_submit', function(){
@@ -118,7 +116,8 @@ function set_fullscreen(){
   $('.navbar').addClass('hidden');
   $('.logo-bar').addClass('hidden');
   $editor.resize();
-  $('#main').append("<div class='exit-fullscreen'><a class='btn btn-large' onclick='exit_fullscreen()' href='#'><i class='icon-resize-small'></a></i></div>");
+  $('#main').append($('.exit-fullscreen'));
+  $('.exit-fullscreen').show();
   $(window).scrollTop(0);
 }
 
@@ -133,7 +132,7 @@ function exit_fullscreen(){
       .width($(".template_text").width()+10)
   $(".template_text").hide();
   $editor.resize();
-  $('.exit-fullscreen').remove()
+  $('.exit-fullscreen').hide()
 }
 
 function set_preview(){

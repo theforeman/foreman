@@ -25,7 +25,7 @@
                 <button type="button" style="margin-top: 8px;" class="btn btn-small active" onclick="set_code()"><%= _("Code") %></button>
                 <button type="button" style="margin-top: 8px;" class="btn btn-small" onclick="set_preview()"><%= _("Preview") %></button>
               </div>
-              <button type='button' style='margin-top: 8px;' class='btn btn-small' onclick='set_fullscreen()'><i class="icon-resize-full"></i></button>
+              <button type='button' style='margin-top: 8px;' class='btn btn-small' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="icon-resize-full"></i></button>
               <div class="fr">
                 <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
               </div>
@@ -97,6 +97,7 @@
       </div>
     </div>
     <%= submit_or_cancel f %>
+  <div class='exit-fullscreen' style='display:none;'><a class='btn btn-large' onclick='exit_fullscreen()' href='#' title="<%= _('Exit full screen') %>"><i class='icon-resize-small'></i></a></div>
   <div class='hide' id="old"><%= @config_template.template %></div>
   <div class='hide' id="new"><%= @config_template.template %></div>
 <% end %>

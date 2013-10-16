@@ -10,11 +10,13 @@
 //= require vendor
 //= require about
 
+jQuery.fn.exists = function(){return ($(this).length > 0);}
+
+$(document).on('ContentLoad', function(){onContentLoad()});
+
 $(function() {
   $(document.body).trigger('ContentLoad');
 });
-
-$(document).on('ContentLoad', function(){onContentLoad()});
 
 function onContentLoad(){
   if($('.autocomplete-clear').size() == 0){
