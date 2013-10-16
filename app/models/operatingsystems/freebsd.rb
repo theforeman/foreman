@@ -6,6 +6,11 @@ class Freebsd < Operatingsystem
   # -as initrd we will use your custom FreeBSD-<arch>-<version>-mfs.img in boot
   PXEFILES = {}
 
+  # Simple output of the media url
+  def mediumpath host
+    medium_uri(host).to_s
+  end
+
   def class
     Operatingsystem
   end
@@ -28,11 +33,6 @@ class Freebsd < Operatingsystem
 
   def initrd arch
     "boot/FreeBSD-#{arch}-#{release}-mfs.img"
-  end
-
-  def mediumpath host
-	  arch = host.architecture.name.to_s.gsub("x86_64","amd64")
-	  "#{medium_uri(host)}/releases/#{arch}/#{release}-RELEASE"
   end
 end
 
