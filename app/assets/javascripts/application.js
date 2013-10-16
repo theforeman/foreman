@@ -391,3 +391,13 @@ function notify(item, type) {
   $.jnotify($(item).text(), options);
   $(item).remove();
 }
+
+function filter_permissions(item){
+  var term = $(item).val().trim();
+  if (term.length > 0) {
+    $(".control-group .collapse").parents('.control-group').hide();
+    $(".control-group .control-label:contains('"+term+"')").parents('.control-group').show();
+  } else{
+    $(".control-group .collapse").parents('.control-group').show();
+  }
+}

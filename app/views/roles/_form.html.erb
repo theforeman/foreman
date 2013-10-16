@@ -5,24 +5,35 @@
 
   <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
 
+  <div class='control-group'>
+    <label class='control-label'><%= _('Permissions') %></label>
+    <input placeholder="<%= _('Filter permissions') %>" class="search-query" onkeyup="filter_permissions(this);" type='text'>
+  </div>
+
   <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
-  <% perms_by_block.keys.sort.each do |block| %>
-    <div class="control-group">
-      <%= label_tag 'role[permissions]', block.humanize,:class=>"control-label" %>
-      <div class="controls">
-        <ul class="inputs-list">
-          <% perms_by_block[block].each do |permission| %>
-            <li>
-            <%= content_tag :div, 'role[permissions][]' do %>
-              <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name), :class => "role_checkbox" %>
-              <%= permission.name %>
-              <%= hidden_field_tag 'role[permissions][]' %>
-            <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+  <div class='row'>
+  <% perms_by_block.keys.sort.in_groups(2,nil) do |column| %>
+    <div class="span4">
+      <% column.each do |block| %>
+        <div class="control-group">
+          <%= label_tag 'role[permissions]', image_tag("bullet_toggle_plus.png") + " " + block.humanize,:class=>"control-label", :data=>{:toggle=>'collapse', :target=>"##{block}"} %>
+          <div class="controls collapse" id="<%= block %>">
+            <ul class="inputs-list">
+              <% perms_by_block[block].each do |permission| %>
+                <li>
+                  <%= content_tag :div, 'role[permissions][]' do %>
+                    <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name), :class => "role_checkbox" %>
+                    <%= permission.name %>
+                    <%= hidden_field_tag 'role[permissions][]' %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
+  </div>
   <%= submit_or_cancel f %>
 <% end %>
