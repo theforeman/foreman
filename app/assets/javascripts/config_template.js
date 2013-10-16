@@ -108,6 +108,34 @@ function create_editor(item) {
   $editor.renderer.setShowGutter(false);
 }
 
+function set_fullscreen(){
+  $('#main').append($("#editor1"));
+  $("#editor1")
+     .height($(window).height()-80)
+     .width($('#content').width())
+     .addClass('container');
+  $('#content').hide();
+  $('.navbar').addClass('hidden');
+  $('.logo-bar').addClass('hidden');
+  $editor.resize();
+  $('#main').append("<div class='exit-fullscreen'><a class='btn btn-large' onclick='exit_fullscreen()' href='#'><i class='icon-resize-small'></a></i></div>");
+  $(window).scrollTop(0);
+}
+
+function exit_fullscreen(){
+  $(".template_text").show();
+  $('#content').show();
+  $('.navbar').removeClass('hidden');
+  $('.logo-bar').removeClass('hidden');
+  $(".template_text").parent().prepend($("#editor1"))
+  $("#editor1")
+      .height($(".template_text").height() || '360')
+      .width($(".template_text").width()+10)
+  $(".template_text").hide();
+  $editor.resize();
+  $('.exit-fullscreen').remove()
+}
+
 function set_preview(){
   if($('.template_text').hasClass('diffMode')) return;
   $('.template_text').addClass('diffMode');
