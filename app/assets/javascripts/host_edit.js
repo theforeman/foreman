@@ -1,3 +1,5 @@
+$(document).on('ContentLoad', function(){onHostEditLoad()});
+
 function computeResourceSelected(item){
   var compute = $(item).val();
   if(compute=='') { //Bare Metal
@@ -82,8 +84,7 @@ function submit_host(){
       else{
         $("#host-progress").hide();
         $('#content').replaceWith($("#content", response));
-        onContentLoad();
-        onHostEditLoad();
+        $(document.body).trigger('ContentLoad');
       }
     },
     error: function(response){
@@ -257,7 +258,7 @@ function update_form(element, options) {
         $('#host_compute_resource_id').change();
       }
       update_capabilities($('#host_compute_resource_id').val() ? $('#capabilities').val() : 'build');
-      onContentLoad();
+      $(document.body).trigger('ContentLoad');
     }
   })
 }
@@ -474,10 +475,6 @@ function load_with_placeholder(target, url, data){
             }
         });
 }
-
-$(function () {
-  onHostEditLoad();
-});
 
 function onHostEditLoad(){
   $("#host-conflicts-modal").modal({show: "true", backdrop: "static"});

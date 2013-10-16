@@ -11,8 +11,10 @@
 //= require about
 
 $(function() {
-  onContentLoad();
+  $(document.body).trigger('ContentLoad');
 });
+
+$(document).on('ContentLoad', function(){onContentLoad()});
 
 function onContentLoad(){
   if($('.autocomplete-clear').size() == 0){
