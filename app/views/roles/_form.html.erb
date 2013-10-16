@@ -12,7 +12,7 @@
 
   <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
   <div class='row'>
-  <% perms_by_block.keys.sort.in_groups(2,nil) do |column| %>
+  <% perms_by_block.keys.sort.in_groups(2,false) do |column| %>
     <div class="span4">
       <% column.each do |block| %>
         <div class="control-group">
