@@ -2,9 +2,9 @@ class UnattendedController < ApplicationController
   layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","pxelinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.where("name LIKE ?", "pxegrub").map(&:name)
-  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.where("name LIKE ?", "gpxe").map(&:name)
+  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","PXELinux").map(&:name)
+  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.where("name LIKE ?", "PXEGrub").map(&:name)
+  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.where("name LIKE ?", "gPXE").map(&:name)
   CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
   # Methods which return valid provision instructions, used by the OS
   PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.where("name LIKE ?", "provision").map(&:name)

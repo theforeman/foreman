@@ -45,3 +45,16 @@ pxe_local_default:
    template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
    template_kind: pxelinux
    operatingsystems: centos5_3, redhat
+
+gpxe:
+   name: gPXE Dummy Menu
+   template: "FOO"
+   template_kind: gpxe
+   operatingsystems: centos5_3
+
+pxegrub:
+   name: PXEGrub Dummy Menu
+   template: "FOO"
+   template_kind: pxegrub
+   operatingsystems: centos5_3
+
