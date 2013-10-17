@@ -49,6 +49,10 @@ module Foreman::Controller::Authentication
     authenticate
   end
 
+  def optional_login
+    authenticate or redirect_to login_users_path
+  end
+
   def is_admin?
     return true unless SETTINGS[:login]
     return true if User.current && User.current.admin?
