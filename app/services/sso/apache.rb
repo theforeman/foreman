@@ -10,16 +10,41 @@ module SSO
       true
     end
 
+    def support_expiration?
+      true
+    end
+
+    def support_fallback?
+      true
+    end
+
     # If REMOTE_USER is provided by the web server then
     # authenticate the user without using password.
     def authenticated?
-      self.user = request.env[CAS_USERNAME]
+      return false unless (self.user = request.env[CAS_USERNAME])
       store
       true
     end
 
+    def support_login?
+      request.fullpath != self.login_url
+    end
+
+    def authenticate!
+      self.has_rendered = true
+      controller.redirect_to controller.extlogin_users_path
+    end
+
+    def login_url
+      controller.extlogin_users_path
+    end
+
     def logout_url
       "#{Setting['login_delegation_logout_url']}"
+    end
+
+    def expiration_url
+      controller.extlogin_users_path
     end
 
     def store

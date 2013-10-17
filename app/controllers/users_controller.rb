@@ -97,6 +97,14 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def extlogin
+    if session[:user]
+      user = User.find_by_id(session[:user])
+      login_user(user)
+    end
+  end
+
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout
