@@ -3,6 +3,6 @@
     <%= image_tag("foreman_white.png", :class=>"login-logo") %>
   </div>
   <div class="section">
-    <a href="/users/extlogin">Please log in again.</a>
+    <%= link_to(_("Please log in again."), extlogin_users_path) %>
   </div>
 </div>
