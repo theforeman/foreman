@@ -7,8 +7,8 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['smart_class_parameters'].empty?
-    assert_equal 2, results['smart_class_parameters'].length
+    assert !results['results'].empty?
+    assert_equal 2, results['results'].length
   end
 
   test "should get smart class parameters for a specific host" do
@@ -16,9 +16,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['smart_class_parameters'].empty?
-    assert_equal 1, results['smart_class_parameters'].count
-    assert_equal "cluster", results['smart_class_parameters'][0]['parameter']
+    assert !results['results'].empty?
+    assert_equal 1, results['results'].count
+    assert_equal "cluster", results['results'][0]['parameter']
   end
 
   test "should get smart class parameters for a specific hostgroup" do
@@ -26,9 +26,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['smart_class_parameters'].empty?
-    assert_equal 1, results['smart_class_parameters'].count
-    assert_equal "cluster", results['smart_class_parameters'][0]['parameter']
+    assert !results['results'].empty?
+    assert_equal 1, results['results'].count
+    assert_equal "cluster", results['results'][0]['parameter']
   end
 
   test "should get smart class parameters for a specific puppetclass" do
@@ -36,9 +36,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['smart_class_parameters'].empty?
-    assert_equal 1, results['smart_class_parameters'].count
-    assert_equal "custom_class_param", results['smart_class_parameters'][0]['parameter']
+    assert !results['results'].empty?
+    assert_equal 1, results['results'].count
+    assert_equal "custom_class_param", results['results'][0]['parameter']
   end
 
   test "should get smart class parameters for a specific environment" do
@@ -46,9 +46,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['smart_class_parameters'].empty?
-    assert_equal 2, results['smart_class_parameters'].count
-    assert_equal ["cluster", "custom_class_param"], results['smart_class_parameters'].map {|cp| cp["parameter"] }.sort
+    assert !results['results'].empty?
+    assert_equal 2, results['results'].count
+    assert_equal ["cluster", "custom_class_param"], results['results'].map {|cp| cp["parameter"] }.sort
   end
 
   test "should get smart class parameters for a specific environment and puppetclass combination" do
@@ -56,9 +56,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['smart_class_parameters'].empty?
-    assert_equal 1, results['smart_class_parameters'].count
-    assert_equal "custom_class_param", results['smart_class_parameters'][0]['parameter']
+    assert !results['results'].empty?
+    assert_equal 1, results['results'].count
+    assert_equal "custom_class_param", results['results'][0]['parameter']
   end
 
   test "should show specific smart class parameter by id" do
