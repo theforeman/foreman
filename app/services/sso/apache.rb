@@ -18,6 +18,10 @@ module SSO
       true
     end
 
+    def login_url
+      controller.extlogin_users_path
+    end
+
     def logout_url
       "#{Setting['login_delegation_logout_url']}"
     end
