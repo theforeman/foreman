@@ -36,7 +36,7 @@ class Report < ActiveRecord::Base
     else
       #TODO: Remove pluck after upgrade to newer rails as it would be
       #done via INNER select automatically
-      where(:reports => {:host_id => Host.my_hosts.pluck(:id)})
+      where(:reports => {:host_id => Host.my_hosts.select("hosts.id")})
     end
   }
 
