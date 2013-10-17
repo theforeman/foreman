@@ -12,3 +12,6 @@ script:
 
 finish:
   name: finish
+
+pxegrub:
+  name: PXEGrub

@@ -19,3 +19,14 @@ four:
   config_template: pxekickstart
   template_kind: PXELinux
   operatingsystem: centos5_3
+
+five:
+  config_template: pxegrub
+  template_kind: pxegrub
+  operatingsystem: centos5_3
+
+six:
+  config_template: gpxe
+  template_kind: gpxe
+  operatingsystem: centos5_3
+

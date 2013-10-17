@@ -70,6 +70,27 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should render spoof pxelinux for a host" do
+    get :PXELinux, {:spoof => hosts(:myfullhost).ip}, set_session_user
+    assert assigns(:initrd)
+    assert assigns(:kernel)
+    assert_response :success
+  end
+
+  test "should render spoof pxegrub for a host" do
+    get :PXEGrub, {:spoof => hosts(:myfullhost).ip}, set_session_user
+    assert assigns(:initrd)
+    assert assigns(:kernel)
+    assert_response :success
+  end
+
+  test "should render spoof gpxe for a host" do
+    get :gPXE, {:spoof => hosts(:myfullhost).ip}, set_session_user
+    assert assigns(:initrd)
+    assert assigns(:kernel)
+    assert_response :success
+  end
+
   test "should accept built notifications" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :built
