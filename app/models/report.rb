@@ -82,7 +82,9 @@ class Report < ActiveRecord::Base
     # Find the host
     host = Host.find_by_certname report['host']
     host ||= Host.find_by_name report['host']
-    host ||= Host.new :name => report['host']
+    host ||= Host.new :name => report['host'] if Setting[:create_new_host_when_report_is_uploaded]
+
+    return Report.new if host.nil?
 
     # Set the report time
     time = Time.parse(report['reported_at']).utc

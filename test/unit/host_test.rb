@@ -141,6 +141,16 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host
   end
 
+  test "host is not created when receiving a report if setting is false" do
+    Setting[:create_new_host_when_report_is_uploaded] = false
+    assert_equal false, Setting[:create_new_host_when_report_is_uploaded]
+    Report.import parse_json_fixture("/../fixtures/report-no-logs.json")
+    host = Host.find_by_name('builder.fm.example.net')
+    Setting[:create_new_host_when_report_is_uploaded] =
+        Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
+    assert_nil host
+  end
+
   test "should not save if neither ptable or disk are defined when the host is managed" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",

@@ -23,6 +23,7 @@ class Setting::Puppet < Setting
         self.set('remove_classes_not_in_environment', N_("When host and host group have different environments should all classes be included (regardless if they exists or not in the other environment)"), false),
         self.set('host_group_matchers_inheritance', N_("Should Foreman use host group ancestors matchers to set puppet classes parameters values"), true),
         self.set('create_new_host_when_facts_are_uploaded', N_("Foreman will create the host when new facts are received"), true),
+        self.set('create_new_host_when_report_is_uploaded', N_("Foreman will create the host when a report is received"), true),
         self.set('legacy_puppet_hostname', N_("Foreman will truncate hostname to 'puppet' if it starts with puppet"), false)
       ].compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
 
