@@ -10,14 +10,14 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
     override_values = ActiveSupport::JSON.decode(@response.body)
     assert !override_values.empty?
-    assert_equal 1, override_values["override_values"].length
+    assert_equal 1, override_values["results"].length
   end
   test "should get override values for specific smart class parameter" do
     get :index, {:smart_class_parameter_id => lookup_keys(:complex).to_param }
     assert_response :success
     override_values = ActiveSupport::JSON.decode(@response.body)
     assert !override_values.empty?
-    assert_equal 2, override_values["override_values"].length
+    assert_equal 2, override_values["results"].length
   end
 
   test "should create override values for specific smart variable" do
