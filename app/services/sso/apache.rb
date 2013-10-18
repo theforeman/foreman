@@ -22,6 +22,7 @@ module SSO
     # authenticate the user without using password.
     def authenticated?
       return false unless (self.user = request.env[CAS_USERNAME])
+      return false unless User.find_or_create_external_user(self.user, Setting['authorize_login_delegation_auth_source_user_autocreate'])
       store
       true
     end

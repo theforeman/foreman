@@ -4,7 +4,7 @@ class Setting < ActiveRecord::Base
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
-  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url }
+  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate }
 
   attr_accessible :name, :value, :description, :category, :settings_type, :default
   # audit the changes to this model
