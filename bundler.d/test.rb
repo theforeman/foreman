@@ -11,6 +11,8 @@ group :test do
   gem 'minitest-spec-rails-tu-shim', :platforms => :ruby_18
   gem 'ci_reporter', '>= 1.6.3', :require => false
   gem 'capybara', '~> 2.0.0'
+  # pinned for Ruby 1.8, selenium dependency
+  gem 'rubyzip', '~> 0.9'
   gem 'database_cleaner', '0.9.1'
   gem 'launchy'
   gem 'spork'
