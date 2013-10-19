@@ -205,3 +205,8 @@ attribute41:
   category: Setting::Provisioning
   default: "false"
   description: "Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"
+attribute42:
+  name: create_new_host_when_report_is_uploaded
+  category: Setting::Puppet
+  default: "true"
+  description: "Foreman will create the host when a report is received"
