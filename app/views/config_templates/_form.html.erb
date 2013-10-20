@@ -1,6 +1,4 @@
-<%= javascript 'config_template', 'ace/ace',
-               'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/theme-textmate',
-               'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs' %>
+<%= include_javascript %>
 <%= form_for @config_template, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
     <%= base_errors_for @config_template %>
     <ul class="nav nav-tabs" data-tabs="tabs">
@@ -97,7 +95,7 @@
       </div>
     </div>
     <%= submit_or_cancel f %>
-  <div class='exit-fullscreen' style='display:none;'><a class='btn btn-large' onclick='exit_fullscreen()' href='#' title="<%= _('Exit full screen') %>"><i class='icon-resize-small'></i></a></div>
+  <div class='exit-fullscreen hide'><a class='btn btn-large' onclick='exit_fullscreen()' href='#' title="<%= _('Exit full screen') %>"><i class='icon-resize-small'></i></a></div>
   <div class='hide' id="old"><%= @config_template.template %></div>
   <div class='hide' id="new"><%= @config_template.template %></div>
 <% end %>
