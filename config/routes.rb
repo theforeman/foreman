@@ -331,6 +331,8 @@ Foreman::Application.routes.draw do
   match 'status', :to => 'home#status', :as => "status"
 
   # match for all unattended scripts
+  match 'unattended/(:action/(:id(.scm)))',    :controller => 'unattended', :format => false
+  match 'unattended/(:action/(:id(.tar)))',    :controller => 'unattended', :format => false
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
 
   resources :tasks, :only => [:show]
