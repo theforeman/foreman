@@ -6,11 +6,11 @@ module Foreman
     ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
 			:snippet_if_exists, :ks_console, :root_pass,
 			:multiboot, :jumpstart_path, :install_path, :miniroot,
-			:media_path, :param_true? ]
+			:media_path, :param_true?, :media_get_content ]
 
-    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :static,
+    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :madiaserver, :static,
                           :repos, :dynamic, :kernel, :initrd,
-                          :preseed_server, :preseed_path ]
+                          :preseed_server, :preseed_path, :metadata ]
 
 
     def render_safe template, allowed_methods = [], allowed_vars = {}
@@ -22,6 +22,10 @@ module Foreman
         allowed_vars.each { |k,v| instance_variable_set "@#{k}", v }
         ERB.new(template, nil, '-').result(binding)
       end
+    end
+
+    def media_get_content(url)
+      Net::HTTP.get(URI.parse(url))
     end
 
     #returns the URL for Foreman Built status (when a host has finished the OS installation)
@@ -71,7 +75,7 @@ module Foreman
       allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
          mapping.update(var => instance_variable_get("@#{var}"))
       end
-     render_safe template, ALLOWED_HELPERS, allowed_variables
+      render_safe template, ALLOWED_HELPERS, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
 
