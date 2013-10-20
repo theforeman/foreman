@@ -186,6 +186,13 @@ class UnattendedController < ApplicationController
     @static = !params[:static].empty?
   end
 
+  def alterator_attributes
+    os           = @host.operatingsystem
+    @mediapath   = os.mediumpath @host
+    @mediaserver = URI(@mediapath).host
+    @metadata    = params[:metadata].to_s
+  end
+
   def jumpstart_attributes
     if @host.operatingsystem.supports_image and @host.use_image
       @install_type     = "flash_install"

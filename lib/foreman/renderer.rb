@@ -8,7 +8,7 @@ module Foreman
 			:multiboot, :jumpstart_path, :install_path, :miniroot,
 			:media_path, :param_true?, :param_false?, :match ]
 
-    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :static,
+    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                           :repos, :dynamic, :kernel, :initrd,
                           :preseed_server, :preseed_path ]
 
@@ -71,7 +71,7 @@ module Foreman
       allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
          mapping.update(var => instance_variable_get("@#{var}"))
       end
-     render_safe template, ALLOWED_HELPERS, allowed_variables
+      render_safe template, ALLOWED_HELPERS, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
 
