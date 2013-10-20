@@ -112,7 +112,7 @@ function right_pane_content(response){
     // response is not a form use the entire page
     $('#content').replaceWith($("#content", response));
   }
-  onContentLoad();
+  $(document.body).trigger('ContentLoad');
 }
 
 function fix_multi_checkbox(){

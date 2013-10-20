@@ -10,8 +10,12 @@
 //= require vendor
 //= require about
 
+jQuery.fn.exists = function(){return ($(this).length > 0);}
+
+$(document).on('ContentLoad', function(){onContentLoad()});
+
 $(function() {
-  onContentLoad();
+  $(document.body).trigger('ContentLoad');
 });
 
 function onContentLoad(){

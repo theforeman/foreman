@@ -7,7 +7,7 @@ $(function() {
         $(this).closest(".tab-content").find("#spinner").html(Jed.sprintf(_("There was an error listing VMs: %(status)s %(statusText)s"), {status: xhr.status, statusText: xhr.statusText}));
       }
       $('.dropdown-toggle').dropdown();
-      onContentLoad();
+      $(document.body).trigger('ContentLoad');
     });
   });
 });

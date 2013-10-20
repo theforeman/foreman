@@ -7,4 +7,10 @@ module ConfigTemplatesHelper
       str.join(" / ")
     end.to_sentence
   end
+
+  def include_javascript
+   javascript 'config_template', 'ace/ace',
+              'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/theme-textmate',
+              'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs'
+  end
 end
