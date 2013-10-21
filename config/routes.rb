@@ -183,6 +183,8 @@ Foreman::Application.routes.draw do
         get 'login'
         post 'login'
         get 'logout'
+        get 'extlogin'
+        get 'extlogout'
         get 'auth_source_selected'
         get 'auto_complete_search'
       end

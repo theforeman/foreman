@@ -26,6 +26,7 @@ module Foreman::Controller::Authentication
           session[:original_uri] = request.fullpath
           @available_sso ||= SSO::Base.new(self)
 
+          return if @available_sso.login_url == request.fullpath
           (redirect_to @available_sso.login_url and return) unless @available_sso.has_rendered
         end
 
@@ -46,6 +47,10 @@ module Foreman::Controller::Authentication
 
   def require_login
     authenticate
+  end
+
+  def optional_login
+    authenticate or redirect_to login_users_path
   end
 
   def is_admin?
