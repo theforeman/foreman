@@ -1,65 +1,88 @@
 var $editor
 
-$(function() {
+$(document).on('ContentLoad', function(){onEditorLoad()});
+
+$(document).on('click','#config_template_submit', function(){
+  if($('.diffMode').exists()){
+    set_edit_mode( $(".template_text"));
+  }
+})
+
+$(document).on('change', '.template_file', function(e){
+  if ($('.template_file').val() != '') upload_file(e);
+})
+
+$(document).on('change','#keybinding', function(){
+  set_keybinding()
+})
+
+$(document).keyup(function(e) {
+  if (e.keyCode == 27) {    // esc
+    exit_fullscreen();
+  }
+});
+
+function onEditorLoad(){
   var template_text = $(".template_text");
-  if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
-    $('.subnav').hide();
-    if ($('.diffMode').size() >0) {
-      IE_diff_mode(template_text);
+   if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
+     $('.subnav').hide();
+     if ($('.diffMode').exists()) {
+       IE_diff_mode(template_text);
+     }
+   }else{
+     if (template_text.exists()){
+       create_editor(template_text)
+     }
+
+     if ($('.diffMode').exists()) {
+       set_diff_mode(template_text);
+     } else {
+       set_edit_mode(template_text);
+     }
+   }
+}
+
+function set_keybinding(){
+  var vim = require("ace/keyboard/vim").handler;
+  var emacs = require("ace/keyboard/emacs").handler;
+  var keybindings = [
+    null, // Null = use "default" keymapping
+    vim,
+    emacs];
+
+  $editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
+}
+
+function upload_file(evt){
+  if(window.File && window.FileList && window.FileReader)
+  {
+    if (!confirm(_("You are about to override the editor content, are you sure?"))) {
+      $('.template_file').val('');
+      return;
+    }
+
+    var files = evt.target.files; // files is a FileList object
+    for (var i = 0, f; f = files[i]; i++) {
+      var reader = new FileReader();
+      // Closure to capture the file information.
+      reader.onloadend = function(evt) {
+        if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+          $('#new').text(( evt.target.result));
+          set_edit_mode($('.template_text'));
+        }
+      };
+      // Read in the file as text.
+      reader.readAsText(f);
+      $('.template_file').val("");
     }
   }else{
-    if (template_text.size() >0 ) { create_editor(template_text) };
-    if ($('.diffMode').size() >0) {
-      set_diff_mode(template_text);
-    } else {
-      set_edit_mode(template_text);
-    }
-    $('#config_template_submit').on('click', function(){
-      if($('.diffMode').size() >0){ set_edit_mode( $(".template_text")); }
-    })
+    // Browser can't read the file content,
+    // the file will be uploaded to the server on form submit.
+    // Set editor to read only mode
+    $editor.setTheme("ace/theme/clouds");
+    $editor.setReadOnly(true);
   }
-
-  $(".template_file").on("change", function(evt){
-    if ($(".template_file").val() == "") return;
-
-    if(window.File && window.FileList && window.FileReader)
-    {
-      var answer = confirm(_("You are about to override the editor content, are you sure?"))
-      if (!answer) { $('.template_file').val(""); return;}
-
-      var files = evt.target.files; // files is a FileList object
-      for (var i = 0, f; f = files[i]; i++) {
-        var reader = new FileReader();
-        // Closure to capture the file information.
-        reader.onloadend = function(evt) {
-          if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-            $('#new').text(( evt.target.result));
-            set_edit_mode($('.template_text'));
-          }
-        };
-        // Read in the file as text.
-        reader.readAsText(f);
-        $('.template_file').val("");
-      }
-    }else{
-      //Set editor in read only mode
-      $editor.setTheme("ace/theme/clouds");
-      $editor.setReadOnly(true);
-    }
-
-  })
-
-  $("#keybinding").on("change", function() {
-    var vim = require("ace/keyboard/vim").handler;
-    var emacs = require("ace/keyboard/emacs").handler;
-    var keybindings = [
-      null, // Null = use "default" keymapping
-      vim,
-      emacs];
-
-    $editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
-  })
-});
+}
 
 function snippet_changed(item){
   var checked = !!$(item).attr('checked');
@@ -67,14 +90,15 @@ function snippet_changed(item){
   $('#snippet_message').toggle(checked);
   $('#association').toggle(!checked);
 }
-function create_editor(item) {
 
+function create_editor(item) {
   item.parent().prepend("<div id='editor1'></div>");
 
   $("#editor1")
       .css("position","relative")
       .height(item.height() || '360')
-      .width(item.width()+10);
+      .width(item.width()+10)
+      .css('top', '-20px');
   item.hide();
 
   $editor = ace.edit("editor1");
@@ -82,6 +106,34 @@ function create_editor(item) {
   $editor.renderer.setShowGutter(false);
 }
 
+function set_fullscreen(){
+  $('#main').append($("#editor1"));
+  $("#editor1")
+     .height($(window).height()-80)
+     .width($('#content').width())
+     .addClass('container');
+  $('#content').hide();
+  $('.navbar').addClass('hidden');
+  $('.logo-bar').addClass('hidden');
+  $editor.resize();
+  $('#main').append($('.exit-fullscreen'));
+  $('.exit-fullscreen').show();
+  $(window).scrollTop(0);
+}
+
+function exit_fullscreen(){
+  $(".template_text").show();
+  $('#content').show();
+  $('.navbar').removeClass('hidden');
+  $('.logo-bar').removeClass('hidden');
+  $(".template_text").parent().prepend($("#editor1"))
+  $("#editor1")
+      .height($(".template_text").height() || '360')
+      .width($(".template_text").width()+10)
+  $(".template_text").hide();
+  $editor.resize();
+  $('.exit-fullscreen').hide()
+}
 
 function set_preview(){
   if($('.template_text').hasClass('diffMode')) return;
@@ -96,6 +148,7 @@ function set_code(){
 }
 
 function set_edit_mode(item){
+  if( $editor == undefined) return;
   $editor.setTheme("ace/theme/twilight");
   $editor.setReadOnly(false);
   var session = $editor.getSession();
@@ -107,7 +160,6 @@ function set_edit_mode(item){
   });
 }
 
-
 function set_diff_mode(item){
   $editor.setTheme("ace/theme/clouds");
   $editor.setReadOnly(true);
@@ -116,7 +168,7 @@ function set_diff_mode(item){
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
   patch = patch.replace(/^(.*\n){0,4}/,'');
   if (patch.length == 0)
-    patch = "No changes"
+    patch = _("No changes")
 
   $(session).off('change');
   session.setValue(patch);
@@ -135,8 +187,7 @@ function IE_diff_mode(item){
 }
 
 function revert_template(item){
-  var answer = confirm(_("You are about to override the editor content with a previous version, are you sure?"))
-  if (!answer) return;
+  if (!confirm(_("You are about to override the editor content with a previous version, are you sure?"))) return;
 
   var version = $(item).attr('data-version');
   var url = $(item).attr('data-url');

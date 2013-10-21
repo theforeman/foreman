@@ -1,3 +1,4 @@
+<%= include_javascript %>
 <% title _("Provisioning Templates") %>
 
 <% title_actions display_link_if_authorized(_("New Template"), hash_for_new_config_template_path),
@@ -6,7 +7,7 @@
     :class => "btn btn-info"})
 %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-two-pane">
   <tr>
     <tr>
     <th><%= sort :name, :as => s_("ConfigTemplate|Name") %></th>
