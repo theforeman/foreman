@@ -1,0 +1,11 @@
+<%  content_for(:title, _("Logout")) %>
+<div id="login" class="login-container">
+  <div class="aside">
+    <%= image_tag("foreman_white.png", :class=>"login-logo") %>
+  </div>
+  <div class="section">
+    <div id="login-form">
+      <%= link_to(_("Please log in again."), extlogin_users_path) %>
+    </div>
+  </div>
+</div>

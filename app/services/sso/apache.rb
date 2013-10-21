@@ -40,7 +40,7 @@ module SSO
     end
 
     def logout_url
-      "#{Setting['login_delegation_logout_url']}"
+      Setting['login_delegation_logout_url'] || controller.extlogout_users_path
     end
 
     def expiration_url
