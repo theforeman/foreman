@@ -1,6 +1,5 @@
 class Altlinux < Operatingsystem
 
-  #PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz", :stagename => "altinst"}
   PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz" }
 
   def mediumpath host
@@ -16,11 +15,7 @@ class Altlinux < Operatingsystem
     raise ::Foreman::Exception.new(N_("invalid architecture for %s"), to_s) unless architectures.include?(architecture)
 
     PXEFILES.values.collect do |img|
-      if img == 'altinst'
-        URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{img}").normalize
-      else
-        URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/syslinux/alt0/#{img}").normalize
-      end
+      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/syslinux/alt0/#{img}").normalize
     end
   end
 
