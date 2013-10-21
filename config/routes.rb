@@ -330,9 +330,10 @@ Foreman::Application.routes.draw do
   match 'statistics', :to => 'statistics#index', :as => "statistics"
   match 'status', :to => 'home#status', :as => "status"
 
+  # match only for alterator unattended scripts
+  match 'unattended/provision/:metadata',  :controller => 'unattended', :action => 'provision', :format => false, 
+    :constraints => { :metadata => /(autoinstall\.scm|vm-profile\.scm|pkg-groups\.tar)/ }
   # match for all unattended scripts
-  match 'unattended/(:action/(:id(.scm)))',    :controller => 'unattended', :format => false
-  match 'unattended/(:action/(:id(.tar)))',    :controller => 'unattended', :format => false
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
 
   resources :tasks, :only => [:show]

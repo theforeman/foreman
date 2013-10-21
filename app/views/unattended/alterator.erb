@@ -1,6 +1,6 @@
-<% if @metadata.to_s == 'vm-profile' -%>
+<% if @metadata.to_s == 'vm-profile.scm' -%>
 <%= @host.diskLayout %>
-<% elsif @metadata.to_s == 'pkg-groups' -%>
+<% elsif @metadata.to_s == 'pkg-groups.tar' -%>
 <%= media_get_content("#{@mediapath}/Metadata/pkg-groups.tar") %>
 <% else -%>
 ("/sysconfig-base/language" action "write" lang ("en_US"))

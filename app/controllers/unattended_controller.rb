@@ -190,7 +190,7 @@ class UnattendedController < ApplicationController
     os           = @host.operatingsystem
     @mediapath   = os.mediumpath @host
     @mediaserver = URI(@mediapath).host
-    @metadata    = params[:id].to_s
+    @metadata    = params[:metadata].to_s
   end
 
   def jumpstart_attributes
