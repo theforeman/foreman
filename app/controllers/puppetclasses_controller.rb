@@ -14,7 +14,7 @@ class PuppetclassesController < ApplicationController
       values = Puppetclass.search_for ""
     end
     @puppetclasses = values.paginate(:page => params[:page])
-    @host_counter = Host.group(:puppetclass_id).joins(:puppetclasses).where(:puppetclasses => {:id => @puppetclasses.pluck(:id)}).count
+    @host_counter = Host.count(:group => :puppetclass_id, :joins => "INNER JOIN environment_classes ON environment_classes.environment_id = hosts.environment_id INNER JOIN puppetclasses ON puppetclasses.id = environment_classes.puppetclass_id", :conditions => {:puppetclasses => {:id => @puppetclasses.all}})
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').group(:name).count
   end
 
