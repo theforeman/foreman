@@ -18,15 +18,23 @@ else
       console {Foreman.setup_console}
     end
     Bundler.require(*Rails.groups(:assets => %w(development test)))
-    begin
-      Bundler.require(:libvirt) if SETTINGS[:unattended]
-    rescue LoadError
-      puts "Libvirt bindings are missing - hypervisor management is disabled"
+    if SETTINGS[:unattended]
+      %w[fog libvirt ovirt vmware gce].each do |group|
+        begin
+          Bundler.require(group)
+        rescue LoadError
+          # ignoring intentionally
+        end
+      end
     end
   end
 end
 
-SETTINGS[:libvirt] = SETTINGS[:unattended] && defined?(Libvirt)
+SETTINGS[:libvirt] = defined?(::Fog) && defined?(::Libvirt)
+SETTINGS[:ovirt] = defined?(::Fog) && defined?(::OVIRT)
+SETTINGS[:vmware] = defined?(::Fog) && defined?(::RbVmomi)
+SETTINGS[:gce] = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
+SETTINGS[:openstack] = SETTINGS[:rackspace] = SETTINGS[:ec2] = !! defined?(::Fog)
 
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
