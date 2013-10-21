@@ -16,8 +16,8 @@ if SETTINGS[:locations_enabled]
   attribute :location_id
 end
 
-child :environment do
-  attributes :id, :name
+node :environment do |host|
+  {:environment => {:id => host.environment_id, :name => host.environment_name}}
 end
 
 child :host_parameters do
