@@ -48,6 +48,8 @@ module SSO
       controller.extlogin_users_path
     end
 
+    private
+
     def store
       session[:sso_method] = self.class.to_s
     end
