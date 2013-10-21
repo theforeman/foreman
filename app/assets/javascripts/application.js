@@ -10,8 +10,12 @@
 //= require vendor
 //= require about
 
+jQuery.fn.exists = function(){return ($(this).length > 0);}
+
+$(document).on('ContentLoad', function(){onContentLoad()});
+
 $(function() {
-  onContentLoad();
+  $(document.body).trigger('ContentLoad');
 });
 
 function onContentLoad(){
@@ -66,6 +70,12 @@ function onContentLoad(){
   // Prevents all links with the disabled attribute set to "disabled"
   // from being clicked.
   $('a[disabled="disabled"]').click(function() {
+    return false;
+  });
+
+  // allow opening new window for selected links
+  $('a[rel="external"]').click( function() {
+    window.open( $(this).attr('href') );
     return false;
   });
 
@@ -148,14 +158,6 @@ function toggleRowGroup(el) {
     n = n.next();
   }
 }
-
-// allow opening new window for selected links
-$(function() {
-  $('a[rel="external"]').click( function() {
-    window.open( $(this).attr('href') );
-    return false;
-  });
-});
 
 function template_info(div, url) {
   os_id = $("#host_operatingsystem_id :selected").attr("value");
