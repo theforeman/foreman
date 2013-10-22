@@ -15,10 +15,9 @@
     <div class="nav-collapse collapse nav1">
       <ul class="nav" id="menu">
         <%= render "home/org_switcher" %>
-        <%= render "home/submenu", :menu_items => hosts_menu_items, :menu_title => _("Hosts") %>
-        <%= render "home/submenu", :menu_items => provision_menu_items, :menu_title => _("Provision") if SETTINGS[:unattended] %>
-        <%= render "home/submenu", :menu_items => config_menu_items, :menu_title => _("Configure") %>
-        <%= render "home/submenu", :menu_items => monitor_menu_items, :menu_title => _("Monitor") %>
+        <% top_menu_items.each do |menu| %>
+          <%= render "home/submenu", :menu_items => menu[:menu_items], :menu_title => menu[:menu_title] %>
+        <% end %>
       </ul>
     </div>
     <div class="nav-collapse collapse nav2">

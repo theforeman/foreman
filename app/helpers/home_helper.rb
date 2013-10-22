@@ -1,5 +1,13 @@
 module HomeHelper
 
+  def top_menu_items
+    items =  [{:menu_items => hosts_menu_items, :menu_title => _("Hosts")}]
+    items += [{:menu_items => provision_menu_items, :menu_title => _("Provision")}] if SETTINGS[:unattended]
+    items += [{:menu_items => config_menu_items, :menu_title => _("Configure")},
+              {:menu_items => monitor_menu_items, :menu_title => _("Monitor")}]
+    items
+  end
+
   def config_menu_items
     [::Menu::Item.new(_('Environments'),           hash_for_environments_path),
      ::Menu::Item.new(_('Global parameters'),      hash_for_common_parameters_path),
