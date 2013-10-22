@@ -7,8 +7,10 @@ $(function() {
   });
 
   $("[class^='menu_tab_']").removeClass('active');
-  $('.menu_tab_settings').addClass($('#current_tab').attr('data-settings'));
-  $('.menu_tab_'+$('#current_tab').attr('data-controller')).addClass('active').next('.dropdown').addClass('active');
+  $('.menu_tab_'+$('#current_tab').attr('data-controller')).addClass('active');
+  $('.menu_tab_dropdown').each(function(){
+    if ($(this).find('.active').length >0) {$(this).addClass('active')}
+  })
 
   $('.dropdown-toggle').dropdown();
   if(!is_mobile()){

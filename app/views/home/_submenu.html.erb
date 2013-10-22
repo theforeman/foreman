@@ -1,0 +1,22 @@
+<li class="dropdown menu_tab_dropdown">
+  <%= link_to (menu_title + content_tag(:span, '', :class => "caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle' => "dropdown" unless menu_items.empty? %>
+  <ul class="dropdown-menu">
+    <% authorized_menu_actions(menu_items).each do |item| %>
+      <% case item %>
+      <% when Menu::Item %>
+        <%= menu_item_tag item %>
+      <% when Menu::Divider %>
+        <%= content_tag(:li, "", :class => "divider") %>
+      <% when Menu::Submenu %>
+        <%= content_tag :li, :class => "dropdown-submenu" do %>
+          <%= link_to(item.display, "#", :class => "dropdown-toggle", :"data-toggle" => "dropdown") %>
+          <%= content_tag :ul, :class => "dropdown-menu" do %>
+            <% item.sub_items.each do |sub_item| %>
+              <%= menu_item_tag sub_item %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </ul>
+</li>
