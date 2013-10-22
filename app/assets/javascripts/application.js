@@ -19,17 +19,17 @@ function onContentLoad(){
   $('.flash.error').each(function(index, item) {
      if ($('.alert-message.alert-error.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
-         $.jnotify($(item).text(), { type: "error", sticky: true });
+         notify(item, 'error');
        }
      }
    });
 
    $('.flash.warning').each(function(index, item) {
-     $.jnotify($(item).text(), { type: "warning", sticky: true });
+     notify(item, 'warning');
    });
 
    $('.flash.notice').each(function(index, item) {
-     $.jnotify($(item).text(), { type: "success", sticky: false });
+     notify(item, 'success');
    });
 
   // adds buttons classes to all links
@@ -379,4 +379,10 @@ $.fn.indicator_hide = function(){
 function spinner_placeholder(text){
   if (text == undefined) text = "";
   return "<div class='spinner-placeholder'>" + text + "</div>"
+}
+
+function notify(item, type) {
+  var options = { type: type, sticky: (type != 'success') };
+  $.jnotify($(item).text(), options);
+  $(item).remove();
 }
