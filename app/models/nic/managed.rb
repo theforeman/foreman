@@ -6,7 +6,8 @@ module Nic
 
     attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
 
-    validates :name, :uniqueness => {:scope => :domain_id}
+    # Don't have to set a hostname for each interface, but it must be unique if it is set.
+    validates :name, :uniqueness => {:scope => :domain_id}, :allow_nil => true, :allow_blank => true
 
     belongs_to :subnet
     belongs_to :domain
