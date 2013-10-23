@@ -85,6 +85,11 @@
   <div class="span5">
     <div class="stats-well">
       <h4><%= _("Support") %></h4>
+      <h6><%= _("Documentation") %></h6>
+      <ul>
+        <li><%= link_to _('Manual'),"http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/", :rel => "external" %></li>
+        <li><%= link_to _('Wiki'),"http://projects.theforeman.org", :rel => "external" %></li>
+      </ul>
       <h6><%= _("IRC") %></h6>
       <%= _("The Foreman community uses on the irc.freenode.net servers. You can get general support in #theforeman, while development chat takes place in #theforeman-dev.")%>
       <h6><%= _("Mailing lists") %></h6>
@@ -95,8 +100,6 @@
       </ul>
       <h6><%= _("Issue tracker") %></h6>
       <%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %>
-      <h6><%= _("Documentation") %></h6>
-      <%= link_to _('Wiki'),"http://theforeman.org/wiki/foreman", :rel => "external" %>
     </div>
     <div class="stats-well">
       <h4><%= _("System Information") %> </h4>
