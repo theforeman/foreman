@@ -13,7 +13,7 @@ class AboutTest < ActionDispatch::IntegrationTest
     assert page.has_link?("Foreman Users", :href => "http://groups.google.com/group/foreman-users")
     assert page.has_link?("Foreman Developers", :href => "http://groups.google.com/group/foreman-dev")
     assert page.has_link?("issue tracker", :href => "http://projects.theforeman.org/projects/foreman/issues")
-    assert page.has_link?("Wiki", :href => "http://theforeman.org/wiki/foreman")
+    assert page.has_link?("Wiki", :href => "http://projects.theforeman.org")
     assert page.has_link?("Ohad Levy", :href => "mailto:ohadlevy@gmail.com")
     assert page.has_content?("Version")
   end
