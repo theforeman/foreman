@@ -1,5 +1,6 @@
 <%= fields_for "#{type}[compute_attributes]", @host ? @host.compute_object : compute_resource.new_vm do |compute| %>
   <% if compute.object %>
+    <div id='update_not_supported' class='alert hide'><%= _("VM editing is not implemented for this provider") %></div>
     <%= render :partial => "compute_resources_vms/form/#{compute_resource.provider.downcase}",
                :locals => { :f => compute, :compute_resource => compute_resource}.merge(args_for_compute_resource_partial(@host)) %>
   <% else %>
@@ -14,4 +15,5 @@
     </div>
   <% end%>
   <%= hidden_field_tag 'capabilities', compute_resource.capabilities %>
+  <%= content_tag(:div,'', :id => :'supports_update', :data=>{:'supports-update'=> compute_resource.supports_update? || (@host && @host.new_record?)}) %>
 <% end if compute_resource %>
