@@ -144,7 +144,7 @@ class HostTest < ActiveSupport::TestCase
   test "host is not created when receiving a report if setting is false" do
     Setting[:create_new_host_when_report_is_uploaded] = false
     assert_equal false, Setting[:create_new_host_when_report_is_uploaded]
-    Report.import read_json_fixture("/../fixtures/report-no-logs.json")
+    Report.import parse_json_fixture("/../fixtures/report-no-logs.json")
     host = Host.find_by_name('builder.fm.example.net')
     Setting[:create_new_host_when_report_is_uploaded] =
         Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
