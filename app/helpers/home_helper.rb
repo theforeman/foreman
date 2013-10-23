@@ -49,7 +49,7 @@ module HomeHelper
 
   def hosts_menu_items
     [::Menu::Item.new(_('All hosts'),              hash_for_hosts_path),
-     ::Menu::Item.new(_('Facts'),                  hash_for_facts_path )]
+     ::Menu::Item.new(_('Facts'),                  hash_for_fact_values_path )]
   end
 
   def admin_menu_items
