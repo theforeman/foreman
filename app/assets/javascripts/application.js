@@ -9,8 +9,7 @@
 //= require two-pane
 //= require vendor
 //= require about
-
-jQuery.fn.exists = function(){return ($(this).length > 0);}
+//= require jquery.extentions
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 
@@ -396,7 +395,7 @@ function filter_permissions(item){
   var term = $(item).val().trim();
   if (term.length > 0) {
     $(".control-group .collapse").parents('.control-group').hide();
-    $(".control-group .control-label:contains('"+term+"')").parents('.control-group').show();
+    $(".control-group .control-label:icontains('"+term+"')").parents('.control-group').show();
   } else{
     $(".control-group .collapse").parents('.control-group').show();
   }
