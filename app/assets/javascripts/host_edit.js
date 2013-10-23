@@ -483,6 +483,7 @@ function onHostEditLoad(){
    });
   $('#image_selection').appendTo($('#image_provisioning'));
   $('#params-tab').on('shown', function(){mark_params_override()});
+  if ($('#supports_update') && !$('#supports_update').data('supports-update')) disable_vm_form_fields();
 }
 
 $(document).on('submit',"[data-submit='progress_bar']", function() {
@@ -611,4 +612,12 @@ function interface_type_selected(element) {
     bmc_fields.addClass("hide");
   }
 
+}
+
+function disable_vm_form_fields() {
+  $("#update_not_supported").show();
+  $("[id^=host_compute_attributes]").each(function () {
+    $(this).attr("disabled", "disabled");
+  });
+  $("a.disable-unsupported").remove();
 }
