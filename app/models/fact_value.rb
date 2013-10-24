@@ -31,10 +31,8 @@ class FactValue < ActiveRecord::Base
 
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
-  # Todo: find a way to filter which values are logged,
-  # this generates too much useless data
-  #
-  # audited
+  # audit the changes to this model
+  audited :allow_mass_assignment => true
 
   # returns the average of all facts
   # required only on facts that return a unit (e.g. MB, GB etc)
@@ -70,6 +68,14 @@ class FactValue < ActiveRecord::Base
     return hash
   end
 
+  def audit_create
+    super unless ignored_values?
+  end
+
+  def audit_update
+    super unless ignored_values?
+  end
+
   private
   # converts all strings with units (such as 1 MB) to GB scale and Sum them
   # returns an array with total sum and number of elements
@@ -78,6 +84,10 @@ class FactValue < ActiveRecord::Base
       fv.value.to_gb
     end
     [ values.sum, values.size ]
+  end
+
+  def ignored_values?
+    !!(name =~ /_timestamp|uptime|memoryfree|swapfree/i)
   end
 
 end
