@@ -331,7 +331,7 @@ Foreman::Application.routes.draw do
   match 'status', :to => 'home#status', :as => "status"
 
   # match only for alterator unattended scripts
-  match 'unattended/provision/:metadata',  :controller => 'unattended', :action => 'provision', :format => false, 
+  match 'unattended/provision/:metadata', :controller => 'unattended', :action => 'provision', :format => 'html',
     :constraints => { :metadata => /(autoinstall\.scm|vm-profile\.scm|pkg-groups\.tar)/ }
   # match for all unattended scripts
   match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
