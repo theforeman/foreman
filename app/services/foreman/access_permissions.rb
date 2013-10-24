@@ -4,13 +4,21 @@ require 'foreman/access_control'
 Foreman::AccessControl.map do |map|
   map.security_block :architectures do |map|
     map.permission :view_architectures,
-                   :architectures => [:index, :show, :auto_complete_search], :"api/v1/architectures" => [:index, :show]
+                   :architectures => [:index, :show, :auto_complete_search],
+                   :"api/v1/architectures" => [:index, :show],
+                   :"api/v2/architectures" => [:index, :show]
     map.permission :create_architectures,
-                   :architectures => [:new, :create], :"api/v1/architectures" => [:new, :create]
+                   :architectures => [:new, :create],
+                   :"api/v1/architectures" => [:new, :create],
+                   :"api/v2/architectures" => [:new, :create]
     map.permission :edit_architectures,
-                   :architectures => [:edit, :update], :"api/v1/architectures" => [:edit, :update]
+                   :architectures => [:edit, :update],
+                   :"api/v1/architectures" => [:edit, :update],
+                   :"api/v2/architectures" => [:edit, :update]
     map.permission :destroy_architectures,
-                   :architectures => [:destroy], :"api/v1/architectures" => [:destroy]
+                   :architectures => [:destroy],
+                   :"api/v1/architectures" => [:destroy],
+                   :"api/v2/architectures" => [:destroy]
   end
 
   map.security_block :authentication_providers do |map|
@@ -34,13 +42,21 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :bookmarks do |map|
     map.permission :view_bookmarks,
-                   :bookmarks => [:index, :show], :"api/v1/bookmarks" => [:index, :show]
+                   :bookmarks => [:index, :show],
+                   :"api/v1/bookmarks" => [:index, :show],
+                   :"api/v2/bookmarks" => [:index, :show]
     map.permission :create_bookmarks,
-                   :bookmarks => [:new, :create], :"api/v1/bookmarks" => [:new, :create]
+                   :bookmarks => [:new, :create],
+                   :"api/v1/bookmarks" => [:new, :create],
+                   :"api/v2/bookmarks" => [:new, :create]
     map.permission :edit_bookmarks,
-                   :bookmarks => [:edit, :update], :"api/v1/bookmarks" => [:edit, :update]
+                   :bookmarks => [:edit, :update],
+                   :"api/v1/bookmarks" => [:edit, :update],
+                   :"api/v2/bookmarks" => [:edit, :update]
     map.permission :destroy_bookmarks,
-                   :bookmarks => [:destroy], :"api/v1/bookmarks" => [:destroy]
+                   :bookmarks => [:destroy],
+                   :"api/v1/bookmarks" => [:destroy],
+                   :"api/v2/bookmarks" => [:destroy]
   end
 
   map.security_block :compute_resources do |map|
@@ -77,7 +93,8 @@ Foreman::AccessControl.map do |map|
                                         :"api/v1/config_templates" => [:index, :show, :revision],
                                         :"api/v2/config_templates" => [:index, :show, :revision],
                                         :"api/v2/template_combinations" => [:index, :show],
-                                        :"api/v1/template_kinds" => [:index]
+                                        :"api/v1/template_kinds" => [:index],
+                                        :"api/v2/template_kinds" => [:index]
                                       }
     map.permission :create_templates,  {:config_templates => [:new, :create],
                                         :"api/v1/config_templates" => [:create],
@@ -213,6 +230,7 @@ Foreman::AccessControl.map do |map|
                                             :host => host_ajax_actions,
                                             :puppetclasses => pc_ajax_actions,
                                             :"api/v1/hostgroups" => [:update],
+                                            :"api/v2/hostgroups" => [:update],
                                             :"api/v2/parameters" => [:create, :update, :destroy, :reset],
                                             :"api/v2/hostgroup_classes" => [:index, :create, :destroy]
                                            }
