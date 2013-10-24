@@ -3,8 +3,8 @@ class PuppetFactImporter
   attr_reader :counters
 
   def initialize(host, facts = {})
-    @host = host
-    @facts = normalize(facts)
+    @host     = host
+    @facts    = normalize(facts)
     @counters = {}
   end
 
@@ -21,11 +21,11 @@ class PuppetFactImporter
   attr_reader :host, :facts
 
   def delete_removed_facts
-    deleted_counter = FactValue.delete_all([
-                                             'fact_name_id IN (SELECT id FROM fact_names WHERE name NOT IN (?)) AND host_id=?',
-                                             facts.keys, host.id
-                                           ])
-    @db_facts       = nil
+    deleted_counter     = FactValue.delete_all([
+                                                 'fact_name_id IN (SELECT id FROM fact_names WHERE name NOT IN (?)) AND host_id=?',
+                                                 facts.keys, host.id
+                                               ])
+    @db_facts           = nil
     @counters[:deleted] = deleted_counter
     logger.debug("Merging facts for '#{host}': deleted #{deleted_counter} facts")
   end
@@ -34,10 +34,10 @@ class PuppetFactImporter
     fact_names      = FactName.maximum(:id, :group => 'name')
     facts_to_create = facts.keys - db_facts.keys
     # if the host does not exists yet, we don't have an host_id to use the fact_values table.
-    method = host.new_record? ? :build : :create!
+    method          = host.new_record? ? :build : :create!
     facts_to_create.each do |name|
-      host.fact_values.send(method,:value        => facts[name],
-                            :fact_name_id => fact_names[name] || FactName.create!(:name => name).id)
+      host.fact_values.send(method, :value => facts[name],
+                            :fact_name_id  => fact_names[name] || FactName.create!(:name => name).id)
     end
 
     @counters[:added] = facts_to_create.size

@@ -71,6 +71,6 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   end
 
   def value fact
-    FactValue.joins(:fact_name).where(:host_id => @host.id, :fact_names => {:name => fact }).first.try(:value)
+    FactValue.joins(:fact_name).where(:host_id => @host.id, :fact_names => { :name => fact }).first.try(:value)
   end
 end
