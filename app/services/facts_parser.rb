@@ -1,5 +1,5 @@
 module Facts
-  class Importer
+  class Parser
     attr_reader :facts
 
     def initialize facts
