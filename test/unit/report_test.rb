@@ -3,23 +3,7 @@ require 'test_helper'
 class ReportTest < ActiveSupport::TestCase
   def setup
     User.current = User.admin
-    @r=Report.import read_json_fixture("/../fixtures/report-skipped.json")
-  end
-
-  test "it should not change host report status when we have skipped reports but there are no log entries" do
-    @r.status={"applied" => 0, "restarted" => 0, "failed" => 0, "failed_restarts" => 0, "skipped" => 1, "pending" => 0}
-    assert_equal @r.failed, 0
-  end
-
-  test "it should save metrics as bits in status integer" do
-    @r.status={"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3, "pending" => 4}
-    @r.save
-    assert_equal @r.applied, Report::MAX
-    assert_equal @r.restarted, Report::MAX
-    assert_equal @r.failed, 4
-    assert_equal @r.failed_restarts, 12
-    assert_equal @r.skipped, 3
-    assert_equal @r.pending, 4
+    @r=Report.import read_json_fixture("report-skipped.json")
   end
 
   test "it should true on error? if there were errors" do
@@ -120,49 +104,6 @@ class ReportTest < ActiveSupport::TestCase
     record.status = {}
     assert !record.save
     assert record.valid?
-  end
-
-  test "it should import reports with no metrics" do
-    r=Report.import read_json_fixture("/../fixtures/report-empty.json")
-    assert r
-  end
-
-  test "it should import reports where logs is nil" do
-    r=Report.import read_json_fixture("/../fixtures/report-no-logs.json")
-    assert r
-  end
-
-  test "when notification is set to true, if report has an error, a mail to admin should be sent" do
-    setup_for_email_reporting
-    Setting[:failed_report_email_notification] = true
-    assert_difference 'ActionMailer::Base.deliveries.size' do
-      Report.import read_json_fixture("/../fixtures/report-errors.json")
-    end
-  end
-
-  test "when notification is set to false, if the report has an error, no mail should be sent" do
-    setup_for_email_reporting
-    Setting[:failed_report_email_notification] = false
-    assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Report.import read_json_fixture("/../fixtures/report-errors.json")
-    end
-  end
-
-  test "if report has no error, no mail should be sent" do
-    setup_for_email_reporting
-    assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Report.import read_json_fixture("/../fixtures/report-applied.json")
-    end
-  end
-
-  def setup_for_email_reporting
-    # Email recepient
-    Setting[:administrator] = "admin@example.com"
-    Setting[:failed_report_email_notification] = true
-  end
-
-  def read_json_fixture(file)
-    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + file)))
   end
 
 end

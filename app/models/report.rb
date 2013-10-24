@@ -32,8 +32,6 @@ class Report < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
-      #TODO: Remove pluck after upgrade to newer rails as it would be
-      #done via INNER select automatically
       where(:reports => {:host_id => Host.my_hosts.select("hosts.id")})
     end
   }
@@ -47,9 +45,16 @@ class Report < ActiveRecord::Base
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
   def status=(st)
-    s = st if st.is_a?(Integer)
-    s = Report.calc_status st if st.is_a?(Hash)
-    write_attribute(:status,s) unless s.nil?
+    s = case st
+          when Integer, Fixnum
+            st
+          when Hash
+            ReportStatusCalculator.new(:counters => st).calculate
+          else
+            raise Foreman::Exception(N_('Unsupported report status format'))
+        end
+    @calc = nil
+    write_attribute(:status,s)
   end
 
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
@@ -74,50 +79,8 @@ class Report < ActiveRecord::Base
     (metrics[:time][:total] || metrics[:time].values.sum).round(2) rescue 0
   end
 
-  #imports a report hash into database
   def self.import(report, proxy_id = nil)
-    raise ::Foreman::Exception.new("Invalid report") unless report.is_a?(Hash)
-    logger.info "processing report for #{report['host']}"
-
-    # Find the host
-    host = Host.find_by_certname report['host']
-    host ||= Host.find_by_name report['host']
-    host ||= Host.new :name => report['host'] if Setting[:create_new_host_when_report_is_uploaded]
-
-    return Report.new if host.nil?
-
-    # Set the report time
-    time = Time.parse(report['reported_at']).utc
-
-    # convert report status to bit field
-    st = calc_status(report['status'])
-
-    # update host record
-    # we update our host record, so we wont need to lookup the report information just
-    # to display the host list / info
-    # save our report time
-    host.last_report = time if host.last_report.nil? or host.last_report.utc < time
-
-    # we save the raw bit status value in our host too.
-    host.puppet_status = st
-
-    # if proxy authentication is enabled and we have no puppet proxy set, use it.
-    host.puppet_proxy_id ||= proxy_id
-
-    # we save the host without validation for two reasons:
-    # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
-    # 2. We want this to be fast and light on the db.
-    # at this point, the report is important, not the host
-    host.save(:validate => false)
-
-    # and save our report
-    r = self.new(:host => host, :reported_at => time, :status => st, :metrics => report['metrics'])
-    return r unless r.save
-    # Store all Puppet message logs
-    r.import_log_messages report
-    # Check for errors
-    r.inspect_report
-    return r
+    ReportImporter.import(report, proxy_id)
   end
 
   # returns a hash of hosts and their recent reports metric counts which have values
@@ -194,39 +157,6 @@ class Report < ActiveRecord::Base
     return count
   end
 
-  def import_log_messages report
-    return if report['logs'].empty?
-    report['logs'].each do |r|
-      # Parse the API format
-      level = r['log']['level']
-      msg   = r['log']['messages']['message']
-      src   = r['log']['sources']['source']
-
-      message = Message.find_or_create msg
-      source  = Source.find_or_create src
-
-      # Symbols get turned into strings via the JSON API, so convert back here if it matches
-      # and expected log level. Log objects can't be created without one, so raise if not
-      raise ::Foreman::Exception.new("Invalid log level: #{level}") unless LOG_LEVELS.include? level
-      log = Log.create :message_id => message.id, :source_id => source.id, :report_id => self.id, :level => level.to_sym
-      log.errors.empty?
-    end
-  end
-
-  def inspect_report
-    if error?
-      # found a report with errors
-      # notify via email IF enabled is set to true
-      logger.warn "#{report['host']} is disabled - skipping." and return if host.disabled?
-
-      logger.debug "error detected, checking if we need to send an email alert"
-      HostMailer.error_state(self).deliver if Setting[:failed_report_email_notification]
-      # add here more actions - e.g. snmp alert etc
-    end
-  rescue => e
-    logger.warn "failed to send failure email notification: #{e}"
-  end
-
   # represent if we have a report --> used to ensure consistency across host report state the report itself
   def no_report
     false
@@ -239,19 +169,6 @@ class Report < ActiveRecord::Base
   end
 
   private
-
-  # converts a hash into a bit field
-  # expects a metrics_to_hash kind of hash
-  # see the report_processor for the implementation
-  def self.calc_status (hash = {})
-    st = 0
-    hash.each do |type, value|
-      value = value.to_i # JSON does everything as strings
-      value = MAX if value > MAX # we store up to 2^BIT_NUM -1 values as we want to use only BIT_NUM bits.
-      st |= value << (BIT_NUM*METRIC.index(type))
-    end
-    return st
-  end
 
   def enforce_permissions operation
     # No one can edit a report

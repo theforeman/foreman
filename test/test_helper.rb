@@ -116,6 +116,11 @@ Spork.prefork do
     def disable_orchestration
       ActiveSupport::TestCase.disable_orchestration
     end
+
+    def read_json_fixture(file)
+      json = File.expand_path(File.join('..', 'fixtures', file), __FILE__)
+      JSON.parse(File.read(json))
+    end
   end
 
   # Transactional fixtures do not work with Selenium tests, because Capybara
