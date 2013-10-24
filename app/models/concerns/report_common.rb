@@ -42,12 +42,8 @@ module ReportCommon
   #when no metric type is specific returns hash with all values
   #passing a METRIC member will return its value
   def status(type = nil)
-    raise(N_("invalid type %s") % type) if type and not METRIC.include?(type)
-    h = {}
-    (type.is_a?(String) ? [type] : METRIC).each do |m|
-      h[m] = (read_attribute(self.class.report_status) || 0) >> (BIT_NUM*METRIC.index(m)) & MAX
-    end
-    type.nil? ? h : h[type]
+    @calc ||= ReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status))
+    @calc.status(type)
   end
 
 end
