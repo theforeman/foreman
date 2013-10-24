@@ -1,6 +1,6 @@
 module Api
   module V2
-    class ComputeResourcesController < V1::ComputeResourcesController
+    class ComputeResourcesController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

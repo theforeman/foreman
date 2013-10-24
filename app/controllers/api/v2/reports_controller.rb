@@ -1,6 +1,6 @@
 module Api
   module V2
-    class ReportsController < V1::ReportsController
+    class ReportsController < V2::BaseController
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 

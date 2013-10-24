@@ -1,6 +1,6 @@
 module Api
   module V2
-    class HostgroupsController < V1::HostgroupsController
+    class HostgroupsController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

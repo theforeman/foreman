@@ -1,6 +1,6 @@
 module Api
   module V2
-    class MediaController < V1::MediaController
+    class MediaController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

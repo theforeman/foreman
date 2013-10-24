@@ -1,6 +1,6 @@
 module Api
   module V2
-    class UsersController < V1::UsersController
+    class UsersController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

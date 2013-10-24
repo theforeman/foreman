@@ -1,6 +1,6 @@
 module Api
   module V2
-    class SubnetsController < V1::SubnetsController
+    class SubnetsController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

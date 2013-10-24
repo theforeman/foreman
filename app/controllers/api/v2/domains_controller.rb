@@ -1,6 +1,6 @@
 module Api
   module V2
-    class DomainsController < V1::DomainsController
+    class DomainsController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

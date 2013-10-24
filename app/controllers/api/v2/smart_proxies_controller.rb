@@ -1,6 +1,6 @@
 module Api
   module V2
-    class SmartProxiesController < V1::SmartProxiesController
+    class SmartProxiesController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

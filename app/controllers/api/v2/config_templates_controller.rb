@@ -1,6 +1,6 @@
 module Api
   module V2
-    class ConfigTemplatesController < V1::ConfigTemplatesController
+    class ConfigTemplatesController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
 

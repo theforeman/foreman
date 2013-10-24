@@ -1,6 +1,6 @@
 module Api
   module V2
-    class EnvironmentsController < V1::EnvironmentsController
+    class EnvironmentsController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope

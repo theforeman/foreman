@@ -1,6 +1,6 @@
 module Api
   module V2
-    class HostsController < V1::HostsController
+    class HostsController < V2::BaseController
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
