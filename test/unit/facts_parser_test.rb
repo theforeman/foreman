@@ -1,10 +1,10 @@
 require "test_helper"
 
-class FactsImporterTest < ActiveSupport::TestCase
+class FactsParserTest < ActiveSupport::TestCase
   attr_reader :importer
 
   def setup
-    @importer = Facts::Importer.new facts
+    @importer = Facts::Parser.new facts
     User.current = User.admin
   end
 
@@ -19,7 +19,7 @@ class FactsImporterTest < ActiveSupport::TestCase
   end
 
   test "should raise on an invalid os" do
-    @importer = Facts::Importer.new({})
+    @importer = Facts::Parser.new({})
     assert_raise ::Foreman::Exception do
       importer.operatingsystem
     end
@@ -41,14 +41,14 @@ class FactsImporterTest < ActiveSupport::TestCase
   end
 
   test "should make non-numeric os version strings into numeric" do
-    @importer = Facts::Importer.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'1&2.3y4'})
+    @importer = Facts::Parser.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'1&2.3y4'})
     data = importer.operatingsystem
     assert_equal '12', data.major
     assert_equal '34', data.minor
   end
 
   test "should allow OS version minor component to be nil" do
-    @importer = Facts::Importer.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'6'})
+    @importer = Facts::Parser.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'6'})
     data = importer.operatingsystem
     assert_equal "AnyOS 6", data.to_s
     assert_equal '6', data.major
@@ -56,12 +56,12 @@ class FactsImporterTest < ActiveSupport::TestCase
   end
 
   test "release_name should be nil when lsbdistcodename isn't set on Debian" do
-    @importer = Facts::Importer.new(debian_facts.delete_if { |k,v| k == "lsbdistcodename" })
+    @importer = Facts::Parser.new(debian_facts.delete_if { |k,v| k == "lsbdistcodename" })
     assert_equal nil, @importer.operatingsystem.release_name
   end
 
   test "should set os.release_name to the lsbdistcodename fact on Debian" do
-    @importer = Facts::Importer.new(debian_facts)
+    @importer = Facts::Parser.new(debian_facts)
     assert_equal 'wheezy', @importer.operatingsystem.release_name
   end
 

@@ -1,4 +1,4 @@
-require 'facts_importer'
+require 'facts_parser'
 
 module Host
   class Base < ActiveRecord::Base
@@ -65,9 +65,9 @@ module Host
 
     # expect a facts hash
     def importFacts facts
-
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
-      raise ::Foreman::Exception.new("Host is pending for Build") if build
+      raise ::Foreman::Exception.new('Host is pending for Build') if build?
+
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
 
@@ -76,10 +76,10 @@ module Host
         return true unless last_compile.nil? or (last_compile + 1.minute < time)
         self.last_compile = time
       end
-      # save all other facts
-      merge_facts(facts)
-      save(:validate => false)
 
+      PuppetFactImporter.new(self,facts).import!
+
+      save(:validate => false)
       populateFieldsFromFacts(facts)
 
       # we are saving here with no validations, as we want this process to be as fast
@@ -87,52 +87,7 @@ module Host
       # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
       # TODO: if it was installed by Foreman and there is a mismatch,
       # we should probably send out an alert.
-      return self.save(:validate => false)
-    end
-
-    # Inspired from Puppet::Rails:Host
-    def merge_facts(facts)
-      db_facts = {}
-
-      deletions = []
-      fact_values.includes(:fact_name).each do |value|
-        deletions << value['id'] and next unless facts.include?(value.name)
-        # Now store them for later testing.
-        db_facts[value.name] ||= []
-        db_facts[value.name] << value
-      end
-
-      # Now get rid of any parameters whose value list is different.
-      # This might be extra work in cases where an array has added or lost
-      # a single value, but in the most common case (a single value has changed)
-      # this makes sense.
-      db_facts.each do |name, value_hashes|
-        db_values = value_hashes.collect { |v| v['value'] }
-        value = facts[name]
-        values = value.is_a?(Array) ? value : [value.to_s]
-
-        unless db_values == values
-          value_hashes.each { |v| deletions << v['id'] }
-        end
-      end
-
-      FactValue.delete(deletions) unless deletions.empty?
-
-      # Get FactNames in one call
-      fact_names = FactName.group(:name).maximum(:id)
-
-      # Create any needed new FactNames
-      facts['_timestamp'] = facts.delete(:_timestamp) if facts.include?(:_timestamp)
-      facts.each do |name, value|
-        next if db_facts.include?(name)
-        values = value.is_a?(Array) ? value : [value]
-
-        values.each do |v|
-          next if v.nil?
-          fact_values.build(:value => v,
-                            :fact_name_id => fact_names[name] || FactName.create!(:name => name).id)
-        end
-      end
+      return save(:validate => false)
     end
 
     def attributes_to_import_from_facts
@@ -143,7 +98,7 @@ module Host
       # we don't import facts for host in build mode
       return if build?
 
-      importer = Facts::Importer.new facts
+      importer = Facts::Parser.new facts
 
       set_non_empty_values importer, attributes_to_import_from_facts
       importer

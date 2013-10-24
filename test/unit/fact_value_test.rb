@@ -7,10 +7,6 @@ class FactValueTest < ActiveSupport::TestCase
     @fact_value = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
   end
 
-#  test "should return the memory average" do
-#    p FactValue.mem_average("my_facting_name")
-#  end
-
   test "should return the count of each fact" do
     h = [{:label=>"some value", :data=>1}]
     assert_equal h, FactValue.count_each("my_facting_name")
@@ -20,6 +16,10 @@ class FactValueTest < ActiveSupport::TestCase
     other_fact_value = FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
     h = [{:label=>"some value", :data=>2}]
     assert_equal h, FactValue.count_each("my_facting_name")
+  end
+
+  test "should fail validation when the host already has a fact with the same name" do
+    assert !FactValue.new(:value => "some value", :host => @host, :fact_name => @fact_name).valid?
   end
 end
 

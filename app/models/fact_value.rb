@@ -29,6 +29,8 @@ class FactValue < ActiveRecord::Base
   scope :required_fields, lambda { includes(:host, :fact_name) }
   scope :facts_counter, lambda {|value, name_id| where(:value => value, :fact_name_id => name_id) }
 
+  validates :fact_name_id, :uniqueness => { :scope => :host_id }
+
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
   #
