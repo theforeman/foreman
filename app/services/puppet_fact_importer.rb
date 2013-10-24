@@ -10,7 +10,6 @@ class PuppetFactImporter
 
   # expect a facts hash
   def import!
-
     delete_removed_facts
     add_new_facts
     update_facts
@@ -23,7 +22,7 @@ class PuppetFactImporter
 
   def delete_removed_facts
     deleted_counter = FactValue.delete_all([
-                                             'fact_name_id IN (SELECT ID FROM fact_names WHERE name NOT IN (?)) AND host_id=?',
+                                             'fact_name_id IN (SELECT id FROM fact_names WHERE name NOT IN (?)) AND host_id=?',
                                              facts.keys, host.id
                                            ])
     @db_facts       = nil
@@ -67,7 +66,4 @@ class PuppetFactImporter
     @db_facts ||= host.fact_values.includes(:fact_name).index_by(&:name)
   end
 
-  def current_facts_counter
-    FactValue.where(:host_id => host).count
-  end
 end
