@@ -524,10 +524,11 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     f = fact_names(:kernelversion)
     as_admin do
-      FactValue.create!(:value => "superbox", :host_id => h.id, :fact_name_id => f.id)
+      fact_value = FactValue.where(:fact_name_id => f.id).first
+      fact_value.update_attributes!(:value => "superbox")
     end
     assert_difference('Model.count') do
-    facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
+      facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
       h.populateFieldsFromFacts facts['facts']
     end
   end
@@ -871,10 +872,7 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.first.params['foo'], 'bar'
   end
 
-  private
-
   def parse_json_fixture(relative_path)
     return JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + relative_path)))
   end
-
 end
