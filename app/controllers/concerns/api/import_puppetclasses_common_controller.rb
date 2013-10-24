@@ -12,8 +12,9 @@ module Api::ImportPuppetclassesCommonController
   api :GET, "/smart_proxies/:id/import_puppetclasses", "Import puppetclasses from puppet proxy."
   api :GET, "/smart_proxies/:smart_proxy_id/environments/:id/import_puppetclasses", "Import puppetclasses from puppet proxy for particular environment."
   api :GET, "/environments/:environment_id/smart_proxies/:id/import_puppetclasses", "Import puppetclasses from puppet proxy for particular environment."
-  param :smart_proxy_id, :identifier, :required => true
-  param :environment_id, :identifier, :required => false
+  param :id, :identifier, :required => true
+  param :smart_proxy_id, String, :required => false
+  param :environment_id, String, :required => false
   param :dryrun, :bool, :required => false
 
   def import_puppetclasses
