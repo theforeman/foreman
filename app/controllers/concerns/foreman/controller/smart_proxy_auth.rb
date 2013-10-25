@@ -1,7 +1,7 @@
-require 'resolv'
 require 'uri'
 
 module Foreman::Controller::SmartProxyAuth
+  include Foreman::Controller::MemoizedResolver
   extend ActiveSupport::Concern
 
   module ClassMethods
@@ -47,12 +47,12 @@ module Foreman::Controller::SmartProxyAuth
       elsif require_cert
         logger.warn "No SSL cert with CN supplied - request from #{request.ip}, #{dn}"
       else
-        request_hosts = Resolv.new.getnames(request.ip)
+        request_hosts = resolver.getnames(request.ip)
       end
     elsif SETTINGS[:require_ssl]
       logger.warn "SSL is required - request from #{request.ip}"
     else
-      request_hosts = Resolv.new.getnames(request.ip)
+      request_hosts = resolver.getnames(request.ip)
     end
     return false unless request_hosts
 

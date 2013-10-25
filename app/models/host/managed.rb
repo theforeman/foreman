@@ -353,7 +353,7 @@ class Host::Managed < Host::Base
   end
 
   # JSON is auto-parsed by the API, so these should be in the right format
-  def self.importHostAndFacts hostname, facts, certname = nil
+  def self.importHostAndFacts hostname, facts, certname = nil, puppet_proxy_id = nil
     raise(::Foreman::Exception.new("Invalid Facts, must be a Hash")) unless facts.is_a?(Hash)
     raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
 
@@ -368,6 +368,15 @@ class Host::Managed < Host::Base
     return Host.new, true if h.nil?
     # if we were given a certname but found the Host by hostname we should update the certname
     h.certname = certname if certname.present?
+
+    if h.puppet_proxy_id == nil
+      if SmartProxy.puppet_proxies.size == 1
+        h.puppet_proxy_id = SmartProxy.puppet_proxies.first.id
+      elsif puppet_proxy_id != nil
+        h.puppet_proxy_id = puppet_proxy_id
+      end
+    end
+
     h.save(:validate => false) if h.new_record?
     state = h.importFacts(facts)
     return h, state
