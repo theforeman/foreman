@@ -140,9 +140,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_or_create_external_user(login, auth_source_name)
-    if (user = unscoped.find_by_login(login))
-      user.post_successful_login
+  def self.find_or_create_external_user(attrs, auth_source_name)
+    if (user = unscoped.find_by_login(attrs[:login]))
       return true
     elsif auth_source_name.nil?
       return false
@@ -150,7 +149,7 @@ class User < ActiveRecord::Base
       User.as :admin do
         options = { :name => auth_source_name }
         auth_source = AuthSource.where(options).first || AuthSourceExternal.create!(options)
-        user = User.create!(:login => login, :auth_source => auth_source)
+        user = User.create!(attrs.merge(:auth_source => auth_source))
         user.post_successful_login
       end
       return true
