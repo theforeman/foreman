@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.9999
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -116,10 +116,11 @@ BuildRequires: gettext
 Summary: Foreman CLI
 Group: Applications/System
 Requires: %{name} = %{version}-%{release}
-Requires: %{?scl_prefix}rubygem(foremancli) >= 1.0
+Requires: rubygem(hammer_cli)
+Requires: rubygem(hammer_cli_foreman)
 
 %description cli
-Meta Package to install rubygem-cli and its dependencies
+Meta Package to install hammer rubygems and its dependencies
 
 %files cli
 
@@ -349,7 +350,7 @@ plugins required for Foreman to work.
 #replace shebangs and binaries in scripts for SCL
 %if %{?scl:1}%{!?scl:0}
   # shebangs
-  for f in extras/query/ssh_using_foreman extras/rdoc/rdoc_prepare_script.rb extras/cli/foremancli \
+  for f in extras/query/ssh_using_foreman extras/rdoc/rdoc_prepare_script.rb \
   script/rails script/performance/profiler script/performance/benchmarker script/foreman-config ; do
     sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' $f
   done
@@ -531,6 +532,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Oct 25 2013 Martin Bacovsky <mbacovsk@redhat.com> - 1.3.9999-4
+- foreman-cli metapackage installs hammer
+
 * Mon Sep 30 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-3
 - Adding Foreman plugins repo
 
