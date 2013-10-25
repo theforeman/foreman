@@ -366,29 +366,41 @@ class UserTest < ActiveSupport::TestCase
   test ".find_or_create_external_user" do
     count = User.count
     # existing user
-    assert User.find_or_create_external_user(users(:one).login, nil)
+    assert User.find_or_create_external_user({:login => users(:one).login}, nil)
     assert_equal count, User.count
 
     # not existing user without auth source specified
-    assert !User.find_or_create_external_user('not_existing_user', nil)
+    assert !User.find_or_create_external_user({:login => 'not_existing_user'}, nil)
     assert_equal count, User.count
 
     # not existing user with existing AuthSource
     apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
     source_count = AuthSource.count
-    assert User.find_or_create_external_user('not_existing_user', apache_source.name)
+    assert User.find_or_create_external_user({:login => 'not_existing_user'}, apache_source.name)
     assert_equal count + 1, User.count
     assert_equal source_count, AuthSource.count
     user = User.find_by_login('not_existing_user')
     assert_equal apache_source.name, user.auth_source.name
 
     count = User.count
-    assert User.find_or_create_external_user('not_existing_user_2', 'new_external_source')
+    assert User.find_or_create_external_user({:login => 'not_existing_user_2'}, 'new_external_source')
     assert_equal count + 1, User.count
     assert_equal source_count + 1, AuthSource.count
     user = User.find_by_login('not_existing_user_2')
     new_source = AuthSourceExternal.find_by_name('new_external_source')
     assert_equal new_source.name, user.auth_source.name
+
+    # with other attributes which gets saved as well
+    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
+    assert User.find_or_create_external_user({:login => 'not_existing_user_3',
+                                              :mail => 'foobar@example.com',
+                                              :firstname => 'Foo',
+                                              :lastname => 'Bar'},
+                                             apache_source.name)
+    user = User.find_by_login('not_existing_user_3')
+    assert_equal 'foobar@example.com', user.mail
+    assert_equal 'Foo', user.firstname
+    assert_equal 'Bar', user.lastname
   end
 
 
