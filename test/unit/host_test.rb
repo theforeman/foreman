@@ -892,6 +892,25 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.first.params['foo'], 'bar'
   end
 
+  test "should update puppet_proxy_id to the id of the validated proxy" do
+    sp  = SmartProxy.create!(:name => "Puppetmaster Proxy 2", :url => "http://another.one:4567") do |p|
+      p.features = [features(:puppet)]
+    end
+    raw = parse_json_fixture('/facts_with_caps.json')
+    Host.importHostAndFacts(raw['name'], raw['facts'], nil, sp.id)
+    assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
+  end
+
+  test "shouldn't update puppet_proxy_id if it has been set" do
+    Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
+    sp  = SmartProxy.create!(:name => "Puppetmaster Proxy 2", :url => "http://another.one:4567") do |p|
+      p.features = [features(:puppet)]
+    end
+    raw = parse_json_fixture('/facts_with_certname.json')
+    assert Host.importHostAndFacts(raw['name'], raw['facts'], nil, sp.id)
+    assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
+  end
+
   def parse_json_fixture(relative_path)
     return JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + relative_path)))
   end

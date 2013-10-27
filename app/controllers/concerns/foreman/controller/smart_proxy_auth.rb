@@ -13,6 +13,7 @@ module Foreman::Controller::SmartProxyAuth
       skip_before_filter :set_taxonomy, :only => actions
       skip_before_filter :session_expiry, :update_activity_time, :only => actions
       before_filter :require_puppetmaster_or_login, :only => actions
+      attr_reader :detected_proxy
     end
   end
 
@@ -56,13 +57,14 @@ module Foreman::Controller::SmartProxyAuth
     end
     return false unless request_hosts
 
-    proxies = proxies.map! { |p| URI.parse(p.url).host }.push(*Setting[:trusted_puppetmaster_hosts])
-    logger.debug("Verifying request from #{request_hosts} against #{proxies.inspect}")
+    hosts = proxies.map { |p| URI.parse(p.url).host }.push(*Setting[:trusted_puppetmaster_hosts])
+    logger.debug("Verifying request from #{request_hosts} against #{hosts.inspect}")
 
-    unless proxies.detect { |p| request_hosts.include? p }
+    unless host = hosts.detect { |p| request_hosts.include? p }
       logger.warn "No smart proxy server found on #{request_hosts.inspect} and is not in trusted_puppetmaster_hosts"
       return false
     end
+    @detected_proxy = proxies[hosts.index(host)] if host
     true
   end
 end
