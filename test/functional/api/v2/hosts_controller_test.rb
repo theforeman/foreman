@@ -50,6 +50,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts}
+    assert_nil @controller.detected_proxy
     assert_response :success
   end
 
@@ -58,10 +59,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = false
 
-    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    proxy = smart_proxies(:puppetmaster)
+    host   = URI.parse(proxy.url).host
+    Resolv.any_instance.stubs(:getnames).returns([host])
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts}
+    assert_equal proxy, @controller.detected_proxy
     assert_response :success
   end
 

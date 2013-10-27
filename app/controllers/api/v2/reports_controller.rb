@@ -16,7 +16,7 @@ module Api
       end
 
       def create
-        @report = Report.import(params[:report])
+        @report = Report.import(params[:report], detected_proxy.try(:id))
         process_response @report.errors.empty?
       rescue ::Foreman::Exception => e
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity

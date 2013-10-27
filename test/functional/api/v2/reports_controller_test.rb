@@ -35,6 +35,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     post :create, {:report => create_a_puppet_transaction_report }
+    assert_nil @controller.detected_proxy
     assert_response :success
   end
 
@@ -42,8 +43,11 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     Setting[:restrict_registered_puppetmasters] = true
     Setting[:require_ssl_puppetmasters] = false
 
-    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    proxy = smart_proxies(:puppetmaster)
+    host   = URI.parse(proxy.url).host
+    Resolv.any_instance.stubs(:getnames).returns([host])
     post :create, {:report => create_a_puppet_transaction_report }
+    assert_equal proxy, @controller.detected_proxy
     assert_response :success
   end
 

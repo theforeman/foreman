@@ -75,7 +75,7 @@ class Report < ActiveRecord::Base
   end
 
   #imports a report hash into database
-  def self.import(report)
+  def self.import(report, proxy_id = nil)
     raise ::Foreman::Exception.new("Invalid report") unless report.is_a?(Hash)
     logger.info "processing report for #{report['host']}"
 
@@ -100,6 +100,9 @@ class Report < ActiveRecord::Base
 
     # we save the raw bit status value in our host too.
     host.puppet_status = st
+
+    # if proxy authentication is enabled and we have no puppet proxy set, use it.
+    host.puppet_proxy_id ||= proxy_id
 
     # we save the host without validation for two reasons:
     # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
