@@ -100,5 +100,9 @@ class PuppetclassesController < ApplicationController
     session[:redirect_to_url] = nil
   end
 
-
+  def find_by_name
+    not_found and return if params[:id].blank?
+    @puppetclass = (params[:id] =~ /\A\d+\Z/) ? Puppetclass.find(params[:id]) : Puppetclass.find_by_name(params[:id])
+    not_found and return unless @puppetclass
+  end
 end

@@ -83,7 +83,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}-#{key}"
+    "#{id}-#{key.parameterize}"
   end
 
   def to_s

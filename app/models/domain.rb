@@ -36,7 +36,7 @@ class Domain < ActiveRecord::Base
   end
 
   def to_param
-    name
+    "#{id}-#{name.parameterize}"
   end
 
   def enforce_permissions operation
