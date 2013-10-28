@@ -122,12 +122,7 @@ class User < ActiveRecord::Base
       user = try_to_auto_create_user(login, password)
     end
     if user
-      as "admin" do
-        user.update_attribute(:last_login_on, Time.now.utc)
-        anonymous = Role.find_by_name("Anonymous")
-        user.roles << anonymous unless user.roles.include?(anonymous)
-        User.current = user
-      end
+      user.post_successful_login
     else
       logger.info "invalid user"
       User.current = nil
@@ -135,8 +130,18 @@ class User < ActiveRecord::Base
     user
   end
 
+  def post_successful_login
+    User.as "admin" do
+      self.update_attribute(:last_login_on, Time.now.utc)
+      anonymous = Role.find_by_name("Anonymous")
+      self.roles << anonymous unless self.roles.include?(anonymous)
+      User.current = self
+    end
+  end
+
   def self.find_or_create_external_user(login, auth_source_name)
     if (user = unscoped.find_by_login(login))
+      user.post_successful_login
       return true
     elsif auth_source_name.nil?
       return false
@@ -144,7 +149,8 @@ class User < ActiveRecord::Base
       User.as :admin do
         options = { :name => auth_source_name }
         auth_source = AuthSource.where(options).first || AuthSourceExternal.create!(options)
-        User.create!(:login => login, :auth_source => auth_source)
+        user = User.create!(:login => login, :auth_source => auth_source)
+        user.post_successful_login
       end
       return true
     end
