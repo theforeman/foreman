@@ -13,7 +13,7 @@ class Architecture < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => :true
 
   def to_param
-    name
+    "#{id}-#{name.parameterize}"
   end
 
 end

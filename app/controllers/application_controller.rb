@@ -119,13 +119,13 @@ class ApplicationController < ActionController::Base
   # example:
   # @host = Host.find_by_name params[:id]
   def find_by_name
-    not_found and return if (id = params[:id]).blank?
+    not_found and return if params[:id].blank?
 
     name = controller_name.singularize
     model = model_of_controller
     # determine if we are searching for a numerical id or plain name
-    cond = "find_by_" + ((id =~ /^\d+$/ && (id=id.to_i)) ? "id" : "name")
-    not_found and return unless instance_variable_set("@#{name}", model.send(cond, id))
+    cond = "find" + (params[:id] =~ /\A\d+(-.+)?\Z/ ? "" : "_by_name")
+    not_found and return unless instance_variable_set("@#{name}", model.send(cond, params[:id]))
   end
 
   def notice notice
