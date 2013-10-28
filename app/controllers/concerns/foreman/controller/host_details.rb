@@ -18,18 +18,10 @@ module Foreman::Controller::HostDetails
   end
 
   def domain_selected
-    respond_to do |format|
-      format.html {assign_parameter "domain", "common/"}
-      format.json do
-        taxonomy_scope
-        Taxonomy.as_taxonomy @organization, @location do
-          if (domain = Domain.find(params[:domain_id]))
-            render :json => domain.subnets
-          else
-            not_found
-          end
-        end
-      end
+    taxonomy_scope
+    Taxonomy.as_taxonomy @organization, @location do
+      domain = Domain.find(params[:domain_id])
+      render :json => domain.subnets
     end
   end
 
