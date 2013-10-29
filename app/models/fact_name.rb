@@ -10,8 +10,6 @@ class FactName < ActiveRecord::Base
 
   default_scope lambda { order('fact_names.name') }
 
-  validates :name, :uniqueness => true
-
   def to_param
     name
   end

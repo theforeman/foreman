@@ -77,7 +77,8 @@ module Host
         self.last_compile = time
       end
 
-      PuppetFactImporter.new(self,facts).import!
+      type = facts.delete(:_type) || 'puppet'
+      FactImporter.importer_for(type).new(self, facts).import!
 
       save(:validate => false)
       populateFieldsFromFacts(facts)
