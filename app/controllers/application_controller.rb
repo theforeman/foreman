@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
 
+  attr_reader :original_search_parameter
+
   cache_sweeper :topbar_sweeper
 
   def welcome
@@ -144,6 +146,7 @@ class ApplicationController < ActionController::Base
   # it automatically updates the search text box with the relevant relationship
   # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
   def setup_search_options
+    @original_search_parameter = params[:search]
     params[:search] ||= ""
     params.keys.each do |param|
       if param =~ /(\w+)_id$/

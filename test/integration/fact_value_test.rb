@@ -18,7 +18,7 @@ class FactValueTest < ActionDispatch::IntegrationTest
     visit fact_values_path
     within(:xpath, "//tr[contains(.,'ipaddress')]") do
       #first("ipaddress").click  #click_link returns ambigous
-      first(:xpath, "//td[2]/a[2]").click
+      first(:xpath, "//td[2]/a").click
     end
     assert_equal 'name = ipaddress', find_field('search').value
   end

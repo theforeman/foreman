@@ -3,8 +3,11 @@ require 'test_helper'
 class FactValueTest < ActiveSupport::TestCase
   def setup
     @host = hosts(:one)
-    @fact_name  = FactName.create(:name => "my_facting_name")
-    @fact_value = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
+    @fact_name   = FactName.create(:name => "my_facting_name")
+    @fact_value  = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
+    @child_name  = FactName.create(:name => 'my_facting_name::child', :parent => @fact_name)
+    @child_value = FactValue.create(:value => 'child value', :host => @host, :fact_name => @child_name)
+    @fact_name.save; @fact_value.save; @child_name.save; @child_value.save
   end
 
   test "should return the count of each fact" do
@@ -20,6 +23,20 @@ class FactValueTest < ActiveSupport::TestCase
 
   test "should fail validation when the host already has a fact with the same name" do
     assert !FactValue.new(:value => "some value", :host => @host, :fact_name => @fact_name).valid?
+  end
+
+  test '.root_only scope returns only roots' do
+    result = FactValue.root_only
+    assert_includes result, @fact_value
+    assert_not_include result, @child_value
+  end
+
+  test '.with_fact_parent_id scope returns only children for given id' do
+    result = FactValue.with_fact_parent_id(@fact_name.id)
+    assert_equal [ @child_value ], result
+
+    result = FactValue.with_fact_parent_id(@child_name.id)
+    assert_equal [], result
   end
 end
 
