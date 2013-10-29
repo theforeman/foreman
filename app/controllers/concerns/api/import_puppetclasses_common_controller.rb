@@ -74,11 +74,20 @@ module Api::ImportPuppetclassesCommonController
     @environments.any?
   end
 
+  raise <<-TXT if Gem.loaded_specs['rails'].version >= Gem::Version.new('3.3')
+Change pluck argument back to pluck(:id).
+Table name is included here because using only :id is ambiguous in rails 3.2.8. This is fixed in
+Rails 3.2.13 by automatic table-name-quantification on Symbol names.
+TXT
+
   def find_required_puppet_proxy
     id = params.keys.include?('smart_proxy_id') ? params['smart_proxy_id'] : params['id']
     @smart_proxy   = SmartProxy.find_by_id(id.to_i) if id.to_i > 0
     @smart_proxy ||= SmartProxy.find_by_name(id)
-    unless @smart_proxy && SmartProxy.puppet_proxies.pluck(:id).include?(@smart_proxy.id)
+    unless @smart_proxy && SmartProxy.puppet_proxies.
+        # TODO see the raise above this method
+        pluck("#{SmartProxy.quoted_table_name}.#{SmartProxy.quoted_primary_key}").
+        include?(@smart_proxy.id)
       msg = 'We did not find a foreman proxy that can provide the information, ensure that this proxy has the puppet feature turned on.'
       render :json => {:message => msg}, :status => :not_found and return false
     end
