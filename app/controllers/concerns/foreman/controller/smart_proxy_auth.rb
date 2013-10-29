@@ -57,14 +57,14 @@ module Foreman::Controller::SmartProxyAuth
     end
     return false unless request_hosts
 
-    hosts = proxies.map { |p| URI.parse(p.url).host }.push(*Setting[:trusted_puppetmaster_hosts])
-    logger.debug("Verifying request from #{request_hosts} against #{hosts.inspect}")
-
-    unless host = hosts.detect { |p| request_hosts.include? p }
+    hosts = Hash[proxies.map { |p| [URI.parse(p.url).host, p] }]
+    allowed_hosts = hosts.keys.push(*Setting[:trusted_puppetmaster_hosts])
+    logger.debug { ("Verifying request from #{request_hosts} against #{allowed_hosts.inspect}") }
+    unless host = allowed_hosts.detect { |p| request_hosts.include? p }
       logger.warn "No smart proxy server found on #{request_hosts.inspect} and is not in trusted_puppetmaster_hosts"
       return false
     end
-    @detected_proxy = proxies[hosts.index(host)] if host
+    @detected_proxy = hosts[host] if host
     true
   end
 end
