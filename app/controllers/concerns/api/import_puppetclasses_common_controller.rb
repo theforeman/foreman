@@ -38,6 +38,10 @@ module Api::ImportPuppetclassesCommonController
       @importer = PuppetClassImporter.new(opts)
       @changed  = @importer.changes
 
+      # do not remove obsolete environments, they don't have puppet content but they can have
+      # yum content - they cannot be deleted.
+      @changed['obsolete'].clear
+
       # check if environemnt id passed in URL is name of NEW environment in puppetmaster that doesn't exist in db
       if @environment || (@changed['new'].keys.include?(@env_id) && (@environment ||= OpenStruct.new(:name => @env_id)))
         # only return :keys equal to @environment in @changed hash
