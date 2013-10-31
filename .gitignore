@@ -10,7 +10,7 @@ config/email.yaml
 config/database.yml
 config/initializers/local_secret_token.rb
 Gemfile.lock
-bundler.d/Gemfile.local.rb
+bundler.d/*local.rb
 *.sw?
 .idea
 *.pyc
@@ -22,6 +22,7 @@ doc/apidoc*
 .rbenv*
 .rvmrc*
 .ruby-version
+.ruby-gemset
 locale/*.mo
 locale/*/*.pox
 locale/*/LC_MESSAGES
