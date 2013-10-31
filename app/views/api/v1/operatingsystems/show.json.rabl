@@ -19,4 +19,5 @@ end
 
 child :os_default_templates do
   attributes :id, :config_template_id, :template_kind_id
+  attributes :name, :config_template_name, :template_kind_name
 end
