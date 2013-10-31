@@ -9,9 +9,9 @@ module Api::ImportPuppetclassesCommonController
 
   extend Apipie::DSL::Concern
 
-  api :GET, "/smart_proxies/:id/import_puppetclasses", "Import puppetclasses from puppet proxy."
-  api :GET, "/smart_proxies/:smart_proxy_id/environments/:id/import_puppetclasses", "Import puppetclasses from puppet proxy for particular environment."
-  api :GET, "/environments/:environment_id/smart_proxies/:id/import_puppetclasses", "Import puppetclasses from puppet proxy for particular environment."
+  api :POST, "/smart_proxies/:id/import_puppetclasses", "Import puppet classes from puppet proxy."
+  api :POST, "/smart_proxies/:smart_proxy_id/environments/:id/import_puppetclasses", "Import puppet classes from puppet proxy for particular environment."
+  api :POST, "/environments/:environment_id/smart_proxies/:id/import_puppetclasses", "Import puppet classes from puppet proxy for particular environment."
   param :id, :identifier, :required => true
   param :smart_proxy_id, String, :required => false
   param :environment_id, String, :required => false
