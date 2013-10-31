@@ -20,7 +20,7 @@ class Setting::Provisioning < Setting
         self.set('ignore_puppet_facts_for_provisioning', N_("Does not update ipaddress and MAC values from Puppet facts"), false),
         self.set('query_local_nameservers', N_("Should Foreman query the locally configured name server or the SOA/NS authorities"), false),
         self.set('remote_addr', N_("If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"), "127.0.0.1"),
-        self.set('token_duration', N_("Time in minutes installation tokens should be valid for, 0 to disable"), 0),
+        self.set('token_duration', N_("Time in minutes installation tokens should be valid for, 0 to disable"), 60),
         self.set('libvirt_default_console_address', N_("The IP address that should be used for the console listen address when provisioning new virtual machines via Libvirt"), "0.0.0.0"),
         self.set('update_ip_from_built_request', N_("Should we use the originating IP of the built request to update the host's IP?"), false),
         self.set('use_shortname_for_vms', N_("Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"), false)
