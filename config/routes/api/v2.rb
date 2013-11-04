@@ -264,6 +264,7 @@ Foreman::Application.routes.draw do
 
         end
       end
+      get 'orchestration/(:id)/tasks', to: 'tasks#index'
     end
 
     match '*other', :to => 'v1/home#route_error', :constraints => ApiConstraints.new(:version => 2)
