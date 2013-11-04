@@ -132,15 +132,33 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     assert_equal 2, response['environments_with_new_puppetclasses']
   end
 
-  test "should import new puppetclasses" do
+  [{}, { :dryrun => false }, { :dryrun => 'false' }].each do |dryrun_param|
+    test "should import new puppetclasses" do
+      setup_import_classes
+      as_admin do
+        Host::Managed.update_all(:environment_id => nil)
+        Hostgroup.update_all(:environment_id => nil)
+        Puppetclass.destroy_all
+        Environment.destroy_all
+        assert_difference('Puppetclass.count', 1) do
+          post :import_puppetclasses,
+               { :id => smart_proxies(:puppetmaster).id }.merge(dryrun_param),
+               set_session_user
+        end
+      end
+      assert_response :success
+    end
+  end
+
+  test "should not import new puppetclasses when dryrun" do
     setup_import_classes
     as_admin do
       Host::Managed.update_all(:environment_id => nil)
       Hostgroup.update_all(:environment_id => nil)
       Puppetclass.destroy_all
       Environment.destroy_all
-      assert_difference('Puppetclass.count', 1) do
-        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      assert_difference('Puppetclass.count', 0) do
+        post :import_puppetclasses, { :id => smart_proxies(:puppetmaster).id, :dryrun => true }, set_session_user
       end
     end
     assert_response :success
