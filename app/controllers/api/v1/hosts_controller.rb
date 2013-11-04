@@ -45,6 +45,7 @@ module Api
         param :enabled, :bool
         param :provision_method, String
         param :managed, :bool
+        param :report_progress_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
         param :capabilities, String
         param :compute_attributes, Hash do
         end
