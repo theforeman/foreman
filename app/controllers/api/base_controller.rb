@@ -46,6 +46,10 @@ module Api
 
     protected
 
+    def not_found
+      render_error 'not_found', :status => :not_found and return false
+    end
+
     def process_resource_error(options = { })
       resource = options[:resource] || get_resource
 
@@ -128,7 +132,7 @@ module Api
       if resource
         return instance_variable_set(:"@#{resource_name}", resource)
       else
-        render_error 'not_found', :status => :not_found and return false
+        not_found
       end
     end
 
@@ -181,7 +185,7 @@ module Api
     def find_required_nested_object
       find_nested_object
       return @nested_obj if @nested_obj
-      render_error 'not_found', :status => :not_found and return false
+      not_found
     end
 
     def find_optional_nested_object
