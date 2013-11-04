@@ -27,9 +27,15 @@ module HostTemplateHelpers
 
   #returns the URL for Foreman based on the required action
   def foreman_url(action = "provision")
-    url_for :only_path => false, :controller => "/unattended",
-            :action => action,
-            :token => (@host.token.value unless @host.token.nil?)
+    # Get basic stuff
+    config   = URI.parse(Setting[:unattended_url])
+    protocol = config.scheme || 'http'
+    port     = config.port || request.port
+    host     = config.host || request.host
+
+    url_for :only_path => false, :controller => "/unattended", :action => action,
+      :protocol  => protocol, :host => host, :port => port,
+      :token     => (@host.token.value unless @host.token.nil?)
   end
 
   attr_writer(:url_options)

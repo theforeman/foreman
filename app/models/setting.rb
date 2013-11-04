@@ -1,10 +1,20 @@
 class Setting < ActiveRecord::Base
+  include ActiveModel::Validations
   self.inheritance_column = 'category'
 
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts }
+  URI_ATTRS = %w{ foreman_url unattended_url }
+
+  class UriValidator < ActiveModel::EachValidator
+    def validate_each(record, attribute, value)
+      record.errors.add attribute, _("must be a valid URI") unless URI.parse(value).present?
+    rescue URI::InvalidURIError
+      record.errors.add attribute, _("must be a valid URI")
+    end
+  end
 
   attr_accessible :name, :value, :description, :category, :settings_type, :default
   # audit the changes to this model
@@ -19,6 +29,7 @@ class Setting < ActiveRecord::Base
   validates :value, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
   validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
+  validates :value, :uri => true, :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   before_save :clear_cache
@@ -61,7 +72,7 @@ class Setting < ActiveRecord::Base
     #setter method
     if method_name =~ /=\Z/
       self[method_name.chomp("=")] = args.first
-    #getter
+      #getter
     else
       self[method_name]
     end

@@ -15,9 +15,14 @@ module Foreman
 
     #returns the URL for Foreman Built status (when a host has finished the OS installation)
     def foreman_url(action = "built")
+      # Get basic stuff
+      config   = URI.parse(Setting[:unattended_url])
+      protocol = config.scheme || 'http'
+      host     = config.host || request.host
+      port     = config.port || request.port
+
       url_for :only_path => false, :controller => "/unattended", :action => action,
-              :host      => (Setting[:foreman_url] unless Setting[:foreman_url].blank?),
-              :protocol  => 'http',
+              :protocol  => protocol, :host => host, :port => port,
               :token     => (@host.token.value unless @host.token.nil?)
     end
 
