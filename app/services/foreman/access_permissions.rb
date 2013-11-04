@@ -245,7 +245,8 @@ Foreman::AccessControl.map do |map|
                                     :subnets => subnets_ajax_actions,
                                      :"api/v1/hosts" => [:create],
                                      :"api/v2/hosts" => [:create],
-                                     :"api/v2/interfaces" => [:create]
+                                     :"api/v2/interfaces" => [:create],
+                                     :"api/v2/tasks" => [:index]
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
                                       :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
@@ -267,7 +268,8 @@ Foreman::AccessControl.map do |map|
                                     :"api/v2/interfaces" => [:destroy]
                                   }
     map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
-                                    :tasks => tasks_ajax_actions}
+                                    :tasks => tasks_ajax_actions,
+                                    :"api/v2/tasks" => [:index] }
     map.permission :power_hosts,   {:hosts          => [:power],
                                     :"api/v2/hosts" => [:power] }
     map.permission :console_hosts, {:hosts => [:console] }
