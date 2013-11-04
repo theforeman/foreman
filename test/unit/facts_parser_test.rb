@@ -88,6 +88,13 @@ class FactsParserTest < ActiveSupport::TestCase
     refute @importer.operatingsystem.description
   end
 
+  test "should set os.major and minor for from AIX facts" do
+    @importer = Facts::Parser.new(aix_facts)
+    assert_equal 'AIX', @importer.operatingsystem.family
+    assert_equal '6100', @importer.operatingsystem.major
+    assert_equal '0604', @importer.operatingsystem.minor
+  end
+
   private
 
   def facts
@@ -97,5 +104,9 @@ class FactsParserTest < ActiveSupport::TestCase
 
   def debian_facts
     JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_debian.json')))['facts']
+  end
+
+  def aix_facts
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_aix.json')))['facts']
   end
 end

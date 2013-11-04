@@ -28,6 +28,9 @@ module Facts
             when /sid/i
               orel = "99"
           end
+        elsif os_name[/AIX/i]
+          majoraix, tlaix, spaix, yearaix = orel.split("-")
+          orel = majoraix + "." + tlaix + spaix
         end
         major, minor = orel.split(".")
         major.to_s.gsub!(/\D/,'') unless is_numeric? major
