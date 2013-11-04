@@ -16,7 +16,7 @@
       <%= render 'compute_resources_vms/form/vmware/network', :f => i, :compute_resource => compute_resource, :new => new %>
     <% end %>
     <% if new %>
-      <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
+      <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info disable-unsupported", :title => _('add new network interface') } %>
     <% end %>
   <% end %>
 </div>
@@ -31,7 +31,7 @@
       <%= render 'compute_resources_vms/form/vmware/volume', :f => i, :compute_resource => compute_resource, :new => new %>
     <% end %>
     <% if new %>
-      <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new storage volume') } %>
+      <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info disable-unsupported", :title => _('add new storage volume') } %>
     <% end %>
   <% end %>
 </div>
