@@ -4,12 +4,13 @@ class Setting::General < Setting
   def self.load_defaults
     # Check the table exists
     return unless super
+    protocol=SETTINGS[:require_ssl] ? 'https' : 'http'
 
     self.transaction do
       domain = Facter.domain
       [
         self.set('administrator', N_("The default administrator email address"), "root@#{domain}"),
-        self.set('foreman_url', N_(  "The hostname where your Foreman instance is reachable"), "foreman.#{domain}"),
+        self.set('foreman_url', N_(  "The URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"), "#{protocol}://#{Facter.fqdn}"),
         self.set('email_reply_address', N_("The email reply address for emails that Foreman is sending"), "Foreman-noreply@#{domain}"),
         self.set('entries_per_page', N_("The amount of records shown per page in Foreman"), 20),
         self.set('authorize_login_delegation', N_("Authorize login delegation with REMOTE_USER environment variable"),false),

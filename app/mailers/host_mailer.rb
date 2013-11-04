@@ -1,3 +1,5 @@
+require 'uri'
+
 class HostMailer < ActionMailer::Base
   helper :reports
 
@@ -93,7 +95,7 @@ class HostMailer < ActionMailer::Base
   end
 
   def set_url
-    if (@url = Setting[:foreman_url]).empty?
+    unless (@url = URI.parse(Setting[:foreman_url])).present?
       raise ":foreman_url is not set, please configure in the Foreman Web UI (More -> Settings -> General)"
     end
   end

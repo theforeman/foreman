@@ -238,6 +238,21 @@ class SettingTest < ActiveSupport::TestCase
     check_empty_array_allowed_for "trusted_puppetmaster_hosts"
   end
 
+  test "foreman_url must be a URI" do
+    assert Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    setting = Setting.find_by_name("foreman_url")
+    setting.value="##"
+    assert !setting.save
+    assert_equal "Must be a valid URI", setting.errors[:value].first
+  end
+
+  test "unattended_url must be a URI" do
+    assert Setting.find_or_create_by_name(:name => "unattended_url", :default => "http://foo.com")
+    setting = Setting.find_by_name("unattended_url")
+    setting.value="##"
+    assert !setting.save
+    assert_equal "Must be a valid URI", setting.errors[:value].first
+  end
 
   # test parsing string values
   test "parse boolean attribute from string" do
