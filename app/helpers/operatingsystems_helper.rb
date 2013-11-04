@@ -24,6 +24,8 @@ module OperatingsystemsHelper
       "SLC"
     when /FreeBSD/i
       "FreeBSD"
+    when /aix/i
+      "AIX"
     else
       return "" if record.family.blank?
       record.family
