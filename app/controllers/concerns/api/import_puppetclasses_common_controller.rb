@@ -22,7 +22,10 @@ module Api::ImportPuppetclassesCommonController
 
     # DRYRUN - /import_puppetclasses?dryrun - do not run PuppetClassImporter
     rabl_template = @environment ? 'show' : 'index'
-    render("api/v1/import_puppetclasses/#{rabl_template}", :layout => "api/layouts/import_puppetclasses_layout") and return if (params.keys.include?('dryrun') && params['dryrun'] != 'false')
+    if params.key?('dryrun') && !['false', false].include?(params['dryrun'])
+      render("api/v1/import_puppetclasses/#{rabl_template}", :layout => "api/layouts/import_puppetclasses_layout")
+      return
+    end
 
     # RUN PuppetClassImporter
     if (errors = ::PuppetClassImporter.new.obsolete_and_new(@changed)).empty?
