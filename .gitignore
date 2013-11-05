@@ -2,7 +2,9 @@
 .bundle
 db/*.sqlite3*
 log/*.log
+log/*.log.age
 tmp/
+test/reports/*
 db/schema.rb
 config/settings.yaml
 config/settings.plugins.d
