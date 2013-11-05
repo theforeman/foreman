@@ -12,6 +12,10 @@ module SSO
       false
     end
 
+    def support_fallback?
+      false
+    end
+
     # Override this value on SSO objects to redirect your users to a custom auth path
     def login_url
       controller.login_users_path

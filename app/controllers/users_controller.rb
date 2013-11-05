@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   before_filter :find_user, :only => [:edit, :update, :destroy]
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
-  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout]
+  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   after_filter       :update_activity_time, :only => :login
 
   attr_accessor :editing_self
@@ -97,6 +97,14 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def extlogin
+    if session[:user]
+      user = User.find_by_id(session[:user])
+      login_user(user)
+    end
+  end
+
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout

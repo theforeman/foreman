@@ -3,6 +3,7 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
   def setup
     setup_users
+    Setting::Auth.load_defaults
   end
 
   test "should get index" do
@@ -193,6 +194,30 @@ class UsersControllerTest < ActionController::TestCase
      put :update, update_hash, set_session_user.merge(:user => user.id)
 
      assert !User.find_by_login(user.login).mail.blank?
-   end
+  end
+
+  test "should login external user" do
+    Setting['authorize_login_delegation'] = true
+    Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
+    @request.env['REMOTE_USER'] = 'admin'
+    get :extlogin, {}, {}
+    assert_redirected_to hosts_path
+  end
+
+  test "should login external user preserving uri" do
+    Setting['authorize_login_delegation'] = true
+    Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
+    @request.env['REMOTE_USER'] = 'admin'
+    get :extlogin, {}, {:original_uri => '/test'}
+    assert_redirected_to '/test'
+  end
+
+  test "should create and login external user" do
+    Setting['authorize_login_delegation'] = true
+    Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache_mod'
+    @request.env['REMOTE_USER'] = 'ares'
+    get :extlogin, {}, {}
+    assert_redirected_to edit_user_path(User.find_by_login('ares'))
+  end
 
 end

@@ -64,7 +64,12 @@ module Foreman::Controller::Authentication
       elsif available_sso.support_login?
         available_sso.authenticate!
       else
-        logger.warn("SSO failed, falling back to login form")
+        logger.warn("SSO failed")
+        if available_sso.support_fallback? && !available_sso.has_rendered
+          logger.warn("falling back to login form")
+          available_sso.has_rendered = true
+          redirect_to login_users_path
+        end
       end
     end
 
