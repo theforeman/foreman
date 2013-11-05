@@ -2,7 +2,10 @@
 .bundle
 db/*.sqlite3*
 log/*.log
+log/*.log.age
 tmp/
+jenkins/reports/*
+test/reports/*
 db/schema.rb
 config/settings.yaml
 config/settings.plugins.d
