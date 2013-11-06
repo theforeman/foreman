@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.9999
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -324,7 +324,6 @@ Meta Package to install requirements for devel support
 Summary: Foreman test support
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(mocha)
-Requires: %{?scl_prefix}rubygem(rr)
 Requires: %{?scl_prefix}rubygem(rake)
 Requires: %{?scl_prefix}rubygem(maruku)
 Requires: %{?scl_prefix}rubygem(single_test)
@@ -532,6 +531,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Nov 6 2013 David Davis <daviddavis@redhat.com> - 1.3.9999-5
+- Removing rr gem, fixes #3597
+
 * Fri Oct 25 2013 Martin Bacovsky <mbacovsk@redhat.com> - 1.3.9999-4
 - foreman-cli metapackage installs hammer
 

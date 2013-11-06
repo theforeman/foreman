@@ -34,7 +34,7 @@ class ApacheTest < ActiveSupport::TestCase
   def get_controller(api_request)
     controller = Struct.new(:request, :session).new(Struct.new(:env).new({ 'REMOTE_USER' => 'ares' }))
     controller.session = {}
-    stub(controller).api_request? { api_request }
+    controller.stubs(:api_request?).returns(api_request)
     controller
   end
 end

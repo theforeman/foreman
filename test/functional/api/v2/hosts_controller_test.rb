@@ -9,9 +9,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should run puppet for specific host" do
     User.current=nil
-    any_instance_of(ProxyAPI::Puppet) do |klass|
-      stub(klass).run { true }
-    end
+    ProxyAPI::Puppet.any_instance.stubs(:run).returns(true)
     get :puppetrun, { :id => hosts(:one).to_param }
     assert_response :success
   end
