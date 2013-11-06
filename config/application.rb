@@ -121,6 +121,10 @@ module Foreman
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Catching Invalid JSON Parse Errors with Rack Middleware
+    config.middleware.insert_before ActionDispatch::ParamsParser, "Middleware::CatchJsonParseErrors"
+
   end
 
   def self.setup_console
