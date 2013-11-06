@@ -25,8 +25,8 @@ class BasicTest < ActiveSupport::TestCase
 
   def get_basic_controller(api_request)
     controller = Struct.new(:request).new(Struct.new(:authorization).new('Basic'))
-    stub(controller).api_request? { api_request }
-    stub(controller).authenticate_with_http_basic { Struct.new(:login).new('testuser') }
+    controller.stubs(:api_request?).returns(api_request)
+    controller.stubs(:authenticate_with_http_basic).returns(Struct.new(:login).new('testuser'))
     controller
   end
 end

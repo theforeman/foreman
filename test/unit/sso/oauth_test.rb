@@ -28,8 +28,8 @@ class OauthTest < ActiveSupport::TestCase
 
   def get_controller(api_request)
     controller = Struct.new(:request).new(Struct.new(:authorization).new('OAuth'))
-    stub(controller).headers { { 'foreman_user' => 'testuser' } }
-    stub(controller).api_request? { api_request }
+    controller.stubs(:headers).returns({'foreman_user' => 'testuser'})
+    controller.stubs(:api_request?).returns(api_request)
     controller
   end
 

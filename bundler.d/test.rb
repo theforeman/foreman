@@ -5,7 +5,6 @@ group :test do
     gem 'spork-minitest'
   end
   gem 'single_test'
-  gem 'rr'
   gem 'minitest', '~> 4.7'
   gem 'minitest-spec-rails'
   gem 'minitest-spec-rails-tu-shim', :platforms => :ruby_18

@@ -41,7 +41,7 @@ class SignoBasicTest < ActiveSupport::TestCase
 
   def get_basic_controller(api_request)
     controller = Struct.new(:request).new(Struct.new(:authorization).new('Basic'))
-    stub(controller).api_request? { api_request }
+    controller.stubs(:api_request?).returns(api_request)
     controller
   end
 end
