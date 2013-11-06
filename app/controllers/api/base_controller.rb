@@ -82,7 +82,7 @@ module Api
 
     def authorize
       unless authenticate
-        render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @available_sso.user })
+        render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @available_sso.try(:user) })
         return false
       end
 
@@ -96,7 +96,7 @@ module Api
 
     def require_admin
       unless is_admin?
-        render_error('admin permissions required', :status => :unauthorized, :locals => { :user_login => @available_sso.user })
+        render_error('admin permissions required', :status => :unauthorized, :locals => { :user_login => @available_sso.try(:user) })
         return false
       end
     end
