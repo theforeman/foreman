@@ -210,3 +210,8 @@ attribute42:
   category: Setting::Puppet
   default: "true"
   description: "Foreman will create the host when a report is received"
+attributes43:
+  name: unattended_url
+  category: Setting::Provisioning
+  default: http://foreman.some.host.fqdn
+  description: The URL Foreman should point to in emails etc

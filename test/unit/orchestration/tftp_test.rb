@@ -26,7 +26,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
         h.setBuild
         h.update_attribute :operatingsystem, operatingsystems(:centos5_3)
       end
-      Setting[:foreman_url] = "ahost.com:3000"
+      Setting[:unattended_url] = "http://ahost.com:3000"
 
       template = h.send(:generate_pxe_template).split("~")
       expected = File.open(Pathname.new(__FILE__).parent + "pxe_template").readlines.map(&:strip)
