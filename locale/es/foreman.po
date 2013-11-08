@@ -11,6 +11,7 @@
 # carmela <carmela.rubinos@gmail.com>, 2013
 # Félix Barbeira <fbarbeira@gmail.com>, 2013
 # Félix Barbeira <fbarbeira@gmail.com>, 2013
+# francisvm <hackgo@gmail.com>, 2013
 # iorch <gustavo.varela@gmail.com>, 2013
 # iorch <gustavo.varela@gmail.com>, 2013
 # jared <jared@ajpadilla.com>, 2013
@@ -19,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-23 12:25+0200\n"
-"PO-Revision-Date: 2013-09-24 08:48+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"POT-Creation-Date: 2013-10-01 09:25+0200\n"
+"PO-Revision-Date: 2013-10-17 05:55+0000\n"
+"Last-Translator: francisvm <hackgo@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +40,7 @@ msgid "%s Distribution"
 msgstr "%s Distribución"
 
 msgid "%s Host"
-msgstr "%s Equipo"
+msgstr "%s Anfitrión"
 
 msgid "%s Parameters updated, see below for more information"
 msgstr "%s Parámetros actualizados, mira a continuación para más información"
@@ -192,7 +193,7 @@ msgid "A user group already exists with this name"
 msgstr "Ya existe un grupo con este nombre"
 
 msgid "API Key"
-msgstr "Clave API"
+msgstr "Llave API"
 
 msgid "About"
 msgstr "Acerca de"
@@ -4013,7 +4014,7 @@ msgid ""
 msgstr "Estas dos opciones son decisiones personales y dependen de ti (donde la principal diferencia será las configuraciones de parámetros/variables)."
 
 msgid "Thin provision"
-msgstr ""
+msgstr "Aprovisionamiento fino"
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr "Esta Clase de Puppet no tiene parámetros en su firma."
@@ -4043,7 +4044,7 @@ msgstr "Esta página se auto-destruirá cuando empiece a tener un inventario de 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is "
 "read-only."
-msgstr ""
+msgstr "Esta configuración se define en el archivo de configuración 'settings.yaml' y es de sólo lectura"
 
 msgid "Time in Seconds"
 msgstr "Tiempo en Segundos"

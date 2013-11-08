@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-01 09:25+0200\n"
+"POT-Creation-Date: 2013-11-08 13:11+0000\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -86,6 +86,12 @@ msgid "%{host} is now %{state}"
 msgstr ""
 
 msgid "%{host} now boots from %{device}"
+msgstr ""
+
+msgid "%{match} does not match an existing host"
+msgstr ""
+
+msgid "%{match} does not match an existing host group"
 msgstr ""
 
 msgid "%{name} changed from %{label1} to %{label2}"
@@ -1419,6 +1425,9 @@ msgid "Flavor"
 msgstr ""
 
 msgid "Floating IP network"
+msgstr ""
+
+msgid "Folder"
 msgstr ""
 
 msgid "For Roles and permissions, see the"
@@ -3998,10 +4007,6 @@ msgid "User fact"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User role"
-msgstr ""
-
-#. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Andor"
 msgstr ""
 
@@ -4011,10 +4016,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Operator"
-msgstr ""
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "UserRole|Inherited from"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages

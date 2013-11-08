@@ -435,10 +435,6 @@ _('UserFact|Criteria')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('UserFact|Operator')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('User role')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('UserRole|Inherited from')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Usergroup')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Usergroup|Name')

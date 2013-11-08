@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-01 09:25+0200\n"
-"PO-Revision-Date: 2013-10-11 08:00+0000\n"
-"Last-Translator: fschaer <frederic.schaer@cea.fr>\n"
+"PO-Revision-Date: 2013-10-17 10:46+0000\n"
+"Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgid "*Inherit from host group*"
 msgstr "*hérité d'un groupe d'hôtes*"
 
 msgid "<b class='select_count'>0</b> selected"
-msgstr "<b class='select_count'>0</b> sélectionné"
+msgstr "<b class='select_count'>0</b> sélectionnée(s)"
 
 msgid ""
 "<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> "
@@ -186,7 +186,7 @@ msgid ""
 "A medium represents the source of one or more operating system's "
 "installation files, accessible via the network.\\n  It will probably be a "
 "mirror from the internet or a copy of one or more CD or DVDs."
-msgstr "Un medium représente la source des fichiers utilisés pour l'installation d'un système d'exploitation, accessible depuis le réseau.\\n C'est probablement une copie de CD ou DVD ou bien un mirroir sur internet."
+msgstr "Un medium représente la source des fichiers utilisés pour l'installation d'un système d'exploitation, accessible depuis le réseau.\\n C'est probablement une copie de CD ou DVD ou bien un miroir sur internet."
 
 msgid "A partition table entry represents either"
 msgstr "Une table de partition représente soit"
@@ -235,7 +235,7 @@ msgid "Add Interface"
 msgstr "Ajouter une interface"
 
 msgid "Add Matcher-Value"
-msgstr "Ajouter une valeur correspondante"
+msgstr "Ajouter un Matcher"
 
 msgid "Add Parameter"
 msgstr "Ajouter un paramètre"
@@ -259,13 +259,13 @@ msgid "Add:"
 msgstr "Ajouter:"
 
 msgid "Additional Information"
-msgstr "Information additionnelle"
+msgstr "Informations additionnelles"
 
 msgid "Additional info"
-msgstr "Information additionnelle"
+msgstr "Informations additionnelles"
 
 msgid "Additional information about this host"
-msgstr "Information additionnelle sur cet hôte"
+msgstr "Informations additionnelles sur cet hôte"
 
 msgid "Additional steps"
 msgstr "Étapes additionnelles"
@@ -313,7 +313,7 @@ msgid "All Smart Proxies"
 msgstr "Tous les Smart Proxies"
 
 msgid "All Subnets"
-msgstr "Tous les Sous-Réseaux"
+msgstr "Tous les sous-réseaux"
 
 msgid "All Templates"
 msgstr "Tous les Modèles"
@@ -322,7 +322,7 @@ msgid "All Users"
 msgstr "Tous les Utilisateurs"
 
 msgid "All hosts data matches configurations for locations and organizations."
-msgstr "Toutes les données des hôtes correspondant aux localisations et aux organisations"
+msgstr "Toutes les données des hôtes correspondent aux localisations et aux organisations actuelles."
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Tous les précédents hôtes sans %{single} sont désormais assignés à %{name}"
@@ -331,11 +331,11 @@ msgid "All messages"
 msgstr "Tous les messages"
 
 msgid "All mismatches between hosts and %s have been fixed"
-msgstr "Toutes les différences entre hôtes et %s ont été corrigées"
+msgstr "Toutes les concordances entre hôtes et %s ont été corrigées"
 
 msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
-msgstr "Toutes les différences entre hôtes et localisation/organisations ont été corrigées"
+msgstr "Toutes les concordances entre hôtes et localisation/organisations ont été corrigées."
 
 msgid "All non public permissions successfully updated"
 msgstr "Toutes les permissions non publiques ont été mises à jour avec succès"
@@ -1091,7 +1091,7 @@ msgid "Does not match selected Subnet"
 msgstr "Ne convient pas au sous-réseau choisi"
 
 msgid "Does not update ipaddress and MAC values from Puppet facts"
-msgstr "Ne pas mettre à jour l'adresse IP ni l'adresse MAC depuis les facts puppet"
+msgstr "Ne pas mettre à jour l'adresse IP ni l'adresse MAC depuis les facts Puppet"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
@@ -1118,12 +1118,12 @@ msgid "Domain|Name"
 msgstr "Nom de domaine"
 
 msgid "EC2"
-msgstr ""
+msgstr "EC2"
 
 msgid ""
 "Each architecture can also be associated with more than one operating system"
 " and a selector block is provided to allow you to select valid combinations."
-msgstr "Chaque architecture peut-être associée à un ou plusieurs systèmes d'exploitation. De plus il est possible de ne choisir que les combinaisons valides."
+msgstr "Chaque architecture peut-être associée à un ou plusieurs systèmes d'exploitation. De plus il est possible de restreindre les combinaisons valides."
 
 msgid ""
 "Each entries represent a particular hardware architecture, most commonly "
@@ -1258,7 +1258,7 @@ msgid "Environment configuration"
 msgstr "Configuration des environnements"
 
 msgid "Environment only"
-msgstr "Environnement seulement"
+msgstr "Seulement un environnement"
 
 msgid ""
 "Environment variable containing the subject DN from a client SSL certificate"
@@ -1347,7 +1347,7 @@ msgid "Facts"
 msgstr "Facts"
 
 msgid "Fail on Mismatch"
-msgstr "Échec de correspondace"
+msgstr "Échec de concordance"
 
 msgid "Failed"
 msgstr "Échoué"
@@ -1497,13 +1497,13 @@ msgid "Fingerprint"
 msgstr "Empreinte"
 
 msgid "Fix %s on Mismatch"
-msgstr "Corriger %s pour dissemblance"
+msgstr "Corriger la concordance de %s "
 
 msgid "Fix All Mismatches"
-msgstr "Corriger toutes les dissemblances"
+msgstr "Corriger toutes les concordances"
 
 msgid "Fix Mismatches"
-msgstr "Corriger les dissemblances"
+msgstr "Corriger les concordances"
 
 msgid "Flavor"
 msgstr "Saveur"
@@ -1521,7 +1521,7 @@ msgid ""
 "medium entry describing them all.\\n  The entry, which could be just named "
 "'redhat' could contain a path like this "
 "<em>'http://server/redhat/$version/$arch'</em>"
-msgstr "Par example, si vous avez copié plusieurs versions Red Hat dans des répertoires où les images sont nommées 5.8 ou 6.2, qui contiennent les binaires pour x86_64 et i386, dès lors vous pouvez créer un medium unique pour tous les décrire.\\n Cette entrée, que vous pouvez appler 'redhat', peut contenir une adresse telle que <em>'http://server/redhat/$version/$arch'</em>"
+msgstr "Par example, si vous avez copié plusieurs versions Red Hat dans des répertoires où les images sont nommées 5.8 ou 6.2, qui contiennent les binaires pour x86_64 et i386, dès lors vous pouvez créer un medium unique pour tous les décrire.\\n Cette entrée, que vous pouvez appeler 'redhat', peut contenir une adresse telle que <em>'http://server/redhat/$version/$arch'</em>"
 
 msgid ""
 "For example, there might be a data center in London and one in Virginia; "
@@ -1767,7 +1767,7 @@ msgstr "UUID"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
-msgstr "Hostgroup"
+msgstr "Groupe d'hôtes"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
@@ -1836,7 +1836,7 @@ msgid "How templates are determined"
 msgstr "Comment les modèles sont déterminés"
 
 msgid "How values are validated"
-msgstr "Manière dont les valeurs sont validées"
+msgstr "Détails sur la validation des valeurs"
 
 msgid "Howtos"
 msgstr "Howtos"
@@ -1850,7 +1850,7 @@ msgstr "Adresses IP"
 msgid ""
 "IP Address for this host, if DHCP Smart proxy is enabled, this should be "
 "auto suggested to you"
-msgstr "Adresse IP pour cet hôte. Si le Smart Proxy DHCP est activé, la valeur du champ doit vous être suggérée automatiquement"
+msgstr "Adresse IP pour cet hôte. Si le Smart Proxy DHCP est activé, la valeur du champ doit vous être suggérée automatiquement."
 
 msgid "IRC"
 msgstr "IRC"
@@ -1948,7 +1948,7 @@ msgid "Important"
 msgstr "Important"
 
 msgid "Imported Subnets"
-msgstr "Sous-Réseaux importés"
+msgstr "Sous-réseaux importés"
 
 msgid "Importing Puppet Facts"
 msgstr "Import des Puppet facts"
@@ -2016,7 +2016,7 @@ msgid "Item"
 msgstr "Item"
 
 msgid "Key Binding"
-msgstr ""
+msgstr "Mode d'édition"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Key pair"
@@ -2194,7 +2194,7 @@ msgstr "Type de validation"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
-msgstr "Match"
+msgstr "Matcher"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -2239,10 +2239,10 @@ msgid "Managed IP"
 msgstr "IP gérée"
 
 msgid "Manually Assign"
-msgstr "Assignation Manuelle"
+msgstr "Assignation manuelle"
 
 msgid "Manually select and assign hosts with no %s"
-msgstr "Sélectionner manuellement et assigner les hôtes sans %s"
+msgstr "Sélectionner et assigner manuellement les hôtes sans %s"
 
 msgid "Matcher"
 msgstr "Matcher"
@@ -2252,7 +2252,7 @@ msgid ""
 "value below would be provided.<br> You may use any attribute foreman knows "
 "about, such as facts etc for example: <code> domain = example.com </code> or"
 " <code> is_virtual = true</code>"
-msgstr "Matcher est une combinaison d'un attribut et de sa valeur, s'il y a correspondance, la valeur ci-dessous sera fournie.<br>Vous pouvez utiliser n'importe quel attribut connu de Foreman, comme les Facts. Par Ex : <code> domain = example.com </code> ou <code> is_virtual = true</code>"
+msgstr "Un Matcher est une combinaison d'un attribut et de sa valeur, s'il y a correspondance, la valeur ci-dessous sera fournie.<br>Vous pouvez utiliser n'importe quel attribut connu de Foreman, comme les Facts. Par Ex : <code>domain = example.com</code> ou <code>is_virtual = true</code>."
 
 msgid "Max days for Trends graphs"
 msgstr "Nombre de jours maxi pour les graphes de tendances"
@@ -2313,17 +2313,17 @@ msgid "Minutes Ago"
 msgstr "Minutes auparavant"
 
 msgid "Mismatch Details"
-msgstr ""
+msgstr "Détails des non-concordances"
 
 msgid "Mismatches"
-msgstr "Dissemblances"
+msgstr "Non-concordance"
 
 msgid "Mismatches Report"
-msgstr "Rapport sur les dissemblances"
+msgstr "Rapport sur les erreurs de concordances"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model"
-msgstr "Model"
+msgstr "Modèle"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
@@ -2339,7 +2339,7 @@ msgstr "Nom"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Vendor class"
-msgstr "Vendor class"
+msgstr "Famille de produits du fournisseur"
 
 msgid "Modified"
 msgstr "Modifié"
@@ -2574,7 +2574,7 @@ msgid "No host group selected!"
 msgstr "Aucun groupe d'hôtes sélectionné !"
 
 msgid "No hosts are mismatched!"
-msgstr "Aucun hôte ne correspond!"
+msgstr "Aucun hôte n'a d'erreur de concordance !"
 
 msgid "No hosts selected"
 msgstr "Aucun hôte sélectionné"
@@ -2614,7 +2614,7 @@ msgid "No smart proxies to show"
 msgstr "Aucun Smart Proxy à afficher"
 
 msgid "No subnets"
-msgstr "Aucun sous-réseaux"
+msgstr "Aucun sous-réseau"
 
 msgid "No subnets selected"
 msgstr "Aucun sous-réseau sélectionné"
@@ -2626,7 +2626,7 @@ msgid "No templates found!"
 msgstr "Aucun modèle trouvé !"
 
 msgid "No trend counter defined."
-msgstr "Aucun compteur de tendance défini."
+msgstr "Aucun compteur de tendance défini"
 
 msgid "No trend counter found."
 msgstr "Aucun compteur de tendance trouvé"
@@ -2663,10 +2663,10 @@ msgstr "Rien à afficher"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice"
-msgstr "Notice"
+msgstr "Note"
 
 msgid "Notice:"
-msgstr "Notice:"
+msgstr "Note :"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Content"
@@ -2856,7 +2856,7 @@ msgid "Organizations"
 msgstr "Organisations"
 
 msgid "Organizations also work nicely in tandem with"
-msgstr "Les organisations s'accomodent très bien avec"
+msgstr "Les organisations s'accomodent très bien avec les"
 
 msgid ""
 "Organizations are particularly useful for Foreman installations where "
@@ -3016,7 +3016,7 @@ msgid "Please select"
 msgstr "Merci de choisir"
 
 msgid "Please select an environment first"
-msgstr "Merci de choisir tout d'abord un environnement"
+msgstr "Tout d'abord, sélectionner un environnement"
 
 msgid "Please select an image"
 msgstr "Merci de choisir une image"
@@ -3076,7 +3076,7 @@ msgid "Provisioning Method"
 msgstr "Méthode provisionnement"
 
 msgid "Provisioning Support is disabled or this host is not managed"
-msgstr "La fonction de provisionnement est désactivée pour cet hôte ou alors l'hôte n'est pas géré"
+msgstr "Soit la fonction de provisionnement est désactivée pour cet hôte, soit l'hôte n'est pas géré"
 
 msgid "Provisioning Template"
 msgstr "Modèle de provisionnement"
@@ -3398,7 +3398,7 @@ msgid "Select All"
 msgstr "Tout choisir"
 
 msgid "Select Hosts"
-msgstr "Choisir les hôtes"
+msgstr "Choisir les Hôtes"
 
 msgid "Select Location"
 msgstr "Sélectionner une localisation"
@@ -3660,7 +3660,7 @@ msgid "Subnet"
 msgstr "Sous-Réseau"
 
 msgid "Subnets"
-msgstr "Sous-Réseaux"
+msgstr "Sous-réseaux"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
@@ -3748,7 +3748,7 @@ msgid "Sync|S"
 msgstr ""
 
 msgid "System Information"
-msgstr "Information système"
+msgstr "Informations système"
 
 msgid "System Status"
 msgstr "Statut du système"
@@ -4019,7 +4019,7 @@ msgid ""
 msgstr "Ces deux options sont des décisions personnelles (la principale différence réside dans la configuration paramètre/variables )"
 
 msgid "Thin provision"
-msgstr ""
+msgstr "Allocation granulaire"
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr "Cette classe Puppet n'a pas de paramètre dans sa signature."
@@ -4066,18 +4066,18 @@ msgstr "Pour définir les compteurs de tendance, utiliser le bouton \"Ajouter un
 msgid ""
 "To start collecting trend data, set a cron job to execute 'rake "
 "trends:counter' every Puppet Interval (%s minutes)."
-msgstr "Pour commencer à collecter les données de tendance, positionnez la commande 'rake trends:counter' dans la crontab à chaque lancement de Puppet (toutes les %s minutes)."
+msgstr "Pour commencer à collecter les données de tendance, positionnez la commande 'foreman-rake trends:counter' dans la crontab à chaque lancement de Puppet (toutes les %s minutes)."
 
 msgid ""
 "To start collecting trend data, set a cron job to execute <span "
 "class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> "
 "every Puppet Interval (%s minutes)"
-msgstr "Pour commencer à collecter les données de tendance, positionnez la commande <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> dans la crontab à chaque lancement de Puppet (toutes les %s minutes)."
+msgstr "Pour commencer à collecter les données de tendance, positionnez la commande <span class='black'>foreman-rake trends:counter</span> dans la crontab à chaque lancement de Puppet (toutes les %s minutes)."
 
 msgid ""
 "To update the class signature, go to the Puppet Classes page and select "
 "\"Import\"."
-msgstr "Pour mettre à jour les signatures des classes, allez sur la page Puppet Classes et choisissez \"Import\"."
+msgstr "Pour mettre à jour les signatures des classes, allez sur la page Classes Puppet et choisissez \"Import depuis ...\"."
 
 msgid "Toggle"
 msgstr "Commuter"
@@ -4224,7 +4224,7 @@ msgid "Updated"
 msgstr "Mis à jour"
 
 msgid "Updated all hosts!"
-msgstr "Tous les hôtes ont été mis à jour!"
+msgstr "Tous les hôtes ont été mis à jour !"
 
 msgid "Updated hosts: changed environment"
 msgstr "Mise à jour des hôtes : l'environnement a changé"
@@ -4408,7 +4408,7 @@ msgid "Variable"
 msgstr "Variable"
 
 msgid "Vendor class"
-msgstr ""
+msgstr "Famille de produits du fournisseur"
 
 msgid "Verify"
 msgstr "Vérifier"
@@ -4461,7 +4461,7 @@ msgid ""
 "What ever text(or ERB template) you use in here, would be used as your OS "
 "disk layout options If you want to use the partition table option, delete "
 "all of the text from this field"
-msgstr "Quelque soit le texte (ou le modèle ERB) utilisé dans le cadre ci-dessus, sera sélectionné comme table de partition. Si vous souhaitez choisir une table de partition prédéfinie, effacez tout le texte de ce cadre."
+msgstr "Quelque soit le texte (ou le modèle ERB) utilisé dans le cadre ci-dessus, ce contenu sera sélectionné comme table de partition. Si vous souhaitez choisir une table de partition prédéfinie, effacez tout le texte de ce cadre."
 
 msgid "What is a <a href=\"%s\" rel=\"external\">Smart variable</a>?"
 msgstr "Qu'est-ce qu'une <a href=\"%s\" rel=\"external\">Smart variable</a> ?"
@@ -4897,10 +4897,10 @@ msgid "no puppet proxy defined - cant continue"
 msgstr "aucun proxy Puppet défini - ne peut continuer"
 
 msgid "off"
-msgstr ""
+msgstr "Arrêt"
 
 msgid "on"
-msgstr ""
+msgstr "Démarré"
 
 msgid "organization"
 msgstr "organisation"
@@ -4972,7 +4972,7 @@ msgid "should follow this format: 0,9600n8"
 msgstr "devrait suivre ce format : 0,9600n8"
 
 msgid "soft"
-msgstr ""
+msgstr "logiciel"
 
 msgid "start"
 msgstr "Démarrage"
@@ -5046,7 +5046,7 @@ msgid "you may use %s"
 msgstr "Vous pouvez utiliser %s"
 
 msgid "you probably need to configure your %s first."
-msgstr "vous devez probablement d'abord configurer votre %s "
+msgstr "vous devez probablement d'abord configurer vos %s "
 
 msgid ""
 "your libvirt host does not support interface listing, please enter here the "
