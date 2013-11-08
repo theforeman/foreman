@@ -2,14 +2,17 @@ class FactValue < ActiveRecord::Base
 
   belongs_to_host
   belongs_to :fact_name
-  delegate :name, :to => :fact_name
+  delegate :name, :short_name, :compose, :to => :fact_name
   has_many :hostgroup, :through => :host
+
+  has_one :parent_fact_name, :through => :fact_name, :source => :parent
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
   scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
   scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
+  scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
               includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
@@ -28,6 +31,9 @@ class FactValue < ActiveRecord::Base
   scope :distinct, lambda { select('DISTINCT fact_values.value') }
   scope :required_fields, lambda { includes(:host, :fact_name) }
   scope :facts_counter, lambda {|value, name_id| where(:value => value, :fact_name_id => name_id) }
+  scope :with_fact_parent_id, lambda {|find_ids| joins(:fact_name).merge FactName.with_parent_id(find_ids) }
+  scope :with_roots, includes(:fact_name)
+  scope :root_only, with_roots.where(:fact_names => {:ancestry => nil})
 
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
