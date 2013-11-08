@@ -1,3 +1,59 @@
+2013-11-08	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.3.1
+	* i18n - extracting new, updating rails, pulling from tx
+
+2013-11-08	Andreas Ntaflos <daff@pseudoterminal.org>
+	* fixes #3581 - link to reports search for failed hosts should use "host = foo.example"
+
+2013-11-01	Aaron Stone <aaron@serendipity.cx>
+	* Fixes #3481 - Don't have to set a hostname for each interface, but it must be unique if it is set.
+
+2013-10-25	Dominic Cleal <dcleal@redhat.com>
+	* fixes #3251 - disable foreman-plugins GPG checking, not signed
+	* fixes #3369 - pin rubyzip to < 1.0.0 for Ruby 1.8
+	* fixes #2895 - apply updates to environments on puppet class import
+	* fixes #3270 - load subnets for the domain associated with each NIC
+
+2013-10-25	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3498 - update to Rails 3.2.15
+	* fixes #3267 - API v1 compatibility for /api/hosts
+
+2013-10-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #3486 - Make sure loading text is removed when chart data appears.
+	* refs #2967 fact deleted counters did not propagate correctly.
+	* [REFACTOR] fixes #2967 - refactored Fact Importer
+	* fixes #3266 - ensures there are no duplicate notifications
+	* fixes #3243 non-required/Slow SQL queries on host show page
+
+2013-10-25	Jan Orel <jan.orel@gooddata.com>
+	* fixes #3256 - include members in usergroup show
+
+2013-10-25	Lukas Zapletal <lzap+git@redhat.com>
+	* refs #2792 - Adding comments to pxe templates
+	* fixes #3239 - pxelinux spoofing on postgres now works
+
+2013-10-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #3350 - Adds title on login page
+
+2013-10-25	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #3293 add FactoryGirl to tests
+
+2013-10-25	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #3122: 'column reference id is ambiguous' no longer appears on dashboard and report screens
+	* fixes #3269 - fact import rake task fails with arity error
+
+2013-10-25	hhenkel <henning@henkel.cx>
+	* fixes #3277 - host search link now quotes taxonomy name
+	* fixes #3212 - disable constraint checks for mysql databases during db:prod2dev
+
+2013-10-25	Martin Matuska <martin@matuska.org>
+	* fixes #2093 - list VMs in every VMware folder
+
+2013-10-14	Lukas Zapletal <lzap+git@redhat.com>
+	* Release 1.3.0
+	* Adding updated French translations
+	* fixes #3241 - default password is now MD5
+
 2013-10-14	Aaron Stone <aaron@serendipity.cx>
 	* fixes #3222 - nil the certname when handling certs if UUID certs have now been disabled
 
@@ -11,9 +67,6 @@
 
 2013-10-14	Ohad Levy <ohadlevy@gmail.com>
 	* fixes #3218 - Remove Double calls to CR provider when creating a new host.
-
-2013-10-14	Lukas Zapletal <lzap+git@redhat.com>
-	* fixes #3241 - default password is now MD5
 
 2013-10-08	Lukas Zapletal <lzap+git@redhat.com>
 	* Release 1.3.0-RC4
