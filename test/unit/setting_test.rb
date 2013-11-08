@@ -243,7 +243,7 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name("foreman_url")
     setting.value="##"
     assert !setting.save
-    assert_equal "Must be a valid URI", setting.errors[:value].first
+    assert_equal "must be a valid URI", setting.errors[:value].first
   end
 
   test "unattended_url must be a URI" do
@@ -251,7 +251,7 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name("unattended_url")
     setting.value="##"
     assert !setting.save
-    assert_equal "Must be a valid URI", setting.errors[:value].first
+    assert_equal "must be a valid URI", setting.errors[:value].first
   end
 
   # test parsing string values
