@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.9999
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -195,6 +195,20 @@ Meta Package to install requirements for vmware support
 %files vmware
 %{_datadir}/%{name}/bundler.d/vmware.rb
 
+%package gce
+Summary: Foreman Google Compute Engine (GCE) support
+Group:  Applications/System
+Requires: %{?scl_prefix}rubygem(google-api-client)
+Requires: %{?scl_prefix}rubygem(sshkey)
+Requires: %{name} = %{version}-%{release}
+Requires: foreman-compute = %{version}-%{release}
+
+%description gce
+Meta package to install requirements for Google Compute Engine (GCE) support
+
+%files gce
+%{_datadir}/%{name}/bundler.d/gce.rb
+
 %package assets
 Summary: Foreman asset pipeline support
 Group: Applications/system
@@ -298,6 +312,7 @@ Requires: %{name}-libvirt = %{version}-%{release}
 Requires: %{name}-ovirt = %{version}-%{release}
 Requires: %{name}-compute = %{version}-%{release}
 Requires: %{name}-vmware = %{version}-%{release}
+Requires: %{name}-gce = %{version}-%{release}
 Requires: %{name}-console = %{version}-%{release}
 Requires: %{name}-mysql = %{version}-%{release}
 Requires: %{name}-mysql2 = %{version}-%{release}
@@ -531,6 +546,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Sun Nov 10 2013 Dominic Cleal <dcleal@redhat.com> - 1.3.9999-6
+* Add foreman-gce subpackage for Google Compute Engine
+
 * Wed Nov 6 2013 David Davis <daviddavis@redhat.com> - 1.3.9999-5
 - Removing rr gem, fixes #3597
 
