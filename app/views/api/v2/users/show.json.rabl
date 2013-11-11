@@ -5,9 +5,9 @@ attributes :id, :login, :firstname, :lastname, :mail, :admin, :auth_source_id, :
            :created_at, :updated_at
 
 child :auth_source do
-  extends "api/v1/auth_source_ldaps/show"
+  extends "api/v2/auth_source_ldaps/show"
 end
 
 child :roles do
-  extends "api/v1/roles/show"
+  extends "api/v2/roles/show"
 end

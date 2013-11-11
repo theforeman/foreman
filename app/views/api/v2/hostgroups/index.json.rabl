@@ -1,3 +1,3 @@
 collection @hostgroups
 
-extends "api/v1/hostgroups/show"
+extends "api/v2/hostgroups/show"

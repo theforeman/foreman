@@ -1,3 +1,3 @@
 object @compute_resource
 
-extends "api/v1/compute_resources/show"
+extends "api/v2/compute_resources/show"

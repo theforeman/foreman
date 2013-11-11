@@ -25,5 +25,5 @@ child :host_parameters do
 end
 
 node do |host|
-   { :interfaces => partial("api/v1/interfaces/show", :object => host.interfaces) }
+   { :interfaces => partial("api/v2/interfaces/show", :object => host.interfaces) }
 end

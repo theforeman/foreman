@@ -1,3 +1,3 @@
 object @user
 
-extends "api/v1/users/show"
+extends "api/v2/users/show"

@@ -1,3 +1,3 @@
 object @host
 
-extends "api/v1/hosts/show"
+extends "api/v2/hosts/show"

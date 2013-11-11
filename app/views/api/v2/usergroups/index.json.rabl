@@ -1,3 +1,3 @@
 collection @usergroups
 
-extends "api/v1/usergroups/show"
+extends "api/v2/usergroups/show"

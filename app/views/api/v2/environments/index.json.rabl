@@ -1,3 +1,3 @@
 collection @environments
 
-extends "api/v1/environments/show"
+extends "api/v2/environments/show"

@@ -1,3 +1,3 @@
 collection @roles
 
-extends "api/v1/roles/show"
+extends "api/v2/roles/show"

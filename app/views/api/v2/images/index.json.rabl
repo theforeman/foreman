@@ -1,3 +1,3 @@
 collection @images
 
-extends "api/v1/images/show"
+extends "api/v2/images/show"

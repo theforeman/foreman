@@ -1,3 +1,3 @@
 object @subnet
 
-extends "api/v1/subnets/show"
+extends "api/v2/subnets/show"

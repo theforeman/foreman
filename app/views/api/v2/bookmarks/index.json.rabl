@@ -1,3 +1,3 @@
 collection @bookmarks
 
-extends "api/v1/bookmarks/show"
+extends "api/v2/bookmarks/show"

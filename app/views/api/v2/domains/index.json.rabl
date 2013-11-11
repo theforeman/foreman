@@ -1,3 +1,3 @@
 collection @domains
 
-extends "api/v1/domains/show"
+extends "api/v2/domains/show"
