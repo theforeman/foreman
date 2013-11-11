@@ -190,6 +190,8 @@ module Api
 
     def find_optional_nested_object
       find_nested_object
+      return @nested_obj if @nested_obj
+      not_found_if_nested_id_exists
     end
 
     def find_nested_object
@@ -206,6 +208,15 @@ module Api
             # unless it is explicitly declared in skip_nested_id in the case where there is 2-level nesting . Ex. puppetclasses/apache/smart_variables/4/override_values
             raise "#{param} is not allowed as nested parameter for #{controller_name}. Allowed parameters are #{allowed_nested_id.join(', ')}" unless skip_nested_id.include?(param)
           end
+        end
+      end
+    end
+
+    def not_found_if_nested_id_exists
+      allowed_nested_id.each do |obj_id|
+        if params[obj_id].present?
+          msg = "#{obj_id.humanize} not found by id '#{params[obj_id]}'"
+          render :json => {:message => msg}, :status => :not_found and return false
         end
       end
     end

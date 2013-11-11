@@ -70,6 +70,13 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_equal 3, puppetclasses['results'].length
   end
 
+  test "should show error if optional nested environment does not exist" do
+    get :index, {:environment_id => 'nonexistent' }
+    assert_response 404
+    puppetclasses = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "Environment not found by id 'nonexistent'", puppetclasses['message']
+  end
+
   test "should show puppetclass for host" do
     get :show, { :host_id => hosts(:one).to_param, :id => puppetclasses(:one).id }
     assert_response :success
