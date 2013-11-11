@@ -85,6 +85,19 @@ module Api
         %w(environment_id host_id hostgroup_id)
       end
 
+      def find_optional_nested_object
+        find_nested_object
+        #if nested_obj is nil, check if optional param was passed or not
+        unless nested_obj
+          allowed_nested_id.each do |obj|
+            if params[obj].present?
+              msg = "#{obj.humanize} not found by id '#{params[obj]}'"
+              render :json => {:message => msg}, :status => :not_found and return false
+            end
+          end
+        end
+      end
+
     end
   end
 end
