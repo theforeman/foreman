@@ -14,7 +14,7 @@
 
 Name:   foreman
 Version: 1.3.9999
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -169,6 +169,7 @@ Meta Package to install requirements for ovirt support
 Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem-fog >= 1.15.0
+Requires: %{?scl_prefix}rubygem-unf
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0
 Provides: foreman-fog = 1.0.0
@@ -546,6 +547,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
+- Add rubygem-unf as a requires for the compute subpackage
+
 * Sun Nov 10 2013 Dominic Cleal <dcleal@redhat.com> - 1.3.9999-6
 * Add foreman-gce subpackage for Google Compute Engine
 
