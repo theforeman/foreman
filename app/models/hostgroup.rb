@@ -28,7 +28,11 @@ class Hostgroup < ActiveRecord::Base
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
-  default_scope lambda { with_taxonomy_scope }
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("hostgroups.label")
+    end
+  }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :label, :complete_value => :true
