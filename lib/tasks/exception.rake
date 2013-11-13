@@ -15,18 +15,15 @@ namespace :exception do
       File.open(path) do |f|
         f.grep( /#{regexp}/ ) do |line|
           code = ::Foreman::Exception.calculate_error_code $1, $4
-          result[$4] = code
+          result[code] = $4
         end
       end
     end
 
-    puts "\n\nh1. Foreman error codes:\n\n<pre>\n"
-    result.keys.sort.each do |msg|
-      code = result[msg]
-      puts "#{code} #{msg}"
+    result.keys.sort.each do |k|
+      v = result[k]
+      puts "#{k} #{v}"
     end
-    puts "</pre>\n\nGenerated with `rake exception:codes`, for more info and options see"
-    puts "https://github.com/theforeman/foreman/blob/develop/lib/tasks/exception.rake\n\n"
   end
 
 end
