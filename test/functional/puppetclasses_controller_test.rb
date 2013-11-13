@@ -146,4 +146,21 @@ class PuppetclassesControllerTest < ActionController::TestCase
     assert lookup_keys_added.map(&:key).include?("custom_class_param")
   end
 
+  test "sorting by environment name on the index screen should work" do
+    setup_user
+    get :index, {:order => "environment ASC"}, set_session_user
+    assert_equal puppetclasses(:three), assigns(:puppetclasses).last
+  end
+
+  test "text filtering on the index screen should work" do
+    setup_user
+    get :index, {:search => "git"}, set_session_user
+    assert_equal puppetclasses(:three), assigns(:puppetclasses).first
+  end
+
+  test "predicate filtering on the index screen should work" do
+    setup_user
+    get :index, {:search => "environment = testing"}, set_session_user
+    assert_equal puppetclasses(:three), assigns(:puppetclasses).first
+  end
 end
