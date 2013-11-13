@@ -23,3 +23,8 @@ four:
   puppetclass: four
   environment: production
   lookup_key: five_same_same
+
+five:
+  puppetclass: three
+  environment: testing
+  lookup_key_id: nil

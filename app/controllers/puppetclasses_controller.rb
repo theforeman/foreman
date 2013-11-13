@@ -14,7 +14,7 @@ class PuppetclassesController < ApplicationController
       values = Puppetclass.search_for ""
     end
     @puppetclasses = values.paginate(:page => params[:page])
-    @host_counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses.all}})
+    @host_counter = Host.count(:group => :puppetclass_id, :joins => :puppetclasses, :conditions => {:puppetclasses => {:id => @puppetclasses.collect(&:id)}})
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').count(:group => 'name')
   end
 
