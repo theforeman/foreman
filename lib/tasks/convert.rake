@@ -85,17 +85,28 @@ namespace :db do
         time = Time.now
 
         ProductionModelClass.establish_connection(:production)
-        ProductionModelClass.set_table_name(table_name)
+        ProductionModelClass.table_name=table_name
         ProductionModelClass.reset_column_information
 
         DevelopmentModelClass.establish_connection(:development)
         # turn off Foreign Key checks for development db - this is per session
-        if DevelopmentModelClass.connection.adapter_name.downcase.starts_with? 'mysql'
-          DevelopmentModelClass.connection.execute("SET FOREIGN_KEY_CHECKS=0;")
-        end
-        DevelopmentModelClass.set_table_name(table_name)
+        sql = case DevelopmentModelClass.connection.adapter_name.downcase
+              when /^mysql/
+                'SET FOREIGN_KEY_CHECKS=0;'
+              when /^postgresql/
+                "ALTER TABLE #{table_name} DISABLE TRIGGER ALL;"
+              end
+        DevelopmentModelClass.connection.execute(sql) unless sql.blank?
+
+        DevelopmentModelClass.table_name=table_name
         DevelopmentModelClass.reset_column_information
         DevelopmentModelClass.record_timestamps = false
+
+        # Handle HABTM tables which don't have an id primary key
+        # This *shouldn't* be needed but Rails seems to be picking
+        # up the pkey from other tables in some kind of race condition
+        test_model = ProductionModelClass.all(:limit => 1).first
+        DevelopmentModelClass.primary_key=nil if test_model.try(:id).nil?
 
         # Page through the data in case the table is too large to fit in RAM
         offset = count = 0
@@ -119,11 +130,25 @@ namespace :db do
 
               # don't miss the type attribute when using single-table-inheritance
               new_model[:type] = model[:type] if model[:type].present?
-              new_model.id = model.id
+
+              # Write timestamps for things which haven't had them set
+              # as these columns are DEFAULT NOT NULL
+              new_model[:created_at] ||= time
+              new_model[:updated_at] ||= time
+
               new_model.save(:validate => false)
             end
           end
         end
+        # turn Foreign Key checks back on, for cleanliness
+        sql = case DevelopmentModelClass.connection.adapter_name.downcase
+              when /^mysql/
+                'SET FOREIGN_KEY_CHECKS=1;'
+              when /^postgresql/
+                "ALTER TABLE #{table_name} ENABLE TRIGGER ALL;"
+              end
+        DevelopmentModelClass.connection.execute(sql) unless sql.blank?
+
         print "#{count} records converted in #{Time.now - time} seconds\n"
       end
     end
