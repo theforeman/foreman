@@ -30,12 +30,6 @@ class TokenTest < ActiveSupport::TestCase
     assert_equal Token.first.host_id, h.id
   end
 
-  test "a token can be matched to a host" do
-    h = hosts(:one)
-    h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
-    assert_equal h, Host.for_token("aaaaaa").first
-  end
-
   test "a host can delete its token" do
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
@@ -54,14 +48,14 @@ class TokenTest < ActiveSupport::TestCase
     assert_equal Token.all.size, 1
   end
 
-  test "all expired tokens should be removed" do
+  test "not all expired tokens should be removed" do
     h1 = hosts(:one)
     h2 = hosts(:two)
     h1.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     h2.create_token(:value => "bbbbbb", :expires => Time.now - 1.minutes)
-    assert_equal Token.count, 2
-    h1.expire_tokens
-    assert_equal 0, Token.count
+    assert_equal 2, Token.count
+    h1.expire_token
+    assert_equal 1, Token.count
   end
 
 end

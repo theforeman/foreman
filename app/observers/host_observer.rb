@@ -12,7 +12,7 @@ class HostObserver < ActiveRecord::Observer
     end
     # existing server change build mode
     if host.respond_to?(:old) and host.old and host.build? != host.old.build?
-      host.build? ? host.set_token : host.expire_tokens
+      host.build? ? host.set_token : host.expire_token
     end
   end
 
