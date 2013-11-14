@@ -19,7 +19,7 @@ class Host::Managed < Host::Base
   belongs_to :location
   belongs_to :organization
 
-  has_one :token, :foreign_key => :host_id, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
+  has_one :token, :foreign_key => :host_id, :dependent => :destroy
 
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
@@ -109,7 +109,7 @@ class Host::Managed < Host::Base
     end
   }
 
-  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).select('hosts.*') }
+  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
 
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
@@ -194,9 +194,8 @@ class Host::Managed < Host::Base
                       :expires => Time.now.utc + Setting[:token_duration].minutes)
   end
 
-  def expire_tokens
-    # this clean up other hosts as well, but reduce the need for another task to cleanup tokens.
-    Token.delete_all(["expires < ? or host_id = ?", Time.now.utc.to_s(:db), id])
+  def expire_token
+    self.token.delete if self.token.present?
   end
 
   # Called from the host build post install process to indicate that the base build has completed

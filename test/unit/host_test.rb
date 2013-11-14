@@ -750,7 +750,7 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.all.size, 1
-    h.expire_tokens
+    h.expire_token
     assert_equal Token.all.size, 0
   end
 
@@ -759,7 +759,7 @@ class HostTest < ActiveSupport::TestCase
     h = hosts(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.all.size, 1
-    h.expire_tokens
+    h.expire_token
     assert_equal Token.all.size, 0
   end
 
@@ -776,6 +776,24 @@ class HostTest < ActiveSupport::TestCase
     Setting[:token_duration] = 30
     h = hosts(:one)
     assert_equal h.token, nil
+  end
+
+  test "a token can be matched to a host" do
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
+    assert_equal h, Host.for_token("aaaaaa").first
+  end
+
+  test "a token cannot be matched to a host when expired" do
+    h = hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => 1.minutes.ago)
+    refute Host.for_token("aaaaaa").first
+  end
+
+  test "deleting an host with an expired token does not cause a Foreign Key error" do
+    h=hosts(:one)
+    h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
+    assert_nothing_raised(ActiveRecord::InvalidForeignKey) {h.reload.destroy}
   end
 
   test "can search hosts by hostgroup" do
