@@ -10,6 +10,10 @@ module FogExtensions
       def flavors
         service.flavors
       end
+      
+      def image_id
+        image_name
+      end
 
     end
   end
