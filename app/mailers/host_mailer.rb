@@ -42,13 +42,13 @@ class HostMailer < ActionMailer::Base
     host_data = Report.summarise(time, hosts.all).sort
     total_metrics = load_metrics(host_data)
     total = 0 ; total_metrics.values.each { |v| total += v }
-    subject = _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:#{total}") % {
+    subject = _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
       :failed => total_metrics["failed"],
       :restarted => total_metrics["restarted"],
       :skipped => total_metrics["skipped"],
       :applied => total_metrics["applied"],
       :failed_restarts => total_metrics["failed_restarts"],
-      :total => total_metrics["total"]
+      :total => total
     }
     @hosts = host_data
     @timerange = time
