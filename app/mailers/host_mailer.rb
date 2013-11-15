@@ -48,7 +48,7 @@ class HostMailer < ActionMailer::Base
       :skipped => total_metrics["skipped"],
       :applied => total_metrics["applied"],
       :failed_restarts => total_metrics["failed_restarts"],
-      :total => total_metrics["total"]
+      :total => total
     }
     @hosts = host_data
     @timerange = time
