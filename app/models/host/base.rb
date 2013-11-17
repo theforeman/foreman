@@ -66,7 +66,7 @@ module Host
     # expect a facts hash
     def importFacts facts
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
-      raise ::Foreman::Exception.new('Host is pending for Build') if build?
+      raise ::Foreman::Exception.new('System  is pending for Build') if build?
 
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)

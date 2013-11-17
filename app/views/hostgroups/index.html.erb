@@ -1,10 +1,10 @@
-<% title _("Host Groups") %>
+<% title _("System Groups") %>
 
-<% title_actions display_link_if_authorized(_("New Host Group"), hash_for_new_hostgroup_path), help_path %>
+<% title_actions display_link_if_authorized(_("New System Group"), hash_for_new_hostgroup_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
+    <th><%= sort :label, :as => _('System group|Name') %></th>
     <th></th>
   </tr>
   <% Hostgroup.sort_by_ancestry(@hostgroups).each do |hostgroup| %>

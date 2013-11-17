@@ -90,7 +90,7 @@ class Report < ActiveRecord::Base
   # TODO: improve SQL query (so its not N+1 queries)
   def self.summarise(time = 1.day.ago, *hosts)
     list = {}
-    raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
+    raise ::Foreman::Exception.new(N_("invalid system list")) unless hosts
     hosts.flatten.each do |host|
       # set default of 0 per metric
       metrics = {}

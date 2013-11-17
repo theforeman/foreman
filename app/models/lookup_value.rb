@@ -59,14 +59,14 @@ class LookupValue < ActiveRecord::Base
     md = match.match(/\Afqdn=(.*)/)
     return true unless md
     return true if Host.unscoped.find_by_name(md[1]) || host_or_hostgroup.try(:new_record?)
-    errors.add(:match, _("%{match} does not match an existing host") % { :match => match }) and return false
+    errors.add(:match, _("%{match} does not match an existing system") % { :match => match }) and return false
   end
 
   def ensure_hostgroup_exists
     md = match.match(/\Ahostgroup=(.*)/)
     return true unless md
     return true if Hostgroup.unscoped.find_by_name(md[1]) || Hostgroup.unscoped.find_by_label(md[1]) || host_or_hostgroup.try(:new_record?)
-    errors.add(:match, _("%{match} does not match an existing host group") % { :match => match }) and return false
+    errors.add(:match, _("%{match} does not match an existing system group") % { :match => match }) and return false
   end
 
   private

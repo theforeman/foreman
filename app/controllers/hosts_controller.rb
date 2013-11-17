@@ -508,7 +508,7 @@ class HostsController < ApplicationController
       render :unprocessable_entity
     end
   rescue => e
-    error _("Something went wrong while changing host type - %s") % (e)
+    error _("Something went wrong while changing system type - %s") % (e)
   end
 
   def taxonomy_scope
@@ -568,16 +568,16 @@ class HostsController < ApplicationController
     if params[:host_names].present? or params[:host_ids].present?
       @hosts = Host::Base.where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
       if @hosts.empty?
-        error _('No hosts were found with that id or name')
+        error _('No systems were found with that id or name')
         redirect_to(hosts_path) and return false
       end
     else
-      error _('No hosts selected')
+      error _('No systems selected')
       redirect_to(hosts_path) and return false
     end
 
     rescue => e
-      error _("Something went wrong while selecting hosts - %s") % (e)
+      error _("Something went wrong while selecting systems - %s") % (e)
       redirect_to hosts_path
   end
 
@@ -588,9 +588,9 @@ class HostsController < ApplicationController
 
     missed_hosts       = @hosts.map(&:name).join('<br/>')
     if @hosts.empty?
-      notice _("%s selected hosts") % (action.capitalize)
+      notice _("%s selected selected") % (action.capitalize)
     else
-      error _("The following hosts were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts }
+      error _("The following selected were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts }
     end
     redirect_to(hosts_path)
   end

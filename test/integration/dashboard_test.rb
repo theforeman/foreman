@@ -16,11 +16,11 @@ class DashboardTest < ActionDispatch::IntegrationTest
   end
 
   test "dashboard link hosts that had performed modifications" do
-    assert_dashboard_link 'Hosts that had performed modifications without error'
+    assert_dashboard_link 'Systems that had performed modifications without error'
   end
 
   test "dashboard link hosts in error state" do
-    assert_dashboard_link 'Hosts in error state'
+    assert_dashboard_link 'Systems in error state'
   end
 
   test "dashboard link good host reports" do
@@ -28,7 +28,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
   end
 
   test "dashboard link hosts that had pending changes" do
-    assert_dashboard_link 'Hosts that had pending changes'
+    assert_dashboard_link 'Systems that had pending changes'
   end
 
   test "dashboard link out of sync hosts" do
@@ -36,11 +36,11 @@ class DashboardTest < ActionDispatch::IntegrationTest
   end
 
   test "dashboard link hosts with no reports" do
-    assert_dashboard_link 'Hosts with no reports'
+    assert_dashboard_link 'Systems with no reports'
   end
 
   test "dashboard link hosts with alerts disabled" do
-    assert_dashboard_link 'Hosts with alerts disabled'
+    assert_dashboard_link 'Systems with alerts disabled'
   end
 
 end

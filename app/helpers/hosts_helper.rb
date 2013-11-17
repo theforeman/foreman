@@ -158,7 +158,7 @@ module HostsHelper
   def show_templates
     unless SETTINGS[:unattended] and @host.managed?
       return content_tag(:div, :class =>"alert") do
-        _("Provisioning Support is disabled or this host is not managed")
+        _("Provisioning Support is disabled or this system is not managed")
       end
     end
     begin
@@ -170,7 +170,7 @@ module HostsHelper
     rescue => e
       return case e.to_s
       when "Must provide an operating systems"
-        _("Unable to find templates as this host has no operating system")
+        _("Unable to find templates as this system has no operating system")
       else
         e.to_s
       end
@@ -196,7 +196,7 @@ module HostsHelper
       [_("IP Address"), host.ip],
       [_("MAC Address"), host.mac],
       [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
-      [_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
+      [_("System Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
       [_("Operating System"), (link_to(host.os, hosts_path(:search => "os = #{host.os.name}")) if host.os)],
       [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %Q{hostgroup_fullname = "#{host.hostgroup}"})) if host.hostgroup)],
     ]
@@ -232,7 +232,7 @@ module HostsHelper
                                     :title                                                                 => _("Cancel build request for this host"))
             else
               link_to_if_authorized(_("Build"), hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_built?,
-                                    :title                                                       => _("Enable rebuild on next host boot"),
+                                    :title                                                       => _("Enable rebuild on next system boot"),
                                     :confirm                                                     => _("Rebuild %s on next reboot?\nThis would also delete all of its current facts and reports") % host)
             end
         ),

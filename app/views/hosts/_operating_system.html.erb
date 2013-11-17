@@ -15,7 +15,7 @@
 </div>
 <div id='network_provisioning' <%= display? image_provisioning  %> >
   <% if @host.new_record? or @host.type_changed? %>
-      <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
+      <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this system for provisioning") %>
   <% end %>
   <span id="media_select">
     <%= render 'common/os_selection/operatingsystem', :item => @host %>
@@ -32,10 +32,10 @@
 </div>
 <!-- this section is used for displaying the provisioning scripts-->
 <div class="control-group">
-  <div class="control-label"> Provisioning Templates</div>
+  <div class="control-label"> <%= _("Provisioning Templates") %></div>
   <div class="controls">
   <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn" %>
-  <%=  popover("?", _("Display the templates that will be used to provision this host"), :title=>_("Provisioning Templates")) %>
+  <%=  popover("?", _("Display the templates that will be used to provision this system"), :title=>_("Provisioning Templates")) %>
   </div>
   <br>
 <div id="templates_info" class="span6 controls"> </div>

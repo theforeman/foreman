@@ -10,8 +10,8 @@
     <% unless @filter.empty? %>
       <h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Filtering resulted based on <%= @filter.join(" and ") %></h2>
     <% end %>
-    <%= render :partial => 'list', :locals => {:state => 'active', :title => "Hosts with interesting values (changed, failures etc)", :list => @hosts} %>
-    <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => "Hosts which are currently not running puppet", :list => @out_of_sync } %>
-    <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => "Hosts which Foreman reporting is disabled", :list => @disabled } %>
+    <%= render :partial => 'list', :locals => {:state => 'active', :title => "Systems with interesting values (changed, failures etc)", :list => @hosts} %>
+    <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => "Systems which are currently not running puppet", :list => @out_of_sync } %>
+    <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => "Systems which Foreman reporting is disabled", :list => @disabled } %>
   </body>
 </html>

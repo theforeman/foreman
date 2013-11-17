@@ -4,7 +4,7 @@
 
 <%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path do |f| %>
   <%= base_errors_for taxonomy %>
-  <%= wizard_header 3, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Assign Selected Hosts") %>
+  <%= wizard_header 3, _("Create %s") % taxonomy.class.name, _("Select Systems"), _("Assign Selected Systems") %>
 <div class="row">
   <div class="span11">
 <table class="table table-bordered table-striped table-condensed" >
@@ -14,7 +14,7 @@
     <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
     <th class="hidden-phone"><%= sort :environment %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("System group") %></th>
   </tr>
   <% hosts.each do |host| %>
     <tr>

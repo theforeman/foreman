@@ -26,7 +26,7 @@ class ComputeResourcesVmsController < ApplicationController
 
   def associate
     if Host.where(:uuid => @vm.identity).any?
-      process_error(:error_msg => _("VM already associated with a host"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
+      process_error(:error_msg => _("VM already associated with a system"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
     else
       host = @compute_resource.associated_host(@vm) if @compute_resource.respond_to?(:associated_host)
       if host.present?
@@ -35,7 +35,7 @@ class ComputeResourcesVmsController < ApplicationController
         host.save!(:validate => false) # don't want to trigger callbacks
         process_success(:success_msg => _("VM associated to host %s") % host.name, :success_redirect => host_path(host))
       else
-        process_error(:error_msg => _("No host found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
+        process_error(:error_msg => _("No system found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
       end
     end
   end

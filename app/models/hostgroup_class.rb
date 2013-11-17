@@ -22,7 +22,7 @@ class HostgroupClass < ActiveRecord::Base
     if User.current.allowed_to?(:edit_classes) && Hostgroup.my_groups.pluck(:id).include?(self.hostgroup_id)
       return true
     else
-      errors.add(:base, _("You do not have permission to edit Puppet classes on this host group"))
+      errors.add(:base, _("You do not have permission to edit Puppet classes on this system group"))
       return false
     end
   end
