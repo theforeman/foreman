@@ -391,4 +391,24 @@ class UserTest < ActiveSupport::TestCase
     assert_equal new_source.name, user.auth_source.name
   end
 
+
+  test ".try_to_auto_create_user" do
+    AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com" })
+
+    ldap_server = AuthSource.find_by_name("ldap-server")
+
+    # AuthSource that allows onthefly registration
+    count = User.count
+    ldap_server.update_attribute(:onthefly_register, true)
+    assert User.try_to_auto_create_user('non_existing_user_1','password')
+    assert_equal count + 1, User.count
+
+    # AuthSource that forbids onthefly registration
+    count = User.count
+    ldap_server.update_attribute(:onthefly_register, false)
+    assert !User.try_to_auto_create_user('non_existing_user_2','password')
+    assert_equal count, User.count
+
+  end
+
 end
