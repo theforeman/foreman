@@ -1,6 +1,7 @@
 class AddUbuntuCustomLvmPtable < ActiveRecord::Migration
   def self.up
-    Ptable.create :name => "Ubuntu custom LVM", :layout => <<EOF
+    Ptable.without_auditing {
+      Ptable.new :name => "Ubuntu custom LVM", :layout => <<EOF
 d-i partman-auto/disk string /dev/sda
 d-i partman-auto/method string lvm
 
@@ -59,9 +60,12 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 EOF
+    }
   end
 
   def self.down
-    Ptable.first(:conditions => "name = 'Ubuntu custom LVM'").delete
+    Ptable.without_auditing {
+      Ptable.first(:conditions => "name = 'Ubuntu custom LVM'").delete
+    }
   end
 end

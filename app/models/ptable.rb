@@ -5,6 +5,7 @@
 class Ptable < ActiveRecord::Base
   include Authorization
   include ValidateOsFamily
+  audited :allow_mass_assignment => true
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts

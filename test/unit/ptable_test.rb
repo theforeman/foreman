@@ -142,4 +142,12 @@ class PtableTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test 'when creating a new ptable class object, an audit entry needs to be added' do
+    as_admin do
+      assert_difference('Audit.count') do
+        Ptable.create! :name => "dummy", :layout => "layout"
+      end
+    end
+  end
+
 end
