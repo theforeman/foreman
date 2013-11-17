@@ -17,7 +17,8 @@ module AuditExtensions
     scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
     scoped_search :on => :auditable_type, :complete_value => { :host => 'Host', :parameter => 'Parameter', :architecture => 'Architecture',
                                                                :puppetclass => 'Puppetclass', :os => 'Operatingsystem', :hostgroup => 'Hostgroup',
-                                                               :template => "ConfigTemplate" }, :rename => :type
+                                                               :template => "ConfigTemplate", :organization => 'Organization', :user => 'User',
+                                                               :ptable => "Ptable" }, :rename => :type
 
     scoped_search :in => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
     scoped_search :in => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true
