@@ -22,7 +22,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
     #assert *_ids are included in response. Test just for domain_ids
-    assert show_response["location"].any? {|k,v| k == "domain_ids" }
+    assert show_response.any? {|k,v| k == "domain_ids" }
   end
 
   test "should not create invalid location" do
@@ -127,13 +127,13 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert response.kind_of?(Hash)
     klass_name = obj.class.name.downcase
     assert "location", klass_name
-    assert response[klass_name].kind_of?(Hash)
-    assert_equal obj.id, response[klass_name]["id"]
+    assert response.kind_of?(Hash)
+    assert_equal obj.id, response["id"]
   end
 
   test "object name on show can be specified" do
     obj = taxonomies(:location1)
-    get :show, {:id => obj.id, :object_name => 'row'}
+    get :show, {:id => obj.id, :root_name => 'row'}
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.kind_of?(Hash)
     assert response['row'].kind_of?(Hash)
@@ -142,7 +142,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "no object name on show" do
     obj = taxonomies(:location1)
-    get :show, {:id => obj.id, :object_name => 'false'}
+    get :show, {:id => obj.id, :root_name => 'false'}
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.kind_of?(Hash)
     assert_equal obj.id, response["id"]

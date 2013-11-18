@@ -14,7 +14,7 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
     assert_response :success
     template_combination = ActiveSupport::JSON.decode(@response.body)
     assert !template_combination.empty?
-    assert_equal template_combination["template_combination"]["config_template_id"], template_combinations(:two).config_template_id
+    assert_equal template_combination["config_template_id"], template_combinations(:two).config_template_id
   end
 
   test "should create valid" do
@@ -24,9 +24,9 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
         :config_template_id => config_templates(:mystring2).id }
     end
     template_combination = ActiveSupport::JSON.decode(@response.body)
-    assert template_combination["template_combination"]["environment_id"] == environments(:production).id
-    assert template_combination["template_combination"]["hostgroup_id"] == hostgroups(:unusual).id
-    assert template_combination["template_combination"]["config_template_id"] == config_templates(:mystring2).id
+    assert template_combination["environment_id"] == environments(:production).id
+    assert template_combination["hostgroup_id"] == hostgroups(:unusual).id
+    assert template_combination["config_template_id"] == config_templates(:mystring2).id
     assert_response 200
   end
 

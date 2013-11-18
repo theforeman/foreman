@@ -37,14 +37,14 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     get :show,  {:smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).to_param }
     assert_response :success
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['override_value'].empty?
-    assert_equal "hostgroup=Common", results['override_value']['match']
+    assert !results.empty?
+    assert_equal "hostgroup=Common", results['match']
   end
   test "should show specific override values for specific smart class parameter" do
     get :show,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
     results = ActiveSupport::JSON.decode(@response.body)
-    assert !results['override_value'].empty?
-    assert_equal "hostgroup=Common", results['override_value']['match']
+    assert !results.empty?
+    assert_equal "hostgroup=Common", results['match']
     assert_response :success
   end
 
