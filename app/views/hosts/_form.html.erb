@@ -111,6 +111,6 @@
     </div>
 
     <%= f.hidden_field :overwrite? %>
-    <%= submit_or_cancel f, @host.overwrite? %>
+    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => @host %>
   <% end %>
 <% end %>
