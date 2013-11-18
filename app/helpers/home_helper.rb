@@ -80,10 +80,15 @@ module HomeHelper
     choices
   end
 
-  def menu(tab, label, path = nil)
+  def menu(tab, label, path = nil, tag_id = nil)
     path ||= send("hash_for_#{tab}_path")
     return '' unless authorized_for(path[:controller], path[:action] )
-    content_tag(:li, :class => "menu_tab_#{tab} ") do
+
+    options = Hash.new
+    options[:class] = "menu_tab_#{tab} "
+    options[:id] = tag_id ? tag_id : tab
+
+    content_tag(:li, options) do
       link_to_if_authorized(label, path)
     end
   end

@@ -1,10 +1,9 @@
 <ul class="nav pull-right ">
-  <li class="dropdown">
+  <li id='user' class="dropdown">
     <%= user_header %>
     <ul class="dropdown-menu pull-right">
-      <li><%= link_to(_("Sign Out"), logout_users_path) %></li>
-      <li><%= link_to(_("My account"), edit_user_path(User.current) )%></li>
+      <li id='logout'><%= link_to(_("Sign Out"), logout_users_path) %></li>
+      <li id='account'><%= link_to(_("My account"), edit_user_path(User.current) )%></li>
     </ul>
   </li>
 </ul>
-
