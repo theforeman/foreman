@@ -24,13 +24,15 @@ module Rabl
     alias_method_chain :collection, :defaults
 
     # extending this helper defined in module Rabl::Helpers allows users to
-    # overwrite the object root name in show rabl views.  Three options:
-    # 1) class name of object (ex. domain) (default behavior of rabl)
-    # 2) no root - pass ?params[:object_name]=false in URL
-    # 3) custom  - pass ?params[:object_name]=custom_name in URL
+    # overwrite the object root name in show rabl views.  Two options:
+    # 1) no root - default
+    # 2) custom  - pass ?params[:root_name]=custom_name in URL
     def data_name(data_token)
-      return nil if params['object_name'].to_s == 'false'
-      return params['object_name'] if params['object_name'].present?
+      # custom object root
+      return params['root_name'] if params['root_name'].present? && !['false', false].include?(params['root_name'])
+      # no object root for v2
+      return nil if api_version.to_i > 1 || ['false', false].include?(params['root_name'])
+      # otherwise return super since v1 has object root (config.include_child_root = true)
       super
     end
 
