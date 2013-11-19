@@ -1,10 +1,10 @@
 class StatisticsController < ApplicationController
 
   def index
-    @os_count    = Host.my_hosts.count_distribution :operatingsystem
-    @arch_count  = Host.my_hosts.count_distribution :architecture
-    @env_count   = Host.my_hosts.count_distribution :environment
-    @klass_count = Host.my_hosts.count_habtm "puppetclass"
+    @os_count    = System.my_systems.count_distribution :operatingsystem
+    @arch_count  = System.my_systems.count_distribution :architecture
+    @env_count   = System.my_systems.count_distribution :environment
+    @klass_count = System.my_systems.count_habtm "puppetclass"
     @cpu_count   = FactValue.my_facts.count_each "processorcount"
     @model_count = FactValue.my_facts.count_each "manufacturer"
     @mem_size    = FactValue.my_facts.mem_average "memorysize"

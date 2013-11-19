@@ -4,14 +4,14 @@
 // Reference: http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol
 
 (function() {
-  
+
   if (window.WebSocket) return;
 
   var console = window.console;
   if (!console || !console.log || !console.error) {
     console = {log: function(){ }, error: function(){ }};
   }
-  
+
   if (!swfobject.hasFlashPlayerVersion("10.0.0")) {
     console.error("Flash Player >= 10.0.0 is required.");
     return;
@@ -27,11 +27,11 @@
    * This class represents a faux web socket.
    * @param {string} url
    * @param {string} protocol
-   * @param {string} proxyHost
+   * @param {string} proxySystem
    * @param {int} proxyPort
    * @param {string} headers
    */
-  WebSocket = function(url, protocol, proxyHost, proxyPort, headers) {
+  WebSocket = function(url, protocol, proxySystem, proxyPort, headers) {
     var self = this;
     self.__id = WebSocket.__nextId++;
     WebSocket.__instances[self.__id] = self;
@@ -43,7 +43,7 @@
     setTimeout(function() {
       WebSocket.__addTask(function() {
         WebSocket.__flash.create(
-            self.__id, url, protocol, proxyHost || null, proxyPort || 0, headers || null);
+            self.__id, url, protocol, proxySystem || null, proxyPort || 0, headers || null);
       });
     }, 0);
   };
@@ -142,7 +142,7 @@
     if ("readyState" in flashEvent) {
       this.readyState = flashEvent.readyState;
     }
-    
+
     var jsEvent;
     if (flashEvent.type == "open" || flashEvent.type == "error") {
       jsEvent = this.__createSimpleEvent(flashEvent.type);
@@ -155,10 +155,10 @@
     } else {
       throw "unknown event type: " + flashEvent.type;
     }
-    
+
     this.dispatchEvent(jsEvent);
   };
-  
+
   WebSocket.prototype.__createSimpleEvent = function(type) {
     if (document.createEvent && window.Event) {
       var event = document.createEvent("Event");
@@ -168,7 +168,7 @@
       return {type: type, bubbles: false, cancelable: false};
     }
   };
-  
+
   WebSocket.prototype.__createMessageEvent = function(type, data) {
     if (document.createEvent && window.MessageEvent && !window.opera) {
       var event = document.createEvent("MessageEvent");
@@ -179,7 +179,7 @@
       return {type: type, data: data, bubbles: false, cancelable: false};
     }
   };
-  
+
   /**
    * Define the WebSocket readyState enumeration.
    */
@@ -192,7 +192,7 @@
   WebSocket.__instances = {};
   WebSocket.__tasks = [];
   WebSocket.__nextId = 0;
-  
+
   /**
    * Load a new flash security policy file.
    * @param {string} url
@@ -208,7 +208,7 @@
    */
   WebSocket.__initialize = function() {
     if (WebSocket.__flash) return;
-    
+
     if (WebSocket.__swfLocation) {
       // For backword compatibility.
       window.WEB_SOCKET_SWF_LOCATION = WebSocket.__swfLocation;
@@ -254,7 +254,7 @@
         }
       });
   };
-  
+
   /**
    * Called by Flash to notify JS that it's fully loaded and ready
    * for communication.
@@ -272,7 +272,7 @@
       WebSocket.__tasks = [];
     }, 0);
   };
-  
+
   /**
    * Called by Flash to notify WebSockets events are fired.
    */
@@ -292,17 +292,17 @@
     }, 0);
     return true;
   };
-  
+
   // Called by Flash.
   WebSocket.__log = function(message) {
     console.log(decodeURIComponent(message));
   };
-  
+
   // Called by Flash.
   WebSocket.__error = function(message) {
     console.error(decodeURIComponent(message));
   };
-  
+
   WebSocket.__addTask = function(task) {
     if (WebSocket.__flash) {
       task();
@@ -310,7 +310,7 @@
       WebSocket.__tasks.push(task);
     }
   };
-  
+
   /**
    * Test if the browser is running flash lite.
    * @return {boolean} True if flash lite is running, false otherwise.
@@ -325,7 +325,7 @@
     }
     return mimeType.enabledPlugin.filename.match(/flashlite/i) ? true : false;
   };
-  
+
   if (!window.WEB_SOCKET_DISABLE_AUTO_INITIALIZATION) {
     if (window.addEventListener) {
       window.addEventListener("load", function(){
@@ -337,5 +337,5 @@
       });
     }
   }
-  
+
 })();

@@ -135,30 +135,30 @@ class LookupKey < ActiveRecord::Base
 
   private
 
-  # Generate possible lookup values type matches to a given host
-  def path2matches host
-    raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
+  # Generate possible lookup values type matches to a given system
+  def path2matches system
+    raise ::Foreman::Exception.new(N_("Invalid System")) unless system.class.model_name == "System"
     matches = []
     path_elements.each do |rule|
       match = []
       rule.each do |element|
-        match << "#{element}#{EQ_DELM}#{attr_to_value(host,element)}"
+        match << "#{element}#{EQ_DELM}#{attr_to_value(system,element)}"
       end
       matches << match.join(KEY_DELM)
     end
     matches
   end
 
-  # translates an element such as domain to its real value per host
-  # tries to find the host attribute first, parameters and then fallback to a puppet fact.
-  def attr_to_value host, element
-    # direct host attribute
-    return host.send(element) if host.respond_to?(element)
-    # host parameter
-    return host.host_params[element] if host.host_params.include?(element)
+  # translates an element such as domain to its real value per system
+  # tries to find the system attribute first, parameters and then fallback to a puppet fact.
+  def attr_to_value system, element
+    # direct system attribute
+    return system.send(element) if system.respond_to?(element)
+    # system parameter
+    return system.system_params[element] if system.system_params.include?(element)
     # fact attribute
-    if (fn = host.fact_names.first(:conditions => { :name => element }))
-      return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
+    if (fn = system.fact_names.first(:conditions => { :name => element }))
+      return FactValue.where(:system_id => system.id, :fact_name_id => fn.id).first.value
     end
   end
 

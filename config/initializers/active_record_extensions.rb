@@ -1,5 +1,5 @@
 class ActiveRecord::Base
-  extend Host::Hostmix
+  extend System::Systemmix
   include HasManyCommon
   include StripWhitespace
 end

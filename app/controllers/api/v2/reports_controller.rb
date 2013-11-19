@@ -27,7 +27,7 @@ module Api
 
       api :POST, "/reports/", "Create a report."
       param :report, Hash, :required => true do
-        param :host, String, :required => true, :desc => "Hostname or certname"
+        param :system, String, :required => true, :desc => "Systemname or certname"
         param :reported_at, String, :required => true, :desc => "UTC time of report"
         param :status, Hash, :required => true, :desc => "Hash of status type totals"
         param :metrics, Hash, :required => true, :desc => "Hash of report metrics, can be just {}"
@@ -48,11 +48,11 @@ module Api
         process_response @report.destroy
       end
 
-      api :GET, "/hosts/:host_id/reports/last", "Show the last report for a given host."
+      api :GET, "/systems/:system_id/reports/last", "Show the last report for a given system."
       param :id, :identifier, :required => true
 
       def last
-        conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
+        conditions = { :system_id => System.find_by_name(params[:system_id]).try(:id) } unless params[:system_id].blank?
         max_id = Report.my_reports.where(conditions).maximum(:id)
         @report = Report.includes(:logs => [:message, :source]).find(max_id)
         render :show

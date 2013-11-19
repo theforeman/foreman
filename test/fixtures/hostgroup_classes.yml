@@ -6,4 +6,4 @@
 #
 one:
   puppetclass: one
-  hostgroup: common
+  system_group: common

@@ -4,7 +4,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
   #TODO: add more tests here
   def setup
-    @classification = Classification::ClassParam.new(:host => hosts(:one))
+    @classification = Classification::ClassParam.new(:system => systems(:one))
   end
 
   test 'it should return puppetclasses' do
@@ -23,9 +23,9 @@ class ClassificationTest < ActiveSupport::TestCase
   test 'enc_should_return_updated_cluster_param' do
     key   = lookup_keys(:complex)
     assert_equal 'organization,location', key.path
-    host = hosts(:one)
-    assert_equal taxonomies(:location1), host.location
-    assert_equal taxonomies(:organization1), host.organization
+    system = systems(:one)
+    assert_equal taxonomies(:location1), system.location
+    assert_equal taxonomies(:organization1), system.organization
 
     value = User.as :admin do
       LookupValue.create! :lookup_key_id => key.id,

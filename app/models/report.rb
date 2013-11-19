@@ -2,22 +2,22 @@ class Report < ActiveRecord::Base
   include Authorization
   include ReportCommon
 
-  belongs_to_host
+  belongs_to_system
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy
-  has_one :environment, :through => :host
-  has_one :hostgroup, :through => :host
+  has_one :environment, :through => :system
+  has_one :system_group, :through => :system
 
-  validates :host_id, :status, :presence => true
-  validates :reported_at, :presence => true, :uniqueness => {:scope => :host_id}
+  validates :system_id, :status, :presence => true
+  validates :reported_at, :presence => true, :uniqueness => {:scope => :system_id}
 
-  scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
+  scoped_search :in => :system,        :on => :name,  :complete_value => true, :rename => :system
   scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
   scoped_search :in => :messages,    :on => :value,                          :rename => :log
   scoped_search :in => :sources,     :on => :value,                          :rename => :resource
-  scoped_search :in => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup
-  scoped_search :in => :hostgroup,   :on => :label, :complete_value => true, :rename => :hostgroup_fullname
+  scoped_search :in => :system_group,   :on => :name,  :complete_value => true, :rename => :system_group
+  scoped_search :in => :system_group,   :on => :label, :complete_value => true, :rename => :system_group_fullname
 
   scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
   scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
@@ -29,10 +29,10 @@ class Report < ActiveRecord::Base
   scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
   scoped_search :on => :status, :offset => METRIC.index("pending"),         :word_size => BIT_NUM, :rename => :pending
 
-  # returns reports for hosts in the User's filter set
+  # returns reports for systems in the User's filter set
   scope :my_reports, lambda {
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
-      where(:reports => {:host_id => Host.my_hosts.select("hosts.id")})
+      where(:reports => {:system_id => System.my_systems.select("systems.id")})
     end
   }
 
@@ -68,7 +68,7 @@ class Report < ActiveRecord::Base
   end
 
   def to_label
-    "#{host.name} / #{reported_at.to_s}"
+    "#{system.name} / #{reported_at.to_s}"
   end
 
   def config_retrieval
@@ -83,23 +83,23 @@ class Report < ActiveRecord::Base
     ReportImporter.import(report, proxy_id)
   end
 
-  # returns a hash of hosts and their recent reports metric counts which have values
+  # returns a hash of systems and their recent reports metric counts which have values
   # e.g. non zero metrics.
-  # first argument is time range, everything afterwards is a host list.
+  # first argument is time range, everything afterwards is a system list.
   # TODO: improve SQL query (so its not N+1 queries)
-  def self.summarise(time = 1.day.ago, *hosts)
+  def self.summarise(time = 1.day.ago, *systems)
     list = {}
-    raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
-    hosts.flatten.each do |host|
+    raise ::Foreman::Exception.new(N_("invalid system list")) unless systems
+    systems.flatten.each do |system|
       # set default of 0 per metric
       metrics = {}
       METRIC.each {|m| metrics[m] = 0 }
-      host.reports.recent(time).all(:select => "status").each do |r|
+      system.reports.recent(time).all(:select => "status").each do |r|
         metrics.each_key do |m|
           metrics[m] += r.status(m)
         end
       end
-      list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
+      list[system.name] = {:metrics => metrics, :id => system.id} if metrics.values.sum > 0
     end
     return list
   end
@@ -157,7 +157,7 @@ class Report < ActiveRecord::Base
     return count
   end
 
-  # represent if we have a report --> used to ensure consistency across host report state the report itself
+  # represent if we have a report --> used to ensure consistency across system report state the report itself
   def no_report
     false
   end

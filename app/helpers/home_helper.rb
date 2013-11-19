@@ -12,7 +12,7 @@ module HomeHelper
     configuration_group =
         [[_('Environments'),          :environments],
         [_('Global Parameters'),      :common_parameters],
-        [_('Host Groups'),            :hostgroups],
+        [_('System Groups'),            :system_groups],
         [_('Puppet Classes'),         :puppetclasses],
         [_('Smart Variables'),        :lookup_keys],
         [_('Smart Proxies'),          :smart_proxies]]

@@ -119,7 +119,7 @@ module Api
     # required for models which implement the to_param method
     #
     # example:
-    # @host = Host.find_resource params[:id]
+    # @system = System.find_resource params[:id]
     def find_resource
       resource = resource_identifying_attributes.find do |key|
         next if key=='id' and params[:id].to_i == 0
@@ -166,7 +166,7 @@ module Api
 
     # this method is used with nested resources, where obj_id is passed into the parameters hash.
     # it automatically updates the search text box with the relevant relationship
-    # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
+    # e.g. /systems/fqdn/reports # would add system = fqdn to the search bar
     def setup_search_options
       params[:search] ||= ""
       params.keys.each do |param|

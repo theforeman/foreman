@@ -46,7 +46,7 @@
     "sshrsakey": "AAAAB3NzaC1yc2EAAAABIwAAAIEAyj0XAKzx4WlNE8Vzj0ABBEHxqHr2H4AZZnabnQkYTOfz5kObXL+BvYqPONg2EqeUYCTNaFtQQPpJ4H+TM+GCJDNvFEKJTRd+cFoOuramf9LunWN/+ETreQ5V8KhKvdYTNw5blPBKiQz/XxSxcm7beo5QiBVr/lOM0u8YhGTLawk=",
     "uptime_days": "0",
     "interfaces": "eth0",
-    "hostname": "brslc022",
+    "systemname": "brslc022",
     "graphcard": "VMware",
     "uptime": "1:02 hours",
     "processor0": "Intel(R) Xeon(R) CPU           X5460  @ 3.16GHz",

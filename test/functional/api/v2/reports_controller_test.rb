@@ -41,28 +41,28 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    test 'hosts with a registered smart proxy on should create a report successfully' do
+    test 'systems with a registered smart proxy on should create a report successfully' do
       Setting[:restrict_registered_puppetmasters] = true
       Setting[:require_ssl_puppetmasters] = false
 
       proxy = smart_proxies(:puppetmaster)
-      host   = URI.parse(proxy.url).host
-      Resolv.any_instance.stubs(:getnames).returns([host])
+      system   = URI.parse(proxy.url).system
+      Resolv.any_instance.stubs(:getnames).returns([system])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy
       assert_response :success
     end
 
-    test 'hosts without a registered smart proxy on should not be able to create a report' do
+    test 'systems without a registered smart proxy on should not be able to create a report' do
       Setting[:restrict_registered_puppetmasters] = true
       Setting[:require_ssl_puppetmasters] = false
 
-      Resolv.any_instance.stubs(:getnames).returns(['another.host'])
+      Resolv.any_instance.stubs(:getnames).returns(['another.system'])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_equal 403, @response.status
     end
 
-    test 'hosts with a registered smart proxy and SSL cert should create a report successfully' do
+    test 'systems with a registered smart proxy and SSL cert should create a report successfully' do
       Setting[:restrict_registered_puppetmasters] = true
       Setting[:require_ssl_puppetmasters] = true
 
@@ -73,18 +73,18 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    test 'hosts without a registered smart proxy but with an SSL cert should not be able to create a report' do
+    test 'systems without a registered smart proxy but with an SSL cert should not be able to create a report' do
       Setting[:restrict_registered_puppetmasters] = true
       Setting[:require_ssl_puppetmasters] = true
 
       @request.env['HTTPS'] = 'on'
-      @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=another.system'
       @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
       post :create, {:report => create_a_puppet_transaction_report }
       assert_equal 403, @response.status
     end
 
-    test 'hosts with an unverified SSL cert should not be able to create a report' do
+    test 'systems with an unverified SSL cert should not be able to create a report' do
       Setting[:restrict_registered_puppetmasters] = true
       Setting[:require_ssl_puppetmasters] = true
 
@@ -139,8 +139,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get reports for given host only" do
-    get :index, {:host_id => hosts(:one).to_param }
+  test "should get reports for given system only" do
+    get :index, {:system_id => systems(:one).to_param }
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
@@ -148,8 +148,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     assert_equal 1, reports.count
   end
 
-  test "should return empty result for host with no reports" do
-    get :index, {:host_id => hosts(:two).to_param }
+  test "should return empty result for system with no reports" do
+    get :index, {:system_id => systems(:two).to_param }
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
@@ -165,16 +165,16 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     assert !report.empty?
   end
 
-  test "should get last report for given host only" do
-    get :last, {:host_id => hosts(:one).to_param }
+  test "should get last report for given system only" do
+    get :last, {:system_id => systems(:one).to_param }
     assert_response :success
     assert_not_nil assigns(:report)
     report = ActiveSupport::JSON.decode(@response.body)
     assert !report.empty?
   end
 
-  test "should give error if no last report for given host" do
-    get :last, {:host_id => hosts(:two).to_param }
+  test "should give error if no last report for given system" do
+    get :last, {:system_id => systems(:two).to_param }
     assert_response 500
   end
 

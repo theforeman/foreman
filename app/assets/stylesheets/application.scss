@@ -96,7 +96,7 @@ div.flash.notice {
   margin-top: -22px;
 
 }
-.host_chart{
+.system_chart{
   height: 320px;
   margin-bottom: 20px;
 }
@@ -105,7 +105,7 @@ div.flash.notice {
   margin-bottom: 20px;
 }
 
-#hostclasses, .classes li, .classes li a {
+#systemclasses, .classes li, .classes li a {
   list-style-type: none;
   margin-right: 0.5em;
   text-decoration: none;
@@ -161,7 +161,7 @@ tr.open span.expander {background-image: url(bullet_toggle_minus.png);}
   max-height: 500px;
 }
 
-#host-conflicts-modal {
+#system-conflicts-modal {
   width: 650px !important;
 }
 

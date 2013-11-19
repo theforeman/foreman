@@ -1,7 +1,7 @@
 # Class to parse ERB with or without Safemode rendering. Needs a set
 # of variables, usually something like:
-#   @allowed_vars = { :host => @host }
-# so that <%= @host.name %> has the right @host variable
+#   @allowed_vars = { :system => @system }
+# so that <%= @system.name %> has the right @system variable
 #
 class SafeRender
 

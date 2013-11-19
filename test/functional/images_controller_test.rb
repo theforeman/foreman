@@ -48,7 +48,7 @@ class ImagesControllerTest < ActionController::TestCase
     assert_redirected_to compute_resource_path(@image.compute_resource)
   end
 
-  # listing images in /hosts/new requries a JSON response from this controller
+  # listing images in /systems/new requries a JSON response from this controller
   test "should list json images" do
     # This value is tested by the deprecation warning in application_controller
     # so we need to set it or the test will crash

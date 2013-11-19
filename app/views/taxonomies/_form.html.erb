@@ -13,7 +13,7 @@
         <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
       <% end %>
       <li><a href="#environments" data-toggle="tab"><%= _("Environments") %></a></li>
-      <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
+      <li><a href="#system_groups" data-toggle="tab"><%= _("System Groups") %></a></li>
       <% if (taxonomy.is_a?(Organization) && SETTINGS[:locations_enabled]) %>
         <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
       <% elsif taxonomy.is_a?(Location) && SETTINGS[:organizations_enabled] %>
@@ -24,7 +24,7 @@
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
         <%= text_f f, :name, :class => "input-xlarge" %>
-        <%#= render :partial => 'taxonomy/hosts', :locals => {:hosts => @hosts, :f => f} %>
+        <%#= render :partial => 'taxonomy/systems', :locals => {:systems => @systems, :f => f} %>
       </div>
 
       <div class="tab-pane" id="users">
@@ -85,11 +85,11 @@
           {'data-mismatches' => taxonomy.need_to_be_selected_ids[:environment_ids].to_json} %>
       </div>
 
-      <div class="tab-pane" id="hostgroups">
-        <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All Host Groups"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Hostgroup") %>
-        <%= multiple_selects f, :hostgroups, Hostgroup, taxonomy.selected_ids[:hostgroup_ids],
-          {:disabled => taxonomy.used_and_selected_ids[:hostgroup_ids], :label => _("Host Groups")},
-          {'data-mismatches' => taxonomy.need_to_be_selected_ids[:hostgroup_ids].to_json} %>
+      <div class="tab-pane" id="system_groups">
+        <%= checkbox_f(f, :ignore_types, {:label => "", :help_inline => _("All System Groups"), :multiple => true, :onchange => 'ignore_checked(this)'}, "SystemGroup") %>
+        <%= multiple_selects f, :system_groups, SystemGroup, taxonomy.selected_ids[:system_group_ids],
+          {:disabled => taxonomy.used_and_selected_ids[:system_group_ids], :label => _("System Groups")},
+          {'data-mismatches' => taxonomy.need_to_be_selected_ids[:system_group_ids].to_json} %>
      </div>
 
       <% if taxonomy.is_a?(Location) && SETTINGS[:locations_enabled] %>

@@ -4,8 +4,8 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   valid_attrs = { :name => 'special_key', :value => '123' }
 
-  test "should get index for specific host" do
-    get :index, {:host_id => hosts(:one).to_param }
+  test "should get index for specific system" do
+    get :index, {:system_id => systems(:one).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -20,8 +20,8 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert !parameters.empty?
   end
 
-  test "should get index for specific hostgroup" do
-    get :index, {:hostgroup_id => hostgroups(:common).to_param }
+  test "should get index for specific system_group" do
+    get :index, {:system_group_id => system_groups(:common).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -37,8 +37,8 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert !parameters.empty?
   end
 
-  test "should show a host parameter" do
-    get :show, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param }
+  test "should show a system parameter" do
+    get :show, { :system_id => systems(:one).to_param, :id => parameters(:system).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -51,8 +51,8 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
-  test "should show a hostgroup parameter" do
-    get :show, {:hostgroup_id => hostgroups(:common).to_param,:id => parameters(:group).to_param }
+  test "should show a system_group parameter" do
+    get :show, {:system_group_id => system_groups(:common).to_param,:id => parameters(:group).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -76,10 +76,10 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_equal param.id, show_response['parameter']['id']
   end
 
-  test "should create host parameter" do
-    host = hosts(:one)
-    assert_difference('host.parameters.count') do
-      post :create, { :host_id => host.to_param, :parameter => valid_attrs }
+  test "should create system parameter" do
+    system = systems(:one)
+    assert_difference('system.parameters.count') do
+      post :create, { :system_id => system.to_param, :parameter => valid_attrs }
     end
     assert_response :success
   end
@@ -92,10 +92,10 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create hostgroup parameter" do
-    hostgroup = hostgroups(:common)
-    assert_difference('hostgroup.group_parameters.count') do
-      post :create, { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }
+  test "should create system_group parameter" do
+    system_group = system_groups(:common)
+    assert_difference('system_group.group_parameters.count') do
+      post :create, { :system_group_id => system_group.to_param, :parameter => valid_attrs }
     end
     assert_response :success
   end
@@ -108,10 +108,10 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should update nested host parameter" do
-     put :update, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param, :parameter => valid_attrs  }
+  test "should update nested system parameter" do
+     put :update, { :system_id => systems(:one).to_param, :id => parameters(:system).to_param, :parameter => valid_attrs  }
      assert_response :success
-     assert_equal Host.find_by_name("my5name.mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
+     assert_equal System.find_by_name("my5name.mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested domain parameter" do
@@ -120,10 +120,10 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
      assert_equal Domain.find_by_name("mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
   end
 
-  test "should update nested hostgroup parameter" do
-     put :update, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs  }
+  test "should update nested system_group parameter" do
+     put :update, { :system_group_id => system_groups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs  }
      assert_response :success
-     assert_equal Hostgroup.find_by_name("Common").group_parameters.order("parameters.updated_at").last.value, "123"
+     assert_equal SystemGroup.find_by_name("Common").group_parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested os parameter" do
@@ -132,9 +132,9 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
      assert_equal Operatingsystem.find_by_name("Redhat").parameters.order("parameters.updated_at").last.value, "123"
   end
 
-  test "should destroy nested host parameter" do
-    assert_difference('HostParameter.count', -1) do
-      delete :destroy, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param }
+  test "should destroy nested system parameter" do
+    assert_difference('SystemParameter.count', -1) do
+      delete :destroy, { :system_id => systems(:one).to_param, :id => parameters(:system).to_param }
     end
     assert_response :success
   end
@@ -146,9 +146,9 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should destroy Hostgroup parameter" do
+  test "should destroy SystemGroup parameter" do
     assert_difference('GroupParameter.count', -1) do
-      delete :destroy, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param }
+      delete :destroy, { :system_group_id => system_groups(:common).to_param, :id => parameters(:group).to_param }
     end
     assert_response :success
   end
@@ -160,9 +160,9 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should reset nested host parameter" do
-    assert_difference('HostParameter.count', -1) do
-      delete :reset, { :host_id => hosts(:one).to_param }
+  test "should reset nested system parameter" do
+    assert_difference('SystemParameter.count', -1) do
+      delete :reset, { :system_id => systems(:one).to_param }
     end
     assert_response :success
   end
@@ -174,9 +174,9 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should reset Hostgroup parameter" do
+  test "should reset SystemGroup parameter" do
     assert_difference('GroupParameter.count', -1) do
-      delete :reset, { :hostgroup_id => hostgroups(:common).to_param }
+      delete :reset, { :system_group_id => system_groups(:common).to_param }
     end
     assert_response :success
   end

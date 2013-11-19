@@ -1,11 +1,11 @@
 <% javascript 'charts' %>
-<% title @host.to_label, icon(@host.os) + @host.to_label %>
+<% title @system.to_label, icon(@system.os) + @system.to_label %>
 
-<% @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid) rescue nil %>
-<%= host_title_actions(@host, @vm) %>
+<% @vm = @system.compute_resource.find_vm_by_uuid(@system.uuid) rescue nil %>
+<%= system_title_actions(@system, @vm) %>
 <% content_for(:search_bar) {reports_show} %>
 
-<div id="host-show" class="row-fluid">
+<div id="system-show" class="row-fluid">
   <div class="span4">
     <ul id="myTab" class="nav nav-tabs">
       <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
@@ -16,19 +16,19 @@
       <%  if @vm %>
         <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
       <% end %>
-      <% if @host.bmc_available? %>
+      <% if @system.bmc_available? %>
         <li><a href="#bmc" data-toggle="tab"><%= _('BMC') %></a></li>
       <% end %>
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="properties">
-        <%= render :partial => "hosts/overview", :locals => { :host => @host } %>
+        <%= render :partial => "systems/overview", :locals => { :system => @system } %>
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 %>
-            <p><%= _('No puppet activity for this host in the last %s days') % @range %></p>
+            <p><%= _('No puppet activity for this system in the last %s days') % @range %></p>
         <% else %>
-            <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
+            <%= render :partial => "systems/metrics", :locals => { :report_summary => @report_summary[@system.name][:metrics] } %>
         <% end %>
       </div>
       <div class="tab-pane" id="template">
@@ -36,12 +36,12 @@
       </div>
       <div class="tab-pane" id="vm">
         <%  if @vm %>
-          <% @compute_resource = @host.compute_resource %>
-          <%= render("compute_resources_vms/show/#{@host.compute_resource.provider.downcase}") rescue nil %>
+          <% @compute_resource = @system.compute_resource %>
+          <%= render("compute_resources_vms/show/#{@system.compute_resource.provider.downcase}") rescue nil %>
         <% end %>
       </div>
-      <% if @host.bmc_available? %>
-        <div id="bmc" class="tab-pane" data-ajax-url=<%= bmc_host_path(@host) %>>
+      <% if @system.bmc_available? %>
+        <div id="bmc" class="tab-pane" data-ajax-url=<%= bmc_system_path(@system) %>>
           <p id="spinner">
             <%= image_tag '/assets/spinner.gif' %>
             <%= _('Loading BMC information ...') %>

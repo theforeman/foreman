@@ -1,15 +1,15 @@
 class FactValue < ActiveRecord::Base
 
-  belongs_to_host
+  belongs_to_system
   belongs_to :fact_name
   delegate :name, :to => :fact_name
-  has_many :hostgroup, :through => :host
+  has_many :system_group, :through => :system
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
-  scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
-  scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
+  scoped_search :in => :system, :on => :name, :rename => :system, :complete_value => true
+  scoped_search :in => :system_group, :on => :name, :rename => :"system.system_group", :complete_value => true
 
   scope :no_timestamp_facts, lambda {
               includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
@@ -21,15 +21,15 @@ class FactValue < ActiveRecord::Base
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
       #TODO: Remove pluck after upgrade to newer rails as it would be
       #done via INNER select automatically
-      where(:fact_values => {:host_id => Host.my_hosts.pluck(:id)})
+      where(:fact_values => {:system_id => System.my_systems.pluck(:id)})
     end
   }
 
   scope :distinct, lambda { select('DISTINCT fact_values.value') }
-  scope :required_fields, lambda { includes(:host, :fact_name) }
+  scope :required_fields, lambda { includes(:system, :fact_name) }
   scope :facts_counter, lambda {|value, name_id| where(:value => value, :fact_name_id => name_id) }
 
-  validates :fact_name_id, :uniqueness => { :scope => :host_id }
+  validates :fact_name_id, :uniqueness => { :scope => :system_id }
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data
@@ -64,8 +64,8 @@ class FactValue < ActiveRecord::Base
   def self.build_facts_hash facts
     hash = {}
     facts.each do |fact|
-      hash[fact.host.to_s] ||= {}
-      hash[fact.host.to_s].update({fact.name.to_s => fact.value})
+      hash[fact.system.to_s] ||= {}
+      hash[fact.system.to_s].update({fact.name.to_s => fact.value})
     end
     return hash
   end

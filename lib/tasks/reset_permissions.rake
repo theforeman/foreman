@@ -15,7 +15,7 @@ namespace :permissions do
         puts user.errors.full_messages.join(", ")
       end
     else
-      fail "The domain of this host is not set."
+      fail "The domain of this system is not set."
     end
   end
 end

@@ -44,8 +44,8 @@ class FactTrend < Trend
     Trend.model_name
   end
 
-  def find_hosts
-    Host.joins(:fact_values).where(:fact_values => {:value => fact_value}).find(:all, :order => 'name')
+  def find_systems
+    System.joins(:fact_values).where(:fact_values => {:value => fact_value}).find(:all, :order => 'name')
   end
 
   private

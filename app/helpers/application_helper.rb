@@ -39,9 +39,9 @@ module ApplicationHelper
     link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
-  def link_to_remove_puppetclass klass, host
+  def link_to_remove_puppetclass klass, system
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
-    functions_options = { :klass => klass, :host => host, :css_class => ''}
+    functions_options = { :klass => klass, :system => system, :css_class => ''}
     text = remove_link_to_function(truncate(klass.name, :length => 28), functions_options)
     content_tag(:span, text, options).html_safe +
         remove_link_to_function('', functions_options.merge(:css_class => 'icon-remove-sign'))
@@ -52,14 +52,14 @@ module ApplicationHelper
     link_to_function(text,"remove_puppet_class(this)", :'data-class-id'=>options[:klass].id,
                      :'data-original-title'=>_("Click to remove %s") % options[:klass], :rel=>'twipsy',
                      :'data-url' => parameters_puppetclass_path( :id => options[:klass].id),
-                     :'data-host-id' => options[:host].id,
+                     :'data-system-id' => options[:system].id,
                      :'data-animation' => "",
                      :class=>options[:css_class])
   end
 
-  def link_to_add_puppetclass klass, host, type
+  def link_to_add_puppetclass klass, system, type
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
-    function_options = { :klass => klass, :host => host, :type => type }
+    function_options = { :klass => klass, :system => system, :type => type }
     text             = add_link_to_function(truncate(klass.name, :length => 28), function_options)
 
     content_tag(:span, text, options).html_safe +
@@ -71,7 +71,7 @@ module ApplicationHelper
     link_to_function(text, "add_puppet_class(this)",
                      :'data-class-id'       => options[:klass].id, 'data-type' => options[:type],
                      :'data-url'            => parameters_puppetclass_path(:id => options[:klass].id),
-                     :'data-host-id'        => options[:host].try(:id),
+                     :'data-system-id'        => options[:system].try(:id),
                      :'data-original-title' => _("Click to add %s") % options[:klass], :rel => 'twipsy',
                      :'data-animation'      => "",
                      :class                 => options[:css_class])
@@ -152,7 +152,7 @@ module ApplicationHelper
   end
 
   # return our current model instance type based on the current controller
-  # i.e. HostsController would return "host"
+  # i.e. SystemsController would return "system"
   def type
     controller_name.singularize
   end
@@ -206,7 +206,7 @@ module ApplicationHelper
                       :data  => {
                         :'title'  => title,
                         :'series' => data,
-                        :'url'    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
+                        :'url'    => options[:search] ? "#{request.script_name}/systems?search=#{URI.encode(options.delete(:search))}" : "#"
                       }
                     }.merge(options))
   end

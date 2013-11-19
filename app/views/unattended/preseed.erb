@@ -14,31 +14,31 @@ d-i console-setup/variant USA
 d-i console-setup/layout USA
 d-i console-setup/layoutcode string us
 
-<% if @host.operatingsystem.name == "Debian" && @host.operatingsystem.major.to_i >= 7 -%>
+<% if @system.operatingsystem.name == "Debian" && @system.operatingsystem.major.to_i >= 7 -%>
 d-i keymap select us
 <% end -%>
 
 # Network configuration
 d-i netcfg/choose_interface select auto
-d-i netcfg/get_hostname string <%= @host %>
-d-i netcfg/get_domain string <%= @host.domain %>
+d-i netcfg/get_systemname string <%= @system %>
+d-i netcfg/get_domain string <%= @system.domain %>
 d-i netcfg/wireless_wep string
 
 d-i hw-detect/load_firmware boolean true
 
 # Mirror settings
 d-i mirror/country string manual
-d-i mirror/http/hostname string <%= @preseed_server %>
+d-i mirror/http/systemname string <%= @preseed_server %>
 d-i mirror/http/directory string <%= @preseed_path %>
 d-i mirror/http/proxy string
-d-i mirror/codename string <%= @host.operatingsystem.release_name %>
-d-i mirror/suite string <%= @host.operatingsystem.release_name %>
-d-i mirror/udeb/suite string <%= @host.operatingsystem.release_name %>
+d-i mirror/codename string <%= @system.operatingsystem.release_name %>
+d-i mirror/suite string <%= @system.operatingsystem.release_name %>
+d-i mirror/udeb/suite string <%= @system.operatingsystem.release_name %>
 
 # Time settings
 d-i clock-setup/utc boolean true
-<% if @host.params['time-zone'] -%>
-d-i time/zone string <%= @host.params['time-zone'] %>
+<% if @system.params['time-zone'] -%>
+d-i time/zone string <%= @system.params['time-zone'] %>
 <% else -%>
 d-i time/zone string UTC
 <% end -%>
@@ -50,7 +50,7 @@ d-i clock-setup/ntp boolean true
 # Choices: cylinder, minimal, optimal
 #d-i partman/alignment select cylinder
 
-<%= @host.diskLayout %>
+<%= @system.diskLayout %>
 
 # Install different kernel
 #d-i base-installer/kernel/image string linux-server
@@ -61,16 +61,16 @@ user-setup-udeb passwd/root-login boolean true
 d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
-<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+<% if @system.params['enable-puppetlabs-repo'] && @system.params['enable-puppetlabs-repo'] == 'true' -%>
 # Puppetlabs products
 d-i apt-setup/local0/repository string \
-      http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> main
+      http://apt.puppetlabs.com <%= @system.operatingsystem.release_name %> main
 d-i apt-setup/local0/comment string Puppetlabs products
 d-i apt-setup/local0/source boolean true
 d-i apt-setup/local0/key string http://apt.puppetlabs.com/pubkey.gpg
 # Puppetlabs dependencies
 d-i apt-setup/local1/repository string \
-      http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> dependencies
+      http://apt.puppetlabs.com <%= @system.operatingsystem.release_name %> dependencies
 d-i apt-setup/local1/comment string Puppetlabs dependencies
 d-i apt-setup/local1/source boolean true
 d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
@@ -79,7 +79,7 @@ d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
 # Install minimal task set (see tasksel --task-packages minimal)
 tasksel tasksel/first multiselect minimal
 
-<% if @host.operatingsystem.name == "Ubuntu" and @host.operatingsystem.major.to_i == 10 -%>
+<% if @system.operatingsystem.name == "Ubuntu" and @system.operatingsystem.major.to_i == 10 -%>
   <% puppet_package = "puppet/lucid-backports" -%>
 d-i apt-setup/backports boolean true
 <% else -%>

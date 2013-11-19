@@ -2,8 +2,8 @@
 
 <table class="table table-bordered table-striped ellipsis">
   <tr>
-    <% unless params[:host_id] %>
-      <th><%= sort :host, :as => _("Host") %></th>
+    <% unless params[:system_id] %>
+      <th><%= sort :system, :as => _("System") %></th>
     <% end %>
     <th><%= sort :name, :as => _("Name")  %></th>
     <th><%= sort :value, :as => s_("FactValue|Value") %></th>
@@ -11,10 +11,10 @@
   </tr>
   <% for fact_value in @fact_values %>
     <tr>
-      <% unless params[:host_id] %>
+      <% unless params[:system_id] %>
         <td>
-          <% if fact_value.host %>
-            <%= link_to(fact_value.host, host_facts_path(:host_id => fact_value.host), :title => _("Show host facts")) %>
+          <% if fact_value.system %>
+            <%= link_to(fact_value.system, system_facts_path(:system_id => fact_value.system), :title => _("Show system facts")) %>
           <% else %>
             <%= _('N/A') %>
           <% end %>

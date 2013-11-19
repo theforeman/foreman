@@ -3,9 +3,9 @@
 kernelversion:
   value:        2.6.9
   fact_name:    kernelversion
-  host:         one
+  system:         one
 
 ipaddress:
   value:        10.0.19.33
   fact_name:    ipaddress
-  host:         one
+  system:         one

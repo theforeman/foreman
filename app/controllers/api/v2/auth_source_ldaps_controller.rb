@@ -21,7 +21,7 @@ module Api
       api :POST, "/auth_source_ldaps/", "Create an auth_source_ldap."
       param :auth_source_ldap, Hash, :required => true do
         param :name, String, :required => true
-        param :host, String, :required => true
+        param :system, String, :required => true
         param :port, :number, :desc => "defaults to 389"
         param :account, String
         param :base_dn, String
@@ -43,7 +43,7 @@ module Api
       param :id, String, :required => true
       param :auth_source_ldap, Hash, :required => true do
         param :name, String
-        param :host, String
+        param :system, String
         param :port, :number, :desc => "defaults to 389"
         param :account, String
         param :base_dn, String

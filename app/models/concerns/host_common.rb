@@ -1,8 +1,8 @@
 require 'securerandom'
 
-#Common methods between host and hostgroup
+#Common methods between system and system_group
 # mostly for template rendering consistency
-module HostCommon
+module SystemCommon
   extend ActiveSupport::Concern
 
   included do
@@ -21,7 +21,7 @@ module HostCommon
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
     # Replacement of accepts_nested_attributes_for :lookup_values,
-    # to work around the lack of `host_id` column in lookup_values.
+    # to work around the lack of `system_id` column in lookup_values.
     def lookup_values_attributes= lookup_values_attributes
       lookup_values_attributes.each_value do |attribute|
         attr = attribute.dup
@@ -33,7 +33,7 @@ module HostCommon
             mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
           end
         elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
-          LookupValue.create(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
+          LookupValue.create(attr.merge(:match => lookup_value_match, :system_or_system_group => self))
         end
       end
     end
@@ -60,8 +60,8 @@ module HostCommon
     puppet_ca_proxy.to_s
   end
 
-  # If the host/hostgroup has a medium then use the path from there
-  # Else if the host/hostgroup's operatingsystem has only one media then use the image_path from that as this is automatically displayed when there is only one item
+  # If the system/system_group has a medium then use the path from there
+  # Else if the system/system_group's operatingsystem has only one media then use the image_path from that as this is automatically displayed when there is only one item
   # Else we cannot provide a default and it is cut and paste time
   def default_image_file
     return "" unless operatingsystem and operatingsystem.supports_image

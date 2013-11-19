@@ -1,12 +1,12 @@
-module Host
-  module Hostmix
+module System
+  module Systemmix
 
-      def has_many_hosts(options = {})
-        has_many :hosts, {:class_name => "Host::Managed"}.merge(options)
+      def has_many_systems(options = {})
+        has_many :systems, {:class_name => "System::Managed"}.merge(options)
       end
 
-      def belongs_to_host(options = {})
-        belongs_to :host, {:class_name => "Host::Managed", :foreign_key => :host_id}.merge(options)
+      def belongs_to_system(options = {})
+        belongs_to :system, {:class_name => "System::Managed", :foreign_key => :system_id}.merge(options)
       end
 
   end

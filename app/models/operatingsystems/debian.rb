@@ -2,12 +2,12 @@ class Debian < Operatingsystem
 
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
-  def preseed_server host
-    medium_uri(host).select(:host, :port).compact.join(':')
+  def preseed_server system
+    medium_uri(system).select(:system, :port).compact.join(':')
   end
 
-  def preseed_path host
-    medium_uri(host).select(:path, :query).compact.join('?')
+  def preseed_path system
+    medium_uri(system).select(:path, :query).compact.join('?')
   end
 
   # Override the class representation, as this breaks many rails helpers

@@ -27,13 +27,13 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt.template = "echo $HOME"
     tmplt.template_kind = template_kinds(:finish)
     tmplt.snippet = false # this is the default, but it helps show the case
-    tmplt.hostgroups << hostgroups(:common)
+    tmplt.system_groups << system_groups(:common)
     tmplt.environments << environments(:production)
     as_admin do
       assert tmplt.save
     end
     assert_equal template_kinds(:finish), tmplt.template_kind
-    assert_equal [hostgroups(:common)], tmplt.hostgroups
+    assert_equal [system_groups(:common)], tmplt.system_groups
     assert_equal [environments(:production)], tmplt.environments
   end
 
@@ -43,13 +43,13 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt.template = "Some kickstart goes here"
     tmplt.snippet  = true
     tmplt.template_kind = template_kinds(:gpxe)
-    tmplt.hostgroups << hostgroups(:common)
+    tmplt.system_groups << system_groups(:common)
     tmplt.environments << environments(:production)
     as_admin do
       assert tmplt.save
     end
     assert_equal nil,tmplt.template_kind
-    assert_equal [],tmplt.hostgroups
+    assert_equal [],tmplt.system_groups
     assert_equal [],tmplt.environments
     assert_equal [],tmplt.template_combinations
   end

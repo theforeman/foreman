@@ -1,5 +1,5 @@
-<% new = @host ? @host.created_at.nil? : true %>
-<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
+<% new = @system ? @system.created_at.nil? : true %>
+<%= text_f f, :name, :disabled => !new if controller_name != "systems" %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new %>
 <%= text_f f, :memory_mb, :class => "span2", :disabled => !new, :label => _("Memory (MB)") %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "span2", :disabled => !new %>
@@ -37,5 +37,5 @@
 </div>
 
 <!--TODO # Move to a helper-->
-<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new and controller_name == 'hosts' %>
+<% checked = params[:system] && params[:system][:compute_attributes] && params[:system][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new and controller_name == 'systems' %>

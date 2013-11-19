@@ -163,13 +163,13 @@ module Foreman::Model
       if vm.display[:type] =~ /spice/i
         xpi_opts = {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port], :ca_cert => cacert, :subject => vm.display[:subject] }
         opts = if vm.display[:secure_port]
-                 { :host_port => vm.display[:secure_port], :ssl_target => true }
+                 { :system_port => vm.display[:secure_port], :ssl_target => true }
                else
-                 { :host_port => vm.display[:port] }
+                 { :system_port => vm.display[:port] }
                end
-        WsProxy.start(opts.merge(:host => vm.display[:address], :password => vm.ticket)).merge(xpi_opts).merge(:type => 'spice')
+        WsProxy.start(opts.merge(:system => vm.display[:address], :password => vm.ticket)).merge(xpi_opts).merge(:type => 'spice')
       else
-        WsProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket).merge(:name => vm.name, :type => 'vnc')
+        WsProxy.start(:system => vm.display[:address], :system_port => vm.display[:port], :password => vm.ticket).merge(:name => vm.name, :type => 'vnc')
       end
     end
 
@@ -187,8 +187,8 @@ module Foreman::Model
       false
     end
 
-    def associated_host(vm)
-      Host.my_hosts.where(:mac => vm.mac).first
+    def associated_system(vm)
+      System.my_systems.where(:mac => vm.mac).first
     end
 
     protected

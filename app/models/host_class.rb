@@ -1,14 +1,14 @@
-class HostClass < ActiveRecord::Base
+class SystemClass < ActiveRecord::Base
   include Authorization
-  audited :associated_with => :host, :allow_mass_assignment => true
-  belongs_to_host :foreign_key => :host_id
+  audited :associated_with => :system, :allow_mass_assignment => true
+  belongs_to_system :foreign_key => :system_id
   belongs_to :puppetclass
 
-  validates :host_id, :presence => true
-  validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :host_id}
+  validates :system_id, :presence => true
+  validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :system_id}
 
   def name
-    "#{host} - #{puppetclass}"
+    "#{system} - #{puppetclass}"
   end
 
   private
@@ -17,10 +17,10 @@ class HostClass < ActiveRecord::Base
     if operation == "edit" and new_record?
       return true # We get called again with the operation being set to create
     end
-    if User.current.allowed_to?(:edit_classes) && Host.my_hosts.pluck(:id).include?(self.host_id)
+    if User.current.allowed_to?(:edit_classes) && System.my_systems.pluck(:id).include?(self.system_id)
       return true
     else
-      errors.add(:base, _("You do not have permission to edit Puppet classes on this host"))
+      errors.add(:base, _("You do not have permission to edit Puppet classes on this system"))
       return false
     end
   end

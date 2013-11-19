@@ -2,9 +2,9 @@ module Foreman::Controller::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_taxonomy, :only => %w{edit update destroy clone_taxonomy assign_hosts
-                                            assign_selected_hosts assign_all_hosts step2 select}
-    before_filter :count_nil_hosts, :only => %w{index create step2}
+    before_filter :find_taxonomy, :only => %w{edit update destroy clone_taxonomy assign_systems
+                                            assign_selected_systems assign_all_systems step2 select}
+    before_filter :count_nil_systems, :only => %w{index create step2}
     skip_before_filter :authorize, :set_taxonomy, :only => %w{select clear}
   end
 
@@ -20,7 +20,7 @@ module Foreman::Controller::TaxonomiesController
     respond_to do |format|
       format.html do
         @taxonomies = values.paginate(:page => params[:page])
-        @counter = Host.group(taxonomy_id).where(taxonomy_id => values).count
+        @counter = System.group(taxonomy_id).where(taxonomy_id => values).count
         render 'taxonomies/index'
       end
       format.json
@@ -45,7 +45,7 @@ module Foreman::Controller::TaxonomiesController
   def create
     @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
     if @taxonomy.save
-      if @count_nil_hosts > 0
+      if @count_nil_systems > 0
         redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
       else
         process_success(:object => @taxonomy)
@@ -119,30 +119,30 @@ module Foreman::Controller::TaxonomiesController
     @taxonomy = Taxonomy.find_by_id(params[:id])
     if @taxonomy
       @mismatches = @taxonomy.import_missing_ids
-      redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :notice => _("All mismatches between hosts and %s have been fixed") % @taxonomy.name
+      redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :notice => _("All mismatches between systems and %s have been fixed") % @taxonomy.name
     else
       Taxonomy.all_import_missing_ids
-      redirect_to send("#{taxonomies_plural}_path"), :notice => _("All mismatches between hosts and locations/organizations have been fixed")
+      redirect_to send("#{taxonomies_plural}_path"), :notice => _("All mismatches between systems and locations/organizations have been fixed")
     end
   end
 
-  def assign_hosts
+  def assign_systems
     @taxonomy_type = taxonomy_single.classify
-    @hosts = Host.my_hosts.send("no_#{taxonomy_single}").includes(included_associations).search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
-    render "hosts/assign_hosts"
+    @systems = System.my_systems.send("no_#{taxonomy_single}").includes(included_associations).search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
+    render "systems/assign_systems"
   end
 
-  def assign_all_hosts
-    Host.send("no_#{taxonomy_single}").update_all(taxonomy_id => @taxonomy.id)
+  def assign_all_systems
+    System.send("no_#{taxonomy_single}").update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
-    redirect_to send("#{taxonomies_plural}_path"), :notice => _("All hosts previously with no %{single} are now assigned to %{name}") % { :single => taxonomy_single, :name => @taxonomy.name }
+    redirect_to send("#{taxonomies_plural}_path"), :notice => _("All systems previously with no %{single} are now assigned to %{name}") % { :single => taxonomy_single, :name => @taxonomy.name }
   end
 
-  def assign_selected_hosts
-    host_ids = params[taxonomy_single.to_sym][:host_ids] - ["0"]
-    @hosts = Host.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
+  def assign_selected_systems
+    system_ids = params[taxonomy_single.to_sym][:system_ids] - ["0"]
+    @systems = System.where(:id => system_ids).update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
-    redirect_to send("#{taxonomies_plural}_path"), :notice => _("Selected hosts are now assigned to %s") % @taxonomy.name
+    redirect_to send("#{taxonomies_plural}_path"), :notice => _("Selected systems are now assigned to %s") % @taxonomy.name
   end
 
   private
@@ -177,9 +177,9 @@ module Foreman::Controller::TaxonomiesController
     end
   end
 
-  def count_nil_hosts
-    return @count_nil_hosts if @count_nil_hosts
-    @count_nil_hosts = Host.where(taxonomy_id => nil).count
+  def count_nil_systems
+    return @count_nil_systems if @count_nil_systems
+    @count_nil_systems = System.where(taxonomy_id => nil).count
   end
 
 end

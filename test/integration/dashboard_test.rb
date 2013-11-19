@@ -6,7 +6,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     visit dashboard_path
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
     click_link(text)
-    assert_equal hosts_path, current_path, "new path #{hosts_path} was expected but it was #{current_path}"
+    assert_equal systems_path, current_path, "new path #{systems_path} was expected but it was #{current_path}"
     assert_not_nil find_field('search').value
   end
 
@@ -15,32 +15,32 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert page.has_content? 'Generated at'
   end
 
-  test "dashboard link hosts that had performed modifications" do
-    assert_dashboard_link 'Hosts that had performed modifications without error'
+  test "dashboard link systems that had performed modifications" do
+    assert_dashboard_link 'Systems that had performed modifications without error'
   end
 
-  test "dashboard link hosts in error state" do
-    assert_dashboard_link 'Hosts in error state'
+  test "dashboard link systems in error state" do
+    assert_dashboard_link 'Systems in error state'
   end
 
-  test "dashboard link good host reports" do
-    assert_dashboard_link 'Good host reports in the last 35 minutes'
+  test "dashboard link good system reports" do
+    assert_dashboard_link 'Good system reports in the last 35 minutes'
   end
 
-  test "dashboard link hosts that had pending changes" do
-    assert_dashboard_link 'Hosts that had pending changes'
+  test "dashboard link systems that had pending changes" do
+    assert_dashboard_link 'Systems that had pending changes'
   end
 
-  test "dashboard link out of sync hosts" do
-    assert_dashboard_link 'Out of sync Hosts'
+  test "dashboard link out of sync systems" do
+    assert_dashboard_link 'Out of sync Systems'
   end
 
-  test "dashboard link hosts with no reports" do
-    assert_dashboard_link 'Hosts with no reports'
+  test "dashboard link systems with no reports" do
+    assert_dashboard_link 'Systems with no reports'
   end
 
-  test "dashboard link hosts with alerts disabled" do
-    assert_dashboard_link 'Hosts with alerts disabled'
+  test "dashboard link systems with alerts disabled" do
+    assert_dashboard_link 'Systems with alerts disabled'
   end
 
 end

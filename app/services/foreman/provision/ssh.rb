@@ -87,15 +87,15 @@ class Foreman::Provision::SSH
         sleep(2)
         retry
       rescue Errno::EHOSTUNREACH
-        logger.debug "Host unreachable for #{address}, retrying"
+        logger.debug "System unreachable for #{address}, retrying"
         sleep(2)
         retry
       rescue Net::SSH::Disconnect
-        logger.debug "Host dropping connections for #{address}, retrying"
+        logger.debug "System dropping connections for #{address}, retrying"
         sleep(2)
         retry
       rescue Net::SSH::ConnectionTimeout
-        logger.debug "Host timed out for #{address}, retrying"
+        logger.debug "System timed out for #{address}, retrying"
         sleep(2)
         retry
       rescue Net::SSH::AuthenticationFailed

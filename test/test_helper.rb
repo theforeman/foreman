@@ -35,7 +35,7 @@ Spork.prefork do
     # Note: You'll currently still have to declare fixtures explicitly in integration tests
     # -- they do not yet inherit this setting
     fixtures :all
-    set_fixture_class({ :hosts => Host::Base })
+    set_fixture_class({ :systems => System::Base })
     set_fixture_class :nics => Nic::BMC
 
     # for backwards compatibility to between Minitest syntax
@@ -95,7 +95,7 @@ Spork.prefork do
 
     def self.disable_orchestration
       #This disables the DNS/DHCP orchestration
-      Host.any_instance.stubs(:boot_server).returns("boot_server")
+      System.any_instance.stubs(:boot_server).returns("boot_server")
       Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")
       Resolv::DNS.any_instance.stubs(:getaddress).returns("127.0.0.1")
       Net::DNS::ARecord.any_instance.stubs(:conflicts).returns([])

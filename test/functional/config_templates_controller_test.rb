@@ -40,7 +40,7 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert_redirected_to config_templates_url
   end
 
-  def test_destroy_should_fail_with_assoicated_hosts
+  def test_destroy_should_fail_with_assoicated_systems
     config_template = config_templates(:pxekickstart)
     delete :destroy, {:id => config_template.to_param}, set_session_user
     assert_redirected_to config_templates_url

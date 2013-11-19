@@ -47,7 +47,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
 
   test "should destroy os" do
     assert_difference('Operatingsystem.count', -1) do
-      delete :destroy, { :id => operatingsystems(:no_hosts_os).to_param }
+      delete :destroy, { :id => operatingsystems(:no_systems_os).to_param }
     end
     assert_response :success
   end

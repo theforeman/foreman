@@ -6,23 +6,23 @@ class OrganizationTest < ActionDispatch::IntegrationTest
     assert_index_page(organizations_path,"Organizations","New Organization")
   end
 
-  # context - has nil hosts
-  test "index page has notice if nil hosts" do
-    Host.update_all(:organization_id => nil)
+  # context - has nil systems
+  test "index page has notice if nil systems" do
+    System.update_all(:organization_id => nil)
     visit organizations_path
     assert has_selector?("div.alert", :text => "with no organization assigned")
   end
 
-  # context - does not nil hosts
-  test "index page does not show notice if all hosts" do
-    Host.update_all(:organization_id => Organization.first.id)
+  # context - does not nil systems
+  test "index page does not show notice if all systems" do
+    System.update_all(:organization_id => Organization.first.id)
     visit locations_path
     assert has_no_selector?("div.alert", :text => "with no organization assigned")
   end
 
-  # context - creating when all hosts are assigned
-  test "create new page when all hosts are assigned a organization" do
-    Host.update_all(:organization_id => Organization.first.id)
+  # context - creating when all systems are assigned
+  test "create new page when all systems are assigned a organization" do
+    System.update_all(:organization_id => Organization.first.id)
     assert !has_selector?("div.alert", :text => "with no organization assigned")
     assert_new_button(organizations_path,"New Organization",new_organization_path)
     fill_in "organization_name", :with => "Finance"
@@ -31,7 +31,7 @@ class OrganizationTest < ActionDispatch::IntegrationTest
   end
 
   # content - click Assign All
-  test "create new page when some hosts are NOT assigned a organization - click Assign All" do
+  test "create new page when some systems are NOT assigned a organization - click Assign All" do
     assert_new_button(organizations_path,"New Organization",new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"
@@ -42,19 +42,19 @@ class OrganizationTest < ActionDispatch::IntegrationTest
   end
 
   # content - click Manually Assign
-  test "create new page when some hosts are NOT assigned a organization - click Manually Assign" do
+  test "create new page when some systems are NOT assigned a organization - click Manually Assign" do
     assert_new_button(organizations_path,"New Organization",new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"
     assert_equal step2_organization_path(Organization.order(:id).last), current_path, "redirect path #{step2_organization_path(Organization.order(:id).last)} was expected but it was #{current_path}"
     click_link "Manually Assign"
-    assert_equal assign_hosts_organization_path(Organization.order(:id).last), current_path, "redirect path #{assign_hosts_organization_path(Organization.order(:id).last)} was expected but it was #{current_path}"
+    assert_equal assign_systems_organization_path(Organization.order(:id).last), current_path, "redirect path #{assign_systems_organization_path(Organization.order(:id).last)} was expected but it was #{current_path}"
     assert_submit_button(organizations_path, "Assign to Organization")
     assert page.has_link? "Finance"
   end
 
   # click Proceed to Edit
-  test "create new page when some hosts are NOT assigned a organization - click Proceed to Edit" do
+  test "create new page when some systems are NOT assigned a organization - click Proceed to Edit" do
     assert_new_button(organizations_path,"New Organization",new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"

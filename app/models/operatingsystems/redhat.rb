@@ -3,15 +3,15 @@ class Redhat < Operatingsystem
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)
-  # it also convert the $arch string to the current host architecture
-  def mediumpath host
-    uri    = medium_uri(host)
+  # it also convert the $arch string to the current system architecture
+  def mediumpath system
+    uri    = medium_uri(system)
 
     case uri.scheme
       when 'http', 'https', 'ftp'
          "url --url #{uri}"
       else
-        server = uri.select(:host, :port).compact.join(':')
+        server = uri.select(:system, :port).compact.join(':')
         dir    = uri.select(:path, :query).compact.join('?')
         "nfs --server #{server} --dir #{dir}"
     end

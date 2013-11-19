@@ -148,22 +148,22 @@ class UsersControllerTest < ActionController::TestCase
     assert User.current.nil?
   end
 
-  test "should set user as owner of hostgroup children if owner of hostgroup root" do
+  test "should set user as owner of system_group children if owner of system_group root" do
     User.current = User.first
     sample_user = users(:one)
 
-    Hostgroup.new(:name => "root").save
-    Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
-    Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
+    SystemGroup.new(:name => "root").save
+    SystemGroup.new(:name => "first" , :parent_id => SystemGroup.find_by_name("root").id).save
+    SystemGroup.new(:name => "second", :parent_id => SystemGroup.find_by_name("first").id).save
 
     update_hash = {"user"=>{ "login"         => sample_user.login,
-      "hostgroup_ids" => ["", Hostgroup.find_by_name("root").id.to_s] },
+      "system_group_ids" => ["", SystemGroup.find_by_name("root").id.to_s] },
       "id"            => sample_user.id }
 
     put :update, update_hash , set_session_user
 
-    assert_equal Hostgroup.find_by_name("first").users.first , sample_user
-    assert_equal Hostgroup.find_by_name("second").users.first, sample_user
+    assert_equal SystemGroup.find_by_name("first").users.first , sample_user
+    assert_equal SystemGroup.find_by_name("second").users.first, sample_user
   end
 
   test "should not be able to remove the admin flag from the admin account" do
@@ -201,7 +201,7 @@ class UsersControllerTest < ActionController::TestCase
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     @request.env['REMOTE_USER'] = 'admin'
     get :extlogin, {}, {}
-    assert_redirected_to hosts_path
+    assert_redirected_to systems_path
   end
 
   test "should login external user preserving uri" do

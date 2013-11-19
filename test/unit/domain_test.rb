@@ -29,12 +29,12 @@ class DomainTest < ActiveSupport::TestCase
     assert_equal @domain.name, s
   end
 
-  test "should not destroy if it contains hosts" do
+  test "should not destroy if it contains systems" do
     disable_orchestration
-    host = create_a_host
-    assert host.save
+    system = create_a_system
+    assert system.save
 
-    domain = host.domain
+    domain = system.domain
     assert !domain.destroy
     assert_match /is used by/, domain.errors.full_messages.join("\n")
   end
@@ -64,12 +64,12 @@ class DomainTest < ActiveSupport::TestCase
 #I must find out how to create a fact_name inside of fact_value
 
 #  test "should counts how many times a fact value exists in this domain" do
-#    host = create_a_host
-#    host.fact_values = FactValue.create(:fact_name)
+#    system = create_a_system
+#    system.fact_values = FactValue.create(:fact_name)
 #  end
 
-  def create_a_host
-    hosts(:one)
+  def create_a_system
+    systems(:one)
   end
 
   def setup_user operation
@@ -122,7 +122,7 @@ class DomainTest < ActiveSupport::TestCase
     setup_user "destroy"
     record = domains(:useless)
     record.interfaces.clear
-    record.hosts.clear
+    record.systems.clear
     assert record.destroy
     assert record.frozen?
   end

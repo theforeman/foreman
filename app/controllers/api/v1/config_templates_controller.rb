@@ -32,7 +32,7 @@ module Api
         param :audit_comment, String, :allow_nil => true
         param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
         param :template_combinations_attributes, Array,
-              :desc => "Array of template combinations (hostgroup_id, environment_id)"
+              :desc => "Array of template combinations (system_group_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
 
@@ -49,7 +49,7 @@ module Api
         param :snippet, :bool
         param :audit_comment, String, :allow_nil => true
         param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
-        param :template_combinations_attributes, Array, :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :template_combinations_attributes, Array, :desc => "Array of template combinations (system_group_id, environment_id)"
         param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
       end
 
@@ -87,9 +87,9 @@ module Api
         params[:config_template][:template] = t.read if t.respond_to?(:read)
       end
 
-      def default_template_url template, hostgroup
+      def default_template_url template, system_group
         url_for :only_path => false, :action => :template, :controller => '/unattended',
-                :id        => template.name, :hostgroup => hostgroup.name
+                :id        => template.name, :system_group => system_group.name
       end
 
       def process_template_kind

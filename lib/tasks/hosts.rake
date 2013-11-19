@@ -1,27 +1,27 @@
 # TRANSLATORS: do not translate
 desc <<-END_DESC
-  Try to figure out the out of sync hosts real status
+  Try to figure out the out of sync systems real status
 
-  try to search them by DNS lookups and ping, if a host is not in DNS it will allow you to delete it.
+  try to search them by DNS lookups and ping, if a system is not in DNS it will allow you to delete it.
 
-  legend: 
+  legend:
   "." - pingable
   "x" - no ping response
 
   Example:
-    rake hosts:scan_out_of_sync RAILS_ENV="production"
+    rake systems:scan_out_of_sync RAILS_ENV="production"
 
 END_DESC
 
-namespace :hosts do
+namespace :systems do
   task :scan_out_of_sync => :environment do
     require 'ping'
     require 'resolv'
 
-    def printhosts(list, description)
+    def printsystems(list, description)
       unless list.empty?
         puts
-        puts "found #{list.size} #{description} hosts:"
+        puts "found #{list.size} #{description} systems:"
         puts "Name".ljust(40)+"Environment".ljust(20)+"Last Report"
         puts "#{"*"*80}"
         list.each do |h|
@@ -34,34 +34,34 @@ namespace :hosts do
     missingdns = []
     offline = []
 
-    Host.out_of_sync(1.hour.ago).all(:order => 'environment_id asc').collect do |host|
-      $stdout.flush 
-      ip = Resolv::DNS.new.getaddress(host.name).to_s rescue nil
+    System.out_of_sync(1.hour.ago).all(:order => 'environment_id asc').collect do |system|
+      $stdout.flush
+      ip = Resolv::DNS.new.getaddress(system.name).to_s rescue nil
       if ip.empty?
-        missingdns << host
+        missingdns << system
       else
-        puts "conflict IP address for #{host.name}" unless ip == host.ip
-        if Ping.pingecho host.ip
+        puts "conflict IP address for #{system.name}" unless ip == system.ip
+        if Ping.pingecho system.ip
           print "."
-          pingable << host
+          pingable << system
         else
           print "x"
-          offline << host
+          offline << system
         end
       end
     end
     puts
     if missingdns.empty?
-      puts "All out of sync hosts exists in DNS"
+      puts "All out of sync systems exists in DNS"
     else
-      printhosts(missingdns, "hosts with no DNS entry")
-      puts "ctrl-c to abort - any other key to remove these hosts"
+      printsystems(missingdns, "systems with no DNS entry")
+      puts "ctrl-c to abort - any other key to remove these systems"
       $stdin.gets
 
       missingdns.each {|h| h.destroy }
     end
 
-    printhosts(offline, "offline hosts")
-    printhosts(pingable, "online hosts which are not running puppet")
+    printsystems(offline, "offline systems")
+    printsystems(pingable, "online systems which are not running puppet")
   end
 end

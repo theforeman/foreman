@@ -1,4 +1,4 @@
-module Hostext
+module Systemext
   module Search
     extend ActiveSupport::Concern
 
@@ -20,8 +20,8 @@ module Hostext
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("pending"),         :word_size => Report::BIT_NUM, :rename => :'status.pending'
 
       scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
-      scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
-      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :in => :system_group,   :on => :name,    :complete_value => true, :rename => :system_group
+      scoped_search :in => :system_group,   :on => :label,   :complete_value => true, :rename => :system_group_fullname
       scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
       scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
@@ -62,23 +62,23 @@ module Hostext
         key_name = User.connection.quote_column_name(key.sub(/^.*\./,''))
         condition = sanitize_sql_for_conditions(["#{key_name} #{operator} ?", value_to_sql(operator, value)])
         users = User.all(:conditions => condition)
-        hosts = users.map(&:hosts).flatten
-        opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
+        systems = users.map(&:systems).flatten
+        opts  = systems.empty? ? "< 0" : "IN (#{systems.map(&:id).join(',')})"
 
-        return {:conditions => " hosts.id #{opts} " }
+        return {:conditions => " systems.id #{opts} " }
       end
 
       def search_by_puppetclass(key, operator, value)
         conditions  = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        hosts       = Host.my_hosts.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
-        host_groups = Hostgroup.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hostgroups.id').map(&:id)
+        systems       = System.my_systems.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT systems.id').map(&:id)
+        system_groups = SystemGroup.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT system_groups.id').map(&:id)
 
         opts = ''
-        opts += "hosts.id IN(#{hosts.join(',')})"             unless hosts.blank?
-        opts += " OR "                                        unless hosts.blank? || host_groups.blank?
-        opts += "hostgroups.id IN(#{host_groups.join(',')})"  unless host_groups.blank?
-        opts = "hosts.id < 0"                                 if hosts.blank? && host_groups.blank?
-        return {:conditions => opts, :include => :hostgroup}
+        opts += "systems.id IN(#{systems.join(',')})"             unless systems.blank?
+        opts += " OR "                                        unless systems.blank? || system_groups.blank?
+        opts += "system_groups.id IN(#{system_groups.join(',')})"  unless system_groups.blank?
+        opts = "systems.id < 0"                                 if systems.blank? && system_groups.blank?
+        return {:conditions => opts, :include => :system_group}
       end
 
       def search_by_params(key, operator, value)
@@ -110,13 +110,13 @@ module Hostext
             when 'CommonParameter'
               # ignore
             when 'DomainParameter'
-              conditions << "hosts.domain_id = #{param.reference_id}"
+              conditions << "systems.domain_id = #{param.reference_id}"
             when 'OsParameter'
-              conditions << "hosts.operatingsystem_id = #{param.reference_id}"
+              conditions << "systems.operatingsystem_id = #{param.reference_id}"
             when 'GroupParameter'
-              conditions << "hosts.hostgroup_id IN (#{param.hostgroup.subtree_ids.join(', ')})"
-            when 'HostParameter'
-              conditions << "hosts.id = #{param.reference_id}"
+              conditions << "systems.system_group_id IN (#{param.system_group.subtree_ids.join(', ')})"
+            when 'SystemParameter'
+              conditions << "systems.id = #{param.reference_id}"
           end
         end
         conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"

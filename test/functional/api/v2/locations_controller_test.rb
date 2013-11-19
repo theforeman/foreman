@@ -38,7 +38,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update location on if valid is location" do
-    ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    ignore_types = ["Domain", "SystemGroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     put :update, { :id => @location.to_param, :location => { :name => "New Location", :ignore_types => ignore_types } }
     assert_equal "New Location", Location.find(@location.id).name
     assert_response :success
@@ -50,14 +50,14 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 #    assert_response :unprocessable_entity
   end
 
-  test "should destroy location if hosts do not use it" do
+  test "should destroy location if systems do not use it" do
     assert_difference('Location.count', -1) do
       delete :destroy, { :id => taxonomies(:location2).to_param }
     end
     assert_response :success
   end
 
-  test "should NOT destroy location if hosts use it" do
+  test "should NOT destroy location if systems use it" do
     assert_difference('Location.count', 0) do
       delete :destroy, { :id => taxonomies(:location1).to_param }
     end
@@ -67,7 +67,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update *_ids. test for domain_ids" do
     # ignore all but Domain
-    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    @location.ignore_types = ["SystemGroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     @location.save(:validate => false)
     assert_difference('@location.domains.count', 4) do
       put :update, { :id => @location.to_param, :location => { :domain_ids => Domain.pluck(:id) } }

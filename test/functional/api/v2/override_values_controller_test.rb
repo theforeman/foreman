@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
 
   smart_variable_attrs = { :match => 'xyz=10', :value => 'string' }
-  smart_class_attrs = { :match => 'host=abc.com', :value => 'liftoff' }
+  smart_class_attrs = { :match => 'system=abc.com', :value => 'liftoff' }
 
   test "should get override values for specific smart variable" do
     get :index, {:smart_variable_id => lookup_keys(:two).to_param }
@@ -38,24 +38,24 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['override_value'].empty?
-    assert_equal "hostgroup=Common", results['override_value']['match']
+    assert_equal "system_group=Common", results['override_value']['match']
   end
   test "should show specific override values for specific smart class parameter" do
-    get :show,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
+    get :show,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:system_groupcommon).to_param }
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['override_value'].empty?
-    assert_equal "hostgroup=Common", results['override_value']['match']
+    assert_equal "system_group=Common", results['override_value']['match']
     assert_response :success
   end
 
   test "should update specific override value" do
-    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
+    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:system_groupcommon).to_param, :override_value => { :match => 'system=abc.com' } }
     assert_response :success
   end
 
   test "should destroy specific override value" do
     assert_difference('LookupValue.count', -1) do
-      delete :destroy, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
+      delete :destroy, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:system_groupcommon).to_param, :override_value => { :match => 'system=abc.com' } }
     end
     assert_response :success
   end

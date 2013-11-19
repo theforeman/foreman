@@ -4,8 +4,8 @@ module Api::V2::LookupKeysCommonController
     included do
       before_filter :find_environment, :if => :environment_id?
       before_filter :find_puppetclass, :if => :puppetclass_id?
-      before_filter :find_host,  :if => :host_id?
-      before_filter :find_hostgroup,  :if => :hostgroup_id?
+      before_filter :find_system,  :if => :system_id?
+      before_filter :find_system_group,  :if => :system_group_id?
 
       before_filter :find_smart_class_parameters, :if => :smart_class_parameter_id?
       before_filter :find_smart_class_parameter, :if => :smart_class_parameter_id?
@@ -27,12 +27,12 @@ module Api::V2::LookupKeysCommonController
       params.keys.include?('environment_id')
     end
 
-    def host_id?
-      params.keys.include?('host_id')
+    def system_id?
+      params.keys.include?('system_id')
     end
 
-    def hostgroup_id?
-      params.keys.include?('hostgroup_id')
+    def system_group_id?
+      params.keys.include?('system_group_id')
     end
 
     def smart_variable_id?
@@ -55,16 +55,16 @@ module Api::V2::LookupKeysCommonController
       @environment
     end
 
-    def find_host
-      @host   = Host::Base.find_by_id(params['host_id'].to_i) if params['host_id'].to_i > 0
-      @host ||= Host::Base.find_by_name(params['host_id'])
-      @host
+    def find_system
+      @system   = System::Base.find_by_id(params['system_id'].to_i) if params['system_id'].to_i > 0
+      @system ||= System::Base.find_by_name(params['system_id'])
+      @system
     end
 
-    def find_hostgroup
-      @hostgroup   = Hostgroup.find_by_id(params['hostgroup_id'].to_i) if params['hostgroup_id'].to_i > 0
-      @hostgroup ||= Hostgroup.find_by_name(params['hostgroup_id'])
-      @hostgroup
+    def find_system_group
+      @system_group   = SystemGroup.find_by_id(params['system_group_id'].to_i) if params['system_group_id'].to_i > 0
+      @system_group ||= SystemGroup.find_by_name(params['system_group_id'])
+      @system_group
     end
 
     def find_smart_variable
@@ -77,11 +77,11 @@ module Api::V2::LookupKeysCommonController
     end
 
     def find_smart_variables
-      @smart_variables   = LookupKey.smart_variables.search_for(*search_options).paginate(paginate_options) unless (@puppetclass || @host || @hostgroup)
+      @smart_variables   = LookupKey.smart_variables.search_for(*search_options).paginate(paginate_options) unless (@puppetclass || @system || @system_group)
       @smart_variables ||= if @puppetclass
                               LookupKey.global_parameters_for_class(@puppetclass.id).search_for(*search_options).paginate(paginate_options)
-                           elsif @host || @hostgroup
-                              puppetclass_ids  = (@host || @hostgroup).all_puppetclasses.map(&:id)
+                           elsif @system || @system_group
+                              puppetclass_ids  = (@system || @system_group).all_puppetclasses.map(&:id)
                               LookupKey.global_parameters_for_class(puppetclass_ids).search_for(*search_options).paginate(paginate_options)
                            end
       @smart_variables
@@ -99,7 +99,7 @@ module Api::V2::LookupKeysCommonController
     end
 
     def find_smart_class_parameters
-      @smart_class_parameters   = LookupKey.smart_class_parameters.search_for(*search_options).paginate(paginate_options) unless (@puppetclass || @environment || @host || @hostgroup)
+      @smart_class_parameters   = LookupKey.smart_class_parameters.search_for(*search_options).paginate(paginate_options) unless (@puppetclass || @environment || @system || @system_group)
 
       @smart_class_parameters ||= if @puppetclass && @environment
                                     LookupKey.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
@@ -109,9 +109,9 @@ module Api::V2::LookupKeysCommonController
                                   elsif !@puppetclass && @environment
                                     puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
                                     LookupKey.smart_class_parameters_for_class(puppetclass_ids, @environment.id).search_for(*search_options).paginate(paginate_options)
-                                  elsif @host || @hostgroup
-                                    puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
-                                    environment_id  = (@host || @hostgroup).environment_id
+                                  elsif @system || @system_group
+                                    puppetclass_ids = (@system || @system_group).all_puppetclasses.map(&:id)
+                                    environment_id  = (@system || @system_group).environment_id
                                     LookupKey.parameters_for_class(puppetclass_ids, environment_id).search_for(*search_options).paginate(paginate_options)
                                   end
       @smart_class_parameters

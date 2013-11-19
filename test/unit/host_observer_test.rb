@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class HostObserverTest < ActiveSupport::TestCase
+class SystemObserverTest < ActiveSupport::TestCase
   test "tokens should be removed based on build state" do
     disable_orchestration
-    h = hosts(:one)
+    h = systems(:one)
     as_admin do
       Setting[:token_duration] = 60
       assert_difference('Token.count') do
@@ -19,17 +19,17 @@ class HostObserverTest < ActiveSupport::TestCase
 
   test "pxe template should have a token when created" do
     disable_orchestration
-    host = as_admin do
+    system = as_admin do
       Setting[:token_duration] = 30
-      host = Host.create! :name => "foo", :mac => "aabbeeddccff", :ip => "2.3.4.244", :managed => true,
+      system = System.create! :name => "foo", :mac => "aabbeeddccff", :ip => "2.3.4.244", :managed => true,
         :build => true, :architecture => architectures(:x86_64), :environment => Environment.first, :puppet_proxy_id => smart_proxies(:one).id,
         :domain => Domain.first, :operatingsystem => operatingsystems(:centos5_3), :subnet => subnets(:one),
-        :url_options => {:host => 'foreman', :protocol => "http://"}
+        :url_options => {:system => 'foreman', :protocol => "http://"}
     end
 
-    assert host.token.try(:value).present?
+    assert system.token.try(:value).present?
 
-    assert host.send(:generate_pxe_template)["token=#{host.token.value}"]
+    assert system.send(:generate_pxe_template)["token=#{system.token.value}"]
   end
 
 end

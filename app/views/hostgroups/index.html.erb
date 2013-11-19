@@ -1,23 +1,23 @@
-<% title _("Host Groups") %>
+<% title _("System Groups") %>
 
-<% title_actions display_link_if_authorized(_("New Host Group"), hash_for_new_hostgroup_path), help_path %>
+<% title_actions display_link_if_authorized(_("New System Group"), hash_for_new_system_group_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
+    <th><%= sort :label, :as => _('SystemGroup|Name') %></th>
     <th></th>
   </tr>
-  <% Hostgroup.sort_by_ancestry(@hostgroups).each do |hostgroup| %>
+  <% SystemGroup.sort_by_ancestry(@system_groups).each do |system_group| %>
     <tr>
-      <td> <%= hostgroup_name hostgroup %> </td>
+      <td> <%= system_group_name system_group %> </td>
       <td>
         <%= action_buttons(
-                    display_link_if_authorized(_('Nest'),    hash_for_nest_hostgroup_path(:id => hostgroup)),
-                    display_link_if_authorized(_('Clone'),   hash_for_clone_hostgroup_path(:id => hostgroup)),
-                    display_delete_if_authorized(hash_for_hostgroup_path(:id => hostgroup), :confirm => warning_message(hostgroup))) %>
+                    display_link_if_authorized(_('Nest'),    hash_for_nest_system_group_path(:id => system_group)),
+                    display_link_if_authorized(_('Clone'),   hash_for_clone_system_group_path(:id => system_group)),
+                    display_delete_if_authorized(hash_for_system_group_path(:id => system_group), :confirm => warning_message(system_group))) %>
       </td>
     </tr>
   <% end %>
 </table>
-<%= page_entries_info @hostgroups %>
-<%= will_paginate     @hostgroups %>
+<%= page_entries_info @system_groups %>
+<%= will_paginate     @system_groups %>

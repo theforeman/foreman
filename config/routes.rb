@@ -2,7 +2,7 @@ require 'api_constraints'
 
 Foreman::Application.routes.draw do
   #ENC requests goes here
-  match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
+  match "node/:name" => 'systems#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
 
   resources :reports, :only => [:index, :show, :destroy] do
     collection do
@@ -12,7 +12,7 @@ Foreman::Application.routes.draw do
 
   match '(:controller)/help', :action => 'welcome', :as => "help"
   constraints(:id => /[^\/]+/) do
-    resources :hosts do
+    resources :systems do
       member do
         get 'clone'
         get 'storeconfig_klasses'
@@ -32,8 +32,8 @@ Foreman::Application.routes.draw do
         get 'multiple_actions'
         get 'multiple_parameters'
         post 'update_multiple_parameters'
-        get 'select_multiple_hostgroup'
-        post 'update_multiple_hostgroup'
+        get 'select_multiple_system_group'
+        post 'update_multiple_system_group'
         get 'select_multiple_environment'
         post 'update_multiple_environment'
         get 'multiple_puppetrun'
@@ -56,9 +56,9 @@ Foreman::Application.routes.draw do
         get 'disabled'
         post 'current_parameters'
         post 'puppetclass_parameters'
-        post 'process_hostgroup'
+        post 'process_system_group'
         post 'process_taxonomy'
-        post 'hostgroup_or_environment_selected'
+        post 'system_group_or_environment_selected'
         post 'architecture_selected'
         post 'os_selected'
         post 'domain_selected'
@@ -71,7 +71,7 @@ Foreman::Application.routes.draw do
         post 'update_multiple_location'
       end
 
-      constraints(:host_id => /[^\/]+/) do
+      constraints(:system_id => /[^\/]+/) do
         resources :reports       ,:only => [:index, :show]
         resources :audits        ,:only => :index
         resources :facts         ,:only => :index, :controller => :fact_values
@@ -90,7 +90,7 @@ Foreman::Application.routes.draw do
 
     resources :facts, :only => [:index, :show] do
       constraints(:id => /[^\/]+/) do
-        resources :values, :only => :index, :controller => :fact_values, :as => "host_fact_values"
+        resources :values, :only => :index, :controller => :fact_values, :as => "system_fact_values"
       end
     end
 
@@ -119,7 +119,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :hostgroups, :except => [:show] do
+  resources :system_groups, :except => [:show] do
     member do
       get 'nest'
       get 'clone'
@@ -132,7 +132,7 @@ Foreman::Application.routes.draw do
       post 'domain_selected'
       post 'use_image_selected'
       post 'medium_selected'
-      post 'process_hostgroup'
+      post 'process_system_group'
     end
   end
 
@@ -146,7 +146,7 @@ Foreman::Application.routes.draw do
       post 'parameters'
     end
     constraints(:id => /[^\/]+/) do
-      resources :hosts
+      resources :systems
       resources :lookup_keys, :except => [:show, :new, :create]
     end
   end
@@ -284,12 +284,12 @@ Foreman::Application.routes.draw do
       end
     end
 
-    match 'unattended/template/:id/:hostgroup', :to => "unattended#template"
+    match 'unattended/template/:id/:system_group', :to => "unattended#template"
   end
 
   root :to => 'dashboard#index'
   match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
-  match 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
+  match 'dashboard/auto_complete_search', :to => 'systems#auto_complete_search', :as => "auto_complete_search_dashboards"
   match 'statistics', :to => 'statistics#index', :as => "statistics"
   match 'status', :to => 'home#status', :as => "status"
 
@@ -300,15 +300,15 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:locations_enabled]
     resources :locations, :except => [:show] do
-      resources :hosts, :only => :index
+      resources :systems, :only => :index
       member do
         get 'select'
         match "clone" => 'locations#clone_taxonomy'
         post 'import_mismatches'
         get 'step2'
-        get 'assign_hosts'
-        post 'assign_all_hosts'
-        put 'assign_selected_hosts'
+        get 'assign_systems'
+        post 'assign_all_systems'
+        put 'assign_selected_systems'
       end
       collection do
         get 'auto_complete_search'
@@ -326,9 +326,9 @@ Foreman::Application.routes.draw do
         match "clone" => 'organizations#clone_taxonomy'
         post 'import_mismatches'
         get 'step2'
-        get 'assign_hosts'
-        post 'assign_all_hosts'
-        put 'assign_selected_hosts'
+        get 'assign_systems'
+        post 'assign_all_systems'
+        put 'assign_selected_systems'
       end
       collection do
         get 'auto_complete_search'

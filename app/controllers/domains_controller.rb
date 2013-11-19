@@ -4,7 +4,7 @@ class DomainsController < ApplicationController
 
   def index
     @domains = Domain.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @counter = Host.group(:domain_id).where(:domain_id => @domains.pluck(:id)).count
+    @counter = System.group(:domain_id).where(:domain_id => @domains.pluck(:id)).count
   end
 
   def new

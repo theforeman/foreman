@@ -5,11 +5,11 @@ class LookupKeyTest < ActiveSupport::TestCase
   def test_element_seperations
     key = ""
     as_admin do
-      key = LookupKey.create!(:key => "ntp", :path => "domain,hostgroup\n domain", :puppetclass => Puppetclass.first)
+      key = LookupKey.create!(:key => "ntp", :path => "domain,system_group\n domain", :puppetclass => Puppetclass.first)
     end
     elements = key.send(:path_elements) # hack to access private method
     assert_equal "domain", elements[0][0]
-    assert_equal "hostgroup", elements[0][1]
+    assert_equal "system_group", elements[0][1]
     assert_equal "domain", elements[1][0]
   end
 
@@ -21,9 +21,9 @@ class LookupKeyTest < ActiveSupport::TestCase
       value = LookupValue.create!(:value => "ntp.mydomain.net", :match => "domain =  mydomain.net", :lookup_key => key)
     end
 
-    host = hosts(:one)
-    host.domain = domains(:mydomain)
-    assert_equal [value.match], key.send(:path2matches,host)
+    system = systems(:one)
+    system.domain = domains(:mydomain)
+    assert_equal [value.match], key.send(:path2matches,system)
   end
 
   def test_fetching_the_correct_value_to_a_given_key
@@ -39,35 +39,35 @@ class LookupKeyTest < ActiveSupport::TestCase
 
     key.reload
     assert key.lookup_values_count > 0
-    host = hosts(:one)
-    host.domain = domains(:mydomain)
+    system = systems(:one)
+    system.domain = domains(:mydomain)
 
-    assert_equal value.value, Classification::ClassParam.new(:host=>host).enc['base']['dns']
+    assert_equal value.value, Classification::ClassParam.new(:system=>system).enc['base']['dns']
   end
 
-  def test_path2match_single_hostgroup_path
+  def test_path2match_single_system_group_path
     key   = ""
     value = ""
     as_admin do
-      key   = LookupKey.create!(:key => "ntp", :path => "hostgroup", :puppetclass => Puppetclass.first)
-      value = LookupValue.create!(:value => "ntp.pool.org", :match => "hostgroup =  Common", :lookup_key => key)
+      key   = LookupKey.create!(:key => "ntp", :path => "system_group", :puppetclass => Puppetclass.first)
+      value = LookupValue.create!(:value => "ntp.pool.org", :match => "system_group =  Common", :lookup_key => key)
     end
-    host = hosts(:one)
-    host.hostgroup = hostgroups(:common)
-    assert_equal [value.match], key.send(:path2matches,host)
+    system = systems(:one)
+    system.system_group = system_groups(:common)
+    assert_equal [value.match], key.send(:path2matches,system)
   end
 
   def test_multiple_paths
-    host = hosts(:one)
-    host.hostgroup = hostgroups(:common)
-    host.environment = environments(:testing)
+    system = systems(:one)
+    system.system_group = system_groups(:common)
+    system.environment = environments(:testing)
 
-    host2 = hosts(:minimal)
-    host2.hostgroup = hostgroups(:unusual)
-    host2.environment = environments(:testing)
+    system2 = systems(:minimal)
+    system2.system_group = system_groups(:unusual)
+    system2.environment = environments(:testing)
 
-    host3 = hosts(:redhat)
-    host3.environment = environments(:testing)
+    system3 = systems(:redhat)
+    system3.environment = environments(:testing)
 
     default = "default"
     key    = ""
@@ -75,31 +75,31 @@ class LookupKeyTest < ActiveSupport::TestCase
     value2 = ""
     puppetclass = Puppetclass.first
     as_admin do
-      key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
-      value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
-      value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
+      key    = LookupKey.create!(:key => "dns", :path => "environment,system_group \n system_group", :puppetclass => puppetclass, :default_value => default, :override=>true)
+      value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,system_group=Common", :lookup_key => key)
+      value2 = LookupValue.create!(:value => "v2", :match => "system_group=Unusual", :lookup_key => key)
       EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing), :lookup_key => key)
-      HostClass.create!(:host => host,:puppetclass=>puppetclass)
-      HostClass.create!(:host => host2,:puppetclass=>puppetclass)
-      HostClass.create!(:host => host3,:puppetclass=>puppetclass)
+      SystemClass.create!(:system => system,:puppetclass=>puppetclass)
+      SystemClass.create!(:system => system2,:puppetclass=>puppetclass)
+      SystemClass.create!(:system => system3,:puppetclass=>puppetclass)
     end
 
     key.reload
 
-    assert_equal value1.value, Classification::ClassParam.new(:host=>host).enc['apache']['dns']
-    assert_equal value2.value, Classification::ClassParam.new(:host=>host2).enc['apache']['dns']
-    assert_equal default, Classification::ClassParam.new(:host=>host3).enc['apache']['dns']
+    assert_equal value1.value, Classification::ClassParam.new(:system=>system).enc['apache']['dns']
+    assert_equal value2.value, Classification::ClassParam.new(:system=>system2).enc['apache']['dns']
+    assert_equal default, Classification::ClassParam.new(:system=>system3).enc['apache']['dns']
   end
 
   def test_parameters_multiple_paths
-     host = hosts(:one)
-     host.hostgroup = hostgroups(:common)
-     host.environment = environments(:testing)
+     system = systems(:one)
+     system.system_group = system_groups(:common)
+     system.environment = environments(:testing)
 
-     host2 = hosts(:minimal)
-     host2.hostgroup = hostgroups(:unusual)
+     system2 = systems(:minimal)
+     system2.system_group = system_groups(:unusual)
 
-     host3 = hosts(:redhat)
+     system3 = systems(:redhat)
 
      default = "default"
      key    = ""
@@ -107,19 +107,19 @@ class LookupKeyTest < ActiveSupport::TestCase
      value2 = ""
      puppetclass = Puppetclass.first
      as_admin do
-       key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
-       value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
-       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
-       host.puppetclasses << puppetclass
-       host2.puppetclasses << puppetclass
-       host3.puppetclasses << puppetclass
+       key    = LookupKey.create!(:key => "dns", :path => "environment,system_group \n system_group", :puppetclass => puppetclass, :default_value => default, :override=>true)
+       value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,system_group=Common", :lookup_key => key)
+       value2 = LookupValue.create!(:value => "v2", :match => "system_group=Unusual", :lookup_key => key)
+       system.puppetclasses << puppetclass
+       system2.puppetclasses << puppetclass
+       system3.puppetclasses << puppetclass
      end
 
      key.reload
 
-     assert_equal value1.value, Classification::GlobalParam.new(:host=>host).enc['dns']
-     assert_equal value2.value, Classification::GlobalParam.new(:host=>host2).enc['dns']
-     assert_equal default, Classification::GlobalParam.new(:host=>host3).enc['dns']
+     assert_equal value1.value, Classification::GlobalParam.new(:system=>system).enc['dns']
+     assert_equal value2.value, Classification::GlobalParam.new(:system=>system2).enc['dns']
+     assert_equal default, Classification::GlobalParam.new(:system=>system3).enc['dns']
    end
 
   def test_value_should_not_be_changed

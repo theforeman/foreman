@@ -1,3 +1,3 @@
-collection @hosts
+collection @systems
 
-attributes :name, :id, :hostgroup_id, :operatingsystem_id
+attributes :name, :id, :system_group_id, :operatingsystem_id

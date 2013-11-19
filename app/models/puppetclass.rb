@@ -1,13 +1,13 @@
 class Puppetclass < ActiveRecord::Base
   include Authorization
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  before_destroy EnsureNotUsedBy.new(:systems, :system_groups)
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
-  has_many :hostgroup_classes, :dependent => :destroy
-  has_many :hostgroups, :through => :hostgroup_classes
-  has_many :host_classes, :dependent => :destroy
-  has_many_hosts :through => :host_classes
+  has_many :system_group_classes, :dependent => :destroy
+  has_many :system_groups, :through => :system_group_classes
+  has_many :system_classes, :dependent => :destroy
+  has_many_systems :through => :system_classes
 
   has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
@@ -22,8 +22,8 @@ class Puppetclass < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
-  scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
-  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
+  scoped_search :in => :system_groups,   :on => :name, :complete_value => :true, :rename => "system_group"
+  scoped_search :in => :systems, :on => :name, :complete_value => :true, :rename => "system", :ext_method => :search_by_system, :only_explicit => true
   scoped_search :in => :class_params, :on => :key, :complete_value => :true
 
   scope :not_in_any_environment, includes(:environment_classes).where(:environment_classes => {:environment_id => nil})
@@ -143,11 +143,11 @@ class Puppetclass < ActiveRecord::Base
     root
   end
 
-  def self.search_by_host(key, operator, value)
-    conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
-    direct     = Puppetclass.joins(:hosts).where(conditions).select('puppetclasses.id').map(&:id).uniq
-    hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
-    indirect   = hostgroup.blank? ? [] : HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck('DISTINCT puppetclass_id')
+  def self.search_by_system(key, operator, value)
+    conditions = sanitize_sql_for_conditions(["systems.name #{operator} ?", value_to_sql(operator, value)])
+    direct     = Puppetclass.joins(:systems).where(conditions).select('puppetclasses.id').map(&:id).uniq
+    system_group  = SystemGroup.joins(:systems).where(conditions).first
+    indirect   = system_group.blank? ? [] : SystemGroupClass.where(:system_group_id => system_group.path_ids).pluck('DISTINCT puppetclass_id')
     return { :conditions => "1=0" } if direct.blank? && indirect.blank?
 
     puppet_classes = (direct + indirect).uniq

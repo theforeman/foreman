@@ -78,7 +78,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
 
   test "should return errors during smart proxy refresh" do
     proxy = smart_proxies(:one)
-    errors = ActiveModel::Errors.new(Host::Managed.new)
+    errors = ActiveModel::Errors.new(System::Managed.new)
     errors.add :base, "Unable to communicate with the proxy: it's down"
     SmartProxy.any_instance.stubs(:errors).returns(errors)
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
@@ -89,8 +89,8 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   # same method as in EnvironmentsControllerTest
   def setup_import_classes
     as_admin do
-      Host::Managed.update_all(:environment_id => nil)
-      Hostgroup.update_all(:environment_id => nil)
+      System::Managed.update_all(:environment_id => nil)
+      SystemGroup.update_all(:environment_id => nil)
       Puppetclass.destroy_all
       Environment.destroy_all
     end
@@ -119,8 +119,8 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   test "should import new environments" do
     setup_import_classes
     as_admin do
-      Host::Managed.update_all(:environment_id => nil)
-      Hostgroup.update_all(:environment_id => nil)
+      System::Managed.update_all(:environment_id => nil)
+      SystemGroup.update_all(:environment_id => nil)
       Puppetclass.destroy_all
       Environment.destroy_all
     end
@@ -136,8 +136,8 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     test "should import new puppetclasses" do
       setup_import_classes
       as_admin do
-        Host::Managed.update_all(:environment_id => nil)
-        Hostgroup.update_all(:environment_id => nil)
+        System::Managed.update_all(:environment_id => nil)
+        SystemGroup.update_all(:environment_id => nil)
         Puppetclass.destroy_all
         Environment.destroy_all
         assert_difference('Puppetclass.count', 1) do
@@ -153,8 +153,8 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   test "should not import new puppetclasses when dryrun" do
     setup_import_classes
     as_admin do
-      Host::Managed.update_all(:environment_id => nil)
-      Hostgroup.update_all(:environment_id => nil)
+      System::Managed.update_all(:environment_id => nil)
+      SystemGroup.update_all(:environment_id => nil)
       Puppetclass.destroy_all
       Environment.destroy_all
       assert_difference('Puppetclass.count', 0) do

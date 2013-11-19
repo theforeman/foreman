@@ -1,3 +1,3 @@
-object @hostgroup
+object @system_group
 
-extends "api/v2/hostgroups/show"
+extends "api/v2/system_groups/show"

@@ -5,25 +5,25 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     disable_orchestration
   end
 
-  def test_host_should_have_dhcp
+  def test_system_should_have_dhcp
     if unattended?
-      h = hosts(:one)
+      h = systems(:one)
       assert h.valid?
       assert h.dhcp?
       assert_instance_of Net::DHCP::Record, h.dhcp_record
     end
   end
 
-  def test_host_should_not_have_dhcp
+  def test_system_should_not_have_dhcp
     if unattended?
-      h = hosts(:minimal)
+      h = systems(:minimal)
       assert h.valid?
       assert_equal false, h.dhcp?
     end
   end
 
   test "jumpstart parameter generation" do
-    h = hosts(:sol10host)
+    h = systems(:sol10system)
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01.yourdomain.net").returns("2.3.4.5").once
     result = h.os.jumpstart_params h, h.model.vendor_class
@@ -34,14 +34,14 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       :install_server_name   => "brsla01",
       :jumpstart_server_path => "2.3.4.5:/vol/jumpstart",
       :root_path_name        => "/vol/solgi_5.10/sol10_hw0910_sparc/Solaris_10/Tools/Boot",
-      :root_server_hostname  => "brsla01",
+      :root_server_systemname  => "brsla01",
       :root_server_ip        => "2.3.4.5",
       :sysid_server_path     => "2.3.4.5:/vol/jumpstart/sysidcfg/sysidcfg_primary"
     }
   end
 
-  test "new host should create a dhcp reservation" do
-    h = hosts(:dhcp).dup
+  test "new system should create a dhcp reservation" do
+    h = systems(:dhcp).dup
     assert h.new_record?
     h.name = "dummy-123"
     h.ip = "2.3.4.101"
@@ -51,9 +51,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
   end
 
-  test "new host should create a BMC dhcp reservation" do
+  test "new system should create a BMC dhcp reservation" do
     User.current = users(:admin)
-    h            = hosts(:dhcp).dup
+    h            = systems(:dhcp).dup
     assert h.new_record?
     h.name                  = "dummy-123"
     h.ip                    = "2.3.4.101"
@@ -64,17 +64,17 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
     bmc = h.interfaces.detect { |i| i.name == 'dummy-bmc' }
 
-    host_tasks      = h.queue.items.select { |t| t.action.first == h }
+    system_tasks      = h.queue.items.select { |t| t.action.first == h }
     interface_tasks = h.queue.items.select { |t| t.action.first == bmc }
 
-    assert_equal host_tasks.select      { |t| t.action.last == :set_dhcp }.size, 1
-    assert host_tasks.select            { |t| t.action.last == :del_dhcp }.empty?
+    assert_equal system_tasks.select      { |t| t.action.last == :set_dhcp }.size, 1
+    assert system_tasks.select            { |t| t.action.last == :del_dhcp }.empty?
     assert_equal interface_tasks.select { |t| t.action.last == :set_dhcp }.size, 1
     assert interface_tasks.select       { |t| t.action.last == :del_dhcp }.empty?
   end
 
-  test "existing host should not change any dhcp settings" do
-    h = hosts(:dhcp)
+  test "existing system should not change any dhcp settings" do
+    h = systems(:dhcp)
     assert h.valid?
     assert_equal h.ip, h.old.ip
     assert_equal h.mac, h.old.mac
@@ -83,8 +83,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.queue.items.select {|x| x.action.last =~ /dhcp/ }.empty?
   end
 
-  test "existing host should not change any bmc dhcp settings" do
-    h = hosts(:sp_dhcp)
+  test "existing system should not change any bmc dhcp settings" do
+    h = systems(:sp_dhcp)
     assert h.valid?
     assert_equal h.sp_ip, h.old.sp_ip
     assert_equal h.sp_mac, h.old.sp_mac
@@ -93,18 +93,18 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.queue.items.select {|x| x.action.first != h }.empty?
   end
 
-  test "when an existing host change its ip address, its dhcp record should be updated" do
-    h = hosts(:dhcp)
+  test "when an existing system change its ip address, its dhcp record should be updated" do
+    h = systems(:dhcp)
     h.ip = "2.3.4.101"
     assert h.valid?
     assert_equal h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size, 1
     assert_equal h.queue.items.select {|x| x.action == [ h.old, :del_dhcp ] }.size, 1
   end
 
-  test "when an existing host change its bmc ip address, its dhcp record should be updated" do
-    h = hosts(:sp_dhcp)
+  test "when an existing system change its bmc ip address, its dhcp record should be updated" do
+    h = systems(:sp_dhcp)
     User.as :admin do
-      Nic::BMC.create!(:host_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
+      Nic::BMC.create!(:system_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
                        :ip => '2.3.4.101', :subnet_id => h.subnet_id, :name => "bmc-#{h}", :provider => 'IPMI')
     end
     h.reload
@@ -116,18 +116,18 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
   end
 
-  test "when an existing host change its mac address, its dhcp record should be updated" do
-    h = hosts(:dhcp)
+  test "when an existing system change its mac address, its dhcp record should be updated" do
+    h = systems(:dhcp)
     h.mac = "aa:aa:aa:bb:bb:dd"
     assert h.valid?
     assert_equal 1, h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size
     assert_equal 1, h.queue.items.select {|x| x.action == [ h.old, :del_dhcp ] }.size
   end
 
-  test "when an existing host change its bmc mac address, its dhcp record should be updated" do
-    h = hosts(:sp_dhcp)
+  test "when an existing system change its bmc mac address, its dhcp record should be updated" do
+    h = systems(:sp_dhcp)
     User.as :admin do
-      Nic::BMC.create! :host => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => '2.3.4.55', :domain => h.domain,
+      Nic::BMC.create! :system => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => '2.3.4.55', :domain => h.domain,
                        :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
     end
     h.reload
@@ -139,10 +139,10 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
   end
 
-  test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
-    h = hosts(:sp_dhcp)
+  test "when an existing system change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
+    h = systems(:sp_dhcp)
     User.as :admin do
-      Nic::BMC.create!(:host => h, :mac => "aa:aa:ad:ab:bb:bb", :domain => h.domain, :subnet => h.subnet,
+      Nic::BMC.create!(:system => h, :mac => "aa:aa:ad:ab:bb:bb", :domain => h.domain, :subnet => h.subnet,
                        :name => "bmc-it", :provider => 'IPMI', :ip => '2.3.4.66')
     end
     h.reload

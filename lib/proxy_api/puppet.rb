@@ -21,8 +21,8 @@ module ProxyAPI
       []
     end
 
-    def run hosts
-      parse(post({:nodes => hosts}, "run"))
+    def run systems
+      parse(post({:nodes => systems}, "run"))
     end
   end
 end

@@ -1,63 +1,63 @@
-class HostgroupsController < ApplicationController
-  include Foreman::Controller::HostDetails
+class SystemGroupsController < ApplicationController
+  include Foreman::Controller::SystemDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_hostgroup, :only => [:edit, :update, :destroy, :clone]
+  before_filter :find_system_group, :only => [:edit, :update, :destroy, :clone]
 
   def index
     begin
-      my_groups = User.current.admin? ? Hostgroup : Hostgroup.my_groups
+      my_groups = User.current.admin? ? SystemGroup : SystemGroup.my_groups
       values = my_groups.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
       values = my_groups.search_for ""
     end
-    @hostgroups = values.paginate :page => params[:page]
+    @system_groups = values.paginate :page => params[:page]
   end
 
   def new
-    @hostgroup = Hostgroup.new
+    @system_group = SystemGroup.new
   end
 
   def nest
-    @parent = Hostgroup.find(params[:id])
-    @hostgroup = @parent.dup
+    @parent = SystemGroup.find(params[:id])
+    @system_group = @parent.dup
     #overwrite parent_id and name
-    @hostgroup.parent_id = params[:id]
-    @hostgroup.name = ""
+    @system_group.parent_id = params[:id]
+    @system_group.name = ""
 
     load_vars_for_ajax
-    @hostgroup.puppetclasses = @parent.puppetclasses
-    @hostgroup.locations = @parent.locations
-    @hostgroup.organizations = @parent.organizations
+    @system_group.puppetclasses = @parent.puppetclasses
+    @system_group.locations = @parent.locations
+    @system_group.organizations = @parent.organizations
     # Clone any parameters as well
-    @hostgroup.group_parameters.each{|param| @parent.group_parameters << param.dup}
+    @system_group.group_parameters.each{|param| @parent.group_parameters << param.dup}
     render :action => :new
   end
 
-  # Clone the hostgroup
+  # Clone the system_group
   def clone
-    new = @hostgroup.dup
+    new = @system_group.dup
     load_vars_for_ajax
-    new.puppetclasses = @hostgroup.puppetclasses
-    new.locations = @hostgroup.locations
-    new.organizations = @hostgroup.organizations
+    new.puppetclasses = @system_group.puppetclasses
+    new.locations = @system_group.locations
+    new.organizations = @system_group.organizations
     # Clone any parameters as well
-    @hostgroup.group_parameters.each{|param| new.group_parameters << param.dup}
+    @system_group.group_parameters.each{|param| new.group_parameters << param.dup}
     new.name = ""
     new.valid?
-    @hostgroup = new
+    @system_group = new
     notice _("The following fields would need reviewing")
     render :action => :new
   end
 
   def create
-    @hostgroup = Hostgroup.new(params[:hostgroup])
-    if @hostgroup.save
-      # Add the new hostgroup to the user's filters
-      @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
-      @hostgroup.users << subscribed_users
-      @hostgroup.users << users_in_ancestors
+    @system_group = SystemGroup.new(params[:system_group])
+    if @system_group.save
+      # Add the new system_group to the user's filters
+      @system_group.users << User.current unless User.current.admin? or @system_group.users.include?(User.current)
+      @system_group.users << subscribed_users
+      @system_group.users << users_in_ancestors
       process_success
     else
       load_vars_for_ajax
@@ -66,15 +66,15 @@ class HostgroupsController < ApplicationController
   end
 
   def edit
-    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
+    auth  = User.current.admin? ? true : SystemGroup.my_groups.include?(@system_group)
     not_found and return unless auth
     load_vars_for_ajax
   end
 
   def update
     # remove from hash :root_pass if blank?
-    params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
-    if @hostgroup.update_attributes(params[:hostgroup])
+    params[:system_group].except!(:root_pass) if params[:system_group][:root_pass].blank?
+    if @system_group.update_attributes(params[:system_group])
       process_success
     else
       load_vars_for_ajax
@@ -83,7 +83,7 @@ class HostgroupsController < ApplicationController
   end
 
   def destroy
-    if @hostgroup.destroy
+    if @system_group.destroy
       process_success
     else
       load_vars_for_ajax
@@ -94,22 +94,22 @@ class HostgroupsController < ApplicationController
   def environment_selected
     return not_found unless (@environment = Environment.find(params[:environment_id])) if params[:environment_id].to_i > 0
 
-    @hostgroup ||= Hostgroup.new
-    @hostgroup.environment = @environment if @environment
-    render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup)}
+    @system_group ||= SystemGroup.new
+    @system_group.environment = @environment if @environment
+    render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@system_group)}
   end
 
-  def process_hostgroup
+  def process_system_group
 
-    @parent = Hostgroup.find(params[:hostgroup][:parent_id]) if params[:hostgroup][:parent_id].to_i > 0
+    @parent = SystemGroup.find(params[:system_group][:parent_id]) if params[:system_group][:parent_id].to_i > 0
     return head(:not_found) unless @parent
 
-    @hostgroup = Hostgroup.new(params[:hostgroup])
-    @hostgroup.architecture       ||= @parent.architecture
-    @hostgroup.operatingsystem    ||= @parent.operatingsystem
-    @hostgroup.domain             ||= @parent.domain
-    @hostgroup.subnet             ||= @parent.subnet
-    @hostgroup.environment        ||= @parent.environment
+    @system_group = SystemGroup.new(params[:system_group])
+    @system_group.architecture       ||= @parent.architecture
+    @system_group.operatingsystem    ||= @parent.operatingsystem
+    @system_group.domain             ||= @parent.domain
+    @system_group.subnet             ||= @parent.subnet
+    @system_group.environment        ||= @parent.environment
 
     load_vars_for_ajax
     render :partial => "form"
@@ -122,27 +122,27 @@ class HostgroupsController < ApplicationController
 
   private
 
-  def find_hostgroup
-    @hostgroup = Hostgroup.find(params[:id])
+  def find_system_group
+    @system_group = SystemGroup.find(params[:id])
   end
 
   def load_vars_for_ajax
-    return unless @hostgroup
-    @architecture    = @hostgroup.architecture
-    @operatingsystem = @hostgroup.operatingsystem
-    @domain          = @hostgroup.domain
-    @subnet          = @hostgroup.subnet
-    @environment     = @hostgroup.environment
+    return unless @system_group
+    @architecture    = @system_group.architecture
+    @operatingsystem = @system_group.operatingsystem
+    @domain          = @system_group.domain
+    @subnet          = @system_group.subnet
+    @environment     = @system_group.environment
   end
 
   def users_in_ancestors
-    @hostgroup.ancestors.map do |ancestor|
-      ancestor.users.reject { |u| @hostgroup.users.include?(u) }
+    @system_group.ancestors.map do |ancestor|
+      ancestor.users.reject { |u| @system_group.users.include?(u) }
     end.flatten.uniq
   end
 
   def subscribed_users
-    User.where(:subscribe_to_all_hostgroups => true)
+    User.where(:subscribe_to_all_system_groups => true)
   end
 
 end

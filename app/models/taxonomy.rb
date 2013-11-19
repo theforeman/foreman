@@ -6,7 +6,7 @@ class Taxonomy < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:scope => :type}
 
   belongs_to :user
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:systems)
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
@@ -15,7 +15,7 @@ class Taxonomy < ActiveRecord::Base
   has_many :media, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Medium'
   has_many :config_templates, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ConfigTemplate'
   has_many :domains, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Domain'
-  has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
+  has_many :system_groups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'SystemGroup'
   has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
 
@@ -24,7 +24,7 @@ class Taxonomy < ActiveRecord::Base
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
   before_validation :sanitize_ignored_types
 
-  delegate :import_missing_ids, :to => :tax_host
+  delegate :import_missing_ids, :to => :tax_system
 
   def to_param
     "#{id.to_s.parameterize}"
@@ -89,7 +89,7 @@ class Taxonomy < ActiveRecord::Base
   end
 
   def self.all_mismatcheds
-    includes(:hosts).map { |taxonomy| taxonomy.mismatches }
+    includes(:systems).map { |taxonomy| taxonomy.mismatches }
   end
 
   def dup
@@ -102,12 +102,12 @@ class Taxonomy < ActiveRecord::Base
     new.media             = media
     new.domains           = domains
     new.media             = media
-    new.hostgroups        = hostgroups
+    new.system_groups        = system_groups
     new
   end
 
   # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organizations_ids since these aren't ignored
-  (TaxHost::HASH_KEYS - [:location_ids, :organizations_ids]).each do |key|
+  (TaxSystem::HASH_KEYS - [:location_ids, :organizations_ids]).each do |key|
     # def domain_ids
     #  if ignore?("Domain")
     #   Domain.pluck(:id)
@@ -128,15 +128,15 @@ class Taxonomy < ActiveRecord::Base
   private
 
   delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
-           :to => :tax_host
+           :to => :tax_system
 
   def sanitize_ignored_types
     self.ignore_types ||= []
     self.ignore_types = self.ignore_types.compact.uniq
   end
 
-  def tax_host
-    @tax_host ||= TaxHost.new(self)
+  def tax_system
+    @tax_system ||= TaxSystem.new(self)
   end
 
   def hash_key_to_class(key)

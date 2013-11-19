@@ -19,7 +19,7 @@
   vpc_id = compute_object_vpc_id(f)
   if ( groups = security_groups_for_vpc(compute_resource.security_groups, vpc_id)) %>
   <%= selectable_f f, :security_group_ids, groups, {},
-    { :multiple => true, :label => _("Security groups"), :disabled => !(@host.nil? || @host.ip.empty?),
+    { :multiple => true, :label => _("Security groups"), :disabled => !(@system.nil? || @system.ip.empty?),
       :data => {  :security_groups => vpc_security_group_hash(compute_resource.security_groups),
         :subnets => subnet_vpc_hash(compute_resource.subnets)}, :class => 'security_group_ids' } %>
 <% end %>

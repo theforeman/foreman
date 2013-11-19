@@ -13,17 +13,17 @@ module Foreman
       end
     end
 
-    #returns the URL for Foreman Built status (when a host has finished the OS installation)
+    #returns the URL for Foreman Built status (when a system has finished the OS installation)
     def foreman_url(action = "built")
       # Get basic stuff
       config   = URI.parse(Setting[:unattended_url])
       protocol = config.scheme || 'http'
-      host     = config.host || request.host
+      system     = config.system || request.system
       port     = config.port || request.port
 
       url_for :only_path => false, :controller => "/unattended", :action => action,
-              :protocol  => protocol, :host => host, :port => port,
-              :token     => (@host.token.value unless @host.token.nil?)
+              :protocol  => protocol, :system => system, :port => port,
+              :token     => (@system.token.value unless @system.token.nil?)
     end
 
     # provide embedded snippets support as simple erb templates
@@ -51,7 +51,7 @@ module Foreman
     def unattended_render template
       allowed_helpers   = [ :foreman_url, :grub_pass, :snippet, :snippets, :ks_console, :root_pass, :multiboot, :jumpstart_path, :install_path,
                             :miniroot, :media_path]
-      allowed_variables = ({:arch => @arch, :host => @host, :osver => @osver, :mediapath => @mediapath, :static => @static,
+      allowed_variables = ({:arch => @arch, :system => @system, :osver => @osver, :mediapath => @mediapath, :static => @static,
                            :repos => @repos, :dynamic => @dynamic, :kernel => @kernel, :initrd => @initrd,
                            :preseed_server => @preseed_server, :preseed_path => @preseed_path })
       render_safe template, allowed_helpers, allowed_variables

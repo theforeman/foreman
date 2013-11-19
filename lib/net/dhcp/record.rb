@@ -10,7 +10,7 @@ module Net::DHCP
     end
 
     def to_s
-      "#{hostname}-#{mac}/#{ip}"
+      "#{systemname}-#{mac}/#{ip}"
     end
 
     # Deletes the DHCP entry
@@ -48,7 +48,7 @@ module Net::DHCP
     end
 
     def attrs
-      { :hostname   => hostname, :mac => mac, :ip => ip, :network => network,
+      { :systemname   => systemname, :mac => mac, :ip => ip, :network => network,
         :nextServer => nextServer, :filename => filename
       }.delete_if { |k, v| v.nil? }
     end

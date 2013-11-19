@@ -57,9 +57,9 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(params[:user])
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
-      hostgroup_ids = params[:user]["hostgroup_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["hostgroup_ids"].empty?
-      update_hostgroups_owners(hostgroup_ids) unless hostgroup_ids.empty?
-      process_success editing_self ? { :success_redirect => hosts_path } : {}
+      system_group_ids = params[:user]["system_group_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["system_group_ids"].empty?
+      update_system_groups_owners(system_group_ids) unless system_group_ids.empty?
+      process_success editing_self ? { :success_redirect => systems_path } : {}
     else
       process_error
     end
@@ -142,16 +142,16 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def update_hostgroups_owners(hostgroup_ids)
-    subhostgroups = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten.reject { |hg| hg.users.include?(@user) }
-    subhostgroups.each { |subhs| subhs.users << @user }
+  def update_system_groups_owners(system_group_ids)
+    subsystem_groups = SystemGroup.where(:id => system_group_ids).map(&:subtree).flatten.reject { |hg| hg.users.include?(@user) }
+    subsystem_groups.each { |subhs| subhs.users << @user }
   end
 
   def login_user(user)
     session[:user]         = user.id
     uri                    = session[:original_uri]
     session[:original_uri] = nil
-    redirect_to (uri || hosts_path)
+    redirect_to (uri || systems_path)
   end
 
 end

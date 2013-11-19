@@ -499,7 +499,7 @@ function multiSelectOnLoad(){
       var missing_ids = $.parseJSON(mismatches);
       $.each(missing_ids, function(index,missing_id){
         opt_id = (missing_id +"").replace(/[^A-Za-z0-9]*/gi, '_')+'-selectable';
-        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: _("Select this since it belongs to a host"), placement: "left"});
+        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: _("Select this since it belongs to a system"), placement: "left"});
       })
     }
   })

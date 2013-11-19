@@ -1,11 +1,11 @@
 module Classification
   class Base
-    delegate :hostgroup, :environment_id,
-             :to => :host
+    delegate :system_group, :environment_id,
+             :to => :system
 
     def initialize args = { }
-      @host = args[:host]
-      @safe_render = SafeRender.new(:variables => { :host => host } )
+      @system = args[:system]
+      @safe_render = SafeRender.new(:variables => { :system => system } )
     end
 
     #override to return the relevant enc data and format
@@ -19,7 +19,7 @@ module Classification
 
     protected
 
-    attr_reader :host
+    attr_reader :system
 
     #override this method to return the relevant parameters for a given set of classes
     def class_parameters
@@ -28,10 +28,10 @@ module Classification
 
     def puppetclass_ids
       return @puppetclass_ids if @puppetclass_ids
-      ids = host.host_classes.pluck(:puppetclass_id)
-      ids += HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck(:puppetclass_id) if hostgroup
+      ids = system.system_classes.pluck(:puppetclass_id)
+      ids += SystemGroupClass.where(:system_group_id => system_group.path_ids).pluck(:puppetclass_id) if system_group
       @puppetclass_ids = if Setting['remove_classes_not_in_environment']
-                           EnvironmentClass.where(:environment_id => host.environment_id, :puppetclass_id => ids).
+                           EnvironmentClass.where(:environment_id => system.environment_id, :puppetclass_id => ids).
                                pluck('DISTINCT puppetclass_id')
                          else
                            ids
@@ -80,23 +80,23 @@ module Classification
       @safe_render.parse(value)
     end
 
-    def hostgroup_matches
-      @hostgroup_matches ||= matches_for_hostgroup
+    def system_group_matches
+      @system_group_matches ||= matches_for_system_group
     end
 
-    def matches_for_hostgroup
+    def matches_for_system_group
       matches = []
-      if hostgroup
-        path = hostgroup.to_label
+      if system_group
+        path = system_group.to_label
         while path.include?("/")
           path = path[0..path.rindex("/")-1]
-          matches << "hostgroup#{LookupKey::EQ_DELM}#{path}"
+          matches << "system_group#{LookupKey::EQ_DELM}#{path}"
         end
       end
       matches
     end
 
-    # Generate possible lookup values type matches to a given host
+    # Generate possible lookup values type matches to a given system
     def path2matches
       matches = []
       possible_value_orders.each do |rule|
@@ -105,24 +105,24 @@ module Classification
         end
         matches << match.join(LookupKey::KEY_DELM)
 
-        hostgroup_matches.each do |hostgroup_match|
-          match[match.index{|m|m =~ /hostgroup\s*=/}]=hostgroup_match
+        system_group_matches.each do |system_group_match|
+          match[match.index{|m|m =~ /system_group\s*=/}]=system_group_match
           matches << match.join(LookupKey::KEY_DELM)
-        end if Array.wrap(rule).include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+        end if Array.wrap(rule).include?("system_group") && Setting["system_group_matchers_inheritance"]
       end
       matches
     end
 
-    # translates an element such as domain to its real value per host
-    # tries to find the host attribute first, parameters and then fallback to a puppet fact.
+    # translates an element such as domain to its real value per system
+    # tries to find the system attribute first, parameters and then fallback to a puppet fact.
     def attr_to_value element
-      # direct host attribute
-      return host.send(element) if host.respond_to?(element)
-      # host parameter
-      return host.host_params[element] if host.host_params.include?(element)
+      # direct system attribute
+      return system.send(element) if system.respond_to?(element)
+      # system parameter
+      return system.system_params[element] if system.system_params.include?(element)
       # fact attribute
-      if (fn = host.fact_names.first(:conditions => { :name => element }))
-        return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
+      if (fn = system.fact_names.first(:conditions => { :name => element }))
+        return FactValue.where(:system_id => system.id, :fact_name_id => fn.id).first.value
       end
     end
 

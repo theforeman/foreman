@@ -243,7 +243,7 @@ function get_pie_chart(div, url) {
       var target = $("#"+div+"-body");
       target.empty();
       expanded_pie(target, data.values)
-      target.attr('data-url', foreman_url("/hosts?search=facts." + data.name + "~~VAL1~"));
+      target.attr('data-url', foreman_url("/systems?search=facts." + data.name + "~~VAL1~"));
     });
   } else {$("#"+div).modal('show');}
 }

@@ -41,9 +41,9 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.new :name => "i386"
     assert architecture.save
 
-    host = hosts(:one)
-    host.architecture = architecture
-    host.save(:validate => false)
+    system = systems(:one)
+    system.architecture = architecture
+    system.save(:validate => false)
 
     assert !architecture.destroy
   end
@@ -77,8 +77,8 @@ class ArchitectureTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Architecture.first
     as_admin do
-      record.hosts.delete_all
-      record.hostgroups.delete_all
+      record.systems.delete_all
+      record.system_groups.delete_all
     end
     assert record.destroy
     assert record.frozen?

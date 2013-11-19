@@ -2,7 +2,7 @@ class Gentoo < Operatingsystem
 
   PXEFILES = {}
 
-  def mediumpath host
+  def mediumpath system
   end
 
   def class

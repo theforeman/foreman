@@ -1,10 +1,10 @@
-<% @trend.find_hosts.in_groups(4, false) do |group| %>
+<% @trend.find_systems.in_groups(4, false) do |group| %>
   <div class="span3">
     <td>
-      <% group.each do |host| %>
+      <% group.each do |system| %>
         <ul class="base">
           <li>
-            <%= link_to(host, host_path(:id => host), :title => _("Show Host")) %>
+            <%= link_to(system, system_path(:id => system), :title => _("Show System")) %>
           </li>
         </ul>
       <% end %>

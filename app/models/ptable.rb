@@ -1,14 +1,14 @@
 # This models the partition tables for a disk layouts
 # It supports both static partition maps and dynamic scripts that create partition tables on-the-fly
-# A host object may contain a reference to one of these ptables or, alternatively, it may contain a
+# A system object may contain a reference to one of these ptables or, alternatively, it may contain a
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   include Authorization
   include ValidateOsFamily
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
-  has_many_hosts
-  has_many :hostgroups
+  before_destroy EnsureNotUsedBy.new(:systems, :system_groups)
+  has_many_systems
+  has_many :system_groups
   has_and_belongs_to_many :operatingsystems
   validates :layout, :presence => true
   validates :name, :uniqueness => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}

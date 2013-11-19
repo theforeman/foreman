@@ -2,8 +2,8 @@ bmc:
   ip: 10.0.0.1
   mac: AA:AA:AA:AA:AA:AA
   type: Nic::BMC
-  name: host-bmc.domain.com
-  host: one
+  name: system-bmc.domain.com
+  system: one
   attrs:
     :username: foo
     :password: bar

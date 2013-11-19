@@ -2,7 +2,7 @@
 
 one:
   name: ldap-server
-  host: ldap
+  system: ldap
   port: 123
   account:
   account_password:

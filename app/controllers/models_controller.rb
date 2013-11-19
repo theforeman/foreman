@@ -3,7 +3,7 @@ class ModelsController < ApplicationController
 
   def index
     @models  = Model.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @counter = Host.group(:model_id).where(:model_id => @models.pluck(:id)).count
+    @counter = System.group(:model_id).where(:model_id => @models.pluck(:id)).count
   end
 
   def new

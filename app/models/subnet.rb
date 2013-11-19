@@ -3,9 +3,9 @@ class Subnet < ActiveRecord::Base
   include Authorization
   include Taxonomix
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
-  has_many_hosts
-  has_many :hostgroups
+  before_destroy EnsureNotUsedBy.new(:systems, :interfaces )
+  has_many_systems
+  has_many :system_groups
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"

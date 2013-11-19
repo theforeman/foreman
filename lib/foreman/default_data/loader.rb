@@ -45,21 +45,21 @@ module Foreman
               ptable_editor.update_attribute :permissions, [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables]
             end
 
-            hosts_reader =  Role.where(:name => "View hosts").empty? ? Role.create(:name => "View hosts") : Role.where(:name => "View hosts")[0]
-            if reset or hosts_reader.permissions.empty?
-              hosts_reader.update_attribute :permissions, [:view_hosts]
+            systems_reader =  Role.where(:name => "View systems").empty? ? Role.create(:name => "View systems") : Role.where(:name => "View systems")[0]
+            if reset or systems_reader.permissions.empty?
+              systems_reader.update_attribute :permissions, [:view_systems]
             end
 
-            hosts_editor =  Role.where(:name => "Edit hosts").empty? ? Role.create(:name => "Edit hosts") : Role.where(:name => "Edit hosts")[0]
-            if reset or hosts_editor.permissions.empty?
-              hosts_editor.update_attribute :permissions, [:view_hosts,    :edit_hosts,    :create_hosts,    :destroy_hosts, :build_hosts]
+            systems_editor =  Role.where(:name => "Edit systems").empty? ? Role.create(:name => "Edit systems") : Role.where(:name => "Edit systems")[0]
+            if reset or systems_editor.permissions.empty?
+              systems_editor.update_attribute :permissions, [:view_systems,    :edit_systems,    :create_systems,    :destroy_systems, :build_systems]
             end
 
             viewer =  Role.where(:name => "Viewer").empty? ? Role.create(:name => "Viewer") : Role.where(:name => "Viewer")[0]
             if reset or viewer.permissions.empty?
-              viewer.update_attribute :permissions, [:view_hosts,
+              viewer.update_attribute :permissions, [:view_systems,
                 :view_puppetclasses,
-                :view_hostgroups,
+                :view_system_groups,
                 :view_domains,
                 :view_operatingsystems,
                 :view_locations,
@@ -99,14 +99,14 @@ module Foreman
                 :destroy_external_variables,
                 :view_facts,
                 :view_globals,
-                :view_hostgroups,
-                :view_hosts,
+                :view_system_groups,
+                :view_systems,
                 :view_smart_proxies_puppetca,
                 :view_smart_proxies_autosign,
-                :create_hosts,
-                :edit_hosts,
-                :destroy_hosts,
-                :build_hosts,
+                :create_systems,
+                :edit_systems,
+                :destroy_systems,
+                :build_systems,
                 :view_media,
                 :create_media,
                 :edit_media,
@@ -132,9 +132,9 @@ module Foreman
                 :edit_users]
             end
             if reset or Role.default_user.permissions.empty?
-              Role.default_user.update_attribute :permissions, [:view_hosts,
+              Role.default_user.update_attribute :permissions, [:view_systems,
                 :view_puppetclasses,
-                :view_hostgroups,
+                :view_system_groups,
                 :view_domains,
                 :view_operatingsystems,
                 :view_media,
@@ -155,7 +155,7 @@ module Foreman
                 :view_statistics]
             end
             if reset or Role.anonymous.permissions.empty?
-              Role.anonymous.update_attribute :permissions, [:view_hosts, :view_bookmarks, :view_tasks]
+              Role.anonymous.update_attribute :permissions, [:view_systems, :view_bookmarks, :view_tasks]
             end
           end
           true

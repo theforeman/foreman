@@ -3,11 +3,11 @@ class Medium < ActiveRecord::Base
   include Taxonomix
   include ValidateOsFamily
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  before_destroy EnsureNotUsedBy.new(:systems, :system_groups)
 
   has_and_belongs_to_many :operatingsystems
-  has_many_hosts
-  has_many :hostgroups
+  has_many_systems
+  has_many :system_groups
 
   # We need to include $ in this as $arch, $release, can be in this string
   VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
@@ -34,11 +34,11 @@ class Medium < ActiveRecord::Base
   scoped_search :on => :path, :complete_value => :true
   scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
-  def media_host
+  def media_system
     media_path.match(VALID_NFS_PATH)[1]
   end
 
-  def jumpstart_host
+  def jumpstart_system
     config_path.match(VALID_NFS_PATH)[1]
   end
 

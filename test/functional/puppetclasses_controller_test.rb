@@ -65,21 +65,21 @@ class PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'new db rows are not added to HostClass when POST to parameters' do
-    host = hosts(:one)
-    puppetclass = puppetclasses(:four)  #puppetclass to be added to host
-    host_puppetclass_ids = host.puppetclass_ids
-    assert_difference('HostClass.count', 0) do
-      post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => {:puppetclass_ids => (host_puppetclass_ids + [puppetclass.id])}}, set_session_user
+  test 'new db rows are not added to SystemClass when POST to parameters' do
+    system = systems(:one)
+    puppetclass = puppetclasses(:four)  #puppetclass to be added to system
+    system_puppetclass_ids = system.puppetclass_ids
+    assert_difference('SystemClass.count', 0) do
+      post :parameters, {:id => puppetclass.id, :system_id => system.id, :system => {:puppetclass_ids => (system_puppetclass_ids + [puppetclass.id])}}, set_session_user
     end
   end
 
-  test 'new db rows are not added to HostgroupClass when POST to parameters' do
-    hostgroup = hostgroups(:common)
-    puppetclass = puppetclasses(:four)  #puppetclass to be added to hostgroup
-    hostgroup_puppetclass_ids = hostgroup.puppetclass_ids
-    assert_difference('HostgroupClass.count', 0) do
-      post :parameters, {:id => puppetclass.id, :host_id => hostgroup.id, :hostgroup => {:puppetclass_ids => (hostgroup_puppetclass_ids + [puppetclass.id])}}, set_session_user
+  test 'new db rows are not added to SystemGroupClass when POST to parameters' do
+    system_group = system_groups(:common)
+    puppetclass = puppetclasses(:four)  #puppetclass to be added to system_group
+    system_group_puppetclass_ids = system_group.puppetclass_ids
+    assert_difference('SystemGroupClass.count', 0) do
+      post :parameters, {:id => puppetclass.id, :system_id => system_group.id, :system_group => {:puppetclass_ids => (system_group_puppetclass_ids + [puppetclass.id])}}, set_session_user
     end
   end
 
@@ -87,12 +87,12 @@ class PuppetclassesControllerTest < ActionController::TestCase
   # puppetclass(:two) has TWO overridable lookup keys:  1) special_info and 2) custom_class_param
   # special_info is a smart_variable that is added independant of environment
   # custom_class_param is a smart_class_param for production environment only AND is marked as :override => TRUE
-  test 'puppetclass lookup keys are added to partial _class_paramters on EXISTING host form through ajax POST to parameters' do
-    host = hosts(:one)
+  test 'puppetclass lookup keys are added to partial _class_paramters on EXISTING system form through ajax POST to parameters' do
+    system = systems(:one)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => host.attributes }, set_session_user
+    post :parameters, {:id => puppetclass.id, :system_id => system.id, :system => system.attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, host)
+    lookup_keys_added = overridable_lookup_keys(puppetclass, system)
     assert_equal 2, lookup_keys_added.count
     assert lookup_keys_added.map(&:key).include?("special_info")
     assert lookup_keys_added.map(&:key).include?("custom_class_param")
@@ -100,9 +100,9 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'puppetclass smart class parameters are NOT added if environment does not match' do
     # below is the same test as above, except environment is changed from production to global_puppetmaster, so custom_class_param is NOT added
-    host = hosts(:one)
+    system = systems(:one)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => host.attributes.merge!('environment_id' => environments(:global_puppetmaster).id) }, set_session_user
+    post :parameters, {:id => puppetclass.id, :system_id => system.id, :system => system.attributes.merge!('environment_id' => environments(:global_puppetmaster).id) }, set_session_user
     assert_response :success
     lookup_keys_added = overridable_lookup_keys(puppetclass, assigns(:obj))
     assert_equal 1, lookup_keys_added.count
@@ -111,36 +111,36 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
 
-  test 'puppetclass lookup keys are added to partial _class_paramters on EXISTING hostgroup form through ajax POST to parameters' do
-    hostgroup = hostgroups(:common)
+  test 'puppetclass lookup keys are added to partial _class_paramters on EXISTING system_group form through ajax POST to parameters' do
+    system_group = system_groups(:common)
     puppetclass = puppetclasses(:two)
-    # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
-    post :parameters, {:id => puppetclass.id, :host_id => hostgroup.id, :hostgroup => hostgroup.attributes }, set_session_user
+    # system_id is posted instead of system_group_id per system_edit.js#load_puppet_class_parameters
+    post :parameters, {:id => puppetclass.id, :system_id => system_group.id, :system_group => system_group.attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
+    lookup_keys_added = overridable_lookup_keys(puppetclass, system_group)
     assert_equal 2, lookup_keys_added.count
     assert lookup_keys_added.map(&:key).include?("special_info")
     assert lookup_keys_added.map(&:key).include?("custom_class_param")
   end
 
-  test 'puppetclass lookup keys are added to partial _class_paramters on NEW host form through ajax POST to parameters' do
-    host = Host::Managed.new(:name => "new_host", :environment_id => environments(:production).id)
+  test 'puppetclass lookup keys are added to partial _class_paramters on NEW system form through ajax POST to parameters' do
+    system = System::Managed.new(:name => "new_system", :environment_id => environments(:production).id)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => 'null', :host => host.attributes }, set_session_user
+    post :parameters, {:id => puppetclass.id, :system_id => 'null', :system => system.attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, host)
+    lookup_keys_added = overridable_lookup_keys(puppetclass, system)
     assert_equal 2, lookup_keys_added.count
     assert lookup_keys_added.map(&:key).include?("special_info")
     assert lookup_keys_added.map(&:key).include?("custom_class_param")
   end
 
-  test 'puppetclass lookup keys are added to partial _class_paramters on NEW hostgroup form through ajax POST to parameters' do
-    hostgroup = Hostgroup.new(:name => "new_hostgroup", :environment_id => environments(:production).id)
+  test 'puppetclass lookup keys are added to partial _class_paramters on NEW system_group form through ajax POST to parameters' do
+    system_group = SystemGroup.new(:name => "new_system_group", :environment_id => environments(:production).id)
     puppetclass = puppetclasses(:two)
-    # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
-    post :parameters, {:id => puppetclass.id, :host_id => 'null', :hostgroup => hostgroup.attributes }, set_session_user
+    # system_id is posted instead of system_group_id per system_edit.js#load_puppet_class_parameters
+    post :parameters, {:id => puppetclass.id, :system_id => 'null', :system_group => system_group.attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
+    lookup_keys_added = overridable_lookup_keys(puppetclass, system_group)
     assert_equal 2, lookup_keys_added.count
     assert lookup_keys_added.map(&:key).include?("special_info")
     assert lookup_keys_added.map(&:key).include?("custom_class_param")

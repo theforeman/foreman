@@ -96,7 +96,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "create_admin should create the admin account" do
-    Setting.administrator = 'root@localhost.localdomain'
+    Setting.administrator = 'root@localsystem.localdomain'
     User.delete(User.admin.id)
     User.create_admin
     assert User.find_by_login("admin")
@@ -112,7 +112,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "create_admin should create the admin account and keep User.current set" do
     User.current = @user
-    Setting.administrator = 'root@localhost.localdomain'
+    Setting.administrator = 'root@localsystem.localdomain'
     User.delete(User.admin.id)
     User.create_admin
     assert User.find_by_login("admin")
@@ -307,13 +307,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email domains with a single word should be allowed" do
-    u = User.new :auth_source => auth_sources(:one), :login => "root", :mail => "foo@localhost"
+    u = User.new :auth_source => auth_sources(:one), :login => "root", :mail => "foo@localsystem"
     assert u.save
   end
 
   test "email with whitespaces should be stripped" do
-    u = User.create! :auth_source => auth_sources(:one), :login => "boo", :mail => "b oo@localhost "
-    assert_equal u.mail, "boo@localhost"
+    u = User.create! :auth_source => auth_sources(:one), :login => "boo", :mail => "b oo@localsystem "
+    assert_equal u.mail, "boo@localsystem"
   end
 
   test "use that can change admin flag #can_assign? any role" do

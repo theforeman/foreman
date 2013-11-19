@@ -42,8 +42,8 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_destroy
     ptable = Ptable.first
-    ptable.hosts.delete_all
-    ptable.hostgroups.delete_all
+    ptable.systems.delete_all
+    ptable.system_groups.delete_all
     delete :destroy, {:id => ptable}, set_session_user
     assert_redirected_to ptables_url
     assert !Ptable.exists?(ptable.id)

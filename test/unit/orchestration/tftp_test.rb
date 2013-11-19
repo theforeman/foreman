@@ -3,17 +3,17 @@ require 'test_helper'
 class TFTPOrchestrationTest < ActiveSupport::TestCase
   setup :disable_orchestration
 
-  def test_host_should_have_tftp
+  def test_system_should_have_tftp
     if unattended?
-      h = hosts(:one)
+      h = systems(:one)
       assert h.tftp?
       assert_not_nil h.tftp
     end
   end
 
-  def test_host_should_not_have_tftp
+  def test_system_should_not_have_tftp
     if unattended?
-      h = hosts(:minimal)
+      h = systems(:minimal)
       assert_equal false, h.tftp?
       assert_equal nil, h.tftp
     end
@@ -21,12 +21,12 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   def test_generate_pxe_template_for_build
     if unattended?
-      h = hosts(:one)
+      h = systems(:one)
       as_admin do
         h.setBuild
         h.update_attribute :operatingsystem, operatingsystems(:centos5_3)
       end
-      Setting[:unattended_url] = "http://ahost.com:3000"
+      Setting[:unattended_url] = "http://asystem.com:3000"
 
       template = h.send(:generate_pxe_template).split("~")
       expected = File.open(Pathname.new(__FILE__).parent + "pxe_template").readlines.map(&:strip)
@@ -37,7 +37,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   def test_generate_pxe_template_for_localboot
     if unattended?
-      h = hosts(:one)
+      h = systems(:one)
       as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
       assert !h.build
 

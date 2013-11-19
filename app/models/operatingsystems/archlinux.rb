@@ -3,8 +3,8 @@ class Archlinux < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
   # Simple output of the media url
-  def mediumpath host
-    medium_uri(host).to_s
+  def mediumpath system
+    medium_uri(system).to_s
   end
 
   # Override the class representation, as this breaks many rails helpers

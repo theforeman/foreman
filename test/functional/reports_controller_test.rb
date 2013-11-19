@@ -22,13 +22,13 @@ class ReportsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
-  def test_show_last_report_for_host
-    get :show, {:id => "last", :host_id => Report.first.host.to_param}, set_session_user
+  def test_show_last_report_for_system
+    get :show, {:id => "last", :system_id => Report.first.system.to_param}, set_session_user
     assert_template 'show'
   end
 
-  def test_render_404_when_invalid_report_for_a_host_is_requested
-    get :show, {:id => "last", :host_id => "blalala.domain.com"}, set_session_user
+  def test_render_404_when_invalid_report_for_a_system_is_requested
+    get :show, {:id => "last", :system_id => "blalala.domain.com"}, set_session_user
     assert_response :missing
     assert_template 'common/404'
   end

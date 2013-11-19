@@ -1,14 +1,14 @@
 # These helpers are provided as convenience methods available to the writers of templates
-# and are mixed in to Host
-module HostTemplateHelpers
+# and are mixed in to System
+module SystemTemplateHelpers
   extend ActiveSupport::Concern
 
-  # Calculates the media's path in relation to the domain and convert host to an IP
+  # Calculates the media's path in relation to the domain and convert system to an IP
   def install_path
     operatingsystem.interpolate_medium_vars(operatingsystem.media_path(medium, domain), architecture.name, operatingsystem)
   end
 
-  # Calculates the jumpstart path in relation to the domain and convert host to an IP
+  # Calculates the jumpstart path in relation to the domain and convert system to an IP
   def jumpstart_path
     operatingsystem.jumpstart_path medium, domain
   end
@@ -31,11 +31,11 @@ module HostTemplateHelpers
     config   = URI.parse(Setting[:unattended_url])
     protocol = config.scheme || 'http'
     port     = config.port || request.port
-    host     = config.host || request.host
+    system     = config.system || request.system
 
     url_for :only_path => false, :controller => "/unattended", :action => action,
-      :protocol  => protocol, :host => host, :port => port,
-      :token     => (@host.token.value unless @host.token.nil?)
+      :protocol  => protocol, :system => system, :port => port,
+      :token     => (@system.token.value unless @system.token.nil?)
   end
 
   attr_writer(:url_options)
@@ -44,7 +44,7 @@ module HostTemplateHelpers
   def url_options
     url_options = (@url_options || {}).deep_dup()
     url_options[:protocol] = "http://"
-    url_options[:host] = Setting[:foreman_url] if Setting[:foreman_url]
+    url_options[:system] = Setting[:foreman_url] if Setting[:foreman_url]
     url_options
   end
 

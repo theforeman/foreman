@@ -14,7 +14,7 @@ module Api
       param :config_template_id, :identifier, :required => true
       param :template_combination, Hash, :required => true do
         param :environment_id, :number, :allow_nil => true, :desc => "environment id"
-        param :hostgroup_id, :number, :allow_nil => true, :desc => "hostgroup id"
+        param :system_group_id, :number, :allow_nil => true, :desc => "system_group id"
       end
 
       def create

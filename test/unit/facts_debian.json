@@ -26,7 +26,7 @@
     "serialnumber": "abcdefg",
     "processor7": "Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz",
     "macaddress_vnet4": "FE:54:00:62:53:67",
-    "hostname": "h02",
+    "systemname": "h02",
     "osfamily": "Debian",
     "gateway_if": "br180",
     "lsbrelease": ":core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch",

@@ -32,7 +32,7 @@ $(function() {
   $D('sendCtrlAltDelButton').style.display = "inline";
   $D('sendCtrlAltDelButton').onclick = sendCtrlAltDel;
 
-  var host = window.location.hostname;
+  var system = window.location.systemname;
   var port = $('#vnc').attr('data-port');
   var password = $('#vnc').attr('data-password');
   var path = "";
@@ -43,5 +43,5 @@ $(function() {
     'shared':      true,
     'view_only':   false,
     'updateState':  updateState});
-  rfb.connect(host, port, password, path);
+  rfb.connect(system, port, password, path);
 });

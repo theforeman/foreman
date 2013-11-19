@@ -10,7 +10,7 @@ class CatchJsonParseErrorsTest < ActiveSupport::TestCase
   test "submitting invalid JSON" do
 
     broken_json = "{notAJson"
-    body = post_broken_json_to_api('/api/hosts', broken_json)
+    body = post_broken_json_to_api('/api/systems', broken_json)
 
     response = ActiveSupport::JSON.decode(body)
     assert_equal 400, response['status']
@@ -20,13 +20,13 @@ class CatchJsonParseErrorsTest < ActiveSupport::TestCase
   private
 
   def post_broken_json_to_api(path, broken_json)
-    RestClient.post("http://#{host}:#{port}#{path}", broken_json, default_headers)
+    RestClient.post("http://#{system}:#{port}#{path}", broken_json, default_headers)
   rescue RestClient::BadRequest => e
     e.response
   end
 
-  def host
-    Capybara.current_session.server.host
+  def system
+    Capybara.current_session.server.system
   end
 
   def port

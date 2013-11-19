@@ -10,31 +10,31 @@ class GroupParameterTest < ActiveSupport::TestCase
 
     group_parameter.name = "valid"
     group_parameter.value = "valid"
-    hostgroup = Hostgroup.find_or_create_by_name("valid")
-    group_parameter.reference_id = hostgroup.id
+    system_group = SystemGroup.find_or_create_by_name("valid")
+    group_parameter.reference_id = system_group.id
     assert group_parameter.save
   end
 
-  test "duplicate names cannot exist in a hostgroup" do
-    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
-    parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
+  test "duplicate names cannot exist in a system_group" do
+    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => system_groups(:common).id
+    parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => system_groups(:common).id
     assert !parameter2.valid?
     assert  parameter2.errors.full_messages[0] == "Name has already been taken"
   end
 
-  test "duplicate names can exist in different hostgroups" do
-    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
-    parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:db).id
+  test "duplicate names can exist in different system_groups" do
+    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => system_groups(:common).id
+    parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => system_groups(:db).id
     assert parameter2.valid?
   end
 
-  def setup_user operation, type = "hostgroups"
+  def setup_user operation, type = "system_groups"
     @one = users(:one)
     as_admin do
       role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
       role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles = [role]
-      @one.hostgroups.destroy_all
+      @one.system_groups.destroy_all
       @one.save!
     end
     User.current = @one
@@ -43,9 +43,9 @@ class GroupParameterTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create when permitted" do
     setup_user "create", "params"
     as_admin do
-      @one.hostgroups = [hostgroups(:common)]
+      @one.system_groups = [system_groups(:common)]
     end
-    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => hostgroups(:common).id
+    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => system_groups(:common).id
     assert record.valid?
     assert !record.new_record?
   end
@@ -53,9 +53,9 @@ class GroupParameterTest < ActiveSupport::TestCase
   test "user with create permissions should not be able to create when not permitted" do
     setup_user "create"
     as_admin do
-      @one.hostgroups = [hostgroups(:common)]
+      @one.system_groups = [system_groups(:common)]
     end
-    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => hostgroups(:unusual).id
+    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => system_groups(:unusual).id
     assert record.valid?
     assert record.new_record?
   end
@@ -63,16 +63,16 @@ class GroupParameterTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create when unconstrained" do
     setup_user "create", "params"
     as_admin do
-      @one.hostgroups.destroy_all
+      @one.system_groups.destroy_all
     end
-    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => hostgroups(:common).id
+    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => system_groups(:common).id
     assert record.valid?
     assert !record.new_record?
   end
 
   test "user with view permissions should not be able to create when not permitted" do
     setup_user "view"
-    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => hostgroups(:common).id
+    record =  GroupParameter.create :name => "dummy", :value => "value", :reference_id => system_groups(:common).id
     assert record.valid?
     assert record.new_record?
   end

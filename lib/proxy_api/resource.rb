@@ -4,7 +4,7 @@ module ProxyAPI
     attr_reader :url
 
     def initialize(args)
-      raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
+      raise("Must provide a protocol and system when initialising a smart-proxy connection") unless (url =~ /^http/)
 
       # Each request is limited to 60 seconds
       @connect_params = {:timeout => 60, :open_timeout => 10, :headers => { :accept => :json },
@@ -14,11 +14,11 @@ module ProxyAPI
       if url.match(/^https/i)
         cert         = Setting[:ssl_certificate]
         ca_cert      = Setting[:ssl_ca_file]
-        hostprivkey  = Setting[:ssl_priv_key]
+        systemprivkey  = Setting[:ssl_priv_key]
 
         @connect_params.merge!(
           :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
-          :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
+          :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(systemprivkey)),
           :ssl_ca_file      =>  ca_cert,
           :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
         ) unless Rails.env == "test"

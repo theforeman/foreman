@@ -1,9 +1,9 @@
-<%= javascript 'host_edit' %>
-<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id)}} do |f| %>
-  <%= base_errors_for @hostgroup %>
+<%= javascript 'system_edit' %>
+<%= form_for @system_group, :html => {:data => {:id => @system_group.try(:id)}} do |f| %>
+  <%= base_errors_for @system_group %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('SystemGroup') %></a></li>
     <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
     <% if SETTINGS[:unattended] %>
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
@@ -21,38 +21,38 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
-      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
-                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
+      <%= select_f f, :parent_id, accessible_system_groups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
+                      :onchange => 'system_group_changed(this);', :'data-url'=> process_system_group_system_groups_path,
                       :help_inline => :indicator } %>
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
-        {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
+        {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_system_groups_path} %>
 
       <%= puppet_master_fields f %>
     </div>
 
     <div class="tab-pane" id="puppet_klasses">
-      <% if @environment or @hostgroup.environment %>
-        <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
+      <% if @environment or @system_group.environment %>
+        <%= render 'puppetclasses/class_selection', :obj => @system_group %>
       <% else %>
         <p class="alert alert-message"><%= _('Please select an environment first') %></p>
       <% end %>
     </div>
 
     <div class="tab-pane" id="network">
-      <%= render 'common/domain_subnet', :item => @hostgroup %>
+      <%= render 'common/domain_subnet', :item => @system_group %>
     </div>
 
     <div class="tab-pane" id="os">
-      <%= render "common/os_selection/initial", :item=> @hostgroup %>
+      <%= render "common/os_selection/initial", :item=> @system_group %>
       <%= password_f f, :root_pass %>
     </div>
 
     <div class="tab-pane" id="params">
       <h6><%= _('Puppet classes parameters') %></h6>
       <p/>
-      <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
-      <h6><%= _('Host group parameters') %></h6>
+      <%= render "puppetclasses/classes_parameters", { :obj => @system_group } %>
+      <h6><%= _('System group parameters') %></h6>
       <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p/>
@@ -61,13 +61,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= location_selects f, @hostgroup.location_ids %>
+        <%= location_selects f, @system_group.location_ids %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= organization_selects f, @hostgroup.organization_ids %>
+        <%= organization_selects f, @system_group.organization_ids %>
       </div>
     <% end %>
   </div>

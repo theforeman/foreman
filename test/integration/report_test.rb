@@ -7,10 +7,10 @@ class ReportTest < ActionDispatch::IntegrationTest
     assert find_button('Search').visible?, "Search button is not visible"
   end
 
-  test "reports for host" do
+  test "reports for system" do
     visit reports_path
     click_link("my5name.mydomain.net")
-    assert_equal 'host = my5name.mydomain.net', find_field('search').value
+    assert_equal 'system = my5name.mydomain.net', find_field('search').value
   end
 
   test "show specific report" do

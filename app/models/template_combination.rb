@@ -1,9 +1,9 @@
 class TemplateCombination < ActiveRecord::Base
   belongs_to :config_template
   belongs_to :environment
-  belongs_to :hostgroup
-  validates :environment_id, :uniqueness => {:scope => [:hostgroup_id, :config_template_id]}
-  validates :hostgroup_id, :uniqueness => {:scope => [:environment_id, :config_template_id]}
+  belongs_to :system_group
+  validates :environment_id, :uniqueness => {:scope => [:system_group_id, :config_template_id]}
+  validates :system_group_id, :uniqueness => {:scope => [:environment_id, :config_template_id]}
 
   # process_resource_error relies on presence of this method
   def permission_failed?

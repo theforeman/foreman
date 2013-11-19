@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    @reports = Report.my_reports.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
+    @reports = Report.my_reports.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:system)
   rescue => e
     error e.to_s
     @reports = Report.my_reports.search_for("").paginate :page => params[:page]
@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
   def show
     # are we searching for the last report?
     if params[:id] == "last"
-      conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
+      conditions = { :system_id => System.find_by_name(params[:system_id]).try(:id) } unless params[:system_id].blank?
       params[:id] = Report.my_reports.where(conditions).maximum(:id)
     end
 

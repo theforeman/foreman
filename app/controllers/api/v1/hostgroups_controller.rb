@@ -1,27 +1,27 @@
 module Api
   module V1
-    class HostgroupsController < V1::BaseController
+    class SystemGroupsController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/hostgroups/", "List all hostgroups."
+      api :GET, "/system_groups/", "List all system_groups."
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hostgroups = Hostgroup.includes(:hostgroup_classes, :group_parameters).
+        @system_groups = SystemGroup.includes(:system_group_classes, :group_parameters).
           search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/hostgroups/:id/", "Show a hostgroup."
+      api :GET, "/system_groups/:id/", "Show a system_group."
       param :id, :identifier, :required => true
 
       def show
       end
 
-      api :POST, "/hostgroups/", "Create an hostgroup."
-      param :hostgroup, Hash, :required => true do
+      api :POST, "/system_groups/", "Create an system_group."
+      param :system_group, Hash, :required => true do
         param :name, String, :required => true
         param :parent_id, :number
         param :environment_id, :number
@@ -36,13 +36,13 @@ module Api
       end
 
       def create
-        @hostgroup = Hostgroup.new(params[:hostgroup])
-        process_response @hostgroup.save
+        @system_group = SystemGroup.new(params[:system_group])
+        process_response @system_group.save
       end
 
-      api :PUT, "/hostgroups/:id/", "Update an hostgroup."
+      api :PUT, "/system_groups/:id/", "Update an system_group."
       param :id, :identifier, :required => true
-      param :hostgroup, Hash, :required => true do
+      param :system_group, Hash, :required => true do
         param :name, String
         param :parent_id, :number
         param :environment_id, :number
@@ -57,14 +57,14 @@ module Api
       end
 
       def update
-        process_response @hostgroup.update_attributes(params[:hostgroup])
+        process_response @system_group.update_attributes(params[:system_group])
       end
 
-      api :DELETE, "/hostgroups/:id/", "Delete an hostgroup."
+      api :DELETE, "/system_groups/:id/", "Delete an system_group."
       param :id, :identifier, :required => true
 
       def destroy
-        process_response @hostgroup.destroy
+        process_response @system_group.destroy
       end
 
     end

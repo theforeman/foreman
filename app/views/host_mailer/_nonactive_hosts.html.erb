@@ -3,13 +3,13 @@
     border-collapse: collapse;
     text-align:center;
     padding: 4px;
-    background-color: #FF0000;">Hostname
+    background-color: #FF0000;">Systemname
   </th>
   <th style="border: 1px solid #FF9933;
     border-collapse: collapse;
     padding: 4px;
     text-align:center;
-    background-color: #FF0000;">Host group
+    background-color: #FF0000;">System group
   </th>
   <th style="border: 1px solid #FF9933;
     border-collapse: collapse;
@@ -25,20 +25,20 @@
     background-color: #FF0000;">Last Report
   </th>
 </tr>
-<% list.each do |host| %>
+<% list.each do |system| %>
   <tr>
-    <%= render 'link_to_host', :host => host %>
+    <%= render 'link_to_system', :system => system %>
     <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
-      <%= host.hostgroup %>
+      <%= system.system_group %>
     </td>
     <td style="border:1px solid #FF9933;border-collapse:collapse;padding:4px;background-color:#FFFFFF;">
-      <%= host.environment %>
+      <%= system.environment %>
     </td>
-    <% if host.last_report %>
+    <% if system.last_report %>
       <td style="border: 1px solid #FF9933;
         border-collapse: collapse;
         padding: 4px;
-        background-color: #FFFFFF;"><%= time_ago_in_words(host.last_report) %></td>
+        background-color: #FFFFFF;"><%= time_ago_in_words(system.last_report) %></td>
     <% else %>
       <td style="border: 1px solid #FF9933;
         border-collapse: collapse;

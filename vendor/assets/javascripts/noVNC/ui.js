@@ -45,7 +45,7 @@ load: function() {
     WebUtil.selectStylesheet(UI.getSetting('stylesheet'));
 
     /* Populate the controls if defaults are provided in the URL */
-    UI.initSetting('host', '');
+    UI.initSetting('system', '');
     UI.initSetting('port', '');
     UI.initSetting('password', '');
     UI.initSetting('encrypt', (window.location.protocol === "https:"));
@@ -91,7 +91,7 @@ load: function() {
         //UI.setResize();
     }
 
-    $D('noVNC_host').focus();
+    $D('noVNC_system').focus();
 
     UI.setViewClip();
     Util.addEvent(window, 'resize', UI.setViewClip);
@@ -102,8 +102,8 @@ load: function() {
         }
     } );
 
-    // Show description by default when hosted at for kanaka.github.com
-    if (location.host === "kanaka.github.com") {
+    // Show description by default when systemed at for kanaka.github.com
+    if (location.system === "kanaka.github.com") {
         // Open the description dialog
         $D('noVNC_description').style.display = "block";
     } else {
@@ -243,7 +243,7 @@ toggleConnectPanel: function() {
         $D('noVNC_controls').style.display = "block";
         $D('connectButton').className = "noVNC_status_button_selected";
         UI.connSettingsOpen = true;
-        $D('noVNC_host').focus();
+        $D('noVNC_system').focus();
     }
 },
 
@@ -470,17 +470,17 @@ clipReceive: function(rfb, text) {
 
 
 connect: function() {
-    var host, port, password, path;
+    var system, port, password, path;
 
     UI.closeSettingsMenu();
     UI.toggleConnectPanel();
 
-    host = $D('noVNC_host').value;
+    system = $D('noVNC_system').value;
     port = $D('noVNC_port').value;
     password = $D('noVNC_password').value;
     path = $D('noVNC_path').value;
-    if ((!host) || (!port)) {
-        throw("Must set host and port");
+    if ((!system) || (!port)) {
+        throw("Must set system and port");
     }
 
     UI.rfb.set_encrypt(UI.getSetting('encrypt'));
@@ -490,7 +490,7 @@ connect: function() {
     UI.rfb.set_view_only(UI.getSetting('view_only'));
     UI.rfb.set_connectTimeout(UI.getSetting('connectTimeout'));
 
-    UI.rfb.connect(host, port, password, path);
+    UI.rfb.connect(system, port, password, path);
     //Close dialog.
     setTimeout(UI.setBarPosition, 100);
     $D('noVNC_logo').style.display = "none";

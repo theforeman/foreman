@@ -9,7 +9,7 @@
   </general>
   <networking>
     <dns>
-      <hostname><%= @host.name %></hostname>
+      <systemname><%= @system.name %></systemname>
       <resolv_conf_policy>auto</resolv_conf_policy>
     </dns>
     <interfaces config:type="list">
@@ -34,7 +34,7 @@
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
   </ntp-client>
-  <%= @host.diskLayout %>
+  <%= @system.diskLayout %>
   <runlevel>
     <default>3</default>
   </runlevel>

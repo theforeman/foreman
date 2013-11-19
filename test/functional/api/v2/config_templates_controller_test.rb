@@ -45,7 +45,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
-  test "should not destroy template with associated hosts" do
+  test "should not destroy template with associated systems" do
     config_template = config_templates(:pxekickstart)
     delete :destroy, { :id => config_template.to_param }
     assert_response 422

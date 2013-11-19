@@ -1,6 +1,6 @@
 // raw data from Foreman's old parsing of reports, with some readable formtting
 {
-  "host": "my.sol.client.com",
+  "system": "my.sol.client.com",
   "reported_at": "2009-09-30 06:49:36 UTC",
   "status": {
     "applied": 0,

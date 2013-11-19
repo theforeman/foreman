@@ -12,7 +12,7 @@ class TokenTest < ActiveSupport::TestCase
     assert !t.save
   end
 
-  test "a token is assigned to a host" do
+  test "a token is assigned to a system" do
     t = Token.new :value => "aaaaaa", :expires => Time.now
     assert !t.save
   end
@@ -23,30 +23,30 @@ class TokenTest < ActiveSupport::TestCase
     assert_equal t.expires, expiry
   end
 
-  test "a host can create a token" do
-    h = hosts(:one)
+  test "a system can create a token" do
+    h = systems(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.first.value, "aaaaaa"
-    assert_equal Token.first.host_id, h.id
+    assert_equal Token.first.system_id, h.id
   end
 
-  test "a token can be matched to a host" do
-    h = hosts(:one)
+  test "a token can be matched to a system" do
+    h = systems(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
-    assert_equal h, Host.for_token("aaaaaa").first
+    assert_equal h, System.for_token("aaaaaa").first
   end
 
-  test "a host can delete its token" do
-    h = hosts(:one)
+  test "a system can delete its token" do
+    h = systems(:one)
     h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     assert_instance_of Token, h.token
     h.token=nil
-    assert Token.where(:value => "aaaaaa", :host_id => h.id).empty?
+    assert Token.where(:value => "aaaaaa", :system_id => h.id).empty?
   end
 
-  test "a host cannot delete tokens for other hosts" do
-    h1 = hosts(:one)
-    h2 = hosts(:two)
+  test "a system cannot delete tokens for other systems" do
+    h1 = systems(:one)
+    h2 = systems(:two)
     h1.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     h2.create_token(:value => "bbbbbb", :expires => Time.now + 1.minutes)
     assert_equal Token.all.size, 2
@@ -55,8 +55,8 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test "all expired tokens should be removed" do
-    h1 = hosts(:one)
-    h2 = hosts(:two)
+    h1 = systems(:one)
+    h2 = systems(:two)
     h1.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     h2.create_token(:value => "bbbbbb", :expires => Time.now - 1.minutes)
     assert_equal Token.count, 2

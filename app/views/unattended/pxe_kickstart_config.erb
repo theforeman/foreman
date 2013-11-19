@@ -12,7 +12,7 @@
 default linux
 label linux
 kernel <%= @kernel %>
-<% if @host.operatingsystem.name == "Fedora" and @host.operatingsystem.major.to_i > 16 -%>
+<% if @system.operatingsystem.name == "Fedora" and @system.operatingsystem.major.to_i > 16 -%>
 append initrd=<%= @initrd %> ks=<%= foreman_url("provision")%> ks.device=bootif network ks.sendmac
 <% else -%>
 append initrd=<%= @initrd %> ks=<%= foreman_url("provision")%> ksdevice=bootif network kssendmac

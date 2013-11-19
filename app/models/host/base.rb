@@ -1,16 +1,16 @@
 require 'facts_parser'
 
-module Host
+module System
   class Base < ActiveRecord::Base
     include Foreman::STI
-    self.table_name = :hosts
+    self.table_name = :systems
     OWNER_TYPES = %w(User Usergroup)
 
     belongs_to :model
-    has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
+    has_many :fact_values, :dependent => :destroy, :foreign_key => :system_id
     has_many :fact_names, :through => :fact_values
 
-    alias_attribute :hostname, :name
+    alias_attribute :systemname, :name
     validates :name, :presence => true, :uniqueness => true
     validate :is_name_downcased?
     validates_inclusion_of :owner_type,
@@ -18,20 +18,20 @@ module Host
                            :allow_blank => true,
                            :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))
 
-    scope :my_hosts, lambda {
+    scope :my_systems, lambda {
       user                 = User.current
-      return if user.admin? # Admin can see all hosts
+      return if user.admin? # Admin can see all systems
 
-      owner_conditions             = sanitize_sql_for_conditions(["((hosts.owner_id in (?) AND hosts.owner_type = 'Usergroup') OR (hosts.owner_id = ? AND hosts.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
-      domain_conditions            = sanitize_sql_for_conditions([" (hosts.domain_id in (?))",dms = (user.domain_ids)])
-      compute_resource_conditions  = sanitize_sql_for_conditions([" (hosts.compute_resource_id in (?))",(crs = user.compute_resource_ids)])
-      hostgroup_conditions         = sanitize_sql_for_conditions([" (hosts.hostgroup_id in (?))",(hgs = user.hostgroup_ids)])
-      organization_conditions      = sanitize_sql_for_conditions([" (hosts.organization_id in (?))",orgs = (user.organization_ids)])
-      location_conditions          = sanitize_sql_for_conditions([" (hosts.location_id in (?))",locs = (user.location_ids)])
+      owner_conditions             = sanitize_sql_for_conditions(["((systems.owner_id in (?) AND systems.owner_type = 'Usergroup') OR (systems.owner_id = ? AND systems.owner_type = 'User'))", user.my_usergroups.map(&:id), user.id])
+      domain_conditions            = sanitize_sql_for_conditions([" (systems.domain_id in (?))",dms = (user.domain_ids)])
+      compute_resource_conditions  = sanitize_sql_for_conditions([" (systems.compute_resource_id in (?))",(crs = user.compute_resource_ids)])
+      system_group_conditions         = sanitize_sql_for_conditions([" (systems.system_group_id in (?))",(hgs = user.system_group_ids)])
+      organization_conditions      = sanitize_sql_for_conditions([" (systems.organization_id in (?))",orgs = (user.organization_ids)])
+      location_conditions          = sanitize_sql_for_conditions([" (systems.location_id in (?))",locs = (user.location_ids)])
 
       fact_conditions = ""
       for user_fact in (ufs = user.user_facts)
-        fact_conditions += sanitize_sql_for_conditions ["(hosts.id = fact_values.host_id and fact_values.fact_name_id = ? and fact_values.value #{user_fact.operator} ?)", user_fact.fact_name_id, user_fact.criteria]
+        fact_conditions += sanitize_sql_for_conditions ["(systems.id = fact_values.system_id and fact_values.fact_name_id = ? and fact_values.value #{user_fact.operator} ?)", user_fact.fact_name_id, user_fact.criteria]
         fact_conditions = user_fact.andor == "and" ? "(#{fact_conditions}) and " : "#{fact_conditions} or  "
       end
       if (match = fact_conditions.match(/\A(.*).....\Z/))
@@ -43,7 +43,7 @@ module Host
         conditions  = "#{owner_conditions}"                                                                                                                                 if     user.filter_on_owner
         (conditions = (user.domains_andor           == "and") ? "(#{conditions}) and #{domain_conditions} "           : "#{conditions} or #{domain_conditions} ")           unless dms.empty?
         (conditions = (user.compute_resources_andor == "and") ? "(#{conditions}) and #{compute_resource_conditions} " : "#{conditions} or #{compute_resource_conditions} ") unless crs.empty?
-        (conditions = (user.hostgroups_andor        == "and") ? "(#{conditions}) and #{hostgroup_conditions} "        : "#{conditions} or #{hostgroup_conditions} ")        unless hgs.empty?
+        (conditions = (user.system_groups_andor        == "and") ? "(#{conditions}) and #{system_group_conditions} "        : "#{conditions} or #{system_group_conditions} ")        unless hgs.empty?
         (conditions = (user.facts_andor             == "and") ? "(#{conditions}) and #{fact_conditions} "             : "#{conditions} or #{fact_conditions} ")             unless ufs.empty?
         (conditions = (user.organizations_andor     == "and") ? "(#{conditions}) and #{organization_conditions} "     : "#{conditions} or #{organization_conditions} ")     unless orgs.empty?
         (conditions = (user.locations_andor         == "and") ? "(#{conditions}) and #{location_conditions} "         : "#{conditions} or #{location_conditions} ")         unless locs.empty?
@@ -58,15 +58,15 @@ module Host
       super - [ inheritance_column ]
     end
 
-    def self.importHostAndFacts json
+    def self.importSystemAndFacts json
       # noop, overridden by STI descendants
       return self, true
     end
 
     # expect a facts hash
     def importFacts facts
-      # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
-      raise ::Foreman::Exception.new('Host is pending for Build') if build?
+      # we are not importing facts for systems in build state (e.g. waiting for a re-installation)
+      raise ::Foreman::Exception.new('System is pending for Build') if build?
 
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
@@ -95,7 +95,7 @@ module Host
     end
 
     def populateFieldsFromFacts facts = self.facts_hash
-      # we don't import facts for host in build mode
+      # we don't import facts for system in build mode
       return if build?
 
       importer = Facts::Parser.new facts
@@ -130,7 +130,7 @@ module Host
 
     def ==(comparison_object)
       super ||
-        comparison_object.is_a?(Host::Base) &&
+        comparison_object.is_a?(System::Base) &&
         id.present? &&
         comparison_object.id == id
     end

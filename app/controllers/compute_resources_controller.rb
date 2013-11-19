@@ -43,20 +43,20 @@ class ComputeResourcesController < ApplicationController
 
   def associate
     count = 0
-    if @compute_resource.respond_to?(:associated_host)
+    if @compute_resource.respond_to?(:associated_system)
       @compute_resource.vms(:eager_loading => true).each do |vm|
-        if Host.where(:uuid => vm.identity).empty?
-          host = @compute_resource.associated_host(vm)
-          if host.present?
-            host.uuid = vm.identity
-            host.compute_resource_id = @compute_resource.id
-            host.save!(:validate => false) # don't want to trigger callbacks
+        if System.where(:uuid => vm.identity).empty?
+          system = @compute_resource.associated_system(vm)
+          if system.present?
+            system.uuid = vm.identity
+            system.compute_resource_id = @compute_resource.id
+            system.save!(:validate => false) # don't want to trigger callbacks
             count += 1
           end
         end
       end
     end
-    process_success(:success_msg => n_("%s VM associated to a host", "%s VMs associated to hosts", count) % count)
+    process_success(:success_msg => n_("%s VM associated to a system", "%s VMs associated to systems", count) % count)
   end
 
   def update

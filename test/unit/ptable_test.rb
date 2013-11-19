@@ -74,9 +74,9 @@ class PtableTest < ActiveSupport::TestCase
     partition_table = Ptable.new :name => "Ubuntu default", :layout => "some layout"
     assert partition_table.save
 
-    host = hosts(:one)
-    host.ptable = partition_table
-    host.save(:validate => false)
+    system = systems(:one)
+    system.ptable = partition_table
+    system.save(:validate => false)
 
     assert !partition_table.destroy
   end
@@ -110,8 +110,8 @@ class PtableTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Ptable.first
     as_admin do
-      record.hosts.delete_all
-      record.hostgroups.delete_all
+      record.systems.delete_all
+      record.system_groups.delete_all
       assert record.destroy
     end
     assert record.frozen?
@@ -136,7 +136,7 @@ class PtableTest < ActiveSupport::TestCase
     record      =  Ptable.first
     record.name = "renamed"
     as_admin do
-      record.hosts.destroy_all
+      record.systems.destroy_all
     end
     assert !record.save
     assert record.valid?

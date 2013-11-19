@@ -41,12 +41,12 @@ module Orchestration::DHCP
 
     # first try to ask our TFTP server for its boot server
     bs = tftp.bootServer
-    # if that failed, trying to guess out tftp next server based on the smart proxy hostname
-    bs ||= URI.parse(subnet.tftp.url).host
+    # if that failed, trying to guess out tftp next server based on the smart proxy systemname
+    bs ||= URI.parse(subnet.tftp.url).system
     # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
     return to_ip_address(bs) if bs.present?
 
-    failure _("Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services.")
+    failure _("Unable to determine the system's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services.")
   rescue => e
     failure _("failed to detect boot server: %s") % e
   end
@@ -57,7 +57,7 @@ module Orchestration::DHCP
   def dhcp_attrs
     return unless dhcp?
     dhcp_attr = { :name => name, :filename => operatingsystem.boot_filename(self),
-                  :ip => ip, :mac => mac, :hostname => name, :proxy => subnet.dhcp_proxy,
+                  :ip => ip, :mac => mac, :systemname => name, :proxy => subnet.dhcp_proxy,
                   :network => subnet.network, :nextServer => boot_server }
 
     if jumpstart?
@@ -96,7 +96,7 @@ module Orchestration::DHCP
     return true if ((old.ip != ip) or (old.name != name) or (old.mac != mac) or (old.subnet != subnet))
     # Handle jumpstart
     #TODO, abstract this way once interfaces are fully used
-    if self.kind_of?(Host::Base) and jumpstart?
+    if self.kind_of?(System::Base) and jumpstart?
       if !old.build? or (old.medium != medium or old.arch != arch) or
           (os and old.os and (old.os.name != os.name or old.os != os))
           return true

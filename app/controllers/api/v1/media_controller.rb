@@ -8,7 +8,7 @@ module Api
 The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
 
 for example http://mirror.centos.org/centos/$version/os/$arch
-where $arch will be substituted for the host\'s actual OS architecture and $version, $major and $minor
+where $arch will be substituted for the system\'s actual OS architecture and $version, $major and $minor
 will be substituted for the version of the operating system.
 
 Solaris and Debian media may also use $release.

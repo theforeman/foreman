@@ -4,10 +4,10 @@ class Domain < ActiveRecord::Base
   include Authorization
   include Taxonomix
 
-  has_many_hosts
-  has_many :hostgroups
+  has_many_systems
+  has_many :system_groups
   #order matters! see https://github.com/rails/rails/issues/670
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets)
+  before_destroy EnsureNotUsedBy.new(:systems, :system_groups, :subnets)
   has_many :subnet_domains, :dependent => :destroy
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"

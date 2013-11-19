@@ -1,4 +1,4 @@
-<div id="host-conflicts-modal" class="modal in fade" <%= display(false) %>>
+<div id="system-conflicts-modal" class="modal in fade" <%= display(false) %>>
   <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">&times</a>
     <h3>Conflicts have been detected</h3>
@@ -13,8 +13,8 @@
     </p>
 
     <div class="alert alert-message alert-block base">
-      <% conflict_objects(@host.errors).each do |obj| %>
-        <% @host.errors[obj].each do |e| %>
+      <% conflict_objects(@system.errors).each do |obj| %>
+        <% @system.errors[obj].each do |e| %>
           <li><%= e %></li>
         <% end %>
       <% end %>

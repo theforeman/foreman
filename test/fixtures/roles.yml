@@ -30,14 +30,14 @@ manager:
     - :create_globals
     - :edit_globals
     - :destroy_globals
-    - :view_hostgroups
-    - :create_hostgroups
-    - :edit_hostgroups
-    - :destroy_hostgroups
-    - :view_hosts
-    - :create_hosts
-    - :edit_hosts
-    - :destroy_hosts
+    - :view_system_groups
+    - :create_system_groups
+    - :edit_system_groups
+    - :destroy_system_groups
+    - :view_systems
+    - :create_systems
+    - :edit_systems
+    - :destroy_systems
     - :view_media
     - :create_media
     - :edit_media
@@ -95,21 +95,21 @@ edit_partition_tables:
     - :edit_ptables
     - :destroy_ptables
 
-view_hosts:
-  name: View hosts
+view_systems:
+  name: View systems
   id: "3"
   builtin: "0"
   permissions: |
     ---
-    - :view_hosts
+    - :view_systems
 
-edit_hosts:
-  name: Edit hosts
+edit_systems:
+  name: Edit systems
   id: "4"
   builtin: "0"
   permissions: |
     ---
-    - :edit_hosts
+    - :edit_systems
 
 viewer:
   name: Viewer
@@ -126,8 +126,8 @@ viewer:
     - :view_external_variables
     - :view_facts
     - :view_globals
-    - :view_hostgroups
-    - :view_hosts
+    - :view_system_groups
+    - :view_systems
     - :view_locations
     - :view_media
     - :view_models
@@ -147,9 +147,9 @@ default_user:
   builtin: "1"
   permissions: |
     ---
-    - :view_hosts
+    - :view_systems
     - :view_puppetclasses
-    - :view_hostgroups
+    - :view_system_groups
     - :view_domains
     - :view_oses
     - :view_media
@@ -172,23 +172,23 @@ anonymous:
   builtin: "2"
   permissions: |
     ---
-    - :view_hosts
+    - :view_systems
 
-destroy_hosts:
-  name: Destroy hosts
+destroy_systems:
+  name: Destroy systems
   id: "8"
   builtin: "0"
   permissions: |
     ---
-    - :destroy_hosts
+    - :destroy_systems
 
-create_hosts:
-  name: Create hosts
+create_systems:
+  name: Create systems
   id: "9"
   builtin: "0"
   permissions: |
     ---
-    - :create_hosts
+    - :create_systems
 
 none_compute_resources:
   name: No rights
@@ -208,13 +208,13 @@ manage_compute_resources:
     - :edit_compute_resources
     - :destroy_compute_resources
 
-manage_hosts:
-  name: CRUD hosts
+manage_systems:
+  name: CRUD systems
   id: "12"
   builtin: "0"
   permissions: |
     ---
-    - :create_hosts
-    - :edit_hosts
-    - :destroy_hosts
-    - :view_hosts
+    - :create_systems
+    - :edit_systems
+    - :destroy_systems
+    - :view_systems

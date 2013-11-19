@@ -64,12 +64,12 @@ module LookupKeysHelper
                 "</dl>"), :title => _("Validation types")).html_safe}
   end
 
-  def overridable_lookup_keys klass, host
-    klass.class_params.override.where(:environment_classes => {:environment_id => host.environment_id}) + klass.lookup_keys
+  def overridable_lookup_keys klass, system
+    klass.class_params.override.where(:environment_classes => {:environment_id => system.environment_id}) + klass.lookup_keys
   end
 
-  def hostgroup_key_with_diagnostic hostgroup, key
-    value, origin = hostgroup.inherited_lookup_value key
+  def system_group_key_with_diagnostic system_group, key
+    value, origin = system_group.inherited_lookup_value key
     original_value = key.value_before_type_cast value
     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
     content_tag :div, :class => ['control-group', 'condensed'] do
@@ -80,11 +80,11 @@ module LookupKeysHelper
          end
   end
 
-  def host_key_with_diagnostic host, value_hash, key
+  def system_key_with_diagnostic system, value_hash, key
      value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
      value, matcher = value_for_key ? [value_for_key[:value], value_for_key[:element]] : [key.default_value, _("Default value")]
      original_value = key.value_before_type_cast value
-     no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
+     no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{system.fqdn}")
 
      diagnostic_class = []
      diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher})

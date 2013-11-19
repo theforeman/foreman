@@ -1,31 +1,31 @@
 <div class="tab-pane"  id="compute_resource">
-  <%= render('hosts/compute', :compute_resource => @host.compute_resource) if @host.compute_resource %>
+  <%= render('systems/compute', :compute_resource => @system.compute_resource) if @system.compute_resource %>
 </div>
 
 <div class="tab-pane"  id="network">
   <%= field_set_tag _("Primary Interface"), :id => "primary_interface" do %>
-    <div id="mac_address" <%= display? @host.compute_resource_id %> >
-      <%= text_f f, :mac, :help_inline => _("MAC address for this host"), :autocomplete => 'off' %>
+    <div id="mac_address" <%= display? @system.compute_resource_id %> >
+      <%= text_f f, :mac, :help_inline => _("MAC address for this system"), :autocomplete => 'off' %>
     </div>
 
     <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
                  {:help_inline => :indicator,
-                  :onchange => 'domain_selected(this);', :'data-url' => domain_selected_hosts_path} %>
+                  :onchange => 'domain_selected(this);', :'data-url' => domain_selected_systems_path} %>
 
     <div id='manage_network'>
     </div>
 
-    <% if @host.capabilities.include?(:build) %>
+    <% if @system.capabilities.include?(:build) %>
       <div id='manage_network_build'>
         <span id="subnet_select">
-          <%= render 'common/domain', :item => @host %>
+          <%= render 'common/domain', :item => @system %>
         </span>
         <%= text_f f, :ip, :autocomplete => 'off',
-          :help_inline => popover("?", _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"), :title => _("IP address for this host")).html_safe %>
+          :help_inline => popover("?", _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"), :title => _("IP address for this system")).html_safe %>
         <%= f.fields_for :interfaces do |interfaces| %>
-          <%= render 'hosts/interfaces', :f => interfaces  %>
+          <%= render 'systems/interfaces', :f => interfaces  %>
         <% end %>
-        <%= new_child_fields_template(f, :interfaces, {:partial => "hosts/interfaces"})%>
+        <%= new_child_fields_template(f, :interfaces, {:partial => "systems/interfaces"})%>
         <%= add_child_link "+ " + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
       </div>
     <% end %>
@@ -33,5 +33,5 @@
 </div>
 
 <div class="tab-pane"  id="os">
-  <%= render 'hosts/operating_system', :host => @host, :f => f %>
+  <%= render 'systems/operating_system', :system => @system, :f => f %>
 </div>

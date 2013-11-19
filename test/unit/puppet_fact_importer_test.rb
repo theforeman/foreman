@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class PuppetFactImporterTest < ActiveSupport::TestCase
-  attr_reader :host, :importer
+  attr_reader :system, :importer
   setup do
     disable_orchestration
     User.current = User.admin
-    @host        = hosts(:one)
+    @system        = systems(:one)
   end
 
   test 'importer adds new facts' do
@@ -66,11 +66,11 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   end
 
   def import(facts)
-    @importer = PuppetFactImporter.new(@host, facts)
+    @importer = PuppetFactImporter.new(@system, facts)
     importer.import!
   end
 
   def value fact
-    FactValue.joins(:fact_name).where(:host_id => @host.id, :fact_names => { :name => fact }).first.try(:value)
+    FactValue.joins(:fact_name).where(:system_id => @system.id, :fact_names => { :name => fact }).first.try(:value)
   end
 end

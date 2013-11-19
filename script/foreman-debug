@@ -195,10 +195,10 @@ if [ $NOGENERIC -eq 0 ]; then
   add_cmd "ip a" "ip_a"
   add_cmd "ip r" "ip_r"
   add_cmd "ss -tulpn" "ss"
-  add_cmd "cat /etc/hosts" "hosts"
-  add_cmd "ping -c1 -W1 localhost" "ping_localhost"
-  add_cmd "ping -c1 -W1 $(hostname)" "ping_hostname"
-  add_cmd "ping -c1 -W1 $(hostname -f)" "ping_hostname_full"
+  add_cmd "cat /etc/systems" "systems"
+  add_cmd "ping -c1 -W1 localsystem" "ping_localsystem"
+  add_cmd "ping -c1 -W1 $(systemname)" "ping_systemname"
+  add_cmd "ping -c1 -W1 $(systemname -f)" "ping_systemname_full"
 
   add_files "/var/log/messages"
 
@@ -227,20 +227,20 @@ add_files /etc/xinetd.d/tftp
 [ -d "/tftpboot" ] && add_cmd "find /tftpboot -exec ls -ld {} +" "tftpboot_tree"
 [ -d "/srv/tftp" ] && add_cmd "find /srv/tftp -exec ls -ld {} +" "tftpboot_tree"
 [ -d "/var/lib/tftpboot" ] && add_cmd "find /var/lib/tftpboot -exec ls -ld {} +" "tftpboot_tree"
-add_files /etc/named.conf /var/log/named.log 
+add_files /etc/named.conf /var/log/named.log
 add_files /var/named/* /var/named/{data,dynamic,slaves}/*
 add_cmd "virsh list" "virsh_list"
 add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
 add_files /var/lib/pgsql/data/*.conf
 add_files /etc/puppet/*.conf /etc/puppet/rack/* /etc/puppet/manifests/* /var/log/puppet/*.log
-add_files /var/lib/puppet/ssl/certs/$(hostname -f).pem /var/lib/puppet/ssl/certs/ca.pem
+add_files /var/lib/puppet/ssl/certs/$(systemname -f).pem /var/lib/puppet/ssl/certs/ca.pem
 add_files /etc/puppet/ssl/ca/inventory.txt /var/lib/puppet/ssl/ca/inventory.txt
 add_cmd "find /etc/puppet/modules -exec ls -ld {} +" "puppet_manifests_tree"
 add_files /etc/{httpd,apache2}/conf/*
 add_files /etc/{httpd,apache2}/conf.d/*
 add_files /var/log/{httpd,apache2}/*error_log
 add_cmd "echo \"select id,name,value from settings where name not like '%pass'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
-add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
+add_cmd "echo 'select type,name,system,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
 
 add_files /etc/{sysconfig,default}/foreman{,-proxy}
 add_files /etc/{sysconfig,default}/dhcp*
@@ -249,7 +249,7 @@ add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
 
 qprintf "\n\n"
-qprintf "%10s %s\n" "HOSTNAME:" "$(hostname -f 2>/dev/null)"
+qprintf "%10s %s\n" "SYSTEMNAME:" "$(systemname -f 2>/dev/null)"
 qprintf "%10s %s\n" "OS:" "$OS"
 qprintf "%10s %s\n" "RELEASE:" "$OS_RELEASE"
 qprintf "%10s %s\n" "FOREMAN:" "$(cat /usr/share/foreman/VERSION 2>/dev/null)"

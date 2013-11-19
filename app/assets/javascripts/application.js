@@ -24,7 +24,7 @@ function onContentLoad(){
 
   $('.flash.error').each(function(index, item) {
      if ($('.alert-message.alert-error.base').length == 0) {
-       if ($('#host-conflicts-modal').length == 0) {
+       if ($('#system-conflicts-modal').length == 0) {
          notify(item, 'error');
        }
      }
@@ -159,13 +159,13 @@ function toggleRowGroup(el) {
 }
 
 function template_info(div, url) {
-  os_id = $("#host_operatingsystem_id :selected").attr("value");
-  env_id = $("#host_environment_id :selected").attr("value");
-  hostgroup_id = $("#host_hostgroup_id :selected").attr("value");
+  os_id = $("#system_operatingsystem_id :selected").attr("value");
+  env_id = $("#system_environment_id :selected").attr("value");
+  system_group_id = $("#system_system_group_id :selected").attr("value");
   build = $('input:radio[name$="[provision_method]"]:checked').val();
 
   $(div).html(spinner_placeholder());
-  $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
+  $(div).load(url + "?operatingsystem_id=" + os_id + "&system_group_id=" + system_group_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
                   $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>" + _('Sorry but no templates were configured.') + "</p></div>");
@@ -335,11 +335,11 @@ $(function() {
 });
 
 function update_puppetclasses(element) {
-  var host_id = $("form").data('id')
+  var system_id = $("form").data('id')
   var env_id = $('*[id*=environment_id]').val();
   var url = $(element).attr('data-url');
   var data = $("form").serialize().replace('method=put', 'method=post');
-  data = data + '&host_id=' + host_id
+  data = data + '&system_id=' + system_id
   if (env_id == "") return;
   $.ajax({
     type: 'post',
@@ -351,7 +351,7 @@ function update_puppetclasses(element) {
       $('[rel="twipsy"]').tooltip();
     },
     complete: function() {
-      $('#hostgroup_indicator').hide();
+      $('#system_group_indicator').hide();
     }
   })
 }

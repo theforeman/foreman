@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class OrchestrationTest < ActiveSupport::TestCase
-  def test_host_should_have_queue
-    h = Host.new
+  def test_system_should_have_queue
+    h = System.new
     assert_respond_to h, :queue
   end
 
-  test "test host can call protected queue methods" do
-    class Host::Test < Host::Base
+  test "test system can call protected queue methods" do
+    class System::Test < System::Base
       include Orchestration
       def test_execute(method)
         execute({:action => [self, method]})
@@ -15,7 +15,7 @@ class OrchestrationTest < ActiveSupport::TestCase
       protected
       def setTest ; true ; end
     end
-    h = Host::Test.new
+    h = System::Test.new
     assert h.test_execute(:setTest)
     assert_raise Foreman::Exception do
       h.test_execute(:noSuchTest)

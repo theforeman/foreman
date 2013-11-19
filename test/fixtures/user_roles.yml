@@ -6,7 +6,7 @@ user_restricted_anonymous_role:
   user: restricted
   role_id: 7
 
-user_restricted_manage_hosts_role:
+user_restricted_manage_systems_role:
   user: restricted
   role_id: 12
 

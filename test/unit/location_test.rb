@@ -37,7 +37,7 @@ class LocationTest < ActiveSupport::TestCase
   test 'location is valid if ignore all types' do
     location = taxonomies(:location1)
     location.organization_ids = [taxonomies(:organization1).id]
-    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    location.ignore_types = ["Domain", "SystemGroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     assert location.valid?
   end
 
@@ -47,23 +47,23 @@ class LocationTest < ActiveSupport::TestCase
     assert location.valid?
   end
 
-  test 'it should return array of used ids by hosts' do
+  test 'it should return array of used ids by systems' do
     location = taxonomies(:location1)
     # run used_ids method
     used_ids = location.used_ids
-    # get results from Host object
-    environment_ids = Host.where(:location_id => location.id).pluck(:environment_id).compact.uniq
-    hostgroup_ids = Host.where(:location_id => location.id).pluck(:hostgroup_id).compact.uniq
-    subnet_ids = Host.where(:location_id => location.id).pluck(:subnet_id).compact.uniq
-    domain_ids = Host.where(:location_id => location.id).pluck(:domain_id).compact.uniq
-    medium_ids = Host.where(:location_id => location.id).pluck(:medium_id).compact.uniq
-    compute_resource_ids = Host.where(:location_id => location.id).pluck(:compute_resource_id).compact.uniq
-    user_ids = Host.where(:location_id => location.id).where(:owner_type => 'User').pluck(:owner_id).compact.uniq
-    smart_proxy_ids = Host.where(:location_id => location.id).map {|host| host.smart_proxies.map(&:id)}.flatten.compact.uniq
-    config_template_ids = Host.where("location_id = #{location.id} and operatingsystem_id > 0").map {|host| host.configTemplate.try(:id)}.compact.uniq
+    # get results from System object
+    environment_ids = System.where(:location_id => location.id).pluck(:environment_id).compact.uniq
+    system_group_ids = System.where(:location_id => location.id).pluck(:system_group_id).compact.uniq
+    subnet_ids = System.where(:location_id => location.id).pluck(:subnet_id).compact.uniq
+    domain_ids = System.where(:location_id => location.id).pluck(:domain_id).compact.uniq
+    medium_ids = System.where(:location_id => location.id).pluck(:medium_id).compact.uniq
+    compute_resource_ids = System.where(:location_id => location.id).pluck(:compute_resource_id).compact.uniq
+    user_ids = System.where(:location_id => location.id).where(:owner_type => 'User').pluck(:owner_id).compact.uniq
+    smart_proxy_ids = System.where(:location_id => location.id).map {|system| system.smart_proxies.map(&:id)}.flatten.compact.uniq
+    config_template_ids = System.where("location_id = #{location.id} and operatingsystem_id > 0").map {|system| system.configTemplate.try(:id)}.compact.uniq
     # match to above retrieved data
     assert_equal used_ids[:environment_ids], environment_ids
-    assert_equal used_ids[:hostgroup_ids], hostgroup_ids
+    assert_equal used_ids[:system_group_ids], system_group_ids
     assert_equal used_ids[:subnet_ids], subnet_ids
     assert_equal used_ids[:domain_ids], domain_ids
     assert_equal used_ids[:medium_ids], medium_ids
@@ -73,7 +73,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:config_template_ids], config_template_ids
     # match to raw fixtures data
     assert_equal used_ids[:environment_ids].sort, Array(environments(:production).id).sort
-    assert_equal used_ids[:hostgroup_ids].sort, Array.new
+    assert_equal used_ids[:system_group_ids].sort, Array.new
     assert_equal used_ids[:subnet_ids].sort, Array(subnets(:one).id).sort
     assert_equal used_ids[:domain_ids].sort, Array([domains(:yourdomain).id, domains(:mydomain).id]).sort
     assert_equal used_ids[:medium_ids].sort, Array(media(:one).id).sort
@@ -93,7 +93,7 @@ class LocationTest < ActiveSupport::TestCase
     selected_ids = location.selected_ids
     # get results from taxable_taxonomies
     environment_ids = location.environments.pluck('environments.id')
-    hostgroup_ids = location.hostgroups.pluck('hostgroups.id')
+    system_group_ids = location.system_groups.pluck('system_groups.id')
     subnet_ids = location.subnets.pluck('subnets.id')
     domain_ids = location.domains.pluck('domains.id')
     medium_ids = location.media.pluck('media.id')
@@ -103,7 +103,7 @@ class LocationTest < ActiveSupport::TestCase
     compute_resource_ids = location.compute_resources.pluck('compute_resources.id')
     # check if they match
     assert_equal selected_ids[:environment_ids], environment_ids
-    assert_equal selected_ids[:hostgroup_ids], hostgroup_ids
+    assert_equal selected_ids[:system_group_ids], system_group_ids
     assert_equal selected_ids[:subnet_ids], subnet_ids
     assert_equal selected_ids[:domain_ids], domain_ids
     assert_equal selected_ids[:medium_ids], medium_ids
@@ -113,7 +113,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:compute_resource_ids], compute_resource_ids
     # match to manually generated taxable_taxonomies
     assert_equal selected_ids[:environment_ids], Array(environments(:production).id)
-    assert_equal selected_ids[:hostgroup_ids], Array.new
+    assert_equal selected_ids[:system_group_ids], Array.new
     assert_equal selected_ids[:subnet_ids].sort, Array(subnets(:one).id)
     assert_equal selected_ids[:domain_ids], Array.new
     assert_equal selected_ids[:medium_ids], Array.new
@@ -126,12 +126,12 @@ class LocationTest < ActiveSupport::TestCase
   test 'it should return selected_ids array of ALL values (when types are ignored)' do
     location = taxonomies(:location1)
     # ignore all types
-    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    location.ignore_types = ["Domain", "SystemGroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     # run selected_ids method
     selected_ids = location.selected_ids
     # should return all when type is ignored
     assert_equal selected_ids[:environment_ids], Environment.pluck(:id)
-    assert_equal selected_ids[:hostgroup_ids], Hostgroup.pluck(:id)
+    assert_equal selected_ids[:system_group_ids], SystemGroup.pluck(:id)
     assert_equal selected_ids[:subnet_ids], Subnet.pluck(:id)
     assert_equal selected_ids[:domain_ids], Domain.pluck(:id)
     assert_equal selected_ids[:medium_ids], Medium.pluck(:id)
@@ -148,7 +148,7 @@ class LocationTest < ActiveSupport::TestCase
     location_dup.name = "location_dup_name"
     assert location_dup.save!
     assert_equal, location_dup.environment_ids = location.environment_ids
-    assert_equal, location_dup.hostgroup_ids = location.hostgroup_ids
+    assert_equal, location_dup.system_group_ids = location.system_group_ids
     assert_equal, location_dup.subnet_ids = location.subnet_ids
     assert_equal, location_dup.domain_ids = location.domain_ids
     assert_equal, location_dup.medium_ids = location.medium_ids

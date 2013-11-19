@@ -42,8 +42,8 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   def test_destroy
     architecture = Architecture.first
-    architecture.hosts.delete_all
-    architecture.hostgroups.delete_all
+    architecture.systems.delete_all
+    architecture.system_groups.delete_all
     delete :destroy, {:id => architecture.name}, set_session_user
     assert_redirected_to architectures_url
     assert !Architecture.exists?(architecture.id)

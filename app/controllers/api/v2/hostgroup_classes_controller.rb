@@ -1,42 +1,42 @@
 module Api
   module V2
-    class HostgroupClassesController < V2::BaseController
+    class SystemGroupClassesController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_hostgroup_id, :only => [:index, :create, :destroy]
+      before_filter :find_system_group_id, :only => [:index, :create, :destroy]
 
-      api :GET, "/hostgroups/:hostgroup_id/puppetclass_ids/", "List all puppetclass id's for hostgroup"
+      api :GET, "/system_groups/:system_group_id/puppetclass_ids/", "List all puppetclass id's for system_group"
 
       def index
-        render :json => HostgroupClass.where(:hostgroup_id => hostgroup_id).pluck('puppetclass_id')
+        render :json => SystemGroupClass.where(:system_group_id => system_group_id).pluck('puppetclass_id')
       end
 
-      api :POST, "/hostgroups/:hostgroup_id/puppetclass_ids", "Add a puppetclass to hostgroup"
-      param :hostgroup_id, String, :required => true, :desc => "id of hostgroup"
+      api :POST, "/system_groups/:system_group_id/puppetclass_ids", "Add a puppetclass to system_group"
+      param :system_group_id, String, :required => true, :desc => "id of system_group"
       param :puppetclass_id, String, :required => true, :desc => "id of puppetclass"
 
       def create
-        @hostgroup_class = HostgroupClass.create!(:hostgroup_id => hostgroup_id, :puppetclass_id => params[:puppetclass_id].to_i)
-        render :json => {:hostgroup_id => @hostgroup_class.hostgroup_id, :puppetclass_id => @hostgroup_class.puppetclass_id}
+        @system_group_class = SystemGroupClass.create!(:system_group_id => system_group_id, :puppetclass_id => params[:puppetclass_id].to_i)
+        render :json => {:system_group_id => @system_group_class.system_group_id, :puppetclass_id => @system_group_class.puppetclass_id}
       end
 
-      api :DELETE, "/hostgroups/:hostgroup_id/puppetclass_ids/:id/", "Remove a puppetclass from hostgroup"
-      param :hostgroup_id, String, :required => true, :desc => "id of hostgroup"
+      api :DELETE, "/system_groups/:system_group_id/puppetclass_ids/:id/", "Remove a puppetclass from system_group"
+      param :system_group_id, String, :required => true, :desc => "id of system_group"
       param :puppetclass_id, String, :required => true, :desc => "id of puppetclass"
 
       def destroy
-        @hostgroup_class = HostgroupClass.where(:hostgroup_id => @hostgroup_id, :puppetclass_id => params[:id])
-        process_response @hostgroup_class.destroy_all
+        @system_group_class = SystemGroupClass.where(:system_group_id => @system_group_id, :puppetclass_id => params[:id])
+        process_response @system_group_class.destroy_all
       end
 
       private
-      attr_reader :hostgroup_id
+      attr_reader :system_group_id
 
-      # params[:hostgroup_id] is "id-to_label.parameterize" and .to_i returns the id
-      def find_hostgroup_id
-        @hostgroup_id = params[:hostgroup_id].to_i
+      # params[:system_group_id] is "id-to_label.parameterize" and .to_i returns the id
+      def find_system_group_id
+        @system_group_id = params[:system_group_id].to_i
       end
 
     end

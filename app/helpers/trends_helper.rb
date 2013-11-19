@@ -4,7 +4,7 @@ module TrendsHelper
 
   def trendable_types new_record
     options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
-     _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
+     _('Model') => 'Model', _('Facts') =>'FactName',_('System group') => 'SystemGroup', _('Compute resource') => 'ComputeResource'}
     if new_record
       existing = ForemanTrend.includes(:trendable).types.map(&:to_s)
       options.delete_if{ |k,v|  existing.include?(v) }

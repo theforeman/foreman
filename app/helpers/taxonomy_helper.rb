@@ -92,12 +92,12 @@ module TaxonomyHelper
     is_location? ? import_mismatches_location_path(taxonomy) : import_mismatches_organization_path(taxonomy)
   end
 
-  def assign_all_hosts_taxonomy_path(taxonomy)
-    is_location? ? assign_all_hosts_location_path(taxonomy) : assign_all_hosts_organization_path(taxonomy)
+  def assign_all_systems_taxonomy_path(taxonomy)
+    is_location? ? assign_all_systems_location_path(taxonomy) : assign_all_systems_organization_path(taxonomy)
   end
 
-  def assign_hosts_taxonomy_path(taxonomy)
-    is_location? ? assign_hosts_location_path(taxonomy) : assign_hosts_organization_path(taxonomy)
+  def assign_systems_taxonomy_path(taxonomy)
+    is_location? ? assign_systems_location_path(taxonomy) : assign_systems_organization_path(taxonomy)
   end
 
   def taxonomy_ids_sym

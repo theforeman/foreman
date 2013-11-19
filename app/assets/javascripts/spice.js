@@ -4,16 +4,16 @@ var sc = null;
 $(function () {
   var scheme = "ws://", uri;
 
-  var host = window.location.hostname;
+  var system = window.location.systemname;
   var port = $('#spice-area').data('port');
   var password = $('#spice-area').data('password');
 
-  if ((!host) || (!port)) {
-    console.log(_("must set host and port"));
+  if ((!system) || (!port)) {
+    console.log(_("must set system and port"));
     return;
   }
 
-  uri = scheme + host + ":" + port;
+  uri = scheme + system + ":" + port;
 
   sc = new SpiceMainConn({uri: uri, screen_id: "spice-screen", password: password,
                           onerror: spice_error, onsuccess: spice_success});
@@ -30,7 +30,7 @@ function spice_error(e) {
 }
 
 function spice_success(m) {
-  $('#spice-status').text(Jed.sprintf(_('Connected (unencrypted) to: %s'), $('#spice-status').attr('data-host')))
+  $('#spice-status').text(Jed.sprintf(_('Connected (unencrypted) to: %s'), $('#spice-status').attr('data-system')))
   $('#spice-status').addClass('label-success');
 }
 
@@ -42,13 +42,13 @@ function connectXPI() {
   // we close down the other WebSocket connection when opening the XPI
   disconnect();
   var pluginobj = document.embeds[0];
-  pluginobj.hostIP = attrs.data('address');
+  pluginobj.systemIP = attrs.data('address');
   pluginobj.SecurePort = attrs.data('secure-port');
   pluginobj.Password = attrs.data('password');
   pluginobj.TrustStore = decodeURIComponent(attrs.data('ca-cert'));
   pluginobj.SSLChannels = String("all");
   pluginobj.fullScreen = false;
   pluginobj.Title = attrs.data('title');
-  pluginobj.HostSubject = attrs.data('subject');
+  pluginobj.SystemSubject = attrs.data('subject');
   pluginobj.connect();
 }

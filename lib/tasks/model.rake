@@ -1,6 +1,6 @@
 # TRANSLATORS: do not translate
 desc <<-EOT
-When Foreman imports a new host by reading its facts it will create the host and
+When Foreman imports a new system by reading its facts it will create the system and
 set its model to a value based upon the facts. This can result in a multiplicity
 of similarly named models. These may be condensed donw into a few basic models
 by comparing the names against a list of model types and regular expressions that
@@ -16,7 +16,7 @@ namespace :models  do
     map_file = "config/model.mappings"
     if File.exist? map_file
       mappings = YAML.load_file map_file
-      # Turn off any remote operations that may be called if we modify a host
+      # Turn off any remote operations that may be called if we modify a system
       if SETTINGS[:unattended]
         puts "Please turn off unattended mode in config/settings.yaml before running this rake task."
         exit(-1)
@@ -57,19 +57,19 @@ def consolidate mappings, dryrun
         puts "Mapping #{original.name} to #{mapping["name"]}"
         mapped << original
         # Validate before we do block assignments
-        valid_hosts = []
-        for host in original.hosts
-          if host.valid?
-            valid_hosts << host
+        valid_systems = []
+        for system in original.systems
+          if system.valid?
+            valid_systems << system
           else
-            puts "#{host.name}: #{host.errors.full_messages.to_sentence}"
+            puts "#{system.name}: #{system.errors.full_messages.to_sentence}"
           end
         end
         unless dryrun
-          model.hosts << valid_hosts
+          model.systems << valid_systems
           model.save(:validate => false)
           if model.errors.empty?
-            original.delete if original.hosts.count == 0
+            original.delete if original.systems.count == 0
           else
             puts "#{model.name} has these errors:" + model.errors.full_messages.to_sentence
           end

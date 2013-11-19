@@ -13,7 +13,7 @@ class ConfigTemplatesController < ApplicationController
       error e.to_s
       values = ConfigTemplate.search_for ""
     end
-    @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
+    @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:system_group, :environment])
   end
 
   def new
@@ -73,9 +73,9 @@ class ConfigTemplatesController < ApplicationController
     @history = Audit.descending.where(:auditable_id => @config_template.id, :auditable_type => 'ConfigTemplate')
   end
 
-  def default_template_url template, hostgroup
+  def default_template_url template, system_group
     url_for :only_path => false, :action => :template, :controller => '/unattended',
-      :id => template.name, :hostgroup => hostgroup.name
+      :id => template.name, :system_group => system_group.name
   end
 
   def find_by_id

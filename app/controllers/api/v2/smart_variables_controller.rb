@@ -5,11 +5,11 @@ module Api
       include Api::V2::LookupKeysCommonController
 
       api :GET, '/smart_variables', 'List all smart variables'
-      api :GET, '/hosts/:host_id/smart_variables', 'List of smart variables for a specific host'
-      api :GET, '/hostgroups/:hostgroup_id/smart_variables', 'List of smart variables for a specific hostgroup'
+      api :GET, '/systems/:system_id/smart_variables', 'List of smart variables for a specific system'
+      api :GET, '/system_groups/:system_group_id/smart_variables', 'List of smart variables for a specific system_group'
       api :GET, '/puppetclasses/:puppetclass_id/smart_variables', 'List of smart variables for a specific puppetclass'
-      param :host_id, :identifier, :required => false
-      param :hostgroup_id, :identifier, :required => false
+      param :system_id, :identifier, :required => false
+      param :system_group_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
       param :search, String, :desc => 'Filter results'
       param :order, String, :desc => 'sort results'

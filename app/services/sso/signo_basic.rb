@@ -22,7 +22,7 @@ module SSO
     def signo_auth
       u, p = ActionController::HttpAuthentication::Basic.user_name_and_password(controller.request)
       uri  = URI.parse("#{Setting['signo_url']}/login.json?username=#{URI.escape(u)}&password=#{URI.escape(p)}")
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = Net::HTTP.new(uri.system, uri.port)
       if uri.scheme == 'https'
         http.use_ssl     = true
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER

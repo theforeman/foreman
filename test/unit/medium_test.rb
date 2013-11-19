@@ -50,12 +50,12 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = hosts(:one)
-    host.medium = medium
-    host.os.media << medium
-    assert host.save!
+    system = systems(:one)
+    system.medium = medium
+    system.os.media << medium
+    assert system.save!
 
-    medium.hosts << host
+    medium.systems << system
 
     assert !medium.destroy
   end
@@ -89,8 +89,8 @@ class MediumTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Medium.first
     as_admin do
-      record.hosts.delete_all
-      record.hostgroups.delete_all
+      record.systems.delete_all
+      record.system_groups.delete_all
       assert record.destroy
     end
     assert record.frozen?
@@ -115,7 +115,7 @@ class MediumTest < ActiveSupport::TestCase
     record      =  Medium.first
     record.name = "renamed"
     as_admin do
-      record.hosts.delete_all
+      record.systems.delete_all
     end
     assert !record.save
     assert record.valid?

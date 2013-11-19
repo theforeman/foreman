@@ -1,6 +1,6 @@
-module HostgroupsHelper
+module SystemGroupsHelper
   include CommonParametersHelper
-  include HostsAndHostgroupsHelper
+  include SystemsAndSystemGroupsHelper
 
   def warning_message group
     msg = [_("Are you sure?")]

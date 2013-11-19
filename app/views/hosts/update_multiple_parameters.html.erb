@@ -1,13 +1,13 @@
-<h3><%= _('The following hosts were updated') %></h3>
+<h3><%= _('The following systems were updated') %></h3>
 <ul>
-  <% for host in @hosts %>
+  <% for system in @systems %>
     <li>
-    <%= link_to h(host.name), host_path(host) %>
-    <% unless @skipped_parameters[host.name].empty? %>
+    <%= link_to h(system.name), system_path(system) %>
+    <% unless @skipped_parameters[system.name].empty? %>
       <br/>
-      <%= _('The following parameters were skipped as they did not exists on this host:') %>
+      <%= _('The following parameters were skipped as they did not exists on this system:') %>
       <ul>
-        <% for parm in @skipped_parameters[host.name] %>
+        <% for parm in @skipped_parameters[system.name] %>
           <li><%= h parm %></li>
         <% end %>
       </ul>
@@ -15,4 +15,4 @@
     </li>
   <% end %>
 </ul>
-<%= link_to _("Back to host list"), hosts_path %>
+<%= link_to _("Back to system list"), systems_path %>

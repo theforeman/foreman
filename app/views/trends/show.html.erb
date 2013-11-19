@@ -5,15 +5,15 @@
   <div class="stats-well span12">
     <h4 class="ca"><%= "#{trend_title(@trend)}" %></h4>
     <h6 class="ca"><%= n_("last %s day", "last %s days", range) % range %></h6>
-    <%= flot_chart 'trend_graph','' ,_('Number of Hosts') , chart_data(@trend, range.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>
+    <%= flot_chart 'trend_graph','' ,_('Number of Systems') , chart_data(@trend, range.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>
   </div>
 </div>
 <div id="legendContainer"></div>
 <table class="table">
   <% unless @trend.fact_value.nil? %>
-    <th colspan="4"><%= _("Hosts") %></th>
+    <th colspan="4"><%= _("Systems") %></th>
     <tr>
-      <%= render 'hosts' %>
+      <%= render 'systems' %>
     </tr>
   <% end %>
 </table>

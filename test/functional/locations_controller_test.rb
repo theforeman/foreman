@@ -58,40 +58,40 @@ class LocationsControllerTest < ActionController::TestCase
     assert_equal "Location you had selected as your context has been deleted.", flash[:warning]
   end
 
-  # Assign All Hosts
-  test "should assign all hosts with no location to selected location" do
+  # Assign All Systems
+  test "should assign all systems with no location to selected location" do
     location = taxonomies(:location1)
-    cnt_hosts_no_location = Host.where(:location_id => nil).count
-    assert_difference "location.hosts.count", cnt_hosts_no_location do
-      post :assign_all_hosts, {:id => location.id}, set_session_user
+    cnt_systems_no_location = System.where(:location_id => nil).count
+    assert_difference "location.systems.count", cnt_systems_no_location do
+      post :assign_all_systems, {:id => location.id}, set_session_user
     end
     assert_redirected_to :controller => :locations, :action => :index
-    assert_equal flash[:notice], "All hosts previously with no location are now assigned to Location 1"
+    assert_equal flash[:notice], "All systems previously with no location are now assigned to Location 1"
   end
-  test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
+  test "should assign all systems with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
     assert_difference "location.taxable_taxonomies.count", 15 do
-      post :assign_all_hosts, {:id => location.id}, set_session_user
+      post :assign_all_systems, {:id => location.id}, set_session_user
     end
   end
 
-  # Assign Selected Hosts
-  test "be able to select hosts with no location to selected location" do
+  # Assign Selected Systems
+  test "be able to select systems with no location to selected location" do
     location = taxonomies(:location1)
-    get :assign_hosts, {:id => location.id}, set_session_user
+    get :assign_systems, {:id => location.id}, set_session_user
     assert_response :success
   end
-  test "assigned selected hosts with no location to selected location" do
+  test "assigned selected systems with no location to selected location" do
     location = taxonomies(:location1)
-    selected_hosts_no_location_ids = Host.where(:location_id => nil).limit(2).map(&:id)
+    selected_systems_no_location_ids = System.where(:location_id => nil).limit(2).map(&:id)
 
-    assert_difference "location.hosts.count", 2 do
-      put :assign_selected_hosts, {:id => location.id,
-                                   :location => {:host_ids => selected_hosts_no_location_ids}
+    assert_difference "location.systems.count", 2 do
+      put :assign_selected_systems, {:id => location.id,
+                                   :location => {:system_ids => selected_systems_no_location_ids}
                                   }, set_session_user
     end
     assert_redirected_to :controller => :locations, :action => :index
-    assert_equal flash[:notice], "Selected hosts are now assigned to Location 1"
+    assert_equal flash[:notice], "Selected systems are now assigned to Location 1"
   end
 
   # Mismatches
@@ -105,10 +105,10 @@ class LocationsControllerTest < ActionController::TestCase
   test "button Fix All Mismatches should work" do
     post :import_mismatches, {}, set_session_user
     assert_redirected_to :controller => :locations, :action => :index
-    assert_equal flash[:notice], "All mismatches between hosts and locations/organizations have been fixed"
+    assert_equal flash[:notice], "All mismatches between systems and locations/organizations have been fixed"
     # check that there are no mismatches
     get :mismatches, {}, set_session_user
-    assert_match "No hosts are mismatched", @response.body
+    assert_match "No systems are mismatched", @response.body
   end
 
   #Clone
@@ -125,8 +125,8 @@ class LocationsControllerTest < ActionController::TestCase
     assert_difference "Location.count", 1 do
       post :create, {:location => {:name => "location_dup_name",
                                  :environment_ids => location_dup.environment_ids,
-                                 :hostgroup_ids => location_dup.hostgroup_ids,
-                                 :subnet_ids => location_dup.hostgroup_ids,
+                                 :system_group_ids => location_dup.system_group_ids,
+                                 :subnet_ids => location_dup.system_group_ids,
                                  :domain_ids => location_dup.domain_ids,
                                  :medium_ids => location_dup.medium_ids,
                                  :user_ids => location_dup.user_ids,
@@ -142,7 +142,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.id
 
     assert_equal new_location.environment_ids, location.environment_ids
-    assert_equal new_location.hostgroup_ids, location.hostgroup_ids
+    assert_equal new_location.system_group_ids, location.system_group_ids
     assert_equal new_location.environment_ids, location.environment_ids
     assert_equal new_location.domain_ids, location.domain_ids
     assert_equal new_location.medium_ids, location.medium_ids

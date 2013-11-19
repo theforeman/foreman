@@ -6,11 +6,11 @@ module UnattendedHelper
   end
 
   def grub_pass
-    @grub ? "--md5pass=#{@host.root_pass}": ""
+    @grub ? "--md5pass=#{@system.root_pass}": ""
   end
 
   def root_pass
-    @host.root_pass
+    @system.root_pass
   end
 
 end

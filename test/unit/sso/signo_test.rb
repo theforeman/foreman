@@ -22,7 +22,7 @@ class SignoTest < ActiveSupport::TestCase
     signo    = get_signo_method
     response = Object.new
     response.stubs(:status).returns(:success)
-    response.stubs(:identity_url).returns('https://localhost/user/ares')
+    response.stubs(:identity_url).returns('https://localsystem/user/ares')
     assert signo.send(:parse_open_id, response)
     assert_equal signo.user, 'ares'
   end
@@ -37,8 +37,8 @@ class SignoTest < ActiveSupport::TestCase
   def test_authenticate_without_cookie
     controller = get_controller
     controller.request.stubs(:params).returns({})
-    controller.request.stubs(:url).returns('https://localhost/foreman?a=b&c=d')
-    url   = Setting['signo_url'] + "?return_url=#{URI.escape('https://localhost/foreman?a=b&c=d')}"
+    controller.request.stubs(:url).returns('https://localsystem/foreman?a=b&c=d')
+    url   = Setting['signo_url'] + "?return_url=#{URI.escape('https://localsystem/foreman?a=b&c=d')}"
     Setting['signo_sso'] = true
     controller.send(:extend, Foreman::Controller::Authentication)
     controller.stubs(:api_request?).returns(false)
@@ -87,13 +87,13 @@ class SignoTest < ActiveSupport::TestCase
     request.stubs(:env).returns(req)
     cookies = Hash.new
     request.stubs(:cookies).returns(cookies)
-    request.stubs(:url).returns('https://localhost/wherever/am?i=whoever&am=i')
+    request.stubs(:url).returns('https://localsystem/wherever/am?i=whoever&am=i')
     headers = Hash.new
     controller.stubs(:headers).returns(headers)
     controller.stubs(:request).returns(request)
     session = Hash.new
     controller.stubs(:session).returns(session)
-    controller.stubs(:root_url).returns('https://localhost/foreman?a=b&c=d')
+    controller.stubs(:root_url).returns('https://localsystem/foreman?a=b&c=d')
 
     controller
   end

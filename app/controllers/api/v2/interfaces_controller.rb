@@ -8,22 +8,22 @@ module Api
       before_filter :find_resource, :only => [:show, :update, :destroy]
       before_filter :find_required_nested_object, :only => [:index, :show, :create]
 
-      api :GET, '/hosts/:host_id/interfaces', 'List all interfaces for host'
-      param :host_id, String, :required => true, :desc => 'id or name of host'
+      api :GET, '/systems/:system_id/interfaces', 'List all interfaces for system'
+      param :system_id, String, :required => true, :desc => 'id or name of system'
 
       def index
         @interfaces = @nested_obj.interfaces.paginate(paginate_options)
       end
 
-      api :GET, '/hosts/:host_id/interfaces/:id', 'Show an interface for host'
-      param :host_id, String, :required => true, :desc => 'id or name of nested host'
+      api :GET, '/systems/:system_id/interfaces/:id', 'Show an interface for system'
+      param :system_id, String, :required => true, :desc => 'id or name of nested system'
       param :id, String, :required => true, :desc => 'id or name of interface'
 
       def show
       end
 
-      api :POST, '/hosts/:host_id/interfaces', 'Create an interface linked to a host'
-      param :host_id, String, :required => true, :desc => 'id or name of host'
+      api :POST, '/systems/:system_id/interfaces', 'Create an interface linked to a system'
+      param :system_id, String, :required => true, :desc => 'id or name of system'
       param :interface, Hash, :required => true, :desc => 'interface information' do
         param :mac, String, :required => true, :desc => 'MAC address of interface'
         param :ip, String, :required => true, :desc => 'IP address of interface'
@@ -45,8 +45,8 @@ module Api
         end
       end
 
-      api :PUT, "/hosts/:host_id/interfaces/:id", "Update host interface"
-      param :host_id, String, :required => true, :desc => 'id or name of host'
+      api :PUT, "/systems/:system_id/interfaces/:id", "Update system interface"
+      param :system_id, String, :required => true, :desc => 'id or name of system'
       param :interface, Hash, :required => true, :desc => 'interface information' do
         param :mac, String, :desc => 'MAC address of interface'
         param :ip, String, :desc => 'IP address of interface'
@@ -63,7 +63,7 @@ module Api
         process_response @interface.update_attributes(params[:interface], :without_protection => true)
       end
 
-      api :DELETE, "/hosts/:host_id/interfaces/:id", "Delete a host interface"
+      api :DELETE, "/systems/:system_id/interfaces/:id", "Delete a system interface"
       param :id, String, :required => true, :desc => "id of interface"
 
       def destroy
@@ -73,7 +73,7 @@ module Api
       private
 
       def allowed_nested_id
-        %w(host_id)
+        %w(system_id)
       end
 
       def resource_class

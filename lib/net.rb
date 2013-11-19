@@ -3,7 +3,7 @@ require "net/validations"
 module Net
   class Record
     include Net::Validations
-    attr_accessor :hostname, :proxy, :logger
+    attr_accessor :systemname, :proxy, :logger
 
     def initialize opts = {}
       # set all attributes
@@ -14,7 +14,7 @@ module Net
       raise Net::LeaseConflict.new("#{self.mac}/#{self.ip}") if opts['state']
 
       self.logger ||= Rails.logger
-      raise "Must define a hostname" if hostname.blank?
+      raise "Must define a systemname" if systemname.blank?
       raise "Must define a proxy"    if proxy.nil?
     end
 

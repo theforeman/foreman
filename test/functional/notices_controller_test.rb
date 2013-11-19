@@ -4,7 +4,7 @@ class NoticesControllerTest < ActionController::TestCase
   def setup
     User.current = User.admin
     @notice = Notice.create :global => false, :content => "hello", :level => "message"
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = systems_path
   end
 
   def test_acknowledge_for_global

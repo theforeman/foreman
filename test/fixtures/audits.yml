@@ -5,11 +5,11 @@ one:
   username:
   action: update
   user_type:
-  associated_type: Host
+  associated_type: System
   user_id:
   version: "1"
   associated_id: "272"
-  auditable: one (Host)
+  auditable: one (System)
   audited_changes: |
     ---
     architecture_id:

@@ -1,45 +1,45 @@
 module Api
   module V2
-    class HostClassesController < V2::BaseController
+    class SystemClassesController < V2::BaseController
 
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_host_id, :only => [:index, :create, :destroy]
+      before_filter :find_system_id, :only => [:index, :create, :destroy]
 
-      api :GET, "/hosts/:host_id/puppetclass_ids/", "List all puppetclass id's for host"
+      api :GET, "/systems/:system_id/puppetclass_ids/", "List all puppetclass id's for system"
 
       def index
-        render :json => HostClass.where(:host_id => host_id).pluck('puppetclass_id')
+        render :json => SystemClass.where(:system_id => system_id).pluck('puppetclass_id')
       end
 
-      api :POST, "/hosts/:host_id/puppetclass_ids", "Add a puppetclass to host"
-      param :host_id, String, :required => true, :desc => "id of host"
+      api :POST, "/systems/:system_id/puppetclass_ids", "Add a puppetclass to system"
+      param :system_id, String, :required => true, :desc => "id of system"
       param :puppetclass_id, String, :required => true, :desc => "id of puppetclass"
 
       def create
-        @host_class = HostClass.create!(:host_id => host_id, :puppetclass_id => params[:puppetclass_id].to_i)
-        render :json => {:host_id => @host_class.host_id, :puppetclass_id => @host_class.puppetclass_id}
+        @system_class = SystemClass.create!(:system_id => system_id, :puppetclass_id => params[:puppetclass_id].to_i)
+        render :json => {:system_id => @system_class.system_id, :puppetclass_id => @system_class.puppetclass_id}
       end
 
-      api :DELETE, "/hosts/:host_id/puppetclass_ids/:id/", "Remove a puppetclass from host"
-      param :host_id, String, :required => true, :desc => "id of host"
+      api :DELETE, "/systems/:system_id/puppetclass_ids/:id/", "Remove a puppetclass from system"
+      param :system_id, String, :required => true, :desc => "id of system"
       param :id, String, :required => true, :desc => "id of puppetclass"
 
       def destroy
-        @host_class = HostClass.where(:host_id => host_id, :puppetclass_id => params[:id])
-        process_response @host_class.destroy_all
+        @system_class = SystemClass.where(:system_id => system_id, :puppetclass_id => params[:id])
+        process_response @system_class.destroy_all
       end
 
       private
-      attr_reader :host_id
+      attr_reader :system_id
 
-      def find_host_id
-        if params[:host_id] =~ /^\d+$/
-          return @host_id = params[:host_id].to_i
+      def find_system_id
+        if params[:system_id] =~ /^\d+$/
+          return @system_id = params[:system_id].to_i
         else
-          @host ||= Host::Managed.find_by_name(params[:host_id])
-          return @host_id = @host.id if @host
+          @system ||= System::Managed.find_by_name(params[:system_id])
+          return @system_id = @system.id if @system
           render_error 'not_found', :status => :not_found and return false
         end
       end

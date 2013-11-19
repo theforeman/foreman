@@ -5,13 +5,13 @@ module Api
       include Api::V2::LookupKeysCommonController
 
       api :GET, '/smart_class_parameters', 'List all smart class parameters'
-      api :GET, '/hosts/:host_id/smart_class_parameters', 'List of smart class parameters for a specific host'
-      api :GET, '/hostgroups/:hostgroup_id/smart_class_parameters', 'List of smart class parameters for a specific hostgroup'
+      api :GET, '/systems/:system_id/smart_class_parameters', 'List of smart class parameters for a specific system'
+      api :GET, '/system_groups/:system_group_id/smart_class_parameters', 'List of smart class parameters for a specific system_group'
       api :GET, '/puppetclasses/:puppetclass_id/smart_class_parameters', 'List of smart class parameters for a specific puppetclass'
       api :GET, '/environments/:environment_id/smart_class_parameters', 'List of smart class parameters for a specific environment'
       api :GET, '/environments/:environment_id/puppetclasses/:puppetclass_id/smart_class_parameters', 'List of smart class parameters for a specific environment/puppetclass combination'
-      param :host_id, :identifier, :required => false
-      param :hostgroup_id, :identifier, :required => false
+      param :system_id, :identifier, :required => false
+      param :system_group_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
       param :environment_id, :identifier, :required => false
       param :search, String, :desc => 'Filter results'

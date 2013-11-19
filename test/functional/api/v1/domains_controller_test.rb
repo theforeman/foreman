@@ -39,8 +39,8 @@ class Api::V1::DomainsControllerTest < ActionController::TestCase
 
   test "should destroy domain" do
     domain = Domain.first
-    domain.hosts.clear
-    domain.hostgroups.clear
+    domain.systems.clear
+    domain.system_groups.clear
     domain.subnets.clear
     delete :destroy, { :id => domain.to_param }
     domain = ActiveSupport::JSON.decode(@response.body)

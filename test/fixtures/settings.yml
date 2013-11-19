@@ -2,18 +2,18 @@ attributes1:
   name: administrator
   settings_type: string
   category: Setting::General
-  default: root@some.host.fqdn
+  default: root@some.system.fqdn
   description: The Default administrator email address
 attributes2:
   name: foreman_url
   category: Setting::General
-  default: http://foreman.some.host.fqdn
+  default: http://foreman.some.system.fqdn
   description: The URL Foreman should point to in emails etc
 attributes3:
   name: root_pass
   category: Setting::Provisioning
   default: xybxa6JUkz63w
-  description: Default root password on provisioned hosts default is 123123
+  description: Default root password on provisioned systems default is 123123
 attributes4:
   name: safemode_render
   category: Setting::Provisioning
@@ -22,7 +22,7 @@ attributes4:
 attributes5:
   name: ssl_certificate
   category: Setting::Provisioning
-  default: /var/lib/puppet/ssl/certs/some.host.fqdn
+  default: /var/lib/puppet/ssl/certs/some.system.fqdn
   description: SSL Certificate path that foreman would use to communicate with its proxies
 attributes6:
   name: ssl_ca_file
@@ -32,7 +32,7 @@ attributes6:
 attributes7:
   name: ssl_priv_key
   category: Setting::Provisioning
-  default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
+  default: /var/lib/puppet/ssl/private_keys/super.some.system.fqdn.pem
   description: SSL Private Key file that foreman would use to communicate with its proxies
 attributes8:
   name: puppet_interval
@@ -59,7 +59,7 @@ attributes12:
   name: puppet_server
   category: Setting::Puppet
   default: puppet
-  description: Default Setting::Puppet Server hostname
+  description: Default Setting::Puppet Server systemname
 attributes13:
   name: failed_report_email_notification
   category: Setting::Puppet
@@ -68,13 +68,13 @@ attributes13:
 attributes14:
   name: Default_variables_Lookup_Path
   category: Setting::Puppet
-  default: ["fqdn", "hostgroup", "os", "domain"]
-  description: The Default path in which foreman resolves host specific variables
+  default: ["fqdn", "system_group", "os", "domain"]
+  description: The Default path in which foreman resolves system specific variables
 attributes15:
   name: manage_puppetca
   category: Setting::Provisioning
   default: "true"
-  description: Should Foreman manage host certificates when provisioning hosts
+  description: Should Foreman manage system certificates when provisioning systems
 attributes16:
   name: entries_per_page
   category: Setting::General
@@ -84,7 +84,7 @@ attributes17:
   name: update_environment_from_facts
   category: Setting::Puppet
   default: "false"
-  description: Foreman will update a hosts environment from its facts
+  description: Foreman will update a systems environment from its facts
 attributes18:
   name: idle_timeout
   category: Setting::General
@@ -99,7 +99,7 @@ attributes20:
   name: use_uuid_for_certificates
   category: Setting::Puppet
   default: "false"
-  description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
+  description: "Should Foreman use random UUID's for certificate signing instead of systemnames"
 attributes21:
   name: query_local_nameservers
   category: Setting::Provisioning
@@ -154,12 +154,12 @@ attribute31:
   name: remove_classes_not_in_environment
   category: Setting::Puppet
   default: "false"
-  description: "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)"
+  description: "When System and SystemGroup have different environments should all classes be included (regardless if they exists or not in the other environment)"
 attribute32:
-  name: trusted_puppetmaster_hosts
+  name: trusted_puppetmaster_systems
   category: Setting::Auth
   default: []
-  description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
+  description: "Systems that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
 attribute33:
   name: use_gravatar
   category: Setting::General
@@ -173,7 +173,7 @@ attribute34:
 attribute35:
   name: signo_url
   category: Setting::Auth
-  default: "https://localhost:3002"
+  default: "https://localsystem:3002"
   description: "Where Signo runs"
 attribute36:
   name: puppetrun
@@ -181,20 +181,20 @@ attribute36:
   default: "true"
   description: "Enables Puppetrun Support"
 attribute37:
-  name: create_new_host_when_facts_are_uploaded
+  name: create_new_system_when_facts_are_uploaded
   category: Setting::Puppet
   default: "true"
-  description: "Foreman will create the host when new facts are received"
+  description: "Foreman will create the system when new facts are received"
 attribute38:
   name: update_ip_from_built_request
   category: Setting::Provisioning
   default: "true"
-  description: "Should we use the originating IP of the built request to update the Host's IP?"
+  description: "Should we use the originating IP of the built request to update the System's IP?"
 attribute39:
-  name: legacy_puppet_hostname
+  name: legacy_puppet_systemname
   category: Setting::Puppet
   default: "false"
-  description: "Foreman will truncate hostname to 'puppet' if it starts with puppet"
+  description: "Foreman will truncate systemname to 'puppet' if it starts with puppet"
 attribute40:
   name: interpolate_erb_in_parameters
   category: Setting::Puppet
@@ -204,14 +204,14 @@ attribute41:
   name: use_shortname_for_vms
   category: Setting::Provisioning
   default: "false"
-  description: "Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"
+  description: "Should Foreman use the short systemname instead of the FQDN for creating new virtual machines"
 attribute42:
-  name: create_new_host_when_report_is_uploaded
+  name: create_new_system_when_report_is_uploaded
   category: Setting::Puppet
   default: "true"
-  description: "Foreman will create the host when a report is received"
+  description: "Foreman will create the system when a report is received"
 attributes43:
   name: unattended_url
   category: Setting::Provisioning
-  default: http://foreman.some.host.fqdn
+  default: http://foreman.some.system.fqdn
   description: The URL Foreman should point to in templates etc

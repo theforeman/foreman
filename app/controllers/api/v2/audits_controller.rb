@@ -5,7 +5,7 @@ module Api
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/audits/", "List all audits."
-      api :GET, "/hosts/:host_id/audits/", "List all audits for a given host."
+      api :GET, "/systems/:system_id/audits/", "List all audits for a given system."
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"

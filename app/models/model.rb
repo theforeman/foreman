@@ -1,9 +1,9 @@
 class Model < ActiveRecord::Base
   include Authorization
 
-  has_many_hosts
+  has_many_systems
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:systems)
   validates :name, :uniqueness => true, :presence => true
 
   default_scope lambda { order('models.name') }

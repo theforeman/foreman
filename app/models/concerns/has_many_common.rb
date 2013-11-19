@@ -29,7 +29,7 @@ module HasManyCommon
 
     # class method in model to overwrite default attribute_name
     # Ex.
-    # Class Hostgroup
+    # Class SystemGroup
     #   attr_name :label
     def attr_name(attribute)
       self_class.send(:define_method, "attribute_name") do

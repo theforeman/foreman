@@ -78,8 +78,8 @@ module Foreman::Model
       vm.console.body.merge({'timestamp' => Time.now.utc})
     end
 
-    def associated_host(vm)
-      Host.my_hosts.where(:ip => [vm.floating_ip_address, vm.private_ip_address]).first
+    def associated_system(vm)
+      System.my_systems.where(:ip => [vm.floating_ip_address, vm.private_ip_address]).first
     end
 
     private

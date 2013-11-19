@@ -7,7 +7,7 @@ module Orchestration
   included do
     attr_reader :old
 
-    # save handles both creation and update of hosts
+    # save handles both creation and update of systems
     before_save :on_save
     after_commit :post_commit
     after_destroy :on_destroy
@@ -152,7 +152,7 @@ module Orchestration
     end
   end
 
-  # we keep the before update host object in order to compare changes
+  # we keep the before update system object in order to compare changes
   def setup_clone
     return if new_record?
     @old = dup

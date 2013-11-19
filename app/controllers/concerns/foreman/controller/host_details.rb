@@ -1,7 +1,7 @@
-# This module extract repeating methods which handle host assoications of hostgroups, os etc
-# Mainly used within the host and the hostgroup controllers
+# This module extract repeating methods which handle system assoications of system_groups, os etc
+# Mainly used within the system and the system_group controllers
 
-module Foreman::Controller::HostDetails
+module Foreman::Controller::SystemDetails
   extend ActiveSupport::Concern
 
   def architecture_selected
@@ -56,7 +56,7 @@ module Foreman::Controller::HostDetails
   end
 
   # Initiate a new object based on current context, e.g:
-  # @host = Host.new params[:host]
+  # @system = System.new params[:system]
   def item_object
     name = item_name
     instance_variable_set("@#{name}", name.classify.constantize.new(params[name.to_sym]))

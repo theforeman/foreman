@@ -11,17 +11,17 @@ module Api
       resource_description do
         # TRANSLATORS: API documentation - do not translate
         desc <<-DOC
-          These API calls are related to <b>nested parameters for host, domain, hostgroup, operating system</b>. If you are looking for
+          These API calls are related to <b>nested parameters for system, domain, system_group, operating system</b>. If you are looking for
           <a href="common_parameters.html">global parameters</a>, go to <a href="common_parameters.html">this link</a>.
         DOC
       end
 
-      api :GET, "/hosts/:host_id/parameters", "List all parameters for host"
-      api :GET, "/hostgroups/:hostgroup_id/parameters", "List all parameters for hostgroup"
+      api :GET, "/systems/:system_id/parameters", "List all parameters for system"
+      api :GET, "/system_groups/:system_group_id/parameters", "List all parameters for system_group"
       api :GET, "/domains/:domain_id/parameters", "List all parameters for domain"
       api :GET, "/operatingsystems/:operatingsystem_id/parameters", "List all parameters for operating system"
-      param :host_id, String, :desc => "id of host"
-      param :hostgroup_id, String, :desc => "id of hostgroup"
+      param :system_id, String, :desc => "id of system"
+      param :system_group_id, String, :desc => "id of system_group"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :page, String, :desc => "paginate results"
@@ -31,12 +31,12 @@ module Api
         @parameters = nested_obj.send(parameters_method).paginate(paginate_options)
       end
 
-      api :GET, "/hosts/:host_id/parameters/:id", "Show a nested parameter for host"
-      api :GET, "/hostgroups/:hostgroup_id/parameters/:id", "Show a nested parameter for hostgroup"
+      api :GET, "/systems/:system_id/parameters/:id", "Show a nested parameter for system"
+      api :GET, "/system_groups/:system_group_id/parameters/:id", "Show a nested parameter for system_group"
       api :GET, "/domains/:domain_id/parameters/:id", "Show a nested parameter for domain"
       api :GET, "/operatingsystems/:operatingsystem_id/parameters/:id", "Show a nested parameter for operating system"
-      param :host_id, String, :desc => "id of host"
-      param :hostgroup_id, String, :desc => "id of hostgroup"
+      param :system_id, String, :desc => "id of system"
+      param :system_group_id, String, :desc => "id of system_group"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :id, String, :required => true, :desc => "id of parameter"
@@ -44,12 +44,12 @@ module Api
       def show
       end
 
-      api :POST, "/hosts/:host_id/parameters/", "Create a nested parameter for host"
-      api :POST, "/hostgroups/:hostgroup_id/parameters/", "Create a nested parameter for hostgroup"
+      api :POST, "/systems/:system_id/parameters/", "Create a nested parameter for system"
+      api :POST, "/system_groups/:system_group_id/parameters/", "Create a nested parameter for system_group"
       api :POST, "/domains/:domain_id/parameters/", "Create a nested parameter for domain"
       api :POST, "/operatingsystems/:operatingsystem_id/parameters/", "Create a nested parameter for operating system"
-      param :host_id, String, :desc => "id of host"
-      param :hostgroup_id, String, :desc => "id of hostgroup"
+      param :system_id, String, :desc => "id of system"
+      param :system_group_id, String, :desc => "id of system_group"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :parameter, Hash, :required => true do
@@ -62,12 +62,12 @@ module Api
         process_response @parameter.save
       end
 
-      api :PUT, "/hosts/:host_id/parameters/:id", "Update a nested parameter for host"
-      api :PUT, "/hostgroups/:hostgroup_id/parameters/:id", "Update a nested parameter for hostgroup"
+      api :PUT, "/systems/:system_id/parameters/:id", "Update a nested parameter for system"
+      api :PUT, "/system_groups/:system_group_id/parameters/:id", "Update a nested parameter for system_group"
       api :PUT, "/domains/:domain_id/parameters/:id", "Update a nested parameter for domain"
       api :PUT, "/operatingsystems/:operatingsystem_id/parameters/:id", "Update a nested parameter for operating system"
-      param :host_id, String, :desc => "id of host"
-      param :hostgroup_id, String, :desc => "id of hostgroup"
+      param :system_id, String, :desc => "id of system"
+      param :system_group_id, String, :desc => "id of system_group"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :id, String, :required => true, :desc => "id of parameter"
@@ -80,12 +80,12 @@ module Api
         process_response @parameter.update_attributes(params[:parameter])
       end
 
-      api :DELETE, "/hosts/:host_id/parameters/:id", "Delete a nested parameter for host"
-      api :DELETE, "/hostgroups/:hostgroup_id/parameters/:id", "Delete a nested parameter for hostgroup"
+      api :DELETE, "/systems/:system_id/parameters/:id", "Delete a nested parameter for system"
+      api :DELETE, "/system_groups/:system_group_id/parameters/:id", "Delete a nested parameter for system_group"
       api :DELETE, "/domains/:domain_id/parameters/:id", "Delete a nested parameter for domain"
       api :DELETE, "/operatingsystems/:operatingsystem_id/parameters/:id", "Delete a nested parameter for operating system"
-      param :host_id, String, :desc => "id of host"
-      param :hostgroup_id, String, :desc => "id of hostgroup"
+      param :system_id, String, :desc => "id of system"
+      param :system_group_id, String, :desc => "id of system_group"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :id, String, :required => true, :desc => "id of parameter"
@@ -94,8 +94,8 @@ module Api
         process_response @parameter.destroy
       end
 
-      api :DELETE, "/hosts/:host_id/parameters", "Delete all nested parameters for host"
-      api :DELETE, "/hostgroups/:hostgroup_id/parameters", "Delete all nested parameters for hostgroup"
+      api :DELETE, "/systems/:system_id/parameters", "Delete all nested parameters for system"
+      api :DELETE, "/system_groups/:system_group_id/parameters", "Delete all nested parameters for system_group"
       api :DELETE, "/domains/:domain_id/parameters", "Delete all nested parameters for domain"
       api :DELETE, "/operatingsystems/:operatingsystem_id/parameters", "Delete all nested parameters for operating system"
 
@@ -107,12 +107,12 @@ module Api
       private
 
       def parameters_method
-        # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
-        nested_obj.is_a?(Hostgroup) ? :group_parameters : :parameters
+        # system_group.rb has a method def parameters, so I didn't create has_many :parameters like System, Domain, Os
+        nested_obj.is_a?(SystemGroup) ? :group_parameters : :parameters
       end
 
       def allowed_nested_id
-        %w(host_id hostgroup_id domain_id operatingsystem_id)
+        %w(system_id system_group_id domain_id operatingsystem_id)
       end
 
       def find_parameter

@@ -5,7 +5,7 @@ module Api
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/fact_values/", "List all fact values."
-      api :GET, "/hosts/:host_id/facts/", "List all fact values of a given host."
+      api :GET, "/systems/:system_id/facts/", "List all fact values of a given system."
       param :search, String, :desc => "filter results"
       param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"
@@ -14,7 +14,7 @@ module Api
       def index
         values = FactValue.my_facts.no_timestamp_facts.
           search_for(*search_options).paginate(paginate_options).
-          includes(:fact_name, :host)
+          includes(:fact_name, :system)
         render :json => FactValue.build_facts_hash(values.all)
       end
 

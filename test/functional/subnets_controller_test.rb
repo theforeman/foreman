@@ -40,7 +40,7 @@ class SubnetsControllerTest < ActionController::TestCase
     assert_redirected_to subnets_url
   end
 
-  def test_should_not_destroy_if_used_by_hosts
+  def test_should_not_destroy_if_used_by_systems
     subnet = subnets(:one)
     delete :destroy, {:id => subnet}, set_session_user
     assert_redirected_to subnets_url
@@ -49,7 +49,7 @@ class SubnetsControllerTest < ActionController::TestCase
 
   def test_destroy
     subnet = Subnet.first
-    subnet.hosts.clear
+    subnet.systems.clear
     subnet.interfaces.clear
     delete :destroy, {:id => subnet}, set_session_user
     assert_redirected_to subnets_url

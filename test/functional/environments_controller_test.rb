@@ -55,8 +55,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   def setup_import_classes
     as_admin do
-      Host::Managed.update_all(:environment_id => nil)
-      Hostgroup.update_all(:environment_id => nil)
+      System::Managed.update_all(:environment_id => nil)
+      SystemGroup.update_all(:environment_id => nil)
       Puppetclass.destroy_all
       Environment.destroy_all
     end
@@ -141,12 +141,12 @@ class EnvironmentsControllerTest < ActionController::TestCase
     disable_orchestration
     setup_import_classes
     as_admin do
-      host = hosts(:one)
+      system = systems(:one)
       Environment.find_by_name("env1").puppetclasses += [puppetclasses(:one)]
-      host.environment_id = Environment.find_by_name("env1").id
-      assert host.save!
-      assert host.errors.empty?
-      assert Environment.find_by_name("env1").hosts.count > 0
+      system.environment_id = Environment.find_by_name("env1").id
+      assert system.save!
+      assert system.errors.empty?
+      assert Environment.find_by_name("env1").systems.count > 0
     end
 
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
@@ -156,7 +156,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
           {"env1"  => '["a","b","c","_destroy_"]'}
         }
       }, set_session_user
-    assert Environment.find_by_name("env1").hosts.count > 0
+    assert Environment.find_by_name("env1").systems.count > 0
     #assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
     assert Environment.find_by_name("env1")
   end

@@ -32,7 +32,7 @@ Foreman::Application.configure do
   config.serve_static_assets = true
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
-  # config.action_controller.asset_host = "http://assets.example.com"
+  # config.action_controller.asset_system = "http://assets.example.com"
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
@@ -82,9 +82,9 @@ Foreman::Application.configure do
                   ace/keybinding-vim
                   ace/keybinding-emacs
                   diff
-                  host_edit
+                  system_edit
                   jquery.cookie
-                  host_checkbox
+                  system_checkbox
                   nfs_visibility
                   noVNC/base64
                   noVNC/des

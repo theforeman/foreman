@@ -1,6 +1,6 @@
 // raw data from Foreman's old parsing of reports, with some readable formtting
 {
-  "host": "b.host.domain",
+  "system": "b.system.domain",
   "reported_at": "2010-10-21 05:14:54 UTC",
   "logs": [
 
@@ -20,7 +20,7 @@
       "exec": 2.237300157547,
       "file": 6.11497139930725,
       "filebucket": 0.000134944915771484,
-      "host": 0.00245118141174316,
+      "system": 0.00245118141174316,
       "mount": 0.141838073730469,
       "package": 0.9647057056427,
       "schedule": 0.000991106033325195,

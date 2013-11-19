@@ -61,11 +61,11 @@ module Orchestration::DNS
   private
 
   def dns_record_attrs
-    { :hostname => name, :ip => ip, :resolver => domain.resolver, :proxy => domain.proxy }
+    { :systemname => name, :ip => ip, :resolver => domain.resolver, :proxy => domain.proxy }
   end
 
   def reverse_dns_record_attrs
-    { :hostname => name, :ip => ip, :proxy => subnet.dns_proxy }
+    { :systemname => name, :ip => ip, :proxy => subnet.dns_proxy }
   end
 
   def queue_dns

@@ -1,29 +1,29 @@
 module DashboardHelper
 
-  def count_reports(hosts)
+  def count_reports(systems)
     data = []
     interval = Setting[:puppet_interval] / 10
     start = Time.now.utc - Setting[:puppet_interval].minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
-      data << [Setting[:puppet_interval] - i*interval , hosts.run_distribution(t, t + interval.minutes).count]
+      data << [Setting[:puppet_interval] - i*interval , systems.run_distribution(t, t + interval.minutes).count]
     end
     data
   end
 
   def render_overview report, options = {}
-    data = [{:label=>_('Active'), :data => report[:active_hosts_ok_enabled],:color => report_color[:active_hosts_ok_enabled]},
-            {:label=>_('Error'), :data =>report[:bad_hosts_enabled], :color => report_color[:bad_hosts_enabled]},
-            {:label=>_('OK'), :data =>report[:ok_hosts_enabled],:color => report_color[:ok_hosts_enabled]},
-            {:label=>_('Pending changes'), :data =>report[:pending_hosts_enabled],:color => report_color[:pending_hosts_enabled]},
-            {:label=>_('Out of sync'), :data =>report[:out_of_sync_hosts_enabled],:color => report_color[:out_of_sync_hosts_enabled]},
+    data = [{:label=>_('Active'), :data => report[:active_systems_ok_enabled],:color => report_color[:active_systems_ok_enabled]},
+            {:label=>_('Error'), :data =>report[:bad_systems_enabled], :color => report_color[:bad_systems_enabled]},
+            {:label=>_('OK'), :data =>report[:ok_systems_enabled],:color => report_color[:ok_systems_enabled]},
+            {:label=>_('Pending changes'), :data =>report[:pending_systems_enabled],:color => report_color[:pending_systems_enabled]},
+            {:label=>_('Out of sync'), :data =>report[:out_of_sync_systems_enabled],:color => report_color[:out_of_sync_systems_enabled]},
             {:label=>_('No report'), :data =>report[:reports_missing],:color => report_color[:reports_missing]},
-            {:label=>_('Notification disabled'), :data =>report[:disabled_hosts],:color => report_color[:disabled_hosts]}]
-    flot_pie_chart 'overview', _('Host Configuration Status'), data, options.merge(:search => "search_by_legend")
+            {:label=>_('Notification disabled'), :data =>report[:disabled_systems],:color => report_color[:disabled_systems]}]
+    flot_pie_chart 'overview', _('System Configuration Status'), data, options.merge(:search => "search_by_legend")
   end
 
-  def render_run_distribution hosts, options = {}
-    data = count_reports(hosts)
+  def render_run_distribution systems, options = {}
+    data = count_reports(systems)
     flot_bar_chart("run_distribution", _("Minutes Ago"), _("Number Of Clients"), data, options)
   end
 
@@ -32,7 +32,7 @@ module DashboardHelper
     content_tag :li do
       content_tag(:i, raw('&nbsp;'), :class=>'label', :style => "background-color:" + report_color[counter]) +
       raw('&nbsp;')+
-      link_to(name, hosts_path(:search => search),:class=>"dashboard-links") +
+      link_to(name, systems_path(:search => search),:class=>"dashboard-links") +
       content_tag(:h4,@report[counter])
     end
   end
@@ -47,7 +47,7 @@ module DashboardHelper
   end
 
   def latest_headers
-    string =  "<th>#{_("Host")}</th>"
+    string =  "<th>#{_("System")}</th>"
     # TRANSLATORS: initial character of Applied
     string += translated_header(s_('Applied|A'), _('Applied'))
     # TRANSLATORS: initial character of Restarted
@@ -66,13 +66,13 @@ module DashboardHelper
 
   def report_color
     {
-        :active_hosts_ok_enabled => "#4572A7",
-        :bad_hosts_enabled => "#AA4643",
-        :ok_hosts_enabled => "#89A54E",
-        :pending_hosts_enabled => "#80699B",
-        :out_of_sync_hosts_enabled => "#3D96AE",
+        :active_systems_ok_enabled => "#4572A7",
+        :bad_systems_enabled => "#AA4643",
+        :ok_systems_enabled => "#89A54E",
+        :pending_systems_enabled => "#80699B",
+        :out_of_sync_systems_enabled => "#3D96AE",
         :reports_missing => "#DB843D",
-        :disabled_hosts => "#92A8CD"
+        :disabled_systems => "#92A8CD"
     }
   end
 

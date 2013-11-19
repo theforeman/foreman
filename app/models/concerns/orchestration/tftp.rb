@@ -19,7 +19,7 @@ module Orchestration::TFTP
 
   protected
 
-  # Adds the host to the forward and reverse TFTP zones
+  # Adds the system to the forward and reverse TFTP zones
   # +returns+ : Boolean true on success
   def setTFTP
     logger.info "Add the TFTP configuration for #{name}"
@@ -28,7 +28,7 @@ module Orchestration::TFTP
     failure _("Failed to set TFTP: %s") % proxy_error(e)
   end
 
-  # Removes the host from the forward and reverse TFTP zones
+  # Removes the system from the forward and reverse TFTP zones
   # +returns+ : Boolean true on success
   def delTFTP
     logger.info "Delete the TFTP configuration for #{name}"
@@ -62,7 +62,7 @@ module Orchestration::TFTP
     return unless operatingsystem
     return if Rails.env == "test"
     if configTemplate({:kind => operatingsystem.template_kind}).nil? and configTemplate({:kind => "gPXE"}).nil?
-      failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") % { :template_kind => operatingsystem.template_kind, :os => os }
+      failure _("No %{template_kind} templates were found for this system, make sure you define at least one in your %{os} settings") % { :template_kind => operatingsystem.template_kind, :os => os }
     end
   end
 
@@ -73,8 +73,8 @@ module Orchestration::TFTP
     prefix   = operatingsystem.pxe_prefix(arch)
     @kernel = os.kernel(arch)
     @initrd = os.initrd(arch)
-    # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
-    @host = self
+    # work around for ensuring that people can use @system as well, as tftp templates were usually confusing.
+    @system = self
     if build?
       pxe_render configTemplate({:kind => os.template_kind}).template
     else

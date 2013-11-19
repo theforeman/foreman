@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def welcome
     @searchbar = true
-    klass = controller_name == "dashboard" ? "Host" : controller_name.camelize.singularize
+    klass = controller_name == "dashboard" ? "System" : controller_name.camelize.singularize
     if (klass.constantize.first.nil? rescue false)
       @searchbar = false
       render :welcome rescue nil and return
@@ -50,8 +50,8 @@ class ApplicationController < ActionController::Base
   def require_ssl
     # if SSL is not configured, don't bother forcing it.
     return true unless SETTINGS[:require_ssl]
-    # don't force SSL on localhost
-    return true if request.host=~/localhost|127.0.0.1/
+    # don't force SSL on localsystem
+    return true if request.system=~/localsystem|127.0.0.1/
     # finally - redirect
     redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
   end
@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
   # required for models which implement the to_param method
   #
   # example:
-  # @host = Host.find_by_name params[:id]
+  # @system = System.find_by_name params[:id]
   def find_by_name
     not_found and return if params[:id].blank?
 
@@ -142,7 +142,7 @@ class ApplicationController < ActionController::Base
 
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
   # it automatically updates the search text box with the relevant relationship
-  # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
+  # e.g. /systems/fqdn/reports # would add system = fqdn to the search bar
   def setup_search_options
     params[:search] ||= ""
     params.keys.each do |param|
@@ -231,7 +231,7 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  # this is only used in hosts_controller (by SmartProxyAuth module) to render 403's
+  # this is only used in systems_controller (by SmartProxyAuth module) to render 403's
   def render_error(msg, status)
     render_403
   end
@@ -336,7 +336,7 @@ class ApplicationController < ActionController::Base
   # If the user has a fact_filter then we need to include :fact_values
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
-    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
+    include += [:system_group, :compute_resource, :operatingsystem, :environment, :model ]
     include += [:fact_values] if User.current.user_facts.any?
     include
   end

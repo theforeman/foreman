@@ -20,10 +20,10 @@ class ModelTest < ActiveSupport::TestCase
   test "should not be used when destroyed" do
     m = Model.create :name => "m1"
 
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+    system = System.create :name => "myfullsystem", :mac => "aabbecddeeff", :ip => "123.05.02.03",
       :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
-    m.hosts << host
+    m.systems << system
     assert !m.destroy
   end
 
@@ -56,7 +56,7 @@ class ModelTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Model.first
     as_admin do
-      record.hosts.destroy_all
+      record.systems.destroy_all
     end
     assert record.destroy
     assert record.frozen?
@@ -81,7 +81,7 @@ class ModelTest < ActiveSupport::TestCase
     record      =  Model.first
     record.name = "renamed"
     as_admin do
-      record.hosts.destroy_all
+      record.systems.destroy_all
     end
     assert !record.save
     assert record.valid?

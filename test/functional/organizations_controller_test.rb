@@ -58,41 +58,41 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal "Organization you had selected as your context has been deleted.", flash[:warning]
   end
 
-  # Assign All Hosts
-  test "should assign all hosts with no organization to selected organization" do
+  # Assign All Systems
+  test "should assign all systems with no organization to selected organization" do
     organization = taxonomies(:organization1)
-    cnt_hosts_no_organization = Host.where(:organization_id => nil).count
-    assert_difference "organization.hosts.count", cnt_hosts_no_organization do
-      post :assign_all_hosts, {:id => organization.id}, set_session_user
+    cnt_systems_no_organization = System.where(:organization_id => nil).count
+    assert_difference "organization.systems.count", cnt_systems_no_organization do
+      post :assign_all_systems, {:id => organization.id}, set_session_user
     end
     assert_redirected_to :controller => :organizations, :action => :index
-    assert_equal flash[:notice], "All hosts previously with no organization are now assigned to Organization 1"
+    assert_equal flash[:notice], "All systems previously with no organization are now assigned to Organization 1"
   end
 
-  test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
+  test "should assign all systems with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 15 do
-      post :assign_all_hosts, {:id => organization.id}, set_session_user
+      post :assign_all_systems, {:id => organization.id}, set_session_user
     end
   end
 
-  # Assign Selected Hosts
-  test "be able to select hosts with no organization to selected organization" do
+  # Assign Selected Systems
+  test "be able to select systems with no organization to selected organization" do
     organization = taxonomies(:organization1)
-    get :assign_hosts, {:id => organization.id}, set_session_user
+    get :assign_systems, {:id => organization.id}, set_session_user
     assert_response :success
   end
-  test "assigned selected hosts with no organization to selected organization" do
+  test "assigned selected systems with no organization to selected organization" do
     organization = taxonomies(:organization1)
-    selected_hosts_no_organization_ids = Host.where(:organization_id => nil).limit(2).map(&:id)
+    selected_systems_no_organization_ids = System.where(:organization_id => nil).limit(2).map(&:id)
 
-    assert_difference "organization.hosts.count", 2 do
-      put :assign_selected_hosts, {:id => organization.id,
-                                   :organization => {:host_ids => selected_hosts_no_organization_ids}
+    assert_difference "organization.systems.count", 2 do
+      put :assign_selected_systems, {:id => organization.id,
+                                   :organization => {:system_ids => selected_systems_no_organization_ids}
                                   }, set_session_user
     end
     assert_redirected_to :controller => :organizations, :action => :index
-    assert_equal flash[:notice], "Selected hosts are now assigned to Organization 1"
+    assert_equal flash[:notice], "Selected systems are now assigned to Organization 1"
   end
 
   # Mismatches
@@ -106,10 +106,10 @@ class OrganizationsControllerTest < ActionController::TestCase
   test "button Fix All Mismatches should work" do
     post :import_mismatches, {}, set_session_user
     assert_redirected_to :controller => :organizations, :action => :index
-    assert_equal flash[:notice], "All mismatches between hosts and locations/organizations have been fixed"
+    assert_equal flash[:notice], "All mismatches between systems and locations/organizations have been fixed"
     # check that there are no mismatches
     get :mismatches, {}, set_session_user
-    assert_match "No hosts are mismatched", @response.body
+    assert_match "No systems are mismatched", @response.body
   end
 
   #Clone
@@ -126,8 +126,8 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_difference "Organization.count", 1 do
       post :create, {:organization => {:name => "organization_dup_name",
                                  :environment_ids => organization_dup.environment_ids,
-                                 :hostgroup_ids => organization_dup.hostgroup_ids,
-                                 :subnet_ids => organization_dup.hostgroup_ids,
+                                 :system_group_ids => organization_dup.system_group_ids,
+                                 :subnet_ids => organization_dup.system_group_ids,
                                  :domain_ids => organization_dup.domain_ids,
                                  :medium_ids => organization_dup.medium_ids,
                                  :user_ids => organization_dup.user_ids,
@@ -143,7 +143,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.id
 
     assert_equal new_organization.environment_ids, organization.environment_ids
-    assert_equal new_organization.hostgroup_ids, organization.hostgroup_ids
+    assert_equal new_organization.system_group_ids, organization.system_group_ids
     assert_equal new_organization.environment_ids, organization.environment_ids
     assert_equal new_organization.domain_ids, organization.domain_ids
     assert_equal new_organization.medium_ids, organization.medium_ids

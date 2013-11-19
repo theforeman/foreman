@@ -20,8 +20,8 @@ class UnattendedController < ApplicationController
     alias_method_chain f, :unattended
   end
 
-  # We want to find out our requesting host
-  before_filter :get_host_details, :allowed_to_install?, :except => :template
+  # We want to find out our requesting system
+  before_filter :get_system_details, :allowed_to_install?, :except => :template
   before_filter :handle_ca, :only => PROVISION_URLS
   # load "helper" variables to be available in the templates
   before_filter :load_template_vars, :only => PROVISION_URLS
@@ -44,34 +44,34 @@ class UnattendedController < ApplicationController
 
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
-    logger.info "#{controller_name}: #{@host.name} is Built!"
+    logger.info "#{controller_name}: #{@system.name} is Built!"
     update_ip if Setting[:update_ip_from_built_request]
-    head(@host.built ? :created : :conflict)
+    head(@system.built ? :created : :conflict)
   end
 
   def template
-    return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
+    return head(:not_found) unless (params.has_key?("id") and params.has_key?(:system_group))
 
     template = ConfigTemplate.find_by_name(params['id'])
-    @host = Hostgroup.find_by_name(params['hostgroup'])
+    @system = SystemGroup.find_by_name(params['system_group'])
 
-    return head(:not_found) unless template and @host
+    return head(:not_found) unless template and @system
 
     load_template_vars if template.template_kind.name == 'provision'
     safe_render template.template
   end
 
-  # Returns a valid GPXE config file to kickstart hosts
+  # Returns a valid GPXE config file to kickstart systems
   def gpxe_kickstart_config
   end
 
   def pxe_config
-    @kernel = @host.operatingsystem.kernel @host.arch
-    @initrd = @host.operatingsystem.initrd @host.arch
+    @kernel = @system.operatingsystem.kernel @system.arch
+    @initrd = @system.operatingsystem.initrd @system.arch
   end
 
   # Generate an action for each template kind
-  # i.e. /unattended/provision will render the provisioning template for the requesting host
+  # i.e. /unattended/provision will render the provisioning template for the requesting system
   TemplateKind.all.each do |kind|
     define_method kind.name do
       @type = kind.name
@@ -81,43 +81,43 @@ class UnattendedController < ApplicationController
 
   private
 
-  # lookup for a host based on the ip address and if possible by a mac address(as sent by anaconda)
-  # if the host was found than its record will be in @host
-  # if the host doesn't exists, it will return 404 and the requested method will not be reached.
+  # lookup for a system based on the ip address and if possible by a mac address(as sent by anaconda)
+  # if the system was found than its record will be in @system
+  # if the system doesn't exists, it will return 404 and the requested method will not be reached.
 
-  def get_host_details
-    @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
-    unless @host
-      logger.info "#{controller_name}: unable to find a host that matches the request from #{request.env['REMOTE_ADDR']}"
+  def get_system_details
+    @system = find_system_by_spoof || find_system_by_token || find_system_by_ip_or_mac
+    unless @system
+      logger.info "#{controller_name}: unable to find a system that matches the request from #{request.env['REMOTE_ADDR']}"
       head(:not_found) and return
     end
-    unless @host.operatingsystem
-      logger.error "#{controller_name}: #{@host.name}'s operating system is missing!"
+    unless @system.operatingsystem
+      logger.error "#{controller_name}: #{@system.name}'s operating system is missing!"
       head(:conflict) and return
     end
-    unless @host.operatingsystem.family
+    unless @system.operatingsystem.family
       # Then, for some reason, the OS has not been specialized into a Redhat or Debian class
-      logger.error "#{controller_name}: #{@host.name}'s operating system [#{@host.operatingsystem.fullname}] has no OS family!"
+      logger.error "#{controller_name}: #{@system.name}'s operating system [#{@system.operatingsystem.fullname}] has no OS family!"
       head(:conflict) and return
     end
-    logger.info "Found #{@host}"
+    logger.info "Found #{@system}"
   end
 
-  def find_host_by_spoof
+  def find_system_by_spoof
     spoof = params.delete("spoof")
     return nil if spoof.blank?
     @spoof = true
-    Host.find_by_ip(spoof)
+    System.find_by_ip(spoof)
   end
 
-  def find_host_by_token
+  def find_system_by_token
     token = params.delete("token")
     return nil if token.blank?
-    Host.for_token(token).first
+    System.for_token(token).first
   end
 
-  def find_host_by_ip_or_mac
-    # try to find host based on our client ip address
+  def find_system_by_ip_or_mac
+    # try to find system based on our client ip address
     ip = ip_from_request_env
 
     # in case we got back multiple ips (see #1619)
@@ -137,15 +137,15 @@ class UnattendedController < ApplicationController
       end
     end
     # we try to match first based on the MAC, falling back to the IP
-    Host.where(mac_list.empty? ? { :ip => ip } : ["lower(mac) IN (?)", mac_list]).first
+    System.where(mac_list.empty? ? { :ip => ip } : ["lower(mac) IN (?)", mac_list]).first
   end
 
   def allowed_to_install?
-    (@host.build or @spoof) ? true : head(:method_not_allowed)
+    (@system.build or @spoof) ? true : head(:method_not_allowed)
   end
 
   # Cleans Certificate and enable autosign. This is run as a before_filter for provisioning templates.
-  # The host is requesting its build configuration so I guess we just send them some text so a post mortum can see what happened
+  # The system is requesting its build configuration so I guess we just send them some text so a post mortum can see what happened
   def handle_ca
     # The reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
 
@@ -155,15 +155,15 @@ class UnattendedController < ApplicationController
     # This should terminate the before_filter and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
-    render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => 500) unless @host.handle_ca
+    render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => 500) unless @system.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
-  # we try to find this host specific template
+  # we try to find this system specific template
   # if it doesn't exists, we'll try to find a local generic template
   # otherwise render the default view
   def unattended_local
-    if (config = @host.configTemplate({ :kind => @type }))
+    if (config = @system.configTemplate({ :kind => @type }))
       logger.debug "rendering DB template #{config.name} - #{@type}"
       safe_render config and return
     end
@@ -177,17 +177,17 @@ class UnattendedController < ApplicationController
 
   def load_template_vars
     # load the os family default variables
-    send "#{@host.os.pxe_type}_attributes"
+    send "#{@system.os.pxe_type}_attributes"
   end
 
   def jumpstart_attributes
-    if @host.operatingsystem.supports_image and @host.use_image
+    if @system.operatingsystem.supports_image and @system.use_image
       @install_type     = "flash_install"
-      # We have an individual override for the host's image file
-      if @host.image_file
-        @archive_location = @host.image_file
+      # We have an individual override for the system's image file
+      if @system.image_file
+        @archive_location = @system.image_file
       else
-        @archive_location = @host.default_image_file
+        @archive_location = @system.default_image_file
       end
     else
       @install_type = "initial_install"
@@ -196,32 +196,32 @@ class UnattendedController < ApplicationController
       @packages     = "SUNWgzip"
       @locale       = "C"
     end
-    @disk = @host.diskLayout
+    @disk = @system.diskLayout
   end
 
   def kickstart_attributes
-    @dynamic   = @host.diskLayout =~ /^#Dynamic/
-    @arch      = @host.architecture.name
-    os         = @host.operatingsystem
+    @dynamic   = @system.diskLayout =~ /^#Dynamic/
+    @arch      = @system.architecture.name
+    os         = @system.operatingsystem
     @osver     = os.major.to_i
-    @mediapath = os.mediumpath @host
-    @repos     = os.repos @host
+    @mediapath = os.mediumpath @system
+    @repos     = os.repos @system
 
     # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
   end
 
   def preseed_attributes
-    @preseed_path   = @host.os.preseed_path   @host
-    @preseed_server = @host.os.preseed_server @host
+    @preseed_path   = @system.os.preseed_path   @system
+    @preseed_server = @system.os.preseed_server @system
   end
 
   def yast_attributes
   end
 
   def aif_attributes
-    os         = @host.operatingsystem
-    @mediapath = os.mediumpath @host
+    os         = @system.operatingsystem
+    @mediapath = os.mediumpath @system
   end
 
   def waik_attributes
@@ -235,11 +235,11 @@ class UnattendedController < ApplicationController
   # the form save)
   def update_ip
     ip = ip_from_request_env
-    logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
+    logger.debug "Built notice from #{ip}, current system ip is #{@system.ip}, updating" if @system.ip != ip
 
-    # @host has been changed even if the save fails, so we have to change it back
-    old_ip = @host.ip
-    @host.ip = old_ip unless @host.update_attributes({'ip' => ip})
+    # @system has been changed even if the save fails, so we have to change it back
+    old_ip = @system.ip
+    @system.ip = old_ip unless @system.update_attributes({'ip' => ip})
   end
 
   def ip_from_request_env

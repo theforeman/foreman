@@ -70,9 +70,9 @@ module Orchestration::Compute
         value = vm.send(fog_attr)
         self.send("#{foreman_attr}=", value)
 
-        if value.blank? or (other_host = Host.send("find_by_#{foreman_attr}", value))
+        if value.blank? or (other_system = System.send("find_by_#{foreman_attr}", value))
           delCompute
-          return failure("#{foreman_attr} #{value} is already used by #{other_host}") if other_host
+          return failure("#{foreman_attr} #{value} is already used by #{other_system}") if other_system
           return failure("#{foreman_attr} value is blank!")
         end
       end

@@ -210,104 +210,104 @@ Foreman::AccessControl.map do |map|
     }
   end
 
-  map.security_block :hostgroups do |map|
+  map.security_block :system_groups do |map|
     ajax_actions = [:architecture_selected, :domain_selected, :environment_selected, :medium_selected, :os_selected,
       :use_image_selected]
-    host_ajax_actions = [:process_hostgroup]
+    system_ajax_actions = [:process_system_group]
     pc_ajax_actions = [:parameters]
 
-    map.permission :view_hostgroups,       {:hostgroups => [:index, :show, :auto_complete_search],
-                                            :"api/v1/hostgroups" => [:index, :show],
-                                            :"api/v2/hostgroups" => [:index, :show]
+    map.permission :view_system_groups,       {:system_groups => [:index, :show, :auto_complete_search],
+                                            :"api/v1/system_groups" => [:index, :show],
+                                            :"api/v2/system_groups" => [:index, :show]
                                           }
-    map.permission :create_hostgroups,     {:hostgroups => [:new, :create, :clone, :nest, :process_hostgroup].push(*ajax_actions),
-                                            :host => host_ajax_actions,
+    map.permission :create_system_groups,     {:system_groups => [:new, :create, :clone, :nest, :process_system_group].push(*ajax_actions),
+                                            :system => system_ajax_actions,
                                             :puppetclasses => pc_ajax_actions,
-                                            :"api/v1/hostgroups" => [:create, :clone],
-                                            :"api/v2/hostgroups" => [:create, :clone]
+                                            :"api/v1/system_groups" => [:create, :clone],
+                                            :"api/v2/system_groups" => [:create, :clone]
                                           }
-    map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :process_hostgroup].push(*ajax_actions),
-                                            :host => host_ajax_actions,
+    map.permission :edit_system_groups,       {:system_groups => [:edit, :update, :architecture_selected, :process_system_group].push(*ajax_actions),
+                                            :system => system_ajax_actions,
                                             :puppetclasses => pc_ajax_actions,
-                                            :"api/v1/hostgroups" => [:update],
-                                            :"api/v2/hostgroups" => [:update],
+                                            :"api/v1/system_groups" => [:update],
+                                            :"api/v2/system_groups" => [:update],
                                             :"api/v2/parameters" => [:create, :update, :destroy, :reset],
-                                            :"api/v2/hostgroup_classes" => [:index, :create, :destroy]
+                                            :"api/v2/system_group_classes" => [:index, :create, :destroy]
                                            }
-    map.permission :destroy_hostgroups,    {:hostgroups => [:destroy],
-                                            :"api/v1/hostgroups" => [:destroy],
-                                            :"api/v2/hostgroups" => [:destroy]
+    map.permission :destroy_system_groups,    {:system_groups => [:destroy],
+                                            :"api/v1/system_groups" => [:destroy],
+                                            :"api/v2/system_groups" => [:destroy]
     }
   end
 
-  map.security_block :hosts do |map|
+  map.security_block :systems do |map|
     ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected, :environment_selected,
-      :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
+      :system_group_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_system_group,
       :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used]
     cr_ajax_actions = [:cluster_selected, :hardware_profile_selected, :provider_selected]
     pc_ajax_actions = [:parameters]
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]
 
-    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending,
+    map.permission :view_systems,    {:systems => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending,
                                       :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => :template,
-                                     :"api/v1/hosts" => [:index, :show, :status],
-                                     :"api/v2/hosts" => [:index, :show, :status],
+                                     :"api/v1/systems" => [:index, :show, :status],
+                                     :"api/v2/systems" => [:index, :show, :status],
                                      :"api/v2/interfaces" => [:index, :show]
                                   }
-    map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
+    map.permission :create_systems,  {:systems => [:new, :create, :clone].push(*ajax_actions),
                                     :compute_resources => cr_ajax_actions,
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
-                                     :"api/v1/hosts" => [:create],
-                                     :"api/v2/hosts" => [:create],
+                                     :"api/v1/systems" => [:create],
+                                     :"api/v2/systems" => [:create],
                                      :"api/v2/interfaces" => [:create],
                                      :"api/v2/tasks" => [:index]
                                   }
-    map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
-                                      :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
+    map.permission :edit_systems,    {:systems => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
+                                      :select_multiple_system_group, :select_multiple_environment, :submit_multiple_disable,
                                       :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
-                                      :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
+                                      :update_multiple_system_group, :update_multiple_parameters, :toggle_manage,
                                       :select_multiple_organization, :update_multiple_organization,
                                       :select_multiple_location, :update_multiple_location].push(*ajax_actions),
                                     :compute_resources => [:associate].push(cr_ajax_actions),
                                     :compute_resources_vms => [:associate],
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
-                                    :"api/v1/hosts" => [:update],
-                                    :"api/v2/hosts" => [:update],
+                                    :"api/v1/systems" => [:update],
+                                    :"api/v2/systems" => [:update],
                                     :"api/v2/interfaces" => [:create, :update, :destroy]
                                   }
-    map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy],
-                                    :"api/v1/hosts" => [:destroy],
-                                    :"api/v2/hosts" => [:destroy],
+    map.permission :destroy_systems, {:systems => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy],
+                                    :"api/v1/systems" => [:destroy],
+                                    :"api/v2/systems" => [:destroy],
                                     :"api/v2/interfaces" => [:destroy]
                                   }
-    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
+    map.permission :build_systems,   {:systems => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
                                     :tasks => tasks_ajax_actions,
                                     :"api/v2/tasks" => [:index] }
-    map.permission :power_hosts,   {:hosts          => [:power],
-                                    :"api/v2/hosts" => [:power] }
-    map.permission :console_hosts, {:hosts => [:console] }
-    map.permission :ipmi_boot, { :hosts          => [:ipmi_boot],
-                                 :"api/v2/hosts" => [:boot] }
-    map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun],
-                                      :"api/v2/hosts" => [:puppetrun] }
+    map.permission :power_systems,   {:systems          => [:power],
+                                    :"api/v2/systems" => [:power] }
+    map.permission :console_systems, {:systems => [:console] }
+    map.permission :ipmi_boot, { :systems          => [:ipmi_boot],
+                                 :"api/v2/systems" => [:boot] }
+    map.permission :puppetrun_systems, {:systems => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun],
+                                      :"api/v2/systems" => [:puppetrun] }
   end
 
-  map.security_block :host_editing do |map|
-    map.permission :edit_classes,   {:host_editing => [:edit_classes],
-                                     :"api/v2/host_classes" => [:index, :create, :destroy]
+  map.security_block :system_editing do |map|
+    map.permission :edit_classes,   {:system_editing => [:edit_classes],
+                                     :"api/v2/system_classes" => [:index, :create, :destroy]
                                     }
-    map.permission :create_params,  {:host_editing => [:create_params],
+    map.permission :create_params,  {:system_editing => [:create_params],
                                      :"api/v2/parameters" => [:create]
     }
-    map.permission :edit_params,    {:host_editing => [:edit_params],
+    map.permission :edit_params,    {:system_editing => [:edit_params],
                                      :"api/v2/parameters" => [:update]
     }
-    map.permission :destroy_params, {:host_editing => [:destroy_params],
+    map.permission :destroy_params, {:system_editing => [:destroy_params],
                                      :"api/v2/parameters" => [:destroy, :reset]
     }
   end
@@ -349,7 +349,7 @@ Foreman::AccessControl.map do |map|
                                        :"api/v1/locations" => [:destroy],
                                        :"api/v2/locations" => [:destroy]
       }
-      map.permission :assign_locations, {:locations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
+      map.permission :assign_locations, {:locations => [:assign_all_systems, :assign_systems, :assign_selected_systems]}
     end
   end
 
@@ -530,7 +530,7 @@ Foreman::AccessControl.map do |map|
                                            :"api/v1/organizations" => [:destroy],
                                            :"api/v2/organizations" => [:destroy]
       }
-      map.permission :assign_organizations, {:organizations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
+      map.permission :assign_organizations, {:organizations => [:assign_all_systems, :assign_systems, :assign_selected_systems]}
     end
   end
 
@@ -603,7 +603,7 @@ Foreman::AccessControl.map do |map|
                                 :"api/v1/fact_values" => [:index, :show],
                                 :"api/v2/fact_values" => [:index, :show]
                               }
-    map.permission :upload_facts, {:"api/v2/hosts" => [:facts] }
+    map.permission :upload_facts, {:"api/v2/systems" => [:facts] }
   end
 
   map.security_block :audit_logs do |map|

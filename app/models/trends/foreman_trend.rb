@@ -32,7 +32,7 @@ class ForemanTrend < Trend
     Trend.model_name
   end
 
-  def find_hosts
-    trendable.hosts.find(:all, :order => 'name')
+  def find_systems
+    trendable.systems.find(:all, :order => 'name')
   end
 end

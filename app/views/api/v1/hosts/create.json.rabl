@@ -1,3 +1,3 @@
-object @host
+object @system
 
-extends "api/v1/hosts/show"
+extends "api/v1/systems/show"

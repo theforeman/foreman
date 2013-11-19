@@ -9,7 +9,7 @@ class AuthSourceLdapTest < ActionDispatch::IntegrationTest
   test "create new page" do
     assert_new_button(auth_source_ldaps_path,"New LDAP Source",new_auth_source_ldap_path)
     fill_in "auth_source_ldap_name", :with => "corporate-ldap"
-    fill_in "auth_source_ldap_host", :with => "10.0.0.77"
+    fill_in "auth_source_ldap_system", :with => "10.0.0.77"
     fill_in "auth_source_ldap_port", :with => "5555"
     fill_in "auth_source_ldap_account", :with => "superadmin"
     fill_in "auth_source_ldap_account_password", :with => "secretsecret"
@@ -27,7 +27,7 @@ class AuthSourceLdapTest < ActionDispatch::IntegrationTest
     visit auth_source_ldaps_path
     click_link "ldap-server"
     fill_in "auth_source_ldap_name", :with => "testing-ldap"
-    fill_in "auth_source_ldap_host", :with => "10.1.2.34"
+    fill_in "auth_source_ldap_system", :with => "10.1.2.34"
     assert_submit_button(auth_source_ldaps_path)
     assert page.has_link? "testing-ldap"
     assert page.has_content? '10.1.2.34'

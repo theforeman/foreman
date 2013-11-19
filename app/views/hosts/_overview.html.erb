@@ -4,7 +4,7 @@
   </tr>
   <tr>
     <td>
-      <% show_appropriate_host_buttons(@host).each do |btn| %>
+      <% show_appropriate_system_buttons(@system).each do |btn| %>
         <%= btn %>
       <% end %>
     </td>
@@ -15,7 +15,7 @@
     <th><%= _('Properties') %></th>
     <th></th>
   </tr>
-  <% overview_fields(host).each do |name, value| %>
+  <% overview_fields(system).each do |name, value| %>
     <tr>
       <td><%= name %></td>
       <td><%= value %></td>

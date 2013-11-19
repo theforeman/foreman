@@ -3,7 +3,7 @@ require 'open3'
 class PortInUse < StandardError; end
 
 class WsProxy
-  attr_accessor :host, :host_port, :password, :timeout, :idle_timeout, :ssl_target
+  attr_accessor :system, :system_port, :password, :timeout, :idle_timeout, :ssl_target
   attr_reader :proxy_port
 
   # Allowed ports to communicate with our web sockets proxy
@@ -26,7 +26,7 @@ class WsProxy
     # try to execute our web sockets proxy
     port = PORTS.first
     begin
-      cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
+      cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{system}:#{system_port}"
       cmd += " --ssl-target" if ssl_target
       execute(cmd)
       # if the port is already in use, try another one from the pool
@@ -39,7 +39,7 @@ class WsProxy
     end
     @proxy_port = port
 
-    { :host => host, :port => host_port, :password => password, :proxy_port => proxy_port }
+    { :system => system, :port => system_port, :password => password, :proxy_port => proxy_port }
   end
 
   private
@@ -52,8 +52,8 @@ class WsProxy
     {
       :timeout      => 120,
       :idle_timeout => 120,
-      :host_port    => 5900,
-      :host         => "0.0.0.0",
+      :system_port    => 5900,
+      :system         => "0.0.0.0",
     }
   end
 

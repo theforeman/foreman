@@ -6,7 +6,7 @@ child :environments, :object_root => false do
   attributes :id, :name
 end
 
-child :hostgroups, :object_root => false do
+child :system_groups, :object_root => false do
   attributes :id, :label
 end
 

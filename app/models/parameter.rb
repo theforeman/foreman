@@ -1,10 +1,10 @@
 class Parameter < ActiveRecord::Base
-  belongs_to_host :foreign_key => :reference_id
+  belongs_to_system :foreign_key => :reference_id
   include Authorization
 
   validates :value, :presence => true
   validates :name, :presence => true, :format => {:with => /\A\S*\Z/, :message => N_("can't contain white spaces")}
-  validates :reference_id, :presence => {:message => N_("parameters require an associated domain, host or host group")}, :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
+  validates :reference_id, :presence => {:message => N_("parameters require an associated domain, system or system group")}, :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
   default_scope lambda { order("parameters.name") }
 
@@ -12,7 +12,7 @@ class Parameter < ActiveRecord::Base
   before_validation :strip_whitespaces
   after_initialize :set_priority
 
-  PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :os_parameter => 2, :group_parameter => 3 , :host_parameter => 4}
+  PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :os_parameter => 2, :group_parameter => 3 , :system_parameter => 4}
 
   def self.reassign_priorities
     # priorities will be reassigned because of after_initialize

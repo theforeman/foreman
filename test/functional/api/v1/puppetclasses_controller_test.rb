@@ -24,23 +24,23 @@ class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should destroy puppetclasss" do
-    HostClass.delete_all
-    HostgroupClass.delete_all
+    SystemClass.delete_all
+    SystemGroupClass.delete_all
     assert_difference('Puppetclass.count', -1) do
       delete :destroy, { :id => puppetclasses(:one).to_param }
     end
     assert_response :success
   end
 
-  test "should get puppetclasses for given host only" do
-    get :index, {:host_id => hosts(:one).to_param }
+  test "should get puppetclasses for given system only" do
+    get :index, {:system_id => systems(:one).to_param }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
     assert !fact_values.empty?
   end
 
-  test "should not get puppetclasses for nonexistent host" do
-    get :index, {"search" => "host = imaginaryhost.nodomain.what" }
+  test "should not get puppetclasses for nonexistent system" do
+    get :index, {"search" => "system = imaginarysystem.nodomain.what" }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
     assert fact_values.empty?

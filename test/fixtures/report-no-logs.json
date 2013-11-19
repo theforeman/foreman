@@ -1,5 +1,5 @@
 {
-  "host": "builder.fm.example.net",
+  "system": "builder.fm.example.net",
   "reported_at": "2013-09-06 16:55:23 UTC",
   "logs": null,
   "status": {

@@ -1,30 +1,30 @@
-module HostsAndHostgroupsHelper
-  def hostgroup_name(hostgroup, max_length = 1000)
-    return if hostgroup.blank?
-    options = (hostgroup.label.to_s.size > max_length) ? {:'data-original-title'=> hostgroup.label, :rel=>'twipsy'} : {}
-    nesting = hostgroup.label.to_s.gsub(/[^\/]+\/?$/, "")
-    nesting = truncate(nesting, :length => max_length - hostgroup.name.to_s.size) if nesting.to_s.size > 0
-    name =  truncate(hostgroup.name, :length => max_length - nesting.to_s.size)
+module SystemsAndSystemGroupsHelper
+  def system_group_name(system_group, max_length = 1000)
+    return if system_group.blank?
+    options = (system_group.label.to_s.size > max_length) ? {:'data-original-title'=> system_group.label, :rel=>'twipsy'} : {}
+    nesting = system_group.label.to_s.gsub(/[^\/]+\/?$/, "")
+    nesting = truncate(nesting, :length => max_length - system_group.name.to_s.size) if nesting.to_s.size > 0
+    name =  truncate(system_group.name, :length => max_length - nesting.to_s.size)
     link_to_if_authorized(
         content_tag(:span,
             content_tag(:span, nesting, :class => "gray") + name, options),
-        hash_for_edit_hostgroup_path(:id => hostgroup))
+        hash_for_edit_system_group_path(:id => system_group))
   end
 
-  def model_name host
-    name = host.try(:model)
-    name = host.compute_resource.name if host.compute_resource
+  def model_name system
+    name = system.try(:model)
+    name = system.compute_resource.name if system.compute_resource
     trunc(name, 14)
   end
 
-  def accessible_hostgroups
-    hg = (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
+  def accessible_system_groups
+    hg = (User.current.system_groups.any? and !User.current.admin?) ? User.current.system_groups : SystemGroup.all
     hg.sort{ |l, r| l.to_label <=> r.to_label }
   end
 
   def parent_classes obj
-    return obj.hostgroup.classes if obj.kind_of?(Host::Base) and obj.hostgroup
-    return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(Hostgroup)
+    return obj.system_group.classes if obj.kind_of?(System::Base) and obj.system_group
+    return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(SystemGroup)
     []
   end
 
@@ -58,7 +58,7 @@ module HostsAndHostgroupsHelper
 
   def puppet_ca f
     # Don't show this if we have no CA proxies, otherwise always include blank
-    # so the user can choose not to sign the puppet cert on this host
+    # so the user can choose not to sign the puppet cert on this system
     proxies = SmartProxy.puppetca_proxies
     return if proxies.count == 0
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
@@ -69,7 +69,7 @@ module HostsAndHostgroupsHelper
 
   def puppet_master f
     # Don't show this if we have no Puppet proxies, otherwise always include blank
-    # so the user can choose not to use puppet on this host
+    # so the user can choose not to use puppet on this system
     proxies = SmartProxy.puppet_proxies
     return if proxies.count == 0
     select_f f, :puppet_proxy_id, proxies, :id, :name,

@@ -11,8 +11,8 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_equal 2, results['smart_class_parameters'].length
   end
 
-  test "should get smart class parameters for a specific host" do
-    get :index, {:host_id => hosts(:one).to_param}
+  test "should get smart class parameters for a specific system" do
+    get :index, {:system_id => systems(:one).to_param}
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
@@ -21,8 +21,8 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_equal "cluster", results['smart_class_parameters'][0]['parameter']
   end
 
-  test "should get smart class parameters for a specific hostgroup" do
-    get :index, {:hostgroup_id => hostgroups(:common).to_param}
+  test "should get smart class parameters for a specific system_group" do
+    get :index, {:system_group_id => system_groups(:common).to_param}
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)

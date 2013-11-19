@@ -58,9 +58,9 @@ class OperatingsystemTest < ActiveSupport::TestCase
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
     assert operating_system.save
 
-    host = hosts(:one)
-    host.os = operating_system
-    host.save(:validate => false)
+    system = systems(:one)
+    system.os = operating_system
+    system.save(:validate => false)
 
     assert !operating_system.destroy
   end
@@ -105,8 +105,8 @@ class OperatingsystemTest < ActiveSupport::TestCase
     setup_user "destroy"
     record =  Operatingsystem.first
     as_admin do
-      record.hosts.delete_all
-      record.hostgroups.delete_all
+      record.systems.delete_all
+      record.system_groups.delete_all
       assert record.destroy
     end
     assert record.frozen?
@@ -131,7 +131,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     record      =  Operatingsystem.first
     record.name = "renamed"
     as_admin do
-      record.hosts.destroy_all
+      record.systems.destroy_all
     end
     assert !record.save
     assert record.valid?

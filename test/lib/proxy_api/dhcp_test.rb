@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProxyApiDhcpTest < ActiveSupport::TestCase
   def setup
-    @url = "http://localhost:8443"
+    @url = "http://localsystem:8443"
     @dhcp = ProxyAPI::DHCP.new({:url => @url})
   end
 

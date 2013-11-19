@@ -48,12 +48,12 @@ class UsergroupTest < ActiveSupport::TestCase
     @ug5.users      = [@u5]
   end
 
-  test "hosts should be retrieved from recursive/complex usergroup definitions" do
+  test "systems should be retrieved from recursive/complex usergroup definitions" do
     populate_usergroups
     domain = domains(:mydomain)
     disable_orchestration
 
-    Host.with_options :architecture => architectures(:x86_64), :environment => environments(:production), :operatingsystem => operatingsystems(:redhat),
+    System.with_options :architecture => architectures(:x86_64), :environment => environments(:production), :operatingsystem => operatingsystems(:redhat),
                       :ptable => ptables(:one), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster) do |object|
       @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "2.3.4.10", :mac => "223344556601", :owner => @u1, :domain => domain
       @h2 = object.find_or_create_by_name :name => "h2.someware.com", :ip => "2.3.4.11", :mac => "223344556602", :owner => @ug2, :domain => domain
@@ -62,12 +62,12 @@ class UsergroupTest < ActiveSupport::TestCase
       @h5 = object.find_or_create_by_name :name => "h5.someware.com", :ip => "2.3.4.14", :mac => "223344556605", :owner => @u2, :domain => domain
       @h6 = object.find_or_create_by_name :name => "h6.someware.com", :ip => "2.3.4.15", :mac => "223344556606", :owner => @ug3, :domain => domain
     end
-    assert_equal @u1.hosts.sort, [@h1]
-    assert_equal @u2.hosts.sort, [@h2, @h5]
-    assert_equal @u3.hosts.sort, [@h2, @h3, @h6]
-    assert_equal @u4.hosts.sort, [@h6]
-    assert_equal @u5.hosts.sort, [@h2, @h4, @h6]
-    assert_equal @u6.hosts.sort, []
+    assert_equal @u1.systems.sort, [@h1]
+    assert_equal @u2.systems.sort, [@h2, @h5]
+    assert_equal @u3.systems.sort, [@h2, @h3, @h6]
+    assert_equal @u4.systems.sort, [@h6]
+    assert_equal @u5.systems.sort, [@h2, @h4, @h6]
+    assert_equal @u6.systems.sort, []
   end
 
   test "addresses should be retrieved from recursive/complex usergroup definitions" do
@@ -80,10 +80,10 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal @ug5.recipients.sort, %w{u1@someware.com u2@someware.com u3@someware.com u4@someware.com u5@someware.com}
   end
 
-  test "cannot be destroyed when in use by a host" do
+  test "cannot be destroyed when in use by a system" do
     disable_orchestration
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @h1  = hosts(:one)
+    @h1  = systems(:one)
     @h1.update_attributes :owner => @ug1
     @ug1.destroy
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"

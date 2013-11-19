@@ -3,19 +3,19 @@ class SmartProxy < ActiveRecord::Base
   include Taxonomix
 
   attr_accessible :name, :url, :location_ids, :organization_ids
-  EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups)
+  EnsureNotUsedBy.new(:systems, :system_groups, :subnets, :domains, :puppet_ca_systems, :puppet_ca_system_groups)
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
   has_many :subnets,                                          :foreign_key => 'dhcp_id'
   has_many :domains,                                          :foreign_key => 'dns_id'
-  has_many_hosts                                              :foreign_key => 'puppet_proxy_id'
-  has_many :hostgroups,                                       :foreign_key => 'puppet_proxy_id'
-  has_many :puppet_ca_hosts, :class_name => 'Host::Managed',  :foreign_key => 'puppet_ca_proxy_id'
-  has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
-  URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
+  has_many_systems                                              :foreign_key => 'puppet_proxy_id'
+  has_many :system_groups,                                       :foreign_key => 'puppet_proxy_id'
+  has_many :puppet_ca_systems, :class_name => 'System::Managed',  :foreign_key => 'puppet_ca_proxy_id'
+  has_many :puppet_ca_system_groups, :class_name => 'SystemGroup', :foreign_key => 'puppet_ca_proxy_id'
+  URL_SYSTEM_NAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates :name, :uniqueness => true, :presence => true
-  validates :url, :presence => true, :format => { :with => URL_HOSTNAME_MATCH, :message => N_('is invalid - only  http://, https:// are allowed') },
+  validates :url, :presence => true, :format => { :with => URL_SYSTEM_NAME_MATCH, :message => N_('is invalid - only  http://, https:// are allowed') },
             :uniqueness     => { :message => N_('Only one declaration of a proxy is allowed') }
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
@@ -37,16 +37,16 @@ class SmartProxy < ActiveRecord::Base
 
   Feature::NAME_MAP.each { |f, v| scope "#{f}_proxies".to_sym, where(:features => { :name => v }).joins(:features) }
 
-  def hostname
+  def systemname
     # This will always match as it is validated
-    url.match(URL_HOSTNAME_MATCH)[1]
+    url.match(URL_SYSTEM_NAME_MATCH)[1]
   end
 
   def to_s
-    if Setting[:legacy_puppet_hostname]
-      hostname =~ /^puppet\./ ? 'puppet' : hostname
+    if Setting[:legacy_puppet_systemname]
+      systemname =~ /^puppet\./ ? 'puppet' : systemname
     else
-      hostname
+      systemname
     end
   end
 
@@ -54,16 +54,16 @@ class SmartProxy < ActiveRecord::Base
     "#{id}-#{name.parameterize}"
   end
 
-  def self.smart_proxy_ids_for(hosts)
+  def self.smart_proxy_ids_for(systems)
     ids = []
-    ids << hosts.joins(:subnet).pluck('DISTINCT subnets.dhcp_id')
-    ids << hosts.joins(:subnet).pluck('DISTINCT subnets.tftp_id')
-    ids << hosts.joins(:subnet).pluck('DISTINCT subnets.dns_id')
-    ids << hosts.joins(:domain).pluck('DISTINCT domains.dns_id')
-    ids << hosts.pluck('DISTINCT puppet_proxy_id')
-    ids << hosts.pluck('DISTINCT puppet_ca_proxy_id')
-    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_proxy_id')
-    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_ca_proxy_id')
+    ids << systems.joins(:subnet).pluck('DISTINCT subnets.dhcp_id')
+    ids << systems.joins(:subnet).pluck('DISTINCT subnets.tftp_id')
+    ids << systems.joins(:subnet).pluck('DISTINCT subnets.dns_id')
+    ids << systems.joins(:domain).pluck('DISTINCT domains.dns_id')
+    ids << systems.pluck('DISTINCT puppet_proxy_id')
+    ids << systems.pluck('DISTINCT puppet_ca_proxy_id')
+    ids << systems.joins(:system_group).pluck('DISTINCT system_groups.puppet_proxy_id')
+    ids << systems.joins(:system_group).pluck('DISTINCT system_groups.puppet_ca_proxy_id')
     # returned both 7, "7". need to convert to integer or there are duplicates
     ids.flatten.compact.map { |i| i.to_i }.uniq
   end
@@ -92,7 +92,7 @@ class SmartProxy < ActiveRecord::Base
       end
     rescue => e
       errors.add(:base, _('Unable to communicate with the proxy: %s') % e)
-      errors.add(:base, _('Please check the proxy is configured and running on the host.'))
+      errors.add(:base, _('Please check the proxy is configured and running on the system.'))
     end
     features.any?
   end

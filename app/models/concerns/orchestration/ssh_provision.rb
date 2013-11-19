@@ -34,7 +34,7 @@ module Orchestration::SSHProvision
   def setSSHProvisionScript
     logger.info "About to start post launch script on #{name}"
     template   = configTemplate(:kind => "finish")
-    @host      = self
+    @system      = self
     logger.info "generating template to upload to #{name}"
     self.template_file = unattended_render_to_temp_file(template.template)
   end
@@ -76,8 +76,8 @@ module Orchestration::SSHProvision
   def setSSHProvision
     logger.info "SSH connection established to #{ip} - executing template"
     if client.deploy!
-      # since we are in a after_commit callback, we need to fetch our host again
-      h = Host.find(id)
+      # since we are in a after_commit callback, we need to fetch our system again
+      h = System.find(id)
       h.build = false
       h.installed_at = Time.now.utc
       # calling validations would trigger the whole orchestration layer again, we don't want it while we are inside an orchestration action ourselves.
@@ -105,7 +105,7 @@ module Orchestration::SSHProvision
       status = false
     end
     status = false if template.nil?
-    failure(_("No finish templates were found for this host, make sure you define at least one in your %s settings") % os ) unless status
+    failure(_("No finish templates were found for this system, make sure you define at least one in your %s settings") % os ) unless status
   end
 
 end

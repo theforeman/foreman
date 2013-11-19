@@ -27,8 +27,8 @@ def test_should_not_be_modified_if_has_no_leading_slashes
     assert_equal proxy.url, "http://some.proxy:4568"
   end
 
-  def test_should_honor_legacy_puppet_hostname_true_setting
-    Setting[:legacy_puppet_hostname] = true
+  def test_should_honor_legacy_puppet_systemname_true_setting
+    Setting[:legacy_puppet_systemname] = true
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url = "http://puppet.example.com:4568"
@@ -36,8 +36,8 @@ def test_should_not_be_modified_if_has_no_leading_slashes
     assert_equal proxy.to_s, "puppet"
   end
 
-  def test_should_honor_legacy_puppet_hostname_false_setting
-    Setting[:legacy_puppet_hostname] = false
+  def test_should_honor_legacy_puppet_systemname_false_setting
+    Setting[:legacy_puppet_systemname] = false
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url = "http://puppet.example.com:4568"

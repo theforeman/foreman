@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
 
-  valid_attrs = { :name => 'ldap2', :host => 'ldap2' }
+  valid_attrs = { :name => 'ldap2', :system => 'ldap2' }
 
   test "should get index" do
     get :index, { }

@@ -8,7 +8,7 @@ class AuditTest < ActionDispatch::IntegrationTest
 
   test "audit content" do
     visit audits_path
-    assert has_content?("updated Host"), "expected 'updated Host' but it doesn't exist"
+    assert has_content?("updated System"), "expected 'updated System' but it doesn't exist"
   end
 
 end

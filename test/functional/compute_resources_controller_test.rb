@@ -34,7 +34,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   test "should not create compute resource when not permitted" do
     setup_user "view"
     assert_difference('ComputeResource.count', 0) do
-      attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://host/system"}
+      attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://system/system"}
       post :create, {:compute_resource => attrs}, set_session_user
     end
     assert_response 403
@@ -43,7 +43,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   test "should create compute resource" do
     setup_user "create"
     assert_difference('ComputeResource.count', +1) do
-      attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://host/system"}
+      attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://system/system"}
       post :create, {:compute_resource => attrs}, set_session_user
     end
 

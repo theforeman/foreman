@@ -26,9 +26,9 @@ class TrendImporter
     counter_hash = Hash.new
     Trend.types.each do |trend|
       if trend.is_a? FactTrend
-        counter_hash[trend.trendable_id]   = Host.joins(:fact_values).where(:fact_values => {:fact_name_id => trend.trendable_id}).group(:value).count
+        counter_hash[trend.trendable_id]   = System.joins(:fact_values).where(:fact_values => {:fact_name_id => trend.trendable_id}).group(:value).count
       else
-        counter_hash[trend.trendable_type] = Host.group(trend.trendable_type.foreign_key.to_sym).count
+        counter_hash[trend.trendable_type] = System.group(trend.trendable_type.foreign_key.to_sym).count
       end
     end
     Trend.has_value.each do |trend|

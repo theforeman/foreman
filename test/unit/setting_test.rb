@@ -85,7 +85,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_create_exclamation_updates_description
-    Setting.create!(:name => 'administrator', :description => 'Test', :default => 'root@localhost')
+    Setting.create!(:name => 'administrator', :description => 'Test', :default => 'root@localsystem')
     s = Setting.find_by_name 'administrator'
     assert_equal 'Test', s.description
   end
@@ -234,8 +234,8 @@ class SettingTest < ActiveSupport::TestCase
     check_zero_value_not_allowed_for 'puppet_interval'
   end
 
-  test "trusted_puppetmaster_hosts can be empty array" do
-    check_empty_array_allowed_for "trusted_puppetmaster_hosts"
+  test "trusted_puppetmaster_systems can be empty array" do
+    check_empty_array_allowed_for "trusted_puppetmaster_systems"
   end
 
   test "foreman_url must be a URI" do

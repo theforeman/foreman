@@ -1,36 +1,36 @@
 require 'test_helper'
 
-class HostParameterTest < ActiveSupport::TestCase
+class SystemParameterTest < ActiveSupport::TestCase
   setup do
     User.current = User.find_by_login "admin"
   end
   test "should have a reference_id" do
-    host_parameter = HostParameter.new
-    host_parameter.name = "valid"
-    host_parameter.value = "valid"
-    assert !host_parameter.save
+    system_parameter = SystemParameter.new
+    system_parameter.name = "valid"
+    system_parameter.value = "valid"
+    assert !system_parameter.save
 
-    host = Host.first
-    host_parameter.reference_id = host.id
-    assert host_parameter.save
+    system = System.first
+    system_parameter.reference_id = system.id
+    assert system_parameter.save
   end
 
-  test "duplicate names cannot exist for a host" do
-    @host = hosts(:one)
+  test "duplicate names cannot exist for a system" do
+    @system = systems(:one)
     as_admin do
-      @parameter1 = HostParameter.create :name => "some_parameter", :value => "value", :reference_id => @host.id
-      @parameter2 = HostParameter.create :name => "some_parameter", :value => "value", :reference_id => @host.id
+      @parameter1 = SystemParameter.create :name => "some_parameter", :value => "value", :reference_id => @system.id
+      @parameter2 = SystemParameter.create :name => "some_parameter", :value => "value", :reference_id => @system.id
     end
     assert !@parameter2.valid?
     assert  @parameter2.errors.full_messages[0] == "Name has already been taken"
   end
 
-  test "duplicate names can exist for different hosts" do
-    @host1 = hosts(:one)
-    @host2 = hosts(:two)
+  test "duplicate names can exist for different systems" do
+    @system1 = systems(:one)
+    @system2 = systems(:two)
     as_admin do
-      @parameter1 = HostParameter.create! :name => "some_parameter", :value => "value", :reference_id => @host1.id
-      @parameter2 = HostParameter.create! :name => "some_parameter", :value => "value", :reference_id => @host2.id
+      @parameter1 = SystemParameter.create! :name => "some_parameter", :value => "value", :reference_id => @system1.id
+      @parameter2 = SystemParameter.create! :name => "some_parameter", :value => "value", :reference_id => @system2.id
     end
     assert @parameter2.valid?
   end
@@ -42,7 +42,7 @@ class HostParameterTest < ActiveSupport::TestCase
       role.permissions = ["#{operation}_#{type}".to_sym]
       @one.roles      = [role]
       @one.domains.destroy_all
-      @one.hostgroups.destroy_all
+      @one.system_groups.destroy_all
       @one.user_facts.destroy_all
       @one.save!
     end
@@ -55,18 +55,18 @@ class HostParameterTest < ActiveSupport::TestCase
       @one.domains = [domains(:mydomain)]
       @one.save!
     end
-    host_parameter = HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    assert host_parameter
+    system_parameter = SystemParameter.create! :name => "dummy", :value => "value", :reference_id => systems(:one).id
+    assert system_parameter
   end
 
   test "user with create permissions should not be able to create when not permitted" do
     setup_user "create"
     as_admin do
-      @one.hostgroups = [hostgroups(:common)]
+      @one.system_groups = [system_groups(:common)]
       @one.save!
-      hosts(:one).update_attribute :hostgroup, hostgroups(:unusual)
+      systems(:one).update_attribute :system_group, system_groups(:unusual)
     end
-    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    record = SystemParameter.create :name => "dummy", :value => "value", :reference_id => systems(:one).id
     assert record.valid?
     assert !record.save
   end
@@ -76,41 +76,41 @@ class HostParameterTest < ActiveSupport::TestCase
     as_admin do
       @one.domains.destroy_all
     end
-    host_parameter = HostParameter.create! :name => "dummy", :value => "value", :reference_id => hosts(:one).id
-    assert host_parameter
+    system_parameter = SystemParameter.create! :name => "dummy", :value => "value", :reference_id => systems(:one).id
+    assert system_parameter
   end
 
   test "user with view permissions should not be able to create" do
-    setup_user "view", "hosts"
-    record = HostParameter.create :name => "dummy", :value => "value", :reference_id => hosts(:one).id
+    setup_user "view", "systems"
+    record = SystemParameter.create :name => "dummy", :value => "value", :reference_id => systems(:one).id
     assert record.valid?
     assert record.new_record?
   end
 
   test "user with destroy permissions should be able to destroy" do
     setup_user "destroy"
-    record =  HostParameter.first
+    record =  SystemParameter.first
     assert record.destroy
     assert record.frozen?
   end
 
   test "user with edit permissions should not be able to destroy" do
     setup_user "edit"
-    record =  HostParameter.first
+    record =  SystemParameter.first
     assert !record.destroy
     assert !record.frozen?
   end
 
   test "user with edit permissions should be able to edit" do
     setup_user "edit"
-    record      =  HostParameter.first
+    record      =  SystemParameter.first
     record.name = "renamed"
     assert record.save
   end
 
   test "user with destroy permissions should not be able to edit" do
     setup_user "destroy"
-    record      =  HostParameter.first
+    record      =  SystemParameter.first
     record.name = "renamed"
     assert !record.save
   end

@@ -4,10 +4,10 @@ one:
   name: "foo"
   query: "foo=boo"
   public: true
-  controller: "hosts"
+  controller: "systems"
 
 two:
   name: "bar"
   query: "bar=car"
   public: false
-  controller: "hosts"
+  controller: "systems"

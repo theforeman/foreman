@@ -7,12 +7,12 @@ class ConfigTemplate < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :name, :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
-  before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
-  has_many :hostgroups, :through => :template_combinations
+  before_destroy EnsureNotUsedBy.new(:system_groups, :environments, :os_default_templates)
+  has_many :system_groups, :through => :template_combinations
   has_many :environments, :through => :template_combinations
   has_many :template_combinations, :dependent => :destroy
   belongs_to :template_kind
-  accepts_nested_attributes_for :template_combinations, :allow_destroy => true, :reject_if => lambda {|tc| tc[:environment_id].blank? and tc[:hostgroup_id].blank? }
+  accepts_nested_attributes_for :template_combinations, :allow_destroy => true, :reject_if => lambda {|tc| tc[:environment_id].blank? and tc[:system_group_id].blank? }
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
   before_save :check_for_snippet_assoications, :remove_trailing_chars
@@ -30,7 +30,7 @@ class ConfigTemplate < ActiveRecord::Base
 
   scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
   scoped_search :in => :environments,     :on => :name, :rename => :environment,     :complete_value => true
-  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
+  scoped_search :in => :system_groups,       :on => :name, :rename => :system_group,       :complete_value => true
   scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
   class Jail < Safemode::Jail
@@ -42,9 +42,9 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   # TODO: review if we can improve SQL
-  def self.template_ids_for(hosts)
-    hosts.with_os.map do |host|
-      host.configTemplate.try(:id)
+  def self.template_ids_for(systems)
+    systems.with_os.map do |system|
+      system.configTemplate.try(:id)
     end.uniq.compact
   end
 
@@ -58,14 +58,14 @@ class ConfigTemplate < ActiveRecord::Base
 
     # once a template has been matched, we no longer look for others.
 
-    if opts[:hostgroup_id] and opts[:environment_id]
-      # try to find a full match to our host group and environment
-      template = templates.joins(:hostgroups, :environments).where("hostgroups.id" => opts[:hostgroup_id], "environments.id" => opts[:environment_id]).first
+    if opts[:system_group_id] and opts[:environment_id]
+      # try to find a full match to our system group and environment
+      template = templates.joins(:system_groups, :environments).where("system_groups.id" => opts[:system_group_id], "environments.id" => opts[:environment_id]).first
     end
 
-    if opts[:hostgroup_id]
-      # try to find a match with our hostgroup only
-      template ||= templates.joins(:hostgroups).where("hostgroups.id" => opts[:hostgroup_id]).first
+    if opts[:system_group_id]
+      # try to find a match with our system_group only
+      template ||= templates.joins(:system_groups).where("system_groups.id" => opts[:system_group_id]).first
     end
 
     if opts[:environment_id]
@@ -115,7 +115,7 @@ class ConfigTemplate < ActiveRecord::Base
         tftp.create_default({:menu => menu})
 
         @profiles.each do |combo|
-          combo[:hostgroup].operatingsystem.pxe_files(combo[:hostgroup].medium, combo[:hostgroup].architecture).each do |bootfile_info|
+          combo[:system_group].operatingsystem.pxe_files(combo[:system_group].medium, combo[:system_group].architecture).each do |bootfile_info|
             for prefix, path in bootfile_info do
               tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)
             end
@@ -143,7 +143,7 @@ class ConfigTemplate < ActiveRecord::Base
   # check if our template is a snippet, and remove its associations just in case they were selected.
   def check_for_snippet_assoications
     return unless snippet
-    self.hostgroups.clear
+    self.system_groups.clear
     self.environments.clear
     self.template_combinations.clear
     self.operatingsystems.clear
@@ -154,15 +154,15 @@ class ConfigTemplate < ActiveRecord::Base
     self.template.gsub!("\r","") unless template.empty?
   end
 
-  # get a list of all hostgroup, template combinations that a pxemenu will be
+  # get a list of all system_group, template combinations that a pxemenu will be
   # generated for
   def self.pxe_default_combos
     combos = []
-    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
+    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:system_group => [ :operatingsystem, :architecture, :medium]}]).each do |template|
       template.template_combinations.each do |combination|
-        hostgroup = combination.hostgroup
-        if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium
-          combos << {:hostgroup => hostgroup, :template => template}
+        system_group = combination.system_group
+        if system_group and system_group.operatingsystem and system_group.architecture and system_group.medium
+          combos << {:system_group => system_group, :template => template}
         end
       end
     end

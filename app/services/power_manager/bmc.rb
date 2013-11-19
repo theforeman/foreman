@@ -3,7 +3,7 @@ module PowerManager
 
     def initialize(opts = {})
       super(opts)
-      @proxy = host.bmc_proxy
+      @proxy = system.bmc_proxy
     end
 
     SUPPORTED_ACTIONS.each do |method|

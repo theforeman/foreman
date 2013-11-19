@@ -1,29 +1,29 @@
-// Array contains list of host ids
+// Array contains list of system ids
 $.cookieName = "_ForemanSelected" + window.location.pathname.replace(/\//,"");
-$.foremanSelectedHosts = readFromCookie();
+$.foremanSelectedSystems = readFromCookie();
 
-// triggered by a host checkbox change
-function hostChecked(box) {
-  var cid = parseInt(box.id.replace("host_ids_", ""));
+// triggered by a system checkbox change
+function systemChecked(box) {
+  var cid = parseInt(box.id.replace("system_ids_", ""));
   if (box.checked)
-    addHostId(cid);
+    addSystemId(cid);
   else
-    rmHostId(cid);
-  $.cookie($.cookieName, JSON.stringify($.foremanSelectedHosts));
+    rmSystemId(cid);
+  $.cookie($.cookieName, JSON.stringify($.foremanSelectedSystems));
   toggle_actions();
   update_counter();
   return false;
 }
 
-function addHostId(id) {
-  if (jQuery.inArray(id, $.foremanSelectedHosts) == -1)
-    $.foremanSelectedHosts.push(id)
+function addSystemId(id) {
+  if (jQuery.inArray(id, $.foremanSelectedSystems) == -1)
+    $.foremanSelectedSystems.push(id)
 }
 
-function rmHostId(id) {
-  var pos = jQuery.inArray(id, $.foremanSelectedHosts);
+function rmSystemId(id) {
+  var pos = jQuery.inArray(id, $.foremanSelectedSystems);
   if (pos >= 0)
-    $.foremanSelectedHosts.splice(pos, 1)
+    $.foremanSelectedSystems.splice(pos, 1)
 }
 
 function readFromCookie() {
@@ -34,14 +34,14 @@ function readFromCookie() {
       return [];
   }
   catch(err) {
-    removeForemanHostsCookie();
+    removeForemanSystemsCookie();
     return [];
   }
 }
 
 function toggle_actions() {
   var dropdown = $("#submit_multiple a");
-  if ($.foremanSelectedHosts.length == 0) {
+  if ($.foremanSelectedSystems.length == 0) {
     dropdown.addClass("disabled hide");
     dropdown.attr('disabled', 'disabled');
   } else {
@@ -52,8 +52,8 @@ function toggle_actions() {
 
 // setups checkbox values upon document load
 $(function() {
-  for (var i = 0; i < $.foremanSelectedHosts.length; i++) {
-    var cid = "host_ids_" + $.foremanSelectedHosts[i];
+  for (var i = 0; i < $.foremanSelectedSystems.length; i++) {
+    var cid = "system_ids_" + $.foremanSelectedSystems[i];
     if ((boxes = $('#' + cid)) && (boxes[0]))
       boxes[0].checked = true;
   }
@@ -62,19 +62,19 @@ $(function() {
   return false;
 });
 
-function removeForemanHostsCookie() {
+function removeForemanSystemsCookie() {
   $.cookie($.cookieName, null);
 }
 
 function resetSelection() {
-  removeForemanHostsCookie();
-  $.foremanSelectedHosts = [];
+  removeForemanSystemsCookie();
+  $.foremanSelectedSystems = [];
 }
 
-function cleanHostsSelection() {
-  $('.host_select_boxes').each(function(index, box) {
+function cleanSystemsSelection() {
+  $('.system_select_boxes').each(function(index, box) {
     box.checked = false;
-    hostChecked(box);
+    systemChecked(box);
   });
   resetSelection();
   toggle_actions();
@@ -84,12 +84,12 @@ function cleanHostsSelection() {
 
 function toggleCheck() {
   var checked = $("#check_all").is(':checked');
-  $('.host_select_boxes').each(function(index, box) {
+  $('.system_select_boxes').each(function(index, box) {
     box.checked = checked;
-    hostChecked(box);
+    systemChecked(box);
   });
   if(!checked)
-    cleanHostsSelection();
+    cleanSystemsSelection();
   return false;
 }
 
@@ -104,9 +104,9 @@ function toggle_multiple_ok_button(elem){
 // updates the form URL based on the action selection
 $(function() {
   $('#submit_multiple a').click(function(){
-    if ($.foremanSelectedHosts.length == 0 || $(this).hasClass('dropdown-toggle')) { return false }
+    if ($.foremanSelectedSystems.length == 0 || $(this).hasClass('dropdown-toggle')) { return false }
     var title = $(this).attr('data-original-title');
-    var url = $(this).attr('href') + "?" + $.param({host_ids: $.foremanSelectedHosts});
+    var url = $(this).attr('href') + "?" + $.param({system_ids: $.foremanSelectedSystems});
     $('#confirmation-modal .modal-header h3').text(title);
     $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
     $('#confirmation-modal').modal({show: "true", backdrop: "static"});
@@ -136,13 +136,13 @@ $(function() {
 
 function update_counter() {
   var item = $("#check_all");
-  if ($.foremanSelectedHosts) {
-    $(".select_count").text($.foremanSelectedHosts.length);
-    item.attr("checked", $.foremanSelectedHosts.length > 0 );
+  if ($.foremanSelectedSystems) {
+    $(".select_count").text($.foremanSelectedSystems.length);
+    item.attr("checked", $.foremanSelectedSystems.length > 0 );
   }
   var title = "";
   if (item.attr("checked"))
-    title = $.foremanSelectedHosts.length + " - " + item.attr("uncheck-title");
+    title = $.foremanSelectedSystems.length + " - " + item.attr("uncheck-title");
   else
     title = item.attr("check-title");
 

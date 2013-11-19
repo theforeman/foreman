@@ -118,7 +118,7 @@ class SubnetTest < ActiveSupport::TestCase
     record = subnets(:two)
     as_admin do
       record.domains.destroy_all
-      record.hosts.clear
+      record.systems.clear
       record.interfaces.clear
     end
     assert record.destroy

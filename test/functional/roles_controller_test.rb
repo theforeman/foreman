@@ -39,7 +39,7 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_post_new_with_validaton_failure
     post :create, { :role => {:name => '',
-      :permissions => ['add_hosts', 'edit_hosts', 'edit_ptables', '']
+      :permissions => ['add_systems', 'edit_systems', 'edit_ptables', '']
     }}, set_session_user
 
     assert_response :success
@@ -56,12 +56,12 @@ class RolesControllerTest < ActionController::TestCase
   def test_post_edit
     put :update, {:id => 1,
       :role => {:name => 'Manager',
-        :permissions => ['edit_hosts']
+        :permissions => ['edit_systems']
     }}, set_session_user
 
     assert_redirected_to roles_path
     role = Role.find(1)
-    assert_equal [:edit_hosts], role.permissions
+    assert_equal [:edit_systems], role.permissions
   end
 
   def test_destroy

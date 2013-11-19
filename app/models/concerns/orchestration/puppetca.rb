@@ -17,7 +17,7 @@ module Orchestration::Puppetca
     failure _("Failed to initialize the PuppetCA proxy: %s") % e
   end
 
-  # Removes the host's puppet certificate from the puppetmaster's CA
+  # Removes the system's puppet certificate from the puppetmaster's CA
   def delCertificate
     logger.info "Remove puppet certificate for #{name}"
     puppetca.del_certificate certname
@@ -28,7 +28,7 @@ module Orchestration::Puppetca
   # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
   def setCertificate; end
 
-  # Adds the host's name to the autosign.conf file
+  # Adds the system's name to the autosign.conf file
   def setAutosign
     logger.info "Adding autosign entry for #{name}"
     puppetca.set_autosign certname
@@ -36,7 +36,7 @@ module Orchestration::Puppetca
     failure _("Failed to add %{name} to autosign file: %{e}") % { :name => name, :e => proxy_error(e) }
   end
 
-  # Removes the host's name from the autosign.conf file
+  # Removes the system's name from the autosign.conf file
   def delAutosign
     logger.info "Delete the autosign entry for #{name}"
     puppetca.del_autosign certname
@@ -57,7 +57,7 @@ module Orchestration::Puppetca
   def queue_puppetca_create; end
 
   def queue_puppetca_update
-    # Host has been built --> remove auto sign
+    # System has been built --> remove auto sign
     if old.build? and !build?
       queue.create(:name => _("Delete autosign entry for %s") % self, :priority => 50,
                    :action => [self, :delAutosign])

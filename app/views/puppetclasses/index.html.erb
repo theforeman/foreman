@@ -6,8 +6,8 @@
   <tr>
     <th><%= sort :name, :as => s_("Puppetclass|Name") %></th>
     <th><%= sort :environment, :as => _("Environments and documentation") %></th>
-    <th><%= _('Host group') %></th>
-    <th><%= _('Hosts') %></th>
+    <th><%= _('System group') %></th>
+    <th><%= _('Systems') %></th>
     <th><%= _('Keys') %></th>
     <th></th>
   </tr>
@@ -19,8 +19,8 @@
           <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
         <% end %>
       </td>
-      <td><%= puppetclass.hostgroups.map {|hg| link_to_if_authorized hg, hash_for_edit_hostgroup_path(:id=>hg)}.to_sentence.html_safe %></td>
-      <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
+      <td><%= puppetclass.system_groups.map {|hg| link_to_if_authorized hg, hash_for_edit_system_group_path(:id=>hg)}.to_sentence.html_safe %></td>
+      <td> <%= link_to system_counter(puppetclass), systems_path(:search => "class = #{puppetclass.name}")%></td>
       <td><%= @keys_counter[puppetclass.name] || 0 %> </td>
       <td>
         <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass), :confirm => _("Delete %s?") % puppetclass.name %>

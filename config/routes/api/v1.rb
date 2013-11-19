@@ -12,7 +12,7 @@ Foreman::Application.routes.draw do
       # add "constraint" that unconstrained and allows :id to have dot notation ex. sat.redhat.com
       constraints(:id => /[^\/]+/) do
         resources :domains, :except => [:new, :edit]
-        resources :hosts, :except => [:new, :edit] do
+        resources :systems, :except => [:new, :edit] do
           resources :reports       ,:only => [:index, :show] do
             get :last, :on => :collection
           end
@@ -39,7 +39,7 @@ Foreman::Application.routes.draw do
         end
       end
       resources :fact_values, :only => [:index]
-      resources :hostgroups, :except => [:new, :edit]
+      resources :system_groups, :except => [:new, :edit]
       resources :lookup_keys, :except => [:new, :edit]
       resources :media, :except => [:new, :edit]
       resources :models, :except => [:new, :edit]

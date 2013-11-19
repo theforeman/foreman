@@ -7,7 +7,7 @@ module Net
       end
 
       def to_s
-        "#{ip}/#{hostname}"
+        "#{ip}/#{systemname}"
       end
 
       def destroy
@@ -34,11 +34,11 @@ module Net
       end
 
       def a
-        dns_lookup(hostname)
+        dns_lookup(systemname)
       end
 
       def attrs
-        { :fqdn => hostname, :value => to_arpa, :type => type }
+        { :fqdn => systemname, :value => to_arpa, :type => type }
       end
 
       private

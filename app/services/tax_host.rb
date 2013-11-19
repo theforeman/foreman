@@ -1,22 +1,22 @@
-class TaxHost
+class TaxSystem
 
-  FOREIGN_KEYS = [:location_id, :organization_id, :hostgroup_id,
+  FOREIGN_KEYS = [:location_id, :organization_id, :system_group_id,
                   :environment_id, :domain_id, :medium_id,
                   :subnet_id, :compute_resource_id]
 
-  HASH_KEYS = [:location_ids, :organization_ids, :hostgroup_ids,
+  HASH_KEYS = [:location_ids, :organization_ids, :system_group_ids,
                :environment_ids, :domain_ids, :medium_ids,
                :subnet_ids, :compute_resource_ids,
                :smart_proxy_ids, :user_ids, :config_template_ids]
 
-  def initialize(taxonomy, hosts=nil)
+  def initialize(taxonomy, systems=nil)
     @taxonomy = taxonomy
-    @hosts    = hosts.nil? ? @taxonomy.hosts : Host.where(:id => Array.wrap(hosts).map(&:id))
+    @systems    = systems.nil? ? @taxonomy.systems : System.where(:id => Array.wrap(systems).map(&:id))
   end
 
-  attr_reader :taxonomy, :hosts
+  attr_reader :taxonomy, :systems
 
-  # returns a hash of HASH_KEYS used ids by hosts in a given taxonomy
+  # returns a hash of HASH_KEYS used ids by systems in a given taxonomy
   def used_ids
     return @used_ids if @used_ids
     ids         = HashWithIndifferentAccess.new
@@ -112,12 +112,12 @@ class TaxHost
 
   def check_for_orphans
     found_orphan = false
-    error_msg = "The following must be selected since they belong to hosts:\n\n"
+    error_msg = "The following must be selected since they belong to systems:\n\n"
     need_to_be_selected_ids.each do |key, array_values|
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
         found_orphan = true
-        taxonomy.errors.add(taxable_type.tableize, _("You cannot remove %s that are used by hosts.") % taxable_type.tableize.humanize.downcase)
+        taxonomy.errors.add(taxable_type.tableize, _("You cannot remove %s that are used by systems.") % taxable_type.tableize.humanize.downcase)
       end
     end
     !found_orphan
@@ -127,26 +127,26 @@ class TaxHost
 
   FOREIGN_KEYS.each do |key|
     # def domain_ids
-    #   return taxonomy.hosts.pluck(:domain_id)
+    #   return taxonomy.systems.pluck(:domain_id)
     # end
     define_method "#{key}s".to_sym do
       #TODO see if distinct pluck makes more sense
-      hosts.map(&key).uniq.compact
+      systems.map(&key).uniq.compact
     end
   end
 
   # populate used_ids for 3 non-standard_id's
-  def user_ids(hosts = self.hosts)
+  def user_ids(systems = self.systems)
     #TODO: when migrating to rails 3.1+ switch to inner select on users.
-    User.unscoped.joins(:direct_hosts).where({ :hosts => { :id => hosts }, :users => { :admin => false } }).pluck('DISTINCT users.id')
+    User.unscoped.joins(:direct_systems).where({ :systems => { :id => systems }, :users => { :admin => false } }).pluck('DISTINCT users.id')
   end
 
-  def config_template_ids(hosts = self.hosts)
-    ConfigTemplate.template_ids_for(hosts)
+  def config_template_ids(systems = self.systems)
+    ConfigTemplate.template_ids_for(systems)
   end
 
-  def smart_proxy_ids(hosts = self.hosts)
-    SmartProxy.smart_proxy_ids_for(hosts)
+  def smart_proxy_ids(systems = self.systems)
+    SmartProxy.smart_proxy_ids_for(systems)
   end
 
   # helpers

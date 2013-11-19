@@ -5,9 +5,9 @@ class Usergroup < ActiveRecord::Base
   has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User'
   has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
 
-  has_many_hosts :as => :owner
+  has_many_systems :as => :owner
   validates :name, :uniqueness => true
-  before_destroy EnsureNotUsedBy.new(:hosts, :usergroups)
+  before_destroy EnsureNotUsedBy.new(:systems, :usergroups)
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s

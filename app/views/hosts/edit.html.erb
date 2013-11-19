@@ -1,7 +1,7 @@
-<% title(_("Edit %s") % @host) %>
+<% title(_("Edit %s") % @system) %>
 <% if SETTINGS[:unattended] %>
-  <% title_actions display_link_if_authorized((@host.managed? ? _("Unmanage host") : _("Manage host")),
-    hash_for_toggle_manage_host_path(:id => @host.name), {:method => :put}) %>
+  <% title_actions display_link_if_authorized((@system.managed? ? _("Unmanage system") : _("Manage system")),
+    hash_for_toggle_manage_system_path(:id => @system.name), {:method => :put}) %>
 <% end %>
 
-<%= render :partial => 'hosts/form' %>
+<%= render :partial => 'systems/form' %>

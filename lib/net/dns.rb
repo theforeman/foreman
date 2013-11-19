@@ -8,7 +8,7 @@ module Net
 
     # Looks up the IP or MAC address. Handles the conversion of a DNS miss
     # exception into nil
-    # [+query+]: IP or hostname
+    # [+query+]: IP or systemname
     # Returns: a new DNS record object, A or PTR accordingly
     # We query DNS directly, as its faster then to query our own proxy.
     def self.lookup query, proxy, resolver = Resolv::DNS.new
@@ -22,7 +22,7 @@ module Net
           n = query
           t = "A"
         end
-        attrs = { :hostname => n, :ip => i, :resolver => resolver, :proxy => proxy }
+        attrs = { :systemname => n, :ip => i, :resolver => resolver, :proxy => proxy }
         case t
           when "A"
             ARecord.new attrs

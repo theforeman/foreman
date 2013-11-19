@@ -6,7 +6,7 @@ module ProxyAPI
     end
 
     # Sets a DNS entry
-    # [+fqdn+] : String containing the FQDN of the host
+    # [+fqdn+] : String containing the FQDN of the system
     # [+args+] : Hash containing :value and :type: The :fqdn key is taken from the fqdn parameter
     # Returns  : Boolean status
     def set args

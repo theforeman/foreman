@@ -5,7 +5,7 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
 
   bookmark_base = {
     :public     => false,
-    :controller => "hosts"
+    :controller => "systems"
   }
 
   simple_bookmark = bookmark_base.merge({

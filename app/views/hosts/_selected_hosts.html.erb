@@ -5,23 +5,23 @@
       <thead>
         <tr>
           <th> Name </th>
-          <th> Hostgroup </th>
+          <th> SystemGroup </th>
           <th> Environment </th>
           <%= raw("<th>" + _("Location") + "</th>") if SETTINGS[:locations_enabled]%>
           <%= raw("<th>" + _("Organization") + "</th>") if SETTINGS[:organizations_enabled]%>
         </tr>
       </thead>
       <tbody>
-        <% hosts.each do |host| %>
+        <% systems.each do |system| %>
           <tr>
-            <td><%=h host %> </td>
-            <td><%=h host.try(:hostgroup) %></td>
-            <td><%=h host.try(:environment) %></td>
+            <td><%=h system %> </td>
+            <td><%=h system.try(:system_group) %></td>
+            <td><%=h system.try(:environment) %></td>
             <% if SETTINGS[:locations_enabled]%>
-            <td><%=h host.try(:location) %></td>
+            <td><%=h system.try(:location) %></td>
             <% end %>
             <% if SETTINGS[:organizations_enabled]%>
-            <td><%=h host.try(:organization) %></td>
+            <td><%=h system.try(:organization) %></td>
             <% end %>
           </tr>
         <% end %>

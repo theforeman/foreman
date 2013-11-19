@@ -1,5 +1,5 @@
 <% new = f.object && f.object.id.blank? %>
-<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
+<%= text_f f, :name, :disabled => !new if controller_name != "systems" %>
 <%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => _('Flavor') %>
 <%
    arch ||= nil ; os ||= nil

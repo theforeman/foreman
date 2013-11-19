@@ -1,19 +1,19 @@
-class Hostgroup < ActiveRecord::Base
+class SystemGroup < ActiveRecord::Base
   has_ancestry :orphan_strategy => :rootify
   include Authorization
   include Taxonomix
-  include HostCommon
+  include SystemCommon
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
-  has_many :hostgroup_classes, :dependent => :destroy
-  has_many :puppetclasses, :through => :hostgroup_classes
-  has_many :user_hostgroups, :dependent => :destroy
-  has_many :users, :through => :user_hostgroups
+  before_destroy EnsureNotUsedBy.new(:systems)
+  has_many :system_group_classes, :dependent => :destroy
+  has_many :puppetclasses, :through => :system_group_classes
+  has_many :user_system_groups, :dependent => :destroy
+  has_many :users, :through => :user_system_groups
   validates :name, :uniqueness => {:scope => :ancestry, :case_sensitive => false },
                    :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
-  has_many_hosts
+  has_many_systems
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
   before_save :remove_duplicated_nested_class
@@ -30,14 +30,14 @@ class Hostgroup < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("hostgroups.label")
+      order("system_groups.label")
     end
   }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :label, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
-  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
+  scoped_search :in => :systems, :on => :name, :complete_value => :true, :rename => "system"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
   if SETTINGS[:unattended]
@@ -47,11 +47,11 @@ class Hostgroup < ActiveRecord::Base
     scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
   end
 
-  # returns reports for hosts in the User's filter set
+  # returns reports for systems in the User's filter set
   scope :my_groups, lambda {
     user = User.current
     unless user.admin?
-      conditions = sanitize_sql_for_conditions([" (hostgroups.id in (?))", user.hostgroup_ids])
+      conditions = sanitize_sql_for_conditions([" (system_groups.id in (?))", user.system_group_ids])
       conditions.sub!(/\s*\(\)\s*/, "")
       conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
       conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
@@ -64,7 +64,7 @@ class Hostgroup < ActiveRecord::Base
       :environment, :ptable, :url_for_boot, :params, :puppetproxy
   end
 
-  #TODO: add a method that returns the valid os for a hostgroup
+  #TODO: add a method that returns the valid os for a system_group
 
   def all_puppetclasses
     classes
@@ -79,7 +79,7 @@ class Hostgroup < ActiveRecord::Base
     "#{id}-#{to_label.parameterize}"
   end
 
-  def hostgroup
+  def system_group
     self
   end
 
@@ -88,7 +88,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def classes
-    Puppetclass.joins(:hostgroups).where(:hostgroups => {:id => path_ids})
+    Puppetclass.joins(:system_groups).where(:system_groups => {:id => path_ids})
   end
 
   def puppetclass_ids
@@ -100,7 +100,7 @@ class Hostgroup < ActiveRecord::Base
       if(v = LookupValue.where(:lookup_key_id => key.id, :id => hg.lookup_values).first)
         return v.value, hg.to_label
       end
-    end if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+    end if key.path_elements.flatten.include?("system_group") && Setting["system_group_matchers_inheritance"]
     return key.default_value, _("Default value")
   end
 
@@ -109,11 +109,11 @@ class Hostgroup < ActiveRecord::Base
     hash = {}
     ids = ancestor_ids
     ids << id unless new_record? or self.frozen?
-    # need to pull out the hostgroups to ensure they are sorted first,
+    # need to pull out the system_groups to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    groups = ids.size == 1 ? [self] : Hostgroup.includes(:group_parameters).sort_by_ancestry(Hostgroup.find(ids))
+    groups = ids.size == 1 ? [self] : SystemGroup.includes(:group_parameters).sort_by_ancestry(SystemGroup.find(ids))
     groups.each do |hg|
-      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :hostgroup} : p.value }
+      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :system_group} : p.value }
     end
     hash
   end
@@ -124,8 +124,8 @@ class Hostgroup < ActiveRecord::Base
     CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
-    # read group parameters only if a host belongs to a group
-    parameters.update self.parameters unless hostgroup.nil?
+    # read group parameters only if a system belongs to a group
+    parameters.update self.parameters unless system_group.nil?
     parameters
   end
 
@@ -142,7 +142,7 @@ class Hostgroup < ActiveRecord::Base
   private
 
   def lookup_value_match
-    "hostgroup=#{to_label}"
+    "system_group=#{to_label}"
   end
 
   def set_label
@@ -151,16 +151,16 @@ class Hostgroup < ActiveRecord::Base
 
   def set_other_labels
     if name_changed? || ancestry_changed?
-      Hostgroup.where("ancestry IS NOT NULL").each do |hostgroup|
-        if hostgroup.path_ids.include?(self.id)
-          hostgroup.update_attributes(:label => hostgroup.get_label)
+      SystemGroup.where("ancestry IS NOT NULL").each do |system_group|
+        if system_group.path_ids.include?(self.id)
+          system_group.update_attributes(:label => system_group.get_label)
         end
       end
     end
   end
 
   def nested_root_pw
-    Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
+    SystemGroup.sort_by_ancestry(ancestors).reverse.each do |a|
       return a.root_pass unless a.root_pass.blank?
     end if ancestry.present?
     nil

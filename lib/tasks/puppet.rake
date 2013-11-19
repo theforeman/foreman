@@ -24,27 +24,27 @@ namespace :puppet do
     end
   end
   namespace :migrate do
-    desc "Populates the host fields in Foreman based on your StoredConfig DB"
-    task :populate_hosts => :environment do
+    desc "Populates the system fields in Foreman based on your StoredConfig DB"
+    task :populate_systems => :environment do
       counter = 0
-      Host.find_each do |host|
-        if host.fact_values.size == 0
-          $stdout.puts "#{host.hostname} has no facts, skipping"
+      System.find_each do |system|
+        if system.fact_values.size == 0
+          $stdout.puts "#{system.systemname} has no facts, skipping"
           next
         end
 
-        if host.populateFieldsFromFacts
+        if system.populateFieldsFromFacts
           counter += 1
         else
-          $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
+          $stdout.puts "#{system.systemname}: #{system.errors.full_messages.join(", ")}"
         end
       end
-      puts "Imported #{counter} hosts out of #{Host.count} Hosts" unless counter == 0
+      puts "Imported #{counter} systems out of #{System.count} Systems" unless counter == 0
     end
   end
   namespace :import do
-    desc "Imports hosts and facts from existings YAML files, use dir= to override default directory"
-    task :hosts_and_facts => :environment do
+    desc "Imports systems and facts from existings YAML files, use dir= to override default directory"
+    task :systems_and_facts => :environment do
       dir = ENV['dir'] || "#{SETTINGS[:puppetvardir]}/yaml/facts"
       puts "Importing from #{dir}"
       Dir["#{dir}/*.yaml"].each do |yaml|
@@ -52,7 +52,7 @@ namespace :puppet do
         puts "Importing #{name}"
         puppet_facts = File.read(yaml)
         facts_stripped_of_class_names = YAML::load(puppet_facts.gsub(/\!ruby\/object.*$/,''))
-        Host.importHostAndFacts facts_stripped_of_class_names['name'], facts_stripped_of_class_names['values'].with_indifferent_access
+        System.importSystemAndFacts facts_stripped_of_class_names['name'], facts_stripped_of_class_names['values'].with_indifferent_access
       end
     end
   end
@@ -187,10 +187,10 @@ namespace :puppet do
 
   namespace :import do
     desc "
-    Import your hosts classes and parameters classifications from another external node source.
+    Import your systems classes and parameters classifications from another external node source.
     define script=/dir/node as the script which provides the external nodes information.
-    This will only scan for hosts that already exists in our database, if you want to
-    import hosts, use one of the other importers.
+    This will only scan for systems that already exists in our database, if you want to
+    import systems, use one of the other importers.
     YOU Must import your classes first!"
 
     task :external_nodes => :environment do
@@ -204,11 +204,11 @@ namespace :puppet do
         exit(1)
       end
 
-      Host.find_each do |host|
-        $stdout.print "processing #{host.name} "
-        nodeinfo = YAML::load %x{#{script} #{host.name}}
+      System.find_each do |system|
+        $stdout.print "processing #{system.name} "
+        nodeinfo = YAML::load %x{#{script} #{system.name}}
         if nodeinfo.is_a?(Hash)
-          $stdout.puts "DONE" if host.importNode nodeinfo
+          $stdout.puts "DONE" if system.importNode nodeinfo
         else
           $stdout.puts "ERROR: invalid output from external nodes"
         end

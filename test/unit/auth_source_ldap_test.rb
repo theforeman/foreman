@@ -4,7 +4,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup
     @auth_source_ldap = AuthSourceLdap.new
     @attributes = { :name= => "value",
-                    :host= => "value",
+                    :system= => "value",
                     :attr_login= => "value",
                     :attr_mail= => "some@where.com",
                     :attr_firstname= => "ohad",
@@ -21,11 +21,11 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert @auth_source_ldap.save
   end
 
-  test "should exists a host" do
-    missing(:host=)
+  test "should exists a system" do
+    missing(:system=)
     assert !@auth_source_ldap.save
 
-    set(:host=)
+    set(:system=)
     assert @auth_source_ldap.save
   end
 
@@ -53,9 +53,9 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert !@auth_source_ldap.save
   end
 
-  test "the host should not exceed the 60 characters" do
-    missing(:host=)
-    assigns_a_string_of_length_greater_than(60, :host=)
+  test "the system should not exceed the 60 characters" do
+    missing(:system=)
+    assigns_a_string_of_length_greater_than(60, :system=)
     assert !@auth_source_ldap.save
   end
 
@@ -188,14 +188,14 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   test "user with create permissions should be able to create" do
     setup_user "create"
-    record =  AuthSourceLdap.create :name => "dummy", :host => hosts(:one).name, :port => "1", :attr_login => "login"
+    record =  AuthSourceLdap.create :name => "dummy", :system => systems(:one).name, :port => "1", :attr_login => "login"
     assert record.valid?
     assert !record.new_record?
   end
 
   test "user with view permissions should not be able to create" do
     setup_user "view"
-    record =  AuthSourceLdap.create :name => "dummy", :host => hosts(:one).name, :port => "1", :attr_login => "login"
+    record =  AuthSourceLdap.create :name => "dummy", :system => systems(:one).name, :port => "1", :attr_login => "login"
     assert record.valid?
     assert record.new_record?
   end

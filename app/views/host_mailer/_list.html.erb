@@ -5,9 +5,9 @@
     padding: 5px;
     text-align:justify;
     font-family: Arial,"Times new roman";'>
-    <%= render :partial => "#{state}_hosts", :locals => {:list => list } %>
+    <%= render :partial => "#{state}_systems", :locals => {:list => list } %>
   </table>
-  <p style='font-family: Arial,"Times new roman"; font-size: 90%;'>Total of <%= pluralize(list.size, 'host') %></p>
+  <p style='font-family: Arial,"Times new roman"; font-size: 90%;'>Total of <%= pluralize(list.size, 'system') %></p>
 <% else %>
   <b>None!</b>
 <% end %>

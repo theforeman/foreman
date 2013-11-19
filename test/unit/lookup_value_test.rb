@@ -3,21 +3,21 @@ require 'test_helper'
 class LookupKeyTest < ActiveSupport::TestCase
 
   def valid_attrs1
-    { :match => "fqdn=#{hosts(:one).name}",
+    { :match => "fqdn=#{systems(:one).name}",
       :value => "false",
       :lookup_key_id => lookup_keys(:three).id
     }
   end
 
   def valid_attrs2
-    { :match => "fqdn=#{hosts(:two).name}",
+    { :match => "fqdn=#{systems(:two).name}",
       :value => "3001",
       :lookup_key_id => lookup_keys(:one).id
     }
   end
 
   def valid_attrs3
-    { :match => "hostgroup=Common",
+    { :match => "system_group=Common",
       :value => "3001",
       :lookup_key_id => lookup_keys(:one).id
     }
@@ -38,51 +38,51 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
-  test "non-admin user cannot create lookup value if user has no matching host/hostgroup" do
-    # Host.my_hosts returns only hosts(:one)
+  test "non-admin user cannot create lookup value if user has no matching system/system_group" do
+    # System.my_systems returns only systems(:one)
     user = users(:one)
     as_user :one do
-      refute Host.my_hosts.where(:name => hosts(:two).name).exists?
-      refute Hostgroup.my_groups.where(:name => hosts(:two).try(:hostgroup).try(:name)).exists?
+      refute System.my_systems.where(:name => systems(:two).name).exists?
+      refute SystemGroup.my_groups.where(:name => systems(:two).try(:system_group).try(:name)).exists?
       lookup_value = LookupValue.new(valid_attrs2)
       refute lookup_value.save
     end
   end
 
-  test "any user including admin cannot create lookup value if match fqdn= does not match existing host" do
+  test "any user including admin cannot create lookup value if match fqdn= does not match existing system" do
     as_admin do
       attrs = { :match => "fqdn=non.existing.com", :value => "123", :lookup_key_id => lookup_keys(:one).id }
       lookup_value = LookupValue.new(attrs)
       refute lookup_value.save
-      assert_match /Match fqdn=non.existing.com does not match an existing host/, lookup_value.errors.full_messages.join("\n")
+      assert_match /Match fqdn=non.existing.com does not match an existing system/, lookup_value.errors.full_messages.join("\n")
     end
   end
 
-  test "any user including admin cannot create lookup value if match hostgroup= does not match existing hostgroup" do
+  test "any user including admin cannot create lookup value if match system_group= does not match existing system_group" do
     as_admin do
-      attrs = { :match => "hostgroup=non_existing_group", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      attrs = { :match => "system_group=non_existing_group", :value => "123", :lookup_key_id => lookup_keys(:one).id }
       lookup_value = LookupValue.new(attrs)
       refute lookup_value.save
-      assert_match /Match hostgroup=non_existing_group does not match an existing host group/, lookup_value.errors.full_messages.join("\n")
+      assert_match /Match system_group=non_existing_group does not match an existing system group/, lookup_value.errors.full_messages.join("\n")
     end
   end
 
-  test "cannot update lookup value if user has no matching host/hostgroup" do
-    # Host.my_hosts returns only hosts(:one)
+  test "cannot update lookup value if user has no matching system/system_group" do
+    # System.my_systems returns only systems(:one)
     user = users(:one)
     as_user :one do
-      refute Host.my_hosts.where(:name => hosts(:two).name).exists?
-      refute Hostgroup.my_groups.where(:name => hosts(:two).try(:hostgroup).try(:name)).exists?
-      refute lookup_values(:hosttwo).update_attributes(:value => "9000")
+      refute System.my_systems.where(:name => systems(:two).name).exists?
+      refute SystemGroup.my_groups.where(:name => systems(:two).try(:system_group).try(:name)).exists?
+      refute lookup_values(:systemtwo).update_attributes(:value => "9000")
     end
   end
 
-  test "can create lookup value if user has matching host " do
-    # Host.my_hosts returns only hosts(:one)
+  test "can create lookup value if user has matching system " do
+    # System.my_systems returns only systems(:one)
     user = users(:one)
     as_user :one do
-      assert Host.my_hosts.where(:name => hosts(:one).name).exists?
-      refute Hostgroup.my_groups.where(:name => hosts(:one).try(:hostgroup).try(:name)).exists?
+      assert System.my_systems.where(:name => systems(:one).name).exists?
+      refute SystemGroup.my_groups.where(:name => systems(:one).try(:system_group).try(:name)).exists?
       lookup_value = LookupValue.new(valid_attrs1)
       assert_difference('LookupValue.count') do
         assert lookup_value.save
@@ -90,24 +90,24 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
-  test "can update lookup value if user has matching host " do
-    # Host.my_hosts returns only hosts(:one)
+  test "can update lookup value if user has matching system " do
+    # System.my_systems returns only systems(:one)
     user = users(:one)
     as_user :one do
-      assert Host.my_hosts.where(:name => hosts(:one).name).exists?
-      refute Hostgroup.my_groups.where(:name => hosts(:one).try(:hostgroup).try(:name)).exists?
+      assert System.my_systems.where(:name => systems(:one).name).exists?
+      refute SystemGroup.my_groups.where(:name => systems(:one).try(:system_group).try(:name)).exists?
       assert lookup_values(:one).update_attributes(:value => "9000")
     end
   end
 
-  test "can create lookup value if user has matching hostgroup " do
-    # Host.my_hosts returns only hosts(:one)
+  test "can create lookup value if user has matching system_group " do
+    # System.my_systems returns only systems(:one)
     user = users(:one)
     as_admin do
-      assert user.hostgroups << hostgroups(:common)
+      assert user.system_groups << system_groups(:common)
     end
     as_user :one do
-      assert Hostgroup.my_groups.where(:name => "Common").exists?
+      assert SystemGroup.my_groups.where(:name => "Common").exists?
       lookup_value = LookupValue.new(valid_attrs3)
       assert_difference('LookupValue.count') do
         assert lookup_value.save
@@ -115,15 +115,15 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
-  test "can update lookup value if user has matching hostgroup " do
-    # Host.my_hosts returns only hosts(:one)
+  test "can update lookup value if user has matching system_group " do
+    # System.my_systems returns only systems(:one)
     user = users(:one)
     as_admin do
-      assert user.hostgroups << hostgroups(:common)
+      assert user.system_groups << system_groups(:common)
     end
     as_user :one do
-      assert Hostgroup.my_groups.where(:name => "Common").exists?
-      assert lookup_values(:hostgroupcommon).update_attributes(:value => "9000")
+      assert SystemGroup.my_groups.where(:name => "Common").exists?
+      assert lookup_values(:system_groupcommon).update_attributes(:value => "9000")
     end
   end
 

@@ -1,64 +1,64 @@
 require 'test_helper'
 
-class HostgroupClassTest < ActiveSupport::TestCase
+class SystemGroupClassTest < ActiveSupport::TestCase
 
   setup do
     disable_orchestration
     User.current = User.find_by_login "one"
     # puppetclasses(:two) needs to be in production environment
     EnvironmentClass.create(:puppetclass_id => puppetclasses(:two).id, :environment_id => environments(:production).id )
-    # add hostgroups(:common) to users(:one) hostgroups
-    UserHostgroup.create(:user_id => User.current.id, :hostgroup_id => hostgroups(:common).id)
+    # add system_groups(:common) to users(:one) system_groups
+    UserSystemGroup.create(:user_id => User.current.id, :system_group_id => system_groups(:common).id)
   end
 
-  test 'when creating a new hostgroup class object, an audit entry needs to be added' do
+  test 'when creating a new system_group class object, an audit entry needs to be added' do
     as_admin do
       assert_difference('Audit.count') do
-        HostgroupClass.create! :puppetclass => puppetclasses(:one), :hostgroup => hostgroups(:db)
+        SystemGroupClass.create! :puppetclass => puppetclasses(:one), :system_group => system_groups(:db)
       end
     end
   end
 
-  test "non-admin user with permission :edit_hostgroups can add puppetclass to hostgroup" do
+  test "non-admin user with permission :edit_system_groups can add puppetclass to system_group" do
     # role "manager" has permission :edit_classes
     User.current.roles << [roles(:manager)]
-    assert_difference('HostgroupClass.count') do
-      hostgroup = hostgroups(:common)
+    assert_difference('SystemGroupClass.count') do
+      system_group = system_groups(:common)
       puppetclass = puppetclasses(:two)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      assert hostgroup.update_attributes :puppetclass_ids => (hostgroup.puppetclass_ids + Array.wrap(puppetclass.id))
+      assert SystemGroup.my_groups.include?(system_group)
+      assert system_group.update_attributes :puppetclass_ids => (system_group.puppetclass_ids + Array.wrap(puppetclass.id))
     end
   end
 
-  test "non-admin user without permission :edit_hostgroups cannot add puppetclass to hostgroup" do
+  test "non-admin user without permission :edit_system_groups cannot add puppetclass to system_group" do
     # do not assign any role to Current.user
-    assert_difference('HostgroupClass.count', 0) do
-      hostgroup = hostgroups(:common)
+    assert_difference('SystemGroupClass.count', 0) do
+      system_group = system_groups(:common)
       puppetclass = puppetclasses(:two)
-      assert Hostgroup.my_groups.include?(hostgroup)
+      assert SystemGroup.my_groups.include?(system_group)
       assert_raises(ActiveRecord::RecordNotSaved) do
-        refute hostgroup.update_attributes :puppetclass_ids => (hostgroup.puppetclass_ids + Array.wrap(puppetclass.id))
+        refute system_group.update_attributes :puppetclass_ids => (system_group.puppetclass_ids + Array.wrap(puppetclass.id))
       end
     end
   end
 
-  test "non-admin user with permission :edit_hostgroups can remove puppetclass from hostgroup" do
+  test "non-admin user with permission :edit_system_groups can remove puppetclass from system_group" do
     # role "manager" has permission :edit_classes
     User.current.roles << [roles(:manager)]
-    assert_difference('HostgroupClass.count', -1) do
-      hostgroup = hostgroups(:common)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      assert hostgroup.update_attributes :puppetclass_ids => []
+    assert_difference('SystemGroupClass.count', -1) do
+      system_group = system_groups(:common)
+      assert SystemGroup.my_groups.include?(system_group)
+      assert system_group.update_attributes :puppetclass_ids => []
     end
   end
 
-  test "non-admin user without permission :edit_hostgroups cannot remove puppetclass from hostgroup" do
+  test "non-admin user without permission :edit_system_groups cannot remove puppetclass from system_group" do
     # do not assign any role to Current.user
-    assert_difference('HostgroupClass.count', 0) do
-      hostgroup = hostgroups(:common)
+    assert_difference('SystemGroupClass.count', 0) do
+      system_group = system_groups(:common)
       puppetclass = puppetclasses(:two)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      refute hostgroup.update_attributes :puppetclass_ids => []
+      assert SystemGroup.my_groups.include?(system_group)
+      refute system_group.update_attributes :puppetclass_ids => []
     end
   end
 end

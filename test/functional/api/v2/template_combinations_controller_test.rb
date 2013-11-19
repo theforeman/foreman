@@ -20,12 +20,12 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
   test "should create valid" do
     TemplateCombination.any_instance.stubs(:valid?).returns(true)
     as_admin do
-      post :create, { :template_combination => { :environment_id => environments(:production).id, :hostgroup_id => hostgroups(:unusual).id },
+      post :create, { :template_combination => { :environment_id => environments(:production).id, :system_group_id => system_groups(:unusual).id },
         :config_template_id => config_templates(:mystring2).id }
     end
     template_combination = ActiveSupport::JSON.decode(@response.body)
     assert template_combination["template_combination"]["environment_id"] == environments(:production).id
-    assert template_combination["template_combination"]["hostgroup_id"] == hostgroups(:unusual).id
+    assert template_combination["template_combination"]["system_group_id"] == system_groups(:unusual).id
     assert template_combination["template_combination"]["config_template_id"] == config_templates(:mystring2).id
     assert_response 200
   end

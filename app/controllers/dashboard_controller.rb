@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
 
   def prefetch_data
     dashboard = Dashboard.new(params[:search])
-    @hosts    = dashboard.hosts
+    @systems    = dashboard.systems
     @report   = dashboard.report
   end
 

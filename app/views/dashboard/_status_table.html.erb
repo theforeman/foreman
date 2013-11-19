@@ -1,39 +1,39 @@
-<h4 class="header"><%= _('Host Configuration Status') %></h4>
+<h4 class="header"><%= _('System Configuration Status') %></h4>
 <ul>
-    <%= searchable_links _('Hosts that had performed modifications without error'),
+    <%= searchable_links _('Systems that had performed modifications without error'),
                          "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)",
-                         :active_hosts_ok_enabled
+                         :active_systems_ok_enabled
     %>
 
-    <%= searchable_links _('Hosts in error state'),
+    <%= searchable_links _('Systems in error state'),
                          "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0) and status.enabled = true",
-                         :bad_hosts_enabled
+                         :bad_systems_enabled
     %>
 
-    <%=searchable_links _("Good host reports in the last %s") % time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago),
+    <%=searchable_links _("Good system reports in the last %s") % time_ago_in_words((Setting[:puppet_interval]+5).minutes.ago),
                         "last_report > \"#{Setting[:puppet_interval]+5} minutes ago\" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0",
-                        :ok_hosts_enabled
+                        :ok_systems_enabled
     %>
 
-    <%= searchable_links _('Hosts that had pending changes'),
+    <%= searchable_links _('Systems that had pending changes'),
                          'status.pending > 0 and status.enabled = true',
-                         :pending_hosts_enabled
+                         :pending_systems_enabled
     %>
 
-    <%= searchable_links _('Out of sync Hosts'),
+    <%= searchable_links _('Out of sync Systems'),
                          "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true",
-                         :out_of_sync_hosts_enabled
+                         :out_of_sync_systems_enabled
     %>
 
-    <%= searchable_links _('Hosts with no reports'),
+    <%= searchable_links _('Systems with no reports'),
                          "not has last_report and status.enabled = true",
                          :reports_missing
     %>
 
-    <%= searchable_links _('Hosts with alerts disabled'),
+    <%= searchable_links _('Systems with alerts disabled'),
                          "status.enabled = false",
-                         :disabled_hosts
+                         :disabled_systems
     %>
 
-  <h4 class="total"><%= _("Total Hosts: %s") % @report[:total_hosts] %></h4>
+  <h4 class="total"><%= _("Total Systems: %s") % @report[:total_systems] %></h4>
 </ul>

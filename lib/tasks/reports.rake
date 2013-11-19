@@ -23,13 +23,13 @@ namespace :reports do
 end
 # TRANSLATORS: do not translate
 desc <<-END_DESC
-Send an email summarising hosts reports (and lack of it).
+Send an email summarising systems reports (and lack of it).
 
 Available conditions:
   * days             => number of days to scan backwards (defaults to 1)
   * hours            => number of hours to scan backwards (defaults to disabled)
-  * environment      => Report only for hosts which belongs to a certian environment
-  * fact=name:value  => Report only for hosts which have a certian fact name and a value
+  * environment      => Report only for systems which belongs to a certian environment
+  * fact=name:value  => Report only for systems which have a certian fact name and a value
   * email            => override default email addresses
 
   Example:
@@ -39,13 +39,13 @@ Available conditions:
     # Sends out a summary email for the last 12 hours.
     rake reports:summarize hours=12 RAILS_ENV="production" # Sends out a summary email for the last 12 hours.
 
-    # Sends out a summary email only for hosts which belongs to production puppet environment
+    # Sends out a summary email only for systems which belongs to production puppet environment
     rake reports:summarize environment=production RAILS_ENV="production"
 
-    # Sends out a summary email only for hosts which has a certian fact name and a value
+    # Sends out a summary email only for systems which has a certian fact name and a value
     rake reports:summarize fact=domain:theforeman.org RAILS_ENV="production"
 
-    # Sends out a summary email only for hosts which belongs to testing puppet environment to a special email address
+    # Sends out a summary email only for systems which belongs to testing puppet environment to a special email address
     rake reports:summarize environment=testing email=testuser@domain RAILS_ENV="production"
 END_DESC
 namespace :reports do
@@ -77,12 +77,12 @@ namespace :reports do
 
     options[:email] = ENV['email'] if ENV['email']
 
-    HostMailer.summary(options).deliver
+    SystemMailer.summary(options).deliver
   end
 end
 
 desc <<-END_DESC
-Sends a periodic digest to every user with a list of hosts with failed puppet runs
+Sends a periodic digest to every user with a list of systems with failed puppet runs
 
 Available conditions:
   * days             => number of days to scan backwards (defaults to 1)
@@ -103,10 +103,10 @@ namespace :reports do
     time = ENV['days'].to_i.days.ago if ENV['days']
     options[:time] = time if time
 
-    users = User.select { |u| u.hosts.length > 0 }
+    users = User.select { |u| u.systems.length > 0 }
 
     users.each do |user|
-      HostMailer.failed_runs(user, options).deliver
+      SystemMailer.failed_runs(user, options).deliver
     end
   end
 end

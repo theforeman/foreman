@@ -14,14 +14,14 @@ class BookmarkTest < ActiveSupport::TestCase
   test "my bookmarks should contain my private bookmarks" do
     enable_login do
       assert_difference('Bookmark.count') do
-        Bookmark.create({:name => "private", :query => "bar", :public => false, :controller => "hosts"})
+        Bookmark.create({:name => "private", :query => "bar", :public => false, :controller => "systems"})
       end
       assert_equal Bookmark.my_bookmarks.include?(Bookmark.find_by_name("private")), true
     end
   end
 
   test "validation fails when invalid controller name stored" do
-    b = Bookmark.create :name => "controller_test", :controller => "hosts", :query => "foo=bar", :public => true
+    b = Bookmark.create :name => "controller_test", :controller => "systems", :query => "foo=bar", :public => true
     assert b.valid?
     b.controller = "foo bar"
     assert_not b.valid?

@@ -2,12 +2,12 @@ class Environment < ActiveRecord::Base
   include Taxonomix
   include Authorization
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:systems)
 
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
-  has_many_hosts
-  has_many :hostgroups
+  has_many_systems
+  has_many :system_groups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[\w\d]+\Z/, :message => N_("is alphanumeric and cannot contain spaces") }
@@ -31,7 +31,7 @@ class Environment < ActiveRecord::Base
   class << self
 
     #TODO: this needs to be removed, as PuppetDOC generation no longer works
-    # if the manifests are not on the foreman host
+    # if the manifests are not on the foreman system
     # returns an hash of all puppet environments and their relative paths
     def puppetEnvs proxy = nil
 

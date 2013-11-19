@@ -9,7 +9,7 @@ module Nic
 
     protected
 
-    def uniq_fields_with_hosts
+    def uniq_fields_with_systems
       [:mac, :ip]
     end
 

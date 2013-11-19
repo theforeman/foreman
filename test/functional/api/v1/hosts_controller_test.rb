@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class Api::V1::HostsControllerTest < ActionController::TestCase
+class Api::V1::SystemsControllerTest < ActionController::TestCase
 
   def valid_attrs
-    { :name                => 'testhost11',
+    { :name                => 'testsystem11',
       :environment_id      => environments(:production).id,
       :domain_id           => domains(:mydomain).id,
       :ip                  => '10.0.0.20',
@@ -18,126 +18,126 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, { }
     assert_response :success
-    assert_not_nil assigns(:hosts)
-    hosts = ActiveSupport::JSON.decode(@response.body)
-    assert !hosts.empty?
+    assert_not_nil assigns(:systems)
+    systems = ActiveSupport::JSON.decode(@response.body)
+    assert !systems.empty?
   end
 
   test "should show individual record" do
-    get :show, { :id => hosts(:one).to_param }
+    get :show, { :id => systems(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
-  test "should create host" do
+  test "should create system" do
     disable_orchestration
-    assert_difference('Host.count') do
-      post :create, { :host => valid_attrs }
+    assert_difference('System.count') do
+      post :create, { :system => valid_attrs }
     end
     assert_response :success
-    last_host = Host.order('id desc').last
+    last_system = System.order('id desc').last
   end
 
-  test "should create host with managed is false if parameter is passed" do
+  test "should create system with managed is false if parameter is passed" do
     disable_orchestration
-    post :create, { :host => valid_attrs.merge!(:managed => false) }
+    post :create, { :system => valid_attrs.merge!(:managed => false) }
     assert_response :success
-    last_host = Host.order('id desc').last
-    assert_equal false, last_host.managed?
+    last_system = System.order('id desc').last
+    assert_equal false, last_system.managed?
   end
 
-  test "should update host" do
-    put :update, { :id => hosts(:two).to_param, :host => { } }
-    assert_response :success
-  end
-
-  test "should destroy hosts" do
-    assert_difference('Host.count', -1) do
-      delete :destroy, { :id => hosts(:one).to_param }
-    end
+  test "should update system" do
+    put :update, { :id => systems(:two).to_param, :system => { } }
     assert_response :success
   end
 
-  test "should show status hosts" do
-    get :status, { :id => hosts(:one).to_param }
-    assert_response :success
-  end
-
-  test "should be able to create hosts even when restricted" do
-    disable_orchestration
-    assert_difference('Host.count') do
-      post :create, { :host => valid_attrs }
+  test "should destroy systems" do
+    assert_difference('System.count', -1) do
+      delete :destroy, { :id => systems(:one).to_param }
     end
     assert_response :success
   end
 
-  test "should allow access to restricted user who owns the host" do
+  test "should show status systems" do
+    get :status, { :id => systems(:one).to_param }
+    assert_response :success
+  end
+
+  test "should be able to create systems even when restricted" do
+    disable_orchestration
+    assert_difference('System.count') do
+      post :create, { :system => valid_attrs }
+    end
+    assert_response :success
+  end
+
+  test "should allow access to restricted user who owns the system" do
     as_user :restricted do
-      get :show, { :id => hosts(:owned_by_restricted).to_param }
+      get :show, { :id => systems(:owned_by_restricted).to_param }
     end
     assert_response :success
   end
 
-  test "should allow to update for restricted user who owns the host" do
+  test "should allow to update for restricted user who owns the system" do
     disable_orchestration
     as_user :restricted do
-      put :update, { :id => hosts(:owned_by_restricted).to_param, :host => {} }
+      put :update, { :id => systems(:owned_by_restricted).to_param, :system => {} }
     end
     assert_response :success
   end
 
-  test "should allow destroy for restricted user who owns the hosts" do
-    assert_difference('Host.count', -1) do
+  test "should allow destroy for restricted user who owns the systems" do
+    assert_difference('System.count', -1) do
       as_user :restricted do
-        delete :destroy, { :id => hosts(:owned_by_restricted).to_param }
+        delete :destroy, { :id => systems(:owned_by_restricted).to_param }
       end
     end
     assert_response :success
   end
 
-  test "should allow show status for restricted user who owns the hosts" do
+  test "should allow show status for restricted user who owns the systems" do
     as_user :restricted do
-      get :status, { :id => hosts(:owned_by_restricted).to_param }
+      get :status, { :id => systems(:owned_by_restricted).to_param }
     end
     assert_response :success
   end
 
-  test "should not allow access to a host out of users hosts scope" do
+  test "should not allow access to a system out of users systems scope" do
     as_user :restricted do
-      get :show, { :id => hosts(:one).to_param }
+      get :show, { :id => systems(:one).to_param }
     end
     assert_response :not_found
   end
 
-  test "should not list a host out of users hosts scope" do
+  test "should not list a system out of users systems scope" do
     as_user :restricted do
       get :index, {}
     end
     assert_response :success
-    hosts = ActiveSupport::JSON.decode(@response.body)
-    ids = hosts.map { |hash| hash['host']['id'] }
-    assert !ids.include?(hosts(:one).id)
-    assert ids.include?(hosts(:owned_by_restricted).id)
+    systems = ActiveSupport::JSON.decode(@response.body)
+    ids = systems.map { |hash| hash['system']['id'] }
+    assert !ids.include?(systems(:one).id)
+    assert ids.include?(systems(:owned_by_restricted).id)
   end
 
-  test "should not update host out of users hosts scope" do
+  test "should not update system out of users systems scope" do
     as_user :restricted do
-      put :update, { :id => hosts(:one).to_param }
+      put :update, { :id => systems(:one).to_param }
     end
     assert_response :not_found
   end
 
-  test "should not delete hosts out of users hosts scope" do
+  test "should not delete systems out of users systems scope" do
     as_user :restricted do
-      delete :destroy, { :id => hosts(:one).to_param }
+      delete :destroy, { :id => systems(:one).to_param }
     end
     assert_response :not_found
   end
 
-  test "should not show status of hosts out of users hosts scope" do
+  test "should not show status of systems out of users systems scope" do
     as_user :restricted do
-      get :status, { :id => hosts(:one).to_param }
+      get :status, { :id => systems(:one).to_param }
     end
     assert_response :not_found
   end
@@ -151,11 +151,11 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = true
     set_remote_user_to users(:admin)
-    User.current = nil # User.current is admin at this point (from initialize_host)
-    host = Host.first
-    get :show, {:id => host.to_param, :format => 'json'}
+    User.current = nil # User.current is admin at this point (from initialize_system)
+    system = System.first
+    get :show, {:id => system.to_param, :format => 'json'}
     assert_response :success
-    get :show, {:id => host.to_param}
+    get :show, {:id => system.to_param}
     assert_response :success
   end
 

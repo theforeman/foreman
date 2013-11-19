@@ -3,7 +3,7 @@
 KERNEL="/boot/kernel"
 INITRD="/boot/initrd.img"
 
-wget -O "$KERNEL" "<%= @host.url_for_boot(:kernel) %>"
-wget -O "$INITRD" "<%= @host.url_for_boot(:initrd) %>"
+wget -O "$KERNEL" "<%= @system.url_for_boot(:kernel) %>"
+wget -O "$INITRD" "<%= @system.url_for_boot(:initrd) %>"
 
-grubby --add-kernel=$KERNEL --initrd=$INITRD  --copy-default --title "<%= @host.operatingsystem %>" --make-default  --args="ks=<%= foreman_url("provision")%>"
+grubby --add-kernel=$KERNEL --initrd=$INITRD  --copy-default --title "<%= @system.operatingsystem %>" --make-default  --args="ks=<%= foreman_url("provision")%>"

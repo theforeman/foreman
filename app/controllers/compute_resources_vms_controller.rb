@@ -25,17 +25,17 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def associate
-    if Host.where(:uuid => @vm.identity).any?
-      process_error(:error_msg => _("VM already associated with a host"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
+    if System.where(:uuid => @vm.identity).any?
+      process_error(:error_msg => _("VM already associated with a system"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
     else
-      host = @compute_resource.associated_host(@vm) if @compute_resource.respond_to?(:associated_host)
-      if host.present?
-        host.uuid = @vm.identity
-        host.compute_resource_id = @compute_resource.id
-        host.save!(:validate => false) # don't want to trigger callbacks
-        process_success(:success_msg => _("VM associated to host %s") % host.name, :success_redirect => host_path(host))
+      system = @compute_resource.associated_system(@vm) if @compute_resource.respond_to?(:associated_system)
+      if system.present?
+        system.uuid = @vm.identity
+        system.compute_resource_id = @compute_resource.id
+        system.save!(:validate => false) # don't want to trigger callbacks
+        process_success(:success_msg => _("VM associated to system %s") % system.name, :success_redirect => system_path(system))
       else
-        process_error(:error_msg => _("No host found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
+        process_error(:error_msg => _("No system found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
       end
     end
   end
@@ -67,11 +67,11 @@ class ComputeResourcesVmsController < ApplicationController
     @console = @compute_resource.console @vm.identity
     render case @console[:type]
              when 'spice'
-               "hosts/console/spice"
+               "systems/console/spice"
              when 'vnc'
-               "hosts/console/vnc"
+               "systems/console/vnc"
              else
-               "hosts/console/log"
+               "systems/console/log"
     end
   rescue => e
     process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => (_("Failed to set console: %s") % e), :object => @vm

@@ -38,10 +38,10 @@ class SmartProxyAuthApiTest < ActionController::TestCase
 end
 
 class SmartProxyAuthWebUITest < ActionController::TestCase
-  tests "hosts"
+  tests "systems"
 
   def described_class
-    HostsController
+    SystemsController
   end
 
   def test_successful_authentication_with_valid_basic_auth_credentials_in_web_ui_controller

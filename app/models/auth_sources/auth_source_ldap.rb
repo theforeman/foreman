@@ -18,7 +18,7 @@
 require 'net/ldap'
 
 class AuthSourceLdap < AuthSource
-  validates :host, :presence => true, :length => {:maximum => 60}, :allow_nil => true
+  validates :system, :presence => true, :length => {:maximum => 60}, :allow_nil => true
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => Proc.new { |auth| auth.onthefly_register? }
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :length => {:maximum => 30}, :allow_nil => true
   validates :name, :account_password, :length => {:maximum => 60}, :allow_nil => true
@@ -87,7 +87,7 @@ class AuthSourceLdap < AuthSource
   end
 
   def initialize_ldap_con(ldap_user, ldap_password)
-    options = { :host       => host,
+    options = { :system       => system,
                 :port       => port,
                 :encryption => (tls ? :simple_tls : nil)
     }

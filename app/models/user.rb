@@ -9,20 +9,20 @@ class User < ActiveRecord::Base
 
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation, :editing_self
-  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new(:direct_systems, :system_groups), :ensure_admin_is_not_deleted
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :usergroup_member, :as => :member, :dependent => :destroy
   has_many :usergroups, :through => :usergroup_member
-  has_many :direct_hosts, :as => :owner, :class_name => "Host"
+  has_many :direct_systems, :as => :owner, :class_name => "System"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
   has_many :user_roles, :dependent => :destroy
   has_many :roles, :through => :user_roles
   has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
   has_and_belongs_to_many :domains,           :join_table => "user_domains"
-  has_many :user_hostgroups, :dependent => :destroy
-  has_many :hostgroups, :through => :user_hostgroups
+  has_many :user_system_groups, :dependent => :destroy
+  has_many :system_groups, :through => :user_system_groups
   has_many :user_facts, :dependent => :destroy
   has_many :facts, :through => :user_facts, :source => :fact_name
   attr_name :login
@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
            :ensure_privileges_not_escalated
   before_validation :prepare_password, :normalize_mail
-  after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
+  after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.system_groups.clear}
 
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
@@ -168,12 +168,12 @@ class User < ActiveRecord::Base
     all_groups.uniq
   end
 
-  def indirect_hosts
-    my_usergroups.map{|g| g.hosts}.flatten.uniq
+  def indirect_systems
+    my_usergroups.map{|g| g.systems}.flatten.uniq
   end
 
-  def hosts
-    direct_hosts + indirect_hosts
+  def systems
+    direct_systems + indirect_systems
   end
 
   def recipients
@@ -198,13 +198,13 @@ class User < ActiveRecord::Base
     true
   end
 
-  # Indicates whether the user has host filtering enabled
+  # Indicates whether the user has system filtering enabled
   # Returns : Boolean
   def filtering?
     filter_on_owner        or
     compute_resources.any? or
     domains.any?           or
-    hostgroups.any?        or
+    system_groups.any?        or
     facts.any?             or
     locations.any?         or
     organizations.any?

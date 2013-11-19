@@ -1,26 +1,26 @@
 module Api
   module V1
-    class HostsController < V1::BaseController
+    class SystemsController < V1::BaseController
       before_filter :find_resource, :only => %w{show update destroy status}
 
-      api :GET, "/hosts/", "List all hosts."
+      api :GET, "/systems/", "List all systems."
       param :search, String, :desc => "Filter results"
       param :order, String, :desc => "Sort results"
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hosts = Host.my_hosts.search_for(*search_options).paginate(paginate_options)
+        @systems = System.my_systems.search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/hosts/:id/", "Show a host."
+      api :GET, "/systems/:id/", "Show a system."
       param :id, :identifier_dottable, :required => true
 
       def show
       end
 
-      api :POST, "/hosts/", "Create a host."
-      param :host, Hash, :required => true do
+      api :POST, "/systems/", "Create a system."
+      param :system, Hash, :required => true do
         param :name, String, :required => true
         param :environment_id, String
         param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
@@ -36,11 +36,11 @@ module Api
         param :compute_resource_id, :number
         param :sp_subnet_id, :number
         param :model_id, :number
-        param :hostgroup_id, :number
+        param :system_group_id, :number
         param :owner_id, :number
         param :puppet_ca_proxy_id, :number
         param :image_id, :number
-        param :host_parameters_attributes, Array
+        param :system_parameters_attributes, Array
         param :build, :bool
         param :enabled, :bool
         param :provision_method, String
@@ -52,15 +52,15 @@ module Api
       end
 
       def create
-        @host = Host.new(params[:host])
-        @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        @system = System.new(params[:system])
+        @system.managed = true if (params[:system] && params[:system][:managed].nil?)
         forward_request_url
-        process_response @host.save
+        process_response @system.save
       end
 
-      api :PUT, "/hosts/:id/", "Update a host."
+      api :PUT, "/systems/:id/", "Update a system."
       param :id, :identifier, :required => true
-      param :host, Hash, :required => true do
+      param :system, Hash, :required => true do
         param :name, String
         param :environment_id, String
         param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
@@ -76,11 +76,11 @@ module Api
         param :compute_resource_id, :number
         param :sp_subnet_id, :number
         param :model_id, :number
-        param :hostgroup_id, :number
+        param :system_group_id, :number
         param :owner_id, :number
         param :puppet_ca_proxy_id, :number
         param :image_id, :number
-        param :host_parameters_attributes, Array
+        param :system_parameters_attributes, Array
         param :build, :bool
         param :enabled, :bool
         param :provision_method, String
@@ -92,17 +92,17 @@ module Api
       end
 
       def update
-        process_response @host.update_attributes(params[:host])
+        process_response @system.update_attributes(params[:system])
       end
 
-      api :DELETE, "/hosts/:id/", "Delete an host."
+      api :DELETE, "/systems/:id/", "Delete an system."
       param :id, :identifier, :required => true
 
       def destroy
-        process_response @host.destroy
+        process_response @system.destroy
       end
 
-      api :GET, "/hosts/:id/status", "Get status of host"
+      api :GET, "/systems/:id/status", "Get status of system"
       param :id, :identifier_dottable, :required => true
       # TRANSLATORS: API documentation - do not translate
       description <<-eos
@@ -118,19 +118,19 @@ Return value may either be one of the following:
       eos
 
       def status
-        render :json => { :status => @host.host_status }.to_json if @host
+        render :json => { :status => @system.system_status }.to_json if @system
       end
 
       # we need to limit resources for a current user
       def resource_scope
-        resource_class.my_hosts
+        resource_class.my_systems
       end
 
       private
 
       # this is required for template generation (such as pxelinux) which is not done via a web request
       def forward_request_url
-        @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+        @system.request_url = request.system_with_port if @system.respond_to?(:request_url)
       end
     end
   end

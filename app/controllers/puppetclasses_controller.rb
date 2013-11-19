@@ -14,7 +14,7 @@ class PuppetclassesController < ApplicationController
       values = Puppetclass.search_for ""
     end
     @puppetclasses = values.paginate(:page => params[:page])
-    @host_counter = Host.group(:puppetclass_id).joins(:puppetclasses).where(:puppetclasses => {:id => @puppetclasses.collect(&:id)}).count
+    @system_counter = System.group(:puppetclass_id).joins(:puppetclasses).where(:puppetclasses => {:id => @puppetclasses.collect(&:id)}).count
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').group(:name).count
   end
 
@@ -58,30 +58,30 @@ class PuppetclassesController < ApplicationController
     puppetclass = Puppetclass.find(params[:id])
     render :partial => "puppetclasses/class_parameters", :locals => {
         :puppetclass => puppetclass,
-        :obj => get_host_or_hostgroup}
+        :obj => get_system_or_system_group}
   end
 
   private
 
-  def get_host_or_hostgroup
-    # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
-    if params['host_id'] == 'null'
-      @obj = Host::Managed.new(params['host']) if params['host']
-      @obj ||= Hostgroup.new(params['hostgroup']) if params['hostgroup']
+  def get_system_or_system_group
+    # params['system_id'] = 'null' if NEW since systems/form and system_groups/form has data-id="null"
+    if params['system_id'] == 'null'
+      @obj = System::Managed.new(params['system']) if params['system']
+      @obj ||= SystemGroup.new(params['system_group']) if params['system_group']
     else
-      if params['host']
-        @obj = Host::Base.find(params['host_id'])
-        unless @obj.kind_of?(Host::Managed)
-          @obj      = @obj.becomes(Host::Managed)
-          @obj.type = "Host::Managed"
+      if params['system']
+        @obj = System::Base.find(params['system_id'])
+        unless @obj.kind_of?(System::Managed)
+          @obj      = @obj.becomes(System::Managed)
+          @obj.type = "System::Managed"
         end
-        # puppetclass_ids is removed since it causes an insert on host_classes before form is submitted
-        @obj.attributes = params['host'].except!(:puppetclass_ids)
-      elsif params['hostgroup']
-        # hostgroup.id is assigned to params['host_id'] by host_edit.js#load_puppet_class_parameters
-        @obj = Hostgroup.find(params['host_id'])
-        # puppetclass_ids is removed since it causes an insert on hostgroup_classes before form is submitted
-        @obj.attributes = params['hostgroup'].except!(:puppetclass_ids)
+        # puppetclass_ids is removed since it causes an insert on system_classes before form is submitted
+        @obj.attributes = params['system'].except!(:puppetclass_ids)
+      elsif params['system_group']
+        # system_group.id is assigned to params['system_id'] by system_edit.js#load_puppet_class_parameters
+        @obj = SystemGroup.find(params['system_id'])
+        # puppetclass_ids is removed since it causes an insert on system_group_classes before form is submitted
+        @obj.attributes = params['system_group'].except!(:puppetclass_ids)
       end
     end
     @obj

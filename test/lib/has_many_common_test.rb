@@ -39,12 +39,12 @@ class HasManyCommonTest < ActiveSupport::TestCase
     assert_equal ["MyFinish", "MyString"], env.config_template_names.sort
   end
 
-  # Test non-default AR extension *_names where method is :label for has_many :hostgroups
-  test "should return hostgroup labels (not names) using method #hostgroup_names" do
+  # Test non-default AR extension *_names where method is :label for has_many :system_groups
+  test "should return system_group labels (not names) using method #system_group_names" do
     env = environments(:production)
-    assert_equal 3, env.hostgroup_ids.count
-    assert_equal 3, env.hostgroup_names.count
-    assert_equal ["Common", "Parent/inherited", "db"], env.hostgroup_names.sort
+    assert_equal 3, env.system_group_ids.count
+    assert_equal 3, env.system_group_names.count
+    assert_equal ["Common", "Parent/inherited", "db"], env.system_group_names.sort
   end
 
 
@@ -52,32 +52,32 @@ class HasManyCommonTest < ActiveSupport::TestCase
   #
   # Test default AR extenstion *_name where method is :name by default
   test "should return domain name using method #domain_name" do
-    host = hosts(:one)
-    assert_equal "mydomain.net", host.domain_name
+    system = systems(:one)
+    assert_equal "mydomain.net", system.domain_name
   end
 
   test "should update domain_id by passing existing domain name" do
-    host = hosts(:one)
-    orig_id = host.domain_id
-    host.domain_name = "yourdomain.net"
-    host.save!
-    new_id = host.domain_id
+    system = systems(:one)
+    orig_id = system.domain_id
+    system.domain_name = "yourdomain.net"
+    system.save!
+    new_id = system.domain_id
     refute_equal orig_id, new_id
   end
 
-  # Test non-default AR extenstion *_nam where method is :label for belongs_to :hostgroup
-  test "should return hostgroup label using method #hostgroup_name" do
-    host = hosts(:one)
-    host.update_attribute(:hostgroup, hostgroups(:inherited))
-    assert_equal "Parent/inherited", host.hostgroup_name
+  # Test non-default AR extenstion *_nam where method is :label for belongs_to :system_group
+  test "should return system_group label using method #system_group_name" do
+    system = systems(:one)
+    system.update_attribute(:system_group, system_groups(:inherited))
+    assert_equal "Parent/inherited", system.system_group_name
   end
 
-  test "should update hostgroup_id by passing existing hostgroup label" do
-    host = hosts(:one)
-    orig_id = host.hostgroup_id
-    host.hostgroup_name = "Parent/inherited"
-    host.save!
-    new_id = host.hostgroup_id
+  test "should update system_group_id by passing existing system_group label" do
+    system = systems(:one)
+    orig_id = system.system_group_id
+    system.system_group_name = "Parent/inherited"
+    system.save!
+    new_id = system.system_group_id
     refute_equal orig_id, new_id
   end
 

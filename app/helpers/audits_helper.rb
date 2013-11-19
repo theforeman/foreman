@@ -1,13 +1,13 @@
 module AuditsHelper
 
-  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate)
+  MainObjects = %w(System SystemGroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label name, change
     return _("N/A") if change.nil?
     case name
       when "ancestry"
-        change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
+        change.blank? ? "" : change.split('/').map { |i| SystemGroup.find(i).name rescue _("NA") }.join('/')
       when 'last_login_on'
         change.to_s(:short)
       when /.*_id$/
@@ -102,9 +102,9 @@ module AuditsHelper
 
     type   = audited_type(audit)
     symbol = case type
-               when "Host"
+               when "System"
                  'hdd'
-               when "Hostgroup"
+               when "SystemGroup"
                  'tasks'
                when "User"
                  'user'
@@ -116,7 +116,7 @@ module AuditsHelper
 
   def audited_type audit
     type_name = audit.auditable_type
-    type_name = "Puppet Class" if type_name == "HostClass"
+    type_name = "Puppet Class" if type_name == "SystemClass"
     type_name = "#{audit.associated_type || 'Global'}-#{type_name}" if type_name == "Parameter"
     type_name.underscore.titleize
   end

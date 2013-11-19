@@ -5,9 +5,9 @@ class Operatingsystem < ActiveRecord::Base
   include Authorization
   include ValidateOsFamily
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
-  has_many_hosts
-  has_many :hostgroups
+  before_destroy EnsureNotUsedBy.new(:systems, :system_groups)
+  has_many_systems
+  has_many :system_groups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
@@ -85,13 +85,13 @@ class Operatingsystem < ActiveRecord::Base
   #    :enabled => 1,
   #    :gpgcheck => 1
   #  }]
-  def repos host
+  def repos system
     []
   end
 
-  def medium_uri host, url = nil
-    url ||= host.medium.path
-    medium_vars_to_uri(url, host.architecture.name, host.os)
+  def medium_uri system, url = nil
+    url ||= system.medium.path
+    medium_vars_to_uri(url, system.architecture.name, system.os)
   end
 
   def medium_vars_to_uri (url, arch, os)
@@ -173,7 +173,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename host=nil
+  def boot_filename system=nil
     "pxelinux.0"
   end
 

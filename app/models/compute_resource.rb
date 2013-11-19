@@ -12,7 +12,7 @@ class ComputeResource < ActiveRecord::Base
   # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
   STI_PREFIX= "Foreman::Model"
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:systems)
   include Authorization
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
@@ -20,7 +20,7 @@ class ComputeResource < ActiveRecord::Base
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   before_save :sanitize_url
-  has_many_hosts
+  has_many_systems
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
 
@@ -58,7 +58,7 @@ class ComputeResource < ActiveRecord::Base
     []
   end
 
-  # attributes that this provider can provide back to the host object
+  # attributes that this provider can provide back to the system object
   def provided_attributes
     {:uuid => :identity}
   end

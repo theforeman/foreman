@@ -6,12 +6,12 @@ class FactValueTest < ActionDispatch::IntegrationTest
     assert_index_page(fact_values_path,"Fact Values",nil,true)
   end
 
-  test "host fact links" do
+  test "system fact links" do
     visit fact_values_path
     within(:xpath, "//tr[contains(.,'kernelversion')]") do
       click_link("my5name.mydomain.net")
     end
-    assert_equal 'host = my5name.mydomain.net', find_field('search').value
+    assert_equal 'system = my5name.mydomain.net', find_field('search').value
   end
 
   test "fact_name fact links" do

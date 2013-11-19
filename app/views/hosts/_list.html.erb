@@ -1,4 +1,4 @@
-<%= javascript "jquery.cookie", "host_checkbox" %>
+<%= javascript "jquery.cookie", "system_checkbox" %>
 <% title header ||= "" %>
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
@@ -7,26 +7,26 @@
     <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
     <th class="hidden-phone"><%= sort :environment, :as => _('Environment') %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :model, :as => _('Model') %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
+    <th class="hidden-tablet hidden-phone"><%= sort :system_group, :as => _("System group") %></th>
     <th class="hidden-tablet hidden-phone"><%= sort :last_report, :as => _('Last report') %></th>
     <th></th>
   </tr>
-  <% hosts.each do |host| %>
+  <% systems.each do |system| %>
     <tr>
       <td class="ca">
-        <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
+        <%= check_box_tag "system_ids[]", nil, false, :id => "system_ids_#{system.id}", :disabled => !authorized?, :class => 'system_select_boxes', :onclick => 'systemChecked(this)' %>
       </td>
-      <td class='ellipsis'><%= name_column(host) %> </td>
-      <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
-      <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
-      <td class="hidden-tablet hidden-phone ellipsis"><%= model_name host %></td>
-      <td class="hidden-tablet hidden-phone ellipsis"><%= hostgroup_name host.hostgroup, 26 %></td>
-      <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
+      <td class='ellipsis'><%= name_column(system) %> </td>
+      <td class="hidden-phone"><%= (icon(system.os, :size => "18x18") + trunc(" #{system.os}",14)).html_safe if system.os %></td>
+      <td class="hidden-phone"><%= trunc(system.try(:environment), 14) %></td>
+      <td class="hidden-tablet hidden-phone ellipsis"><%= model_name system %></td>
+      <td class="hidden-tablet hidden-phone ellipsis"><%= system_group_name system.system_group, 26 %></td>
+      <td class="hidden-tablet hidden-phone"><%= last_report_column(system) %></td>
       <td>
         <%= action_buttons(
-                    display_link_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host)),
-                    display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host)),
-                    display_delete_if_authorized(hash_for_host_path(:id => host), :confirm => _("Delete %s?") % host.name, :action => :destroy))%>
+                    display_link_if_authorized(_("Edit"), hash_for_edit_system_path(:id => system)),
+                    display_link_if_authorized(_("Clone"), hash_for_clone_system_path(:id => system)),
+                    display_delete_if_authorized(hash_for_system_path(:id => system), :confirm => _("Delete %s?") % system.name, :action => :destroy))%>
       </td>
     </tr>
   <% end %>
@@ -43,5 +43,5 @@
   </div>
 </div>
 
-<%= page_entries_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
-<%= will_paginate hosts %>
+<%= page_entries_info systems, :more => " - "+_("<b class='select_count'>0</b> selected") %>
+<%= will_paginate systems %>

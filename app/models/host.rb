@@ -1,7 +1,7 @@
-module Host
+module System
 
   def self.method_missing(method, *args, &block)
-    type = "Host::Managed"
+    type = "System::Managed"
     case method.to_s
     when /create/, 'new'
       if args.empty? or args[0].nil? # got no parameters
