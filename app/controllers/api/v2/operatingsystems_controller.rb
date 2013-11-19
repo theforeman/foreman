@@ -48,6 +48,11 @@ module Api
         param :minor, String
         param :family, String
         param :release_name, String
+        param :architecture_ids, Array, :desc => 'architecture IDs'
+        param :media_ids, Array, :desc => 'media IDs'
+        param :ptable_ids, Array, :desc => 'partition table IDs'
+        param :puppetclass_ids, Array, :desc => 'puppet class IDs'
+        param :config_template_ids, Array, :desc => 'config template IDs'
       end
 
       def update
