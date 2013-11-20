@@ -1,5 +1,12 @@
 <div class="fields">
-  <%= selectable_f f, :datastore, compute_resource.datastores, { }, :class => "span2 disable-unsupported", :label => _("Data Store") %>
+  <%= selectable_f f, :datastore,
+             compute_resource.datastores.map {
+               |ds| ["#{ds.name} (#{_('free')}: #{number_to_human_size(ds.freespace) if ds.freespace}, #{_('total')}: #{number_to_human_size(ds.capacity) if ds.capacity})", ds.name]
+             },
+             { },
+             :class => "span2",
+             :label => _("Data Store"),
+             :disabled => !new %>
   <%= text_f f, :name, :class => "input-mini disable-unsupported", :label => "Name" %>
   <%= text_f f, :size_gb,
              :class       => "input-mini disable-unsupported",
