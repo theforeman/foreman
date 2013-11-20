@@ -1,4 +1,4 @@
-object @system
+object @system => :host
 
 attributes :name, :id, :ip, :environment_id, :last_report, :updated_at, :created_at, :mac,
            :sp_mac, :sp_ip, :sp_name, :domain_id, :architecture_id, :operatingsystem_id,
@@ -6,7 +6,8 @@ attributes :name, :id, :ip, :environment_id, :last_report, :updated_at, :created
            :comment, :disk, :installed_at, :model_id, :system_group_id, :owner_id, :owner_type,
            :enabled, :puppet_ca_proxy_id, :managed, :use_image, :image_file, :uuid, :compute_resource_id,
            :puppet_proxy_id, :certname, :image_id, :created_at, :updated_at,
-           :last_compile, :last_freshcheck, :serial, :source_file_id, :puppet_status, :root_pass
+           :last_compile, :last_freshcheck, :serial, :source_file_id, :puppet_status, :root_pass,
+           :hostgroup_id
 
 if SETTINGS[:organizations_enabled]
   attribute :organization_id
@@ -20,7 +21,7 @@ node :environment do |system|
   {:environment => {:id => system.environment_id, :name => system.environment_name}}
 end
 
-child :system_parameters do
+child :system_parameters => :host_parameters do
   attributes :id, :name, :value, :priority, :is_property, :reference_id, :created_at, :updated_at
 end
 

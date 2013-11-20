@@ -20,6 +20,7 @@ class System::Managed < System::Base
   belongs_to :organization
 
   has_one :token, :foreign_key => :system_id, :dependent => :destroy, :conditions => Proc.new {"expires >= '#{Time.now.utc.to_s(:db)}'"}
+  alias_attribute :hostgroup_id, :system_group_id
 
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
