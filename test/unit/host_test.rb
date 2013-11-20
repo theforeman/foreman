@@ -9,7 +9,33 @@ class HostTest < ActiveSupport::TestCase
 
   test "should not save without a hostname" do
     host = Host.new
-    assert !host.save
+    host.valid?
+    assert_equal "can't be blank", host.errors[:name].first
+  end
+
+  test "should not save with invalid hostname" do
+    host = Host.new :name => "invalid_hostname"
+    host.valid?
+    assert_equal "is invalid", host.errors[:name].first
+  end
+
+  test "should not save hostname with periods in shortname" do
+    host = Host.new :name => "my.host", :domain => Domain.find_or_create_by_name("mydomain.net"), :managed => true
+    host.valid?
+    assert_equal "must not include periods", host.errors[:name].first
+  end
+
+  test "should make hostname lowercase" do
+    host = Host.new :name => "MYHOST", :domain => Domain.find_or_create_by_name("mydomain.net")
+    host.valid?
+    assert_equal "myhost.mydomain.net", host.name
+  end
+
+  test "should update name when domain is changed" do
+    host = hosts(:one)
+    host.domain_name = "yourdomain.net"
+    host.save!
+    assert_equal "my5name.yourdomain.net", host.name
   end
 
   test "should fix mac address hyphens" do
@@ -39,9 +65,9 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not add domain name to hostname if it already include it" do
-    host = Host.create :name => "myhost.COMPANY.COM", :mac => "aabbccddeeff", :ip => "123.1.2.3",
+    host = Host.create :name => "myhost.company.com", :mac => "aabbccddeeff", :ip => "123.1.2.3",
       :domain => Domain.find_or_create_by_name("company.com")
-    assert_equal "myhost.COMPANY.COM", host.name
+    assert_equal "myhost.company.com", host.name
   end
 
   test "should add hostname if it contains domain name" do
@@ -131,6 +157,17 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'sinn1636.lan.cert', Host.find_by_name('sinn1636.lan').certname
   end
 
+  test "host is created when uploading facts if setting is true" do
+    assert_difference 'Host.count' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      raw = parse_json_fixture('/facts_with_certname.json')
+      Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
+      assert Host.find_by_name('sinn1636.lan')
+      Setting[:create_new_host_when_facts_are_uploaded] =
+        Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
+    end
+  end
+
   test "host is not created when uploading facts if setting is false" do
     Setting[:create_new_host_when_facts_are_uploaded] = false
     assert_equal false, Setting[:create_new_host_when_facts_are_uploaded]
@@ -140,6 +177,16 @@ class HostTest < ActiveSupport::TestCase
     Setting[:create_new_host_when_facts_are_uploaded] =
         Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     assert_nil host
+  end
+
+  test "host is created when receiving a report if setting is true" do
+    assert_difference 'Host.count' do
+      Setting[:create_new_host_when_report_is_uploaded] = true
+      Report.import parse_json_fixture("/../fixtures/report-no-logs.json")
+      assert Host.find_by_name('builder.fm.example.net')
+      Setting[:create_new_host_when_report_is_uploaded] =
+        Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
+    end
   end
 
   test "host is not created when receiving a report if setting is false" do
@@ -593,13 +640,6 @@ class HostTest < ActiveSupport::TestCase
     h.environment = environments(:testing)
     assert !h.save
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
-  end
-
-  test "name should be lowercase" do
-    h = hosts(:redhat)
-    assert h.valid?
-    h.name.upcase!
-    assert !h.valid?
   end
 
   test "should allow to save root pw" do
