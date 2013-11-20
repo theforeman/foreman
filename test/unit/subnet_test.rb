@@ -225,6 +225,9 @@ class SubnetTest < ActiveSupport::TestCase
     # missing dot
     s.network = "100101.102.103."
     refute s.valid?
+    # greater than 255
+    s.network = "300.300.300.0"
+    refute s.valid?
     # missing number
     s.network = "100.101.102"
     refute s.valid?

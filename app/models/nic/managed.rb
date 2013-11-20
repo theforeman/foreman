@@ -7,7 +7,12 @@ module Nic
     attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
 
     # Don't have to set a hostname for each interface, but it must be unique if it is set.
-    validates :name, :uniqueness => {:scope => :domain_id}, :allow_nil => true, :allow_blank => true
+    before_validation :normalize_name
+
+    validates :name,  :uniqueness => {:scope => :domain_id},
+                      :allow_nil => true,
+                      :allow_blank => true,
+                      :format => {:with => Net::Validations::HOST_REGEXP} 
 
     belongs_to :subnet
     belongs_to :domain
@@ -54,5 +59,10 @@ module Nic
         :network  => network
       }
     end
+
+    def normalize_name
+      self.name = Net::Validations.normalize_hostname(name) if self.name.present?
+    end
+
   end
 end
