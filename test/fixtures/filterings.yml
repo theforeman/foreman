@@ -1,0 +1,408 @@
+manager_1_0:
+  filter: manager_1
+  permission: view_architectures
+manager_1_1:
+  filter: manager_1
+  permission: create_architectures
+manager_1_2:
+  filter: manager_1
+  permission: edit_architectures
+manager_1_3:
+  filter: manager_1
+  permission: destroy_architectures
+manager_2_0:
+  filter: manager_2
+  permission: view_authenticators
+manager_2_1:
+  filter: manager_2
+  permission: create_authenticators
+manager_2_2:
+  filter: manager_2
+  permission: edit_authenticators
+manager_2_3:
+  filter: manager_2
+  permission: destroy_authenticators
+manager_3_0:
+  filter: manager_3
+  permission: view_environments
+manager_3_1:
+  filter: manager_3
+  permission: create_environments
+manager_3_2:
+  filter: manager_3
+  permission: edit_environments
+manager_3_3:
+  filter: manager_3
+  permission: destroy_environments
+manager_3_4:
+  filter: manager_3
+  permission: import_environments
+manager_4_0:
+  filter: manager_4
+  permission: view_external_variables
+manager_4_1:
+  filter: manager_4
+  permission: create_external_variables
+manager_4_2:
+  filter: manager_4
+  permission: edit_external_variables
+manager_4_3:
+  filter: manager_4
+  permission: destroy_external_variables
+manager_5_0:
+  filter: manager_5
+  permission: view_domains
+manager_5_1:
+  filter: manager_5
+  permission: create_domains
+manager_5_2:
+  filter: manager_5
+  permission: edit_domains
+manager_5_3:
+  filter: manager_5
+  permission: destroy_domains
+manager_6_0:
+  filter: manager_6
+  permission: view_globals
+manager_6_1:
+  filter: manager_6
+  permission: create_globals
+manager_6_2:
+  filter: manager_6
+  permission: edit_globals
+manager_6_3:
+  filter: manager_6
+  permission: destroy_globals
+manager_7_0:
+  filter: manager_7
+  permission: view_hostgroups
+manager_7_1:
+  filter: manager_7
+  permission: create_hostgroups
+manager_7_2:
+  filter: manager_7
+  permission: edit_hostgroups
+manager_7_3:
+  filter: manager_7
+  permission: destroy_hostgroups
+manager_8_0:
+  filter: manager_8
+  permission: view_hosts
+manager_8_1:
+  filter: manager_8
+  permission: create_hosts
+manager_8_2:
+  filter: manager_8
+  permission: edit_hosts
+manager_8_3:
+  filter: manager_8
+  permission: destroy_hosts
+manager_9_0:
+  filter: manager_9
+  permission: view_media
+manager_9_1:
+  filter: manager_9
+  permission: create_media
+manager_9_2:
+  filter: manager_9
+  permission: edit_media
+manager_9_3:
+  filter: manager_9
+  permission: destroy_media
+manager_10_0:
+  filter: manager_10
+  permission: view_models
+manager_10_1:
+  filter: manager_10
+  permission: create_models
+manager_10_2:
+  filter: manager_10
+  permission: edit_models
+manager_10_3:
+  filter: manager_10
+  permission: destroy_models
+manager_11_0:
+  filter: manager_11
+  permission: view_operatingsystems
+manager_11_1:
+  filter: manager_11
+  permission: create_operatingsystems
+manager_11_2:
+  filter: manager_11
+  permission: edit_operatingsystems
+manager_11_3:
+  filter: manager_11
+  permission: destroy_operatingsystems
+manager_12_0:
+  filter: manager_12
+  permission: view_ptables
+manager_12_1:
+  filter: manager_12
+  permission: create_ptables
+manager_12_2:
+  filter: manager_12
+  permission: edit_ptables
+manager_12_3:
+  filter: manager_12
+  permission: destroy_ptables
+manager_13_0:
+  filter: manager_13
+  permission: view_puppetclasses
+manager_13_1:
+  filter: manager_13
+  permission: create_puppetclasses
+manager_13_2:
+  filter: manager_13
+  permission: edit_puppetclasses
+manager_13_3:
+  filter: manager_13
+  permission: destroy_puppetclasses
+manager_13_4:
+  filter: manager_13
+  permission: import_puppetclasses
+manager_14_0:
+  filter: manager_14
+  permission: view_usergroups
+manager_14_1:
+  filter: manager_14
+  permission: create_usergroups
+manager_14_2:
+  filter: manager_14
+  permission: edit_usergroups
+manager_14_3:
+  filter: manager_14
+  permission: destroy_usergroups
+manager_15_0:
+  filter: manager_15
+  permission: view_users
+manager_15_1:
+  filter: manager_15
+  permission: create_users
+manager_15_2:
+  filter: manager_15
+  permission: edit_users
+manager_15_3:
+  filter: manager_15
+  permission: destroy_users
+manager_16_0:
+  filter: manager_16
+  permission: access_settings
+manager_16_1:
+  filter: manager_16
+  permission: access_dashboard
+manager_16_2:
+  filter: manager_16
+  permission: view_statistics
+manager_17_0:
+  filter: manager_17
+  permission: view_reports
+manager_17_1:
+  filter: manager_17
+  permission: destroy_reports
+manager_18_0:
+  filter: manager_18
+  permission: view_facts
+manager_19_0:
+  filter: manager_19
+  permission: view_audit_logs
+manager_20_0:
+  filter: manager_20
+  permission: view_locations
+manager_20_1:
+  filter: manager_20
+  permission: edit_locations
+manager_20_2:
+  filter: manager_20
+  permission: create_locations
+manager_20_3:
+  filter: manager_20
+  permission: destroy_locations
+manager_21_0:
+  filter: manager_21
+  permission: view_organizations
+manager_21_1:
+  filter: manager_21
+  permission: edit_organizations
+manager_21_2:
+  filter: manager_21
+  permission: create_organizations
+manager_21_3:
+  filter: manager_21
+  permission: destroy_organizations
+manager_22_0:
+  filter: manager_22
+  permission: edit_classes
+edit_partition_tables_1_0:
+  filter: edit_partition_tables_1
+  permission: view_ptables
+edit_partition_tables_1_1:
+  filter: edit_partition_tables_1
+  permission: create_ptables
+edit_partition_tables_1_2:
+  filter: edit_partition_tables_1
+  permission: edit_ptables
+edit_partition_tables_1_3:
+  filter: edit_partition_tables_1
+  permission: destroy_ptables
+view_hosts_1_0:
+  filter: view_hosts_1
+  permission: view_hosts
+edit_hosts_1_0:
+  filter: edit_hosts_1
+  permission: edit_hosts
+viewer_1_0:
+  filter: viewer_1
+  permission: view_architectures
+viewer_2_0:
+  filter: viewer_2
+  permission: view_audit_logs
+viewer_3_0:
+  filter: viewer_3
+  permission: view_authenticators
+viewer_4_0:
+  filter: viewer_4
+  permission: access_dashboard
+viewer_4_1:
+  filter: viewer_4
+  permission: access_settings
+viewer_4_2:
+  filter: viewer_4
+  permission: view_statistics
+viewer_5_0:
+  filter: viewer_5
+  permission: view_domains
+viewer_6_0:
+  filter: viewer_6
+  permission: view_environments
+viewer_7_0:
+  filter: viewer_7
+  permission: view_external_variables
+viewer_8_0:
+  filter: viewer_8
+  permission: view_facts
+viewer_9_0:
+  filter: viewer_9
+  permission: view_globals
+viewer_10_0:
+  filter: viewer_10
+  permission: view_hostgroups
+viewer_11_0:
+  filter: viewer_11
+  permission: view_hosts
+viewer_12_0:
+  filter: viewer_12
+  permission: view_locations
+viewer_13_0:
+  filter: viewer_13
+  permission: view_media
+viewer_14_0:
+  filter: viewer_14
+  permission: view_models
+viewer_15_0:
+  filter: viewer_15
+  permission: view_operatingsystems
+viewer_16_0:
+  filter: viewer_16
+  permission: view_ptables
+viewer_17_0:
+  filter: viewer_17
+  permission: view_puppetclasses
+viewer_18_0:
+  filter: viewer_18
+  permission: view_reports
+viewer_19_0:
+  filter: viewer_19
+  permission: view_organizations
+viewer_20_0:
+  filter: viewer_20
+  permission: view_usergroups
+viewer_21_0:
+  filter: viewer_21
+  permission: view_users
+default_user_1_0:
+  filter: default_user_1
+  permission: view_hosts
+default_user_2_0:
+  filter: default_user_2
+  permission: view_puppetclasses
+default_user_3_0:
+  filter: default_user_3
+  permission: view_hostgroups
+default_user_4_0:
+  filter: default_user_4
+  permission: view_domains
+default_user_5_0:
+  filter: default_user_5
+  permission: view_operatingsystems
+default_user_6_0:
+  filter: default_user_6
+  permission: view_media
+default_user_7_0:
+  filter: default_user_7
+  permission: view_models
+default_user_8_0:
+  filter: default_user_8
+  permission: view_environments
+default_user_9_0:
+  filter: default_user_9
+  permission: view_architectures
+default_user_10_0:
+  filter: default_user_10
+  permission: view_ptables
+default_user_11_0:
+  filter: default_user_11
+  permission: view_globals
+default_user_12_0:
+  filter: default_user_12
+  permission: view_external_variables
+default_user_13_0:
+  filter: default_user_13
+  permission: view_authenticators
+default_user_14_0:
+  filter: default_user_14
+  permission: access_settings
+default_user_14_1:
+  filter: default_user_14
+  permission: access_dashboard
+default_user_14_2:
+  filter: default_user_14
+  permission: view_statistics
+default_user_15_0:
+  filter: default_user_15
+  permission: view_reports
+default_user_16_0:
+  filter: default_user_16
+  permission: view_facts
+anonymous_1_0:
+  filter: anonymous_1
+  permission: view_hosts
+destroy_hosts_1_0:
+  filter: destroy_hosts_1
+  permission: destroy_hosts
+create_hosts_1_0:
+  filter: create_hosts_1
+  permission: create_hosts
+view_compute_resources_1_0:
+  filter: view_compute_resources_1
+  permission: view_compute_resources
+view_compute_resources_1_1:
+  filter: view_compute_resources_1
+  permission: create_compute_resources
+view_compute_resources_1_2:
+  filter: view_compute_resources_1
+  permission: edit_compute_resources
+view_compute_resources_1_3:
+  filter: view_compute_resources_1
+  permission: destroy_compute_resources
+crud_hosts_1_0:
+  filter: crud_hosts_1
+  permission: create_hosts
+crud_hosts_1_1:
+  filter: crud_hosts_1
+  permission: edit_hosts
+crud_hosts_1_2:
+  filter: crud_hosts_1
+  permission: destroy_hosts
+crud_hosts_1_3:
+  filter: crud_hosts_1
+  permission: view_hosts

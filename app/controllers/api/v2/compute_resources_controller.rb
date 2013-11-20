@@ -43,8 +43,8 @@ module Api
       param_group :compute_resource, :as => :create
 
       def create
-          @compute_resource = ComputeResource.new_provider(params[:compute_resource])
-          process_response @compute_resource.save
+        @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+        process_response @compute_resource.save
       end
 
 
@@ -91,8 +91,15 @@ module Api
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
-      def resource_scope
-        ComputeResource.my_compute_resources
+      private
+
+      def action_permission
+        case params[:action]
+          when 'available_images', 'available_clusters', 'available_networks', 'available_storage_domains'
+            :view
+          else
+            super
+        end
       end
     end
   end

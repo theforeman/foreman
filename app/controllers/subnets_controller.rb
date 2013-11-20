@@ -1,8 +1,9 @@
 class SubnetsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    @subnets = Subnet.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
+    @subnets = resource_base.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
   end
 
   def new
@@ -19,11 +20,9 @@ class SubnetsController < ApplicationController
   end
 
   def edit
-    @subnet = Subnet.find(params[:id])
   end
 
   def update
-    @subnet = Subnet.find(params[:id])
     if @subnet.update_attributes(params[:subnet])
       process_success
     else
@@ -32,7 +31,6 @@ class SubnetsController < ApplicationController
   end
 
   def destroy
-    @subnet = Subnet.find(params[:id])
     if @subnet.destroy
       process_success
     else
@@ -46,7 +44,7 @@ class SubnetsController < ApplicationController
     organization = params[:organization_id].blank? ? nil : Organization.find(params[:organization_id])
     location = params[:location_id].blank? ? nil : Location.find(params[:location_id])
     Taxonomy.as_taxonomy organization, location do
-      not_found and return unless (subnet = Subnet.find(s))
+      not_found and return unless (subnet = Subnet.authorized(:view_subnets).find(s))
       if (ip = subnet.unused_ip(params[:host_mac]))
         render :json => {:ip => ip}
       else
@@ -55,7 +53,7 @@ class SubnetsController < ApplicationController
       end
     end
   rescue => e
-    logger.warn "Failed to query #{subnet} for free ip: #{e}"
+    logger.warn "Failed to query subnet #{s} for free ip: #{e}"
     head :status => 500
   end
 

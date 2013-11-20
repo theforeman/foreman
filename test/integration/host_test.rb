@@ -29,10 +29,10 @@ class HostTest < ActionDispatch::IntegrationTest
   end
 
   test "edit page" do
-    disable_orchestration  # Avoid DNS errors  
+    disable_orchestration  # Avoid DNS errors
     visit hosts_path
     click_link "my5name.mydomain.net"
-    first(:link, "Edit").click 
+    first(:link, "Edit").click
     assert page.has_link?("Cancel", :href => "/hosts/my5name.mydomain.net")
     fill_in "host_name", :with => "my5rename.mydomain.net"
     assert_submit_button("/hosts/my5rename.mydomain.net")

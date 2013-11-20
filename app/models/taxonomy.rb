@@ -1,5 +1,6 @@
 class Taxonomy < ActiveRecord::Base
-  include Authorization
+  include Authorizable
+
   include NestedAncestryCommon
 
   serialize :ignore_types, Array

@@ -136,6 +136,15 @@ module Api
 
       private
 
+      def action_permission
+        case params[:action]
+          when 'reset'
+            :destroy
+          else
+            super
+        end
+      end
+
       def parameters_method
         # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
         nested_obj.is_a?(Hostgroup) ? :group_parameters : :parameters

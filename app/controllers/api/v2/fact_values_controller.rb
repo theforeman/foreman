@@ -1,7 +1,6 @@
 module Api
   module V2
     class FactValuesController < V2::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/fact_values/", "List all fact values."
@@ -16,8 +15,8 @@ module Api
         @fact_values = FactValue.build_facts_hash(values.all)
       end
 
-      def resource_scope
-        FactValue.my_facts.no_timestamp_facts
+      def resource_scope(controller = controller_name)
+        FactValue.authorized(:view_facts).my_facts.no_timestamp_facts
       end
 
     end

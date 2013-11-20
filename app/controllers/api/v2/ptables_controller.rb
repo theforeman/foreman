@@ -10,7 +10,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @ptables = Ptable.search_for(*search_options).paginate(paginate_options)
+        @ptables = Ptable.
+          authorized(:view_ptables).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/ptables/:id/", "Show a ptable."

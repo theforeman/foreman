@@ -10,7 +10,7 @@ module Api
       api :GET, "/hosts/:host_id/puppetclass_ids/", "List all puppetclass id's for host"
 
       def index
-        render :json => { root_node_name => HostClass.where(:host_id => host_id).pluck('puppetclass_id') }
+        render :json => { root_node_name => HostClass.authorized(:edit_classes).where(:host_id => host_id).pluck('puppetclass_id') }
       end
 
       api :POST, "/hosts/:host_id/puppetclass_ids", "Add a puppetclass to host"
@@ -27,7 +27,7 @@ module Api
       param :id, String, :required => true, :desc => "id of puppetclass"
 
       def destroy
-        @host_class = HostClass.where(:host_id => host_id, :puppetclass_id => params[:id])
+        @host_class = HostClass.authorized(:edit_classes).where(:host_id => host_id, :puppetclass_id => params[:id])
         process_response @host_class.destroy_all
       end
 
@@ -38,7 +38,7 @@ module Api
         if params[:host_id] =~ /^\d+$/
           return @host_id = params[:host_id].to_i
         else
-          @host ||= Host::Managed.find_by_name(params[:host_id])
+          @host ||= Host::Managed.authorized(:view_hosts).find_by_name(params[:host_id])
           return @host_id = @host.id if @host
           not_found
         end

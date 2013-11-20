@@ -2,7 +2,7 @@ require 'ostruct'
 require 'uri'
 
 class Operatingsystem < ActiveRecord::Base
-  include Authorization
+  include Authorizable
   include ValidateOsFamily
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)

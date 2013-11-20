@@ -2,6 +2,7 @@ require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
   include Encryptable
+  include Authorizable
   encrypts :password
   SUPPORTED_PROVIDERS = %w[Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE]
   PROVIDERS = SUPPORTED_PROVIDERS.reject { |p| !SETTINGS[p.downcase.to_sym] }
@@ -13,12 +14,12 @@ class ComputeResource < ActiveRecord::Base
   STI_PREFIX= "Foreman::Model"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  include Authorization
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
   validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :id, :complete_value => :true
   before_save :sanitize_url
   has_many_hosts
   has_many :images, :dependent => :destroy
@@ -34,19 +35,6 @@ class ComputeResource < ActiveRecord::Base
     with_taxonomy_scope do
       order("compute_resources.name")
     end
-  }
-
-  scope :my_compute_resources, lambda {
-    user = User.current
-    if user.admin?
-      conditions = { }
-    else
-      conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resource_ids])
-      conditions.sub!(/\s*\(\)\s*/, "")
-      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
-      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
-    end
-    where(conditions).reorder('type, name')
   }
 
   # allows to create a specific compute class based on the provider.
@@ -242,22 +230,6 @@ class ComputeResource < ActiveRecord::Base
   end
 
   private
-
-  def enforce_permissions operation
-    # We get called again with the operation being set to create
-    return true if operation == "edit" and new_record?
-    current = User.current
-    if current.allowed_to?("#{operation}_compute_resources".to_sym)
-      # If you can create compute resources then you can create them anywhere
-      return true if operation == "create"
-      # edit or delete
-      if current.allowed_to?("#{operation}_compute_resources".to_sym)
-        return true if ComputeResource.my_compute_resources.include? self
-      end
-    end
-    errors.add :base, _("You do not have permission to %s this compute resource") % operation
-    false
-  end
 
   def set_attributes_hash
     self.attrs ||= {}

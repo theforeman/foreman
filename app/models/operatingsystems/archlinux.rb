@@ -19,6 +19,7 @@ class Archlinux < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
+
   def display_family
     "Arch Linux"
   end

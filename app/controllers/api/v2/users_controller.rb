@@ -1,10 +1,10 @@
 module Api
   module V2
     class UsersController < V2::BaseController
+      before_filter :find_resource, :only => %w{show update destroy}
       include Foreman::Controller::UsersMixin
       include Api::Version2
       include Api::TaxonomyScope
-      before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
@@ -13,14 +13,15 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @users = User.search_for(*search_options).paginate(paginate_options)
+        @users = User.
+          authorized(:view_users).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/users/:id/", "Show an user."
       param :id, String, :required => true
 
       def show
-        @user
       end
 
       def_param_group :user do

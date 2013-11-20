@@ -3,10 +3,10 @@ module ComputeResourcesVmsHelper
   # little helper to help show VM properties
   def prop method, title = nil
     content_tag :tr do
-      result = content_tag :td do
+      result = content_tag(:td) do
         title || method.to_s.humanize
       end
-      result += content_tag :td do
+      result += content_tag(:td) do
         value = @vm.send(method) rescue nil
         case value
         when Array
@@ -67,32 +67,32 @@ module ComputeResourcesVmsHelper
     end
   end
 
-  def available_actions(vm)
+  def available_actions(vm, authorizer = nil)
     case vm
     when Fog::Compute::OpenStack::Server
-      openstack_available_actions(vm)
+      openstack_available_actions(vm, authorizer)
     else
-      default_available_actions(vm)
+      default_available_actions(vm, authorizer)
     end
   end
 
-  def openstack_available_actions(vm)
+  def openstack_available_actions(vm, authorizer = nil)
     actions = []
     if vm.state == 'ACTIVE'
-      actions << vm_power_action(vm)
-      actions << vm_pause_action(vm)
+      actions << vm_power_action(vm, authorizer)
+      actions << vm_pause_action(vm, authorizer)
     elsif vm.state == 'PAUSED'
-      actions << vm_pause_action(vm)
+      actions << vm_pause_action(vm, authorizer)
     else
-      actions << vm_power_action(vm)
+      actions << vm_power_action(vm, authorizer)
     end
 
-    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))
+    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))
   end
 
-  def default_available_actions(vm)
-    [vm_power_action(vm),
-     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))]
+  def default_available_actions(vm, authorizer = nil)
+    [vm_power_action(vm, authorizer),
+     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))]
   end
 
   def vpc_security_group_hash(security_groups)

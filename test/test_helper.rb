@@ -42,6 +42,27 @@ Spork.prefork do
     set_fixture_class({ :hosts => Host::Base })
     set_fixture_class :nics => Nic::BMC
 
+    setup :begin_gc_deferment
+    teardown :reconsider_gc_deferment
+
+    DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 1.0).to_f
+
+    @@last_gc_run = Time.now
+
+    def begin_gc_deferment
+      GC.disable if DEFERRED_GC_THRESHOLD > 0
+    end
+
+    def reconsider_gc_deferment
+      if DEFERRED_GC_THRESHOLD > 0 && Time.now - @@last_gc_run >= DEFERRED_GC_THRESHOLD
+        GC.enable
+        GC.start
+        GC.disable
+
+        @@last_gc_run = Time.now
+      end
+    end
+
     # for backwards compatibility to between Minitest syntax
     alias_method :assert_not,       :refute
     alias_method :assert_no_match,  :refute_match
@@ -82,12 +103,20 @@ Spork.prefork do
       user.save!
     end
 
-    def setup_user operation, type=""
-      @one = users(:one)
+    # if a method receieves a block it will be yielded just before user save
+    def setup_user operation, type="", search = nil, user = :one
+      @one = users(user)
       as_admin do
+        permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
+        filter = FactoryGirl.build(:filter, :search => search)
+        filter.permissions = [ permission ]
         role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
-        role.permissions = ["#{operation}_#{type}".to_sym]
-        @one.roles = [role]
+        role.filters = [ filter ]
+        role.save!
+        filter.role = role
+        filter.save!
+        @one.roles = [ role ]
+        yield(@one) if block_given?
         @one.save!
       end
       User.current = @one

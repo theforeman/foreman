@@ -12,6 +12,10 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
 #    Fog.unmock!
   end
 
+  def setup_user operation, type = 'compute_resources_vms'
+    super(operation, type, "id = #{@compute_resource.id}")
+  end
+
   test "should not get index when not permitted" do
     setup_user "none"
     get :index, {:compute_resource_id => @compute_resource.to_param}, set_session_user
@@ -34,7 +38,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not show vm JSON when restricted" do
     setup_user "view"
     get :show, {:id => @test_vm.uuid, :format => "json", :compute_resource_id => @your_compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response 404
   end
 
   test "should show vm JSON" do
@@ -52,7 +56,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not show vm when restricted" do
     setup_user "view"
     get :show, {:id => @test_vm.uuid, :compute_resource_id => @your_compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response 404
   end
 
   test "should show vm" do
@@ -73,7 +77,9 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   #Broken with Fog.mock! because lib/fog/libvirt/models/compute/volume.rb:41 calls create_volume with the wrong number of arguments
   #Broken before Fog 8d95d5bff223a199d33e297ea21884d8598f6921 because default pool name being "default-pool" and not "default" (with test:///default) triggers an internal bug
   def test_should_create_vm(name = "new_test")
-    setup_user "create"
+    setup_user "create" do |user|
+      user.roles.last.add_permissions! :view_compute_resources
+    end
     assert_difference('@compute_resource.vms.count', +1) do
       attrs = {:name => name, :memory => 128*1024*1024, :domain_type => "test", :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
@@ -96,7 +102,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       delete :destroy, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @your_compute_resource.to_param}, set_session_user
     end
 
-    assert_response 403
+    assert_response 404
   end
 
   test "should destroy vm" do
@@ -127,7 +133,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     setup_user "power"
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @your_compute_resource.to_param}, set_session_user
 
-    assert_response 403
+    assert_response 404
   end
 
   test "should pause openstack vm" do
@@ -173,18 +179,4 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def setup_user operation
-    @one = users(:one)
-    @request.session[:user] = @one.id
-    as_admin do
-      @one.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-      role = Role.find_or_create_by_name :name => "#{operation}_compute_resources_vms"
-      role.permissions = ["#{operation}_compute_resources_vms".to_sym]
-      role.save!
-      @one.roles << [role]
-      @one.compute_resources = [@compute_resource]
-      @one.save!
-    end
-    User.current = @one
-  end
 end

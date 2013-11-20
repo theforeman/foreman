@@ -10,7 +10,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hosts = Host.my_hosts.search_for(*search_options).paginate(paginate_options)
+        @hosts = Host.
+          authorized(:view_hosts, Host).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/hosts/:id/", "Show a host."
@@ -121,12 +123,11 @@ Return value may either be one of the following:
         render :json => { :status => @host.host_status }.to_json if @host
       end
 
-      # we need to limit resources for a current user
-      def resource_scope
-        resource_class.my_hosts
-      end
-
       private
+
+      def resource_scope(controller = controller_name)
+        Host.authorized("#{action_permission}_#{controller}", Host)
+      end
 
       # this is required for template generation (such as pxelinux) which is not done via a web request
       def forward_request_url

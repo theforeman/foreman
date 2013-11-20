@@ -9,7 +9,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_proxies)
     smart_proxies = ActiveSupport::JSON.decode(@response.body)
-    assert !smart_proxies.empty?
+    assert_not smart_proxies.empty?
   end
 
   test "should get index filtered by type" do
@@ -19,7 +19,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:smart_proxies)
     smart_proxies = ActiveSupport::JSON.decode(@response.body)
-    assert !smart_proxies.empty?
+    assert_not smart_proxies.empty?
 
     returned_proxy_ids = smart_proxies.map { |p| p["smart_proxy"]["id"] }
     expected_proxy_ids = SmartProxy.tftp_proxies.map { |p| p.id }
@@ -37,7 +37,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     get :show, { :id => smart_proxies(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    assert_not show_response.empty?
   end
 
   test "should create smart_proxy" do

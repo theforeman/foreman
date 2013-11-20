@@ -13,7 +13,7 @@ class Dashboard
   end
 
   def hosts
-    @hosts ||= Host.my_hosts.search_for(filter)
+    @hosts ||= Host.authorized(:view_hosts, Host).search_for(filter)
   end
 
   private

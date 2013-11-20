@@ -33,3 +33,5 @@ locale/*/LC_MESSAGES
 coverage/
 tags
 _build
+zeus.json
+custom_plan.rb

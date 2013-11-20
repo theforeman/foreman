@@ -68,7 +68,8 @@ module HostsHelper
   end
 
   def authorized?
-    authorized_for(:hosts, :edit) or authorized_for(:hosts, :destroy)
+    authorized_for(:controller => :hosts, :action => :edit) or
+        authorized_for(:controller => :hosts, :action => :destroy)
   end
 
   def searching?
@@ -226,12 +227,14 @@ module HostsHelper
   def host_title_actions(host, vm)
     title_actions(
         button_group(
-            link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host), :title => _("Edit your host")),
+            link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host), :title => _("Edit your host")),
             if host.build
-              link_to_if_authorized(_("Cancel Build"), hash_for_cancelBuild_host_path(:id => host), :disabled => host.can_be_built?,
+              link_to_if_authorized(_("Cancel Build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
+                                    :disabled => host.can_be_built?,
                                     :title                                                                 => _("Cancel build request for this host"))
             else
-              link_to_if_authorized(_("Build"), hash_for_setBuild_host_path(:id => host), :disabled => !host.can_be_built?,
+              link_to_if_authorized(_("Build"), hash_for_setBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
+                                    :disabled => !host.can_be_built?,
                                     :title                                                       => _("Enable rebuild on next host boot"),
                                     :confirm                                                     => _("Rebuild %s on next reboot?\nThis would also delete all of its current facts and reports") % host)
             end
@@ -240,22 +243,24 @@ module HostsHelper
           button_group(
               if vm
                 html_opts = vm.ready? ? {:confirm => _('Are you sure?'), :class => "btn btn-danger"} : {:class => "btn btn-success"}
-                link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start), html_opts.merge(:method => :put)
+                link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
+                                      html_opts.merge(:method => :put)
               else
                 link_to(_("Unknown Power State"), '#', :disabled => true, :class => "btn btn-warning")
               end +
-                  link_to_if_authorized(_("Console"), hash_for_console_host_path(), {:disabled => vm.nil? || !vm.ready?, :class => "btn btn-info"})
+                  link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
+                                        {:disabled => vm.nil? || !vm.ready?, :class => "btn btn-info"})
           )
         end,
         button_group(
           if host.try(:puppet_proxy)
-            link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_action => :edit),
+            link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
                                   :disabled => !Setting[:puppetrun],
                                   :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
           end
         ),
         button_group(
-            link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host, :auth_action => :destroy),
+            link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
                                   :class => "btn btn-danger", :confirm => _('Are you sure?'), :method => :delete)
         )
     )
