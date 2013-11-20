@@ -1,9 +1,10 @@
 <ul class="nav pull-right ">
-  <li class="dropdown">
+  <li class="dropdown menu_tab_dropdown">
     <%= user_header %>
     <ul class="dropdown-menu pull-right">
-      <li><%= link_to(_("Sign Out"), logout_users_path) %></li>
-      <li><%= link_to(_("My account"), edit_user_path(User.current) )%></li>
+      <% authorized_menu_actions(Menu::Manager.items(:user_menu).children).map do |item| %>
+        <%= menu_item_tag item %>
+      <% end %>
     </ul>
   </li>
 </ul>

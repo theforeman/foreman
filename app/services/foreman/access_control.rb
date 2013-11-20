@@ -70,7 +70,7 @@ module Foreman
 
       def permission(name, hash, options={})
         @permissions ||= []
-        options.merge!(:security_block => @security_block)
+        options.merge!(:security_block => @security_block) if @security_block
         @permissions << Permission.new(name, hash, options)
       end
 

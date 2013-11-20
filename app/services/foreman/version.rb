@@ -2,7 +2,7 @@ module Foreman
 
   # Simple struct for manipulation and comparing versions
   class Version
-    attr_reader :version, :major, :minor, :build, :tag, :short
+    attr_reader :version, :major, :minor, :build, :tag, :short, :notag
     alias :full :version
 
     def initialize givenversion=nil
@@ -13,8 +13,15 @@ module Foreman
         @version = File.read(root + "/VERSION").chomp # or fail if not found
       end
       @major, @minor, @build = @version.scan(/\d+/)
-      @tag = @version.include?('-') ? @version.split('-').last : "" rescue ""
       @short = "#{@major}.#{@minor}"
+
+      if @version =~ /\A(.*)-([^-]+)\z/
+        @notag = $1
+        @tag = $2
+      else
+        @notag = @version
+        @tag = ""
+      end
     end
 
     def to_s
