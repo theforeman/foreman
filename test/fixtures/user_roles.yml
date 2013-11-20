@@ -1,15 +1,15 @@
 user_restricted_viewer_role:
-  user: restricted
+  owner: restricted
   role_id: 5
 
 user_restricted_anonymous_role:
-  user: restricted
+  owner: restricted
   role_id: 7
 
 user_restricted_manage_hosts_role:
-  user: restricted
+  owner: restricted
   role_id: 12
 
 user_restricted_manage_compute_resources:
-  user: restricted
+  owner: restricted
   role_id: 11

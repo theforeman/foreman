@@ -31,7 +31,10 @@ class Role < ActiveRecord::Base
   before_destroy :check_deletable
 
   has_many :user_roles, :dependent => :destroy
-  has_many :users, :through => :user_roles
+  has_many :users, :through => :user_roles, :source => :owner, :source_type => 'User'
+  has_many :usergroups, :through => :user_roles, :source => :owner, :source_type => 'Usergroup'
+  has_many :cached_user_roles
+  has_many :cached_users, :through => :cached_user_roles, :source => :user
 
   serialize :permissions, Array
   attr_protected :builtin

@@ -1,7 +1,23 @@
 <%= form_for @usergroup do |f| %>
   <%= base_errors_for @usergroup %>
-  <%= text_f f, :name %>
-  <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
-  <%= multiple_checkboxes f, :users, @usergroup, User, :label => _("Users") %>
+
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Usergroup") %></a></li>
+    <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+
+      <%= text_f f, :name %>
+      <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
+      <%= multiple_checkboxes f, :users, @usergroup, User, :label => _("Users") %>
+    </div>
+
+    <div class="tab-pane" id="roles">
+      <%= multiple_checkboxes f, :roles, @usergroup, Role.givable.for_current_user, {:label => _('Roles')} %>
+    </div>
+  </div>
+
   <%= submit_or_cancel f %>
 <% end %>

@@ -18,8 +18,10 @@ class User < ActiveRecord::Base
   has_many :usergroups, :through => :usergroup_member
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
-  has_many :user_roles, :dependent => :destroy
-  has_many :roles, :through => :user_roles
+  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :roles, :through => :user_roles, :dependent => :destroy
+  has_many :cached_user_roles, :dependent => :destroy
+  has_many :cached_roles, :through => :cached_user_roles, :source => :role, :uniq => true
   has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
   has_and_belongs_to_many :domains,           :join_table => "user_domains"
   has_many :user_hostgroups, :dependent => :destroy
@@ -195,7 +197,7 @@ class User < ActiveRecord::Base
       action[:controller] = action[:controller].to_s.gsub(/::/, "_").sub(/^\//,'').underscore
       return true if editing_self?(action)
     end
-    roles.detect {|role| role.allowed_to?(action)}.present?
+    cached_roles.detect {|role| role.allowed_to?(action)}.present?
   end
 
   def logged?

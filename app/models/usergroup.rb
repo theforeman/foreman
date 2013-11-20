@@ -2,9 +2,16 @@ class Usergroup < ActiveRecord::Base
   include Authorization
   audited :allow_mass_assignment => true
 
+  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :roles, :through => :user_roles, :dependent => :destroy
+
   has_many :usergroup_members, :dependent => :destroy
-  has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User'
-  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup'
+  has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User', :dependent => :destroy
+  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup', :dependent => :destroy
+
+  has_many :usergroup_parents, :dependent => :destroy, :foreign_key => 'member_id',
+           :conditions => "member_type = 'Usergroup'", :class_name => 'UsergroupMember'
+  has_many :parents,    :through => :usergroup_parents, :source => :usergroup, :dependent => :destroy
 
   has_many_hosts :as => :owner
   validates :name, :uniqueness => true

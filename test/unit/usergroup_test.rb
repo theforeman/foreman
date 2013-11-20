@@ -160,4 +160,29 @@ class UsergroupTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test "removes all cached_user_roles when roles are disassociated" do
+    user         = FactoryGirl.create(:user)
+    record       = FactoryGirl.create(:usergroup)
+    record.users = [user]
+    one          = FactoryGirl.create(:role)
+    two          = FactoryGirl.create(:role)
+
+    record.roles = [one, two]
+    assert_equal 2, user.reload.cached_user_roles.size
+
+    assert record.update_attributes(:role_ids => [ two.id ])
+    assert_equal 1, user.reload.cached_user_roles.size
+
+    record.role_ids = [ ]
+    assert_equal 0, user.reload.cached_user_roles.size
+
+    assert record.update_attribute(:role_ids, [ one.id ])
+    assert_equal 1, user.reload.cached_user_roles.size
+
+    record.roles<< two
+    assert_equal 2, user.reload.cached_user_roles.size
+  end
+
+  # TODO test who can modify usergroup roles and who can assign users!!! possible privileges escalation
+
 end
