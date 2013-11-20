@@ -247,6 +247,7 @@ add_files /etc/{sysconfig,default}/dhcp*
 add_files /etc/sysconfig/named /etc/default/bind
 add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
+add_cmd "foreman-rake plugins" "plugin_list"
 
 qprintf "\n\n"
 qprintf "%10s %s\n" "HOSTNAME:" "$(hostname -f 2>/dev/null)"

@@ -4,6 +4,7 @@ class AboutController < ApplicationController
   def index
     @proxies = SmartProxy.my_proxies.includes(:features)
     @compute_resources = ComputeResource.my_compute_resources
+    @plugins = Foreman::Plugin.all
   end
 
 end
