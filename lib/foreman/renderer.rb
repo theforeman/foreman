@@ -18,11 +18,11 @@ module Foreman
       # Get basic stuff
       config   = URI.parse(Setting[:unattended_url])
       protocol = config.scheme || 'http'
-      system     = config.system || request.system
+      host     = config.host || request.host
       port     = config.port || request.port
 
       url_for :only_path => false, :controller => "/unattended", :action => action,
-              :protocol  => protocol, :system => system, :port => port,
+              :protocol  => protocol, :host => host, :port => port,
               :token     => (@system.token.value unless @system.token.nil?)
     end
 

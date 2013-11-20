@@ -11,7 +11,7 @@ class Redhat < Operatingsystem
       when 'http', 'https', 'ftp'
          "url --url #{uri}"
       else
-        server = uri.select(:system, :port).compact.join(':')
+        server = uri.select(:host, :port).compact.join(':')
         dir    = uri.select(:path, :query).compact.join('?')
         "nfs --server #{server} --dir #{dir}"
     end

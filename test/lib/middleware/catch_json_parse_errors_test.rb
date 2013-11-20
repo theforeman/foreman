@@ -20,13 +20,13 @@ class CatchJsonParseErrorsTest < ActiveSupport::TestCase
   private
 
   def post_broken_json_to_api(path, broken_json)
-    RestClient.post("http://#{system}:#{port}#{path}", broken_json, default_headers)
+    RestClient.post("http://#{host}:#{port}#{path}", broken_json, default_headers)
   rescue RestClient::BadRequest => e
     e.response
   end
 
-  def system
-    Capybara.current_session.server.system
+  def host
+    Capybara.current_session.server.host
   end
 
   def port

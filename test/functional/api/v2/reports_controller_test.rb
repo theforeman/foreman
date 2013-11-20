@@ -46,7 +46,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Setting[:require_ssl_puppetmasters] = false
 
       proxy = smart_proxies(:puppetmaster)
-      system   = URI.parse(proxy.url).system
+      system   = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([system])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy

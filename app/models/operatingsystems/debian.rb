@@ -3,7 +3,7 @@ class Debian < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
   def preseed_server system
-    medium_uri(system).select(:system, :port).compact.join(':')
+    medium_uri(system).select(:host, :port).compact.join(':')
   end
 
   def preseed_path system

@@ -57,7 +57,7 @@ module Foreman::Controller::SmartProxyAuth
     end
     return false unless request_systems
 
-    systems = Hash[proxies.map { |p| [URI.parse(p.url).system, p] }]
+    systems = Hash[proxies.map { |p| [URI.parse(p.url).host, p] }]
     allowed_systems = systems.keys.push(*Setting[:trusted_puppetmaster_systems])
     logger.debug { ("Verifying request from #{request_systems} against #{allowed_systems.inspect}") }
     unless system = allowed_systems.detect { |p| request_systems.include? p }

@@ -214,7 +214,7 @@ class Api::V2::SystemsControllerTest < ActionController::TestCase
     Setting[:require_ssl_puppetmasters] = false
 
     proxy = smart_proxies(:puppetmaster)
-    system   = URI.parse(proxy.url).system
+    system   = URI.parse(proxy.url).host
     Resolv.any_instance.stubs(:getnames).returns([system])
     systemname = fact_json['name']
     facts    = fact_json['facts']
