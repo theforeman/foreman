@@ -85,7 +85,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_create_exclamation_updates_description
-    Setting.create!(:name => 'administrator', :description => 'Test', :default => 'root@localsystem')
+    Setting.create!(:name => 'administrator', :description => 'Test', :default => 'root@localhost')
     s = Setting.find_by_name 'administrator'
     assert_equal 'Test', s.description
   end

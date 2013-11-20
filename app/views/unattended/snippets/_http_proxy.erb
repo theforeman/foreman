@@ -3,6 +3,6 @@ http_proxy=<%= proxy %>
 export http_proxy
 https_proxy=<%= proxy %>
 export https_proxy
-no_proxy=localsystem,127.0.0.0/8,*.local,*.<%= @system.domain.name -%>,puppet
+no_proxy=localhost,127.0.0.0/8,*.local,*.<%= @system.domain.name -%>,puppet
 export no_proxy
 <% end -%>

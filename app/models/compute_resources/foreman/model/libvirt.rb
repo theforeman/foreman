@@ -116,7 +116,7 @@ module Foreman::Model
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
         logger.warn e
-        Foreman::Exception.new(N_("Unable to change VM display listen address, make sure the display is not attached to localsystem only"))
+        Foreman::Exception.new(N_("Unable to change VM display listen address, make sure the display is not attached to localhost only"))
       else
         raise e
       end

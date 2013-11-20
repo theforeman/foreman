@@ -50,8 +50,8 @@ class ApplicationController < ActionController::Base
   def require_ssl
     # if SSL is not configured, don't bother forcing it.
     return true unless SETTINGS[:require_ssl]
-    # don't force SSL on localsystem
-    return true if request.system=~/localsystem|127.0.0.1/
+    # don't force SSL on localhost
+    return true if request.system=~/localhost|127.0.0.1/
     # finally - redirect
     redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
   end

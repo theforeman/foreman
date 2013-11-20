@@ -6,7 +6,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   # Called before every test method runs. Can be used
   # to set up fixture information.
   def setup
-    @url="http://localsystem:8443"
+    @url="http://localhost:8443"
     @options = {:username => "testuser", :password => "fakepass"}
     @testbmc = ProxyAPI::BMC.new({:user => "admin", :password => "secretpass", :url => @url})
   end

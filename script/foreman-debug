@@ -196,7 +196,7 @@ if [ $NOGENERIC -eq 0 ]; then
   add_cmd "ip r" "ip_r"
   add_cmd "ss -tulpn" "ss"
   add_cmd "cat /etc/systems" "systems"
-  add_cmd "ping -c1 -W1 localsystem" "ping_localsystem"
+  add_cmd "ping -c1 -W1 localhost" "ping_localhost"
   add_cmd "ping -c1 -W1 $(systemname)" "ping_systemname"
   add_cmd "ping -c1 -W1 $(systemname -f)" "ping_systemname_full"
 

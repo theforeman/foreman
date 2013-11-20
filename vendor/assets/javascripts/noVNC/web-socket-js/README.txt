@@ -8,7 +8,7 @@ Assuming you have Web server (e.g. Apache) running at http://example.com/ .
   $ ruby web-socket-ruby/samples/echo_server.rb example.com 10081
 - If your server already provides socket policy file at port 843, modify the file to allow access to port 10081. Otherwise you can skip this step. See below for details.
 - Publish the web-socket-js directory with your Web server (e.g. put it in ~/public_html).
-- Change ws://localsystem:10081 to ws://example.com:10081 in sample.html.
+- Change ws://localhost:10081 to ws://example.com:10081 in sample.html.
 - Open sample.html in your browser.
 - After "onopen" is shown, input something, click [Send] and confirm echo back.
 

@@ -12,7 +12,7 @@ class SystemMailerTest < ActionMailer::TestCase
       @env.save
     end
     User.current = User.admin
-    Setting[:foreman_url] = "http://localsystem:3000/systems/:id"
+    Setting[:foreman_url] = "http://localhost:3000/systems/:id"
 
     @options = {}
     @options[:env] = @env
