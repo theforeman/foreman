@@ -1,4 +1,6 @@
 class Bookmark < ActiveRecord::Base
+  include Authorizable
+
   belongs_to :owner, :polymorphic => true
   attr_accessible :name, :controller, :query, :public
   audited :allow_mass_assignment => true

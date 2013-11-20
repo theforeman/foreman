@@ -12,23 +12,23 @@
   </tr>
   <% for proxy in @proxies %>
     <tr>
-      <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
+      <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id).merge(:auth_object => proxy, :authorizer => @authorizer) %></td>
       <td><%=h proxy.url %></td>
       <td><%=h proxy.features.to_sentence %></td>
       <td>
         <% ca = proxy.features.detect{|f| f.name == "Puppet CA"} %>
         <%= action_buttons(
           if ca
-            display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy))
+            display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy).merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => @authorizer))
           end,
           if ca
-            display_link_if_authorized(_("Autosign"), hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => proxy))
+            display_link_if_authorized(_("Autosign"), hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => proxy).merge(:auth_object => proxy, :permission => 'view_smart_proxies_autosign', :authorizer => @authorizer))
           end,
           if SETTINGS[:unattended] and proxy.features.detect{|f| f.name == "DHCP" }
             display_link_if_authorized(_("Import subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
           end,
-          display_link_if_authorized(_("Refresh features"), hash_for_refresh_smart_proxy_path(:id => proxy), :method => :put),
-          display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy), :confirm => _("Delete %s?") % proxy.name))%>
+          display_link_if_authorized(_("Refresh features"), hash_for_refresh_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => @authorizer), :method => :put),
+          display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => @authorizer), :confirm => _("Delete %s?") % proxy.name))%>
       </td>
     </tr>
   <% end %>

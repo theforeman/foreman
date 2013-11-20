@@ -3,7 +3,8 @@ class MediaController < ApplicationController
   before_filter :find_medium, :only => %w{edit update destroy}
 
   def index
-    @media = Medium.includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @media = Medium.authorized(:view_media).includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @authorizer = Authorizer.new(User.current, @media)
   end
 
   def new
@@ -20,9 +21,11 @@ class MediaController < ApplicationController
   end
 
   def edit
+    @medium = find_medium(:edit_media)
   end
 
   def update
+    @medium = find_medium(:edit_media)
     if @medium.update_attributes(params[:medium])
       process_success
     else
@@ -31,6 +34,7 @@ class MediaController < ApplicationController
   end
 
   def destroy
+    @medium = find_medium(:destroy_media)
     if @medium.destroy
       process_success
     else
@@ -39,8 +43,9 @@ class MediaController < ApplicationController
   end
 
   private
-  def find_medium
-    @medium = Medium.find(params[:id])
+
+  def find_medium(permission = :view_media)
+    Medium.authorized(permission).find(params[:id])
   end
 
 end

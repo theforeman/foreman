@@ -59,16 +59,4 @@ class RolesController < ApplicationController
     end
   end
 
-  def report
-    @roles = Role.all(:order => 'builtin, name')
-    @permissions = Foreman::AccessControl.permissions.select { |p| !p.public? }
-    if request.post?
-      @roles.each do |role|
-        role.permissions = params[:permissions][role.id.to_s]
-        role.save
-      end
-      notice _("All non public permissions successfully updated")
-      redirect_to roles_url
-    end
-  end
 end

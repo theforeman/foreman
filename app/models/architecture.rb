@@ -1,5 +1,5 @@
 class Architecture < ActiveRecord::Base
-  include Authorization
+  include Authorizable
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 

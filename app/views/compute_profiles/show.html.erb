@@ -13,7 +13,7 @@
     <th><%= _("Compute Resource") %></th>
     <th><%= _("VM Attributes (%s)") % @compute_profile.name %></th>
   </tr>
-    <% ComputeResource.my_compute_resources.each do |compute_resource| %>
+    <% ComputeResource.authorized(:view_compute_resources).each do |compute_resource| %>
       <% compute_attribute = ComputeAttribute.where(:compute_profile_id => @compute_profile.id, :compute_resource_id => compute_resource.id).first %>
       <% which_path = if compute_attribute.try(:id)
                         edit_compute_profile_compute_attribute_path(@compute_profile.to_param, compute_attribute.id)

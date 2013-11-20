@@ -2,8 +2,9 @@ class ModelsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   def index
-    @models  = Model.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @models       = Model.authorized(:view_models).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter = Host.group(:model_id).where(:model_id => @models.select(&:id)).count
+    @authorizer   = Authorizer.new(User.current, @models)
   end
 
   def new
@@ -20,11 +21,11 @@ class ModelsController < ApplicationController
   end
 
   def edit
-    @model = Model.find(params[:id])
+    @model = find_by_id(:edit_models)
   end
 
   def update
-    @model = Model.find(params[:id])
+    @model = find_by_id(:edit_models)
     if @model.update_attributes(params[:model])
       process_success
     else
@@ -33,11 +34,17 @@ class ModelsController < ApplicationController
   end
 
   def destroy
-    @model = Model.find(params[:id])
+    @model = find_by_id(:destroy_models)
     if @model.destroy
       process_success
     else
       process_error
     end
+  end
+
+  private
+
+  def find_by_id(permission = :view_models)
+    Model.authorized(permission).find(params[:id])
   end
 end

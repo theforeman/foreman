@@ -1,8 +1,10 @@
 class SmartProxiesController < ApplicationController
-  before_filter :find_by_id, :only => [:edit, :update, :destroy, :ping, :refresh]
+
+  include Foreman::Controller::AutoCompleteSearch
 
   def index
-    @proxies = SmartProxy.includes(:features).paginate :page => params[:page]
+    @proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).paginate :page => params[:page]
+    @authorizer = Authorizer.new(User.current, @proxies)
   end
 
   def new
@@ -19,15 +21,18 @@ class SmartProxiesController < ApplicationController
   end
 
   def edit
+    @proxy = find_by_id(:edit_smart_proxies)
   end
 
   def ping
+    @proxy = find_by_id
     respond_to do |format|
       format.json {render :json => errors_hash(@proxy.refresh)}
     end
   end
 
   def refresh
+    @proxy = find_by_id(:edit_smart_proxies)
     old_features = @proxy.features
     if @proxy.refresh.blank? && @proxy.save
       msg = @proxy.features == old_features ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
@@ -38,6 +43,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def update
+    @proxy = find_by_id(:edit_smart_proxies)
     if @proxy.update_attributes(params[:smart_proxy])
       process_success :object => @proxy
     else
@@ -46,6 +52,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def destroy
+    @proxy = find_by_id(:destroy_smart_proxies)
     if @proxy.destroy
       process_success :object => @proxy
     else
@@ -54,7 +61,7 @@ class SmartProxiesController < ApplicationController
   end
 
   private
-  def find_by_id
-    @proxy = SmartProxy.find(params[:id])
+  def find_by_id(permission = :view_smart_proxies)
+    SmartProxy.authorized(permission).find(params[:id])
   end
 end

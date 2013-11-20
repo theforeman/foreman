@@ -8,7 +8,7 @@
     <%# hidden field to ensure that classes gets removed if none are defined %>
     <%= hidden_field_tag obj.class.model_name.downcase + "[puppetclass_ids][]" %>
     <ul id="selected_classes">
-      <% if authorized_for(:host_editing, :edit_classes) %>
+      <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
         <%= render :partial => "puppetclasses/selectedClasses",
           :collection => obj.puppetclasses ,:as => :klass,
           :locals => { :type => obj.class.model_name.downcase, :host => obj } %>

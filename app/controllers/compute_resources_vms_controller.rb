@@ -1,9 +1,9 @@
 class ComputeResourcesVmsController < ApplicationController
-  before_filter :find_compute_resource
-  before_filter :find_vm, :only => [:show, :power, :pause, :console, :associate]
 
   def index
+    @compute_resource = find_compute_resource(:view_compute_resources_vms)
     @vms = @compute_resource.vms.all(params[:filters] || {})
+    @authorizer = Authorizer.new(User.current, [@compute_resource])
     respond_to do |format|
       format.html
       format.json { render :json => @vms }
@@ -13,10 +13,12 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def new
+    @compute_resource = find_compute_resource
     @vm = @compute_resource.new_vm
   end
 
   def create
+    @compute_resource = find_compute_resource
     if @compute_resource.create_vm params[:vm]
       process_success :success_redirect => compute_resource_vms_path(@compute_resource)
     else
@@ -25,6 +27,8 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def associate
+    @compute_resource = find_compute_resource(:edit_compute_resources)
+    @vm = find_vm
     if Host.where(:uuid => @vm.identity).any?
       process_error(:error_msg => _("VM already associated with a host"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
     else
@@ -41,6 +45,8 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def show
+    @compute_resource = find_compute_resource(:view_compute_resources_vms)
+    @vm = find_vm
     respond_to do |format|
       format.html
       format.json { render :json => @vm }
@@ -48,14 +54,19 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def power
+    @compute_resource = find_compute_resource(:power_compute_resources_vms)
+    @vm = find_vm
     run_vm_action(@vm.ready? ? :stop : :start)
   end
 
   def pause
+    @compute_resource = find_compute_resource(:power_compute_resources_vms)
+    @vm = find_vm
     run_vm_action(@vm.ready? ? :pause : :start)
   end
 
   def destroy
+    @compute_resource = find_compute_resource(:destroy_compute_resources_vms)
     if @compute_resource.destroy_vm params[:id]
       process_success({ :success_redirect => compute_resource_vms_path(@compute_resource) })
     else
@@ -64,6 +75,8 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def console
+    @compute_resource = find_compute_resource(:console_compute_resources_vms)
+    @vm = find_vm
     @console = @compute_resource.console @vm.identity
     render case @console[:type]
              when 'spice'
@@ -79,13 +92,12 @@ class ComputeResourcesVmsController < ApplicationController
 
   private
 
-  def find_compute_resource
-    @compute_resource = ComputeResource.find(params[:compute_resource_id])
-    @compute_resource = ComputeResource.my_compute_resources.find(params[:compute_resource_id]) rescue deny_access
+  def find_compute_resource(permission = :view_compute_resources)
+    ComputeResource.authorized(permission).find(params[:compute_resource_id])
   end
 
   def find_vm
-    @vm = @compute_resource.find_vm_by_uuid params[:id]
+    @compute_resource.find_vm_by_uuid params[:id]
   end
 
   def run_vm_action(action)

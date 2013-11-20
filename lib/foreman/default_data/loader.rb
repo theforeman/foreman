@@ -30,6 +30,8 @@ module Foreman
         # Loads the default data
         # Raises a RecordNotSaved exception if something goes wrong
         def load(reset=false)
+          return true
+          # TODO not needed anymore? should be in seed perhaps
 
           # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
           Role.count rescue return

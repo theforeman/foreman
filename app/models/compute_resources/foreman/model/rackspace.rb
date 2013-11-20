@@ -88,7 +88,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      Host.my_hosts.where(:ip => [vm.public_ip_address, vm.private_ip_address]).first
+      Host.authorized(:view_hosts, Host).where(:ip => [vm.public_ip_address, vm.private_ip_address]).first
     end
 
     private

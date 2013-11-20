@@ -39,7 +39,7 @@ module DashboardHelper
 
   def latest_events
     # 6 reports + header fits the events box nicely...
-    summary = Report.my_reports.interesting.search_for('reported > "7 days ago"').limit(6)
+    summary = Report.authorized(:view_reports).my_reports.interesting.search_for('reported > "7 days ago"').limit(6)
   end
 
   def translated_header(shortname, longname)

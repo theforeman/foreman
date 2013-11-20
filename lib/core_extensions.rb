@@ -1,3 +1,4 @@
+require 'tsort'
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?
 class NilClass
   def empty?
@@ -47,6 +48,48 @@ class ActiveRecord::Base
       else
         logger.error "You may not destroy #{record.to_label} as it is in use!"
         false
+      end
+    end
+  end
+
+  class EnsureNoCycle
+    include TSort
+
+    def initialize(base, source, target)
+      @source = source; @target = target
+      @base  = base.map { |record| [record.send(@source), record.send(@target)] }
+      @nodes = @base.flatten.uniq
+      @graph = Hash.new { |h, k| h[k] = [] }
+      @base.each { |s, t| @graph[s]<< t }
+    end
+
+    def tsort_each_node(&block)
+      @nodes.each(&block)
+    end
+
+    def tsort_each_child(node, &block)
+      @graph[node].each(&block)
+    end
+
+    def ensure(record)
+      @record = record
+      add_new_edges
+      detect_cycle
+    end
+
+    private
+
+    def add_new_edges
+      edges = @graph[@record.send(@source) || 0]
+      edges<< @record.send(@target) unless edges.include?(@record.send(@target))
+    end
+
+    def detect_cycle
+      if strongly_connected_components.any? { |component| component.size > 1 }
+        @record.errors.add :base, _("Adding would cause a cycle!")
+        raise ::Foreman::CyclicGraphException, @record
+      else
+        true
       end
     end
   end

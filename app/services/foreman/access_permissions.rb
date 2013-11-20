@@ -2,6 +2,11 @@ require 'foreman/access_control'
 
 # Permissions
 Foreman::AccessControl.map do |map|
+  map.security_block :public do |map|
+    map.permission :user_logout, { :users => [:logout] }, :public => true
+    map.permission :my_account, { :users => [:edit] }, :public => true
+  end
+
   map.security_block :architectures do |map|
     map.permission :view_architectures,
                    :architectures => [:index, :show, :auto_complete_search],

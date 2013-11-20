@@ -22,7 +22,7 @@ class Role < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scope :givable, lambda { where(:builtin => 0).order(:name) }
-  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) }
+  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) } # TODO find out whether to remove
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
@@ -31,9 +31,14 @@ class Role < ActiveRecord::Base
   before_destroy :check_deletable
 
   has_many :user_roles, :dependent => :destroy
-  has_many :users, :through => :user_roles
+  has_many :users, :through => :user_roles, :source => :owner, :source_type => 'User'
+  has_many :usergroups, :through => :user_roles, :source => :owner, :source_type => 'Usergroup'
+  has_many :cached_user_roles, :dependent => :destroy
+  has_many :cached_users, :through => :cached_user_roles, :source => :user
 
-  serialize :permissions, Array
+  has_many :filters, :dependent => :destroy
+
+  has_many :permissions, :through => :filters
   attr_protected :builtin
 
   validates :name, :presence => true, :uniqueness => true,  :length => {:maximum => 30}, :format => {:with => /\A\w[\w\s\'\-]*\w\Z/i}
@@ -46,36 +51,13 @@ class Role < ActiveRecord::Base
     self.builtin = 0
   end
 
-  def permissions
-    read_attribute(:permissions) || []
-  end
-
-  def permissions=(perms)
-    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
-    write_attribute(:permissions, perms)
-  end
-
-  def add_permission!(*perms)
-    self.permissions = [] unless permissions.is_a?(Array)
-
-    permissions_will_change!
-    perms.each do |p|
-      p = p.to_sym
-      permissions << p unless permissions.include?(p)
-    end
-    save!
-  end
-
-  def remove_permission!(*perms)
-    return unless permissions.is_a?(Array)
-    permissions_will_change!
-    perms.each { |p| permissions.delete(p.to_sym) }
-    save!
-  end
-
   # Returns true if the role has the given permission
   def has_permission?(perm)
-    !permissions.nil? && permissions.include?(perm.to_sym)
+    permission_names.include?(perm.to_sym)
+  end
+
+  def permission_names
+    @permission_names ||= permissions.map { |p| p.name.to_sym }
   end
 
   # Return true if the role is a builtin role
@@ -94,6 +76,7 @@ class Role < ActiveRecord::Base
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     if action.is_a? Hash
+      action[:controller] = action[:controller][1..-1] if action[:controller].starts_with?('/')
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
       allowed_permissions.include? action
@@ -101,6 +84,7 @@ class Role < ActiveRecord::Base
   end
 
   # Return all the permissions that can be given to the role
+  # TODO remove when removing old permission views
   def setable_permissions
     setable_permissions  = Foreman::AccessControl.permissions - Foreman::AccessControl.public_permissions
     setable_permissions -= Foreman::AccessControl.loggedin_only_permissions if self.builtin == BUILTIN_ANONYMOUS
@@ -140,7 +124,7 @@ class Role < ActiveRecord::Base
 
 private
   def allowed_permissions
-    @allowed_permissions ||= permissions + Foreman::AccessControl.public_permissions.collect {|p| p.name}
+    @allowed_permissions ||= permission_names + Foreman::AccessControl.public_permissions.map(&:name)
   end
 
   def allowed_actions

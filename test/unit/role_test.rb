@@ -66,25 +66,6 @@ class RoleTest < ActiveSupport::TestCase
     role.must_be :valid?
   end
 
-  def test_add_permission
-    role = Role.find(1)
-    size = role.permissions.size
-    role.add_permission!("apermission", "anotherpermission")
-    role.reload
-    assert role.permissions.include?(:anotherpermission)
-    assert_equal size + 2, role.permissions.size
-  end
-
-  def test_remove_permission
-    role = Role.find(1)
-    size = role.permissions.size
-    perm = role.permissions[0..1]
-    role.remove_permission!(*perm)
-    role.reload
-    assert ! role.permissions.include?(perm[0])
-    assert_equal size - 2, role.permissions.size
-  end
-
   context "System roles" do
     should "return the anonymous role" do
       role = Role.anonymous
@@ -97,6 +78,7 @@ class RoleTest < ActiveSupport::TestCase
         role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
         user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 
@@ -126,6 +108,7 @@ class RoleTest < ActiveSupport::TestCase
         role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
         user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 

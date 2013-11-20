@@ -2,10 +2,9 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_hostgroup, :only => [:edit, :update, :destroy, :clone]
-
   def index
-    @hostgroups = Hostgroup.my_groups.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @hostgroups = Hostgroup.authorized(:view_hostgroups).my_groups.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @authorizer = Authorizer.new(User.current, @hostgroups)
   end
 
   def new
@@ -13,7 +12,7 @@ class HostgroupsController < ApplicationController
   end
 
   def nest
-    @parent = Hostgroup.find(params[:id])
+    @parent = find_hostgroup
     @hostgroup = Hostgroup.new(:parent_id => @parent.id)
 
     load_vars_for_ajax
@@ -27,6 +26,7 @@ class HostgroupsController < ApplicationController
 
   # Clone the hostgroup
   def clone
+    @hostgroup = find_hostgroup
     new = @hostgroup.dup
     load_vars_for_ajax
     new.puppetclasses = @hostgroup.puppetclasses
@@ -56,12 +56,12 @@ class HostgroupsController < ApplicationController
   end
 
   def edit
-    auth  = User.current.admin? ? true : Hostgroup.my_groups.include?(@hostgroup)
-    not_found and return unless auth
+    @hostgroup = find_hostgroup(:edit_hostgroups)
     load_vars_for_ajax
   end
 
   def update
+    @hostgroup = find_hostgroup(:edit_hostgroups)
     # remove from hash :root_pass if blank?
     params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
     if @hostgroup.update_attributes(params[:hostgroup])
@@ -73,6 +73,7 @@ class HostgroupsController < ApplicationController
   end
 
   def destroy
+    @hostgroup = find_hostgroup(:destroy_hostgroups)
     begin
       if @hostgroup.destroy
         process_success
@@ -96,7 +97,7 @@ class HostgroupsController < ApplicationController
 
   def process_hostgroup
 
-    @parent = Hostgroup.find(params[:hostgroup][:parent_id]) if params[:hostgroup][:parent_id].to_i > 0
+    @parent = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:parent_id]) if params[:hostgroup][:parent_id].to_i > 0
     return head(:not_found) unless @parent
 
     @hostgroup = Hostgroup.new(params[:hostgroup])
@@ -117,8 +118,8 @@ class HostgroupsController < ApplicationController
 
   private
 
-  def find_hostgroup
-    @hostgroup = Hostgroup.find(params[:id])
+  def find_hostgroup(permission = :view_hostgroups)
+    Hostgroup.authorized(permission).find(params[:id])
   end
 
   def load_vars_for_ajax

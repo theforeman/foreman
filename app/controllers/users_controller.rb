@@ -2,14 +2,15 @@ class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::UsersMixin
 
-  before_filter :find_resource, :only => [:edit, :update, :destroy]
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
   skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_filter :authorize, :only => :extlogin
   after_filter       :update_activity_time, :only => :login
+  skip_before_filter :update_admin_flag, :only => :update
 
   def index
-    @users = User.search_for(params[:search], :order => params[:order]).includes(:auth_source).paginate(:page => params[:page])
+    @users = User.authorized(:view_users).search_for(params[:search], :order => params[:order]).includes(:auth_source).paginate(:page => params[:page])
+    @authorizer = Authorizer.new(User.current, @users)
   end
 
   def new
@@ -26,6 +27,7 @@ class UsersController < ApplicationController
 
   def edit
     editing_self?
+    @user = find_resource(:edit_users)
     if @user.user_facts.count == 0
       user_fact = @user.user_facts.build :operator => "==", :andor => "or"
       user_fact.fact_name_id = FactName.first.id if FactName.first
@@ -33,6 +35,9 @@ class UsersController < ApplicationController
   end
 
   def update
+    editing_self?
+    @user = find_resource(:edit_users)
+    update_admin_flag
     if @user.update_attributes(params[:user])
       update_sub_hostgroups_owners
 
@@ -43,6 +48,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = find_resource(:destroy_users)
     if @user == User.current
       notice _("You are currently logged in, suicidal?")
       redirect_to :back and return
@@ -102,8 +108,8 @@ class UsersController < ApplicationController
 
   private
 
-  def find_resource
-    @user ||= User.find(params[:id])
+  def find_resource(permission = :view_users)
+    editing_self? ? User.current : User.authorized(permission).find(params[:id])
   end
 
   def login_user(user)

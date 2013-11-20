@@ -46,7 +46,7 @@ class ImagesController < ApplicationController
   private
 
   def find_compute_resource
-    @compute_resource = ComputeResource.find(params[:compute_resource_id])
+    @compute_resource = ComputeResource.authorized(:view_compute_resources).find(params[:compute_resource_id])
   end
 
 end
