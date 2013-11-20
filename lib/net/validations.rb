@@ -1,8 +1,10 @@
 module Net
   module Validations
 
-    IP_REGEXP  = /^(\d{1,3}\.){3}\d{1,3}$/
-    MAC_REGEXP = /^([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}$/i
+    IP_REGEXP  = /\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\z/
+    MAC_REGEXP = /\A([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}\z/i
+    HOST_REGEXP = /\A(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\z/
+
     class Error < RuntimeError;
     end
 
@@ -16,6 +18,12 @@ module Net
     def validate_mac mac
       raise Error, "Invalid MAC #{mac}" unless (mac =~ MAC_REGEXP)
       mac
+    end
+
+    # validates the hostname
+    def validate_hostname hostname
+      raise Error, "Invalid Hostname #{hostname}" unless (hostname =~ HOST_REGEXP)
+      hostname
     end
 
     def validate_network network
@@ -45,5 +53,10 @@ module Net
           m.split("-").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
       end
     end
+
+   def self.normalize_hostname hostname
+     hostname.downcase! if hostname.present?
+     hostname
+   end
   end
 end

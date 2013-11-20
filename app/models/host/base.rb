@@ -10,9 +10,11 @@ module Host
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
 
-    alias_attribute :hostname, :name
-    validates :name, :presence => true, :uniqueness => true
-    validate :is_name_downcased?
+    alias_attribute        :hostname, :name
+    before_validation      :normalize_name
+    validates :name,       :presence => true,
+                           :uniqueness => true,
+                           :format => {:with => Net::Validations::HOST_REGEXP}
     validates_inclusion_of :owner_type,
                            :in          => OWNER_TYPES,
                            :allow_blank => true,
@@ -111,11 +113,6 @@ module Host
       end
     end
 
-    def is_name_downcased?
-      return unless name.present?
-      errors.add(:name, _("must be lowercase")) unless name == name.downcase
-    end
-
     def facts_hash
       hash = {}
       fact_values.includes(:fact_name).collect do |fact|
@@ -135,5 +132,8 @@ module Host
         comparison_object.id == id
     end
 
+    def normalize_name
+      self.name = Net::Validations.normalize_hostname(name) if self.name.present?
+    end
   end
 end
