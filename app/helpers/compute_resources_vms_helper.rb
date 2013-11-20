@@ -56,6 +56,12 @@ module ComputeResourcesVmsHelper
     select
   end
 
+  def vsphere_datastores(compute)
+    compute.datastores.map { |ds|
+      [ds.freespace && ds.capacity ? "#{ds.name} (#{_('free')}: #{number_to_human_size(ds.freespace)}, #{_('total')}: #{number_to_human_size(ds.capacity)})" : ds.name, ds.name]
+    }
+  end
+
   def available_actions(vm)
     case vm
     when Fog::Compute::OpenStack::Server
