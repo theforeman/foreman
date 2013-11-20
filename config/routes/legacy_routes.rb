@@ -1,18 +1,9 @@
 require 'api_constraints'
 
 Foreman::Application.routes.draw do
-  #ENC requests goes here
-  match "node/:name" => 'systems#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
 
-  resources :reports, :only => [:index, :show, :destroy] do
-    collection do
-      get 'auto_complete_search'
-    end
-  end
-
-  match '(:controller)/help', :action => 'welcome', :as => "help"
   constraints(:id => /[^\/]+/) do
-    resources :systems do
+    resources :systems, :path => :hosts, :as => :old_hosts do
       member do
         get 'clone'
         get 'storeconfig_klasses'
@@ -71,7 +62,7 @@ Foreman::Application.routes.draw do
         post 'update_multiple_location'
       end
 
-      constraints(:system_id => /[^\/]+/) do
+      constraints(:host_id => /[^\/]+/) do
         resources :reports       ,:only => [:index, :show]
         resources :audits        ,:only => :index
         resources :facts         ,:only => :index, :controller => :fact_values
@@ -79,47 +70,9 @@ Foreman::Application.routes.draw do
       end
     end
 
-
-    resources :bookmarks, :except => [:show]
-    resources :lookup_keys, :except => [:show, :new, :create] do
-      resources :lookup_values, :only => [:index, :create, :update, :destroy]
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
-    resources :facts, :only => [:index, :show] do
-      constraints(:id => /[^\/]+/) do
-        resources :values, :only => :index, :controller => :fact_values, :as => "system_fact_values"
-      end
-    end
-
   end
 
-  resources :settings, :only => [:index, :update] do
-    collection do
-      get 'auto_complete_search'
-    end
-  end
-  resources :common_parameters, :except => [:show] do
-    collection do
-      get 'auto_complete_search'
-    end
-  end
-  resources :environments, :except => [:show] do
-    collection do
-      get 'import_environments'
-      post 'obsolete_and_new'
-      get 'auto_complete_search'
-    end
-  end
-  resources :trends do
-    collection do
-      post 'count'
-    end
-  end
-
-  resources :system_groups, :except => [:show] do
+  resources :system_groups, :path => :hostgroups, :as => :old_hostgroups, :except => [:show] do
     member do
       get 'nest'
       get 'clone'
@@ -137,184 +90,18 @@ Foreman::Application.routes.draw do
   end
 
   resources :puppetclasses, :except => [:show] do
-    collection do
-      get 'import_environments'
-      post 'obsolete_and_new'
-      get 'auto_complete_search'
-    end
-    member do
-      post 'parameters'
-    end
     constraints(:id => /[^\/]+/) do
-      resources :systems
-      resources :lookup_keys, :except => [:show, :new, :create]
+      resources :systems, :path => :hosts, :as => :old_host
     end
   end
-
-
-  resources :smart_proxies, :except => [:show] do
-    member do
-      post 'ping'
-      put 'refresh'
-    end
-    constraints(:id => /[^\/]+/) do
-      resources :puppetca, :only => [:index, :update, :destroy]
-      resources :autosign, :only => [:index, :new, :create, :destroy]
-    end
-  end
-
-  resources :fact_values, :only => [:index] do
-    collection do
-      get 'auto_complete_search'
-    end
-  end
-
-  resources :notices, :only => :destroy
-  resources :audits do
-    collection do
-      get 'auto_complete_search'
-    end
-  end
-
-  if SETTINGS[:login]
-    resources :usergroups, :except => [:show]
-    resources :users, :except => [:show] do
-      collection do
-        get 'login'
-        post 'login'
-        get 'logout'
-        get 'extlogin'
-        get 'extlogout'
-        get 'auth_source_selected'
-        get 'auto_complete_search'
-      end
-    end
-    resources :roles, :except => [:show] do
-      collection do
-        get 'report'
-        post 'report'
-        get 'auto_complete_search'
-      end
-    end
-
-    resources :auth_source_ldaps, :except => [:show]
-  end
-
-  if SETTINGS[:unattended]
-    resources :config_templates, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-        get 'build_pxe_default'
-        get 'revision'
-      end
-    end
-    constraints(:id => /[^\/]+/) do
-      resources :domains, :except => [:show] do
-        collection do
-          get 'auto_complete_search'
-        end
-      end
-    end
-
-    resources :operatingsystems, :except => [:show] do
-      member do
-        get 'bootfiles'
-      end
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-    resources :media, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
-    resources :models, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
-    resources :architectures, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
-    resources :ptables, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
-    constraints(:id => /[^\/]+/) do
-      resources :compute_resources do
-        member do
-          post 'hardware_profile_selected'
-          post 'cluster_selected'
-          post 'ping'
-          put 'associate'
-        end
-        constraints(:id => /[^\/]+/) do
-          resources :vms, :controller => "compute_resources_vms" do
-            member do
-              put 'power'
-              put 'pause'
-              put 'associate'
-              get 'console'
-            end
-          end
-        end
-        collection do
-          get  'auto_complete_search'
-          get 'provider_selected'
-          put  'test_connection'
-        end
-        resources :images, :except => [:show]
-      end
-    end
-
-    resources :subnets, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-        get 'import'
-        post 'create_multiple'
-        post 'freeip'
-      end
-    end
-
-    match 'unattended/template/:id/:system_group', :to => "unattended#template"
-  end
-
-  root :to => 'dashboard#index'
-  match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
-  match 'dashboard/auto_complete_search', :to => 'systems#auto_complete_search', :as => "auto_complete_search_dashboards"
-  match 'statistics', :to => 'statistics#index', :as => "statistics"
-  match 'status', :to => 'home#status', :as => "status"
-
-  # match for all unattended scripts
-  match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
-
-  resources :tasks, :only => [:show]
 
   if SETTINGS[:locations_enabled]
     resources :locations, :except => [:show] do
-      resources :systems, :only => :index
+      resources :systems, :path => :hosts, :as => :old_hosts, :only => :index
       member do
-        get 'select'
-        match "clone" => 'locations#clone_taxonomy'
-        post 'import_mismatches'
-        get 'step2'
-        get 'assign_systems'
-        post 'assign_all_systems'
-        put 'assign_selected_systems'
-      end
-      collection do
-        get 'auto_complete_search'
-        get 'clear'
-        get  'mismatches'
-        post 'import_mismatches'
+        get 'assign_hosts'
+        post 'assign_all_hosts'
+        put 'assign_selected_hosts'
       end
     end
   end
@@ -322,24 +109,11 @@ Foreman::Application.routes.draw do
   if SETTINGS[:organizations_enabled]
     resources :organizations, :except => [:show] do
       member do
-        get 'select'
-        match "clone" => 'organizations#clone_taxonomy'
-        post 'import_mismatches'
-        get 'step2'
-        get 'assign_systems'
-        post 'assign_all_systems'
-        put 'assign_selected_systems'
-      end
-      collection do
-        get 'auto_complete_search'
-        get 'clear'
-        get  'mismatches'
-        post 'import_mismatches'
+        get 'assign_hosts'
+        post 'assign_all_hosts'
+        put 'assign_selected_hosts'
       end
     end
-  end
-
-  resources :about, :only => :index do
   end
 
 end
