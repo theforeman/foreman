@@ -310,7 +310,7 @@ class Api::V2::SystemsControllerTest < ActionController::TestCase
     facts    = fact_json['facts']
     post :facts, {:name => systemname, :facts => facts, :type => "System::Invalid"}, set_session_user
     assert_response :unprocessable_entity
-    assert_equal JSON.parse(response.body)['message'], 'ERF51-2640: A problem occurred when detecting system type: uninitialized constant System::Invalid'
+    assert_equal JSON.parse(response.body)['message'], 'ERF51-7324: A problem occurred when detecting system type: uninitialized constant System::Invalid'
   end
 
   test "when the imported system failed to save, :unprocessable_entity is returned" do
