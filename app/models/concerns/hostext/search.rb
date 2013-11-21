@@ -20,8 +20,10 @@ module Hostext
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("pending"),         :word_size => Report::BIT_NUM, :rename => :'status.pending'
 
       scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
-      scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
-      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :name,    :complete_value => false, :rename => :hostgroup
+      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => false, :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :system_group
+      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :system_group_fullname
       scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
       scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture

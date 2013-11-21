@@ -29,15 +29,17 @@ class Hostgroup < ActiveRecord::Base
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
-    with_taxonomy_scope do
-      order("hostgroups.label")
-    end
+    #with_taxonomy_scope do
+      # temporarily comment out, causing errors in scoped search
+      #order("hostgroups.label")
+    #end
   }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :label, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
-  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
+  scoped_search :in => :hosts, :on => :name, :complete_value => :false, :rename => "host"
+  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "system"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
   if SETTINGS[:unattended]

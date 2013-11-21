@@ -30,7 +30,8 @@ class ConfigTemplate < ActiveRecord::Base
 
   scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
   scoped_search :in => :environments,     :on => :name, :rename => :environment,     :complete_value => true
-  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
+  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => false
+  scoped_search :in => :hostgroups,       :on => :name, :rename => :system_group,    :complete_value => true
   scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
   class Jail < Safemode::Jail

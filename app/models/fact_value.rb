@@ -8,8 +8,10 @@ class FactValue < ActiveRecord::Base
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
-  scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
-  scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
+  scoped_search :in => :host, :on => :name, :rename => :host
+  scoped_search :in => :host, :on => :name, :rename => :system, :complete_value => true
+  scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => false
+  scoped_search :in => :hostgroup, :on => :name, :rename => :"system.system_hostgroup", :complete_value => true
 
   scope :no_timestamp_facts, lambda {
               includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
