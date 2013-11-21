@@ -33,6 +33,7 @@ class GroupParameterTest < ActiveSupport::TestCase
     as_admin do
       role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
       role.permissions = ["#{operation}_#{type}".to_sym]
+      role.save!
       @one.roles = [role]
       @one.hostgroups.destroy_all
       @one.save!

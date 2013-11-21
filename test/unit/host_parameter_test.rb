@@ -40,6 +40,7 @@ class HostParameterTest < ActiveSupport::TestCase
     as_admin do
       role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
       role.permissions = ["#{operation}_#{type}".to_sym]
+      role.save!
       @one.roles      = [role]
       @one.domains.destroy_all
       @one.hostgroups.destroy_all

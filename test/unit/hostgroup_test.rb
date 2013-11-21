@@ -28,14 +28,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_hostgroup"
-      role.permissions = ["#{operation}_hostgroups".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+    super operation, "hostgroups"
   end
 
   test "user with create permissions should be able to create" do

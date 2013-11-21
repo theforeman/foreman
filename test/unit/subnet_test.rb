@@ -87,14 +87,7 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_subnets"
-      role.permissions = ["#{operation}_subnets".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+    super operation, "subnets"
   end
 
   test "user with create permissions should be able to create" do

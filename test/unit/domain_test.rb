@@ -78,6 +78,7 @@ class DomainTest < ActiveSupport::TestCase
       role = Role.find_or_create_by_name :name => "#{operation}_domains"
       role.permissions = ["#{operation}_domains".to_sym]
       @one.roles = [role]
+      role.save!
       @one.domains.destroy_all
       @one.save!
     end

@@ -836,6 +836,7 @@ class HostTest < ActiveSupport::TestCase
     as_admin do
       role = Role.find_or_create_by_name :name => "testing_role"
       role.permissions = [:edit_hosts]
+      role.save!
       @one.roles = [role]
       @one.save!
     end

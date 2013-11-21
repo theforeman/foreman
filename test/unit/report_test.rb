@@ -69,6 +69,7 @@ class ReportTest < ActiveSupport::TestCase
     as_admin do
       role = Role.find_or_create_by_name :name => "#{operation}_reports"
       role.permissions = ["#{operation}_reports".to_sym]
+      role.save!
       @one.roles = [role]
       @one.save!
       @r.save!

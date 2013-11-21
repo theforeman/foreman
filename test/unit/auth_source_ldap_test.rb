@@ -176,14 +176,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_authenticators"
-      role.permissions = ["#{operation}_authenticators".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+    super operation, "authenticators"
   end
 
   test "user with create permissions should be able to create" do

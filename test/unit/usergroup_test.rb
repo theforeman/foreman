@@ -89,12 +89,13 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
   end
 
-  test "cannot be destroyed when in use by another usergroup" do
+  test "can be destroyed when in use by another usergroup, it removes association automatically" do
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
     @ug2 = Usergroup.find_or_create_by_name :name => "ug2"
     @ug1.usergroups = [@ug2]
-    @ug1.destroy
-    assert @ug1.errors.full_messages[0] == "ug1 is used by ug2"
+    assert @ug1.destroy
+    assert @ug2.reload
+    assert_empty UsergroupMember.where(:member_id => @ug2.id)
   end
 
   test "removes user join model records" do
@@ -107,14 +108,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_usergroups"
-      role.permissions = ["#{operation}_usergroups".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+    super operation, "usergroups"
   end
 
   test "user with create permissions should be able to create" do

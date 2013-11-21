@@ -45,14 +45,7 @@ class CommonParameterTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_global_variables"
-      role.permissions = ["#{operation}_global_variables".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+    super operation, "global_variables"
   end
 
   test "user with create permissions should be able to create" do

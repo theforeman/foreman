@@ -28,14 +28,7 @@ class PuppetclassTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_puppetclasses"
-      role.permissions = ["#{operation}_puppetclasses".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+    super operation, "puppetclasses"
   end
 
   test "user with create permissions should be able to create" do
@@ -104,6 +97,7 @@ class PuppetclassTest < ActiveSupport::TestCase
     as_admin do
       role = Role.find_or_create_by_name :name => "testing_role"
       role.permissions = [:edit_puppetclasses, :create_external_variables]
+      role.save!
       @one.roles = [role]
       @one.save!
     end

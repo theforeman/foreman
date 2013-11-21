@@ -31,6 +31,7 @@ class DomainParameterTest < ActiveSupport::TestCase
     as_admin do
       role = Role.find_or_create_by_name :name => "#{operation}_domains"
       role.permissions = ["#{operation}_domains".to_sym]
+      role.save!
       @one.roles = [role]
       @one.domains.destroy_all
       @one.save!
