@@ -8,7 +8,7 @@ class ConfigTemplate < ActiveRecord::Base
   validates :name, :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
-  has_many :hostgroups, :through => :template_combinations
+  has_many_hostgroups :through => :template_combinations
   has_many :environments, :through => :template_combinations
   has_many :template_combinations, :dependent => :destroy
   belongs_to :template_kind

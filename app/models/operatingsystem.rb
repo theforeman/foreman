@@ -7,7 +7,7 @@ class Operatingsystem < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
-  has_many :hostgroups
+  has_many_hostgroups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables

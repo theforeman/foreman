@@ -15,7 +15,7 @@ class Taxonomy < ActiveRecord::Base
   has_many :media, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Medium'
   has_many :config_templates, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ConfigTemplate'
   has_many :domains, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Domain'
-  has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
+  has_many_hostgroups :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
   has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
 

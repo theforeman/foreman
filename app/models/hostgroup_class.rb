@@ -1,7 +1,7 @@
 class HostgroupClass < ActiveRecord::Base
   include Authorization
   audited :associated_with => :hostgroup, :allow_mass_assignment => true
-  belongs_to :hostgroup
+  belongs_to_hostgroup
   belongs_to :puppetclass
 
   attr_accessible :hostgroup_id, :hostgroup, :puppetclass_id, :puppetclass

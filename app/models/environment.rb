@@ -7,7 +7,7 @@ class Environment < ActiveRecord::Base
   has_many :environment_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :environment_classes, :uniq => true
   has_many_hosts
-  has_many :hostgroups
+  has_many_hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[\w\d]+\Z/, :message => N_("is alphanumeric and cannot contain spaces") }
