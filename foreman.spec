@@ -13,8 +13,8 @@
 %endif
 
 Name:   foreman
-Version: 1.3.9999
-Release: 7%{?dist}
+Version: 1.4.0
+Release: 0.develop%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -447,7 +447,6 @@ ln -sv %{_localstatedir}/log/%{name} %{buildroot}%{_datadir}/%{name}/log
 
 # Put tmp files in %{_localstatedir}/run/%{name}
 ln -sv %{_localstatedir}/run/%{name} %{buildroot}%{_datadir}/%{name}/tmp
-echo %{version} > %{buildroot}%{_datadir}/%{name}/VERSION
 
 %clean
 rm -rf %{buildroot}
@@ -547,6 +546,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
+- Bump and change versioning scheme, don't overwrite VERSION (#3712)
+
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage
 
