@@ -28,3 +28,5 @@ module Host
   end
 
 end
+
+System = Host
