@@ -12,7 +12,7 @@ Foreman::Application.routes.draw do
 
   match '(:controller)/help', :action => 'welcome', :as => "help"
   constraints(:id => /[^\/]+/) do
-    resources :hosts do
+    resources :hosts, :path => :systems do
       member do
         get 'clone'
         get 'storeconfig_klasses'
@@ -119,7 +119,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :hostgroups, :except => [:show] do
+  resources :hostgroups, :path => :system_groups, :except => [:show] do
     member do
       get 'nest'
       get 'clone'
@@ -146,7 +146,7 @@ Foreman::Application.routes.draw do
       post 'parameters'
     end
     constraints(:id => /[^\/]+/) do
-      resources :hosts
+      resources :hosts, :path => :systems
       resources :lookup_keys, :except => [:show, :new, :create]
     end
   end
@@ -300,15 +300,15 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:locations_enabled]
     resources :locations, :except => [:show] do
-      resources :hosts, :only => :index
+      resources :hosts, :path => :systems, :only => :index
       member do
         get 'select'
         match "clone" => 'locations#clone_taxonomy'
         post 'import_mismatches'
         get 'step2'
-        get 'assign_hosts'
-        post 'assign_all_hosts'
-        put 'assign_selected_hosts'
+        get 'assign_systems', :to => 'locations#assign_hosts', :as => "assign_hosts"
+        post 'assign_all_systems', :to => 'locations#assign_all_hosts', :as => 'assign_all_hosts'
+        put 'assign_selected_systems', :to => 'locations#assign_all_hosts', :as => 'assign_selected_hosts'
       end
       collection do
         get 'auto_complete_search'
@@ -326,9 +326,9 @@ Foreman::Application.routes.draw do
         match "clone" => 'organizations#clone_taxonomy'
         post 'import_mismatches'
         get 'step2'
-        get 'assign_hosts'
-        post 'assign_all_hosts'
-        put 'assign_selected_hosts'
+        get 'assign_systems', :to => 'organizations#assign_hosts', :as => "assign_hosts"
+        post 'assign_all_systems', :to => 'organizations#assign_all_hosts', :as => 'assign_all_hosts'
+        put 'assign_selected_systems', :to => 'organizations#assign_all_hosts', :as => 'assign_selected_hosts'
       end
       collection do
         get 'auto_complete_search'
