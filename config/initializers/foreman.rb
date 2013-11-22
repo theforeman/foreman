@@ -1,5 +1,6 @@
 require 'foreman/access_permissions'
 require 'foreman/default_data/loader'
+require 'menu/loader'
 require 'foreman/renderer'
 require 'foreman/controller'
 require 'net'
@@ -19,6 +20,9 @@ end
 
 # We load the default settings for the roles if they are not already present
 Foreman::DefaultData::Loader.load(false)
+
+#load topbar
+Menu::Loader.load
 
 # clear our users topbar cache
 begin

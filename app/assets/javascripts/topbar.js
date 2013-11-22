@@ -6,15 +6,33 @@ $(function() {
     'position': 'static'
   });
 
-  $("[class^='menu_tab_']").removeClass('active');
-  $('.menu_tab_settings').addClass($('#current_tab').attr('data-settings'));
-  $('.menu_tab_'+$('#current_tab').attr('data-controller')).addClass('active').next('.dropdown').addClass('active');
+  mark_active_menu();
 
   $('.dropdown-toggle').dropdown();
   if(!is_mobile()){
     $(window).on('scroll', function() {onScroll(this)});
   }
 })
+
+//open main menu on hover
+$(document).on('mouseenter', '.dropdown.menu_tab_dropdown', function(){
+  if(!$(this).hasClass('open')){
+    $(this).find('.dropdown-toggle:first').click();
+  }
+});
+
+function mark_active_menu() {
+  $("[class^='menu_tab_']").removeClass('active');
+  // if there is no menu for controller_action mark controller_index as active menu
+  var active_menu = $('.menu_tab_'+$('#current_tab').data('controller')+'_'+$('#current_tab').data('action'))
+  if (!active_menu.exists()){
+    active_menu = $('.menu_tab_'+$('#current_tab').data('controller')+'_index')
+  }
+  active_menu.addClass('active');
+  $('.menu_tab_dropdown').each(function(){
+    if ($(this).find('.active').length >0) {$(this).addClass('active')}
+  })
+}
 
 function is_mobile() {
   var check = false;

@@ -9,7 +9,7 @@ class TopBarTest < ActionDispatch::IntegrationTest
     end
     within("div.navbar-inner") do
       assert page.has_link?("Dashboard", :href => "/dashboard")
-      assert page.has_link?("Hosts", :href => "/hosts")
+      assert page.has_link?("All hosts", :href => "/hosts")
       assert page.has_link?("Reports", :href => "/reports?search=eventful+%3D+true")
       assert page.has_link?("Facts", :href => "/fact_values")
       assert page.has_link?("Audits", :href => "/audits")
@@ -29,7 +29,7 @@ class TopBarTest < ActionDispatch::IntegrationTest
   test "Hosts link" do
     visit root_path
     within("div.navbar-inner") do
-      click_link("Hosts")
+      click_link("All hosts")
     end
     assert page.has_selector?('h1', :text => "Hosts")
   end
