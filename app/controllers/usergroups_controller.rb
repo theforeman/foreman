@@ -27,6 +27,9 @@ class UsergroupsController < ApplicationController
     else
       process_error
     end
+  rescue Foreman::CyclicGraphException => e
+    @usergroup.errors[:usergroups] = e.record.errors[:base].join(' ')
+    process_error
   end
 
   def destroy

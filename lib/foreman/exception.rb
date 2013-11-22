@@ -42,4 +42,7 @@ module Foreman
     end
   end
 
+  class CyclicGraphException < ::ActiveRecord::RecordInvalid
+  end
+
 end

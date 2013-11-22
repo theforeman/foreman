@@ -6,8 +6,15 @@ class UsergroupMember < ActiveRecord::Base
   before_update :remove_old_cache_for_old_record
   after_update :add_new_cache
   after_destroy :remove_old_cache
+  before_validation :ensure_no_cycle
 
   private
+
+  def ensure_no_cycle
+    current = UsergroupMember.where("member_type = 'Usergroup'")
+    EnsureNoCycle.new(current, :usergroup_id, :member_id).ensure(self)
+  end
+
 
   def add_new_cache
     find_all_user_roles.each do |user_role|
