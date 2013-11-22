@@ -7,7 +7,7 @@ class CreatePtables < ActiveRecord::Migration
       t.references :operatingsystem
       t.timestamps
     end
-    Ptable.create :name => "RedHat default", :layout => <<EOF
+    Ptable.create :name => "Kickstart default", :layout => <<EOF
 #kind: ptable
 #name: Community Kickstart Disklayout
 #oses:
@@ -23,7 +23,7 @@ zerombr
 clearpart --all --initlabel
 autopart
 EOF
-    Ptable.create :name => "Ubuntu default", :layout => <<EOF
+    Ptable.create :name => "Preseed default", :layout => <<EOF
 #kind: ptable
 #name: Community Preseed Disklayout
 #oses:
