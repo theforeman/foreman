@@ -12,6 +12,6 @@ class CreateCachedUserRoles < ActiveRecord::Migration
     add_index :cached_user_roles, :user_id
     add_index :cached_user_roles, :role_id
     add_index :cached_user_roles, :user_role_id
-    #add_index :cached_user_roles, :user_membership_id
+    add_index :cached_user_roles, :user_membership_id
   end
 end

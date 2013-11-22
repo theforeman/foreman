@@ -167,6 +167,32 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
   end
 
+  test "diamond-with-tail usergroups, one of way is removed" do
+    @a = FactoryGirl.create :usergroup, :name => 'um_a'
+    @b = FactoryGirl.create :usergroup, :name => 'um_b'
+    @c = FactoryGirl.create :usergroup, :name => 'um_c'
+    @d = FactoryGirl.create :usergroup, :name => 'um_d'
+    @e = FactoryGirl.create :usergroup, :name => 'um_e'
+    @a.usergroups = [@b, @c]
+    @b.usergroups = [@d]
+    @c.usergroups = [@d]
+    @d.usergroups = [@e]
+
+    @user1 = FactoryGirl.create(:user, :login => 'um_user1')
+    @user2 = FactoryGirl.create(:user, :login => 'um_user2')
+    @user1.usergroups = [@d]
+    @user2.usergroups = [@e]
+    @role = FactoryGirl.create(:role, :name => 'um_role')
+    @role_ur  = FactoryGirl.create :user_group_user_role, :owner => @a, :role => @role
+
+    assert_includes @user1.cached_user_roles.map(&:role), @role
+    assert_includes @user2.cached_user_roles.map(&:role), @role
+
+    @c.usergroups = []
+    assert_includes @user1.reload.cached_user_roles.map(&:role), @role
+    assert_includes @user2.reload.cached_user_roles.map(&:role), @role
+  end
+
   test "user is in two joined groups, first membership is removed" do
     setup_redundant_scenario
 

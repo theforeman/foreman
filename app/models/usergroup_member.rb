@@ -22,8 +22,8 @@ class UsergroupMember < ActiveRecord::Base
   def add_new_cache
     find_all_user_roles.each do |user_role|
       find_all_affected_memberships.each do |membership|
-        CachedUserRole.create!(:user => membership.member, :role => user_role.role,
-                               :user_role => user_role, :user_membership => membership)
+        CachedUserRole.build_cache!(:user      => membership.member, :role => user_role.role,
+                                    :user_role => user_role, :user_membership => membership)
       end
     end
   end
@@ -42,6 +42,13 @@ class UsergroupMember < ActiveRecord::Base
 
   def remove_old_cache
     drop_cache(find_all_affected_memberships, find_all_user_roles)
+    # we need to recache records that may got deleted unintentionally
+    # we can't detect exact records to delete since we'd have to distinguish by whole path
+    if member.is_a?(Usergroup)
+      find_all_affected_memberships_for(member).flatten.each do |membership|
+        membership.save!
+      end
+    end
   end
 
   def drop_cache(memberships, user_roles)
@@ -49,14 +56,17 @@ class UsergroupMember < ActiveRecord::Base
   end
 
   def find_all_affected_memberships
-    find_all_affected_memberships_for(member).flatten
+    # member can be nil when we destroyed this membership and we're recreating cache
+    member.nil? ? [] : find_all_affected_memberships_for(member).flatten
   end
 
   def find_all_affected_memberships_for(member)
     if member.is_a?(User)
       [self]
-    else
+    elsif member.is_a?(Usergroup)
       [member.usergroup_members.user_memberships + member.usergroups.map { |g| find_all_affected_memberships_for(g) }]
+    else
+      raise ArgumentError, "Unknown member type #{member}"
     end
   end
 

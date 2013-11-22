@@ -8,4 +8,8 @@ class CachedUserRole < ActiveRecord::Base
   belongs_to :user_role
   # this UsergroupMember created this cache (User membership)
   belongs_to :user_membership, :class_name => UsergroupMember
+
+  def self.build_cache!(attributes)
+    create!(attributes)
+  end
 end
