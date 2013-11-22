@@ -14,7 +14,7 @@
 
     <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :name, :help_inline => _("e.g. RedHat") %>
+      <%= text_f f, :name, :help_inline => _("e.g. Red Hat") %>
       <%= text_f f, :major, :help_inline => _("e.g. 6"), :class => "input-small" %>
       <%= text_f f, :minor, :help_inline => _("e.g. 2"), :class => "input-small" %>
       <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")},
