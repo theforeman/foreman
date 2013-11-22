@@ -29,14 +29,12 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "searching for affected users memberships" do
     setup_admins_scenario
 
-    found = @semiadmins.usergroup_members.where("member_type = 'Usergroup'").first.send :find_all_affected_memberships
-    found.map! { |m| m.member }
+    found = @semiadmins.usergroup_members.where("member_type = 'Usergroup'").first.send :find_all_affected_users
     assert_includes found, @admin_user
     assert_includes found, @superadmin_user
     assert_not_includes found, @semiadmin_user
 
-    found = @superadmins.usergroup_members.where("member_type = 'User'").first.send :find_all_affected_memberships
-    found.map! { |m| m.member }
+    found = @superadmins.usergroup_members.where("member_type = 'User'").first.send :find_all_affected_users
     assert_not_includes found, @admin_user
     assert_not_includes found, @semiadmin_user
     assert_includes found, @superadmin_user

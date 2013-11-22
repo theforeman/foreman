@@ -21,9 +21,9 @@ class UsergroupMember < ActiveRecord::Base
 
   def add_new_cache
     find_all_user_roles.each do |user_role|
-      find_all_affected_memberships.each do |membership|
-        CachedUserRole.build_cache!(:user      => membership.member, :role => user_role.role,
-                                    :user_role => user_role, :user_membership => membership)
+      find_all_affected_users.each do |user|
+        CachedUserRole.build_cache!(:user      => user, :role => user_role.role,
+                                    :user_role => user_role)
       end
     end
   end
@@ -34,25 +34,37 @@ class UsergroupMember < ActiveRecord::Base
     klass = self.member_type.constantize
 
     klass = self.member_type_was.constantize if member_type_changed?
-    users = find_all_affected_memberships_for(klass.find(member_id_was)).flatten if member_id_changed?
+    users = find_all_affected_users_for(klass.find(member_id_was)).flatten if member_id_changed?
     roles = find_all_user_roles_for(Usergroup.find(usergroup_id_was)).flatten if usergroup_id_changed?
 
-    drop_cache(users || find_all_affected_memberships, roles || find_all_user_roles)
+    drop_cache(users || find_all_affected_users, roles || find_all_user_roles)
   end
 
   def remove_old_cache
-    drop_cache(find_all_affected_memberships, find_all_user_roles)
+    drop_cache(find_all_affected_users, find_all_user_roles)
     # we need to recache records that may got deleted unintentionally
     # we can't detect exact records to delete since we'd have to distinguish by whole path
-    if member.is_a?(Usergroup)
-      find_all_affected_memberships_for(member).flatten.each do |membership|
-        membership.save!
-      end
+    find_all_affected_memberships.each do |membership|
+      membership.save!
     end
   end
 
-  def drop_cache(memberships, user_roles)
-    CachedUserRole.where(:user_role_id => user_roles.map(&:id), :user_membership_id => memberships.map(&:id)).destroy_all
+  def drop_cache(users, user_roles)
+    CachedUserRole.where(:user_role_id => user_roles.map(&:id), :user_id => users.map(&:id)).destroy_all
+  end
+
+  def find_all_affected_users
+    find_all_affected_users_for(member).flatten
+  end
+
+  def find_all_affected_users_for(member)
+    if member.is_a?(User)
+      [member]
+    elsif member.is_a?(Usergroup)
+      [member.users + member.usergroups.map { |g| find_all_affected_users_for(g) }]
+    else
+      raise ArgumentError, "Unknown member type #{member}"
+    end
   end
 
   def find_all_affected_memberships
@@ -62,7 +74,7 @@ class UsergroupMember < ActiveRecord::Base
 
   def find_all_affected_memberships_for(member)
     if member.is_a?(User)
-      [self]
+      [member.usergroup_member]
     elsif member.is_a?(Usergroup)
       [member.usergroup_members.user_memberships + member.usergroups.map { |g| find_all_affected_memberships_for(g) }]
     else

@@ -60,9 +60,7 @@ class UserRole < ActiveRecord::Base
 
   def build_user_group_role_cache(owner)
     cache = []
-    cache += owner.usergroup_members.user_memberships.map do |m|
-      self.cached_user_roles.build(:user => m.member, :role => role, :user_membership => m)
-    end
+    cache += owner.users.map { |m| self.cached_user_roles.build(:user => m, :role => role) }
     cache += owner.usergroups.map { |g| build_user_group_role_cache(g) }
     cache.flatten
   end
