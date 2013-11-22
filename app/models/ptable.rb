@@ -8,7 +8,7 @@ class Ptable < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
-  has_many :hostgroups
+  has_many_hostgroups
   has_and_belongs_to_many :operatingsystems
   validates :layout, :presence => true
   validates :name, :uniqueness => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}

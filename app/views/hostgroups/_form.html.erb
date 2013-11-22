@@ -3,7 +3,7 @@
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('System group') %></a></li>
     <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
     <% if SETTINGS[:unattended] %>
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
@@ -52,7 +52,7 @@
       <h6><%= _('Puppet classes parameters') %></h6>
       <p/>
       <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
-      <h6><%= _('Host group parameters') %></h6>
+      <h6><%= _('System  group parameters') %></h6>
       <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p/>

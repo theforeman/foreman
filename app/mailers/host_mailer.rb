@@ -18,13 +18,13 @@ class HostMailer < ActionMailer::Base
 
     if options[:env]
       hosts = envhosts = options[:env].hosts
-      raise (_("unable to find any hosts for puppet environment=%s") % env) if envhosts.size == 0
+      raise (_("unable to find any systems for puppet environment=%s") % env) if envhosts.size == 0
       filter << "Environment=#{options[:env].name}"
     end
     name,value = options[:factname],options[:factvalue]
     if name and value
       facthosts = Host.search_for("facts.#{name}=#{value}")
-      raise (_("unable to find any hosts with the fact name=%{name} and value=%{value}") % { :name => name, :value => value }) if facthosts.empty?
+      raise (_("unable to find any systems with the fact name=%{name} and value=%{value}") % { :name => name, :value => value }) if facthosts.empty?
       filter << "Fact #{name}=#{value}"
       # if environment and facts are defined together, we use a merge of both
       hosts = envhosts.empty? ? facthosts : envhosts & facthosts

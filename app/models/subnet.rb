@@ -5,7 +5,7 @@ class Subnet < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
   has_many_hosts
-  has_many :hostgroups
+  has_many_hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"

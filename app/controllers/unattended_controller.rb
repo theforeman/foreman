@@ -88,7 +88,7 @@ class UnattendedController < ApplicationController
   def get_host_details
     @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
     unless @host
-      logger.info "#{controller_name}: unable to find a host that matches the request from #{request.env['REMOTE_ADDR']}"
+      logger.info "#{controller_name}: unable to find a system that matches the request from #{request.env['REMOTE_ADDR']}"
       head(:not_found) and return
     end
     unless @host.operatingsystem
@@ -235,7 +235,7 @@ class UnattendedController < ApplicationController
   # the form save)
   def update_ip
     ip = ip_from_request_env
-    logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
+    logger.debug "Built notice from #{ip}, current system ip is #{@host.ip}, updating" if @host.ip != ip
 
     # @host has been changed even if the save fails, so we have to change it back
     old_ip = @host.ip

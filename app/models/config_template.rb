@@ -8,7 +8,7 @@ class ConfigTemplate < ActiveRecord::Base
   validates :name, :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
-  has_many :hostgroups, :through => :template_combinations
+  has_many_hostgroups :through => :template_combinations
   has_many :environments, :through => :template_combinations
   has_many :template_combinations, :dependent => :destroy
   belongs_to :template_kind
@@ -30,7 +30,8 @@ class ConfigTemplate < ActiveRecord::Base
 
   scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
   scoped_search :in => :environments,     :on => :name, :rename => :environment,     :complete_value => true
-  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
+  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => false
+  scoped_search :in => :hostgroups,       :on => :name, :rename => :system_group,    :complete_value => true
   scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
   class Jail < Safemode::Jail

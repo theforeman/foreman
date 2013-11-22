@@ -7,7 +7,7 @@ class Medium < ActiveRecord::Base
 
   has_and_belongs_to_many :operatingsystems
   has_many_hosts
-  has_many :hostgroups
+  has_many_hostgroups
 
   # We need to include $ in this as $arch, $release, can be in this string
   VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/

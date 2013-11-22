@@ -10,7 +10,7 @@ class SmartProxy < ActiveRecord::Base
   has_many :subnets,                                          :foreign_key => 'dhcp_id'
   has_many :domains,                                          :foreign_key => 'dns_id'
   has_many_hosts                                              :foreign_key => 'puppet_proxy_id'
-  has_many :hostgroups,                                       :foreign_key => 'puppet_proxy_id'
+  has_many_hostgroups                                         :foreign_key => 'puppet_proxy_id'
   has_many :puppet_ca_hosts, :class_name => 'Host::Managed',  :foreign_key => 'puppet_ca_proxy_id'
   has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}

@@ -20,7 +20,7 @@ class ReportImporter
     logger.debug { "Report: #{raw.inspect}" }
 
     if host.new_record? && !Setting[:create_new_host_when_report_is_uploaded]
-      logger.info("skipping report for #{name} as its an unknown host and create_new_host_when_report_is_uploaded setting is disabled")
+      logger.info("skipping report for #{name} as its an unknown system and create_new_host_when_report_is_uploaded setting is disabled")
       return Report.new
     end
 

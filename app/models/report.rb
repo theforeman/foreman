@@ -12,7 +12,8 @@ class Report < ActiveRecord::Base
   validates :host_id, :status, :presence => true
   validates :reported_at, :presence => true, :uniqueness => {:scope => :host_id}
 
-  scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
+  scoped_search :in => :host,        :on => :name,  :complete_value => false, :rename => :host
+  scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :system
   scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
   scoped_search :in => :messages,    :on => :value,                          :rename => :log
   scoped_search :in => :sources,     :on => :value,                          :rename => :resource
@@ -89,7 +90,7 @@ class Report < ActiveRecord::Base
   # TODO: improve SQL query (so its not N+1 queries)
   def self.summarise(time = 1.day.ago, *hosts)
     list = {}
-    raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
+    raise ::Foreman::Exception.new(N_("invalid system list")) unless hosts
     hosts.flatten.each do |host|
       # set default of 0 per metric
       metrics = {}

@@ -3,12 +3,12 @@ require 'test_helper'
 class HostTest < ActionDispatch::IntegrationTest
 
   test "index page" do
-    assert_index_page(hosts_path,"Hosts","New Host")
+    assert_index_page(hosts_path,"Systems","New System")
   end
 
   test "create new page" do
-    assert_new_button(hosts_path,"New Host",new_host_path)
-    assert page.has_link?("Host", :href => "#primary")
+    assert_new_button(hosts_path,"New System",new_host_path)
+    assert page.has_link?("System", :href => "#primary")
     assert page.has_link?("Network", :href => "#network")
     assert page.has_link?("Operating System", :href => "#os")
     assert page.has_link?("Parameters", :href => "#params")

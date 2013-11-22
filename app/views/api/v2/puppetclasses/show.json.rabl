@@ -10,6 +10,10 @@ child :hostgroups, :object_root => false do
   attributes :id, :label
 end
 
+child :hostgroups, :object_root => false do
+  attributes :id, :label
+end
+
 node do |puppetclass|
   { :smart_variables => partial("api/v2/smart_variables/base", :object => puppetclass.lookup_keys) }
 end

@@ -5,7 +5,7 @@ class Puppetclass < ActiveRecord::Base
   has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
   has_many :hostgroup_classes, :dependent => :destroy
-  has_many :hostgroups, :through => :hostgroup_classes
+  has_many_hostgroups :through => :hostgroup_classes
   has_many :host_classes, :dependent => :destroy
   has_many_hosts :through => :host_classes
 
@@ -22,8 +22,10 @@ class Puppetclass < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
-  scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
-  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
+  scoped_search :in => :hostgroups,   :on => :name, :complete_value => :false, :rename => "hostgroup"
+  scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "system_group"
+  scoped_search :in => :hosts, :on => :name, :complete_value => :false, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
+  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "system", :ext_method => :search_by_host, :only_explicit => true
   scoped_search :in => :class_params, :on => :key, :complete_value => :true
 
   scope :not_in_any_environment, includes(:environment_classes).where(:environment_classes => {:environment_id => nil})

@@ -206,7 +206,7 @@ module ApplicationHelper
                       :data  => {
                         :'title'  => title,
                         :'series' => data,
-                        :'url'    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
+                        :'url'    => options[:search] ? "#{request.script_name}/systems?search=#{URI.encode(options.delete(:search))}" : "#"
                       }
                     }.merge(options))
   end

@@ -8,7 +8,7 @@
     <%= base_errors_for @host %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _('System') %></a></li>
       <% if SmartProxy.puppet_proxies.count > 0 %>
         <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
       <% end %>
@@ -85,7 +85,7 @@
         <h6><%= _('Included Parameters via inheritance') %></h6>
         <p></p>
         <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
-        <h6><%= _('Host Parameters') %></h6>
+        <h6><%= _('System  Parameters') %></h6>
         <p></p>
         <%= render "common_parameters/puppetclasses_parameters", :f => f %>
         <p></p>
@@ -100,12 +100,12 @@
           %>
         <% end %>
         <%= checkbox_f f, :enabled,
-          :help_inline => _("Include this host within Foreman reporting")
+          :help_inline => _("Include this system within Foreman reporting")
         %>
         <div id='model_name'>
           <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
         </div>
-        <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :class => "input-xxlarge", :rows => "3" %>
+        <%= textarea_f f, :comment, :help_block => _("Additional information about this system"), :class => "input-xxlarge", :rows => "3" %>
       </div>
 
     </div>

@@ -5,9 +5,11 @@ class Host::Managed < Host::Base
 
   has_many :host_classes, :dependent => :destroy, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes
-  belongs_to :hostgroup
+  belongs_to_hostgroup
   has_many :reports, :dependent => :destroy, :foreign_key => :host_id
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  alias_attribute :system_parameters, :host_parameters
+  alias_attribute :system_parameter_ids, :host_parameter_ids
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base', :foreign_key => :host_id
