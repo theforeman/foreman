@@ -91,12 +91,12 @@ module Api
           process_response @user.destroy
         end
       end
-    end
 
-    private
-    def resource_identifying_attributes
-      %w( id login)
-    end
+      protected
+      def resource_identifying_attributes
+        %w(id login)
+      end
 
+    end
   end
 end
