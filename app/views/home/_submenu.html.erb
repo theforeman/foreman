@@ -1,5 +1,5 @@
 <li class="dropdown menu_tab_dropdown">
-  <%= link_to (menu_title + content_tag(:span, '', :class => "caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle' => "dropdown" %>
+  <%= link_to (menu_title + content_tag(:span, '', :class => "caret")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle' => "dropdown", :id => menu_name %>
   <ul class="dropdown-menu">
     <% authorized_menu_actions(menu_items).each do |item| %>
       <% case item %>
