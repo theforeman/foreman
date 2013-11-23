@@ -78,7 +78,11 @@ module Orchestration::TFTP
     if build?
       pxe_render configTemplate({:kind => os.template_kind}).template
     else
-      pxe_render ConfigTemplate.find_by_name("PXE Localboot Default").template
+      if os.template_kind == "PXEGrub"
+        pxe_render ConfigTemplate.find_by_name("PXEGrub Localboot Default").template
+      else
+        pxe_render ConfigTemplate.find_by_name("PXE Localboot Default").template
+      end
     end
   rescue => e
     failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => os.template_kind, :e => e }
