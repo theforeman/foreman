@@ -13,8 +13,15 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show individual record" do
-    get :show, { :id => users(:one).to_param }
+  test "should show individual record by ID" do
+    get :show, { :id => users(:one).id }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
+  test "should show individual record by login name" do
+    get :show, { :id => users(:one).login }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
