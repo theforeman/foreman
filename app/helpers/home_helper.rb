@@ -3,7 +3,7 @@ module HomeHelper
   def render_menu menu_name
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
-      render "home/submenu", :menu_items => items, :menu_title => _(menu.caption) if items.any?
+      render "home/submenu", :menu_items => items, :menu_title => _(menu.caption), :menu_name => menu.name if items.any?
     end.join(' ').html_safe
   end
 
@@ -46,7 +46,7 @@ module HomeHelper
   def user_header
     summary = gravatar_image_tag(User.current.mail, :class=>'gravatar small', :alt=>_('Change your avatar at gravatar.com')) +
               "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
-    link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
+    link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :id => "account_menu")
   end
 
 end
