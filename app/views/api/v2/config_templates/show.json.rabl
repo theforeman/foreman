@@ -1,16 +1,6 @@
 object @config_template
 
-attributes :name, :template, :snippet, :audit_comment, :id
-
-node do |ct|
-  unless ct.template_kind.nil?
-    child :template_kind do
-      attributes :id, :name
-    end
-  else
-    {:template_kind => nil}
-  end
-end
+attributes :id, :name, :template, :snippet, :audit_comment, :template_kind_id, :template_kind_name
 
 node do |ct|
   unless ct.template_combinations.empty?

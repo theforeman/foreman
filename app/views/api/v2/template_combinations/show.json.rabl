@@ -1,3 +1,3 @@
 object @template_combination
 
-attributes :id, :config_template_id, :hostgroup_id, :environment_id
+attributes :id, :config_template_id, :config_template_name, :hostgroup_id, :hostgroup_name, :environment_id, :environment_name
