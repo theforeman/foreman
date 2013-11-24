@@ -74,6 +74,7 @@ Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
 Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
 Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
+Requires: %{?scl_prefix}rubygem(rails3_before_render)
 BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
 BuildRequires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
@@ -109,6 +110,7 @@ BuildRequires: %{?scl_prefix}rubygem(quiet_assets)
 BuildRequires: %{?scl_prefix}rubygem(spice-html5-rails)
 BuildRequires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 BuildRequires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
+BuildRequires: %{?scl_prefix}rubygem(rails3_before_render)
 BuildRequires: %{?scl_prefix}facter
 BuildRequires: gettext
 
@@ -553,6 +555,7 @@ fi
 * Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
 - Bump and change versioning scheme, don't overwrite VERSION (#3712)
 - Pin fog to 1.18.x
+- Add new rails3_before_render dependency
 
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage

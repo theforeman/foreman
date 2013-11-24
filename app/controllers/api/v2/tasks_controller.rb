@@ -1,21 +1,17 @@
 module Api
   module V2
     class TasksController < BaseController
-      before_filter :find_tasks
+
+      skip_before_render :get_metadata, :only => :index
 
       api :GET, '/orchestration/:id/tasks/', 'List all tasks for a given orchestration event'
 
       def index
-        # @tasks is already in JSON format
-        render :text => @tasks
-      end
-
-      private
-
-      def find_tasks
         return not_found unless Foreman.is_uuid?((id = params[:id]))
-        @tasks = Rails.cache.fetch(id)
+        # cache.fetch returns in JSON format, so convert @tasks back to hash
+        @tasks = JSON.parse(Rails.cache.fetch(id))
         not_found if @tasks.blank?
+        render :json => { @root_node_name => @tasks }, :layout => false
       end
 
     end

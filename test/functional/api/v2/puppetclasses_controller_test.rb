@@ -50,16 +50,16 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:host_id => hosts(:one).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
-    assert_equal 1, puppetclasses.length
+    assert !puppetclasses['results'].empty?
+    assert_equal 1, puppetclasses['results'].length
   end
 
   test "should get puppetclasses for hostgroup" do
     get :index, {:hostgroup_id => hostgroups(:common).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
-    assert_equal 1, puppetclasses.length
+    assert !puppetclasses['results'].empty?
+    assert_equal 1, puppetclasses['results'].length
   end
 
   test "should get puppetclasses for environment" do
