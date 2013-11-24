@@ -113,6 +113,9 @@ Foreman::Application.routes.draw do
         resources :environments, :only => [] do
           post :import_puppetclasses, :on => :member
         end
+        constraints(:id => /[^\/]+/) do
+          resources :autosign, :only => [:index]
+        end
       end
 
       resources :smart_variables, :except => [:new, :edit] do
