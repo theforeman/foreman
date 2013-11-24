@@ -18,6 +18,11 @@ class Puppetclass < ActiveRecord::Base
   validates :name, :uniqueness => true, :presence => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain white spaces.") }
   audited :allow_mass_assignment => true
 
+  alias_attribute :smart_variables, :lookup_keys
+  alias_attribute :smart_variable_ids, :lookup_key_ids
+  alias_attribute :smart_class_parameters, :class_params
+  alias_attribute :smart_class_parameter_ids, :class_param_ids
+
   default_scope lambda { order('puppetclasses.name') }
 
   scoped_search :on => :name, :complete_value => :true

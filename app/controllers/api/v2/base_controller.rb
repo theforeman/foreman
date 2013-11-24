@@ -10,6 +10,7 @@ module Api
 
       before_filter :root_node_name, :only => :index
       before_render :get_metadata, :only => :index
+      before_filter :setup_has_many_params, :only => [:create, :update]
       layout 'api/v2/layouts/index_layout', :only => :index
 
       def root_node_name
@@ -45,7 +46,20 @@ module Api
         else
           @page = 1
         end
+      end
 
+      def setup_has_many_params
+        params.each do |k,v|
+          if v.kind_of?(Array)
+            magic_method_ids = "#{k.singularize}_ids"
+            magic_method_names = "#{k.singularize}_names"
+            if resource_class.instance_methods.map(&:to_s).include?(magic_method_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
+              params[controller_name.singularize][magic_method_ids] = v.map { |a| a["id"] }
+            elsif resource_class.instance_methods.map(&:to_s).include?(magic_method_names) && v.any? && v.all? { |a| a.keys.include?("name") }
+              params[controller_name.singularize][magic_method_names] = v.map { |a| a["name"] }
+            end
+          end
+        end
       end
 
     end

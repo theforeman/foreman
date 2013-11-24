@@ -82,6 +82,11 @@ module Api
         end
       end
 
+      # overwrite Api::BaseController
+      def resource_class
+        LookupValue
+      end
+
     end
   end
 end

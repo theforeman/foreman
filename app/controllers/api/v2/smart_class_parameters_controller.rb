@@ -57,6 +57,11 @@ module Api
         render 'api/v2/smart_class_parameters/destroy'
       end
 
+      # overwrite Api::BaseController
+      def resource_class
+        LookupKey
+      end
+
     end
   end
 end
