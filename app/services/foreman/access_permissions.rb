@@ -481,7 +481,10 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :smart_proxies_autosign do |map|
-    map.permission :view_smart_proxies_autosign,    {:autosign => [:index, :show]}
+    map.permission :view_smart_proxies_autosign,    {:autosign => [:index, :show],
+                                                     :"api/v1/autosign" => [:index],
+                                                     :"api/v2/autosign" => [:index]
+                                                    }
     map.permission :create_smart_proxies_autosign,  {:autosign => [:new, :create]}
     map.permission :destroy_smart_proxies_autosign, {:autosign => [:destroy]}
   end
