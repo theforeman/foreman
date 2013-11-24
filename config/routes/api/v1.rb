@@ -2,7 +2,7 @@
 Foreman::Application.routes.draw do
 
   namespace :api, :defaults => {:format => 'json'} do
-    scope :module => :v1, :constraints => ApiConstraints.new(:version => 1, :default => true) do
+    scope "(:apiv)", :module => :v1, :defaults => {:apiv => 'v1'}, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 1, :default => true) do
 
       resources :architectures, :except => [:new, :edit]
       resources :audits, :only => [:index, :show]

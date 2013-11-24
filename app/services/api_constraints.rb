@@ -5,11 +5,12 @@ class ApiConstraints
   end
 
   def matches?(req)
-    req.accept =~ /version=([\d\.]+)/
-    if (version = $1) # version is specified in header
-      version == @version.to_s # are the versions same
-    else
-      @default # version is not specified, match if it's default version of api
-    end
+    route_match       = req.fullpath.match(%r{/api/v(\d+)}) if req.fullpath
+    header_match      = req.accept.match(%r{version=(\d+)}) if req.accept
+
+    return (@version.to_s == route_match[1]) if route_match
+    return (@version.to_s == header_match[1]) if header_match
+    # if version is not specified in route or header, then it returns true only if :default => true in routes file v1.rb or v2.rb
+    @default
   end
 end
