@@ -1,3 +1,12 @@
 {
+  "total": <%= @total.to_json %>,
+  "subtotal": <%= @subtotal.to_json %>,
+  "page": <%= @page.to_json %>,
+  "per_page": <%= @per_page.to_json %>,
+  "search": <%= @search.to_json.html_safe %>,
+  "sort": {
+    "by": <%= @by.to_json.html_safe %>,
+    "order": <%= @order.to_json.html_safe %>
+  },
   "<%= "#{@root_node_name}" %>": <%= yield %>
 }

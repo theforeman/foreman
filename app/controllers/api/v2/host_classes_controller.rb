@@ -6,6 +6,7 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_host_id, :only => [:index, :create, :destroy]
+      skip_before_render :get_metadata, :only => :index
 
       api :GET, "/hosts/:host_id/puppetclass_ids/", "List all puppetclass id's for host"
 

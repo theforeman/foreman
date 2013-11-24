@@ -23,8 +23,8 @@ class Api::V2::TasksControllerTest < ActionController::TestCase
     get :index, { :id => uuid }
     tasks = ActiveSupport::JSON.decode(@response.body)
     assert_response :success
-    assert_equal 1, tasks.size
-    task = tasks.first
+    assert_equal 1, tasks['results'].size
+    task = tasks['results'].first
     assert_equal 'create something', task['name']
     assert_equal 'pending', task['status']
     assert_equal 10, task['priority']

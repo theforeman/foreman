@@ -148,4 +148,83 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal obj.id, response["id"]
   end
 
+  # using Location as class to pagination and search metadata
+  # create 26 locations per name per letter A-Z
+  def add_locations
+    Array('a'..'z').each do |letter|
+      Location.create(:name => letter)
+    end
+  end
+
+  test "should return correct metadata if no params passed" do
+    add_locations
+    get :index, { }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    # 2 fixtures + 26 letters = 28
+    assert_equal 28, response['total']
+    assert_equal 28, response['subtotal']
+    assert_equal  1, response['page']
+    assert_equal 20, response['per_page']
+    assert_equal nil, response['search']
+    assert_equal nil, response['sort']['by']
+    assert_equal nil, response['sort']['order']
+  end
+
+  test "should return correct metadata if page param is passed" do
+    add_locations
+    get :index, {:page => 2 }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 28, response['total']
+    assert_equal 28, response['subtotal']
+    assert_equal  2, response['page']
+    assert_equal 20, response['per_page']
+    assert_equal nil, response['search']
+    assert_equal nil, response['sort']['by']
+    assert_equal nil, response['sort']['order']
+  end
+
+  test "should return correct metadata if per_page param is passed" do
+    add_locations
+    get :index, {:per_page => 10 }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 28, response['total']
+    assert_equal 28, response['subtotal']
+    assert_equal  1, response['page']
+    assert_equal 10, response['per_page']
+    assert_equal nil, response['search']
+    assert_equal nil, response['sort']['by']
+    assert_equal nil, response['sort']['order']
+  end
+
+  test "should return correct metadata if search param is passed" do
+    add_locations
+    get :index, {:search => 'Loc' }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 28, response['total']
+    assert_equal  2, response['subtotal']
+    assert_equal  1, response['page']
+    assert_equal 20, response['per_page']
+    assert_equal 'Loc', response['search']
+    assert_equal nil, response['sort']['by']
+    assert_equal nil, response['sort']['order']
+  end
+
+  test "should return correct metadata if order param is passed" do
+    add_locations
+    get :index, {:order => 'name DESC' }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 28, response['total']
+    assert_equal 28, response['subtotal']
+    assert_equal  1, response['page']
+    assert_equal 20, response['per_page']
+    assert_equal nil, response['search']
+    assert_equal 'name', response['sort']['by']
+    assert_equal 'DESC', response['sort']['order']
+  end
+
 end

@@ -27,8 +27,10 @@ module Api::V2::TaxonomiesController
     if @nested_obj
       #@taxonomies = @domain.locations.search_for(*search_options).paginate(paginate_options)
       @taxonomies = @nested_obj.send(taxonomies_plural).search_for(*search_options).paginate(paginate_options)
+      @total = @nested_obj.send(taxonomies_plural).count
     else
       @taxonomies = taxonomy_class.search_for(*search_options).paginate(paginate_options)
+      @total = taxonomy_class.count
     end
     instance_variable_set("@#{taxonomies_plural}", @taxonomies)
     render 'api/v2/taxonomies/index'
