@@ -32,7 +32,8 @@ module Menu
         :controller => url_hash[:controller].to_s.gsub(/::/, "_").underscore,
         :action => url_hash[:action]
       })
-    rescue false
+    rescue
+      false
     end
 
   end
