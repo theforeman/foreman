@@ -69,10 +69,12 @@ class ApacheTest < ActiveSupport::TestCase
   end
 
   def get_controller(api_request)
+    main_app = stub
+    main_app.stubs(:extlogin_users_path).returns('/extlogin')
     controller = Struct.new(:request, :session, :extlogin_users_path).new(Struct.new(:env, :fullpath).new({ SSO::Apache::CAS_USERNAME => 'ares' }))
     controller.session = {}
-    controller.extlogin_users_path = '/extlogin'
     controller.stubs(:api_request?).returns(api_request)
+    controller.stubs(:main_app).returns(main_app)
     controller
   end
 end

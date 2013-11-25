@@ -18,7 +18,7 @@ module SSO
 
     # Override this value on SSO objects to redirect your users to a custom auth path
     def login_url
-      controller.login_users_path
+      controller.main_app.login_users_path
     end
 
     # don't forget to implement expiration_url method if your SSO method changes this to true
@@ -35,5 +35,6 @@ module SSO
     def authenticate!
       raise NotImplementedError, "#{__method__} not implemented for this authentication method"
     end
+
   end
 end
