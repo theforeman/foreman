@@ -24,7 +24,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should create valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:gpxe).id, :name => "RandomName" }
+    valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName" }
     post :create, { :config_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["config_template"]["name"] == "RandomName"

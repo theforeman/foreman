@@ -5,7 +5,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt               = ConfigTemplate.new
     tmplt.name          = "Default Kickstart"
     tmplt.template      = "Some kickstart goes here"
-    tmplt.template_kind = template_kinds(:gpxe)
+    tmplt.template_kind = template_kinds(:ipxe)
     assert tmplt.valid?
   end
 
@@ -42,7 +42,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
     tmplt.snippet  = true
-    tmplt.template_kind = template_kinds(:gpxe)
+    tmplt.template_kind = template_kinds(:ipxe)
     tmplt.hostgroups << hostgroups(:common)
     tmplt.environments << environments(:production)
     as_admin do
@@ -55,7 +55,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   # If the template is not a snippet is should require the specific declaration
-  # of a type (gpxe, finish, etc.)
+  # of a type (ipxe, finish, etc.)
   def test_should_require_a_template_kind
     tmplt = ConfigTemplate.new
     tmplt.name = "Some finish script"

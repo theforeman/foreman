@@ -2,14 +2,16 @@ class UnattendedController < ApplicationController
   layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = [:pxe_kickstart_config, :pxe_debian_config, :pxemenu] + TemplateKind.where("name LIKE ?","PXELinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = [:pxe_jumpstart_config] + TemplateKind.where("name LIKE ?", "PXEGrub").map(&:name)
-  GPXE_CONFIG_URLS = [:gpxe_kickstart_config] + TemplateKind.where("name LIKE ?", "gPXE").map(&:name)
-  CONFIG_URLS = PXE_CONFIG_URLS + GPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
+  PXE_CONFIG_URLS = TemplateKind.where("name LIKE ?","PXELinux").map(&:name)
+  PXEGRUB_CONFIG_URLS = TemplateKind.where("name LIKE ?", "PXEGrub").map(&:name)
+  IPXE_CONFIG_URLS = TemplateKind.where("name LIKE ?", "iPXE").map(&:name) + ['gPXE']
+  CONFIG_URLS = PXE_CONFIG_URLS + IPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
+
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = [:kickstart, :preseed, :jumpstart ] + TemplateKind.where("name LIKE ?", "provision").map(&:name)
+  PROVISION_URLS = TemplateKind.where("name LIKE ?", "provision").map(&:name)
+
   # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = [:preseed_finish, :jumpstart_finish] + TemplateKind.where("name LIKE ?", "finish").map(&:name)
+  FINISH_URLS = TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
   FILTERS = [:require_ssl, :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
@@ -30,18 +32,6 @@ class UnattendedController < ApplicationController
   after_filter :set_content_type
   before_filter :set_admin_user, :only => :built
 
-  def kickstart
-    unattended_local
-  end
-
-  def preseed
-    unattended_local
-  end
-
-  def preseed_finish
-    unattended_local
-  end
-
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
     logger.info "#{controller_name}: #{@host.name} is Built!"
@@ -61,10 +51,6 @@ class UnattendedController < ApplicationController
     safe_render template.template
   end
 
-  # Returns a valid GPXE config file to kickstart hosts
-  def gpxe_kickstart_config
-  end
-
   def pxe_config
     @kernel = @host.operatingsystem.kernel @host.arch
     @initrd = @host.operatingsystem.initrd @host.arch
@@ -74,12 +60,24 @@ class UnattendedController < ApplicationController
   # i.e. /unattended/provision will render the provisioning template for the requesting host
   TemplateKind.all.each do |kind|
     define_method kind.name do
-      @type = kind.name
-      unattended_local
+      render_template kind.name
     end
   end
+  # Using alias_method causes test failures as iPXE method is unknown in an empty DB
+  def gPXE; iPXE; end
 
   private
+
+  def render_template type
+    if (config = @host.configTemplate({ :kind => type }))
+      logger.debug "rendering DB template #{config.name} - #{type}"
+      safe_render config
+    else
+      msg = "unable to find #{type} template for [#{@host.name}] running [#{@host.operatingsystem}]"
+      logger.error msg
+      render :text => msg, :status => :not_found
+    end
+  end
 
   # lookup for a host based on the ip address and if possible by a mac address(as sent by anaconda)
   # if the host was found than its record will be in @host
@@ -157,18 +155,6 @@ class UnattendedController < ApplicationController
     # Anaconda, but maybe Suninstall will choke on it.
     render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => 500) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
-  end
-
-  # we try to find this host specific template
-  # if it doesn't exists, we'll try to find a local generic template
-  # otherwise render the default view
-  def unattended_local
-    if (config = @host.configTemplate({ :kind => @type }))
-      logger.debug "rendering DB template #{config.name} - #{@type}"
-      safe_render config and return
-    end
-    type = "unattended_local/#{request.path.gsub("/#{controller_name}/","")}.local"
-    render :template => type if File.exists?("#{Rails.root}/app/views/#{type}.rhtml")
   end
 
   def set_content_type

@@ -1,11 +1,14 @@
-#kind: PXELinux
-#name: Community Preseed PXE
-#oses:
-#- Debian 6.0
-#- Debian 7.0
-#- Ubuntu 10.04
-#- Ubuntu 12.04
-#- Ubuntu 13.04
+<%#
+kind: PXELinux
+name: Community Preseed PXE
+oses:
+- Debian 6.0
+- Debian 7.0
+- Ubuntu 10.04
+- Ubuntu 12.04
+- Ubuntu 13.04
+%>
+
 <% if @host.operatingsystem.name == "Debian" -%>
 <% keyboard_params = "auto=true console-keymaps-at/keymap=us keymap=us domain=#{@host.domain}" -%>
 <% else -%>
@@ -15,3 +18,4 @@ default linux
 label linux
 kernel <%= @kernel %>
 append initrd=<%= @initrd %> interface=auto url=<%= foreman_url("provision")%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=<%= @host.name %> <%= keyboard_params %> locale=en_US
+IPAPPEND 2

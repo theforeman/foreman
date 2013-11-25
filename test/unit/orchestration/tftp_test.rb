@@ -24,7 +24,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       h = hosts(:one)
       as_admin do
         h.setBuild
-        h.update_attribute :operatingsystem, operatingsystems(:centos5_3)
+        h.update_attribute :operatingsystem, operatingsystems(:redhat)
       end
       Setting[:unattended_url] = "http://ahost.com:3000"
 

@@ -2,6 +2,7 @@ class Medium < ActiveRecord::Base
   include Authorization
   include Taxonomix
   include ValidateOsFamily
+  audited :allow_mass_assignment => true
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
