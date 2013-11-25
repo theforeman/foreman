@@ -325,9 +325,9 @@ class ApplicationController < ActionController::Base
 
     if User.current && User.current.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?
-        redirect_to locations_path, :notice => _("You must create at least one location before continuing.")
+        redirect_to main_app.locations_path, :notice => _("You must create at least one location before continuing.")
       elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
-        redirect_to organizations_path, :notice => _("You must create at least one organization before continuing.")
+        redirect_to main_app.organizations_path, :notice => _("You must create at least one organization before continuing.")
       end
     end
   end
