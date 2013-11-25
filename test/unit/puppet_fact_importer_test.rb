@@ -4,7 +4,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   attr_reader :host, :importer
   setup do
     disable_orchestration
-    User.current = User.admin
+    User.current = users :admin
     @host        = hosts(:one)
   end
 

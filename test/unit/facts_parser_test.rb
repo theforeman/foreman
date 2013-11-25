@@ -5,7 +5,7 @@ class FactsParserTest < ActiveSupport::TestCase
 
   def setup
     @importer = Facts::Parser.new facts
-    User.current = User.admin
+    User.current = users :admin
   end
 
   test "should return list of interfaces" do

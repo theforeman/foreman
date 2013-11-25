@@ -66,6 +66,12 @@ class Api::TestableControllerTest < ActionController::TestCase
       get :index
       assert_not session[:user]
     end
+
+    it "uses an accessible admin user" do
+      User.unscoped.except_hidden.only_admin.where('login <> ?', users(:apiadmin).login).destroy_all
+      @controller.expects(:set_current_user).with(responds_with(:login, users(:apiadmin).login)).returns(true)
+      get :index
+    end
   end
 
   context "API usage when authentication is enabled" do
@@ -85,8 +91,18 @@ class Api::TestableControllerTest < ActionController::TestCase
       setup do
         @sso = mock('dummy_sso')
         @sso.stubs(:authenticated?).returns(true)
-        @sso.stubs(:user).returns(users(:admin).login)
+        @sso.stubs(:current_user).returns(users(:admin))
         @controller.stubs(:available_sso).returns(@sso)
+      end
+
+      it "permits access" do
+        get :index
+        assert_response :success
+      end
+
+      it "sets the admin user" do
+        @controller.expects(:set_current_user).with(responds_with(:login, users(:admin).login)).returns(true)
+        get :index
       end
 
       it "doesn't escalate privileges in the session" do

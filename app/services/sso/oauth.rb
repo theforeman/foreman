@@ -18,13 +18,13 @@ module SSO
       end
 
       if OAuth::Signature.verify(request, :consumer_secret => Setting['oauth_consumer_secret'])
-        user_name = request.headers['foreman_user']
-        if Setting['oauth_map_users'] && user_name != 'admin'
+        if Setting['oauth_map_users']
+          user_name = request.headers['foreman_user']
           User.find_by_login(user_name).tap do |obj|
             Rails.logger.warn "Oauth: mapping to user '#{user_name}' failed" if obj.nil?
-          end.login
+          end.try(:login)
         else
-          User.admin.login
+          User::ANONYMOUS_API_ADMIN
         end
       else
         Rails.logger.warn "OAuth signature verification failed."
@@ -34,6 +34,14 @@ module SSO
 
     def authenticated?
       self.user = User.current.present? ? User.current : authenticate!
+    end
+
+    def current_user
+      if Setting['oauth_map_users']
+        super
+      elsif user == User::ANONYMOUS_API_ADMIN
+        User.anonymous_api_admin
+      end
     end
   end
 end

@@ -5,7 +5,7 @@ class HasManyCommonTest < ActiveSupport::TestCase
   # All AR classes include HasManyCommon
 
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
     disable_orchestration
   end
 

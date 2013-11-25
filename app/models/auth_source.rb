@@ -24,7 +24,8 @@ class AuthSource < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
 
-  scope :non_internal, lambda { where("type <> ?", 'AuthSourceInternal') }
+  scope :non_internal, lambda { where("type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
+  scope :except_hidden, lambda { where('type <> ?', 'AuthSourceHidden') }
 
   def authenticate(login, password)
   end

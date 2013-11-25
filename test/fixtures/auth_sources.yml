@@ -19,3 +19,7 @@ one:
 internal:
   name: Internal
   type: AuthSourceInternal
+
+hidden:
+  name: Hidden
+  type: AuthSourceHidden

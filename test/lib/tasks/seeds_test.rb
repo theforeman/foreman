@@ -7,13 +7,12 @@ class SeedsTest < ActiveSupport::TestCase
 
   setup do
     DatabaseCleaner.clean_with :truncation
-    Setting.expects(:[]).with(:administrator).at_least_once.returns("root@localhost")
+    Setting.stubs(:[]).with(:administrator).returns("root@localhost")
   end
 
   def seed
-    admin = User.new(:login => 'testadmin')
-    admin.admin = true
-    User.current = admin
+    # Authorisation is disabled usually when run from a rake db:* task
+    User.current = FactoryGirl.build(:user, :admin => true)
     load File.expand_path('../../../../db/seeds.rb', __FILE__)
   end
 
@@ -27,15 +26,49 @@ class SeedsTest < ActiveSupport::TestCase
     assert_not_equal count, Feature.count
   end
 
-  test 'populates an admin user' do
-    assert_difference 'User.where(:login => "admin").count', 1 do
+  test 'populates hidden admin users' do
+    assert_difference 'User.unscoped.where(:login => [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN]).count', 2 do
       seed
     end
-    user = User.find_by_login('admin')
-    assert_present user.password_hash
-    assert_present user.password_salt
-    assert user.admin?
-    assert user.valid?, "User not valid: #{user.errors.full_messages.to_sentence}"
+    [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN].each do |login|
+      user = User.unscoped.find_by_login(login)
+      assert_present user, "cannot find user #{login}"
+      assert_blank user.password_hash
+      assert_blank user.password_salt
+      assert user.admin?
+      assert user.hidden?
+      assert_valid user
+    end
+  end
+
+  context 'populating an initial admin user' do
+    test 'with defaults' do
+      assert_difference 'User.where(:login => "admin").count', 1 do
+        seed
+      end
+      user = User.find_by_login('admin')
+      assert_present user.password_hash
+      assert_present user.password_salt
+      assert user.admin?
+      assert_valid user
+    end
+
+    test 'with environment overrides' do
+      assert_difference 'User.where(:login => "seed_test").count', 1 do
+        with_env('SEED_ADMIN_USER'       => 'seed_test',
+                 'SEED_ADMIN_PASSWORD'   => 'seed_secret',
+                 'SEED_ADMIN_FIRST_NAME' => 'Seed',
+                 'SEED_ADMIN_LAST_NAME'  => 'Test',
+                 'SEED_ADMIN_EMAIL'      => 'seed@example.net') do
+          seed
+        end
+      end
+      user = User.find_by_login('seed_test')
+      assert user.matching_password? 'seed_secret'
+      assert user.admin?
+      refute user.hidden?
+      assert_valid user
+    end
   end
 
   test 'populates partition tables' do

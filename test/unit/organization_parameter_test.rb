@@ -3,7 +3,7 @@ require 'test_helper'
 class OrganizationParameterTest < ActiveSupport::TestCase
 
   setup do
-    User.current = User.admin
+    User.current = users :admin
   end
 
   test 'should have a reference_id' do

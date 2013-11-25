@@ -79,7 +79,7 @@ Spork.prefork do
     end
 
     def set_session_user
-      SETTINGS[:login] ? {:user => User.admin.id, :expires_at => 5.minutes.from_now} : {}
+      SETTINGS[:login] ? {:user => users(:admin).id, :expires_at => 5.minutes.from_now} : {}
     end
 
     def as_user user
@@ -158,6 +158,40 @@ Spork.prefork do
     def read_json_fixture(file)
       json = File.expand_path(File.join('..', 'fixtures', file), __FILE__)
       JSON.parse(File.read(json))
+    end
+
+    def assert_with_errors(condition, model)
+      assert condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
+    end
+
+    def assert_valid(model)
+      assert_with_errors model.valid?, model
+    end
+
+    def refute_with_errors(condition, model, field=nil, match=nil)
+      refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
+      if field
+        assert_blank model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
+        assert_present model.errors[field].find { |e| e.match(match) },
+                       "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
+      end
+    end
+    alias_method :assert_not_with_errors, :refute_with_errors
+
+    # Checks a model isn't valid.  Optionally add error field name as the second argument
+    # to declare that you only want validation errors in those fields, so it will assert if
+    # there are errors elsewhere on the model so you know you're testing for the right thing.
+    def refute_valid(model, field=nil, match=nil)
+      refute_with_errors model.valid?, model, field, match
+    end
+    alias_method :assert_not_valid, :refute_valid
+
+    def with_env(values={})
+      old_values = ENV.to_hash.slice(values.keys)
+      ENV.update values
+      result = yield
+      ENV.update old_values
+      result
     end
   end
 
@@ -268,7 +302,7 @@ Spork.each_run do
 
     def login_admin
       visit "/"
-      fill_in "login_login", :with => "admin"
+      fill_in "login_login", :with => users(:admin).login
       fill_in "login_password", :with => "secret"
       click_button "Login"
     end

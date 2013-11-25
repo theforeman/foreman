@@ -62,7 +62,6 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "new host should create a BMC dhcp reservation" do
-    User.current = users(:admin)
     h            = hosts(:dhcp).dup
     assert h.new_record?
     h.name                  = "dummy-123"
@@ -113,7 +112,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "when an existing host change its bmc ip address, its dhcp record should be updated" do
     h = hosts(:sp_dhcp)
-    User.as :admin do
+    as_admin do
       Nic::BMC.create!(:host_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
                        :ip => '2.3.4.101', :subnet_id => h.subnet_id, :name => "bmc-#{h}", :provider => 'IPMI')
     end
@@ -136,7 +135,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do
     h = hosts(:sp_dhcp)
-    User.as :admin do
+    as_admin do
       Nic::BMC.create! :host => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => '2.3.4.55', :domain => h.domain,
                        :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
     end
@@ -151,7 +150,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
     h = hosts(:sp_dhcp)
-    User.as :admin do
+    as_admin do
       Nic::BMC.create!(:host => h, :mac => "aa:aa:ad:ab:bb:bb", :domain => h.domain, :subnet => h.subnet,
                        :name => "bmc-it", :provider => 'IPMI', :ip => '2.3.4.66')
     end

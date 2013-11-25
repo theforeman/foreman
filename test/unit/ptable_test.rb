@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PtableTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
 
   test "name can't be blank" do

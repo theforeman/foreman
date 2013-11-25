@@ -3,7 +3,7 @@ require 'test_helper'
 class ReportImporterTest < ActiveSupport::TestCase
 
   def setup
-    User.current = User.admin
+    User.current = users :admin
   end
 
   def teardown

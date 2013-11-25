@@ -4,7 +4,7 @@ class NicTest < ActiveSupport::TestCase
 
   def setup
     disable_orchestration
-    User.current = User.admin
+    User.current = users :admin
   end
 
   def teardown

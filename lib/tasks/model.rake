@@ -11,7 +11,7 @@ namespace :models  do
   task :consolidate, [:dryrun] => :environment do |t, args|
     dryrun = args.dryrun
     # Give ourselves permission to edit stuff
-    User.current = User.find_by_login "admin"
+    User.current = User.anonymous_admin
 
     map_file = "config/model.mappings"
     if File.exist? map_file

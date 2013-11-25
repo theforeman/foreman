@@ -3,7 +3,7 @@ require 'test_helper'
 class OrganizationTest < ActiveSupport::TestCase
 
   setup do
-    User.current = User.admin
+    User.current = users :admin
   end
 
   test 'it should not save with an empty name' do

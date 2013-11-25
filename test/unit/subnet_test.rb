@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SubnetTest < ActiveSupport::TestCase
   def setup
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
     @subnet = Subnet.new
     @attrs = {  :network= => "123.123.123.1",
       :mask= => "255.255.255.0",

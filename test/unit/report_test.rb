@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReportTest < ActiveSupport::TestCase
   def setup
-    User.current = User.admin
+    User.current = users :admin
     @r=Report.import read_json_fixture("report-skipped.json")
   end
 
