@@ -3,7 +3,7 @@ require 'test_helper'
 class UserRoleTest < ActiveSupport::TestCase
 
   def setup
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
 
   test "type detection" do

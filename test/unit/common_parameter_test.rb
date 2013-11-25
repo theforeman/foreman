@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CommonParameterTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
   test "name can't be blank" do
     parameter = CommonParameter.new :name => "  ", :value => "some_value"

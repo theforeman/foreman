@@ -286,7 +286,7 @@ class HostsControllerTest < ActionController::TestCase
     assert @host2.environment == environments(:production)
     post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => environments(:global_puppetmaster).id}},
-      set_session_user.merge(:user => User.first.id)
+      set_session_user.merge(:user => users(:admin).id)
     assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
     assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
   end
@@ -310,7 +310,7 @@ class HostsControllerTest < ActionController::TestCase
       :environment => { :id => 'inherit' } }
 
     post :update_multiple_environment, params,
-      set_session_user.merge(:user => User.first.id)
+      set_session_user.merge(:user => users(:admin).id)
 
     assert Host.find(@host1.id).environment == hostgroup.environment
     assert Host.find(@host2.id).environment == hostgroup.environment
@@ -322,7 +322,7 @@ class HostsControllerTest < ActionController::TestCase
     @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
     post :update_multiple_parameters,
       {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
-      set_session_user.merge(:user => User.first.id)
+      set_session_user.merge(:user => users(:admin).id)
     assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end

@@ -3,24 +3,33 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
     @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
   end
 
   test "should have login" do
-    u = User.new :auth_source => auth_sources(:one), :mail => "foo@bar.com"
-    assert !u.save
+    refute_valid FactoryGirl.build(:user, :login => nil), :login
   end
 
-  test "should have mail" do
-    u = User.new :auth_source => auth_sources(:one), :login => "foo"
-    assert !u.save
+  test "mail address is optional on creation" do
+    assert_valid FactoryGirl.build(:user, :mail => nil)
+  end
+
+  test "should have mail when updating" do
+    u = FactoryGirl.create(:user, :mail => nil)
+    u.firstname = 'Bob'
+    refute_valid u, :mail
+  end
+
+  test "hidden users don't need mail when updating" do
+    u = User.anonymous_admin
+    u.firstname = 'Bob'
+    assert_valid u
   end
 
   test "login should be unique" do
     u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
-
-    assert !u.valid?
+    refute_valid u, :login
   end
 
   test "login should also be unique across usergroups" do
@@ -86,10 +95,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Ali Al Salame", @user.to_label
   end
 
-  test "when try to login if password is empty should return nil" do
-    assert_equal nil, User.try_to_login("anything", "")
+  test ".try_to_login if password is empty should return nil" do
+    assert_nil User.try_to_login("anything", "")
   end
-  # couldn't continue testing the rest of login method cause use auth_source.authenticate, which is not implemented yet
 
   test "when a user login, his last login time should be updated" do
     user = users(:internal)
@@ -110,39 +118,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal u.mail, "foo@bar.com"
   end
 
-  test "should not be able to delete the admin account" do
-    assert !User.find_by_login("admin").destroy
+  test ".try_to_login on unknown user should return nil" do
+    User.expects(:try_to_auto_create_user).with('unknown user account', 'secret')
+    refute User.try_to_login('unknown user account', 'secret')
   end
 
-  test "create_admin should create the admin account" do
-    Setting.administrator = 'root@localhost.localdomain'
-    User.delete(User.admin.id)
-    User.create_admin
-    assert User.find_by_login("admin")
+  test ".try_to_login and failing AuthSource should return nil" do
+    u = FactoryGirl.create(:user)
+    AuthSourceInternal.any_instance.expects(:authenticate).with(u.login, 'password').returns(nil)
+    refute User.try_to_login(u.login, 'password')
   end
 
-  test "create_admin should fail when the validation fails" do
-    Setting.administrator = 'root@invalid_domain'
-    User.delete(User.admin.id)
-    assert_raise ActiveRecord::RecordInvalid do
-      User.create_admin
-    end
-  end
-
-  test "create_admin should create the admin account and keep User.current set" do
-    User.current = @user
-    Setting.administrator = 'root@localhost.localdomain'
-    User.delete(User.admin.id)
-    User.create_admin
-    assert User.find_by_login("admin")
-    assert_equal User.current, @user
-  end
-
-  test "#admin should create new one if it's missing" do
-    old_admin = User.admin
-    assert old_admin.delete
-    assert_nil User.find_by_login(old_admin.login)
-    assert_present User.admin
+  test ".try_to_login should return user on successful login" do
+    u = FactoryGirl.create(:user)
+    assert_equal u, User.try_to_login(u.login, 'password')
   end
 
   def setup_user operation
@@ -268,16 +257,40 @@ class UserTest < ActiveSupport::TestCase
     assert record.save
   end
 
-  test "should not be able to rename the admin account" do
-    u = User.find_by_login("admin")
-    u.login = "root"
-    assert !u.save
+  test "should be able to remove the admin flag when another admin exists" do
+    u = FactoryGirl.create(:user, :with_mail, :admin => true)
+    u.admin = false
+    assert_valid u
   end
 
-  test "should not be able to remove the admin flag from the admin account" do
-    u = User.find_by_login("admin")
+  test "should not be able to remove the admin flag from the last admin account" do
+    User.unscoped.except_hidden.only_admin.where('login <> ?', users(:apiadmin).login).destroy_all
+    u = users(:apiadmin)
     u.admin = false
-    assert !u.save
+    refute_valid u, :admin, /last admin account/
+  end
+
+  test "should not be able to destroy the last admin account" do
+    User.unscoped.except_hidden.only_admin.where('login <> ?', users(:apiadmin).login).destroy_all
+    u = users(:apiadmin)
+    refute_with_errors u.destroy, u, :base, /last admin account/
+  end
+
+  test "should not be able to remove the admin flag from hidden users" do
+    u = User.anonymous_admin
+    u.admin = false
+    refute_valid u, :admin, /internal protected account/
+  end
+
+  test "should not be able to destroy hidden users" do
+    u = User.anonymous_admin
+    refute_with_errors u.destroy, u, :base, /internal admin account/
+  end
+
+  test "should not be able to rename hidden users" do
+    u = User.anonymous_admin
+    u.login = 'no_anonymity_for_you'
+    refute_valid u, :login, /internal protected account/
   end
 
   test "email domains with a single word should be allowed" do
@@ -571,5 +584,57 @@ class UserTest < ActiveSupport::TestCase
 #
 #    assert users(:one).valid?
 #  end
+
+  test "#matching_password? succeeds if password matches" do
+    u = FactoryGirl.build(:user)
+    assert_valid u
+    assert u.matching_password?('password')
+  end
+
+  test "#matching_password? fails if password does not match" do
+    u = FactoryGirl.build(:user)
+    assert_valid u
+    refute u.matching_password?('wrong password')
+  end
+
+  test ".except_hidden doesn't return any hidden users" do
+    assert User.unscoped.where(:auth_source_id => AuthSourceHidden.first).any?
+    User.unscoped.except_hidden.each do |user|
+      assert_not_kind_of AuthSourceHidden, user.auth_source
+    end
+  end
+
+  test "#hidden? for hidden user" do
+    assert User.anonymous_admin.hidden?
+  end
+
+  test "#hidden? for ordinary user" do
+    refute FactoryGirl.build(:user).hidden?
+  end
+
+  test "should not be able to use hidden auth source on other users" do
+    u = FactoryGirl.build(:user, :auth_source => AuthSourceHidden.first)
+    refute_valid u, :auth_source, /permitted/
+  end
+
+  describe ".random_password" do
+    it "should return password" do
+      assert_match /\A[a-zA-Z0-9]{16}\z/, User.random_password
+    end
+
+    it "should not return ambiguous characters" do
+      refute_match /[O0Il1]/, User.random_password(100)
+    end
+  end
+
+  test ".as_anonymous_admin sets User.current to anonymous admin" do
+    User.as_anonymous_admin do
+      assert_equal User::ANONYMOUS_ADMIN, User.current.try(:login)
+    end
+  end
+
+  test ".as throws exception for unknown users" do
+    assert_raise(Foreman::Exception) { User.as('unknown_user') }
+  end
 
 end

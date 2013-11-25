@@ -45,7 +45,7 @@ class TestableControllerTest < ActionController::TestCase
       setup do
         @sso = mock('dummy_sso')
         @sso.stubs(:authenticated?).returns(true)
-        @sso.stubs(:user).returns(users(:admin).login)
+        @sso.stubs(:current_user).returns(users(:admin))
         @controller.stubs(:available_sso).returns(@sso)
       end
 

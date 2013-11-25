@@ -113,7 +113,7 @@ class Taxonomy < ActiveRecord::Base
     define_method(key) do
       klass = hash_key_to_class(key)
       if ignore?(klass)
-        return User.unscoped.except_admin.map(&:id) if klass == "User"
+        return User.unscoped.except_admin.except_hidden.map(&:id) if klass == "User"
         return klass.constantize.pluck(:id)
       else
         taxable_taxonomies.where(:taxable_type => klass).pluck(:taxable_id)

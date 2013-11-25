@@ -3,7 +3,7 @@ require 'test_helper'
 class HostTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
     Setting[:token_duration] = 0
   end
 

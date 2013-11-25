@@ -27,7 +27,7 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal taxonomies(:location1), host.location
     assert_equal taxonomies(:organization1), host.organization
 
-    value = User.as :admin do
+    value = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
                           :value => 'test'

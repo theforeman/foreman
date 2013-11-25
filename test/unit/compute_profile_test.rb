@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ComputeProfileTest < ActiveSupport::TestCase
   setup do
-    User.current = User.admin
+    User.current = users :admin
   end
 
   test "name can't be blank" do

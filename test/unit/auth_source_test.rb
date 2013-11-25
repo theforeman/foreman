@@ -30,5 +30,11 @@ class AuthSourceTest < ActiveSupport::TestCase
   end
 
 # the self.authenticate method can't be tested yet, cause use the authenticate method which it isn't implemented yet
+
+  test "type cannot be changed by mass-assignment" do
+    assert_raise ActiveModel::MassAssignmentSecurity::Error do
+      @auth_source.update_attributes(:type => AuthSourceHidden.name)
+    end
+  end
 end
 

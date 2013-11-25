@@ -68,10 +68,15 @@ module Foreman
         # @param [block] block to execute
         def as login
           old_user = current
-          self.current = User.find_by_login(login)
+          self.current = User.unscoped.find_by_login(login)
+          raise ::Foreman::Exception.new(N_("Cannot find user %s when switching context"), login) unless self.current.present?
           yield if block_given?
         ensure
           self.current = old_user
+        end
+
+        def as_anonymous_admin(&block)
+          as User::ANONYMOUS_ADMIN, &block
         end
       end
     end

@@ -107,9 +107,10 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test 'users subscribed to all hostgroups should be always added to hostgroup' do
-    User.current = User.first
     one = users(:one)
-    one.update_attributes(:subscribe_to_all_hostgroups => true)
+    as_admin do
+      one.update_attributes(:subscribe_to_all_hostgroups => true)
+    end
 
     post :create, { "hostgroup" => { "name"=>"first" } }, set_session_user
     post :create, { "hostgroup" => { "name"=>"second" } }, set_session_user
@@ -128,8 +129,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
     post :create, { 'hostgroup' => { 'name'=>'first' } }, set_session_user.merge(:user => @one.id)
     assert_equal 2, Hostgroup.find_by_name('first').users.length
-    assert_equal @one, Hostgroup.find_by_name('first').users.first
-    assert_equal @two, Hostgroup.find_by_name('first').users.last
+    assert_equal [@one, @two], Hostgroup.find_by_name('first').users.sort
   end
 
   test "users subscribed to all hostgroups should be always added to hostgroup created by non-admin user when the creater is already added to the new hosrgroup's ancestors" do
@@ -144,8 +144,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}},
                   set_session_user.merge(:user => @one.id)
     assert_equal 2, Hostgroup.find_by_name('first').users.length
-    assert_equal @one, Hostgroup.find_by_name('first').users.first
-    assert_equal @two, Hostgroup.find_by_name('first').users.last
+    assert_equal [@one, @two], Hostgroup.find_by_name('first').users.sort
   end
 
   test "hostgroup rename changes matcher" do

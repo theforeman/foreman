@@ -8,7 +8,7 @@ class EncryptableTest < ActiveSupport::TestCase
   #   encrypts :password
   # end
   def setup
-    User.current = User.admin
+    User.current = users(:admin)
   end
 
   test "encrypts?(:password) is true" do

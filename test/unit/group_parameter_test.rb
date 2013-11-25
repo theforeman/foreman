@@ -2,7 +2,7 @@ require 'test_helper'
 
 class GroupParameterTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
   test "should have a reference_id" do
     group_parameter = GroupParameter.new

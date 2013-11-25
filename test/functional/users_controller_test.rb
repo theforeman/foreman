@@ -117,14 +117,15 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should modify session when locale is updated" do
-    User.current = User.admin
-    put :update, { :id => User.admin.id, :user => { :locale => "cs" } }, set_session_user
-    assert_redirected_to users_url
-    assert_equal "cs", User.admin.locale
+    as_admin do
+      put :update, { :id => users(:admin).id, :user => { :locale => "cs" } }, set_session_user
+      assert_redirected_to users_url
+      assert_equal "cs", users(:admin).reload.locale
 
-    put :update, { :id => User.admin.id, :user => { :locale => "" } }, set_session_user
-    assert_nil User.admin.locale
-    assert_nil session[:locale]
+      put :update, { :id => users(:admin).id, :user => { :locale => "" } }, set_session_user
+      assert_nil users(:admin).reload.locale
+      assert_nil session[:locale]
+    end
   end
 
   test "should not delete same user" do
@@ -139,7 +140,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'user with viewer rights should fail to edit a user' do
-    get :edit, {:id => User.first.id}
+    get :edit, {:id => users(:admin).id}
     assert_response 404
   end
 
@@ -154,12 +155,12 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should set user as owner of hostgroup children if owner of hostgroup root" do
-    User.current = User.first
     sample_user = users(:one)
-
-    Hostgroup.new(:name => "root").save
-    Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
-    Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
+    as_admin do
+      Hostgroup.new(:name => "root").save
+      Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
+      Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
+    end
 
     update_hash = {"user"=>{ "login"         => sample_user.login,
       "hostgroup_ids" => ["", Hostgroup.find_by_name("root").id.to_s] },
@@ -169,22 +170,6 @@ class UsersControllerTest < ActionController::TestCase
 
     assert_equal Hostgroup.find_by_name("first").users.first , sample_user
     assert_equal Hostgroup.find_by_name("second").users.first, sample_user
-  end
-
-  test "should not be able to remove the admin flag from the admin account" do
-    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-    user.admin = true
-    user.save!
-
-    target = users(:admin)
-    update_hash = {"user"=>{
-      "login"  => target.login,
-      "admin"  => false},
-      "id"     => target.id}
-    put :update, update_hash, set_session_user.merge(:user => user.id)
-
-    assert User.find_by_login(:admin).admin
-    assert_template :edit
   end
 
   test "should be able to create user without mail and update the mail later" do
@@ -204,7 +189,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should login external user" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
-    @request.env['REMOTE_USER'] = 'admin'
+    @request.env['REMOTE_USER'] = users(:admin).login
     get :extlogin, {}, {}
     assert_redirected_to hosts_path
   end
@@ -212,7 +197,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should login external user preserving uri" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
-    @request.env['REMOTE_USER'] = 'admin'
+    @request.env['REMOTE_USER'] = users(:admin).login
     get :extlogin, {}, {:original_uri => '/test'}
     assert_redirected_to '/test'
   end
@@ -228,7 +213,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should use intercept if available" do
     SSO::FormIntercept.any_instance.stubs(:available?).returns(true)
     SSO::FormIntercept.any_instance.stubs(:authenticated?).returns(true)
-    SSO::FormIntercept.any_instance.stubs(:current_user).returns(User.find_by_login('admin'))
+    SSO::FormIntercept.any_instance.stubs(:current_user).returns(users(:admin))
     post :login, {:login => {:login => 'ares', :password => 'password_that_does_not_match'} }
     assert_redirected_to hosts_path
   end
@@ -286,6 +271,14 @@ class UsersControllerTest < ActionController::TestCase
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
     refute old_session.keys.include?(:user), "old session contains user"
     assert session[:user], "new session doesn't contain user"
+  end
+
+  test "#login refuses logins when User.try_to_login fails" do
+    u = FactoryGirl.create(:user)
+    User.expects(:try_to_login).with(u.login, 'password').returns(nil)
+    post :login, {:login => {'login' => u.login, 'password' => 'password'}}
+    assert_redirected_to login_users_path
+    assert_present flash[:error]
   end
 
   test "#login retains taxonomy session attributes in new session" do

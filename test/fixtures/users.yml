@@ -1,5 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
+anonymous:
+  login: <%= User::ANONYMOUS_ADMIN %>
+  firstname: Anonymous
+  lastname: Admin
+  admin: true
+  auth_source: hidden
+
+anonymousapi:
+  login: <%= User::ANONYMOUS_API_ADMIN %>
+  firstname: API
+  lastname: Admin
+  admin: true
+  auth_source: hidden
+
 one:
   login: one
   firstname: One
@@ -29,7 +43,8 @@ restricted:
   filter_on_owner: true
 
 admin:
-  login: admin
+  # Proof that 'admin' isn't special
+  login: secret_admin
   firstname: Admin
   lastname: User
   mail: admin@someware.com

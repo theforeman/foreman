@@ -235,3 +235,23 @@ attributes48:
   category: Setting::Puppet
   default: "true"
   description: "Foreman smart variables will be exposed via the ENC yaml output"
+attributes49:
+  name: oauth_active
+  category: Setting::Auth
+  default: "false"
+  description: "Foreman will use OAuth for API authorization"
+attributes50:
+  name: oauth_consumer_key
+  category: Setting::Auth
+  default: "oauth_key"
+  description: "OAuth consumer key"
+attributes51:
+  name: oauth_consumer_secret
+  category: Setting::Auth
+  default: "oauth_secret"
+  description: "OAuth consumer secret"
+attributes52:
+  name: oauth_map_users
+  category: Setting::Auth
+  default: "true"
+  description: "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."

@@ -8,9 +8,12 @@ class User < ActiveRecord::Base
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
   self.auditing_enabled = !Foreman.in_rake?('db:migrate')
 
+  ANONYMOUS_ADMIN = 'foreman_admin'
+  ANONYMOUS_API_ADMIN = 'foreman_api_admin'
+
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
-  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
   after_commit :ensure_default_role
 
   belongs_to :auth_source
@@ -49,13 +52,19 @@ class User < ActiveRecord::Base
     includes(:cached_usergroups).
         where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
   }
+  scope :except_hidden, lambda {
+    if (hidden = AuthSourceHidden.all).present?
+      where("#{self.table_name}.auth_source_id <> ?", hidden)
+    end
+  }
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
   validates :mail, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})\Z/i },
                    :length => { :maximum => 60 },
                    :allow_blank => true
-  validates :mail, :presence => true, :on => :update
+  validates :mail, :presence => true, :on => :update,
+                   :if => Proc.new { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? }
 
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
@@ -74,9 +83,9 @@ class User < ActiveRecord::Base
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
-  validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
-           :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion
-
+  validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
+           :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
+           :ensure_last_admin_remains_admin, :hidden_authsource_restricted
   before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
@@ -90,7 +99,7 @@ class User < ActiveRecord::Base
   scoped_search :in => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {
-    with_taxonomy_scope do
+    with_taxonomy_scope.except_hidden do
       order('firstname')
     end
   }
@@ -124,6 +133,10 @@ class User < ActiveRecord::Base
     read_attribute(:admin) || cached_usergroups.any?(&:admin?)
   end
 
+  def hidden?
+    auth_source.kind_of? AuthSourceHidden
+  end
+
   def to_label
     (firstname.present? || lastname.present?) ? "#{firstname} #{lastname}" : login
   end
@@ -142,21 +155,12 @@ class User < ActiveRecord::Base
     to_label + " (#{login})"
   end
 
-  def self.create_admin
-    email = Setting[:administrator]
-    user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User",
-                       :mail => email, :auth_source => AuthSourceInternal.first, :password => "changeme")
-    user.update_attribute :admin, true
-    old_current = User.current
-    User.current = user
-    user.save!
-    user
-  ensure
-    User.current = old_current
+  def self.anonymous_admin
+    unscoped.find_by_login ANONYMOUS_ADMIN or raise Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed", ANONYMOUS_ADMIN))
   end
 
-  def self.admin
-    unscoped.find_by_login 'admin' or create_admin
+  def self.anonymous_api_admin
+    unscoped.find_by_login ANONYMOUS_API_ADMIN or raise Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed", ANONYMOUS_API_ADMIN))
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source
@@ -175,7 +179,7 @@ class User < ActiveRecord::Base
 
         # update with returned attrs, maybe some info changed in LDAP
         old_hash = user.avatar_hash
-        User.as :admin do
+        User.as_anonymous_admin do
           user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? })
         end if attrs.is_a? Hash
 
@@ -200,12 +204,12 @@ class User < ActiveRecord::Base
   end
 
   def post_successful_login
-    User.as "admin" do
+    User.as_anonymous_admin do
       self.update_attribute(:last_login_on, Time.now.utc)
       anonymous = Role.find_by_name("Anonymous")
       self.roles << anonymous unless self.roles.include?(anonymous)
-      User.current = self
     end
+    User.current = self
   end
 
   def self.find_or_create_external_user(attrs, auth_source_name)
@@ -230,7 +234,7 @@ class User < ActiveRecord::Base
       return false
     # not existing user and auth source is set, we'll create the user and auth source if needed
     else
-      User.as :admin do
+      User.as_anonymous_admin do
         auth_source = AuthSourceExternal.create!(:name => auth_source_name) if auth_source.nil?
         user = User.create!(attrs.merge(:auth_source => auth_source))
         if external_groups.present?
@@ -364,6 +368,11 @@ class User < ActiveRecord::Base
     taxonomy_and_child_ids(:organizations)
   end
 
+  def self.random_password(size = 16)
+    set = ('a' .. 'z').to_a + ('A' .. 'Z').to_a + ('0' .. '9').to_a - %w(0 1 O I l)
+    size.times.collect {|i| set[rand(set.size)] }.join
+  end
+
   private
 
   def prepare_password
@@ -385,7 +394,7 @@ class User < ActiveRecord::Base
       user = new(attrs)
       user.login = login
       # The default user can't auto create users, we need to change to Admin for this to work
-      User.as "admin" do
+      User.as_anonymous_admin do
         if user.save
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
         else
@@ -415,27 +424,41 @@ class User < ActiveRecord::Base
     end
   end
 
-  # The internal Admin Account is always available
-  # this is required as when not using external authentication, the systems logs you in with the
-  # admin account automatically
-  def ensure_admin_is_not_deleted
-    if login == "admin"
+  def ensure_last_admin_is_not_deleted
+    if User.unscoped.only_admin.except_hidden.size <= 1
+      errors.add :base, _("Can't delete the last admin account")
+      logger.warn "Unable to delete the last admin account"
+      false
+    end
+  end
+
+  def ensure_last_admin_remains_admin
+    if !new_record? && admin_changed? && !admin && User.unscoped.only_admin.except_hidden.size <= 1
+      errors.add :admin, _("cannot be removed from the last admin account")
+      logger.warn "Unable to remove admin privileges from the last admin account"
+      false
+    end
+  end
+
+  # The hidden/internal admin accounts are always required
+  def ensure_hidden_users_are_not_deleted
+    if auth_source.is_a? AuthSourceHidden
       errors.add :base, _("Can't delete internal admin account")
       logger.warn "Unable to delete internal admin account"
       false
     end
   end
 
-  # The admin account must always retain the "Administrator" flag to function
-  def ensure_admin_remains_admin
-    if login == "admin" and admin_changed? and admin == false
-      errors.add :admin, _("Can't remove Administrator flag from internal protected <b>admin</b> account").html_safe
+  # The hidden accounts must always retain the "Administrator" flag to function
+  def ensure_hidden_users_remain_admin
+    if auth_source.is_a?(AuthSourceHidden) && admin_changed? && !admin
+      errors.add :admin, _("cannot be removed from an internal protected account")
     end
   end
 
-  def ensure_admin_is_not_renamed
-    if login_changed? and login_was == "admin"
-      errors.add :login, (_("Can't rename internal protected <b>admin</b> account to %s") % login).html_safe
+  def ensure_hidden_users_are_not_renamed
+    if auth_source.is_a?(AuthSourceHidden) && login_changed? && !new_record?
+      errors.add :login, _("cannot be changed on an internal protected account")
     end
   end
 
@@ -475,4 +498,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def hidden_authsource_restricted
+    if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN].include?(self.login)
+      errors.add :auth_source, _("is not permitted")
+    end
+  end
 end

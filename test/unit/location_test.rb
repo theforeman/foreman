@@ -3,7 +3,7 @@ require 'test_helper'
 class LocationTest < ActiveSupport::TestCase
 
   setup do
-    User.current = User.admin
+    User.current = users :admin
   end
 
   test 'it should not save without an empty name' do
@@ -243,7 +243,6 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal [], child_location.location_parameters
 
     # new parameter on child location
-    User.current = User.admin
     child_param = child_location.location_parameters.create(:name => "child_param", :value => "123")
 
     assert_equal Hash['loc_param', 'abc', 'child_param', '123'], child_location.parameters

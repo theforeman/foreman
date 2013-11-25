@@ -2,7 +2,7 @@ require 'test_helper'
 
 class HostParameterTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
   test "should have a reference_id" do
     host_parameter = HostParameter.new
