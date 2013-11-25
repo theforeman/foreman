@@ -449,6 +449,9 @@ ln -sv %{_localstatedir}/log/%{name} %{buildroot}%{_datadir}/%{name}/log
 # Put tmp files in %{_localstatedir}/run/%{name}
 ln -sv %{_localstatedir}/run/%{name} %{buildroot}%{_datadir}/%{name}/tmp
 
+# Create VERSION file
+install -pm0644 VERSION %{buildroot}%{_datadir}/%{name}/VERSION
+
 %clean
 rm -rf %{buildroot}
 
