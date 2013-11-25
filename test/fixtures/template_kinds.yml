@@ -1,5 +1,5 @@
-gpxe:
-  name: gPXE
+ipxe:
+  name: iPXE
 
 provision:
   name: provision

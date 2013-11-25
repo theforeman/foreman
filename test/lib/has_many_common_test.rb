@@ -22,11 +22,11 @@ class HasManyCommonTest < ActiveSupport::TestCase
   test "should add config_template association by passing array of names" do
     env = environments(:production)
     assert_difference('env.config_template_names.count') do
-      env.config_template_names = ["MyFinish", "MyString", "MyString2", "PXE Default File"]
+      env.config_template_names = ["MyFinish", "MyString", "MyString2", "PXELinux global default"]
     end
     assert_equal 4, env.config_template_ids.count
     assert_equal 4, env.config_template_names.count
-    assert_equal ["MyFinish", "MyString", "MyString2", "PXE Default File"], env.config_template_names.sort
+    assert_equal ["MyFinish", "MyString", "MyString2", "PXELinux global default"], env.config_template_names.sort
   end
 
   test "should delete config_template association by passing array of names" do

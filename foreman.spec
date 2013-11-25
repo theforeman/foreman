@@ -1,5 +1,6 @@
 %global homedir %{_datadir}/%{name}
 %global confdir extras/packaging/rpm/sources
+%global foreman_rake %{_sbindir}/%{name}-rake
 
 %if "%{?scl}" == "ruby193"
     %global scl_prefix %{scl}-
@@ -448,6 +449,7 @@ mkdir %{buildroot}%{_localstatedir}/lib/%{name}/db
 
 ln -sv %{_localstatedir}/lib/%{name}/db %{buildroot}%{_datadir}/%{name}/db
 ln -sv %{_datadir}/%{name}/migrate %{buildroot}%{_localstatedir}/lib/%{name}/db/migrate
+ln -sv %{_datadir}/%{name}/seeds.rb %{buildroot}%{_localstatedir}/lib/%{name}/db/seeds.rb
 
 # Put HTML %{_localstatedir}/lib/%{name}/public
 cp -pr public %{buildroot}%{_localstatedir}/lib/%{name}/
@@ -543,10 +545,11 @@ fi
   exit 0
 
 %posttrans
-# We need to run the db:migrate after the  install transaction
-su - foreman -s /bin/bash -c %{_datadir}/%{name}/extras/dbmigrate >/dev/null 2>&1 || :
- (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
- exit 0
+# We need to run the db:migrate after the install transaction
+%{foreman_rake} db:migrate >> %{_localstatedir}/log/%{name}/db_migrate.log 2>&1 || :
+%{foreman_rake} db:seed >> %{_localstatedir}/log/%{name}/db_seed.log 2>&1 || :
+(/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
+exit 0
 
 %preun
 if [ $1 -eq 0 ] ; then
@@ -566,6 +569,7 @@ fi
 - Pin fog to 1.18.x
 - Add new rails3_before_render dependency
 - Removed foreman-mysql package (obsoleted by mysql2)
+- Seed database after DB migration
 
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage

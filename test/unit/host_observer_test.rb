@@ -23,7 +23,7 @@ class HostObserverTest < ActiveSupport::TestCase
       Setting[:token_duration] = 30
       host = Host.create! :name => "foo", :mac => "aabbeeddccff", :ip => "2.3.4.244", :managed => true,
         :build => true, :architecture => architectures(:x86_64), :environment => Environment.first, :puppet_proxy_id => smart_proxies(:one).id,
-        :domain => Domain.first, :operatingsystem => operatingsystems(:centos5_3), :subnet => subnets(:one),
+        :domain => Domain.first, :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
         :url_options => {:host => 'foreman', :protocol => "http://"}
     end
 

@@ -1,5 +1,7 @@
-#kind: snippet
-#name: puppet.conf
+<%#
+kind: snippet
+name: puppet.conf
+%>
 [main]
 <% if @host.operatingsystem.name == "FreeBSD" -%>
 vardir = /var/puppet

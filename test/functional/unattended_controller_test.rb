@@ -7,85 +7,92 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "should get a kickstart" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{hosts(:redhat).mac}"
-    get :kickstart
+    get :provision
     assert_response :success
   end
 
   test "should get a kickstart even if not using the first NIC" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "unused NIC"
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_3"] = "eth4 #{hosts(:redhat).mac}"
-    get :kickstart
+    get :provision
     assert_response :success
   end
 
   test "should get a kickstart even if we are behind a loadbalancer" do
     @request.env["HTTP_X_FORWARDED_FOR"] = hosts(:redhat).ip
     @request.env["REMOTE_ADDR"] = "127.0.0.1"
-    get :kickstart
+    get :provision
     assert_response :success
   end
 
   test "should get a preseed finish script" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    get :preseed_finish
+    get :finish
     assert_response :success
   end
 
   test "should get a preseed finish script with multiple ips in the request header" do
     @request.env["REMOTE_ADDR"] = [hosts(:ubuntu).ip, '1.2.3.4']
-    get :preseed_finish
+    get :finish
     assert_response :success
   end
 
   test "should get a preseed" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    get :preseed
+    get :provision
     assert_response :success
   end
 
   test "unattended files content type should be text/plain" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    get :preseed
+    get :provision
     assert_response :success
     assert @response.headers["Content-Type"].match("text/plain")
   end
 
   test "should support spoof" do
-    get :preseed, {:spoof => hosts(:ubuntu).ip}, set_session_user
+    get :provision, {:spoof => hosts(:ubuntu).ip}, set_session_user
     assert_response :success
   end
 
   test "should render spoof when user is not logged in" do
-    get :preseed, {:spoof => hosts(:ubuntu).ip}
+    get :provision, {:spoof => hosts(:ubuntu).ip}
     assert_response :redirect
   end
 
   test "should provide pxe config for redhat" do
-    get :pxe_kickstart_config, {:spoof => hosts(:redhat).ip}, set_session_user
+    get :PXELinux, {:spoof => hosts(:redhat).ip}, set_session_user
     assert_response :success
   end
 
   test "should provide pxe config for debian" do
-    get :pxe_debian_config, {:spoof => hosts(:ubuntu).ip}, set_session_user
+    get :PXELinux, {:spoof => hosts(:ubuntu).ip}, set_session_user
     assert_response :success
   end
 
   test "should render spoof pxelinux for a host" do
-    get :PXELinux, {:spoof => hosts(:myfullhost).ip}, set_session_user
+    get :PXELinux, {:spoof => hosts(:redhat).ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
   end
 
   test "should render spoof pxegrub for a host" do
-    get :PXEGrub, {:spoof => hosts(:myfullhost).ip}, set_session_user
+    get :PXEGrub, {:spoof => hosts(:redhat).ip}, set_session_user
+    assert assigns(:initrd)
+    assert assigns(:kernel)
+    assert_response :success
+  end
+
+  test "should render spoof iPXE for a host" do
+    get :iPXE, {:spoof => hosts(:redhat).ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
   end
 
   test "should render spoof gpxe for a host" do
-    get :gPXE, {:spoof => hosts(:myfullhost).ip}, set_session_user
+    get :gPXE, {:spoof => hosts(:redhat).ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
@@ -103,12 +110,12 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{hosts(:redhat).mac}"
     get :built
     assert_response :created
-    get :kickstart
+    get :provision
     assert_response :method_not_allowed
   end
 
   test "should not provide unattended files to hosts which we don't know about" do
-    get :kickstart
+    get :provision
     assert_response :not_found
   end
 
@@ -117,7 +124,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
     hosts(:otherfullhost).update_attribute(:operatingsystem_id, nil)
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{hosts(:otherfullhost).mac}"
-    get :kickstart
+    get :provision
     assert_response :conflict
   end
 
@@ -140,7 +147,7 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:token_duration] = 30
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    get :preseed, {'token' => hosts(:ubuntu).token.value }
+    get :provision, {'token' => hosts(:ubuntu).token.value }
     assert_response :success
   end
 
@@ -190,16 +197,25 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:unattended_url]    = "http://test.host"
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    get :preseed
-    assert @response.body.include?("d-i preseed/late_command string wget http://test.host:80/unattended/finish?token=aaaaaa -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh")
+    get :provision
+    assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
   end
 
   # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
   test "template should not contain https when ssl enabled" do
     @request.env["HTTPS"] = "on"
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    get :preseed
-    assert_no_match(/https/, @response.body)
+    get :provision
+    assert_match(%r{http://}, @response.body)
+    assert_no_match(%r{https://}, @response.body)
+  end
+
+  test "should return and log error when template not found" do
+    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
+    Host::Managed.any_instance.expects(:configTemplate).returns(nil)
+    Rails.logger.expects(:error).with(regexp_matches(/unable to find provision template/))
+    get :provision
+    assert_response :not_found
   end
 
 end

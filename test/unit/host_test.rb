@@ -456,17 +456,17 @@ class HostTest < ActiveSupport::TestCase
     assert_equal domain, host.domain
   end
 
-  test "a system should retrieve its gPXE template if it is associated to the correct env and host group" do
+  test "a system should retrieve its iPXE template if it is associated to the correct env and host group" do
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
-      :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
+      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
-    assert_equal ConfigTemplate.find_by_name("MyString"), host.configTemplate({:kind => "gPXE"})
+    assert_equal ConfigTemplate.find_by_name("MyString"), host.configTemplate({:kind => "iPXE"})
   end
 
   test "a system should retrieve its provision template if it is associated to the correct host group only" do
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
-      :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
+      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
     assert_equal ConfigTemplate.find_by_name("MyString2"), host.configTemplate({:kind => "provision"})
@@ -474,7 +474,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "a system should retrieve its script template if it is associated to the correct OS only" do
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
-      :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
+      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
     assert_equal ConfigTemplate.find_by_name("MyScript"), host.configTemplate({:kind => "script"})
@@ -482,7 +482,7 @@ class HostTest < ActiveSupport::TestCase
 
  test "a system should retrieve its finish template if it is associated to the correct environment only" do
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
-      :operatingsystem => Operatingsystem.find_by_name("centos"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
+      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
     assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate({:kind => "finish"})
