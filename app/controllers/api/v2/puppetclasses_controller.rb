@@ -7,7 +7,6 @@ module Api
 
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :find_optional_nested_object, :only => [:index]
-      skip_before_render :get_metadata, :only => :index
 
       api :GET, "/puppetclasses/", "List all puppetclasses."
       api :GET, "/hosts/:host_id/puppetclasses", "List all puppetclasses for host"
@@ -30,7 +29,15 @@ module Api
                      else
                        nested_obj.puppetclasses.search_for(*search_options)
                    end
-        @puppetclasses = Puppetclass.classes2hash(values.paginate(paginate_options))
+        @total   = Puppetclass.count unless nested_obj
+        @total ||= case nested_obj
+                     when Host::Base, Hostgroup
+                       values.count
+                     else
+                       nested_obj.puppetclasses.count
+                   end
+        @subtotal = values.count
+        @puppetclasses = Puppetclass.classes2hash_v2(values.paginate(paginate_options))
       end
 
       api :GET, "/puppetclasses/:id", "Show a puppetclass"

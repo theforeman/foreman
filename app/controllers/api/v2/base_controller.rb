@@ -27,9 +27,9 @@ module Api
         #@total should be defined in individual controllers, but in case it's not.
         @total ||= @results.try(:count).to_i
         if (@search = params[:search]).present?
-          @subtotal = @results.try(:count).to_i
+          @subtotal ||= @results.try(:count).to_i
         else
-          @subtotal = @total
+          @subtotal ||= @total
         end
 
         if params[:order].present? && (order_array = params[:order].split(' ')).any?

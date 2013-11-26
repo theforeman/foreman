@@ -46,6 +46,18 @@ class Puppetclass < ActiveRecord::Base
     return hash
   end
 
+  # For API v2 - eliminate node :puppetclass for each object. returns a hash containing modules and associated classes
+  def self.classes2hash_v2 classes
+    hash = {}
+    classes.each do |klass|
+      if (mod = klass.module_name)
+        hash[mod] ||= []
+        hash[mod] << {:id => klass.id, :name => klass.name, :created_at => klass.created_at, :updated_at => klass.updated_at}
+      end
+    end
+    return hash
+  end
+
   # returns module name (excluding of the class name)
   # if class separator does not exists (the "::" chars), then returns the whole class name
   def module_name
