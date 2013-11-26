@@ -3,9 +3,9 @@ module Menu
     def self.load
       Manager.map :user_menu do |menu|
         menu.item :logout,               :caption => N_('Sign out'),
-                  :url_hash => {:controller => 'users', :action => 'logout'}
+                  :url_hash => {:controller => 'users', :action => 'logout', :use_route => :users_logout_path }
         menu.item :my_account,           :caption => N_('My account'),
-                  :url_hash => {:controller => 'users', :action => 'edit', :id => Proc.new { User.current }}
+                  :url_hash => {:controller => 'users', :action => 'edit', :use_route => :users_edit_path, :id => Proc.new { User.current }}
       end
 
       Manager.map :admin_menu do |menu|
@@ -30,7 +30,7 @@ module Menu
         menu.sub_menu :monitor_menu,    :caption => N_('Monitor') do
           menu.item :dashboard,         :caption => N_('Dashboard')
           menu.item :reports,           :caption => N_('Reports'),
-                    :url_hash => {:controller => 'reports', :action => 'index', :search => 'eventful = true'}
+                    :url_hash => {:controller => 'reports', :action => 'index', :use_route => :reports_path, :search => 'eventful = true'}
           menu.item :fact_values,       :caption => N_('Facts')
           menu.item :statistics,        :caption => N_('Statistics')
           menu.item :trends,            :caption => N_('Trends')
