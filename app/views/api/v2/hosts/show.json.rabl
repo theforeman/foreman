@@ -16,7 +16,7 @@ if SETTINGS[:locations_enabled]
   attributes :location_id, :location_name
 end
 
-child :host_parameters do
+child :host_parameters, :object_root => false do
   attributes :id, :name, :value, :priority, :is_property, :created_at, :updated_at
 end
 
