@@ -1,9 +1,7 @@
 object @medium
 
-attributes :id, :name, :path, :os_family, :created_at, :updated_at, :operatingsystem_ids
+extends "api/v2/media/main"
 
-node do |medium|
-  if medium.os_family == 'Solaris'
-    attributes :media_path, :config_path, :image_path
-  end
+child :operatingsystems, :object_root => false do
+  extends "api/v2/operatingsystems/base"
 end

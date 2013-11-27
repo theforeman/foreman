@@ -1,3 +1,3 @@
 collection @reports
 
-extends "api/v2/reports/show"
+extends "api/v2/reports/main"

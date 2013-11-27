@@ -1,3 +1,3 @@
 collection @interfaces
 
-extends "api/v2/interfaces/show"
+extends "api/v2/interfaces/main"

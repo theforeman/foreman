@@ -1,3 +1,3 @@
 collection @ptables
 
-extends "api/v2/ptables/show"
+extends "api/v2/ptables/main"

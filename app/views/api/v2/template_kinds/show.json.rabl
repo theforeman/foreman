@@ -1,3 +1,3 @@
 object @template_kind
 
-attributes :name, :id
+extends "api/v2/template_kinds/main"

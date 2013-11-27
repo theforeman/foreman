@@ -1,3 +1,3 @@
-object @parameter => :parameter
+object @parameter
 
-attributes :id, :name, :value
+extends "api/v2/parameters/main"

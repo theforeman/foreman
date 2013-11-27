@@ -1,3 +1,3 @@
 collection @media
 
-extends "api/v2/media/show"
+extends "api/v2/media/main"

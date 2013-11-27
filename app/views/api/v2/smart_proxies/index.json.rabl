@@ -1,3 +1,3 @@
 collection @smart_proxies
 
-attributes :name, :id, :url, :created_at, :updated_at
+extends "api/v2/smart_proxies/main"

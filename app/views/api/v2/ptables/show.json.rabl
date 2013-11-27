@@ -1,3 +1,5 @@
 object @ptable
 
-attributes :name, :id, :layout, :os_family, :created_at, :updated_at
+extends "api/v2/ptables/main"
+
+attributes :layout
