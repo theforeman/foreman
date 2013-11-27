@@ -144,7 +144,7 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).sub_menu(name, options)
       current = @parent
       @parent = name
-      self.instance_eval(&block)
+      self.instance_eval(&block) if block_given?
       @parent = current
     end
 
