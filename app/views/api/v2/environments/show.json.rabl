@@ -1,5 +1,3 @@
 object @environment
 
-attributes :name, :id, :created_at, :updated_at
-
-
+extends "api/v2/environments/main"

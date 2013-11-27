@@ -1,6 +1,6 @@
 object @smart_proxy
 
-attributes :name, :id, :url, :created_at, :updated_at
+extends "api/v2/smart_proxies/main"
 
 child :features, :object_root => false do
 	attributes :name, :id, :url

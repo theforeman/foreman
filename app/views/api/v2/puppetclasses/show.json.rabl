@@ -1,6 +1,6 @@
 object @puppetclass
 
-attributes :id, :name, :created_at, :updated_at
+extends "api/v2/puppetclasses/main"
 
 child :environments, :object_root => false do
   attributes :id, :name

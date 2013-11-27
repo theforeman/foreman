@@ -1,6 +1,6 @@
 object @report
 
-attributes :id, :reported_at, :status, :metrics
+extends "api/v2/reports/main"
 
 child :logs, :object_root => false do
   child :source, :object_root => false do
@@ -13,5 +13,5 @@ child :logs, :object_root => false do
 end
 
 node :summary do |report|
-	report.summaryStatus
+  report.summaryStatus
 end

@@ -1,3 +1,3 @@
-object @override_value => :override_value
+object @override_value
 
-attributes :id, :match, :value
+extends "api/v2/override_values/main"

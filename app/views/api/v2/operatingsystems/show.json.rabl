@@ -1,5 +1,6 @@
 object @operatingsystem
-attributes :id, :name, :major, :minor, :family, :release_name
+
+extends "api/v2/operatingsystems/main"
 
 child :media, :object_root => false do
   attributes :id, :name
