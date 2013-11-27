@@ -3,7 +3,7 @@ class ConfigTemplate < ActiveRecord::Base
   include Taxonomix
   audited :allow_mass_assignment => true
   self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
-  attr_accessible :name, :template, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystem_ids, :audit_comment
+  attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystems, :operatingsystem_ids, :audit_comment
   validates :name, :presence => true, :uniqueness => true
   validates :name, :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
@@ -93,8 +93,8 @@ class ConfigTemplate < ActiveRecord::Base
       error_msg = _("No TFTP proxies defined, can't continue")
     end
 
-    if (default_template = ConfigTemplate.find_by_name("PXE Default File")).nil?
-      error_msg = _("Could not find a Configuration Template with the name \"PXE Default File\", please create one.")
+    if (default_template = ConfigTemplate.find_by_name("PXELinux global default")).nil?
+      error_msg = _("Could not find a Configuration Template with the name \"PXELinux global default\", please create one.")
     end
 
     if error_msg.empty?

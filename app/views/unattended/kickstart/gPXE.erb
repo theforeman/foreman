@@ -1,0 +1,17 @@
+#!gpxe
+#kind: gPXE
+#name: Community Kickstart gPXE
+#oses:
+#- CentOS 5
+#- CentOS 6
+#- Fedora 16
+#- Fedora 17
+#- Fedora 18
+#- Fedora 19
+#- RedHat 5
+#- RedHat 6
+
+kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url("provision")%>?static=yes ksdevice=<%= @host.mac %> network kssendmac ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}
+initrd <%= "#{@host.url_for_boot(:initrd)}" %>
+
+boot

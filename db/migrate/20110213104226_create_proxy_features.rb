@@ -8,11 +8,6 @@ class CreateProxyFeatures < ActiveRecord::Migration
       t.string :name, :limit => 16
       t.timestamps
     end
-    Feature.create(:name => "TFTP")
-    Feature.create(:name => "DNS")
-    Feature.create(:name => "DHCP")
-    Feature.create(:name => "Puppet CA")
-    Feature.create(:name => "Puppet")
 
     create_table :features_smart_proxies, :id => false do |t|
       t.references :smart_proxy

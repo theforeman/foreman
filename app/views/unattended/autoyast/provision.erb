@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+#kind: provision
+#name: Community AutoYaST
+-->
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
   <general>
@@ -11,6 +15,11 @@
     <dns>
       <hostname><%= @host.name %></hostname>
       <resolv_conf_policy>auto</resolv_conf_policy>
+<% if @host.domain -%>
+      <searchlist config:type="list">
+        <search><%= @host.domain %></search>
+      </searchlist>
+<% end -%>
     </dns>
     <interfaces config:type="list">
       <interface>
@@ -25,7 +34,7 @@
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
-        <address>ntp</address>
+        <address><%= @host.params["ntp-server"] || "0.opensuse.pool.ntp.org" %></address>
         <initial_sync config:type="boolean">true</initial_sync>
         <options></options>
         <type>server</type>
@@ -69,7 +78,11 @@
           cat > /etc/puppet/puppet.conf << EOF
 <%= snippets "puppet.conf" -%>
 EOF
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server puppet  --no-daemonize
+if [ -f "/etc/sysconfig/puppet" ]
+then
+/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster %>/ /etc/sysconfig/puppet
+fi
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
 /usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 /sbin/chkconfig puppet on -f
 ]]>
@@ -77,4 +90,11 @@ EOF
       </script>
     </post-scripts>
   </scripts>
+  <keyboard>
+    <keymap>english-us</keymap>
+  </keyboard>
+  <timezone>
+    <hwclock>UTC</hwclock>
+    <timezone>Etc/UTC</timezone>
+  </timezone>
 </profile>

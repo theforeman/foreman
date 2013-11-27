@@ -1,25 +1,46 @@
 #kind: provision
-#name: Community Kickstart RHEL
+#name: Community Kickstart
 #oses:
-#- RedHat 5
-#- RedHat 6
+#- CentOS 5
+#- CentOS 6
+#- Fedora 16
+#- Fedora 17
+#- Fedora 18
+#- Fedora 19
 install
 <%= @mediapath %>
 lang en_US.UTF-8
-selinux --permissive
+selinux --enforcing
 keyboard us
 skipx
-network --bootproto <%= @static ? "static" : "dhcp" %> --hostname <%= @host %>
+network --bootproto <%= @static ? "static --ip=#{@host.ip} --netmask=#{@host.subnet.mask} --gateway=#{@host.subnet.gateway} --nameserver=#{[@host.subnet.dns_primary,@host.subnet.dns_secondary].reject{|n| n.blank?}.join(',')}" : "dhcp" %> --hostname <%= @host %>
 rootpw --iscrypted <%= root_pass %>
 firewall --<%= @host.operatingsystem.major.to_i >= 6 ? "service=" : "" %>ssh
 authconfig --useshadow --passalgo=sha256 --kickstart
 timezone UTC
 services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables_jf,xfs,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd,restorecond,mcstrans,rhnsd,yum-updatesd
 
+<% if @host.operatingsystem.name == "Fedora" -%>
+repo --name=fedora-everything --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %>
+<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+repo --name=puppetlabs-products --baseurl=http://yum.puppetlabs.com/fedora/f<%= @host.operatingsystem.major %>/products/<%= @host.architecture %>
+repo --name=puppetlabs-deps --baseurl=http://yum.puppetlabs.com/fedora/f<%= @host.operatingsystem.major %>/dependencies/<%= @host.architecture %>
+<% end -%>
+<% elsif @host.operatingsystem.family == "Redhat" %>
 repo --name="Extra Packages for Enterprise Linux" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %>
+<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+repo --name=puppetlabs-products --baseurl=http://yum.puppetlabs.com/el/<%= @host.operatingsystem.major %>/products/<%= @host.architecture %>
+repo --name=puppetlabs-deps --baseurl=http://yum.puppetlabs.com/el/<%= @host.operatingsystem.major %>/dependencies/<%= @host.architecture %>
+<% end -%>
+<% end -%>
 
+<% if @host.operatingsystem.name == "Fedora" and @host.operatingsystem.major.to_i <= 16 -%>
+# Bootloader exception for Fedora 16:
+bootloader --append="nofb quiet splash=quiet <%=ks_console%>" <%= grub_pass %>
+part biosboot --fstype=biosboot --size=1
+<% else -%>
 bootloader --location=mbr --append="nofb quiet splash=quiet" <%= grub_pass %>
-key --skip
+<% end -%>
 
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
@@ -38,6 +59,10 @@ wget
 @Core
 epel-release
 puppet
+<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+puppetlabs-release
+<% end -%>
+<%= "%end\n" if @host.operatingsystem.name == "Fedora" %>
 
 <% if @dynamic -%>
 %pre
@@ -52,6 +77,7 @@ exec < /dev/tty3 > /dev/tty3
 cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
 /usr/bin/chvt 1
 ) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
+<%= "%end\n" if @host.operatingsystem.name == "Fedora" %>
 
 %post
 logger "Starting anaconda <%= @host %> postinstall"
@@ -64,13 +90,8 @@ echo "updating system time"
 /usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "0.fedora.pool.ntp.org" %>
 /usr/sbin/hwclock --systohc
 
-<%= snippets "redhat_register" %>
-
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
-
-# and add the puppet package
-yum -t -y -e 0 install puppet
 
 echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
@@ -90,3 +111,5 @@ wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 # Sleeping an hour for debug
 ) 2>&1 | tee /root/install.post.log
 exit 0
+
+<%= "%end\n" if @host.operatingsystem.name == "Fedora" -%>
