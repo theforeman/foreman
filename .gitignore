@@ -32,3 +32,4 @@ locale/*/*.pox
 locale/*/LC_MESSAGES
 coverage/
 tags
+_build
