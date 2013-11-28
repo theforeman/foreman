@@ -35,7 +35,7 @@ class SmartProxy < ActiveRecord::Base
     where(conditions)
   }
 
-  Feature::NAME_MAP.each { |f, v| scope "#{f}_proxies".to_sym, where(:features => { :name => v }).joins(:features) }
+  Feature.name_map.each { |f, v| scope "#{f}_proxies".to_sym, where(:features => { :name => v }).joins(:features) }
 
   def hostname
     # This will always match as it is validated
@@ -85,7 +85,7 @@ class SmartProxy < ActiveRecord::Base
     begin
       reply = ProxyAPI::Features.new(:url => url).features
       if reply.is_a?(Array) and reply.any?
-        self.features = Feature.where(:name => reply.map{|f| Feature::NAME_MAP[f]})
+        self.features = Feature.where(:name => reply.map{|f| Feature.name_map[f]})
       else
         self.features.clear
         errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
