@@ -8,10 +8,15 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   test "remove membership of user in a group" do
     setup_admins_scenario
-    assert_include @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
+    assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
+
     @superadmins.users.clear
 
     assert_not_include @superadmin_user.reload.cached_user_roles.map(&:role), @semiadmin_role
+    cached_usergroups = @superadmin_user.cached_usergroups
+    assert_not_include cached_usergroups, @superadmins
+    assert_not_include cached_usergroups, @admins
+    assert_not_include cached_usergroups, @semiadmins
   end
 
   test "searching for user roles" do
@@ -24,6 +29,15 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_not_includes found, @role1
     assert_not_includes found, @role2
     assert_not_includes found, @role3
+  end
+
+  test "searching for user groups" do
+    setup_admins_scenario
+
+    found = @admins.usergroup_members.first.send :find_all_usergroups
+    assert_includes found, @semiadmins
+    assert_includes found, @admins
+    assert_not_include found, @superadmins
   end
 
   test "searching for affected users memberships" do
@@ -56,6 +70,13 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     assert_not_include @admin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_not_include @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
+
+    assert_includes @semiadmin_user.cached_usergroups, @semiadmins
+    assert_not_includes @admin_user.cached_usergroups, @semiadmins
+    assert_includes @admin_user.cached_usergroups, @admins
+    assert_not_includes @superadmin_user.cached_usergroups, @semiadmins
+    assert_includes @superadmin_user.cached_usergroups, @admins
+    assert_includes @superadmin_user.cached_usergroups, @superadmins
   end
 
   test "remove leaf member in tree" do
@@ -74,6 +95,13 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_include @admin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_not_include @superadmin_user.cached_user_roles.map(&:role), @admin_role
     assert_not_include @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
+
+    assert_includes @semiadmin_user.cached_usergroups, @semiadmins
+    assert_includes @admin_user.cached_usergroups, @semiadmins
+    assert_includes @admin_user.cached_usergroups, @admins
+    assert_not_includes @superadmin_user.cached_usergroups, @semiadmins
+    assert_not_includes @superadmin_user.cached_usergroups, @admins
+    assert_includes @superadmin_user.cached_usergroups, @superadmins
   end
 
   test "add new memership to the root" do
@@ -87,6 +115,10 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @admin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), basic_role
+
+    assert_includes @semiadmin_user.cached_usergroups, basic
+    assert_includes @admin_user.cached_usergroups, basic
+    assert_includes @superadmin_user.cached_usergroups, basic
   end
 
   test "add new memership to the middle of chain" do
@@ -97,9 +129,13 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic.roles<< basic_role
     basic.usergroups<< @admins
 
-    assert_not_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
+    assert_not_include @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @admin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), basic_role
+
+    assert_not_include @semiadmin_user.cached_usergroups, basic
+    assert_includes @admin_user.cached_usergroups, basic
+    assert_includes @superadmin_user.cached_usergroups, basic
   end
 
   test "add new memership to the leaf" do
@@ -113,6 +149,10 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_not_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_not_includes @admin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), basic_role
+
+    assert_not_include @semiadmin_user.cached_usergroups, basic
+    assert_not_include @admin_user.cached_usergroups, basic
+    assert_includes @superadmin_user.cached_usergroups, basic
   end
 
   test "change membership (member) in the middle of chain" do
@@ -124,10 +164,17 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
 
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
-    assert_not_includes @admin_user.cached_user_roles.map(&:role), @semiadmin_role
-    assert_includes @semiadmin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @superadmin_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @admin_role
+    assert_not_includes @admin_user.cached_user_roles.map(&:role), @semiadmin_role
+    assert_includes @semiadmin_user.cached_user_roles.map(&:role), @semiadmin_role
+
+    assert_includes @superadmin_user.cached_usergroups, @semiadmins
+    assert_includes @superadmin_user.cached_usergroups, @admins
+    assert_includes @superadmin_user.cached_usergroups, @superadmins
+    assert_not_include @admin_user.cached_usergroups, @semiadmins
+    assert_include @admin_user.cached_usergroups, @admins
+    assert_include @semiadmin_user.cached_usergroups, @semiadmins
   end
 
   test "change membership (hostgroup) in the middle of chain" do
@@ -141,11 +188,16 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @superadmin_role
     assert_not_includes @superadmin_user.cached_user_roles.map(&:role), @admin_role
-
     assert_includes @admin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @admin_user.cached_user_roles.map(&:role), @admin_role
-
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @semiadmin_role
+
+    assert_includes @superadmin_user.cached_usergroups, @superadmins
+    assert_includes @superadmin_user.cached_usergroups, @semiadmins
+    assert_not_include @superadmin_user.cached_usergroups, @admins
+    assert_includes @admin_user.cached_usergroups, @semiadmins
+    assert_includes @admin_user.cached_usergroups, @admins
+    assert_includes @semiadmin_user.cached_usergroups, @semiadmins
   end
 
   test "user is in two joined groups, second membership is removed" do
@@ -163,6 +215,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     @admins.users = []
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
+
+    assert_includes @semiadmin_user.cached_usergroups, @superadmins
   end
 
   test "diamond-with-tail usergroups, one of way is removed" do
@@ -178,17 +232,39 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     @user1 = FactoryGirl.create(:user, :login => 'um_user1')
     @user2 = FactoryGirl.create(:user, :login => 'um_user2')
-    @user1.usergroups = [@d]
+    @user1.usergroups = [@d.reload] # @d cached #users already as []
     @user2.usergroups = [@e]
     @role = FactoryGirl.create(:role, :name => 'um_role')
     @role_ur  = FactoryGirl.create :user_group_user_role, :owner => @a, :role => @role
 
-    assert_includes @user1.cached_user_roles.map(&:role), @role
-    assert_includes @user2.cached_user_roles.map(&:role), @role
+    assert_includes @user1.reload.cached_user_roles.map(&:role), @role
+    assert_includes @user2.reload.cached_user_roles.map(&:role), @role
+
+    assert_includes @user1.cached_usergroups, @a
+    assert_includes @user1.cached_usergroups, @b
+    assert_includes @user1.cached_usergroups, @c
+    assert_includes @user1.cached_usergroups, @d
+    assert_not_includes @user1.cached_usergroups, @e
+    assert_includes @user2.cached_usergroups, @a
+    assert_includes @user2.cached_usergroups, @b
+    assert_includes @user2.cached_usergroups, @c
+    assert_includes @user2.cached_usergroups, @d
+    assert_includes @user2.cached_usergroups, @e
 
     @c.usergroups = []
     assert_includes @user1.reload.cached_user_roles.map(&:role), @role
     assert_includes @user2.reload.cached_user_roles.map(&:role), @role
+
+    assert_includes @user1.cached_usergroups, @a
+    assert_includes @user1.cached_usergroups, @b
+    assert_not_includes @user1.cached_usergroups, @c
+    assert_includes @user1.cached_usergroups, @d
+    assert_not_includes @user1.cached_usergroups, @e
+    assert_includes @user2.cached_usergroups, @a
+    assert_includes @user2.cached_usergroups, @b
+    assert_not_includes @user2.cached_usergroups, @c
+    assert_includes @user2.cached_usergroups, @d
+    assert_includes @user2.cached_usergroups, @e
   end
 
   test "user is in two joined groups, first membership is removed" do
@@ -196,13 +272,18 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     @semiadmins.users = []
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
+    assert_includes @semiadmin_user.cached_usergroups, @semiadmins
+    assert_includes @semiadmin_user.cached_usergroups, @admins
   end
 
   test "user is in two joined groups, joining is removed" do
     setup_redundant_scenario
 
     @semiadmins.usergroups = []
+
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
+    assert_includes @semiadmin_user.cached_usergroups, @semiadmins
+    assert_includes @semiadmin_user.cached_usergroups, @admins
   end
 
   test "user is in two joined groups with redundant role, second membership is removed" do
@@ -211,6 +292,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     @admins.users = []
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
+    assert_includes @semiadmin_user.cached_usergroups, @semiadmins
   end
 
   test "user is in two joined groups with redundant role, first membership is removed" do
