@@ -68,10 +68,10 @@ module Api
       def check_feature_type
         return if params[:type].nil?
 
-        allowed_types = Feature::NAME_MAP.keys
+        allowed_types = Feature.name_map.keys
 
         if not allowed_types.include? params[:type].downcase
-          raise ArgumentError, "Invalid feature type. Select one of: #{Feature::NAME_MAP.keys.join(", ")}."
+          raise ArgumentError, "Invalid feature type. Select one of: #{allowed_types.join(", ")}."
         end
       end
 
