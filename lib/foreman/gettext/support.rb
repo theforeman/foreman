@@ -26,7 +26,7 @@ module Foreman::Gettext::Support
       else
         FastGettext.default_available_locales = Dir.glob(locale_search_path).collect {|f| locale_search_re.match(f)[1] }
       end
-    rescue Exception => e
+    rescue => e
       Rails.logger.warn "Unable to set available locales for domain #{locale_domain}: #{e}"
       FastGettext.default_available_locales = ['en']
     end
