@@ -82,4 +82,10 @@ class MenuItemTest < ActiveSupport::TestCase
     assert_equal get_menu_item(:test_menu, :child_menu), parent_item.children[0]
     assert_equal get_menu_item(:test_menu, :child2_menu), parent_item.children[1]
   end
+
+  def test_allow_setting_path
+    item = Menu::Item.new(:test_menu, :url_hash => {:path => 'test_path'})
+
+    assert_equal item.path, 'test_path'
+  end
 end

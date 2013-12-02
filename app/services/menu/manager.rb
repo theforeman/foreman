@@ -30,7 +30,7 @@ module Menu
 
       def items(menu_name)
         # force menu reload in development when auto loading modified files
-        @items || Menu::Loader.load
+        @items || {}
         @items[menu_name.to_sym] || Node.new(:root)
       end
     end
