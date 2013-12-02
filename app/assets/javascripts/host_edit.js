@@ -621,3 +621,29 @@ function disable_vm_form_fields() {
   });
   $("a.disable-unsupported").remove();
 }
+
+function capacity_edit(element) {
+  var buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
+  if (buttons.size() > 0 && $(buttons[0]).text() == 'Full') {
+    var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+    allocation.value = element.value;
+  }
+  return false;
+}
+
+function allocation_switcher(element, action) {
+  var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+  if (action == 'None') {
+    $(allocation).attr('readonly', 'readonly');
+    allocation.value = '0G';
+  } else if (action == 'Size') {
+    $(allocation).removeAttr('readonly');
+    allocation.value = '';
+    $(allocation).focus();
+  } else if (action == 'Full') {
+    $(allocation).attr('readonly', 'readonly');
+    var capacity = $(element).closest('.fields').find('[id$=capacity]')[0];
+    allocation.value = capacity.value;
+  }
+  return false;
+}
