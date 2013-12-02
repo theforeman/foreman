@@ -356,6 +356,27 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user.role_ids_was, [foobar.id, barfoo.id]
   end
 
+  test "admin? detection for user admin flag" do
+    admin = FactoryGirl.build(:user, :admin => true)
+    assert admin.admin?, 'user admin flag was missed'
+  end
+
+  test "admin? detection for group admin flag" do
+    admin = FactoryGirl.build(:user)
+    g1 = FactoryGirl.build(:usergroup)
+    g2 = FactoryGirl.build(:usergroup, :admin => true)
+    admin.cached_usergroups = [g1, g2]
+    assert admin.admin?, 'group admin flag was missed'
+  end
+
+  test "admin? is false if no flag is enabled" do
+    admin = FactoryGirl.build(:user)
+    g1 = FactoryGirl.build(:usergroup)
+    g2 = FactoryGirl.build(:usergroup)
+    admin.cached_usergroups = [g1, g2]
+    refute admin.admin?
+  end
+
   test ".find_or_create_external_user" do
     count = User.count
     # existing user

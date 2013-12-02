@@ -9,9 +9,11 @@ class Usergroup < ActiveRecord::Base
   has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User', :dependent => :destroy
   has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup', :dependent => :destroy
 
+  has_many :cached_usergroup_members
   has_many :usergroup_parents, :dependent => :destroy, :foreign_key => 'member_id',
            :conditions => "member_type = 'Usergroup'", :class_name => 'UsergroupMember'
   has_many :parents,    :through => :usergroup_parents, :source => :usergroup, :dependent => :destroy
+
 
   has_many_hosts :as => :owner
   validates :name, :uniqueness => true

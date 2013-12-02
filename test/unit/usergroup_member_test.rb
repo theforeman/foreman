@@ -111,6 +111,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @semiadmins
+    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
 
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @admin_user.cached_user_roles.map(&:role), basic_role
@@ -128,6 +129,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @admins
+    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
 
     assert_not_include @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @admin_user.cached_user_roles.map(&:role), basic_role
@@ -145,6 +147,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @superadmins
+    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
 
     assert_not_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_not_includes @admin_user.cached_user_roles.map(&:role), basic_role
@@ -214,6 +217,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     @superadmins.roles<< @admin_role
 
     @admins.users = []
+    @semiadmin_user.reload
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
 
     assert_includes @semiadmin_user.cached_usergroups, @superadmins
@@ -271,6 +275,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     setup_redundant_scenario
 
     @semiadmins.users = []
+    @semiadmin_user.reload
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
     assert_includes @semiadmin_user.cached_usergroups, @semiadmins
     assert_includes @semiadmin_user.cached_usergroups, @admins
@@ -280,6 +285,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     setup_redundant_scenario
 
     @semiadmins.usergroups = []
+    @semiadmin_user.reload
 
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
     assert_includes @semiadmin_user.cached_usergroups, @semiadmins
@@ -291,6 +297,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     @semiadmin_ur = FactoryGirl.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
 
     @admins.users = []
+    @semiadmin_user.reload
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
     assert_includes @semiadmin_user.cached_usergroups, @semiadmins
   end

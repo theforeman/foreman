@@ -15,6 +15,7 @@
     </div>
 
     <div class="tab-pane" id="roles">
+      <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
       <%= multiple_checkboxes f, :roles, @usergroup, Role.givable.for_current_user, {:label => _('Roles')} %>
     </div>
   </div>

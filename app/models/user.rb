@@ -32,8 +32,16 @@ class User < ActiveRecord::Base
   has_many :facts, :through => :user_facts, :source => :fact_name
   attr_name :login
 
-  scope :except_admin, lambda { where(:admin => false) }
-  scope :only_admin, lambda { where(:admin => true) }
+  scope :except_admin, lambda {
+    includes(:cached_usergroups).
+        where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
+                   "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name} IS NULL)",
+               false, false])
+  }
+  scope :only_admin, lambda {
+    includes(:cached_usergroups).
+        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+  }
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -61,15 +69,35 @@ class User < ActiveRecord::Base
   scoped_search :on => :firstname, :complete_value => :true
   scoped_search :on => :lastname, :complete_value => :true
   scoped_search :on => :mail, :complete_value => :true
-  scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :admin, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_admin
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
+  scoped_search :in => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {
     with_taxonomy_scope do
       order('firstname')
     end
   }
+
+  def self.search_by_admin(key, operator, value)
+    value      = value == 'true' ? true : false
+    conditions = [self.table_name, Usergroup.table_name].map do |base|
+      "(#{base}.admin = ?" + (value ? ')' : " OR #{base}.admin IS NULL)")
+    end
+    conditions = conditions.join(value ? ' OR ' : ' AND ')
+
+    {
+        :include    => :cached_usergroups,
+        :conditions => sanitize_sql_for_conditions([conditions, value, value])
+    }
+  end
+
+  # note that if you assign user new usergroups which change the admin flag you must save
+  # the record before #admin? will reflect this
+  def admin?
+    read_attribute(:admin) || cached_usergroups.any?(&:admin?)
+  end
 
   def to_label
     (firstname.present? || lastname.present?) ? "#{firstname} #{lastname}" : login
