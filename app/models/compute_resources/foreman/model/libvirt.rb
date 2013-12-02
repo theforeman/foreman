@@ -62,7 +62,7 @@ module Foreman::Model
     end
 
     def new_volume attr={ }
-      client.volumes.new attr
+      client.volumes.new(attrs.merge(:allocation => '0G'))
     end
 
     def storage_pools
@@ -167,8 +167,8 @@ module Foreman::Model
         vols = []
         (volumes = args[:volumes]).each do |vol|
           vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
-          vol.allocation = "0G"
           vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
+          vol.allocation = "#{vol.allocation}G" unless vol.allocation.to_s.end_with?('G')
           vol.save
           vols << vol
         end

@@ -285,4 +285,20 @@ module HostsHelper
       (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') if SmartProxy.puppet_proxies.any?)
     ].compact
   end
+
+  def allocation_text_f f
+    active = 'Size'
+    active = 'None' if f.object.allocation.to_i == 0
+    active = 'Full' if f.object.allocation == f.object.capacity
+    text_f f, :allocation, :class => "input-mini", :label => _("Allocation (GB)"),
+    :readonly => (active == 'Size') ? false : true,
+    :help_inline => (content_tag(:span, :class => 'btn-group', :'data-toggle' => 'buttons-radio') do
+      [N_('None'), N_('Size'), N_('Full')].collect do |label|
+        content_tag :button, _(label), :type => 'button', :href => '#',
+          :name => 'allocation_radio_btn',
+          :class => (label == active) ? 'btn active' : 'btn',
+          :onclick => "allocation_switcher(this, '#{label}');"
+      end.join(' ').html_safe
+    end)
+  end
 end
