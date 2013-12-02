@@ -32,7 +32,7 @@ class UserRole < ActiveRecord::Base
     self.owner_type == 'Usergroup'
   end
 
-  before_save :remove_cache! # TODO during update removes all caches and creates them again even if not needed (not such big issue maybe)
+  before_save :remove_cache!
   after_save :cache_user_roles!
   before_destroy :remove_cache!
 
