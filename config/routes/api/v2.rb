@@ -105,19 +105,6 @@ Foreman::Application.routes.draw do
 
       resources :settings, :only => [:index, :show, :update]
 
-      resources :smart_proxies, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        put :refresh, :on => :member
-        post :import_puppetclasses, :on => :member
-        resources :environments, :only => [] do
-          post :import_puppetclasses, :on => :member
-        end
-        constraints(:id => /[^\/]+/) do
-          resources :autosign, :only => [:index]
-        end
-      end
-
       resources :smart_variables, :except => [:new, :edit] do
         resources :override_values, :except => [:new, :edit]
       end
@@ -167,6 +154,16 @@ Foreman::Application.routes.draw do
               delete '/', :to => :reset
             end
           end
+        end
+        resources :smart_proxies, :except => [:new, :edit] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          put :refresh, :on => :member
+          post :import_puppetclasses, :on => :member
+          resources :environments, :only => [] do
+            post :import_puppetclasses, :on => :member
+          end
+          resources :autosign, :only => [:index]
         end
         resources :hosts, :except => [:new, :edit] do
           get :status, :on => :member
