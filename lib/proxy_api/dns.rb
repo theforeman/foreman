@@ -11,6 +11,8 @@ module ProxyAPI
     # Returns  : Boolean status
     def set args
       parse post(args, "")
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to set DNS entry"))
     end
 
     # Deletes a DNS entry
@@ -21,6 +23,8 @@ module ProxyAPI
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
       return true
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to delete DNS entry"))
     end
   end
 end

@@ -10,10 +10,14 @@ module ProxyAPI
     # Example [{"network":"192.168.11.0","netmask":"255.255.255.0"},{"network":"192.168.122.0","netmask":"255.255.255.0"}]
     def subnets
       parse get
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to retrieve DHCP subnets"))
     end
 
     def subnet subnet
       parse get(subnet)
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to retrieve DHCP subnet"))
     end
 
     def unused_ip subnet, mac = nil
@@ -27,6 +31,8 @@ module ProxyAPI
         params = ""
       end
       parse get("#{subnet.network}/unused_ip#{params}")
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to retrieve unused IP"))
     end
 
     # Retrieves a DHCP entry
@@ -43,6 +49,8 @@ module ProxyAPI
       end
     rescue RestClient::ResourceNotFound
       nil
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to retrieve DHCP entry for %s"), mac)
     end
 
     # Sets a DHCP entry
@@ -54,6 +62,8 @@ module ProxyAPI
       raise "Must define a subnet" if subnet.empty?
       raise "Must provide arguments" unless args.is_a?(Hash)
       parse(post(args, subnet.to_s))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to set DHCP entry"))
     end
 
     # Deletes a DHCP entry
@@ -65,6 +75,8 @@ module ProxyAPI
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
       return true
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to delete DHCP entry for %s"), mac)
     end
   end
 end

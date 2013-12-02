@@ -24,8 +24,6 @@ module Orchestration::TFTP
   def setTFTP
     logger.info "Add the TFTP configuration for #{name}"
     tftp.set mac, :pxeconfig => generate_pxe_template
-  rescue => e
-    failure _("Failed to set TFTP: %s") % proxy_error(e)
   end
 
   # Removes the host from the forward and reverse TFTP zones
@@ -33,8 +31,6 @@ module Orchestration::TFTP
   def delTFTP
     logger.info "Delete the TFTP configuration for #{name}"
     tftp.delete mac
-  rescue => e
-    failure _("Failed to delete TFTP: %s") % proxy_error(e)
   end
 
   def setTFTPBootFiles
@@ -47,8 +43,6 @@ module Orchestration::TFTP
     end
     failure _("Failed to fetch boot files") unless valid
     valid
-  rescue => e
-    failure _("Failed to fetch boot files: %s") % proxy_error(e)
   end
 
   #empty method for rollbacks

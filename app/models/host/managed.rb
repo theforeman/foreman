@@ -818,9 +818,15 @@ class Host::Managed < Host::Base
   # otherwise, use normal systems dns settings to resolv
   def to_ip_address name_or_ip
     return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
-    return dns_ptr_record.dns_lookup(name_or_ip).ip if dns_ptr_record
+    if dns_ptr_record
+      lookup = dns_ptr_record.dns_lookup(name_or_ip)
+      return lookup.ip unless lookup.nil?
+    end
     # fall back to normal dns resolution
     domain.resolver.getaddress(name_or_ip).to_s
+  rescue => e
+    logger.warn "Unable to find IP address for '#{name_or_ip}': #{e}"
+    raise ::Foreman::WrappedException.new(e, N_("Unable to find IP address for '%s'"), name_or_ip)
   end
 
   def set_default_user

@@ -6,10 +6,10 @@ module Foreman
       @params = params
     end
 
-    # Error code is made up first 8 characters of base64 (RFC 4648) encoded MD5
-    # sum of concatenated classname and message
     def self.calculate_error_code classname, message
-      class_hash = Zlib::crc32(classname) % 100
+      return 'ERF00-0000' if classname.nil? or message.nil?
+      basename = classname.split(':').last
+      class_hash = Zlib::crc32(basename) % 100
       msg_hash = Zlib::crc32(message) % 10000
       sprintf "ERF%02d-%04d", class_hash, msg_hash
     end
@@ -28,12 +28,15 @@ module Foreman
       if Kernel.respond_to? :_
         translated_msg = _(@message) % @params
       else
-        translated_msg = @message
+        # use plain ruby interpolation
+        translated_msg = @message % @params
       end
-      "#{code}: #{translated_msg}"
+      "#{code} [#{self.class.name}]: #{translated_msg}"
     end
 
-    alias :to_s :message
+    def to_s
+      message
+    end
   end
 
   class FingerprintException < Exception

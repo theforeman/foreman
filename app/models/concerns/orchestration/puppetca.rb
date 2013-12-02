@@ -21,8 +21,6 @@ module Orchestration::Puppetca
   def delCertificate
     logger.info "Remove puppet certificate for #{name}"
     puppetca.del_certificate certname
-  rescue => e
-    failure _("Failed to remove %{name}'s puppet certificate: %{e}") % { :name => name, :e => proxy_error(e) }
   end
 
   # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
@@ -32,16 +30,12 @@ module Orchestration::Puppetca
   def setAutosign
     logger.info "Adding autosign entry for #{name}"
     puppetca.set_autosign certname
-  rescue => e
-    failure _("Failed to add %{name} to autosign file: %{e}") % { :name => name, :e => proxy_error(e) }
   end
 
   # Removes the host's name from the autosign.conf file
   def delAutosign
     logger.info "Delete the autosign entry for #{name}"
     puppetca.del_autosign certname
-  rescue => e
-    failure _("Failed to remove %{self} from the autosign file: %{e}") % { :self => self, :e => proxy_error(e) }
   end
 
   private
