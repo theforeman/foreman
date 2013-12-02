@@ -3,7 +3,7 @@ class ExtendUserRole < ActiveRecord::Migration
     remove_foreign_key 'user_roles', :name => 'user_roles_user_id_fk'
     add_column :user_roles, :owner_type, :string, :default => 'User', :null => false
     rename_column :user_roles, :user_id, :owner_id
-    add_column :user_roles, :owner_id, :integer
+
     add_index :user_roles, :owner_type
     add_index :user_roles, :owner_id
     add_index :user_roles, [:owner_id, :owner_type]

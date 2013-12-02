@@ -81,7 +81,8 @@ class User < ActiveRecord::Base
   }
 
   def self.search_by_admin(key, operator, value)
-    value      = value == 'true' ? true : false
+    value      = value == 'true'
+    value      = !value if operator == '<>'
     conditions = [self.table_name, Usergroup.table_name].map do |base|
       "(#{base}.admin = ?" + (value ? ')' : " OR #{base}.admin IS NULL)")
     end
