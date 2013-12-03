@@ -67,7 +67,7 @@ module Foreman::Model
       args[:image_name]  = args[:image_id]
 
       username = images.where(:uuid => args[:image_name]).first.try(:username)
-      ssh      = { :user => username, :public_key => key_pair.public }
+      ssh      = { :username => username, :public_key => key_pair.public }
       super(args.merge(ssh))
     rescue Exception => e
       logger.debug "Unhandled GCE error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
