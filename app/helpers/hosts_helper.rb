@@ -43,7 +43,7 @@ module HostsHelper
       # TRANSLATORS: host's status: first character of "sync" (out of sync)
       short = s_("Sync|S")
     when "Error"
-      style = "label-important"
+      style = "label-danger"
       # TRANSLATORS: host's status: first character of "error"
       short = s_("Error|E")
     when "Active"

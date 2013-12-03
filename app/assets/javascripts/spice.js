@@ -25,7 +25,7 @@ function disconnect() {
 
 function spice_error(e) {
   $('#spice-status').text(e);
-  $('#spice-status').removeClass('label-success').addClass('label-important');
+  $('#spice-status').removeClass('label-success').addClass('label-danger');
   disconnect();
 }
 

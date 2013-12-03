@@ -26,7 +26,7 @@
     <a href="http://www.theforeman.org/manuals/<%=SETTINGS[:version].short%>/index.html#4.3.1SmartProxyInstallation" "external"><%= _('Smart-Proxy Installation') %></a>.
 
     <p>
-      <span class="label label-important"><%= _('Important') %></span>
+      <span class="label label-danger"><%= _('Important') %></span>
       <%= _('Once installed you should head over to') %>
       <a href=smart_proxies><%= _('Smart Proxies') %></a>
       <%= _('to point Foreman at it.') %>
@@ -66,7 +66,7 @@
       <p><span class="label label-info"><%= _('Notice') %></span>
       <%= _('You would need to enable login in your settings.yml file first and restart foreman') %>
       </p>
-      <p><span class="label label-important"><%= _('Important') %></span>
+      <p><span class="label label-danger"><%= _('Important') %></span>
       <%= _('The default username and password are <b>admin</b> and <b>changeme</b>').html_safe %>
       </p>
     <% end %>

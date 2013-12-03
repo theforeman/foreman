@@ -258,19 +258,19 @@ function filter_by_level(item){
     $('.label-info').closest('tr').show();
     $('.label-default').closest('tr').show();
     $('.label-warning').closest('tr').show();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if(level == 'warning'){
     $('.label-info').closest('tr').hide();
     $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').show();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if(level == 'error'){
     $('.label-info').closest('tr').hide();
     $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').hide();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh:visible').size() > 0 ){
     $('#ntsh').show();
