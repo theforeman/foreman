@@ -6,7 +6,7 @@ $frame_gradient_end: #e9e9e9;
 $side_gradient_start: $primary_color;
 $side_gradient_end: $primary_color;
 
-.login-container{
+.login-container {
   position: relative;
   width: 500px;
   height: 265px;
@@ -19,22 +19,19 @@ $side_gradient_end: $primary_color;
   -moz-box-shadow: #acacac 0px 12px 15px -8px;
   box-shadow: #acacac 0px 12px 15px -8px;
   & .aside {
+    height: 100%;
     width: 140px;
-    height: 265px;
     float: left;
     @include linear-gradient($side_gradient_start, $side_gradient_end);
     @include border_radius(7px, 0, 0, 7px);
   }
   & .section {
-    width: 360px;
+    height: 100%;
     position: relative;
     overflow: hidden;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    min-height: 265px;
-    height: 265px;
-    width: 360px;
     background: #f9f9f9;
     padding: 0 30px;
     @include border_radius(0, 7px, 7px, 0);
@@ -44,17 +41,13 @@ $side_gradient_end: $primary_color;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#88d9d9d9,endColorstr=#33d9d9d9);
   }
 }
-#login-form{
+
+#login-form {
   margin: 40px 0 0 0;
-  height: 265px;
   font-family: Overpass !important;
-  & .btn{
-    margin-right: 16px;
-  }
 }
 
-
-.login-logo{
+.login-logo {
   margin-top: 88.33333px;
   width: 130px;
   margin-left: 5px;

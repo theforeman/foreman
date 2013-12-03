@@ -6,19 +6,17 @@
   </div>
   <div class="section">
   <%= form_tag login_users_path, :id => "login-form" do %>
-    <div class="control-group  ">
+    <div class="form-group">
       <%= label_tag "login[login]", _("Username") %>
-      <div class="controls">
-        <%= text_field :login, :login, :class=>"input-xlarge" %>
-      </div>
+      <%= text_field :login, :login, :class=>"form-control" %>
     </div>
-    <div class="control-group  ">
+    <div class="form-group">
       <%= label_tag "login[password]", _("Password") %>
-      <div class="controls">
-        <%= password_field_tag "login[password]",nil, :class=>"input-xlarge" %>
-      </div>
+      <%= password_field_tag "login[password]",nil, :class=>"form-control" %>
     </div>
-    <%= submit_tag(_("Login").html_safe, :class => "btn btn-primary fr", :disable_with => _("Please wait...")) %>
+    <div class="form-group">
+      <%= submit_tag(_("Login").html_safe, :class => "btn btn-primary pull-right", :disable_with => _("Please wait...")) %>
+    </div>
   <% end %>
   </div>
 </div>
