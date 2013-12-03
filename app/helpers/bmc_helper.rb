@@ -4,7 +4,7 @@ module BmcHelper
     if s.downcase == 'on'
       "<span class='label label-success'>#{_('On')}</span>".html_safe
     else
-      "<span class='label'>#{_('Off')}</span>".html_safe
+      "<span class='label label-default'>#{_('Off')}</span>".html_safe
     end
   end
 

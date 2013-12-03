@@ -1,13 +1,13 @@
 <div class="fields">
   <% if (networks = compute_resource.networks).any? %>
     <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
-                     :class       => "span2 disable-unsupported",
+                     :class       => "col-md-2 disable-unsupported",
                      :label       => _('NIC type')
     %>
     <%= select_f f, :network, networks, :id, :name, { },
-                     :class       => "span2 disable-unsupported",
+                     :class       => "col-md-2 disable-unsupported",
                      :label       => _('Network'),
-                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important disable-unsupported' })
+                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-danger disable-unsupported' })
     %>
   <% end %>
 </div>

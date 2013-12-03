@@ -17,8 +17,8 @@
 <%= f.hidden_field :template if !new %>
 
 <div class='hardware_profile'>
-  <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :label => _('Cores') %>
-  <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :label => _('Memory') %>
+  <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :label => _('Cores') %>
+  <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :label => _('Memory') %>
   <div class="children_fields">
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,

@@ -16,11 +16,8 @@
 }
 
 .two-pane-right{
-  .form-actions{
-    margin-bottom: 0;
-    background-color: #ffffff;
-  }
   .well{
+    padding: 19px;
     min-height: 460px;
     margin-bottom: 0;
     margin-left: -31px;
@@ -36,6 +33,9 @@
   }
   .tab-pane{
     min-height: 300px;
+  }
+  .tab-content {
+    margin: 15px;
   }
   .close-button a{
     font-size: 16px;

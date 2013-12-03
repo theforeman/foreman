@@ -1,12 +1,12 @@
-<%= text_f f, :server, :label => _("VCenter/Server"), :class => "input-xlarge" %>
+<%= text_f f, :server, :label => _("VCenter/Server"), :size => "col-md-8" %>
 <%= text_f f, :user %>
 <%= password_f f, :password, :placeholder => password_placeholder(f.object) %>
 <% datacenters = list_datacenters f.object%>
 <%= selectable_f(f, :uuid, datacenters, {}, {:label => _('Datacenter'),
                  :help_inline => link_to_function(datacenters.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",
-                 :class => "btn + #{datacenters.empty? ? "" : "btn-success"}",
+                 :class => "btn + #{datacenters.empty? ? "btn-default" : "btn-success"}",
                  :'data-url' => test_connection_compute_resources_path) + image_tag('/assets/spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe }) %>
-<%= text_f f, :pubkey_hash, :disabled => true, :label => _("Fingerprint"), :class=>"input-xxlarge" %>
+<%= text_f f, :pubkey_hash, :disabled => true, :label => _("Fingerprint"), :size => "col-md-8" %>
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
                   :label => _("Console passwords"),
                   :help_inline => _("Set a randomly generated password on the display connection") %>

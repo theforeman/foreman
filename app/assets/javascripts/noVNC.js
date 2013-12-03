@@ -12,18 +12,18 @@ function updateState(rfb, state, oldstate, msg) {
   sb = $D('noVNC_status');
   cad = $D('sendCtrlAltDelButton');
   switch (state) {
-    case 'failed':       level = "important";  break;
-    case 'fatal':        level = "important";  break;
-    case 'normal':       level = "success";    break;
-    case 'disconnected': level = "";           break;
-    case 'loaded':       level = "success";    break;
-    default:             level = "warning";    break;
+    case 'failed':       level = "danger";  break;
+    case 'fatal':        level = "danger";  break;
+    case 'normal':       level = "success"; break;
+    case 'disconnected': level = "default"; break;
+    case 'loaded':       level = "success"; break;
+    default:             level = "warning"; break;
   }
 
   cad.disabled = state !== "normal";
 
   if (typeof(msg) !== 'undefined') {
-    sb.setAttribute("class", "span7 label label-" + level);
+    sb.setAttribute("class", "col-md-7 label label-" + level);
     s.innerHTML = msg;
   }
 }

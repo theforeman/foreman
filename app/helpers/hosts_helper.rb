@@ -31,11 +31,11 @@ module HostsHelper
       # TRANSLATORS: host's status: first character of "build"
       short = s_("Build|B")
     when "Alerts disabled"
-      style = ""
+      style = "label-default"
       # TRANSLATORS: host's status: first character of "disabled"
       short = s_("Disabled|D")
     when "No reports"
-      style = ""
+      style = "label-default"
       # TRANSLATORS: host's status: first character of "no reports"
       short = s_("No reports|N")
     when "Out of sync"
@@ -43,7 +43,7 @@ module HostsHelper
       # TRANSLATORS: host's status: first character of "sync" (out of sync)
       short = s_("Sync|S")
     when "Error"
-      style = "label-important"
+      style = "label-danger"
       # TRANSLATORS: host's status: first character of "error"
       short = s_("Error|E")
     when "Active"
@@ -77,24 +77,23 @@ module HostsHelper
 
   def multiple_actions_select
     actions = [
-      [_('Change Group'), select_multiple_hostgroup_hosts_path, 'pencil'],
-      [_('Change Environment'), select_multiple_environment_hosts_path, 'chevron-right'],
-      [_('Edit Parameters'), multiple_parameters_hosts_path, 'edit'],
-      [_('Delete Hosts'), multiple_destroy_hosts_path, 'trash'],
-      [_('Disable Notifications'), multiple_disable_hosts_path, 'eye-close'],
-      [_('Enable Notifications'), multiple_enable_hosts_path, 'bullhorn'],
+      [_('Change Group'), select_multiple_hostgroup_hosts_path],
+      [_('Change Environment'), select_multiple_environment_hosts_path],
+      [_('Edit Parameters'), multiple_parameters_hosts_path],
+      [_('Delete Hosts'), multiple_destroy_hosts_path],
+      [_('Disable Notifications'), multiple_disable_hosts_path],
+      [_('Enable Notifications'), multiple_enable_hosts_path],
     ]
-    actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path, 'fast-forward']) if SETTINGS[:unattended]
-    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path, 'play'] if Setting[:puppetrun]
-    actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path, 'tags'] if SETTINGS[:organizations_enabled]
-    actions <<  [_('Assign Location'), select_multiple_location_hosts_path, 'map-marker'] if SETTINGS[:locations_enabled]
+    actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
+    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]
+    actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
+    actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
 
-    content_tag :span, :id => 'submit_multiple' do
-      select_action_button( _("Select Action"), actions.map do |action|
-        link_to(icon_text(action[2], action[0]) , action[1], :class=>'btn',  :title => _("%s - The following hosts are about to be changed") % action[0])
-      end.flatten)
-    end
-
+      select_action_button( _("Select Action"), {:id => 'submit_multiple'},
+        actions.map do |action|
+          link_to(action[0] , action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+        end.flatten
+      )
   end
 
   def date ts=nil
@@ -145,7 +144,7 @@ module HostsHelper
     form_tag @host, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
       content_tag(:span, (_("Reports from the last %{days} days - %{count} reports found") %
         { :days  => select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-                    {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
+                    {:selected => @range}, {:class=>"col-md-1 form-control", :style=>"float:none;", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end
@@ -279,10 +278,10 @@ module HostsHelper
   end
 
   def show_appropriate_host_buttons(host)
-    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn'),
-      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn') if host.fact_values.any?),
-      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn') if host.reports.any?),
-      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn') if SmartProxy.puppet_proxies.any?)
+    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn btn-default'),
+      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn btn-default') if host.fact_values.any?),
+      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn btn-default') if host.reports.any?),
+      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn btn-default') if SmartProxy.puppet_proxies.any?)
     ].compact
   end
 

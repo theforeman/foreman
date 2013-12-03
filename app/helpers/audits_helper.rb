@@ -94,7 +94,7 @@ module AuditsHelper
               when 'update'
                 'label-info'
               when 'destroy'
-                'label-important'
+                'label-danger'
               else
                 ''
             end if main_object? audit

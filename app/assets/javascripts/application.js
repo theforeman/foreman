@@ -20,6 +20,7 @@ $(function() {
 function onContentLoad(){
   if($('.autocomplete-clear').size() == 0){
     $('.autocomplete-input').scopedSearch();
+    $('.ui-helper-hidden-accessible').remove();
   }
 
   $('.flash.error').each(function(index, item) {
@@ -39,10 +40,10 @@ function onContentLoad(){
    });
 
   // adds buttons classes to all links
-  $("#title_action a").addClass("btn");
-  $("#title_action li a").removeClass("btn").addClass("la");
-  $("#title_action span").removeClass("btn").addClass("btn-group");
-  $("#title_action a[href*='new']").addClass("btn-success");
+  $("#title_action a").addClass("btn btn-default");
+  $("#title_action li a").removeClass("btn btn-default").addClass("la");
+  $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
+  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
 
   if ($("#login-form").size() > 0) {
     $("#login_login").focus();
@@ -50,7 +51,7 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".control-group.error").each(function() {
+  $(".tab-content").find(".form-group.error").each(function() {
     var id = $(this).parentsUntil(".tab-content").last().attr("id");
     $("a[href=#"+id+"]").addClass("tab-error");
   })
@@ -61,7 +62,7 @@ function onContentLoad(){
   $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
       {
-        "sDom": "<'row'<'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
         "sPaginationType": "bootstrap"
       }
   );
@@ -117,7 +118,7 @@ function mark_params_override(){
     });
   });
   $('#params-tab').removeClass("tab-error");
-  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
   $('a[rel="popover"]').popover({html: true});
 }
 
@@ -237,7 +238,7 @@ $(function() {
   $('#bookmarks-modal .modal-footer .btn-primary').on('click', function(){
      $('#bookmarks-modal .modal-body .btn-primary').click();
   });
-  $("#bookmarks-modal").bind('shown', function () {
+  $("#bookmarks-modal").bind('shown.bs.modal', function () {
     var query = encodeURI($("#search").val());
     var url = $("#bookmark").attr('data-url');
     $("#bookmarks-modal .modal-body").empty();
@@ -259,7 +260,7 @@ function filter_by_level(item){
     $('.label-info').closest('tr').show();
     $('.label-default').closest('tr').show();
     $('.label-warning').closest('tr').show();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if(level == 'notice'){
     $('.label-info').closest('tr').show();
@@ -271,13 +272,13 @@ function filter_by_level(item){
     $('.label-info').closest('tr').hide();
     $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').show();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if(level == 'error'){
     $('.label-info').closest('tr').hide();
     $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').hide();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh:visible').size() > 0 ){
     $('#ntsh').show();
@@ -401,9 +402,24 @@ function notify(item, type) {
 function filter_permissions(item){
   var term = $(item).val().trim();
   if (term.length > 0) {
-    $(".control-group .collapse").parents('.control-group').hide();
-    $(".control-group .control-label:icontains('"+term+"')").parents('.control-group').show();
+    $(".form-group .collapse").parents('.form-group').hide();
+    $(".form-group .control-label:icontains('"+term+"')").parents('.form-group').show();
   } else{
-    $(".control-group .collapse").parents('.control-group').show();
+    $(".form-group .collapse").parents('.form-group').show();
   }
 }
+
+// Create a closure so that we can define intermediary
+// method pointers that don't collide with other items
+// in the global name space.
+(function(){
+// Store a reference to the original remove method.
+var originalShowMethod = jQuery.fn.show;
+
+// Define overriding method.
+jQuery.fn.show = function(){
+$(this).removeClass('hidden').removeClass('hide')
+// Execute the original method.
+return originalShowMethod.apply( this, arguments );
+}
+})();

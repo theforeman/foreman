@@ -117,7 +117,7 @@ function set_fullscreen(){
   $('.logo-bar').addClass('hidden');
   $editor.resize();
   $('#main').append($('.exit-fullscreen'));
-  $('.exit-fullscreen').show();
+  $('.exit-fullscreen').removeClass('hidden');
   $(window).scrollTop(0);
 }
 
@@ -132,7 +132,7 @@ function exit_fullscreen(){
       .width($(".template_text").width()+10)
   $(".template_text").hide();
   $editor.resize();
-  $('.exit-fullscreen').hide()
+  $('.exit-fullscreen').addClass('hidden');
 }
 
 function set_preview(){

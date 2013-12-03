@@ -105,11 +105,11 @@ function toggle_multiple_ok_button(elem){
 $(function() {
   $('#submit_multiple a').click(function(){
     if ($.foremanSelectedHosts.length == 0 || $(this).hasClass('dropdown-toggle')) { return false }
-    var title = $(this).attr('data-original-title');
+    var title = $(this).attr('data-dialog-title');
     var url = $(this).attr('href') + "?" + $.param({host_ids: $.foremanSelectedHosts});
-    $('#confirmation-modal .modal-header h3').text(title);
+    $('#confirmation-modal .modal-header h4').text(title);
     $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
-    $('#confirmation-modal').modal({show: "true", backdrop: "static"});
+    $('#confirmation-modal').modal();
     $("#confirmation-modal .modal-body").load(url + " #content",
         function(response, status, xhr) {
           $("#loading").hide();

@@ -100,7 +100,7 @@ function submit_host(){
 }
 
 function clear_errors(){
-  $('.error').children().children('.help-inline').remove();
+  $('.error').children().children('.help-block').remove();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
   $('.alert-error').remove();
@@ -121,8 +121,8 @@ function update_progress(data){
   var task_list_size = $('p',data).size();
   if (task_list_size == 0 || stop_pooling == true) return;
 
-  var done_tasks = $('.icon-check',data).size();
-  var failed_tasks = $('.icon-remove',data).size();
+  var done_tasks = $('.glyphicon-check',data).size();
+  var failed_tasks = $('.glyphicon-remove',data).size();
   var $progress = $('.progress');
 
   $("#host-progress").show();
@@ -164,7 +164,7 @@ function add_puppet_class(item){
   links.attr('onclick', 'remove_puppet_class(this)');
   links.attr('data-original-title', _('Click to undo adding this class'));
   links.tooltip();
-  link.removeClass('icon-plus-sign').addClass('icon-remove-sign');
+  link.removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
 
   $('#selected_classes').append(content);
 
@@ -183,7 +183,7 @@ function remove_puppet_class(item){
   $('#puppetclass_' + id + '_params_loading').remove();
   $('[id^="puppetclass_' + id + '_params\\["]').remove();
   $('#params-tab').removeClass("tab-error");
-  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
 
   return false;
 }

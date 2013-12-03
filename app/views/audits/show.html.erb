@@ -4,7 +4,7 @@
                                         hash_for_host_path(:id => @audit.auditable.to_param),
                                         :title => _("Host details"),
                                         :class => 'btn btn-info') if @audit.auditable_type == 'Host' && @audit.auditable %>
-<%= title_actions link_to 'Back', :back, :class=>'btn' %>
+<%= title_actions link_to 'Back', :back, :class=>'btn btn-default' %>
 <% tmplt =  audit_template?(@audit) %>
 
 <div class="tabbable">
