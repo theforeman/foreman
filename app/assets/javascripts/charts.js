@@ -175,7 +175,7 @@ function flot_zoom(target, options, ranges) {
         yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
       }));
   if(target.parents('.stats-well').find('.reset-zoom').size() == 0){
-    target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-small'>" + _('Reset zoom') + "</a>");
+    target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-sm'>" + _('Reset zoom') + "</a>");
   }
 }
 

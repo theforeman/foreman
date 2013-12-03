@@ -14,7 +14,7 @@ module PuppetclassesAndEnvironmentsHelper
   def import_proxy_select hash
     select_action_button( _('Import'),
       SmartProxy.puppet_proxies.map do |proxy|
-        display_link_if_authorized(_("Import from %s") % proxy.name, hash.merge(:proxy => proxy), :class=>'btn')
+        display_link_if_authorized(_("Import from %s") % proxy.name, hash.merge(:proxy => proxy), :class=>'btn btn-default')
       end.flatten
     )
   end

@@ -20,10 +20,10 @@
           <div class='controls'>
             <div class="navbar-inner">
               <div class="btn-group" data-toggle="buttons-radio" >
-                <button type="button" style="margin-top: 8px;" class="btn btn-small active" onclick="set_code()"><%= _("Code") %></button>
-                <button type="button" style="margin-top: 8px;" class="btn btn-small" onclick="set_preview()"><%= _("Preview") %></button>
+                <button type="button" style="margin-top: 8px;" class="btn btn-sm active" onclick="set_code()"><%= _("Code") %></button>
+                <button type="button" style="margin-top: 8px;" class="btn btn-sm" onclick="set_preview()"><%= _("Preview") %></button>
               </div>
-              <button type='button' style='margin-top: 8px;' class='btn btn-small' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="icon-resize-full"></i></button>
+              <button type='button' style='margin-top: 8px;' class='btn btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="icon-resize-full"></i></button>
               <div class="fr">
                 <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
               </div>
@@ -96,7 +96,7 @@
       <%= submit_or_cancel f %>
     </div>
   <div class='exit-fullscreen hide'>
-    <%= link_to_function icon_text('resize-small'), 'exit_fullscreen()', :class => 'btn btn-large', :title => _('Exit Full Screen') %>
+    <%= link_to_function icon_text('resize-small'), 'exit_fullscreen()', :class => 'btn btn-lg', :title => _('Exit Full Screen') %>
   </div>
   <div class='hide' id="old"><%= @config_template.template %></div>
   <div class='hide' id="new"><%= @config_template.template %></div>

@@ -35,7 +35,7 @@
   </div>
 </div>
   <%= content_tag(:div, :class => "form-actions") do %>
-    <%= link_to(_("Cancel"), "#{controller_name}_path", :class => "btn") %>
+    <%= link_to(_("Cancel"), "#{controller_name}_path", :class => "btn btn-default") %>
     <%= f.submit(_("Assign to %s") % @taxonomy_type, :class => "btn btn-success") %>
   <% end %>
 

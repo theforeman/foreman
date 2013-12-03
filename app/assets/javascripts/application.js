@@ -39,10 +39,10 @@ function onContentLoad(){
    });
 
   // adds buttons classes to all links
-  $("#title_action a").addClass("btn");
-  $("#title_action li a").removeClass("btn").addClass("la");
-  $("#title_action span").removeClass("btn").addClass("btn-group");
-  $("#title_action a[href*='new']").addClass("btn-success");
+  $("#title_action a").addClass("btn btn-default");
+  $("#title_action li a").removeClass("btn btn-default").addClass("la");
+  $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
+  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
 
   if ($("#login-form").size() > 0) {
     $("#login_login").focus();

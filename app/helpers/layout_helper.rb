@@ -150,7 +150,7 @@ module LayoutHelper
       content_tag(:div) do
         text    = overwrite ? _("Overwrite") : _("Submit")
         options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
-        link_to(_("Cancel"), args[:cancel_path], :class => "btn") + " " +
+        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
         f.submit(text, options)
       end
     end
