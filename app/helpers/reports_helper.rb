@@ -6,7 +6,7 @@ module ReportsHelper
   end
 
   def report_event_column(event, style = "")
-    style = "" if event == 0
+    style = "label-default" if event == 0
     content_tag(:span, event, :class=>'label ' + style)
   end
 
@@ -30,7 +30,7 @@ module ReportsHelper
           when :warning
             "warning"
           when :err
-            "important"
+            "danger"
           else
             "default"
           end
@@ -42,7 +42,7 @@ module ReportsHelper
     form_tag @report, :id => 'level_filter', :method => :get do
       content_tag(:span, _("Show log messages:") + ' ') +
       select(nil, 'level', [[_('All messages'), 'info'],[_('Notices, warnings and errors'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
-             {}, {:class => "input-xlarge", :onchange =>"filter_by_level(this);"})
+             {}, {:onchange =>"filter_by_level(this);"})
     end
    end
 end

@@ -1,7 +1,7 @@
 <% new = f.object && f.object.new? %>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new, :label => _('CPUs') %>
-<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new, :label => _('Memory') %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :disabled => !new, :label => _('CPUs') %>
+<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :disabled => !new, :label => _('Memory') %>
 
 <!--NICS-->
 <div class="children_fields">

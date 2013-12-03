@@ -1,27 +1,14 @@
-<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav1">
-  <span class="icon-bar"></span>
-  <span class="icon-bar"></span>
-  <span class="icon-bar"></span>
-</a>
-<a class="btn btn-navbar" style="padding: 5px 11px 2px 11px;" data-toggle="collapse" data-target=".nav2">
-  <span class="icon-cog icon-white"></span>
-</a>
 <!-- menu -->
 <%= content_tag :div,nil, :id=>'current_tab', :data=>{:controller=>controller_name, :action=>action_name} %>
 
 <% if User.current %>
   <% cache(TopbarSweeper.fragment_name) do %>
-    <div class="nav-collapse collapse nav1">
-      <ul class="nav" id="menu">
-        <%= render "home/org_switcher" %>
-        <%=  render_menu :top_menu %>
-      </ul>
-    </div>
-    <div class="nav-collapse collapse nav2">
-      <ul class="nav pull-right" id="menu2">
-        <%=  render_menu :admin_menu %>
-      </ul>
-    </div>
+    <ul class="nav navbar-nav navbar-menu navbar-collapse collapse" id="menu">
+      <%= render "home/org_switcher" %>
+      <%=  render_menu :top_menu %>
+    </ul>
+    <ul class="nav navbar-nav navbar-admin navbar-right navbar-collapse collapse" id="menu2">
+      <%=  render_menu :admin_menu %>
+    </ul>
   <% end %>
 <% end %>

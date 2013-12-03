@@ -89,10 +89,10 @@ function hide_columns(){
   $('.two-pane-right').remove();
   $('.pagination').hide();
   if ($('.two-pane-left').length == 0){
-    $('.table-two-pane').wrap( "<div class='row'><div class='span3 two-pane-left'></div></div>");
+    $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
   var placeholder = spinner_placeholder(_('Loading'));
-  $('.two-pane-left').after("<div class='span9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
+  $('.two-pane-left').after("<div class='col-md-9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
 
 }
 
@@ -105,7 +105,6 @@ function right_pane_content(response){
     $('.two-pane-right').html(form_content);
     $('.two-pane-right form').removeClass('form-horizontal');
     $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
-    $('.form-actions div').addClass('pull-right');
     $('.form-actions a').addClass('two-pane-close');
     fix_multi_checkbox();
   } else {
@@ -116,7 +115,7 @@ function right_pane_content(response){
 }
 
 function fix_multi_checkbox(){
-  $('.two-pane-right .icon-check').parents('.control-group').each(function(){
+  $('.two-pane-right .glyphicon-icon-check').parents('.form-group').each(function(){
     var label = $(this).find('.control-label').hide().text();
     $(this).find('a').append(label).addClass('select-all');
   })
@@ -124,7 +123,7 @@ function fix_multi_checkbox(){
 
 // clear form errors classes.
 function clear_errors(){
-  $('.error .help-inline').hide();
+  $('.error .help-block').hide();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
   $('.alert-error').remove();

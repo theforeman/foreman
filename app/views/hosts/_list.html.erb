@@ -4,11 +4,11 @@
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
     <th class=''><%= sort :name, :as => _('Name') %></th>
-    <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
-    <th class="hidden-phone"><%= sort :environment, :as => _('Environment') %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :model, :as => _('Model') %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :last_report, :as => _('Last report') %></th>
+    <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
+    <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
     <th></th>
   </tr>
   <% hosts.each do |host| %>
@@ -17,11 +17,11 @@
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
       </td>
       <td class='ellipsis'><%= name_column(host) %> </td>
-      <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
-      <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
-      <td class="hidden-tablet hidden-phone ellipsis"><%= model_name host %></td>
-      <td class="hidden-tablet hidden-phone ellipsis"><%= hostgroup_name host.hostgroup, 26 %></td>
-      <td class="hidden-tablet hidden-phone"><%= last_report_column(host) %></td>
+      <td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
+      <td class="hidden-xs"><%= trunc(host.try(:environment), 14) %></td>
+      <td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
+      <td class="hidden-tablet hidden-xs ellipsis"><%= hostgroup_name host.hostgroup, 26 %></td>
+      <td class="hidden-tablet hidden-xs"><%= last_report_column(host) %></td>
       <td>
         <%= action_buttons(
                     display_link_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host)),
@@ -31,17 +31,24 @@
     </tr>
   <% end %>
 </table>
-<div id="confirmation-modal" class="modal hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">×</a>
-    <h3><%= _('Please Confirm') %></h3>
-  </div>
-  <div class="modal-body"></div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary"><%= _('Submit') %></a>
-    <a href="#" class="btn secondary"><%= _('Cancel') %></a>
-  </div>
-</div>
+
+<div id="confirmation-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('Please Confirm') %></h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('Cancel') %></button>
+        <button type="button" class="btn btn-primary"><%= _('Submit') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <%= page_entries_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
 <%= will_paginate hosts %>

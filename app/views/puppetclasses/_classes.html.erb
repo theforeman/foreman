@@ -1,5 +1,5 @@
 <% Puppetclass.classes2hash(puppetclasses).sort.in_groups(2,nil) do |group| %>
-  <div class="span4 classes">
+  <div class="col-md-6 classes">
     <% group.each do |list| %>
       <% next if list.nil? %>
       <ul class="puppetclass_group">

@@ -44,7 +44,7 @@ module ApplicationHelper
     functions_options = { :klass => klass, :host => host, :css_class => ''}
     text = remove_link_to_function(truncate(klass.name, :length => 28), functions_options)
     content_tag(:span, text, options).html_safe +
-        remove_link_to_function('', functions_options.merge(:css_class => 'icon-remove-sign'))
+        remove_link_to_function('', functions_options.merge(:css_class => 'glyphicon glyphicon-minus-sign'))
 
   end
 
@@ -63,7 +63,7 @@ module ApplicationHelper
     text             = add_link_to_function(truncate(klass.name, :length => 28), function_options)
 
     content_tag(:span, text, options).html_safe +
-        add_link_to_function('', function_options.merge(:css_class => 'icon-plus-sign'))
+        add_link_to_function('', function_options.merge(:css_class => 'glyphicon glyphicon-plus-sign'))
 
   end
 
@@ -171,7 +171,7 @@ module ApplicationHelper
 
   def auto_complete_search(name, val, options = {})
     path = send("#{controller_name}_path")
-    options.merge!(:class => "autocomplete-input", :'data-url' => "#{path}/auto_complete_#{name}" )
+    options.merge!(:class => "autocomplete-input form-control", :'data-url' => "#{path}/auto_complete_#{name}" )
     text_field_tag(name, val, options)
   end
 
@@ -254,23 +254,21 @@ module ApplicationHelper
   end
 
   def action_buttons(*args)
-    content_tag(:div, :class => "btn-toolbar btn-toolbar-condensed") do
       toolbar_action_buttons args
-    end
   end
 
-  def select_action_button(title, *args)
+  def select_action_button(title, options={}, *args)
     # the no-buttons code is needed for users with less permissions
     return unless args
     args = args.flatten.map{|arg| arg unless arg.blank?}.compact
     return if args.length == 0
 
     #single button
-    return content_tag(:span, args[0].html_safe, :class=>'btn') if args.length == 1
+    return content_tag(:span, args[0].html_safe, options.merge(:class=>'btn btn-default')) if args.length == 1
 
     #multiple options
-    content_tag(:div, :class=>'btn-group') do
-    link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn dropdown-toggle", :'data-toggle'=>'dropdown') +
+    content_tag(:div, options.merge(:class=>'btn-group')) do
+    link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn btn-default dropdown-toggle", :'data-toggle'=>'dropdown') +
         content_tag(:ul,:class=>"dropdown-menu") do
           args.map{|option| content_tag(:li,option)}.join(" ").html_safe
         end
@@ -284,15 +282,15 @@ module ApplicationHelper
     return if args.length == 0
 
     #single button
-    return content_tag(:span, args[0].html_safe, :class=>'btn btn-small') if args.length == 1
+    return content_tag(:span, args[0].html_safe, :class=>'btn btn-sm btn-default') if args.length == 1
 
     #multiple buttons
     primary =  args.delete_at(0).html_safe
-    primary = content_tag(:span, primary, :class=>'btn btn-small') if primary !~ /btn/
+    primary = content_tag(:span, primary, :class=>'btn btn-sm btn-default') if primary !~ /btn/
 
     content_tag(:div,:class => "btn-group") do
-      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>"btn #{'btn-small' if primary =~ /small/} dropdown-toggle", :'data-toggle'=>'dropdown') +
-      content_tag(:ul,:class=>"dropdown-menu") do
+      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>"btn btn-default #{'btn-sm' if primary =~ /btn-sm/} dropdown-toggle", :'data-toggle'=>'dropdown') +
+      content_tag(:ul,:class=>"dropdown-menu pull-right") do
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
     end

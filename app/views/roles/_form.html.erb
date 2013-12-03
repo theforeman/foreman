@@ -5,7 +5,7 @@
 
   <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
 
-  <div class='control-group'>
+  <div class='form-group'>
     <label class='control-label'><%= _('Permissions') %></label>
     <input placeholder="<%= _('Filter permissions') %>" class="search-query" onkeyup="filter_permissions(this);" type='text'>
   </div>
@@ -13,11 +13,11 @@
   <% perms_by_block = @role.setable_permissions.group_by {|p| p.security_block.to_s} %>
   <div class='row'>
   <% perms_by_block.keys.sort.in_groups(2,false) do |column| %>
-    <div class="span4">
+    <div class="col-md-4">
       <% column.each do |block| %>
-        <div class="control-group">
+        <div class="form-group">
           <%= label_tag 'role[permissions]', image_tag("bullet_toggle_plus.png") + " " + block.humanize,:class=>"control-label", :data=>{:toggle=>'collapse', :target=>"##{block}"} %>
-          <div class="controls collapse" id="<%= block %>">
+          <div class="collapse" id="<%= block %>">
             <ul class="inputs-list">
               <% perms_by_block[block].each do |permission| %>
                 <li>

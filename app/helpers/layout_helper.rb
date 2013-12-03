@@ -24,8 +24,13 @@ module LayoutHelper
     content_for(:javascripts) { javascript_include_tag(*args) }
   end
 
+  def addClass options={}, new_class
+    options[:class] = "#{new_class} #{options[:class]}"
+  end
+
   def text_f(f, attr, options = {})
     field(f, attr, options) do
+      addClass options, "form-control"
       f.text_field attr, options
     end
   end
@@ -38,6 +43,7 @@ module LayoutHelper
   def textarea_f(f, attr, options = {})
     field(f, attr, options) do
       options[:rows] = line_count(f, attr) if options[:rows] == :auto
+      addClass options, "form-control"
       f.text_area attr, options
     end
   end
@@ -46,6 +52,7 @@ module LayoutHelper
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
       options[:placeholder] ||= password_placeholder(f.object)
+      addClass options, "form-control"
       f.password_field attr, options
     end
   end
@@ -54,10 +61,8 @@ module LayoutHelper
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
-      label_tag('', :class=>'checkbox') do
-        help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
-        f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
-      end
+      help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-block")
+      f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
     end
   end
 
@@ -76,6 +81,7 @@ module LayoutHelper
 
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
+    options.merge!(:size => "col-md-12")
     field(f, attr,options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
       hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '', :id=>'')
@@ -92,19 +98,23 @@ module LayoutHelper
   def radio_button_f(f, attr, options = {})
     text = options.delete(:text)
     value = options.delete(:value)
-    label_tag('', :class=>"radio inline") do
-      f.radio_button(attr, value, options) + " #{text} "
+    label_tag('', :class=>"radio-inline") do
+      content_tag(:div, :class => "radio") do
+        f.radio_button(attr, value, options) + " #{text} "
+      end
     end
   end
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
     field(f, attr, html_options) do
+      addClass html_options, "form-control"
       f.collection_select attr, array, id, method, select_options, html_options
     end
   end
 
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
     field(f, attr, html_options) do
+      addClass html_options, "form-control"
       f.select attr, array, select_options, html_options
     end
   end
@@ -116,19 +126,23 @@ module LayoutHelper
   end
 
   def field(f, attr, options = {})
-    fluid = options[:fluid]
     error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
 
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    content_tag :div, :class => "control-group #{fluid ? "row-fluid" : ""} #{error.empty? ? "" : 'error'}" do
+    size_class = options.delete(:size) || "col-md-4"
+    content_tag(:div, :class=> "clearfix") do
+    content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}" do
       label   = options.delete(:label)
       label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f
       label_tag(attr, label, :class=>"control-label").html_safe +
         content_tag(:div, :class => "controls") do
-          yield.html_safe + help_inline.html_safe + help_block.html_safe
+          content_tag(:div, :class => size_class) do
+            yield.html_safe + help_block.html_safe
+          end.html_safe + help_inline.html_safe
         end.html_safe
+    end
     end
   end
 
@@ -138,21 +152,19 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-inline")
+        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-block help-inline")
       else
-        content_tag(:span, help_inline, :class => "help-inline")
+        content_tag(:span, help_inline, :class => "help-block help-inline")
     end
   end
 
   def submit_or_cancel f, overwrite = false, args = { }
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "form-actions") do
-      content_tag(:div) do
-        text    = overwrite ? _("Overwrite") : _("Submit")
-        options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
-        link_to(_("Cancel"), args[:cancel_path], :class => "btn") + " " +
-        f.submit(text, options)
-      end
+      text    = overwrite ? _("Overwrite") : _("Submit")
+      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+      link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
+      f.submit(text, options)
     end
   end
 
@@ -169,12 +181,12 @@ module LayoutHelper
   end
 
    def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"span7  pagination")
+    options.merge!(:class=>"col-md-7")
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
-    options[:previous_label] ||= _('&#8592; Previous')
-    options[:next_label] ||= _('Next &#8594;')
+    options[:previous_label] ||= _('&laquo;')
+    options[:next_label] ||= _('&raquo;')
     super collection, options
   end
 
@@ -190,12 +202,11 @@ module LayoutHelper
              end
            end.html_safe
     html += options[:more].html_safe if options[:more]
-    content_tag(
-      :div,content_tag(
-          :ul, content_tag(
-              :li, link_to(html, "#")
-          ), :style=>"float: left;"
-      ), :class => "span4 pagination")
+    content_tag(:div, :class=>"col-md-5") do
+      content_tag(:ul, :class => 'pagination') do
+        content_tag(:li, link_to(html, "#"), :class=>"pull-left")
+      end
+    end
   end
 
   def form_for(record_or_name_or_array, *args, &proc)
@@ -208,13 +219,13 @@ module LayoutHelper
   end
 
   def icons i
-    content_tag :i, :class=>"icon-#{i}" do
+    content_tag :i, :class=>"glyphicon glyphicon-#{i}" do
       yield
     end
   end
 
   def icon_text(i, text="", opts = {})
-    (content_tag(:i,"", :class=>"icon-#{i} #{opts[:class]}") + " " + text).html_safe
+    (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 
   def alert opts = {}

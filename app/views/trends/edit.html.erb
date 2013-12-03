@@ -1,6 +1,6 @@
 <%= javascript 'trends' %>
 <% title _("Edit Trend %s") % @trend.to_label %>
-<div class="span6">
+<div class="col-md-6">
   <%= form_tag trend_path, :method => :put do %>
     <% if @trend.is_a?(FactTrend) %>
       <table class="table">
@@ -27,7 +27,7 @@
         </tr>
       <% end %>
     </table>
-    <%= link_to(_("Cancel"), trends_path, :class => "btn") %>
+    <%= link_to(_("Cancel"), trends_path, :class => "btn btn-default") %>
     <%= submit_tag _("Submit"), :class => "btn-primary btn" %>
   <% end %>
 </div>
