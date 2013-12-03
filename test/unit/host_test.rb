@@ -932,7 +932,7 @@ class HostTest < ActiveSupport::TestCase
     refute h.require_ip_validation?
   end
 
-  test "CR's without IP attribute don't require an IP" do
+  test "CRs without IP attribute don't require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the CR
     h=Host.new :managed => true,
       :compute_resource => compute_resources(:one),
@@ -940,12 +940,13 @@ class HostTest < ActiveSupport::TestCase
     refute h.require_ip_validation?
   end
 
-  test "CR's with IP attribute do require an IP" do
+  test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the CR
     h=Host.new :managed => true,
       :compute_resource => compute_resources(:openstack),
-      :compute_attributes => {:fake => "data"}
-    assert h.require_ip_validation?
+      :compute_attributes => {:fake => "data"},
+      :domain => domains(:mydomain)
+    refute h.require_ip_validation?
   end
 
   test "hosts with a DNS-enabled Domain do require an IP" do
