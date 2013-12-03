@@ -3,7 +3,7 @@ $(function() {
   $('.persist-header').after(clone);
   $('.persist-header:first').hide();
   $('.persist-header:last').css({
-    'position': 'static'
+    'position': 'static', 'top': '0'
   });
 
   mark_active_menu();

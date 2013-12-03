@@ -1,135 +1,70 @@
-/*
-  =require twitter-bootstrap-static/bootstrap
-  =require twitter-bootstrap-static/sprites
- */
-
 @import "mixin";
 @import "colors";
 
-@font-face {
-  font-family: 'Overpass';
-  src: local("Overpass"),
-       font-url('overpass_regular-web.eot?#iefix') format("eot"),
-       font-url('overpass_regular-web.woff') format("woff"),
-       font-url('overpass_regular-web.ttf') format("truetype"),
-       font-url('overpass_regular-web.svg#webfontLTZe4IYH') format("svg");
-  font-weight: normal;
-  font-style: normal;
+$navbar-default-bg: $primary_color;
+
+@import "twitter/bootstrap";
+
+.dropdown-menu {
+  @include border_radius(0, 0, 6px, 6px);
 }
 
-@font-face {
-  font-family: 'Overpass';
-  src: local("Overpass Bold"),
-       local("OverpassBold"),
-       font-url('overpass_bold-web.eot?#iefix') format("eot"),
-       font-url('overpass_bold-web.woff') format("woff"),
-       font-url('overpass_bold-web.ttf') format("truetype"),
-       font-url('overpass_bold-web.svg#webfontzAU82Ltw') format("svg");
-  font-weight: bold;
-  font-style: normal;
+// Necessary because bootstrap3 nav dropdown does not have top arrow
+.nav li .dropdown-menu:after {
+  content: '';
+  display: inline-block;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  position: absolute;
+  top: -6px;
+  left: 10px;
 }
 
-table .span0{
-  float:none;width:20px;margin-left:0;
+.navbar .navbar-right > li > .dropdown-menu:after,
+.navbar .nav > li > .dropdown-menu.pull-right:after {
+  left: auto;
+  right: 13px;
 }
 
-.table th{
-  color: #777777;
-  background: rgba(0, 0, 0, 0.08);
-  & a {
-    text-decoration: none;
-    color: #777777;
-  }
+// Necessary because bootstrap3 does not support dropdown sub menus.
+.dropdown-submenu {
+  position:relative;
 }
 
-h1, h2, h3{line-height: 32px;}
-.btn a {text-decoration: none; color: #333333;}
-
-.navbar.navbar-inverse .navbar-inner{
-  border-bottom: none;
-  border-top: 1px solid $border_color;
-  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
-  color: #ffffff;
-  a {
-    font-family: Overpass, sans-serif, sans;
-    font-size: 14px;
-  }
-}
-.navbar-inverse .brand, .navbar-inverse .nav>li>a {
-color: #ffffff;
-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-.navbar-inverse .nav li.dropdown>.dropdown-toggle .caret {
-border-top-color: #ffffff;
-border-bottom-color: #ffffff;
+.dropdown-submenu > .dropdown-menu {
+  top:0;
+  left:100%;
+  margin-top:-6px;
+  margin-left:-1px;
 }
 
-.navbar-inverse{
-  .btn-navbar,
-  .nav .active>a,
-  .nav li.dropdown.open>.dropdown-toggle,
-  .nav li.dropdown.active>.dropdown-toggle,
-  .nav li.dropdown.open.active>.dropdown-toggle {
-    color: #ffffff;
-    @include linear-gradient($selected_gradient_start, $selected_gradient_end);
-  }
-}
-.navbar.navbar-inverse .navbar-inner{
-   .nav>li>a:hover,
-   .nav>li>a:focus {
-    @include linear-gradient($hover_gradient_start, $hover_gradient_end);
-  }
+.dropdown-submenu:hover > .dropdown-menu {
+  display:block;
 }
 
-.dropdown-menu{
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  border-radius: 0 0 6px 6px;
-  margin: 0;
+.dropdown-submenu > a:after {
+  display:block;content:" ";
+  float:right;
+  width:0;
+  height:0;
+  border-color:transparent;
+  border-style:solid;
+  border-width:5px 0 5px 5px;
+  border-left-color:#cccccc;
+  margin-top:5px;
+  margin-right:-10px;
 }
 
-.nav-collapse.collapse.in li a{
-  color: #ffffff;
+.dropdown-submenu:hover > a:after {
+  border-left-color:#ffffff;
 }
 
-.navbar-fixed-top{
-  position: relative;
+.dropdown-submenu.pull-left {
+  float:none;
 }
 
-.nav-collapse.collapse.in li a:hover,
-.ui-menu .ui-menu-item a.ui-state-focus {
-  color: #ffffff;
-  text-decoration: none;
-  border-color: #0081c2;
-  -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;
-  @include linear-gradient(#0081c2, #0077b3);
-}
-
-.pull-right .dropdown-submenu > .dropdown-menu
-{
-    left: -95%;
-    border-radius: 6px 0px 6px 6px;
-}
-
-.title_filter form{
-  margin: 0;
-}
-
-.tab-pane{
-  min-height: 420px;
-}
-#about .tab-pane{
-  max-height: 420px;
-}
-
-.autocomplete-clear {
-  height: 18px;
-  margin-bottom: 0;
-  vertical-align: middle;
-}
-
-.form-search .btn{
-  height: 30px;
+.dropdown-submenu.pull-left > .dropdown-menu {
+  left:-100%;
+  margin-left:10px;
 }

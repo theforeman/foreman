@@ -17,23 +17,39 @@
   <body>
     <div id="wrap">
       <% if User.current %>
-        <div class="logo-bar">
-          <div class="container">
-             <!--[if IE]><div class='logo-small'> <![endif]-->
-            <%= image_tag("foreman.png") %>
-            <!--[if IE]></div> <![endif]-->
-            <%= link_to "Foreman", root_path, :class => "brand" %>
-            <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
-          </div>
-        </div>
-        <div class="navbar navbar-inverse navbar-fixed-top persist-header">
-          <div class="navbar-inner">
+        <div class="navbar navbar-default navbar-outer">
+          <div class="navbar-header">
             <div class="container">
-              <%= render 'home/topbar' %>
+              <div class="navbar-brand">
+                <!--[if IE]><div class='logo-small'> <![endif]-->
+                <%= image_tag("foreman.png") %>
+                  <!--[if IE]></div> <![endif]-->
+                  <%= link_to "Foreman", root_path %>
+              </div>
+
+              <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
             </div>
           </div>
         </div>
+
+        <div class="navbar navbar-default navbar-inner navbar-fixed-top persist-header">
+
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-admin">
+            <span class="glyphicon glyphicon-cog"></span>
+          </button>
+
+          <div class="container">
+            <%= render 'home/topbar' %>
+          </div>
+        </div>
       <% end %>
+
       <div id="main">
         <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
         <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
