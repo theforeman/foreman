@@ -9,14 +9,7 @@
       </td>
   <% end %>
   <td>
-    <% name = fact_name(fact, parent) %>
-
-    <% unless fact.compose %>
-        <%= link_to_function image_tag("pie_chart_icon.png", :alt => _("Show distribution chart")),
-                             "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')" %>
-    <% end %>
-    <%= name %>
-
+    <%= fact_name(fact, parent) %>
   </td>
   <td>
     <% unless fact.compose %>
@@ -26,4 +19,9 @@
     <% end %>
   </td>
   <td><%= fact_from fact %></td>
+  <td><% unless fact.compose %>
+          <%= link_to_function content_tag(:button, icon_text("adjust", "", :title => _("Show distribution chart")) + _("Chart")),
+                               "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')" %>
+      <% end %>
+  </td>
 </tr>

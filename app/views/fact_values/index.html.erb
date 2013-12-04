@@ -8,6 +8,7 @@
     <th><%= sort :name, :as => _("Name")  %></th>
     <th><%= sort :value, :as => s_("FactValue|Value") %></th>
     <th><%= _('Reported at') %></th>
+    <th></th>
   </tr>
 
   <%= render :partial => 'fact', :collection => @fact_values,
