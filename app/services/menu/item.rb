@@ -1,7 +1,8 @@
 module Menu
   class Item < Node
+    include Menu::IsolatedRoutes
     include Rails.application.routes.url_helpers
-    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options
+    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :engine_name
 
     def initialize(name, options)
       raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -16,15 +17,25 @@ module Menu
       @parent = options[:parent]
       @child_menus = options[:children]
       @last = options[:last] || false
+      @engine_name = options[:engine_name]
       super @name.to_sym
     end
 
+    def engine_url_path
+      return send(engine_name).send("#{name}_path") if engine_name
+    end
+
     def url_hash
+      @url_hash ||= send(engine_name).send("hash_for_#{name}_path") if engine_name
       @url_hash ||= send("hash_for_#{name}_path")
       @url_hash.inject({}) do |h,(key,value)|
         h[key] = (value.respond_to?(:call) ? value.call : value)
         h
       end
+    end
+
+    def link_to_path
+      engine_url_path || url_hash
     end
 
     def authorized?
