@@ -35,6 +35,10 @@ class Redhat < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
+  def display_family
+    "Red Hat"
+  end
+
   def self.shorten_description description
     return "" if description.blank?
     s=description

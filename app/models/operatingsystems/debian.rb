@@ -37,6 +37,10 @@ class Debian < Operatingsystem
     true
   end
 
+  def display_family
+    "Debian"
+  end
+
   def self.shorten_description description
     return "" if description.blank?
     s=description

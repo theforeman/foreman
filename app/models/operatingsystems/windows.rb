@@ -16,5 +16,8 @@ class Windows < Operatingsystem
   def url_for_boot(file)
     pxedir + "/" + PXEFILES[file]
   end
-end
 
+  def display_family
+    "Windows"
+  end
+end
