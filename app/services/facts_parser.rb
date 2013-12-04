@@ -17,7 +17,7 @@ module Facts
       if os_name == "Archlinux"
         # Archlinux is rolling release, so it has no release. We use 1.0 always
         args = { :name => os_name, :major => "1", :minor => "0" }
-        Operatingsystem.where(args).first || Operatingsystem.create!(args)
+        os = Operatingsystem.where(args).first || Operatingsystem.new(args)
       elsif orel.present?
         if os_name == "Debian" and orel[/testing|unstable/i]
           case facts[:lsbdistcodename]
@@ -34,14 +34,16 @@ module Facts
         minor.to_s.gsub!(/\D/,'') unless is_numeric? minor
         args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
         os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
-        if facts[:lsbdistcodename] and (os_name[/debian|ubuntu/i] or os.family == 'Debian')
-          os.release_name = facts[:lsbdistcodename]
-          os.save
-        end
-        os
+        os.release_name = facts[:lsbdistcodename] if facts[:lsbdistcodename] && (os_name[/debian|ubuntu/i] || os.family == 'Debian')
       else
-        Operatingsystem.find_by_name(os_name) || Operatingsystem.create!(:name => os_name)
+        os = Operatingsystem.find_by_name(os_name) || Operatingsystem.create!(:name => os_name)
       end
+      if facts[:lsbdistdescription] && os.description.blank?
+        family = os.deduce_family || 'Operatingsystem'
+        os.description = family.constantize.shorten_description facts[:lsbdistdescription]
+      end
+      os.save!
+      os
     end
 
     def environment

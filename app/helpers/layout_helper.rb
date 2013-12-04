@@ -84,7 +84,7 @@ module LayoutHelper
         hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'' )
       end
       hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s },
-                                          :id, :to_s ,options.merge(:selected => selected_ids),
+                                          :id, :to_label ,options.merge(:selected => selected_ids),
                                           html_options.merge(:multiple => true))
     end
   end

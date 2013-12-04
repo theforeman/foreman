@@ -35,4 +35,14 @@ class Redhat < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
+  def self.shorten_description description
+    return "" if description.blank?
+    s=description
+    s.gsub!('Red Hat Enterprise Linux','RHEL')
+    s.gsub!('release','')
+    s.gsub!(/\(.+?\)/,'')
+    s.squeeze! " "
+    s.strip!
+    s.blank? ? description : s
+  end
 end

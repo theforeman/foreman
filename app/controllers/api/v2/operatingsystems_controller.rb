@@ -31,6 +31,7 @@ module Api
         param :name, /\A(\S+)\Z/, :required => true
         param :major, String, :required => true
         param :minor, String, :required => true
+        param :description, String
         param :family, String
         param :release_name, String
       end
@@ -46,6 +47,7 @@ module Api
         param :name, /\A(\S+)\Z/
         param :major, String
         param :minor, String
+        param :description, String
         param :family, String
         param :release_name, String
       end

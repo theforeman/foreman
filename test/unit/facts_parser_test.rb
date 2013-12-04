@@ -69,6 +69,25 @@ class FactsParserTest < ActiveSupport::TestCase
     assert_not_equal 'Santiago', @importer.operatingsystem.release_name
   end
 
+  test "should set description field from lsbdistdescription" do
+    assert_equal "RHEL Server 6.2", @importer.operatingsystem.description
+  end
+
+  test "should not alter description field if already set" do
+    # Need to instantiate @importer once with normal facts
+    assert_present @importer.operatingsystem
+    # Now re-import with a different description
+    facts_with_desc = facts.merge({:lsbdistdescription => "A different string"})
+    @importer = Facts::Parser.new facts_with_desc
+    assert_equal "RHEL Server 6.2", @importer.operatingsystem.description
+  end
+
+  test "should not set description if lsbdistdescription is missing" do
+    facts.delete('lsbdistdescription')
+    @importer = Facts::Parser.new(facts)
+    refute @importer.operatingsystem.description
+  end
+
   private
 
   def facts
