@@ -204,6 +204,14 @@ Foreman::Application.routes.draw do
       end
     end
 
+    resources :filters, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
+    resources :permissions, :only => [:index]
+
     resources :auth_source_ldaps, :except => [:show]
   end
 

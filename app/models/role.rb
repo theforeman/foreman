@@ -36,6 +36,8 @@ class Role < ActiveRecord::Base
   has_many :cached_user_roles
   has_many :cached_users, :through => :cached_user_roles, :source => :user
 
+  has_many :filters
+
   serialize :permissions, Array
   attr_protected :builtin
 

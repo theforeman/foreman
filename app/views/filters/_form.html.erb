@@ -1,0 +1,26 @@
+<% javascript 'filters' %>
+
+<%= form_for @filter do |f| %>
+    <%= base_errors_for f.object %>
+
+    <% if @role.present? %>
+      <h5><%= _("Selected role: %s" % @role.name) %></h5>
+      <%= f.hidden_field :role_id, :value => f.object.role_id || @role.id %>
+    <% else %>
+        <%= select_f(f, :role_id, Role.scoped, :id, :name) %>
+    <% end %>
+
+    <%= select_f(f, :resource_type, Permission.resources, :to_s, :to_s, { :include_blank => true },
+                 { :'data-url' => permissions_path }) %>
+
+    <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
+                         f.object.permissions.map(&:id), :label => _("Permission") %>
+
+    <%= hidden_field_tag :role_id, @role.try(:id) %>
+
+    <%= checkbox_f f, :unlimited?,
+                   :help_inline => _("By unchecking this you can configure filter using scoped_search syntax") %>
+    <%= text_f f, :search, :disabled => f.object.unlimited? %>
+
+    <%= submit_or_cancel f, false, :cancel_path => :back %>
+<% end %>

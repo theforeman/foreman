@@ -43,4 +43,17 @@ FactoryGirl.define do
     end
   end
 
+  factory :filter do
+    search nil
+
+    trait :on_name_all do
+      search 'name ~ *'
+    end
+
+    trait :on_name_starting_with_a do
+      search 'name ~ *'
+    end
+
+  end
+
 end
