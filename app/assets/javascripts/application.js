@@ -366,3 +366,32 @@ $(this).removeClass('hidden').removeClass('hide')
 return originalShowMethod.apply( this, arguments );
 }
 })();
+
+
+function appendMultiselectOption(selectElem, optionName, value, name) {
+
+  if (selectElem.is('select')) {
+    // multiselect widget
+    var option = $('<option>', {
+      value: value,
+      text: name
+    });
+    selectElem.append(option);
+    selectElem.multiSelect('refresh');
+
+  } else {
+    // list of inputs
+    var input = $('<input>', {
+      type: 'checkbox',
+      value: value,
+      name: optionName+'[]',
+    })
+
+    var label =  $('<label>');
+    label.append(input);
+    label.append(' '+name);
+
+    var li = $('<li>').append(label);
+    selectElem.append(li);
+  }
+}

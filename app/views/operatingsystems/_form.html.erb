@@ -1,3 +1,4 @@
+<%= javascript 'os_edit' %>
 <%= form_for @operatingsystem do |f| %>
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -26,6 +27,8 @@
       </div>
 
       <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>
+      <%= link_to(_("+ Add Architecture"), hash_for_new_architecture_path, :class => "btn btn-success hidden", :id => "add_architecture_btn", :target => "_blank") %>
+
     </div>
 
     <% if SETTINGS[:unattended] %>
@@ -45,3 +48,5 @@
 
   <%= submit_or_cancel f %>
 <% end %>
+
+<%= render "add_architecture_modal" %>

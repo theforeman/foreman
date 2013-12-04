@@ -28,6 +28,26 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  def test_add_architecture_succeeds
+    post :add_architecture, {:architecture => {:name => 'xxx'}}, set_session_user
+    assert_response :success
+  end
+
+  def test_add_architecture_returns_name
+    post :add_architecture, {:architecture => {:name => 'xxx'}}, set_session_user
+    assert JSON.parse(response.body)['architecture']['name'] == 'xxx'
+  end
+
+  def test_add_invalid_architecture_fails
+    post :add_architecture, {}, set_session_user
+    assert_response 500
+  end
+
+  def test_add_existing_architecture_returns_errors
+    post :add_architecture, {:architecture => {:name => 'x86_64'}}, set_session_user
+    assert JSON.parse(response.body)['errors'] == ["Name has already been taken"]
+  end
+
   def test_update_invalid
     Operatingsystem.any_instance.stubs(:valid?).returns(false)
     Redhat.any_instance.stubs(:valid?).returns(false)

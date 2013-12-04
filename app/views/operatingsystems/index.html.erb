@@ -1,3 +1,4 @@
+<%= javascript 'os_edit' %>
 <% title _("Operating systems") %>
 <% title_actions display_link_if_authorized(_("New Operating system"), hash_for_new_operatingsystem_path) %>
 
@@ -20,3 +21,5 @@
 
 <%= page_entries_info @operatingsystems %>
 <%= will_paginate @operatingsystems %>
+
+<%= render "add_architecture_modal" %>
