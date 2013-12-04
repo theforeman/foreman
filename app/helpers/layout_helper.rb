@@ -208,13 +208,13 @@ module LayoutHelper
   end
 
   def icons i
-    content_tag :i, :class=>"icon-#{i}" do
+    content_tag :i, :class=>"glyphicon glyphicon-#{i}" do
       yield
     end
   end
 
   def icon_text(i, text="", opts = {})
-    (content_tag(:i,"", :class=>"icon-#{i} #{opts[:class]}") + " " + text).html_safe
+    (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 
   def alert opts = {}

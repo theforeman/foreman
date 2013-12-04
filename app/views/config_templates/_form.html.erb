@@ -23,7 +23,7 @@
                 <button type="button" style="margin-top: 8px;" class="btn btn-sm active" onclick="set_code()"><%= _("Code") %></button>
                 <button type="button" style="margin-top: 8px;" class="btn btn-sm" onclick="set_preview()"><%= _("Preview") %></button>
               </div>
-              <button type='button' style='margin-top: 8px;' class='btn btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="icon-resize-full"></i></button>
+              <button type='button' style='margin-top: 8px;' class='btn btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
               <div class="fr">
                 <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
               </div>

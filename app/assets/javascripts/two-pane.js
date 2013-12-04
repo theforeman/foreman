@@ -116,7 +116,7 @@ function right_pane_content(response){
 }
 
 function fix_multi_checkbox(){
-  $('.two-pane-right .icon-check').parents('.control-group').each(function(){
+  $('.two-pane-right .glyphicon-icon-check').parents('.control-group').each(function(){
     var label = $(this).find('.control-label').hide().text();
     $(this).find('a').append(label).addClass('select-all');
   })

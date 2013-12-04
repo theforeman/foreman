@@ -152,7 +152,7 @@ function toggleOverrideValue(item) {
   type_field.attr('disabled', override ? null : 'disabled');
   validator_type_field.attr('disabled', override ? null : 'disabled');
   default_value_field.attr('disabled', override ? null : 'disabled' );
-  pill_icon.attr("class", override ? 'icon-flag' : "icon- ");
+  pill_icon.attr("class", override ? 'glyphicon glyphicon-flag' : "glyphicon- ");
   override_value_div.toggle(override);
 }
 

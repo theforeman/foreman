@@ -68,3 +68,9 @@ $navbar-default-bg: $primary_color;
   left:-100%;
   margin-left:10px;
 }
+
+// Bootstrap 3 no longer has icon-color classes
+.icon-white {
+  color: white;
+}
+

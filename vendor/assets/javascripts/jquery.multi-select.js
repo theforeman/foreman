@@ -489,8 +489,8 @@ $(function(){
 function multiSelectOnLoad(){
   $('select[multiple]').multiSelect({
     disabledClass : 'disabled disabled_item',
-    selectableHeader: $("<div class='ms-header'>" + _('All items') + " <input placeholder='" + _('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + _('Select All') + "' class='ms-select-all pull-right icon-plus icon-white'></a></div>"),
-    selectionHeader: $("<div class='ms-header'>" + _('Selected items') + "<a href='#' title='" + _('Deselect All') + "' class='ms-deselect-all pull-right icon-minus icon-white'></a></div>")
+    selectableHeader: $("<div class='ms-header'>" + _('All items') + " <input placeholder='" + _('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + _('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus icon-white'></a></div>"),
+    selectionHeader: $("<div class='ms-header'>" + _('Selected items') + "<a href='#' title='" + _('Deselect All') + "' class='ms-deselect-all pull-right glyphicon glyphicon-minus icon-white'></a></div>")
   });
 
   $('select[multiple]').each(function(i,item){
