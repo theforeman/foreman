@@ -103,6 +103,10 @@ class Solaris < Operatingsystem
     }
   end
 
+  def display_family
+    "Solaris"
+  end
+
   private
   def resolv_nfs_path host, dir, domain
     host = host + ".#{domain.name}" unless host =~ /\./

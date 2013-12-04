@@ -19,4 +19,7 @@ class Suse < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
+  def display_family
+    "SUSE"
+  end
 end

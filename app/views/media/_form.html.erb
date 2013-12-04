@@ -24,7 +24,7 @@
           <%= text_f f, :config_path, :class => "input-xxlarge", :help_inline => _("The NFS path to the jumpstart control files.") %>
           <%= text_f f, :image_path, :class  => "input-xxlarge", :help_inline => _("The NFS path to the image directory.") %>
         </span>
-        <%= selectable_f f, :os_family, Operatingsystem.families, { :include_blank => true }, { :label => _("Operating System Family") } %>
+        <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Operating System Family"), :label => _("OS Family"), :help_inline => _("The Operating System type") } %>
       </div>
 
 

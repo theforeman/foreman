@@ -206,6 +206,12 @@ class OperatingsystemTest < ActiveSupport::TestCase
       os.save
       assert_equal 'Redhat', os.reload.family
     end
+
+    test "families_as_collection contains correct names and values" do
+      families = Operatingsystem.families_as_collection
+      assert_equal ["Arch Linux", "Debian", "FreeBSD", "Gentoo", "Red Hat", "SUSE", "Solaris", "Windows"], families.map(&:name).sort
+      assert_equal ["Archlinux", "Debian", "Freebsd", "Gentoo", "Redhat", "Solaris", "Suse", "Windows"], families.map(&:value).sort
+    end
   end
 
   describe "descriptions" do

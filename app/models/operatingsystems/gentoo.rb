@@ -18,4 +18,7 @@ class Gentoo < Operatingsystem
   def url_for_boot(file)
   end
 
+  def display_family
+    "Gentoo"
+  end
 end

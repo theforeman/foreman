@@ -45,14 +45,14 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :in => :config_templates, :on => :name,  :complete_value => :true, :rename => "template"
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
 
-  FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
-               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
-               'Suse'    => %r{OpenSuSE|SLES|SLED}i,
-               'Windows' => %r{Windows}i,
+  FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
+               'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
+               'Suse'      => %r{OpenSuSE|SLES|SLED}i,
+               'Windows'   => %r{Windows}i,
                'Archlinux' => %r{Archlinux}i,
-               'Gentoo' => %r{Gentoo}i,
-               'Solaris' => %r{Solaris}i,
-               'Freebsd' => %r{FreeBSD}i }
+               'Gentoo'    => %r{Gentoo}i,
+               'Solaris'   => %r{Solaris}i,
+               'Freebsd'   => %r{FreeBSD}i }
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
@@ -75,7 +75,9 @@ class Operatingsystem < ActiveRecord::Base
   validate_inclusion_in_families :type
 
   def self.families_as_collection
-    families.map{|e| OpenStruct.new(:name => e, :value => e) }
+    families.map do |f|
+      OpenStruct.new(:name => f.constantize.new.display_family, :value => f)
+    end
   end
 
   # Operating system family can override this method to provide an array of
@@ -191,6 +193,11 @@ class Operatingsystem < ActiveRecord::Base
   # If this OS family requires access to its media via NFS
   def require_nfs_access_to_medium
     false
+  end
+
+  # Pretty method for displaying the Family name
+  def display_family
+    "Unknown"
   end
 
   def self.shorten_description description

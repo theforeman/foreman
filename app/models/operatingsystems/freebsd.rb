@@ -34,5 +34,8 @@ class Freebsd < Operatingsystem
   def initrd arch
     "boot/FreeBSD-#{arch}-#{release}-mfs.img"
   end
-end
 
+  def display_family
+    "FreeBSD"
+  end
+end
