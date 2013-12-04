@@ -4,7 +4,7 @@ module ApplicationHelper
 
   protected
   def contract model
-    model.to_s
+    model.to_label
   end
 
   def show_habtm associations

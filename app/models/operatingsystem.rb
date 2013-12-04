@@ -29,19 +29,20 @@ class Operatingsystem < ActiveRecord::Base
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_save :deduce_family
+  before_save :set_family
 
   audited :allow_mass_assignment => true
   default_scope lambda { order('operatingsystems.name') }
 
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :major, :complete_value => :true
-  scoped_search :on => :minor, :complete_value => :true
-  scoped_search :on => :type, :complete_value => :true, :rename => "family"
+  scoped_search :on => :name,        :complete_value => :true
+  scoped_search :on => :major,       :complete_value => :true
+  scoped_search :on => :minor,       :complete_value => :true
+  scoped_search :on => :description, :complete_value => :true
+  scoped_search :on => :type,        :complete_value => :true, :rename => "family"
 
-  scoped_search :in => :architectures,    :on => :name, :complete_value => :true, :rename => "architecture"
-  scoped_search :in => :media,            :on => :name, :complete_value => :true, :rename => "medium"
-  scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
+  scoped_search :in => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture"
+  scoped_search :in => :media,            :on => :name,  :complete_value => :true, :rename => "medium"
+  scoped_search :in => :config_templates, :on => :name,  :complete_value => :true, :rename => "template"
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
 
   FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
@@ -111,7 +112,7 @@ class Operatingsystem < ActiveRecord::Base
 
   # The OS is usually represented as the concatenation of the OS and the revision
   def to_label
-    "#{name} #{release}"
+    description.blank? ? to_s : description
   end
 
   def release
@@ -119,11 +120,11 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def to_s
-    to_label
+    "#{name} #{release}"
   end
 
   def fullname
-    to_label
+    to_s
   end
 
   def self.find_by_fullname(fullname)
@@ -192,11 +193,22 @@ class Operatingsystem < ActiveRecord::Base
     false
   end
 
-  private
+  def self.shorten_description description
+    # This method should be overridden in the OS subclass
+    # to handle shortening the specific formats of lsbdistdescription
+    # returned by Facter on that OS
+    description
+  end
+
   def deduce_family
-    family ||= self.class.families.find do |f|
+    self.family || self.class.families.find do |f|
       name =~ FAMILIES[f]
     end
+  end
+
+  private
+  def set_family
+    self.family ||= self.deduce_family
   end
 
   def downcase_release_name

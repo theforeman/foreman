@@ -194,6 +194,40 @@ class OperatingsystemTest < ActiveSupport::TestCase
       os.family = ""
       assert_equal nil, os.family
     end
+
+    test "deduce_family correctly returns the family when not set" do
+      os.name = 'Redhat'
+      refute os.family
+      assert_equal 'Redhat', os.deduce_family
+    end
+
+    test "set_family correctly sets the family" do
+      os.name = 'Redhat'
+      os.save
+      assert_equal 'Redhat', os.reload.family
+    end
+  end
+
+  describe "descriptions" do
+    test "Redhat LSB description should be correctly shortened" do
+      assert_equal 'RHEL 6.4', Redhat.shorten_description("Red Hat Enterprise Linux release 6.4 (Santiago)")
+    end
+
+    test "Fedora LSB description should be correctly shortened" do
+      assert_equal 'Fedora 19', Redhat.shorten_description("Fedora release 19 (Schrodinger's Cat)")
+    end
+
+    test "Debian LSB description should be correctly shortened" do
+      assert_equal 'Debian 7.1', Debian.shorten_description("Debian GNU/Linux 7.1 (wheezy)")
+    end
+
+    test "Ubuntu LSB is unaltered" do
+      assert_equal 'Ubuntu 12.04.3 LTS', Debian.shorten_description("Ubuntu 12.04.3 LTS")
+    end
+
+    test "OSes without a shorten_description method fall back to description" do
+      assert_equal 'Arch Linux', Archlinux.shorten_description("Arch Linux")
+    end
   end
 
 end
