@@ -31,11 +31,11 @@ module HostsHelper
       # TRANSLATORS: host's status: first character of "build"
       short = s_("Build|B")
     when "Alerts disabled"
-      style = ""
+      style = "label-default"
       # TRANSLATORS: host's status: first character of "disabled"
       short = s_("Disabled|D")
     when "No reports"
-      style = ""
+      style = "label-default"
       # TRANSLATORS: host's status: first character of "no reports"
       short = s_("No reports|N")
     when "Out of sync"
