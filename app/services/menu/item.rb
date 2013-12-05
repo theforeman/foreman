@@ -2,7 +2,7 @@ module Menu
   class Item < Node
     include Menu::IsolatedRoutes
     include Rails.application.routes.url_helpers
-    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :engine_name
+    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :engine_name, :url_hash
 
     def initialize(name, options)
       raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -21,27 +21,35 @@ module Menu
       super @name.to_sym
     end
 
-    def engine_url_path
-      return send(engine_name).send("#{name}_path") if engine_name
-    end
-
-    def url_hash
-      @url_hash ||= send(engine_name).send("hash_for_#{name}_path") if engine_name
-      @url_hash ||= send("hash_for_#{name}_path")
-      @url_hash.inject({}) do |h,(key,value)|
+    def path_hash
+      path_hash   = @url_hash
+      path_hash ||= send(engine_name).send("hash_for_#{name}_path") if engine_name
+      path_hash ||= send("hash_for_#{name}_path")
+      path_hash.inject({}) do |h,(key,value)|
         h[key] = (value.respond_to?(:call) ? value.call : value)
         h
       end
     end
 
-    def link_to_path
-      engine_url_path || url_hash
+    def url_from_name
+      return send(engine_name).send("#{name}_path") if engine_name && !@url_hash
+      send("#{name}_path") if !@url_hash
+    end
+
+    def url_from_hash(p = path_hash)
+      p.merge!(:only_path => true)
+      return send(engine_name).url_for(p) if engine_name
+      url_for(p)
+    end
+
+    def url
+      url_from_name || url_from_hash
     end
 
     def authorized?
       User.current.allowed_to?({
-        :controller => url_hash[:controller].to_s.gsub(/::/, "_").underscore,
-        :action => url_hash[:action]
+        :controller => path_hash[:controller].to_s.gsub(/::/, "_").underscore,
+        :action => path_hash[:action]
       })
     rescue
       false
