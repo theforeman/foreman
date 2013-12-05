@@ -32,7 +32,8 @@ module Menu
         :controller => url_hash[:controller].to_s.gsub(/::/, "_").underscore,
         :action => url_hash[:action]
       })
-    rescue
+    rescue => error
+      Rails.logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
       false
     end
 
