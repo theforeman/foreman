@@ -1,10 +1,17 @@
 class Filter < ActiveRecord::Base
-  attr_accessible :search, :resource_type, :permission_ids, :role_id, :unlimited
+  include Taxonomix
+
+  attr_accessible :search, :resource_type, :permission_ids, :role_id, :unlimited,
+                  :organization_ids, :location_ids
   attr_writer :resource_type, :unlimited
 
   belongs_to :role
   has_many :filterings
   has_many :permissions, :through => :filterings
+
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda { with_taxonomy_scope }
 
   scope :unlimited, lambda { where(:search => nil) }
   scope :limited, lambda { where("search IS NOT NULL") }
