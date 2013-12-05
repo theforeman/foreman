@@ -35,7 +35,7 @@ module Foreman::Model
     end
 
     def regions
-      ['ORD', 'DFW', 'LON']
+      ['IAD', 'ORD', 'DFW', 'LON', 'SYD', 'HKG']
     end
 
     def zones
