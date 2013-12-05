@@ -61,7 +61,7 @@ function onContentLoad(){
   $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
       {
-        "sDom": "<'row'<'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
         "sPaginationType": "bootstrap"
       }
   );

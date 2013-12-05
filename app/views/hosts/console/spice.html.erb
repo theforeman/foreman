@@ -12,7 +12,7 @@
 
 <%= content_tag(:div, :id =>'spice-area', :data => spice_data_attributes(@console)) do %>
   <div class="console-status">
-    <div id="spice-status" class="span7 label" data-host="<%= @console[:name] %>"><%= _("Connecting (unencrypted) to: %s") % @console[:name] %></div>
+    <div id="spice-status" class="col-md-7 label" data-host="<%= @console[:name] %>"><%= _("Connecting (unencrypted) to: %s") % @console[:name] %></div>
   </div>
   <div id="spice-screen" class="console-screen"> </div>
 <% end %>

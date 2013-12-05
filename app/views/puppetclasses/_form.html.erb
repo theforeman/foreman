@@ -12,7 +12,7 @@
 
     <div class="tab-pane active form-horizontal" id="primary">
       <%= text_f f, :name %>
-      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :class=>'span4', :label=> _('Puppet environments'), :disabled => true %>
+      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :class=>'col-md-4', :label=> _('Puppet environments'), :disabled => true %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => _("Host groups") %>
     </div>
 
@@ -33,14 +33,14 @@
             <div class="controls">
               <input placeholder="Filter By Name" onkeyup="filterByClassParam(this);" type='text' class="fl">
               <div class="input-prepend">
-                <span class="add-on span3">@</span>
+                <span class="add-on col-md-3">@</span>
                 <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
                                :include_blank => "All Environments - (Not filtered)", :onchange=>'filterByEnvironment(this)'%>
               </div>
             </div>
           </div>
           <div class="tabbable tabs-left row">
-            <ul class="nav nav-tabs smart-var-tabs span3" data-tabs="pills">
+            <ul class="nav nav-tabs smart-var-tabs col-md-3" data-tabs="pills">
               <% @puppetclass.class_params.all(:include => :environments).each do |key| %>
                   <li data-used-environments=<%= key.environments.map(&:to_s).to_json %> >
                     <a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>" ><%= icon_text((key.override ? "flag": ""), key.to_s.gsub('_',' ')) %><span class="delete fr">&times;</span></a>
@@ -48,7 +48,7 @@
               <% end %>
             </ul>
 
-            <div class="tab-content span7 smart-var-content">
+            <div class="tab-content col-md-7 smart-var-content">
               <%= f.fields_for :class_params, f.object.class_params.includes(:environment_classes, :environments, :lookup_values) do |lookup_keys_form| %>
                   <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
               <% end %>
@@ -69,14 +69,14 @@
         <%= _('Undo remove') %>
       </div>
       <div class="tabbable tabs-left">
-        <ul class="nav nav-tabs smart-var-tabs span2" data-tabs="pills">
+        <ul class="nav nav-tabs smart-var-tabs col-md-2" data-tabs="pills">
           <% @puppetclass.lookup_keys.each do |key| %>
               <li><a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') %>" href="#<%= key.to_s.gsub(' ','_') %>"><%= key %><span class="delete fr">&times;</span></a></li>
           <% end %>
           <li><%= link_to_function '+ ' + _("Add Variable"), "add_child_node(this);" ,:class=>"btn btn-success",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
         </ul>
 
-        <div class="tab-content span9 smart-var-content">
+        <div class="tab-content col-md-9 smart-var-content">
           <%= f.fields_for :lookup_keys do |lookup_keys_form| %>
               <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
           <% end %>

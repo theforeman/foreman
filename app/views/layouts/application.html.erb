@@ -58,15 +58,15 @@
         <div id="content" class="container">
           <% unless @page_header.blank? %>
             <div class="row control-group">
-              <h1 class="span8"><%=h @page_header %></h1>
+              <h1 class="col-md-8"><%=h @page_header %></h1>
             </div>
           <% end %>
           <div class="row">
-            <div class="title_filter <%= searchable? ? "span6" : "span4" %>">
+            <div class="title_filter <%= searchable? ? "col-md-6" : "col-md-4" %>">
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>&nbsp;
             </div>
-            <div id="title_action" class="<%= searchable? ? "span6" : "span8" %>">
+            <div id="title_action" class="row <%= searchable? ? "col-md-6" : "col-md-8" %>">
               <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
             </div>
           </div>

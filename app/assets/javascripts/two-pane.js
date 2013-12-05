@@ -89,10 +89,10 @@ function hide_columns(){
   $('.two-pane-right').remove();
   $('.pagination').hide();
   if ($('.two-pane-left').length == 0){
-    $('.table-two-pane').wrap( "<div class='row'><div class='span3 two-pane-left'></div></div>");
+    $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
   var placeholder = spinner_placeholder(_('Loading'));
-  $('.two-pane-left').after("<div class='span9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
+  $('.two-pane-left').after("<div class='col-md-9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
 
 }
 

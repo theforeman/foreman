@@ -121,7 +121,7 @@ module LayoutHelper
     help_inline = help_inline(options.delete(:help_inline), error)
 
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    content_tag :div, :class => "control-group #{fluid ? "row-fluid" : ""} #{error.empty? ? "" : 'error'}" do
+    content_tag :div, :class => "form-group #{fluid ? "row" : ""} #{error.empty? ? "" : 'error'}" do
       label   = options.delete(:label)
       label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f
@@ -169,7 +169,7 @@ module LayoutHelper
   end
 
    def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"span7  pagination")
+    options.merge!(:class=>"col-md-7  pagination")
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
@@ -195,7 +195,7 @@ module LayoutHelper
           :ul, content_tag(
               :li, link_to(html, "#")
           ), :style=>"float: left;"
-      ), :class => "span4 pagination")
+      ), :class => "col-md-4 pagination")
   end
 
   def form_for(record_or_name_or_array, *args, &proc)

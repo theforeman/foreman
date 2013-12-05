@@ -23,7 +23,7 @@ function updateState(rfb, state, oldstate, msg) {
   cad.disabled = state !== "normal";
 
   if (typeof(msg) !== 'undefined') {
-    sb.setAttribute("class", "span7 label label-" + level);
+    sb.setAttribute("class", "col-md-7 label label-" + level);
     s.innerHTML = msg;
   }
 }

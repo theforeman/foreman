@@ -145,7 +145,7 @@ module HostsHelper
     form_tag @host, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
       content_tag(:span, (_("Reports from the last %{days} days - %{count} reports found") %
         { :days  => select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
-                    {:selected => @range}, {:class=>"span1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
+                    {:selected => @range}, {:class=>"col-md-1", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end

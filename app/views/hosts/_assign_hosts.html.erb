@@ -6,15 +6,15 @@
   <%= base_errors_for taxonomy %>
   <%= wizard_header 3, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Assign Selected Hosts") %>
 <div class="row">
-  <div class="span11">
+  <div class="col-md-11">
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
     <th class=''><%= sort :name %></th>
-    <th class="hidden-phone"><%= sort :os, :as => _("Operating system") %></th>
-    <th class="hidden-phone"><%= sort :environment %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :model %></th>
-    <th class="hidden-tablet hidden-phone"><%= sort :hostgroup, :as => _("Host group") %></th>
+    <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
+    <th class="hidden-xs"><%= sort :environment %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :model %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
   </tr>
   <% hosts.each do |host| %>
     <tr>
@@ -22,10 +22,10 @@
         <%= f.check_box(:host_ids, {:label => "", :help_inline => "", :multiple => true, :onclick => 'hostChecked(this)', :id => "host_ids_#{host.id}", :class => 'host_select_boxes', }, host.id) %>
       </td>
       <td><%= name_column(host) %> </td>
-      <td class="hidden-phone"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
-      <td class="hidden-phone"><%= trunc(host.try(:environment), 14) %></td>
-      <td class="hidden-tablet hidden-phone"><%= model_name host %></td>
-      <td class="hidden-tablet hidden-phone"><%= hostgroup_name host.hostgroup, 26 %></td>
+      <td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os}",14)).html_safe if host.os %></td>
+      <td class="hidden-xs"><%= trunc(host.try(:environment), 14) %></td>
+      <td class="hidden-tablet hidden-xs"><%= model_name host %></td>
+      <td class="hidden-tablet hidden-xs"><%= hostgroup_name host.hostgroup, 26 %></td>
     </tr>
   <% end %>
 </table>

@@ -1,5 +1,5 @@
 <div class="fields">
-  <%= selectable_f f, :datastore, vsphere_datastores(compute_resource), { }, :class => "span4 disable-unsupported", :label => _("Data Store") %>
+  <%= selectable_f f, :datastore, vsphere_datastores(compute_resource), { }, :class => "col-md-4 disable-unsupported", :label => _("Data Store") %>
   <%= text_f f, :name, :class => "input-mini disable-unsupported", :label => "Name" %>
   <%= text_f f, :size_gb,
              :class       => "input-mini disable-unsupported",

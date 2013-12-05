@@ -25,17 +25,17 @@
               </div>
               <button type='button' style='margin-top: 8px;' class='btn btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
               <div class="fr">
-                <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-small', :style=>"margin-top: 8px;height: 26px;") %>
+                <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-sm', :style=>"margin-top: 8px;height: 26px;") %>
               </div>
             </div>
           </div>
         </div>
-        <%= textarea_f f, :template, :class => "span12 template_text", :fluid=>true, :label =>'', :'data-file-name' => @config_template.name %>
+        <%= textarea_f f, :template, :class => "col-md-12 template_text", :fluid=>true, :label =>'', :'data-file-name' => @config_template.name %>
 
 
-        <%= file_field_f f, :template, :class => "template_file span4",
+        <%= file_field_f f, :template, :class => "template_file col-md-4",
                          :help_block  => _("Selecting a file will override the editor and load the file instead") %>
-        <%= textarea_f f, :audit_comment, :class => "span12", :fluid=>true, :rows => 3, :label => _("Audit Comment"),
+        <%= textarea_f f, :audit_comment, :class => "col-md-12", :fluid=>true, :rows => 3, :label => _("Audit Comment"),
                        :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
       </div>
       <div class="tab-pane" id="template_type">
@@ -51,11 +51,11 @@
               <% @history.each do |audit| %>
                   <% next unless audit_template? audit %>
                   <div class='row'>
-                    <div class='span6'>
+                    <div class='col-md-6'>
                       <b><%= audit_user(audit) %> <%= audit.comment %></b>
                     </div>
-                    <div class='span2 ra'><h6><%= audit_time audit %></h6></div>
-                    <div class='span8 audit-content'>
+                    <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
+                    <div class='col-md-8 audit-content'>
                       <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :data => {:url => revision_config_templates_url, :version => audit.id } %>
                       <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external' %>
                     </div>

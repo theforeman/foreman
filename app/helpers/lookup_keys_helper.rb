@@ -75,7 +75,7 @@ module LookupKeysHelper
     content_tag :div, :class => ['control-group', 'condensed'] do
     row_count = original_value.to_s.lines.count rescue 1
           text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
-                        :class => ['span5'], :'data-property' => 'value', :disabled => true) +
+                        :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
           content_tag(:span, :class => "help-inline") { diagnostic_helper }
          end
   end
@@ -101,7 +101,7 @@ module LookupKeysHelper
      content_tag :div, :class => ['control-group', 'condensed'] + diagnostic_class do
       row_count = original_value.to_s.lines.count rescue 1
       text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
-                    :class => ['span5'], :'data-property' => 'value', :disabled => true) +
+                    :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
       content_tag(:span, :class => "help-inline") { diagnostic_helper }
      end
   end
