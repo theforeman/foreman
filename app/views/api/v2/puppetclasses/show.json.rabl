@@ -3,11 +3,11 @@ object @puppetclass
 extends "api/v2/puppetclasses/main"
 
 child :environments, :object_root => false do
-  attributes :id, :name
+  extends "api/v2/environments/base"
 end
 
 child :hostgroups, :object_root => false do
-  attributes :id, :label
+  extends "api/v2/hostgroups/base"
 end
 
 node do |puppetclass|

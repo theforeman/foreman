@@ -1,3 +1,3 @@
 object @smart_proxy
 
-attributes :name, :id
+attributes :name, :id, :url

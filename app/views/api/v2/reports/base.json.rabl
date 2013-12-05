@@ -1,3 +1,3 @@
 object @report
 
-attributes :id, :reported_at, :status
+attributes :id, :host_id, :host_name, :reported_at, :status
