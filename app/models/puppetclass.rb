@@ -1,5 +1,6 @@
 class Puppetclass < ActiveRecord::Base
   include Authorization
+  include Authorizable
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true

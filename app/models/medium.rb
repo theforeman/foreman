@@ -1,5 +1,6 @@
 class Medium < ActiveRecord::Base
   include Authorization
+  include Authorizable
   include Taxonomix
   include ValidateOsFamily
   audited :allow_mass_assignment => true

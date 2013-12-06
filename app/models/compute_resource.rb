@@ -14,6 +14,7 @@ class ComputeResource < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   include Authorization
+  include Authorizable
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
   validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }

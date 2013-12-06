@@ -1,6 +1,7 @@
 class Parameter < ActiveRecord::Base
   belongs_to_host :foreign_key => :reference_id
   include Authorization
+  include Authorizable
 
   validates :value, :presence => true
   validates :name, :presence => true, :format => {:with => /\A\S*\Z/, :message => N_("can't contain white spaces")}

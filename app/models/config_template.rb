@@ -1,5 +1,6 @@
 class ConfigTemplate < ActiveRecord::Base
   include Authorization
+  include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
   self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))

@@ -457,4 +457,16 @@ class UserTest < ActiveSupport::TestCase
     assert_not User.current.editing_self?(options)
   end
 
+  test "#can? for admin" do
+    Authorizer.any_instance.stubs(:can?).returns(false)
+    u = FactoryGirl.build(:user, :admin => true)
+    assert u.can?(:view_hosts_or_whatever_you_ask)
+  end
+
+  test "#can? for not admin" do
+    Authorizer.any_instance.stubs(:can?).returns('authorizer was asked')
+    u = FactoryGirl.build(:user)
+    assert_equal 'authorizer was asked', u.can?(:view_hosts_or_whatever_you_ask)
+  end
+
 end

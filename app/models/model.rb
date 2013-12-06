@@ -1,5 +1,6 @@
 class Model < ActiveRecord::Base
   include Authorization
+  include Authorizable
 
   has_many_hosts
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"

@@ -1,6 +1,7 @@
 class Usergroup < ActiveRecord::Base
   include Authorization
   audited :allow_mass_assignment => true
+  include Authorizable
 
   has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
   has_many :roles, :through => :user_roles, :dependent => :destroy

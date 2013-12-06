@@ -2,6 +2,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   include Authorization
+  include Authorizable
   include Foreman::ThreadSession::UserModel
   include Taxonomix
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
@@ -24,6 +25,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :user_roles, :dependent => :destroy
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_roles, :through => :cached_user_roles, :source => :role, :uniq => true
+  has_many :filters, :through => :cached_roles
+  has_many :permissions, :through => :filters
   has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
   has_and_belongs_to_many :domains,           :join_table => "user_domains"
   has_many :user_hostgroups, :dependent => :destroy
@@ -79,6 +82,15 @@ class User < ActiveRecord::Base
       order('firstname')
     end
   }
+
+  def can?(permission, subject = nil)
+    if self.admin?
+      true
+    else
+      @authorizer ||= Authorizer.new(self)
+      @authorizer.can?(permission, subject)
+    end
+  end
 
   def self.search_by_admin(key, operator, value)
     value      = value == 'true'

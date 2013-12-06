@@ -4,6 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   include Authorization
+  include Authorizable
   include ValidateOsFamily
   audited :allow_mass_assignment => true
 

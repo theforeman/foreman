@@ -43,6 +43,19 @@ FactoryGirl.define do
     end
   end
 
+  factory :permission do
+    sequence(:name) {|n| "view_#{n}" }
+    resource_type nil
+
+    trait :host do
+      resource_type 'Host'
+    end
+
+    trait :domain do
+      resource_type 'Domain'
+    end
+  end
+
   factory :filter do
     search nil
 
@@ -51,9 +64,12 @@ FactoryGirl.define do
     end
 
     trait :on_name_starting_with_a do
-      search 'name ~ *'
+      search 'name ~ a*'
     end
 
+    trait :on_name_starting_with_b do
+      search 'name ~ b*'
+    end
   end
 
 end

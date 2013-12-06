@@ -22,7 +22,7 @@ class Role < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scope :givable, lambda { where(:builtin => 0).order(:name) }
-  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) }
+  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) } # TODO zjistit melo by se asi zrusit, imo pouziva stary formular
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
@@ -38,7 +38,7 @@ class Role < ActiveRecord::Base
 
   has_many :filters
 
-  serialize :permissions, Array
+  serialize :permissions, Array # TODO melo by se asi zrusit, imo pouziva stary formular
   attr_protected :builtin
 
   validates :name, :presence => true, :uniqueness => true,  :length => {:maximum => 30}, :format => {:with => /\A\w[\w\s\'\-]*\w\Z/i}
@@ -51,15 +51,18 @@ class Role < ActiveRecord::Base
     self.builtin = 0
   end
 
+  # TODO melo by se asi zrusit, imo pouziva stary formular
   def permissions
     read_attribute(:permissions) || []
   end
 
+  # TODO melo by se asi zrusit, imo pouziva stary formular
   def permissions=(perms)
     perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
   end
 
+  # TODO melo by se asi zrusit, imo pouziva stary formular
   def add_permission!(*perms)
     self.permissions = [] unless permissions.is_a?(Array)
 
@@ -71,6 +74,7 @@ class Role < ActiveRecord::Base
     save!
   end
 
+  # TODO melo by se asi zrusit, imo pouziva stary formular
   def remove_permission!(*perms)
     return unless permissions.is_a?(Array)
     permissions_will_change!
@@ -79,6 +83,7 @@ class Role < ActiveRecord::Base
   end
 
   # Returns true if the role has the given permission
+  # TODO predelat
   def has_permission?(perm)
     !permissions.nil? && permissions.include?(perm.to_sym)
   end
@@ -106,6 +111,7 @@ class Role < ActiveRecord::Base
   end
 
   # Return all the permissions that can be given to the role
+  # TODO ZJISTIT kde se pouziva a pripadne predelat na tabulku permissions
   def setable_permissions
     setable_permissions  = Foreman::AccessControl.permissions - Foreman::AccessControl.public_permissions
     setable_permissions -= Foreman::AccessControl.loggedin_only_permissions if self.builtin == BUILTIN_ANONYMOUS
@@ -145,6 +151,8 @@ class Role < ActiveRecord::Base
 
 private
   def allowed_permissions
+    # TODO tady nebudeme brat serializovane permissiony ale dohledame permissiony pres libovolne filtry
+    # mapovani by melo zustat stejne, mela by to byt jedina zmena pro autorizaci akci
     @allowed_permissions ||= permissions + Foreman::AccessControl.public_permissions.collect {|p| p.name}
   end
 

@@ -1,5 +1,6 @@
 class Report < ActiveRecord::Base
   include Authorization
+  include Authorizable
   include ReportCommon
 
   belongs_to_host

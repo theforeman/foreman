@@ -1,5 +1,6 @@
 class LookupValue < ActiveRecord::Base
   include Authorization
+  include Authorizable
   belongs_to :lookup_key, :counter_cache => true
   validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}
   delegate :key, :to => :lookup_key
