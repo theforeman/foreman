@@ -14,7 +14,7 @@ gem "ancestry", "~> 2.0"
 gem 'scoped_search', '>= 2.5'
 gem 'net-ldap'
 gem 'uuidtools'
-gem "apipie-rails", "~> 0.0.23"
+gem "apipie-rails", "~> 0.0.24"
 gem 'rabl', '>= 0.7.5', '<= 0.9.0'
 gem 'oauth'
 gem 'foreigner', '~> 1.4.2'
