@@ -1,4 +1,4 @@
-<%= select_f f, :machine_type, compute_resource.flavors, :id, :name %>
+<%= select_f f, :machine_type, compute_resource.flavors, :id, :name, {}, :label => _('Machine type') %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
@@ -6,7 +6,7 @@
 <div id='image_selection'>
   <%= select_f f, :image_id, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
-               { :disabled => images.empty? } %>
+               { :disabled => images.empty?, :label => _('Image') } %>
 </div>
-<%= selectable_f f, :network, compute_resource.networks, {} %>
+<%= selectable_f f, :network, compute_resource.networks, :label => _('Network') %>
 <%= checkbox_f f, :external_ip, :label => _('External IP') %>

@@ -3,7 +3,7 @@
   <% bridge = compute_resource.interfaces %>
 
   <%= selectable_f f, :type, libvirt_networks(compute_resource), {},
-                   { :label    => _('Network Type'), :help_inline =>
+                   { :label    => _('Network type'), :help_inline =>
                        remove_child_link('X', f, { :method => :'_delete', :title => _('remove network interface'),
                                                    :class  => 'label label-important disable-unsupported' }),
                      :onchange => 'libvirt_network_selected(this)' } %>

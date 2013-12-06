@@ -12,6 +12,6 @@
 </div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name, {}, :label => _('Tenant') %>
 
-<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security Group")  %>
+<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security group")  %>
 <%= selectable_f f, :network, compute_resource.address_pools, { :prompt => "None" }, { :label => _("Floating IP network") } %>
 

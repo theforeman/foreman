@@ -5,18 +5,20 @@
 <%= select_f f, :cluster, clusters, :id, :name, { },
              { :disabled    => !new, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_clusterSelected(this);',
-               :help_inline => :indicator } %>
+               :help_inline => :indicator,
+               :label      => _('Cluster') } %>
 <%= f.hidden_field :cluster if !new %>
 <%= select_f f, :template, compute_resource.hardware_profiles, :id, :name, {:include_blank => _("Select template")},
              { :disabled    => !new, :'data-url' => hardware_profile_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_hwpSelected(this);',
                :help_inline => :indicator,
-               :help_block  => _("Template / Hardware Profile to use")} %>
+               :help_block  => _("Template / Hardware Profile to use"),
+               :label       => _('Template') } %>
 <%= f.hidden_field :template if !new %>
 
 <div class='hardware_profile'>
-  <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "input-mini" %>
-  <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2" %>
+  <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :label => _('Cores') %>
+  <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :label => _('Memory') %>
   <div class="children_fields">
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,
@@ -40,4 +42,4 @@
   </div>
 </div>
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start') } if new %>
