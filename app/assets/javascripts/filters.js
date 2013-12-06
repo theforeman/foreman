@@ -10,6 +10,6 @@ $(document).ready(function() {
     });
 
     $('#filter_unlimited').change(function() {
-        $('#filter_search').prop('disabled', $(this).prop('checked'));
+        $('#search').prop('disabled', $(this).prop('checked'));
     });
 });

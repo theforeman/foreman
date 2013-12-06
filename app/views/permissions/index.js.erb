@@ -1,2 +1,11 @@
-$('#filter_permission_ids').html("<%= escape_javascript(options_for_select(@permissions.map {|p| [p.name, p.id] })) %>");
-$("#filter_permission_ids").multiSelect("refresh");
+var permissions = $('#filter_permission_ids');
+permissions.html("<%= escape_javascript(options_for_select(@permissions.map {|p| [p.name, p.id] })) %>");
+permissions.multiSelect('refresh');
+
+var search = $('#search');
+var path = '<%= escape_javascript(send(@search_path)) %>/auto_complete_search'
+search.attr('data-url', path);
+search.val('');
+search.catcomplete({source: function( request, response ) {
+    $.getJSON( search.attr('data-url'), { search: request.term }, response );
+}})

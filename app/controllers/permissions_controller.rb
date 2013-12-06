@@ -4,6 +4,7 @@ class PermissionsController < ApplicationController
   def index
     type = params[:resource_type].blank? ? nil : params[:resource_type]
     @permissions = Permission.find_all_by_resource_type(type)
+    @search_path = type.nil? ? '' : type.pluralize.underscore + '_path'
   end
 
 end
