@@ -258,23 +258,13 @@ Meta Package to install requirements for console support
 %files console
 %{_datadir}/%{name}/bundler.d/console.rb
 
-%package mysql
-Summary: Foreman mysql support
-Group:  Applications/System
-Requires: %{?scl_prefix}rubygem(mysql)
-Requires: %{name} = %{version}-%{release}
-
-%description mysql
-Meta Package to install requirements for mysql support
-
-%files mysql
-%{_datadir}/%{name}/bundler.d/mysql.rb
-
 %package mysql2
 Summary: Foreman mysql2 support
 Group:  Applications/System
 Requires: %{?scl_prefix}rubygem(mysql2)
 Requires: %{name} = %{version}-%{release}
+Obsoletes: %{name}-mysql < 1.4.0
+Provides: %{name}-mysql = %{version}
 
 %description mysql2
 Meta Package to install requirements for mysql2 support
@@ -321,7 +311,6 @@ Requires: %{name}-compute = %{version}-%{release}
 Requires: %{name}-vmware = %{version}-%{release}
 Requires: %{name}-gce = %{version}-%{release}
 Requires: %{name}-console = %{version}-%{release}
-Requires: %{name}-mysql = %{version}-%{release}
 Requires: %{name}-mysql2 = %{version}-%{release}
 Requires: %{name}-postgresql = %{version}-%{release}
 Requires: %{name}-sqlite = %{version}-%{release}
@@ -576,6 +565,7 @@ fi
 - Bump and change versioning scheme, don't overwrite VERSION (#3712)
 - Pin fog to 1.18.x
 - Add new rails3_before_render dependency
+- Removed foreman-mysql package (obsoleted by mysql2)
 
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage
