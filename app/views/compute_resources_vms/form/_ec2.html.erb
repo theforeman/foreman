@@ -1,12 +1,12 @@
-<%= select_f f, :flavor_id, compute_resource.flavors, :id, :to_label %>
+<%= select_f f, :flavor_id, compute_resource.flavors, :id, :to_label, {}, :label => _('Flavor') %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
 %>
 
-<div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty? } %></div>
+<div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty?, :label => _('Image')} %></div>
 
-<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")} %>
+<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")}, :label => _('Availability zone') %>
 
 <div id='subnet_selection'>
 <% if compute_resource.subnets.any? %>

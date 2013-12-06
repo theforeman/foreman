@@ -1,10 +1,10 @@
 <% new = @host ? @host.created_at.nil? : true %>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new, :label => _('CPUs') %>
 <%= text_f f, :memory_mb, :class => "span2", :disabled => !new, :label => _("Memory (MB)") %>
-<%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "span2", :disabled => !new %>
+<%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "span2", :disabled => !new, :label => _('Cluster') %>
 <%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "span2", :disabled => !new %>
-<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => "Folder", :class => "span2", :disabled => !new } %>
+<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "span2", :disabled => !new } %>
 
 <!--interfaces-->
 <div class="children_fields">
@@ -38,4 +38,4 @@
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new and controller_name == 'hosts' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start') } if new and controller_name == 'hosts' %>

@@ -32,7 +32,7 @@
 </div>
 <!-- this section is used for displaying the provisioning scripts-->
 <div class="control-group">
-  <div class="control-label"> Provisioning Templates</div>
+  <div class="control-label"><%= _('Provisioning templates') %></div>
   <div class="controls">
   <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn" %>
   <%=  popover("?", _("Display the templates that will be used to provision this host"), :title=>_("Provisioning Templates")) %>

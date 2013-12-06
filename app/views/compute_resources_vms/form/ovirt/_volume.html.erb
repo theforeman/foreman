@@ -5,13 +5,13 @@
     <%= text_f f,:size_gb, :label => _('Size (GB)'), :disabled => disabled, :class => "span2" %>
     <%= f.hidden_field :size_gb if disabled %>
     <%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
-                 { }, :label => _('Storage Domain'), :disabled => disabled, :class => "span2",
+                 { }, :label => _('Storage domain'), :disabled => disabled, :class => "span2",
                  :help_inline=> remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-important' }) %>
     <%= f.hidden_field :storage_domain if disabled %>
     <%= f.hidden_field :id %>
     <%= field(f, :bootable, :label => _('Bootable')) do
         radio_button_f f, :bootable, {:disabled => disabled, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'bootable_radio(this)',
-        :text => _('Only one volume can be Bootable')}
+        :text => _('Only one volume can be bootable')}
     end %>
   <% end %>
   </div>
