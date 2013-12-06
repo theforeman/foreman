@@ -30,7 +30,7 @@ class FactName < ActiveRecord::Base
   end
 
   def set_name
-    self.short_name ||= self.name.split(SEPARATOR).last
+    self.short_name = self.name.split(SEPARATOR).last
   end
 
 end

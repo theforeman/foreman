@@ -11,11 +11,8 @@ class FactValuesController < ApplicationController
       values = FactValue.search_for ""
     end
 
-    conds = values.where_values.map do |cond|
-      cond = cond.to_sql unless cond.is_a?(String)
-      cond.split(/AND|OR/)
-    end
-    conds = conds.flatten.reject { |c| c.include?('"hosts"."name"') }
+    conds = (original_search_parameter || '').split(/AND|OR/i)
+    conds = conds.flatten.reject { |c| c.include?('host') }
 
     if (parent = params[:parent_fact]).present? && (@parent = ::FactName.find_all_by_name(parent)).present?
       values = values.with_fact_parent_id(@parent.map(&:id))
