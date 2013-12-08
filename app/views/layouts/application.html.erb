@@ -22,7 +22,7 @@
              <!--[if IE]><div class='logo-small'> <![endif]-->
             <%= image_tag("foreman.png") %>
             <!--[if IE]></div> <![endif]-->
-            <%= link_to "Foreman", root_path, :class => "brand" %>
+            <%= link_to "Foreman", main_app.root_path, :class => "brand" %>
             <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
           </div>
         </div>

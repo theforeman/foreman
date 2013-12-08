@@ -4,14 +4,14 @@
   <%= organization_dropdown orgs_count %>
   <ul class="dropdown-menu">
     <% if User.current.admin? %>
-      <li><%= link_to(_('Any Organization'), clear_organizations_path) %></li>
+      <li><%= link_to(_('Any Organization'), main_app.clear_organizations_path) %></li>
       <%= content_tag(:li, "", :class => "divider") %>
     <% end %>
     <% Organization.my_organizations.each do |organization| %>
-      <li><%= link_to(organization.name, select_organization_path(organization)) %></li>
+      <li><%= link_to(organization.name, main_app.select_organization_path(organization)) %></li>
     <% end %>
   </ul>
 </li>
 <% if User.current.allowed_to?(:create_organizations) %>
-  <li><%= link_to _("Manage Organizations"), organizations_path, :class => "manage-menu" %></li>
+  <li><%= link_to _("Manage Organizations"), main_app.organizations_path, :class => "manage-menu" %></li>
 <% end %>

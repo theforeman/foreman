@@ -4,14 +4,14 @@
   <%= location_dropdown location_count %>
   <ul class="dropdown-menu">
     <% if User.current.admin? %>
-      <li><%= link_to(_('Any Location'), clear_locations_path) %></li>
+      <li><%= link_to(_('Any Location'), main_app.clear_locations_path) %></li>
       <%= content_tag(:li, "", :class=>"divider") %>
     <% end %>
     <% Location.my_locations.each do |location| %>
-      <li><%= link_to(location.name, select_location_path(location)) %></li>
+      <li><%= link_to(location.name, main_app.select_location_path(location)) %></li>
     <% end %>
   </ul>
 </li>
 <% if User.current.allowed_to?(:create_locations) %>
-  <li><%= link_to _("Manage Locations"), locations_path, :class=> "manage-menu" %></li>
+  <li><%= link_to _("Manage Locations"), main_app.locations_path, :class=> "manage-menu" %></li>
 <% end %>
