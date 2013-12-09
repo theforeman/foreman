@@ -105,7 +105,6 @@ function right_pane_content(response){
     $('.two-pane-right').html(form_content);
     $('.two-pane-right form').removeClass('form-horizontal');
     $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
-    $('.form-actions div').addClass('pull-right');
     $('.form-actions a').addClass('two-pane-close');
     fix_multi_checkbox();
   } else {
@@ -116,7 +115,7 @@ function right_pane_content(response){
 }
 
 function fix_multi_checkbox(){
-  $('.two-pane-right .glyphicon-icon-check').parents('.control-group').each(function(){
+  $('.two-pane-right .glyphicon-icon-check').parents('.form-group').each(function(){
     var label = $(this).find('.control-label').hide().text();
     $(this).find('a').append(label).addClass('select-all');
   })
@@ -124,7 +123,7 @@ function fix_multi_checkbox(){
 
 // clear form errors classes.
 function clear_errors(){
-  $('.error .help-inline').hide();
+  $('.error .help-block').hide();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
   $('.alert-error').remove();

@@ -20,6 +20,9 @@
     margin-bottom: 0;
     background-color: #ffffff;
   }
+  .form-control {
+    width: 206px;
+  }
   .well{
     min-height: 460px;
     margin-bottom: 0;
@@ -36,6 +39,9 @@
   }
   .tab-pane{
     min-height: 300px;
+  }
+  .tab-content {
+    margin: 15px;
   }
   .close-button a{
     font-size: 16px;

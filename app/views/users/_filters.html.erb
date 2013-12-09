@@ -1,6 +1,6 @@
 <div class="user-filter">
     <%= field_set_tag _("Owned hosts") do %>
-    <div class="control-group">
+    <div class="form-group">
       <%= _('Select') %> <%= f.check_box :filter_on_owner %>
       <%= contracted_host_list @user %>
       <%= expanded_host_list @user %>
@@ -23,13 +23,13 @@
     <% end %>
 
     <%= field_set_tag _("Subscribe to host groups") do %>
-      <div class="control-group">
+      <div class="form-group">
         <%= _("Automatically add new host groups to this user") %> <%= f.check_box :subscribe_to_all_hostgroups %>
       </div>
     <% end %>
 
   <%= field_set_tag _("Fact filters") do %>
-      <div class="control-group">
+      <div class="form-group">
         <%= f.select :facts_andor, [[_("must match"), "and"], [_("plus all"), "or"]], {} ,:class => "input-sm" %>
         <div class="offset1">
           <%= f.fields_for :user_facts do |builder| %>

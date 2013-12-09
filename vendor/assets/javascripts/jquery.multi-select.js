@@ -451,7 +451,8 @@
 }(window.jQuery);
 
 $(document).on('click', '.ms-select-all', function () {
-  $(this).closest('.controls').find('select[multiple]').multiSelect('select_all');
+
+   $(this).closest('.controls').find('select[multiple]').multiSelect('select_all');
   return false;
 });
 $(document).on('click', '.ms-deselect-all', function () {

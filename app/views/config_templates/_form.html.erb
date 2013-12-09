@@ -12,21 +12,19 @@
       <div class="tab-pane active" id="primary">
         <%= text_f f, :name %>
 
-        <%= alert :class => 'controls alert-success', :header => '',
+        <%= alert :class => 'alert-success', :header => '',
                   :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
                                                                        "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
-        <div class='control-group'>
+        <div class='form-group'>
           <label class="control-label" for="template"><%= _("Template editor") %></label>
-          <div class='controls'>
-            <div class="navbar-inner">
-              <div class="btn-group" data-toggle="buttons-radio" >
-                <button type="button" style="margin-top: 8px;" class="btn btn-sm active" onclick="set_code()"><%= _("Code") %></button>
-                <button type="button" style="margin-top: 8px;" class="btn btn-sm" onclick="set_preview()"><%= _("Preview") %></button>
-              </div>
-              <button type='button' style='margin-top: 8px;' class='btn btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
-              <div class="fr">
-                <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-sm', :style=>"margin-top: 8px;height: 26px;") %>
-              </div>
+          <div class="navbar-inner">
+            <div class="btn-group" data-toggle="buttons-radio" >
+              <button type="button" style="margin-top: 8px;" class="btn btn-sm active" onclick="set_code()"><%= _("Code") %></button>
+              <button type="button" style="margin-top: 8px;" class="btn btn-sm" onclick="set_preview()"><%= _("Preview") %></button>
+            </div>
+            <button type='button' style='margin-top: 8px;' class='btn btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
+            <div class="fr">
+              <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'input-sm', :style=>"margin-top: 8px;height: 26px;") %>
             </div>
           </div>
         </div>
@@ -46,25 +44,23 @@
         </div>
       </div>
       <div class="tab-pane" id="history">
-        <div class='controls'>
-          <% if @history.try(:any?) %>
-              <% @history.each do |audit| %>
-                  <% next unless audit_template? audit %>
-                  <div class='row'>
-                    <div class='col-md-6'>
-                      <b><%= audit_user(audit) %> <%= audit.comment %></b>
-                    </div>
-                    <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
-                    <div class='col-md-8 audit-content'>
-                      <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :data => {:url => revision_config_templates_url, :version => audit.id } %>
-                      <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external' %>
-                    </div>
+        <% if @history.try(:any?) %>
+            <% @history.each do |audit| %>
+                <% next unless audit_template? audit %>
+                <div class='row'>
+                  <div class='col-md-6'>
+                    <b><%= audit_user(audit) %> <%= audit.comment %></b>
                   </div>
-              <% end %>
-          <% else %>
-              <%= alert :header => _('No history found'), :text => _('Save something and try again') %>
-          <% end %>
-        </div>
+                  <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
+                  <div class='col-md-8 audit-content'>
+                    <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :data => {:url => revision_config_templates_url, :version => audit.id } %>
+                    <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external' %>
+                  </div>
+                </div>
+            <% end %>
+        <% else %>
+            <%= alert :header => _('No history found'), :text => _('Save something and try again') %>
+        <% end %>
       </div>
 
 

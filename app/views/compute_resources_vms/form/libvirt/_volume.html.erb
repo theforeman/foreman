@@ -1,6 +1,6 @@
 <div class="fields">
   <%= selectable_f f, :pool_name, compute_resource.storage_pools.map(&:name), { }, :class => "col-md-2", :label => _("Storage Pool") %>
-  <%= text_f f, :capacity, :class => "input-mini", :label => _("Size (GB)") %>
+  <%= text_f f, :capacity, :class => "input-sm", :label => _("Size (GB)") %>
   <%= select_f f, :format_type, %w[RAW QCOW2],:downcase, :to_s, { }, :class => "col-md-2", :label => _("Type"),
                    :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-danger disable-unsupported' }) %>
 </div>

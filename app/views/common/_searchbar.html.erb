@@ -1,10 +1,10 @@
-<%= form_tag send("#{controller_name}_path"), :method => "get", :class=>"form-inline form-search row" do %>
+<%= form_tag send("#{controller_name}_path"), :method => "get", :class=>"form-inline row" do %>
     <div class="btn-toolbar btn-toolbar-condensed">
       <div class="btn-group col-md-12">
         <div class="col-md-9">
           <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
         </div>
-        <button class="btn btn-default hidden-xs" onclick="$('.form-search').submit()"><%= icon_text("search", _("Search")) %></button>
+        <button class="btn btn-default hidden-xs" onclick="$('.form-inline').submit()"><%= icon_text("search", _("Search")) %></button>
 
         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
           <i class="caret"></i>

@@ -100,7 +100,7 @@ function submit_host(){
 }
 
 function clear_errors(){
-  $('.error').children().children('.help-inline').remove();
+  $('.error').children().children('.help-block').remove();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
   $('.alert-error').remove();
@@ -183,7 +183,7 @@ function remove_puppet_class(item){
   $('#puppetclass_' + id + '_params_loading').remove();
   $('[id^="puppetclass_' + id + '_params\\["]').remove();
   $('#params-tab').removeClass("tab-error");
-  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
 
   return false;
 }

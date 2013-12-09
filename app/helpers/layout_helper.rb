@@ -26,6 +26,7 @@ module LayoutHelper
 
   def text_f(f, attr, options = {})
     field(f, attr, options) do
+      options[:class] = "form-control #{(options[:class] || '')}"
       f.text_field attr, options
     end
   end
@@ -46,6 +47,7 @@ module LayoutHelper
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
       options[:placeholder] ||= password_placeholder(f.object)
+      options[:class] = "form-control #{(options[:class] || '')}"
       f.password_field attr, options
     end
   end
@@ -54,10 +56,8 @@ module LayoutHelper
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
-      label_tag('', :class=>'checkbox') do
-        help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
-        f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
-      end
+      help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-block")
+      f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
     end
   end
 
@@ -92,19 +92,23 @@ module LayoutHelper
   def radio_button_f(f, attr, options = {})
     text = options.delete(:text)
     value = options.delete(:value)
-    label_tag('', :class=>"radio inline") do
-      f.radio_button(attr, value, options) + " #{text} "
+    label_tag('', :class=>"radio-inline") do
+      content_tag(:div, :class => "radio") do
+        f.radio_button(attr, value, options) + " #{text} "
+      end
     end
   end
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
     field(f, attr, html_options) do
+      html_options[:class] = "form-control #{(html_options[:class] || '')}"
       f.collection_select attr, array, id, method, select_options, html_options
     end
   end
 
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
     field(f, attr, html_options) do
+      html_options[:class] = "form-control #{(html_options[:class] || '')}"
       f.select attr, array, select_options, html_options
     end
   end
@@ -121,7 +125,7 @@ module LayoutHelper
     help_inline = help_inline(options.delete(:help_inline), error)
 
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    content_tag :div, :class => "form-group #{fluid ? "row" : ""} #{error.empty? ? "" : 'error'}" do
+    content_tag :div, :class => "form-group row #{error.empty? ? "" : 'error'}" do
       label   = options.delete(:label)
       label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f
@@ -138,9 +142,9 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-inline")
+        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-block")
       else
-        content_tag(:span, help_inline, :class => "help-inline")
+        content_tag(:span, help_inline, :class => "help-block")
     end
   end
 

@@ -250,8 +250,8 @@ select{padding: initial;}
 .grey, .gray{color: #808080 !important;}
 .black{color: #000 !important;}
 
-.control-group.condensed{margin-bottom: 0;}
-.control-group.condensed textarea {
+.form-group.condensed{margin-bottom: 0;}
+.form-group.condensed textarea {
   border-color: #f5f5f5;
   background-color: #f5f5f5;
   box-shadow: none;
@@ -261,8 +261,8 @@ select{padding: initial;}
   cursor: text;
 }
 
-.control-group.condensed.error textarea{border-color: #b94a48;}
-.control-group.condensed.warning textarea{border-color: #c09853;}
+.form-group.condensed.error textarea{border-color: #b94a48;}
+.form-group.condensed.warning textarea{border-color: #c09853;}
 
 .gravatar{
   width: 30px;

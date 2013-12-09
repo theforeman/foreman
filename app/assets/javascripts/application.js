@@ -50,7 +50,7 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".control-group.error").each(function() {
+  $(".tab-content").find(".form-group.error").each(function() {
     var id = $(this).parentsUntil(".tab-content").last().attr("id");
     $("a[href=#"+id+"]").addClass("tab-error");
   })
@@ -117,7 +117,7 @@ function mark_params_override(){
     });
   });
   $('#params-tab').removeClass("tab-error");
-  if ($("#params").find('.control-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
   $('a[rel="popover"]').popover({html: true});
 }
 
@@ -394,9 +394,9 @@ function notify(item, type) {
 function filter_permissions(item){
   var term = $(item).val().trim();
   if (term.length > 0) {
-    $(".control-group .collapse").parents('.control-group').hide();
-    $(".control-group .control-label:icontains('"+term+"')").parents('.control-group').show();
+    $(".form-group .collapse").parents('.form-group').hide();
+    $(".form-group .control-label:icontains('"+term+"')").parents('.form-group').show();
   } else{
-    $(".control-group .collapse").parents('.control-group').show();
+    $(".form-group .collapse").parents('.form-group').show();
   }
 }

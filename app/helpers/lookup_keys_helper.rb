@@ -72,11 +72,11 @@ module LookupKeysHelper
     value, origin = hostgroup.inherited_lookup_value key
     original_value = key.value_before_type_cast value
     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
-    content_tag :div, :class => ['control-group', 'condensed'] do
+    content_tag :div, :class => ['form-group', 'condensed'] do
     row_count = original_value.to_s.lines.count rescue 1
           text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
                         :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
-          content_tag(:span, :class => "help-inline") { diagnostic_helper }
+          content_tag(:span, :class => "help-block") { diagnostic_helper }
          end
   end
 
@@ -98,11 +98,11 @@ module LookupKeysHelper
        end
      end
 
-     content_tag :div, :class => ['control-group', 'condensed'] + diagnostic_class do
+     content_tag :div, :class => ['form-group', 'condensed'] + diagnostic_class do
       row_count = original_value.to_s.lines.count rescue 1
       text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
                     :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
-      content_tag(:span, :class => "help-inline") { diagnostic_helper }
+      content_tag(:span, :class => "help-block") { diagnostic_helper }
      end
   end
 

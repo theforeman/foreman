@@ -1,5 +1,5 @@
 <div class="fields">
-  <div class="control-group">
+  <div class="form-group">
   <% if f.object._delete != '1' %>
     <% disabled = !f.object.id.blank? %>
     <%= text_f f,:size_gb, :label => _('Size (GB)'), :disabled => disabled, :class => "col-md-2" %>

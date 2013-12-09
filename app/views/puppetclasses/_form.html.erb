@@ -28,15 +28,13 @@
         <div class="undo-smart-vars alert alert-message hide">
           <%= _('Undo remove') %>
         </div>
-          <div class="control-group">
+          <div class="form-group">
             <label class="control-label"><%= _('Filter Parameters') %></label>
-            <div class="controls">
-              <input placeholder="Filter By Name" onkeyup="filterByClassParam(this);" type='text' class="fl">
-              <div class="input-prepend">
-                <span class="add-on col-md-3">@</span>
-                <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
-                               :include_blank => "All Environments - (Not filtered)", :onchange=>'filterByEnvironment(this)'%>
-              </div>
+            <input placeholder="Filter By Name" onkeyup="filterByClassParam(this);" type='text' class="fl">
+            <div class="input-prepend">
+              <span class="add-on col-md-3">@</span>
+              <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
+                             :include_blank => "All Environments - (Not filtered)", :onchange=>'filterByEnvironment(this)'%>
             </div>
           </div>
           <div class="tabbable tabs-left row">

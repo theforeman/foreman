@@ -42,7 +42,7 @@ module ReportsHelper
     form_tag @report, :id => 'level_filter', :method => :get do
       content_tag(:span, _("Show log messages:") + ' ') +
       select(nil, 'level', [[_('All messages'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
-             {}, {:class => "input-medium", :onchange =>"filter_by_level(this);"})
+             {}, {:onchange =>"filter_by_level(this);"})
     end
    end
 end
