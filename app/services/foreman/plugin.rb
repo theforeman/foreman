@@ -148,6 +148,10 @@ module Foreman #:nodoc:
       @parent = current
     end
 
+    def divider(menu, options = {})
+      Menu::Manager.map(menu).divider(options)
+    end
+
     # Removes item from the given menu
     def delete_menu_item(menu, item)
       Menu::Manager.map(menu).delete(item)

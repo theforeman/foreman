@@ -25,8 +25,9 @@ module HomeHelper
   end
 
   def menu_item_tag item
+    path = item.path || item.url_hash
     content_tag(:li,
-                link_to(_(item.caption), item.url_hash, item.html_options.merge(:id => "menu_item_#{item.name}")),
+                link_to(_(item.caption), path, item.html_options.merge(:id => "menu_item_#{item.name}")),
                 :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
   end
 

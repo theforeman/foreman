@@ -1,7 +1,9 @@
 module Menu
   class Item < Node
     include Rails.application.routes.url_helpers
-    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options
+    include AbstractController::Railties::RoutesHelpers
+
+    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :path
 
     def initialize(name, options)
       raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -10,6 +12,7 @@ module Menu
       raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
       @name = name
       @url_hash = options[:url_hash]
+      @path = @url_hash.nil? ? nil : options[:url_hash][:path]
       @condition = options[:if]
       @caption = options[:caption]
       @html_options = options[:html] || {}
