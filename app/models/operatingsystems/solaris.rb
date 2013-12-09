@@ -96,7 +96,7 @@ class Solaris < Operatingsystem
       :root_server_hostname  => server_name,                            # mediahost
       :root_path_name        => "#{ipath}/Solaris_#{minor}/Tools/Boot", # /vol/solgi_5.10/sol10_hw0910/Solaris_10/Tools/Boot
       :install_server_ip     => server_ip,                              # 192.168.216.241
-      :install_server_name   => server_name,                            # mediahost
+      :install_server_name   => server_name.split('.').first,           # mediahost
       :install_path          => ipath,                                  # /vol/solgi_5.10/sol10_hw0910
       :sysid_server_path     => "#{jpath}/sysidcfg/sysidcfg_primary",   # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary
       :jumpstart_server_path => jpath,                                  # 192.168.216.241:/vol/jumpstart
