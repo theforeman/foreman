@@ -1,25 +1,22 @@
-<%= form_tag send("#{controller_name}_path"), :method => "get", :class=>"form-inline row" do %>
-    <div class="btn-toolbar btn-toolbar-condensed">
-      <div class="btn-group col-md-12">
-        <div class="col-md-9">
-          <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
-        </div>
-        <button class="btn btn-default hidden-xs" onclick="$('.form-inline').submit()"><%= icon_text("search", _("Search")) %></button>
-
-        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <i class="caret"></i>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>
-          <% bookmarks.each do |bookmark| %>
-              <li><%= link_to_if_authorized bookmark.name, send("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
-          <% end %>
-          <li class="divider"></li>
-          <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
-                                   {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
-        </ul>
-      </div>
-    </div>
+<%= form_tag send("#{controller_name}_path"), :method => "get",:id =>"search-form" do %>
+  <div class="input-group">
+    <%= auto_complete_search(:search, params[:search].try(:squeeze," "),:class =>"form-control", :placeholder => _("Filter") + ' ...').html_safe %>
+    <span class="input-group-btn">
+      <button class="btn btn-default hidden-xs" type="button" onclick="$('#search-form').submit()"><%= icon_text("search", _("Search")) %></button>
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right">
+        <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>
+        <% bookmarks.each do |bookmark| %>
+          <li><%= link_to_if_authorized bookmark.name, send("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
+        <% end %>
+        <li class="divider"></li>
+        <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
+                                 {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
+      </ul>
+    </span>
+  </div>
 <% end %>
 
 <div id="bookmarks-modal" class="modal hide fade">
