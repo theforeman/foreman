@@ -66,8 +66,8 @@
               <%= render "common/searchbar" if searchable? %>
               <%= yield(:search_bar) %>&nbsp;
             </div>
-            <div id="title_action" class="row <%= searchable? ? "col-md-6" : "col-md-8" %>">
-              <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
+            <div id="title_action" class="<%= searchable? ? "col-md-6" : "col-md-8" %>">
+              <div class="btn-toolbar pull-right"><%=h yield(:title_actions) %></div>
             </div>
           </div>
 
