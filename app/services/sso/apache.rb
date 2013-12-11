@@ -33,11 +33,11 @@ module SSO
 
     def authenticate!
       self.has_rendered = true
-      controller.redirect_to controller.extlogin_users_path
+      controller.redirect_to controller.main_app.extlogin_users_path
     end
 
     def login_url
-      controller.extlogin_users_path
+      controller.main_app.extlogin_users_path
     end
 
     def logout_url
@@ -45,7 +45,7 @@ module SSO
     end
 
     def expiration_url
-      controller.extlogin_users_path
+      controller.main_app.extlogin_users_path
     end
 
     private
