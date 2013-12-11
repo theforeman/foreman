@@ -1,7 +1,7 @@
 <% new = f.object && f.object.new? %>
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini",:disabled => !new %>
-<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini", :disabled => !new, :label => _('CPUs') %>
+<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new, :label => _('Memory') %>
 
 <!--NICS-->
 <div class="children_fields">
@@ -30,4 +30,4 @@
 </div>
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start')} if new %>

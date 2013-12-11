@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-08 13:11+0000\n"
-"PO-Revision-Date: 2013-11-09 08:47+0000\n"
+"POT-Creation-Date: 2013-11-12 09:23+0000\n"
+"PO-Revision-Date: 2013-11-20 11:31+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -193,6 +193,9 @@ msgstr "关于"
 msgid "Access Key"
 msgstr "访问密钥"
 
+msgid "Account"
+msgstr ""
+
 msgid "Acquire IP address for %s"
 msgstr "获取IP地址为 %s"
 
@@ -330,6 +333,14 @@ msgstr "成功更新所有非公开的权限"
 msgid "Allocated"
 msgstr "已分配"
 
+msgid ""
+"An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy "
+"on the subnet selected above.<br/><br/>The IP address can be left blank "
+"when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does "
+"not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and "
+"the subnet does not manage DHCP reservations</li></ul>"
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "明确硬盘分区。 E.G."
 
@@ -430,6 +441,9 @@ msgstr "对内部数据库或LDAP服务提供者的一个或多个LDAP服务器�
 msgid ""
 "Attempting to construct an operating system image filename but %s cannot be "
 "built from an image"
+msgstr ""
+
+msgid "Attribute mappings"
 msgstr ""
 
 msgid "Audit Comment"
@@ -566,6 +580,9 @@ msgstr "为 %s 自动签名的条目"
 
 msgid "Available Classes"
 msgstr "可用类"
+
+msgid "Available Providers"
+msgstr ""
 
 msgid "Average memory usage"
 msgstr "内存平均使用情况"
@@ -800,6 +817,9 @@ msgstr "克隆"
 
 msgid "Clone %s"
 msgstr "克隆 %s"
+
+msgid "Clone Host %s"
+msgstr ""
 
 msgid "Close"
 msgstr "关闭"
@@ -1291,6 +1311,9 @@ msgstr "错误： %s"
 msgid "Error|E"
 msgstr "E"
 
+msgid "Exit Full Screen"
+msgstr ""
+
 msgid "Expand the chart"
 msgstr "展开图表"
 
@@ -1475,6 +1498,9 @@ msgstr "筛选参数"
 msgid "Filter classes"
 msgstr "筛选类"
 
+msgid "Filter permissions"
+msgstr ""
+
 msgid "Filters"
 msgstr "筛选"
 
@@ -1555,6 +1581,9 @@ msgstr ""
 msgid "Foreman ticketing system"
 msgstr ""
 
+msgid "Foreman will create the host when a report is received"
+msgstr ""
+
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
@@ -1567,6 +1596,9 @@ msgid ""
 msgstr ""
 
 msgid "Full name describing the domain"
+msgstr ""
+
+msgid "Full screen"
 msgstr ""
 
 msgid "Full trace"
@@ -1835,9 +1867,7 @@ msgstr "IP"
 msgid "IP Address"
 msgstr "IP地址"
 
-msgid ""
-"IP Address for this host, if DHCP Smart proxy is enabled, this should be "
-"auto suggested to you"
+msgid "IP address for this host"
 msgstr ""
 
 msgid "IRC"
@@ -1920,9 +1950,6 @@ msgstr "Uuid"
 msgid "Import"
 msgstr "导入"
 
-msgid "Import Subnets"
-msgstr "导入子网"
-
 msgid "Import from %s"
 msgstr "从 %s 导入"
 
@@ -1975,11 +2002,17 @@ msgstr "安装介质"
 msgid "Installation medium configuration"
 msgstr "配置安装介质"
 
+msgid "Installed"
+msgstr ""
+
 msgid "Interface"
 msgstr "接口"
 
 msgid "Invalid Host"
 msgstr "无效主机"
+
+msgid "Invalid log level: %s"
+msgstr ""
 
 msgid ""
 "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -1987,6 +2020,9 @@ msgstr ""
 
 msgid "Invalid query"
 msgstr "无效查询"
+
+msgid "Invalid report"
+msgstr "无效报告"
 
 msgid "Invalid search query: %s"
 msgstr "无效查询：%s"
@@ -2031,13 +2067,13 @@ msgstr "种类"
 msgid "LDAP"
 msgstr "LDAP"
 
-msgid "LDAP Attributes mapping"
-msgstr "LDAP属性映射"
-
 msgid "LDAP Authentication"
 msgstr "LDAP身份验证"
 
 msgid "LDAP filter"
+msgstr ""
+
+msgid "LDAP server"
 msgstr ""
 
 msgid ""
@@ -2530,6 +2566,9 @@ msgstr "没有桥"
 msgid "No changes"
 msgstr "未变更"
 
+msgid "No changes found when refreshing features from %s."
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr "没有可显示的计算机资源"
 
@@ -2633,6 +2672,9 @@ msgstr "没有发现"
 
 msgid "Not Found"
 msgstr "没有发现"
+
+msgid "Not Installed"
+msgstr ""
 
 msgid "Not authorized to edit classes"
 msgstr "未授权编辑类"
@@ -3009,6 +3051,11 @@ msgstr "请先选择环境"
 msgid "Please select an image"
 msgstr "请选择介质"
 
+msgid ""
+"Please specify volume size. You may optionally use suffix 'G' to specify "
+"volume size in gigabytes."
+msgstr ""
+
 msgid "Please try to update your request"
 msgstr "请尝试更新"
 
@@ -3182,6 +3229,9 @@ msgstr ""
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
 " also be enabled)"
+msgstr ""
+
+msgid "Refresh features"
 msgstr ""
 
 msgid "Region"
@@ -3500,6 +3550,11 @@ msgid ""
 "output?"
 msgstr ""
 
+msgid ""
+"Should Foreman use the short hostname instead of the FQDN for creating new "
+"virtual machines"
+msgstr ""
+
 msgid "Should foreman map users by username in request-header"
 msgstr ""
 
@@ -3589,6 +3644,9 @@ msgstr "名称"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Url"
 msgstr "地址"
+
+msgid "Snippet"
+msgstr ""
 
 msgid ""
 "Some or all hosts execution failed, Please check log files for more "
@@ -3715,6 +3773,9 @@ msgstr "成功执行，更多细节查询日志"
 
 msgid "Successfully executed, check reports and/or log files for more details"
 msgstr "成功执行，更多细节查询报告或者日志"
+
+msgid "Successfully refreshed features from %s."
+msgstr ""
 
 msgid "Successfully updated %s."
 msgstr "成功更新 %s."
@@ -3846,6 +3907,16 @@ msgid ""
 "it"
 msgstr ""
 
+msgid ""
+"The URL that hosts will retrieve templates from during build (normally http "
+"as many installers don't support https)"
+msgstr ""
+
+msgid ""
+"The URL where your Foreman instance is reachable (see also Provisioning > "
+"unattended_url)"
+msgstr ""
+
 msgid "The amount of records shown per page in Foreman"
 msgstr ""
 
@@ -3925,9 +3996,6 @@ msgid ""
 "configuration."
 msgstr ""
 
-msgid "The hostname where your Foreman instance is reachable"
-msgstr ""
-
 msgid ""
 "The inclusion of the keyword string <b>#Dynamic</b> at the start of a line "
 "lets Foreman know that this is not an explicit disk layout and must treated "
@@ -3958,7 +4026,7 @@ msgstr ""
 msgid ""
 "The path to the medium, can be a URL or a valid NFS server (exclusive of the"
 " architecture).\\n          for example "
-"<em>http://mirror.averse.net/centos/$version/os/$arch</em> where "
+"<em>http://mirror.centos.org/centos/$version/os/$arch</em> where "
 "<strong>$arch</strong> will be substituted for the host's actual OS "
 "architecture and <strong>$version</strong>, <strong>$major</strong> and "
 "<strong>$minor</strong> will be substituted for the version of the operating"
@@ -4047,6 +4115,11 @@ msgid "Timeout has occurred while communicating with %s"
 msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button."
+msgstr ""
+
+msgid ""
+"To enable a provider, either install the OS package (e.g. foreman-libvirt) "
+"or enable the bundler group for development setup (e.g. ovirt)."
 msgstr ""
 
 msgid ""
@@ -4144,6 +4217,11 @@ msgstr "UUID"
 msgid "Unable to access key"
 msgstr ""
 
+msgid ""
+"Unable to change VM display listen address, make sure the display is not "
+"attached to localhost only"
+msgstr ""
+
 msgid "Unable to communicate with the proxy: %s"
 msgstr ""
 
@@ -4199,6 +4277,9 @@ msgstr "未知用户"
 
 msgid "Unmanage host"
 msgstr "取消管理主机"
+
+msgid "Unsupported report status format"
+msgstr ""
 
 msgid "Update"
 msgstr "更新"
@@ -4368,6 +4449,12 @@ msgid "VM already associated with a host"
 msgstr ""
 
 msgid "VM associated to host %s"
+msgstr ""
+
+msgid "VM editing is not implemented for this provider"
+msgstr ""
+
+msgid "VM is not running!"
 msgstr ""
 
 msgid "Valid from"
@@ -4748,6 +4835,12 @@ msgstr "内存空闲 (GB)"
 msgid "free swap (GB)"
 msgstr "交换分区空闲 (GB)"
 
+msgid "has this hostgroup already"
+msgstr ""
+
+msgid "has this role already"
+msgstr ""
+
 msgid "here"
 msgstr "这里"
 
@@ -4758,6 +4851,9 @@ msgid "in domain"
 msgstr "域"
 
 msgid "included already from host group"
+msgstr ""
+
+msgid "invalid"
 msgstr ""
 
 msgid "invalid IP address"
@@ -4790,9 +4886,6 @@ msgstr "错误类型 %s"
 msgid "invalid type: %s requested"
 msgstr "错误类型： 正确 %s "
 
-msgid "invalid value: %s"
-msgstr "非法值： %s"
-
 msgid "is alphanumeric and cannot contain spaces"
 msgstr ""
 
@@ -4806,6 +4899,9 @@ msgid "is invalid %s"
 msgstr "%s 无效"
 
 msgid "is invalid - only  http://, https:// are allowed"
+msgstr ""
+
+msgid "is invalid: %s"
 msgstr ""
 
 msgid "is not allowed to change"
@@ -4837,6 +4933,9 @@ msgstr "信息"
 msgid "must be"
 msgstr "必须是"
 
+msgid "must be a valid URI"
+msgstr ""
+
 msgid "must be an array"
 msgstr "必须是列表"
 
@@ -4851,6 +4950,9 @@ msgstr "必须是整型"
 
 msgid "must be lowercase"
 msgstr "必须小写"
+
+msgid "must be one of [ %s ]"
+msgstr ""
 
 msgid "must be specified if from is defined"
 msgstr "需从已有定义中选择"

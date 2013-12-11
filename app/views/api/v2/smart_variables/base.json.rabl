@@ -1,4 +1,4 @@
-object @smart_variable => :smart_variable
+object @smart_variable
 
 attribute :variable
 attributes :id

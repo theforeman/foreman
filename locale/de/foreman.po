@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-08 13:11+0000\n"
-"PO-Revision-Date: 2013-11-09 08:47+0000\n"
+"POT-Creation-Date: 2013-11-12 09:23+0000\n"
+"PO-Revision-Date: 2013-11-20 11:31+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -206,6 +206,9 @@ msgstr "Über"
 msgid "Access Key"
 msgstr "Zugriffsschlüssel"
 
+msgid "Account"
+msgstr ""
+
 msgid "Acquire IP address for %s"
 msgstr ""
 
@@ -343,6 +346,14 @@ msgstr "Alle nicht öffentlichen Rechte wurden erfolgreich aktualisiert"
 msgid "Allocated"
 msgstr "zugeordnet"
 
+msgid ""
+"An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy "
+"on the subnet selected above.<br/><br/>The IP address can be left blank "
+"when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does "
+"not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and "
+"the subnet does not manage DHCP reservations</li></ul>"
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "ein Partitionslayout von deiner Festplatte(n) zum Beispiel"
 
@@ -445,6 +456,9 @@ msgid ""
 "Attempting to construct an operating system image filename but %s cannot be "
 "built from an image"
 msgstr "Versuche den Dateinamen eines Betriebssystemabbilds zu erstellen, aber %s kann nicht aus dem Abbild erstellt werden"
+
+msgid "Attribute mappings"
+msgstr ""
 
 msgid "Audit Comment"
 msgstr "Auditkommentar"
@@ -580,6 +594,9 @@ msgstr "Autosign Einträge für %s"
 
 msgid "Available Classes"
 msgstr "Verfügbare Klassen"
+
+msgid "Available Providers"
+msgstr ""
 
 msgid "Average memory usage"
 msgstr "durchschnittliche Speicherauslastung"
@@ -814,6 +831,9 @@ msgstr "Klon"
 
 msgid "Clone %s"
 msgstr "Klone %s"
+
+msgid "Clone Host %s"
+msgstr ""
 
 msgid "Close"
 msgstr "Schliessen"
@@ -1306,6 +1326,9 @@ msgstr "Fehler: %s"
 msgid "Error|E"
 msgstr "E"
 
+msgid "Exit Full Screen"
+msgstr ""
+
 msgid "Expand the chart"
 msgstr ""
 
@@ -1490,6 +1513,9 @@ msgstr "Filterparameter"
 msgid "Filter classes"
 msgstr "Filterklassen"
 
+msgid "Filter permissions"
+msgstr ""
+
 msgid "Filters"
 msgstr "Filter"
 
@@ -1570,6 +1596,9 @@ msgstr "Foreman Reports werden um <em>%s</em> erzeugt"
 msgid "Foreman ticketing system"
 msgstr "Foreman Ticket System"
 
+msgid "Foreman will create the host when a report is received"
+msgstr ""
+
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
@@ -1583,6 +1612,9 @@ msgstr "Foreman arbeitet generell im anonymen Modus in welchem alle Operationen 
 
 msgid "Full name describing the domain"
 msgstr "Voller Name der die Domäne beschreibet"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Full trace"
 msgstr "Alles aufzeichnen"
@@ -1850,10 +1882,8 @@ msgstr "IP"
 msgid "IP Address"
 msgstr "IP Adresse"
 
-msgid ""
-"IP Address for this host, if DHCP Smart proxy is enabled, this should be "
-"auto suggested to you"
-msgstr "IP Adresse für dieses System, falls ein DHCP Smart proxy aktiviert ist wird diese automatisch vorgeschlagen"
+msgid "IP address for this host"
+msgstr ""
 
 msgid "IRC"
 msgstr "IRC"
@@ -1935,9 +1965,6 @@ msgstr "UUID"
 msgid "Import"
 msgstr "Import"
 
-msgid "Import Subnets"
-msgstr "Importiere Subnetze"
-
 msgid "Import from %s"
 msgstr "Importiere von %s"
 
@@ -1990,11 +2017,17 @@ msgstr "Installationsmedien"
 msgid "Installation medium configuration"
 msgstr "Konfiguration der Installationsmedien"
 
+msgid "Installed"
+msgstr ""
+
 msgid "Interface"
 msgstr "Schnittstelle"
 
 msgid "Invalid Host"
 msgstr "ungültiges System"
+
+msgid "Invalid log level: %s"
+msgstr ""
 
 msgid ""
 "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -2002,6 +2035,9 @@ msgstr ""
 
 msgid "Invalid query"
 msgstr "ungültige Abfrage"
+
+msgid "Invalid report"
+msgstr "ungültiger Report"
 
 msgid "Invalid search query: %s"
 msgstr "ungültige Suchabfrage: %s"
@@ -2046,13 +2082,13 @@ msgstr "Art"
 msgid "LDAP"
 msgstr "LDAP"
 
-msgid "LDAP Attributes mapping"
-msgstr "LDAP Attributszuweisung"
-
 msgid "LDAP Authentication"
 msgstr "LDAP Authentifizierung"
 
 msgid "LDAP filter"
+msgstr ""
+
+msgid "LDAP server"
 msgstr ""
 
 msgid ""
@@ -2545,6 +2581,9 @@ msgstr "Keine Bridges"
 msgid "No changes"
 msgstr "Keine Änderungen"
 
+msgid "No changes found when refreshing features from %s."
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr "keine Rechenmittel zum Anzeigen"
 
@@ -2648,6 +2687,9 @@ msgstr "Nichts gefunden"
 
 msgid "Not Found"
 msgstr "nicht gefunden"
+
+msgid "Not Installed"
+msgstr ""
 
 msgid "Not authorized to edit classes"
 msgstr "Nicht authorisiert um Klassen zu bearbeiten"
@@ -3024,6 +3066,11 @@ msgstr ""
 msgid "Please select an image"
 msgstr ""
 
+msgid ""
+"Please specify volume size. You may optionally use suffix 'G' to specify "
+"volume size in gigabytes."
+msgstr ""
+
 msgid "Please try to update your request"
 msgstr "Bitte die Anfrage aktualisieren"
 
@@ -3197,6 +3244,9 @@ msgstr "Neuaufbau von %s beim nächsten Start?\\nDies würde alle Fakten und Rep
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
 " also be enabled)"
+msgstr ""
+
+msgid "Refresh features"
 msgstr ""
 
 msgid "Region"
@@ -3516,6 +3566,11 @@ msgid ""
 "output?"
 msgstr "Soll Foreman das neue Format (2.6.5+) verwenden um Puppet in seiner ENC yaml Ausgabe zu antworten?"
 
+msgid ""
+"Should Foreman use the short hostname instead of the FQDN for creating new "
+"virtual machines"
+msgstr ""
+
 msgid "Should foreman map users by username in request-header"
 msgstr "Soll Foreman Benutzer mit dem Benutzernamen im request-header zuweisen"
 
@@ -3605,6 +3660,9 @@ msgstr "Name"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Url"
 msgstr "URL"
+
+msgid "Snippet"
+msgstr ""
 
 msgid ""
 "Some or all hosts execution failed, Please check log files for more "
@@ -3731,6 +3789,9 @@ msgstr "Erfolgreich ausgeführt, bitte für weiter Informationen die Logdatei pr
 
 msgid "Successfully executed, check reports and/or log files for more details"
 msgstr "Erfolgreich ausgeführt, bitte die Reporte und/oder die Logdateien für weitere Details prüfen"
+
+msgid "Successfully refreshed features from %s."
+msgstr ""
 
 msgid "Successfully updated %s."
 msgstr "%s wurde aktualisiert."
@@ -3862,6 +3923,16 @@ msgid ""
 "it"
 msgstr "Die Puppetumgebung welche Foreman verwenden wird falls diese nicht automatisch erkannt wird"
 
+msgid ""
+"The URL that hosts will retrieve templates from during build (normally http "
+"as many installers don't support https)"
+msgstr ""
+
+msgid ""
+"The URL where your Foreman instance is reachable (see also Provisioning > "
+"unattended_url)"
+msgstr ""
+
 msgid "The amount of records shown per page in Foreman"
 msgstr "Die Anzahl der Einträge pro Seite welche in Foreman angezeigt werden"
 
@@ -3941,9 +4012,6 @@ msgid ""
 "configuration."
 msgstr ""
 
-msgid "The hostname where your Foreman instance is reachable"
-msgstr "Der Hostname unter welchem die Foremaninstanz erreichbar ist"
-
 msgid ""
 "The inclusion of the keyword string <b>#Dynamic</b> at the start of a line "
 "lets Foreman know that this is not an explicit disk layout and must treated "
@@ -3974,12 +4042,12 @@ msgstr "Der Ablauf in welchem Werte aufgelöst werden"
 msgid ""
 "The path to the medium, can be a URL or a valid NFS server (exclusive of the"
 " architecture).\\n          for example "
-"<em>http://mirror.averse.net/centos/$version/os/$arch</em> where "
+"<em>http://mirror.centos.org/centos/$version/os/$arch</em> where "
 "<strong>$arch</strong> will be substituted for the host's actual OS "
 "architecture and <strong>$version</strong>, <strong>$major</strong> and "
 "<strong>$minor</strong> will be substituted for the version of the operating"
 " system. Solaris and Debian media may also use <strong>$release</strong>."
-msgstr "Der Medienpfad kann eine URL oder eine gültige NFS-Server (exklusiv für die Architektur) sein.\\n zum Beispiel <em>http://mirror.averse.net/centos/$version/os/$arch</em> wo <strong>$arch</strong> durch die jeweilige Systemarchitektur ersetzt wird und <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> wird durch die Version des Betriebssystems ersetzt. Solaris und Debian Medien können auch <strong>$release</strong> verwenden."
+msgstr ""
 
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a "
@@ -4065,6 +4133,11 @@ msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button."
 msgstr "Benutze den Knopf Add Trend Counter um Trendcounter zu definieren."
+
+msgid ""
+"To enable a provider, either install the OS package (e.g. foreman-libvirt) "
+"or enable the bundler group for development setup (e.g. ovirt)."
+msgstr ""
 
 msgid ""
 "To start collecting trend data, set a cron job to execute 'rake "
@@ -4161,6 +4234,11 @@ msgstr "UUID"
 msgid "Unable to access key"
 msgstr ""
 
+msgid ""
+"Unable to change VM display listen address, make sure the display is not "
+"attached to localhost only"
+msgstr ""
+
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Es konnte nicht mit dem Proxy kommuniziert werden: %s"
 
@@ -4216,6 +4294,9 @@ msgstr "Unbekannter Benutzer"
 
 msgid "Unmanage host"
 msgstr "System nicht mehr verwalten"
+
+msgid "Unsupported report status format"
+msgstr ""
 
 msgid "Update"
 msgstr "Aktualisierung"
@@ -4385,6 +4466,12 @@ msgid "VM already associated with a host"
 msgstr ""
 
 msgid "VM associated to host %s"
+msgstr ""
+
+msgid "VM editing is not implemented for this provider"
+msgstr ""
+
+msgid "VM is not running!"
 msgstr ""
 
 msgid "Valid from"
@@ -4765,6 +4852,12 @@ msgstr "freier Speicher (GB)"
 msgid "free swap (GB)"
 msgstr "freier SWAP (GB)"
 
+msgid "has this hostgroup already"
+msgstr ""
+
+msgid "has this role already"
+msgstr ""
+
 msgid "here"
 msgstr "hier"
 
@@ -4776,6 +4869,9 @@ msgstr "in Domäne"
 
 msgid "included already from host group"
 msgstr "bereits in Hostgruppe einbegriffen"
+
+msgid "invalid"
+msgstr ""
 
 msgid "invalid IP address"
 msgstr "ungültige IP-Adresse"
@@ -4807,9 +4903,6 @@ msgstr "ungültiger Typ %s"
 msgid "invalid type: %s requested"
 msgstr "ungültiger Typ: %s angefragt"
 
-msgid "invalid value: %s"
-msgstr "ungültiger Wert: %s"
-
 msgid "is alphanumeric and cannot contain spaces"
 msgstr "ist alphanumerisch und kann keine Leerzeichen enthalten"
 
@@ -4824,6 +4917,9 @@ msgstr "ist ungültig %s"
 
 msgid "is invalid - only  http://, https:// are allowed"
 msgstr "ist ungültig -nur http://, https:// ist erlaubt"
+
+msgid "is invalid: %s"
+msgstr ""
 
 msgid "is not allowed to change"
 msgstr "ist nicht möglich zu ändern"
@@ -4855,6 +4951,9 @@ msgstr "Naricht"
 msgid "must be"
 msgstr "muss sein"
 
+msgid "must be a valid URI"
+msgstr ""
+
 msgid "must be an array"
 msgstr "muss ein Array sein"
 
@@ -4869,6 +4968,9 @@ msgstr "muss ganzzahlig sein"
 
 msgid "must be lowercase"
 msgstr "darf nur aus Kleinbuchstaben bestehen"
+
+msgid "must be one of [ %s ]"
+msgstr ""
 
 msgid "must be specified if from is defined"
 msgstr "musst angegeben werden falls von definiert ist"

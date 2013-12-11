@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 09:23+0000\n"
+"POT-Creation-Date: 2013-12-09 10:42+0000\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -86,6 +86,15 @@ msgid "%{host} is now %{state}"
 msgstr ""
 
 msgid "%{host} now boots from %{device}"
+msgstr ""
+
+msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
+msgstr ""
+
+msgid "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}"
+msgstr ""
+
+msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
 msgid "%{match} does not match an existing host"
@@ -245,6 +254,9 @@ msgstr ""
 msgid "Additionally, you may restrict user permissions based on many criteria, make sure you check the roles settings tab."
 msgstr ""
 
+msgid "Administer"
+msgstr ""
+
 msgid "After you have decided on the two primary modes of operation and performed any appropriate imports then it would be good idea if you visited some of the other configuration pages to see if additional setup is required under the Additional settings select box on the top right."
 msgstr ""
 
@@ -285,6 +297,9 @@ msgid "All Templates"
 msgstr ""
 
 msgid "All Users"
+msgstr ""
+
+msgid "All hosts"
 msgstr ""
 
 msgid "All hosts data matches configurations for locations and organizations."
@@ -518,6 +533,9 @@ msgstr ""
 msgid "Authentication Source Configuration"
 msgstr ""
 
+msgid "Author"
+msgstr ""
+
 msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr ""
 
@@ -537,6 +555,9 @@ msgid "Autosign Entries"
 msgstr ""
 
 msgid "Autosign entries for %s"
+msgstr ""
+
+msgid "Availability zone"
 msgstr ""
 
 msgid "Available Classes"
@@ -753,6 +774,9 @@ msgstr ""
 msgid "Click to edit.."
 msgstr ""
 
+msgid "Click to log in again."
+msgstr ""
+
 msgid "Click to remove %s"
 msgstr ""
 
@@ -775,6 +799,9 @@ msgid "Clone Host %s"
 msgstr ""
 
 msgid "Close"
+msgstr ""
+
+msgid "Cluster"
 msgstr ""
 
 msgid "Code"
@@ -843,7 +870,7 @@ msgstr ""
 msgid "ConfigTemplate|Template"
 msgstr ""
 
-msgid "Configuration"
+msgid "Configure"
 msgstr ""
 
 msgid "Configure instance %s via SSH"
@@ -865,6 +892,9 @@ msgid "Console"
 msgstr ""
 
 msgid "Console passwords"
+msgstr ""
+
+msgid "Cores"
 msgstr ""
 
 msgid "Could not find a Configuration Template with the name \"PXE Default File\", please create one."
@@ -933,7 +963,7 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-msgid "Data Store"
+msgid "Data store"
 msgstr ""
 
 msgid "Datacenter"
@@ -1454,7 +1484,7 @@ msgstr ""
 msgid "For Roles and permissions, see the"
 msgstr ""
 
-msgid "For example, if you have copied several redhat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you\\n  could create a single medium entry describing them all.\\n  The entry, which could be just named 'redhat' could contain a path like this <em>'http://server/redhat/$version/$arch'</em>"
+msgid "For example, if you have copied several Red Hat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you\\n  could create a single medium entry describing them all.\\n  The entry, which could be just named 'Red Hat' could contain a path like this <em>'http://server/redhat/$version/$arch'</em>"
 msgstr ""
 
 msgid "For example, there might be a data center in London and one in Virginia; these are locations. Locations also work nicely when used in tandem with "
@@ -1529,6 +1559,9 @@ msgstr ""
 msgid "Global Parameters"
 msgstr ""
 
+msgid "Global parameters"
+msgstr ""
+
 msgid "Global variable or class Parameter, not both"
 msgstr ""
 
@@ -1545,6 +1578,9 @@ msgid "Hardware Model"
 msgstr ""
 
 msgid "Hardware Models"
+msgstr ""
+
+msgid "Hardware models"
 msgstr ""
 
 msgid "Help"
@@ -1874,6 +1910,9 @@ msgstr ""
 msgid "Incorrect username or password"
 msgstr ""
 
+msgid "Infrastructure"
+msgstr ""
+
 msgid "Installation Media"
 msgstr ""
 
@@ -1948,6 +1987,9 @@ msgid "LDAP"
 msgstr ""
 
 msgid "LDAP Authentication"
+msgstr ""
+
+msgid "LDAP authentication"
 msgstr ""
 
 msgid "LDAP filter"
@@ -2040,6 +2082,9 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
+msgid "Logout"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Lookup key"
 msgstr ""
@@ -2112,6 +2157,9 @@ msgstr ""
 msgid "Machine Type"
 msgstr ""
 
+msgid "Machine type"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr ""
 
@@ -2134,6 +2182,9 @@ msgid "Manage host"
 msgstr ""
 
 msgid "Managed IP"
+msgstr ""
+
+msgid "Manual"
 msgstr ""
 
 msgid "Manually Assign"
@@ -2238,7 +2289,7 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-msgid "More"
+msgid "Monitor"
 msgstr ""
 
 msgid "Must provide an operating systems"
@@ -2268,6 +2319,9 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)"
+msgstr ""
+
 msgid "Nest"
 msgstr ""
 
@@ -2283,10 +2337,10 @@ msgstr ""
 msgid "Network Based"
 msgstr ""
 
-msgid "Network Type"
+msgid "Network interfaces"
 msgstr ""
 
-msgid "Network interfaces"
+msgid "Network type"
 msgstr ""
 
 msgid "Networks"
@@ -2485,6 +2539,9 @@ msgstr ""
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
 msgstr ""
 
+msgid "No plugins found"
+msgstr ""
+
 msgid "No preference"
 msgstr ""
 
@@ -2644,7 +2701,7 @@ msgstr ""
 msgid "Only one declaration of a proxy is allowed"
 msgstr ""
 
-msgid "Only one volume can be Bootable"
+msgid "Only one volume can be bootable"
 msgstr ""
 
 msgid "Oops"
@@ -2913,6 +2970,9 @@ msgstr ""
 msgid "Please wait..."
 msgstr ""
 
+msgid "Plugins"
+msgstr ""
+
 msgid "Power"
 msgstr ""
 
@@ -2955,10 +3015,10 @@ msgstr ""
 msgid "Provision script had a non zero exit, removing instance"
 msgstr ""
 
-msgid "Provisioning"
+msgid "Provisioning Method"
 msgstr ""
 
-msgid "Provisioning Method"
+msgid "Provisioning Setup"
 msgstr ""
 
 msgid "Provisioning Support is disabled or this host is not managed"
@@ -2996,6 +3056,9 @@ msgid "Ptable|Os family"
 msgstr ""
 
 msgid "Public"
+msgstr ""
+
+msgid "Puppet"
 msgstr ""
 
 msgid "Puppet CA"
@@ -3263,7 +3326,7 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
-msgid "Security Group"
+msgid "Security group"
 msgstr ""
 
 msgid "Security groups"
@@ -3426,7 +3489,7 @@ msgstr ""
 msgid "Sign"
 msgstr ""
 
-msgid "Sign Out"
+msgid "Sign out"
 msgstr ""
 
 msgid "Signo SSO url"
@@ -3455,6 +3518,9 @@ msgid "Smart Proxy"
 msgstr ""
 
 msgid "Smart Variables"
+msgstr ""
+
+msgid "Smart proxies"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3505,6 +3571,9 @@ msgstr ""
 msgid "Source|Value"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 msgid "State"
 msgstr ""
 
@@ -3517,10 +3586,10 @@ msgstr ""
 msgid "Storage"
 msgstr ""
 
-msgid "Storage Domain"
+msgid "Storage domain"
 msgstr ""
 
-msgid "Storage Pool"
+msgid "Storage pool"
 msgstr ""
 
 msgid "Submit"
@@ -3654,6 +3723,9 @@ msgstr ""
 msgid "Taxonomy|Name"
 msgstr ""
 
+msgid "Template"
+msgstr ""
+
 msgid "Template / Hardware Profile to use"
 msgstr ""
 
@@ -3743,7 +3815,7 @@ msgstr ""
 msgid "The default username and password are <b>admin</b> and <b>changeme</b>"
 msgstr ""
 
-msgid "The dynamic partitioning style is currently only available for the Redhat family of operating systems, all others must provide an explicit list of partitions and sizes."
+msgid "The dynamic partitioning style is currently only available for the Red Hat family of operating systems, all others must provide an explicit list of partitions and sizes."
 msgstr ""
 
 msgid "The email reply address for emails that Foreman is sending"
@@ -4072,6 +4144,9 @@ msgstr ""
 msgid "User fact"
 msgstr ""
 
+msgid "User groups"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Andor"
 msgstr ""
@@ -4219,6 +4294,9 @@ msgstr ""
 msgid "Verify"
 msgstr ""
 
+msgid "Version"
+msgstr ""
+
 msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
@@ -4276,7 +4354,7 @@ msgstr ""
 msgid "When host and host group have different environments should all classes be included (regardless if they exists or not in the other environment)"
 msgstr ""
 
-msgid "When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for redhat, debian, suse and solaris operating systems (and their clones), see"
+msgid "When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), see"
 msgstr ""
 
 msgid "Whether the smart-variable should override the Puppet class default value."
@@ -4471,7 +4549,7 @@ msgstr ""
 msgid "e.g. 6"
 msgstr ""
 
-msgid "e.g. RedHat"
+msgid "e.g. Red Hat"
 msgstr ""
 
 msgid "e.g. admin@internal"

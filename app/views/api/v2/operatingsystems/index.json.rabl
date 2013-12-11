@@ -1,3 +1,3 @@
 collection @operatingsystems
 
-extends "api/v2/operatingsystems/show"
+extends "api/v2/operatingsystems/main"

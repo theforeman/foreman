@@ -24,6 +24,14 @@ Foreman::Application.routes.draw do
         resources :compute_resources, :except => [:new, :edit] do
           resources :images, :except => [:new, :edit]
         end
+        resources :smart_proxies, :except => [:new, :edit] do
+          put :refresh, :on => :member
+          post :import_puppetclasses, :on => :member
+          resources :environments, :only => [] do
+            post :import_puppetclasses, :on => :member
+          end
+          resources :autosign, :only => [:index]
+        end
       end
       resources :config_templates, :except => [:new, :edit] do
         collection do
@@ -55,13 +63,6 @@ Foreman::Application.routes.draw do
         get :last, :on => :collection
       end
       resources :settings, :only => [:index, :show, :update]
-      resources :smart_proxies, :except => [:new, :edit] do
-        put :refresh, :on => :member
-        post :import_puppetclasses, :on => :member
-        resources :environments, :only => [] do
-          post :import_puppetclasses, :on => :member
-        end
-      end
       resources :subnets, :except => [:new, :edit]
       resources :usergroups, :except => [:new, :edit]
       resources :users, :except => [:new, :edit]

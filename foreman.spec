@@ -113,6 +113,8 @@ BuildRequires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
 BuildRequires: %{?scl_prefix}rubygem(rails3_before_render)
 BuildRequires: %{?scl_prefix}facter
 BuildRequires: gettext
+BuildRequires: asciidoc
+BuildRequires: %{?scl_prefix}rubygem(rake)
 
 %package cli
 Summary: Foreman CLI
@@ -133,7 +135,8 @@ Group:  	Applications/System
 
 %description release
 Foreman repository contains open source and other distributable software for
-Fedora. This package contains the repository configuration for Yum.
+distributions in RPM format. This package contains the repository configuration
+for Yum.
 
 %files release
 %config(noreplace) %{_sysconfdir}/yum.repos.d/*
@@ -365,6 +368,13 @@ plugins required for Foreman to work.
 %setup -q
 
 %build
+#build man pages
+%{scl_rake} -f Rakefile.dist build \
+  PREFIX=%{_prefix} \
+  SBINDIR=%{_sbindir} \
+  SYSCONFDIR=%{_sysconfdir} \
+  --trace
+
 #replace shebangs and binaries in scripts for SCL
 %if %{?scl:1}%{!?scl:0}
   # shebangs
@@ -396,6 +406,15 @@ rm config/database.yml config/settings.yaml
 
 %install
 rm -rf %{buildroot}
+
+#install man pages
+%{scl_rake} -f Rakefile.dist install \
+  PREFIX=%{buildroot}%{_prefix} \
+  SBINDIR=%{buildroot}%{_sbindir} \
+  SYSCONFDIR=%{buildroot}%{_sysconfdir} \
+  --trace
+%{scl_rake} -f Rakefile.dist clean
+
 install -d -m0755 %{buildroot}%{_datadir}/%{name}
 install -d -m0755 %{buildroot}%{_sysconfdir}/%{name}
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}
@@ -467,6 +486,7 @@ rm -rf %{buildroot}
 %{_initrddir}/%{name}
 %{_sbindir}/%{name}-debug
 %{_sbindir}/%{name}-rake
+%{_mandir}/man8
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}

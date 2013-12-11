@@ -1,3 +1,3 @@
 object @role
 
-attributes :name, :id, :builtin, :permissions
+extends "api/v2/roles/main"

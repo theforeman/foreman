@@ -1,4 +1,4 @@
-<%= select_f f, :flavor_id, compute_resource.flavors, :id, :name %>
+<%= select_f f, :flavor_id, compute_resource.flavors, :id, :name, {}, {:label => _('Flavor')}  %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)

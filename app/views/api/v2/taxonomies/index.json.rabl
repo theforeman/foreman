@@ -1,3 +1,3 @@
 collection @taxonomies
 
-attributes :id, :name
+extends "api/v2/taxonomies/main"

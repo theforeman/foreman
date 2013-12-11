@@ -8,10 +8,7 @@ class AutosignController < ApplicationController
       autosign = []
       error e
     end
-    respond_to do |format|
-      format.html { @autosign = autosign.paginate :page => params[:page], :per_page => 20 }
-      format.json {render :json => autosign }
-    end
+    @autosign = autosign.paginate :page => params[:page], :per_page => 20
   end
 
   def new

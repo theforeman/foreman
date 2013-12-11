@@ -558,12 +558,13 @@ class Host::Managed < Host::Base
   def require_ip_validation?
     # if it's not managed there's nowhere to specify an IP anyway
     return false unless managed?
-    ip_for_compute = (compute? && compute_resource.provided_attributes.keys.include?(:ip))
+    # if the CR will provide an IP, then don't validate yet
+    return false if compute? && compute_resource.provided_attributes.keys.include?(:ip)
     ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
     ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
     ip_for_token   = Setting[:token_duration] == 0 && !capabilities.include?(:image)
     # Any of these conditions will require an IP, so chain with OR
-    ip_for_compute or ip_for_dns or ip_for_dhcp or ip_for_token
+    ip_for_dns or ip_for_dhcp or ip_for_token
   end
 
   # if certname does not exist, use hostname instead

@@ -117,7 +117,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.kind_of?(Hash)
     assert response['results'].kind_of?(Array)
-    assert_equal ['id', 'name'], response['results'][0].keys.sort
+    assert_equal ['created_at', 'id', 'name', 'updated_at'], response['results'][0].keys.sort
   end
 
   test "object name on show defaults to object class name" do

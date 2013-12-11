@@ -1,20 +1,21 @@
 object @operatingsystem
-attributes :id, :name, :major, :minor, :family, :release_name
+
+extends "api/v2/operatingsystems/main"
 
 child :media, :object_root => false do
-  attributes :id, :name
+  extends "api/v2/media/base"
 end
 
 child :architectures, :object_root => false do
-  attributes :id, :name
+  extends "api/v2/architectures/base"
 end
 
 child :ptables, :object_root => false do
-  attributes :id, :name
+  extends "api/v2/ptables/base"
 end
 
 child :config_templates, :object_root => false do
-  attributes :name, :id
+  extends "api/v2/config_templates/base"
 end
 
 child :os_default_templates, :object_root => false do

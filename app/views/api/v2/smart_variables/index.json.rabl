@@ -1,3 +1,3 @@
 collection @smart_variables
 
-extends "api/v2/smart_variables/show"
+extends "api/v2/smart_variables/main"
