@@ -33,12 +33,15 @@ module Api::V2::TaxonomiesController
       @total = taxonomy_class.count
     end
     instance_variable_set("@#{taxonomies_plural}", @taxonomies)
-    render 'api/v2/taxonomies/index'
+
+    @render_template ||= 'api/v2/taxonomies/index'
+    render @render_template
   end
 
   api :GET, '/:resource_id/:id', 'Show :a_resource'
   def show
-    render 'api/v2/taxonomies/show'
+    @render_template ||= 'api/v2/taxonomies/show'
+    render @render_template
   end
 
   api :POST, '/:resource_id', 'Create :a_resource'
