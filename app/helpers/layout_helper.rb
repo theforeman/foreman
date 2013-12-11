@@ -124,7 +124,7 @@ module LayoutHelper
     help_inline = help_inline(options.delete(:help_inline), error)
 
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    content_tag :div, :class => "form-group row #{error.empty? ? "" : 'error'}" do
+    content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}" do
       label   = options.delete(:label)
       label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f
