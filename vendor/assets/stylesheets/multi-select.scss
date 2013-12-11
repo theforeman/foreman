@@ -102,7 +102,7 @@
 .ms-header{
     font-weight: bold;
     color:#ffffff;
-    background-color: #999;
+    background-color: #aaa;
     padding: 4px 10px;
     -webkit-border-radius: 4px 4px 0 0;
     -moz-border-radius: 4px 4px 0 0;
@@ -111,7 +111,7 @@
 .ms-select-all,.ms-select-all:hover,.ms-deselect-all,.ms-deselect-all:hover{
     font-weight: bold;
     color:#ffffff;
-    background-color: #999;
+    background-color: #aaa;
     text-decoration: none;
     margin-top: 3px !important;
 }
@@ -121,6 +121,6 @@
     padding-left: 14px;
     margin-bottom: 0;
     -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px;
-    height: 12px !important;
+    border: none;
     width: 130px;
 }
