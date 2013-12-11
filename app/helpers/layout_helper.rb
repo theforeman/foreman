@@ -120,7 +120,6 @@ module LayoutHelper
   end
 
   def field(f, attr, options = {})
-    fluid = options[:fluid]
     error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
 

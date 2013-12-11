@@ -28,12 +28,12 @@
             </div>
           </div>
         </div>
-        <%= textarea_f f, :template, :class => "col-md-12 template_text", :fluid=>true, :label =>'', :'data-file-name' => @config_template.name %>
+        <%= textarea_f f, :template, :class => "col-md-12 template_text", :label =>'', :'data-file-name' => @config_template.name %>
 
 
         <%= file_field_f f, :template, :class => "template_file col-md-4",
                          :help_block  => _("Selecting a file will override the editor and load the file instead") %>
-        <%= textarea_f f, :audit_comment, :class => "col-md-12", :fluid=>true, :rows => 3, :label => _("Audit Comment"),
+        <%= textarea_f f, :audit_comment, :class => "col-md-12", :rows => 3, :label => _("Audit Comment"),
                        :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
       </div>
       <div class="tab-pane" id="template_type">
