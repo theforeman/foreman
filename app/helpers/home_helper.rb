@@ -1,5 +1,8 @@
 module HomeHelper
 
+  extend ActiveSupport::Concern
+  include Rails.application.routes.url_helpers
+
   def render_menu menu_name
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
@@ -26,8 +29,8 @@ module HomeHelper
 
   def menu_item_tag item
     content_tag(:li,
-                link_to(_(item.caption), item.url_hash, item.html_options.merge(:id => "menu_item_#{item.name}")),
-                :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
+                link_to(_(item.caption), item.url, item.html_options.merge(:id => "menu_item_#{item.name}")),
+                :class => "menu_tab_#{item.path_hash[:controller]}_#{item.path_hash[:action]}")
   end
 
   def org_switcher_title
