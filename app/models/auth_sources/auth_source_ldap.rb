@@ -40,8 +40,8 @@ class AuthSourceLdap < AuthSource
     entry = search_for_user_entries(login, password)
     return nil unless entry.is_a?(Net::LDAP::Entry)
 
-    # extract required attributes
-    attrs = required_attributes_values(entry)
+    # extract attributes
+    attrs = attributes_values(entry)
 
     # not sure if there is a case were search result without a DN
     # but just to be on the safe side.
@@ -117,13 +117,33 @@ class AuthSourceLdap < AuthSource
     }
   end
 
-  def required_attributes_values entry
-    Hash[required_ldap_attributes.map do |name, value|
-      value = entry[value].is_a?(Array) ? entry[value].first : entry[value]
-      [name, value.to_s]
+  def optional_ldap_attributes
+    { :avatar => attr_photo }
+  end
+
+  def attributes_values entry
+    Hash[required_ldap_attributes.merge(optional_ldap_attributes).map do |name, value|
+      next if entry[value].empty? and optional_ldap_attributes.keys.include? name
+      if name.eql? :avatar
+        [:avatar_hash, store_avatar(entry[value].first)]
+      else
+        value = entry[value].is_a?(Array) ? entry[value].first : entry[value]
+        [name, value.to_s]
+      end
     end]
   end
 
+  def store_avatar avatar
+    avatar_path = "#{Rails.public_path}/assets/avatars"
+    avatar_hash = Digest::SHA1.hexdigest(avatar)
+    avatar_file = "#{avatar_path}/#{avatar_hash}.jpg"
+    unless FileTest.exist? avatar_file
+      FileUtils.mkdir_p(avatar_path)
+      File.open(avatar_file, 'w') { |f| f.write(avatar) }
+    end
+    avatar_hash
+  end
+ 
   def validate_ldap_filter
     Net::LDAP::Filter.construct(ldap_filter)
   rescue Net::LDAP::LdapError => text
@@ -142,7 +162,7 @@ class AuthSourceLdap < AuthSource
     entries       = ldap_con.search(:base       => base_dn,
                                     :filter     => object_filter & login_filter,
                                     # only ask for the DN if on-the-fly registration is disabled
-                                    :attributes => required_ldap_attributes.values)
+                                    :attributes => required_ldap_attributes.values + optional_ldap_attributes.values)
     unless ldap_con.get_operation_result.code == 0
       logger.warn "Search Result: #{ldap_con.get_operation_result.code}"
       logger.warn "Search Message: #{ldap_con.get_operation_result.message}"

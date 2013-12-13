@@ -157,8 +157,19 @@ class User < ActiveRecord::Base
     # user is already in local database
     if (user = unscoped.find_by_login(login))
       # user has an authentication method and the authentication was successful
-      if user.auth_source and user.auth_source.authenticate(login, password)
+      if user.auth_source and attrs=user.auth_source.authenticate(login, password)
         logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
+
+        # update with returned attrs, maybe some info changed in LDAP
+        old_hash = user.avatar_hash
+        User.as :admin do
+          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash)) 
+        end if attrs.is_a? Hash
+
+        # clean up old avatar if it exists and the image isn't in use by anyone else
+        if old_hash.present? && user.avatar_hash != old_hash && !User.unscoped.where(:avatar_hash => old_hash).any?
+          File.delete "#{Rails.public_path}/avatars/#{old_hash}.jpg" if File.exist? old_avatar
+        end
       else
         logger.debug "Failed to authenticate #{user} against #{user.auth_source} authentication source"
         user = nil
