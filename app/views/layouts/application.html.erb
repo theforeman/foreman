@@ -1,63 +1,28 @@
-<!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
-  <head>
-    <title> <%= h(yield(:title) || "Foreman") %></title>
-    <%= stylesheet_link_tag 'application' %>
-    <%= javascript_include_tag 'application' %>
-    <%= csrf_meta_tags %>
-    <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
-    <%= javascript_tag "var URL_PREFIX = '#{request.script_name}';" %>
-    <%= javascript_tag "var I18N_MARK = true;" if SETTINGS[:mark_translated] and not Rails.env.test? %>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <%= favicon_link_tag "favicon.ico"%>
-    <%= yield(:head) %>
-  </head>
-
-  <body>
-    <div id="wrap">
-      <% if User.current %>
-        <div class="logo-bar">
-          <div class="container">
-             <!--[if IE]><div class='logo-small'> <![endif]-->
-            <%= image_tag("foreman.png") %>
-            <!--[if IE]></div> <![endif]-->
-            <%= link_to "Foreman", main_app.root_path, :class => "brand" %>
-            <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
-          </div>
-        </div>
-        <div class="navbar navbar-inverse navbar-fixed-top persist-header">
-          <div class="navbar-inner">
-            <div class="container">
-              <%= render 'home/topbar' %>
-            </div>
-          </div>
+<%= content_for(:content) do %>
+  <div id="main">
+    <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
+    <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
+    <%= content_tag('div', flash[:notice],  :class => 'flash hide notice')  if flash[:notice] %>
+    <%= render 'common/notice' unless @notices.empty? %>
+    <div id="content" class="container">
+      <% unless @page_header.blank? %>
+        <div class="row control-group">
+          <h1 class="span8"><%=h @page_header %></h1>
         </div>
       <% end %>
-      <div id="main">
-        <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
-        <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
-        <%= content_tag('div', flash[:notice],  :class => 'flash hide notice')  if flash[:notice] %>
-        <%= render 'common/notice' unless @notices.empty? %>
-        <div id="content" class="container">
-          <% unless @page_header.blank? %>
-            <div class="row control-group">
-              <h1 class="span8"><%=h @page_header %></h1>
-            </div>
-          <% end %>
-          <div class="row">
-            <div class="title_filter <%= searchable? ? "span6" : "span4" %>">
-              <%= render "common/searchbar" if searchable? %>
-              <%= yield(:search_bar) %>&nbsp;
-            </div>
-            <div id="title_action" class="<%= searchable? ? "span6" : "span8" %>">
-              <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
-            </div>
-          </div>
-
-          <%= yield %>
+      <div class="row">
+        <div class="title_filter <%= searchable? ? "span6" : "span4" %>">
+          <%= render "common/searchbar" if searchable? %>
+          <%= yield(:search_bar) %>&nbsp;
+        </div>
+        <div id="title_action" class="<%= searchable? ? "span6" : "span8" %>">
+          <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
         </div>
       </div>
+
+      <%= yield %>
     </div>
-  </body>
-</html>
+  </div>
+<% end %>
+    
+<%= render :template => 'layouts/base' %>

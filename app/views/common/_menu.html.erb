@@ -1,0 +1,16 @@
+<div class="logo-bar">
+  <div class="container">
+     <!--[if IE]><div class='logo-small'> <![endif]-->
+    <%= image_tag("foreman.png") %>
+    <!--[if IE]></div> <![endif]-->
+    <%= link_to "Foreman", main_app.root_path, :class => "brand" %>
+    <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
+  </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-top persist-header">
+  <div class="navbar-inner">
+    <div class="container">
+      <%= render 'home/topbar' %>
+    </div>
+  </div>
+</div>
