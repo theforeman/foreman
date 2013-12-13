@@ -30,6 +30,7 @@ module Api
         param :attr_firstname, String, :desc => "required if onthefly_register is true"
         param :attr_lastname, String, :desc => "required if onthefly_register is true"
         param :attr_mail, String, :desc => "required if onthefly_register is true"
+        param :attr_photo, String
         param :onthefly_register, :bool
         param :tls, :bool
       end
@@ -52,6 +53,7 @@ module Api
         param :attr_firstname, String, :desc => "required if onthefly_register is true"
         param :attr_lastname, String, :desc => "required if onthefly_register is true"
         param :attr_mail, String, :desc => "required if onthefly_register is true"
+        param :attr_photo, String
         param :onthefly_register, :bool
         param :tls, :bool
       end

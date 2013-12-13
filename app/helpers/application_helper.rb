@@ -332,10 +332,18 @@ module ApplicationHelper
     end
   end
 
-  def gravatar_image_tag(email, html_options = {})
-    default_image = path_to_image("user.jpg")
-    html_options.merge!(:onerror=>"this.src='#{default_image}'")
-    image_url = Setting["use_gravatar"] ? gravatar_url(email, default_image) : default_image
+  def avatar_image_tag(user, html_options = {})
+    if user.avatar_hash.nil?
+      default_image = path_to_image("user.jpg")
+      if Setting["use_gravatar"]
+        image_url = gravatar_url(user.mail, default_image)
+        html_options.merge!(:onerror=>"this.src='#{default_image}'", :alt => _('Change your avatar at gravatar.com'))
+      else
+        image_url = default_image
+      end
+    else
+      image_url = path_to_image("avatars/#{user.avatar_hash}.jpg")
+    end
     return image_tag(image_url, html_options)
   end
 
