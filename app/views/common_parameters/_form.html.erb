@@ -1,6 +1,6 @@
 <%= form_for @common_parameter do |f| %>
   <%= base_errors_for @common_parameter %>
   <%= text_f f, :name %>
-  <%= text_f f, :value, :class => "input-lg" %>
+  <%= text_f f, :value, :size => "col-md-8" %>
   <%= submit_or_cancel f %>
 <% end %>

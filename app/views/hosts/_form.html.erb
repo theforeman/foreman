@@ -26,7 +26,7 @@
     <div class="tab-content">
 
       <div class="tab-pane active" id="primary">
-        <%= text_f f, :name, :class => "input-lg", :value => name_field(@host) %>
+        <%= text_f f, :name, :size => "col-md-8", :value => name_field(@host) %>
 
         <% if show_organization_tab?  %>
           <%= select_f f, :organization_id, Organization.my_organizations, :id, :to_label,
@@ -105,7 +105,7 @@
         <div id='model_name'>
           <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
         </div>
-        <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :class => "input-lg", :rows => "3" %>
+        <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3" %>
       </div>
 
     </div>
