@@ -179,12 +179,12 @@ module LayoutHelper
   end
 
    def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"col-md-7  pagination")
+    options.merge!(:class=>"col-md-7")
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0
-    options[:previous_label] ||= _('&#8592; Previous')
-    options[:next_label] ||= _('Next &#8594;')
+    options[:previous_label] ||= _('&laquo;')
+    options[:next_label] ||= _('&raquo;')
     super collection, options
   end
 
@@ -200,12 +200,11 @@ module LayoutHelper
              end
            end.html_safe
     html += options[:more].html_safe if options[:more]
-    content_tag(
-      :div,content_tag(
-          :ul, content_tag(
-              :li, link_to(html, "#")
-          ), :style=>"float: left;"
-      ), :class => "col-md-4 pagination")
+    content_tag(:div, :class=>"col-md-5") do
+      content_tag(:ul, :class => 'pagination') do
+        content_tag(:li, link_to(html, "#"), :class=>"pull-left")
+      end
+    end
   end
 
   def form_for(record_or_name_or_array, *args, &proc)
