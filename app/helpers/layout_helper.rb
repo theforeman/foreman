@@ -76,6 +76,7 @@ module LayoutHelper
 
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
+    options.merge!(:size => 12)
     field(f, attr,options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
       hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '', :id=>'')
@@ -124,14 +125,20 @@ module LayoutHelper
     help_inline = help_inline(options.delete(:help_inline), error)
 
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
+    size = options.delete(:size)
+    size_class = size ? "col-md-#{size}" : "col-md-4"
+    content_tag(:div, :class=> "clearfix") do
     content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}" do
       label   = options.delete(:label)
       label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f
       label_tag(attr, label, :class=>"control-label").html_safe +
         content_tag(:div, :class => "controls") do
-          yield.html_safe + help_inline.html_safe + help_block.html_safe
+          content_tag(:div, :class => size_class) do
+            yield.html_safe + help_block.html_safe
+          end.html_safe + help_inline.html_safe
         end.html_safe
+    end
     end
   end
 
@@ -141,9 +148,9 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-block")
+        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-block help-inline")
       else
-        content_tag(:span, help_inline, :class => "help-block")
+        content_tag(:span, help_inline, :class => "help-block help-inline")
     end
   end
 

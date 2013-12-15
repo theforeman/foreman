@@ -84,3 +84,17 @@ span.input-group-btn .hidden-xs {display:inline !important;}
 }
 
 span.btn a{ text-decoration: none; color: #333333}
+// help-inline is not defined in Bootstrap3
+.help-inline{
+  vertical-align: middle;
+  line-height: 2.428571;
+}
+
+.well {
+padding: 19px 19px 19px 36px;
+background-color: white;
+}
+
+.label-default {
+  background-color: #cccccc;
+}
