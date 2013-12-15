@@ -4,8 +4,8 @@ module Api
       include Api::Version2
 
       resource_description do
-        resource_id "v2_base" # to avoid conflicts with V1::BaseController
         api_version "v2"
+        app_info "Foreman v2 is currently in development and is not the default version. You may use v2 by either passing 'version=2' in the Accept Header or entering api/v2/ in the URL."
       end
 
       before_filter :root_node_name, :only => :index

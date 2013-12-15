@@ -5,7 +5,7 @@ module Api
 
       resource_description do
         api_version "v1"
-        api_version "v2"
+        app_info "Foreman v1 is currently the default API version."
       end
     end
   end
