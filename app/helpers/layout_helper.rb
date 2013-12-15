@@ -24,9 +24,13 @@ module LayoutHelper
     content_for(:head) { javascript_include_tag(*args) }
   end
 
+  def addClass options={}, new_class
+    options[:class] = "#{new_class} #{options[:class]}"
+  end
+
   def text_f(f, attr, options = {})
     field(f, attr, options) do
-      options[:class] = "form-control #{(options[:class] || '')}"
+      addClass options, "form-control"
       f.text_field attr, options
     end
   end
@@ -39,6 +43,7 @@ module LayoutHelper
   def textarea_f(f, attr, options = {})
     field(f, attr, options) do
       options[:rows] = line_count(f, attr) if options[:rows] == :auto
+      addClass options, "form-control"
       f.text_area attr, options
     end
   end
@@ -47,7 +52,7 @@ module LayoutHelper
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
       options[:placeholder] ||= password_placeholder(f.object)
-      options[:class] = "form-control #{(options[:class] || '')}"
+      addClass options, "form-control"
       f.password_field attr, options
     end
   end
@@ -102,14 +107,14 @@ module LayoutHelper
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
     field(f, attr, html_options) do
-      html_options[:class] = "form-control #{(html_options[:class] || '')}"
+      addClass html_options, "form-control"
       f.collection_select attr, array, id, method, select_options, html_options
     end
   end
 
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
     field(f, attr, html_options) do
-      html_options[:class] = "form-control #{(html_options[:class] || '')}"
+      addClass html_options, "form-control"
       f.select attr, array, select_options, html_options
     end
   end
@@ -156,12 +161,10 @@ module LayoutHelper
   def submit_or_cancel f, overwrite = false, args = { }
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "form-actions") do
-      content_tag(:div) do
-        text    = overwrite ? _("Overwrite") : _("Submit")
-        options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
-        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
-        f.submit(text, options)
-      end
+      text    = overwrite ? _("Overwrite") : _("Submit")
+      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+      link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
+      f.submit(text, options)
     end
   end
 
