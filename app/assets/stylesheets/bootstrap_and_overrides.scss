@@ -84,6 +84,7 @@ span.input-group-btn .hidden-xs {display:inline !important;}
 }
 
 span.btn a{ text-decoration: none; color: #333333}
+
 // help-inline is not defined in Bootstrap3
 .help-inline{
   vertical-align: middle;
@@ -104,4 +105,11 @@ background-color: white;
   margin-top: 20px;
   margin-bottom: 20px;
   border-top: 1px solid #e5e5e5;
+}
+
+.navbar.navbar-form{
+  background-color: #f8f8f8;
+  padding: 10px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
 }
