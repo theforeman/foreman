@@ -3,7 +3,8 @@ class Filter < ActiveRecord::Base
 
   attr_accessible :search, :resource_type, :permission_ids, :role_id, :unlimited,
                   :organization_ids, :location_ids
-  attr_writer :resource_type, :unlimited
+  attr_writer :resource_type
+  attr_accessor :unlimited
 
   belongs_to :role
   has_many :filterings
@@ -19,6 +20,9 @@ class Filter < ActiveRecord::Base
   scoped_search :on => :search, :complete_value => true
   scoped_search :in => :role, :on => :id, :rename => :role
   scoped_search :in => :role, :on => :name, :rename => :role_name
+  scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
+
+  before_validation :set_unlimited_filter, :if => Proc.new { |o| o.unlimited == '1' }
 
   def unlimited?
     search.nil?
@@ -33,8 +37,13 @@ class Filter < ActiveRecord::Base
   end
 
   def resource_type
-    permission = self.permissions.first
-    permission.nil? ? nil : permission.resource_type
+    @resource_type ||= permissions.first.try(:resource_type)
+  end
+
+  private
+
+  def set_unlimited_filter
+    self.search = nil
   end
 
 end

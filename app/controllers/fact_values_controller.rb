@@ -4,11 +4,12 @@ class FactValuesController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
+    base = FactValue.authorized(:view_facts).no_timestamp_facts
     begin
-      values = FactValue.my_facts.search_for(params[:search], :order => params[:order])
+      values = base.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = FactValue.search_for ""
+      values = base.search_for ""
     end
 
     conds = (original_search_parameter || '').split(/AND|OR/i)

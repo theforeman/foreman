@@ -13,10 +13,26 @@ FactoryGirl.define do
     end
   end
 
+  factory :permission do
+    sequence(:name) {|n| "view_#{n}" }
+    resource_type nil
+
+    trait :host do
+      resource_type 'Host'
+    end
+
+    trait :domain do
+      resource_type 'Domain'
+    end
+  end
+
   factory :role do
     sequence(:name) {|n| "role #{n}" }
     builtin 1
-    permissions [:view_architectures, :view_audit_logs]
+    permissions [
+                    FactoryGirl.create(:permission),
+                    FactoryGirl.create(:permission),
+                ]
   end
 
   factory :user_role do
@@ -40,19 +56,6 @@ FactoryGirl.define do
 
     factory :usergroup_usergroup_member do
       member { FactoryGirl.create :usergroup }
-    end
-  end
-
-  factory :permission do
-    sequence(:name) {|n| "view_#{n}" }
-    resource_type nil
-
-    trait :host do
-      resource_type 'Host'
-    end
-
-    trait :domain do
-      resource_type 'Domain'
     end
   end
 

@@ -5,10 +5,11 @@
 <table class="table table-bordered table-striped">
   <thead>
   <tr>
+    <th><%= sort :search, :as => s_("Filter|Search") %></th>
+    <th><%= sort :resource, :as => s_("Filter|Resource") %></th>
     <% unless params[:role_id] %>
         <th><%= sort :role, :as => _("Role") %></th>
     <% end %>
-    <th><%= sort :search, :as => s_("Filter|Search") %></th>
     <th><%= sort :search, :as => s_("Filter|Unlimited") %></th>
     <th></th>
   </tr>
@@ -16,16 +17,17 @@
   <tbody>
   <% for filter in @filters %>
       <tr>
+        <td>
+          <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),
+                                                        :action => 'edit',
+                                                        :id => filter)) %>
+        </td>
+        <td><%= filter.resource_type %></td>
         <% unless params[:role_id] %>
             <td>
               <%= content_tag('span', link_to_if_authorized(filter.role.name, hash_for_roles_path(:search => "name = #{filter.role.name}"))) %>
             </td>
         <% end %>
-        <td>
-          <%= content_tag('span', link_to_if_authorized(filter.search || '-',
-                                                        :action => 'edit',
-                                                        :id => filter)) %>
-        </td>
         <td><%= checked_icon filter.unlimited? %></td>
         <td>
           <%= action_buttons(

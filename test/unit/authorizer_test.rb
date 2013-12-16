@@ -156,7 +156,9 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(FactoryGirl.create(:user))
 
-    assert_not_include auth.find_collection(Domain, :view_domains), domain
+    result = auth.find_collection(Domain, :view_domains)
+    assert_not_include result, domain
+    assert_kind_of ActiveRecord::Relation, result
     refute auth.can?(:view_domains, domain)
   end
 

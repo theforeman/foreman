@@ -40,4 +40,18 @@ class FilterTest < ActiveSupport::TestCase
       assert_equal 'test', f.resource_type
     end
   end
+
+  test "unlimited filters have nilified search string" do
+    f = Factory.build(:filter, :search => 'name ~ a*', :unlimited => '1')
+    assert f.valid?
+    assert_nil f.search
+
+    f = Factory.build(:filter, :search => '', :unlimited => '1')
+    assert f.valid?
+    assert_nil f.search
+
+    f = Factory.build(:filter, :search => 'name ~ a*', :unlimited => '0')
+    assert f.valid?
+    assert_equal 'name ~ a*', f.search
+  end
 end

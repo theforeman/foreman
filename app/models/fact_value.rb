@@ -1,4 +1,5 @@
 class FactValue < ActiveRecord::Base
+  include Authorizable
 
   belongs_to_host
   belongs_to :fact_name

@@ -3,7 +3,7 @@ permissions.html("<%= escape_javascript(options_for_select(@permissions.map {|p|
 permissions.multiSelect('refresh');
 
 var search = $('#search');
-var path = '<%= escape_javascript(send(@search_path)) %>/auto_complete_search'
+var path = '<%= escape_javascript(@search_path) %>'
 search.attr('data-url', path);
 search.val('');
 search.catcomplete({source: function( request, response ) {
