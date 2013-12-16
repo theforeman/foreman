@@ -110,7 +110,7 @@ class HostTest < ActiveSupport::TestCase
     assert Host.importHostAndFacts(raw['name'], raw['facts'])
     value_ids = Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
     assert Host.importHostAndFacts(raw['name'], raw['facts'])
-    assert_equal value_ids, Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
+    assert_equal value_ids.sort, Host.find_by_name('sinn1636.lan').fact_values.map(&:id).sort
   end
 
   test "should find a host by certname not fqdn when provided" do
