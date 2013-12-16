@@ -254,9 +254,15 @@ $(function() {
 function filter_by_level(item){
   var level = $(item).val();
 
-  if(level == 'notice'){
+  if(level == 'info'){
     $('.label-info').closest('tr').show();
     $('.label-default').closest('tr').show();
+    $('.label-warning').closest('tr').show();
+    $('.label-important').closest('tr').show();
+  }
+  if(level == 'notice'){
+    $('.label-info').closest('tr').show();
+    $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').show();
     $('.label-important').closest('tr').show();
   }
