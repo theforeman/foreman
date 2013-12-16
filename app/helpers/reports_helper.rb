@@ -5,7 +5,7 @@ module ReportsHelper
     link_to(_("%s ago") % time_ago_in_words(record.reported_at.getlocal), report_path(record))
   end
 
-   def report_event_column(event, style = "")
+  def report_event_column(event, style = "")
     style = "" if event == 0
     content_tag(:span, event, :class=>'label ' + style)
   end
@@ -41,8 +41,8 @@ module ReportsHelper
     return unless @report.logs.size > 0
     form_tag @report, :id => 'level_filter', :method => :get do
       content_tag(:span, _("Show log messages:") + ' ') +
-      select(nil, 'level', [[_('All messages'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
-             {}, {:class => "input-medium", :onchange =>"filter_by_level(this);"})
+      select(nil, 'level', [[_('All messages'), 'info'],[_('Notices, warnings and errors'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
+             {}, {:class => "input-xlarge", :onchange =>"filter_by_level(this);"})
     end
    end
 end
