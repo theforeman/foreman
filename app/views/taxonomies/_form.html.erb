@@ -1,9 +1,9 @@
 <% javascript 'taxonomy' %>
 <%= form_for taxonomy do |f| %>
     <%= base_errors_for taxonomy %>
+    <%= text_f f, :name %>
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab"><%= _(taxonomy.class.name) %></a></li>
-      <li><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
+      <li class="active"><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
       <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
       <% if SETTINGS[:unattended] %>
         <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
@@ -22,11 +22,7 @@
     </ul>
 
     <div class="tab-content">
-      <div class="tab-pane active" id="primary">
-        <%= text_f f, :name %>
-      </div>
-
-      <div class="tab-pane" id="users">
+      <div class="tab-pane active" id="users">
         <%= checkbox_f(f, :ignore_types, {:label => "", :help_text => _("All Users"),  :onchange => 'ignore_checked(this)'}, "User") %>
         <%= multiple_selects f, :users, User.except_admin, taxonomy.selected_ids[:user_ids],
            {:disabled => taxonomy.used_and_selected_ids[:user_ids], :label => ''},
