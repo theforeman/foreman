@@ -35,6 +35,7 @@ module Foreman::Controller::Authentication
       # We assume we always have a user logged in, if authentication is disabled, the user is the built-in admin account.
       User.current = User.admin
       session[:user] = User.current.id unless api_request?
+      true
     end
   end
 
