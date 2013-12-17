@@ -66,7 +66,7 @@ module Facts
     end
 
     def model
-      name = facts[:productname] || facts[:model]
+      name = facts[:productname] || facts[:model] || facts[:boardproductname]
       # if its a virtual machine and we didn't get a model name, try using that instead.
       name ||= facts[:is_virtual] == "true" ? facts[:virtual] : nil
       Model.find_or_create_by_name(name.strip) unless name.blank?
