@@ -218,10 +218,11 @@ module Foreman::Model
     def cacert
       ca_url = URI.parse(url)
       ca_url.path = "/ca.crt"
-      ca_url.scheme = "http"
-      ca_url.port = 8080 if ca_url.port == 8443
-      ca_url.port = 80 if ca_url.port == 443
-      Net::HTTP.get(ca_url).to_s
+      http = Net::HTTP.new(ca_url.host, ca_url.port)
+      http.use_ssl = (ca_url.scheme == 'https')
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      request = Net::HTTP::Get.new(ca_url.path)
+      http.request(request).to_s
     end
 
     private
