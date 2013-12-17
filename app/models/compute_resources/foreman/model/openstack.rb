@@ -49,8 +49,16 @@ module Foreman::Model
       client.addresses.get_address_pools.map { |p| p["name"] }
     end
 
+    def internal_networks
+      return {} if network_client.nil?
+      network_client.networks.all.select { |net| !net.router_external }
+    end
+
     def create_vm(args = {})
       network = args.delete(:network)
+      # fix internal network format for fog.
+      args[:nics].delete_if(&:blank?)
+      args[:nics].map! {|nic| { 'net_id' => nic } }
       vm      = super(args)
       if network.present?
         address = allocate_address(network)
@@ -102,10 +110,20 @@ module Foreman::Model
 
     def client
       @client ||= ::Fog::Compute.new(:provider           => :openstack,
-                                     :openstack_api_key  => password  ,
-                                     :openstack_username => user      ,
-                                     :openstack_auth_url => url       ,
+                                     :openstack_api_key  => password,
+                                     :openstack_username => user,
+                                     :openstack_auth_url => url,
                                      :openstack_tenant   => tenant)
+    end
+
+    def network_client
+      @network_client ||= ::Fog::Network.new(:provider           => :openstack,
+                                             :openstack_api_key  => password,
+                                             :openstack_username => user,
+                                             :openstack_auth_url => url,
+                                             :openstack_tenant   => tenant)
+    rescue
+      @network_client = nil
     end
 
     def setup_key_pair
