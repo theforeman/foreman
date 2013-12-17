@@ -3,6 +3,8 @@ $(function() {
   //select the first tab
   $('.smart-var-tabs li a span').hide();
   select_first_tab();
+  // expend inner form fields
+  $('.tabs-left .col-md-4').removeClass('col-md-4').addClass('col-md-8')
   //make the remove variable button visible only on the active pill
   $(document).on('click', '.smart-var-tabs li a', function(){ show_delete_button(this);});
   //remove variable click event
@@ -158,12 +160,12 @@ function toggleOverrideValue(item) {
 
 function filterByEnvironment(item){
   if ($(item).val()=="") {
-    $('ul.smart-var-tabs li[data-used-environments] a').removeClass('muted');
+    $('ul.smart-var-tabs li[data-used-environments] a').removeClass('text-muted');
     return;
   }
   var selected = $(item).find('option:selected').text();
-  $('ul.smart-var-tabs li[data-used-environments] a').addClass('muted');
-  $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('muted');
+  $('ul.smart-var-tabs li[data-used-environments] a').addClass('text-muted');
+  $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('text-muted');
 }
 
 function filterByClassParam(item) {

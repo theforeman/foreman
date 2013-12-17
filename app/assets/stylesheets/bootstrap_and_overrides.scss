@@ -114,6 +114,10 @@ background-color: white;
   border-radius: 4px;
 }
 
+.nav.nav-tabs{
+  margin-bottom: 20px;
+}
+
 /* custom inclusion of right, left and below tabs */
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
@@ -173,6 +177,7 @@ background-color: white;
 .tabs-left > .nav-tabs {
   float: left;
   margin-right: 19px;
+  padding-right: 0;
   border-right: 1px solid #ddd;
 }
 

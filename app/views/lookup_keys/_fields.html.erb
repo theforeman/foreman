@@ -2,12 +2,12 @@
 <div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')%>' class='tab-pane fields' >
   <% is_param = f.object.is_param %>
 
-  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence,:class=>'col-md-4', :label=> _('Puppet Environments'), :disabled=>true) if is_param%>
+  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label=> _('Puppet Environments'), :disabled=>true) if is_param%>
 
   <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f , {:class => 'btn btn-danger hide'}) unless controller_name == "lookup_keys" %>
   <%= text_f f, :key, :disabled => f.object.is_param %>
   <%= f.hidden_field :key if is_param %>
-  <%= textarea_f f, :description, :rows => :auto, :class=> "col-md-6" %>
+  <%= textarea_f f, :description, :rows => :auto %>
 
   <%= show_puppet_class f %>
   <%= checkbox_f(f, :override, :onchange=>'toggleOverrideValue(this)',
@@ -15,7 +15,7 @@
                     :title => _("Override Value"))) if is_param%>
 
   <%= param_type_selector f  %>
-  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :class => "col-md-6", :rows => :auto, :help_inline => popover("?",_("value to use when there is no match")) %>
+  <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast , :disabled => (f.object.is_param && !f.object.override), :rows => :auto, :help_inline => popover("?",_("value to use when there is no match")) %>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
     <legend>Optional Input Validator</legend>
     <%= checkbox_f(f, :required, :disabled => !f.object.override,
