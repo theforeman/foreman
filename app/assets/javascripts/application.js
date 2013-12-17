@@ -412,6 +412,6 @@ var originalShowMethod = jQuery.fn.show;
 jQuery.fn.show = function(){
 $(this).removeClass('hidden').removeClass('hide')
 // Execute the original method.
-originalShowMethod.apply( this, arguments );
+return originalShowMethod.apply( this, arguments );
 }
 })();
