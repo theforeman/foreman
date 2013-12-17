@@ -400,3 +400,18 @@ function filter_permissions(item){
     $(".form-group .collapse").parents('.form-group').show();
   }
 }
+
+// Create a closure so that we can define intermediary
+// method pointers that don't collide with other items
+// in the global name space.
+(function(){
+// Store a reference to the original remove method.
+var originalShowMethod = jQuery.fn.show;
+
+// Define overriding method.
+jQuery.fn.show = function(){
+$(this).removeClass('hidden').removeClass('hide')
+// Execute the original method.
+originalShowMethod.apply( this, arguments );
+}
+})();
