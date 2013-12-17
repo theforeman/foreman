@@ -41,7 +41,7 @@ module Api
         else
           @host ||= Host::Managed.find_by_name(params[:host_id])
           return @host_id = @host.id if @host
-          render_error 'not_found', :status => :not_found and return false
+          not_found
         end
       end
 

@@ -175,7 +175,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
 
   test "should give error if no last report for given host" do
     get :last, {:host_id => hosts(:two).to_param }
-    assert_response 500
+    assert_response :not_found
   end
 
 end

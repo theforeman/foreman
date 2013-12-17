@@ -4,13 +4,12 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   valid_attrs = { :name => 'QA2', :network => '10.35.2.27', :mask => '255.255.255.0' }
 
-  def test_index
+  test "index content is a JSON array" do
     get :index
     subnets = ActiveSupport::JSON.decode(@response.body)
     assert subnets['results'].is_a?(Array)
     assert_response :success
     assert !subnets.empty?
-
   end
 
   test "should show individual record" do
@@ -25,6 +24,11 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
       post :create, { :subnet => valid_attrs }
     end
     assert_response :success
+  end
+
+  test "does not create subnet with non-existent domain" do
+    post :create, { :subnet => valid_attrs.merge( :domain_ids => [1, 2] ) }
+    assert_response :not_found
   end
 
   test "should update subnet" do
@@ -46,7 +50,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
-  def test_destroy_json
+  test "delete destroys subnet not in use" do
     subnet = Subnet.first
     subnet.hosts.clear
     subnet.interfaces.clear

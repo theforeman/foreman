@@ -77,8 +77,7 @@ module Api
 
       def return_if_override_mismatch
         if (@override_values && @override_value && !@override_values.find_by_id(@override_value.id)) || (@override_values && !@override_value) || !@override_values
-          msg = "Override value not found by id '#{params[:id]}'"
-          render :json => {:message => msg}, :status => :not_found and return false
+          not_found "Override value not found by id '#{params[:id]}'"
         end
       end
 
