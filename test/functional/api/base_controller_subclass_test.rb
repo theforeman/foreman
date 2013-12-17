@@ -21,4 +21,24 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
   end
 
+  context "API authentication" do
+    setup do
+      User.current = nil
+      SETTINGS[:login] = false
+    end
+
+    teardown do
+      SETTINGS[:login] = true
+    end
+
+    it "does not need an username and password when Settings[:login]=false" do
+      get :index
+      assert_response :success
+    end
+
+    it "does not set session data for API requests" do
+      get :index
+      assert_not session[:user]
+    end
+  end
 end
