@@ -121,7 +121,7 @@ module Api
         @parameter   = @parameters.find_by_id(params[:id].to_i) if params[:id].to_i > 0
         @parameter ||= @parameters.find_by_name(params[:id])
         return @parameter if @parameter
-        render_error 'not_found', :status => :not_found and return false
+        not_found
       end
 
     end
