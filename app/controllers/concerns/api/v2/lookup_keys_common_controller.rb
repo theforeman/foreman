@@ -137,8 +137,7 @@ module Api::V2::LookupKeysCommonController
              else
                params.keys.include?('smart_class_parameter_id') ? params['smart_variable_id'] : params['id']
              end
-        msg = "#{obj} not found by id '#{id}'"
-        render :json => {:message => msg}, :status => :not_found and return false
+        not_found "#{obj} not found by id '#{id}'"
       end
     end
 

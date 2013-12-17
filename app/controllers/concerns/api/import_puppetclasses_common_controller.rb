@@ -82,8 +82,7 @@ module Api::ImportPuppetclassesCommonController
     @smart_proxy   = SmartProxy.find_by_id(id.to_i) if id.to_i > 0
     @smart_proxy ||= SmartProxy.find_by_name(id)
     unless @smart_proxy && SmartProxy.puppet_proxies.pluck("smart_proxies.id").include?(@smart_proxy.id)
-      msg = 'We did not find a foreman proxy that can provide the information, ensure that this proxy has the puppet feature turned on.'
-      render :json => {:message => msg}, :status => :not_found and return false
+      not_found 'We did not find a foreman proxy that can provide the information, ensure that this proxy has the puppet feature turned on.'
     end
     @smart_proxy
   end

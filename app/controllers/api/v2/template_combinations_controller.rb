@@ -36,9 +36,7 @@ module Api
 
       def find_parent_config_template
         @config_template = ConfigTemplate.find(params[:config_template_id])
-        unless @config_template
-          render_error 'not_found', :status => :not_found and return false
-        end
+        not_found unless @config_template
         @config_template
       end
     end
