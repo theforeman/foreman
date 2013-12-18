@@ -1,3 +1,3 @@
 group :vmware do
-  gem "rbvmomi"
+  gem "rbvmomi", "< 1.8.0"
 end
