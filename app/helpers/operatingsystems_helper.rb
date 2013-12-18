@@ -26,6 +26,8 @@ module OperatingsystemsHelper
       "FreeBSD"
     when /aix/i
       "AIX"
+    when /Junos/i
+      "Junos"
     else
       return "" if record.family.blank?
       record.family

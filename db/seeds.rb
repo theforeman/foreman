@@ -28,13 +28,14 @@ end
 
 # Template kinds
 kinds = {}
-[:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script].each do |type|
+[:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script, :ZTP].each do |type|
   kinds[type] = TemplateKind.find_by_name(type)
   kinds[type] ||= TemplateKind.create :name => type
   raise "Unable to create template kind: #{format_errors kinds[type]}" if kinds[type].nil? || kinds[type].errors.any?
 end
 
 # Find known operating systems for associations
+os_junos = Operatingsystem.find_all_by_type "Junos" || Operatingsystem.where("name LIKE ?", "junos")
 os_solaris = Operatingsystem.find_all_by_type "Solaris"
 os_suse = Operatingsystem.find_all_by_type "Suse" || Operatingsystem.where("name LIKE ?", "suse")
 os_windows = Operatingsystem.find_all_by_type "Windows"
@@ -82,6 +83,9 @@ ConfigTemplate.without_auditing do
     { :name => 'Preseed default finish', :source => 'preseed/finish.erb', :template_kind => kinds[:finish] },
     { :name => 'Preseed default PXELinux', :source => 'preseed/PXELinux.erb', :template_kind => kinds[:PXELinux] },
     { :name => 'WAIK default PXELinux', :source => 'waik/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_windows },
+    { :name => "Junos SLAX Provisioning", :source => 'ztp/junos_ztp.slax.erb', :template_kind => kinds[:provision], :operatingsystems => os_junos },
+    { :name => "Junos ZTP Config", :source => 'ztp/junos_ztp_config.erb', :template_kind => kinds[:ZTP], :operatingsystems => os_junos },
+    { :name => "Junos Finish Config", :source => 'ztp/junos_finish_config.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
     # snippets
     { :name => 'epel', :source => 'snippets/_epel.erb', :snippet => true },
     { :name => 'http_proxy', :source => 'snippets/_http_proxy.erb', :snippet => true },
