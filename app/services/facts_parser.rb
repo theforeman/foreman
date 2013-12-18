@@ -31,6 +31,9 @@ module Facts
         elsif os_name[/AIX/i]
           majoraix, tlaix, spaix, yearaix = orel.split("-")
           orel = majoraix + "." + tlaix + spaix
+        elsif os_name[/JUNOS/i]
+          majorjunos, minorjunos = orel.split("R")
+          orel = majorjunos + "." + minorjunos
         end
         major, minor = orel.split(".")
         major.to_s.gsub!(/\D/,'') unless is_numeric? major
@@ -56,9 +59,9 @@ module Facts
     end
 
     def architecture
-      # On solaris architecture fact is harwareisa
+      # On solaris and junos architecture fact is hardwareisa
       name = case os_name
-               when /(sunos|solaris)/i
+               when /(sunos|solaris|junos)/i
                  facts[:hardwareisa]
                else
                  facts[:architecture] || facts[:hardwareisa]
