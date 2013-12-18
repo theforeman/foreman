@@ -111,6 +111,10 @@ class UnattendedController < ApplicationController
   def find_host_by_token
     token = params.delete("token")
     return nil if token.blank?
+    # Quirk: ZTP requires the .slax suffix
+    if ( result = token.match(/^([a-z0-9-]+)(.slax)$/i) )
+      token, suffix = result.captures
+    end
     Host.for_token(token).first
   end
 
@@ -211,6 +215,11 @@ class UnattendedController < ApplicationController
   end
 
   def memdisk_attributes
+    os         = @host.operatingsystem
+    @mediapath = os.mediumpath @host
+  end
+
+  def ZTP_attributes
     os         = @host.operatingsystem
     @mediapath = os.mediumpath @host
   end
