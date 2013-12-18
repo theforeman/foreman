@@ -44,7 +44,7 @@ module ApplicationHelper
     functions_options = { :klass => klass, :host => host, :css_class => ''}
     text = remove_link_to_function(truncate(klass.name, :length => 28), functions_options)
     content_tag(:span, text, options).html_safe +
-        remove_link_to_function('', functions_options.merge(:css_class => 'glyphicon glyphicon-remove-sign'))
+        remove_link_to_function('', functions_options.merge(:css_class => 'glyphicon glyphicon-minus-sign'))
 
   end
 

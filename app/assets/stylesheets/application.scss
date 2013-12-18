@@ -111,13 +111,13 @@ div.flash.notice {
   text-decoration: none;
 }
 
-.classes ul {
-  margin-left: 10px;
-  margin-bottom: 0px;
+.classes>ul {
+  margin-bottom: 6px;
+  margin-left: -42px;
 }
 .puppetclass, .puppetclass li, .selected_puppetclass, .selected_puppetclass li {
   a { color: #333; }
-  a.glyphicon-remove-sign, a.glyphicon-plus-sign {
+  a.glyphicon-minus-sign, a.glyphicon-plus-sign {
     float: right;
     margin-right: 10px;
   }

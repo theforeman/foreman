@@ -5,7 +5,7 @@
       <%= obj.errors[:puppetclasses].map {|e| "<li>#{e}</li>"}.to_s.html_safe %>
     </div>
   <% end %>
-  <div class="col-md-3 classes">
+  <div class="col-md-4 classes">
     <h3><%= _('Included Classes') %></h3>
     <%# hidden field to ensure that classes gets removed if none are defined %>
     <%= hidden_field_tag obj.class.model_name.downcase + "[puppetclass_ids][]" %>
@@ -16,7 +16,7 @@
           :locals => { :type => obj.class.model_name.downcase, :host => obj } %>
       <% else %>
         <% obj.puppetclasses.each do |klass| %>
-          <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+          <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy" ><%= h klass.name %></li>
         <% end %>
       <% end %>
     </ul>
@@ -29,8 +29,10 @@
 
   <div class="col-md-8">
     <h3><%= _('Available Classes') %></h3>
-    <div class='form-group'>
-      <input placeholder="<%= _('Filter classes') %>" class="search-query" onkeyup="filter_puppet_classes(this);" type='text'>
+    <div class='clearfix'>
+      <div class='form-group col-md-6'>
+        <input placeholder="<%= _('Filter classes') %>" class="form-control" onkeyup="filter_puppet_classes(this);" type='text'>
+      </div>
     </div>
     <div class="row">
       <%= render "puppetclasses/classes",
