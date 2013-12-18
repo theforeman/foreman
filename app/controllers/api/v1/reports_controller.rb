@@ -21,7 +21,7 @@ module Api
       def show
       end
 
-      api :DELETE, "/ptables/:id/", "Delete a report."
+      api :DELETE, "/reports/:id/", "Delete a report."
       param :id, String, :required => true
 
       def destroy
