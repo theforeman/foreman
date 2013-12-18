@@ -19,6 +19,7 @@ gem 'rabl', '>= 0.7.5', '<= 0.9.0'
 gem 'oauth'
 gem 'foreigner', '~> 1.4.2'
 gem 'rails3_before_render'
+gem 'strong_parameters', '~> 0.2.1' # remove when upgrading to Rails 4
 
 if RUBY_VERSION =~ /^1\.8/
   # Older version of safemode for Ruby 1.8, as the latest causes regexp overflows (#2100)
