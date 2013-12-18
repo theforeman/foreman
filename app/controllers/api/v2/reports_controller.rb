@@ -41,7 +41,7 @@ module Api
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
       end
 
-      api :DELETE, "/ptables/:id/", "Delete a report."
+      api :DELETE, "/reports/:id/", "Delete a report."
       param :id, String, :required => true
 
       def destroy
