@@ -121,8 +121,13 @@
             that.$selectionUl.find('.ms-optgroup-label').hide();
 
             if ($(this).prop('disabled') || ms.prop('disabled')){
-              selectableLi.prop('disabled', true);
-              selectableLi.addClass(that.options.disabledClass);
+              if (this.selected) {
+                selectedLi.prop('disabled', true);
+                selectedLi.addClass(that.options.disabledClass);
+              } else {
+                selectableLi.prop('disabled', true);
+                selectableLi.addClass(that.options.disabledClass);
+              }
             }
 
             if (optgroupId){
