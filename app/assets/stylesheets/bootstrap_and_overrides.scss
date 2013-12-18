@@ -104,7 +104,6 @@ background-color: white;
   padding: 19px 20px 20px;
   margin-top: 20px;
   margin-bottom: 20px;
-  border-top: 1px solid #e5e5e5;
 }
 
 .navbar.navbar-form{
@@ -116,6 +115,10 @@ background-color: white;
 
 .nav.nav-tabs{
   margin-bottom: 20px;
+}
+
+.tab-content{
+  min-height: 420px;
 }
 
 /* custom inclusion of right, left and below tabs */
