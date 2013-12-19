@@ -137,6 +137,26 @@
   display: none;
 }
 
+.navbar-collapse.in,
+.navbar-collapse {
+  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
+
+  margin-bottom: 0;
+  margin-top: 0;
+  max-height: none;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+
+  .container {
+    width: 100%;
+  }
+
+  .open {
+    background-color: transparent;
+  }
+}
+
 // Necessary to override bootstrap3 media query restyling for small screens
 #userMenu .dropdown-menu {
   @import "twitter/bootstrap/variables";
