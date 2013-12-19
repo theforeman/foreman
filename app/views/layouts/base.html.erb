@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="<%= I18n.locale %>" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="<%= I18n.locale %>" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="<%= I18n.locale %>" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="<%= I18n.locale %>" class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><%= h(yield(:title) || "Foreman") %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    
+    <%= favicon_link_tag "favicon.ico"%>
+
+    <%= stylesheet_link_tag 'application' %>
+    <%= yield(:stylesheets) %>
+
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag 'application' %>
+    <%= yield(:javascripts) %>
+
+    <script type="text/javascript">
+      var URL_PREFIX = '<%= request.script_name %>';
+
+      <% if protect_against_forgery? %>
+        var AUTH_TOKEN = '<%= form_authenticity_token.inspect %>';
+      <% end %>
+
+      <% if SETTINGS[:mark_translated] && !Rails.env.test? %>
+        var I18N_MARK = true;
+      <% end %>
+
+      <%= yield(:inline_javascripts) %>
+    </script>
+
+    <%= yield(:head) %>
+  </head>
+
+  <body>
+    <!--[if lt IE 8]>
+      %p
+        You are using an unsupported browser.
+    <![endif]-->
+
+    <%= render "common/menu" if User.current %>
+
+    <%= yield(:content) %>
+    
+  </body>
+</html>
