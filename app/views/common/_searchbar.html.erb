@@ -2,7 +2,9 @@
   <div class="input-group">
     <%= auto_complete_search(:search, params[:search].try(:squeeze," "),:class =>"form-control", :placeholder => _("Filter") + ' ...').html_safe %>
     <span class="input-group-btn">
-      <button class="btn btn-default hidden-xs" type="button" onclick="$('#search-form').submit()"><%= icon_text("search", _("Search")) %></button>
+      <button class="btn btn-default" type="submit">
+        <%= icon_text("search", content_tag(:span,_("Search"), :class=>"hidden-xs")) %>
+      </button>
       <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
       </button>
