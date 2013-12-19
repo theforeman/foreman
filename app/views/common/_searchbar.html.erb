@@ -1,6 +1,6 @@
 <%= form_tag send("#{controller_name}_path"), :method => "get",:id =>"search-form" do %>
   <div class="input-group">
-    <%= auto_complete_search(:search, params[:search].try(:squeeze," "),:class =>"form-control", :placeholder => _("Filter") + ' ...').html_safe %>
+    <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
     <span class="input-group-btn">
       <button class="btn btn-default" type="submit">
         <%= icon_text("search", content_tag(:span,_("Search"), :class=>"hidden-xs")) %>

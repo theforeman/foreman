@@ -15,8 +15,13 @@ $(function() {
 })
 
 //open main menu on hover
-$(document).on('mouseenter', '.dropdown.menu_tab_dropdown', function(){
+$(document).on('mouseenter', '.collapse .dropdown.menu_tab_dropdown', function(){
   if(!$(this).hasClass('open')){
+    $(this).find('.dropdown-toggle:first').click();
+  }
+});
+$(document).on('mouseleave', '.collapse .dropdown.menu_tab_dropdown', function(){
+  if($(this).hasClass('open')){
     $(this).find('.dropdown-toggle:first').click();
   }
 });

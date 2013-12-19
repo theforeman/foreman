@@ -12,7 +12,6 @@
 
   .nav > li > a {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-    font-weight: bold;
   }
 
   .active > a, .open > a {
@@ -36,6 +35,8 @@
   a {
     color: white;
     text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
 
     &:hover {
       color: white;
@@ -63,7 +64,7 @@
     }
 
     .dropdown-menu {
-      margin-top: 3px;
+      margin-top: 0;
       min-width: 100px;
     }
 
@@ -131,23 +132,7 @@
   }
 }
 
-#menu2.collapse {
-  position: relative;
-  left: 30px;
-}
-
-#menu.collapse {
-  position: relative;
-  left: 20px;
-}
-
-
 // Responsive menu display
-
-.navbar-collapse {
-  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
-}
-
 .navbar-collapse.in li .dropdown-menu:after {
   display: none;
 }
