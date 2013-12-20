@@ -146,8 +146,8 @@ tr.open span.expander {background-image: url(bullet_toggle_minus.png);}
 /* float left */
 .fl { float: left; }
 
-#confirmation-modal{
-  width: 850px !important;
+#confirmation-modal .modal-dialog{
+  width: 850px;
 }
 
 #confirmation-modal .modal-body{
@@ -157,8 +157,8 @@ tr.open span.expander {background-image: url(bullet_toggle_minus.png);}
   max-height: 500px;
 }
 
-#host-conflicts-modal {
-  width: 650px !important;
+#host-conflicts-modal .modal-dialog{
+  width: 650px;
 }
 
 .editable {

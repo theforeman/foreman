@@ -91,7 +91,7 @@ module HostsHelper
 
     content_tag :span, :id => 'submit_multiple' do
       select_action_button( _("Select Action"), actions.map do |action|
-        link_to(icon_text(action[2], action[0]) , action[1], :class=>'btn btn-default',  :title => _("%s - The following hosts are about to be changed") % action[0])
+        link_to(icon_text(action[2], action[0]) , action[1], :class=>'btn btn-default',  :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
       end.flatten)
     end
 

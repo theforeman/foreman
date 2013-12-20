@@ -31,17 +31,24 @@
     </tr>
   <% end %>
 </table>
-<div id="confirmation-modal" class="modal hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">×</a>
-    <h3><%= _('Please Confirm') %></h3>
-  </div>
-  <div class="modal-body"></div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary"><%= _('Submit') %></a>
-    <a href="#" class="btn btn-default secondary"><%= _('Cancel') %></a>
-  </div>
-</div>
+
+<div id="confirmation-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('Please Confirm') %></h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('Cancel') %></button>
+        <button type="button" class="btn btn-primary"><%= _('Submit') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <%= page_entries_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
 <%= will_paginate hosts %>
