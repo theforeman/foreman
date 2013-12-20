@@ -21,16 +21,20 @@
   </div>
 <% end %>
 
-<div id="bookmarks-modal" class="modal hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3><%= _("Add Bookmark") %></h3>
-  </div>
-  <div class="modal-body">
+<div id="bookmarks-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _("Add Bookmark") %></h4>
+      </div>
+      <div class="modal-body">
 
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary"><%= _("Submit") %></a>
-    <a href="#" class="btn btn-default" data-dismiss="modal"><%= _("Cancel") %></a>
-  </div>
-</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _("Cancel") %></button>
+        <button type="button" class="btn btn-primary"><%= _("Submit") %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

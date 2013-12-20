@@ -237,7 +237,7 @@ $(function() {
   $('#bookmarks-modal .modal-footer .btn-primary').on('click', function(){
      $('#bookmarks-modal .modal-body .btn-primary').click();
   });
-  $("#bookmarks-modal").bind('shown', function () {
+  $("#bookmarks-modal").bind('shown.bs.modal', function () {
     var query = encodeURI($("#search").val());
     var url = $("#bookmark").attr('data-url');
     $("#bookmarks-modal .modal-body").empty();
