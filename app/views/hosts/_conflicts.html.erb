@@ -1,28 +1,27 @@
-<div id="host-conflicts-modal" class="modal in fade" <%= display(false) %>>
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times</a>
-    <h3>Conflicts have been detected</h3>
-  </div>
-  <div class="modal-body">
-    <p>
-    <%= _('The following entries were found conflicting with what foreman wanted to apply.') %>
-    </p>
+<div id="host-conflicts-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('Conflicts have been detected') %></h4>
+      </div>
+      <div class="modal-body">
+        <p><%= _('The following entries were found conflicting with what foreman wanted to apply.') %></p>
 
-    <p>
-    <%= _('Please review them carefully, if you are certain that they should be removed, please click on overwrite.') %>
-    </p>
+        <p><%= _('Please review them carefully, if you are certain that they should be removed, please click on overwrite.') %></p>
 
-    <div class="alert alert-message alert-block base">
-      <% conflict_objects(@host.errors).each do |obj| %>
-        <% @host.errors[obj].each do |e| %>
-          <li><%= e %></li>
-        <% end %>
-      <% end %>
-    </div>
+        <div class="alert alert-message alert-block base">
+          <% conflict_objects(@host.errors).each do |obj| %>
+            <% @host.errors[obj].each do |e| %>
+              <li><%= e %></li>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('ACK') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-  </div>
-
-  <div class="modal-footer">
-    <a href="#" class="btn btn-default">ACK</a>
-  </div>
-</div>
