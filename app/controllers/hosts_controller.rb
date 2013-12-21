@@ -211,7 +211,7 @@ class HostsController < ApplicationController
   def power
     return invalid_request unless PowerManager::SUPPORTED_ACTIONS.include?(params[:power_action])
     @host.power.send(params[:power_action].to_sym)
-    process_success :success_redirect => :back, :success_msg => _("%{host} is now %{state}") % { :host => @host, :state => _(@host.power.state) }
+    process_success :success_redirect => :back, :success_msg => _("%{host} is about to %{action}") % { :host => @host, :action => _(params[:power_action].downcase) }
   rescue => e
     process_error :redirect => :back, :error_msg => _("Failed to %{action} %{host}: %{e}") % { :action => _(params[:power_action]), :host => @host, :e => e }
   end
