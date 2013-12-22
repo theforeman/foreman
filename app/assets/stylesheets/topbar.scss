@@ -137,8 +137,7 @@
   display: none;
 }
 
-.navbar-collapse.in,
-.navbar-collapse {
+.navbar-collapse.in{
   @include linear-gradient($primary_gradient_start, $primary_gradient_end);
 
   margin-bottom: 0;
