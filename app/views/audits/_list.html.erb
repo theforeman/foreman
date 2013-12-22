@@ -2,10 +2,10 @@
   <div class='row'>
     <div class='col-md-1'>&nbsp;<%= icon_text('play') if @audit && @audit.version == audit.version %></div>
     <div class='col-md-3'><%= audited_icon audit %></div>
-    <div class='col-md-6 ra'><h6><%= audit_time audit %></h6></div>
+    <div class='col-md-offset-4 col-md-2 ra'><h4><small><%= audit_time audit %></small></h4></div>
   </div>
   <div class='row'>
-    <div class='offset2 col-md-8 audit-content'>
+    <div class='col-md-offset-2 col-md-8 audit-content'>
       <b>
         <% if audit_login? audit %>
           <%= audit_user(audit)%> <%= link_to(_("Logged-in"), audit_path(audit))  %>
