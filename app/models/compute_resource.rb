@@ -96,6 +96,10 @@ class ComputeResource < ActiveRecord::Base
     list[PROVIDERS.index(provider)] rescue ""
   end
 
+  def image_param_name
+    :image_id
+  end
+
   # returns a new fog server instance
   def new_vm attr={}
     test_connection

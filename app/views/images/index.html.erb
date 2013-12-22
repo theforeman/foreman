@@ -5,10 +5,11 @@
 <table class="table table-bordered table-striped" data-table='inline'>
   <thead>
   <tr>
-    <th><%= _("Image|Name") %></th>
-    <th><%= _("Operating System") %></th>
-    <th><%= _("Image|Username") %></th>
-    <th><%= _("Image|Uuid") %></th>
+    <th><%= s_("Image|Name") %></th>
+    <th><%= s_("Operating System") %></th>
+    <th><%= s_("Image|Username") %></th>
+    <th><%= s_("Image|Uuid") %></th>
+    <th><%= s_("Image|User data") %></th>
     <th></th>
   </tr>
   </thead>
@@ -18,6 +19,7 @@
     <td><%= image.operatingsystem %></td>
     <td><%= image.username %></td>
     <td><%= image.uuid %></td>
+    <td><%= image.user_data? ? _("Enabled") : _("Disabled") %></td>
     <td><%= action_buttons(link_to(_('Edit'), edit_compute_resource_image_path(@compute_resource, image)),
      link_to(_('Destroy'), [@compute_resource, image], :confirm => _('Are you sure?'), :method => :delete)) %></td>
   </tr>
