@@ -28,7 +28,7 @@ end
 
 # Template kinds
 kinds = {}
-[:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script].each do |type|
+[:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script, :user_data].each do |type|
   kinds[type] = TemplateKind.find_by_name(type)
   kinds[type] ||= TemplateKind.create :name => type
   raise "Unable to create template kind: #{format_errors kinds[type]}" if kinds[type].nil? || kinds[type].errors.any?

@@ -18,6 +18,10 @@ module Foreman::Model
       ComputeResource.model_name
     end
 
+    def image_param_name
+      :image_ref
+    end
+
     def capabilities
       [:image]
     end

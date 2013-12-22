@@ -161,13 +161,11 @@ function toggleRowGroup(el) {
 }
 
 function template_info(div, url) {
-  os_id = $("#host_operatingsystem_id :selected").attr("value");
-  env_id = $("#host_environment_id :selected").attr("value");
-  hostgroup_id = $("#host_hostgroup_id :selected").attr("value");
+  form = $("form").serialize();
   build = $('input:radio[name$="[provision_method]"]:checked').val();
 
   $(div).html(spinner_placeholder());
-  $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
+  $(div).load(url + "?provisioning=" + build + "&" + form,
               function(response, status, xhr) {
                 if (status == "error") {
                   $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>" + _('Sorry but no templates were configured.') + "</p></div>");
