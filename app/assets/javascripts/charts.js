@@ -235,9 +235,11 @@ function search_on_click(event, item) {
 function get_pie_chart(div, url) {
   if($("#"+div).length == 0)
   {
-    $('body').append('<div id="' + div + '" class="modal fade"></div>');
-    $("#"+div).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3>' + _('Fact Chart') + '</h3></div>')
-        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + _('Loading') + ' ...</div>');
+    $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
+    $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + _('Fact Chart') + '</h4></div>')
+        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + _('Loading') + ' ...</div>')
+        .append('<div class="modal-footer"></div>')
+
     $("#"+div).modal('show');
     $.getJSON(url, function(data) {
       var target = $("#"+div+"-body");
