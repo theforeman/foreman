@@ -257,17 +257,17 @@ module ApplicationHelper
       toolbar_action_buttons args
   end
 
-  def select_action_button(title, *args)
+  def select_action_button(title, options={}, *args)
     # the no-buttons code is needed for users with less permissions
     return unless args
     args = args.flatten.map{|arg| arg unless arg.blank?}.compact
     return if args.length == 0
 
     #single button
-    return content_tag(:span, args[0].html_safe, :class=>'btn btn-default') if args.length == 1
+    return content_tag(:span, args[0].html_safe, options.merge(:class=>'btn btn-default')) if args.length == 1
 
     #multiple options
-    content_tag(:div, :class=>'btn-group') do
+    content_tag(:div, options.merge(:class=>'btn-group')) do
     link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn btn-default dropdown-toggle", :'data-toggle'=>'dropdown') +
         content_tag(:ul,:class=>"dropdown-menu") do
           args.map{|option| content_tag(:li,option)}.join(" ").html_safe

@@ -77,24 +77,23 @@ module HostsHelper
 
   def multiple_actions_select
     actions = [
-      [_('Change Group'), select_multiple_hostgroup_hosts_path, 'pencil'],
-      [_('Change Environment'), select_multiple_environment_hosts_path, 'chevron-right'],
-      [_('Edit Parameters'), multiple_parameters_hosts_path, 'edit'],
-      [_('Delete Hosts'), multiple_destroy_hosts_path, 'trash'],
-      [_('Disable Notifications'), multiple_disable_hosts_path, 'eye-close'],
-      [_('Enable Notifications'), multiple_enable_hosts_path, 'bullhorn'],
+      [_('Change Group'), select_multiple_hostgroup_hosts_path],
+      [_('Change Environment'), select_multiple_environment_hosts_path],
+      [_('Edit Parameters'), multiple_parameters_hosts_path],
+      [_('Delete Hosts'), multiple_destroy_hosts_path],
+      [_('Disable Notifications'), multiple_disable_hosts_path],
+      [_('Enable Notifications'), multiple_enable_hosts_path],
     ]
-    actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path, 'fast-forward']) if SETTINGS[:unattended]
-    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path, 'play'] if Setting[:puppetrun]
-    actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path, 'tags'] if SETTINGS[:organizations_enabled]
-    actions <<  [_('Assign Location'), select_multiple_location_hosts_path, 'map-marker'] if SETTINGS[:locations_enabled]
+    actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
+    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]
+    actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
+    actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
 
-    content_tag :span, :id => 'submit_multiple' do
-      select_action_button( _("Select Action"), actions.map do |action|
-        link_to(icon_text(action[2], action[0]) , action[1], :class=>'btn btn-default',  :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
-      end.flatten)
-    end
-
+      select_action_button( _("Select Action"), {:id => 'submit_multiple'},
+        actions.map do |action|
+          link_to(action[0] , action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+        end.flatten
+      )
   end
 
   def date ts=nil
