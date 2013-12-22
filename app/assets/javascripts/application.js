@@ -3,7 +3,7 @@
 //= require jquery_ujs
 //= require jquery.ui.autocomplete
 //= require scoped_search
-//= require twitter/bootstrap
+//= require bootstrap
 //= require charts
 //= require topbar
 //= require two-pane

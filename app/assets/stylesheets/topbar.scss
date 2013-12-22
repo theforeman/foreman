@@ -158,7 +158,7 @@
 
 // Necessary to override bootstrap3 media query restyling for small screens
 #userMenu .dropdown-menu {
-  @import "twitter/bootstrap/variables";
+  @import "bootstrap/variables";
 
   background-color: $dropdown-bg;
   border: 1px solid $dropdown-fallback-border; // IE8 fallback

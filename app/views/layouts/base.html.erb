@@ -38,11 +38,9 @@
 
   <body>
     <!--[if lt IE 8]>
-      %p
-        You are using an unsupported browser.
+      <%= _('You are using an unsupported browser.') %>
     <![endif]-->
-
-    <%= render "common/menu" if User.current %>
+    <%= render "home/topbar" if User.current %>
 
     <%= yield(:content) %>
     

@@ -11,7 +11,7 @@ $(function() {
         if(response.status == "OK"){
           item.addClass('badge badge-success')
         }else{
-          item.addClass('badge badge-important')
+          item.addClass('badge badge-danger')
         }
         item.tooltip({html: true});
       }

@@ -8,20 +8,6 @@
 
 html { height: 100%; overflow: auto;}
 body { height: 100%;  }
-#main {padding-bottom: 38px; padding-top:30px; }
-
-#footer {
-  margin-top: -38px; /* negative value of footer height */
-  height: 30px;
-  border-top: #aaa 1px solid;
-  color: #aaa;
-  padding-top: 7px;
-  text-align:center;
-  vertical-align: bottom;
-  clear:both;
-  & a { color: #000; text-decoration: none;}
-  & span {position: relative; left: 240px;}
-}
 
 .half {
   width: 44%;
@@ -237,8 +223,9 @@ select{padding: initial;}
 .override-param{
   text-decoration: line-through;
 }
-.btn-toolbar-condensed{margin: 0 !important;}
-
+#title_action{
+  padding-bottom: 12px;
+}
 .grey, .gray{color: #808080 !important;}
 .black{color: #000 !important;}
 
