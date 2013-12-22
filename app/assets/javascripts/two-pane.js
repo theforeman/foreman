@@ -103,7 +103,6 @@ function right_pane_content(response){
   var form_content = $("#content form.well", response);
   if (form_content.length){
     $('.two-pane-right').html(form_content);
-    $('.two-pane-right form').removeClass('form-horizontal');
     $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
     $('.form-actions a').addClass('two-pane-close');
     fix_multi_checkbox();

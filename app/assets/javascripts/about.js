@@ -9,9 +9,9 @@ $(function() {
         item.text(_(response.status));
         item.attr('title',response.message);
         if(response.status == "OK"){
-          item.addClass('badge badge-success')
+          item.addClass('label label-success')
         }else{
-          item.addClass('badge badge-important')
+          item.addClass('label label-danger')
         }
         item.tooltip({html: true});
       }

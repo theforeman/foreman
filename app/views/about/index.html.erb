@@ -45,9 +45,9 @@
                 <tr>
                   <td><%= provider %></td>
                   <% if ComputeResource::PROVIDERS.include?(provider) %>
-                    <td><div class="badge badge-success"><%= _('Installed') %></div></td>
+                    <td><div class="label label-success"><%= _('Installed') %></div></td>
                   <% else %>
-                    <td><div class="badge badge-inverse"><%= _('Not Installed') %></div></td>
+                    <td><div class="label label-inverse"><%= _('Not Installed') %></div></td>
                   <% end %>
                 </tr>
               <% end %>

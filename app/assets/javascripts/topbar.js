@@ -48,15 +48,18 @@ function is_mobile() {
 function onScroll(item){
   var offset = 25;
   var dist = $(item).scrollTop();
+  var header_height = $('.persist-header:first').height();
   if (dist >= offset) {
     $('.persist-header:first').show();
     $('.persist-header:last').css({
       'position': 'fixed'
     });
+    $('#content').css({'padding-top': header_height+'px'})
   } else {
     $('.persist-header:last').css({
       'position': 'static'
     });
     $('.persist-header:first').hide();
+    $('#content').css({'padding-top': '0'})
   }
 }

@@ -16,8 +16,8 @@ module ApplicationHelper
                                                        :associations => association.all.sort.delete_if{|e| e == klass}}
   end
 
-  def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to_function(icon_text("remove",""), "remove_fields(this)", :title => _("Remove Parameter"))
+  def link_to_remove_fields(name, f, options={})
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove", name), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
   end
 
   def trunc text, length
