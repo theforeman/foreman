@@ -20,6 +20,7 @@ $(function() {
 function onContentLoad(){
   if($('.autocomplete-clear').size() == 0){
     $('.autocomplete-input').scopedSearch();
+    $('.ui-helper-hidden-accessible').remove();
   }
 
   $('.flash.error').each(function(index, item) {
