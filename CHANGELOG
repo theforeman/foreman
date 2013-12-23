@@ -1,3 +1,46 @@
+2013-12-23	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.3.2
+
+2013-12-23	Sam Kottler <shk@redhat.com>
+	* Fixes #3881: pin locale to 2.0.9 or lower
+
+2013-12-13	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3661 - mis-redirection from /hosts/fqdn/edit to /hosts
+
+2013-12-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #3855 - pin ruby-libvirt to 0.4 for Ruby 1.8 workaround
+
+2013-12-10	Dominic Cleal <dcleal@redhat.com>
+	* Fix unresolved conflict in foreman.spec from b03d0a49
+	* fixes #3717 - pin fog to 1.15.x
+
+2013-12-10	Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+	* Fixes #3653: Always set the vsphere guest_id, as recent versions of fog require it
+
+2013-12-10	odgrim <odgrim.post@gmail.com>
+	* fixes #3832 - foreman supplies user for GCE images, fog expects username
+
+2013-11-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2680 - ensure RbVmomi
+
+2013-11-20	odgrim <odgrim.post@gmail.com>
+	* fixes #3698 - add image_id alias to server resource as form uses it
+
+2013-11-19	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #3468 - Move token expiry to scope to avoid FK issues
+
+2013-11-19	Sam Kottler <shk@redhat.com>
+	* Fix #3682: pin rabl to be less than or equal to 0.9.0
+
+2013-11-15	Beat Gätzi <beat@chruetertee.ch>
+	* fixes #3645 - fix total value in summary mail subject
+
+2013-11-15	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #3603 - replaced a relation with a collection in 'where' conditions
+
+2013-11-15	Greg Sutcliffe <gsutclif@redhat.com>
+	* fixes #3268, #2783 - Update prod2dev to handle fkeys in psql
+
 2013-11-08	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.3.1
 	* i18n - extracting new, updating rails, pulling from tx
