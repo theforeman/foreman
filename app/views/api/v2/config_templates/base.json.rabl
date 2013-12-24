@@ -1,3 +1,3 @@
 object @config_template
 
-attributes :id, :name
+attributes :id, :name, :template_kind_id, :template_kind_name

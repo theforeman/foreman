@@ -78,6 +78,7 @@ Foreman::Application.routes.draw do
             delete '/', :to => :reset
           end
         end
+        resources :os_default_templates, :except => [:new, :edit]
       end
 
       resources :puppetclasses, :except => [:new, :edit] do
