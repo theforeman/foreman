@@ -394,20 +394,24 @@ Foreman::AccessControl.map do |map|
   map.security_block :operatingsystems do |map|
     map.permission :view_operatingsystems, { :operatingsystems => [:index, :show, :bootfiles, :auto_complete_search],
                                              :"api/v1/operatingsystems" => [:index, :show, :bootfiles],
-                                             :"api/v2/operatingsystems" => [:index, :show, :bootfiles]
+                                             :"api/v2/operatingsystems" => [:index, :show, :bootfiles],
+                                             :"api/v2/os_default_templates" => [:index, :show]
                                             }
     map.permission :create_operatingsystems, {:operatingsystems => [:new, :create],
                                              :"api/v1/operatingsystems" => [:create],
                                              :"api/v2/operatingsystems" => [:create],
+                                             :"api/v2/os_default_templates" => [:create]
                                             }
     map.permission :edit_operatingsystems, {:operatingsystems => [:edit, :update],
                                        :"api/v1/operatingsystems" => [:update],
                                        :"api/v2/operatingsystems" => [:update],
-                                       :"api/v2/parameters" => [:create, :update, :destroy, :reset]
+                                       :"api/v2/parameters" => [:create, :update, :destroy, :reset],
+                                       :"api/v2/os_default_templates" => [:create, :update, :destroy]
                                      }
     map.permission :destroy_operatingsystems, {:operatingsystems => [:destroy],
                                              :"api/v1/operatingsystems" => [:destroy],
-                                             :"api/v2/operatingsystems" => [:destroy]
+                                             :"api/v2/operatingsystems" => [:destroy],
+                                             :"api/v2/os_default_templates" => [:create]
                                               }
   end
 
