@@ -288,8 +288,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "user with destroy permissions should not be able to edit" do
     setup_user "destroy"
-    record      =  users(:one)
-    record.login = "renamed"
+    record       = users(:two)
+    record.login = 'renamed'
     assert !record.save
     assert record.valid?
   end
@@ -409,6 +409,26 @@ class UserTest < ActiveSupport::TestCase
     assert !User.try_to_auto_create_user('non_existing_user_2','password')
     assert_equal count, User.count
 
+  end
+
+  test 'user should allow editing self?' do
+    User.current = users(:one)
+
+    # edit self
+    options = {:controller => 'users', :action => 'edit', :id => User.current.id}
+    assert User.current.editing_self?(options)
+
+    # update self
+    options = {:controller => 'users', :action => 'update', :id => User.current.id}
+    assert User.current.editing_self?(options)
+
+    # update someone else
+    options = {:controller => 'users', :action => 'update', :id => users(:two).id}
+    assert_not User.current.editing_self?(options)
+
+    # update for another controller
+    options = {:controller => 'hosts', :action => 'update', :id => User.current.id}
+    assert_not User.current.editing_self?(options)
   end
 
 end

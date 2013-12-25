@@ -40,9 +40,7 @@ module Foreman::Controller::Authentication
   end
 
   def authorized
-    User.current.allowed_to?(
-      :controller => params[:controller].gsub(/::/, "_").underscore,
-      :action     => params[:action])
+    User.current.allowed_to?(params.slice(:controller, :action, :id))
   end
 
   def require_login
