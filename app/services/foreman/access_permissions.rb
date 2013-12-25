@@ -639,4 +639,8 @@ Foreman::AccessControl.map do |map|
                                       :"api/v2/plugins" => [:index]
     }
   end
+  map.security_block :anonymous do |map|
+    map.permission :logout, {:users => [:logout]}, :public => true
+  end
+
 end
