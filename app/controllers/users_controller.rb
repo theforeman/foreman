@@ -42,8 +42,11 @@ class UsersController < ApplicationController
 
   def update
     # Remove keys for restricted variables when the user is editing their own account
-    if params[:users] && editing_self?
+    if params[:user] && editing_self?
       params[:user].slice!(:password_confirmation, :password, :mail, :firstname, :lastname, :locale)
+
+      # Remove locale from the session when set to "Browser Locale" and editing self
+      session.delete(:locale) if params[:user][:locale].try(:empty?)
     end
 
     # Only an admin can update admin attribute of another user
@@ -55,13 +58,10 @@ class UsersController < ApplicationController
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
       hostgroup_ids = params[:user]["hostgroup_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["hostgroup_ids"].empty?
       update_hostgroups_owners(hostgroup_ids) unless hostgroup_ids.empty?
-      process_success((editing_self? && !current_user.allowed_to?('users', 'index')) ? { :success_redirect => hosts_path } : {})
+      process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
     else
       process_error
     end
-
-    # Remove locale from the session when set to "Browser Locale" and editing self
-    session.delete(:locale) if params[:user][:locale].try(:empty?) and params[:id].to_i == User.current.id
   end
 
   def destroy

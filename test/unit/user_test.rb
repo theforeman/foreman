@@ -288,8 +288,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "user with destroy permissions should not be able to edit" do
     setup_user "destroy"
-    record      =  users(:one)
-    record.login = "renamed"
+    record       = users(:two)
+    record.login = 'renamed'
     assert !record.save
     assert record.valid?
   end

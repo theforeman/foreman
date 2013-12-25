@@ -114,12 +114,13 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should modify session when locale is updated" do
     User.current = User.admin
-    put :update, {:id => User.admin.id, :user => { :locale => "cs" } }, set_session_user
+    put :update, { :id => User.admin.id, :user => { :locale => "cs" } }, set_session_user
     assert_redirected_to users_url
-    assert User.admin.locale == "cs"
+    assert_equal "cs", User.admin.locale
+
     put :update, { :id => User.admin.id, :user => { :locale => "" } }, set_session_user
-    assert User.admin.locale.nil?
-    assert session[:locale].nil?
+    assert_nil User.admin.locale
+    assert_nil session[:locale]
   end
 
   test "should not delete same user" do
@@ -135,7 +136,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a user' do
     get :edit, {:id => User.first.id}
-    assert_equal @response.status, 403
+    assert_response 403
   end
 
   test 'user with viewer rights should succeed in viewing users' do
@@ -222,26 +223,26 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'non admin user should edit itself' do
     User.current = users(:one)
-    get :edit, {:id => User.current.id}
+    get :edit, { :id => User.current.id }
     assert_response :success
   end
 
   test 'non admin user should be able to update itself' do
     User.current = users(:one)
-    put :update, {:id => User.current.id, :user => { :firstname => 'test'} }
+    put :update, { :id => users(:one).id, :user => { :firstname => 'test' } }
     assert_response :success
   end
 
   test 'non admin user should not be able to edit another user' do
     User.current = users(:one)
-    get :edit, {:id => users(:two)}
-    assert_equal @response.status, 403
+    get :edit, { :id => users(:two) }
+    assert_response 403
   end
 
   test 'non admin user should not be able to update another user' do
     User.current = users(:one)
-    put :update, {:id => users(:two).id, :user => { :firstname => 'test'} }
-    assert_equal @response.status, 403
+    put :update, { :id => users(:two).id, :user => { :firstname => 'test' } }
+    assert_response 403
   end
 
 end

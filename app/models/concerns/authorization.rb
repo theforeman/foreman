@@ -26,11 +26,20 @@ module Authorization
 
     klass   = self.class.name.downcase
     klasses   = self.class.name.tableize
+    #TODO: Extract all fo the specific implementations into each individual class
     klasses.gsub!(/auth_source.*/, "authenticators")
     klasses.gsub!(/common_parameters.*/, "global_variables")
     klasses.gsub!(/lookup_key.*/, "external_variables")
     klasses.gsub!(/lookup_value.*/, "external_variables")
-    return true if User.current and User.current.allowed_to?("#{operation}_#{klasses}".to_sym)
+    # editing own user is a special case
+    if User.current
+      action = if klass == 'user'
+                 { :controller => 'users', :action => operation }
+               else
+                 "#{operation}_#{klasses}".to_sym
+               end
+      return true if User.current.allowed_to?(action)
+    end
 
     errors.add :base, _("You do not have permission to %{operation} this %{klass}") % { :operation => operation, :klass => klass }
     @permission_failed = operation

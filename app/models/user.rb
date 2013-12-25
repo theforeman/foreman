@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_admin_is_not_deleted
+  after_commit :ensure_default_role
 
   belongs_to :auth_source
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
@@ -188,7 +189,7 @@ class User < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action, options={})
+  def allowed_to?(action)
     return true if admin?
     if action.is_a? Hash
       # normalize controller name
@@ -338,4 +339,10 @@ class User < ActiveRecord::Base
       errors.add :admin, _("You can't change Administrator flag")
     end
   end
+
+  def ensure_default_role
+    role = Role.find_by_name('Anonymous')
+    self.roles << role unless self.role_ids.include?(role.id)
+  end
+
 end
