@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
 
   attr_protected :password_hash, :password_salt, :admin
-  attr_accessor :password, :password_confirmation, :editing_self
+  attr_accessor :password, :password_confirmation
   before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_admin_is_not_deleted
 
   belongs_to :auth_source
@@ -190,7 +190,11 @@ class User < ActiveRecord::Base
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, options={})
     return true if admin?
-    return true if editing_self
+    if action.is_a? Hash
+      # normalize controller name
+      action[:controller] = action[:controller].to_s.gsub(/::/, "_").sub(/^\//,'').underscore
+      return true if editing_self?(action)
+    end
     roles.detect {|role| role.allowed_to?(action)}.present?
   end
 
@@ -233,6 +237,12 @@ class User < ActiveRecord::Base
 
   def role_ids_was
     @role_ids_was ||= role_ids
+  end
+
+  def editing_self?(options = {})
+    options[:controller].to_s == 'users' &&
+      options[:action] =~ /edit|update/ &&
+      options[:id].to_i == self.id
   end
 
   private

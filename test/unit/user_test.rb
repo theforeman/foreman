@@ -411,4 +411,24 @@ class UserTest < ActiveSupport::TestCase
 
   end
 
+  test 'user should allow editing self?' do
+    User.current = users(:one)
+
+    # edit self
+    options = {:controller => 'users', :action => 'edit', :id => User.current.id}
+    assert User.current.editing_self?(options)
+
+    # update self
+    options = {:controller => 'users', :action => 'update', :id => User.current.id}
+    assert User.current.editing_self?(options)
+
+    # update someone else
+    options = {:controller => 'users', :action => 'update', :id => users(:two).id}
+    assert_not User.current.editing_self?(options)
+
+    # update for another controller
+    options = {:controller => 'hosts', :action => 'update', :id => User.current.id}
+    assert_not User.current.editing_self?(options)
+  end
+
 end

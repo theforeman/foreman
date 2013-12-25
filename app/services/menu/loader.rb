@@ -5,7 +5,7 @@ module Menu
         menu.item :logout,               :caption => N_('Sign out'),
                   :url_hash => {:controller => '/users', :action => 'logout'}
         menu.item :my_account,           :caption => N_('My account'),
-                  :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current }}
+                  :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
       end
 
       Manager.map :admin_menu do |menu|

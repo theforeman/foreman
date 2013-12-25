@@ -7,8 +7,6 @@ class UsersController < ApplicationController
   skip_before_filter :authorize, :only => :extlogin
   after_filter       :update_activity_time, :only => :login
 
-  attr_accessor :editing_self
-
   def index
     begin
       users = User.search_for(params[:search], :order => params[:order])
@@ -35,6 +33,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    editing_self?
     if @user.user_facts.count == 0
       user_fact = @user.user_facts.build :operator => "==", :andor => "or"
       user_fact.fact_name_id = FactName.first.id if FactName.first
@@ -43,11 +42,8 @@ class UsersController < ApplicationController
 
   def update
     # Remove keys for restricted variables when the user is editing their own account
-    if editing_self
-      for key in params[:user].keys
-        params[:user].delete key unless %w{password_confirmation password mail firstname lastname locale}.include? key
-      end
-      User.current.editing_self = true
+    if params[:users] && editing_self?
+      params[:user].slice!(:password_confirmation, :password, :mail, :firstname, :lastname, :locale)
     end
 
     # Only an admin can update admin attribute of another user
@@ -59,11 +55,10 @@ class UsersController < ApplicationController
       @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
       hostgroup_ids = params[:user]["hostgroup_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["hostgroup_ids"].empty?
       update_hostgroups_owners(hostgroup_ids) unless hostgroup_ids.empty?
-      process_success editing_self ? { :success_redirect => hosts_path } : {}
+      process_success((editing_self? && !current_user.allowed_to?('users', 'index')) ? { :success_redirect => hosts_path } : {})
     else
       process_error
     end
-    User.current.editing_self = false if editing_self
 
     # Remove locale from the session when set to "Browser Locale" and editing self
     session.delete(:locale) if params[:user][:locale].try(:empty?) and params[:id].to_i == User.current.id
@@ -122,21 +117,6 @@ class UsersController < ApplicationController
   end
 
   private
-  def authorize(ctrl = params[:controller], action = params[:action])
-    # Editing self is true when the user is granted access to just their own account details
-
-    if action == 'auto_complete_search' and User.current.allowed_to?({:controller => ctrl, :action => 'index'})
-      return true
-    end
-
-    self.editing_self = false
-    return true if User.current.allowed_to?({:controller => ctrl, :action => action})
-    if (action =~ /edit|update/ and params[:id].to_i == User.current.id)
-      return self.editing_self = true
-    else
-      deny_access and return
-    end
-  end
 
   def find_user
     @user = User.find(params[:id])
@@ -152,6 +132,10 @@ class UsersController < ApplicationController
     uri                    = session[:original_uri]
     session[:original_uri] = nil
     redirect_to (uri || hosts_path)
+  end
+
+  def editing_self?
+    @editing_self ||= User.current.editing_self?(params.slice(:controller, :action, :id))
   end
 
 end

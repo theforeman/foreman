@@ -33,10 +33,7 @@ module Menu
     end
 
     def authorized?
-      User.current.allowed_to?({
-        :controller => url_hash[:controller].to_s.gsub(/::/, "_").underscore,
-        :action => url_hash[:action]
-      })
+      User.current.allowed_to?(url_hash.slice(:controller, :action, :id))
     rescue => error
       Rails.logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
       false

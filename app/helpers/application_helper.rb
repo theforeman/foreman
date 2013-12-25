@@ -96,8 +96,8 @@ module ApplicationHelper
   # Return true if user is authorized for controller/action, otherwise false
   # +controller+ : String or symbol for the controller
   # +action+     : String or symbol for the action
-  def authorized_for(controller, action)
-    User.current.allowed_to?({:controller => controller.to_s.gsub(/::/, "_").underscore, :action => action}) rescue false
+  def authorized_for(controller, action, id = nil)
+    User.current.allowed_to?({:controller => controller, :action => action, :id => id}) rescue false
   end
 
   # Display a link if user is authorized, otherwise a string
@@ -107,9 +107,12 @@ module ApplicationHelper
   #             :auth_action : String or Symbol representing the action to be used for authorization checks
   # +html_options+ : Hash containing html options for the link or span
   def link_to_if_authorized(name, options = {}, html_options = {})
-    auth_action = options.delete :auth_action
-    enable_link = authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
-    if enable_link
+    auth_options = {
+      :controller => options[:controller]         || params[:controller],
+      :action     => options.delete(:auth_action) || options[:action],
+      :id         => options[:id]
+    }
+    if User.current.allowed_to?(auth_options)
       link_to name, options, html_options
     else
       link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
