@@ -1,14 +1,14 @@
 <div class="fields">
-  <div class="row">
-    <div class="col-md-3">
-      <%= f.collection_select :fact_name_id, FactName.no_timestamp_fact, :id, :name, {}, :class => "medium" %>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <%= f.collection_select :fact_name_id, FactName.no_timestamp_fact, :id, :name, {}, :class => "form-control" %>
     </div>
-    <div class="col-md-2">
-      <%= f.select :operator, %w{= !=  > >= < <= }, {}, :class => "input-sm" %>
+    <div class="col-sm-2">
+      <%= f.select :operator, %w{= !=  > >= < <= }, {}, :class => "form-control" %>
     </div>
-    <div class="col-md-5">
-      <%= f.text_field :criteria %>
-      <%= authorized_for(params[:controller], params[:action]) ? link_to_remove_fields(_("remove"), f) : "" %>
+    <div class="col-sm-5">
+      <%= f.text_field :criteria, :class=>"form-control" %>
     </div>
+    <%= authorized_for(params[:controller], params[:action]) ? link_to_remove_fields('', f, :class=>'btn') : '' %>
   </div>
 </div>
