@@ -28,7 +28,10 @@ class Setting::Provisioning < Setting
         self.set('token_duration', N_("Time in minutes installation tokens should be valid for, 0 to disable"), 60),
         self.set('libvirt_default_console_address', N_("The IP address that should be used for the console listen address when provisioning new virtual machines via Libvirt"), "0.0.0.0"),
         self.set('update_ip_from_built_request', N_("Foreman will update the host IP with the IP that made the built request"), false),
-        self.set('use_shortname_for_vms', N_("Foreman will use the short hostname instead of the FQDN for creating new virtual machines"), false)
+        self.set('use_shortname_for_vms', N_("Foreman will use the short hostname instead of the FQDN for creating new virtual machines"), false),
+        self.set('websockets_encrypt', N_("Should Foreman encrypt websockets (VNC console access). Choose on, off or auto."), "auto"),
+        self.set('websockets_ssl_key', N_("Private key that Foreman will use to encrypt websockets "), nil),
+        self.set('websockets_ssl_cert', N_("Certificate that Foreman will use to encrypt websockets "), nil)
       ].each { |s| self.create! s.update(:category => "Setting::Provisioning")}
     end
 

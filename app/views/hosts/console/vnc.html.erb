@@ -11,7 +11,7 @@
                        link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
                      end
         ) ) %>
-<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>'>
+<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>' data-encrypt='<%= @encrypt %>'>
 
   <div id="noVNC_status_bar" class="console-status">
     <div id="noVNC_status" class="col-md-7 label">Loading ...</div>
