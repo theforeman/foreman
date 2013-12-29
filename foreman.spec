@@ -73,7 +73,8 @@ Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 Requires: %{?scl_prefix}rubygem(therubyracer)
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
-Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+Requires: %{?scl_prefix}rubygem(bootstrap-sass) >= 3.0.3.0
+Requires: %{?scl_prefix}rubygem(bootstrap-sass) < 3.0.4
 Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
 Requires: %{?scl_prefix}rubygem(rails3_before_render)
 BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
@@ -102,7 +103,8 @@ BuildRequires: %{?scl_prefix}rubygem(sass-rails) => 3.2.3
 BuildRequires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
 BuildRequires: %{?scl_prefix}rubygem(sqlite3)
 BuildRequires: %{?scl_prefix}rubygem(therubyracer)
-BuildRequires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+BuildRequires: %{?scl_prefix}rubygem(bootstrap-sass) >= 3.0.3.0
+BuildRequires: %{?scl_prefix}rubygem(bootstrap-sass) < 3.0.4
 BuildRequires: %{?scl_prefix}rubygem(uglifier) >= 1.0.3
 BuildRequires: %{?scl_prefix}rubygem(uuidtools)
 BuildRequires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.2
@@ -231,7 +233,8 @@ Requires: %{?scl_prefix}rubygem(sass-rails) >= 3.2.3
 Requires: %{?scl_prefix}rubygem(sass-rails) < 3.3
 Requires: %{?scl_prefix}rubygem(spice-html5-rails)
 Requires: %{?scl_prefix}rubygem(therubyracer)
-Requires: %{?scl_prefix}rubygem(twitter-bootstrap-rails)
+Requires: %{?scl_prefix}rubygem(bootstrap-sass) >= 3.0.3.0
+Requires: %{?scl_prefix}rubygem(bootstrap-sass) < 3.0.4
 Requires: %{?scl_prefix}rubygem(uglifier)
 Requires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
@@ -570,6 +573,7 @@ fi
 - Add new rails3_before_render dependency
 - Removed foreman-mysql package (obsoleted by mysql2)
 - Seed database after DB migration
+- Change twitter-bootstrap-rails to bootstrap-sass
 
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage
