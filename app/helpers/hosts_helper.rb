@@ -295,7 +295,7 @@ module HostsHelper
       [N_('None'), N_('Size'), N_('Full')].collect do |label|
         content_tag :button, _(label), :type => 'button', :href => '#',
           :name => 'allocation_radio_btn',
-          :class => (label == active) ? 'btn active' : 'btn',
+          :class => (label == active) ? 'btn btn-default active' : 'btn btn-default',
           :onclick => "allocation_switcher(this, '#{label}');"
       end.join(' ').html_safe
     end)
