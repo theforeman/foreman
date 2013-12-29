@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::UsersMixin
 
-  before_filter :find_user, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
   skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_filter :authorize, :only => :extlogin
@@ -22,10 +23,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    admin = params[:user].delete :admin
-    @user = User.new(params[:user]){|u| u.admin = admin }
     if @user.save
-      @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
       process_success
     else
       process_error
@@ -41,23 +39,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    # Remove keys for restricted variables when the user is editing their own account
-    if params[:user] && editing_self?
-      params[:user].slice!(:password_confirmation, :password, :mail, :firstname, :lastname, :locale)
-
-      # Remove locale from the session when set to "Browser Locale" and editing self
-      session.delete(:locale) if params[:user][:locale].try(:empty?)
-    end
-
-    # Only an admin can update admin attribute of another user
-    # this is required, as the admin field is blacklisted above
-    admin = params[:user].delete :admin
-    @user.admin = admin if User.current.admin
-
     if @user.update_attributes(params[:user])
-      @user.roles << Role.find_by_name("Anonymous") unless @user.roles.map(&:name).include? "Anonymous"
-      hostgroup_ids = params[:user]["hostgroup_ids"].reject(&:empty?).map(&:to_i) unless params[:user]["hostgroup_ids"].empty?
-      update_hostgroups_owners(hostgroup_ids) unless hostgroup_ids.empty?
+      update_sub_hostgroups_owners
+
       process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
     else
       process_error
@@ -118,13 +102,8 @@ class UsersController < ApplicationController
 
   private
 
-  def find_user
-    @user = User.find(params[:id])
-  end
-
-  def update_hostgroups_owners(hostgroup_ids)
-    subhostgroups = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten.reject { |hg| hg.users.include?(@user) }
-    subhostgroups.each { |subhs| subhs.users << @user }
+  def find_resource
+    @user ||= User.find(params[:id])
   end
 
   def login_user(user)
@@ -132,10 +111,6 @@ class UsersController < ApplicationController
     uri                    = session[:original_uri]
     session[:original_uri] = nil
     redirect_to (uri || hosts_path)
-  end
-
-  def editing_self?
-    @editing_self ||= User.current.editing_self?(params.slice(:controller, :action, :id))
   end
 
 end

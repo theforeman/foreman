@@ -344,5 +344,4 @@ class User < ActiveRecord::Base
     role = Role.find_by_name('Anonymous')
     self.roles << role unless self.role_ids.include?(role.id)
   end
-
 end
