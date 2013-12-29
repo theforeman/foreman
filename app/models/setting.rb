@@ -5,7 +5,7 @@ class Setting < ActiveRecord::Base
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
-  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization }
+  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert }
   URI_ATTRS = %w{ foreman_url unattended_url }
 
   class UriValidator < ActiveModel::EachValidator

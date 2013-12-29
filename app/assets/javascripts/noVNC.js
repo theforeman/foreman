@@ -37,7 +37,7 @@ $(function() {
   var password = $('#vnc').attr('data-password');
   var path = "";
   rfb = new RFB({'target': $D('noVNC_canvas'),
-    'encrypt':      false,
+    'encrypt':      $('#vnc').data('encrypt'),
     'true_color':   true,
     'local_cursor': true,
     'shared':      true,
