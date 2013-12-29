@@ -113,6 +113,7 @@ module LayoutHelper
   end
 
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
+    html_options.merge!(:size => 'col-md-10') if html_options.include?(:multiple)
     field(f, attr, html_options) do
       addClass html_options, "form-control"
       f.select attr, array, select_options, html_options
