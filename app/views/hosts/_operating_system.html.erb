@@ -32,9 +32,12 @@
 </div>
 <!-- this section is used for displaying the provisioning scripts-->
 <div class="form-group">
-  <div class="control-label"><%= _('Provisioning templates') %></div>
-  <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn btn-default" %>
-  <%=  popover("?", _("Display the templates that will be used to provision this host"), :title=>_("Provisioning Templates")) %>
-  <br>
-<div id="templates_info" class="col-md-6"> </div>
+  <label class="col-xs-2 control-label"><%= _('Provisioning templates') %></label>
+  <div class="col-xs-10">
+    <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url}')", :class => "btn btn-default" %>
+    <div class="help-block">
+      <%= _("Display the templates that will be used to provision this host") %>
+    </div>
+  </div>
+  <div id="templates_info" class="col-xs-offset-2 col-xs-8"> </div>
 </div>
