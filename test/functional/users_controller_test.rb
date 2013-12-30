@@ -230,7 +230,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'non admin user should be able to update itself' do
     User.current = users(:one)
     put :update, { :id => users(:one).id, :user => { :firstname => 'test' } }
-    assert_response :success
+    assert_response :redirect
   end
 
   test 'non admin user should not be able to edit another user' do
