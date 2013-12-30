@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
 
   test 'should get os_default_templates for os' do
-    get :index, {:operatingsystem_id => operatingsystems(:centos5_3).to_param }
+    get :index, {:operatingsystem_id => operatingsystems(:redhat).to_param }
     assert_response :success
     assert_not_nil assigns(:os_default_templates)
     results = ActiveSupport::JSON.decode(@response.body)
@@ -23,7 +23,7 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
     OsDefaultTemplate.delete_all
     assert_difference('OsDefaultTemplate.count') do
       post :create, { :operatingsystem_id => operatingsystems(:redhat).to_param, :os_default_template => {:config_template_id => config_templates(:mystring).id,
-                                                                                                          :template_kind_id => template_kinds(:gpxe).id}
+                                                                                                          :template_kind_id => template_kinds(:ipxe).id}
                     }
     end
     assert_response :success
