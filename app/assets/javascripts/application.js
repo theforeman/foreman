@@ -291,6 +291,7 @@ function update_puppetclasses(element) {
   var data = $("form").serialize().replace('method=put', 'method=post');
   data = data + '&host_id=' + host_id
   if (env_id == "") return;
+  $(element).indicator_show();
   $.ajax({
     type: 'post',
     url:  url,
@@ -301,7 +302,7 @@ function update_puppetclasses(element) {
       $('[rel="twipsy"]').tooltip();
     },
     complete: function() {
-      $('#hostgroup_indicator').hide();
+      $(element).indicator_hide();
     }
   })
 }
@@ -323,11 +324,11 @@ $(function() {
 });
 
 $.fn.indicator_show = function(){
-  $(this).parent().find('img').show();
+ $(this).parents('.form-group').find('img').show();
 }
 
 $.fn.indicator_hide = function(){
-  $(this).parent().find('img').hide();
+ $(this).parents('.form-group').find('img').hide();
 }
 
 function spinner_placeholder(text){
