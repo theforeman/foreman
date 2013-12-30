@@ -12,10 +12,12 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        values = FactValue.my_facts.no_timestamp_facts.
-          search_for(*search_options).paginate(paginate_options).
-          includes(:fact_name, :host)
+        values = resource_scope.includes(:fact_name, :host).search_for(*search_options).paginate(paginate_options)
         @fact_values = FactValue.build_facts_hash(values.all)
+      end
+
+      def resource_scope
+        FactValue.my_facts.no_timestamp_facts
       end
 
     end

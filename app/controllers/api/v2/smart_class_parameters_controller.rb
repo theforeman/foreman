@@ -3,6 +3,7 @@ module Api
     class SmartClassParametersController < V2::BaseController
       include Api::Version2
       include Api::V2::LookupKeysCommonController
+      alias_method :resource_scope, :smart_class_parameters_resource_scope
 
       api :GET, '/smart_class_parameters', 'List all smart class parameters'
       api :GET, '/hosts/:host_id/smart_class_parameters', 'List of smart class parameters for a specific host'
@@ -60,6 +61,24 @@ module Api
       # overwrite Api::BaseController
       def resource_class
         LookupKey
+      end
+
+      def resource_scope
+        return LookupKey.smart_class_parameters unless (@puppetclass || @environment || @host || @hostgroup)
+        if @puppetclass && @environment
+          LookupKey.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
+        elsif @puppetclass && !@environment
+          environment_ids = @puppetclass.environment_classes.pluck(:environment_id).uniq
+          LookupKey.smart_class_parameters_for_class(@puppetclass.id, environment_ids)
+        elsif !@puppetclass && @environment
+          puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
+          LookupKey.smart_class_parameters_for_class(puppetclass_ids, @environment.id)
+        elsif @host || @hostgroup
+          puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
+          environment_id  = (@host || @hostgroup).environment_id
+          # scope :parameters_for_class uses .override
+          LookupKey.parameters_for_class(puppetclass_ids, environment_id)
+        end
       end
 
     end

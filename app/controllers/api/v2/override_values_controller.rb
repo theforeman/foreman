@@ -68,7 +68,10 @@ module Api
       end
 
       def find_override_values
-        @override_values = @smart.lookup_values.paginate(paginate_options) if @smart
+        if @smart
+          @override_values = @smart.lookup_values.paginate(paginate_options)
+          @total = @override_values.count
+        end
       end
 
       def find_override_value

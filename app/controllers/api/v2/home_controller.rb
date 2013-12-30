@@ -2,7 +2,6 @@ module Api
   module V2
     class HomeController < V2::BaseController
       before_filter :require_admin
-      skip_before_render :get_metadata, :only => :index
       layout false
 
       api :GET, "/", "Show available links."

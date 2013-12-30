@@ -17,7 +17,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hosts = Host.my_hosts.search_for(*search_options).paginate(paginate_options)
+        @hosts = resource_scope.search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/hosts/:id/", "Show a host."
@@ -130,7 +130,7 @@ Return value may either be one of the following:
 
       # we need to limit resources for a current user
       def resource_scope
-        resource_class.my_hosts
+        Host.my_hosts
       end
 
       api :PUT, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
