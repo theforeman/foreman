@@ -3,7 +3,7 @@
 
 <p class='ra'> <%= _("Reported at %s ") % @report.reported_at.getlocal %> </p>
 <% if @offset > 10 %>
-  <div class="alert alert-message alert-block alert-error">
+  <div class="alert alert-message alert-block alert-danger">
     <a class="close" href="#" data-dismiss="alert">&times;</a>
     <h3><%= _("Host times seems to be adrift!") %></h3>
     <%= (_("Host reported time is <em>%s</em>") % @report.reported_at).html_safe %> <br/>

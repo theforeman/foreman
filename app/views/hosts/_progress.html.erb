@@ -2,7 +2,8 @@
  <a class='close' href='#' data-dismiss='alert'>&times</a>
   <h3><%= action_name %> <%= _('In Progress') %></h3>
   <p id="tasks_progress"><%= action_name %> in progress.</p>
-  <div class="progress progress-striped active" style="width: 400px;">
-    <div class="bar" style="width: 0%;"></div>
+  <div class="progress progress-striped active">
+    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+    </div>
   </div>
 </div>

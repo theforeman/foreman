@@ -32,7 +32,7 @@ function computeResourceSelected(item){
       },
       success: function(result){
         $('#compute_resource').html(result);
-        if ($('#compute_resource').find('.alert-error').length > 0) $('#compute_resource_tab a').addClass('tab-error');
+        if ($('#compute_resource').find('.alert-danger').length > 0) $('#compute_resource_tab a').addClass('tab-error');
         update_capabilities($('#capabilities').val());
       }
     })
@@ -103,7 +103,7 @@ function clear_errors(){
   $('.error').children().children('.help-block').remove();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
-  $('.alert-error').remove();
+  $('.alert-danger').remove();
 }
 
 function animate_progress(){
@@ -123,15 +123,14 @@ function update_progress(data){
 
   var done_tasks = $('.glyphicon-check',data).size();
   var failed_tasks = $('.glyphicon-remove',data).size();
-  var $progress = $('.progress');
 
   $("#host-progress").show();
   if(failed_tasks > 0) {
-    $progress.removeClass('progress-success').addClass('progress-danger');
+    $('.progress-bar').addClass('progress-bar-danger');
   }else{
-    $progress.removeClass('progress-danger').addClass('progress-success');
+    $('.progress-bar').removeClass('progress-bar-danger');
   }
-  $('.bar').width(done_tasks/task_list_size *$progress.width());
+  $('.progress-bar').width(done_tasks/task_list_size * 100 + '%')
   $('#tasks_progress').replaceWith(data);
 }
 

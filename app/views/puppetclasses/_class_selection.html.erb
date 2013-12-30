@@ -1,6 +1,6 @@
 <div class="row">
   <% if obj.errors[:puppetclasses].any? %>
-    <div class="alert alert-message alert-block alert-error base in fade">
+    <div class="alert alert-message alert-block alert-danger base in fade">
       <a class='close' href='#' data-dismiss="alert">×</a>
       <%= obj.errors[:puppetclasses].map {|e| "<li>#{e}</li>"}.to_s.html_safe %>
     </div>
