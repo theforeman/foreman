@@ -25,7 +25,7 @@ function onContentLoad(){
   }
 
   $('.flash.error').each(function(index, item) {
-     if ($('.alert-message.alert-error.base').length == 0) {
+     if ($('.alert-message.alert-danger.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
          notify(item, 'error');
        }

@@ -125,7 +125,7 @@ function clear_errors(){
   $('.error .help-block').hide();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
-  $('.alert-error').remove();
+  $('.alert-danger').remove();
 }
 
 // when ajax call hit a session time out it should handle the redirect to login correctly.

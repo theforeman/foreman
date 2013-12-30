@@ -32,7 +32,7 @@ function computeResourceSelected(item){
       },
       success: function(result){
         $('#compute_resource').html(result);
-        if ($('#compute_resource').find('.alert-error').length > 0) $('#compute_resource_tab a').addClass('tab-error');
+        if ($('#compute_resource').find('.alert-danger').length > 0) $('#compute_resource_tab a').addClass('tab-error');
         update_capabilities($('#capabilities').val());
       }
     })
@@ -103,7 +103,7 @@ function clear_errors(){
   $('.error').children().children('.help-block').remove();
   $('.error').removeClass('error');
   $('.tab-error').removeClass('tab-error');
-  $('.alert-error').remove();
+  $('.alert-danger').remove();
 }
 
 function animate_progress(){
