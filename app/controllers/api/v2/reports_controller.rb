@@ -17,6 +17,7 @@ module Api
       def index
         @reports = Report.my_reports.includes(:logs => [:source, :message]).
           search_for(*search_options).paginate(paginate_options)
+        @total = Report.my_reports.count
       end
 
       api :GET, "/reports/:id/", "Show a report."

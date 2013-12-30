@@ -33,6 +33,7 @@ module Api
 
       def index
         @parameters = nested_obj.send(parameters_method).paginate(paginate_options)
+        @total = nested_obj.send(parameters_method).count
       end
 
       api :GET, "/hosts/:host_id/parameters/:id", "Show a nested parameter for host"

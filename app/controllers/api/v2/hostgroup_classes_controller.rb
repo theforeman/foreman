@@ -6,12 +6,11 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_hostgroup_id, :only => [:index, :create, :destroy]
-      skip_before_render :get_metadata, :only => :index
 
       api :GET, "/hostgroups/:hostgroup_id/puppetclass_ids/", "List all puppetclass id's for hostgroup"
 
       def index
-        render :json =>  { @root_node_name => HostgroupClass.where(:hostgroup_id => hostgroup_id).pluck('puppetclass_id') }
+        render :json =>  { root_node_name => HostgroupClass.where(:hostgroup_id => hostgroup_id).pluck('puppetclass_id') }
       end
 
       api :POST, "/hostgroups/:hostgroup_id/puppetclass_ids", "Add a puppetclass to hostgroup"

@@ -8,6 +8,7 @@ module Api
       param :config_template_id, :identifier, :required => true
       def index
         @template_combinations = @config_template.template_combinations
+        @total = @template_combinations.count
       end
 
       api :POST, "/config_templates/:config_template_id/template_combinations", "Add a Template Combination"

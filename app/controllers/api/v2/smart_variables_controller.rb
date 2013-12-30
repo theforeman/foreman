@@ -3,6 +3,7 @@ module Api
     class SmartVariablesController < V2::BaseController
       include Api::Version2
       include Api::V2::LookupKeysCommonController
+      alias_method :resource_scope, :smart_variables_resource_scope
 
       api :GET, '/smart_variables', 'List all smart variables'
       api :GET, '/hosts/:host_id/smart_variables', 'List of smart variables for a specific host'

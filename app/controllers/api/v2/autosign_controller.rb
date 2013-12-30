@@ -8,7 +8,7 @@ module Api
 
       def index
         autosign = @api.autosign
-        render :json => { @root_node_name => autosign }
+        render :json => { root_node_name => autosign }
       end
 
       private

@@ -13,6 +13,7 @@ module Api
 
       def index
         @images = @compute_resource.images.search_for(*search_options).paginate(paginate_options)
+        @total = @compute_resource.images.count
       end
 
       api :GET, "/compute_resources/:compute_resource_id/images/:id/", "Show an image"

@@ -15,6 +15,7 @@ module Api
 
       def index
         @os_default_templates = nested_obj.os_default_templates.paginate(paginate_options)
+        @total = nested_obj.os_default_templates.count
       end
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates/:id', 'Show a os default template kind for operating system'

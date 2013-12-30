@@ -15,6 +15,7 @@ module Api
 
       def index
         @smart_proxies = proxies_by_type(params[:type]).paginate(paginate_options)
+        @subtotal = @smart_proxies.count
       end
 
       api :GET, "/smart_proxies/:id/", "Show a smart proxy."
@@ -60,9 +61,9 @@ module Api
       end
 
       private
-      def proxies_by_type(type)
-        return SmartProxy.includes(:features).try(type.downcase+"_proxies") if not type.nil?
-        return SmartProxy.includes(:features).all
+      def proxies_by_type(type = nil)
+        return SmartProxy.includes(:features).try(type.downcase+"_proxies") if type.present?
+        return SmartProxy.includes(:features).scoped
       end
 
       def check_feature_type
