@@ -34,7 +34,7 @@ module Authorization
     # editing own user is a special case
     if User.current
       action = if klass == 'user'
-                 { :controller => 'users', :action => operation }
+                 { :controller => 'users', :action => operation, :id => self.id }
                else
                  "#{operation}_#{klasses}".to_sym
                end
