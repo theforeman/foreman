@@ -2,7 +2,7 @@ module Api
   module V2
     class TasksController < BaseController
 
-      skip_before_render :get_metadata, :only => :index
+      layout false
 
       api :GET, '/orchestration/:id/tasks/', 'List all tasks for a given orchestration event'
 
@@ -11,7 +11,7 @@ module Api
         # cache.fetch returns in JSON format, so convert @tasks back to hash
         @tasks = JSON.parse(Rails.cache.fetch(id))
         not_found if @tasks.blank?
-        render :json => { @root_node_name => @tasks }, :layout => false
+        render :json => { root_node_name => @tasks }
       end
 
     end

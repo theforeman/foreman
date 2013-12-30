@@ -13,6 +13,7 @@ module Api
 
       def index
         @interfaces = @nested_obj.interfaces.paginate(paginate_options)
+        @total = @nested_obj.interfaces.count
       end
 
       api :GET, '/hosts/:host_id/interfaces/:id', 'Show an interface for host'

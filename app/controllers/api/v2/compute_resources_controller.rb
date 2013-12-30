@@ -14,7 +14,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @compute_resources = ComputeResource.my_compute_resources.search_for(*search_options).paginate(paginate_options)
+        @compute_resources = resource_scope.search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/compute_resources/:id/", "Show an compute resource."
@@ -77,7 +77,7 @@ module Api
       end
 
       def resource_scope
-        resource_class.my_compute_resources
+        ComputeResource.my_compute_resources
       end
 
     end

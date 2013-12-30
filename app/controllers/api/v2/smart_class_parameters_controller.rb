@@ -3,6 +3,7 @@ module Api
     class SmartClassParametersController < V2::BaseController
       include Api::Version2
       include Api::V2::LookupKeysCommonController
+      alias_method :resource_scope, :smart_class_parameters_resource_scope
 
       api :GET, '/smart_class_parameters', 'List all smart class parameters'
       api :GET, '/hosts/:host_id/smart_class_parameters', 'List of smart class parameters for a specific host'

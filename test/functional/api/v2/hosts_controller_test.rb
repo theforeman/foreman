@@ -361,6 +361,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert @response.body =~ /Available devices are/
     end
 
+    test "should return correct total and subtotal metadata if search param is passed" do
+      get :index, {:search => 'my5name.mydomain.net' }
+      assert_response :success
+      response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 15, response['total']
+      assert_equal  1, response['subtotal']
+      assert_equal 'my5name.mydomain.net', response['search']
+    end
+
   end
 
 end

@@ -77,16 +77,16 @@ module Api::V2::LookupKeysCommonController
     end
 
     def find_smart_variables
-      @smart_variables   = LookupKey.smart_variables.search_for(*search_options).paginate(paginate_options) unless (@puppetclass || @host || @hostgroup)
-      @smart_variables ||= if @puppetclass
-                              LookupKey.global_parameters_for_class(@puppetclass.id).search_for(*search_options).paginate(paginate_options)
-                           elsif @host || @hostgroup
-                              puppetclass_ids  = (@host || @hostgroup).all_puppetclasses.map(&:id)
-                              LookupKey.global_parameters_for_class(puppetclass_ids).search_for(*search_options).paginate(paginate_options)
-                           end
-      @smart_variables
+      @smart_variables = smart_variables_resource_scope.search_for(*search_options).paginate(paginate_options)
     end
 
+    def smart_variables_resource_scope
+      return LookupKey.smart_variables unless (@puppetclass || @host || @hostgroup)
+      puppetclass_ids   = @puppetclass.id if @puppetclass
+      puppetclass_ids ||= @hostgroup.all_puppetclasses.map(&:id) if @hostgroup
+      puppetclass_ids ||= @host.all_puppetclasses.map(&:id) if @host
+      LookupKey.global_parameters_for_class(puppetclass_ids)
+    end
 
     def find_smart_class_parameter
       id = params.keys.include?('smart_class_parameter_id') ? params['smart_class_parameter_id'] : params['id']
@@ -99,22 +99,25 @@ module Api::V2::LookupKeysCommonController
     end
 
     def find_smart_class_parameters
-      @smart_class_parameters   = LookupKey.smart_class_parameters.search_for(*search_options).paginate(paginate_options) unless (@puppetclass || @environment || @host || @hostgroup)
+      @smart_class_parameters = smart_class_parameters_resource_scope.search_for(*search_options).paginate(paginate_options)
+    end
 
-      @smart_class_parameters ||= if @puppetclass && @environment
-                                    LookupKey.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
-                                  elsif @puppetclass && !@environment
-                                    environment_ids = @puppetclass.environment_classes.pluck(:environment_id).uniq
-                                    LookupKey.smart_class_parameters_for_class(@puppetclass.id, environment_ids).search_for(*search_options).paginate(paginate_options)
-                                  elsif !@puppetclass && @environment
-                                    puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
-                                    LookupKey.smart_class_parameters_for_class(puppetclass_ids, @environment.id).search_for(*search_options).paginate(paginate_options)
-                                  elsif @host || @hostgroup
-                                    puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
-                                    environment_id  = (@host || @hostgroup).environment_id
-                                    LookupKey.parameters_for_class(puppetclass_ids, environment_id).search_for(*search_options).paginate(paginate_options)
-                                  end
-      @smart_class_parameters
+    def smart_class_parameters_resource_scope
+      return LookupKey.smart_class_parameters unless (@puppetclass || @environment || @host || @hostgroup)
+      if @puppetclass && @environment
+        LookupKey.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
+      elsif @puppetclass && !@environment
+        environment_ids = @puppetclass.environment_classes.pluck(:environment_id).uniq
+        LookupKey.smart_class_parameters_for_class(@puppetclass.id, environment_ids)
+      elsif !@puppetclass && @environment
+        puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
+        LookupKey.smart_class_parameters_for_class(puppetclass_ids, @environment.id)
+      elsif @host || @hostgroup
+        puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
+        environment_id  = (@host || @hostgroup).environment_id
+        # scope :parameters_for_class uses .override
+        LookupKey.parameters_for_class(puppetclass_ids, environment_id)
+      end
     end
 
     def find_smarts
