@@ -76,7 +76,7 @@ class UsersController < ApplicationController
         login_user(user)
       end
     else
-      render layout: 'login'
+      render :layout => 'login'
     end
   end
 
