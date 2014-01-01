@@ -3,7 +3,7 @@ require 'test_helper'
 class ComputeResourceTest < ActionDispatch::IntegrationTest
 
   test "index page" do
-    assert_index_page(compute_resources_path,"Listing compute resources","New Compute Resource")
+    assert_index_page(compute_resources_path,"Compute Resources","New Compute Resource")
   end
 
   test "edit compute resource" do
