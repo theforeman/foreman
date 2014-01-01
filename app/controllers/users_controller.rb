@@ -75,6 +75,8 @@ class UsersController < ApplicationController
         #valid user
         login_user(user)
       end
+    else
+      render layout: 'login'
     end
   end
 
