@@ -142,7 +142,7 @@ src ||= AuthSourceInternal.create :name => "Internal"
 # Users
 unless User.find_by_login("admin").present?
   User.without_auditing do
-    user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => Setting[:administrator])
+    user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => SETTINGS[:administrator])
     user.admin = true
     user.auth_source = src
     user.password = "changeme"
