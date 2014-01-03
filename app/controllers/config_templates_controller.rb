@@ -7,13 +7,7 @@ class ConfigTemplatesController < ApplicationController
   before_filter :handle_template_upload, :only => [:create, :update]
 
   def index
-    begin
-      values = ConfigTemplate.search_for(params[:search], :order => params[:order])
-    rescue => e
-      error e.to_s
-      values = ConfigTemplate.search_for ""
-    end
-    @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
+    @config_templates = ConfigTemplate.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
   end
 
   def new

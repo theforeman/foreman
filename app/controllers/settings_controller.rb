@@ -1,6 +1,7 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :require_admin
+
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
     type = (e.to_s =~ /\'(Setting::.*)\'\./) ? $1 : 'STI-Type'
