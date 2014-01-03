@@ -5,14 +5,7 @@ class HostgroupsController < ApplicationController
   before_filter :find_hostgroup, :only => [:edit, :update, :destroy, :clone]
 
   def index
-    begin
-      my_groups = User.current.admin? ? Hostgroup : Hostgroup.my_groups
-      values = my_groups.search_for(params[:search], :order => params[:order])
-    rescue => e
-      error e.to_s
-      values = my_groups.search_for ""
-    end
-    @hostgroups = values.paginate :page => params[:page]
+    @hostgroups = Hostgroup.my_groups.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new

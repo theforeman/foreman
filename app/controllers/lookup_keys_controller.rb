@@ -4,13 +4,7 @@ class LookupKeysController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    begin
-      values = LookupKey.search_for(params[:search], :order => params[:order])
-    rescue => e
-      error e.to_s
-      values = LookupKey.search_for ""
-    end
-    @lookup_keys = values.includes(:puppetclass).paginate(:page => params[:page])
+    @lookup_keys = LookupKey.search_for(params[:search], :order => params[:order]).includes(:puppetclass).paginate(:page => params[:page])
   end
 
   def edit

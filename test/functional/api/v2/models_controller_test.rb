@@ -40,4 +40,8 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "invalid searches are handled gracefully" do
+    get :index, { :search => 'notarightterm = wrong' }
+    assert_response :bad_request
+  end
 end
