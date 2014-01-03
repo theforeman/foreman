@@ -9,13 +9,7 @@ class UsersController < ApplicationController
   after_filter       :update_activity_time, :only => :login
 
   def index
-    begin
-      users = User.search_for(params[:search], :order => params[:order])
-    rescue => e
-      error e.to_s
-      users = User.search_for('', :order => params[:order])
-    end
-    @users = users.includes(:auth_source).paginate(:page => params[:page])
+    @users = User.search_for(params[:search], :order => params[:order]).includes(:auth_source).paginate(:page => params[:page])
   end
 
   def new

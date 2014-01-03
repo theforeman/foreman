@@ -131,6 +131,24 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     assert_redirected_to compute_resources_path
   end
 
+  context 'search' do
+    setup { setup_user 'view' }
+
+    test 'valid fields' do
+      get :index, { :search => 'name = openstack' }, set_session_user
+      assert_response :success
+      assert flash.empty?
+    end
+
+    test 'invalid fields' do
+      @request.env['HTTP_REFERER'] = "http://test.host#{compute_resources_path}"
+      get :index, { :search => 'wrongwrong = centos' }, set_session_user
+      assert_response :redirect
+      assert_redirected_to :back
+      assert_match /not recognized for searching/, flash[:error]
+    end
+  end
+
   def set_session_user
     User.current = users(:admin) unless User.current
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}

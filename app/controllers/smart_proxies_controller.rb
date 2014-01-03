@@ -1,5 +1,6 @@
 class SmartProxiesController < ApplicationController
   before_filter :find_by_id, :only => [:edit, :update, :destroy, :ping, :refresh]
+
   def index
     @proxies = SmartProxy.includes(:features).paginate :page => params[:page]
   end

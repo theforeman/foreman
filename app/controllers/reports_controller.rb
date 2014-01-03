@@ -5,9 +5,6 @@ class ReportsController < ApplicationController
 
   def index
     @reports = Report.my_reports.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
-  rescue => e
-    error e.to_s
-    @reports = Report.my_reports.search_for("").paginate :page => params[:page]
   end
 
   def show
