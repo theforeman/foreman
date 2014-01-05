@@ -18,7 +18,7 @@
 class AuthSource < ActiveRecord::Base
   include Authorization
   audited :allow_mass_assignment => true
-  include Authorizable
+
   before_destroy EnsureNotUsedBy.new(:users)
   has_many :users
 

@@ -30,12 +30,22 @@
 
         <%= hidden_field_tag :role_id, @role.try(:id) %>
 
-        <%= checkbox_f f, :unlimited?,
-                       :help_inline => _("By unchecking this you can configure filter using scoped_search syntax") %>
+
+        <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
+          <span class="help-block">
+            <strong><%= _("Selected resource type does not support granular filtering, therefore you can't configure granularity") %></strong>
+          </span>
+        </div>
+
+        <div id="granular_form" style="<%= !f.object.granular? ? 'display:none' : '' %>">
+          <%= checkbox_f f, :unlimited?,
+              :help_inline => _("By unchecking this you can configure filter using scoped_search syntax in search field") %>
 
         <% path = f.object.resource_type.present? ? send("#{f.object.resource_type.pluralize.underscore}_path") : '' %>
-        <%= autocomplete_f f, :search, :disabled => f.object.unlimited?,
-                           :path => path, :control_group_id => 'search_group' %>
+          <%= autocomplete_f f, :search,
+                             :disabled => f.object.unlimited?,
+                             :path => path, :control_group_id => 'search_group' %>
+        </div>
       </div>
 
       <% if show_location_tab? %>

@@ -9,3 +9,12 @@ search.val('');
 search.catcomplete({source: function( request, response ) {
     $.getJSON( search.attr('data-url'), { search: request.term }, response );
 }})
+
+<% if @granular %>
+  $('#granular_warning').hide();
+  $('#granular_form').show();
+<% else %>
+  $('#granular_warning').show();
+  $('#granular_form').hide();
+  $('#filter_unlimited').prop('checked', true);
+<% end %>

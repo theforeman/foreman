@@ -68,7 +68,8 @@ module HostsHelper
   end
 
   def authorized?
-    authorized_for(:hosts, :edit) or authorized_for(:hosts, :destroy)
+    authorized_for(:controller => :hosts, :action => :edit) or
+        authorized_for(:controller => :hosts, :action => :destroy)
   end
 
   def searching?

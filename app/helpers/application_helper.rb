@@ -94,25 +94,36 @@ module ApplicationHelper
   end
 
   # Return true if user is authorized for controller/action, otherwise false
-  # +controller+ : String or symbol for the controller
-  # +action+     : String or symbol for the action
-  def authorized_for(controller, action, id = nil)
-    User.current.allowed_to?({:controller => controller, :action => action, :id => id}) rescue false
+  # +options+ : Hash containing
+  #             :controller : String or symbol for the controller, defaults to params[:controller]
+  #             :action     : String or symbol for the action
+  #             :id         : Id parameter
+  #             :auth_action: String or symbol for the action, this has higher priority that :action
+  #             :auth_object: Specific object on which we may verify particular permission
+  #             :authorizer : Specific authorizer to perform authorization on (handy to inject authorizer with base collection)
+  def authorized_for(options)
+    action = options.delete(:auth_action) || options.delete(:action)
+    object = options.delete(:auth_object)
+    user = User.current
+    controller = options[:controller] || params[:controller]
+    controller_name = controller.to_s.gsub(/::/, "_").underscore
+    id = options[:id]
+
+    if object.nil?
+      user.allowed_to?({:controller => controller_name, :action => action, :id => id}) rescue false
+    else
+      authorizer = options.delete(:authorizer) || Authorizer.new(user)
+      authorizer.can?([action, controller_name].join('_'), object)
+    end
   end
 
   # Display a link if user is authorized, otherwise a string
   # +name+    : String to be displayed
-  # +options+ : Hash containing
-  #             :controller  : String or Symbol representing the controller
-  #             :auth_action : String or Symbol representing the action to be used for authorization checks
+  # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def link_to_if_authorized(name, options = {}, html_options = {})
-    auth_options = {
-      :controller => options[:controller]         || params[:controller],
-      :action     => options.delete(:auth_action) || options[:action],
-      :id         => options[:id]
-    }
-    if User.current.allowed_to?(auth_options)
+    enable_link = authorized_for(options)
+    if enable_link
       link_to name, options, html_options
     else
       link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
@@ -124,16 +135,14 @@ module ApplicationHelper
     html_options = {:confirm => _('Are you sure?'), :method => :delete, :class => 'delete'}.merge(html_options)
     display_link_if_authorized(_("Delete"), options, html_options)
   end
+
   # Display a link if user is authorized, otherwise nothing
   # +name+    : String to be displayed
-  # +options+ : Hash containing
-  #             :controller  : String or Symbol representing the controller
-  #             :auth_action : String or Symbol representing the action to be used for authorization checks
+  # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def display_link_if_authorized(name, options = {}, html_options = {})
-    auth_action = options.delete :auth_action
     enable_link = html_options.has_key?(:disabled) ? !html_options[:disabled] : true
-    if enable_link and authorized_for(options[:controller] || params[:controller], auth_action || options[:action])
+    if enable_link and authorized_for(options)
       link_to(name, options, html_options)
     else
       ""
@@ -141,7 +150,9 @@ module ApplicationHelper
   end
 
   def authorized_edit_habtm klass, association, prefix = nil, options = {}
-    return edit_habtm(klass, association, prefix, options) if authorized_for params[:controller], params[:action]
+    if authorized_for :controller => params[:controller], :action => params[:action]
+      return edit_habtm(klass, association, prefix, options)
+    end
     show_habtm klass.send(association.name.pluralize.downcase)
   end
 

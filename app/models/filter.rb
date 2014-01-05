@@ -40,6 +40,17 @@ class Filter < ActiveRecord::Base
     @resource_type ||= permissions.first.try(:resource_type)
   end
 
+  def resource_class
+    @resource_class ||= resource_type.constantize
+  rescue NameError => e
+    Rails.logger.debug "unknown klass #{resource_type}, ignoring"
+    return nil
+  end
+
+  def granular?
+    @granular ||= !resource_class.nil? && resource_class.included_modules.include?(Authorizable)
+  end
+
   private
 
   def set_unlimited_filter

@@ -125,9 +125,24 @@ class ApplicationController < ActionController::Base
 
     name = controller_name.singularize
     model = model_of_controller
-    # determine if we are searching for a numerical id or plain name
+    base = model.authorized([action_permission, controller_name].join('_'))
     cond = "find" + (params[:id] =~ /\A\d+(-.+)?\Z/ ? "" : "_by_name")
-    not_found and return unless instance_variable_set("@#{name}", model.send(cond, params[:id]))
+    not_found and return unless instance_variable_set("@#{name}", base.send(cond, params[:id]))
+  end
+
+  def action_permission
+    case params[:action]
+      when 'new', 'create'
+        'create'
+      when 'edit', 'update'
+        'edit'
+      when 'destroy'
+        'destroy'
+      when 'index', 'show'
+        'view'
+      else
+        params[:action]
+    end
   end
 
   def notice notice
