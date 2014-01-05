@@ -21,3 +21,6 @@ puppet:
 
 bmc:
   name: BMC
+
+chefproxy:
+  name: Chef Proxy
