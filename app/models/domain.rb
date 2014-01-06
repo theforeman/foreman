@@ -1,7 +1,6 @@
 require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
-  include Authorization
   include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
