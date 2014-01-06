@@ -1,6 +1,5 @@
 class Parameter < ActiveRecord::Base
   belongs_to_host :foreign_key => :reference_id
-  include Authorization
   include Authorizable
 
   validates :value, :presence => true

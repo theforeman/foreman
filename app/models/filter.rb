@@ -48,7 +48,7 @@ class Filter < ActiveRecord::Base
   end
 
   def granular?
-    @granular ||= !resource_class.nil? && resource_class.included_modules.include?(Authorizable)
+    @granular ||= !resource_class.nil? && resource_class.included_modules.include?(Authorizable) && resource_class.respond_to?(:search_for)
   end
 
   private
