@@ -132,7 +132,10 @@ class HostsController < ApplicationController
   def compute_resource_selected
     return not_found unless (params[:host] && (id=params[:host][:compute_resource_id]))
     Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "compute", :locals => {:compute_resource => ComputeResource.find_by_id(id)}
+      compute_profile_id = params[:host][:compute_profile_id] || Hostgroup.find_by_id(params[:host][:hostgroup_id]).try(:compute_profile_id)
+      compute_resource = ComputeResource.find(id)
+      render :partial => "compute", :locals => { :compute_resource => compute_resource,
+                                                 :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
     end
   end
 
@@ -444,6 +447,7 @@ class HostsController < ApplicationController
     @environment     = @hostgroup.environment
     @domain          = @hostgroup.domain
     @subnet          = @hostgroup.subnet
+    @compute_profile = @hostgroup.compute_profile
 
     @host = if params[:host][:id]
       host = Host::Base.find(params[:host][:id])

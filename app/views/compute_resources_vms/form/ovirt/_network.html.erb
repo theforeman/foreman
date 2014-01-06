@@ -1,4 +1,5 @@
 <div class="fields">
+  <div class="form-group">
   <% if f.object._delete != '1' %>
     <% disabled = (f.object.persisted? == "true" || f.object.persisted? == true) %>
     <%= text_f f, :name, :disabled => disabled, :class => "col-md-2", :label => _('Name') %>
@@ -11,4 +12,5 @@
                  :label         => _('Network') %>
     <%= f.hidden_field :network if disabled %>
   <% end %>
+  </div>
 </div>

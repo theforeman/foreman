@@ -10,9 +10,13 @@ module FogExtensions
       def flavors
         service.flavors
       end
-      
+
       def image_id
         image_name
+      end
+
+      def vm_description
+        pretty_machine_type
       end
 
     end

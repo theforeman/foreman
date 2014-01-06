@@ -3,6 +3,8 @@ module FogExtensions
     module Server
       extend ActiveSupport::Concern
 
+      include ActionView::Helpers::NumberHelper
+
       def state
         status
       end
@@ -18,6 +20,10 @@ module FogExtensions
       def reset
         poweroff
         start
+      end
+
+      def vm_description
+        _("%{cores} Cores and %{memory} memory") % {:cores => cores, :memory => number_to_human_size(memory.to_i)}
       end
 
     end

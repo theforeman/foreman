@@ -1,6 +1,6 @@
 class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  AJAX_REQUESTS = %w{hardware_profile_selected cluster_selected}
+  AJAX_REQUESTS = %w{template_selected cluster_selected}
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_by_id, :only => [:show, :edit, :update, :destroy, :ping, :associate] + AJAX_REQUESTS
 
@@ -102,8 +102,8 @@ class ComputeResourcesController < ApplicationController
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }
   end
 
-  def hardware_profile_selected
-    compute = @compute_resource.hardware_profile(params[:hwp_id])
+  def template_selected
+    compute = @compute_resource.template(params[:template_id])
     compute.interfaces
     compute.volumes
     respond_to do |format|

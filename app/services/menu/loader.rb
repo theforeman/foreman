@@ -64,6 +64,7 @@ module Menu
           menu.item :smart_proxies,       :caption => N_('Smart proxies')
           if SETTINGS[:unattended]
             menu.item :compute_resources, :caption => N_('Compute resources')
+            menu.item :compute_profiles,  :caption => N_('Compute profiles')
             menu.item :subnets,           :caption => N_('Subnets')
             menu.item :domains,           :caption => N_('Domains')
           end
