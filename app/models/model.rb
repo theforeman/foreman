@@ -1,5 +1,4 @@
 class Model < ActiveRecord::Base
-  include Authorization
   include Authorizable
 
   has_many_hosts

@@ -101,6 +101,7 @@ module ApplicationHelper
   #             :auth_action: String or symbol for the action, this has higher priority that :action
   #             :auth_object: Specific object on which we may verify particular permission
   #             :authorizer : Specific authorizer to perform authorization on (handy to inject authorizer with base collection)
+  #             :permission : Specific permission to check authorization on (handy on custom permission names)
   def authorized_for(options)
     action = options.delete(:auth_action) || options.delete(:action)
     object = options.delete(:auth_object)
@@ -108,12 +109,13 @@ module ApplicationHelper
     controller = options[:controller] || params[:controller]
     controller_name = controller.to_s.gsub(/::/, "_").underscore
     id = options[:id]
+    permission = options.delete(:permission) || [action, controller_name].join('_')
 
     if object.nil?
       user.allowed_to?({:controller => controller_name, :action => action, :id => id}) rescue false
     else
       authorizer = options.delete(:authorizer) || Authorizer.new(user)
-      authorizer.can?([action, controller_name].join('_'), object)
+      authorizer.can?(permission, object)
     end
   end
 

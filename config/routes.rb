@@ -168,6 +168,9 @@ Foreman::Application.routes.draw do
       resources :puppetca, :only => [:index, :update, :destroy]
       resources :autosign, :only => [:index, :new, :create, :destroy]
     end
+    collection do
+      get 'auto_complete_search'
+    end
   end
 
   resources :fact_values, :only => [:index] do

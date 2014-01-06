@@ -1,7 +1,9 @@
 class AutosignController < ApplicationController
-  before_filter :find_proxy, :setup_proxy
 
   def index
+    @proxy = SmartProxy.authorized(:view_smart_proxies_autosign).find(params[:smart_proxy_id])
+    setup_proxy
+
     begin
       autosign = @api.autosign
     rescue => e
@@ -12,9 +14,14 @@ class AutosignController < ApplicationController
   end
 
   def new
+    @proxy = SmartProxy.authorized(:create_smart_proxies_autosign).find(params[:smart_proxy_id])
+    setup_proxy
   end
 
   def create
+    @proxy = SmartProxy.authorized(:create_smart_proxies_autosign).find(params[:smart_proxy_id])
+    setup_proxy
+
     if @api.set_autosign(params[:id])
       process_success({:success_redirect => smart_proxy_autosign_index_path(@proxy), :object_name => 'puppet autosign entry'})
     else
@@ -23,6 +30,9 @@ class AutosignController < ApplicationController
   end
 
   def destroy
+    @proxy = SmartProxy.authorized(:destroy_smart_proxies_autosign).find(params[:smart_proxy_id])
+    setup_proxy
+
     if @api.del_autosign(params[:id])
       process_success({:success_redirect => smart_proxy_autosign_index_path(@proxy), :object_name => 'puppet autosign entry'})
     else
@@ -31,10 +41,6 @@ class AutosignController < ApplicationController
   end
 
   private
-
-  def find_proxy
-    @proxy = SmartProxy.find(params[:smart_proxy_id])
-  end
 
   def setup_proxy
     @api = ProxyAPI::Puppetca.new({:url => @proxy.url})
