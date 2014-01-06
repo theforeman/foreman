@@ -54,6 +54,8 @@ class Authorizer
         'Audit'
       when 'Host::Managed'
         'Host'
+      when /\AForeman::Model::.*\Z/
+        'ComputeResource'
       else
         name
       end

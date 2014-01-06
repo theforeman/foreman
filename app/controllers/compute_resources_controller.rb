@@ -2,16 +2,16 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   AJAX_REQUESTS = %w{template_selected cluster_selected}
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy, :ping, :associate] + AJAX_REQUESTS
 
   def index
     begin
-      values = ComputeResource.my_compute_resources.search_for(params[:search], :order => params[:order])
+      values = ComputeResource.authorized(:view_compute_resources).search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = ComputeResource.my_compute_resources.search_for ""
+      values = ComputeResource.authorized(:view_compute_resources).search_for ""
     end
     @compute_resources = values.paginate :page => params[:page]
+    @authorizer = Authorizer.new(User.current, @compute_resources)
   end
 
   def new
@@ -19,6 +19,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def show
+    @compute_resource = find_by_id
   end
 
   def create
@@ -39,9 +40,11 @@ class ComputeResourcesController < ApplicationController
   end
 
   def edit
+    @compute_resource = find_by_id(:edit_compute_resources)
   end
 
   def associate
+    @compute_resource = find_by_id(:edit_compute_resources)
     count = 0
     if @compute_resource.respond_to?(:associated_host)
       @compute_resource.vms(:eager_loading => true).each do |vm|
@@ -60,6 +63,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def update
+    @compute_resource = find_by_id(:edit_compute_resources)
     params[:compute_resource].except!(:password) if params[:compute_resource][:password].blank?
     if @compute_resource.update_attributes(params[:compute_resource])
       process_success
@@ -69,6 +73,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def destroy
+    @compute_resource = find_by_id(:destroy_compute_resources)
     if @compute_resource.destroy
       process_success
     else
@@ -83,6 +88,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def ping
+    @compute_resource = find_by_id
     respond_to do |format|
       format.json {render :json => errors_hash(@compute_resource.ping)}
     end
@@ -92,7 +98,7 @@ class ComputeResourcesController < ApplicationController
     # cr_id is posted from AJAX function. cr_id is nil if new
     Rails.logger.info "CR_ID IS #{params[:cr_id]}"
     if params[:cr_id].present? && params[:cr_id] != 'null'
-      @compute_resource = ComputeResource.find(params[:cr_id])
+      @compute_resource = ComputeResource.authorized(:edit_compute_resources).find(params[:cr_id])
       params[:compute_resource].delete(:password) if params[:compute_resource][:password].blank?
       @compute_resource.attributes = params[:compute_resource]
     else
@@ -103,6 +109,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def template_selected
+    @compute_resource = find_by_id
     compute = @compute_resource.template(params[:template_id])
     compute.interfaces
     compute.volumes
@@ -112,6 +119,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def cluster_selected
+    @compute_resource = find_by_id
     networks = @compute_resource.networks(:cluster_id => params[:cluster_id])
     respond_to do |format|
       format.json { render :json => networks }
@@ -120,9 +128,9 @@ class ComputeResourcesController < ApplicationController
 
   private
 
-  def find_by_id
-    @compute_resource = ComputeResource.find(params[:id])
-    not_found and return unless @compute_resource
-    deny_access and return unless ComputeResource.my_compute_resources.include?(@compute_resource)
+  def find_by_id(permission = :view_compute_resources)
+    compute_resource = ComputeResource.authorized(permission).find(params[:id])
+    not_found and return unless compute_resource
+    compute_resource
   end
 end

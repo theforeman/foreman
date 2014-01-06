@@ -2,6 +2,7 @@ require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
   include Encryptable
+  include Authorizable
   encrypts :password
   SUPPORTED_PROVIDERS = %w[Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE]
   PROVIDERS = SUPPORTED_PROVIDERS.reject { |p| !SETTINGS[p.downcase.to_sym] }
@@ -13,8 +14,6 @@ class ComputeResource < ActiveRecord::Base
   STI_PREFIX= "Foreman::Model"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  include Authorization
-  include Authorizable
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
   validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }

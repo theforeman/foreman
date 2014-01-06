@@ -12,15 +12,15 @@
   <tbody>
   <% @vms.each do |vm| %>
     <tr>
-      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity) %></td>
+      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => @authorizer) %></td>
       <td><%= vm.path %></td>
       <td><%= vm.cpus %></td>
       <td><%= number_to_human_size vm.memory %></td> 
       <td><span <%= vm_power_class(vm.ready?) %>> <%= vm_state(vm) %></span> </td>
       <td>
-        <%= action_buttons(vm_power_action(vm),
-                           show_console_action(vm.ready?, display_link_if_authorized("Console", hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))),
-                           display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))) %>
+        <%= action_buttons(vm_power_action(vm, @authorizer),
+                           show_console_action(vm.ready?, display_link_if_authorized("Console", hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => @authorizer))),
+                           display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => @authorizer))) %>
       </td>
 
     </tr>
