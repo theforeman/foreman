@@ -1,5 +1,4 @@
 class ConfigTemplate < ActiveRecord::Base
-  include Authorization
   include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
