@@ -55,8 +55,20 @@
         <%= select_f f, :compute_resource_id, ComputeResource.my_compute_resources, :id, :to_label,
           { :include_blank => _('Bare Metal') },
           {:label => _('Deploy on'), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path,
-           :onchange => 'computeResourceSelected(this);',
-           :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
+            :onchange => 'computeResourceSelected(this);',
+            :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
+
+        <% if @host.new_record? && ComputeProfile.visibles.any? %>
+        <%# only show compute_profile select box for new hosts. It is not relevant for existing hosts as the VM attributes defined could
+         be different from the defaults, or the defaults could have changed after the vm was created. %>
+        <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
+          <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
+            { :include_blank => true },
+            { :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
+              :onchange => 'computeResourceSelected(this);',
+              :help_inline => :indicator } if SETTINGS[:unattended] %>
+        </div>
+        <% end %>
 
         <%= select_f f, :environment_id, Environment.all, :id, :to_label, { :include_blank => true },
             {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,

@@ -45,3 +45,12 @@ ec2:
   password: MyString
   uuid: 234234234324
   type: Foreman::Model::EC2
+
+ec2-another:
+  name: another-ec2
+  description: yourcompute
+  url: eu-west-1
+  user: MyString
+  password: MyString
+  uuid: 234234234324
+  type: Foreman::Model::EC2

@@ -28,6 +28,11 @@ module FogExtensions
       def reset
         poweroff &&  start
       end
+
+      def vm_description
+        flavor.to_label
+      end
+
     end
   end
 end

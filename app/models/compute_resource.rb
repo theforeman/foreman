@@ -23,6 +23,10 @@ class ComputeResource < ActiveRecord::Base
   has_many_hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
+  has_many :compute_attributes
+  has_many :compute_profiles, :through => :compute_attributes
+  # attribute used by *_names and *_name methods.  default is :name
+  attr_name :to_label
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -151,10 +155,10 @@ class ComputeResource < ActiveRecord::Base
     ActiveSupport::HashWithIndifferentAccess.new(:name => "foreman_#{Time.now.to_i}")
   end
 
-  def hardware_profiles(opts={})
+  def templates(opts={})
   end
 
-  def hardware_profile(id,opts={})
+  def template(id,opts={})
   end
 
   def update_required?(old_attrs, new_attrs)
@@ -185,6 +189,10 @@ class ComputeResource < ActiveRecord::Base
 
   def set_console_password=(setpw)
     self.attrs[:setpw] = setpw.to_i
+  end
+
+  def compute_profile_attributes_for(id)
+    compute_attributes.find_by_compute_profile_id(id).try(:vm_attrs) || {}
   end
 
   protected

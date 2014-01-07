@@ -23,6 +23,10 @@ module FogExtensions
         reboot(:force => true)
       end
 
+      def vm_description
+        _("%{cpus} CPUs and %{memory} MB memory") % {:cpus => cpus, :memory => memory_mb.to_i}
+      end
+
     end
   end
 end

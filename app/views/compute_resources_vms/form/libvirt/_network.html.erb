@@ -1,4 +1,5 @@
 <div class="fields">
+  <div class="form-group">
   <% nat    = compute_resource.networks %>
   <% bridge = compute_resource.interfaces %>
 
@@ -24,4 +25,5 @@
   </div>
   <%= selectable_f f, :model, %w(virtio rtl8139 ne2k_pci pcnet e1000), {},
                    { :label => _('NIC type'), :class => 'col-md-2' } %>
+  </div>
 </div>

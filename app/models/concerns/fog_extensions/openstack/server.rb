@@ -54,6 +54,10 @@ module FogExtensions
         reboot('HARD')
       end
 
+      def vm_description
+        service.flavors.get(flavor_ref).try(:name)
+      end
+
     end
   end
 end

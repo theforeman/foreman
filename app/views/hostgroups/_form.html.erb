@@ -27,7 +27,8 @@
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => true},
         {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
-
+      <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name, {:include_blank => (f.object.parent_id.present? ? _("Inherit from parent") : '')},
+                                                                                  {:label => _("Compute profile")}) if ComputeProfile.visibles.any? %>
       <%= puppet_master_fields f %>
     </div>
 

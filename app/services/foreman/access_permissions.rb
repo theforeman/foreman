@@ -70,6 +70,8 @@ Foreman::AccessControl.map do |map|
                                                 :"api/v2/compute_resources" => [:create]
     }
     map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update].push(*ajax_actions),
+                                                :compute_profiles => [:new, :create, :edit, :update, :destroy, :index, :show, :auto_complete_search],
+                                                :compute_attributes => [:new, :create, :edit, :update, :destroy, :index, :show],
                                                 :"api/v1/compute_resources" => [:update],
                                                 :"api/v2/compute_resources" => [:update]
     }
@@ -244,7 +246,7 @@ Foreman::AccessControl.map do |map|
     ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected, :environment_selected,
       :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
       :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used]
-    cr_ajax_actions = [:cluster_selected, :hardware_profile_selected, :provider_selected]
+    cr_ajax_actions = [:cluster_selected, :template_selected, :provider_selected]
     pc_ajax_actions = [:parameters]
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]

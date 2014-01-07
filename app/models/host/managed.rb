@@ -141,7 +141,6 @@ class Host::Managed < Host::Base
                        :allow_blank => true, :allow_nil => true
   end
 
-
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
   after_validation :ensure_associations, :set_default_user
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
@@ -508,7 +507,7 @@ class Host::Managed < Host::Base
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy})
+    assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy compute_profile})
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem architecture})
       assign_hostgroup_attributes(%w{medium ptable subnet}) if capabilities.include?(:build)
@@ -714,6 +713,11 @@ class Host::Managed < Host::Base
 
   def ipmi_boot(booting_device)
     bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
+  end
+
+  # take from hostgroup if compute_profile_id is nil
+  def compute_profile_id
+     read_attribute(:compute_profile_id) || hostgroup.try(:compute_profile_id)
   end
 
   private

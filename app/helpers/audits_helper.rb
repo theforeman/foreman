@@ -1,6 +1,6 @@
 module AuditsHelper
 
-  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate)
+  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label name, change
@@ -21,12 +21,13 @@ module AuditsHelper
 
   def audit_title audit
     type_name = audited_type audit
-    if type_name == "Puppet Class"
-      "#{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}"
-    else
-      name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
-      name += " / #{audit.associated_name}" if audit.associated_id and !audit.associated_name.blank?
-      name
+    case type_name
+      when 'Puppet Class'
+        "#{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}"
+      else
+        name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
+        name += " / #{audit.associated_name}" if audit.associated_id and !audit.associated_name.blank?
+        name
     end
   rescue
     ""
@@ -115,9 +116,14 @@ module AuditsHelper
   end
 
   def audited_type audit
-    type_name = audit.auditable_type
-    type_name = "Puppet Class" if type_name == "HostClass"
-    type_name = "#{audit.associated_type || 'Global'}-#{type_name}" if type_name == "Parameter"
+    type_name = case audit.auditable_type
+                  when 'HostClass'
+                    'Puppet Class'
+                  when 'Parameter'
+                    "#{audit.associated_type || 'Global'}-#{type_name}"
+                  else
+                    audit.auditable_type
+                end
     type_name.underscore.titleize
   end
 

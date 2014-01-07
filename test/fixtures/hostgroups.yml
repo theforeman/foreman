@@ -11,6 +11,7 @@ common:
   domain: mydomain
   label: Common
   root_pass: $1$foreman$NW1XVtbk4/XkJqmKNrFWV0
+  compute_profile: one
 
 unusual:
   name: Unusual

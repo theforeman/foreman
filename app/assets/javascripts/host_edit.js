@@ -8,6 +8,7 @@ function computeResourceSelected(item){
     $('#compute_resource').empty();
     $('#vm_details').empty();
     $("#compute_resource_tab").hide();
+    $("#compute_profile").hide();
     update_capabilities('build');
   }
   else
@@ -15,6 +16,7 @@ function computeResourceSelected(item){
     $('#mac_address').hide();
     $("#model_name").hide();
     $("#compute_resource_tab").show();
+    $("#compute_profile").show();
     $('#vm_details').empty();
     var data = $('form').serialize().replace('method=put', 'method=post');
     $('#compute_resource').html(spinner_placeholder(_('Loading virtual machine information ...')));
@@ -619,30 +621,4 @@ function disable_vm_form_fields() {
     $(this).attr("disabled", "disabled");
   });
   $("a.disable-unsupported").remove();
-}
-
-function capacity_edit(element) {
-  var buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
-  if (buttons.size() > 0 && $(buttons[0]).text() == 'Full') {
-    var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
-    allocation.value = element.value;
-  }
-  return false;
-}
-
-function allocation_switcher(element, action) {
-  var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
-  if (action == 'None') {
-    $(allocation).attr('readonly', 'readonly');
-    allocation.value = '0G';
-  } else if (action == 'Size') {
-    $(allocation).removeAttr('readonly');
-    allocation.value = '';
-    $(allocation).focus();
-  } else if (action == 'Full') {
-    $(allocation).attr('readonly', 'readonly');
-    var capacity = $(element).closest('.fields').find('[id$=capacity]')[0];
-    allocation.value = capacity.value;
-  }
-  return false;
 }

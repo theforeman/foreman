@@ -1,4 +1,4 @@
-<%= javascript "compute_resource" %>
+<%= javascript 'compute_resource', 'lookup_keys'%>
 <% title @compute_resource.name %>
 
 <% title_actions display_link_if_authorized(_("Associate VMs"), hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource), :title=> _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn btn-default"),
@@ -10,6 +10,7 @@
   <% if @compute_resource.capabilities.include?(:image) %>
     <li><a href="#images" data-toggle="tab"><%= _("Images") %></a></li>
   <% end %>
+    <li><a href="#compute_profiles" data-toggle="tab"><%= _("Compute profiles") %></a></li>
 </ul>
 
 <div class="tab-content">
@@ -52,6 +53,30 @@
       </div>
     </div>
   <% end %>
+  <div id="compute_profiles" class="tab-pane">
+    <table class="table table-bordered table-striped table-two-pane">
+      <tr>
+        <th><%= _("Compute profile") %></th>
+        <th><%= _("VM Attributes") %></th>
+      </tr>
+        <% ComputeProfile.scoped.each do |compute_profile| %>
+          <% compute_attribute = ComputeAttribute.where(:compute_profile_id => compute_profile.id, :compute_resource_id => @compute_resource.id).first %>
+          <% which_path = if compute_attribute.try(:id)
+                            edit_compute_profile_compute_attribute_path(compute_profile.to_param, compute_attribute.id)
+                          else
+                            new_compute_profile_compute_resource_compute_attribute_path(compute_profile.to_param, @compute_resource.to_param)
+                          end %>
+        <tr>
+          <td><%= link_to(compute_profile.name, which_path, :class => compute_attribute.try(:id) ? '' : 'new_two_pane') %></td>
+          <td>
+            <% set = @compute_resource.compute_attributes.where(:compute_profile_id => compute_profile.id).first %>
+            <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+  </div>
 
 </div>
 
