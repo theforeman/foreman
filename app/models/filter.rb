@@ -47,8 +47,14 @@ class Filter < ActiveRecord::Base
     return nil
   end
 
+  # We detect granularity by inclusion of Authorizable module and scoped_search definition
+  # we can define exceptions for resources with more complex hierarchy (e.g. Host is proxy module)
   def granular?
-    @granular ||= !resource_class.nil? && resource_class.included_modules.include?(Authorizable) && resource_class.respond_to?(:search_for)
+    @granular ||= begin
+      return false if resource_class.nil?
+      return true if resource_type == 'Host'
+      resource_class.included_modules.include?(Authorizable) && resource_class.respond_to?(:search_for)
+    end
   end
 
   private

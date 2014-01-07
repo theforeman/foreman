@@ -29,6 +29,8 @@ class HostsController < ApplicationController
         # SQL optimizations queries
         @last_reports = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         # rendering index page for non index page requests (out of sync hosts etc)
+        @authorizer = Authorizer.new(User.current, @hosts)
+        @hostgroup_authorizer = Authorizer.new(User.current, @hosts.map(&:hostgroup).compact.uniq)
         render :index if title and (@title = title)
       end
       format.yaml do
@@ -132,7 +134,7 @@ class HostsController < ApplicationController
     return not_found unless (params[:host] && (id=params[:host][:compute_resource_id]))
     Taxonomy.as_taxonomy @organization, @location do
       compute_profile_id = params[:host][:compute_profile_id] || Hostgroup.find_by_id(params[:host][:hostgroup_id]).try(:compute_profile_id)
-      compute_resource = ComputeResource.find(id)
+      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(id)
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
     end
@@ -465,7 +467,7 @@ class HostsController < ApplicationController
   end
 
   def process_hostgroup
-    @hostgroup = Hostgroup.find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
+    @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
     @architecture    = @hostgroup.architecture
