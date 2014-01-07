@@ -15,14 +15,15 @@
   </tr>
   <% for user in @users %>
     <tr>
-      <td><%= gravatar_image_tag user.mail, :class => "gravatar" %> <%=link_to_if_authorized h(user.login), hash_for_edit_user_path(:id => user.id) %></td>
+      <td><%= gravatar_image_tag user.mail, :class => "gravatar" %> <%=link_to_if_authorized h(user.login), hash_for_edit_user_path(:id => user.id).merge(:auth_object => user, :authorizer => @authorizer) %></td>
       <td><%=h user.firstname %></td>
       <td><%=h user.lastname %></td>
       <td><%=h user.mail %></td>
       <td><%=checked_icon user.admin? %></td>
       <td><%=h last_login_on_column(user)%></td>
       <td><%=h auth_source_column(user)%></td>
-      <td><%= display_delete_if_authorized hash_for_user_path(:id => user), :confirm => _("Delete %s?") % user.name %></td>
+      <td><%= display_delete_if_authorized hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => @authorizer),
+                                           :confirm => _("Delete %s?") % user.name %></td>
     </tr>
   <% end %>
 </table>

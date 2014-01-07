@@ -1,5 +1,4 @@
 class Host::Managed < Host::Base
-  include Authorization
   include ReportCommon
   include Hostext::Search
 

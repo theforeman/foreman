@@ -187,7 +187,11 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:login]
-    resources :usergroups, :except => [:show]
+    resources :usergroups, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
     resources :users, :except => [:show] do
       collection do
         get 'login'

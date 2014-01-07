@@ -1,7 +1,6 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  include Authorization
   include Authorizable
   include Foreman::ThreadSession::UserModel
   include Taxonomix

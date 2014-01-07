@@ -1,5 +1,4 @@
 class Usergroup < ActiveRecord::Base
-  include Authorization
   audited :allow_mass_assignment => true
   include Authorizable
 

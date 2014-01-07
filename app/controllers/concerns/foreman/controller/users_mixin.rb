@@ -3,7 +3,7 @@ module Foreman::Controller::UsersMixin
 
   included do
     before_filter :set_admin_on_creation, :only => :create
-    before_filter :clear_params_on_update, :update_admin_flag, :only => :update
+    before_filter :clear_params_on_update, :only => :update
   end
 
   protected
@@ -24,12 +24,6 @@ module Foreman::Controller::UsersMixin
         session.delete(:locale) if params[:user][:locale].try(:empty?)
       end
     end
-  end
-
-  def update_admin_flag
-    # Only an admin can update admin attribute of another user
-    # this is required, as the admin field is blacklisted above
-    @user.admin = @admin if User.current.admin && !@admin.nil?
   end
 
   def editing_self?
