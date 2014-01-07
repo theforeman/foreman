@@ -1,21 +1,25 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:edit, :update, :destroy, :assign]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
   before_filter :setup_search_options, :only => :index
   before_filter :reset_redirect_to_url, :only => :index
   before_filter :store_redirect_to_url, :only => :edit
 
   def index
+    base = Puppetclass.authorized(:view_puppetclasses)
     begin
-      values = Puppetclass.search_for(params[:search], :order => params[:order])
+      values = base.search_for(params[:search], :order => params[:order]).includes(:environments, :hostgroups)
     rescue => e
       error e.to_s
-      values = Puppetclass.search_for ""
+      values = base.search_for ""
     end
     @puppetclasses = values.paginate(:page => params[:page])
     @host_counter = Host.group(:puppetclass_id).joins(:puppetclasses).where(:puppetclasses => {:id => @puppetclasses.collect(&:id)}).count
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').group(:name).count
+    @authorizer = Authorizer.new(User.current, @puppetclasses)
+    @hostgroups_authorizer = Authorizer.new(User.current, @puppetclasses.map(&:hostgroups).compact.uniq)
+    # TODO authorizers for other objects
   end
 
   def new
@@ -102,8 +106,9 @@ class PuppetclassesController < ApplicationController
 
   def find_by_name
     not_found and return if params[:id].blank?
-    pc = Puppetclass.includes(:class_params => [:environment_classes, :environments, :lookup_values])
+    pc = Puppetclass.authorized([action_permission, controller_name].join('_')).includes(:class_params => [:environment_classes, :environments, :lookup_values])
     @puppetclass = (params[:id] =~ /\A\d+\Z/) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
     not_found and return unless @puppetclass
   end
+
 end
