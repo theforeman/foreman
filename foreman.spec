@@ -176,8 +176,8 @@ Meta Package to install requirements for ovirt support
 %package compute
 Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem-fog >= 1.18.0
-Requires: %{?scl_prefix}rubygem-fog < 1.19.0
+Requires: %{?scl_prefix}rubygem-fog >= 1.19.0
+Requires: %{?scl_prefix}rubygem-fog < 1.20.0
 Requires: %{?scl_prefix}rubygem-unf
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0
@@ -574,6 +574,7 @@ fi
 - Removed foreman-mysql package (obsoleted by mysql2)
 - Seed database after DB migration
 - Change twitter-bootstrap-rails to bootstrap-sass
+- Pin fog to 1.19.x
 
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage
