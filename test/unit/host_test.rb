@@ -1002,6 +1002,18 @@ class HostTest < ActiveSupport::TestCase
     refute h.require_ip_validation?
   end
 
+  test "compute attributes are populated by hardware profile from hostgroup" do
+    # hostgroups(:common) fixture has compute_profiles(:one)
+    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :hostgroup_id => hostgroups(:common).id, :compute_resource_id => compute_resources(:ec2).id
+    assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
+  end
+
+  test "compute attributes are populated by hardware profile passed to host" do
+    # hostgroups(:one) fixture has compute_profiles(:common)
+    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id
+    assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
+  end
+
   private
 
   def parse_json_fixture(relative_path)

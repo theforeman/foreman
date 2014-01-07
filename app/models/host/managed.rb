@@ -139,6 +139,7 @@ class Host::Managed < Host::Base
                           :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
+    after_validation :set_compute_attributes
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
@@ -512,6 +513,12 @@ class Host::Managed < Host::Base
       assign_hostgroup_attributes(%w{operatingsystem architecture})
       assign_hostgroup_attributes(%w{medium ptable subnet}) if capabilities.include?(:build)
     end
+  end
+
+  def set_compute_attributes
+    return unless compute_attributes.empty?
+    return unless compute_profile_id && compute_resource_id
+    self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
   end
 
   def set_ip_address
