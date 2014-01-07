@@ -1,5 +1,4 @@
 class Report < ActiveRecord::Base
-  include Authorization
   include Authorizable
   include ReportCommon
 

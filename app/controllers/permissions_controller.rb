@@ -23,6 +23,8 @@ class PermissionsController < ApplicationController
           '' # images are nested resource for CR, we can't autocomplete
         when 'HostClass'
           '' # host classes is only used in API
+        when 'Parameter'
+          '' # parameter is only used in API
         else
           send(type.pluralize.underscore + '_path') + '/auto_complete_search'
       end

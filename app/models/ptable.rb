@@ -3,7 +3,6 @@
 # A host object may contain a reference to one of these ptables or, alternatively, it may contain a
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
-  include Authorization
   include Authorizable
   include ValidateOsFamily
   audited :allow_mass_assignment => true

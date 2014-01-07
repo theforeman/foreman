@@ -19,7 +19,6 @@ class PuppetclassesController < ApplicationController
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').group(:name).count
     @authorizer = Authorizer.new(User.current, @puppetclasses)
     @hostgroups_authorizer = Authorizer.new(User.current, @puppetclasses.map(&:hostgroups).compact.uniq)
-    # TODO authorizers for other objects
   end
 
   def new

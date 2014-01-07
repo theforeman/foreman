@@ -288,7 +288,7 @@ permissions = [
     ['Ptable', 'create_ptables'],
     ['Ptable', 'edit_ptables'],
     ['Ptable', 'destroy_ptables'],
-    ['Ptable', 'view_plugins'],
+    [nil, 'view_plugins'],
     ['Puppetclass', 'view_puppetclasses'],
     ['Puppetclass', 'create_puppetclasses'],
     ['Puppetclass', 'edit_puppetclasses'],

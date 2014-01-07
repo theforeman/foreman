@@ -76,6 +76,7 @@ class Role < ActiveRecord::Base
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     if action.is_a? Hash
+      action[:controller] = action[:controller][1..-1] if action[:controller].starts_with?('/')
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
       allowed_permissions.include? action
