@@ -10,11 +10,6 @@ class Debian < Operatingsystem
     medium_uri(host).select(:path, :query).compact.join('?')
   end
 
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
-
   def boot_files_uri(medium, architecture)
     raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
     raise ::Foreman::Exception.new(N_("invalid architecture for %s"), to_s) unless architectures.include?(architecture)
@@ -56,6 +51,10 @@ class Debian < Operatingsystem
   # tries to guess if this an ubuntu or a debian os
   def guess_os
     name =~ /ubuntu/i ? "ubuntu" : "debian"
+  end
+
+  def self.model_name
+    superclass.model_name
   end
 
 end

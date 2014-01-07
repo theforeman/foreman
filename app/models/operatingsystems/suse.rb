@@ -2,11 +2,6 @@ class Suse < Operatingsystem
 
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
     "yast"
   end
@@ -22,4 +17,9 @@ class Suse < Operatingsystem
   def display_family
     "SUSE"
   end
+
+  def self.model_name
+    superclass.model_name
+  end
+
 end

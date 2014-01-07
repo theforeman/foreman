@@ -11,10 +11,6 @@ class Freebsd < Operatingsystem
     medium_uri(host).to_s
   end
 
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
     "memdisk"
   end
@@ -33,6 +29,10 @@ class Freebsd < Operatingsystem
 
   def initrd arch
     "boot/FreeBSD-#{arch}-#{release}-mfs.img"
+  end
+
+  def self.model_name
+    superclass.model_name
   end
 
   def display_family

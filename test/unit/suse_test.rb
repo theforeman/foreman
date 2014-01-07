@@ -2,10 +2,6 @@ require 'test_helper'
 
 class SuseTest < ActiveSupport::TestCase
 
-  test "ruby class should be OS" do
-    assert_equal Operatingsystem, Suse.first.class
-  end
-
   test "os label for suse" do
     assert_equal "OpenSuse 11.4", operatingsystems(:suse).to_label
   end

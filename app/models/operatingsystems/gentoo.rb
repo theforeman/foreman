@@ -5,10 +5,6 @@ class Gentoo < Operatingsystem
   def mediumpath host
   end
 
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
   end
 
@@ -21,4 +17,9 @@ class Gentoo < Operatingsystem
   def display_family
     "Gentoo"
   end
+
+  def self.model_name
+    superclass.model_name
+  end
+
 end
