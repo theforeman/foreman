@@ -47,9 +47,11 @@ class OperatingsystemsController < ApplicationController
     else
       process_error
     end
+    @operatingsystem = generalize(@operatingsystem)
   end
 
   private
+
   def find_os(permission = :view_operatingsystems)
     Operatingsystem.authorized(permission).find(params[:id])
   end

@@ -102,6 +102,10 @@ class Solaris < Operatingsystem
   def display_family
     "Solaris"
   end
+  
+  def self.model_name
+    superclass.model_name
+  end
 
   def self.model_name
     superclass.model_name
