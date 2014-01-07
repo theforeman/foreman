@@ -7,11 +7,6 @@ class Archlinux < Operatingsystem
     medium_uri(host).to_s
   end
 
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
     "aif"
   end
@@ -26,6 +21,10 @@ class Archlinux < Operatingsystem
 
   def display_family
     "Arch Linux"
+  end
+  
+  def self.model_name
+    superclass.model_name
   end
 
 end

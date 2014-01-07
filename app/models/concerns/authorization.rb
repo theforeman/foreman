@@ -24,8 +24,14 @@ module Authorization
     # We get called again with the operation being set to create
     return true if operation == "edit" and new_record?
 
-    klass   = self.class.name.downcase
-    klasses   = self.class.name.tableize
+    if self.class < Operatingsystem
+      klass = 'operatingsystem'
+      klasses   = 'operatingsystems'
+    else
+      klass   = self.class.name.downcase
+      klasses   = self.class.name.tableize
+    end
+
     #TODO: Extract all fo the specific implementations into each individual class
     klasses.gsub!(/auth_source.*/, "authenticators")
     klasses.gsub!(/common_parameters.*/, "global_variables")

@@ -17,11 +17,6 @@ class Redhat < Operatingsystem
     end
   end
 
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
-
   # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
   def pxe_type
     "kickstart"
@@ -49,4 +44,9 @@ class Redhat < Operatingsystem
     s.strip!
     s.blank? ? description : s
   end
+
+  def self.model_name
+    superclass.model_name
+  end
+
 end

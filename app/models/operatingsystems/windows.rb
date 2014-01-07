@@ -1,10 +1,6 @@
 class Windows < Operatingsystem
   PXEFILES = {:kernel => "startrom.0", :initrd => "boot.sdi"}
 
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
     "waik"
   end
@@ -15,6 +11,10 @@ class Windows < Operatingsystem
 
   def url_for_boot(file)
     pxedir + "/" + PXEFILES[file]
+  end
+  
+  def self.model_name
+    superclass.model_name
   end
 
   def display_family

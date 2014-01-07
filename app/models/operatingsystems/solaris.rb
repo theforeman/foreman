@@ -64,10 +64,6 @@ class Solaris < Operatingsystem
   def jumpstart_path medium, domain
     resolv_nfs_path medium.jumpstart_host, medium.jumpstart_dir, domain
   end
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
 
   # Does this OS family support a build variant that is constructed from a prebuilt archive
   def supports_image
@@ -105,6 +101,10 @@ class Solaris < Operatingsystem
 
   def display_family
     "Solaris"
+  end
+  
+  def self.model_name
+    superclass.model_name
   end
 
   private

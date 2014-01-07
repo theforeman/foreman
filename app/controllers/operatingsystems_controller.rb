@@ -27,6 +27,7 @@ class OperatingsystemsController < ApplicationController
         @operatingsystem.os_default_templates.build(:template_kind_id => kind)
       end
     end if SETTINGS[:unattended]
+    @operatingsystem = generalize(@operatingsystem)
   end
 
   def update
@@ -35,6 +36,7 @@ class OperatingsystemsController < ApplicationController
     else
       process_error
     end
+    @operatingsystem = generalize(@operatingsystem)
   end
 
   def destroy
@@ -48,6 +50,10 @@ class OperatingsystemsController < ApplicationController
   private
   def find_os
     @operatingsystem = Operatingsystem.find(params[:id])
+  end
+
+  def generalize(os)
+    os.becomes(Operatingsystem).tap { |o| o.type = os.type }
   end
 
 end
