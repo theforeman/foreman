@@ -48,14 +48,14 @@ function testConnection(item) {
   });
 }
 
-function ovirt_hwpSelected(item){
-  var hwp = $(item).val();
+function ovirt_templateSelected(item){
+  var template = $(item).val();
   var url = $(item).attr('data-url');
   $(item).indicator_show();
   $.ajax({
       type:'post',
       url: url,
-      data:'hwp_id=' + hwp,
+      data:'template_id=' + template,
       success: function(result){
         $('[id$=_memory]').val(result.memory);
         $('[id$=_cores]').val(result.cores);
@@ -173,4 +173,30 @@ function ec2_vpcSelected(form){
      sg_select.append($('<option />').val(security_groups[vpc.vpc_id][sg].group_id).text(security_groups[vpc.vpc_id][sg].group_name+' - '+vpc.subnet_name));
   }
   sg_select.multiSelect("refresh");
+}
+
+function capacity_edit(element) {
+  var buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
+  if (buttons.size() > 0 && $(buttons[0]).text() == 'Full') {
+    var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+    allocation.value = element.value;
+  }
+  return false;
+}
+
+function allocation_switcher(element, action) {
+  var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+  if (action == 'None') {
+    $(allocation).attr('readonly', 'readonly');
+    allocation.value = '0G';
+  } else if (action == 'Size') {
+    $(allocation).removeAttr('readonly');
+    allocation.value = '';
+    $(allocation).focus();
+  } else if (action == 'Full') {
+    $(allocation).attr('readonly', 'readonly');
+    var capacity = $(element).closest('.fields').find('[id$=capacity]')[0];
+    allocation.value = capacity.value;
+  }
+  return false;
 }

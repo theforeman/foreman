@@ -43,11 +43,11 @@ module Foreman::Model
       self.attrs[:ovirt_quota_id]
     end
 
-    def hardware_profiles(opts={})
+    def templates(opts={})
       client.templates
     end
 
-    def hardware_profile(id)
+    def template(id)
       client.templates.get(id) || raise(ActiveRecord::RecordNotFound)
     end
 

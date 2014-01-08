@@ -139,8 +139,8 @@ class Host::Managed < Host::Base
                           :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
+    after_validation :set_compute_attributes
   end
-
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
   after_validation :ensure_associations, :set_default_user
@@ -508,11 +508,17 @@ class Host::Managed < Host::Base
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy})
+    assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy compute_profile})
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem architecture})
       assign_hostgroup_attributes(%w{medium ptable subnet}) if capabilities.include?(:build)
     end
+  end
+
+  def set_compute_attributes
+    return unless compute_attributes.empty?
+    return unless compute_profile_id && compute_resource_id
+    self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
   end
 
   def set_ip_address
@@ -714,6 +720,11 @@ class Host::Managed < Host::Base
 
   def ipmi_boot(booting_device)
     bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
+  end
+
+  # take from hostgroup if compute_profile_id is nil
+  def compute_profile_id
+     read_attribute(:compute_profile_id) || hostgroup.try(:compute_profile_id)
   end
 
   private

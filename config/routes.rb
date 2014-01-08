@@ -119,6 +119,13 @@ Foreman::Application.routes.draw do
     end
   end
 
+  resources :compute_profiles do
+    resources :compute_attributes, :only => [:create, :edit, :update]
+    resources :compute_resources, :only => [] do
+      resources :compute_attributes, :only => :new
+    end
+  end
+
   resources :hostgroups, :except => [:show] do
     member do
       get 'nest'
@@ -251,7 +258,7 @@ Foreman::Application.routes.draw do
     constraints(:id => /[^\/]+/) do
       resources :compute_resources do
         member do
-          post 'hardware_profile_selected'
+          post 'template_selected'
           post 'cluster_selected'
           post 'ping'
           put 'associate'

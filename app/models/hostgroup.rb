@@ -139,6 +139,14 @@ class Hostgroup < ActiveRecord::Base
     ancestors.map{|a| a.name + "/"}.join + name
   end
 
+  def inherited_compute_profile_id
+    read_attribute(:compute_profile_id) || nested_compute_profile_id
+  end
+
+  def compute_profile
+    ComputeProfile.find_by_id(inherited_compute_profile_id)
+  end
+
   private
 
   def lookup_value_match
@@ -164,6 +172,10 @@ class Hostgroup < ActiveRecord::Base
       return a.root_pass unless a.root_pass.blank?
     end if ancestry.present?
     nil
+  end
+
+  def nested_compute_profile_id
+    Hostgroup.sort_by_ancestry(ancestors.where('compute_profile_id > 0')).last.try(:compute_profile_id) if ancestry.present?
   end
 
   def remove_duplicated_nested_class

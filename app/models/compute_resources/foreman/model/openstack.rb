@@ -82,6 +82,10 @@ module Foreman::Model
       Host.my_hosts.where(:ip => [vm.floating_ip_address, vm.private_ip_address]).first
     end
 
+    def flavor_name(flavor_ref)
+      client.flavors.get(flavor_ref).try(:name)
+    end
+
     private
 
     def client

@@ -1,4 +1,5 @@
 <div class="fields">
+  <div class="form-group">
   <% if (networks = compute_resource.networks).any? %>
     <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
                      :class       => "col-md-2 disable-unsupported",
@@ -10,4 +11,5 @@
                      :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-danger disable-unsupported' })
     %>
   <% end %>
+  </div>
 </div>

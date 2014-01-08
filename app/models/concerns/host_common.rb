@@ -15,6 +15,7 @@ module HostCommon
     belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
     belongs_to :domain
     belongs_to :subnet
+    belongs_to :compute_profile
 
     before_save :check_puppet_ca_proxy_is_required?
     has_many :lookup_values, :finder_sql => Proc.new { LookupValue.where('lookup_values.match' => lookup_value_match).to_sql }, :dependent => :destroy

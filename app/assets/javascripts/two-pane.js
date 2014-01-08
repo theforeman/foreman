@@ -1,12 +1,18 @@
-$(document).on('click', ".table-two-pane td", function(e) {
-  var item = $(this).find("a[href$='edit']");
-  if(item.length){
+$(document).on('click', ".table-two-pane td a[href$='edit']", function(e) {
+  if ($('.table-two-pane').length) {
     e.preventDefault();
-    two_pane_open(item);
+    two_pane_open(this);
   }
 });
 
 $(document).on('click', "#title_action a[href$='new']", function(e) {
+  if ($('.table-two-pane').length) {
+    e.preventDefault();
+    two_pane_open(this);
+  }
+});
+
+$(document).on('click', "a[href$='new'].new_two_pane", function(e) {
   if ($('.table-two-pane').length) {
     e.preventDefault();
     two_pane_open(this);
