@@ -22,7 +22,7 @@ OPTIONS:
   -a      Do not generate a tarball from the resulting directory
   -m NUM  Maximum lines to keep for each file (default 5000)
   -j PRG  Filter with provided program when creating a tarball
-  -p      Additionally print all passwords which are being filtered
+  -p      Additionally print password patterns being filtered out
   -q      Quiet mode
   -v      Verbose mode
   -h      Shows this message
@@ -220,14 +220,14 @@ add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
 add_cmd "scl enable $SCLNAME 'bundle --local --gemfile=/usr/share/foreman/Gemfile'" "bundle_list_scl"
 add_cmd "facter" "facts"
-add_files /etc/foreman{,-proxy}/*.yaml /var/log/foreman{,-proxy}/*.log
+add_files /etc/foreman{,-proxy}/* /var/log/foreman{,-proxy,-installer}/*.log
 add_files /usr/share/foreman/Gemfile*
 add_files /etc/dhcp/*.conf /var/lib/dhcp/*.leases
 add_files /etc/xinetd.d/tftp
 [ -d "/tftpboot" ] && add_cmd "find /tftpboot -exec ls -ld {} +" "tftpboot_tree"
 [ -d "/srv/tftp" ] && add_cmd "find /srv/tftp -exec ls -ld {} +" "tftpboot_tree"
 [ -d "/var/lib/tftpboot" ] && add_cmd "find /var/lib/tftpboot -exec ls -ld {} +" "tftpboot_tree"
-add_files /etc/named.conf /var/log/named.log 
+add_files /etc/named.conf /var/log/named.log
 add_files /var/named/* /var/named/{data,dynamic,slaves}/*
 add_cmd "virsh list" "virsh_list"
 add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
