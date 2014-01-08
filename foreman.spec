@@ -38,7 +38,7 @@ Requires: %{?scl_prefix}ruby(abi) = 1.9.1
 Requires: %{scl_ruby}
 Requires: %{?scl_prefix}rubygems
 Requires: %{?scl_prefix}facter
-Requires: wget
+Requires: wget rsync
 Requires: /etc/cron.d
 Requires(pre):  shadow-utils
 Requires(post): chkconfig
