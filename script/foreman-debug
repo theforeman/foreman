@@ -182,6 +182,7 @@ TARBALL="$DIR.tar$EXTENSION"
 
 if [ $NOGENERIC -eq 0 ]; then
   printv "Collecting generic system information"
+  add_cmd "date" "date"
   add_cmd "lsb_release -a" "lsb_release"
   add_cmd "uname -a" "uname"
   add_cmd "cat /proc/cpuinfo" "cpuinfo"
@@ -259,7 +260,9 @@ qprintf "%10s %s\n" "PUPPET:" "$(puppet --version 2>/dev/null)"
 qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then
-  tar -c "$DIR" 2>/dev/null | $COMPRESS > "$TARBALL"
+  pushd "$DIR" >/dev/null
+  tar -c . 2>/dev/null | $COMPRESS > "$TARBALL"
+  popd >/dev/null
   qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
 else
   qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
