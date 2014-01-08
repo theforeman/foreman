@@ -4,7 +4,7 @@
   <%= f.hidden_field :compute_resource_id, :value => @compute_resource.id %>
   <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
   <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
-  <%= text_f f, :username, :value => @image.username || "root", :help_inline => _("The user that is used to ssh into the instance, normally ec2-user, ubuntu, root etc") %>
+  <%= text_f f, :username, :value => @image.username || "root", :help_inline => _("The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc") %>
   <%= image_field(f) %>
   <% if @compute_resource.provider == 'EC2' %>
     <%# TODO - Get IAM roles from AWS and display in select drop %>
