@@ -187,36 +187,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id
-    record.password_hash = "asd"
-    assert !record.save
-    assert record.valid?
-    assert record.new_record?
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record =  users(:one)
-    assert record.destroy
-    assert record.frozen?
-  end
-
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  User.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      = users(:one)
-    record.login = "renamed"
-    assert record.save
-  end
-
   test "user cannot assign role he has not assigned himself" do
     setup_user "edit"
     extra_role      = Role.find_or_create_by_name :name => "foobar"
@@ -277,14 +247,6 @@ class UserTest < ActiveSupport::TestCase
     setup_user "edit"
     record = users(:two)
     assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record       = users(:two)
-    record.login = 'renamed'
-    assert !record.save
-    assert record.valid?
   end
 
   test "should not be able to rename the admin account" do

@@ -64,41 +64,4 @@ class ReportTest < ActiveSupport::TestCase
     assert Report.with("pending").include?(@r)
   end
 
-  def setup_user operation, type = 'reports'
-    super
-    as_admin do
-      @r.save!
-    end
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record = @r
-    assert record.destroy
-    assert record.frozen?
-  end
-
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  @r
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should not be able to edit" do
-    # Reports are not an editable resource
-    setup_user "edit"
-    record        =  @r
-    record.status = {}
-    assert !record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record        =  @r
-    record.status = {}
-    assert !record.save
-    assert record.valid?
-  end
-
 end

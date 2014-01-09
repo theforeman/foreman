@@ -31,56 +31,6 @@ class HostgroupTest < ActiveSupport::TestCase
     super operation, "hostgroups"
   end
 
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record =  Hostgroup.create :name => "dummy"
-    assert record.valid?
-    assert !record.new_record?
-  end
-
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Hostgroup.create :name => "dummy"
-    assert record.valid?
-    assert record.new_record?
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record = hostgroups(:common)
-    as_admin do
-      record.hosts.destroy_all
-      record.hostgroup_classes.destroy_all
-      assert record.destroy
-    end
-    assert record.frozen?
-  end
-
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record = hostgroups(:common)
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Hostgroup.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Hostgroup.first
-    record.name = "renamed"
-    as_admin do
-      record.hosts.destroy_all
-    end
-    assert !record.save
-    assert record.valid?
-  end
-
   test "should be able to nest a group parameters" do
     # creates a 3 level hirecy, each one with his own parameters
     # and overrides.
