@@ -65,6 +65,16 @@ _('Bookmark|Public')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Bookmark|Query')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Compute attribute')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ComputeAttribute|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ComputeAttribute|Vm attrs')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Compute profile')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ComputeProfile|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Compute resource')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('ComputeResource|Attrs')
@@ -101,7 +111,13 @@ _('Environment|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Fact name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('FactName|Ancestry')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('FactName|Compose')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('FactName|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('FactName|Short name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Fact value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -262,6 +278,8 @@ _('Notice|Global')
 _('Notice|Level')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Operatingsystem')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Operatingsystem|Description')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Operatingsystem|Major')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages

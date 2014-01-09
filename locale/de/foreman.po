@@ -13,15 +13,15 @@
 # ppuschmann <paul.puschmann@gmail.com>, 2013
 # ppuschmann <paul.puschmann@gmail.com>, 2013
 # swiedernix <stefanwiederoder@googlemail.com>, 2013
-# rhaen <rhaen@pkgbox.de>, 2013
+# rhaen <rhaen@pkgbox.de>, 2013-2014
 # swiedernix <stefanwiederoder@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 09:23+0000\n"
-"PO-Revision-Date: 2013-11-20 11:31+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"POT-Creation-Date: 2013-12-09 10:42+0000\n"
+"PO-Revision-Date: 2014-01-07 13:00+0000\n"
+"Last-Translator: rhaen <rhaen@pkgbox.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,6 +97,17 @@ msgstr "%{host} ist jetzt %{state}"
 
 msgid "%{host} now boots from %{device}"
 msgstr "%{host} startet jetzt von %{device}"
+
+msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
+msgstr ""
+
+msgid ""
+"%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is "
+"%{plugin_version}"
+msgstr ""
+
+msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
+msgstr ""
 
 msgid "%{match} does not match an existing host"
 msgstr ""
@@ -278,6 +289,9 @@ msgid ""
 " sure you check the roles settings tab."
 msgstr "Zusätzlich können Benutzerrechte nach vielen Gesichtspunkten eingeschränkt werden, hierzu den Tab mit den Rolleinstellungen prüfen."
 
+msgid "Administer"
+msgstr ""
+
 msgid ""
 "After you have decided on the two primary modes of operation and performed "
 "any appropriate imports then it would be good idea if you visited some of "
@@ -323,6 +337,9 @@ msgstr "Alle Templates"
 
 msgid "All Users"
 msgstr "Alle Benutzer"
+
+msgid "All hosts"
+msgstr ""
 
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "Alle Host-Daten deren Konfigurationen mit Lokationen und Organisationen übereinstimmen."
@@ -569,6 +586,9 @@ msgstr "TLS"
 msgid "Authentication Source Configuration"
 msgstr "Konfiguration Authentifizierungsquelle"
 
+msgid "Author"
+msgstr ""
+
 msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr "Authorisiere die Anmeldedelegation mit der Umgebungsvariable REMOTE_USER"
 
@@ -591,6 +611,9 @@ msgstr "Autosign Einträge"
 
 msgid "Autosign entries for %s"
 msgstr "Autosign Einträge für %s"
+
+msgid "Availability zone"
+msgstr ""
 
 msgid "Available Classes"
 msgstr "Verfügbare Klassen"
@@ -811,6 +834,9 @@ msgstr "Zum bearbeiten anklicken"
 msgid "Click to edit.."
 msgstr "Zum bearbeiten klicken"
 
+msgid "Click to log in again."
+msgstr ""
+
 msgid "Click to remove %s"
 msgstr "Zum Entfernen von %s anklicken"
 
@@ -837,6 +863,9 @@ msgstr ""
 
 msgid "Close"
 msgstr "Schliessen"
+
+msgid "Cluster"
+msgstr ""
 
 msgid "Code"
 msgstr "Code"
@@ -904,8 +933,8 @@ msgstr "Schnipsel"
 msgid "ConfigTemplate|Template"
 msgstr "Vorlage"
 
-msgid "Configuration"
-msgstr "Konfiguration"
+msgid "Configure"
+msgstr ""
 
 msgid "Configure instance %s via SSH"
 msgstr ""
@@ -926,6 +955,9 @@ msgid "Console"
 msgstr "Konsole"
 
 msgid "Console passwords"
+msgstr ""
+
+msgid "Cores"
 msgstr ""
 
 msgid ""
@@ -996,8 +1028,8 @@ msgstr "DNS Name"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-msgid "Data Store"
-msgstr "Datenablage"
+msgid "Data store"
+msgstr ""
 
 msgid "Datacenter"
 msgstr "Rechenzentrum"
@@ -1262,7 +1294,7 @@ msgid "Enable this host for provisioning"
 msgstr "Aktiviere dieses System für Bereitstellung"
 
 msgid "Enabled"
-msgstr ""
+msgstr "Aktiviert"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr "aktiviere %s für Neuerstellung beim nächsten Systemstart"
@@ -1544,13 +1576,13 @@ msgid "For Roles and permissions, see the"
 msgstr "Für Rollen und Berechtigungen, bitte nachsehen"
 
 msgid ""
-"For example, if you have copied several redhat release disks into a "
+"For example, if you have copied several Red Hat release disks into a "
 "directory structure where the disk images are named 5.8 or 6.2, and each "
 "contained both x86_64 and i386 binaries, then you\\n  could create a single "
 "medium entry describing them all.\\n  The entry, which could be just named "
-"'redhat' could contain a path like this "
+"'Red Hat' could contain a path like this "
 "<em>'http://server/redhat/$version/$arch'</em>"
-msgstr "Wenn du zum Beispiel mehrere Redhat Disketten in eine Verzeichnisstruktur kopiert hast, wo die Abbilder mit 5.8 oder 6.2 benannt sind und jede x86_64 und i386 Programme beinhaltet, könntest du\\n einen einzigen Medieneintrag erstellen der alle beschreibt.\\n Dieser Eintrag, der nur als 'redhat' benannt ist könnte einen Pfad wie diesen <em>'http://server/redhat/$version/$arch'</em> beinhalten."
+msgstr ""
 
 msgid ""
 "For example, there might be a data center in London and one in Virginia; "
@@ -1639,6 +1671,9 @@ msgstr "Global"
 msgid "Global Parameters"
 msgstr "Globale Parameter"
 
+msgid "Global parameters"
+msgstr ""
+
 msgid "Global variable or class Parameter, not both"
 msgstr "Globale Variable oder Klassen-Parameter, nicht beides"
 
@@ -1656,6 +1691,9 @@ msgstr "Hardwaremodell"
 
 msgid "Hardware Models"
 msgstr "Hardwaremodelle"
+
+msgid "Hardware models"
+msgstr ""
 
 msgid "Help"
 msgstr "Hilfe"
@@ -2008,6 +2046,9 @@ msgstr "Mittels Vererbung einbezogene Parameter"
 msgid "Incorrect username or password"
 msgstr "Falscher Benutzername oder falsches Passwort"
 
+msgid "Infrastructure"
+msgstr ""
+
 msgid "Installation Media"
 msgstr "Installationsmedien"
 
@@ -2084,6 +2125,9 @@ msgstr "LDAP"
 
 msgid "LDAP Authentication"
 msgstr "LDAP Authentifizierung"
+
+msgid "LDAP authentication"
+msgstr ""
 
 msgid "LDAP filter"
 msgstr ""
@@ -2179,6 +2223,9 @@ msgstr "angemeldet"
 msgid "Login"
 msgstr "Anmeldung"
 
+msgid "Logout"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Lookup key"
 msgstr "Suchschlüssel"
@@ -2251,11 +2298,14 @@ msgstr "MAC Adresse für dieses System"
 msgid "Machine Type"
 msgstr "Maschinentyp"
 
+msgid "Machine type"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr "Mail wird benötigt"
 
 msgid "Mailing lists"
-msgstr ""
+msgstr "Mailing lists"
 
 msgid ""
 "Mailing lists are available via Google Groups. Much like IRC, we have a "
@@ -2275,6 +2325,9 @@ msgid "Manage host"
 msgstr "verwalte System"
 
 msgid "Managed IP"
+msgstr ""
+
+msgid "Manual"
 msgstr ""
 
 msgid "Manually Assign"
@@ -2383,8 +2436,8 @@ msgstr "Herstellerklasse"
 msgid "Modified"
 msgstr "geändert"
 
-msgid "More"
-msgstr "mehr"
+msgid "Monitor"
+msgstr ""
 
 msgid "Must provide an operating systems"
 msgstr "Betriebssysteme müssen angegeben werden"
@@ -2413,6 +2466,12 @@ msgstr ""
 msgid "Name"
 msgstr "Name"
 
+msgid ""
+"Name of the external auth source where unknown externally authentication "
+"users (see authorize_login_delegation) should be created (keep unset to "
+"prevent the autocreation)"
+msgstr ""
+
 msgid "Nest"
 msgstr "verschachteln"
 
@@ -2428,11 +2487,11 @@ msgstr "Netzwerk"
 msgid "Network Based"
 msgstr "Netzwerkbasierend"
 
-msgid "Network Type"
-msgstr "Netzwerktyp"
-
 msgid "Network interfaces"
 msgstr "Netzwerkschnittstellen"
+
+msgid "Network type"
+msgstr ""
 
 msgid "Networks"
 msgstr "Netzwerke"
@@ -2636,6 +2695,9 @@ msgstr "es wurden keine neuen Subnetze gefunden"
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
 msgstr "Es wurden keine Parameter für die ausgewählten Systeme zugewiesen, kann keine Massenzuweisung durchführen."
 
+msgid "No plugins found"
+msgstr ""
+
 msgid "No preference"
 msgstr "Keine Präferenz"
 
@@ -2662,7 +2724,7 @@ msgid "No subnets selected"
 msgstr ""
 
 msgid "No template found"
-msgstr ""
+msgstr "Keine Vorlage gefunden"
 
 msgid "No templates found!"
 msgstr "Keine Vorlagen gefunden!"
@@ -2799,8 +2861,8 @@ msgstr "Nur eine bootbare Schnittstelle ist erlaubt"
 msgid "Only one declaration of a proxy is allowed"
 msgstr "nur eine Angabe eines Proxy ist erlaubt"
 
-msgid "Only one volume can be Bootable"
-msgstr "nur ein Datenträger kann bootbar sein"
+msgid "Only one volume can be bootable"
+msgstr ""
 
 msgid "Oops"
 msgstr "Oops"
@@ -3058,10 +3120,10 @@ msgid "Please save the Operating System first and try again."
 msgstr "Bitte zuerst das Betriebssystem speichern und nochmals probieren."
 
 msgid "Please select"
-msgstr ""
+msgstr "Bitte auswählen"
 
 msgid "Please select an environment first"
-msgstr ""
+msgstr "Bitte zuerst eine Umgebung auswählen"
 
 msgid "Please select an image"
 msgstr ""
@@ -3076,6 +3138,9 @@ msgstr "Bitte die Anfrage aktualisieren"
 
 msgid "Please wait..."
 msgstr "Bitte warten..."
+
+msgid "Plugins"
+msgstr ""
 
 msgid "Power"
 msgstr "Strom"
@@ -3119,11 +3184,11 @@ msgstr "Bereitstellen"
 msgid "Provision script had a non zero exit, removing instance"
 msgstr "Bereitstellungsskript hatte einen nicht gültigen Ausgang, entferne Instanz"
 
-msgid "Provisioning"
-msgstr "Bereitstellung"
-
 msgid "Provisioning Method"
 msgstr "Bereitstellungsmethode"
+
+msgid "Provisioning Setup"
+msgstr ""
 
 msgid "Provisioning Support is disabled or this host is not managed"
 msgstr "Bereitstellungsunterstützung ist deaktiviert oder dieses System wird nicht verwaltet"
@@ -3160,6 +3225,9 @@ msgid "Ptable|Os family"
 msgstr "BS Familie"
 
 msgid "Public"
+msgstr ""
+
+msgid "Puppet"
 msgstr ""
 
 msgid "Puppet CA"
@@ -3435,8 +3503,8 @@ msgstr "Suche"
 msgid "Secret Key"
 msgstr "geheimer Schlüssel"
 
-msgid "Security Group"
-msgstr "Sicherheitsgruppe"
+msgid "Security group"
+msgstr ""
 
 msgid "Security groups"
 msgstr ""
@@ -3445,7 +3513,7 @@ msgid "Select"
 msgstr "Auswählen"
 
 msgid "Select Action"
-msgstr ""
+msgstr "Aktion auswählen"
 
 msgid "Select All"
 msgstr "Alles auswählen"
@@ -3612,8 +3680,8 @@ msgstr "Zeige Logmeldungen:"
 msgid "Sign"
 msgstr "Abzeichnen"
 
-msgid "Sign Out"
-msgstr "Abmelden"
+msgid "Sign out"
+msgstr ""
 
 msgid "Signo SSO url"
 msgstr "Signo SSL url"
@@ -3642,6 +3710,9 @@ msgstr "Smart Proxy"
 
 msgid "Smart Variables"
 msgstr "Smart Variables"
+
+msgid "Smart proxies"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
@@ -3695,6 +3766,9 @@ msgstr "Zusammenfassung"
 msgid "Source|Value"
 msgstr "Wert"
 
+msgid "Start"
+msgstr ""
+
 msgid "State"
 msgstr "Status"
 
@@ -3707,11 +3781,11 @@ msgstr "Status"
 msgid "Storage"
 msgstr "Speicher"
 
-msgid "Storage Domain"
-msgstr "Speicherdomäne"
+msgid "Storage domain"
+msgstr ""
 
-msgid "Storage Pool"
-msgstr "Speicherpool"
+msgid "Storage pool"
+msgstr ""
 
 msgid "Submit"
 msgstr "Absenden"
@@ -3846,6 +3920,9 @@ msgstr "Ignoriere Typen"
 msgid "Taxonomy|Name"
 msgstr "Name"
 
+msgid "Template"
+msgstr ""
+
 msgid "Template / Hardware Profile to use"
 msgstr "verwende Vorlage / Hardwareprofil"
 
@@ -3960,10 +4037,10 @@ msgid "The default username and password are <b>admin</b> and <b>changeme</b>"
 msgstr "Der Standartbenutzername bzw. Kennwort ist <b>admin</b> und <b>changeme</b>"
 
 msgid ""
-"The dynamic partitioning style is currently only available for the Redhat "
+"The dynamic partitioning style is currently only available for the Red Hat "
 "family of operating systems, all others must provide an explicit list of "
 "partitions and sizes."
-msgstr "Der dynamische Partitionierungsstil ist aktuell nur für die Redhat Betriebssystemfamile verfügbar, alle anderen müssen eine explizite Liste von Partitionen und Grössen bereitstellen."
+msgstr ""
 
 msgid "The email reply address for emails that Foreman is sending"
 msgstr "Die Emailantwortadresse für Emails welche Foreman versendet."
@@ -4069,8 +4146,8 @@ msgstr ""
 
 msgid "There is"
 msgid_plural "There are"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Es ist"
+msgstr[1] "Es sind"
 
 msgid "There was an error creating the PXE Default file: %s"
 msgstr "Es gab einen Fehler beim Erstellen der PXE Defaultdatei: %s"
@@ -4346,6 +4423,9 @@ msgstr "Benutzergruppen"
 msgid "User fact"
 msgstr "Benutzerfakt"
 
+msgid "User groups"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Andor"
 msgstr "Und/Oder"
@@ -4495,6 +4575,9 @@ msgstr "Herstellerklassen"
 msgid "Verify"
 msgstr "Überprüfen"
 
+msgid "Version"
+msgstr ""
+
 msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 msgstr "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 
@@ -4568,9 +4651,9 @@ msgstr ""
 msgid ""
 "When operating in unattended mode Foreman will require more information, so "
 "expect more questions, but it will be able to automate host installations "
-"for redhat, debian, suse and solaris operating systems (and their clones), "
+"for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), "
 "see"
-msgstr "Falls Foreman im unbeaufsichtigten Modus arbeitet werden mehr Informationen benötigt, deswegen erwarte mehr Fragen - aber er ist in der Lage Systeminstallationen für Redhat, Debian, Suse und Solaris (und ihre Klone) zu automatisieren, siehe"
+msgstr ""
 
 msgid ""
 "Whether the smart-variable should override the Puppet class default value."
@@ -4792,8 +4875,8 @@ msgstr "z.B. 2"
 msgid "e.g. 6"
 msgstr "z.B. 6"
 
-msgid "e.g. RedHat"
-msgstr "z.B. RedHat"
+msgid "e.g. Red Hat"
+msgstr ""
 
 msgid "e.g. admin@internal"
 msgstr "z.B. admin@internal"
@@ -4925,7 +5008,7 @@ msgid "is not allowed to change"
 msgstr "ist nicht möglich zu ändern"
 
 msgid "issue tracker"
-msgstr ""
+msgstr "Issue Tracker"
 
 msgid "items selected. Uncheck to Clear"
 msgstr ""
@@ -5072,16 +5155,16 @@ msgid "soft"
 msgstr ""
 
 msgid "start"
-msgstr ""
+msgstr "Start"
 
 msgid "state"
-msgstr ""
+msgstr "Status"
 
 msgid "status"
 msgstr ""
 
 msgid "stop"
-msgstr ""
+msgstr "Stop"
 
 msgid "these hosts for a build operation on next boot"
 msgstr "Diese Systeme für eine Buildoperation beim nächsten Boot"
