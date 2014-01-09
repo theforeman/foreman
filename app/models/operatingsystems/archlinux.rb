@@ -22,6 +22,10 @@ class Archlinux < Operatingsystem
   def display_family
     "Arch Linux"
   end
+  
+  def self.model_name
+    superclass.model_name
+  end
 
   def self.model_name
     superclass.model_name
