@@ -29,3 +29,14 @@ os:
   type: OsParameter
   operatingsystem: redhat
 
+location:
+  name: location
+  value: value
+  type: LocationParameter
+  location: location1
+
+org:
+  name: org
+  value: value
+  type: OrganizationParameter
+  organization: organization1

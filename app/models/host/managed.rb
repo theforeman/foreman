@@ -333,11 +333,19 @@ class Host::Managed < Host::Base
   def host_inherited_params include_source = false
     hp = {}
     # read common parameters
-    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :common} : p.value] }
+    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('common').to_sym} : p.value] }
+    if SETTINGS[:organizations_enabled] && organization
+      # read organization parameters
+      organization.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('organization').to_sym} : p.value] }
+    end
+    if SETTINGS[:locations_enabled] && location
+      # read location parameters
+      location.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('location').to_sym} : p.value] }
+    end
     # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :domain} : p.value] } unless domain.nil?
+    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym} : p.value] } unless domain.nil?
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless operatingsystem.nil?
+    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('os').to_sym} : p.value] } unless operatingsystem.nil?
     # read group parameters only if a host belongs to a group
     hp.update hostgroup.parameters(include_source) unless hostgroup.nil?
     hp

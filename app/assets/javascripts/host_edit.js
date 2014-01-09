@@ -420,7 +420,7 @@ function override_param(item){
   var v = param.find('[id^=value_]').val();
 
   $('#parameters').find('.btn-success').click();
-  var new_param = param.closest('.tab-pane').find('[id*=host_host_parameters]:visible').last().parent();
+  var new_param = param.closest('.tab-pane').find('[id*=host_host_parameters]:visible').last().parent().parent();
   new_param.find('[id$=_name]').val(n);
   new_param.find('[id$=_value]').val(v);
   mark_params_override();

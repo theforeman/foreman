@@ -15,7 +15,7 @@ module CommonParametersHelper
     content_tag :div, :class => "form-group condensed"  do
       text_area_tag("value_#{value[:value]}", value[:value], :rows => (value[:value].to_s.lines.count || 1 rescue 1),
                     :class => "col-md-5", :disabled => true) +
-      content_tag(:span, :class => "help-block") { popover(_("Additional info"), _("<b>Source:</b> %s") % (value[:source]))}
+      content_tag(:span, :class => "help-block") { popover(_("Additional info"), _("<b>Source:</b> %s") % _(value[:source].to_s))}
     end
   end
 

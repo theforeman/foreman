@@ -113,7 +113,7 @@ class Hostgroup < ActiveRecord::Base
     # otherwise we might be overwriting the hash in the wrong order.
     groups = ids.size == 1 ? [self] : Hostgroup.includes(:group_parameters).sort_by_ancestry(Hostgroup.find(ids))
     groups.each do |hg|
-      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => :hostgroup} : p.value }
+      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym} : p.value }
     end
     hash
   end
