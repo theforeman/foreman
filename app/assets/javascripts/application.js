@@ -172,7 +172,7 @@ function template_info(div, url) {
                 if (status == "error") {
                   $(div).html('<div class="alert alert-warning alert-dismissable">' +
                   '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
-                  _('Sorry but no templates were configured.') + '</div>');
+                  __('Sorry but no templates were configured.') + '</div>');
                 }
               });
 }
@@ -186,7 +186,7 @@ $(function() {
     var query = encodeURI($("#search").val());
     var url = $("#bookmark").attr('data-url');
     $("#bookmarks-modal .modal-body").empty();
-    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + _('Loading ...') + "</span>");
+    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + __('Loading ...') + "</span>");
     $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
                                            function(response, status, xhr) {
                                              $("#loading").hide();
@@ -319,7 +319,7 @@ $(function() {
     var url = $(this).attr('data-ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(_('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
       }
     });
   });

@@ -6,7 +6,7 @@ $(function() {
       type: 'post',
       url:  url,
       success: function(response) {
-        item.text(_(response.status));
+        item.text(__(response.status));
         item.attr('title',response.message);
         if(response.status == "OK"){
           item.addClass('label label-success')

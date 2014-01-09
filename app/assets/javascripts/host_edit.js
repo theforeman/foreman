@@ -19,7 +19,7 @@ function computeResourceSelected(item){
     $("#compute_profile").show();
     $('#vm_details').empty();
     var data = $('form').serialize().replace('method=put', 'method=post');
-    $('#compute_resource').html(spinner_placeholder(_('Loading virtual machine information ...')));
+    $('#compute_resource').html(spinner_placeholder(__('Loading virtual machine information ...')));
     $('#compute_resource_tab a').removeClass('tab-error');
     $(item).indicator_show();
     var url = $(item).attr('data-url');
@@ -29,7 +29,7 @@ function computeResourceSelected(item){
       data: data,
       complete: function(){$(item).indicator_hide()},
       error: function(jqXHR, status, error){
-        $('#compute_resource').html(Jed.sprintf(_("Error loading virtual machine information: %s"), error));
+        $('#compute_resource').html(Jed.sprintf(__("Error loading virtual machine information: %s"), error));
         $('#compute_resource_tab a').addClass('tab-error');
       },
       success: function(result){
@@ -163,7 +163,7 @@ function add_puppet_class(item){
   var link = content.children('a');
   var links = content.find('a');
   links.attr('onclick', 'remove_puppet_class(this)');
-  links.attr('data-original-title', _('Click to undo adding this class'));
+  links.attr('data-original-title', __('Click to undo adding this class'));
   links.tooltip();
   link.removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
 
@@ -201,7 +201,7 @@ function load_puppet_class_parameters(item) {
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
-      '<td colspan="5">' + spinner_placeholder(_('Loading parameters...')) + '</td></tr>');
+      '<td colspan="5">' + spinner_placeholder(__('Loading parameters...')) + '</td></tr>');
   $('#inherited_puppetclasses_parameters').append(placeholder);
   $.ajax({
     url: url,
@@ -463,7 +463,7 @@ function reload_puppetclass_params(){
 function load_with_placeholder(target, url, data){
   if(url==undefined) return;
   var placeholder = $('<tr id="' + target + '_loading" >'+
-            '<td colspan="4">'+ spinner_placeholder(_('Loading parameters...')) + '</td></tr>');
+            '<td colspan="4">'+ spinner_placeholder(__('Loading parameters...')) + '</td></tr>');
         $('#' + target + ' tbody').replaceWith(placeholder);
         $.ajax({
           type:'post',
@@ -521,7 +521,7 @@ function interface_domain_selected(element) {
 
   subnet_options.attr('disabled', true);
   if (domain_id == '') {
-    subnet_options.append($("<option />").val(null).text(_('No subnets')));
+    subnet_options.append($("<option />").val(null).text(__('No subnets')));
     return false;
   }
 
@@ -539,7 +539,7 @@ function interface_domain_selected(element) {
     dataType:'json',
     success:function (result) {
       if (result.length > 1)
-        subnet_options.append($("<option />").val(null).text(_('Please select')));
+        subnet_options.append($("<option />").val(null).text(__('Please select')));
 
       $.each(result, function () {
         subnet_options.append($("<option />").val(this.subnet.id).text(this.subnet.name + ' (' + this.subnet.to_label + ')'));
@@ -549,7 +549,7 @@ function interface_domain_selected(element) {
         subnet_options.change();
       }
       else {
-        subnet_options.append($("<option />").text(_('No subnets')));
+        subnet_options.append($("<option />").text(__('No subnets')));
         subnet_options.attr('disabled', true);
       }
       $(element).indicator_hide();

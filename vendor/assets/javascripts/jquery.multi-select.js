@@ -496,8 +496,8 @@ function multiSelectOnLoad(){
   $('select[multiple]').each(function(i,item){
     $(item).multiSelect({
       disabledClass : 'disabled disabled_item',
-      selectableHeader: $("<div class='ms-header'>" + _('All items') + " <input placeholder='" + _('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + _('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus icon-white'></a></div>"),
-      selectionHeader: $("<div class='ms-header'>" + _('Selected items') + "<a href='#' title='" + _('Deselect All') + "' class='ms-deselect-all pull-right glyphicon glyphicon-minus icon-white'></a></div>")
+      selectableHeader: $("<div class='ms-header'>" + __('All items') + " <input placeholder='" + __('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + __('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus icon-white'></a></div>"),
+      selectionHeader: $("<div class='ms-header'>" + __('Selected items') + "<a href='#' title='" + __('Deselect All') + "' class='ms-deselect-all pull-right glyphicon glyphicon-minus icon-white'></a></div>")
     })
   });
 
@@ -507,7 +507,7 @@ function multiSelectOnLoad(){
       var missing_ids = $.parseJSON(mismatches);
       $.each(missing_ids, function(index,missing_id){
         opt_id = (missing_id +"").replace(/[^A-Za-z0-9]*/gi, '_')+'-selectable';
-        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: _("Select this since it belongs to a host"), placement: "left"});
+        $('#ms-'+$(item).attr('id')).find('#'+opt_id).addClass('delete').tooltip({title: __("Select this since it belongs to a host"), placement: "left"});
       })
     }
   })

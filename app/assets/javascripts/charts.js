@@ -151,7 +151,7 @@ function chart_legend_options(item){
         noColumns:4,
         container:"#legendContainer",
         labelFormatter: function(label, series) {
-          return '<a rel="twipsy" data-original-title="' + _('Details') + '" href="' + series.href + '">' + label + '</a>';
+          return '<a rel="twipsy" data-original-title="' + __('Details') + '" href="' + series.href + '">' + label + '</a>';
         }
       }
     case "hide":
@@ -175,7 +175,7 @@ function flot_zoom(target, options, ranges) {
         yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
       }));
   if(target.parents('.stats-well').find('.reset-zoom').size() == 0){
-    target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-sm'>" + _('Reset zoom') + "</a>");
+    target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-sm'>" + __('Reset zoom') + "</a>");
   }
 }
 
@@ -236,8 +236,8 @@ function get_pie_chart(div, url) {
   if($("#"+div).length == 0)
   {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
-    $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + _('Fact Chart') + '</h4></div>')
-        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + _('Loading') + ' ...</div>')
+    $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + __('Fact Chart') + '</h4></div>')
+        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ...</div>')
         .append('<div class="modal-footer"></div>')
 
     $("#"+div).modal('show');
