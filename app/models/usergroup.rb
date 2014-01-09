@@ -1,5 +1,6 @@
 class Usergroup < ActiveRecord::Base
   include Authorization
+  audited :allow_mass_assignment => true
 
   has_many :usergroup_members, :dependent => :destroy
   has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User'

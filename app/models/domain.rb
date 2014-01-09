@@ -3,6 +3,7 @@ require "resolv"
 class Domain < ActiveRecord::Base
   include Authorization
   include Taxonomix
+  audited :allow_mass_assignment => true
 
   has_many_hosts
   has_many :hostgroups

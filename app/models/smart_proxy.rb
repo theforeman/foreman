@@ -1,6 +1,7 @@
 class SmartProxy < ActiveRecord::Base
   include Authorization
   include Taxonomix
+  audited :allow_mass_assignment => true
 
   attr_accessible :name, :url, :location_ids, :organization_ids
   EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups)

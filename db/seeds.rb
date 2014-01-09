@@ -115,18 +115,20 @@ Medium.without_auditing do
 end
 
 # Bookmarks
-[
-  { :name => "eventful", :query => "eventful = true", :controller=> "reports" },
-  { :name => "active", :query => 'last_report > "35 minutes ago" and (status.applied > 0 or status.restarted > 0)', :controller=> "hosts" },
-  { :name => "out of sync", :query => 'last_report < "30 minutes ago" andstatus.enabled = true', :controller=> "hosts" },
-  { :name => "error", :query => 'last_report > "35 minutes ago" and (status.failed > 0 or status.failed_restarts > 0 or status.skipped > 0)', :controller=> "hosts" },
-  { :name => "disabled", :query => 'status.enabled = false', :controller=> "hosts" },
-  { :name => "ok hosts", :query => 'last_report > "35 minutes ago" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0', :controller=> "hosts" }
-].each do |input|
-  next if Bookmark.find_by_name(input[:name])
-  next if audit_modified? Bookmark, input[:name]
-  b = Bookmark.create({ :public => true }.merge(input))
-  raise "Unable to create bookmark: #{format_errors b}" if b.nil? || b.errors.any?
+Bookmark.without_auditing do
+  [
+    { :name => "eventful", :query => "eventful = true", :controller=> "reports" },
+    { :name => "active", :query => 'last_report > "35 minutes ago" and (status.applied > 0 or status.restarted > 0)', :controller=> "hosts" },
+    { :name => "out of sync", :query => 'last_report < "30 minutes ago" andstatus.enabled = true', :controller=> "hosts" },
+    { :name => "error", :query => 'last_report > "35 minutes ago" and (status.failed > 0 or status.failed_restarts > 0 or status.skipped > 0)', :controller=> "hosts" },
+    { :name => "disabled", :query => 'status.enabled = false', :controller=> "hosts" },
+    { :name => "ok hosts", :query => 'last_report > "35 minutes ago" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0', :controller=> "hosts" }
+  ].each do |input|
+    next if Bookmark.find_by_name(input[:name])
+    next if audit_modified? Bookmark, input[:name]
+    b = Bookmark.create({ :public => true }.merge(input))
+    raise "Unable to create bookmark: #{format_errors b}" if b.nil? || b.errors.any?
+  end
 end
 
 # Proxy features
@@ -135,19 +137,21 @@ end
   raise "Unable to create proxy feature: #{format_errors f}" if f.nil? || f.errors.any?
 end
 
-# Auth sources
-src = AuthSourceInternal.find_by_type "AuthSourceInternal"
-src ||= AuthSourceInternal.create :name => "Internal"
+AuthSource.without_auditing do
+  # Auth sources
+  src = AuthSourceInternal.find_by_type "AuthSourceInternal"
+  src ||= AuthSourceInternal.create :name => "Internal"
 
-# Users
-unless User.find_by_login("admin").present?
-  User.without_auditing do
-    user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => Setting[:administrator])
-    user.admin = true
-    user.auth_source = src
-    user.password = "changeme"
-    User.current = user
-    raise "Unable to create admin user: #{format_errors user}" unless user.save
+  # Users
+  unless User.find_by_login("admin").present?
+    User.without_auditing do
+      user = User.new(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => Setting[:administrator])
+      user.admin = true
+      user.auth_source = src
+      user.password = "changeme"
+      User.current = user
+      raise "Unable to create admin user: #{format_errors user}" unless user.save
+    end
   end
 end
 

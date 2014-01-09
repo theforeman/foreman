@@ -19,6 +19,7 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2
+  audited :allow_mass_assignment => true
 
   scope :givable, lambda { where(:builtin => 0).order(:name) }
   scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) }

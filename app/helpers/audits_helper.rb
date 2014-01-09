@@ -1,6 +1,7 @@
 module AuditsHelper
 
-  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute)
+  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute
+                   Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label name, change
