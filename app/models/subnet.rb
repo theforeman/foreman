@@ -2,6 +2,7 @@ require 'ipaddr'
 class Subnet < ActiveRecord::Base
   include Authorization
   include Taxonomix
+  audited :allow_mass_assignment => true
 
   before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
   has_many_hosts
