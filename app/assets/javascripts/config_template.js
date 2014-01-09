@@ -56,7 +56,7 @@ function set_keybinding(){
 function upload_file(evt){
   if(window.File && window.FileList && window.FileReader)
   {
-    if (!confirm(_("You are about to override the editor content, are you sure?"))) {
+    if (!confirm(__("You are about to override the editor content, are you sure?"))) {
       $('.template_file').val('');
       return;
     }
@@ -168,7 +168,7 @@ function set_diff_mode(item){
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
   patch = patch.replace(/^(.*\n){0,4}/,'');
   if (patch.length == 0)
-    patch = _("No changes")
+    patch = __("No changes")
 
   $(session).off('change');
   session.setValue(patch);
@@ -187,7 +187,7 @@ function IE_diff_mode(item){
 }
 
 function revert_template(item){
-  if (!confirm(_("You are about to override the editor content with a previous version, are you sure?"))) return;
+  if (!confirm(__("You are about to override the editor content with a previous version, are you sure?"))) return;
 
   var version = $(item).attr('data-version');
   var url = $(item).attr('data-url');
@@ -204,7 +204,7 @@ function revert_template(item){
         set_edit_mode($('.template_text'));
       }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
-      $('#config_template_audit_comment').text(Jed.sprintf(_("Revert to revision from: %s"), time))
+      $('#config_template_audit_comment').text(Jed.sprintf(__("Revert to revision from: %s"), time))
     }
   })
 }

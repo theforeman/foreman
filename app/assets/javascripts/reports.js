@@ -2,7 +2,7 @@ $(function() {
   var source = $('td:contains("---")');
 
   source.contents().wrap("<div class='origin'></div>");
-  source.prepend("<a href='#' onclick='show_diff(this)' >" + _('View Diff') + "</a>");
+  source.prepend("<a href='#' onclick='show_diff(this)' >" + __('View Diff') + "</a>");
   $('.origin').hide();
 
 });

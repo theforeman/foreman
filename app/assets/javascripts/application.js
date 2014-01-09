@@ -170,7 +170,7 @@ function template_info(div, url) {
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
-                  $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>" + _('Sorry but no templates were configured.') + "</p></div>");
+                  $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>" + __('Sorry but no templates were configured.') + "</p></div>");
                 }
               });
 }
@@ -184,7 +184,7 @@ $(function() {
     var query = encodeURI($("#search").val());
     var url = $("#bookmark").attr('data-url');
     $("#bookmarks-modal .modal-body").empty();
-    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + _('Loading ...') + "</span>");
+    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + __('Loading ...') + "</span>");
     $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
                                            function(response, status, xhr) {
                                              $("#loading").hide();
@@ -317,7 +317,7 @@ $(function() {
     var url = $(this).attr('data-ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(_('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
       }
     });
   });

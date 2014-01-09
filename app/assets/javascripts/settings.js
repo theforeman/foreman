@@ -2,8 +2,8 @@ $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
     indicator   : spinner_placeholder(),
-    tooltip     : _('Click to edit..'),
-    placeholder : _('Click to edit..'),
+    tooltip     : __('Click to edit..'),
+    placeholder : __('Click to edit..'),
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
     onblur      : 'nothing',
     oneditcomplete : function(){
@@ -39,8 +39,8 @@ $(document).ready(function() {
     var settings = {
       type : 'text',
       name : $(this).attr('name'),
-      submit : _('Save'),
-      cancel : _('Cancel'),
+      submit : __('Save'),
+      cancel : __('Cancel'),
       width: '100%',
       height: '34px'
     };
@@ -62,7 +62,7 @@ $(document).ready(function() {
       type : 'select',
       name : $(this).attr('name'),
       data : $(this).attr('select_values'),
-      submit : _('Save')
+      submit : __('Save')
     };
     $(this).editable($(this).attr('data-url'), $.extend(common_settings, settings));
   });
