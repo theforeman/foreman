@@ -338,6 +338,14 @@ class Host::Managed < Host::Base
     domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :domain} : p.value] } unless domain.nil?
     # read OS parameters
     operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless operatingsystem.nil?
+    if SETTINGS[:locations_enabled]
+      # read location parameters
+      location.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless location.nil?
+    end
+    if SETTINGS[:organizations_enabled]
+      # read organization parameters
+      organization.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless organization.nil?
+    end
     # read group parameters only if a host belongs to a group
     hp.update hostgroup.parameters(include_source) unless hostgroup.nil?
     hp

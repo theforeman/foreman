@@ -20,10 +20,14 @@ module Api
       api :GET, "/hostgroups/:hostgroup_id/parameters", "List all parameters for hostgroup"
       api :GET, "/domains/:domain_id/parameters", "List all parameters for domain"
       api :GET, "/operatingsystems/:operatingsystem_id/parameters", "List all parameters for operating system"
+      api :GET, "/locations/:location_id/parameters", "List all parameters for location"
+      api :GET, "/organizations/:organization_id/parameters", "List all parameters for organization"
       param :host_id, String, :desc => "id of host"
       param :hostgroup_id, String, :desc => "id of hostgroup"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
+      param :location_id, String, :desc => "id of location"
+      param :organization_id, String, :desc => "id of organization"
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
@@ -35,10 +39,14 @@ module Api
       api :GET, "/hostgroups/:hostgroup_id/parameters/:id", "Show a nested parameter for hostgroup"
       api :GET, "/domains/:domain_id/parameters/:id", "Show a nested parameter for domain"
       api :GET, "/operatingsystems/:operatingsystem_id/parameters/:id", "Show a nested parameter for operating system"
+      api :GET, "/locations/:location_id/parameters/:id", "Show a nested parameter for location"
+      api :GET, "/organizations/:organization_id/parameters/:id", "Show a nested parameter for organization"
       param :host_id, String, :desc => "id of host"
       param :hostgroup_id, String, :desc => "id of hostgroup"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
+      param :location_id, String, :desc => "id of location"
+      param :organization_id, String, :desc => "id of organization"
       param :id, String, :required => true, :desc => "id of parameter"
 
       def show
@@ -48,10 +56,14 @@ module Api
       api :POST, "/hostgroups/:hostgroup_id/parameters/", "Create a nested parameter for hostgroup"
       api :POST, "/domains/:domain_id/parameters/", "Create a nested parameter for domain"
       api :POST, "/operatingsystems/:operatingsystem_id/parameters/", "Create a nested parameter for operating system"
+      api :POST, "/locations/:location_id/parameters/", "Create a nested parameter for location"
+      api :POST, "/organizations/:organization_id/parameters/", "Create a nested parameter for organization"
       param :host_id, String, :desc => "id of host"
       param :hostgroup_id, String, :desc => "id of hostgroup"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
+      param :location_id, String, :desc => "id of location"
+      param :organization_ida, String, :desc => "id of organization"
       param :parameter, Hash, :required => true do
         param :name, String
         param :value, String
@@ -66,10 +78,14 @@ module Api
       api :PUT, "/hostgroups/:hostgroup_id/parameters/:id", "Update a nested parameter for hostgroup"
       api :PUT, "/domains/:domain_id/parameters/:id", "Update a nested parameter for domain"
       api :PUT, "/operatingsystems/:operatingsystem_id/parameters/:id", "Update a nested parameter for operating system"
+      api :PUT, "/locations/:location_id/parameters/:id", "Update a nested parameter for location"
+      api :PUT, "/organizations/:organization_id/parameters/:id", "Update a nested parameter for organization"
       param :host_id, String, :desc => "id of host"
       param :hostgroup_id, String, :desc => "id of hostgroup"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
+      param :location_id, String, :desc => "id of location"
+      param :organization_id, String, :desc => "id of organization"
       param :id, String, :required => true, :desc => "id of parameter"
       param :parameter, Hash, :required => true do
         param :name, String
@@ -84,10 +100,14 @@ module Api
       api :DELETE, "/hostgroups/:hostgroup_id/parameters/:id", "Delete a nested parameter for hostgroup"
       api :DELETE, "/domains/:domain_id/parameters/:id", "Delete a nested parameter for domain"
       api :DELETE, "/operatingsystems/:operatingsystem_id/parameters/:id", "Delete a nested parameter for operating system"
+      api :DELETE, "/locations/:location_id/parameters/:id", "Delete a nested parameter for location"
+      api :DELETE, "/organizations/:organization_id/parameters/:id", "Delete a nested parameter for organization"
       param :host_id, String, :desc => "id of host"
       param :hostgroup_id, String, :desc => "id of hostgroup"
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
+      param :location_id, String, :desc => "id of location"
+      param :organization_id, String, :desc => "id of organization"
       param :id, String, :required => true, :desc => "id of parameter"
 
       def destroy
@@ -98,7 +118,8 @@ module Api
       api :DELETE, "/hostgroups/:hostgroup_id/parameters", "Delete all nested parameters for hostgroup"
       api :DELETE, "/domains/:domain_id/parameters", "Delete all nested parameters for domain"
       api :DELETE, "/operatingsystems/:operatingsystem_id/parameters", "Delete all nested parameters for operating system"
-
+      api :DELETE, "/locations/:location_id/parameters", "Delete all nested parameter for location"
+      api :DELETE, "/organizations/:organization_id/parameters", "Delete all nested parameter for organization"
       def reset
         @parameter = nested_obj.send(parameters_method)
         process_response @parameter.destroy_all
@@ -112,7 +133,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(host_id hostgroup_id domain_id operatingsystem_id)
+        %w(host_id hostgroup_id domain_id operatingsystem_id location_id organization_id)
       end
 
       def find_parameter

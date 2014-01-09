@@ -19,6 +19,7 @@
       <% elsif taxonomy.is_a?(Location) && SETTINGS[:organizations_enabled] %>
         <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
     <% end %>
+      <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
     </ul>
 
     <div class="tab-content">
@@ -100,6 +101,10 @@
                                { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:location_ids].to_json } %>
         </div>
       <% end %>
+
+      <div class="tab-pane" id="params">
+        <%= render "common_parameters/parameters", { :f => f, :type => :parameters } %>
+      </div>
 
       <%= submit_or_cancel f %>
     </div>
